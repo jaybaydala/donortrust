@@ -1,0 +1,23 @@
+<h1>Listing project histories</h1>
+
+<table>
+  <tr>
+  <% for column in ProjectHistory.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for project_history in @project_histories %>
+  <tr>
+  <% for column in ProjectHistory.content_columns %>
+    <td><%=h project_history.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', project_history_path(project_history, :project_id => project_history.project_id) %></td>
+    <td><%= link_to 'Edit', edit_project_history_path(project_history, :project_id => project_history.project_id) %></td>
+    <td><%= link_to 'Destroy', project_history_path(project_history, :project_id => project_history.project_id), :confirm => 'Are you sure?', :method => :delete %></td>  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New project', new_project_history_path %>

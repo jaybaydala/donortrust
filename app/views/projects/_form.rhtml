@@ -1,0 +1,25 @@
+<%= error_messages_for 'project' %>
+
+<!--[form:project]-->
+<p><label for="project_name">Name</label><br/>
+<%= text_field 'project', 'name'  %></p>
+
+<p><label for="project_description">Description</label><br/>
+<%= text_area 'project', 'description'  %></p>
+
+<p><label for="project_cost">Cost</label><br/>
+<%= text_field 'project', 'cost'  %></p>
+
+<p><label for="project_dollars_spent">Dollars spent</label><br/>
+<%= text_field 'project', 'dollars_spent'  %></p>
+
+<p><label for="project_expected_completion_date">Expected completion date</label><br/>
+<%= datetime_select 'project', 'expected_completion_date'  %></p>
+
+<p><label for="project_start_date">Start date</label><br/>
+<%= datetime_select 'project', 'start_date'  %></p>
+
+<p><label for="project_end_date">End date</label><br/>
+<%= datetime_select 'project', 'end_date'  %></p>
+<!--[eoform:project]-->
+

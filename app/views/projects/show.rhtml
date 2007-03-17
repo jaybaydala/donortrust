@@ -1,0 +1,9 @@
+
+<% for column in Project.content_columns %>
+  <b><%= column.human_name %>:</b> <%=h @project.send(column.name) %>
+  <br><br>
+<% end %>
+
+<%= link_to 'Add Project History', new_project_history_url(:project_id => @project.id) %>
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'Back', projects_path %>

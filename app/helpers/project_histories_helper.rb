@@ -1,0 +1,2 @@
+module ProjectHistoriesHelper
+end

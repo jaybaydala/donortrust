@@ -1,0 +1,8 @@
+
+<% for column in ProjectHistory.content_columns %>
+  <b><%= column.human_name %>:</b> <%=h @project_history.send(column.name) %>
+  <br><br>
+<% end %>
+
+<%= link_to 'Edit', edit_project_history_path(@project_history) %> |
+<%= link_to 'Back', project_histories_path %>

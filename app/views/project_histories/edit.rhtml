@@ -1,0 +1,13 @@
+<h1>Editing project_history</h1>
+
+<%= error_messages_for :project_history %>
+
+<% form_for(:project_history, :url => project_history_path(@project_history), :html => { :method => :put }) do |f| %>
+  <p>
+    <%= render :partial => 'form' %>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', project_history_path(@project_history) %> |
+<%= link_to 'Back', project_histories_path %>
