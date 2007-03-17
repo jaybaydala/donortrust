@@ -1,0 +1,24 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+project_one_history_one:
+  id: 1
+  project_id: 1
+  date: 2007-03-05  
+  cost: 100.00
+  dollars_spent: 0.00
+  expected_completion_date: 2007-04-02
+  start_date: 2007-03-02
+  end_date: 
+  user_id: 1  
+  status_id: 1
+project_one_history_two:
+  id: 2
+  project_id: 1
+  date: 2007-03-06  
+  cost: 100.00
+  dollars_spent: 0.00
+  expected_completion_date: 2007-04-02
+  start_date: 2007-03-02
+  end_date: 
+  user_id: 1  
+  status_id: 1  
+

@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+project_one:
+  id: 1
+  program_id: 1
+  category_id: 1
+  name: test project 1
+  description: The first project. Start small. 
+  cost: 100.00
+  dollars_spent: 0.00
+  expected_completion_date: 2007-04-02
+  start_date: 2007-03-02
+  end_date: 
+  status_id: 1
+  contact_id: 1
+  location_id: 1  
