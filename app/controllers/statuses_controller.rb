@@ -1,51 +1,79 @@
 class StatusesController < ApplicationController
+  # GET /statuses
+  # GET /statuses.xml
   def index
-    list
-    render :action => 'list'
+    @statuses = Status.find(:all)
+
+    respond_to do |format|
+      format.html # index.rhtml
+      format.xml  { render :xml => @statuses.to_xml }
+    end
   end
 
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
-
-  def list
-    @status_pages, @statuses = paginate :statuses, :per_page => 10
-  end
-
+  # GET /statuses/1
+  # GET /statuses/1.xml
   def show
     @status = Status.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.rhtml
+      format.xml  { render :xml => @status.to_xml }
+    end
   end
 
+  # GET /statuses/new
   def new
     @status = Status.new
   end
 
-  def create
-    @status = Status.new(params[:status])
-    if @status.save
-      flash[:notice] = 'Status was successfully created.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
-  end
-
+  # GET /statuses/1;edit
   def edit
     @status = Status.find(params[:id])
   end
 
-  def update
-    @status = Status.find(params[:id])
-    if @status.update_attributes(params[:status])
-      flash[:notice] = 'Status was successfully updated.'
-      redirect_to :action => 'show', :id => @status
-    else
-      render :action => 'edit'
+  # POST /statuses
+  # POST /statuses.xml
+  def create
+    @status = Status.new(params[:status])
+
+    respond_to do |format|
+      if @status.save
+        flash[:notice] = 'Status was successfully created.'
+        format.html { redirect_to status_url(@status) }
+        format.xml  { head :created, :location => status_url(@status) }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @status.errors.to_xml }
+      end
     end
   end
 
+  # PUT /statuses/1
+  # PUT /statuses/1.xml
+  def update
+    @status = Status.find(params[:id])
+
+    respond_to do |format|
+      if @status.update_attributes(params[:status])
+        flash[:notice] = 'Status was successfully updated.'
+        format.html { redirect_to status_url(@status) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @status.errors.to_xml }
+      end
+    end
+  end
+
+  # DELETE /statuses/1
+  # DELETE /statuses/1.xml
   def destroy
-    Status.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    @status = Status.find(params[:id])
+    @status.destroy
+
+    respond_to do |format|
+      format.html { redirect_to statuses_url }
+      format.xml  { head :ok }
+    end
   end
 end
