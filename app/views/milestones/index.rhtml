@@ -1,0 +1,28 @@
+<h1>Listing milestones</h1>
+
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Description</th>
+    <th>Start date</th>
+    <th>End date</th>
+    <th>Status</th>
+  </tr>
+  
+<% for milestone in @milestones %>
+  <tr>
+    <td><%=h milestone.category %></td>
+    <td><%=h milestone.description %></td>
+    <td><%=h milestone.start %></td>
+    <td><%=h milestone.end %></td>
+    <td><%=h milestone.status.category %></td>
+    <td><%= link_to 'Show', milestone_path(milestone) %></td>
+    <td><%= link_to 'Edit', edit_milestone_path(milestone) %></td>
+    <td><%= link_to 'History', milestone_histories_path(milestone) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New milestone', new_milestone_path %>

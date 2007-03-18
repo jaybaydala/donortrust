@@ -1,0 +1,28 @@
+<!--[form:milestone]-->
+  <p>
+    <b>Type</b><br />
+    <%= text_field 'milestone_history', :category %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= text_area 'milestone_history', :description  %>
+  </p>
+
+  <p>
+    <b>Start Date</b> <%= date_select 'milestone_history', :start %>
+  </p>
+
+  <p>
+    <b>End Date</b> <%= date_select 'milestone_history', :end %>
+  </p>
+
+  <p>
+    <b>Status</b> <%= select("milestone_history", "status_id", Status.find(:all).collect {|s| [s.category, s.id] }) %>
+ </p>
+
+  <p>
+    <b>Change Reason</b><br />
+    <%= text_area 'milestone_history', :reason %>
+  </p>
+<!--[eoform:milestone]-->

@@ -1,0 +1,31 @@
+<h1>History for Milestone <%=h @milestone.category %></h1>
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Status</th>
+    <th>Change Reason</th>
+    <th>Change Time</th>
+  </tr>
+  
+<% for milestone_history in @milestone_histories %>
+  <tr>
+    <td><%=h milestone_history.category %></td>
+    <td><%=h milestone_history.description %></td>
+    <td><%=h milestone_history.start %></td>
+    <td><%=h milestone_history.end %></td>
+    <td><%=h milestone_history.status_id %></td>
+    <td><%=h milestone_history.reason %></td>
+    <td><%=h milestone_history.created_at %></td>
+    <td><%= link_to 'Show', milestone_history_path(@milestone, milestone_history) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New milestone_history', new_milestone_history_path %>
+<%= link_to 'Milestones', milestones_path %>

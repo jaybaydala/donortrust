@@ -1,0 +1,24 @@
+<p>
+  <b>Category:</b>
+  <%=h @milestone.category %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @milestone.description %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%=h @milestone.start %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @milestone.end %>
+</p>
+
+
+<%= link_to 'Edit', edit_milestone_path(@milestone) %> |
+<%= link_to 'History', milestone_histories_path(@milestone) %> |
+<%= link_to 'Back', milestones_path %>

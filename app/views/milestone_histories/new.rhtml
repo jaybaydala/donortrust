@@ -1,0 +1,12 @@
+<h1>Change milestone</h1>
+
+<%= error_messages_for :milestone_history %>
+
+<% form_for(:milestone_history, :url => milestone_histories_path) do |f| %>
+  <%= render :partial => 'form' %>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', milestone_histories_path %>

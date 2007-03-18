@@ -1,0 +1,14 @@
+<h1>Editing milestone_history</h1>
+
+<%= error_messages_for :milestone_history %>
+
+<% form_for(:milestone_history, :url => milestone_history_path(@milestone, @milestone_history), :html => { :method => :put }) do |f| %>
+  <%= render :partial => 'form' %>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', milestone_history_path(@milestone, @milestone_history) %> |
+<%= link_to 'Back', milestone_histories_path %>
