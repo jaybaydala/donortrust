@@ -1,8 +1,13 @@
-<% for column in Status.content_columns %>
 <p>
-  <b><%= column.human_name %>:</b> <%=h @status.send(column.name) %>
+  <b>Category:</b>
+  <%=h @status.category %>
 </p>
-<% end %>
 
-<%= link_to 'Edit', :action => 'edit', :id => @status %> |
-<%= link_to 'Back', :action => 'list' %>
+<p>
+  <b>Description:</b>
+  <%=h @status.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_status_path(@status) %> |
+<%= link_to 'Back', statuses_path %>
