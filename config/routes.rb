@@ -1,4 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
+  # The priority is based upon order of creation: first created -> highest priority.
+
+  map.resources :statuses
+
+  map.resources :milestones do |milestone|
+    milestone.resources :milestone_histories
+  end
 
   map.resources :projects do |project|
     project.resources :project_histories
@@ -7,6 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   # Install the default route as the lowest priority.
-  map.connect ':controller/:action/:id.:format'
-  map.connect ':controller/:action/:id'
+  # HPD these should not be used / exist when using 'full' RESTful structure
+  #map.connect ':controller/:action/:id.:format'
+  #map.connect ':controller/:action/:id'
 end
