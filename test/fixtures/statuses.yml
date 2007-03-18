@@ -1,0 +1,18 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+proposed:
+  id: 1
+  category: proposed
+  description: an idea who's time has not yet come; something **new** even.
+approved:
+  id: 2
+  category: approved
+  description: an idea ready to go; on the launching pad
+started:
+  id: 3
+  category: started
+  description: houston, we have a launch
+complete:
+  id: 4
+  category: complete
+  description: success! 
+  
