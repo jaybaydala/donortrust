@@ -1,3 +1,5 @@
+require 'active_record/fixtures'
+
 class DonortrustRel001 < ActiveRecord::Migration
   def self.up
     create_table :projects do |t|
