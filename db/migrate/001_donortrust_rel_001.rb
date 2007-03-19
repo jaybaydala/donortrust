@@ -55,8 +55,9 @@ class DonortrustRel001 < ActiveRecord::Migration
     # Load some initial data
     # Rails 'convention' is to put the fixture files in test\fixtures
     # Do we really want to override that?
+    # This is not a fixture for test. test/fixtures is ONLY for testing. i.e. development, test, production data are supposed to be all different.(tadatoshi)
     directory = File.join(File.dirname(__FILE__), "dev_data")
-    #Fixtures.create_fixtures(directory, "projects")
+    Fixtures.create_fixtures(directory, "projects")
   end # self.up
 
   def self.down
