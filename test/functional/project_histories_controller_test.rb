@@ -22,11 +22,10 @@ class ProjectHistoriesControllerTest < Test::Unit::TestCase
     assert assigns(:project_histories)
   end  
 
-  # Not used:
-  #def test_should_get_new
-  #  get :new, { :project_id => @project_one.id }
-  #  assert_response :success
-  #end
+  def test_should_get_new
+    get :new, { :project_id => @project_one.id }
+    assert_response :success
+  end
   
   def test_should_create_project_history
     old_count = ProjectHistory.count
