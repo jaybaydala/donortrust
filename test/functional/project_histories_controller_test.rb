@@ -14,7 +14,6 @@ class ProjectHistoriesControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
     
     @project_one = projects(:project_one)
-    puts "@project_one.id=#{@project_one.id}"
   end
   
   def test_should_get_index
