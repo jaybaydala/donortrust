@@ -54,6 +54,22 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :description, :text, :null => false
     end #:statuses
 
+    create_table :contacts do |t|
+      t.column :first_name, :string, :null => false
+      t.column :last_name, :string, :null => false
+      t.column :phone_number, :string
+      t.column :fax_number, :string
+      t.column :email_address, :string
+      t.column :web_address, :string
+      t.column :department, :string
+      t.column :continent_id, :integer, :null => false
+      t.column :region_id, :integer, :null => false
+      t.column :city_id, :integer, :null => false
+      t.column :address_line_1, :string
+      t.column :address_line_2, :string
+      t.column :postal_code, :string
+    end #:contacts
+
     # Load some initial data
     # Rails 'convention' is to put the fixture files in test\fixtures
     # Do we really want to override that?
@@ -68,5 +84,6 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :milestones
     drop_table :milestone_histories
     drop_table :statuses
+    drop_table :contacts
   end # self.down
 end #class DonorTrustRel001 
