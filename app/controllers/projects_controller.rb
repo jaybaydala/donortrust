@@ -38,6 +38,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+      #if @project.save_with_audit
         flash[:notice] = 'Project was successfully created.'
         format.html { redirect_to project_url(@project) }
         format.xml  { head :created, :location => project_url(@project) }
