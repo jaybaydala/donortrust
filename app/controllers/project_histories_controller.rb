@@ -25,10 +25,12 @@ class ProjectHistoriesController < ApplicationController
   end
 
   # GET /projects/1/project_histories/new
-  # Not used:
-#  def new
-#    @project_history = ProjectHistory.new(:project_id => params[:project_id])
-#  end
+  def new
+#    @project_history = ProjectHistory.new(:project_id => @project.id, 
+#                                          :expected_completion_date => @project.expected_completion_date, 
+#                                          :status_id => @project.status_id)
+    @project_history = ProjectHistory.new_audit(@project)
+  end
 
   # GET /projects/1/project_histories/1;edit
   def edit
