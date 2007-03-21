@@ -12,40 +12,44 @@ class ProjectHistoriesControllerTest < Test::Unit::TestCase
     @controller = ProjectHistoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    
+    @project_one = projects(:project_one)
+    puts "@project_one.id=#{@project_one.id}"
   end
   
   def test_should_get_index
-    get :index, { :project_id => projects(:project_one).id }
+    get :index, { :project_id => @project_one.id }
     assert_response :success
     assert assigns(:project_histories)
   end  
 
-  def test_should_get_new
-    get :new, { :project_id => projects(:project_one).id }
-    assert_response :success
-  end
+  # Not used:
+  #def test_should_get_new
+  #  get :new, { :project_id => @project_one.id }
+  #  assert_response :success
+  #end
   
   def test_should_create_project_history
     old_count = ProjectHistory.count
-    post :create, { :project_history => { }, :project_id => projects(:project_one).id }
+    post :create, { :project_id => @project_one.id, :project_history => { } }
     assert_equal old_count+1, ProjectHistory.count
     
-    assert_redirected_to project_history_path(assigns(:project_history), :project_id => projects(:project_one).id)
+    assert_redirected_to project_history_path(assigns(:project), assigns(:project_history))
   end
 
   def test_should_show_project_history
-    get :show, { :id => 1, :project_id => projects(:project_one).id }
+    get :show, { :project_id => @project_one.id, :id => 1 }
     assert_response :success
   end
 
   def test_should_get_edit
-    get :edit, { :id => 1, :project_id => projects(:project_one).id }
+    get :edit, { :project_id => @project_one.id, :id => 1 }
     assert_response :success
   end
   
   def test_should_update_project_history
-    put :update, { :id => 1, :project_history => { }, :project_id => projects(:project_one).id }
-    assert_redirected_to project_history_path(assigns(:project_history), :project_id => projects(:project_one).id)
+    put :update, { :project_id => @project_one.id, :id => 1, :project_history => { } }
+    assert_redirected_to project_history_path(assigns(:project), assigns(:project_history))
   end
   
   def test_destroy_should_not_work
