@@ -12,9 +12,9 @@
   <% for column in ProjectHistory.content_columns %>
     <td><%=h project_history.send(column.name) %></td>
   <% end %>
-    <td><%= link_to 'Show', project_history_path(project_history, :project_id => project_history.project_id) %></td>
-    <td><%= link_to 'Edit', edit_project_history_path(project_history, :project_id => project_history.project_id) %></td>
-    <td><%= link_to 'Destroy', project_history_path(project_history, :project_id => project_history.project_id), :confirm => 'Are you sure?', :method => :delete %></td>  </tr>
+    <td><%= link_to 'Show', project_history_path(@project, project_history) %></td>
+    <td><%= link_to 'Edit', edit_project_history_path(@project, project_history) %></td>
+    <td><%= link_to 'Destroy', project_history_path(@project, project_history), :confirm => 'Are you sure?', :method => :delete %></td>  </tr>
 <% end %>
 </table>
 

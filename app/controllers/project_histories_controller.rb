@@ -1,9 +1,11 @@
 class ProjectHistoriesController < ApplicationController
 
-  # GET /project_histories
-  # GET /project_histories.xml
+  before_filter :get_project
+
+  # GET /projects/1/project_histories
+  # GET /projects/1/project_histories.xml
   def index
-    @project_histories = Project.find(params[:project_id]).project_histories.find(:all)
+    @project_histories = @project.project_histories.find(:all)
 
     respond_to do |format|
       format.html # index.rhtml
@@ -11,10 +13,10 @@ class ProjectHistoriesController < ApplicationController
     end
   end
 
-  # GET /project_histories/1
-  # GET /project_histories/1.xml
+  # GET /projects/1/project_histories/1
+  # GET /projects/1/project_histories/1.xml
   def show
-    @project_history = Project.find(params[:project_id]).project_histories.find(params[:id])
+    @project_history = @project.project_histories.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
@@ -22,27 +24,27 @@ class ProjectHistoriesController < ApplicationController
     end
   end
 
-  # GET /project_histories/new
-  def new
-    @project_history = ProjectHistory.new
-  end
+  # GET /projects/1/project_histories/new
+  # Not used:
+#  def new
+#    @project_history = ProjectHistory.new(:project_id => params[:project_id])
+#  end
 
-  # GET /project_histories/1;edit
+  # GET /projects/1/project_histories/1;edit
   def edit
-    @project_history = Project.find(params[:project_id]).project_histories.find(params[:id])
+    @project_history = @project.project_histories.find(params[:id])
   end
 
-  # POST /project_histories
-  # POST /project_histories.xml
+  # POST /projects/1/project_histories
+  # POST /projects/1/project_histories.xml
   def create
-    @project = Project.find(params[:project_id])
     @project_history = ProjectHistory.new(params[:project_history])
 
     respond_to do |format|
       if (@project.project_histories << @project_history) && @project.save
         flash[:notice] = 'ProjectHistory was successfully created.'
-        format.html { redirect_to project_history_url(@project_history, :project_id => @project.id) }
-        format.xml  { head :created, :location => project_history_url(@project_history, :project_id => @project.id) }
+        format.html { redirect_to project_history_url(@project, @project_history) }
+        format.xml  { head :created, :location => project_history_url(@project, @project_history) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @project_history.errors.to_xml }
@@ -50,21 +52,27 @@ class ProjectHistoriesController < ApplicationController
     end
   end
 
-  # PUT /project_histories/1
-  # PUT /project_histories/1.xml
+  # PUT /projects/1/project_histories/1
+  # PUT /projects/1/project_histories/1.xml
   def update
-    @project_history = Project.find(params[:project_id]).project_histories.find(params[:id])
+    @project_history = @project.project_histories.find(params[:id])
 
     respond_to do |format|
       if @project_history.update_attributes(params[:project_history])
         flash[:notice] = 'ProjectHistory was successfully updated.'
-        format.html { redirect_to project_history_url(@project_history, :project_id => @project_history.project_id) }
+        format.html { redirect_to project_history_url(@project, @project_history) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @project_history.errors.to_xml }
       end
     end
+  end
+  
+  private 
+  
+  def get_project
+    @project = Project.find(params[:project_id])
   end
 
 end
