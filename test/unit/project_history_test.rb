@@ -19,4 +19,17 @@ class ProjectHistoryTest < Test::Unit::TestCase
   
   end
   
+  def test_new_audit_should_copy_data_from_project
+  
+    project = projects(:project_one)
+    project_history = ProjectHistory.new_audit(project)
+  
+    assert_equal project.id, project_history.project_id
+    assert_equal project.expected_completion_date, project_history.expected_completion_date
+    assert_equal project.status_id, project_history.status_id
+  
+    ProjectHistory.logger.debug("project_history.id=#{project_history.id}")
+  
+  end
+  
 end
