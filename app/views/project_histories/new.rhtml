@@ -2,11 +2,11 @@
 
 <%= error_messages_for :project_history %>
 
-<% form_for(:project_history, :url => project_history_path(@project, @project_history)) do |f| %>
+<% form_for(:project_history, :url => project_histories_path) do |f| %>
   <p>
     <%= render :partial => 'form' %>
     <%= submit_tag "Create" %>
   </p>
 <% end %>
 
-<%= link_to 'Back', project_history_path(@project, @project_history) %>
+<%= link_to 'Back', project_histories_path %>
