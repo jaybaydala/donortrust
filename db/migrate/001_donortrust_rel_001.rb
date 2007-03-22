@@ -70,6 +70,36 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :postal_code, :string
     end #:contacts
 
+ create_table :continents do |t|
+        t.column :continent_name, :string, :null => false
+    end #:continents
+    
+     create_table :nations do |t|
+        t.column :nation_name, :string, :null => false
+        t.column :continent_id, :int, :null => false
+     end #nations
+
+
+    create_table :regions do |t|
+      t.column :region_name, :string, :null => false
+      t.column :nation_id, :int, :null => false
+    end #regions
+    
+    create_table :cities do |t|
+      t.column :city_name, :string, :null => false
+      t.column :region_id, :int, :null => false
+    end # cities
+    
+    create_table :village_groups do |t|
+      t.column :village_group_name, :string, :null => false
+      t.column :region_id, :int, :null => false
+    end #village_groups
+    
+    create_table :villages do |t|
+      t.column :village_name, :string, :null => false
+      t.column :village_group_id, :int, :null => false
+    end #villages
+    
     # Load some initial data
     # Rails 'convention' is to put the fixture files in test\fixtures
     # Do we really want to override that?
@@ -85,5 +115,11 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :milestone_histories
     drop_table :statuses
     drop_table :contacts
+    drop_table :continents
+    drop_table :nations
+    drop_table :regions
+    drop_table :cities
+    drop_table :village_groups
+    drop_table :villages
   end # self.down
 end #class DonorTrustRel001 
