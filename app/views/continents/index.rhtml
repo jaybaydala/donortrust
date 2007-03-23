@@ -1,0 +1,22 @@
+<h1>Listing Continents</h1>
+
+<table>
+  <tr>
+    <th>Continent Name</th>
+  </tr>
+  
+<% for continent in @continents %>
+  <tr>
+
+    <td><%=h continent.continent_name %></td>
+     
+    <td><%= link_to 'Show', continent_path(continent) %></td>
+    <td><%= link_to 'Edit', edit_continent_path(continent) %></td>
+    <td><%= link_to 'Destroy', continent_path(continent), :confirm => 'Are you sure?', :method => :delete %></td>
+<% end %>
+</table>
+
+<br />
+
+
+<%= link_to 'New continent', new_continent_path %>

@@ -1,0 +1,16 @@
+<h1>New Continent</h1>
+
+<%= error_messages_for :continent %>
+
+<% form_for(:continent, :url => continent_path) do |f| %>
+  <p>
+    <b>Continent Name</b><br />
+    <%= f.text_field :continent_name %>
+  </p>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', continent_path %>
