@@ -1,0 +1,21 @@
+<h1>Editing city</h1>
+
+<%= error_messages_for :city %>
+
+<% form_for(:city, :url => city_path(@city), :html => { :method => :put }) do |f| %>
+   <p>
+    <b>City Name</b><br />
+    <%= f.text_field :city_name %>
+  </p>
+  <p>
+    <b>Region</b><br />
+    <%= select (:region, "region_id", @regions.collect {|p| [ p.region_name, p.id ] } ) %>
+  </p>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+
+<% end %>
+
+<%= link_to 'Show', city_path(@city) %> |
+<%= link_to 'Back', cities_path %>

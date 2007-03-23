@@ -1,0 +1,13 @@
+<!--[form:Cities]-->
+
+  <p>
+    <b>City Name</b><br />
+    <%= text_field :city, :city_name %>
+  </p>
+
+  <p>
+    <b>Region</b><br />
+    <%= select (:city, "region_id", @regions.collect {|p| [ p.region_name, p.id ] } ) %>
+  </p>
+ 
+<!--[eoform:Cities]-->
