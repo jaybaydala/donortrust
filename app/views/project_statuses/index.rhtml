@@ -1,0 +1,22 @@
+<h1>Listing project_statuses</h1>
+
+<table>
+  <tr>
+    <th>Status type</th>
+    <th>Description</th>
+  </tr>
+  
+<% for project_status in @project_statuses %>
+  <tr>
+    <td><%=h project_status.status_type %></td>
+    <td><%=h project_status.description %></td>
+    <td><%= link_to 'Show', project_status_path(project_status) %></td>
+    <td><%= link_to 'Edit', edit_project_status_path(project_status) %></td>
+    <td><%= link_to 'Destroy', project_status_path(project_status), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New project_status', new_project_status_path %>

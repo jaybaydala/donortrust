@@ -1,13 +1,15 @@
 <%= error_messages_for 'project_history' %>
 
 <!--[form:project_history]-->
-<!-- <%= hidden_field 'project_history', 'project_id', :value => params[:project_id] %> -->
 
 <p><label for="project_history_date">Date</label><br/>
 <%= datetime_select 'project_history', 'date'  %></p>
 
-<p><label for="project_history_cost">Cost</label><br/>
-<%= text_field 'project_history', 'cost'  %></p>
+<p><label for="project_description">Description</label><br/>
+<%= text_area 'project', 'description'  %></p>
+
+<p><label for="project_history_total_cost">Total Cost</label><br/>
+<%= text_field 'project_history', 'total_cost'  %></p>
 
 <p><label for="project_history_dollars_spent">Dollars spent</label><br/>
 <%= text_field 'project_history', 'dollars_spent'  %></p>

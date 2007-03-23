@@ -1,9 +1,49 @@
 
-<% for column in Project.content_columns %>
+<!--<% for column in Project.content_columns %>
   <b><%= column.human_name %>:</b> <%=h @project.send(column.name) %>
   <br><br>
 <% end %>
+-->
+<p>
+  <b>Name:</b>
+  <%=h @project.name %>
+</p>
 
-<%= link_to 'Add Project History', project_histories_path(@project) %>
+<p>
+  <b>Description:</b>
+  <%=h @project.description %>
+</p>
+
+<p>
+  <b>Total cost:</b>
+  <%=h @project.total_cost %>
+</p>
+
+<p>
+  <b>Dollars spent:</b>
+  <%=h @project.dollars_spent %>
+</p>
+
+<p>
+  <b>Expected completion date:</b>
+  <%=h @project.expected_completion_date %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%=h @project.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @project.end_date %>
+</p>
+
+<p>
+  <b>Project Status:</b>
+  <%=h @project.project_status.status_type %>
+</p>
+
+<%= link_to 'Show Project Histories', project_histories_path(@project) %> | 
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>

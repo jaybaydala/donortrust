@@ -7,8 +7,8 @@
 <p><label for="project_description">Description</label><br/>
 <%= text_area 'project', 'description'  %></p>
 
-<p><label for="project_cost">Cost</label><br/>
-<%= text_field 'project', 'cost'  %></p>
+<p><label for="project_total_cost">Total Cost</label><br/>
+<%= text_field 'project', 'total_cost'  %></p>
 
 <p><label for="project_dollars_spent">Dollars spent</label><br/>
 <%= text_field 'project', 'dollars_spent'  %></p>
@@ -21,5 +21,8 @@
 
 <p><label for="project_end_date">End date</label><br/>
 <%= datetime_select 'project', 'end_date'  %></p>
+
+<p><label for="project_status_id">Project Status</label><br/>
+<%= select 'project', 'project_status_id', ProjectStatus.find(:all).collect { |project_status| [ project_status.status_type, project_status.id ] } %></p>
 <!--[eoform:project]-->
 
