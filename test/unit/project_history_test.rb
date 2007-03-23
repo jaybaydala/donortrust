@@ -26,7 +26,8 @@ class ProjectHistoryTest < Test::Unit::TestCase
   
     assert_equal project.id, project_history.project_id
     assert_equal project.expected_completion_date, project_history.expected_completion_date
-    assert_equal project.status_id, project_history.status_id
+    assert_equal project.project_status_id, project_history.project_status_id
+    assert_equal project.project_category_id, project_history.project_category_id  
   
     ProjectHistory.logger.debug("project_history.id=#{project_history.id}")
   

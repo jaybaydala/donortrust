@@ -4,29 +4,32 @@ class DonortrustRel001 < ActiveRecord::Migration
   def self.up
     create_table :projects do |t|
       t.column :program_id, :integer
-      t.column :category_id, :integer
+      t.column :project_category_id, :integer
       t.column :name, :string, :null => false
       t.column :description, :text
-      t.column :cost, :float
+      t.column :total_cost, :float
       t.column :dollars_spent, :float
       t.column :expected_completion_date, :datetime
       t.column :start_date, :datetime
       t.column :end_date, :datetime
-      t.column :status_id, :integer
+      t.column :project_status_id, :integer
       t.column :contact_id, :integer
-      t.column :location_id, :integer
+      t.column :village_group_id, :integer
+      t.column :partner_id, :integer
     end #:projects
 
     create_table :project_histories do |t|
       t.column :project_id, :integer, :null => false
       t.column :date, :datetime
-      t.column :cost, :float
+      t.column :description, :text
+      t.column :total_cost, :float
       t.column :dollars_spent, :float
       t.column :expected_completion_date, :datetime      
       t.column :start_date, :datetime
       t.column :end_date, :datetime
-      t.column :user_id, :integer  
-      t.column :status_id, :integer
+      t.column :contact_id, :integer  
+      t.column :project_status_id, :integer
+      t.column :project_category_id, :integer
     end #:project_histories
 
     create_table :milestone_histories do |t|
@@ -99,7 +102,7 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :village_name, :string, :null => false
       t.column :village_group_id, :int, :null => false
     end #villages
-    
+
     create_table :partner_types do |t|
       t.column :name, :string
     end #partner_types
@@ -115,17 +118,18 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :partner_type_id, :integer
       t.column :partner_status_id, :integer
     end #partners
-t
-
-
     
+    create_table :project_statuses do |t|
+      t.column :status_type, :string, :null => false
+      t.column :description, :text
+    end #:project_statuses    
     
     # Load some initial data
     # Rails 'convention' is to put the fixture files in test\fixtures
     # Do we really want to override that?
     # This is not a fixture for test. test/fixtures is ONLY for testing. i.e. development, test, production data are supposed to be all different.(tadatoshi)
     directory = File.join(File.dirname(__FILE__), "dev_data")
-    Fixtures.create_fixtures(directory, "projects")
+    Fixtures.create_fixtures(directory, "project_statuses")
   end # self.up
 
   def self.down
@@ -140,9 +144,10 @@ t
     drop_table :regions
     drop_table :cities
     drop_table :village_groups
-    drop_table :villages
+    drop_table :villages    
     drop_table :partner_types
     drop_table :partner_statuses
     drop_table :partners
+    drop_table :project_statuses
   end # self.down
 end #class DonorTrustRel001 

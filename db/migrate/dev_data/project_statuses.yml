@@ -1,0 +1,8 @@
+default_project_status_one:
+  id: 1
+  status_type: Not Started
+  description: Status to indicate that the project is not started yet.
+default_project_status_two:
+  id: 2
+  status_type: Started
+  description: Status to indicate that the project has been started. 

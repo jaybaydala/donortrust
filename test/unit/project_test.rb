@@ -34,7 +34,8 @@ class ProjectTest < Test::Unit::TestCase
     assert_equal project_history_from_saved_project, saved_project_history
     
     assert_equal project.expected_completion_date, project_history_from_saved_project.expected_completion_date
-    assert_equal project.status_id, project_history_from_saved_project.status_id
+    assert_equal project.project_status_id, project_history_from_saved_project.project_status_id
+    assert_equal project.project_category_id, project_history_from_saved_project.project_category_id
   end
   
   def test_is_a_project
