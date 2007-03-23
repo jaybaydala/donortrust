@@ -13,7 +13,8 @@
     <th>Expected completion date</th>
     <th>Start date</th> 
     <th>End date</th>
-    <th>Project Status</th>      
+    <th>Project Status</th>
+    <th>Project Category</th>      
   </tr>
   
 <% for project in @projects %>
@@ -29,7 +30,8 @@
     <td><%=h project.expected_completion_date %></td>
     <td><%=h project.start_date %></td>  
     <td><%=h project.end_date %></td>
-    <td><%=h project.project_status.status_type %></td>        
+    <td><%=h project.project_status.status_type %></td>
+    <td><%=h project.project_category.description %></td>        
     <td><%= link_to 'Show', project_path(project) %></td>
     <td><%= link_to 'Edit', edit_project_path(project) %></td>
     <td><%= link_to 'Destroy', project_path(project), :confirm => 'Are you sure?', :method => :delete %></td>  </tr>

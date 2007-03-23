@@ -1,0 +1,17 @@
+<h1>Editing project_category</h1>
+
+<%= error_messages_for :project_category %>
+
+<% form_for(:project_category, :url => project_category_path(@project_category), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Description</b><br />
+    <%= f.text_area :description %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', project_category_path(@project_category) %> |
+<%= link_to 'Back', project_categories_path %>

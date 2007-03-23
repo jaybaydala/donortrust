@@ -2,6 +2,7 @@ class ProjectHistory < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :project_status
+  belongs_to :project_category
 
   validates_presence_of :project_id
   

@@ -23,6 +23,11 @@
 <%= datetime_select 'project', 'end_date'  %></p>
 
 <p><label for="project_status_id">Project Status</label><br/>
-<%= select 'project', 'project_status_id', ProjectStatus.find(:all).collect { |project_status| [ project_status.status_type, project_status.id ] } %></p>
+<%= select 'project', 'project_status_id', 
+           ProjectStatus.find(:all).collect { |project_status| [ project_status.status_type, project_status.id ] } %></p>
+
+<p><label for="project_category_id">Project Category</label><br/>
+<%= select 'project', 'project_category_id', 
+           ProjectCategory.find(:all).collect { |project_category| [ project_category.description, project_category.id ] } %></p>
 <!--[eoform:project]-->
 

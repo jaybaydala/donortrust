@@ -2,6 +2,7 @@ class Project < ActiveRecord::Base
 
   has_many :project_histories
   belongs_to :project_status
+  belongs_to :project_category
   
   validates_presence_of :name
   validates_uniqueness_of :name  
