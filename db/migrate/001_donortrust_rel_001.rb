@@ -124,12 +124,17 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :description, :text
     end #:project_statuses    
     
+    create_table :project_categories do |t|
+      t.column :description, :text, :null => false
+    end #:project_categories    
+    
     # Load some initial data
     # Rails 'convention' is to put the fixture files in test\fixtures
     # Do we really want to override that?
     # This is not a fixture for test. test/fixtures is ONLY for testing. i.e. development, test, production data are supposed to be all different.(tadatoshi)
     directory = File.join(File.dirname(__FILE__), "dev_data")
     Fixtures.create_fixtures(directory, "project_statuses")
+    Fixtures.create_fixtures(directory, "project_categories")
   end # self.up
 
   def self.down
@@ -149,5 +154,6 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :partner_statuses
     drop_table :partners
     drop_table :project_statuses
+    drop_table :project_categories
   end # self.down
 end #class DonorTrustRel001 
