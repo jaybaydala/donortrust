@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  village_name: village 1
+  village_group_id: 1
+two:
+  id: 2
+  village_name: village 2
+  village_group_id: 1
