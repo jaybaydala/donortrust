@@ -46,7 +46,7 @@ class DonortrustRel001 < ActiveRecord::Migration
 
     create_table :milestones do |t|
       t.column :category, :string, :null => false
-      t.column :description, :text, :null => false
+      t.column :description, :text
       t.column :start, :date, :null => false
       t.column :end, :date, :null => false
       t.column :status_id, :int, :null => false
