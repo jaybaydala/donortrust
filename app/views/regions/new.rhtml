@@ -1,0 +1,21 @@
+<h1>New region</h1>
+
+<%= error_messages_for :region %>
+
+<% form_for(:region, :url => regions_path) do |f| %>
+  <p>
+    <b>Region Name</b><br />
+    <%= f.text_field :region_name %>
+  </p>
+
+  <p>
+    <b>Nation</b><br />
+    <%= select (:region, "nation_id", @nations.collect {|p| [ p.nation_name, p.id ] } ) %>
+  </p>
+  
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', regions_path %>

@@ -1,0 +1,22 @@
+<h1>Listing regions</h1>
+
+<table>
+  <tr>
+
+    <th>Region </th>
+    <th>Nation</th> 
+  </tr>
+<% for region in @regions %>
+  <tr>
+    <td><%=h region.region_name %></td>
+    <td><%=h region.nation.nation_name %></td>  
+    <td><%= link_to 'Show', region_path(region) %></td>
+    <td><%= link_to 'Edit', edit_region_path(region) %></td>
+    <td><%= link_to 'Destroy', region_path(region), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New region', new_region_path %>
