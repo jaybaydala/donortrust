@@ -51,7 +51,11 @@ class ProjectHistoriesControllerTest < Test::Unit::TestCase
   end
   
   def test_destroy_should_not_work
-    #TODO
+    old_count = Project.count
+    assert_raise ActionController::RoutingError do
+      delete :destroy, :id => 1
+    end  
+    assert_equal old_count, Project.count
   end
   
 end
