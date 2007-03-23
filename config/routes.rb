@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :partner_statuses
+
+  map.resources :partners
+
+  map.resources :partner_types
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   map.resources :contacts

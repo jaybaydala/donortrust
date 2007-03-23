@@ -1,0 +1,13 @@
+<h1>Editing partner_type</h1>
+
+<%= error_messages_for :partner_type %>
+
+<% form_for(:partner_type, :url => partner_type_path(@partner_type), :html => { :method => :put }) do %>
+    <%= render (:partial => 'form' ) %>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', partner_type_path(@partner_type) %> |
+<%= link_to 'Back', partner_types_path %>
