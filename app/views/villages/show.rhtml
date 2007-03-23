@@ -1,0 +1,12 @@
+<p>
+  <b>Name:</b>
+  <%=h @village.village_name %>
+</p>
+
+<p>
+  <b>Village Group:</b>
+  <%=h @village.village_group.village_group_name %>
+</p>
+
+<%= link_to 'Edit', edit_village_path(@village) %> |
+<%= link_to 'Back', villages_path %>

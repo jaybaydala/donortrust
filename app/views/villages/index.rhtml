@@ -1,0 +1,23 @@
+<h1>Listing villages</h1>
+
+<table>
+  <tr>
+  
+    <th>Village Name</th>
+    <th>Village Group</th> 
+  </tr>
+  
+<% for village in @villages %>
+  <tr>
+    <td><%=h village.village_name %></td>
+    <td><%=h village.village_group.village_group_name %></td>    
+    <td><%= link_to 'Show', village_path(village) %></td>
+    <td><%= link_to 'Edit', edit_village_path(village) %></td>
+    <td><%= link_to 'Destroy', village_path(village), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New village', new_village_path %>
