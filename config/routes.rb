@@ -18,6 +18,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects do |project|
     project.resources :project_histories
   end
+  
+  map.resources :project_statuses
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
