@@ -1,4 +1,7 @@
 class ProjectsController < ApplicationController
+
+  before_filter :get_project_statuses_and_project_categories
+
   # GET /projects
   # GET /projects.xml
   def index
@@ -77,4 +80,12 @@ class ProjectsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  private
+  
+  def get_project_statuses_and_project_categories
+    @project_statuses = ProjectStatus.find(:all)
+    @project_categories = ProjectCategory.find(:all)
+  end
+  
 end

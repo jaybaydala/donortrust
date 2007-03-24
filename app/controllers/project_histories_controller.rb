@@ -1,6 +1,7 @@
 class ProjectHistoriesController < ApplicationController
 
-  before_filter :get_project
+  before_filter :get_project_and_project_history
+  before_filter :get_project_statuses_and_project_categories
 
   # GET /projects/1/project_histories
   # GET /projects/1/project_histories.xml
@@ -16,7 +17,7 @@ class ProjectHistoriesController < ApplicationController
   # GET /projects/1/project_histories/1
   # GET /projects/1/project_histories/1.xml
   def show
-    @project_history = @project.project_histories.find(params[:id])
+    #@project_history = @project.project_histories.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
@@ -34,7 +35,7 @@ class ProjectHistoriesController < ApplicationController
 
   # GET /projects/1/project_histories/1;edit
   def edit
-    @project_history = @project.project_histories.find(params[:id])
+    #@project_history = @project.project_histories.find(params[:id])
   end
 
   # POST /projects/1/project_histories
@@ -57,7 +58,7 @@ class ProjectHistoriesController < ApplicationController
   # PUT /projects/1/project_histories/1
   # PUT /projects/1/project_histories/1.xml
   def update
-    @project_history = @project.project_histories.find(params[:id])
+    #@project_history = @project.project_histories.find(params[:id])
 
     respond_to do |format|
       if @project_history.update_attributes(params[:project_history])
@@ -73,8 +74,14 @@ class ProjectHistoriesController < ApplicationController
   
   private 
   
-  def get_project
+  def get_project_and_project_history
     @project = Project.find(params[:project_id])
+    @project_history = @project.project_histories.find(params[:id]) if params[:id]
   end
+  
+  def get_project_statuses_and_project_categories
+    @project_statuses = ProjectStatus.find(:all)
+    @project_categories = ProjectCategory.find(:all)
+  end  
 
 end

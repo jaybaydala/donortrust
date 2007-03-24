@@ -25,10 +25,10 @@
 
 <p><label for="project_status_id">Project Status</label><br/>
 <%= select 'project_history', 'project_status_id', 
-           ProjectStatus.find(:all).collect { |project_status| [ project_status.status_type, project_status.id ] } %></p>
+           @project_statuses.collect { |project_status| [ project_status.status_type, project_status.id ] } %></p>
 
 <p><label for="project_category_id">Project Category</label><br/>
 <%= select 'project_history', 'project_category_id', 
-           ProjectCategory.find(:all).collect { |project_category| [ project_category.description, project_category.id ] } %></p>
+           @project_categories.collect { |project_category| [ project_category.description, project_category.id ] } %></p>
 <!--[eoform:project_history]-->
 
