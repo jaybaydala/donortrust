@@ -27,7 +27,7 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :expected_completion_date, :datetime      
       t.column :start_date, :datetime
       t.column :end_date, :datetime
-      t.column :contact_id, :integer  
+      t.column :user_id, :integer  
       t.column :project_status_id, :integer
       t.column :project_category_id, :integer
     end #:project_histories
