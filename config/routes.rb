@@ -6,9 +6,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :partner_types
 
   # The priority is based upon order of creation: first created -> highest priority.
+ map.resources :programs do |program|
+    program.resources :contacts
+   end 
 
-  map.resources :contacts
-  
+  map.resources :contacts 
  
   map.resources :statuses
 
@@ -24,10 +26,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :project_categories
   
-   map.resources :programs do |program|
-    program.resources :contacts
-   end 
-
+  
    map.resources :continents 
    
    map.resources :nations do |nation|
