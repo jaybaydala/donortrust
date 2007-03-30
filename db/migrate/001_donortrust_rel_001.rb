@@ -73,19 +73,19 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :postal_code, :string
     end #:contacts
 
-create_table :programs do |t|
-        t.column :program_name, :string, :null => false
-        t.column :contact_id, :string, :null => false
+    create_table :programs do |t|
+      t.column :program_name, :string, :null => false
+      t.column :contact_id, :string, :null => false
     end #:programs
 
- create_table :continents do |t|
-        t.column :continent_name, :string, :null => false
+    create_table :continents do |t|
+      t.column :continent_name, :string, :null => false
     end #:continents
     
-     create_table :nations do |t|
-        t.column :nation_name, :string, :null => false
-        t.column :continent_id, :int, :null => false
-     end #nations
+    create_table :nations do |t|
+      t.column :nation_name, :string, :null => false
+      t.column :continent_id, :int, :null => false
+    end #nations
 
 
     create_table :regions do |t|
@@ -133,6 +133,11 @@ create_table :programs do |t|
       t.column :description, :text, :null => false
     end #:project_categories    
     
+    create_table :milestone_statuses do |t|
+      t.column :status, :string, :null => false
+      t.column :description, :text
+    end #milestone_statuses
+    
     # Load some initial data
     # Rails 'convention' is to put the fixture files in test\fixtures
     # Do we really want to override that?
@@ -161,5 +166,6 @@ create_table :programs do |t|
     drop_table :partners
     drop_table :project_statuses
     drop_table :project_categories
+    drop_table :milestone_statuses
   end # self.down
 end #class DonorTrustRel001 
