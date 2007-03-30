@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+proposed:
+  id: 1
+  status: Proposed
+  description: Milestone as been proposed for project
+inprogress:
+  id: 2
+  status: InProgress
+  description: First Tasks for Milestone have been started
+#  description: [First] Task(s) for Milestone have been started
+  

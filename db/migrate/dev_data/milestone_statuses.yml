@@ -1,0 +1,20 @@
+# Initial bulk load of Milestone statuses for development
+proposed:
+  id: 1
+  status: Proposed
+  description: Milestone as been proposed for project
+
+inprogress:
+  id: 2
+  status: InProgress
+  description: First Tasks for Milestone have been started
+
+canceled:
+  id: 3
+  status: Canceled
+  description: Milestone is no longer part of the project
+
+complete:
+  id: 4
+  status: Complete
+  description: All Milestone goals and dependencies have been met
