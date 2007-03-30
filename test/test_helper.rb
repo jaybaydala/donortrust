@@ -24,5 +24,72 @@ class Test::Unit::TestCase
   # then set this back to true.
   self.use_instantiated_fixtures  = false
 
+  # helper method to reduce testing code by checking an attribute [or array
+  # of attributes] against a list / array of values (all of which **should** be
+  # invalid)
+  def assert_invalid( instance, attribute=nil, *values )
+    if values.empty? # no attribute value(s) specified.  Test instance as is.
+      if attribute.class.to_s == "Array" #array of attributes all set to same value
+        assert !instance.valid?, "#{instance.class}.#{attribute.inspect} is valid with value: #{instance.send(attribute[0]).inspect}"
+      else # single attribute specified, report if it 
+        assert !instance.valid?, "#{instance.class}.#{attribute.to_s} is valid with value: #{instance.send(attribute).inspect}"
+      end
+      assert !instance.save, "#{instance.class} Saved."
+      if attribute.class.to_s == "Array"
+        attribute.each do |a|
+          assert instance.errors.invalid?( a ), "#{instance.class}.#{a.to_s} (element) has no attached error"
+        end
+      else
+        assert instance.errors.invalid?( attribute ), "#{instance.class}.#{attribute.to_s} has no attached error"
+      end
+    else
+      values.flatten.each do |value|
+        obj = instance.dup
+        if attribute.class.to_s == "Array"
+          attribute.each do |a|
+            obj.send "#{a}=", value
+          end
+        else
+          obj.send "#{attribute}=", value
+        end
+        assert_invalid obj, attribute
+      end
+    end
+  end
+  
+  # helper method to reduce testing code by checking an attribute [or array
+  # of attributes] against a list / array of values (all of which **should** be
+  # valid)
+  def assert_valid( instance, attribute=nil, *values )
+    if values.empty?
+      unless attribute.nil?
+        if attribute.class.to_s == "Array"
+          assert instance.valid?, "#{instance.class}.#{attribute.inspect} is not valid with value: #{instance.send(attribute[0]).inspect} #{instance.errors.full_messages.inspect}"
+        else
+          assert instance.valid?, "#{instance.class}.#{attribute.to_s} is not valid with value: #{instance.send(attribute).inspect} #{instance.errors.full_messages.inspect}"
+        end
+      else
+        # no attribute(s) specified.  Just check that the full instance is valid
+        assert instance.valid?, "#{instance.class} instance invalid; #{instance.errors.full_messages.inspect}"
+      end
+      assert instance.errors.empty?, instance.errors.full_messages
+    else
+      m = instance.dup # the recursion was confusing mysql
+      values.flatten.each do |value|
+        obj = m.dup
+        if attribute.class.to_s == "Array"
+          # Set all of specified attributes to the [next] test value
+          attribute.each do |a|
+            obj.send "#{a}=", value
+          end
+        else
+          # Set the single specified attribute to the [next] test value
+          obj.send "#{attribute}=", value
+        end
+        assert_valid obj, attribute
+      end
+    end    
+  end
+
   # Add more helper methods to be used by all tests here...
 end
