@@ -1,0 +1,22 @@
+<h1>Editing milestone_status</h1>
+
+<%= error_messages_for :milestone_status %>
+
+<% form_for(:milestone_status, :url => milestone_status_path(@milestone_status), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Status</b><br />
+    <%= f.text_field :status %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= f.text_area :description %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', milestone_status_path(@milestone_status) %> |
+<%= link_to 'Back', milestone_statuses_path %>

@@ -1,0 +1,22 @@
+<h1>Listing milestone_statuses</h1>
+
+<table>
+  <tr>
+    <th>Status</th>
+    <th>Description</th>
+  </tr>
+  
+<% for milestone_status in @milestone_statuses %>
+  <tr>
+    <td><%=h milestone_status.status %></td>
+    <td><%=h milestone_status.description %></td>
+    <td><%= link_to 'Show', milestone_status_path(milestone_status) %></td>
+    <td><%= link_to 'Edit', edit_milestone_status_path(milestone_status) %></td>
+    <td><%= link_to 'Destroy', milestone_status_path(milestone_status), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New milestone_status', new_milestone_status_path %>

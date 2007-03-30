@@ -1,0 +1,13 @@
+<p>
+  <b>Status:</b>
+  <%=h @milestone_status.status %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @milestone_status.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_milestone_status_path(@milestone_status) %> |
+<%= link_to 'Back', milestone_statuses_path %>
