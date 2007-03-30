@@ -7,10 +7,10 @@
 <% for program in @programs %>
   <tr>
    <td><%=h program.program_name %></td>
-    <td><%=h program.contact.first_name %></td>    
-    <td><%= link_to 'Show', programs_path(programs) %></td>
-    <td><%= link_to 'Edit', edit_programs_path(programs) %></td>
-    <td><%= link_to 'Destroy', programs_path(programs), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%=h program.contact.last_name %></td>    
+    <td><%= link_to 'Show', programs_path(program) %></td>
+    <td><%= link_to 'Edit', edit_programs_path(program) %></td>
+    <td><%= link_to 'Destroy', programs_path(program), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

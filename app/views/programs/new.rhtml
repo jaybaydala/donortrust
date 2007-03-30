@@ -1,8 +1,8 @@
 <h1>New programs</h1>
 
-<%= error_messages_for :programs %>
+<%= error_messages_for :program %>
 
-<% form_for(:programs, :url => programs_path) do |f| %>
+<% form_for(:program, :url => programs_path) do |f| %>
   <p>
     <b>Program Name</b><br />
     <%= f.text_field :program_name %>
