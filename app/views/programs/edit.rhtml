@@ -1,0 +1,20 @@
+<h1>Editing programs</h1>
+
+<%= error_messages_for :programs %>
+
+<% form_for(:programs, :url => programs_path(@programs), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Program Name</b><br />
+    <%= f.text_field :program_name %>
+  </p>
+  <p>
+    <b>Contact</b><br />
+    <%= select (:program, "contact_id", @contacts.collect {|p| [ p.last_name + ", " + p.first_name, p.id ] } ) %>
+  </p>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', programs_path(@programs) %> |
+<%= link_to 'Back', programs_path %>

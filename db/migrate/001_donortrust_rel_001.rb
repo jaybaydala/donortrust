@@ -73,6 +73,11 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :postal_code, :string
     end #:contacts
 
+create_table :programs do |t|
+        t.column :program_name, :string, :null => false
+        t.column :contact_id, :string, :null => false
+    end #:programs
+
  create_table :continents do |t|
         t.column :continent_name, :string, :null => false
     end #:continents
@@ -144,6 +149,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :milestone_histories
     drop_table :statuses
     drop_table :contacts
+    drop_table :programs
     drop_table :continents
     drop_table :nations
     drop_table :regions
