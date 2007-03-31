@@ -54,7 +54,7 @@ class DonortrustRel001 < ActiveRecord::Migration
 
     create_table :statuses do |t|
       t.column :category, :string, :null => false
-      t.column :description, :text, :null => false
+      t.column :description, :text
     end #:statuses
 
     create_table :contacts do |t|
@@ -130,7 +130,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     end #:project_statuses    
     
     create_table :project_categories do |t|
-      t.column :description, :text, :null => false
+      t.column :description, :text
     end #:project_categories    
     
     create_table :milestone_statuses do |t|
