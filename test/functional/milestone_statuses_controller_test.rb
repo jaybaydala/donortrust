@@ -26,8 +26,8 @@ class MilestoneStatusesControllerTest < Test::Unit::TestCase
   
   def test_should_create_milestone_status
     old_count = MilestoneStatus.count
-    post :create, :milestone_status => { }
-    assert_equal old_count+1, MilestoneStatus.count
+    post :create, :milestone_status => { :status => "junkstatus", :description => "junkdescription" }
+    assert_equal old_count+1, MilestoneStatus.count, "old + 1 |#{old_count+1}| not eq new |#{MilestoneStatus.count}|"
     
     assert_redirected_to milestone_status_path(assigns(:milestone_status))
   end
@@ -43,11 +43,13 @@ class MilestoneStatusesControllerTest < Test::Unit::TestCase
   end
   
   def test_should_update_milestone_status
+    # will fail if trap to not update when no changes
     put :update, :id => 1, :milestone_status => { }
     assert_redirected_to milestone_status_path(assigns(:milestone_status))
   end
   
   def test_should_destroy_milestone_status
+    # destroy should fail if any milestones (or history) reference status
     old_count = MilestoneStatus.count
     delete :destroy, :id => 1
     assert_equal old_count-1, MilestoneStatus.count
