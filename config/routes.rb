@@ -7,10 +7,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :partner_types
 
   # The priority is based upon order of creation: first created -> highest priority.
- map.resources :programs do |program|
-    program.resources :contacts
-   end 
-
+ map.resources :programs 
+ 
   map.resources :contacts 
  
   map.resources :statuses
@@ -28,27 +26,28 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :project_categories
   
   
-   map.resources :continents 
-   
+   map.resources :continents do |continent|
+    continent.resources :nations
+    end
+    
    map.resources :nations do |nation|
-    nation.resources :continents
+    nation.resources :regions
     end
     
     map.resources :regions do |region|
-      region.resources :nations
+      region.resources :cities
+      region.resources :village_groups
     end
     
-    map.resources :cities do |city|
-      city.resources :regions
-    end
+  #  map.resources :cities 
     
     map.resources :village_groups do |village_group|
-      village_group.resources :regions
+      village_group.resources :villages 
    end 
    
-   map.resources :villages do |village|
-     village.resources :village_groups
-   end   
+   map.resources :villages
+   
+ #  map.resources :villages 
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 

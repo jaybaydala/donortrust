@@ -2,7 +2,7 @@
 
 <%= error_messages_for :continent %>
 
-<% form_for(:continent, :url => continent_path) do |f| %>
+<% form_for(:continent, :url => continents_path) do |f| %>
   <p>
     <b>Continent Name</b><br />
     <%= f.text_field :continent_name %>
@@ -13,4 +13,4 @@
   </p>
 <% end %>
 
-<%= link_to 'Back', continent_path %>
+<%= link_to 'Back', continents_path %>
