@@ -26,7 +26,7 @@ class MilestoneStatusTest < Test::Unit::TestCase
   end
   
   def test_create_with_empty_description
-    # Should not be valid to create a new instance with an empty or blank status
+    # Should not be valid to create a new instance with an empty or blank description
     assert_invalid( clean_new_milestone_status, :description, nil, "" )
   end
   
@@ -42,7 +42,7 @@ class MilestoneStatusTest < Test::Unit::TestCase
   end
 
   def test_edit_to_empty_description
-    # Should not be valid to modify an existing instance to have an empty or blank status
+    # Should not be valid to modify an existing instance to have an empty or blank description
     assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), :description, nil, "" )
   end
 
@@ -52,5 +52,5 @@ class MilestoneStatusTest < Test::Unit::TestCase
     assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), 
       :status, milestone_statuses( :inprogress ).status  )
   end
-  #destroy should fail if any Milestone using status
+  #destroy should fail if any Milestone (or history) using status
 end
