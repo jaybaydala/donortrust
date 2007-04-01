@@ -1,0 +1,22 @@
+<h1>Editing milestone_category</h1>
+
+<%= error_messages_for :milestone_category %>
+
+<% form_for(:milestone_category, :url => milestone_category_path(@milestone_category), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Category</b><br />
+    <%= f.text_field :category %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= f.text_area :description %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', milestone_category_path(@milestone_category) %> |
+<%= link_to 'Back', milestone_categories_path %>
