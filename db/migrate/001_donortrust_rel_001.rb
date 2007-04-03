@@ -32,25 +32,27 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :project_category_id, :integer
     end # project_histories
 
+    create_table :milestones do |t|
+      t.column :project_id, :int, :null => false
+      t.column :milestone_category_id, :int, :null => false
+      t.column :milestone_status_id, :int, :null => false
+      t.column :measure_id, :int#, :null => false
+      t.column :target_date, :date
+      t.column :description, :text
+    end # milestones
+
     create_table :milestone_histories do |t|
       t.column :milestone_id, :int
       t.column :created_at, :datetime
       t.column :reason, :text
 
-      t.column :category, :string
+      t.column :project_id, :int, :null => false
+      t.column :milestone_category_id, :int, :null => false
+      t.column :milestone_status_id, :int, :null => false
+      t.column :measure_id, :int, :null => false
       t.column :description, :text
-      t.column :start, :date
-      t.column :end, :date
-      t.column :status_id, :int
+      t.column :target_date, :date
     end # milestone_histories
-
-    create_table :milestones do |t|
-      t.column :category, :string, :null => false
-      t.column :description, :text
-      t.column :start, :date, :null => false
-      t.column :end, :date, :null => false
-      t.column :status_id, :int, :null => false
-    end # milestones
 
     create_table :statuses do |t|
       t.column :category, :string, :null => false
@@ -65,9 +67,9 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :email_address, :string
       t.column :web_address, :string
       t.column :department, :string
-      t.column :continent_id, :integer, :null => false
-      t.column :region_id, :integer, :null => false
-      t.column :city_id, :integer, :null => false
+      t.column :continent_id, :integer#, :null => false
+      t.column :region_id, :integer#, :null => false
+      t.column :city_id, :integer#, :null => false
       t.column :address_line_1, :string
       t.column :address_line_2, :string
       t.column :postal_code, :string
@@ -151,6 +153,19 @@ class DonortrustRel001 < ActiveRecord::Migration
     Fixtures.create_fixtures(directory, "project_categories")
     Fixtures.create_fixtures(directory, "milestone_statuses")
     Fixtures.create_fixtures(directory, "milestone_categories")
+    #Fixtures.create_fixtures(directory, "continents")
+    #Fixtures.create_fixtures(directory, "nations")
+    #Fixtures.create_fixtures(directory, "regions")
+    #Fixtures.create_fixtures(directory, "cities")
+    #Fixtures.create_fixtures(directory, "village_groups")
+    #Fixtures.create_fixtures(directory, "villages")
+    # Make sure to load all of the referenced lookup data before loading the
+    # data that references it.
+    Fixtures.create_fixtures(directory, "contacts")
+    Fixtures.create_fixtures(directory, "programs")
+    Fixtures.create_fixtures(directory, "projects")
+    Fixtures.create_fixtures(directory, "milestones")
+    #Fixtures.create_fixtures(directory, "tasks")
   end # self.up
 
   def self.down

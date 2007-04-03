@@ -1,36 +1,36 @@
 class Milestone < ActiveRecord::Base
   has_many :milestone_histories
-  #belongs_to :contact
+  belongs_to :project
+  belongs_to :milestone_category
+  belongs_to :milestone_status
   #belongs_to :measure
-  #belongs_to :project
-  belongs_to :status
+  #has_many :milestone_history
 
-  validates_presence_of :category, :description, :start, :status_id
-  validates_length_of :category, :minimum => 10
+  #:foreign_key => :project_id
+  #:association_foreign_key
+
+  #validates_associated :project, :milestone_category, :milestone_status
+  #validates_presence_of :project_id, :milestone_status_id, :milestone_category_id, :description
+#:measure_id
   validates_length_of :description, :minimum => 15
-  # end (when exists) > start
-
-  # create a new MilestoneHistory (instance) populated with information from
-  # the Milestone instance when saving a new Milestone
-  def save_with_audit
-    save_result         = false
-    if( self.save )
-      mh                = MilestoneHistory.new
-      mh.milestone_id   = self.id
-      mh.category       = self.category
-      mh.description    = self.description
-      mh.start          = self.start
-      mh.end            = self.end
-      mh.status_id      = self.status_id
-      #mh.project_id     = self.project_id
-      #mh.contact_id     = self.contact_id
-      #mh.measure_id     = self.measure_id
-      mh.reason         = "Initial Milestone creation"
-      save_result       = mh.save
-    end
-    return save_result
-  end
   
+  validate do |milestone|
+    # In each of the 'unless' conditions, true means that the association is reloaded,
+    # if it does not exist, nil is returned
+    unless milestone.project( true )
+      milestone.errors.add :project_id, 'does not exist'
+    end
+    unless milestone.milestone_status( true )
+      milestone.errors.add :milestone_status_id, 'does not exist'
+    end
+    unless milestone.milestone_category( true )
+      milestone.errors.add :milestone_category_id, 'does not exist'
+    end
+    #unless milestone.measure( true )
+    #  milestone.errors.add :measure, 'does not exist'
+    #end
+  end
+
   # Determine if an object instance is a Milestone
   def self.is_a_milestone?( object )
     #return object.class == self.class

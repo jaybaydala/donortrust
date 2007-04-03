@@ -1,0 +1,5 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+testcrashdummy:
+  id: 1
+  program_name: dummy program
+  contact_id: 1

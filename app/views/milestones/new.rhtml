@@ -3,28 +3,7 @@
 <%= error_messages_for :milestone %>
 
 <% form_for(:milestone, :url => milestones_path) do |f| %>
-  <p>
-    <b>Type</b><br />
-    <%= f.text_field :category %>
-  </p>
-
-  <p>
-    <b>Description</b><br />
-    <%= f.text_area :description %>
-  </p>
-
-  <p>
-    <b>Start Date</b> <%= f.date_select :start %>
-  </p>
-
-  <p>
-    <b>End Date</b> <%= f.date_select :end %>
-  </p>
-
-  <p>
-    <b>Status</b> <%= select("milestone", "status_id", Status.find(:all).collect {|s| [s.category, s.id] }) %>
- </p>
-
+  <%= render :partial => 'form', :locals => { :f => f } %>
   <p>
     <%= submit_tag "Create" %>
   </p>

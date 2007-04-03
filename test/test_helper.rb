@@ -29,6 +29,13 @@ class Test::Unit::TestCase
   # invalid)
   def assert_invalid( instance, attribute=nil, *values )
     if values.empty? # no attribute value(s) specified.  Test instance as is.
+      # build hash? of attributes and errors to use for reporting (if assert fails)
+      # hpd : there *should* be a more direct / ruby way of doing this
+      # assert_messages = []
+      # instance.errors.each do | atr, err |
+      #   assert_messages << { atr => err }
+      # end
+      # assert_messages << { instance.class.to_s + " instance" => instance.errors.on_base() }
       if attribute.class.to_s == "Array" #array of attributes all set to same value
         assert !instance.valid?, "#{instance.class}.#{attribute.inspect} is valid with value: #{instance.send(attribute[0]).inspect}"
       else # single attribute specified, report if it 
@@ -37,10 +44,10 @@ class Test::Unit::TestCase
       assert !instance.save, "#{instance.class} Saved."
       if attribute.class.to_s == "Array"
         attribute.each do |a|
-          assert instance.errors.invalid?( a ), "#{instance.class}.#{a.to_s} (element) has no attached error"
+          assert instance.errors.invalid?( a ), "#{instance.class}.#{a.to_s} (element) has no attached error, all => #{instance.errors.full_messages.inspect}"
         end
       else
-        assert instance.errors.invalid?( attribute ), "#{instance.class}.#{attribute.to_s} has no attached error"
+        assert instance.errors.invalid?( attribute ), "#{instance.class}.#{attribute.to_s} has no attached error, all => #{instance.errors.full_messages.inspect}"
       end
     else
       values.flatten.each do |value|

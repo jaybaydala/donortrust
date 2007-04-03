@@ -12,38 +12,45 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :partners
 
-  map.resources :programs
-
   map.resources :contacts
 
-  map.resources :milestones do |milestone|
-    milestone.resources :milestone_histories
+  #map.resources :tasks do |nested|
+  #  nested.resources :task_histories
+  #end
+
+  map.resources :milestones do |nested|
+    nested.resources :milestone_histories
+    #nested.resources :tasks
   end
 
-  map.resources :projects do |project|
-    project.resources :project_histories
+  map.resources :projects do |nested|
+    nested.resources :project_histories
+    nested.resources :milestones
   end
 
-  map.resources :continents do |continent|
-    continent.resources :nations
+  map.resources :programs
+  # map.resources :programs do |nested|
+  #   nested.resource :projects
+  # end
+
+  map.resources :village_groups do |nested|
+    nested.resources :villages
   end
 
-  map.resources :nations do |nation|
-    nation.resources :regions
+  map.resources :regions do |nested|
+    nested.resources :cities
+    nested.resources :village_groups
+  end
+  # map.resources :cities
+  # map.resources :villages
+
+  map.resources :nations do |nested|
+    nested.resources :regions
   end
 
-  map.resources :regions do |region|
-    region.resources :cities
-    region.resources :village_groups
+  map.resources :continents do |nested|
+    nested.resources :nations
   end
-
-  #  map.resources :cities
-
-  map.resources :village_groups do |village_group|
-    village_group.resources :villages
-  end
-
-  map.resources :villages
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 

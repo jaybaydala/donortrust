@@ -2,27 +2,28 @@
 
 <table>
   <tr>
-    <th>Category</th>
+    <th>Milestone category</th>
+    <th>Milestone status</th>
+    <th>Measure</th>
+    <th>Target date</th>
     <th>Description</th>
-    <th>Start date</th>
-    <th>End date</th>
-    <th>Status</th>
   </tr>
   
 <% for milestone in @milestones %>
   <tr>
-    <td><%=h milestone.category %></td>
+    <td><%=h milestone.milestone_category.category %></td>
+    <td><%=h milestone.milestone_status.status %></td>
+    <td><%=h milestone.measure_id %></td>
+    <td><%=h milestone.target_date %></td>
     <td><%=h milestone.description %></td>
-    <td><%=h milestone.start %></td>
-    <td><%=h milestone.end %></td>
-    <td><%=h milestone.status.category %></td>
-    <td><%= link_to 'Show', milestone_path(milestone) %></td>
-    <td><%= link_to 'Edit', edit_milestone_path(milestone) %></td>
-    <td><%= link_to 'History', milestone_histories_path(milestone) %></td>
+    <td><%= link_to 'Show', milestone_path( milestone.project_id, milestone ) %></td>
+    <td><%= link_to 'Edit', edit_milestone_path( @project, milestone ) %></td>
+    <td><%= link_to 'Destroy', milestone_path( @project, milestone ), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New milestone', new_milestone_path %>
+<%= link_to 'New milestone', new_milestone_path %> |
+<%= link_to 'Project', project_path( @project ) %>

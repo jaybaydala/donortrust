@@ -1,6 +1,24 @@
 <p>
-  <b>Category:</b>
-  <%=h @milestone.category %>
+  <b>Milestone category:</b>
+  <%=h @milestone.milestone_category.category %>
+</p>
+
+<p>
+  <b>Milestone status:</b>
+  <%=h @milestone.milestone_status.status %>
+</p>
+
+<p>
+  <b>Measure:</b>
+  <!-- @milestone.measure.measure_category.description -->
+  <!-- @milestone.measure.quantity -->
+  <!-- if @milestone.measure -->
+  <%=h @milestone.measure_id %>
+</p>
+
+<p>
+  <b>Target date:</b>
+  <%=h @milestone.target_date %>
 </p>
 
 <p>
@@ -8,17 +26,9 @@
   <%=h @milestone.description %>
 </p>
 
-<p>
-  <b>Start date:</b>
-  <%=h @milestone.start %>
-</p>
 
-<p>
-  <b>End date:</b>
-  <%=h @milestone.end %>
-</p>
-
-
-<%= link_to 'Edit', edit_milestone_path(@milestone) %> |
-<%= link_to 'History', milestone_histories_path(@milestone) %> |
-<%= link_to 'Back', milestones_path %>
+<%= link_to 'Edit', edit_milestone_path( @project, @milestone ) %> |
+<%= link_to 'History', milestone_histories_path( @milestone ) %> |
+<!--%= link_to 'Tasks', tasks_path( @milestone ) %> | -->
+<%= link_to 'Back', milestones_path %> |
+<%= link_to 'Project', project_path( @project ) %>

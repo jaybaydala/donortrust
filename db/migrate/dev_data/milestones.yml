@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Initial bulk load of sample Milestones for development
+testcrashdummy:
+  id: 1
+  project_id: 1
+  milestone_category_id: 1
+  milestone_status_id: 1
+#  measure_id: 1
+#  target_date: :date
+  description: Test Crash Dummy milestone
+  
