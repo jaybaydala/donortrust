@@ -1,8 +1,8 @@
 <h1>Editing programs</h1>
 
-<%= error_messages_for :programs %>
+<%= error_messages_for :program %>
 
-<% form_for(:programs, :url => programs_path(@programs), :html => { :method => :put }) do |f| %>
+<% form_for(:program, :url => program_path(@program), :html => { :method => :put }) do |f| %>
   <p>
     <b>Program Name</b><br />
     <%= f.text_field :program_name %>
@@ -16,5 +16,5 @@
   </p>
 <% end %>
 
-<%= link_to 'Show', programs_path(@programs) %> |
+<%= link_to 'Show', program_path(@program) %> |
 <%= link_to 'Back', programs_path %>

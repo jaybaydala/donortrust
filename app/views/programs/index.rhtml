@@ -8,9 +8,9 @@
   <tr>
    <td><%=h program.program_name %></td>
     <td><%=h program.contact.last_name %></td>    
-    <td><%= link_to 'Show', programs_path(program) %></td>
-    <td><%= link_to 'Edit', edit_programs_path(program) %></td>
-    <td><%= link_to 'Destroy', programs_path(program), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', program_path(program) %></td>
+    <td><%= link_to 'Edit', edit_program_path(program) %></td>
+    <td><%= link_to 'Destroy', program_path(program), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

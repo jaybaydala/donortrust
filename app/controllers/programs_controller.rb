@@ -16,37 +16,37 @@ class ProgramsController < ApplicationController
   # GET /programs/1
   # GET /programs/1.xml
   def show
-    @programs = Program.find(params[:id])
+    @program = Program.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @programs.to_xml }
+      format.xml  { render :xml => @program.to_xml }
     end
   end
 
   # GET /programs/new
   def new
-    @programs = Program.new
+    @program = Program.new
   end
 
   # GET /programs/1;edit
   def edit
-    @programs = Program.find(params[:id])
+    @program = Program.find(params[:id])
   end
 
   # POST /programs
   # POST /programs.xml
   def create
-    @programs = Program.new(params[:program])
+    @program = Program.new(params[:program])
 
     respond_to do |format|
-      if @programs.save
+      if @program.save
         flash[:notice] = 'Programs was successfully created.'
-        format.html { redirect_to program_url(@programs) }
-        format.xml  { head :created, :location => program_url(@programs) }
+        format.html { redirect_to program_url(@program) }
+        format.xml  { head :created, :location => program_url(@program) }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @programs.errors.to_xml }
+        format.xml  { render :xml => @program.errors.to_xml }
       end
     end
   end
@@ -54,16 +54,16 @@ class ProgramsController < ApplicationController
   # PUT /programs/1
   # PUT /programs/1.xml
   def update
-    @programs = Program.find(params[:id])
+    @program = Program.find(params[:id])
 
     respond_to do |format|
-      if @programs.update_attributes(params[:program])
+      if @program.update_attributes(params[:program])
         flash[:notice] = 'Programs was successfully updated.'
-        format.html { redirect_to program_url(@programs) }
+        format.html { redirect_to program_url(@program) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @programs.errors.to_xml }
+        format.xml  { render :xml => @program.errors.to_xml }
       end
     end
   end
@@ -71,11 +71,11 @@ class ProgramsController < ApplicationController
   # DELETE /programs/1
   # DELETE /programs/1.xml
   def destroy
-    @programs = Program.find(params[:id])
-    @programs.destroy
+    @program = Program.find(params[:id])
+    @program.destroy
 
     respond_to do |format|
-      format.html { redirect_to program_url }
+      format.html { redirect_to programs_url }
       format.xml  { head :ok }
     end
   end
