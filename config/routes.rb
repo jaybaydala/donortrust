@@ -14,43 +14,18 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :contacts
 
-  #map.resources :tasks do |nested|
-  #  nested.resources :task_histories
-  #end
-
-  map.resources :milestones do |nested|
-    nested.resources :milestone_histories
-    #nested.resources :tasks
-  end
-
-  map.resources :projects do |nested|
-    nested.resources :project_histories
-    nested.resources :milestones
-  end
-
   map.resources :programs
-  # map.resources :programs do |nested|
-  #   nested.resource :projects
-  # end
+  map.resources :projects#, :path_prefix => "/programs/:program_id"
+  map.resources :project_histories, :path_prefix => "/projects/:project_id"
+  map.resources :milestones, :path_prefix => "/projects/:project_id"
+  map.resources :milestone_histories, :path_prefix => "/milestones/:milestone_id"
 
-  map.resources :village_groups do |nested|
-    nested.resources :villages
-  end
-
-  map.resources :regions do |nested|
-    nested.resources :cities
-    nested.resources :village_groups
-  end
-  # map.resources :cities
-  # map.resources :villages
-
-  map.resources :nations do |nested|
-    nested.resources :regions
-  end
-
-  map.resources :continents do |nested|
-    nested.resources :nations
-  end
+  map.resources :continents
+  map.resources :nations, :path_prefix => "/continents/:continent_id"
+  map.resources :regions, :path_prefix => "/nations/:nation_id"
+  map.resources :cities, :path_prefix => "/regions/:region_id"
+  map.resources :village_groups, :path_prefix => "/regions/:region_id"
+  map.resources :villages, :path_prefix => "/village_groups/:village_group_id"
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
