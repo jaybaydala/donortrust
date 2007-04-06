@@ -1,0 +1,9 @@
+test1:
+  id: 1
+  country_name: Canada
+  continent_id: 1
+
+test2:
+  id: 2
+  country_name: United States
+  continent_id: 1

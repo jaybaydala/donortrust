@@ -79,7 +79,7 @@ class RegionsController < ApplicationController
   end
   
  def get_data
-    @nations = Nation.find(:all)
+    @countries = Country.find(:all)
 
   end
  end

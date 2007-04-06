@@ -8,8 +8,8 @@
     <%= f.text_field :region_name %>
   </p>
   <p>
-    <b>Nation</b><br />
-    <%= select (:region, "nation_id", @nations.collect {|p| [ p.nation_name, p.id ] } ) %>
+    <b>Country</b><br />
+    <%= select (:region, "country_id", @countries.collect {|p| [ p.country_name, p.id ] } ) %>
   </p>
   <p>
     <%= submit_tag "Update" %>

@@ -84,14 +84,14 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :continent_name, :string, :null => false
     end # continents
     
-    create_table :nations do |t|
-      t.column :nation_name, :string, :null => false
+    create_table :countries do |t|
+      t.column :country_name, :string, :null => false
       t.column :continent_id, :int, :null => false
     end # nations
 
     create_table :regions do |t|
       t.column :region_name, :string, :null => false
-      t.column :nation_id, :int, :null => false
+      t.column :country_id, :int, :null => false
     end # regions
     
     create_table :cities do |t|
@@ -153,12 +153,12 @@ class DonortrustRel001 < ActiveRecord::Migration
     Fixtures.create_fixtures(directory, "project_categories")
     Fixtures.create_fixtures(directory, "milestone_statuses")
     Fixtures.create_fixtures(directory, "milestone_categories")
-    #Fixtures.create_fixtures(directory, "continents")
-    #Fixtures.create_fixtures(directory, "nations")
-    #Fixtures.create_fixtures(directory, "regions")
-    #Fixtures.create_fixtures(directory, "cities")
-    #Fixtures.create_fixtures(directory, "village_groups")
-    #Fixtures.create_fixtures(directory, "villages")
+    Fixtures.create_fixtures(directory, "continents")
+    Fixtures.create_fixtures(directory, "countries")
+    Fixtures.create_fixtures(directory, "regions")
+    Fixtures.create_fixtures(directory, "cities")
+    Fixtures.create_fixtures(directory, "village_groups")
+    Fixtures.create_fixtures(directory, "villages")
     # Make sure to load all of the referenced lookup data before loading the
     # data that references it.
     Fixtures.create_fixtures(directory, "contacts")
@@ -177,7 +177,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :contacts
     drop_table :programs
     drop_table :continents
-    drop_table :nations
+    drop_table :countries
     drop_table :regions
     drop_table :cities
     drop_table :village_groups

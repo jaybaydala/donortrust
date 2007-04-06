@@ -1,0 +1,9 @@
+test1:
+  id: 1
+  region_name: Alberta
+  country_id: 1
+
+test2:
+  id: 2
+  region_name: Arizona
+  country_id: 2

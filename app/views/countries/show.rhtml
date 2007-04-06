@@ -1,0 +1,16 @@
+
+<p>
+  <b>Country:</b>
+  <%=h @country.country_name %>
+</p>
+
+<p>
+  <b>Continent:</b>
+  <%=h @country.continent.continent_name %>
+</p>
+
+
+
+
+<%= link_to 'Edit', edit_country_path(@country) %> |
+<%= link_to 'Back', countries_path %>

@@ -1,0 +1,11 @@
+<!--[form:Regions]-->
+
+  <p>
+    <b>Name </b><br />
+    <%= text_field :country, :country_name %>
+  </p>
+
+  <p>
+    <b>Continent </b><br />
+    <%= select (:country, "continent_id", @continents.collect {|p| [ p.continent_name, p.id ] } ) %>
+  </p>

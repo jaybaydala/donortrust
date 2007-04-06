@@ -4,12 +4,12 @@
   <tr>
 
     <th>Region </th>
-    <th>Nation</th> 
+    <th>Country</th> 
   </tr>
 <% for region in @regions %>
   <tr>
     <td><%=h region.region_name %></td>
-    <td><%=h region.nation.nation_name %></td>  
+    <td><%=h region.country.country_name %></td>  
     <td><%= link_to 'Show', region_path(region) %></td>
     <td><%= link_to 'Edit', edit_region_path(region) %></td>
     <td><%= link_to 'Destroy', region_path(region), :confirm => 'Are you sure?', :method => :delete %></td>

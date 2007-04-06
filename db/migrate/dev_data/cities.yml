@@ -1,0 +1,9 @@
+test1:
+  id: 1
+  city_name: Calgary
+  region_id: 1
+
+test2:
+  id: 2
+  city_name: Mesa
+  region_id: 2
