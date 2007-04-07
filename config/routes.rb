@@ -1,15 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
-
-  map.resources :village_groups # , :path_prefix => "/regions/:region_id"
-
-  map.resources :cities #, :path_prefix => "/regions/:region_id"
-
-  
-  map.resources :countries #, :path_prefix => "/continents/:continent_id"
-
-  map.resources :regions #, :path_prefix => "/countries/:country_id"
-
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
@@ -20,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :milestone_categories
   map.resources :project_categories
   map.resources :partner_types
+  map.resources :measure_categories
 
   map.resources :partners
 
@@ -32,6 +22,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :milestone_histories, :path_prefix => "/milestones/:milestone_id"
 
   map.resources :continents
+  map.resources :countries #, :path_prefix => "/continents/:continent_id"
+  map.resources :regions #, :path_prefix => "/countries/:country_id"
+  map.resources :cities #, :path_prefix => "/regions/:region_id"
+  map.resources :village_groups # , :path_prefix => "/regions/:region_id"
+  map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
  
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 

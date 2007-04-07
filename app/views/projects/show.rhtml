@@ -49,6 +49,7 @@
   <%=h @project.project_category.description %>
 </p>
 
-<%= link_to 'Show Project Histories', project_histories_path(@project) %> | 
+<%= link_to 'Histories', project_histories_path(@project) %> | 
+<%= link_to 'Milestones', milestones_path(@project) %> |
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>
