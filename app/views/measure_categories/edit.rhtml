@@ -1,0 +1,13 @@
+<h1>Editing measure_category</h1>
+
+<%= error_messages_for :measure_category %>
+
+<% form_for(:measure_category, :url => measure_category_path(@measure_category), :html => { :method => :put }) do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', measure_category_path(@measure_category) %> |
+<%= link_to 'Back', measure_categories_path %>

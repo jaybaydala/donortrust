@@ -1,0 +1,22 @@
+<h1>Listing measure_categories</h1>
+
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Description</th>
+  </tr>
+  
+<% for measure_category in @measure_categories %>
+  <tr>
+    <td><%=h measure_category.category %></td>
+    <td><%=h measure_category.description %></td>
+    <td><%= link_to 'Show', measure_category_path(measure_category) %></td>
+    <td><%= link_to 'Edit', edit_measure_category_path(measure_category) %></td>
+    <td><%= link_to 'Destroy', measure_category_path(measure_category), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New measure_category', new_measure_category_path %>
