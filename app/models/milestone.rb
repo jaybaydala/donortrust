@@ -3,8 +3,7 @@ class Milestone < ActiveRecord::Base
   belongs_to :project
   belongs_to :milestone_category
   belongs_to :milestone_status
-  #belongs_to :measure
-  #has_many :milestone_history
+  belongs_to :measure
 
   #:foreign_key => :project_id
   #:association_foreign_key
@@ -26,9 +25,9 @@ class Milestone < ActiveRecord::Base
     unless milestone.milestone_category( true )
       milestone.errors.add :milestone_category_id, 'does not exist'
     end
-    #unless milestone.measure( true )
-    #  milestone.errors.add :measure, 'does not exist'
-    #end
+    unless milestone.measure( true )
+      milestone.errors.add :measure, 'does not exist'
+    end
   end
 
   # Determine if an object instance is a Milestone

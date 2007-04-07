@@ -1,10 +1,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MilestoneTest < Test::Unit::TestCase
-  #fixtures :measures
-  fixtures :milestone_statuses, :milestone_categories, :projects, :milestones
+  fixtures :measures, :milestone_statuses, :milestone_categories, :projects, :milestones
 
-  def clean_new_milestone( overrides = {})
+  def clean_new_instance( overrides = {})
     # Build (and return) an instance starting from known (expected) valid attribute
     # values, processing overides for any/all specified attributes
     opts = {
@@ -19,26 +18,25 @@ class MilestoneTest < Test::Unit::TestCase
     # :id is a protected attribute.  Must set after creating instance
   end
 
-  def test_clean_milestone
+  def test_clean_instance
     # Should be valid to create a new instance from the 'clean' instance created
     # by the helper function.
-    assert_valid clean_new_milestone
+    assert_valid clean_new_instance
   end
 
   def test_create_with_empty_status
     # Should not be valid to create a new instance with a null status id, or an id that does not exist
-    assert_invalid( clean_new_milestone({ :project_id => nil }), :milestone_status_id, 0, -1, 989898 )
-    #assert_invalid( clean_new_milestone, :milestone_status_id, nil, 0, -1, 989898 )
+    assert_invalid( clean_new_instance, :milestone_status_id, nil, 0, -1, 989898 )
   end
   
   def test_create_with_empty_category
     # Should not be valid to create a new instance with a null category id
-    assert_invalid( clean_new_milestone, :milestone_category_id, nil, 0, -1, 989898 )
+    assert_invalid( clean_new_instance, :milestone_category_id, nil, 0, -1, 989898 )
   end
   
   def test_create_with_empty_description
     # Should not be valid to create a new instance with an empty or blank description
-    assert_invalid( clean_new_milestone, :description, nil, "" )
+    assert_invalid( clean_new_instance, :description, nil, "" )
   end
   
   def test_edit_to_empty_status

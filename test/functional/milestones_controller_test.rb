@@ -5,7 +5,7 @@ require 'milestones_controller'
 class MilestonesController; def rescue_action(e) raise e end; end
 
 class MilestonesControllerTest < Test::Unit::TestCase
-  fixtures :projects, :milestones
+  fixtures :projects, :measures, :milestone_categories, :milestone_statuses, :milestones
 
   def setup
     @controller = MilestonesController.new
@@ -26,33 +26,37 @@ class MilestonesControllerTest < Test::Unit::TestCase
   
   def test_should_create_milestone
     old_count = Milestone.count
-    post :create, :milestone => { :project_id => projects( :project_one ),
-      :milestone_category_id => 1, :milestone_status_id => 1, :description => "enough description to be valid" },
-      :project_id => projects( :project_one )
-    # :measure_id => 1
+    post :create, 
+      :project_id => projects( :project_one ),
+      :milestone => {
+        :project_id => projects( :project_one ),
+        :milestone_category_id => milestone_categories( :testone ),
+        :milestone_status_id => milestone_statuses( :proposed ),
+        :measure_id => measures( :testone ),
+        :description => "enough description to be valid" }
     assert_equal old_count+1, Milestone.count
     
     assert_redirected_to milestone_path( projects( :project_one ), assigns(:milestone))
   end
 
   def test_should_show_milestone
-    get :show, :id => 1, :project_id => projects( :project_one )
+    get :show, :id => milestones( :one ), :project_id => projects( :project_one )
     assert_response :success
   end
 
   def test_should_get_edit
-    get :edit, :id => 1, :project_id => projects( :project_one )
+    get :edit, :id => milestones( :one ), :project_id => projects( :project_one )
     assert_response :success
   end
   
   def test_should_update_milestone
-    put :update, :id => 1, :milestone => { }, :project_id => projects( :project_one )
+    put :update, :id => milestones( :one ), :milestone => { }, :project_id => projects( :project_one )
     assert_redirected_to milestone_path( projects( :project_one ), assigns(:milestone))
   end
   
   def test_should_destroy_milestone
     old_count = Milestone.count
-    delete :destroy, :id => 1, :project_id => projects( :project_one )
+    delete :destroy, :id => milestones( :one ), :project_id => projects( :project_one )
     assert_equal old_count-1, Milestone.count
     
     assert_redirected_to milestones_path( projects( :project_one ))

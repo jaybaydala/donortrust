@@ -5,7 +5,7 @@ testcrashdummy:
   project_id: 1
   milestone_category_id: 1
   milestone_status_id: 1
-#  measure_id: 1
+  measure_id: 1
 #  target_date: :date
   description: Test Crash Dummy milestone
   
