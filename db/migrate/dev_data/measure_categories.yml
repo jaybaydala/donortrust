@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Initial bulk load of Milestone categories for development
+category1:
+  id: 1
+  category: First Measure Category
+  description: First Measure Category description
+
+category2:
+  id: 2
+  category: Second Measure Category
+  description: Second Measure Category description
