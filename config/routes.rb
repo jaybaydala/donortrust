@@ -20,6 +20,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :milestones, :path_prefix => "/projects/:project_id"
   map.resources :milestone_histories, :path_prefix => "/milestones/:milestone_id"
+  map.resources :measures
 
   map.resources :continents
   map.resources :countries #, :path_prefix => "/continents/:continent_id"

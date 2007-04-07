@@ -1,8 +1,18 @@
-<% for column in Measure.content_columns %>
 <p>
-  <b><%= column.human_name %>:</b> <%=h @measure.send(column.name) %>
+  <b>Category:</b>
+  <%=h @measure.measure_category.category %>
 </p>
-<% end %>
 
-<%= link_to 'Edit', :action => 'edit', :id => @measure %> |
-<%= link_to 'Back', :action => 'list' %>
+<p>
+  <b>Quantity:</b>
+  <%=h @measure.quantity %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%=h @measure.measure_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_measure_path(@measure) %> |
+<%= link_to 'Back', measures_path %>

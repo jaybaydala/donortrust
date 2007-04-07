@@ -54,11 +54,6 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :target_date, :date
     end # milestone_histories
 
-    create_table :statuses do |t|
-      t.column :category, :string, :null => false
-      t.column :description, :text
-    end # statuses
-
     create_table :contacts do |t|
       t.column :first_name, :string, :null => false
       t.column :last_name, :string, :null => false
@@ -148,6 +143,14 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :category, :string
       t.column :description, :text
     end
+
+    create_table :measures do |t|
+      t.column :measure_category_id, :int
+      t.column :quantity, :int
+      t.column :measure_date, :date
+      t.column :user_id, :int
+    end
+
     # Load some initial data
     # Rails 'convention' is to put the fixture files in test\fixtures
     # Do we really want to override that?
@@ -166,6 +169,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     Fixtures.create_fixtures(directory, "villages")
     # Make sure to load all of the referenced lookup data before loading the
     # data that references it.
+    Fixtures.create_fixtures(directory, "measures")
     Fixtures.create_fixtures(directory, "contacts")
     Fixtures.create_fixtures(directory, "programs")
     Fixtures.create_fixtures(directory, "projects")
@@ -178,7 +182,6 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :project_histories
     drop_table :milestones
     drop_table :milestone_histories
-    drop_table :statuses
     drop_table :contacts
     drop_table :programs
     drop_table :continents
@@ -195,5 +198,6 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :milestone_categories
     drop_table :milestone_statuses
     drop_table :measure_categories
+    drop_table :measures
   end # self.down
 end #class DonorTrustRel001 

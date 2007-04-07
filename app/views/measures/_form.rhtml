@@ -1,13 +1,16 @@
-<%= error_messages_for 'measure' %>
-
 <!--[form:measure]-->
-<p><label for="measure_measure_type">Measure type</label><br/>
-<%= text_field 'measure', 'measure_type'  %></p>
+  <p>
+    <b>Measure category</b><br />
+    <%= f.select( :measure_category_id, MeasureCategory.find( :all ).collect {|s| [ s.category, s.id ]}) %>
+  </p>
 
-<p><label for="measure_measure_qty">Measure qty</label><br/>
-<%= text_field 'measure', 'measure_qty'  %></p>
+  <p>
+    <b>Quantity</b><br />
+    <%= f.text_field :quantity %>
+  </p>
 
-<p><label for="measure_date">Date</label><br/>
-<%= date_select 'measure', 'date'  %></p>
+  <p>
+    <b>Measure date</b><br />
+    <%= f.date_select :measure_date %>
+  </p>
 <!--[eoform:measure]-->
-

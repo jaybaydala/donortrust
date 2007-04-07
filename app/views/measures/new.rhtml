@@ -1,8 +1,12 @@
 <h1>New measure</h1>
 
-<% form_tag :action => 'create' do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag "Create" %>
+<%= error_messages_for :measure %>
+
+<% form_for(:measure, :url => measures_path) do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
 <% end %>
 
-<%= link_to 'Back', :action => 'list' %>
+<%= link_to 'Back', measures_path %>

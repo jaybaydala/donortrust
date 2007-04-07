@@ -1,51 +1,79 @@
 class MeasuresController < ApplicationController
+  # GET /measures
+  # GET /measures.xml
   def index
-    list
-    render :action => 'list'
+    @measures = Measure.find(:all)
+
+    respond_to do |format|
+      format.html # index.rhtml
+      format.xml  { render :xml => @measures.to_xml }
+    end
   end
 
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
-
-  def list
-    @measure_pages, @measures = paginate :measures, :per_page => 10
-  end
-
+  # GET /measures/1
+  # GET /measures/1.xml
   def show
     @measure = Measure.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.rhtml
+      format.xml  { render :xml => @measure.to_xml }
+    end
   end
 
+  # GET /measures/new
   def new
     @measure = Measure.new
   end
 
-  def create
-    @measure = Measure.new(params[:measure])
-    if @measure.save
-      flash[:notice] = 'Measure was successfully created.'
-      redirect_to :action => 'list'
-    else
-      render :action => 'new'
-    end
-  end
-
+  # GET /measures/1;edit
   def edit
     @measure = Measure.find(params[:id])
   end
 
-  def update
-    @measure = Measure.find(params[:id])
-    if @measure.update_attributes(params[:measure])
-      flash[:notice] = 'Measure was successfully updated.'
-      redirect_to :action => 'show', :id => @measure
-    else
-      render :action => 'edit'
+  # POST /measures
+  # POST /measures.xml
+  def create
+    @measure = Measure.new(params[:measure])
+
+    respond_to do |format|
+      if @measure.save
+        flash[:notice] = 'Measure was successfully created.'
+        format.html { redirect_to measure_url(@measure) }
+        format.xml  { head :created, :location => measure_url(@measure) }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @measure.errors.to_xml }
+      end
     end
   end
 
+  # PUT /measures/1
+  # PUT /measures/1.xml
+  def update
+    @measure = Measure.find(params[:id])
+
+    respond_to do |format|
+      if @measure.update_attributes(params[:measure])
+        flash[:notice] = 'Measure was successfully updated.'
+        format.html { redirect_to measure_url(@measure) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @measure.errors.to_xml }
+      end
+    end
+  end
+
+  # DELETE /measures/1
+  # DELETE /measures/1.xml
   def destroy
-    Measure.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    @measure = Measure.find(params[:id])
+    @measure.destroy
+
+    respond_to do |format|
+      format.html { redirect_to measures_url }
+      format.xml  { head :ok }
+    end
   end
 end
