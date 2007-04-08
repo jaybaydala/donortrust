@@ -3,7 +3,7 @@
 <%= error_messages_for :measure_category %>
 
 <% form_for(:measure_category, :url => measure_categories_path) do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
+  <%= render :partial => 'shared/category_form', :locals => { :f => f } %>
   <p>
     <%= submit_tag "Create" %>
   </p>

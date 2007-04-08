@@ -1,13 +1,4 @@
-<p>
-  <b>Category:</b>
-  <%=h @measure_category.category %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%=h @measure_category.description %>
-</p>
-
+<%= render :partial => 'shared/category_display', :locals => { :f => @measure_category } %>
 
 <%= link_to 'Edit', edit_measure_category_path(@measure_category) %> |
 <%= link_to 'Back', measure_categories_path %>
