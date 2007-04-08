@@ -1,0 +1,4 @@
+<%= render :partial => 'shared/status_display', :locals => { :f => @task_status } %>
+
+<%= link_to 'Edit', edit_task_status_path(@task_status) %> |
+<%= link_to 'Back', task_statuses_path %>

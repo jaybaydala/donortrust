@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+proposed:
+  id: 1
+  status: Proposed
+  description: Tack as been proposed for milestone
+inprogress:
+  id: 2
+  status: InProgress
+  description: Taskhas been started
