@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :partner_statuses
   map.resources :milestone_statuses
   map.resources :project_statuses
-  map.resources :statuses # to be deleted once milestones updated
+  map.resources :task_categories
   map.resources :milestone_categories
   map.resources :project_categories
   map.resources :partner_types

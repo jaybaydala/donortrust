@@ -139,6 +139,11 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :description, :text
     end # milestone_statuses
     
+    create_table :task_categories do |t|
+      t.column :category, :string
+      t.column :description, :text
+    end
+
     create_table :measure_categories do |t|
       t.column :category, :string
       t.column :description, :text
@@ -160,6 +165,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     Fixtures.create_fixtures(directory, "project_categories")
     Fixtures.create_fixtures(directory, "milestone_statuses")
     Fixtures.create_fixtures(directory, "milestone_categories")
+    Fixtures.create_fixtures(directory, "task_categories")
     Fixtures.create_fixtures(directory, "measure_categories")
     Fixtures.create_fixtures(directory, "continents")
     Fixtures.create_fixtures(directory, "countries")
@@ -197,6 +203,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :project_categories
     drop_table :milestone_categories
     drop_table :milestone_statuses
+    drop_table :task_categories
     drop_table :measure_categories
     drop_table :measures
   end # self.down
