@@ -14,21 +14,21 @@ class TasksControllerTest < Test::Unit::TestCase
   end
 
   def test_should_get_index
-    get :index
+    get :index, :milestone_id => milestones( :one )
     assert_response :success
     assert assigns(:tasks)
   end
 
   def test_should_get_new
-    get :new
+    get :new, :milestone_id => milestones( :one )
     assert_response :success
   end
   
   def test_should_create_task
     old_count = Task.count
     # does this need (2nd) milestone_id if model copies automatically? (when nested resource)
-    #  :milestone_id => milestones( :one ),
-    post :create, 
+    post :create,
+      :milestone_id => milestones( :one ),
       :task => {
         :milestone_id => milestones( :one ),
         :title => "new title",
@@ -38,30 +38,30 @@ class TasksControllerTest < Test::Unit::TestCase
         # date fields are optional
     assert_equal old_count+1, Task.count
     
-    assert_redirected_to task_path(assigns(:task))
+    assert_redirected_to task_path( milestones( :one ), assigns( :task ))
   end
 
   def test_should_show_task
-    get :show, :id => tasks( :taskone )
+    get :show, :id => tasks( :taskone ), :milestone_id => milestones( :one )
     assert_response :success
   end
 
   def test_should_get_edit
-    get :edit, :id => tasks( :taskone )
+    get :edit, :id => tasks( :taskone ), :milestone_id => milestones( :one )
     assert_response :success
   end
   
   def test_should_update_task
     #fail if checking for no change
-    put :update, :id => tasks( :taskone ), :task => { }
-    assert_redirected_to task_path(assigns(:task))
+    put :update, :id => tasks( :taskone ), :task => { }, :milestone_id => milestones( :one )
+    assert_redirected_to task_path( milestones( :one ), assigns( :task ))
   end
   
   def test_should_destroy_task
     old_count = Task.count
-    delete :destroy, :id => tasks( :taskone )
+    delete :destroy, :id => tasks( :taskone ), :milestone_id => milestones( :one )
     assert_equal old_count-1, Task.count
     
-    assert_redirected_to tasks_path
+    assert_redirected_to tasks_path( milestones( :one ))
   end
 end

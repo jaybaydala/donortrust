@@ -2,12 +2,12 @@
 
 <%= error_messages_for :task %>
 
-<% form_for(:task, :url => task_path(@task), :html => { :method => :put }) do |f| %>
+<% form_for( :task, :url => task_path( @milestone, @task ), :html => { :method => :put }) do |f| %>
   <%= render :partial => 'task_form', :locals => { :f => f } %>
   <p>
     <%= submit_tag "Update" %>
   </p>
 <% end %>
 
-<%= link_to 'Show', task_path(@task) %> |
-<%= link_to 'Back', tasks_path %>
+<%= link_to 'Show', task_path( @milestone, @task ) %> |
+<%= link_to 'Back', tasks_path( @milestone ) %>

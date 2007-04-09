@@ -18,13 +18,14 @@
     <td><%=h task.start_date %></td>
     <td><%=h task.end_date %></td>
     <td><%=h task.etc_date %></td>
-    <td><%= link_to 'Show', task_path(task) %></td>
-    <td><%= link_to 'Edit', edit_task_path(task) %></td>
-    <td><%= link_to 'Destroy', task_path(task), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', task_path( @milestone, task ) %></td>
+    <td><%= link_to 'Edit', edit_task_path( @milestone, task ) %></td>
+    <td><%= link_to 'Destroy', task_path( @milestone, task ), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New task', new_task_path %>
+<%= link_to 'New task', new_task_path %> |
+<%= link_to 'Milestone', milestone_path( @milestone.project_id, @milestone.id ) %>
