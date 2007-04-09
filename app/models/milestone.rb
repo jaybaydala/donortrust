@@ -1,5 +1,6 @@
 class Milestone < ActiveRecord::Base
   has_many :milestone_histories
+  has_many :tasks
   belongs_to :project
   belongs_to :milestone_category
   belongs_to :milestone_status

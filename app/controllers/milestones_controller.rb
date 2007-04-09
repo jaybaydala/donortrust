@@ -51,8 +51,6 @@ class MilestonesController < ApplicationController
   # PUT /project/{:project_id}/milestones/:id
   # PUT /project/{:project_id}/milestones/{:id}.xml
   def update
-    @milestone = Milestone.find( params[ :id ])
-
     respond_to do |format|
       if @milestone.update_attributes( params[ :milestone ])
         flash[ :notice ] = 'Milestone was successfully updated.'
