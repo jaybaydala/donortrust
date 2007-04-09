@@ -1,0 +1,41 @@
+<!--[form:task]-->
+  <p>
+    <b>Milestone</b><br />
+    <%= f.text_field :milestone_id %>
+  </p>
+
+  <p>
+    <b>Title</b><br />
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <b>Task category</b><br />
+    <%= f.select( :task_category_id, TaskCategory.find( :all ).collect {|s| [ s.category, s.id ]}) %>
+  </p>
+
+  <p>
+    <b>Task status</b><br />
+    <%= f.select( :task_status_id, TaskStatus.find( :all ).collect {|s| [ s.status, s.id ]}) %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= f.text_area :description %>
+  </p>
+
+  <p>
+    <b>Start date</b><br />
+    <%= f.date_select :start_date %>
+  </p>
+
+  <p>
+    <b>End date</b><br />
+    <%= f.date_select :end_date %>
+  </p>
+
+  <p>
+    <b>Etc date</b><br />
+    <%= f.date_select :etc_date %>
+  </p>
+<!--[eoform:task]-->

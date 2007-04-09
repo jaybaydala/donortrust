@@ -1,0 +1,41 @@
+<!--[task:task_data]-->
+<p>
+  <b>Milestone:</b>
+  <%=h @task.milestone_id %><!-- .milestone.project.name .milestone.title -->
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @task.title %>
+</p>
+
+<p>
+  <b>Task category:</b>
+  <%=h @task.task_category.category %>
+</p>
+
+<p>
+  <b>Task status:</b>
+  <%=h @task.task_status.status %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @task.description %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%=h @task.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @task.end_date %>
+</p>
+
+<p>
+  <b>Etc date:</b>
+  <%=h @task.etc_date %>
+</p>
+<!--[eoftask:task_data]-->

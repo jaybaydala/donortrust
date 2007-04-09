@@ -1,0 +1,13 @@
+<h1>Editing task</h1>
+
+<%= error_messages_for :task %>
+
+<% form_for(:task, :url => task_path(@task), :html => { :method => :put }) do |f| %>
+  <%= render :partial => 'task_form', :locals => { :f => f } %>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', task_path(@task) %> |
+<%= link_to 'Back', tasks_path %>
