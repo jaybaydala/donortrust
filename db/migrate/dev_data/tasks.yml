@@ -1,5 +1,5 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-# Initial bulk load of sample Milestones for development
+# Initial bulk load of sample Tasks for development
 testcrashdummy:
   id: 1
   milestone_id: 1
