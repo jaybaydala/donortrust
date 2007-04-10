@@ -19,6 +19,7 @@
     <td><%=h task.end_date %></td>
     <td><%=h task.etc_date %></td>
     <td><%= link_to 'Show', task_path( @milestone, task ) %></td>
+    <td><%= link_to 'History', task_histories_path( task ) %></td>
     <td><%= link_to 'Edit', edit_task_path( @milestone, task ) %></td>
     <td><%= link_to 'Destroy', task_path( @milestone, task ), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

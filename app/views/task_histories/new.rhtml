@@ -2,7 +2,7 @@
 
 <%= error_messages_for :task_history %>
 
-<% form_for(:task_history, :url => task_histories_path) do |f| %>
+<% form_for(:task_history, :url => task_histories_path( @task )) do |f| %>
   <p>
     <b>Task</b><br />
     <%= f.text_field :task_id %>
@@ -58,4 +58,4 @@
   </p>
 <% end %>
 
-<%= link_to 'Back', task_histories_path %>
+<%= link_to 'Back', task_histories_path( @task ) %>

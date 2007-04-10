@@ -49,5 +49,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_task_history_path(@task_history) %> |
-<%= link_to 'Back', task_histories_path %>
+<%= link_to 'Edit', edit_task_history_path( @task, @task_history ) %> |
+<%= link_to 'Back', task_histories_path( @task ) %>

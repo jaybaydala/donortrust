@@ -26,13 +26,14 @@
     <td><%=h task_history.start_date %></td>
     <td><%=h task_history.end_date %></td>
     <td><%=h task_history.etc_date %></td>
-    <td><%= link_to 'Show', task_history_path(task_history) %></td>
-    <td><%= link_to 'Edit', edit_task_history_path(task_history) %></td>
-    <td><%= link_to 'Destroy', task_history_path(task_history), :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', task_history_path( task_history.task_id, task_history ) %></td>
+    <td><%= link_to 'Edit', edit_task_history_path( task_history.task_id, task_history ) %></td>
+    <td><%= link_to 'Destroy', task_history_path( task_history.task_id, task_history ), :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New task_history', new_task_history_path %>
+<%= link_to 'New task_history', new_task_history_path %> |
+<%= link_to 'Task', task_path( @task.milestone_id, @task ) %> |
