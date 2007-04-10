@@ -5,7 +5,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :projects
+  fixtures :project_categories, :project_statuses, :projects
 
   def setup
     @controller = ProjectsController.new
@@ -26,7 +26,7 @@ class ProjectsControllerTest < Test::Unit::TestCase
   
   def test_should_create_project
     old_count = Project.count
-    post :create, :project => { :name => "new project" }
+    post :create, :project => { :name => "new project", :project_status_id => 1 }
     assert_equal old_count+1, Project.count
     
     assert_redirected_to project_path(assigns(:project))

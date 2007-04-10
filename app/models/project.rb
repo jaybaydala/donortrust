@@ -2,6 +2,7 @@ class Project < ActiveRecord::Base
 
   has_many :project_histories
   has_many :milestones
+  belongs_to :program
   belongs_to :project_status
   belongs_to :project_category
   

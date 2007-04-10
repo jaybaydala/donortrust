@@ -3,7 +3,7 @@
 <%= error_messages_for :task %>
 
 <% form_for( :task, :url => task_path( @milestone, @task ), :html => { :method => :put }) do |f| %>
-  <%= render :partial => 'task_form', :locals => { :f => f } %>
+  <%= render :partial => 'task_form', :locals => { :f => f, :milestone => @milestone } %>
   <p>
     <%= submit_tag "Update" %>
   </p>

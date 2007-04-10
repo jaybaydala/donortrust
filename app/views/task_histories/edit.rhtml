@@ -4,54 +4,11 @@
 
 <% form_for(:task_history, :url => task_history_path( @task, @task_history ), :html => { :method => :put }) do |f| %>
   <p>
-    <b>Task</b><br />
-    <%= f.text_field :task_id %>
-  </p>
-
-  <p>
     <b>Created at</b><br />
-    <%= f.text_field :created_at %>
+    <%= @task_history.created_at %>
   </p>
 
-  <p>
-    <b>Milestone</b><br />
-    <%= f.text_field :milestone_id %>
-  </p>
-
-  <p>
-    <b>Title</b><br />
-    <%= f.text_field :title %>
-  </p>
-
-  <p>
-    <b>Task category</b><br />
-    <%= f.text_field :task_category_id %>
-  </p>
-
-  <p>
-    <b>Task status</b><br />
-    <%= f.text_field :task_status_id %>
-  </p>
-
-  <p>
-    <b>Description</b><br />
-    <%= f.text_field :description %>
-  </p>
-
-  <p>
-    <b>Start date</b><br />
-    <%= f.text_field :start_date %>
-  </p>
-
-  <p>
-    <b>End date</b><br />
-    <%= f.text_field :end_date %>
-  </p>
-
-  <p>
-    <b>Etc date</b><br />
-    <%= f.date_select :etc_date %>
-  </p>
+  <%= render :partial => 'tasks/task_form', :locals => { :f => f, :milestone => Milestone.find( @task.milestone_id )} %>
 
   <p>
     <%= submit_tag "Update" %>

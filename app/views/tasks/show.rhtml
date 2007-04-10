@@ -1,4 +1,4 @@
-<%= render :partial => 'task_display', :locals => { :f => @task } %>
+<%= render :partial => 'task_display', :locals => { :instance => @task } %>
 
 <%= link_to 'Edit', edit_task_path( @milestone, @task ) %> |
 <%= link_to 'History', task_histories_path( @task ) %> |

@@ -5,7 +5,7 @@ require 'tasks_controller'
 class TasksController; def rescue_action(e) raise e end; end
 
 class TasksControllerTest < Test::Unit::TestCase
-  fixtures :milestones, :task_statuses, :task_categories, :tasks
+  fixtures :programs, :projects, :milestones, :task_statuses, :task_categories, :tasks
 
   def setup
     @controller = TasksController.new

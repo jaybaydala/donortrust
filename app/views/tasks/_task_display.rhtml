@@ -1,41 +1,44 @@
 <!--[task:task_data]-->
 <p>
   <b>Milestone:</b>
-  <%=h f.milestone_id %><!-- f.milestone.project.name f.milestone.title -->
+  <%=h instance.milestone.project.program.program_name %> :
+  <%=h instance.milestone.project.name %> :
+  *title of*<%=h instance.milestone_id %>
+  <!--%=h instance.milestone.title %-->
 </p>
 
 <p>
   <b>Title:</b>
-  <%=h f.title %>
+  <%=h instance.title %>
 </p>
 
 <p>
   <b>Task category:</b>
-  <%=h f.task_category.category %>
+  <%=h instance.task_category.category %>
 </p>
 
 <p>
   <b>Task status:</b>
-  <%=h f.task_status.status %>
+  <%=h instance.task_status.status %>
 </p>
 
 <p>
   <b>Description:</b>
-  <%=h f.description %>
+  <%=h instance.description %>
 </p>
 
 <p>
   <b>Start date:</b>
-  <%=h f.start_date %>
+  <%=h instance.start_date %>
 </p>
 
 <p>
   <b>End date:</b>
-  <%=h f.end_date %>
+  <%=h instance.end_date %>
 </p>
 
 <p>
   <b>Etc date:</b>
-  <%=h f.etc_date %>
+  <%=h instance.etc_date %>
 </p>
 <!--[eoftask:task_data]-->

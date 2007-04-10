@@ -1,53 +1,9 @@
-<p>
-  <b>Task:</b>
-  <%=h @task_history.task_id %>
-</p>
+  <p>
+    <b>Created at:</b>
+    <%= @task_history.created_at %>
+  </p>
 
-<p>
-  <b>Created at:</b>
-  <%=h @task_history.created_at %>
-</p>
-
-<p>
-  <b>Milestone:</b>
-  <%=h @task_history.milestone_id %>
-</p>
-
-<p>
-  <b>Title:</b>
-  <%=h @task_history.title %>
-</p>
-
-<p>
-  <b>Task category:</b>
-  <%=h @task_history.task_category_id %>
-</p>
-
-<p>
-  <b>Task status:</b>
-  <%=h @task_history.task_status_id %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%=h @task_history.description %>
-</p>
-
-<p>
-  <b>Start date:</b>
-  <%=h @task_history.start_date %>
-</p>
-
-<p>
-  <b>End date:</b>
-  <%=h @task_history.end_date %>
-</p>
-
-<p>
-  <b>Etc date:</b>
-  <%=h @task_history.etc_date %>
-</p>
-
+<%= render :partial => 'tasks/task_display', :locals => { :instance => @task_history } %>
 
 <%= link_to 'Edit', edit_task_history_path( @task, @task_history ) %> |
 <%= link_to 'Back', task_histories_path( @task ) %>
