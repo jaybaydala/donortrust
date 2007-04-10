@@ -65,6 +65,19 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :etc_date, :date
     end
 
+    create_table :task_histories do |t|
+      t.column :task_id, :int, :null => false
+      t.column :created_at, :datetime, :null => false
+      t.column :milestone_id, :int, :null => false
+      t.column :title, :string, :null => false
+      t.column :task_category_id, :int, :null => false
+      t.column :task_status_id, :int, :null => false
+      t.column :description, :text
+      t.column :start_date, :date
+      t.column :end_date, :date
+      t.column :etc_date, :date
+    end
+
     create_table :contacts do |t|
       t.column :first_name, :string, :null => false
       t.column :last_name, :string, :null => false
@@ -198,6 +211,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     Fixtures.create_fixtures(directory, "projects")
     Fixtures.create_fixtures(directory, "milestones")
     Fixtures.create_fixtures(directory, "tasks")
+    Fixtures.create_fixtures(directory, "task_histories")
   end # self.up
 
   def self.down
@@ -206,6 +220,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :milestones
     drop_table :milestone_histories
     drop_table :tasks
+    drop_table :task_histories
     drop_table :contacts
     drop_table :programs
     drop_table :continents
