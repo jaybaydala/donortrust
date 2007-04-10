@@ -1,0 +1,38 @@
+<h1>Listing task_histories</h1>
+
+<table>
+  <tr>
+    <th>Task</th>
+    <th>Created at</th>
+    <th>Milestone</th>
+    <th>Title</th>
+    <th>Task category</th>
+    <th>Task status</th>
+    <th>Description</th>
+    <th>Start date</th>
+    <th>End date</th>
+    <th>Etc date</th>
+  </tr>
+  
+<% for task_history in @task_histories %>
+  <tr>
+    <td><%=h task_history.task_id %></td>
+    <td><%=h task_history.created_at %></td>
+    <td><%=h task_history.milestone_id %></td>
+    <td><%=h task_history.title %></td>
+    <td><%=h task_history.task_category_id %></td>
+    <td><%=h task_history.task_status_id %></td>
+    <td><%=h task_history.description %></td>
+    <td><%=h task_history.start_date %></td>
+    <td><%=h task_history.end_date %></td>
+    <td><%=h task_history.etc_date %></td>
+    <td><%= link_to 'Show', task_history_path(task_history) %></td>
+    <td><%= link_to 'Edit', edit_task_history_path(task_history) %></td>
+    <td><%= link_to 'Destroy', task_history_path(task_history), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New task_history', new_task_history_path %>

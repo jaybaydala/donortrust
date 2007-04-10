@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+histone:
+  id: 1
+  task_id: 1
+  created_at: "2007-04-06 14:23"
+  milestone_id: 1
+  title: task one title
+  task_category_id: 1
+  task_status_id: 1
+  description: Test one task description
+  start_date: 2007-04-08
+  end_date: 2007-04-08
+  etc_date: 2007-04-08
+histtwo:
+  id: 2
+  task_id: 2
+  created_at: "2007-04-06 17:38"
+  milestone_id: 1
+  title: task two title
+  task_category_id: 1
+  task_status_id: 2
+  description: Test two task description
+  start_date: 
+  end_date: 
+  etc_date: 

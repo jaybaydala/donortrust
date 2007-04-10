@@ -1,0 +1,14 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Initial bulk load of sample Task History for development
+testcrashdummy:
+  id: 1
+  task_id: 1
+  created_at: "2007-04-06 14:23"
+  milestone_id: 1
+  title: Get Test Crash Supplies
+  task_category_id: 1
+  task_status_id: 1
+  description: Get the supplies needed for the Test Crash Dummy milestone
+  #start_date: :date
+  #end_date: :date
+  #etc_date: :date
