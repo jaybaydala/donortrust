@@ -12,7 +12,7 @@ class VillageGroupTest < Test::Unit::TestCase
   
   def test_should_not_add_village_group_without_region
   
-    vilageGroup = VillageGroup.new
+    villageGroup = VillageGroup.new
     villageGroup.region_id = 0
     assert !villageGroup.save
   
@@ -25,7 +25,7 @@ class VillageGroupTest < Test::Unit::TestCase
   end
   
   def test_unique_name
-    villageGroup = VillageGroup.new( :village_group_name => village_groups(:village_groups_one).village_group_name )
+    villageGroup = VillageGroup.new( :village_group_name => village_groups(:one).village_group_name )
     assert villageGroup.valid?
   end
 end

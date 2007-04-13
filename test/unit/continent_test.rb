@@ -10,7 +10,7 @@ class ContinentTest < Test::Unit::TestCase
   end
   
   def test_unique_name
-    continent = Continent.new( :continent_name => continents(:continent_one).continent_name )
+    continent = Continent.new( :continent_name => continents(:one).continent_name )
     assert !continent.valid?
   end
   

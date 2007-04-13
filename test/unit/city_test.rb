@@ -25,7 +25,7 @@ class CityTest < Test::Unit::TestCase
   end
   
   def test_unique_name
-    city = City.new( :city_name => nations(:city_one).city_name )
+    city = City.new( :city_name => cities(:one).city_name )
     assert city.valid?
   end
 end

@@ -1,19 +1,19 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class RegionTest < Test::Unit::TestCase
-  fixtures :nations
+  fixtures :countries
   fixtures :regions
 
   def test_invalid_with_empty_nation_id
     region = Region.new
     assert !region.valid?
-    assert region.errors.invalid?(:nation_id)
+    assert region.errors.invalid?(:country_id)
   end
   
-  def test_should_not_add_region_without_nation
+  def test_should_not_add_region_without_country
   
-    region = region.new
-    region.nation_id = 0
+    region = Region.new
+    region.country_id = 0
     assert !region.save
   
   end
@@ -25,7 +25,7 @@ class RegionTest < Test::Unit::TestCase
   end
   
   def test_unique_name
-    region = Region.new( :region_name => nations(:region_one).region_name )
+    region = Region.new( :region_name => regions(:one).region_name )
     assert region.valid?
   end
 end

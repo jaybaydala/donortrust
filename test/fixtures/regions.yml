@@ -2,13 +2,13 @@
 one:
   id: 1
   region_name: Alberta
-  nation_id: 1
+  country_id: 1
 two:
   id: 2
   region_name: Britsh Columbia
-  nation_id: 1
+  country_id: 1
 three:
   id: 3
   region_name: Nyanza
-  nation_id: 2
+  country_id: 1
   

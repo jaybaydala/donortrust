@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class VillageTest < Test::Unit::TestCase
+  fixtures :regions
   fixtures :village_groups
   fixtures :villages
 
@@ -25,7 +26,7 @@ class VillageTest < Test::Unit::TestCase
   end
   
   def test_unique_name
-    village = Village.new( :village_name => Villages(:village_one).village_name )
+    village = Village.new( :village_name => villages(:one).village_name )
     assert village.valid?
   end
 end
