@@ -80,6 +80,6 @@ class RegionsController < ApplicationController
   
  def get_data
     @countries = Country.find(:all)
-
+    @region_types = RegionType.find(:all)
   end
  end

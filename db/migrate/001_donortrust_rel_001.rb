@@ -111,8 +111,13 @@ class DonortrustRel001 < ActiveRecord::Migration
     create_table :regions do |t|
       t.column :region_name, :string, :null => false
       t.column :country_id, :int, :null => false
+      t.column :region_type_id, :int, :null =>false
     end # regions
     
+    create_table :region_types do |t|
+      t.column :region_type_name, :string, :null => false
+    end # region_types
+
     create_table :cities do |t|
       t.column :city_name, :string, :null => false
       t.column :region_id, :int, :null => false
@@ -199,6 +204,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     Fixtures.create_fixtures(directory, "measure_categories")
     Fixtures.create_fixtures(directory, "continents")
     Fixtures.create_fixtures(directory, "countries")
+    Fixtures.create_fixtures(directory, "region_types")
     Fixtures.create_fixtures(directory, "regions")
     Fixtures.create_fixtures(directory, "cities")
     Fixtures.create_fixtures(directory, "village_groups")

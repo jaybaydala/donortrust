@@ -12,6 +12,10 @@
     <b>Country</b><br />
     <%= select (:region, "country_id", @countries.collect {|p| [ p.country_name, p.id ] } ) %>
   </p>
+  <p>
+    <b>Region Type</b><br />
+    <%= select (:region, "region_type_id", @region_types.collect {|p| [ p.region_type_name, p.id ] } ) %>
+  </p>
   
   <p>
     <%= submit_tag "Create" %>

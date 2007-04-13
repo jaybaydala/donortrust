@@ -1,0 +1,8 @@
+test1:
+  id: 1
+  region_type_name: Province
+  
+test2:
+  id: 2
+  region_type_name: State
+  
