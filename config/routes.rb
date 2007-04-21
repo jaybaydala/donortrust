@@ -14,7 +14,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :partner_types
   map.resources :measure_categories
 
-  map.resources :partners
+  map.resources :partners do |partner|
+    partner.resources :partner_histories    
+  end
+
+  #map.resources :partner_histories
 
   map.resources :contacts
 

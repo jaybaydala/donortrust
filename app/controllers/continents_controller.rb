@@ -3,6 +3,8 @@ class ContinentsController < ApplicationController
   # GET /continents.xml
   def index
     @continents = Continent.find(:all)
+    
+    logger.info('index')
 
     respond_to do |format|
       format.html # index.rhtml
@@ -24,6 +26,7 @@ class ContinentsController < ApplicationController
   # GET /continents/new
   def new
     @continent = Continent.new
+    flash[:notice] = 'we got here'
   end
 
   # GET /continents/1;edit

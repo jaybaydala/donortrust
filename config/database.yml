@@ -1,9 +1,9 @@
 development:
   adapter: mysql
   database: donortrust_development
-  username: root
-  password:
-  host: localhost
+  username: donortrust
+  password: donortrust
+  host: nemesis.int.furtner.ca
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.

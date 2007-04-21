@@ -1,3 +1,5 @@
+
+
 <p>
   <b>Name:</b>
   <%=h @partner.name %>
@@ -10,12 +12,12 @@
 
 <p>
   <b>Partner type:</b>
-  <%=h @partner.PartnerType.name %>
+  <%=h @partner.partner_type.name %>
 </p>
 
 <p>
   <b>Partner status:</b>
-  <%=h @partner.PartnerStatus.statusType %>
+  <%=h @partner.partner_status.statusType %>
 </p>
 
 <%= link_to 'Edit', edit_partner_path(@partner) %> |

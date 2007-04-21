@@ -106,13 +106,13 @@ class DonortrustRel001 < ActiveRecord::Migration
     create_table :countries do |t|
       t.column :country_name, :string, :null => false
       t.column :continent_id, :int, :null => false
-    end # nations
+    end #nations
 
     create_table :regions do |t|
       t.column :region_name, :string, :null => false
       t.column :country_id, :int, :null => false
       t.column :region_type_id, :int, :null =>false
-    end # regions
+    end #regions
     
     create_table :region_types do |t|
       t.column :region_type_name, :string, :null => false
@@ -126,28 +126,37 @@ class DonortrustRel001 < ActiveRecord::Migration
     create_table :village_groups do |t|
       t.column :village_group_name, :string, :null => false
       t.column :region_id, :int, :null => false
-    end # village_groups
+    end #village_groups
     
     create_table :villages do |t|
       t.column :village_name, :string, :null => false
       t.column :village_group_id, :int, :null => false
-    end # villages
+    end #villages
 
     create_table :partner_types do |t|
       t.column :name, :string
-    end # partner_types
+    end #partner_types
 
     create_table :partner_statuses do |t|
       t.column :statusType, :string
       t.column :description, :string
-    end # partner_statuses
+    end #partner_statuses
 
     create_table :partners do |t|
       t.column :name, :string
       t.column :description, :string
       t.column :partner_type_id, :integer
       t.column :partner_status_id, :integer
-    end # partners
+    end #partners
+
+    create_table :partner_histories do |t|
+      t.column :partner_id, :integer
+      t.column :name, :string
+      t.column :description, :text
+      t.column :partner_type_id, :integer
+      t.column :partner_status_id, :integer
+    end #partner_histories
+
     
     create_table :project_statuses do |t|
       t.column :status_type, :string, :null => false
@@ -157,7 +166,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     create_table :project_categories do |t|
       t.column :description, :text
     end # project_categories    
-
+    
     create_table :milestone_categories do |t|
       t.column :category, :string
       t.column :description, :text
@@ -166,7 +175,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     create_table :milestone_statuses do |t|
       t.column :status, :string, :null => false
       t.column :description, :text
-    end # milestone_statuses
+    end #milestone_statuses
     
     create_table :task_categories do |t|
       t.column :category, :string
@@ -218,6 +227,8 @@ class DonortrustRel001 < ActiveRecord::Migration
     Fixtures.create_fixtures(directory, "milestones")
     Fixtures.create_fixtures(directory, "tasks")
     Fixtures.create_fixtures(directory, "task_histories")
+    Fixtures.create_fixtures(directory, "partner_types")
+    Fixtures.create_fixtures(directory, "partner_statuses")
   end # self.up
 
   def self.down
@@ -234,10 +245,11 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :regions
     drop_table :cities
     drop_table :village_groups
-    drop_table :villages    
+    drop_table :villages
+    drop_table :partner_histories    
+    drop_table :partners
     drop_table :partner_types
     drop_table :partner_statuses
-    drop_table :partners
     drop_table :project_statuses
     drop_table :project_categories
     drop_table :milestone_categories

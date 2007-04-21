@@ -1,0 +1,24 @@
+<p>
+    <b>Partner</b><br />
+    <%= @partner_history.partner_id %>
+  </p>
+
+  <p>
+    <b>Name</b><br />
+    <%= text_field :partner_history, :name %>
+  </p>
+
+  <p>
+    <b>Description</b><br />
+    <%= text_field :partner_history, :description %>
+  </p>
+
+  <p>
+    <label for="partner_history_partner_type_id"><b>Partner type</b></label><br />
+    <%= select (:partner_history, "partner_type_id", @partnerTypes.collect { |p| [ p.name, p.id ] } ) %>
+  </p>
+
+  <p>
+    <b>Partner status</b><br />
+    <%= select (:partner_history, "partner_status_id", @partnerStatuses.collect {|p| [ p.statusType, p.id ] } )%>
+  </p>
