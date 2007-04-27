@@ -4,6 +4,8 @@ require 'task_histories_controller'
 # Re-raise errors caught by the controller.
 class TaskHistoriesController; def rescue_action(e) raise e end; end
 
+#hpd This needs major rework.  TaskHistory instances should not be [able to be] created,
+#hpd edited, or deleted from the web form.  Only list and show should work / exist.
 class TaskHistoriesControllerTest < Test::Unit::TestCase
   fixtures :milestones, :task_statuses, :task_categories, :tasks, :task_histories
 
