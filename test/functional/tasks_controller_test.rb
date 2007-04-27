@@ -56,7 +56,8 @@ class TasksControllerTest < Test::Unit::TestCase
     put :update, :id => tasks( :taskone ), :task => { }, :milestone_id => milestones( :one )
     assert_redirected_to task_path( milestones( :one ), assigns( :task ))
   end
-  
+
+  # hpd what should destroy do when [always should] have history records?
   def test_should_destroy_task
     old_count = Task.count
     delete :destroy, :id => tasks( :taskone ), :milestone_id => milestones( :one )
