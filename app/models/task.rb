@@ -23,10 +23,35 @@ class Task < ActiveRecord::Base
     end
   end
 
-  # Determine if an object instance is a Milestone
-  def self.is_a_task?( object )
-    #return object.class == self.class
-    #return object.class.to_s == self.class.to_s
-    return object.class.to_s == "Task"
-  end
+  attr_protected :milestone_id
+
+  # save needs to create/save TaskHistory instance as well for audit trail
+  def save
+    save_success = false
+    if( self.valid? )
+      self.task_histories << TaskHistory.new( self )
+      save_success = super
+    end
+    save_success
+  end #save
+  def save!
+    save || raise( RecordNotSaved )
+  end #save!
+
+  def update_attributes( attributes )
+    #compare self and attributes before save
+    instance_modified = false
+    attributes.each_pair { |attr, value| 
+      if not( self.attributes[ attr ].eql? value )
+        instance_modified = true 
+      end
+    }
+    self.attributes = attributes
+    if( instance_modified )
+      save
+    else #not instance_modified
+      errors.add_to_base( "No change; #{self.class.to_s} instance update rejected" )
+      self
+    end #else not instance_modified 
+  end #update_attributes
 end
