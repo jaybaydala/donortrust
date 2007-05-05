@@ -1,9 +1,11 @@
-<!--[form:continent]-->
 
-  <p>
-    <b>Name</b><br />
-    <%= text_field :continent, :continent_name %>
-  </p>
+<%= form_remote_tag :url => {:action => 'create'}, 
+                    :html => {:id => 'continent_form'} %>
 
+<label for="continent_name">Continent Name</label>  
+  <%= text_field 'continent', 'continent_name' %>
   
-<!--[eoform:continent]-->
+
+    <%= submit_tag "Create" %>
+
+<%= end_form_tag %>
