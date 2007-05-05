@@ -1,0 +1,11 @@
+
+
+<div id="<%= continent.id %>"> 
+  
+  <%= link_to_remote  "Delete", 
+                    :url => continent_path(continent),
+                    :confirm => "Do you want to delete '#{continent.continent_name}'?", :method => :delete %>
+
+  
+  <%= continent.continent_name %> 
+</div>
