@@ -1,0 +1,10 @@
+
+page.insert_html :bottom, 'continents', :partial => 'continent',
+                  :locals => {:continent => @continent}
+                  # NOTE Sending :locals is technically not needed.
+                  
+page['continent_form'].reset
+
+#page.call "set_class_name", @continent.id, 'super_special'
+
+#page << render(:partial => "totals")
