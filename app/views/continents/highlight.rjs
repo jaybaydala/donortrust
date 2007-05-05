@@ -1,0 +1,2 @@
+page.visual_effect  :highlight, @continent.id, 
+                    :startcolor => "'#ff0000'"
