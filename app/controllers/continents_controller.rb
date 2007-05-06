@@ -4,30 +4,31 @@ class ContinentsController < ApplicationController
   def index
     @continents = Continent.find(:all)
     
-    logger.info('index')
+   # logger.info('index')
 
-    respond_to do |format|
-      format.html # index.rhtml
-      format.xml  { render :xml => @continents.to_xml }
-    end
+   # respond_to do |format|
+   #   format.html # index.rhtml
+    #  format.xml  { render :xml => @continents.to_xml }
+    #  format.js 
+    #end
   end
 
   # GET /continents/1
   # GET /continents/1.xml
-  def show
-    @continent = Continent.find(params[:id])
+ # def show
+ #   @continent = Continent.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @continent.to_xml }
-    end
-  end
+  #  respond_to do |format|
+  #    format.html # show.rhtml
+  #    format.xml  { render :xml => @continent.to_xml }
+  #  end
+  #end
 
   # GET /continents/new
-  def new
-    @continent = Continent.new
-    flash[:notice] = 'we got here'
-  end
+ # def new
+ #   @continent = Continent.new
+   
+#  end
 
   # GET /continents/1;edit
   def edit
@@ -44,6 +45,7 @@ class ContinentsController < ApplicationController
         flash[:notice] = 'Continent was successfully created.'
         format.html { redirect_to continent_url(@continent) }
         format.xml  { head :created, :location => continent_url(@continent) }
+        format.js {render :action => 'create.rjs'}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @continent.errors.to_xml }
@@ -73,10 +75,11 @@ class ContinentsController < ApplicationController
   def destroy
     @continent = Continent.find(params[:id])
     @continent.destroy
-
-    respond_to do |format|
-      format.html { redirect_to continents_url }
-      format.xml  { head :ok }
+  
+  respond_to do |wants|
+      wants.html { redirect_to continents_url}
+      wants.js { render :action => "delete.rjs" }
     end
+   
   end
 end
