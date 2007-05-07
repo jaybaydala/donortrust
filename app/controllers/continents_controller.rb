@@ -2,15 +2,20 @@ class ContinentsController < ApplicationController
   # GET /continents
   # GET /continents.xml
   def index
-    @continents = Continent.find(:all)
-    
+   # @continents = Continent.find(:all)
+    @continent_pages, @continents = paginate(:continents, :order => 'continent_name')
    # logger.info('index')
 
-   # respond_to do |format|
-   #   format.html # index.rhtml
-    #  format.xml  { render :xml => @continents.to_xml }
-    #  format.js 
-    #end
+   respond_to do |format|
+      format.html # index.rhtml
+      format.xml  { render :xml => @continents.to_xml }
+      format.js 
+    end
+  end
+  
+  def continents_list
+    @continent_pages, @continents = paginate(:continents => 'continent_name')
+    
   end
 
   # GET /continents/1
