@@ -4,5 +4,9 @@
   <%= render :partial => 'continent', :collection => @continents %>
 </div>
 <p>
+<%= pagination_links(@continent_pages) %>
+</p>
+
+<p>
 <%= render :partial => 'form' %>
 </p>
