@@ -6,6 +6,9 @@
                     :url => continent_path(continent),
                     :confirm => "Do you want to delete '#{continent.continent_name}'?", :method => :delete %>
 
+
+<%= link_to_remote "Edit", :url => continent_path(continent) %>
+
   
   <%= continent.continent_name %> 
 </div>

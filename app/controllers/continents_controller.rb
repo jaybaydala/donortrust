@@ -20,14 +20,15 @@ class ContinentsController < ApplicationController
 
   # GET /continents/1
   # GET /continents/1.xml
- # def show
- #   @continent = Continent.find(params[:id])
+  def show
+    @continent = Continent.find(params[:id])
 
-  #  respond_to do |format|
-  #    format.html # show.rhtml
-  #    format.xml  { render :xml => @continent.to_xml }
-  #  end
-  #end
+    respond_to do |format|
+      format.html # show.rhtml
+      format.xml  { render :xml => @continent.to_xml }
+      format.js {render :action => 'create.rjs'}
+    end
+  end
 
   # GET /continents/new
  # def new
@@ -38,6 +39,10 @@ class ContinentsController < ApplicationController
   # GET /continents/1;edit
   def edit
     @continent = Continent.find(params[:id])
+     
+    respond_to do |format|
+      format.js {render :action => 'edit.rjs'}
+    end 
   end
 
   # POST /continents
