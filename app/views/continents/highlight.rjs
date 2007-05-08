@@ -1,2 +1,2 @@
-page.visual_effect  :highlight, @continent.id, 
+page.visual_effect  :highlight,dom_id(@continent), 
                     :startcolor => "'#ff0000'"

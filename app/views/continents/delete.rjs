@@ -1,1 +1,1 @@
-page.remove @continent.id
+page.remove dom_id(@continent)

@@ -1,6 +1,6 @@
 
 
-<div id="<%= continent.id %>"> 
+<div id="<%= dom_id(continent) %>"> 
   
   <%= link_to_remote  "Delete", 
                     :url => continent_path(continent),
