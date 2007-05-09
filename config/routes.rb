@@ -31,8 +31,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :task_histories, :path_prefix => "/tasks/:task_id"
   map.resources :measures
 
-  map.resources :continents
-  map.resources :countries #, :path_prefix => "/continents/:continent_id"
+  map.resources :continents, :active_scaffold => true 
+  map.resources :countries, :active_scaffold => true #, :path_prefix => "/continents/:continent_id"
   map.resources :regions #, :path_prefix => "/countries/:country_id"
   map.resources :cities #, :path_prefix => "/regions/:region_id"
   map.resources :village_groups # , :path_prefix => "/regions/:region_id"
