@@ -15,4 +15,5 @@ class ContactTest < Test::Unit::TestCase
     contact = Contact.new
     assert !contact.save
   end
+  
 end
