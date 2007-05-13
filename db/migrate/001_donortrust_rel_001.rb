@@ -149,6 +149,11 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :partner_status_id, :integer
     end #partners
 
+    create_table :contacts_partners do |t|
+      t.column :contact_id, :integer, :null => false
+      t.column :partner_id, :integer, :null => false
+    end #contacts_partners
+
     create_table :partner_histories do |t|
       t.column :partner_id, :integer
       t.column :name, :string
@@ -248,6 +253,7 @@ class DonortrustRel001 < ActiveRecord::Migration
     drop_table :villages
     drop_table :partner_histories    
     drop_table :partners
+    drop_table :contacts_partners
     drop_table :partner_types
     drop_table :partner_statuses
     drop_table :project_statuses
