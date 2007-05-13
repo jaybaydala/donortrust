@@ -16,4 +16,18 @@ class ContactTest < Test::Unit::TestCase
     assert !contact.save
   end
   
+  def test_partner_relationship
+    contact = Contact.new
+    contact.id = 1
+    
+    partner1 = Partner.new(:name => "p1")
+    partner2 = Partner.new(:name => "p2")
+    
+    assert contact.partners.empty?
+    
+    contact.partners << partner1
+    contact.partners << partner2
+    
+    assert !contact.partners.empty?
+  end
 end
