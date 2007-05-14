@@ -87,6 +87,7 @@ class DonortrustRel001 < ActiveRecord::Migration
       t.column :web_address, :string
       t.column :department, :string
       t.column :continent_id, :integer#, :null => false
+      t.column :country_id, :integer
       t.column :region_id, :integer#, :null => false
       t.column :city_id, :integer#, :null => false
       t.column :address_line_1, :string
