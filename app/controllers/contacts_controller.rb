@@ -1,4 +1,6 @@
 class ContactsController < ApplicationController
+  before_filter :get_data
+  
   # GET /contacts
   # GET /contacts.xml
   def index
@@ -75,5 +77,13 @@ class ContactsController < ApplicationController
       format.html { redirect_to contacts_url }
       format.xml  { head :ok }
     end
+  end
+  
+  def get_data
+    @continents = Continent.find(:all)
+    @countries = Country.find(:all)
+    @regions = Region.find(:all)
+    @cities = City.find(:all)
+    @contact = Contacts.find(params[:id]) if params[:id] 
   end
 end
