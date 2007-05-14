@@ -8,10 +8,10 @@
     content="text/html; charset=iso-8859-1" />
 <%= javascript_include_tag :defaults %>
 <%= active_scaffold_includes %>
-<% if @titlePre or @title %>
-    <title><% if @titlePre %><%=@titlePre%><%end%><% if @titlePre and @title%> : <%end%><%=@title %></title>
+<% if @title %>
+    <title><%=@title %></title>
 <% else %>
-    <title><%=(controller.controller_name).camelize %> : <%= (controller.action_name).camelize %></title>
+    <title><%=(controller.controller_name).titleize %> : <%= (controller.action_name).titleize %></title>
 <% end %>
     <link href="/cf_base2.css" rel="stylesheet" type="text/css" />
     <!--  <%= stylesheet_link_tag 'scaffold' %> -->
