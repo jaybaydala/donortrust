@@ -6,13 +6,13 @@
     <meta name="generator" content="HTML Tidy, see www.w3.org" />
     <meta http-equiv="Content-Type"
     content="text/html; charset=iso-8859-1" />
-
-
 <%= javascript_include_tag :defaults %>
-
 <%= active_scaffold_includes %>
-
-    <title>Partner: <%= controller.action_name %></title>
+<% if @titlePre or @title %>
+    <title><% if @titlePre %><%=@titlePre%><%end%><% if @titlePre and @title%> : <%end%><%=@title %></title>
+<% else %>
+    <title><%=(controller.controller_name).camelize %> : <%= (controller.action_name).camelize %></title>
+<% end %>
     <link href="/cf_base2.css" rel="stylesheet" type="text/css" />
     <!--  <%= stylesheet_link_tag 'scaffold' %> -->
     <%= stylesheet_link_tag 'cf_base2' %>
@@ -57,7 +57,7 @@
       <tr>
         <td width="60" rowspan="2">
           <div style="text-align: center">
-            <a href="partnerSearch2.html"><img
+            <a href="/partners"><img
             src="/images/Users2.png" alt="Partners" width="32"
             height="32" border="0" /></a>
           </div>

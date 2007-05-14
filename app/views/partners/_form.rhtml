@@ -2,21 +2,21 @@
 
   <p>
     <b>Name</b><br />
-    <%= text_field :partner, :name %>
+    <%= f.text_field :name %>
   </p>
 
   <p>
     <b>Description</b><br />
-    <%= text_field :partner, :description %>
+    <%= f.text_field :description %>
   </p>
 
   <p>
     <b>Partner type</b><br />
-    <%= select (:partner, "partner_type_id", @partnerTypes.collect {|p| [ p.name, p.id ] } ) %>
+    <%= f.select :partner_type_id, @partnerTypes.collect {|p| [ p.name, p.id ] }  %>
   </p>
   
   <p>
     <b>Partner status</b><br/>
-    <%= select (:partner, "partner_status_id", @partnerStatuses.collect {|p| [ p.statusType, p.id ] } ) %>
+    <%= f.select :partner_status_id, @partnerStatuses.collect {|p| [ p.statusType, p.id ] } %>
   </p>
 <!--[eoform:partner]-->
