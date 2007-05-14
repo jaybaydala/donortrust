@@ -23,13 +23,16 @@
 <%= text_field 'contact', 'department'  %></p>
 
 <p><label for="contact_continent_id">Continent</label><br/>
-<%= text_field 'contact', 'continent_id'  %></p>
+<%= select (:contact, "continent_id", @continents.collect {|p| [ p.continent_name, p.id ] } ) %>
+
+<p><label for="contact_country_id">Country</label><br/>
+<%= select (:contact, "country_id", @countries.collect {|p| [ p.country_name, p.id ] } ) %>
 
 <p><label for="contact_region_id">Region</label><br/>
-<%= text_field 'contact', 'region_id'  %></p>
+<%= select (:contact, "region_id", @regions.collect {|p| [ p.region_name, p.id ] } ) %>
 
 <p><label for="contact_city_id">City</label><br/>
-<%= text_field 'contact', 'city_id'  %></p>
+<%= select (:contact, "city_id", @cities.collect {|p| [ p.city_name, p.id ] } ) %>
 
 <p><label for="contact_address_line_1">Address Line 1</label><br/>
 <%= text_field 'contact', 'address_line_1'  %></p>
