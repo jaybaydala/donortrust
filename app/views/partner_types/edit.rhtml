@@ -1,9 +1,7 @@
-<h1>Editing partner_type</h1>
-
 <%= error_messages_for :partner_type %>
 
-<% form_for(:partner_type, :url => partner_type_path(@partner_type), :html => { :method => :put }) do %>
-    <%= render (:partial => 'form' ) %>
+<% form_for(:partner_type, :url => partner_type_path(@partner_type), :html => { :method => :put }) do |f| %>
+    <%= render (:partial => 'form', :locals => { :f => f } ) %>
   <p>
     <%= submit_tag "Update" %>
   </p>
