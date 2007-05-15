@@ -1,1 +1,0 @@
-page.assign 'continent_text', @continent.continent_name
