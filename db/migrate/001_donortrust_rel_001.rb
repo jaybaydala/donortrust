@@ -2,7 +2,7 @@ require 'active_record/fixtures'
 
 class DonortrustRel001 < ActiveRecord::Migration
   def self.up
-    create_table :projects do |t|
+    create_table :projects, :force => true do |t|
       t.column :program_id, :integer
       t.column :project_category_id, :integer
       t.column :name, :string, :null => false
