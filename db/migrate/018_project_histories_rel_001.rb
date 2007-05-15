@@ -1,6 +1,6 @@
 require 'active_record/fixtures'
 
-class Base_Rel001 < ActiveRecord::Migration
+class ProjectHistoriesRel001 < ActiveRecord::Migration
   def self.up
     create_table :project_histories do |t|
       t.column :project_id, :integer, :null => false

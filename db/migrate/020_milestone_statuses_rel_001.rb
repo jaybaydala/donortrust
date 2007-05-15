@@ -1,6 +1,6 @@
 require 'active_record/fixtures'
 
-class MilestoneCategoriesRel001 < ActiveRecord::Migration
+class MilestoneStatusesRel001 < ActiveRecord::Migration
   def self.up
     create_table :milestone_statuses do |t|
       t.column :status, :string, :null => false

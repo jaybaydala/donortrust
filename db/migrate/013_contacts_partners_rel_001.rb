@@ -1,6 +1,6 @@
 require 'active_record/fixtures'
 
-class Base_Rel001 < ActiveRecord::Migration
+class ContactsPartnersRel001 < ActiveRecord::Migration
   def self.up
     create_table :contacts_partners do |t|
       t.column :contact_id, :integer, :null => false
