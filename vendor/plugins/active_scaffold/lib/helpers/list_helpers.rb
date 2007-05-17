@@ -9,20 +9,29 @@ module ActionView::Helpers
       # action link javascript needs to submit the proper method, but the normal html_options[:method]
       # argument leaves no way to extract the proper method from the rendered tag.
       url_options[:_method] = link.method
-
+      
       html_options = {:class => link.action}
       html_options[:confirm] = link.confirm if link.confirm?
       html_options[:position] = link.position if link.position and link.inline?
       html_options[:class] += ' action' if link.inline?
       html_options[:popup] = true if link.popup?
+      html_options[:id] = action_link_id(url_options[:action],url_options[:id])
 
+      if link.dhtml_confirm?
+        html_options[:class] += ' action' if !link.inline?
+        html_options[:page_link] = 'true' if !link.inline?
+        html_options[:dhtml_confirm] = link.dhtml_confirm.value
+        html_options[:onclick] = link.dhtml_confirm.onclick_function(controller,action_link_id(url_options[:action],url_options[:id]))
+      end
+      
       link_to link.label, url_options, html_options
     end
 
     def pagination_ajax_link(page_number, params)
       page_link = link_to_remote(page_number,
                 { :url => params.merge(:page => page_number),
-                  :before => "Element.show('#{loading_indicator_id(:action => :pagination)}');",
+                  :after => "$('#{loading_indicator_id(:action => :pagination)}').style.visibility = 'visible';",
+                  :complete => "$('#{loading_indicator_id(:action => :pagination)}').style.visibility = 'hidden';",
                   :update => active_scaffold_content_id,
                   :failure => "ActiveScaffold.report_500_response('#{active_scaffold_id}')",
                   :method => :get },
@@ -52,11 +61,11 @@ module ActionView::Helpers
 
     def column_class(column, column_value)
       classes = []
-      classes << column.name
+      classes << "#{column.name}-column"
       classes << column.css_class unless column.css_class.nil?
       classes << 'empty' if column_empty? column_value
       classes << 'sorted' if active_scaffold_config.list.user.sorting.sorts_on?(column)
-      classes << 'numeric' if [:decimal, :float, :integer].include?(column.column.type)
+      classes << 'numeric' if column.column and [:decimal, :float, :integer].include?(column.column.type)
       classes.join(' ')
     end
 
@@ -103,7 +112,7 @@ module ActionView::Helpers
     end
 
     def column_override(column)
-      "#{column.name}_column"
+       "#{column.name.to_s.gsub('?', '')}_column" # parse out any question marks (see issue 227)
     end
 
     def column_override?(column)
@@ -137,7 +146,7 @@ module ActionView::Helpers
     end
 
     def column_calculation(column)
-      calculation = active_scaffold_config.model.calculate(column.calculate, column.name, :conditions => controller.send(:all_conditions))
+      calculation = active_scaffold_config.model.calculate(column.calculate, column.name, :conditions => controller.send(:all_conditions), :include => controller.send(:active_scaffold_joins))
     end
   end
 end

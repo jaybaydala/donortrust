@@ -1,85 +1,88 @@
+# the ever-useful to_label method
 class ActiveRecord::Base
-
   def to_label
     [:name, :label, :title, :to_s].each do |attribute|
       return send(attribute) if respond_to?(attribute) and send(attribute).is_a?(String)
     end
   end
+end
 
-  def associated_valid?
-    with_instantiated_associated {|a| a.valid? and a.associated_valid?}
+# a simple (manual) unsaved? flag and method. at least it automatically reverts after a save!
+class ActiveRecord::Base
+  # acts like a dirty? flag, manually thrown during update_record_from_params.
+  def unsaved=(val)
+    @unsaved = (val) ? true : false
   end
 
-  def no_errors_in_associated?
-    with_instantiated_associated {|a| a.errors.count == 0 and a.no_errors_in_associated?}
+  # whether the unsaved? flag has been thrown
+  def unsaved?
+    @unsaved
+  end
+
+  # automatically unsets the unsaved flag
+  def save_with_unsaved_flag(*args)
+    result = save_without_unsaved_flag(*args)
+    self.unsaved = false
+    return result
+  end
+  alias_method_chain :save, :unsaved_flag
+end
+
+# save and validation support for associations.
+class ActiveRecord::Base
+  def associated_valid?
+    # using [].all? syntax to avoid a short-circuit
+    with_unsaved_associated { |a| [a.valid?, a.associated_valid?].all? {|v| v == true} }
   end
 
   def save_associated
-    with_instantiated_associated {|a| a.save and a.save_associated}
+    with_unsaved_associated { |a| a.save and a.save_associated }
   end
 
   def save_associated!
-    self.save_associated || raise(ActiveRecord::RecordNotSaved)
+    save_associated or raise(ActiveRecord::RecordNotSaved)
+  end
+
+  def no_errors_in_associated?
+    with_unsaved_associated {|a| a.errors.count == 0 and a.no_errors_in_associated?}
+  end
+
+  protected
+
+  # Provide an override to allow the model to restrict which associations are considered
+  # by ActiveScaffolds update mechanism. This allows the model to restrict things like
+  # Acts-As-Versioned versions associations being traversed.
+  #
+  # By defining the method :scaffold_update_nofollow returning an array of associations
+  # these associations will not be traversed.
+  # By defining the method :scaffold_update_follow returning an array of associations,
+  # only those associations will be traversed.
+  #
+  # Otherwise the default behaviour of traversing all associations will be preserved.
+  def associations_for_update
+    if self.respond_to?( :scaffold_update_nofollow )
+      self.class.reflect_on_all_associations.reject { |association| self.scaffold_update_nofollow.include?( association.name ) }
+    elsif self.respond_to?( :scaffold_update_follow )
+      self.class.reflect_on_all_associations.select { |association| self.scaffold_update_follow.include?( association.name ) }
+    else
+      self.class.reflect_on_all_associations
+    end
   end
 
   private
 
-  # yields every associated object that has been instantiated (and therefore possibly changed).
-  # returns true if all yields return true. returns false otherwise.
-  # returns true by default, e.g. when none of the associations have been instantiated. build accordingly.
-  def with_instantiated_associated
-    self.class.reflect_on_all_associations.all? do |association|
-      if associated = instance_variable_get("@#{association.name}")
-        case association.macro
-          when :belongs_to, :has_one
-          yield associated unless associated.readonly?
-
-          when :has_many, :has_and_belongs_to_many
-          associated.find_all{|r| not r.readonly?}.all?{|r| yield r}
-        end
+  # yields every associated object that has been instantiated and is flagged as unsaved.
+  # returns false if any yield returns false.
+  # returns true otherwise, even when none of the associations have been instantiated. build wrapper methods accordingly.
+  def with_unsaved_associated
+    associations_for_update.all? do |association|
+      association_proxy = instance_variable_get("@#{association.name}")
+      if association_proxy
+        records = association_proxy
+        records = [records] unless records.is_a? Array # convert singular associations into collections for ease of use
+        records.select {|r| r.unsaved? and not r.readonly?}.all? {|r| yield r} # must use select instead of find_all, which Rails overrides on association proxies for db access
       else
         true
-      end
-    end
-  end
-end
-
-module ActiveRecord
-  module Reflection
-    class AssociationReflection #:nodoc:
-      attr_writer :reverse
-      def reverse
-        unless @reverse
-          reverse_matches = []
-          # stage 1 filter: collect associations that point back to this model and use the same primary_key_name
-          self.class_name.constantize.reflect_on_all_associations.each do |assoc|
-            next unless assoc.options[:polymorphic] or assoc.class_name.constantize == self.active_record
-            case [assoc.macro, self.macro].find_all{|m| m == :has_and_belongs_to_many}.length
-              # if both are a habtm, then match them based on the join table
-              when 2
-              next unless assoc.options[:join_table] == self.options[:join_table]
-
-              # if only one is a habtm, they do not match
-              when 1
-              next
-
-              # otherwise, match them based on the primary_key_name
-              when 0
-              next unless assoc.primary_key_name.to_sym == self.primary_key_name.to_sym
-            end
-
-            reverse_matches << assoc
-          end
-
-          # stage 2 filter: name-based matching (association name vs self.active_record.to_s)
-          reverse_matches.find_all do |assoc|
-            self.active_record.to_s.underscore.include? assoc.name.to_s.pluralize.singularize
-          end if reverse_matches.length > 1
-
-          # stage 3 filter: grab first association, or make a wild guess
-          @reverse = reverse_matches.empty? ? self.active_record.to_s.pluralize.underscore : reverse_matches.first.name
-        end
-        @reverse
       end
     end
   end

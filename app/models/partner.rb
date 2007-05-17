@@ -12,13 +12,16 @@ class Partner < ActiveRecord::Base
   validates_length_of   :description, :maximum => 1000
   
   def create_partner_history
-    @create_partner_history_ph = PartnerHistory.new_audit(self)
+    if Partner.exists?(self.id)
+      @create_partner_history_ph = PartnerHistory.new_audit(Partner.find(self.id))
+    end
   end
   
   def save_partner_history
-    @create_partner_history_ph.partner_id = self.id
-    @create_partner_history_ph.save
-    @create_partner_history_ph = nil
+    if (@create_partner_history_ph)
+      @create_partner_history_ph.save
+      @create_partner_history_ph = nil
+    end
   end
   
   #  def save_with_audit
@@ -31,7 +34,7 @@ class Partner < ActiveRecord::Base
   #    return save_result
   #  end
   
-    def self.is_a_partner?(object)
-      return object.class.to_s == "Partner"
-    end
+  def self.is_a_partner?(object)
+    return object.class.to_s == "Partner"
+  end
 end

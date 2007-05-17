@@ -8,9 +8,12 @@ class PartnerHistoriesRel001 < ActiveRecord::Migration
       t.column :description, :text
       t.column :partner_type_id, :integer
       t.column :partner_status_id, :integer
+      t.column :created_on, :datetime
     end #partner_histories
     
-    if (ENV['RAILS_ENV'] = 'development')
+    if (ENV['RAILS_ENV'] == 'development')
+#      directory = File.join(File.dirname(__FILE__), "dev_data")
+#      Fixtures.create_fixtures(directory, "partner_histories")
     end
   end
   

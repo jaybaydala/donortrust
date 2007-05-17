@@ -29,9 +29,9 @@ var ActiveScaffold = {
         && !tableRow.hasClassName("active-scaffold-calculations")) {
 
         if (even) {
-          tableRow.addClassName("even");
+          tableRow.addClassName("even-record");
         } else {
-          tableRow.removeClassName("even");
+          tableRow.removeClassName("even-record");
         }
         even = !even;
       }
@@ -118,6 +118,22 @@ Object.extend(String.prototype, {
   }
 });
 
+/*
+ * Prototype's implementation was throwing an error instead of false
+ */
+Element.Methods.Simulated = {
+  hasAttribute: function(element, attribute) {
+    var t = Element._attributeTranslations;
+    attribute = t.names[attribute] || attribute;
+    // Return false if we get an error here
+    try {
+      return $(element).getAttributeNode(attribute).specified;
+    } catch (e) {
+      return false;
+    }
+  }
+};
+
 /**
  * A set of links. As a set, they can be controlled such that only one is "open" at a time, etc.
  */
@@ -152,6 +168,7 @@ ActiveScaffold.ActionLink.Abstract.prototype = {
     this.loading_indicator = loading_indicator;
     this.hide_target = false;
     this.position = this.tag.getAttribute('position');
+		this.page_link = this.tag.getAttribute('page_link');
 
     this.onclick = this.tag.onclick;
     this.tag.onclick = null;
@@ -159,36 +176,53 @@ ActiveScaffold.ActionLink.Abstract.prototype = {
       this.open();
       Event.stop(event);
     }.bind(this));
+
+    this.tag.action_link = this;
   },
 
   open: function() {
     if (this.is_disabled()) return;
-    if (this.onclick && !this.onclick()) return;//e.g. confirmation messages
-    if (this.position) this.disable();
-    this.loading_indicator.style.visibility = 'visible';
-    new Ajax.Request(this.url, {
-      asynchronous: true,
-      evalScripts: true,
 
-      onSuccess: function(request) {
-        if (this.position) {
-          this.insert(request.responseText);
-          if (this.hide_target) this.target.hide();
-        } else {
-          request.evalResponse();
-        }
-      }.bind(this),
-
-      onFailure: function(request) {
-        ActiveScaffold.report_500_response(this.scaffold_id());
-        if (this.position) this.enable()
-      }.bind(this),
-
-      onComplete: function(request) {
-        this.loading_indicator.style.visibility = 'hidden';
-      }.bind(this)
-    });
+    if (this.tag.hasAttribute( "dhtml_confirm")) {
+      if (this.onclick) this.onclick();
+      return;
+    } else {
+      if (this.onclick && !this.onclick()) return;//e.g. confirmation messages
+      this.open_action();
+    }
   },
+
+	open_action: function() {
+		if (this.position) this.disable();
+		
+		if (this.page_link) {
+			window.location = this.url;
+		} else {
+			this.loading_indicator.style.visibility = 'visible';
+	    new Ajax.Request(this.url, {
+	      asynchronous: true,
+	      evalScripts: true,
+
+	      onSuccess: function(request) {
+	        if (this.position) {
+	          this.insert(request.responseText);
+	          if (this.hide_target) this.target.hide();
+	        } else {
+	          request.evalResponse();
+	        }
+	      }.bind(this),
+
+	      onFailure: function(request) {
+	        ActiveScaffold.report_500_response(this.scaffold_id());
+	        if (this.position) this.enable()
+	      }.bind(this),
+
+	      onComplete: function(request) {
+	        this.loading_indicator.style.visibility = 'hidden';
+	      }.bind(this)
+			});
+		}
+	},
 
   insert: function(content) {
     throw 'unimplemented'
@@ -291,7 +325,7 @@ ActiveScaffold.ActionLink.Record.prototype = Object.extend(new ActiveScaffold.Ac
       onSuccess: function(request) {
         Element.replace(this.target, request.responseText);
         var new_target = $(this.target.id);
-        if (this.target.hasClassName('even')) new_target.addClassName('even');
+        if (this.target.hasClassName('even-record')) new_target.addClassName('even-record');
         this.target = new_target;
         this.close();
       }.bind(this),

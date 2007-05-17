@@ -13,6 +13,7 @@ module ActiveScaffold::Config
     # configures where the ActiveScaffold plugin itself is located. there is no instance version of this.
     cattr_accessor :plugin_directory
     @@plugin_directory = File.expand_path(__FILE__).match(/vendor\/plugins\/(\w*)/)[1]
+#    @@plugin_directory = File.expand_path(__FILE__).match(/vendor\/plugins\/([^\/]*)/)[1]
 
     # lets you specify a global ActiveScaffold frontend.
     cattr_accessor :frontend
@@ -86,9 +87,9 @@ module ActiveScaffold::Config
       @actions = self.class.actions.clone
 
       # create a new default columns datastructure, since it doesn't make sense before now
-      content_column_names = self.model.content_columns.collect{ |c| c.name.to_sym }.sort_by { |c| c.to_s }
+      column_names = self.model.columns.collect{ |c| c.name.to_sym }.sort_by { |c| c.to_s }
       association_column_names = self.model.reflect_on_all_associations.collect{ |a| a.name.to_sym }.sort_by { |c| c.to_s }
-      column_names = content_column_names + association_column_names
+      column_names += association_column_names
       column_names -= self.class.ignore_columns.collect { |c| c.to_sym }
       column_names -= self.model.reflect_on_all_associations.collect{|a| "#{a.name}_type".to_sym if a.options[:polymorphic]}.compact
       self.columns = column_names

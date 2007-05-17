@@ -37,6 +37,14 @@ module ActionView::Helpers
       "#{controller_id}-search-input"
     end
 
+    def table_action_id(name)
+      "#{controller_id}-action-table-#{name}"
+    end
+    
+    def action_link_id(link_action,link_id)
+      "#{controller_id}-#{link_action}-#{link_id}-link"
+    end
+
     def active_scaffold_column_header_id(column)
       name = column.respond_to?(:name) ? column.name : column.to_s
       clean_id "#{controller_id}-#{name}-column"
@@ -45,7 +53,6 @@ module ActionView::Helpers
     def element_row_id(options = {})
       options[:action] ||= params[:action]
       options[:id] ||= params[:id]
-      options[:id] = "#{options[:id]}@"
       clean_id "#{controller_id}-#{options[:action]}-#{options[:id]}-row"
     end
 
@@ -95,7 +102,7 @@ module ActionView::Helpers
 
     # whitelists id-safe characters
     def clean_id(val)
-      val.gsub /[^-._0-9a-zA-Z]/, '-'
+      val.gsub /[^-_0-9a-zA-Z]/, '-'
     end
   end
 end
