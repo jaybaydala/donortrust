@@ -3,7 +3,7 @@ require 'active_record/fixtures'
 class PartnerTypesRel001 < ActiveRecord::Migration
   def self.up
     create_table :partner_types, :force => true do |t|
-      t.column :name, :string
+      t.column :name, :string, :limit => 50, :null => false
     end #partner_types
     
     if (ENV['RAILS_ENV'] == 'development')

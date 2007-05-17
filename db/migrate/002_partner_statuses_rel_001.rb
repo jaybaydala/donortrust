@@ -4,8 +4,8 @@ class PartnerStatusesRel001 < ActiveRecord::Migration
   def self.up
     
     create_table :partner_statuses, :force => true do |t|
-      t.column :statusType, :string
-      t.column :description, :string
+      t.column :statusType, :string, :null => false, :limit => 25
+      t.column :description, :string, :limit => 250
     end #partner_statuses
     
     if (ENV['RAILS_ENV'] == 'development')

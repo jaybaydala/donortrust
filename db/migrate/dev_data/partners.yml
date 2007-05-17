@@ -1,0 +1,11 @@
+partner_one:
+  name: partner_one
+  description: This is the description of partner one. Who knows what they've been up to?
+  partner_status_id: 1
+  partner_type_id: 2
+  
+partner_two:
+  name: partner_two
+  description: Yes, this is another description, this time for partner_two. The quick brown fox jumps over the lazy dog.
+  partner_status_id: 2
+  partner_type_id: 1
