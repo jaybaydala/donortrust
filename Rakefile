@@ -7,7 +7,7 @@ require 'rake/rdoctask'
 require 'tasks/rails'
 
 namespace :db do
-  desc "Revert database schema back to version 0, then up to the current version or version specified." 
+  desc "Revert database schema back to version 0, then up to the current version or version specified. Set RAILS_ENV=development to load data." 
   task :reload => :environment do
     
     print "Reverting to VERSION=0\n"
