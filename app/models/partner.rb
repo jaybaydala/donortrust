@@ -5,7 +5,7 @@ class Partner < ActiveRecord::Base
   belongs_to              :partner_type
   belongs_to              :partner_status
   has_many                :partner_histories
-  #  has_and_belongs_to_many :contacts
+  has_and_belongs_to_many :contacts
   
   validates_presence_of :name, :partner_type_id, :partner_status_id
   validates_length_of   :name, :maximum => 50
