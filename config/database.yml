@@ -3,7 +3,7 @@ development:
   database: donortrust_development
   username: donortrust
   password: donortrust
-  host: nemesis.int.furtner.ca
+  host: localhost
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -13,7 +13,7 @@ test:
   database: donortrust_test
   username: donortrust
   password: donortrust
-  host: nemesis.int.furtner.ca
+  host: localhost
 
 production:
   adapter: mysql
