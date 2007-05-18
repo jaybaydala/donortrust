@@ -62,8 +62,49 @@ class TaskHistory < ActiveRecord::Base
   # specify any arguments.
   # hpd Is there a way to prevent save from working **unless** call in a Task instance
   # context?
-  #def save
-  #  # code similar to that used in initialize method above
-  #  super
-  #end #save
+  # HPD how about checking for #new_record? fail unless is new instance?
+  def save
+    if not @new_record
+      errors.add_to_base( "Update #{self.class.to_s} instance rejected")
+      #raise "prevent save: #{self.inspect}"
+      return false
+    end
+    super
+  end #save
+  def save!
+    save || raise( RecordNotSaved )
+  end
+  
+  # Override find to add functionality to test for / trap errors unknown and invalid
+  # ids
+  # HPD still raw copy of code from :base
+#  def find(*args)
+#    options = extract_options_from_args!(args)
+#    validate_find_options(options)
+#    set_readonly_option!(options)
+#
+#    case args.first
+#      when :first then find_initial(options)
+#      when :all   then find_every(options)
+#      else             find_from_ids(args, options)
+#    end
+#  end
+  def find_one(id, options)
+    conditions = " AND (#{sanitize_sql(options[:conditions])})" if options[:conditions]
+    options.update :conditions => "#{table_name}.#{primary_key} = #{quote_value(id,columns_hash[primary_key])}#{conditions}"
+
+    # Use find_every(options).first since the primary key condition
+    # already ensures we have a single record. Using find_initial adds
+    # a superfluous :limit => 1.
+    if result = find_every(options).first
+      result
+    else
+      #hpd instead of raising error, add message to model errors
+      #hpd issue with return / result value?
+      #hpd alternate messages if id [not]numeric
+      #errors.add_to_base( "" )
+      #hpd better place than base? force re
+      raise RecordNotFound, "Couldn't find #{name} with ID=#{id}#{conditions}"
+    end
+  end
 end
