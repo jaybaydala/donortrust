@@ -10,7 +10,7 @@ module Test::Spec::Rails
       else
         @body, @headers = body, headers
       end
-      @response = self
+      @response = response
     end
     
     def html_document

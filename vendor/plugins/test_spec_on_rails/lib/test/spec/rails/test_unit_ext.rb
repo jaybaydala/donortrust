@@ -6,9 +6,14 @@ class Test::Unit::TestCase
   alias :request  :page
   alias :view     :page
   
+  def headers
+    @response.headers
+  end
+
   def output
     @response.body
   end
+
   alias :to_s  :output
   alias :body  :output
   alias :html  :output
