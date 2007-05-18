@@ -1,2 +1,2 @@
-class <%= file_name %> < ActiveRecord::Base
+class <%= file_name.camelize %> < ActiveRecord::Base
 end

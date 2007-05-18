@@ -1,4 +1,4 @@
-class <%= controller_class_name %>Controller < ApplicationController
+class <%= controller_class_name.camelize %>Controller < ApplicationController
 
   active_scaffold
 

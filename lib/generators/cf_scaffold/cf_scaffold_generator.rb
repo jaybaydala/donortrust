@@ -34,6 +34,7 @@ class CfScaffoldGenerator < Rails::Generator::NamedBase
 
       # Controller, helper, views, and test directories.
       m.directory(File.join('app/controllers', controller_class_path))
+      m.directory(File.join('app/views', controller_class_path))
       m.directory(File.join('app/helpers', controller_class_path))
       m.directory(File.join('test/functional', controller_class_path))
       m.directory(File.join('test/unit', class_path))
@@ -57,7 +58,7 @@ class CfScaffoldGenerator < Rails::Generator::NamedBase
             :migration_name => "Create#{class_name.pluralize.gsub(/::/, '')}",
             :attributes     => attributes
           }, 
-          :migration_file_name => "create_#{file_path.gsub(/\//, '_').pluralize}"
+          :migration_file_name => "create_#{file_name.gsub(/\//, '_').pluralize}"
         )
       end
 
@@ -90,6 +91,6 @@ class CfScaffoldGenerator < Rails::Generator::NamedBase
    def gsub_file(relative_destination, regexp, *args, &block)
             path = destination_path(relative_destination)
             content = File.read(path).gsub(regexp, *args, &block)
-            File.open (path, 'wb') { |file| file.write(content) }
+            File.open(path, 'wb') { |file| file.write(content) }
    end
 end
