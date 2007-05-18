@@ -1,13 +1,11 @@
 <div class="active-scaffold">
-  <div class="delete view">
+  <div class="delete">
+    <h4><%= as_('Are you sure?') -%></h4>
     <%= form_tag params_for(:action => :destroy, :id => params[:id]), { :method => :delete } %>
-      <h4><%= as_('Are you sure?') -%></h4>
-
-      <p class="form-footer">
-        <%= submit_tag as_('Delete'), :class => 'submit' %>
-        <%= link_to as_('Cancel'), params_for(:action => 'index'), :class => 'cancel' %>
-      </p>
-
+      <%= submit_tag as_('Delete'), :class => 'submit' %>
+    </form>
+    <%= form_tag params_for(:action => :index), { :method => :get } %>
+      <%= submit_tag as_('Cancel'), :class => 'submit' %>
     </form>
   </div>
 </div>

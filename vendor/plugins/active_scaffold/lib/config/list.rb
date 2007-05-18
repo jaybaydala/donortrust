@@ -33,7 +33,7 @@ module ActiveScaffold::Config
 
     # provides access to the list of columns specifically meant for the Table to use
     def columns
-      self.columns = @core.columns.content_column_names unless @columns # lazy evaluation
+      self.columns = @core.columns.collect{|c| c.name} unless @columns # lazy evaluation
       @columns
     end
     def columns=(val)
@@ -64,9 +64,8 @@ module ActiveScaffold::Config
     end
 
     class UserSettings < UserSettings
-      # This label has alread been localized.
       def label
-        @session[:label] ? @session[:label] : @conf.label
+        @session[:label] ? as_(@session[:label]) : @conf.label
       end
 
       def per_page

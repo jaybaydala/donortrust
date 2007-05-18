@@ -1,7 +1,3 @@
-# Workaround a problem with script/plugin and http-based repos.
-# See http://dev.rubyonrails.org/ticket/8189
-Dir.chdir(Dir.getwd.sub(/vendor.*/, '')) do
-
 ##
 ## Copy over asset files (javascript/css/images) from the plugin directory to public/
 ##
@@ -26,6 +22,4 @@ available_frontends = Dir[File.join(directory, 'frontends', '*')].collect { |d| 
     destination = "/public/#{asset_type}/active_scaffold/#{frontend}"
     copy_files(source, destination, directory)
   end
-end
-
 end

@@ -62,13 +62,11 @@ module ActiveScaffold::Actions
           @record = update_record_from_params(@record, active_scaffold_config.update.columns, params[:record])
           before_update_save(@record)
           # can't 'and' these together because they must *both* happen
-          self.successful = [@record.valid?, @record.associated_valid?].all? {|v| v == true} # this syntax avoids a short-circuit
+          @record.valid?
+          @record.associated_valid?
           @record.save! and @record.save_associated! if successful?
         end
       rescue ActiveRecord::RecordInvalid
-      rescue ActiveRecord::StaleObjectError
-        @record.errors.add_to_base as_("Version inconsistency - this record has been modified since you started editing it.")
-        self.successful=false
       end
     end
 

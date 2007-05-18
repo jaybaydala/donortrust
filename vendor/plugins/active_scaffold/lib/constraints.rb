@@ -18,8 +18,7 @@ module ActiveScaffold
     def register_constraints_with_action_columns
       constrained_fields = active_scaffold_constraints.keys.collect {|c| c.to_sym}
 
-      if self.class.uses_active_scaffold?
-        # we actually want to do this whether constrained_fields exist or not, so that we can reset the array when they don't
+      if self.class.uses_active_scaffold? and not constrained_fields.empty?
         active_scaffold_config.actions.each do |action_name|
           action = active_scaffold_config.send(action_name)
           next unless action.respond_to? :columns
@@ -43,17 +42,7 @@ module ActiveScaffold
           # If a column is an association, then we do NOT want to use .search_sql. If anything,
           # search_sql will refer to a human-searchable value on the associated record.
           if column.association
-            # when the reverse association is a :belongs_to, the id for the associated object only exists as
-            # the primary_key on the other table. so for :has_one and :has_many (when the reverse is :belongs_to),
-            # we have to use the other model's primary_key.
-            #
-            # please see the relevant tests for concrete examples.
-            field = if [:has_one, :has_many].include?(column.association.macro)
-              column.association.klass.primary_key
-            else
-              column.association.options[:association_foreign_key] || column.association.options[:foreign_key] || column.association.association_foreign_key
-            end
-
+            field = column.association.options[:foreign_key] || column.association.association_foreign_key
             table = case column.association.macro
               when :has_and_belongs_to_many
               column.association.options[:join_table]
@@ -62,17 +51,21 @@ module ActiveScaffold
               active_scaffold_config.model.table_name
 
               when :has_many
-              column.association.table_name
+              if column.association.options[:through]
+                column.association.through_reflection.table_name
+              else
+                column.association.table_name
+              end
 
               else
               column.association.table_name
             end
 
             active_scaffold_joins.concat column.includes
-            v.nil? ? "#{table}.#{field} IS NULL" : ["#{table}.#{field} = ?", v]
+            ["#{table}.#{field} = ?", v]
           elsif column.searchable?
             active_scaffold_joins.concat column.includes
-            v.nil? ? "#{column.search_sql} IS NULL" : ["#{column.search_sql} = ?", v]
+            ["#{column.search_sql} = ?", v]
           end
         elsif active_scaffold_config.model.column_names.include? k.to_s
           ["#{k.to_s} = ?", v]
@@ -87,7 +80,7 @@ module ActiveScaffold
     end
 
     def constraint_error(column_name)
-      "Malformed constraint `#{column_name}'. If this column is legitimate, please double-check that it exists in the config.columns set. If not, and you are using a nested scaffold, please specify or double-check the reverse association name."
+      "Malformed constraint `#{column_name}'. If you are using a nested scaffold, please specify or double-check the reverse association name."
     end
 
     # Applies constraints to the given record.

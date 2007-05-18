@@ -24,6 +24,7 @@ module ActiveScaffold
     #
     # This is a secure way to apply params to a record, because it's based on a loop over the columns
     # set. The columns set will not yield unauthorized columns, and it will not yield unregistered columns.
+    # This very effectively replaces the params[:record] filtering I set up before.
     def update_record_from_params(parent_record, columns, attributes)
       action = parent_record.new_record? ? :create : :update
       return parent_record unless parent_record.authorized_for?(:action => action)
@@ -57,7 +58,6 @@ module ActiveScaffold
             if record
               record_columns = active_scaffold_config_for(column.association.klass).subform.columns
               update_record_from_params(record, record_columns, hash)
-              record.unsaved = true
             end
             record
 
@@ -68,7 +68,6 @@ module ActiveScaffold
               if record
                 record_columns = active_scaffold_config_for(column.association.klass).subform.columns
                 update_record_from_params(record, record_columns, hash)
-                record.unsaved = true
               end
               record
             end
@@ -77,8 +76,7 @@ module ActiveScaffold
           else
             # convert empty strings into nil. this works better with 'null => true' columns (and validations),
             # and 'null => false' columns should just convert back to an empty string.
-            # ... but we can at least check the ConnectionAdapter::Column object to see if nulls are allowed
-            value = nil if value.is_a? String and value.empty? and column.column.null
+            value = nil if value.is_a? String and value.empty?
             value
           end
 
@@ -89,19 +87,6 @@ module ActiveScaffold
           parent_record.send("#{column.name}=", [])
         end
       end
-
-      if parent_record.new_record?
-        parent_record.class.reflect_on_all_associations.each do |a|
-          next unless [:has_one, :has_many].include?(a.macro) and not a.options[:through]
-          next unless association_proxy = parent_record.instance_variable_get("@#{a.name}")
-
-          raise ActiveScaffold::ReverseAssociationRequired, "In order to support :has_one and :has_many where the parent record is new and the child record(s) validate the presence of the parent, ActiveScaffold requires the reverse association (the belongs_to)." unless a.reverse
-
-          association_proxy = [association_proxy] if a.macro == :has_one
-          association_proxy.each { |record| record.send("#{a.reverse}=", parent_record) }
-        end
-      end
-
       parent_record
     end
 
@@ -113,10 +98,10 @@ module ActiveScaffold
 
       if params.has_key? :id
         # modifying the current object of a singular association
-        if current and current.is_a? ActiveRecord::Base and current.id.to_s == params[:id]
+        if current and current.is_a? ActiveRecord::Base and current.id = params[:id]
           return current
         # modifying one of the current objects in a plural association
-        elsif current and current.respond_to?(:any?) and current.any? {|o| o.id.to_s == params[:id]}
+        elsif current and current.any? {|o| o.id.to_s == params[:id]}
           return current.detect {|o| o.id.to_s == params[:id]}
         # attaching an existing but not-current object
         else
@@ -140,11 +125,7 @@ module ActiveScaffold
         # defaults are pre-filled on the form. we can't use them to determine if the user intends a new row.
         next true if column and value == column.default
 
-        if value.is_a?(Hash)
-          attributes_hash_is_empty?(value, klass)
-        else
-          value.respond_to?(:empty?) ? value.empty? : false
-        end
+        value.is_a?(Hash) ? attributes_hash_is_empty?(value, klass) : value.empty?
       end
     end
   end

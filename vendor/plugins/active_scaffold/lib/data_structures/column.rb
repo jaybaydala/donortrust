@@ -1,14 +1,9 @@
 module ActiveScaffold::DataStructures
   class Column
     include ActiveScaffold::Configurable
-    
-    attr_reader :active_record_class
-    
+
     # this is the name of the getter on the ActiveRecord model. it is the only absolutely required attribute ... all others will be inferred from this name.
     attr_accessor :name
-
-    # Whether this column set is collapsed by default in contexts where collapsing is supported
-    attr_accessor :collapsed
 
     # the display-name of the column. this will be used, for instance, as the column title in the table and as the field name in the form.
     attr_writer :label
@@ -37,27 +32,26 @@ module ActiveScaffold::DataStructures
     #   sort = false              sometimes sorting doesn't make sense
     #   sort = {:sql => ""}       define your own sql for sorting. this should be result in a sortable value in SQL. ActiveScaffold will handle the ascending/descending.
     #   sort = {:method => ""}    define ruby-side code for sorting. this is SLOW with large recordsets!
-    def sort=(value)
-      if value.is_a? Hash
-        value.assert_valid_keys(:sql, :method)
-        @sort = value
-      else
-        @sort = value ? true : false # force true or false
-      end
-    end
-    
+    attr_writer :sort
     def sort
       self.initialize_sort if @sort === true
       @sort
     end
-    
     def sortable?
       sort != false && !sort.nil?
     end
-    
     # a configuration helper for the self.sort property. simply provides a method syntax instead of setter syntax.
     def sort_by(options)
-      self.sort = options
+      if options
+        if options.is_a? Hash
+          options.assert_valid_keys(:sql, :method)
+          self.sort = options
+        else
+          self.sort = true
+        end
+      else
+        self.sort = false
+      end
     end
 
     # supported options:
@@ -65,7 +59,7 @@ module ActiveScaffold::DataStructures
     #   * :crud (default) will display a sub-form
     attr_writer :ui_type
     def ui_type
-      @ui_type || (column.type if column)
+      @ui_type || column.type
     end
 
     # associate an action_link with this column
@@ -91,11 +85,8 @@ module ActiveScaffold::DataStructures
     end
 
     # a collection of associations to pre-load when finding the records on a page
-    attr_reader :includes
-    def includes=(value)
-      @includes = value.is_a?(Array) ? value : [value] # automatically convert to an array  
-    end
-    
+    attr_accessor :includes
+
     # describes how to search on a column
     #   search = true           default, uses intelligent search sql
     #   search = "CONCAT(a, b)" define your own sql for searching. this should be the "left-side" of a WHERE condition. the operator and value will be supplied by ActiveScaffold.
@@ -195,7 +186,7 @@ module ActiveScaffold::DataStructures
         self.search_sql = nil
       else
         if association.nil?
-          self.search_sql = self.field.to_s
+          self.search_sql = self.field.to_s.downcase
         else
           # with associations we really don't know what to sort by without developer intervention. we could sort on the primary key ('id'), but that's hardly useful. previously ActiveScaffold would try and search using the same sql as from :sort, but we decided to just punt.
           self.search_sql = nil

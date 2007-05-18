@@ -45,18 +45,9 @@ module ActiveScaffold::Actions
       @response_object = successful? ? (@record || @records) : @record.errors
     end
 
-    # Success is the existence of certain variables and the absence of errors (when applicable).
-    # Success can also be defined.
+    # We define success as having no errors in object.errors
     def successful?
-      if @successful.nil?
-        @records or (@record and @record.errors.count == 0 and @record.no_errors_in_associated?)
-      else
-        @successful
-      end
-    end
-
-    def successful=(val)
-      @successful = (val) ? true : false
+      (@record and @record.errors.count == 0 and @record.no_errors_in_associated?)
     end
 
     # Redirect to the main page (override if the ActiveScaffold is used as a component on another controllers page) for Javascript degradation
@@ -73,7 +64,7 @@ module ActiveScaffold::Actions
       conditions = nil
       params.reject {|key, value| [:controller, :action, :id].include?(key.to_sym)}.each do |key, value|
         next unless active_scaffold_config.model.column_names.include?(key)
-        conditions = merge_conditions(conditions, ["#{active_scaffold_config.model.table_name}.#{key.to_s} = ?", value])
+        conditions = merge_conditions(conditions, ["#{key.to_s} = ?", value])
       end
       conditions
     end

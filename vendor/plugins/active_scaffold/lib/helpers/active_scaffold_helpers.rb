@@ -39,7 +39,6 @@ module ActionView::Helpers
       unless @params_for
         @params_for = params.clone.delete_if { |key, value| blacklist.include? key.to_sym if key }
         @params_for[:controller] = '/' + @params_for[:controller] unless @params_for[:controller].first(1) == '/' # for namespaced controllers
-        @params_for.delete(:id) if @params_for[:id].nil?
       end
       @params_for.merge(options)
     end
@@ -47,21 +46,6 @@ module ActionView::Helpers
     # Provides a way to honor the :conditions on an association while searching the association's klass
     def association_options_find(association, conditions = nil)
       association.klass.find(:all, :conditions => controller.send(:merge_conditions, conditions, association.options[:conditions]))
-    end
-
-    def association_options_count(association, conditions = nil)
-      association.klass.count(:all, :conditions => controller.send(:merge_conditions, conditions, association.options[:conditions]))
-    end
-
-    # Creates a javascript-based link that toggles the visibility of some element on the page.
-    # By default, it toggles the visibility of the sibling after the one it's nested in. You may pass custom javascript logic in options[:of] to change that, though. For example, you could say :of => '$("my_div_id")'.
-    # You may also flag whether the other element is visible by default or not, and the initial text will adjust accordingly.
-    def link_to_visibility_toggle(options = {})
-      options[:of] ||= '$(this.parentNode).next()'
-      options[:default_visible] = true if options[:default_visible].nil?
-
-      link_text = options[:default_visible] ? 'hide' : 'show'
-      link_to_function as_(link_text), "e = #{options[:of]}; e.toggle(); this.innerHTML = (e.style.display == 'none') ? '#{as_('show')}' : '#{as_('hide')}'", :class => 'visibility-toggle'
     end
   end
 end
