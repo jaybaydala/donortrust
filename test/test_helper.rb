@@ -100,3 +100,22 @@ class Test::Unit::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+require 'test/spec/rails'
+
+Test::Spec::Should.send    :alias_method, :have, :be
+Test::Spec::ShouldNot.send :alias_method, :have, :be
+
+Test::Spec::Should.class_eval do
+  # Article.should.differ(:count).by(2) { blah } 
+  def differ(method)
+    @initial_value = @object.send(@method = method)
+    self
+  end
+
+  def by(value)
+    yield
+    assert_equal @initial_value + value, @object.send(@method)
+  end
+end
+
