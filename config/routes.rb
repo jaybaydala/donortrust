@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  
+
   map.resources :partner_statuses, :active_scaffold => true
   map.resources :partner_types, :active_scaffold => true 
   map.resources :partners, :active_scaffold => true do |partner|
@@ -15,7 +15,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :task_statuses
   map.resources :milestone_statuses
   map.resources :project_statuses
-  map.resources :task_categories
+  #map.resources :task_categories, :active_scaffold => true, :path_prefix => "/admin"
+  #map.resources :task_categories, :active_scaffold => true, :path_prefix => "/"
+  map.resources :task_categories, :active_scaffold => true
   map.resources :milestone_categories
   map.resources :project_categories
   map.resources :partner_types
