@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :contacts, :active_scaffold => true
+
 
   map.resources :partner_statuses, :active_scaffold => true
   map.resources :partner_types, :active_scaffold => true 
@@ -24,9 +26,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :measure_categories
   
   #map.resources :partner_histories
-  
-  map.resources :contacts
-  
+    
   map.resources :programs
   map.resources :projects#, :path_prefix => "/programs/:program_id"
   map.resources :project_histories, :path_prefix => "/projects/:project_id"
