@@ -1,89 +1,39 @@
 class ContactsController < ApplicationController
-  before_filter :get_data
-  
-  # GET /contacts
-  # GET /contacts.xml
-  def index
-    @contacts = Contact.find(:all)
+  active_scaffold :contact do |config|
+    
+    config.label = "Contacts"
+    config.list.columns = [:first_name, :last_name, :phone_number, :email_address]
+    config.update.columns = [:first_name, :last_name, :phone_number, :fax_number, :email_address, :web_address, :department, :continent, :country, :region, :city, :address_line_1, :address_line_2, :postal_code]
+    config.create.columns = [:first_name, :last_name, :phone_number, :fax_number, :email_address, :web_address, :department, :continent, :country, :region, :city, :address_line_1, :address_line_2, :postal_code]
 
-    respond_to do |format|
-      format.html # index.rhtml
-      format.xml  { render :xml => @contacts.to_xml }
-    end
-  end
-
-  # GET /contacts/1
-  # GET /contacts/1.xml
-  def show
-    @contact = Contact.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @contact.to_xml }
-    end
-  end
-
-  # GET /contacts/new
-  def new
-    @contact = Contact.new
-  end
-
-  # GET /contacts/1;edit
-  def edit
-    @contact = Contact.find(params[:id])
-  end
-
-  # POST /contacts
-  # POST /contacts.xml
-  def create
-    @contact = Contact.new(params[:contact])
-
-    respond_to do |format|
-      if @contact.save
-        flash[:notice] = 'Contact was successfully created.'
-        format.html { redirect_to contact_url(@contact) }
-        format.xml  { head :created, :location => contact_url(@contact) }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @contact.errors.to_xml }
-      end
-    end
-  end
-
-  # PUT /contacts/1
-  # PUT /contacts/1.xml
-  def update
-    @contact = Contact.find(params[:id])
-
-    respond_to do |format|
-      if @contact.update_attributes(params[:contact])
-        flash[:notice] = 'Contact was successfully updated.'
-        format.html { redirect_to contact_url(@contact) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @contact.errors.to_xml }
-      end
-    end
-  end
-
-  # DELETE /contacts/1
-  # DELETE /contacts/1.xml
-  def destroy
-    @contact = Contact.find(params[:id])
-    @contact.destroy
-
-    respond_to do |format|
-      format.html { redirect_to contacts_url }
-      format.xml  { head :ok }
-    end
+    config.columns[:continent].ui_type = :select
+    config.columns[:country].ui_type = :select
+    config.columns[:region].ui_type = :select
+    config.columns[:city].ui_type = :select
   end
   
-  def get_data
-    @continents = Continent.find(:all)
-    @countries = Country.find(:all)
-    @regions = Region.find(:all)
-    @cities = City.find(:all)
-    @contact = Contacts.find(params[:id]) if params[:id] 
-  end
+#   active_scaffold :company do |config|
+#    config.label = "Customers"
+#    config.columns = [:name, :phone, :company_type, :comments]
+#    list.columns.exclude :comments
+#    list.sorting = {:name => 'ASC'}
+#    columns[:phone].label = "Phone #"
+#    columns[:phone].description = "(Format: ###-###-####)"
+#  end
+
+#      t.column :first_name, :string, :null => false
+#      t.column :last_name, :string, :null => false
+#      t.column :phone_number, :string
+#      t.column :fax_number, :string
+#      t.column :email_address, :string
+#      t.column :web_address, :string
+#      t.column :department, :string
+#      t.column :continent_id, :integer#, :null => false
+#      t.column :country_id, :integer
+#      t.column :region_id, :integer#, :null => false
+#      t.column :city_id, :integer#, :null => false
+#      t.column :address_line_1, :string
+#      t.column :address_line_2, :string
+#      t.column :postal_code, :string
+
 end
