@@ -1,7 +1,0 @@
-<% for column in Contact.content_columns %>
-  <b><%= column.human_name %>:</b> <%=h @contact.send(column.name) %>
-  <br><br>
-<% end %>
-
-<%= link_to 'Edit', edit_contact_path(@contact) %> |
-<%= link_to 'Back', contacts_path %>
