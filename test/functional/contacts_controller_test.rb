@@ -24,15 +24,15 @@ class ContactsControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-  def test_should_create_contact
-    old_count = Contact.count
-    post :create, :contact => { }
-    assert_equal old_count+1, Contact.count
+  def test_should_create_contacts
+    old_count = Contacts.count
+    post :create, :contacts => { }
+    assert_equal old_count+1, Contacts.count
     
-    assert_redirected_to contact_path(assigns(:contact))
+    assert_redirected_to contacts_path(assigns(:contacts))
   end
 
-  def test_should_show_contact
+  def test_should_show_contacts
     get :show, :id => 1
     assert_response :success
   end
@@ -42,15 +42,15 @@ class ContactsControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-  def test_should_update_contact
-    put :update, :id => 1, :contact => { }
-    assert_redirected_to contact_path(assigns(:contact))
+  def test_should_update_contacts
+    put :update, :id => 1, :contacts => { }
+    assert_redirected_to contacts_path(assigns(:contacts))
   end
   
-  def test_should_destroy_contact
-    old_count = Contact.count
+  def test_should_destroy_contacts
+    old_count = Contacts.count
     delete :destroy, :id => 1
-    assert_equal old_count-1, Contact.count
+    assert_equal old_count-1, Contacts.count
     
     assert_redirected_to contacts_path
   end
