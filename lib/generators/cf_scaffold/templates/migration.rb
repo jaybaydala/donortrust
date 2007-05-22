@@ -8,6 +8,6 @@ class <%= migration_name %> < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :<%= table_name %>
+    drop_table :<%= controller_file_name %>
   end
 end

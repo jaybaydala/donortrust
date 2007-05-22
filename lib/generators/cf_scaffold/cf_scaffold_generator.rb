@@ -37,8 +37,7 @@ class CfScaffoldGenerator < Rails::Generator::NamedBase
       m.directory(File.join('app/views', controller_class_path))
       m.directory(File.join('app/helpers', controller_class_path))
       m.directory(File.join('test/functional', controller_class_path))
-      m.directory(File.join('test/unit', class_path))
-
+    
 
       m.template('model.rb', File.join('app/models', "#{file_name}.rb"))
 
@@ -48,8 +47,8 @@ class CfScaffoldGenerator < Rails::Generator::NamedBase
 
       m.template('functional_test.rb', File.join('test/functional', controller_class_path, "#{controller_file_name}_controller_test.rb"))
       m.template('helper.rb',          File.join('app/helpers',     controller_class_path, "#{controller_file_name}_helper.rb"))
-      m.template('unit_test.rb',       File.join('test/unit',       class_path, "#{file_name}_test.rb"))
-      m.template('fixtures.yml',       File.join('test/fixtures', "#{table_name}.yml"))
+      m.template('unit_test.rb',       File.join('test/unit',"#{file_name}_test.rb"))
+      m.template('fixtures.yml',       File.join('test/fixtures', "#{file_name}.yml"))
 
       unless options[:skip_migration]
         m.migration_template(
