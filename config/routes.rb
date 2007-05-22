@@ -1,7 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :contacts, :active_scaffold => true
 
-
   map.resources :partner_statuses, :active_scaffold => true
   map.resources :partner_types, :active_scaffold => true 
   map.resources :partners, :active_scaffold => true do |partner|
@@ -14,7 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   # The priority is based upon order of creation: first created -> highest priority.
   
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
-  map.resources :task_statuses
+  map.resources :task_statuses, :active_scaffold => true
   map.resources :milestone_statuses
   map.resources :project_statuses
   #map.resources :task_categories, :active_scaffold => true, :path_prefix => "/admin"
