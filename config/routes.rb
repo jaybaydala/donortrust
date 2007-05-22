@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
   map.resources :task_statuses, :active_scaffold => true
-  map.resources :milestone_statuses
+  map.resources :milestone_statuses, :active_scaffold => true
   map.resources :project_statuses
   #map.resources :task_categories, :active_scaffold => true, :path_prefix => "/admin"
   #map.resources :task_categories, :active_scaffold => true, :path_prefix => "/"
