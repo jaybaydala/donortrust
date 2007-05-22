@@ -1,0 +1,2 @@
+module DT::ProjectsHelper
+end

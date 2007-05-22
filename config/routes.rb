@@ -42,6 +42,13 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :village_groups # , :path_prefix => "/regions/:region_id"
   map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
   
+  # front-end resources - non-admin
+  map.resource :dt do |dt|
+    dt.resources :projects, :name_prefix => 'dt_', :controller=> 'dt/projects'
+    #dt.resources :accounts, :name_prefix => 'dt_', :controller=> 'dt/accounts'
+    #dt.resources :groups, :name_prefix => 'dt_', :controller=> 'dt/groups'
+  end
+  
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
   # Install the default route as the lowest priority.
