@@ -24,15 +24,15 @@ class ProgramsControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-  def test_should_create_programs
-    old_count = Programs.count
-    post :create, :programs => { }
-    assert_equal old_count+1, Programs.count
+  def test_should_create_program
+    old_count = Program.count
+    post :create, :program => { }
+    assert_equal old_count+1, Program.count
     
-    assert_redirected_to programs_path(assigns(:programs))
+    assert_redirected_to program_path(assigns(:program))
   end
 
-  def test_should_show_programs
+  def test_should_show_program
     get :show, :id => 1
     assert_response :success
   end
@@ -42,15 +42,15 @@ class ProgramsControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-  def test_should_update_programs
-    put :update, :id => 1, :programs => { }
-    assert_redirected_to programs_path(assigns(:programs))
+  def test_should_update_program
+    put :update, :id => 1, :program => { }
+    assert_redirected_to program_path(assigns(:program))
   end
   
-  def test_should_destroy_programs
-    old_count = Programs.count
+  def test_should_destroy_program
+    old_count = Program.count
     delete :destroy, :id => 1
-    assert_equal old_count-1, Programs.count
+    assert_equal old_count-1, Program.count
     
     assert_redirected_to programs_path
   end
