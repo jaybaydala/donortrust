@@ -1,9 +1,5 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
-  program_name: program 1
-  contact_id: 1
 two:
   id: 2
-  program_name: program 2
-  contact_id: 1
