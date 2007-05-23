@@ -1,4 +1,20 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
+
+  map.resources :cities, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/cities"
+
+  map.resources :countries, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/countries"
+
+  map.resources :villages, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/villages"
+
+  map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"
+
+  map.resources :nations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/nations"
+
+  map.resources :projects, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/projects'
+  
+  map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
+ 
   map.resources :contacts, :active_scaffold => true
 
   map.resources :partner_statuses, :active_scaffold => true
@@ -38,7 +54,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :continents, :active_scaffold => true 
   map.resources :countries, :active_scaffold => true #, :path_prefix => "/continents/:continent_id"
   map.resources :regions #, :path_prefix => "/countries/:country_id"
-  map.resources :cities #, :path_prefix => "/regions/:region_id"
+ 
   map.resources :village_groups # , :path_prefix => "/regions/:region_id"
   map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
   

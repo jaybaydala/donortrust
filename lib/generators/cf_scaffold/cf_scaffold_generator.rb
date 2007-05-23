@@ -82,7 +82,7 @@ class CfScaffoldGenerator < Rails::Generator::NamedBase
           logger.route "map.resources #{resource_list}"
           unless options[:pretend]
             gsub_file 'config/routes.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-              "#{match}\n  map.resources #{resource_list}, :active_scaffold => true, :path_prefix => \"/#{class_path}\"\n"
+              "#{match}\n  map.resources #{resource_list}, :active_scaffold => true, :path_prefix => \"/#{class_path}\", :controller => \"#{class_path}/#{file_name.pluralize}\"\n"
             end
           end
         end
