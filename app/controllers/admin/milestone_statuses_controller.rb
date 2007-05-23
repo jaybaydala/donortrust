@@ -1,4 +1,4 @@
-class MilestoneStatusesController < ApplicationController
+class Admin::MilestoneStatusesController < ApplicationController
 
   active_scaffold :milestone_statuses do |config|
     config.columns = [ :id, :status, :description, :milestones, :milestone_histories ]
