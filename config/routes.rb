@@ -42,7 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   
   #map.resources :partner_histories
     
-  map.resources :programs
+  map.resources :programs, :active_scaffold => true
   map.resources :projects#, :path_prefix => "/programs/:program_id"
   map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :milestones, :path_prefix => "/projects/:project_id"
