@@ -1,0 +1,2 @@
+module BusAdmin::TaskStatusesHelper
+end
