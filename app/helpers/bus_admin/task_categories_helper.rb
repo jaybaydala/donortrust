@@ -1,2 +1,0 @@
-module BusAdmin::TaskCategoriesHelper
-end
