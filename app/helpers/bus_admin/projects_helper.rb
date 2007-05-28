@@ -1,0 +1,2 @@
+module BusAdmin::ProjectsHelper
+end

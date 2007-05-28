@@ -1,0 +1,2 @@
+module BusAdmin::VillagesHelper
+end

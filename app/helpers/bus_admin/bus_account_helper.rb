@@ -1,0 +1,2 @@
+module BusAccountHelper
+end
