@@ -1,4 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.resources :milestone_statuses, :active_scaffold => true, :path_prefix => "/admin", :controller => "admin/milestone_statuses"
+
   map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
 
   map.resources :cities, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/cities"
@@ -14,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/projects'
   
   map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
- 
+
   map.resources :contacts, :active_scaffold => true
 
   map.resources :partner_statuses, :active_scaffold => true
@@ -64,6 +67,15 @@ ActionController::Routing::Routes.draw do |map|
     #dt.resources :accounts, :name_prefix => 'dt_', :controller=> 'dt/accounts'
     #dt.resources :groups, :name_prefix => 'dt_', :controller=> 'dt/groups'
   end
+  
+  #easier routes for restful_authentication
+  
+  map.signup '/bus_admin/signup', :controller => 'bus_admin/bus_account', :action => 'signup'
+  map.login '/bus_admin/login', :controller => 'bus_admin/bus_account', :action => 'login'
+  map.logout '/bus_admin/logout', :controller => 'bus_admin/bus_account', :action => 'logout'
+  map.index '/bus_admin/index', :controller => 'bus_admin/bus_account', :action => 'index'
+  map.resources :bus_account, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_account"
+  
   
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
