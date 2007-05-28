@@ -1,14 +1,14 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'task_categories_controller'
+require File.dirname(__FILE__) + '/../../test_helper'
+require 'bus_admin/task_categories_controller'
 
 # Re-raise errors caught by the controller.
-class TaskCategoriesController; def rescue_action(e) raise e end; end
+class BusAdmin::TaskCategoriesController; def rescue_action(e) raise e end; end
 
-class TaskCategoriesControllerTest < Test::Unit::TestCase
+class BusAdmin::TaskCategoriesControllerTest < Test::Unit::TestCase
   fixtures :task_categories
 
   def setup
-    @controller = TaskCategoriesController.new
+    @controller = BusAdmin::TaskCategoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
@@ -16,7 +16,7 @@ class TaskCategoriesControllerTest < Test::Unit::TestCase
   def test_should_get_index
     get :index
     assert_response :success
-    #hpd ?? assert assigns(:task_categories)
+    #assert assigns(:bus_admin_task_categories)
   end
 
   def test_should_get_new
@@ -26,8 +26,7 @@ class TaskCategoriesControllerTest < Test::Unit::TestCase
   
   def test_should_create_task_category
     old_count = TaskCategory.count
-    post :create, :task_category => {
-      :category => "xyzcategoryxyz", :description => "category description" }
+    post :create, :task_category => { }
     assert_equal old_count+1, TaskCategory.count
     
     assert_redirected_to task_category_path(assigns(:task_category))
@@ -53,6 +52,6 @@ class TaskCategoriesControllerTest < Test::Unit::TestCase
     delete :destroy, :id => 1
     assert_equal old_count-1, TaskCategory.count
     
-    assert_redirected_to task_categories_path
+    assert_redirected_to bus_admin_task_categories_path
   end
 end

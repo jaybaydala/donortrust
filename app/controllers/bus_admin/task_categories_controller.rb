@@ -1,6 +1,7 @@
-class TaskCategoriesController < ApplicationController
+class BusAdmin::TaskCategoriesController < ApplicationController
 
   active_scaffold :task_categories do |config|
+    config.columns =[ :category, :description, :tasks, :task_histories ]
     config.columns[ :category ].label = "Category Name"
     list.columns.exclude [ :tasks, :task_histories ]
     update.columns.exclude [ :tasks, :task_histories ]
