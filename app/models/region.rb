@@ -13,5 +13,7 @@ belongs_to :region_type
       errors.add_to_base("Country with id=#{self.country_id} doesn't exist.")
     end
   end
-
+  def to_label
+    "#{region_name}"
+  end
 end
