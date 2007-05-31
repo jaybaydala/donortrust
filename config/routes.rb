@@ -1,7 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
-  map.resources :milestone_statuses, :active_scaffold => true, :path_prefix => "/admin", :controller => "admin/milestone_statuses"
-
   map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
 
   map.resources :cities, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/cities"
@@ -33,11 +30,12 @@ ActionController::Routing::Routes.draw do |map|
   
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
   map.resources :project_statuses
-  map.resources :milestone_statuses, :active_scaffold => true, :path_prefix => "/admin", :controller => "admin/milestone_statuses"
-  map.resources :task_statuses, :active_scaffold => true, 
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :controller => "bus_admin/task_statuses"
-  map.resources :task_categories, :active_scaffold => true,
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :controller => "bus_admin/task_categories"
+  map.resources :milestone_statuses, :controller => "admin/milestone_statuses", 
+    :path_prefix => "/admin", :active_scaffold => true
+  map.resources :task_statuses, :controller => "bus_admin/task_statuses", 
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+  map.resources :task_categories, :controller => "bus_admin/task_categories",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :milestone_categories
   map.resources :project_categories
   map.resources :partner_types
@@ -50,7 +48,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :milestones, :path_prefix => "/projects/:project_id"
   map.resources :milestone_histories, :path_prefix => "/milestones/:milestone_id"
-  map.resources :tasks, :path_prefix => "/milestones/:milestone_id"
+  #map.resources :tasks, :path_prefix => "/milestones/:milestone_id"
+  map.resources :tasks, :controller => "bus_admin/tasks", :active_scaffold => true,
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin/milestones/:milestone_id"
   map.resources :task_histories, :path_prefix => "/tasks/:task_id"
   map.resources :measures
   

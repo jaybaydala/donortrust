@@ -31,6 +31,11 @@ class Milestone < ActiveRecord::Base
     end
   end
 
+  def to_label
+    #"#{title}"
+    "#{description}"
+  end
+
   # Determine if an object instance is a Milestone
   def self.is_a_milestone?( object )
     #return object.class == self.class
