@@ -3,7 +3,7 @@ class BusUser < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
   before_destroy :dont_destroy_josh
-
+ 
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
@@ -55,6 +55,18 @@ class BusUser < ActiveRecord::Base
     self.remember_token_expires_at = nil
     self.remember_token            = nil
     save(false)
+  end
+
+  def update_password(new_password,current_password)
+    
+    if(BusUser.encrypt(current_password,self.salt) == self.crypted_password)
+      @temporary_hashed_password = BusUser.encrypt(new_password,self.salt)
+      self.crypted_password = @temporary_hashed_password
+      update
+     return true
+    else
+      return false
+    end
   end
 
   protected

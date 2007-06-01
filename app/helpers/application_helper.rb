@@ -1,4 +1,4 @@
 module ApplicationHelper
-include AuthenticatedSystem
+  #include AuthenticatedSystem
 
 end

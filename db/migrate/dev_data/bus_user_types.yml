@@ -1,0 +1,12 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Initial bulk load of Milestone statuses for development
+one:
+  id: 1
+  name: administrator
+  security_level_id: 1
+
+two:
+  id: 2
+  name: reader
+  security_level_id: 4
+  

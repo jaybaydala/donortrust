@@ -1,20 +1,9 @@
-# Initial bulk load of Task statuses for development
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 proposed:
   id: 1
   status: Proposed
-  description: Task as been proposed for milestone
-
+  description: Tack as been proposed for milestone
 inprogress:
   id: 2
   status: InProgress
-  description: Task has been started
-
-canceled:
-  id: 3
-  status: Canceled
-  description: Task has been cancelled after being started
-
-complete:
-  id: 4
-  status: Complete
-  description: Task has been completed
+  description: Taskhas been started

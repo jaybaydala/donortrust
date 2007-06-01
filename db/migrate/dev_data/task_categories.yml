@@ -1,11 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-# Initial bulk load of Milestone categories for development
-category1:
+testone:
   id: 1
-  category: First Category
-  description: First Category description
-
-category2:
+  category: TestOne
+  description: Test one category description
+testtwo:
   id: 2
-  category: Second Category
-  description: Second Category description
+  category: TestTwo
+  description: Test two category description

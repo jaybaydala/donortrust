@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/projects'
   
   map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
-
+ 
   map.resources :contacts, :active_scaffold => true
 
   map.resources :partner_statuses, :active_scaffold => true
@@ -29,13 +29,12 @@ ActionController::Routing::Routes.draw do |map|
   # The priority is based upon order of creation: first created -> highest priority.
   
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
+  map.resources :task_statuses, :active_scaffold => true
+  map.resources :milestone_statuses, :active_scaffold => true
   map.resources :project_statuses
-  map.resources :milestone_statuses, :controller => "admin/milestone_statuses", 
-    :path_prefix => "/admin", :active_scaffold => true
-  map.resources :task_statuses, :controller => "bus_admin/task_statuses", 
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :task_categories, :controller => "bus_admin/task_categories",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+  #map.resources :task_categories, :active_scaffold => true, :path_prefix => "/admin"
+  #map.resources :task_categories, :active_scaffold => true, :path_prefix => "/"
+  map.resources :task_categories, :active_scaffold => true
   map.resources :milestone_categories
   map.resources :project_categories
   map.resources :partner_types
@@ -43,14 +42,12 @@ ActionController::Routing::Routes.draw do |map|
   
   #map.resources :partner_histories
     
-  map.resources :programs, :active_scaffold => true
+  map.resources :programs
   map.resources :projects#, :path_prefix => "/programs/:program_id"
   map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :milestones, :path_prefix => "/projects/:project_id"
   map.resources :milestone_histories, :path_prefix => "/milestones/:milestone_id"
-  #map.resources :tasks, :path_prefix => "/milestones/:milestone_id"
-  map.resources :tasks, :controller => "bus_admin/tasks", :active_scaffold => true,
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin/milestones/:milestone_id"
+  map.resources :tasks, :path_prefix => "/milestones/:milestone_id"
   map.resources :task_histories, :path_prefix => "/tasks/:task_id"
   map.resources :measures
   
@@ -67,17 +64,6 @@ ActionController::Routing::Routes.draw do |map|
     #dt.resources :accounts, :name_prefix => 'dt_', :controller=> 'dt/accounts'
     #dt.resources :groups, :name_prefix => 'dt_', :controller=> 'dt/groups'
   end
-  
-  #easier routes for restful_authentication
-  
-  map.signup '/bus_admin/signup', :controller => 'bus_admin/bus_account', :action => 'signup'
-  map.login '/bus_admin/login', :controller => 'bus_admin/bus_account', :action => 'login'
-  map.logout '/bus_admin/logout', :controller => 'bus_admin/bus_account', :action => 'logout'
-  map.index '/bus_admin/index', :controller => 'bus_admin/bus_account', :action => 'index'
-  map.resources :bus_account, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_account"
-  map.change_password '/bus_admin/change_password', :controller => 'bus_admin/bus_account', :action =>'change_password'
-  map.show_encryption '/bus_admin/bus_account/show_encryption', :controller =>'bus_admin/bus_account',:action =>'show_encryption'
-  map.change_password_now '/bus_admin/bus_account/change_password_now', :controller => 'bus_admin/bus_account', :action =>'change_password_now'
   
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   

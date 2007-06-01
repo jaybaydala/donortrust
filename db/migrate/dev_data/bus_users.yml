@@ -1,0 +1,10 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Initial bulk load of Milestone statuses for development
+one:
+  id: 1
+  login: joshmerchant
+  email: josh.merchant@unb.ca
+  crypted_password: fdbdc65f59f98525520866e90c3b3ef597fa0bfb
+  salt: 2817f526d5cf5e43eda4089d3e53b9881e23d05e
+  created_at: 2007-05-25 11:37:21
+  updated_at: 2007-05-25 11:37:21

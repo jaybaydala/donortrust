@@ -1,0 +1,73 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Initial bulk load of Milestone statuses for development
+one:
+  id: 1
+  controller_name: bus_account
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
+
+two:
+  id: 2
+  controller_name: cities
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
+  
+three:
+  id: 3
+  controller_name: continents
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
+  
+four:
+  id: 4
+  controller_name: countries
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
+  
+five:
+  id: 5
+  controller_name: nations
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
+  
+six:
+  id: 6
+  controller_name: projects
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
+
+seven:
+  id: 7
+  controller_name: regions
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
+
+eight:
+  id: 8
+  controller_name: village_groups
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
+  
+nine:
+  id: 9
+  controller_name: villages
+  create: 1
+  update: 1
+  delete: 1
+  edit: 1
