@@ -1,3 +1,9 @@
 class PartnerTypesController < ApplicationController
-  active_scaffold :partner_type
+  before_filter :login_required
+  active_scaffold :partner_type do |config|  
+    config.list.columns = [:name, :description] # reorder columns 
+    config.create.columns = [:name, :description] # reorder columns 
+    config.update.columns = [:name, :description] # reorder columns 
+  end
+
 end
