@@ -24,6 +24,15 @@ class Test::Unit::TestCase
   # then set this back to true.
   self.use_instantiated_fixtures  = false
 
+  def logger
+    RAILS_DEFAULT_LOGGER
+  end
+
+  def log_test_name(test_name=nil)
+    test_name=caller[0].match(/'(test_[a-z]+)'$/) unless test_name
+    logger.debug "\n\e[1m#{self.class}::\e[0;31m#{test_name}\e[m\n"
+  end
+
   # helper method to reduce testing code by checking an attribute [or array
   # of attributes] against a list / array of values (all of which **should** be
   # invalid)

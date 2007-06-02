@@ -1,6 +1,10 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 require 'bus_admin/tasks_controller'
 
+#hpd debugging
+#dt20070407/vendor/plugins/active_scaffold/lib/actions/create.rb
+#dt20070407/vendor/plugins/active_scaffold/lib/attribute_params.rb
+
 # Re-raise errors caught by the controller.
 class BusAdmin::TasksController; def rescue_action(e) raise e end; end
 
@@ -11,6 +15,7 @@ class BusAdmin::TasksControllerTest < Test::Unit::TestCase
     @controller = BusAdmin::TasksController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    #@record     = "task"
   end
 
 #  def test_should_get_index
@@ -49,8 +54,10 @@ class BusAdmin::TasksControllerTest < Test::Unit::TestCase
 #  end
   def test_should_create_task2
     old_count = Task.count
+    log_test_name
+    logger.info "starting test_should_create_task2"
     # does this need (2nd) milestone_id if model copies automatically? (when nested resource)
-    post :create,
+    post :create,# :record => "task",
       :milestone_id => milestones( :one ),
       :task => {
         :milestone_id => milestones( :one ),
