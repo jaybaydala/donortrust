@@ -15,7 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
 
-  map.resources :contacts, :active_scaffold => true
+  map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
 
   map.resources :partner_statuses, :active_scaffold => true
   map.resources :partner_types, :active_scaffold => true 
