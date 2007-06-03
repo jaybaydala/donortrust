@@ -5,4 +5,8 @@ class MilestoneStatus < ActiveRecord::Base
   validates_presence_of :status
   validates_uniqueness_of :status
   validates_presence_of :description
+
+  def to_label
+    "#{status}"
+  end
 end

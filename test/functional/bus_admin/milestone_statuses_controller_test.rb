@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require 'admin/milestone_statuses_controller'
+require 'bus_admin/milestone_statuses_controller'
 
 # Re-raise errors caught by the controller.
-class Admin::MilestoneStatusesController; def rescue_action(e) raise e end; end
+class BusAdmin::MilestoneStatusesController; def rescue_action(e) raise e end; end
 
-class Admin::MilestoneStatusesControllerTest < Test::Unit::TestCase
+class BusAdmin::MilestoneStatusesControllerTest < Test::Unit::TestCase
   fixtures :milestone_statuses
 
   def setup
-    @controller = Admin::MilestoneStatusesController.new
+    @controller = BusAdmin::MilestoneStatusesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
@@ -16,8 +16,7 @@ class Admin::MilestoneStatusesControllerTest < Test::Unit::TestCase
   def test_should_get_index
     get :index
     assert_response :success
-    #hpd assert assigns(:milestone_statuses)
-    #hpd assert assigns(:admin_milestone_statuses)
+    #assert assigns(:bus_admin_milestone_statuses)
   end
 
   def test_should_get_new
@@ -27,8 +26,7 @@ class Admin::MilestoneStatusesControllerTest < Test::Unit::TestCase
   
   def test_should_create_milestone_status
     old_count = MilestoneStatus.count
-    post :create, :milestone_status => {
-      :status => "xyzstatusxyz", :description => "status description" }
+    post :create, :milestone_status => { }
     assert_equal old_count+1, MilestoneStatus.count
     
     assert_redirected_to milestone_status_path(assigns(:milestone_status))
@@ -54,6 +52,6 @@ class Admin::MilestoneStatusesControllerTest < Test::Unit::TestCase
     delete :destroy, :id => 1
     assert_equal old_count-1, MilestoneStatus.count
     
-    assert_redirected_to milestone_statuses_path
+    assert_redirected_to bus_admin_milestone_statuses_path
   end
 end

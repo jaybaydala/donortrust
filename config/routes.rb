@@ -30,8 +30,8 @@ ActionController::Routing::Routes.draw do |map|
   
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
   map.resources :project_statuses
-  map.resources :milestone_statuses, :controller => "admin/milestone_statuses", 
-    :path_prefix => "/admin", :active_scaffold => true
+  map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses", 
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :task_statuses, :controller => "bus_admin/task_statuses", 
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :task_categories, :controller => "bus_admin/task_categories",

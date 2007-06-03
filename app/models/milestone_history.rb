@@ -10,6 +10,10 @@ class MilestoneHistory < ActiveRecord::Base
   validates_presence_of :reason
   validates_length_of :reason, :minimum => 10
   
+  def to_label
+    "#{created_at}"
+  end
+
   # do not bother validating fields that also exist in Milestone
   # just need to used milestone.valid? after copy to milestone fields
   
