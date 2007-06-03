@@ -1,4 +1,6 @@
 class BusAdmin::ContactsController < ApplicationController
+  before_filter :login_required
+
   active_scaffold :contact do |config|
     
     config.label = "Contacts"
