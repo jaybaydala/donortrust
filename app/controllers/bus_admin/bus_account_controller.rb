@@ -99,7 +99,7 @@ class BusAdmin::BusAccountController < ApplicationController
       end
       if( !has_numbers && !has_characters && has_symbols)
         
-       render_text "<h3" + "Weak Password" + "</h3>"
+       render_text "<h3>" + "Weak Password" + "</h3>"
         
       end
       if( !has_numbers && has_characters && !has_symbols)
