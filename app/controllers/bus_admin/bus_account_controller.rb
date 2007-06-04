@@ -59,8 +59,8 @@ class BusAdmin::BusAccountController < ApplicationController
   end
     
  def change_password
-   #render :partial => "bus_admin/bus_account/password_form"
-   active_scaffold :bus_user
+   render :partial => "bus_admin/bus_account/password_form"
+  
  end
  
  def change_password_now   
