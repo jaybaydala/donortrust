@@ -2,7 +2,6 @@ require 'digest/sha1'
 class BusUser < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
-  before_destroy :dont_destroy_josh
  
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
@@ -30,10 +29,6 @@ class BusUser < ActiveRecord::Base
   # Encrypts the password with the user salt
   def encrypt(password)
     self.class.encrypt(password, salt)
-  end
-  
-  def dont_destroy_josh
-    raise "Can't destroy Josh" if self.login = 'joshmerchant'
   end
 
   def authenticated?(password)
