@@ -36,7 +36,8 @@ ActionController::Routing::Routes.draw do |map|
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :task_categories, :controller => "bus_admin/task_categories",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :milestone_categories
+  map.resources :milestone_categories, :controller => "bus_admin/milestone_categories",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :project_categories
   map.resources :partner_types
   map.resources :measure_categories, :controller => "bus_admin/measure_categories",
