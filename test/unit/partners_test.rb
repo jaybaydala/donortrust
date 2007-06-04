@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PartnersTest < Test::Unit::TestCase
+class BusAdmin::PartnersTest < Test::Unit::TestCase
   fixtures :partners
   
   def create_instance(overrides = {})

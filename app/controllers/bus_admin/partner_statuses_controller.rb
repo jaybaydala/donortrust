@@ -1,5 +1,7 @@
 class BusAdmin::PartnerStatusesController < ApplicationController
 
+  before_filter :login_required
+
   active_scaffold :partner_statuses do |config|
     config.columns =[ :statusType, :description, :partners, :partner_histories ]
     config.columns[ :statusType ].label = "Title"

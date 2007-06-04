@@ -1,4 +1,4 @@
-class PartnerTypesController < ApplicationController
+class BusAdmin::PartnerTypesController < ApplicationController
   before_filter :login_required
   active_scaffold :partner_type do |config|  
     config.list.columns = [:name, :description] # reorder columns 

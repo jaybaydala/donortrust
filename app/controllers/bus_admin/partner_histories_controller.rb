@@ -1,4 +1,4 @@
-class PartnerHistoriesController < ApplicationController
+class BusAdmin::PartnerHistoriesController < ApplicationController
   active_scaffold do |config|
     #config.ignore_columns.add :partner_id
     
