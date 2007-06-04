@@ -39,7 +39,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :milestone_categories
   map.resources :project_categories
   map.resources :partner_types
-  map.resources :measure_categories
+  map.resources :measure_categories, :controller => "bus_admin/measure_categories",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+
   
   #map.resources :partner_histories
     

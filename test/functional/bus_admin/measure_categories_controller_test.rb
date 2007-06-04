@@ -1,14 +1,14 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'measure_categories_controller'
+require File.dirname(__FILE__) + '/../../test_helper'
+require 'bus_admin/measure_categories_controller'
 
 # Re-raise errors caught by the controller.
-class MeasureCategoriesController; def rescue_action(e) raise e end; end
+class BusAdmin::MeasureCategoriesController; def rescue_action(e) raise e end; end
 
-class MeasureCategoriesControllerTest < Test::Unit::TestCase
+class BusAdmin::MeasureCategoriesControllerTest < Test::Unit::TestCase
   fixtures :measure_categories
 
   def setup
-    @controller = MeasureCategoriesController.new
+    @controller = BusAdmin::MeasureCategoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
@@ -16,7 +16,7 @@ class MeasureCategoriesControllerTest < Test::Unit::TestCase
   def test_should_get_index
     get :index
     assert_response :success
-    assert assigns(:measure_categories)
+    #assert assigns(:bus_admin_measure_categories)
   end
 
   def test_should_get_new
@@ -26,8 +26,7 @@ class MeasureCategoriesControllerTest < Test::Unit::TestCase
   
   def test_should_create_measure_category
     old_count = MeasureCategory.count
-    post :create, :measure_category => {
-      :category => "xyzcategoryxyz", :description => "category description" }
+    post :create, :measure_category => { }
     assert_equal old_count+1, MeasureCategory.count
     
     assert_redirected_to measure_category_path(assigns(:measure_category))
@@ -53,6 +52,6 @@ class MeasureCategoriesControllerTest < Test::Unit::TestCase
     delete :destroy, :id => 1
     assert_equal old_count-1, MeasureCategory.count
     
-    assert_redirected_to measure_categories_path
+    assert_redirected_to bus_admin_measure_categories_path
   end
 end
