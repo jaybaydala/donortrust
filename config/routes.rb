@@ -17,7 +17,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
 
-  map.resources :partner_statuses, :active_scaffold => true
+  map.resources :partner_statuses, :controller => "bus_admin/partner_statuses",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :partner_types, :active_scaffold => true 
   map.resources :partners, :active_scaffold => true do |partner|
     partner.resources :partner_histories, :active_scaffold => true
