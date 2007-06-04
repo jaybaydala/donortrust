@@ -4,7 +4,7 @@ class BusAdmin::BusAccountController < ApplicationController
   # If you want "remember me" functionality, add this before_filter to Application Controller
   # before_filter :login_from_cookie
   # say something nice, you goof!  something sweet.
-  
+  before_filter :login_required, :except => [:login, :signup]
    active_scaffold :bus_user do |config|
     config.label = "Users"
     config.columns = [:login, :email, :updated_at]
@@ -34,6 +34,7 @@ class BusAdmin::BusAccountController < ApplicationController
       session[:user] = self.current_bus_user
       flash[:notice] = "Logged in successfully"
     end
+     
   end
 
   def signup
@@ -58,11 +59,11 @@ class BusAdmin::BusAccountController < ApplicationController
   end
     
  def change_password
-   render :partial => "bus_admin/bus_account/password_form"
+   #render :partial => "bus_admin/bus_account/password_form"
+   active_scaffold :bus_user
  end
  
- def change_password_now
- 
+ def change_password_now   
    @current_pass = params[:current_user][:current_password]
    @bus_user = session[:user]
       if params[:current_user][:new_password] == params[:current_user][:confirm_password] 
