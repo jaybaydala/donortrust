@@ -26,7 +26,7 @@ class RegionTypesControllerTest < Test::Unit::TestCase
   
   def test_should_create_region_type
     old_count = RegionType.count
-    post :create, :region_type => { }
+    post :create, :region_type => { :region_type_name => "junktype" }
     assert_equal old_count+1, RegionType.count
     
     assert_redirected_to region_type_path(assigns(:region_type))
