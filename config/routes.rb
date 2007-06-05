@@ -1,30 +1,21 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
-
   map.resources :cities, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/cities"
-
   map.resources :countries, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/countries"
-
   map.resources :villages, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/villages"
-
   map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"
-
   map.resources :nations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/nations"
-
-  map.resources :projects, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/projects'
-  
+  map.resources :projects, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/projects'  
   map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
-
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
 
-  map.resources :partner_statuses, :controller => "bus_admin/partner_statuses",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :partner_types, :active_scaffold => true 
-  map.resources :partners, :active_scaffold => true do |partner|
-    partner.resources :partner_histories, :active_scaffold => true
+  map.resources :partner_statuses, :active_scaffold => true, :controller => "bus_admin/partner_statuses", :path_prefix => "/bus_admin"
+  map.resources :partner_types, :active_scaffold => true, :controller => "bus_admin/partner_types", :path_prefix => "/bus_admin"
+  map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners' do |partner|
+    partner.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
   end
   # hack around the active_scaffold's non-restful support of nesting
-  map.resources :partner_histories, :active_scaffold => true
+  map.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
   map.resources :region_types
   
   # The priority is based upon order of creation: first created -> highest priority.
@@ -80,6 +71,7 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/bus_admin/change_password', :controller => 'bus_admin/bus_account', :action =>'change_password'
   map.show_encryption '/bus_admin/bus_account/show_encryption', :controller =>'bus_admin/bus_account',:action =>'show_encryption'
   map.change_password_now '/bus_admin/bus_account/change_password_now', :controller => 'bus_admin/bus_account', :action =>'change_password_now'
+  map.display_pending '/bus_admin/display_pending', :controller => 'bus_admin/partners', :action =>'display_pending'
   
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
