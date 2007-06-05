@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
-  statusType: Status1
+  statusType: Approved
   description: Description for Status 1
 two:
   id: 2
-  statusType: Status2
+  statusType: Pending
   description: Description for Status 2

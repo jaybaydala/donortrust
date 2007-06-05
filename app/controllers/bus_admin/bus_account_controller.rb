@@ -63,7 +63,7 @@ class BusAdmin::BusAccountController < ApplicationController
   
  end
  
- def change_password_now   
+ def change_password_now  
    @current_pass = params[:current_user][:current_password]
    @bus_user = session[:user]
       if params[:current_user][:new_password] == params[:current_user][:confirm_password] 

@@ -1,11 +1,11 @@
 class Partner < ActiveRecord::Base
-  before_save :create_partner_history
-  after_save :save_partner_history
+  before_save  :create_partner_history
+  after_save   :save_partner_history
   
-  belongs_to              :partner_type
-  belongs_to              :partner_status
-  has_many                :partner_histories
-  has_and_belongs_to_many :contacts
+  belongs_to    :partner_type
+  belongs_to    :partner_status
+  has_many      :partner_histories
+  has_and_belongs_to_many :contacts #is this the right relationship? 
   
   validates_presence_of :name, :partner_type_id, :partner_status_id
   validates_length_of   :name, :maximum => 50

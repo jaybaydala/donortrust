@@ -171,21 +171,20 @@
         <td width="57">
             <form name="editForm">
                 <select name="site" size=-1 onchange ="formLinkRedirector(this.form)">
-                <option value="">Manage...
-                <option value="/bus_admin/continents">Continents
-                <option value="/bus_admin/countries">Countries
-                <option value="/bus_admin/regions>">Regions     
-                <option value="/bus_admin/cities>">Cities                      
-                <option value="bus_admin/villages>">Villages
-                <option value="bus_admin/village_groups>">Village Groups
-                <option value="task_categories">Task Categories
-                <option value="task_statuses">Task Statuses
-                <option value="partner_statuses">Partner Statuses
-                <option value="partner_types">Partner Types
-                <option value="contacts">Contacts
-                <option value="milestone_categories">Milestone Categories                
+                <option value="">Manage...</option>
+                <option value="continents">Continents</option>
+                <option value="countries">Countries</option>
+                <option value="regions>">Regions     </option>
+                <option value="/bus_admin/cities>">Cities        </option>              
+                <option value="/bus_admin/villages>">Villages</option>
+                <option value="bus_admin/village_groups>">Village Groups</option>
+                <option value="task_categories">Task Categories</option>
+                <option value="task_statuses">Task Statuses</option>
+                <option value="partner_statuses">Partner Statuses</option>
+                <option value="partner_types">Partner Types</option>
+                <option value="contacts">Contacts</option>
+                <option value="milestone_categories">Milestone Categories  </option>              
             </form>
-
                     
         </td>
       </tr>
@@ -210,6 +209,7 @@
             <!-- CONTENT STARTS HERE -->
             <p style="color: green"><%= flash[:notice] %></p>
             <%= yield  %>
+            
             <!-- CONTENT ENDS HERE -->
           </div>
         </td>

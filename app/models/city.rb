@@ -11,4 +11,8 @@ belongs_to :region
       errors.add_to_base("Region with id=#{self.region_id} doesn't exist.")
     end
   end
+  
+    def to_label
+    "#{city_name}"
+  end
 end

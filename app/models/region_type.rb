@@ -4,6 +4,7 @@ class RegionType < ActiveRecord::Base
 
   validates_presence_of :region_type_name
   validates_uniqueness_of :region_type_name
+  
   def to_label
     "#{region_type_name}"
   end
