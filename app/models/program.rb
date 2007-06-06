@@ -5,4 +5,8 @@ class Program < ActiveRecord::Base
   validates_presence_of :program_name
   validates_uniqueness_of :program_name
   
+  def to_label
+    "#{program_name}"
+  end
+  
 end
