@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   # The priority is based upon order of creation: first created -> highest priority.
   
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
-  map.resources :project_statuses
+  map.resources :project_statuses, :active_scaffold => true
   map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses", 
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :task_statuses, :controller => "bus_admin/task_statuses", 
@@ -39,7 +39,7 @@ ActionController::Routing::Routes.draw do |map|
   #map.resources :partner_histories
     
   map.resources :programs, :active_scaffold => true
-  map.resources :projects#, :path_prefix => "/programs/:program_id"
+  map.resources :projects#, :active_scaffold => true #, :path_prefix => "/programs/:program_id"
   map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :milestones, :path_prefix => "/projects/:project_id"
   map.resources :milestone_histories, :path_prefix => "/milestones/:milestone_id"

@@ -4,6 +4,7 @@ class BusAdmin::PartnerTypesController < ApplicationController
     config.list.columns = [:name, :description] # reorder columns 
     config.create.columns = [:name, :description] # reorder columns 
     config.update.columns = [:name, :description] # reorder columns 
+    config.show.columns = [:name, :description] # reorder columns 
   end
 
 end
