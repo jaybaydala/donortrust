@@ -1,4 +1,4 @@
-class ProjectCategoriesController < ApplicationController  
+class BusAdmin::ProjectCategoriesController < ApplicationController  
   before_filter :login_required
   active_scaffold :project_categories do |config|  
     config.list.columns = :description, :projects

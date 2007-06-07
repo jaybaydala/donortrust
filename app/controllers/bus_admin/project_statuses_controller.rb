@@ -1,4 +1,4 @@
-class ProjectStatusesController < ApplicationController
+class BusAdmin::ProjectStatusesController < ApplicationController
   before_filter :login_required
   active_scaffold :project_statuses do |config|
     config.columns[:projects].ui_type = :select

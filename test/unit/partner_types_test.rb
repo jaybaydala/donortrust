@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PartnerTypeTest < Test::Unit::TestCase
+class BusAdmin::PartnerTypeTest < Test::Unit::TestCase
   fixtures :partner_types
 
   # Replace this with your real tests.
