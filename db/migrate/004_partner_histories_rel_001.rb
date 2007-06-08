@@ -9,6 +9,7 @@ class PartnerHistoriesRel001 < ActiveRecord::Migration
       t.column :partner_type_id, :integer
       t.column :partner_status_id, :integer
       t.column :created_on, :datetime
+      t.column :bus_user_id, :integer
     end #partner_histories
     
     if (ENV['RAILS_ENV'] == 'development')

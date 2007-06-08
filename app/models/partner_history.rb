@@ -1,19 +1,24 @@
 class PartnerHistory < ActiveRecord::Base
-  belongs_to  :partner
+  belongs_to :partner
   belongs_to :partner_type
   belongs_to :partner_status
+  belongs_to :bus_user
+  
+  include BusAdmin::UserInfo
   
   # no validations as the only way to create an partner_history is through the partner model
   
   def self.new_audit (partner)
     raise ArgumentError, "Need a Partner, not a '#{partner.class.to_s}'" if not partner.class.to_s == 'Partner'
-    
+    #logger.debug "><><><><<><><><><><><><><><><><><<>" 
+    #logger.debug current_user.login
     ph                    = PartnerHistory.new
     ph.partner_id         = partner.id
     ph.name               = partner.name
     ph.description        = partner.description
     ph.partner_type_id    = partner.partner_type_id
     ph.partner_status_id  = partner.partner_status_id
+    ph.bus_user_id        = current_user.id
     
     return ph
   end

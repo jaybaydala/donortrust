@@ -1,6 +1,10 @@
 
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
+  include BusAdmin::UserInfo
+  
+  before_filter :set_user
+  
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_donortrust_session_id'
    #before_filter :login_from_cookie
@@ -12,6 +16,9 @@ class ApplicationController < ActionController::Base
     end 
   end
   
-  
+  protected
+  def set_user
+    BusAdmin::UserInfo.current_user = session[:user]
+  end
   
 end

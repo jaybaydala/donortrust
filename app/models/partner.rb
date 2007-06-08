@@ -1,6 +1,6 @@
 class Partner < ActiveRecord::Base
-  before_save  :create_partner_history
-  after_save   :save_partner_history
+  after_save  :create_partner_history
+  after_save :save_partner_history
   
   belongs_to    :partner_type
   belongs_to    :partner_status

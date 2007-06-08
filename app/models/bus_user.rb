@@ -64,6 +64,10 @@ class BusUser < ActiveRecord::Base
     end
   end
 
+  def to_label
+    "#{login}"
+  end
+  
   protected
     # before filter 
     def encrypt_password
