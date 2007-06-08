@@ -9,7 +9,7 @@ class BusAdmin::PartnerHistoriesController < ApplicationController
 #    config.actions.exclude :update
 #    config.actions.exclude :nested
 
-    config.list.columns = [:name, :description, :partner_type, :partner_status, :bus_user, :created_on] # reorder columns 
+    config.list.columns = [:name, :description, :partner_status, :partner_type, :bus_user, :created_on] # reorder columns 
     
     config.show.columns.exclude :partner
     config.columns[:bus_user].label = "Modified By"
