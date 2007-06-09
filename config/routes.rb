@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :urban_centres, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/urban_centres"
+
+  map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
+
+  map.resources :cities, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/cities"
+
   map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
   map.resources :cities, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/cities"
   map.resources :countries, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/countries"

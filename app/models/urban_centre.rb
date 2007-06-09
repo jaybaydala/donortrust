@@ -1,8 +1,9 @@
-class City < ActiveRecord::Base
+class UrbanCentre < ActiveRecord::Base
 
 belongs_to :region
 
   validates_presence_of :region_id
+  validates_presence_of :urban_centre_name
   
   def validate
     begin
@@ -11,8 +12,8 @@ belongs_to :region
       errors.add_to_base("Region with id=#{self.region_id} doesn't exist.")
     end
   end
-  
-    def to_label
-    "#{city_name}"
+  def to_label
+    "#{urban_centre_name}"
   end
 end
+

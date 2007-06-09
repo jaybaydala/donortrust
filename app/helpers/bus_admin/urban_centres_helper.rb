@@ -1,0 +1,2 @@
+module BusAdmin::UrbanCentresHelper
+end

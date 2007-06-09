@@ -6,6 +6,7 @@ class CountriesRel001 < ActiveRecord::Migration
     create_table :countries do |t|
       t.column :country_name, :string, :null => false
       t.column :continent_id, :int, :null => false
+      t.column :content, :text, :null => true 
     end #nations
     
     if (ENV['RAILS_ENV'] = 'development')
