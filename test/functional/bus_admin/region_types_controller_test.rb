@@ -1,14 +1,14 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'region_types_controller'
+require File.dirname(__FILE__) + '/../../test_helper'
+require 'bus_admin/region_types_controller'
 
 # Re-raise errors caught by the controller.
-class RegionTypesController; def rescue_action(e) raise e end; end
+class BusAdmin::RegionTypesController; def rescue_action(e) raise e end; end
 
-class RegionTypesControllerTest < Test::Unit::TestCase
+class BusAdmin::RegionTypesControllerTest < Test::Unit::TestCase
   fixtures :region_types
 
   def setup
-    @controller = RegionTypesController.new
+    @controller = BusAdmin::RegionTypesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
@@ -16,7 +16,7 @@ class RegionTypesControllerTest < Test::Unit::TestCase
   def test_should_get_index
     get :index
     assert_response :success
-    assert assigns(:region_types)
+    #assert assigns(:bus_admin_region_types)
   end
 
   def test_should_get_new
@@ -26,7 +26,7 @@ class RegionTypesControllerTest < Test::Unit::TestCase
   
   def test_should_create_region_type
     old_count = RegionType.count
-    post :create, :region_type => { :region_type_name => "junktype" }
+    post :create, :region_type => { }
     assert_equal old_count+1, RegionType.count
     
     assert_redirected_to region_type_path(assigns(:region_type))
@@ -52,6 +52,6 @@ class RegionTypesControllerTest < Test::Unit::TestCase
     delete :destroy, :id => 1
     assert_equal old_count-1, RegionType.count
     
-    assert_redirected_to region_types_path
+    assert_redirected_to bus_admin_region_types_path
   end
 end

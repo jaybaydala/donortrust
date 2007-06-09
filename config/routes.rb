@@ -16,13 +16,14 @@ ActionController::Routing::Routes.draw do |map|
   end
   # hack around the active_scaffold's non-restful support of nesting
   map.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
-  map.resources :region_types
+  map.resources :region_types, :controller => "bus_admin/region_types",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   
   # The priority is based upon order of creation: first created -> highest priority.
   
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
-  map.resources :project_statuses, :active_scaffold => true,:path_prefix => "/bus_admin", :controller => "bus_admin/project_statuses", 
-    :name_prefix => 'bus_admin_'
+  map.resources :project_statuses, :controller => "bus_admin/project_statuses",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses", 
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :task_statuses, :controller => "bus_admin/task_statuses", 
