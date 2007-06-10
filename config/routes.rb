@@ -1,4 +1,28 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :indicators, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/indicators"
+
+  map.resources :targets, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/targets"
+
+  map.resources :targets, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/targets"
+
+  map.resources :indicators, :active_scaffold => true, :path_prefix => "/", :controller => "/indicators"
+
+  map.resources :targets, :active_scaffold => true, :path_prefix => "/", :controller => "/targets"
+
+  map.resources :indicators, :active_scaffold => true, :path_prefix => "/", :controller => "/indicators"
+
+  map.resources :indicators, :active_scaffold => true, :path_prefix => "/", :controller => "/indicators"
+
+  map.resources :indicators, :active_scaffold => true, :path_prefix => "/", :controller => "/indicators"
+
+  map.resources :indicators, :active_scaffold => true, :path_prefix => "/", :controller => "/indicators"
+
+  map.resources :targets, :active_scaffold => true, :path_prefix => "/", :controller => "/targets"
+
+  map.resources :millennium_development_goals, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/millennium_development_goals"
+
+  map.resources :sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/sectors"
+
   map.resources :urban_centres, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/urban_centres"
 
   map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
