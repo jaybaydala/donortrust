@@ -1,4 +1,4 @@
-class RssFeedElement < ActiveRecord::Migration
+class RssFeedElements < ActiveRecord::Migration
   # for RSS Specifications visit - http://cyber.law.harvard.edu/rss/rss.html#sampleFiles
   
   def self.up 
@@ -15,7 +15,11 @@ class RssFeedElement < ActiveRecord::Migration
       t.column :guid, :string
       t.column :pubDate, :datetime
       t.column :source, :string
-      
+    end
+    
+    if (ENV['RAILS_ENV'] == 'development')
+      directory = File.join(File.dirname(__FILE__), "dev_data")
+      Fixtures.create_fixtures(directory, "rss_feeds")
     end
   end
 

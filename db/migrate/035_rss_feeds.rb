@@ -1,4 +1,4 @@
-class CreateRSSFeeds < ActiveRecord::Migration
+class RssFeeds < ActiveRecord::Migration
   def self.up
     create_table :rss_feeds, :force => true do |t|
       # for complete RSS Specification please se http://cyber.law.harvard.edu/rss/rss.html
@@ -13,6 +13,10 @@ class CreateRSSFeeds < ActiveRecord::Migration
       t.column :copyright, :string
       t.column :managing_editor, :string # this will likely be the PM
       t.column :pub_date, :datetime
+      
+      t.column :image_url, :string
+      t.column :image_title, :string
+      t.column :image_link, :string
     end
     
     if (ENV['RAILS_ENV'] == 'development')
@@ -22,6 +26,6 @@ class CreateRSSFeeds < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :rss_feeds
+    drop_table :rss_feed
   end
 end
