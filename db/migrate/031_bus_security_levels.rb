@@ -5,10 +5,7 @@ class BusSecurityLevels < ActiveRecord::Migration
       t.column :controller,                     :string
     end
 
-    if (ENV['RAILS_ENV'] = 'development')
-      directory = File.join(File.dirname(__FILE__), "dev_data")
-      Fixtures.create_fixtures(directory, "bus_security_levels")
-    end
+    
   end
 
   def self.down
