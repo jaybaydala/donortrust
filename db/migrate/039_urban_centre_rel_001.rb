@@ -1,7 +1,9 @@
-class CreateUrbanCentreRel001 < ActiveRecord::Migration
+class UrbanCentreRel001 < ActiveRecord::Migration
   def self.up
     create_table :urban_centres, :force => true do |t|
     end
+    
+     
   end
 
   def self.down
