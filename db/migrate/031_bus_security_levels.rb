@@ -2,7 +2,7 @@ class BusSecurityLevels < ActiveRecord::Migration
   def self.up
     
     create_table :bus_security_levels, :force => true do |t|
-      t.column :level,                     :int
+      t.column :controller,                     :string
     end
 
     if (ENV['RAILS_ENV'] = 'development')
