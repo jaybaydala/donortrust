@@ -7,15 +7,16 @@ class BusAdmin::BusAccountController < ApplicationController
   before_filter :login_required, :except => [:login, :signup]
    active_scaffold :bus_user do |config|
     config.label = "Users"
-    config.columns = [:login, :email, :updated_at]
-    
-    config.create.columns[:login]
-    #columns[:contacts].set_link('nested', :parameters => {:associations => :contacts})
-    
+   
     #config.action_links.add "Change Password", :action => 'change_password'
     #config.columns.set_link 'Change Password', :action => 'change_password'
     config.action_links.add 'change_password', :label => 'Change my password'
-    list.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
+    config.nested.add_link "UserType", [:bus_user_type]
+    config.list.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at, :updated_at, :created_at]
+    config.show.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
+    config.create.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
+    config.create.columns.add [:password, :password_confirmation]
+    config.update.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at, :upadted_at, :created_at]
     list.sorting = {:login => 'ASC'}
   end
   
@@ -33,8 +34,9 @@ class BusAdmin::BusAccountController < ApplicationController
       
       session[:user] = self.current_bus_user
       flash[:notice] = "Logged in successfully"
-    end
-     
+     else
+        flash[:notice] = "Your password may be incorrect, or the specified user doesn't exist"
+      end
   end
 
   def signup
@@ -60,7 +62,6 @@ class BusAdmin::BusAccountController < ApplicationController
     
  def change_password
    render :partial => "bus_admin/bus_account/password_form"
-  
  end
  
  def change_password_now  
@@ -141,9 +142,5 @@ class BusAdmin::BusAccountController < ApplicationController
   def inspect_password(password)
    return true
   end
-  
-  
-  
-  
-  
+
 end
