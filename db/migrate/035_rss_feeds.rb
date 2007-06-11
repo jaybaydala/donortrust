@@ -26,6 +26,6 @@ class RssFeeds < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :rss_feed
+    drop_table :rss_feeds
   end
 end

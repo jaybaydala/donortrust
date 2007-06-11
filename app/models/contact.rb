@@ -3,7 +3,7 @@ class Contact < ActiveRecord::Base
   belongs_to :continent
   belongs_to :country
   belongs_to :region
-  belongs_to :city
+  belongs_to :urban_centre
   has_and_belongs_to_many :partners
   
   validates_presence_of :first_name

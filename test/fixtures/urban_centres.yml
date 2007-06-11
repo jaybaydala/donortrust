@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  village_group_name: MyString
+  region_id: 1
+  blog_name: MyString
+  blog_url: MyString
+  rss_url: MyString
+  population: 1
+  village_plan: MyString
+  facebook_group_id: MyString
+two:
+  id: 2
+  village_group_name: MyString
+  region_id: 1
+  blog_name: MyString
+  blog_url: MyString
+  rss_url: MyString
+  population: 1
+  village_plan: MyString
+  facebook_group_id: MyString

@@ -11,6 +11,7 @@ class UrbanCentresRel001 < ActiveRecord::Migration
       t.column :rss_url, :string, :null => true
       t.column :population, :int, :null => true
       t.column :village_plan, :text, :null => true
+      t.column :facebook_group_id, :string
       
     end #urban_centres
     

@@ -2,3 +2,7 @@ test1:
   id: 1
   continent_name: North America
 
+test2:
+  id: 2
+  continent_name: Africa
+

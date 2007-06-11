@@ -13,7 +13,7 @@ class ContactsRel001 < ActiveRecord::Migration
       t.column :continent_id, :integer#, :null => false
       t.column :country_id, :integer
       t.column :region_id, :integer#, :null => false
-      t.column :city_id, :integer#, :null => false
+      t.column :urban_centre_id, :integer#, :null => false
       t.column :address_line_1, :string
       t.column :address_line_2, :string
       t.column :postal_code, :string

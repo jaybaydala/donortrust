@@ -7,3 +7,8 @@ test2:
   id: 2
   country_name: United States
   continent_id: 1
+  
+test3:
+  id: 3
+  country_name: Niger
+  continent_id: 2
