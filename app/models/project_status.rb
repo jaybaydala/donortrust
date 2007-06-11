@@ -6,4 +6,7 @@ class ProjectStatus < ActiveRecord::Base
   validates_presence_of :status_type
   validates_uniqueness_of :status_type
 
+  def to_label
+    "#{status_type}"
+  end
 end

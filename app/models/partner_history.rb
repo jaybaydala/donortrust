@@ -10,8 +10,6 @@ class PartnerHistory < ActiveRecord::Base
   
   def self.new_audit (partner)
     raise ArgumentError, "Need a Partner, not a '#{partner.class.to_s}'" if not partner.class.to_s == 'Partner'
-    #logger.debug "><><><><<><><><><><><><><><><><><<>" 
-    #logger.debug current_user.login
     ph                    = PartnerHistory.new
     ph.partner_id         = partner.id
     ph.name               = partner.name

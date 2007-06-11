@@ -1,9 +1,9 @@
-class ProgramsController < ApplicationController
+class BusAdmin::ProgramsController < ApplicationController
   
   active_scaffold :programs do |config|
     config.label = "Programs"
     config.columns = [:program_name, :contact]
-    config.create.columns = [:program_name, :contact]    
+    config.create.columns = [:program_name, :contact, :title]    
     #config.columns[:contact].ui_type = :select
     
 
