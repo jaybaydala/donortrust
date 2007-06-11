@@ -1,8 +1,8 @@
 require 'digest/sha1'
 class BusUser < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
+  belongs_to :bus_user_type
   attr_accessor :password
- 
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
@@ -50,6 +50,9 @@ class BusUser < ActiveRecord::Base
     self.remember_token_expires_at = nil
     self.remember_token            = nil
     save(false)
+  end
+  def to_label
+    "#{login}"
   end
 
   def update_password(new_password,current_password)

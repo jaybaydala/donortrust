@@ -1,5 +1,4 @@
-
 class BusUserType < ActiveRecord::Base
-  belongs_to :bus_user
-  
+
+  has_and_belongs_to_many :bus_secure_actions
 end
