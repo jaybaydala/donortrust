@@ -1,4 +1,5 @@
 class BusAdmin::TasksController < ApplicationController
+  before_filter :login_required
 
   active_scaffold :tasks do |config|
     config.columns =[ :milestone, :title, :start_date, :end_date, :etc_date, :task_category, :task_status, :description, :task_histories ]

@@ -1,4 +1,5 @@
 class BusAdmin::PartnersController < ApplicationController
+  before_filter :login_required
   active_scaffold :partner do |config|
     config.columns[:partner_status].ui_type = :select
     config.columns[:partner_type].ui_type = :select

@@ -1,4 +1,5 @@
 class BusAdmin::TaskCategoriesController < ApplicationController
+  before_filter :login_required
 
   active_scaffold :task_categories do |config|
     config.columns =[ :category, :description, :tasks, :task_histories ]
