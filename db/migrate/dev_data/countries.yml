@@ -2,13 +2,16 @@ test1:
   id: 1
   country_name: Canada
   continent_id: 1
+  html_data: hello world
 
 test2:
   id: 2
   country_name: United States
   continent_id: 1
+  html_data: hello world
   
 test3:
   id: 3
   country_name: Niger
   continent_id: 2
+  html_data: hello world
