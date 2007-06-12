@@ -4,7 +4,9 @@ class Project < ActiveRecord::Base
   
   belongs_to :project_status
   belongs_to :project_category
+  belongs_to :program
   has_many :project_histories
+  validates_presence_of :program
   
   def create_project_history
     if Project.exists?(self.id)

@@ -10,8 +10,9 @@ class BusUsers < ActiveRecord::Migration
       t.column :remember_token,              :string
       t.column :remember_token_expires_at,   :datetime
       t.column :bus_user_type_id,            :int
-    end
    
+  end
+  
     
   end
 
