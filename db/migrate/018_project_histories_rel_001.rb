@@ -13,7 +13,9 @@ class ProjectHistoriesRel001 < ActiveRecord::Migration
       t.column :end_date, :datetime
       t.column :user_id, :integer  
       t.column :project_status_id, :integer
-      t.column :project_category_id, :integer
+      t.column :project_category_id, :integer     
+      t.column :bus_user_id, :integer
+
     end # project_histories
     
     if (ENV['RAILS_ENV'] = 'development')
