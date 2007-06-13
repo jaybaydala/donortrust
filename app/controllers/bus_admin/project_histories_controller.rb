@@ -8,7 +8,7 @@ class BusAdmin::ProjectHistoriesController < ApplicationController
 #    config.actions.exclude :update
     config.actions.exclude :nested
 
-    config.list.columns = [:description, :total_cost, :dollars_spent, :bus_user, :date] # reorder columns 
+    config.list.columns = [:description, :total_cost, :dollars_raised, :dollars_spent, :bus_user, :date] # reorder columns 
     
     config.show.columns.exclude :project
     config.list.columns.exclude :project

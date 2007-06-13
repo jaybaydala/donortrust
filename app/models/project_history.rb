@@ -24,6 +24,7 @@ class ProjectHistory < ActiveRecord::Base
     project_history.project_category_id      = project.project_category_id
     project_history.description              = project.description
     project_history.total_cost               = project.total_cost
+    project_history.dollars_raised           = project.dollars_raised
     project_history.dollars_spent            = project.dollars_spent
     project_history.start_date               = project.start_date
     project_history.date                     = Time.now

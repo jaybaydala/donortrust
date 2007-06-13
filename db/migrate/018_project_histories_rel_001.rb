@@ -7,6 +7,7 @@ class ProjectHistoriesRel001 < ActiveRecord::Migration
       t.column :date, :datetime
       t.column :description, :text
       t.column :total_cost, :float
+      t.column :dollars_raised, :float
       t.column :dollars_spent, :float
       t.column :expected_completion_date, :datetime      
       t.column :start_date, :datetime
