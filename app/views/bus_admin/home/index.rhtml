@@ -1,0 +1,20 @@
+<p>You are logged in as: <strong><%= session[:user].login %></strong></p>
+<p>There are currently <strong><%= @total_projects %></strong> projects:</p>
+
+<table width=:90%" align="center" border="0">
+<tr><td>Name</td><td>$ Spent</td><td>$ Raised</td><td>Days Remaining</td></tr>
+<% @all_projects.each do |project| %>
+<tr bgcolor="#f5f5f5">
+    <td><strong><%= project.name %></strong></td>
+    <td><strong><%= project.dollars_spent %></strong></td>
+    <td><strong><%= project.dollars_raised %></strong></td>
+    <% @days = project.days_remaining.ceil
+        if @days > 0
+    %>
+    <td> <%= project.days_remaining.ceil %> days remaining</td>
+    <% else %>
+    <td><span style="color: red;">Project Overdue</td>
+    <% end %>
+</tr>
+<% end %>
+</table>

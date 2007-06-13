@@ -18,5 +18,5 @@ class BusAdmin::ProjectsController < ApplicationController
     config.update.columns.exclude :project_histories
 #    config.columns[:program].form_ui = :select
   end
-
+  
 end

@@ -6,7 +6,7 @@ testcrashdummy:
   name: Test Crash
   description: Test Crash Dummy Project
 #  total_cost: :float
-#  dollars_spent: :float
+  dollars_spent: 3
   expected_completion_date: "2008-01-01"
   start_date: "2007-01-01"
   end_date: "2008-01-01"
@@ -14,4 +14,22 @@ testcrashdummy:
   contact_id: 1
   village_group_id: 1
   partner_id: 1
+  dollars_raised: 50
+  
+sampleproject:
+  id: 2
+  program_id: 1
+  project_category_id: 1
+  name: Sample Project One
+  description: Example sample 
+  total_cost: 50399
+  dollars_spent: 33
+  expected_completion_date: "2008-01-01"
+  start_date: "2007-11-01"
+  end_date: "2008-01-01"
+  project_status_id: 1
+  contact_id: 1
+  village_group_id: 1
+  partner_id: 1
+  dollars_raised: 505
   

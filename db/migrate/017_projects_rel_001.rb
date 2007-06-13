@@ -16,6 +16,7 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :contact_id, :integer
       t.column :village_group_id, :integer
       t.column :partner_id, :integer
+      t.column :dollars_raised, :integer
     end # projects
     
     if (ENV['RAILS_ENV'] = 'development')

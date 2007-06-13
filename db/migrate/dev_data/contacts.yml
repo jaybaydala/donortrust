@@ -14,4 +14,20 @@ testcrashdummy:
 #  address_line_1: :string
 #  address_line_2: :string
 #  postal_code: :string
+
+testcrashdummy:
+  id: 2
+  first_name: Snowcrash
+  last_name: Contactson
+  phone_number: (321) 555-1212
+#  fax_number: :string
+  email_address: bob@bob.com
+#  web_address: :string
+#  department: :string
+#  continent_id: 1
+#  region_id: 1
+  urban_centre_id: 1
+#  address_line_1: :string
+#  address_line_2: :string
+#  postal_code: :string
   

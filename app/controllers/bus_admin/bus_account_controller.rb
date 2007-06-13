@@ -5,9 +5,9 @@ class BusAdmin::BusAccountController < ApplicationController
   # before_filter :login_from_cookie
   # say something nice, you goof!  something sweet.
   before_filter :login_required, :except => [:login, :signup]
-   active_scaffold :bus_user do |config|
-    config.label = "Users"
-   
+  
+  active_scaffold :bus_user do |config|
+    config.label = "Users"     
     #config.action_links.add "Change Password", :action => 'change_password'
     #config.columns.set_link 'Change Password', :action => 'change_password'
     config.action_links.add 'change_password', :label => 'Change my password'
@@ -30,7 +30,7 @@ class BusAdmin::BusAccountController < ApplicationController
       end
         jumpto = session[:jumpto] || {:action => 'index'}
         session[:jumpto] = nil
-        redirect_to(jumpto)
+        redirect_to('/bus_admin/home')
       
       session[:user] = self.current_bus_user
       flash[:notice] = "Logged in successfully"

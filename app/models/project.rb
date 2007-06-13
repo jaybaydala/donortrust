@@ -24,4 +24,16 @@ class Project < ActiveRecord::Base
   def self.is_a_project?(object)
     return object.class.to_s == "Project"
   end
+  
+  def self.total_projects
+    @total = self.find(:all).size    
+  end
+  def self.get_projects
+    @all_projects = self.find(:all)   
+  end
+  
+  def days_remaining
+    @days_remaining = (self.end_date - Time.now) / 86400 #number of seconds in a day
+  end
+  
 end
