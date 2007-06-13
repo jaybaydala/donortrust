@@ -14,6 +14,10 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def get_dollars_raised
+    @result = number_to_currency(Project.find(self.id).dollars_raised, :precision => 2)  
+  end
+  
   def save_project_history
     if (@create_project_history_ph)
       @create_project_history_ph.save

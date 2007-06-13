@@ -10,6 +10,10 @@ module BusAdmin::ProjectsHelper
   def get_projects
     @all_projects = Project.get_projects
   end
+  
+  def get_dollars_raised
+    @dollars_raised = Project.get_dollars_raised
+  end
 #  
 #  def days_remaining
 #    @days_remaining = Project.days_remaining
