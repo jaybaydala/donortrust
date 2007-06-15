@@ -2,7 +2,7 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include BusAdmin::UserInfo
-  include BusAdmin::ProjectsHelper
+  #include BusAdmin::ProjectsHelper
     
   before_filter :set_user
   

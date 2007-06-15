@@ -6,6 +6,8 @@ class Milestone < ActiveRecord::Base
   belongs_to :milestone_status
   belongs_to :measure
 
+  attr_reader
+  
   #:foreign_key => :project_id
   #:association_foreign_key
 
@@ -41,5 +43,9 @@ class Milestone < ActiveRecord::Base
     #return object.class == self.class
     #return object.class.to_s == self.class.to_s
     return object.class.to_s == "Milestone"
+  end
+  
+  def total
+    return self.find(:all).size
   end
 end

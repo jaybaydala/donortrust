@@ -25,7 +25,7 @@ class BusAdmin::PartnersController < ApplicationController
 
     # doesn't work in release 1.0 with nested RESTful URLs - may be fixed in later version
     # if you have the entity un-nested for a work around - note that it does use the un-nested path for nesting
-    config.nested.add_link("Show history", [:partner_histories])    
+    config.nested.add_link("History", [:partner_histories])    
   end
 
   def conditions_for_collection  

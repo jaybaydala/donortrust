@@ -111,7 +111,9 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password_now '/bus_admin/bus_account/change_password_now', :controller => 'bus_admin/bus_account', :action =>'change_password_now'
   #map.display_pending '/bus_admin/display_pending', :controller => 'bus_admin/partners', :action =>'display_pending'
   map.home '/bus_admin/index', :controller => 'bus_admin/home', :action=> 'index'
- 
+  map.report 'bus_admin/report', :controller => 'bus_admin/projects', :action => 'report'
+  map.report 'bus_admin/individual_report', :controller => 'bus_admin/projects', :action => 'individual_report'
+  
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
   # Install the default route as the lowest priority.

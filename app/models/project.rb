@@ -6,6 +6,8 @@ class Project < ActiveRecord::Base
   belongs_to :project_category
   belongs_to :program
   has_many :project_histories
+  has_many :milestones
+  belongs_to :contact
   validates_presence_of :program
   
   def create_project_history
@@ -14,8 +16,8 @@ class Project < ActiveRecord::Base
     end
   end
   
-  def get_dollars_raised
-    @result = number_to_currency(Project.find(self.id).dollars_raised, :precision => 2)  
+  def self.get_percent_raised
+    return self.get_dollars_raised * 100 / self.get_total_cost
   end
   
   def save_project_history
@@ -30,14 +32,26 @@ class Project < ActiveRecord::Base
   end
   
   def self.total_projects
-    @total = self.find(:all).size    
+    return self.find(:all).size    
   end
+  
+  def self.total_milestones
+    return self.milestones
+  end
+  
   def self.get_projects
-    @all_projects = self.find(:all)   
+    return self.find(:all)   
   end
   
+  def self.get_project(project_id)
+    return self.find(project_id)   
+  end
+    
   def days_remaining
-    @days_remaining = (self.end_date - Time.now) / 86400 #number of seconds in a day
+    return (self.end_date - Time.now) / 86400 #number of seconds in a day
   end
   
+  def percent_raised
+    return dollars_raised * 100 / total_cost
+  end
 end

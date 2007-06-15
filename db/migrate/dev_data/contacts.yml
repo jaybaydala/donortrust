@@ -5,7 +5,7 @@ testcrashdummy:
   last_name: Dummy
   phone_number: (321) 456-7890
 #  fax_number: :string
-#  email_address: :string
+  email_address: here@there.com
 #  web_address: :string
 #  department: :string
 #  continent_id: 1
