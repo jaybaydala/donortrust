@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
-
   #
   # RSS Feed Resources
   #
@@ -49,10 +47,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :project_statuses, :controller => "bus_admin/project_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses", 
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :task_statuses, :controller => "bus_admin/task_statuses", 
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :task_categories, :controller => "bus_admin/task_categories",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :milestone_categories, :controller => "bus_admin/milestone_categories",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true

@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-testone:
-  id: 1
-  category: TestOne
-  description: Test one category description
-testtwo:
-  id: 2
-  category: TestTwo
-  description: Test two category description

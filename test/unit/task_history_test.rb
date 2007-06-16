@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskHistoryTest < Test::Unit::TestCase
-  fixtures :milestones, :task_statuses, :task_categories, :tasks, :task_histories
+  fixtures :milestones, :tasks, :task_histories
 
   #hpd With structure changes for Task and TaskHistory, this needs a total rewrite.
   #hpd Things that were previously invalid, are now valid, number of aruments for
@@ -65,18 +65,6 @@ class TaskHistoryTest < Test::Unit::TestCase
   def test_create_with_empty_milestone
     # Should not be valid to create a new instance with a null milestone id, or an id that does not exist
     assert_invalid( clean_new_instance, :milestone_id, nil, 0, -1, 989898 )
-  end
-
-  def test_create_with_empty_status
-    # Should not be valid to create a new instance with a null status id, or an id that does not exist
-    assert_invalid( clean_new_instance, :task_status_id, nil, 0, -1, 989898 )
-  end
-
-  def test_create_with_empty_category
-    # Should not be valid to create a new instance with a null category id, or an id that does not exist
-    # hpd: would not be valid to save, but currently shows as valid?
-    # The validations from Task are not checked until .save is running
-    assert_invalid( clean_new_instance, :task_category_id, nil, 0, -1, 989898 )
   end
 
   def test_create_with_empty_title

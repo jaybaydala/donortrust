@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskTest < Test::Unit::TestCase
-  fixtures :milestones, :task_statuses, :task_categories, :tasks
+  fixtures :milestones, :tasks
 
   def clean_new_instance( overrides = {})
     # Build (and return) an instance starting from known (expected) valid attribute
@@ -9,8 +9,6 @@ class TaskTest < Test::Unit::TestCase
     opts = {
       :milestone_id => milestones( :one ).id,
       :title => "clean task instance title",
-      :task_category_id => task_categories( :testone ).id,
-      :task_status_id => task_statuses( :proposed ).id,
       :description => "clean task instant description"
     }.merge( overrides )
     instance = Task.new( opts )
@@ -40,16 +38,6 @@ class TaskTest < Test::Unit::TestCase
     assert_invalid( clean_new_instance, :milestone_id, nil, 0, -1, 989898 )
   end
 
-  def test_create_with_empty_status
-    # Should not be valid to create a new instance with a null status id, or an id that does not exist
-    assert_invalid( clean_new_instance, :task_status_id, nil, 0, -1, 989898 )
-  end
-
-  def test_create_with_empty_category
-    # Should not be valid to create a new instance with a null category id, or an id that does not exist
-    assert_invalid( clean_new_instance, :task_category_id, nil, 0, -1, 989898 )
-  end
-
   def test_create_with_empty_title
     # Should not be valid to create a new instance with an empty or null title
     assert_invalid( clean_new_instance, :title, nil, "", " " )
@@ -64,16 +52,6 @@ class TaskTest < Test::Unit::TestCase
   def test_edit_to_empty_milestone
     # Should not be valid to modify an existing instance to have a null milestone id, or an id that does not exist
     assert_invalid( Task.find( tasks( :taskone ).id ), :milestone_id, nil, 0, -1, 989898 )
-  end
-
-  def test_edit_to_empty_status
-    # Should not be valid to modify an existing instance to have a null status id, or an id that does not exist
-    assert_invalid( Task.find( tasks( :taskone ).id ), :task_status_id, nil, 0, -1, 989898 )
-  end
-
-  def test_edit_to_empty_category
-    # Should not be valid to modify an existing instance to have a null category id, or an id that does not exist
-    assert_invalid( Task.find( tasks( :taskone ).id ), :task_category_id, nil, 0, -1, 989898 )
   end
 
   def test_edit_to_empty_title

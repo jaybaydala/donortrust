@@ -1,8 +1,6 @@
 class TaskHistory < ActiveRecord::Base
   belongs_to :task
   belongs_to :milestone
-  belongs_to :task_category
-  belongs_to :task_status
 
   # Prevent edit / update of history record.  Supposed to be audit trail of changes.
   def validate_on_update
@@ -40,8 +38,6 @@ class TaskHistory < ActiveRecord::Base
     raise ArgumentError, "need a Task, not a '#{task.class}'" if not task.is_a?( Task )
     self.standard_initialize({
       :title              => task.title,
-      :task_category_id   => task.task_category_id,
-      :task_status_id     => task.task_status_id,
       :description        => task.description,
       :start_date         => task.start_date,
       :end_date           => task.end_date,
