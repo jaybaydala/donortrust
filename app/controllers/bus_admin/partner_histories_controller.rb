@@ -1,14 +1,15 @@
 class BusAdmin::PartnerHistoriesController < ApplicationController
+  before_filter :login_required
   active_scaffold do |config|
     #config.ignore_columns.add :partner_id
     
     config.actions = [:list, :show, :nested]
-  
-#    config.actions.exclude :create
-#    config.actions.exclude :delete
-#    config.actions.exclude :update
-#    config.actions.exclude :nested
-
+    
+    #    config.actions.exclude :create
+    #    config.actions.exclude :delete
+    #    config.actions.exclude :update
+    #    config.actions.exclude :nested
+    
     config.list.columns = [:name, :description, :partner_status, :partner_type, :bus_user, :created_on] # reorder columns 
     
     config.show.columns.exclude :partner
