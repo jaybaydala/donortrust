@@ -25,9 +25,9 @@ class <%= controller_class_name %>ControllerTest < Test::Unit::TestCase
   end
   
   def test_should_create_<%= file_name %>
-    old_count = <%= class_name %>.count
+    old_count = <%= file_name %>.count
     post :create, :<%= file_name %> => { }
-    assert_equal old_count+1, <%= class_name %>.count
+    assert_equal old_count+1, <%= file_name %>.count
     
     assert_redirected_to <%= file_name %>_path(assigns(:<%= file_name %>))
   end
@@ -48,9 +48,9 @@ class <%= controller_class_name %>ControllerTest < Test::Unit::TestCase
   end
   
   def test_should_destroy_<%= file_name %>
-    old_count = <%= class_name %>.count
+    old_count = <%= file_name %>.count
     delete :destroy, :id => 1
-    assert_equal old_count-1, <%= class_name %>.count
+    assert_equal old_count-1, <%= file_name %>.count
     
     assert_redirected_to <%= table_name %>_path
   end
