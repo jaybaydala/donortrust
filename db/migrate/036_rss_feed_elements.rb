@@ -2,28 +2,22 @@ class RssFeedElements < ActiveRecord::Migration
   # for RSS Specifications visit - http://cyber.law.harvard.edu/rss/rss.html#sampleFiles
   
   def self.up 
-    create_table :rss_feed_element, :force => true do |t|
-      t.column :feed_id, :integer
+    create_table :rss_feed_elements, :force => true do |t|
+      t.column :rss_feed_id, :integer, :null => false
       
-      # all element fields are optional, however at least one must be present
+      # all element fields are optional, however at least one must be present, also 
+      # some of the elements are not present because they are kinda silly for our purposes
       t.column :title, :string
       t.column :link, :string
       t.column :description, :text
       t.column :author, :string
       t.column :comments, :text
-      t.column :enclosure, :string
-      t.column :guid, :string
       t.column :pubDate, :datetime
       t.column :source, :string
-    end
-    
-    if (ENV['RAILS_ENV'] == 'development')
-      directory = File.join(File.dirname(__FILE__), "dev_data")
-      Fixtures.create_fixtures(directory, "rss_feeds")
     end
   end
 
   def self.down
-    drop_table :rss_feed_element
+    drop_table :rss_feed_elements
   end
 end

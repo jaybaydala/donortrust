@@ -18,11 +18,6 @@ class RssFeeds < ActiveRecord::Migration
       t.column :image_title, :string
       t.column :image_link, :string
     end
-    
-    if (ENV['RAILS_ENV'] == 'development')
-      directory = File.join(File.dirname(__FILE__), "dev_data")
-      Fixtures.create_fixtures(directory, "rss_feeds")
-    end
   end
 
   def self.down
