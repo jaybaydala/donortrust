@@ -7,7 +7,10 @@ class PartnersRel001 < ActiveRecord::Migration
       t.column :description, :string, :limit => 1000
       t.column :partner_type_id, :integer
       t.column :partner_status_id, :integer
-    end #partners    
+      t.column :version, :integer
+    end #partners   
+    
+    #Partner.create_versioned_table
     
     if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")

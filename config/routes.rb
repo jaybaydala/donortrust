@@ -32,12 +32,13 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :partner_statuses, :active_scaffold => true, :controller => "bus_admin/partner_statuses", :path_prefix => "/bus_admin"
   map.resources :partner_types, :active_scaffold => true, :controller => "bus_admin/partner_types", :path_prefix => "/bus_admin"
   map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners' do |partner|
-    partner.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
+    #partner.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
   end
-  
+  map.resources :partner_versions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/partner_versions"
+
   # hack around the active_scaffold's non-restful support of nesting
-  map.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
-  map.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories' 
+  #map.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
+  #map.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories' 
   map.resources :region_types, :controller => "bus_admin/region_types",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   
