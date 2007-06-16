@@ -1,3 +1,0 @@
-module BusAdmin::PartnerHistoriesHelper
-  
-end
