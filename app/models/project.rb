@@ -17,7 +17,7 @@ class Project < ActiveRecord::Base
   end
     
   def get_percent_raised
-    if total_cost > 0 
+    if self.total_cost > 0 
       return (dollars_raised * 100 / total_cost)
     end
   end
@@ -62,7 +62,7 @@ class Project < ActiveRecord::Base
     return (self.end_date - Time.now) / 86400 #number of seconds in a day
   end
   
-  def percent_raised
+  def self.percent_raised
     return dollars_raised * 100 / total_cost
   end
 end

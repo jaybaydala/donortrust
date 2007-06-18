@@ -39,10 +39,9 @@ class BusAdmin::ProjectTest < Test::Unit::TestCase
     assert_equal 4, Project.find(1).milestones.find(:all).size
   end
     
-  def test_get_milestones_by_status
+  def get_number_of_milestones_by_status
     project = Project.find(1)
     milestones = project.get_milestones_by_status(3)
-    puts milestones.size
-    assert_equal 1, milestones.size
+    assert_equal 1, milestones
   end
 end

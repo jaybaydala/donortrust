@@ -1,7 +1,6 @@
 <h2>Projects Overview</h2>
-<%@all_projects = get_projects %>
 <p>Number of Projects: 
-<%= number_of_projects %>
+<%= @total %>
 </p>
 <table width=:90%" align="center" border="0" style="font-weight: bold;">
 <tr><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
@@ -19,7 +18,7 @@
     <% else %>
     <td><span style="color: red;">Project Overdue</td>
     <% end %>    
-    <td bgcolor="#fff"><strong><%= link_to "View Project Report", :controller => 'projects', :action => 'individual_report', :myparam => project.id %></strong></td>
+    <td bgcolor="#fff"><strong><%= link_to "View Project Report", :controller => 'projects', :action => 'individual_report', :projectid => project.id %></strong></td>
 </tr>
 <% end %>
 </table>

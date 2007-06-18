@@ -8,10 +8,6 @@ module BusAdmin::ProjectsHelper
     @all_projects = Project.get_projects
   end
   
-  def get_percent_raised
-    @get_percent_raised = Project.get_dollars_raised #* 100 / get_total_cost
-  end
-    
   def dollars_raised_column(record)
     number_to_currency(record.dollars_raised)
   end
