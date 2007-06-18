@@ -5,7 +5,7 @@ testcrashdummy:
   project_category_id: 1
   name: Test Crash
   description: Test Crash Dummy Project
-  total_cost: 55000.7654
+  total_cost: 550.7654
   dollars_spent: 3.1234
   expected_completion_date: "2008-01-01"
   start_date: "2007-01-01"
@@ -22,14 +22,14 @@ sampleproject:
   project_category_id: 1
   name: Sample Project One
   description: Example sample 
-  total_cost: 50399.33
-  dollars_spent: 33.654
+  total_cost: 7030.33
+  dollars_spent: 336.654
   expected_completion_date: "2008-01-01"
   start_date: "2007-11-01"
   end_date: "2008-01-01"
-  project_status_id: 1
+  project_status_id: 2
   contact_id: 2
   village_group_id: 1
   partner_id: 1
-  dollars_raised: 505
+  dollars_raised: 5052.00
   

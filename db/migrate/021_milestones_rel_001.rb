@@ -4,7 +4,6 @@ class MilestonesRel001 < ActiveRecord::Migration
   def self.up
     create_table :milestones do |t|
       t.column :project_id, :int, :null => false
-      t.column :milestone_category_id, :int, :null => false
       t.column :milestone_status_id, :int, :null => false
       t.column :measure_id, :int#, :null => false
       t.column :target_date, :date

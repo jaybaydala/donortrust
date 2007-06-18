@@ -14,7 +14,7 @@ canceled:
   status: Canceled
   description: Milestone is no longer part of the project
 
-complete:
+completed:
   id: 4
-  status: Complete
+  status: Completed
   description: All Milestone goals and dependencies have been met

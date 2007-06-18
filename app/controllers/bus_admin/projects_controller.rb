@@ -22,11 +22,13 @@ class BusAdmin::ProjectsController < ApplicationController
   
   def report    
    @id = params[:id]
-   render :partial => "bus_admin/projects/report" , :layout => 'application' , :myparams => '5'
+   render :partial => "bus_admin/projects/report" , :layout => 'application'
   end
   
   def individual_report    
    @myparam = params[:myparam]
-   render :partial => "bus_admin/projects/individualreport" , :layout => 'application' , :myparams => @myparam
+   @project = Project.get_project(params[:myparam])
+   render :partial => "bus_admin/projects/individualreport" , :layout => 'application'
   end
+  
 end

@@ -3,9 +3,40 @@
 testcrashdummy:
   id: 1
   project_id: 1
-  milestone_category_id: 1
   milestone_status_id: 1
   measure_id: 1
 #  target_date: :date
   description: Test Crash Dummy milestone
+  
+testcrashdummy2:
+  id: 2
+  project_id: 1
+  milestone_status_id: 2
+  measure_id: 1
+#  target_date: :date
+  description: Test Crash Dummy milestone
+  
+testcrashdummy3:
+  id: 3
+  project_id: 1
+  milestone_status_id: 3
+  measure_id: 1
+#  target_date: :date
+  description: Test Crash Dummy milestone
+  
+testcrashdummy4:
+  id: 4
+  project_id: 1
+  milestone_status_id: 4
+  measure_id: 1
+#  target_date: :date
+  description: Test Crash Dummy milestone
+  
+testsample:
+  id: 5
+  project_id: 2
+  milestone_status_id: 4
+  measure_id: 1
+#  target_date: :date
+  description: Sample milestone
   

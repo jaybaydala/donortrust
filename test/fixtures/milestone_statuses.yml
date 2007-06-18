@@ -8,4 +8,12 @@ inprogress:
   status: InProgress
   description: First Tasks for Milestone have been started
 #  description: [First] Task(s) for Milestone have been started
+inprogress:
+  id: 3
+  status: Canceled
+  description: The milestone has been cancelled? 
+inprogress:
+  id: 4
+  status: Completed
+  description: The milestone has been completed / met.
   

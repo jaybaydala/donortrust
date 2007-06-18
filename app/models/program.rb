@@ -9,4 +9,11 @@ class Program < ActiveRecord::Base
     "#{program_name}"
   end
   
+  def self.total_programs
+    return self.find(:all).size
+  end
+  
+  def self.get_programs
+    return self.find(:all)   
+  end
 end

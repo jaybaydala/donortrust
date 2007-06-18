@@ -45,7 +45,4 @@ class Milestone < ActiveRecord::Base
     return object.class.to_s == "Milestone"
   end
   
-  def total
-    return self.find(:all).size
-  end
 end

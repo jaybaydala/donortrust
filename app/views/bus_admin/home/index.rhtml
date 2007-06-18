@@ -1,13 +1,27 @@
 <p>You are logged in as: <strong><%= session[:user].login %></strong></p>
-<p>There are currently <strong><%= @total_projects %></strong> projects:</p>
+
+<p>There are currently <strong><%= @total_programs %></strong> programs:</p>
 
 <table width=:90%" align="center" border="0">
-<tr><td>Name</td><td>$ Spent</td><td>$ Raised</td><td>Days Remaining</td></tr>
+<tr><td>Program Name</td></tr>
+<% @all_programs.each do |program| %>
+<tr bgcolor="#f5f5f5">
+    <td><strong><%= program.program_name %></strong></td>
+</tr>
+<% end %>
+</table>
+<br />
+<p>There are currently <strong><%= @total_projects %></strong> projects:</p>
+
+<table width=:95%" align="center" border="0">
+<tr><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
 <% @all_projects.each do |project| %>
 <tr bgcolor="#f5f5f5">
     <td><strong><%= project.name %></strong></td>
-    <td><strong><%= project.dollars_spent %></strong></td>
-    <td><strong><%= project.dollars_raised %></strong></td>
+    <td><strong><%= ProjectStatus.find(project.project_status_id).status_type %></strong></td>
+    <td><strong><%= number_to_currency(project.dollars_spent) %></strong></td>
+    <td><strong><%= number_to_currency(project.dollars_raised) %></strong></td>
+    <td><strong><%= project.total_milestones %></strong></td>
     <% @days = project.days_remaining.ceil
         if @days > 0
     %>
@@ -18,3 +32,4 @@
 </tr>
 <% end %>
 </table>
+<br />

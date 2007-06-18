@@ -15,9 +15,11 @@ class Project < ActiveRecord::Base
       @create_project_history_ph = ProjectHistory.new_audit(Project.find(self.id))
     end
   end
-  
-  def self.get_percent_raised
-    return self.get_dollars_raised * 100 / self.get_total_cost
+    
+  def get_percent_raised
+    if total_cost > 0 
+      return (dollars_raised * 100 / total_cost)
+    end
   end
   
   def save_project_history
@@ -35,8 +37,17 @@ class Project < ActiveRecord::Base
     return self.find(:all).size    
   end
   
-  def self.total_milestones
-    return self.milestones
+  def self.completed_projects
+    return self.find(:all, :conditions => "project_status_id => 1")     
+  end
+  
+  def total_milestones
+    return (self.milestones.find(:all)).size
+  end
+  
+  def get_number_of_milestones_by_status(status)
+    milestones = self.milestones.find(:all, :conditions => "milestone_status_id = " + status.to_s )    
+    return milestones.size unless milestones == nil 
   end
   
   def self.get_projects
@@ -46,7 +57,7 @@ class Project < ActiveRecord::Base
   def self.get_project(project_id)
     return self.find(project_id)   
   end
-    
+  
   def days_remaining
     return (self.end_date - Time.now) / 86400 #number of seconds in a day
   end
