@@ -8,6 +8,7 @@ class BusAdmin::HomeController < ApplicationController
     @all_projects = get_projects 
     @total_programs = number_of_programs 
     @all_programs = get_programs
+    @total_money_raised = total_money_raised
   end
   
 end

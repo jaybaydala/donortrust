@@ -5,6 +5,7 @@ class Project < ActiveRecord::Base
   belongs_to :project_status
   belongs_to :project_category
   belongs_to :program
+  belongs_to :partner
   has_many :project_histories
   has_many :milestones
   belongs_to :contact
@@ -64,5 +65,24 @@ class Project < ActiveRecord::Base
   
   def self.percent_raised
     return dollars_raised * 100 / total_cost
+  end  
+  
+  def self.projects_nearing_end(days_until_end)
+    @projects = Project.find(:all) 
+    @projects_near_end = Array.new
+    puts Time.now
+    for aProject in @projects
+      puts "looping"
+      puts "project end date: " + aProject.end_date.to_s
+      if ((aProject.end_date - Time.now) / 86400) <= days_until_end         
+          puts "found one"
+          @projects_near_end << aProject
+      end
+    end
+    return @projects_near_end
+  end
+  
+  def self.total_money_raised
+    return self.sum(:dollars_raised)
   end
 end

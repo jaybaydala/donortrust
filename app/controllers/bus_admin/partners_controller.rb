@@ -14,6 +14,7 @@ class BusAdmin::PartnersController < ApplicationController
     config.show.columns = [:name, :description, :partner_status, :partner_type, :contacts, :partner_versions] # reorder columns 
     
     #passing desired partner status in action link to filter list; 1 = Approved, 2 = Pending 
+    config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'partners', :action => 'report_partners'},:page => true
     config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
     config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
     
@@ -27,6 +28,17 @@ class BusAdmin::PartnersController < ApplicationController
     if(@displaystatus)  
       ['partner_status_id IN (?)', [@displaystatus]]   
     end
+  end
+  
+  def report_partners    
+    @all_partners = Partner.find(:all)
+    @total = @all_partners.size
+   render :partial => "bus_admin/partners/report_partners" , :layout => 'application'
+  end
+  
+  def individual_report_partners 
+    @partner = Partner.find(params[:partnerid])
+   render :partial => "bus_admin/partners/individual_report_partners" , :layout => 'application'
   end
   
 end

@@ -1,9 +1,19 @@
 <h2>Projects Overview</h2>
-<p>Number of Projects: 
-<%= @total %>
+<p>
+    <strong>Number of Projects: </strong>
+    <%= @total %>
 </p>
-<table width=:90%" align="center" border="0" style="font-weight: bold;">
-<tr><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
+
+<p>
+    <strong>Projects ending within 60 days:</strong>
+    <% endingProjects = Project.projects_nearing_end(60)%>
+    <% endingProjects.each  do |project| %>
+        <br /><%= link_to project.name, :controller => 'projects', :action => 'individual_report', :projectid => project.id  %>
+    <% end %> 
+</p>
+<p><strong>All Projects</strong></p>
+<table width=:100%" align="center" border="0" style="font-weight: bold;">
+<tr style="background-color: #666; color: #fff;"><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
 <% @all_projects.each do |project| %>
 <tr bgcolor="#f5f5f5">
     <td><%= project.name %></strong></td>

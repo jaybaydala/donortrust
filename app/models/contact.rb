@@ -13,4 +13,8 @@ class Contact < ActiveRecord::Base
   def to_label
     "#{last_name}, #{first_name}"
   end
+  
+  def fullname    
+    "#{first_name} + " " + #{last_name}"
+  end
 end

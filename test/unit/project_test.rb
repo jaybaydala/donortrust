@@ -31,17 +31,21 @@ class BusAdmin::ProjectTest < Test::Unit::TestCase
   end
   
   def test_started_projects
-    assert_equal 2, Project.find(:all).size
-    assert_equal 1, Project.find(:all, :conditions => "project_status_id = 2").size
+    assert_equal 3, Project.find(:all).size
+    assert_equal 2, Project.find(:all, :conditions => "project_status_id = 2").size
   end
   
   def test_total_milestones
     assert_equal 4, Project.find(1).milestones.find(:all).size
   end
     
-  def get_number_of_milestones_by_status
+  def test_get_number_of_milestones_by_status
     project = Project.find(1)
-    milestones = project.get_milestones_by_status(3)
+    milestones = project.get_number_of_milestones_by_status(3)
     assert_equal 1, milestones
+  end
+  
+  def test_get_projects_nearing_end
+    assert_equal 1, Project.projects_nearing_end(30).size
   end
 end

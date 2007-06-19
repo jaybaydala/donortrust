@@ -1,4 +1,7 @@
 module BusAdmin::ProjectsHelper
+  def total_money_raised
+    @total_money_raised = Project.total_money_raised
+  end
   
   def number_of_projects
     @total = Project.total_projects

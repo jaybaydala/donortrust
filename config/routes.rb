@@ -96,6 +96,8 @@ ActionController::Routing::Routes.draw do |map|
   map.home '/bus_admin/index', :controller => 'bus_admin/home', :action=> 'index'
   map.report 'bus_admin/report', :controller => 'bus_admin/projects', :action => 'report'
   map.report 'bus_admin/individual_report', :controller => 'bus_admin/projects', :action => 'individual_report'
+  map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
+  map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'
   
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   

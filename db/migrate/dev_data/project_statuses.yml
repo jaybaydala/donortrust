@@ -6,3 +6,11 @@ default_project_status_two:
   id: 2
   status_type: Started
   description: Status to indicate that the project has been started. 
+default_project_status_three:
+  id: 3
+  status_type: Canceled
+  description: Status to indicate that the project has been canceled. 
+default_project_status_four:
+  id: 4
+  status_type: Completed
+  description: Status to indicate that the project has been completed. 

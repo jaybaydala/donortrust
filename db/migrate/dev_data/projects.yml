@@ -16,7 +16,7 @@ testcrashdummy:
   partner_id: 1
   dollars_raised: 50.87
   
-sampleproject:
+sampleproject2:
   id: 2
   program_id: 1
   project_category_id: 1
@@ -24,12 +24,63 @@ sampleproject:
   description: Example sample 
   total_cost: 7030.33
   dollars_spent: 336.654
-  expected_completion_date: "2008-01-01"
+  expected_completion_date: "2007-08-01"
   start_date: "2007-11-01"
-  end_date: "2008-01-01"
+  end_date: "2007-08-01"
   project_status_id: 2
   contact_id: 2
   village_group_id: 1
   partner_id: 1
+  dollars_raised: 5052.00  
+ 
+sampleproject3:
+  id: 3
+  program_id: 3
+  project_category_id: 2
+  name: The Third Project
+  description: Example sample 
+  total_cost: 6030.33
+  dollars_spent: 236.654
+  expected_completion_date: "2007-08-01"
+  start_date: "2007-11-01"
+  end_date: "2007-08-01"
+  project_status_id: 4
+  contact_id: 2
+  village_group_id: 1
+  partner_id: 1
   dollars_raised: 5052.00
+  
+sampleproject4:
+  id: 4
+  program_id: 2
+  project_category_id: 2
+  name: The Fourth Project
+  description: Example sample 
+  total_cost: 3030.33
+  dollars_spent: 336.654
+  expected_completion_date: "2007-08-01"
+  start_date: "2007-11-01"
+  end_date: "2007-08-01"
+  project_status_id: 2
+  contact_id: 2
+  village_group_id: 1
+  partner_id: 2
+  dollars_raised: 2052.00
+
+sampleproject5:
+  id: 5
+  program_id: 4
+  project_category_id: 2
+  name: Five
+  description: Project Five is one higher than the fourth project.
+  total_cost: 1030.33
+  dollars_spent: 336.654
+  expected_completion_date: "2007-08-01"
+  start_date: "2007-11-01"
+  end_date: "2007-08-01"
+  project_status_id: 3
+  contact_id: 2
+  village_group_id: 1
+  partner_id: 2
+  dollars_raised: 252.00
   

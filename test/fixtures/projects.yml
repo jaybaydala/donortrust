@@ -32,3 +32,20 @@ project_two:
   village_group_id: 1  
   partner_id: 1
   dollars_raised: 50
+  
+project_three:
+  id: 3
+  program_id: 1
+  project_category_id: 1
+  name: test project 3
+  description: The third project. Start smallishy. 
+  total_cost: 1000.00
+  dollars_spent: 5.00
+  expected_completion_date: 2007-04-02
+  start_date: 2007-03-02
+  end_date: 2007-06-06
+  project_status_id: 2
+  contact_id: 1
+  village_group_id: 1  
+  partner_id: 1
+  dollars_raised: 50

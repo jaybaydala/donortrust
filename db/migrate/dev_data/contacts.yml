@@ -1,8 +1,8 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 testcrashdummy:
   id: 1
-  first_name: Testcrash
-  last_name: Dummy
+  first_name: Bob
+  last_name: Frapples
   phone_number: (321) 456-7890
 #  fax_number: :string
   email_address: here@there.com
@@ -15,10 +15,26 @@ testcrashdummy:
 #  address_line_2: :string
 #  postal_code: :string
 
-testcrashdummy:
+testcrashdummy2:
   id: 2
-  first_name: Snowcrash
-  last_name: Contactson
+  first_name: Ray
+  last_name: McWhoozits
+  phone_number: (321) 555-1212
+#  fax_number: :string
+  email_address: bob@bob.com
+#  web_address: :string
+#  department: :string
+#  continent_id: 1
+#  region_id: 1
+  urban_centre_id: 1
+#  address_line_1: :string
+#  address_line_2: :string
+#  postal_code: :string
+
+testcrashdummy3:
+  id: 3
+  first_name: Bob
+  last_name: Robertson
   phone_number: (321) 555-1212
 #  fax_number: :string
   email_address: bob@bob.com

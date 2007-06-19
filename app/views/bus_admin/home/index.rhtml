@@ -1,24 +1,26 @@
-<p>You are logged in as: <strong><%= session[:user].login %></strong></p>
+<!--<p>You are logged in as: <strong><%= session[:user].login %></strong></p>-->
 
+<p><strong>Total Money Raised: </strong><%= number_to_currency(@total_money_raised) %>
 <p>There are currently <strong><%= @total_programs %></strong> programs:</p>
 
-<table width=:90%" align="center" border="0">
-<tr><td>Program Name</td></tr>
+<table width=:100%" align="center" border="0">
+<tr style="background-color: #666; color: #fff; font-weight: bold;"><td>Program Name</td><td>Contact</td></tr>
 <% @all_programs.each do |program| %>
 <tr bgcolor="#f5f5f5">
     <td><strong><%= program.program_name %></strong></td>
-</tr>
+    <td><strong><%= link_to Contact.find(program.contact_id).fullname, :controller => 'contacts', :action => 'show', :id => program.contact_id, :method => 'get'  %></strong></td>
 <% end %>
 </table>
 <br />
 <p>There are currently <strong><%= @total_projects %></strong> projects:</p>
 
-<table width=:95%" align="center" border="0">
-<tr><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
+<table width=:100%" align="center" border="0">
+<tr style="background-color: #666; color: #fff; font-weight: bold;"><td>Project Name</td><td>Status</td><td>Program</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
 <% @all_projects.each do |project| %>
 <tr bgcolor="#f5f5f5">
     <td><strong><%= project.name %></strong></td>
     <td><strong><%= ProjectStatus.find(project.project_status_id).status_type %></strong></td>
+    <td><strong><%= Program.find(project.program_id).program_name %></strong></td>
     <td><strong><%= number_to_currency(project.dollars_spent) %></strong></td>
     <td><strong><%= number_to_currency(project.dollars_raised) %></strong></td>
     <td><strong><%= project.total_milestones %></strong></td>
