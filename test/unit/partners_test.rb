@@ -38,4 +38,10 @@ class BusAdmin::PartnersTest < Test::Unit::TestCase
   def test_get_number_of_projects_by_status    
     assert_equal 1, Partner.find(:first).get_number_of_projects_by_status(1)
   end
+  
+#  def test_get_number_of_projects
+#    partner = Partner.find(:first)
+#    number = Projects.find(:all, :conditions => "partner_id = " + partner.id)
+#    puts number
+#  end
 end

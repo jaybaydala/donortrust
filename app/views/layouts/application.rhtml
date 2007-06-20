@@ -82,16 +82,16 @@
           <div style="text-align: right">
           <% if session[:user] %>
             <span style="color: #666;">Logged in as: <%= session[:user].login + " " %>
-            &nbsp;&nbsp;</span>
+            </span>
             
-            <a href="#"><img src="/images/logout.gif" alt="Menu"
-            width="12" height="12" border="0" /></a>
+            <!--<a href="#"><img src="/images/logout.gif" alt="Menu"
+            width="12" height="12" border="0" /></a>-->
            <% end %>
           </div>
         </td>
 
         <td width="57">
-          <% if session[:user] %><a href="logout">Logout</a></td><% end %>
+          <% if session[:user] %><span style="color: #666;">[<a href="logout">Logout</a>]</span></td><% end %>
       </tr>
 
       <tr>
@@ -157,16 +157,15 @@
                 <option value="continents">Continents</option>
                 <option value="/bus_admin/countries">Countries</option>
                 <option value="regions">Regions</option>           
-                <option value="/bus_admin/urban_centres">Urban Centres</option>  
-                <option value="/bus_admin/villages">Villages</option>
+                <option value="/bus_admin/urban_centres">Urban Centres</option> 
                 <option value="/bus_admin/partner_types">Partner Types</option>
                 <option value="/bus_admin/partner_statuses">Partner Statuses</option>
                 <option value="/bus_admin/project_statuses">Project Statuses</option>
-                <option value="/bus_admin/task_statuses">Task Statuses</option>
+                <option value="/bus_admin/project_categories">Project Categories</option>
                 <option value="/bus_admin/contacts">Contacts</option>
                 <option value="/bus_admin/measure_categories">Measure Categories</option> 
                 <option value="milestone_statuses">Milestone Statuses</option>   
-                <option value="/bus_admin/millenium_development_Goals">MD Goals</option> 
+                <option value="/bus_admin/millennium_development_goals">MD Goals</option> 
                 <option value="/bus_admin/targets">Targets</option>       
                 <option value="/bus_admin/indicators">Indicators</option>        
             </form>                    

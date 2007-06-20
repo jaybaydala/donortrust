@@ -49,4 +49,9 @@ class Partner < ActiveRecord::Base
     projects = self.projects.find(:all, :conditions => "project_status_id = " + status.to_s )    
     return projects.size unless projects == nil 
   end
+  
+  def get_number_of_projects
+    return Project.find(params[:id])
+    
+  end
 end
