@@ -52,6 +52,10 @@ class Project < ActiveRecord::Base
     return milestones.size unless milestones == nil 
   end
   
+  def get_milestones
+    return self.milestones.find(:all, :conditions => "project_id = " + self.id.to_s)
+  end
+  
   def self.get_projects
     return self.find(:all)   
   end
@@ -94,4 +98,5 @@ class Project < ActiveRecord::Base
   def self.total_money_spent
     return self.sum(:dollars_spent)
   end
+  
 end

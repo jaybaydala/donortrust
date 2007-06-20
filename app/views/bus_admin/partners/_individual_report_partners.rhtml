@@ -1,6 +1,6 @@
 <h2><%= @partner.name %> Partner Report</h2>
 
-<table width=:100%" align="center" border="0" cellspacing="0" cellpadding="2">
+<table width=:100%" align="center" style="border: 1px solid #DDDDDD;" cellspacing="0" cellpadding="2">
 <tr style="background-color: #666; color: #fff; font-weight: bold;"><td>Status</td><td>Category</td><td>Projects Not Started</td><td>Projects In Progress</td><td>Projects Completed</td><td>Total Projects</td></tr>
   <tr bgcolor="#E6F2FF" >
     <td><strong><%= PartnerStatus.find(@partner.partner_status_id).statusType %></strong></td>

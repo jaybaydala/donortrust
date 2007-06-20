@@ -1,0 +1,55 @@
+<h2><%= @project.name %> Project Report</h2>
+
+<table width=:100%" align="center" style="border: 1px solid #DDDDDD;" cellpadding="2" cellspacing="0">
+<tr style="background-color: #666; color: #fff;"><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
+<% if @colorize %>    
+    <tr bgcolor="#E6F2FF" >
+    <% @colorize = false %>
+<% else @colorize = true %>
+    <tr>
+<% end %>
+    <td><strong><%= number_to_currency(@project.dollars_spent) %></strong></td>
+    <td><strong><%= number_to_currency(@project.dollars_raised) %></strong></td>
+    <td><strong><%= @project.total_milestones %></strong></td>
+    <% @days = @project.days_remaining.ceil
+        if @days > 0
+    %>
+        <td> <%= @project.days_remaining.ceil %></td>
+    <% else %>
+        <td><span style="color: red;">Project Overdue</td>
+    <% end %>
+    
+</tr>
+</table>
+<br />
+<h2>Total Cost Covered by Money Raised</h2>
+<%= horizontal_bar_graph  [['Spent',  @percent_raised.floor]] %>
+
+<br />
+<h2>Project Dollars</h2>
+<%= bar_graph  [['Spent', @project.dollars_spent.floor], ['Raised', @project.dollars_raised.floor], ['Cost', @project.total_cost.floor]] %>
+<br />
+
+<h2><%= @project.name %> Milestones</h2>
+
+<table width=:100%" align="center" style="border: 1px solid #DDDDDD;" cellpadding="2" cellspacing="0">
+<tr style="background-color: #666; color: #fff;"><td>Milestone Name</td><td>Status</td><td>Target Date</td></tr>
+<% @milestones = @project.get_milestones %>
+<% @milestones.each do |milestone| %>
+    <% if @colorize %>    
+        <tr bgcolor="#E6F2FF" >
+        <% @colorize = false %>
+    <% else @colorize = true %>
+        <tr>
+    <% end %>
+    <td><strong><%= milestone.description %></strong></td>
+    <td><strong><%= milestone.milestone_status.status %></strong></td>
+    <td><strong><%= milestone.target_date %></strong></td>
+<% end %>
+    
+</tr>
+</table>
+<br />
+<h2>Milestone Status</h2>
+<%= bar_graph  [['Proposed', @project.get_number_of_milestones_by_status(1)], ['InProgress', @project.get_number_of_milestones_by_status(2)], ['Completed', @project.get_number_of_milestones_by_status(4)], ['Canceled', @project.get_number_of_milestones_by_status(3)], ['Total',  @project.total_milestones]] %>
+

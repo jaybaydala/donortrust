@@ -31,7 +31,7 @@ class BusAdmin::ProjectsController < ApplicationController
    @id = params[:projectid]
    @project = Project.get_project(@id)
    @percent_raised = @project.get_percent_raised
-   render :partial => "bus_admin/projects/individualreport" , :layout => 'application'
+   render :partial => "bus_admin/projects/individual_report" , :layout => 'application'
   end
   
   def export_to_csv

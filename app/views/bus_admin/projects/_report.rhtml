@@ -12,7 +12,7 @@
     <% end %> 
 </p>
 <p><strong>All Projects</strong></p>
-<table width=:100%" align="center" border="0" style="font-weight: bold;" cellspacing="0" cellpadding="2">
+<table width=:100%" align="center" style="border: 1px solid #DDDDDD; font-weight: bold;" cellspacing="0" cellpadding="2">
 <tr style="background-color: #666; color: #fff;"><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td><td>&nbsp;</td></tr>
 <% @all_projects.each do |project| %>
 <% if @colorize %>    
@@ -25,14 +25,8 @@
     <td><%= ProjectStatus.find(project.project_status_id).status_type %></td>
     <td><%= number_to_currency(project.dollars_spent) %></td>
     <td><%= number_to_currency(project.dollars_raised) %></td>
-    <td><strong><%= project.total_milestones %></strong></td>
-    <% @days = project.days_remaining.ceil
-        if @days > 0
-    %>
+    <td><%= project.total_milestones %></td>
     <td> <%= project.days_remaining.ceil %></td>
-    <% else %>
-    <td><span style="color: red;">Project Overdue</td>
-    <% end %>    
     <td><strong><%= link_to "View Project Report", :controller => 'projects', :action => 'individual_report', :projectid => project.id %></strong></td>
 </tr>
 <% end %>
