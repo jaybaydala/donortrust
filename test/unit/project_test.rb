@@ -48,4 +48,16 @@ class BusAdmin::ProjectTest < Test::Unit::TestCase
   def test_get_projects_nearing_end
     assert_equal 1, Project.projects_nearing_end(30).size
   end
+  
+  def test_total_costs
+    assert_equal 2100, Project.total_costs
+  end
+  
+  def test_total_money_raised
+    assert_equal 150, Project.total_money_raised
+  end
+  
+  def test_total_percent_raised
+    assert_equal 7, Project.total_percent_raised.floor
+  end
 end

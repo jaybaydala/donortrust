@@ -15,6 +15,6 @@ class Contact < ActiveRecord::Base
   end
   
   def fullname    
-    "#{first_name} + " " + #{last_name}"
+    "#{first_name}  #{last_name}"
   end
 end

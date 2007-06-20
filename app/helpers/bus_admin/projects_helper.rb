@@ -3,6 +3,14 @@ module BusAdmin::ProjectsHelper
     @total_money_raised = Project.total_money_raised
   end
   
+  def total_project_costs
+    @total_costs = Project.total_costs
+  end
+  
+  def total_money_spent
+    @total_money_spent = Project.total_money_spent
+  end
+  
   def number_of_projects
     @total = Project.total_projects
   end

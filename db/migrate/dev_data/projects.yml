@@ -12,7 +12,7 @@ testcrashdummy:
   end_date: "2008-01-01"
   project_status_id: 1
   contact_id: 2
-  village_group_id: 1
+  urban_centre_id: 1
   partner_id: 1
   dollars_raised: 50.87
   
@@ -29,7 +29,7 @@ sampleproject2:
   end_date: "2007-08-01"
   project_status_id: 2
   contact_id: 2
-  village_group_id: 1
+  urban_centre_id: 1
   partner_id: 1
   dollars_raised: 5052.00  
  
@@ -46,7 +46,7 @@ sampleproject3:
   end_date: "2007-08-01"
   project_status_id: 4
   contact_id: 2
-  village_group_id: 1
+  urban_centre_id: 1
   partner_id: 1
   dollars_raised: 5052.00
   
@@ -63,7 +63,7 @@ sampleproject4:
   end_date: "2007-08-01"
   project_status_id: 2
   contact_id: 2
-  village_group_id: 1
+  urban_centre_id: 1
   partner_id: 2
   dollars_raised: 2052.00
 
@@ -80,7 +80,7 @@ sampleproject5:
   end_date: "2007-08-01"
   project_status_id: 3
   contact_id: 2
-  village_group_id: 1
+  urban_centre_id: 1
   partner_id: 2
   dollars_raised: 252.00
   

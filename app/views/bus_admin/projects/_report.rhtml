@@ -12,10 +12,15 @@
     <% end %> 
 </p>
 <p><strong>All Projects</strong></p>
-<table width=:100%" align="center" border="0" style="font-weight: bold;">
-<tr style="background-color: #666; color: #fff;"><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
+<table width=:100%" align="center" border="0" style="font-weight: bold;" cellspacing="0" cellpadding="2">
+<tr style="background-color: #666; color: #fff;"><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td><td>&nbsp;</td></tr>
 <% @all_projects.each do |project| %>
-<tr bgcolor="#f5f5f5">
+<% if @colorize %>    
+    <tr bgcolor="#E6F2FF" >
+    <% @colorize = false %>
+<% else @colorize = true %>
+    <tr>
+<% end %>
     <td><%= project.name %></strong></td>
     <td><%= ProjectStatus.find(project.project_status_id).status_type %></td>
     <td><%= number_to_currency(project.dollars_spent) %></td>
@@ -28,7 +33,7 @@
     <% else %>
     <td><span style="color: red;">Project Overdue</td>
     <% end %>    
-    <td bgcolor="#fff"><strong><%= link_to "View Project Report", :controller => 'projects', :action => 'individual_report', :projectid => project.id %></strong></td>
+    <td><strong><%= link_to "View Project Report", :controller => 'projects', :action => 'individual_report', :projectid => project.id %></strong></td>
 </tr>
 <% end %>
 </table>

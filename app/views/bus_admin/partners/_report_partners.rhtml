@@ -1,0 +1,23 @@
+<h2>Partners Overview</h2>
+<p>Number of Partners: 
+<%= @total %>
+</p>
+<table width=:100%" align="center" border="0" style="font-weight: bold;" cellspacing="0" cellpadding="2">
+<tr style="background-color: #666; color: #fff;">
+<td>Partner Name</td><td>Status</td><td>Projects In Progress</td><td>Completed Projects</td><td>Total Projects</td><td>&nbsp;</td></tr>
+<% @all_partners.each do |partner| %>
+<% if @colorize %>
+   <tr bgcolor="#E6F2FF" >
+    <% @colorize = false %>
+<% else @colorize = true %>
+    <tr>
+<% end %>
+    <td><%= partner.name %></strong></td>
+    <td><%= PartnerStatus.find(partner.partner_status_id).statusType %></td>
+    <td><%= partner.get_number_of_projects_by_status(2) %></td>
+    <td><%= partner.get_number_of_projects_by_status(4) %></td>
+    <td><%= partner.total_projects %></td>
+    <td><strong><%= link_to "View Partner Report", :controller => 'partners', :action => 'individual_report_partners', :partnerid => partner.id %></strong></td>
+</tr>
+<% end %>
+</table>

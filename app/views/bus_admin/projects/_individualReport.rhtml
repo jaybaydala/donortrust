@@ -1,8 +1,13 @@
 <h2><%= @project.name %> Project Report</h2>
 
-<table width=:100%" align="center" border="0">
+<table width=:100%" align="center" border="0" cellpadding="2" cellspacing="0">
 <tr style="background-color: #666; color: #fff;"><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
-<tr bgcolor="#f5f5f5">
+<% if @colorize %>    
+    <tr bgcolor="#E6F2FF" >
+    <% @colorize = false %>
+<% else @colorize = true %>
+    <tr>
+<% end %>
     <td><strong><%= number_to_currency(@project.dollars_spent) %></strong></td>
     <td><strong><%= number_to_currency(@project.dollars_raised) %></strong></td>
     <td><strong><%= @project.total_milestones %></strong></td>

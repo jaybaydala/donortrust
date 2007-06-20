@@ -98,6 +98,7 @@ ActionController::Routing::Routes.draw do |map|
   map.report 'bus_admin/individual_report', :controller => 'bus_admin/projects', :action => 'individual_report'
   map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'
+  map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
   
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   

@@ -14,7 +14,7 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :end_date, :datetime
       t.column :project_status_id, :integer
       t.column :contact_id, :integer
-      t.column :village_group_id, :integer
+      t.column :urban_centre_id, :integer
       t.column :partner_id, :integer
       t.column :dollars_raised, :integer
     end # projects

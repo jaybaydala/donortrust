@@ -1,12 +1,40 @@
 <!--<p>You are logged in as: <strong><%= session[:user].login %></strong></p>-->
 
-<p><strong>Total Money Raised: </strong><%= number_to_currency(@total_money_raised) %>
+<table width="100%" summary="Christmas Future Summary">
+    <tr>
+        <td>
+            <strong>Total Dollars Raised: </strong><%= number_to_currency(@total_money_raised) %>
+        </td>
+        <td>
+            <strong>Total Project Costs: </strong><%= number_to_currency(@total_project_costs) %>
+        </td>
+        <td>
+            <strong>Total Dollars Spent: </strong><%= number_to_currency(@total_money_spent) %>
+        </td>        
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>  
+        <br />   
+            <strong>Dollars Raised vs. Total Project Costs</strong>   
+            <%= horizontal_bar_graph  [['Raised',  @total_percent_raised.floor]] %>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+  </table>
+            
 <p>There are currently <strong><%= @total_programs %></strong> programs:</p>
 
-<table width=:100%" align="center" border="0">
+<table width=:100%" align="center" border="0" cellspacing="0" cellpadding="2">
 <tr style="background-color: #666; color: #fff; font-weight: bold;"><td>Program Name</td><td>Contact</td></tr>
+<% @colorize = true %>
 <% @all_programs.each do |program| %>
-<tr bgcolor="#f5f5f5">
+<% if @colorize %>    
+    <tr bgcolor="#E6F2FF" >
+    <% @colorize = false %>
+<% else @colorize = true %>
+    <tr>
+<% end %>
     <td><strong><%= program.program_name %></strong></td>
     <td><strong><%= link_to Contact.find(program.contact_id).fullname, :controller => 'contacts', :action => 'show', :id => program.contact_id, :method => 'get'  %></strong></td>
 <% end %>
@@ -14,10 +42,16 @@
 <br />
 <p>There are currently <strong><%= @total_projects %></strong> projects:</p>
 
-<table width=:100%" align="center" border="0">
+<table width=:100%" align="center" border="0" cellspacing="0" cellpadding="2">
 <tr style="background-color: #666; color: #fff; font-weight: bold;"><td>Project Name</td><td>Status</td><td>Program</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
+<% @colorize = true %>
 <% @all_projects.each do |project| %>
-<tr bgcolor="#f5f5f5">
+<% if @colorize %>    
+    <tr bgcolor="#E6F2FF" >
+    <% @colorize = false %>
+<% else @colorize = true %>
+    <tr>
+<% end %>
     <td><strong><%= project.name %></strong></td>
     <td><strong><%= ProjectStatus.find(project.project_status_id).status_type %></strong></td>
     <td><strong><%= Program.find(project.program_id).program_name %></strong></td>
@@ -27,7 +61,7 @@
     <% @days = project.days_remaining.ceil
         if @days > 0
     %>
-    <td> <%= project.days_remaining.ceil %> days remaining</td>
+    <td> <%= project.days_remaining.ceil %></td>
     <% else %>
     <td><span style="color: red;">Project Overdue</td>
     <% end %>

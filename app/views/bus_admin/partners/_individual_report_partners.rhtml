@@ -1,0 +1,20 @@
+<h2><%= @partner.name %> Partner Report</h2>
+
+<table width=:100%" align="center" border="0" cellspacing="0" cellpadding="2">
+<tr style="background-color: #666; color: #fff; font-weight: bold;"><td>Status</td><td>Category</td><td>Projects Not Started</td><td>Projects In Progress</td><td>Projects Completed</td><td>Total Projects</td></tr>
+  <tr bgcolor="#E6F2FF" >
+    <td><strong><%= PartnerStatus.find(@partner.partner_status_id).statusType %></strong></td>
+    <td><strong><%= PartnerType.find(@partner.partner_type_id).name %></strong></td>
+    <td><strong><%= @partner.get_number_of_projects_by_status(1) %></strong></td>
+    <td><strong><%= @partner.get_number_of_projects_by_status(2) %></strong></td>
+    <td><strong><%= @partner.get_number_of_projects_by_status(4) %></strong></td>
+    <td><strong><%= @partner.total_projects %></strong></td>
+    
+</tr>
+</table>
+<br />
+
+<h2>Status of Partner Projects</h2>
+<%= bar_graph  [['NotStarted', @partner.get_number_of_projects_by_status(1)], ['Started', @partner.get_number_of_projects_by_status(2)], ['Canceled', @partner.get_number_of_projects_by_status(3)], ['Completed', @partner.get_number_of_projects_by_status(4)], ['Total',  @partner.total_projects]] %>
+
+<br />

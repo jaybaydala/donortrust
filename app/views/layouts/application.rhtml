@@ -80,12 +80,18 @@
 
         <td width="163">
           <div style="text-align: right">
+          <% if session[:user] %>
+            <span style="color: #666;">Logged in as: <%= session[:user].login + " " %>
+            &nbsp;&nbsp;</span>
+            
             <a href="#"><img src="/images/logout.gif" alt="Menu"
             width="12" height="12" border="0" /></a>
+           <% end %>
           </div>
         </td>
 
-        <td width="57"><a href="logout">Logout</a></td>
+        <td width="57">
+          <% if session[:user] %><a href="logout">Logout</a></td><% end %>
       </tr>
 
       <tr>
@@ -128,8 +134,7 @@
 
         <td width="60">
           <div style="text-align: center">
-            <a href="/bus_admin/partners/?status=2">Partner<br />
-             Updates</a>
+            <a href="/bus_admin/partners/?status=2">Updates</a>
           </div>
         </td>
 
@@ -164,26 +169,13 @@
                 <option value="/bus_admin/millenium_development_Goals">MD Goals</option> 
                 <option value="/bus_admin/targets">Targets</option>       
                 <option value="/bus_admin/indicators">Indicators</option>        
-            </form>
-                    
+            </form>                    
         </td>
       </tr>
     </table>
      
     <table width="700" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <!--
-                <td width="40" height="25"><a href="partnerSearch2.html"><img src=
-                "/images/Search 4.png" width="32" height="32" border="0" /></a></td>
-                -->
-        <!--
-                <td width="76" height="25" class="Head style2">
-                <div align="left">
-
-                </div>
-                </td>
-                -->
-
         <td width="584" height="25" >
           <div style="text-align: left">
             <!-- CONTENT STARTS HERE -->
