@@ -1,0 +1,26 @@
+body {
+	font:.9em/1.4em Arial, Helvetica, sans-serif;
+}
+
+p {
+	margin-bottom:1em;
+}
+
+a:link {
+	color:#351;
+}
+a:visited {
+	color:#240;
+}
+a:hover {
+	color:#351;
+	text-decoration:none;
+}
+a:active {
+	color:#351;
+	text-decoration:none;
+}
+
+#footer {
+	font-size:.9em;	
+}

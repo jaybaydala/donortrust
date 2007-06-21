@@ -1,0 +1,16 @@
+#container {
+	width:722px;
+	margin:auto;
+}
+
+
+#masthead {
+	height:153px;
+	border:1px solid #999;
+}
+
+#footer {
+	margin-top:1em;
+	padding-top:1em;
+	border-top:1px solid #666;
+}
