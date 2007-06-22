@@ -10,6 +10,7 @@ class Project < ActiveRecord::Base
   has_many :milestones
   has_one   :urban_centre
   belongs_to :contact
+  #has_and_belongs_to_many :millennium_development_goals
   validates_presence_of :program
   
   def create_project_history
@@ -99,4 +100,7 @@ class Project < ActiveRecord::Base
     return self.sum(:dollars_spent)
   end
   
+#  def self.get_md_goals
+#    return self.project_md_goals.find(:all)
+#  end
 end

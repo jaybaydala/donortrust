@@ -60,4 +60,9 @@ class BusAdmin::ProjectTest < Test::Unit::TestCase
   def test_total_percent_raised
     assert_equal 7, Project.total_percent_raised.floor
   end
+  
+#  def test_get_md_goals
+#    assert_equal 1, Project.get_md_goals.size
+#  end
+
 end

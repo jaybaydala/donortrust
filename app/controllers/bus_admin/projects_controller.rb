@@ -18,7 +18,7 @@ class BusAdmin::ProjectsController < ApplicationController
     config.create.columns.exclude :project_histories
     config.list.columns.exclude :project_histories
     config.update.columns.exclude :project_histories
-#    config.columns[:program].form_ui = :select
+    config.columns[:program].ui_type = :select
   end
   
   def report    
@@ -35,8 +35,7 @@ class BusAdmin::ProjectsController < ApplicationController
   end
   
   def export_to_csv
-    @projects = Project.find(:all)
-  
+    @projects = Project.find(:all)  
     csv_string = FasterCSV.generate do |csv|
       # header row
       csv << ["id", "Program", "Category", "Name", "Description", "Total Cost", "Dollars Spent", "Dollars Raised", "Expected Completion Date", "Start Date", "End Date", "Status", "Contact", "Urban Centre", "Partner" ]
@@ -46,11 +45,11 @@ class BusAdmin::ProjectsController < ApplicationController
         csv << [project.id, Program.find(project.program_id).program_name, ProjectCategory.find(project.project_category).description, project.name, project.description, project.total_cost, project.dollars_spent, project.dollars_raised, project.expected_completion_date, project.start_date, project.end_date, ProjectStatus.find(project.project_status_id).status_type, Contact.find(project.contact_id).fullname, UrbanCentre.find(project.urban_centre_id).urban_centre_name, Partner.find(project.partner_id).name]
       end
     end
-  
-    # send it to the browsah
     send_data csv_string,
               :type => 'text/csv; charset=iso-8859-1; header=present',
               :disposition => "attachment; filename=project.csv"
   end
-  
+  def foo
+    puts "nothing here"
+  end
 end

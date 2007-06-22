@@ -3,6 +3,7 @@ class BusAdmin::PartnersController < ApplicationController
   active_scaffold :partner do |config|
     config.columns[:partner_status].ui_type = :select
     config.columns[:partner_type].ui_type = :select
+    config.columns[:contacts].ui_type = :select
     
     config.create.columns.exclude :partner_versions
     config.list.columns.exclude :partner_versions
