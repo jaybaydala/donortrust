@@ -65,7 +65,6 @@ ActionController::Routing::Routes.draw do |map|
   
   #map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"  #, :path_prefix => "/countries/:country_id"
  
-  map.resources :village_groups # , :path_prefix => "/regions/:region_id"
   map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
   
   # front-end resources - non-admin

@@ -1,7 +1,7 @@
 class SectorsRel001 < ActiveRecord::Migration
   def self.up
     create_table :sectors, :force => true do |t|
-      t.column :sector_name, :string
+      t.column :name, :string
       t.column :description, :string
      
     end

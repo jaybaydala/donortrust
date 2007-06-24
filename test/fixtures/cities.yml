@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
-  id: 1
-  city_name: Calgary
-  region_id: 1
-two:
-  id: 2
-  city_name: Vancouver
-  region_id: 2

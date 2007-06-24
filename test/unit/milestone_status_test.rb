@@ -7,7 +7,7 @@ class MilestoneStatusTest < Test::Unit::TestCase
     # Build (and return) an instance starting from known (expected) valid attribute
     # values, processing overides for any/all specified attributes
     opts = {
-      :status => "xyzstatusxyz",
+      :name => "xyzstatusxyz",
       :description => "Valid description for status"
     }.merge( overrides )
     MilestoneStatus.new( opts )
@@ -20,9 +20,9 @@ class MilestoneStatusTest < Test::Unit::TestCase
     assert_valid clean_new_instance
   end
 
-  def test_create_with_empty_status
-    # Should not be valid to create a new instance with an empty or blank status
-    assert_invalid( clean_new_instance, :status, nil, "" )
+  def test_create_with_empty_name
+    # Should not be valid to create a new instance with an empty or blank name
+    assert_invalid( clean_new_instance, :name, nil, "" )
   end
   
   def test_create_with_empty_description
@@ -30,15 +30,15 @@ class MilestoneStatusTest < Test::Unit::TestCase
     assert_invalid( clean_new_instance, :description, nil, "" )
   end
   
-  def test_unique_create_status
-    # Should not be valid to reuse an existing status to create a new instance
-    assert_invalid( clean_new_instance, :status, milestone_statuses( :proposed ).status )
+  def test_unique_create_name
+    # Should not be valid to reuse an existing name to create a new instance
+    assert_invalid( clean_new_instance, :name, milestone_statuses( :proposed ).name )
   end
   
-  def test_edit_to_empty_status
-    # Should not be valid to modify an existing instance to have an empty or blank status
+  def test_edit_to_empty_name
+    # Should not be valid to modify an existing instance to have an empty or blank name
     assert_valid( MilestoneStatus.find( milestone_statuses( :proposed ).id ))
-    assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), :status, nil, "" )
+    assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), :name, nil, "" )
   end
 
   def test_edit_to_empty_description
@@ -46,11 +46,11 @@ class MilestoneStatusTest < Test::Unit::TestCase
     assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), :description, nil, "" )
   end
 
-  def test_edit_to_duplicate_status
-    # Should not be valid to modify an existing instance to have a status that
+  def test_edit_to_duplicate_name
+    # Should not be valid to modify an existing instance to have a name that
     # matches (duplicated) another existing instance.
     assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), 
-      :status, milestone_statuses( :inprogress ).status  )
+      :name, milestone_statuses( :inprogress ).name  )
   end
   #destroy should fail if any Milestone (or history) using status
 end

@@ -26,7 +26,10 @@ class BusAdmin::MilestoneStatusesControllerTest < Test::Unit::TestCase
   
   def test_should_create_milestone_status
     old_count = MilestoneStatus.count
-    post :create, :milestone_status => { }
+    post :create,
+      :milestone_status => {
+        :name => "new status",
+        :description => "description for new status" }
     assert_equal old_count+1, MilestoneStatus.count
     
     assert_redirected_to milestone_status_path(assigns(:milestone_status))
@@ -43,7 +46,7 @@ class BusAdmin::MilestoneStatusesControllerTest < Test::Unit::TestCase
   end
   
   def test_should_update_milestone_status
-    put :update, :id => 1, :milestone_status => { }
+    put :update, :id => 1, :milestone_status => { :description => "description for updated status" }
     assert_redirected_to milestone_status_path(assigns(:milestone_status))
   end
   

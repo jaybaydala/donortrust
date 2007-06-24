@@ -3,7 +3,7 @@ require 'active_record/fixtures'
 class MilestoneStatusesRel001 < ActiveRecord::Migration
   def self.up
     create_table :milestone_statuses do |t|
-      t.column :status, :string, :null => false
+      t.column :name, :string, :null => false
       t.column :description, :text
     end #milestone_statuses
     

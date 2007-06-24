@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
-  id: 1
-  village_group_name: Sauri
-  region_id: 3
-two:
-  id: 2
-  village_group_name: Test
-  region_id: 3

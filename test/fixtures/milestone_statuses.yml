@@ -1,19 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 proposed:
   id: 1
-  status: Proposed
+  name: Proposed
   description: Milestone as been proposed for project
 inprogress:
   id: 2
-  status: InProgress
+  name: InProgress
   description: First Tasks for Milestone have been started
 #  description: [First] Task(s) for Milestone have been started
-inprogress:
+canceled:
   id: 3
-  status: Canceled
+  name: Canceled
   description: The milestone has been cancelled? 
-inprogress:
+complete:
   id: 4
-  status: Completed
+  name: Complete
   description: The milestone has been completed / met.
   
