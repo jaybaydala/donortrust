@@ -3,7 +3,7 @@
 testcrashdummy:
   id: 1
   milestone_id: 1
-  title: Get Test Crash Supplies
+  name: Get Test Crash Supplies
   description: Get the supplies needed for the Test Crash Dummy milestone
   #start_date: :date
   #end_date: :date

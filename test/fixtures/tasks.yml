@@ -2,7 +2,7 @@
 taskone:
   id: 1
   milestone_id: 1
-  title: task one title
+  name: task one name
   description: Test one task description
   start_date: 2007-04-08
   end_date: 2007-04-08
@@ -10,7 +10,7 @@ taskone:
 tasktwo:
   id: 2
   milestone_id: 1
-  title: task two title
+  name: task two name
   description: Test two task description
   #start_date: 2007-04-08
   #end_date: 2007-04-08

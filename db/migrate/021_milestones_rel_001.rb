@@ -4,18 +4,18 @@ class MilestonesRel001 < ActiveRecord::Migration
   def self.up
     create_table :milestones do |t|
       t.column :project_id, :int, :null => false
-      t.column :milestone_status_id, :int, :null => false
-      t.column :measure_id, :int#, :null => false
-      t.column :target_date, :date
+      t.column :name, :string
       t.column :description, :text
+      t.column :target_date, :date
+      t.column :milestone_status_id, :int, :null => false
     end # milestones
-    
-    if (ENV['RAILS_ENV'] = 'development')
+ 
+    if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
       Fixtures.create_fixtures(directory, "milestones")
     end
   end
-  
+
   def self.down
     drop_table :milestones 
   end

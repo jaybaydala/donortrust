@@ -1,16 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MilestoneTest < Test::Unit::TestCase
-  fixtures :measures, :milestone_statuses, :milestone_categories, :projects, :milestones
+  fixtures :measures, :milestone_statuses, :projects, :milestones
 
   def clean_new_instance( overrides = {})
     # Build (and return) an instance starting from known (expected) valid attribute
     # values, processing overides for any/all specified attributes
     opts = {
       :project_id => 1,
-      :milestone_category_id => 1,
+      :name => "valid milestone title",
       :milestone_status_id => 1,
-      :measure_id => 1,
       :target_date => "2007-08-01",
       :description => "test valid milestone description"
     }.merge( overrides )
@@ -29,11 +28,6 @@ class MilestoneTest < Test::Unit::TestCase
     assert_invalid( clean_new_instance, :milestone_status_id, nil, 0, -1, 989898 )
   end
   
-  def test_create_with_empty_category
-    # Should not be valid to create a new instance with a null category id
-    assert_invalid( clean_new_instance, :milestone_category_id, nil, 0, -1, 989898 )
-  end
-  
   def test_create_with_empty_description
     # Should not be valid to create a new instance with an empty or blank description
     assert_invalid( clean_new_instance, :description, nil, "" )
@@ -43,11 +37,6 @@ class MilestoneTest < Test::Unit::TestCase
     # Should not be valid to modify an existing instance to have a null status id, or an id that does not exist
     assert_valid( Milestone.find( milestones( :one ).id ))
     assert_invalid( Milestone.find( milestones( :one ).id ), :milestone_status_id, nil, 0, -1, 989898 )
-  end
-
-  def test_edit_to_empty_category
-    # Should not be valid to modify an existing instance to have a null category id, or an id that does not exist
-    assert_invalid( Milestone.find( milestones( :one ).id ), :milestone_category_id, nil, 0, -1, 989898 )
   end
 
   def test_edit_to_empty_description

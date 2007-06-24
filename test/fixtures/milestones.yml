@@ -2,29 +2,15 @@
 one:
   id: 1
   project_id: 1
+  name: Milestone Test1
   milestone_status_id: 1
-  measure_id: 1
   target_date: 2007-06-30
   description: donortrust internal alpha release
+
 two:
   id: 2
   project_id: 1
+  name: Milestone Test2
   milestone_status_id: 1
-  measure_id: 1
   target_date: 2007-08-01
   description: donortrust beta release
-three:
-  id: 3
-  project_id: 1
-  milestone_status_id: 3
-  measure_id: 1
-  target_date: 2007-09-01
-  description: donortrust beta release
-four:
-  id: 4
-  project_id: 1
-  milestone_status_id: 4
-  measure_id: 1
-  target_date: 2007-10-01
-  description: donortrust beta release
-  

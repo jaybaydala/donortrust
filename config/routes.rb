@@ -58,9 +58,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :programs, :active_scaffold => true, :controller => "bus_admin/programs", :path_prefix => "/bus_admin"
   map.resources :projects#, :active_scaffold => true #, :path_prefix => "/programs/:program_id"
   map.resources :project_histories, :path_prefix => "/projects/:project_id"
-  map.resources :milestones, :path_prefix => "/projects/:project_id"
-  map.resources :tasks, :controller => "bus_admin/tasks", :active_scaffold => true,
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin/milestones/:milestone_id"
+  map.resources :milestones, :controller => "bus_admin/milestones", :path_prefix => "/bus_admin/projects/:project_id",
+    :active_scaffold => true, :name_prefix => 'bus_admin_'
+  map.resources :tasks, :controller => "bus_admin/tasks", :path_prefix => "/bus_admin/milestones/:milestone_id",
+    :active_scaffold => true, :name_prefix => 'bus_admin_'
   map.resources :measures
   
   #map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"  #, :path_prefix => "/countries/:country_id"
