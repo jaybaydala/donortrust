@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-testone:
-  id: 1
-  category: Measure Test Cat 1
-  description: Measure Test Category 1 Description
-testtwo:
-  id: 2
-  category: Measure Test Cat 2
-  description: Measure Test Category 2 Description
