@@ -1,10 +1,27 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::RssFeedElementTest < Test::Unit::TestCase
-  fixtures :bus_admin_rss_feed_elements
-
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+context "RssFeedElement" do
+  
+  fixtures :rss_feeds
+  
+  setup do
+    @element = RssFeedElement.find(1)
   end
+  
+  specify "should have title" do
+    @element.title = nil
+    @element.should.not.validate
+  end
+  
+  specify "should have description" do
+    @element.description = nil
+    @element.should.not.validate
+  end
+  
+  specify "should update parent pub date" do
+    @element.title = "Doesn't Mater";
+    @element.update
+    @element.rss_feed.pub_date.to_s.should.equal DateTime.now.to_s
+  end
+  
 end
