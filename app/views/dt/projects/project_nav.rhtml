@@ -1,0 +1,8 @@
+<ul id="project-nav">
+<li id="project-nav-overview"<%= ' class="current"' if @params['action'] == 'show' %>><a href="<%= dt_project_path(@project) %>"><span>Overview</span></a></li>
+<li id="project-nav-project"<%= ' class="current"' if @params['action'] == 'project' %>><a href="<%= dt_project_project_path(@project) %>"><span>Project</span></a></li>
+<li id="project-nav-village"<%= ' class="current"' if @params['action'] == 'village' %>><a href="<%= dt_village_project_path(@project) %>"><span>Village</span></a></li>
+<li id="project-nav-nation"<%= ' class="current"' if @params['action'] == 'nation' %>><a href="<%= dt_nation_project_path(@project) %>"><span>Nation</span></a></li>
+<li id="project-nav-community" class="last<%= ' current' if @params['action'] == 'community' %>"><a href="<%= dt_community_project_path(@project) %>"><span>Community</span></a></li>
+</ul>
+<div class="line"></div>
