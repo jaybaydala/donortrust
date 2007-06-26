@@ -22,5 +22,17 @@ a:active {
 }
 
 #footer {
-	font-size:.9em;	
+	font-size:.8em;
+}
+
+div.column-title {
+	color:#666;
+	font-weight:bold;
+	background:#CCC;
+	border:1px solid #999;
+	width:196px;
+	height:72px;
+	padding:40px 16px 16px 16px;
+	margin-bottom:.8em;
+	overflow:hidden;
 }
