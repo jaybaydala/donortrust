@@ -1,6 +1,7 @@
 
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
+  include DtAuthenticatedSystem
   include BusAdmin::UserInfo
   #include BusAdmin::ProjectsHelper
     
@@ -17,7 +18,6 @@ class ApplicationController < ActionController::Base
     end 
   end
   
-
   def check_authorization
     user = BusUser.find(session[:user])
     user_type = user.bus_user_type
@@ -31,6 +31,11 @@ class ApplicationController < ActionController::Base
       return false
      end
   end
+
+  def dt_login_required
+    return true
+  end
+
 protected
   def set_user
     BusAdmin::UserInfo.current_user = session[:user]
