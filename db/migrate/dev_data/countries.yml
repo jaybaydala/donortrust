@@ -15,3 +15,10 @@ test3:
   country_name: Niger
   continent_id: 2
   html_data: hello world
+
+test4:
+  id:4
+  country_name: Uganda
+  continent_id: 2
+  html_data: hello world
+  
