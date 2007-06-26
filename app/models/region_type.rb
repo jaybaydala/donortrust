@@ -2,10 +2,10 @@ class RegionType < ActiveRecord::Base
 
   has_many :regions
 
-  validates_presence_of :region_type_name
-  validates_uniqueness_of :region_type_name
+  validates_presence_of :name
+  validates_uniqueness_of :name
   
   def to_label
-    "#{region_type_name}"
+    "#{name}"
   end
 end

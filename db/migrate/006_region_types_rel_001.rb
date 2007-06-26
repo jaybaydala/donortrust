@@ -3,7 +3,7 @@ require 'active_record/fixtures'
 class RegionTypesRel001 < ActiveRecord::Migration
   def self.up
     create_table :region_types do |t|
-      t.column :region_type_name, :string, :null => false
+      t.column :name, :string, :null => false
     end # region_types
     
     if (ENV['RAILS_ENV'] = 'development')

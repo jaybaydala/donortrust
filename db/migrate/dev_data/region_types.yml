@@ -1,8 +1,12 @@
 prov:
   id: 1
-  region_type_name: Province
+  name: Province
   
 state:
   id: 2
-  region_type_name: State
+  name: State
+
+district:
+  id: 3
+  name: District
   
