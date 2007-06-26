@@ -20,4 +20,25 @@ class Dt::ProjectsController < ApplicationController
       format.xml  { render :xml => @project.to_xml }
     end
   end
+
+  def search
+
+  end
+
+  def project
+    @project = Project.find(params[:id])
+  end
+
+  def village
+    @project = Project.find(params[:id])
+    @village = @project.urban_centre
+  end
+  
+  def nation
+    @project = Project.find(params[:id])
+  end
+  
+  def community
+    @project = Project.find(params[:id])
+  end
 end
