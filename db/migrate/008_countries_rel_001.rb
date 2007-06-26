@@ -4,7 +4,7 @@ class CountriesRel001 < ActiveRecord::Migration
   def self.up
     
     create_table :countries do |t|
-      t.column :country_name, :string, :null => false
+      t.column :name, :string, :null => false
       t.column :continent_id, :int, :null => false
       t.column :html_data, :text, :null => true 
     end #countries
