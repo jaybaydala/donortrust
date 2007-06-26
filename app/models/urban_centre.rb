@@ -1,10 +1,10 @@
 class UrbanCentre < ActiveRecord::Base
 
-belongs_to  :region
-belongs_to  :project
+  belongs_to  :region
+  has_many :projects
 
   validates_presence_of :region_id
-  validates_presence_of :urban_centre_name
+  validates_presence_of :name
   
   def validate
     begin
@@ -14,7 +14,7 @@ belongs_to  :project
     end
   end
   def to_label
-    "#{urban_centre_name}"
+    "#{name}"
   end
 end
 

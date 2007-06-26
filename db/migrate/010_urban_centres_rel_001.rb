@@ -3,7 +3,7 @@ require 'active_record/fixtures'
 class UrbanCentresRel001 < ActiveRecord::Migration
   def self.up
     create_table :urban_centres do |t|
-      t.column :urban_centre_name, :string, :null => false
+      t.column :name, :string, :null => false
       t.column :region_id, :int, :null => false
       t.column :facebook_group_id, :int, :null => true
       t.column :blog_name, :string, :null => true
