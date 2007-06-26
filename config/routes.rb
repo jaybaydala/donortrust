@@ -68,13 +68,6 @@ ActionController::Routing::Routes.draw do |map|
  
   map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
   
-  # front-end resources - non-admin
-  map.resource :dt do |dt|
-    dt.resources :projects, :name_prefix => 'dt_', :controller=> 'dt/projects'
-    #dt.resources :accounts, :name_prefix => 'dt_', :controller=> 'dt/accounts'
-    #dt.resources :groups, :name_prefix => 'dt_', :controller=> 'dt/groups'
-  end
-  
   #easier routes for restful_authentication
   
   map.signup '/bus_admin/signup', :controller => 'bus_admin/bus_account', :action => 'signup'
@@ -93,6 +86,11 @@ ActionController::Routing::Routes.draw do |map|
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'
   map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
   
+  # front-end resources - non-admin
+  map.resources :projects, :controller=> 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :search => :get }, :member => { :project => :get, :village => :get, :nation => :get, :community => :get }
+  #map.resources :users, :controller=> 'dt/users', :name_prefix => 'dt_', :path_prefix => '/dt'
+  #map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
+
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
   # Install the default route as the lowest priority.
