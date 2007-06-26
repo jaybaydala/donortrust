@@ -3,6 +3,6 @@ test1:
   name: Calgary
   region_id: 1
 test2:
-  id:2
+  id: 2
   name: Iganga
   region_id: 3
