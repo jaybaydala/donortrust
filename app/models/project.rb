@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
   belongs_to :partner
   has_many :project_histories
   has_many :milestones
-  has_one   :urban_centre
+  belongs_to :urban_centre
   belongs_to :contact
   #has_and_belongs_to_many :millennium_development_goals
   validates_presence_of :program
