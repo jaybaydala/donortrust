@@ -6,7 +6,7 @@ test2:
   id: 2
   name: Mpigi
   region_id: 3
-  facebook_group_id: 2331243121
+  facebook_group_id: '2331243121'
   blog_name: ChristmasFuture Blog
   blog_url: http://christmasfuture.blogspot.com/
   rss_url: http://christmasfuture.blogspot.com/feeds/posts/default

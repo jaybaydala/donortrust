@@ -5,13 +5,12 @@ class UrbanCentresRel001 < ActiveRecord::Migration
     create_table :urban_centres do |t|
       t.column :name, :string, :null => false
       t.column :region_id, :int, :null => false
-      t.column :facebook_group_id, :int, :null => true
       t.column :blog_name, :string, :null => true
       t.column :blog_url, :string, :null => true
       t.column :rss_url, :string, :null => true
       t.column :population, :int, :null => true
       t.column :village_plan, :text, :null => true
-      t.column :facebook_group_id, :string
+      t.column :facebook_group_id, :string, :null => true
       
     end #urban_centres
     

@@ -1,10 +1,14 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
+context "Indicators" do
+  fixtures :indicators
 
-class BusAdmin::IndicatorTest < Test::Unit::TestCase
-  fixtures :bus_admin_indicators
-
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+setup do
+    @indicator = Indicator.find(1)
   end
+ 
+  specify "The indicator should have a target_id and & description" do
+    @indicator.target_id.should.not.be.nil
+    @indicator.description.should.not.be.nil
+  end
+
 end

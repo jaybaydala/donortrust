@@ -42,6 +42,10 @@ Rails::Initializer.run do |config|
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
     File.directory?(lib = "#{dir}/lib") ? lib : dir
   end
+  
+  
+  config.active_record.schema_format = :sql
+  
 end
 
 # Add new inflection rules using the following format 

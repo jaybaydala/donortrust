@@ -1,10 +1,16 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::MillenniumDevelopmentGoalTest < Test::Unit::TestCase
-  fixtures :bus_admin_millennium_development_goals
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+context "MillenniumDevGoals" do
+     fixtures :rss_feeds
+  
+  setup do
+    @element = RssFeedElement.find(1)
   end
+  
+  specify "should have title" do
+    @element.title = nil
+    @element.should.not.validate
+  end
+
 end
