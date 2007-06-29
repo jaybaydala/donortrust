@@ -7,8 +7,8 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :project_category_id, :integer
       t.column :name, :string, :null => false
       t.column :description, :text
-      t.column :total_cost, :float
-      t.column :dollars_spent, :float
+      t.column :total_cost, :decimal, :precision => 12, :scale => 2
+      t.column :dollars_spent, :decimal, :precision => 12, :scale => 2
       t.column :expected_completion_date, :datetime
       t.column :start_date, :datetime
       t.column :end_date, :datetime
@@ -16,7 +16,7 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :contact_id, :integer
       t.column :urban_centre_id, :integer
       t.column :partner_id, :integer
-      t.column :dollars_raised, :integer
+      t.column :dollars_raised, :decimal, :precision => 12, :scale => 2
     end # projects
     
     if (ENV['RAILS_ENV'] = 'development')
