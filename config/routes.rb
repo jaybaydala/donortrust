@@ -94,6 +94,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
   # Install the default route as the lowest priority.
+  map.connect "*anything",
+              :controller => 'dt/projects'
   # HPD these should not be used / exist when using 'full' RESTful structure
   #map.connect ':controller/:action/:id.:format'
   #map.connect ':controller/:action/:id'
