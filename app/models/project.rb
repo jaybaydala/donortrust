@@ -100,6 +100,10 @@ class Project < ActiveRecord::Base
     return self.sum(:dollars_spent)
   end
   
+  def village
+    self.urban_centre
+  end
+  
 #  def self.get_md_goals
 #    return self.project_md_goals.find(:all)
 #  end
