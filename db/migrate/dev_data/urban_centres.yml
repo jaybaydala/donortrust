@@ -4,5 +4,15 @@ test1:
   region_id: 1
 test2:
   id: 2
-  name: Iganga
+  name: Mpigi
   region_id: 3
+  facebook_group_id: 2331243121
+  blog_name: ChristmasFuture Blog
+  blog_url: http://christmasfuture.blogspot.com/
+  rss_url: http://christmasfuture.blogspot.com/feeds/posts/default
+  population: 25,000
+  village_plan: > 
+    Mpigi has been developing their medical and water facilities through various projects for several years. Infant mortality has been reduced by half and the number of people working daily has doubled.
+    
+    
+    Currently, Mpigi needs to develop more educational resources to ensure that the children are being educated and the adults granted free access to information.

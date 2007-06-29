@@ -1,22 +1,29 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-testcrashdummy:
+projectone:
   id: 1
   program_id: 1
-  project_category_id: 1
-  name: Test Crash
-  description: Test Crash Dummy Project
-  total_cost: 550.7654
-  dollars_spent: 3.1234
-  expected_completion_date: "2008-01-01"
-  start_date: "2007-01-01"
-  end_date: "2008-01-01"
-  project_status_id: 1
-  contact_id: 2
-  urban_centre_id: 1
+  project_category_id: 2
+  name: Mpigi Library
+  description: >
+    Our first full library project is in the community of Mpigi, located two hours drive southwest of Kampala, the capital of Uganda. With a surrounding population of ten thousand people, the town is the economic and political centre of Mpigi district.
+    
+    
+    A December 2006 visit to Uganda by two directors has established links with local and national partners and given us a wealth of insight into how best to proceed. At the invitation of the National Library of Uganda, we attended library project consultations with community groups – including youth representatives, village elders, government officials, farmers, fishermen, women’s groups  - in three communities in Mpigi district. They spent time in local schools, speaking with students and teachers about the lack of books in Ugandan classrooms. On a visit to an existing community library in Buikwe, a town in a neighboring district, they saw encouraging evidence that access to books can make a remarkable difference in encouraging rural students to stay in school longer, achieve better grades, and go on to certificate and degree programs in college and university. The common theme that libraries are both needed and desperately wanted arose throughout meetings and discussions.
+    
+    
+    Based on a two year period of support, we are budgeting between $12,000 and $20,000 (upper range includes potential land costs), with 75% of funds required over the first year. Canadian operations will be limited primarily to fundraising, and we will rely largely on Ugandan partners to ensure the project is locally-driven and relevant to the specific needs of the community. Monitoring and evaluation of progress will be carried out through regular communication with the library committee and the National Library of Uganda. An annual trip by at least one director will also contribute to project evaluation.
+  total_cost: 20000.00
+  dollars_spent: 2500.00
+  expected_completion_date: "2007-08-30"
+  start_date: "2006-12-10"
+  end_date: "2007-08-30"
+  project_status_id: 2
+  contact_id: 1
+  urban_centre_id: 2
   partner_id: 1
-  dollars_raised: 50.87
+  dollars_raised: 7780.00
   
-sampleproject2:
+projecttwo:
   id: 2
   program_id: 1
   project_category_id: 1
@@ -33,7 +40,7 @@ sampleproject2:
   partner_id: 1
   dollars_raised: 5052.00  
  
-sampleproject3:
+projectthree:
   id: 3
   program_id: 3
   project_category_id: 2
@@ -50,7 +57,7 @@ sampleproject3:
   partner_id: 1
   dollars_raised: 5052.00
   
-sampleproject4:
+projectfour:
   id: 4
   program_id: 2
   project_category_id: 2
@@ -67,7 +74,7 @@ sampleproject4:
   partner_id: 2
   dollars_raised: 2052.00
 
-sampleproject5:
+projectfive:
   id: 5
   program_id: 4
   project_category_id: 2

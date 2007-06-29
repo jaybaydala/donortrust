@@ -1,7 +1,40 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-default_project_category_one:
+one: 
   id: 1
-  description: Water
-default_project_category_two:
+  description: Hunger
+two: 
   id: 2
-  description: AIDS
+  description: Education
+three: 
+  id: 3
+  description: Health
+four: 
+  id: 4
+  description: Water
+five: 
+  id: 5
+  description: Environment
+six: 
+  id: 6
+  description: Eradicate Extreme Poverty and Hunger
+seven: 
+  id: 7
+  description: Achieve Universal Primary Education
+eight: 
+  id: 8
+  description: Promote Gender Equality and Empower Women
+nine: 
+  id: 9
+  description: Reduce Child Mortality
+ten: 
+  id: 10
+  description: Improve Maternal Health
+eleven: 
+  id: 11
+  description: Combat HIV/Aids, Malaria and Other Diseases
+twelve: 
+  id: 12
+  description: Ensure Environmental Sustainability
+thirteen: 
+  id: 13
+  description: Develop a Global Partnership for Development

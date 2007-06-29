@@ -13,5 +13,5 @@ test2:
 test3:
   id: 3
   region_name: Central Uganda
-  country_id: 3
+  country_id: 4
   region_type_id: 3

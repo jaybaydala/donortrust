@@ -1,7 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 testcrashdummy:
   id: 1
-  program_name: dummy program
+  program_name: Information is free
   contact_id: 1
 sampleexampleprogram:
   id: 2

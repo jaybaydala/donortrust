@@ -20,5 +20,140 @@ test4:
   id: 4
   name: Uganda
   continent_id: 2
-  html_data: hello world
+  html_data: >
+    h2. Country Statistics
+    
+    
+    *Population:*
+    
+    <ul><li>30,262,610</li>
+    <li><small>note: estimates for this country explicitly take into account the effects of excess mortality due to AIDS; this can result in lower life expectancy, higher infant mortality and death rates, lower population and growth rates, and changes in the distribution of population by age and sex than would otherwise be expected (July 2007 est.)</small></li></ul>
+    
+    
+    *Age structure:*
+    
+    <ul><li>0-14 years: 50.2% (male 7,646,619/female 7,538,137)</li>
+    <li>15-64 years: 47.6% (male 7,231,196/female 7,185,058)</li>
+    <li>65 years and over: 2.2% (male 281,317/female 380,283) (2007 est.)</li></ul>
+    
+    
+    *Median age:*
+   
+    <ul><li>total: 14.9 years</li>
+    <li>male: 14.8 years</li>
+    <li>female: 15 years (2007 est.)</li></ul>
+    
+    
+    *Population growth rate:*
+    
+    <ul><li>3.572% (2007 est.)</li></ul>
+    
+    
+    *Birth rate:*
+    
+    <ul><li>48.12 births/1,000 population (2007 est.)</li></ul>
+    
+    
+    *Death rate:*
+    
+    <ul><li>12.64 deaths/1,000 population (2007 est.)</li></ul>
+    
+    
+    *Net migration rate:*
+    
+    <ul><li>0.24 migrant(s)/1,000 population (2007 est.)</li></ul>
+    
+    
+    *Sex ratio:*
+    
+    <ul><li>at birth: 1.03 male(s)/female</li>
+    <li>under 15 years: 1.014 male(s)/female</li>
+    <li>15-64 years: 1.006 male(s)/female</li>
+    <li>65 years and over: 0.74 male(s)/female</li>
+    <li>total population: 1.004 male(s)/female (2007 est.)</li></ul>
+    
+    
+    *Infant mortality rate:*
+    
+    <ul><li>total: 67.22 deaths/1,000 live births</li>
+    <li>male: 70.92 deaths/1,000 live births</li>
+    <li>female: 63.42 deaths/1,000 live births (2007 est.)</li></ul>
+    
+    
+    *Life expectancy at birth:*
+    
+    <ul><li>total population: 51.75 years</li>
+    <li>male: 50.78 years</li>
+    <li>female: 52.73 years (2007 est.)</li></ul>
+    
+    
+    *Total fertility rate:*
+    
+    <ul><li>6.84 children born/woman (2007 est.)</li></ul>
+    
+    
+    *HIV/AIDS - adult prevalence rate:*
+    
+    <ul><li>4.1% (2003 est.)</li></ul>
+    
+    
+    *HIV/AIDS - people living with HIV/AIDS:*
+    
+    <ul><li>530,000 (2001 est.)</li></ul>
+    
+    
+    *HIV/AIDS - deaths:*
+    
+    <ul><li>78,000 (2003 est.)</li></ul>
+    
+    
+    *Major infectious diseases:*
+    
+    <ul><li>Degree of risk: very high</li>
+    <li>food or waterborne diseases: bacterial diarrhea, hepatitis A, and typhoid fever</li>
+    <li>vectorborne diseases: malaria and African trypanosomiasis (sleeping sickness) are high risks in some locations</li>
+    <li>water contact disease: schistosomiasis (2007)</li></ul>
+    
+    
+    *Nationality:*
+    
+    <ul><li>noun: Ugandan(s)</li>
+    <li>adjective: Ugandan</li></ul>
+    
+    
+    *Ethnic groups:*
+    
+    <ul><li>Baganda 16.9%, Banyakole 9.5%, Basoga 8.4%, Bakiga 6.9%, Iteso 6.4%, Langi 6.1%, Acholi 4.7%, Bagisu 4.6%, Lugbara 4.2%, Bunyoro 2.7%, * other 29.6% (2002 census)</li></ul>
+    
+    
+    *Religions:*
+    
+    <ul><li>Roman Catholic 41.9%, Protestant 42% (Anglican 35.9%, Pentecostal 4.6%, Seventh Day Adventist 1.5%), Muslim 12.1%, other 3.1%, none 0.9% (2002 census)</li></ul>
+    
+    
+    *Languages:*
+    
+    <ul><li>English (official national language, taught in grade schools, used in courts of law and by most newspapers and some radio broadcasts), Ganda or Luganda (most widely used of the Niger-Congo languages, preferred for native language publications in the capital and may be taught in school), other Niger-Congo languages, Nilo-Saharan languages, Swahili, Arabic</li></ul>
+    
+    
+    *Literacy:*
+    
+    <ul><li>definition: age 15 and over can read and write</li>
+    <li>total population: 66.8%</li>
+    <li>male: 76.8%</li>
+    <li>female: 57.7% (2002 census)</li></ul>
   
+    
+    h2. Get More...
+    
+    
+    "United Nations Declaration of Human Rights":http://www.christmasfuture.org/pdf/Univ%20Declr%20of%20Hum%20Rights%20.pdf
+    
+    
+    "ChristmasFuture One Page Summary":http://www.christmasfuture.org/pdf/CF%20Profile.pdf
+    
+    
+    "ChristmasFuture Strategy Document":http://www.christmasfuture.org/pdf/CF%20Strategy%20Doc%203.0.1.pdf
+    
+    
+    "ChristmasFuture Business Overview":http://www.christmasfuture.org/pdf/CF%20Bus%20Overview%204.0.pdf

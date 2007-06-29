@@ -1,8 +1,8 @@
 partner_one:
-  name: partner_one
-  description: This is the description of partner one. Who knows what they've been up to?
+  name: Library Parnters
+  description: The Library Partners have been involved in educational and information projects for over 20 years. They are cool
   partner_status_id: 1
-  partner_type_id: 2
+  partner_type_id: 1
   
 partner_two:
   name: partner_two
