@@ -5,7 +5,12 @@
 <div id="content">
 <div class="contentmargin">
 
-
+	<% if @project.village.facebook_group_id %>
+	<p><a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>">Facebook Group</a> <a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>"><%= image_tag "/images/dt/icons/facebook.gif" %></a></p>
+	<% end %>
+	<% if @project.village.blog_url %>
+	<p><a href="<%= @project.village.blog_url %>"><%= @project.village.blog_name %></a> </p>
+	<% end %>
 
 </div>
 </div>

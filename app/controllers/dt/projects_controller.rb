@@ -22,7 +22,7 @@ class Dt::ProjectsController < ApplicationController
   end
 
   def search
-
+    redirect_to dt_project_path(params[:project_id]) if params[:project_id]
   end
 
   def project

@@ -4,10 +4,10 @@
 
 <div id="content">
 <div class="contentmargin">
-<div id="village-<%= @project.urban_centre.id %>" class="article">
-	<div class="article-title"><%= @project.urban_centre.urban_centre_name %></div>
-	<div class="artice-body">
-	<%= @project.urban_centre.village_plan %>
+<div id="village-<%= @project.village.id %>" class="article">
+	<h1 class="article-title"><%= @project.village.name %>, <%= @project.village.region.region_name %>, <a href="<%= dt_nation_project_path(@project) %>"><%= @project.village.region.country.name %></a></h1>
+	<div class="article-body">
+	<%= textilize @project.village.village_plan %>
 	</div>
 </div>
 </div>

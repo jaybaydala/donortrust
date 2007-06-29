@@ -1,13 +1,25 @@
 <%= project_nav %>
 
-<div id="contentcontainer-1col">
+<div id="contentcontainer-2col">
 
 <div id="content">
 <div class="contentmargin">
 <div id="project-<%= @project.id %>" class="article">
-	<div class="article-title"><%= @project.name %></div>
-	<div class="artice-body"><%= @project.description %></div>
+	<h2 class="article-title"><%= @project.name %></h2>
+	<div class="article-body"><%= textilize @project.description %></div>
 </div>
+</div>
+</div>
+
+
+<div id="rail-right">
+<div class="contentmargin">
+	<%= render :partial => 'project_location' %>
+
+	<h3>Project Funding/Spending</h3>
+	<p>We have raised <%= number_to_currency @project.dollars_raised %> out of <%= number_to_currency @project.total_cost %>.</p>
+	<p>We have spent <%= number_to_currency @project.dollars_spent %> out of <%= number_to_currency @project.total_cost %>.</p>
+
 </div>
 </div>
 

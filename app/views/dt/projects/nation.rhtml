@@ -1,12 +1,14 @@
 <%= project_nav %>
 
-<div id="contentcontainer-1col">
+<div id="contentcontainer-2col">
 
 <div id="content">
 <div class="contentmargin">
-<div id="nation-" class="article">
-	<div class="article-title"></div>
-	<div class="artice-body"></div>
+<div id="nation-<%= @project.village.region.country.id %>" class="article">
+	<h2 class="article-title"><%= @project.village.region.country.name %></h2>
+	<div class="article-body">
+		<%= textilize @project.village.region.country.html_data %>
+	</div>
 </div>
 </div>
 </div>

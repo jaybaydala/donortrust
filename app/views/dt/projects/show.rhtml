@@ -1,13 +1,31 @@
 <%= project_nav %>
 
-<div id="contentcontainer-1col">
+<div id="contentcontainer-2col">
 
 <div id="content">
 <div class="contentmargin">
 <div id="project-<%= @project.id %>" class="article">
-	<div class="article-title"><%= @project.name %></div>
-	<div class="artice-body"><%= @project.description %></div>
+	<h1 class="article-title"><%= @project.name %></h1>
+	<div class="article-body">
+	<%= textilize @project.description.gsub(/\n{2,}.*/, "") %>
+	<div style="text-align:right;margin-top:-1em;"><%= link_to "more&hellip;", dt_project_project_path(@project) %></div>
+	</div>
+
+	<h2 class="article-title">Community</h2>
+	<% if @project.village.facebook_group_id %>
+	<p><a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>">Facebook Group</a> <a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>"><%= image_tag "/images/dt/icons/facebook.gif" %></a></p>
+	<% end %>
+	<% if @project.village.blog_url %>
+	<p><a href="<%= @project.village.blog_url %>"><%= @project.village.blog_name %></a> </p>
+	<% end %>
 </div>
+</div>
+</div>
+
+
+<div id="rail-right">
+<div class="contentmargin">
+	<%= render :partial => 'project_location' %>
 </div>
 </div>
 
