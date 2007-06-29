@@ -1,21 +1,18 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+test1:
   id: 1
-  village_group_name: MyString
+  name: Calgary
   region_id: 1
-  blog_name: MyString
-  blog_url: MyString
-  rss_url: MyString
-  population: 1
-  village_plan: MyString
-  facebook_group_id: MyString
-two:
+test2:
   id: 2
-  village_group_name: MyString
-  region_id: 1
-  blog_name: MyString
-  blog_url: MyString
-  rss_url: MyString
-  population: 1
-  village_plan: MyString
-  facebook_group_id: MyString
+  name: Mpigi
+  region_id: 3
+  facebook_group_id: 2331243121
+  blog_name: ChristmasFuture Blog
+  blog_url: http://christmasfuture.blogspot.com/
+  rss_url: http://christmasfuture.blogspot.com/feeds/posts/default
+  population: 25,000
+  village_plan: > 
+    Mpigi has been developing their medical and water facilities through various projects for several years. Infant mortality has been reduced by half and the number of people working daily has doubled.
+    
+    
+    Currently, Mpigi needs to develop more educational resources to ensure that the children are being educated and the adults granted free access to information.

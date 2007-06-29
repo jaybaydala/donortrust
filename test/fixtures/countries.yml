@@ -1,5 +1,24 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+test1:
   id: 1
-two:
+  name: Canada
+  continent_id: 1
+  html_data: hello world
+  
+test2:
   id: 2
+  name: United States
+  continent_id: 1
+  html_data: hello world
+  
+test3:
+  id: 3
+  name: Niger
+  continent_id: 2
+  html_data: hello world
+  
+test4:
+  id: 4
+  name: Uganda
+  continent_id: 2
+  html_data: hello world

@@ -1,14 +1,17 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+test1:
   id: 1
   region_name: Alberta
   country_id: 1
-two:
+  region_type_id: 1
+
+test2:
   id: 2
-  region_name: Britsh Columbia
-  country_id: 1
-three:
+  region_name: Arizona
+  country_id: 2
+  region_type_id: 2
+
+test3:
   id: 3
-  region_name: Nyanza
-  country_id: 1
-  
+  region_name: Central Uganda
+  country_id: 3
+  region_type_id: 3

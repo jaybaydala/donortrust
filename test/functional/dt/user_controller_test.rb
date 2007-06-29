@@ -1,5 +1,5 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'user_controller'
+require File.dirname(__FILE__) + '/../../test_helper'
+require 'dt/user_controller'
 
 # Re-raise errors caught by the controller.
 class Dt::UserController; def rescue_action(e) raise e end; end
@@ -15,6 +15,7 @@ class Dt::UserControllerTest < Test::Unit::TestCase
     @controller = Dt::UserController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+
   end
 
   def test_should_login_and_redirect
