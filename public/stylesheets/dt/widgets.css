@@ -8,7 +8,6 @@ LOGO
 	display:block;
 	width:200px;
 	height:46px;
-	/images/dt/logo.gif
 }
 #logo a {
 	background:url('/images/dt/logo.gif') no-repeat;
@@ -24,6 +23,7 @@ NAV
 #nav {
 	list-style:none;
 	width:605px;
+	height:24px;
 	margin:auto;
 }
 #nav li {
@@ -32,7 +32,7 @@ NAV
 }
 #nav li, #nav li a {
 	display:block;
-	height:22px;
+	height:22px !important;
 }
 #nav li a { text-decoration:none; }
 #nav li span { visibility:hidden; }
@@ -40,17 +40,17 @@ NAV
 #nav li a.current:link, #nav li a.current:visited { background-position:0 22px; }
 #nav li a:hover, #nav li a:active { background-position:0 22px; }
 #nav-about-us, #nav-about-us a { width:94px; }
-#nav-about-us { background-image:url('/images/dt/nav/about_us.gif'); }
+#nav-about-us a { background-image:url('/images/dt/nav/about_us.gif'); }
 #nav-donortrust, #nav-donortrust a { width:84px; }
-#nav-donortrust {background-image:url('/images/dt/nav/projects.gif'); }
+#nav-donortrust a {background-image:url('/images/dt/nav/projects.gif'); }
 #nav-get-involved, #nav-get-involved a { width:113px; }
-#nav-get-involved { background-image:url('/images/dt/nav/get_involved.gif'); }
+#nav-get-involved a { background-image:url('/images/dt/nav/get_involved.gif'); }
 #nav-school-programs, #nav-school-programs a { width:133px; }
-#nav-school-programs {background-image:url('/images/dt/nav/school_programs.gif'); }
+#nav-school-programs a {background-image:url('/images/dt/nav/school_programs.gif'); }
 #nav-resources, #nav-resources a { width:97px; }
-#nav-resources { background-image:url('/images/dt/nav/resources.gif'); }
+#nav-resources a { background-image:url('/images/dt/nav/resources.gif'); }
 #nav-contact, #nav-contact a { width:84px; }
-#nav-contact { background-image:url('/images/dt/nav/contact.gif'); }
+#nav-contact a { background-image:url('/images/dt/nav/contact.gif'); }
 /* ------------------------------
 PROJECT NAV
 ------------------------------ */
@@ -104,16 +104,6 @@ div.line {
 }
 
 /* ------------------------------
-GENERAL TEXT CONTENT
------------------------------- */
-div.article {
-	font-family:Georgia, Times, "Times New Roman", serif;
-}
-div.article-title {
-	font-weight:bold;
-}
-
-/* ------------------------------
 FOOTER AREA
 ------------------------------ */
 #copyright {}
@@ -148,7 +138,7 @@ PROJECT SEARCH
 	display:block;
 	color:#666;
 	font-size:.8em;
-	margin:5px;
+	margin:3px 5px 3px 5px;
 	text-transform:uppercase;
 }
 #project-searchright {
