@@ -79,6 +79,13 @@ div.article-body {
 }
 
 /* ------------------------------
+3-column design-specific type rules
+------------------------------ */
+#contentcontainer #rail-right {
+	font-size:.94em;
+}
+
+/* ------------------------------
 2-column design-specific type rules
 ------------------------------ */
 #contentcontainer-2col #rail-right p {

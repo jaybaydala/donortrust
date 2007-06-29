@@ -1,0 +1,4 @@
+#masthead div.donate {
+	background:none;
+	filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/dt/masthead_overlay.png',sizingMethod='scale');
+}

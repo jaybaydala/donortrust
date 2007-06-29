@@ -35,6 +35,7 @@
 	float:left;
 	width:480px;
 	margin-right:-480px;
+	border:1px solid #FFF;
 }
 #contentcontainer-2col #rail-right {
 	float:right;
