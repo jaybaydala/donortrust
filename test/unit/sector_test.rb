@@ -1,10 +1,33 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::SectorTest < Test::Unit::TestCase
-  fixtures :bus_admin_sectors
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+context "Sectors" do
+  fixtures :sectors
+
+setup do
+    @sector = Sector.find(1)
   end
+ 
+  specify "The sector should have a name & description" do
+    @sector.name.should.not.be.nil
+    @sector.description.should.not.be.nil
+  end
+
+
+specify "duplicate name should not validate" do
+    @sector1 = Sector.new( :name => @sector.name, :description =>  "This should be invalid" )
+    
+    @sector1.should.not.validate
+    
+end
+specify "nil name should not validate" do
+    @sector.name = nil
+    @sector.should.not.validate
+  end
+  
+  specify "nil description should not validate" do
+    @sector.description = nil
+    @sector.should.not.validate
+  end
+
 end
