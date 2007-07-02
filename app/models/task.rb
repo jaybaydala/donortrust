@@ -2,7 +2,7 @@ class Task < ActiveRecord::Base
   belongs_to :milestone
 
   validates_presence_of :name, :description#, :milestone_id
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name#, scope => :milestone_id
   
   validate do |task|
     # In each of the 'unless' conditions, true means that the association is reloaded,

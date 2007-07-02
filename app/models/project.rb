@@ -1,9 +1,8 @@
 class Project < ActiveRecord::Base
-  after_save  :create_project_history
+  after_save :create_project_history
   after_save :save_project_history  
   
   belongs_to :project_status
-  belongs_to :project_category
   belongs_to :program
   belongs_to :partner
   has_many :project_histories
@@ -18,13 +17,7 @@ class Project < ActiveRecord::Base
       @create_project_history_ph = ProjectHistory.new_audit(Project.find(self.id))
     end
   end
-    
-  def get_percent_raised
-    if self.total_cost > 0 
-      return (dollars_raised * 100 / total_cost)
-    end
-  end
-  
+
   def save_project_history
     if (@create_project_history_ph)
       @create_project_history_ph.save
@@ -32,10 +25,30 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def destroy
+    result = false
+    if milestones.count > 0
+      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Milestones" )
+    else
+      result = super
+    end
+    return result
+  end
+
+  def milestones_count
+    return milestones.count
+  end
+
   def self.is_a_project?(object)
     return object.class.to_s == "Project"
   end
   
+  def get_percent_raised
+    if self.total_cost > 0 
+      return (dollars_raised * 100 / total_cost)
+    end
+  end
+
   def self.total_projects
     return self.find(:all).size    
   end
@@ -53,6 +66,16 @@ class Project < ActiveRecord::Base
     return milestones.size unless milestones == nil 
   end
   
+  def milestones_count
+    return self.milestones.count
+  end
+
+  def get_percent_raised
+    if self.total_cost > 0 
+      return (dollars_raised * 100 / total_cost)
+    end
+  end
+
   def get_milestones
     return self.milestones.find(:all, :conditions => "project_id = " + self.id.to_s)
   end

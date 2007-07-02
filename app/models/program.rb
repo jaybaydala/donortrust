@@ -8,7 +8,21 @@ class Program < ActiveRecord::Base
   def to_label
     "#{program_name}"
   end
-  
+
+  def destroy
+    result = false
+    if projects.count > 0
+      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Projects" )
+    else
+      result = super
+    end
+    return result
+  end
+
+  def projects_count
+    return projects.count
+  end
+
   def self.total_programs
     return self.find(:all).size
   end

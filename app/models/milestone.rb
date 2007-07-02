@@ -12,7 +12,7 @@ class Milestone < ActiveRecord::Base
   #validates_presence_of :project_id
   validates_presence_of :milestone_status_id
   validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name#, scope => :project_id
   validates_presence_of :description
 
   validate do |milestone|
@@ -24,6 +24,20 @@ class Milestone < ActiveRecord::Base
     unless milestone.milestone_status( true )
       milestone.errors.add :milestone_status_id, 'does not exist'
     end
+  end
+
+  def destroy
+    result = false
+    if tasks.count > 0
+      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Tasks" )
+    else
+      result = super
+    end
+    return result
+  end
+
+  def tasks_count
+    return tasks.count
   end
 
   # Determine if an object instance is a Milestone

@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  # The priority is based upon order of creation: first created -> highest priority.
+  
   #
   # RSS Feed Resources
   #
@@ -23,9 +25,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :villages, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/villages"
   map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"
 
-  map.resources :projects, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/projects' do |project|
-    project.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories'
-  end
   map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
 
@@ -38,12 +37,9 @@ ActionController::Routing::Routes.draw do |map|
 
   # hack around the active_scaffold's non-restful support of nesting
   #map.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
-  #map.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories' 
   map.resources :region_types, :controller => "bus_admin/region_types",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  
-  # The priority is based upon order of creation: first created -> highest priority.
-  
+
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
   map.resources :project_statuses, :controller => "bus_admin/project_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
@@ -55,13 +51,21 @@ ActionController::Routing::Routes.draw do |map|
   
   #map.resources :partner_histories
     
-  map.resources :programs, :active_scaffold => true, :controller => "bus_admin/programs", :path_prefix => "/bus_admin"
-  map.resources :projects#, :active_scaffold => true #, :path_prefix => "/programs/:program_id"
-  map.resources :project_histories, :path_prefix => "/projects/:project_id"
-  map.resources :milestones, :controller => "bus_admin/milestones", :path_prefix => "/bus_admin/projects/:project_id",
-    :active_scaffold => true, :name_prefix => 'bus_admin_'
-  map.resources :tasks, :controller => "bus_admin/tasks", :path_prefix => "/bus_admin/milestones/:milestone_id",
-    :active_scaffold => true, :name_prefix => 'bus_admin_'
+  map.resources :programs,    :controller => "bus_admin/programs",
+    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+  map.resources :projects,    :controller => 'bus_admin/projects',
+    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+  map.resources :milestones,  :controller => "bus_admin/milestones",
+    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+  map.resources :tasks,       :controller => "bus_admin/tasks",
+    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+# do |project|
+#    project.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories'
+#    project.resources :milestones, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/milestones'
+#  end
+#  map.resources :projects#, :active_scaffold => true #, :path_prefix => "/programs/:program_id"
+#  map.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories' 
+#  map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :measures
   
   #map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"  #, :path_prefix => "/countries/:country_id"
