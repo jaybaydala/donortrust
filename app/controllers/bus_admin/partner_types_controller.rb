@@ -1,6 +1,7 @@
 class BusAdmin::PartnerTypesController < ApplicationController
   before_filter :login_required
-  active_scaffold :partner_type do |config|  
+  active_scaffold :partner_type do |config|   
+    config.label = "Partner Categories"
     config.list.columns = [:name, :description] # reorder columns 
     config.create.columns = [:name, :description] # reorder columns 
     config.update.columns = [:name, :description] # reorder columns 

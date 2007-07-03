@@ -1,5 +1,8 @@
 class BusAdmin::IndicatorsController < ApplicationController
 
-  active_scaffold
+  before_filter :login_required
+  active_scaffold :indicators do |config|
+    config.columns = [:description, :target]    
+  end
 
 end

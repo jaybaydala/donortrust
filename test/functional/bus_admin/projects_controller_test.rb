@@ -5,7 +5,7 @@ require 'bus_admin/projects_controller'
 class BusAdmin::ProjectsController; def rescue_action(e) raise e end; end
 
 class BusAdmin::ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :bus_admin_projects
+  fixtures :projects
 
   def setup
     @controller = BusAdmin::ProjectsController.new
@@ -16,7 +16,7 @@ class BusAdmin::ProjectsControllerTest < Test::Unit::TestCase
   def test_should_get_index
     get :index
     assert_response :success
-    assert assigns(:bus_admin_projects)
+    assert assigns(:projects)
   end
 
   def test_should_get_new

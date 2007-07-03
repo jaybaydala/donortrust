@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-# Initial bulk load of Milestone statuses for development
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.htm
 one:
   id: 1
   login: joshmerchant

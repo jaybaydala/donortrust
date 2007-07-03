@@ -9,7 +9,7 @@ class Dt::UserControllerTest < Test::Unit::TestCase
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :users
+  fixtures :bus_users
 
   def setup
     @controller = Dt::UserController.new

@@ -9,7 +9,8 @@ class BusAdmin::ProgramsController < ApplicationController
     list.columns.exclude [ :projects ]
     update.columns.exclude [ :projects, :projects_count ]
     create.columns.exclude [ :projects, :projects_count ]
-    #config.columns[:contact].ui_type = :select
+    config.columns[:contact].ui_type = :select  
+    config.columns[:projects].ui_type = :select
     config.nested.add_link("Projects", [:projects])  
 
 
