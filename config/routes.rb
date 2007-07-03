@@ -1,4 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.resources :frequency_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/frequency_types"
+
   # The priority is based upon order of creation: first created -> highest priority.
   
   #
