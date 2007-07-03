@@ -1,10 +1,27 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::FrequencyTypeTest < Test::Unit::TestCase
-  fixtures :bus_admin_frequency_types
+context "Targets" do
+  fixtures :frequency_types
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+setup do
+    @frequency_types = FrequencyType.find(1)
   end
+ 
+  specify "The frequency type should have a name" do
+    @frequency_types.name.should.not.be.nil
+    
+  end
+
+specify "duplicate name should not validate" do
+   @frequency_types1 = FrequencyType.new( :name =>  @frequency_types.name )
+    
+    @frequency_types1.should.not.validate
+    
+end
+specify "nil name should not validate" do
+    @frequency_types.name = nil
+    @frequency_types.should.not.validate
+  end
+  
+ 
 end
