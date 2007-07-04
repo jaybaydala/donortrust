@@ -29,20 +29,28 @@ var ActiveScaffold = {
         && !tableRow.hasClassName("active-scaffold-calculations")) {
 
         if (even) {
-          tableRow.addClassName("even");
+          tableRow.addClassName("even-record");
         } else {
-          tableRow.removeClassName("even");
+          tableRow.removeClassName("even-record");
         }
         even = !even;
       }
     }
   },
-  toggleEmptyMessage: function(tableBody, emptyMessageElement) {
-    // Check to see if this was the last element in the list
-    if ($(tableBody).rows.length == 0) {
-      $(emptyMessageElement).show();
-    } else {
-      $(emptyMessageElement).hide();
+  hide_empty_message: function(tbody, empty_message_id) {
+    tbody = $(tbody);
+    if (tbody.rows.length != 0) {
+      $(empty_message_id).hide();
+    }
+  },
+  reload_if_empty: function(tbody, url) {
+    var content_container_id = tbody.replace('tbody', 'content');
+    tbody = $(tbody);
+    if (tbody.rows.length == 0) {
+      new Ajax.Updater($(content_container_id), url, {
+        asynchronous: true,
+        evalScripts: true
+      });
     }
   },
   removeSortClasses: function(scaffold_id) {
@@ -118,6 +126,22 @@ Object.extend(String.prototype, {
   }
 });
 
+/*
+ * Prototype's implementation was throwing an error instead of false
+ */
+Element.Methods.Simulated = {
+  hasAttribute: function(element, attribute) {
+    var t = Element._attributeTranslations;
+    attribute = t.names[attribute] || attribute;
+    // Return false if we get an error here
+    try {
+      return $(element).getAttributeNode(attribute).specified;
+    } catch (e) {
+      return false;
+    }
+  }
+};
+
 /**
  * A set of links. As a set, they can be controlled such that only one is "open" at a time, etc.
  */
@@ -152,6 +176,7 @@ ActiveScaffold.ActionLink.Abstract.prototype = {
     this.loading_indicator = loading_indicator;
     this.hide_target = false;
     this.position = this.tag.getAttribute('position');
+		this.page_link = this.tag.getAttribute('page_link');
 
     this.onclick = this.tag.onclick;
     this.tag.onclick = null;
@@ -159,36 +184,53 @@ ActiveScaffold.ActionLink.Abstract.prototype = {
       this.open();
       Event.stop(event);
     }.bind(this));
+
+    this.tag.action_link = this;
   },
 
   open: function() {
     if (this.is_disabled()) return;
-    if (this.onclick && !this.onclick()) return;//e.g. confirmation messages
-    if (this.position) this.disable();
-    this.loading_indicator.style.visibility = 'visible';
-    new Ajax.Request(this.url, {
-      asynchronous: true,
-      evalScripts: true,
 
-      onSuccess: function(request) {
-        if (this.position) {
-          this.insert(request.responseText);
-          if (this.hide_target) this.target.hide();
-        } else {
-          request.evalResponse();
-        }
-      }.bind(this),
-
-      onFailure: function(request) {
-        ActiveScaffold.report_500_response(this.scaffold_id());
-        if (this.position) this.enable()
-      }.bind(this),
-
-      onComplete: function(request) {
-        this.loading_indicator.style.visibility = 'hidden';
-      }.bind(this)
-    });
+    if (this.tag.hasAttribute( "dhtml_confirm")) {
+      if (this.onclick) this.onclick();
+      return;
+    } else {
+      if (this.onclick && !this.onclick()) return;//e.g. confirmation messages
+      this.open_action();
+    }
   },
+
+	open_action: function() {
+		if (this.position) this.disable();
+
+		if (this.page_link) {
+			window.location = this.url;
+		} else {
+			this.loading_indicator.style.visibility = 'visible';
+	    new Ajax.Request(this.url, {
+	      asynchronous: true,
+	      evalScripts: true,
+
+	      onSuccess: function(request) {
+	        if (this.position) {
+	          this.insert(request.responseText);
+	          if (this.hide_target) this.target.hide();
+	        } else {
+	          request.evalResponse();
+	        }
+	      }.bind(this),
+
+	      onFailure: function(request) {
+	        ActiveScaffold.report_500_response(this.scaffold_id());
+	        if (this.position) this.enable()
+	      }.bind(this),
+
+	      onComplete: function(request) {
+	        this.loading_indicator.style.visibility = 'hidden';
+	      }.bind(this)
+			});
+		}
+	},
 
   insert: function(content) {
     throw 'unimplemented'
@@ -198,6 +240,15 @@ ActiveScaffold.ActionLink.Abstract.prototype = {
     this.enable();
     this.adapter.remove();
     if (this.hide_target) this.target.show();
+  },
+
+  register_cancel_hooks: function() {
+    // anything in the insert with a class of cancel gets the closer method, and a reference to this object for good measure
+    var self = this;
+    this.adapter.getElementsByClassName('cancel').each(function(elem) {
+      elem.observe('click', this.close_handler.bind(this));
+      elem.link = self;
+    }.bind(this))
   },
 
   reload: function() {
@@ -267,22 +318,18 @@ ActiveScaffold.ActionLink.Record.prototype = Object.extend(new ActiveScaffold.Ac
       return false;
     }
 
-    var closer = function(event) {
-      this.close_with_refresh();
-      if (event) Event.stop(event);
-    }.bind(this);
-    var self = this;
-
-    this.adapter.down('a.inline-adapter-close').observe('click', closer);
-    // anything in the insert with a class of cancel gets the closer method, and a reference to this object for good measure
-    this.adapter.getElementsByClassName('cancel').each(function(elem) {
-      elem.observe('click', closer);
-      elem.link = self;
-    })
+    this.adapter.down('a.inline-adapter-close').observe('click', this.close_handler.bind(this));
+    this.register_cancel_hooks();
 
     new Effect.Highlight(this.adapter.down('td'));
   },
 
+  close_handler: function(event) {
+    this.close_with_refresh();
+    if (event) Event.stop(event);
+  },
+
+  /* it might simplify things to just override the close function. then the Record and Table links could share more code ... wouldn't need custom close_handler functions, for instance */
   close_with_refresh: function() {
     new Ajax.Request(this.refresh_url, {
       asynchronous: true,
@@ -291,7 +338,7 @@ ActiveScaffold.ActionLink.Record.prototype = Object.extend(new ActiveScaffold.Ac
       onSuccess: function(request) {
         Element.replace(this.target, request.responseText);
         var new_target = $(this.target.id);
-        if (this.target.hasClassName('even')) new_target.addClassName('even');
+        if (this.target.hasClassName('even-record')) new_target.addClassName('even-record');
         this.target = new_target;
         this.close();
       }.bind(this),
@@ -340,19 +387,14 @@ ActiveScaffold.ActionLink.Table.prototype = Object.extend(new ActiveScaffold.Act
       throw 'Unknown position "' + this.position + '"'
     }
 
-    var closer = function(event) {
-      this.close();
-      if (event) Event.stop(event);
-    }.bind(this);
-    var self = this;
-
-    this.adapter.down('a.inline-adapter-close').observe('click', closer);
-    // anything in the insert with a class of cancel gets the closer method, and a reference to this object for good measure
-    this.adapter.getElementsByClassName('cancel').each(function(elem) {
-      elem.observe('click', closer);
-      elem.link = self;
-    })
+    this.adapter.down('a.inline-adapter-close').observe('click', this.close_handler.bind(this));
+    this.register_cancel_hooks();
 
     new Effect.Highlight(this.adapter.down('td'));
+  },
+
+  close_handler: function(event) {
+    this.close();
+    if (event) Event.stop(event);
   }
 });

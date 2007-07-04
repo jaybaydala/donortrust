@@ -1,5 +1,5 @@
 class Village < ActiveRecord::Base
-belongs_to :village_group
+#belongs_to :urban_centre
 
   validates_presence_of :village_group_id
   
