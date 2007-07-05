@@ -3,14 +3,14 @@ class BusAdmin::ProjectsController < ApplicationController
   
   active_scaffold :project do |config|
   
-    config.columns = [ :name, :description, :program, :expected_completion_date, :start_date, :end_date,
-                          :dollars_raised, :dollars_spent, :total_cost,
-                          :project_status, :partner, :contact, :urban_centre, :milestones_count, :milestones ]
-    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones ]
+    config.columns = [ :name, :description, :project_status, :program, :expected_completion_date, :start_date, :end_date,
+                          :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre, :milestones_count, :milestones ]
+    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones, :milestones_count, :partner ]
     show.columns.exclude [ :milestones ]
     update.columns.exclude [ :program, :milestones, :milestones_count ]
     create.columns.exclude [ :program, :milestones_count ]
     config.columns[ :name ].label = "Project"
+    config.columns[ :project_status ].label = "Status"
     config.columns[ :milestones_count ].label = "Milestones"
     config.columns[ :start_date ].label = "Start"
     config.columns[ :end_date ].label = "End"
@@ -19,7 +19,7 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :project_status ].ui_type = :select
     config.columns[ :urban_centre ].ui_type = :select
     config.columns[ :partner ].ui_type = :select
-    config.nested.add_link( "History", [:project_histories])
+    #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
 
     #config.action_links.add 'report', :label => 'Report'
