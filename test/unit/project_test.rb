@@ -67,7 +67,7 @@ context "Projects" do
     end    
     Project.projects_nearing_end(NUMBER_OF_DAYS_UNTIL_END).size.should.equal Project.find(:all).size
     project_one = Project.find(:first)
-    project_one.end_date = Time.now  + (NUMBER_OF_DAYS_UNTIL_END * 86400 * 2)#convert days to seconds and double end date
+    project_one.end_date = Date.today  + NUMBER_OF_DAYS_UNTIL_END + 2 #increase end date beyond limit
     project_one.update
     expected = Project.find(:all).size - 1
     Project.projects_nearing_end(NUMBER_OF_DAYS_UNTIL_END).size.should.equal expected    

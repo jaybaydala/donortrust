@@ -1,7 +1,6 @@
 class UrbanCentre < ActiveRecord::Base
 
   belongs_to  :region
-  belongs_to :country 
   has_many :projects
 
   validates_presence_of :region_id
@@ -16,6 +15,10 @@ class UrbanCentre < ActiveRecord::Base
   end
   def to_label
     "#{name}"
+  end
+  
+  def get_country
+    country = self.region.country
   end
 end
 

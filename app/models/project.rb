@@ -85,7 +85,7 @@ class Project < ActiveRecord::Base
   end
   
   def days_remaining
-    return (self.end_date - Time.now) / 86400 #number of seconds in a day
+    return (self.end_date - Date.today) #number of seconds in a day
   end
   
   def self.percent_raised
@@ -100,7 +100,7 @@ class Project < ActiveRecord::Base
     @projects = Project.find(:all) 
     @projects_near_end = Array.new
     for aProject in @projects
-      if ((aProject.end_date - Time.now) / 86400) <= days_until_end  
+      if (aProject.end_date - Date.today) <= days_until_end  
           @projects_near_end << aProject
       end
     end

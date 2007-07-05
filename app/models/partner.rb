@@ -10,9 +10,10 @@ class Partner < ActiveRecord::Base
   has_many      :projects
   has_and_belongs_to_many :contacts #is this the right relationship? 
   
-  validates_presence_of :name, :partner_type_id, :partner_status_id
+  validates_presence_of :name, :partner_status_id, :partner_type_id
   validates_length_of   :name, :maximum => 50
-  validates_length_of   :description, :maximum => 1000
+  #validates_length_of   :description, :maximum => 1000
+  validates_length_of :description, :within => 0..1000, :too_long => "description too long (max 1000)", :too_short => " can't be blank"
   
   def create_partner_history
     if Partner.exists?(self.id)

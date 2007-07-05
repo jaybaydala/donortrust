@@ -7,9 +7,9 @@ project_one:
   description: The first project. Start small. 
   total_cost: 100.00
   dollars_spent: 0.00
-  expected_completion_date: 2007-04-02
-  start_date: 2007-03-02
-  end_date: 2007-08-08
+  expected_completion_date: "2007-04-02"
+  start_date: "2007-03-02"
+  end_date: "2007-08-08"
   project_status_id: 1
   contact_id: 1
   urban_centre_id: 1  
@@ -24,9 +24,9 @@ project_two:
   description: The socond project. Start smallish. 
   total_cost: 1000.00
   dollars_spent: 5.00
-  expected_completion_date: 2007-04-02
-  start_date: 2007-03-02
-  end_date: 2007-08-08
+  expected_completion_date: "2007-04-02"
+  start_date: "2007-03-02"
+  end_date: "2007-08-08"
   project_status_id: 2
   contact_id: 1
   urban_centre_id: 1  
@@ -41,9 +41,9 @@ project_three:
   description: The third project. Start smallishy. 
   total_cost: 1000.00
   dollars_spent: 5.00
-  expected_completion_date: 2007-04-02
-  start_date: 2007-03-02
-  end_date: 2007-06-06
+  expected_completion_date: "2007-04-02"
+  start_date: "2007-03-02"
+  end_date: "2007-06-06"
   project_status_id: 2
   contact_id: 1
   urban_centre_id: 1  

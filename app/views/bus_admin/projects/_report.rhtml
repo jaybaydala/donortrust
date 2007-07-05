@@ -7,9 +7,11 @@
 <p>
     <strong>Projects ending within 60 days:</strong>
     <% endingProjects = Project.projects_nearing_end(60)%>
-    <% endingProjects.each  do |project| %>
-        <br /><%= link_to project.name, :controller => 'projects', :action => 'individual_report', :projectid => project.id  %>
-    <% end %> 
+    <% unless endingProjects.size <= 0 %>
+		<% endingProjects.each  do |project| %>
+        	<br /><%= link_to project.name, :controller => 'projects', :action => 'individual_report', :projectid => project.id  %>
+    	<% end %> 
+	<% end %> 
 </p>
 <p><strong>All Projects</strong></p>
 <table width=:100%" align="center" style="border: 1px solid #DDDDDD; font-weight: bold;" cellspacing="0" cellpadding="2">

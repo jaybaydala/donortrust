@@ -14,6 +14,8 @@ class BusAdmin::PartnersController < ApplicationController
     config.update.columns = [:name, :description, :partner_status, :partner_type, :contacts] # reorder columns 
     config.show.columns = [:name, :description, :partner_status, :partner_type, :contacts, :partner_versions] # reorder columns 
     
+    config.nested.add_link("Projects", [:projects]) 
+    
     #passing desired partner status in action link to filter list; 1 = Approved, 2 = Pending 
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'partners', :action => 'report_partners'},:page => true
     config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
