@@ -9,9 +9,9 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :description, :text
       t.column :total_cost, :decimal, :precision => 12, :scale => 2
       t.column :dollars_spent, :decimal, :precision => 12, :scale => 2
-      t.column :expected_completion_date, :date
-      t.column :start_date, :date
-      t.column :end_date, :date
+      t.column :expected_completion_date, :datetime
+      t.column :start_date, :datetime
+      t.column :end_date, :datetime
       t.column :project_status_id, :integer
       t.column :contact_id, :integer
       t.column :urban_centre_id, :integer
