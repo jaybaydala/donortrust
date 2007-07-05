@@ -80,10 +80,6 @@ class Project < ActiveRecord::Base
     return self.milestones.find(:all, :conditions => "project_id = " + self.id.to_s)
   end
   
-  def self.get_projects
-    return self.find(:all)   
-  end
-  
   def self.get_project(project_id)
     return self.find(project_id)   
   end
@@ -104,7 +100,7 @@ class Project < ActiveRecord::Base
     @projects = Project.find(:all) 
     @projects_near_end = Array.new
     for aProject in @projects
-      if ((aProject.end_date - Time.now) / 86400) <= days_until_end    
+      if ((aProject.end_date - Time.now) / 86400) <= days_until_end  
           @projects_near_end << aProject
       end
     end

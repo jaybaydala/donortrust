@@ -5,10 +5,10 @@ class BusAdmin::HomeController < ApplicationController
   include BusAdmin::ProgramsHelper
   
   def index
-    @total_projects = number_of_projects
-    @all_projects = get_projects 
-    @total_programs = number_of_programs 
-    @all_programs = get_programs
+    @all_projects = Project.find(:all)#get_projects 
+    @total_projects = @all_projects.size
+    @total_programs = Program.find(:all).size 
+    @all_programs = Program.find(:all)#get_programs
     @total_money_raised = total_money_raised
     @total_project_costs = total_project_costs
     @total_money_spent = total_money_spent

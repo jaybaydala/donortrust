@@ -32,8 +32,8 @@ class BusAdmin::ProjectsController < ApplicationController
   end
   
   def report    
-   @total = Project.total_projects
-   @all_projects = Project.get_projects
+   @all_projects = Project.find(:all)
+   @total = @all_projects.size
    render :partial => "bus_admin/projects/report" , :layout => 'application'
   end
   

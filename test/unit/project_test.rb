@@ -1,26 +1,38 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::ProjectTest < Test::Unit::TestCase
+#class BusAdmin::ProjectTest < Test::Unit::TestCase
+context "Projects" do
+  
   fixtures :projects, :milestones
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  NUMBER_OF_DAYS_UNTIL_END = 30
+    
+  def setup
+    @project = Project.new
+    @fixture_project = Project.find(:first)
+  end
+  
+  specify "The project should have a name & description" do
+    @fixture_project.name.should.not.be.nil
+    @fixture_project.description.should.not.be.nil
+  end
+  
+  specify "nil name should not validate" do
+    @fixture_project.name = nil
+    @fixture_project.should.not.validate
   end
   
   def test_percent_raised
-    project = Project.find(:first)
-    project.total_cost = 100
-    project.dollars_raised = 45
+    @project.total_cost = 100
+    @project.dollars_raised = 45
     expected = 45
-    assert_equal expected, project.get_percent_raised
+    assert_equal expected, @project.get_percent_raised
   end
   
-  def test_percent_raised_no_cost
-    project = Project.find(:first)
-    project.total_cost = 0
-    project.dollars_raised = 45
-    assert_equal nil, project.get_percent_raised
+  specify "total cost of zero should produce nil percent raised" do
+    @project.total_cost = 0
+    @project.dollars_raised = 45
+    @project.get_percent_raised.should.equal nil
   end
   
   def test_days_remaining #need to mock out time.now
@@ -30,23 +42,35 @@ class BusAdmin::ProjectTest < Test::Unit::TestCase
     #assert_equal @project.days_remaining, 6
   end
   
-  def test_started_projects
-    assert_equal 3, Project.find(:all).size
-    assert_equal 2, Project.find(:all, :conditions => "project_status_id = 2").size
+  specify "should find projects with a status of started" do # test_started_projects
+    started_projects = Project.find(:all, :conditions => "project_status_id = 2").size
+    total_projects = Project.find(:all).size
+    total_projects.should.equal 3
+    started_projects.should.equal 2
   end
   
-  def test_total_milestones
-    assert_equal 4, Project.find(1).milestones.find(:all).size
+  specify "should return total number of milestones for a project" do
+    Project.find(1).milestones.find(:all).size.should.equal 2
   end
     
-  def test_get_number_of_milestones_by_status
+  specify "should return number of milestones with requested status" do
     project = Project.find(1)
-    milestones = project.get_number_of_milestones_by_status(3)
-    assert_equal 1, milestones
+    project.get_number_of_milestones_by_status(1).should.equal 2
+    #assert_equal 2, milestones
   end
   
-  def test_get_projects_nearing_end
-    assert_equal 1, Project.projects_nearing_end(30).size
+  specify "should return number or projects ending within specified number of days" do    
+    @projects = Project.find(:all)
+    @projects.each do |p|
+      p.end_date = Time.now + 86400 #set end date to one day from now
+      p.update
+    end    
+    Project.projects_nearing_end(NUMBER_OF_DAYS_UNTIL_END).size.should.equal Project.find(:all).size
+    project_one = Project.find(:first)
+    project_one.end_date = Time.now  + (NUMBER_OF_DAYS_UNTIL_END * 86400 * 2)#convert days to seconds and double end date
+    project_one.update
+    expected = Project.find(:all).size - 1
+    Project.projects_nearing_end(NUMBER_OF_DAYS_UNTIL_END).size.should.equal expected    
   end
   
   def test_total_costs
@@ -61,8 +85,4 @@ class BusAdmin::ProjectTest < Test::Unit::TestCase
     assert_equal 7, Project.total_percent_raised.floor
   end
   
-#  def test_get_md_goals
-#    assert_equal 1, Project.get_md_goals.size
-#  end
-
 end

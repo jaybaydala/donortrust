@@ -11,14 +11,6 @@ module BusAdmin::ProjectsHelper
     @total_money_spent = Project.total_money_spent
   end
   
-  def number_of_projects
-    @total = Project.total_projects
-  end
-  
-  def get_projects
-    @all_projects = Project.get_projects
-  end
-  
   def dollars_raised_column(record)
     number_to_currency(record.dollars_raised)
   end

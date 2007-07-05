@@ -32,7 +32,7 @@ class BusAdmin::PartnersTest < Test::Unit::TestCase
 #  end
 
   def test_total_projects
-    assert_equal 2, Partner.find(:first).total_projects
+    assert_equal 3, Partner.find(:first).total_projects
   end
   
   def test_get_number_of_projects_by_status    
