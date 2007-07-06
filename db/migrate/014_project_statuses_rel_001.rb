@@ -3,7 +3,7 @@ require 'active_record/fixtures'
 class ProjectStatusesRel001 < ActiveRecord::Migration
   def self.up
     create_table :project_statuses do |t|
-      t.column :status_type, :string, :null => false
+      t.column :name, :string, :null => false
       t.column :description, :text
     end # project_statuses    
     

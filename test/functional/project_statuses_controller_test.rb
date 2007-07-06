@@ -26,7 +26,7 @@ class ProjectStatusesControllerTest < Test::Unit::TestCase
   
   def test_should_create_project_status
     old_count = ProjectStatus.count
-    post :create, :project_status => { :status_type => "On Hold" }
+    post :create, :project_status => { :name => "On Hold" }
     assert_equal old_count+1, ProjectStatus.count
     
     assert_redirected_to project_status_path(assigns(:project_status))
@@ -43,7 +43,7 @@ class ProjectStatusesControllerTest < Test::Unit::TestCase
   end
   
   def test_should_update_project_status
-    put :update, :id => 1, :project_status => { :status_type => "On Hold" }
+    put :update, :id => 1, :project_status => { :name => "On Hold" }
     assert_redirected_to project_status_path(assigns(:project_status))
   end
   

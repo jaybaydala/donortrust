@@ -52,7 +52,7 @@ class BusAdmin::ProjectsController < ApplicationController
   
       # data rows
       @projects.each do |project|
-        csv << [project.id, Program.find(project.program_id).program_name, ProjectCategory.find(project.project_category_id).description, project.name, project.description, project.total_cost, project.dollars_spent, project.dollars_raised, project.expected_completion_date, project.start_date, project.end_date, ProjectStatus.find(project.project_status_id).status_type, Contact.find(project.contact_id).fullname, UrbanCentre.find(project.urban_centre_id).name, Partner.find(project.partner_id).name]
+        csv << [project.id, Program.find(project.program_id).program_name, ProjectCategory.find(project.project_category_id).description, project.name, project.description, project.total_cost, project.dollars_spent, project.dollars_raised, project.expected_completion_date, project.start_date, project.end_date, ProjectStatus.find(project.project_status_id).name, Contact.find(project.contact_id).fullname, UrbanCentre.find(project.urban_centre_id).name, Partner.find(project.partner_id).name]
       end
     end
     send_data csv_string,

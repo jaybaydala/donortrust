@@ -30,7 +30,7 @@
     <td><%=h project_history.expected_completion_date %></td>
     <td><%=h project_history.start_date %></td>  
     <td><%=h project_history.end_date %></td>
-    <td><%=h project_history.project_status.status_type %></td>
+    <td><%=h project_history.project_status.name %></td>
     <td><%=h project_history.project_category.description %></td> 
     <td><%= link_to 'Show', project_history_path(@project, project_history) %></td>
     <td><%= link_to 'Edit', edit_project_history_path(@project, project_history) %></td>

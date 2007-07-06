@@ -24,7 +24,7 @@
     <tr>
 <% end %>
     <td><%= project.name %></strong></td>
-    <td><%= ProjectStatus.find(project.project_status_id).status_type %></td>
+    <td><%= ProjectStatus.find(project.project_status_id).name %></td>
     <td><%= number_to_currency(project.dollars_spent) %></td>
     <td><%= number_to_currency(project.dollars_raised) %></td>
     <td><%= project.total_milestones %></td>

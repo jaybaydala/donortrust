@@ -25,7 +25,7 @@
 
 <p><label for="project_status_id">Project Status</label><br/>
 <%= select 'project_history', 'project_status_id', 
-           @project_statuses.collect { |project_status| [ project_status.status_type, project_status.id ] } %></p>
+           @project_statuses.collect { |project_status| [ project_status.name, project_status.id ] } %></p>
 
 <p><label for="project_category_id">Project Category</label><br/>
 <%= select 'project_history', 'project_category_id', 

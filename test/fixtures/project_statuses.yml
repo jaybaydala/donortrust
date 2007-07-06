@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 test_project_status_one:
   id: 1
-  status_type: Status 1
+  name: Status 1
   description: Status 1 description
 test_project_status_two:
   id: 2
-  status_type: Status 2
+  name: Status 2
   description: Status 2 description

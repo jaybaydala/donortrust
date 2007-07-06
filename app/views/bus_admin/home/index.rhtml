@@ -51,7 +51,7 @@
     <tr>
 <% end %>
     <td><strong><%= project.name %></strong></td>
-    <td><strong><%= ProjectStatus.find(project.project_status_id).status_type %></strong></td>
+    <td><strong><%= ProjectStatus.find(project.project_status_id).name %></strong></td>
     <td><strong><%= Program.find(project.program_id).program_name %></strong></td>
     <td><strong><%= number_to_currency(project.dollars_spent) %></strong></td>
     <td><strong><%= number_to_currency(project.dollars_raised) %></strong></td>
