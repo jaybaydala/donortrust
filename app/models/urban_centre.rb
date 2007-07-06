@@ -3,6 +3,7 @@ class UrbanCentre < ActiveRecord::Base
   belongs_to  :region
   has_many :projects
 
+
   validates_presence_of :region_id
   validates_presence_of :name
   
