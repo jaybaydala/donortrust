@@ -44,11 +44,6 @@
   <%=h @project_history.project_status.name %>
 </p>
 
-<p>
-  <b>Project Category:</b>
-  <%=h @project_history.project_category.description %>
-</p>
-
 
 <%= link_to 'Edit', edit_project_history_path(@project, @project_history) %> |
 <%= link_to 'Back', project_histories_path %>

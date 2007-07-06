@@ -4,7 +4,6 @@ class ProjectsRel001 < ActiveRecord::Migration
   def self.up
     create_table :projects, :force => true do |t|
       t.column :program_id, :integer
-      t.column :project_category_id, :integer
       t.column :name, :string, :null => false
       t.column :description, :text
       t.column :total_cost, :decimal, :precision => 12, :scale => 2

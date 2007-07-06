@@ -5,7 +5,7 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < Test::Unit::TestCase
-  fixtures :project_categories, :project_statuses, :projects
+  fixtures :project_statuses, :projects
 
   def setup
     @controller = ProjectsController.new

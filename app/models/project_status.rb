@@ -5,10 +5,6 @@ class ProjectStatus < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-#  def to_label
-#    "#{status_type}"
-#  end
-
   def destroy
     result = false
     if projects.count > 0

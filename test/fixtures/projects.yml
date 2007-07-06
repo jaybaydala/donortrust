@@ -2,7 +2,6 @@
 project_one:
   id: 1
   program_id: 1
-  project_category_id: 1
   name: test project 1
   description: The first project. Start small. 
   total_cost: 100.00
@@ -19,7 +18,6 @@ project_one:
 project_two:
   id: 2
   program_id: 1
-  project_category_id: 1
   name: test project 2
   description: The socond project. Start smallish. 
   total_cost: 1000.00
@@ -36,7 +34,6 @@ project_two:
 project_three:
   id: 3
   program_id: 1
-  project_category_id: 1
   name: test project 3
   description: The third project. Start smallishy. 
   total_cost: 1000.00
