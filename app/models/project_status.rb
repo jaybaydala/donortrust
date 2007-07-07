@@ -1,6 +1,6 @@
 class ProjectStatus < ActiveRecord::Base
-  has_many :projects 
-  has_many :project_histories
+  has_many :projects#, :dependent => :destroy
+  has_many :project_histories#, :dependent => :destroy
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -8,7 +8,8 @@ class ProjectStatus < ActiveRecord::Base
   def destroy
     result = false
     if projects.count > 0
-      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Projects" )
+#      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Projects" )
+      raise( "Can not destroy a #{self.class.to_s} that has Projects" )
     else
       result = super
     end

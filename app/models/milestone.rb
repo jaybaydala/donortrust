@@ -1,5 +1,5 @@
 class Milestone < ActiveRecord::Base
-  has_many :tasks
+  has_many :tasks, :dependent => :destroy
   belongs_to :project
   belongs_to :milestone_status
 
@@ -27,14 +27,15 @@ class Milestone < ActiveRecord::Base
   end
 
   def destroy
-    result = false
-    if tasks.count > 0
-      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Tasks" )
-    else
-      result = super
-    end
-    return result
-  end
+#    result = false
+#    if tasks.count > 0
+##      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Tasks" )
+#      raise( "Can not destroy a #{self.class.to_s} that has Tasks" )
+#    else
+#      result = super
+#    end
+#    return result
+#  end
 
   def tasks_count
     return tasks.count

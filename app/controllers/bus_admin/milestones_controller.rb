@@ -5,8 +5,8 @@ class BusAdmin::MilestonesController < ApplicationController
     config.columns =[ :project, :name, :target_date, :description, :milestone_status, :tasks_count, :tasks ] 
     config.columns[ :name ].label = "Milestone"
     config.columns[ :tasks_count ].label = "Tasks"
-    config.columns[ :project ].ui_type = :select
-    config.columns[ :milestone_status ].ui_type = :select
+    config.columns[ :project ].form_ui = :select
+    config.columns[ :milestone_status ].form_ui = :select
     config.columns[ :milestone_status ].label = "Status"
     update.columns.exclude [ :project, :tasks_count, :tasks ]
     list.columns.exclude [ :description, :tasks ]

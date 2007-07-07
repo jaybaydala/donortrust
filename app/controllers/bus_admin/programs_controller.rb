@@ -9,8 +9,8 @@ class BusAdmin::ProgramsController < ApplicationController
     list.columns.exclude [ :projects ]
     update.columns.exclude [ :projects, :projects_count ]
     create.columns.exclude [ :projects, :projects_count ]
-    config.columns[:contact].ui_type = :select  
-    config.columns[:projects].ui_type = :select
+    config.columns[:contact].form_ui = :select  
+    config.columns[:projects].form_ui = :select
     config.nested.add_link("Projects", [:projects])  
 
 
@@ -19,10 +19,10 @@ class BusAdmin::ProgramsController < ApplicationController
 #    config.update.columns = [:first_name, :last_name, :phone_number, :fax_number, :email_address, :web_address, :department, :continent, :country, :region, :urban_centre, :address_line_1, :address_line_2, :postal_code]
 #    config.create.columns = [:first_name, :last_name, :phone_number, :fax_number, :email_address, :web_address, :department, :continent, :country, :region, :urban_centre, :address_line_1, :address_line_2, :postal_code]
 #
-#    config.columns[:continent].ui_type = :select
-#    config.columns[:country].ui_type = :select
-#    config.columns[:region].ui_type = :select
-#    config.columns[:city].ui_type = :select
+#    config.columns[:continent].form_ui = :select
+#    config.columns[:country].form_ui = :select
+#    config.columns[:region].form_ui = :select
+#    config.columns[:city].form_ui = :select
   end
   
   

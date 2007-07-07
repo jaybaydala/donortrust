@@ -5,9 +5,9 @@ class BusAdmin::ProjectStatusesController < ApplicationController
     config.columns =[ :name, :description, :projects_count, :projects ]
     config.columns[ :name ].label = "Status"
     config.columns[ :projects_count ].label = "Projects"
-#    config.columns[:projects].ui_type = :select
-#    config.columns[:project_histories].ui_type = :select
-    #config.columns[:partner_type].ui_type = :select
+#    config.columns[:projects].form_ui = :select
+#    config.columns[:project_histories].form_ui = :select
+    #config.columns[:partner_type].form_ui = :select
     list.columns.exclude [ :description, :projects ]
 #    show.columns.exclude [ ]
     update.columns.exclude [ :projects_count, :projects ]

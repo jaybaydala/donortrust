@@ -16,9 +16,9 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :end_date ].label = "End"
     config.columns[ :dollars_raised ].label = "Raised"
     config.columns[ :dollars_spent ].label = "Spent"
-    config.columns[ :project_status ].ui_type = :select
-    config.columns[ :urban_centre ].ui_type = :select
-    config.columns[ :partner ].ui_type = :select
+    config.columns[ :project_status ].form_ui = :select
+    config.columns[ :urban_centre ].form_ui = :select
+    config.columns[ :partner ].form_ui = :select
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
 
@@ -28,7 +28,7 @@ class BusAdmin::ProjectsController < ApplicationController
 #    config.create.columns.exclude :project_histories
 #    config.list.columns.exclude :project_histories
 #    config.update.columns.exclude :project_histories
-#    config.columns[:program].ui_type = :select
+#    config.columns[:program].form_ui = :select
   end
   
   def report    
