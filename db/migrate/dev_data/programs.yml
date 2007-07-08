@@ -1,20 +1,20 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 testcrashdummy:
   id: 1
-  program_name: Information is free
+  name: Information is free
   contact_id: 1
 sampleexampleprogram:
   id: 2
-  program_name: developer program
+  name: developer program
   contact_id: 2
  
 anotherprogram:
   id: 3
-  program_name: another developer program
+  name: another developer program
   contact_id: 2
  
 afourthprogram:
   id: 4
-  program_name: a fourth developer program
+  name: a fourth developer program
   contact_id: 1
   

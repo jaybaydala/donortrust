@@ -2,13 +2,9 @@ class Program < ActiveRecord::Base
   has_many :projects#, :dependent => :destroy
   belongs_to :contact
   validates_presence_of :contact_id
-  validates_presence_of :program_name
-  validates_uniqueness_of :program_name
+  validates_presence_of :name
+  validates_uniqueness_of :name
   
-  def to_label
-    "#{program_name}"
-  end
-
   def destroy
     result = false
     if projects.count > 0

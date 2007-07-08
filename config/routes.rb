@@ -1,7 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
-  map.resources :frequency_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/frequency_types"
-
   # The priority is based upon order of creation: first created -> highest priority.
   
   #
@@ -22,36 +19,37 @@ ActionController::Routing::Routes.draw do |map|
   #
   # Geographical Resources
   #
-  map.resources :urban_centres, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/urban_centres"
-  map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
-  map.resources :countries, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/countries"
-  map.resources :villages, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/villages"
-  map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"
-
   map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
+  map.resources :countries, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/countries"
+  map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"
+  #map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"  #, :path_prefix => "/countries/:country_id"
+  map.resources :urban_centres, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/urban_centres"
+#  map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
+  map.resources :villages, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/villages"
+  map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
+
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
 
-  map.resources :partner_statuses, :active_scaffold => true, :controller => "bus_admin/partner_statuses", :path_prefix => "/bus_admin"
-  map.resources :partner_types, :active_scaffold => true, :controller => "bus_admin/partner_types", :path_prefix => "/bus_admin"
   map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners' do |partner|
     #partner.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
   end
   map.resources :partner_versions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/partner_versions"
-
-  # hack around the active_scaffold's non-restful support of nesting
   #map.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
-  map.resources :region_types, :controller => "bus_admin/region_types",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+  #map.resources :partner_histories
 
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
   map.resources :project_statuses, :controller => "bus_admin/project_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses", 
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :partner_types
-
-  
-  #map.resources :partner_histories
+  map.resources :frequency_types, :controller => "bus_admin/frequency_types",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+  map.resources :partner_statuses, :controller => "bus_admin/partner_statuses",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+  map.resources :partner_types, :controller => "bus_admin/partner_types",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+#  map.resources :region_types, :controller => "bus_admin/region_types",
+#    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
     
   map.resources :programs,    :controller => "bus_admin/programs",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
@@ -61,18 +59,9 @@ ActionController::Routing::Routes.draw do |map|
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :tasks,       :controller => "bus_admin/tasks",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-# do |project|
-#    project.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories'
-#    project.resources :milestones, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/milestones'
-#  end
-#  map.resources :projects#, :active_scaffold => true #, :path_prefix => "/programs/:program_id"
 #  map.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories' 
 #  map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :measures
-  
-  #map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"  #, :path_prefix => "/countries/:country_id"
- 
-  map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
   
   #easier routes for restful_authentication
   

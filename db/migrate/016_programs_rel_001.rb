@@ -3,7 +3,7 @@ require 'active_record/fixtures'
 class ProgramsRel001 < ActiveRecord::Migration
   def self.up
     create_table :programs do |t|
-      t.column :program_name, :string, :null => false
+      t.column :name, :string, :null => false
       t.column :contact_id, :string, :null => false
     end # programs
     

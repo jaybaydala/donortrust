@@ -33,7 +33,7 @@
 <% else @colorize = true %>
     <tr>
 <% end %>
-    <td><strong><%= program.program_name %></strong></td>
+    <td><strong><%= program.name %></strong></td>
     <td><strong><%= link_to Contact.find(program.contact_id).fullname, :controller => 'contacts', :action => 'show', :id => program.contact_id, :method => 'get'  %></strong></td>
 <% end %>
 </table>
@@ -41,29 +41,41 @@
 <p>There are currently <strong><%= @total_projects %></strong> projects:</p>
 
 <table width=:100%" align="center" border="0" cellspacing="0" cellpadding="2">
-<tr style="background-color: #666; color: #fff; font-weight: bold;"><td>Project Name</td><td>Status</td><td>Program</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td></tr>
-<% @colorize = true %>
-<% @all_projects.each do |project| %>
-<% if @colorize %>    
-    <tr bgcolor="#E6F2FF" >
-    <% @colorize = false %>
-<% else @colorize = true %>
-    <tr>
-<% end %>
+  <tr style="background-color: #666; color: #fff; font-weight: bold;">
+    <td>Project Name</td>
+    <td>Status</td>
+    <td>Program</td>
+    <td>Dollars Spent</td>
+    <td>Dollars Raised</td>
+    <td>Milestones</td>
+    <td>Days Remaining</td>
+  </tr>
+<%
+ @colorize = true
+ @all_projects.each do |project|
+  if @colorize
+-%>  <tr bgcolor="#E6F2FF"><%
+   @colorize = false
+  else @colorize = true
+-%>  <tr><%
+  end -%>
     <td><strong><%= project.name %></strong></td>
     <td><strong><%= ProjectStatus.find(project.project_status_id).name %></strong></td>
-    <td><strong><%= Program.find(project.program_id).program_name %></strong></td>
+    <td><strong><%= Program.find(project.program_id).name %></strong></td>
     <td><strong><%= number_to_currency(project.dollars_spent) %></strong></td>
     <td><strong><%= number_to_currency(project.dollars_raised) %></strong></td>
-    <td><strong><%= project.total_milestones %></strong></td>
-    <% @days = project.days_remaining.ceil
+    <td><strong><%= project.milestones_count %></strong></td>
+    <td><% if project.days_remaining == nil
+      -%><span style="color: red;">Not Set</span><%
+       else
+        @days = project.days_remaining.ceil
         if @days > 0
-    %>
-    <td> <%= project.days_remaining.ceil %></td>
-    <% else %>
-    <td><span style="color: red;">Project Overdue</td>
-    <% end %>
-</tr>
-<% end %>
+         -%><%= project.days_remaining.ceil -%><%
+        else
+      -%><span style="color: red;">Project Overdue</span><%
+        end
+       end -%></td>
+  </tr>
+<% end -%>
 </table>
 <br />

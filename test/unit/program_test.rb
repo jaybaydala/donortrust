@@ -8,12 +8,12 @@ class ProgramTest < Test::Unit::TestCase
     program.contact_id = 1
     
     assert !program.valid?
-    assert program.errors.invalid?(:program_name)
+    assert program.errors.invalid?(:name)
   end
 
   def test_invalid_with_empty_contact_id
     program = Program.new
-    program.program_name = "bob's program"
+    program.name = "bob's program"
     
     assert !program.valid?
     assert program.errors.invalid?(:contact_id)
@@ -28,13 +28,13 @@ class ProgramTest < Test::Unit::TestCase
   
   def test_save_without_contact_id
     program = Program.new
-    program.program_name = "bob's program"
+    program.name = "bob's program"
     
     assert !program.save
   end
   
   def test_unique_name
-    program = Program.new(:program_name => programs(:one).program_name)
+    program = Program.new(:name => programs(:one).name)
     assert !program.valid?
   end
 end

@@ -8,18 +8,21 @@
 <% else @colorize = true %>
     <tr>
 <% end %>
-    <td><strong><%= number_to_currency(@project.dollars_spent) %></strong></td>
-    <td><strong><%= number_to_currency(@project.dollars_raised) %></strong></td>
-    <td><strong><%= @project.total_milestones %></strong></td>
-    <% @days = @project.days_remaining.ceil
-        if @days > 0
-    %>
-        <td> <%= @project.days_remaining.ceil %></td>
-    <% else %>
-        <td><span style="color: red;">Project Overdue</td>
-    <% end %>
-    
-</tr>
+      <td><strong><%= number_to_currency(@project.dollars_spent) %></strong></td>
+      <td><strong><%= number_to_currency(@project.dollars_raised) %></strong></td>
+      <td><strong><%= @project.milestones_count %></strong></td>
+      <td><%
+        if @project.days_remaining == nil
+          -%>Not Set<%
+        else
+          @days = @project.days_remaining.ceil
+          if @days > 0
+            -%><%= @project.days_remaining.ceil -%><%
+          else
+            -%><span style="color: red;">Project Overdue<%
+          end
+        end -%></td>
+    </tr>
 </table>
 <br />
 <h2>Total Cost Covered by Money Raised</h2>
@@ -51,5 +54,5 @@
 </table>
 <br />
 <h2>Milestone Status</h2>
-<%= bar_graph  [['Proposed', @project.get_number_of_milestones_by_status(1)], ['InProgress', @project.get_number_of_milestones_by_status(2)], ['Completed', @project.get_number_of_milestones_by_status(4)], ['Canceled', @project.get_number_of_milestones_by_status(3)], ['Total',  @project.total_milestones]] %>
+<%= bar_graph  [['Proposed', @project.get_number_of_milestones_by_status(1)], ['InProgress', @project.get_number_of_milestones_by_status(2)], ['Completed', @project.get_number_of_milestones_by_status(4)], ['Canceled', @project.get_number_of_milestones_by_status(3)], ['Total',  @project.milestones_count]] %>
 

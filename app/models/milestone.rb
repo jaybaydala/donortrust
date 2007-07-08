@@ -26,7 +26,7 @@ class Milestone < ActiveRecord::Base
     end
   end
 
-  def destroy
+#  def destroy
 #    result = false
 #    if tasks.count > 0
 ##      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Tasks" )

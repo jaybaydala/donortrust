@@ -27,8 +27,13 @@
     <td><%= ProjectStatus.find(project.project_status_id).name %></td>
     <td><%= number_to_currency(project.dollars_spent) %></td>
     <td><%= number_to_currency(project.dollars_raised) %></td>
-    <td><%= project.total_milestones %></td>
-    <td> <%= project.days_remaining.ceil %></td>
+    <td><%= project.milestones_count %></td>
+    <td><%
+      if project.days_remaining == nil
+    -%>Not Set<%
+      else -%><%=
+        project.days_remaining.ceil -%><%
+      end -%></td>
     <td><strong><%= link_to "View Project Report", :controller => 'projects', :action => 'individual_report', :projectid => project.id %></strong></td>
 </tr>
 <% end %>
