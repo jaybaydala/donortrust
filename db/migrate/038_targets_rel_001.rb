@@ -5,7 +5,7 @@ class TargetsRel001 < ActiveRecord::Migration
     t.column :description, :string 
     end
     
-    if (ENV['RAILS_ENV'] = 'development')
+    if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
       Fixtures.create_fixtures(directory, "targets")
     end

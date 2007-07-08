@@ -13,7 +13,7 @@
     <tr>
 <% end %>
     <td><%= partner.name %></td>
-    <td><%= PartnerStatus.find(partner.partner_status_id).statusType %></td>
+    <td><%= PartnerStatus.find(partner.partner_status_id).name %></td>
     <td><%= partner.get_number_of_projects_by_status(2) %></td><!-- get rid of magic number -->
     <td><%= partner.get_number_of_projects_by_status(4) %></td><!-- get rid of magic number -->
     <td><%= partner.total_projects %></td>

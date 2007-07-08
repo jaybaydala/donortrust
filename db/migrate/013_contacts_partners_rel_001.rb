@@ -6,9 +6,6 @@ class ContactsPartnersRel001 < ActiveRecord::Migration
       t.column :contact_id, :integer, :null => false
       t.column :partner_id, :integer, :null => false
     end #contacts_partners
-    
-    if (ENV['RAILS_ENV'] = 'development')
-    end
   end
   
   def self.down

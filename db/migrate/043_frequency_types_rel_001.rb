@@ -5,7 +5,7 @@ class FrequencyTypesRel001 < ActiveRecord::Migration
     end
  
 
-  if (ENV['RAILS_ENV'] = 'development')
+  if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
       Fixtures.create_fixtures(directory, "frequency_types")
     end

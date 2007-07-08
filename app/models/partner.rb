@@ -1,4 +1,6 @@
 class Partner < ActiveRecord::Base
+  belongs_to :partner_status
+
   acts_as_versioned
 
 #  after_save  :create_partner_history

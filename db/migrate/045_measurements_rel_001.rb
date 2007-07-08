@@ -6,7 +6,7 @@ class MeasurementsRel001 < ActiveRecord::Migration
      t.column :comment,          :string,  :null => true
     end
 
-  if (ENV['RAILS_ENV'] = 'development')
+  if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
       Fixtures.create_fixtures(directory, "measurements")
     end

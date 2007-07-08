@@ -18,7 +18,7 @@ class ProjectHistoriesRel001 < ActiveRecord::Migration
 
     end # project_histories
     
-    if (ENV['RAILS_ENV'] = 'development')
+    if (ENV['RAILS_ENV'] == 'development')
     end
   end
   

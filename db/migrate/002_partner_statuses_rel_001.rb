@@ -4,7 +4,7 @@ class PartnerStatusesRel001 < ActiveRecord::Migration
   def self.up
     
     create_table :partner_statuses, :force => true do |t|
-      t.column :statusType, :string, :null => false, :limit => 25
+      t.column :name, :string, :null => false, :limit => 25
       t.column :description, :string, :limit => 250
     end #partner_statuses
     

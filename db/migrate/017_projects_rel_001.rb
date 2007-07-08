@@ -18,7 +18,7 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :dollars_raised, :decimal, :precision => 12, :scale => 2
     end # projects
     
-    if (ENV['RAILS_ENV'] = 'development')
+    if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
       Fixtures.create_fixtures(directory, "projects")
     end

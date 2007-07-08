@@ -7,7 +7,7 @@ class ProjectStatusesRel001 < ActiveRecord::Migration
       t.column :description, :text
     end # project_statuses    
     
-    if (ENV['RAILS_ENV'] = 'development')
+    if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
       Fixtures.create_fixtures(directory, "project_statuses")
     end

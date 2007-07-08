@@ -6,7 +6,7 @@ class ContinentsRel001 < ActiveRecord::Migration
       t.column :continent_name, :string, :null => false
     end # continents
     
-    if (ENV['RAILS_ENV'] = 'development')
+    if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
       Fixtures.create_fixtures(directory, "continents")
     end
