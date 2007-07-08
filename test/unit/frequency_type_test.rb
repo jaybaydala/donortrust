@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-context "Targets" do
+context "FrequencyType" do
   fixtures :frequency_types
 
 setup do

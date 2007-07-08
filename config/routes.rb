@@ -13,7 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :indicators, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/indicators"
   map.resources :targets, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/targets"
 
-  map.resources :millennium_development_goals, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/millennium_development_goals"
+  map.resources :millennium_goals, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/millennium_goals"
   map.resources :sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/sectors"
 
   #
