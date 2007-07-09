@@ -5,20 +5,27 @@ class BusAdmin::BusAccountController < ApplicationController
   # before_filter :login_from_cookie
   # say something nice, you goof!  something sweet.
   before_filter :login_required, :except => [:login, :signup]
-  
+ 
   active_scaffold :bus_user do |config|
     config.label = "Users"     
-    #config.action_links.add "Change Password", :action => 'change_password'
-    #config.columns.set_link 'Change Password', :action => 'change_password'
+
     config.action_links.add 'change_password', :label => 'Change my password'
-    config.nested.add_link "UserType", [:bus_user_type]
     config.list.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at, :updated_at, :created_at]
     config.show.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
     config.create.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
+
+#     await version 1.1
+#    config.columns[:password].form_ui = :password
+#    config.columns[:password_confirmation].form_ui = :password
     config.create.columns.add [:password, :password_confirmation]
     config.update.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at, :upadted_at, :created_at]
     list.sorting = {:login => 'ASC'}
   end
+  
+  def index
+    render :template => 'bus_admin/bus_account/account_admin', :layout => true
+  end
+  
   
   def login
     return unless request.post?
