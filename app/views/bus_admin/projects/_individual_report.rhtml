@@ -36,7 +36,7 @@
 <h2><%= @project.name %> Milestones</h2>
 
 <table width=:100%" align="center" style="border: 1px solid #DDDDDD;" cellpadding="2" cellspacing="0">
-<tr style="background-color: #666; color: #fff;"><td>Milestone Name</td><td>Status</td><td>Target Date</td></tr>
+<tr style="background-color: #666; color: #fff;"><td>Milestone Name</td><td>Status</td><td>Tasks</td><td>Target Date</td></tr>
 <% @milestones = @project.get_milestones %>
 <% @milestones.each do |milestone| %>
     <% if @colorize %>    
@@ -47,6 +47,7 @@
     <% end %>
     <td><strong><%= milestone.description %></strong></td>
     <td><strong><%= milestone.milestone_status.name %></strong></td>
+    <td><strong><%= milestone.tasks_count %></strong></td>
     <td><strong><%= milestone.target_date %></strong></td>
 <% end %>
     

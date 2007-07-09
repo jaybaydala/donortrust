@@ -1,16 +1,5 @@
 module BusAdmin::ProjectsHelper
-  def total_money_raised
-    @total_money_raised = Project.total_money_raised
-  end
-  
-  def total_project_costs
-    @total_costs = Project.total_costs
-  end
-  
-  def total_money_spent
-    @total_money_spent = Project.total_money_spent
-  end
-  
+ 
   def dollars_raised_column(record)
     number_to_currency(record.dollars_raised)
   end

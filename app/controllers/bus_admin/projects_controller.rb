@@ -8,7 +8,7 @@ class BusAdmin::ProjectsController < ApplicationController
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones, :milestones_count, :partner ]
     show.columns.exclude [ :milestones ]
     update.columns.exclude [ :program, :milestones, :milestones_count ]
-    create.columns.exclude [ :program, :milestones_count ]
+    create.columns.exclude [ :milestones_count ]
     config.columns[ :name ].label = "Project"
     config.columns[ :project_status ].label = "Status"
     config.columns[ :milestones_count ].label = "Milestones"
@@ -41,7 +41,14 @@ class BusAdmin::ProjectsController < ApplicationController
    @id = params[:projectid]
    @project = Project.get_project(@id)
    @percent_raised = @project.get_percent_raised
-   render :partial => "bus_admin/projects/individual_report" , :layout => 'application'
+   render :partial => "bus_admin/projects/individual_report", :layout => 'application'
+  end
+  
+  def individual_report_inline   
+   @id = params[:projectid]
+   @project = Project.get_project(@id)
+   @percent_raised = @project.get_percent_raised
+   render :partial => "bus_admin/projects/individual_report"
   end
   
   def export_to_csv
@@ -61,5 +68,11 @@ class BusAdmin::ProjectsController < ApplicationController
   end
   def foo
     puts "nothing here"
+  end
+  
+  def display_inline_report
+    @word = "laptop bag!"
+    @row = params[:row]
+    return if request.xhr?
   end
 end

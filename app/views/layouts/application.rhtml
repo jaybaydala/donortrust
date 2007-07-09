@@ -11,13 +11,13 @@
 <% if @title %>
     <title><%=@title %></title>
 <% else %>
-    <title><%=(controller.controller_name).titleize %> : <%= (controller.action_name).titleize %></title>
+    <title>Christmas Future : <%=(controller.controller_name).titleize %> : <%= (controller.action_name).titleize %></title>
 <% end %>
     <%= stylesheet_link_tag 'cf_base2' %>
   </head>
 
   <body>
-  
+  <div align="center">
   <div style="width: 700px; height: 55px;">
            <img src="/images/CF_logoHtag_1csml.gif" alt="" width="237"
                 height="55" style="float: right;" />
@@ -166,7 +166,7 @@
                 <option value="/bus_admin/project_statuses">Project Statuses</option>
                 <option value="/bus_admin/contacts">Contacts</option>
                 <option value="milestone_statuses">Milestone Statuses</option>   
-                <option value="/bus_admin/millennium_development_goals">MD Goals</option> 
+                <option value="/bus_admin/millennium_goals">Millenium Goals</option> 
                 <option value="/bus_admin/sectors">Sectors</option>       
                 <option value="/bus_admin/targets">Targets</option>       
                 <option value="/bus_admin/indicators">Indicators</option>        
@@ -188,6 +188,7 @@
         </td>
       </tr>
     </table>
+	</div>
   </body>
 </html>
 

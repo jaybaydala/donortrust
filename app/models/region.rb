@@ -4,7 +4,7 @@ belongs_to :country
 has_many :urban_centre, :dependent => :destroy
 
   validates_presence_of :country_id
-  validates_presence_0f :name
+  validates_presence_of :name
   
   def validate
     begin

@@ -15,7 +15,7 @@ class Partner < ActiveRecord::Base
   validates_presence_of :name, :partner_status_id, :partner_type_id
   validates_length_of   :name, :maximum => 50
   #validates_length_of   :description, :maximum => 1000
-  validates_length_of :description, :within => 0..1000, :too_long => "description too long (max 1000)", :too_short => " can't be blank"
+  validates_length_of :description, :within => 0..1000, :too_long => "too long (max 1000)", :too_short => " can't be blank"
   
   def create_partner_history
     if Partner.exists?(self.id)

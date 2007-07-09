@@ -1,8 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::PartnersTest < Test::Unit::TestCase
+#class BusAdmin::PartnersTest < Test::Unit::TestCase
+
+context "Partners" do
   fixtures :partners, :projects
   
+  def setup    
+    @fixture_partner = Partner.find(:first)
+  end
+  
+    
 #  def create_instance(overrides = {})
 #    opts = {
 #      :id => 1,
@@ -43,5 +50,11 @@ class BusAdmin::PartnersTest < Test::Unit::TestCase
 #    partner = Partner.find(:first)
 #    number = Projects.find(:all, :conditions => "partner_id = " + partner.id)
 #    puts number
+#  end
+
+#  specify "The partner should have a name partner_status_id & partner_type id" do
+#    @fixture_partner.name.should.not.be.nil
+#    @fixture_partner.partner_status_id.should.not.be.nil
+#    @fixture_partner.partner_type_id.should.not.be.nil
 #  end
 end

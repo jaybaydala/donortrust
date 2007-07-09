@@ -15,7 +15,7 @@ class BusAdmin::PartnersController < ApplicationController
     config.show.columns = [:name, :description, :partner_status, :partner_type, :contacts, :partner_versions] # reorder columns 
     
     config.nested.add_link("Projects", [:projects]) 
-    
+
     #passing desired partner status in action link to filter list; 1 = Approved, 2 = Pending 
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'partners', :action => 'report_partners'},:page => true
     config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
@@ -25,7 +25,13 @@ class BusAdmin::PartnersController < ApplicationController
     # if you have the entity un-nested for a work around - note that it does use the un-nested path for nesting
     #    config.nested.add_link("History", [:partner_histories])    
   end
-  
+
+  def delete 
+    @all_partners = Partner.find(:all)
+    @total = @all_partners.size
+   render :partial => "bus_admin/partners/report_partners" , :layout => 'application'
+ end
+ 
   def conditions_for_collection  
     @displaystatus = params[:status]
     if(@displaystatus)  
