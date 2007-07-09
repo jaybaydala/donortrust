@@ -1,0 +1,11 @@
+<h2>You Tube Videos</h2>
+
+<div align="right">
+<% for @you_tube_video in @you_tube_videos %>
+
+<%= render_partial "video", @you_tube_video  %>
+  
+<% end %>
+</div>
+
+<%= link_to 'New you_tube_video', new_you_tube_video_path %>

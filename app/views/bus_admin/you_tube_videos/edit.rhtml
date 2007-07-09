@@ -1,0 +1,12 @@
+<h1>Editing you_tube_video</h1>
+
+<%= error_messages_for :you_tube_video %>
+
+<% form_for(:you_tube_video, :url => you_tube_video_path(@you_tube_video), :html => { :method => :put }) do |f| %>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', you_tube_video_path(@you_tube_video) %> |
+<%= link_to 'Back', you_tube_videos_path %>

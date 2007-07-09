@@ -1,0 +1,34 @@
+
+
+<%= error_messages_for :you_tube_video %>
+
+    <div id="you_tube_form">        
+        <h2>Add a new You Tube Video</h2>
+        <% form_for(:you_tube_video, :url => you_tube_videos_path) do |f| %>
+        You Tube Video URL:<br/>
+        
+         <div id="you_tube_preview">
+            <div align="center">
+                <img src="/images/misc/you_tube/preview.png">
+            </div>
+        </div>
+        
+        <%= text_field("you_tube_videos","you_tube_reference")%>
+        <%= observe_field("you_tube_videos_you_tube_reference", 
+            :frequency => 0.5, 
+            :update => :you_tube_preview, 
+            :url => '/bus_admin/you_tube_videos;preview',
+            :with => "you_tube_videos_you_tube_reference"
+            ) %> 
+        
+
+    
+        <p>
+            <%= submit_tag "Create" %> </br>
+            <%= link_to 'Back', you_tube_videos_path %>
+        </p>
+        
+        
+    <% end %>
+    </div>
+  
