@@ -4,7 +4,7 @@ class BusSecureAction < ActiveRecord::Base
  has_and_belongs_to_many :bus_user_types
  
   def to_label
-    "#{permitted_actions}"
+    "#{permitted_actions}(#{BusSecurityLevel.find(bus_security_level_id).controller})"
   end
   
 end
