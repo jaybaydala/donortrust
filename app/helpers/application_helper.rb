@@ -26,11 +26,12 @@ module ApplicationHelper
     render 'dt/shared/project_search'
   end  
   
-  def show_error_and_reset(div, error)    
+  def show_error_and_reset(error)   
+    error_div = 'error_div'
     render :update do |page|
-        page.replace_html div, '<p style="color: red;">' + error + '</p>' 
+        page.replace_html error_div, '<p style="color: red;">' + error + '</p>' 
         page.delay(5) do          
-          page.replace_html div, ''  
+          page.replace_html error_div, ''  
         end
     end
   end
