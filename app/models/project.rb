@@ -71,11 +71,11 @@ class Project < ActiveRecord::Base
   end
   
   def self.total_percent_raised
+    percent = 100
     unless self.total_costs == nil or self.total_costs == 0
-      return self.total_money_raised * 100 / self.total_costs
-    else
-      return 100
+      percent =  self.total_money_raised * 100 / self.total_costs
     end
+    return percent
   end 
   
   def self.projects_nearing_end(days_until_end)

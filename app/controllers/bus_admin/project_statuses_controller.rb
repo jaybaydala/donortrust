@@ -1,6 +1,8 @@
 class BusAdmin::ProjectStatusesController < ApplicationController
   before_filter :login_required
-
+  
+  include ApplicationHelper
+  
   active_scaffold :project_statuses do |config|
     config.columns =[ :name, :description, :projects_count, :projects ]
     config.columns[ :name ].label = "Status"
@@ -13,4 +15,15 @@ class BusAdmin::ProjectStatusesController < ApplicationController
     update.columns.exclude [ :projects_count, :projects ]
     create.columns.exclude [ :projects_count, :projects ]
   end
- end
+  
+  def destroy
+    begin
+      super.destroy
+    rescue
+      @error = "You cannot delete this status; it is being used by a project."
+      flash[:error] = @error #for some reason this won't display      
+      show_error_and_reset('error_div', @error)        
+    end
+  end
+    
+end

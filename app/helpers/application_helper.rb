@@ -24,5 +24,15 @@ module ApplicationHelper
     partners = Partner.find(:all).collect {|p| [ p.name, p.id ] }
     @partner_select = select("parnter_select", "partner_id", projects, { :prompt => '--Select a Partner--' } )
     render 'dt/shared/project_search'
+  end  
+  
+  def show_error_and_reset(div, error)    
+    render :update do |page|
+        page.replace_html div, '<p style="color: red;">' + error + '</p>' 
+        page.delay(5) do          
+          page.replace_html div, ''  
+        end
+    end
   end
+  
 end
