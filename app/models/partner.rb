@@ -1,6 +1,5 @@
 class Partner < ActiveRecord::Base
   belongs_to :partner_status
-
   acts_as_versioned
 
 #  after_save  :create_partner_history
@@ -57,4 +56,14 @@ class Partner < ActiveRecord::Base
     return Project.find(:all, :conditions => "partner_id = " + partnerid.to_s)    
   end
   
+  def destroy
+    result = false
+    if partners.count > 0
+#      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Partners" )
+      raise( "Can not destroy a #{self.class.to_s} that has Partners" )
+    else
+      result = super
+    end
+    return result
+  end
 end

@@ -26,7 +26,7 @@ class DHTMLConfirm
   def initialize( options = {} )
     @options = options
     @value = @options.delete(:value) { |key| "yes" }
-    @message = @options.delete(:message) { |key| "Are you sure?" }
+    @message = @options.delete(:message) { |key| "Are you sure NOW?" }
   end
   
   def onclick_function( controller, link_id )

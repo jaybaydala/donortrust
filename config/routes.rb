@@ -64,7 +64,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :measures
   
   #easier routes for restful_authentication
-  
+  map.bob '/bus_admin/bob', :controller => 'bus_admin/project_statuses', :action => 'bob'
   map.signup '/bus_admin/signup', :controller => 'bus_admin/bus_account', :action => 'signup'
   map.login '/bus_admin/login', :controller => 'bus_admin/bus_account', :action => 'login'
   map.logout '/bus_admin/logout', :controller => 'bus_admin/bus_account', :action => 'logout'
@@ -80,6 +80,8 @@ ActionController::Routing::Routes.draw do |map|
   map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'
   map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
+  map.display_inline_report 'bus_admin/display_inline_report', :controller => 'bus_admin/projects', :action => 'display_inline_report'
+  map.report 'bus_admin/individual_report_inline', :controller => 'bus_admin/projects', :action => 'individual_report_inline'
   
   # front-end resources - non-admin
   map.resources :projects, :controller=> 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :search => :get }, :member => { :project => :get, :village => :get, :nation => :get, :community => :get }

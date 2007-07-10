@@ -161,7 +161,7 @@ module CssGraphsHelper
         background-image: url('/images/css_graphs/colorbar.jpg') no-repeat !important;
         text-align: center;
         font-weight: bold;
-        color: white;
+        color: #cccccc;
         line-height: 1.5em;
       }
 
