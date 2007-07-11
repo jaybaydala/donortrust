@@ -15,9 +15,9 @@ class BusAdmin::PartnerTypesController < ApplicationController
     begin
       super.destroy
     rescue
-      @error = "You cannot delete this category it is being used by a Partner."
+      @error = "You cannot delete this category; it is being used by a Partner."
       flash[:error] = @error #for some reason this won't display      
-      show_error_and_reset(@error)        
+      show_message_and_reset(@error, "error")        
     end
   end
 end

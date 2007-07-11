@@ -66,9 +66,6 @@ class BusAdmin::ProjectsController < ApplicationController
               :type => 'text/csv; charset=iso-8859-1; header=present',
               :disposition => "attachment; filename=project.csv"
   end
-  def foo
-    puts "nothing here"
-  end
   
   def display_inline_report
     @word = "laptop bag!"

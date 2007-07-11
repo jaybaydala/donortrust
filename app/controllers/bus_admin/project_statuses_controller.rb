@@ -22,7 +22,7 @@ class BusAdmin::ProjectStatusesController < ApplicationController
     rescue
       @error = "You cannot delete this status; it is being used by a project."
       flash[:error] = @error #for some reason this won't display      
-      show_error_and_reset(@error)        
+      show_message_and_reset(@error, "error")        
     end
   end
     

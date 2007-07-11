@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  first_name: Bob
+  last_name: Robertson
+  email: bob@robertson.com
+two:
+  id: 2
+  first_name: Bobbie
+  last_name: Bobbleson
+  email: bobbie@bobbleson.com

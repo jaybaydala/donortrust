@@ -10,7 +10,7 @@ class Project < ActiveRecord::Base
   belongs_to :urban_centre
   belongs_to :contact
   #has_and_belongs_to_many :millennium_development_goals
-  validates_presence_of :program
+  validates_presence_of :program_id
     
   def create_project_history
     if Project.exists?(self.id)

@@ -17,7 +17,7 @@ class BusAdmin::PartnerStatusesController < ApplicationController
     rescue
       @error = "You cannot delete this status; it is being used by a Partner."
       flash[:error] = @error #for some reason this won't display      
-      show_error_and_reset(@error)        
+      show_message_and_reset(@error, "error")        
     end
   end
     

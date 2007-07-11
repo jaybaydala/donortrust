@@ -17,8 +17,8 @@ context "Projects" do
     @fixture_project.description.should.not.be.nil
   end
   
-  specify "nil name should not validate" do
-    @fixture_project.name = nil
+  specify "nil program id should not validate" do
+    @fixture_project.program_id = nil
     @fixture_project.should.not.validate
   end
   

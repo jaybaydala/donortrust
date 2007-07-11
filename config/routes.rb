@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  
   # The priority is based upon order of creation: first created -> highest priority.
   
   #
@@ -62,7 +63,8 @@ ActionController::Routing::Routes.draw do |map|
 #  map.resources :project_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/project_histories' 
 #  map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :measures
-  
+  map.resources :accounts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/accounts"
+
   #easier routes for restful_authentication
   map.bob '/bus_admin/bob', :controller => 'bus_admin/project_statuses', :action => 'bob'
   map.signup '/bus_admin/signup', :controller => 'bus_admin/bus_account', :action => 'signup'
