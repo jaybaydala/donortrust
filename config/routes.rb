@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
-  
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   
   #
@@ -8,6 +10,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :rss
   map.resources :rss_feed_elements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rss_feed_elements"
   map.resources :rss_feeds, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rss_feeds"
+
+  #
+  # Media Resources Specifically You Tube and Flickr Resources
+  #
+  map.resources :you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/you_tube_videos", :collection => {:preview => :post}
+  map.resources :project_you_tube_videos, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos"
+
+
 
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
 

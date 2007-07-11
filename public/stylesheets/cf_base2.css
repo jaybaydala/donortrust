@@ -1021,7 +1021,78 @@ fieldset {
 
 legend {
   margin-bottom: 1px;
-  color:000080;
+  color: #000080;
   font-weight:normal;
   font-size:11px;
+}
+
+
+/******** You Tube Stuff **********/
+#you_tube_thumbnail {
+	float: right;
+	margin: 5px;
+}
+
+#you_tube_preview{
+	float: right;
+	width: 300px;
+}
+
+.you_tube_text_area{
+	width: 300px;
+}
+
+#you_tube_video {
+	border: 1px #ccc solid;
+	padding: 5px;
+	margin: 5px;
+}
+
+#you_tube_form{
+	float: left;
+}
+
+#you_tube_details {
+	text-align: left;
+}
+
+#you_tube_video{
+	width: 400px;
+}
+
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
 }

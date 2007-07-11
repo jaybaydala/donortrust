@@ -3,8 +3,6 @@ require 'uri'
 
 class BusAdmin::YouTubeVideosController < ApplicationController
 
-  
-
   # GET /bus_admin_you_tube_videos
   # GET /bus_admin_you_tube_videos.xml
   def index
@@ -26,6 +24,14 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     end
   end
 
+  def search
+#    @you_tube_videos = BusAdmin::YouTubeVideo.find(:all, :conditions => ["match(comments) against (?)",])
+#    respond_to do |format|
+#      format.html # index.rhtml
+#      format.xml  { render :xml => @bus_admin_you_tube_videos.to_xml }
+#    end
+  end
+
   # GET /bus_admin_you_tube_videos/new
   def new
     @you_tube_video = BusAdmin::YouTubeVideo.new
@@ -33,14 +39,17 @@ class BusAdmin::YouTubeVideosController < ApplicationController
 
   def preview
     if(params[:you_tube_videos_you_tube_reference])
-      url = 'http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + params[:you_tube_videos_you_tube_reference] 
+      result = getVideoHash(params[:you_tube_videos_you_tube_reference])
     else
-      url = 'http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + params[:v] 
+      result = getVideoHash(params[:v])
     end
-    response = Net::HTTP.get_response(URI.parse(url))
-    @video_hash = Hash.create_from_xml response.body[0,response.body.size]
-    
+    result
     render :layout => false
+  end
+
+  def getVideoHash(url)
+    response = Net::HTTP.get_response(URI.parse('http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + url))
+    @video_hash = Hash.create_from_xml response.body[0,response.body.size]
   end
 
   # GET /bus_admin_you_tube_videos/1;edit
@@ -51,14 +60,15 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # POST /bus_admin_you_tube_videos
   # POST /bus_admin_you_tube_videos.xml
   def create
-    @you_tube_video = YouTubeVideo.new
+    @you_tube_video = YouTubeVideo.new(params[:you_tube_videos])
     
     url = params[:you_tube_videos][:you_tube_reference]
     chunks = url.split("v=")
     ref = chunks[1].split("&")
     
+    @you_tube_video.keywords = getVideoHash(ref[0])["ut_response"]["video_details"]["tags"]
     @you_tube_video.you_tube_reference = ref[0]
-    
+
     respond_to do |format|
       if @you_tube_video.save
         flash[:notice] = 'You Tube Video was successfully created.'
@@ -75,7 +85,6 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # PUT /bus_admin_you_tube_videos/1.xml
   def update
     @you_tube_video = BusAdmin::YouTubeVideo.find(params[:id])
-
     respond_to do |format|
       if @you_tube_video.update_attributes(params[:you_tube_video])
         flash[:notice] = 'BusAdmin::YouTubeVideo was successfully updated.'
@@ -93,9 +102,8 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   def destroy
     @you_tube_video = BusAdmin::YouTubeVideo.find(params[:id])
     @you_tube_video.destroy
-
     respond_to do |format|
-      format.html { redirect_to bus_admin_you_tube_videos_url }
+      format.html { redirect_to you_tube_videos_url }
       format.xml  { head :ok }
     end
   end
