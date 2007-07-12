@@ -1,0 +1,19 @@
+<!--<form>-->
+    <table>
+        <tr>
+            <td>
+                Region:
+            </td>
+            <td>
+                <div id="contact_region">
+                    <select id="record_region"></select>
+                </div>
+            	<%= observe_field "record_region",
+                            :frequency => 1,
+                            :update => "contact_urban_centre",
+            				:url => { :action => 'populate_contact_urban_centres'},
+            				:with => 'record_region' %>	
+            </td>
+        </tr>
+    </table>    
+<!--</form>-->

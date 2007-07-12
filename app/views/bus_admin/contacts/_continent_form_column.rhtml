@@ -1,0 +1,26 @@
+
+
+<!--<form>-->
+    <table>
+        <tr>
+            <td>
+                Continent:
+            </td>
+            <td>
+                    <!-- id="record_urban_centre" class="urban_centre-input" name="record[urban_centre][id]" -->
+                <div id="contact_continent">
+                    <select id="record_continent" class="continent-input" name="record[continent][id]">
+                        <% for continent in Continent.find :all %>
+                            <option value=<%= continent.id.to_s %>><%= continent.continent_name %></option>
+                        <% end %>
+                    </select>
+                </div>
+            	<%= observe_field "record_continent",
+                            :frequency => 1,
+                            :update => "contact_country",
+            				:url => { :action => 'populate_contact_countries'},
+            				:with => 'record_continent' %>	
+            </td>
+        </tr>
+    </table>    
+<!--</form>-->
