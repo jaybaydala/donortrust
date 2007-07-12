@@ -9,7 +9,7 @@ class BusAdmin::PartnersController < ApplicationController
     config.list.columns.exclude :partner_versions
     config.update.columns.exclude :partner_versions
     
-    config.list.columns = [:name, :description, :partner_status, :partner_type, :contacts] # reorder columns 
+    config.list.columns = [:name, :description, :partner_status, :partner_type] # reorder columns 
     config.create.columns = [:name, :description, :partner_status, :partner_type, :contacts] # reorder columns 
     config.update.columns = [:name, :description, :partner_status, :partner_type, :contacts] # reorder columns 
     config.show.columns = [:name, :description, :partner_status, :partner_type, :contacts, :partner_versions] # reorder columns 

@@ -9,7 +9,7 @@ class Project < ActiveRecord::Base
   has_many :milestones
   belongs_to :urban_centre
   belongs_to :contact
-  #has_and_belongs_to_many :millennium_development_goals
+  has_and_belongs_to_many :groups
   validates_presence_of :program_id
     
   def create_project_history

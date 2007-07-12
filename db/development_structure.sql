@@ -106,6 +106,22 @@ CREATE TABLE `frequency_types` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `description` text,
+  `group_type_id` int(11) default NULL,
+  `public` tinyint(1) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `groups_projects` (
+  `id` int(11) NOT NULL auto_increment,
+  `group_id` int(11) default NULL,
+  `project_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `indicator_measurements` (
   `id` int(11) NOT NULL auto_increment,
   `project_id` int(11) NOT NULL,
@@ -451,4 +467,4 @@ CREATE TABLE `you_tube_videos` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO schema_info (version) VALUES (46)
+INSERT INTO schema_info (version) VALUES (48)

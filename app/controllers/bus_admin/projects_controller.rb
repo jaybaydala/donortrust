@@ -4,7 +4,7 @@ class BusAdmin::ProjectsController < ApplicationController
   active_scaffold :project do |config|
   
     config.columns = [ :name, :description, :project_status, :program, :expected_completion_date, :start_date, :end_date,
-                          :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre, :milestones_count, :milestones ]
+                          :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre, :milestones_count, :milestones, :groups ]
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones, :milestones_count, :partner ]
     show.columns.exclude [ :milestones ]
     update.columns.exclude [ :program, :milestones, :milestones_count ]

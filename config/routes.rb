@@ -77,6 +77,7 @@ ActionController::Routing::Routes.draw do |map|
 #  map.resources :project_histories, :path_prefix => "/projects/:project_id"
   map.resources :measures
   map.resources :accounts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/accounts"
+  map.resources :groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/groups"
 
   #easier routes for restful_authentication
   map.bob '/bus_admin/bob', :controller => 'bus_admin/project_statuses', :action => 'bob'

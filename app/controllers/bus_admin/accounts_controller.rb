@@ -5,6 +5,9 @@ class BusAdmin::AccountsController < ApplicationController
     list.columns.exclude [:last_logged_in]
     update.columns.exclude [:last_logged_in]
     config.columns[ :state ].label = "Region"
+    config.columns[:fullname].label = "Name"
+    config.label = "Donor Accounts"
+    config.actions.exclude :create
   end
 
 end
