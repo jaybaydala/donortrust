@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class MilestoneStatusTest < Test::Unit::TestCase
-  fixtures :milestone_statuses
+context "MilestoneStatuses" do
+  fixtures :milestone_statuses, :milestones
 
   def clean_new_instance( overrides = {})
     # Build (and return) an instance starting from known (expected) valid attribute
@@ -11,46 +11,118 @@ class MilestoneStatusTest < Test::Unit::TestCase
       :description => "Valid description for status"
     }.merge( overrides )
     MilestoneStatus.new( opts )
-    # :id is a protected attribute.  Must set after creating instance
   end
 
-  def test_clean_instance
-    # Should be valid to create a new instance from the 'clean' instance created
-    # by the helper function.
-    assert_valid clean_new_instance
+  setup do
+#    @status = MilestoneStatus.find(1)
+#    @status = milestone_statuses( :proposed )
   end
 
-  def test_create_with_empty_name
-    # Should not be valid to create a new instance with an empty or blank name
-    assert_invalid( clean_new_instance, :name, nil, "" )
-  end
-  
-  def test_create_with_empty_description
-    # Should not be valid to create a new instance with an empty or blank description
-    assert_invalid( clean_new_instance, :description, nil, "" )
-  end
-  
-  def test_unique_create_name
-    # Should not be valid to reuse an existing name to create a new instance
-    assert_invalid( clean_new_instance, :name, milestone_statuses( :proposed ).name )
-  end
-  
-  def test_edit_to_empty_name
-    # Should not be valid to modify an existing instance to have an empty or blank name
-    assert_valid( MilestoneStatus.find( milestone_statuses( :proposed ).id ))
-    assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), :name, nil, "" )
+  specify "new clean instance should validate" do
+    clean_new_instance( ).should.validate
   end
 
-  def test_edit_to_empty_description
-    # Should not be valid to modify an existing instance to have an empty or blank description
-    assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), :description, nil, "" )
+  specify "nil name should not validate" do
+    clean_new_instance( :name => nil ).should.not.validate
   end
 
-  def test_edit_to_duplicate_name
-    # Should not be valid to modify an existing instance to have a name that
-    # matches (duplicated) another existing instance.
-    assert_invalid( MilestoneStatus.find( milestone_statuses( :proposed ).id ), 
-      :name, milestone_statuses( :inprogress ).name  )
+  specify "empty name should not validate" do
+    clean_new_instance( :name => "" ).should.not.validate
   end
-  #destroy should fail if any Milestone (or history) using status
+
+  specify "blank name should not validate" do
+    clean_new_instance( :name => " " ).should.not.validate
+  end
+
+  specify "nil description should not validate" do
+    MilestoneStatus.new( :description => nil ).should.not.validate
+  end
+
+  specify "empty description should not validate" do
+    MilestoneStatus.new( :description => "" ).should.not.validate
+  end
+
+  specify "blank description should not validate" do
+    MilestoneStatus.new( :description => " " ).should.not.validate
+  end
+
+  specify "new duplicate name should not validate" do
+    clean_new_instance( :name => milestone_statuses( :proposed ).name ).should.not.validate
+  end
+
+  specify "new original name should validate" do
+    clean_new_instance( :name => "new name" ).should.validate
+  end
+
+  specify "modify existing record to nil name should not validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.name = nil
+    @sts.should.not.validate
+  end
+
+  specify "modify existing record to empty name should not validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.name = ""
+    @sts.should.not.validate
+  end
+
+  specify "modify existing record to blank name should not validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.name = " "
+    @sts.should.not.validate
+  end
+
+  specify "modify existing record to nil description should not validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.description = nil
+    @sts.should.not.validate
+  end
+
+  specify "modify existing record to empty description should not validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.description = ""
+    @sts.should.not.validate
+  end
+
+  specify "modify existing record to blank description should not validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.description = " "
+    @sts.should.not.validate
+  end
+
+  specify "modify existing record to (other) existing name should not validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.name = milestone_statuses( :complete ).name
+    @sts.should.not.validate
+  end
+
+  specify "modify existing record to new unigue name should validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.name = "new one"
+    @sts.should.validate
+  end
+
+  specify "modify description of existing record should validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.description = "some new description"
+    @sts.should.validate
+  end
+
+  specify "modify description of existing record to duplicate of other should validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    @sts.description = milestone_statuses( :complete ).description
+    @sts.should.validate
+  end
+
+  specify "destroy existing (unused) record should validate" do
+    @sts = MilestoneStatus.find( milestone_statuses( :canceled ).id )
+    @sts.destroy.should.validate
+  end
+
+## hpd how to verify that destroy fails.  As is this gets an exception instead of catching
+#  specify "destroy record used by Milestone should not validate" do
+#    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+#    @sts.destroy.should.raise "Can not destroy a MilestoneStatus that has Milestones"
+#  end
+
 end

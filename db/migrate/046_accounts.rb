@@ -11,11 +11,12 @@ class Accounts < ActiveRecord::Migration
       t.column :crypted_password,     :string, :limit => 40
       t.column :salt,:string, :limit => 40
       t.column :last_logged_in,:datetime
-    end    
-    if (ENV['RAILS_ENV'] == 'development')
-      directory = File.join(File.dirname(__FILE__), "dev_data")
-      Fixtures.create_fixtures(directory, "accounts")
     end
+# no accounts.yml file exists (yet)
+#    if (ENV['RAILS_ENV'] == 'development')
+#      directory = File.join(File.dirname(__FILE__), "dev_data")
+#      Fixtures.create_fixtures(directory, "accounts")
+#    end
   end
 
   def self.down

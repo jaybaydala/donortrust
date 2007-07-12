@@ -1,5 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
+  name: One
+  description: Partner Status one
 two:
   id: 2
+  name: Two
+  description: Partner Status two
+three:
+  id: 3
+  name: Three
+  description: Partner Status three
