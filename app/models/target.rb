@@ -1,6 +1,6 @@
 class Target < ActiveRecord::Base
 
-belongs_to :millennium_development_goal
+belongs_to :millennium_goal
 
   validates_presence_of :millennium_development_goal_id
   validates_presence_of :description

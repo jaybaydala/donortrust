@@ -1,7 +1,7 @@
 class TargetsRel001 < ActiveRecord::Migration
   def self.up
     create_table :targets, :force => true do |t|
-    t.column :millennium_development_goal_id, :int, :null => false
+    t.column :millennium_goal_id, :int, :null => false
     t.column :description, :string 
     end
     
