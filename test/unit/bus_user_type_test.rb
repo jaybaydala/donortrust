@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::BusUserTypeTest < Test::Unit::TestCase
   fixtures :bus_admin_bus_user_types
