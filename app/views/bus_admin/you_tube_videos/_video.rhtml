@@ -18,42 +18,55 @@
         <strong>From</strong>: <%= @video_hash["ut_response"]["video_details"]["author"]%><br/>
         
         <div class="you_tube_text_area">
-            <script>
-            $(document).ready(function(){
-            
-                $("a.show_<%= @you_tube_video.you_tube_reference%>").click(function(){$("div.you_tube_text_area span.<%= @you_tube_video.you_tube_reference%>_short").hide("slow");});
-                $("a.show_<%= @you_tube_video.you_tube_reference%>").click(function(){$("div.you_tube_text_area span.<%= @you_tube_video.you_tube_reference%>_long").show("slow");});
-                $("a.hide_<%= @you_tube_video.you_tube_reference%>").click(function(){$("div.you_tube_text_area span.<%= @you_tube_video.you_tube_reference%>_long").hide("slow");});
-                $("a.hide_<%= @you_tube_video.you_tube_reference%>").click(function(){$("div.you_tube_text_area span.<%= @you_tube_video.you_tube_reference%>_short").show("slow");});
-             
-                $("a.show_comments_<%= @you_tube_video.you_tube_reference%>").click(function(){$("div.you_tube_text_area span.<%= @you_tube_video.you_tube_reference%>_comments_short").hide("slow");});
-                $("a.show_comments_<%= @you_tube_video.you_tube_reference%>").click(function(){$("div.you_tube_text_area span.<%= @you_tube_video.you_tube_reference%>_comments_long").show("slow");});
-                $("a.hide_comments_<%= @you_tube_video.you_tube_reference%>").click(function(){$("div.you_tube_text_area span.<%= @you_tube_video.you_tube_reference%>_comments_long").hide("slow");});
-                $("a.hide_comments_<%= @you_tube_video.you_tube_reference%>").click(function(){$("div.you_tube_text_area span.<%= @you_tube_video.you_tube_reference%>_comments_short").show("slow");});
-             
-             });                
-            </script>
-            <span class="<%= @you_tube_video.you_tube_reference%>_short" ><%= @video_hash["ut_response"]["video_details"]["description"][0,80]%> 
-            ... (<a class="show_<%= @you_tube_video.you_tube_reference%>">more</a>)
-            </span>            
-            <span class="<%= @you_tube_video.you_tube_reference%>_long" style="display:none"><%= @video_hash["ut_response"]["video_details"]["description"]%>
-            (<a class="hide_<%= @you_tube_video.you_tube_reference%>">less</a>)  
-            </span>
+            <div id="<%= @you_tube_video.you_tube_reference%>_short" ><%= @video_hash["ut_response"]["video_details"]["description"][0,80]%> 
+            ... (<%= link_to_function("more", nil, :id =>"#{@you_tube_video.you_tube_reference}_less_link") do |page|
+                        page.visual_effect :slide_up, "#{@you_tube_video.you_tube_reference}_short", :duration => 0.5
+                        page.delay(0.5) do
+                            page.visual_effect :slide_down, "#{@you_tube_video.you_tube_reference}_long", :duration => 0.5
+                        end
+               end
+             %>)</div>            
+            <div id="<%= @you_tube_video.you_tube_reference%>_long" style="display:none"><%= @video_hash["ut_response"]["video_details"]["description"]%>
+           (<%= link_to_function("less", nil, :id =>"#{@you_tube_video.you_tube_reference}_less_link") do |page|
+                        page.visual_effect :slide_up, "#{@you_tube_video.you_tube_reference}_long", :duration => 0.5
+                        page.delay(0.5) do
+                            page.visual_effect :slide_down, "#{@you_tube_video.you_tube_reference}_short", :duration => 0.5
+                        end
+               end
+             %>)  
+            </div>
             
         </div>
         <strong>Comments</strong>: 
         <div class="you_tube_text_area">
-            <span class="<%= @you_tube_video.you_tube_reference%>_comments_short">
+            <div id="<%= @you_tube_video.you_tube_reference%>_comments_short">
                 <%= @you_tube_video.comments[0,80] %>
-                ... (<a href="#" class="show_comments_<%= @you_tube_video.you_tube_reference%>">more</a>)           
-            </span>
-            <span class="<%= @you_tube_video.you_tube_reference%>_comments_long" style="display:none">
+                ...
+                
+            (<%= link_to_function("more", nil, :id =>"#{@you_tube_video.you_tube_reference}_more_comments_link") do |page|
+                        page.visual_effect :slide_up, "#{@you_tube_video.you_tube_reference}_comments_short", :duration => 0.5
+                        page.delay(0.5) do
+                            page.visual_effect :slide_down, "#{@you_tube_video.you_tube_reference}_comments_long", :duration => 0.5
+                        end
+               end
+             %>) 
+            </div>
+            <div id="<%= @you_tube_video.you_tube_reference%>_comments_long" style="display:none">
                 <%= @you_tube_video.comments %>
-                (<a href="#" class="hide_comments_<%= @you_tube_video.you_tube_reference%>">less</a>)  
-            </span>
+            
+            (<%= link_to_function("less", nil, :id =>"#{@you_tube_video.you_tube_reference}_less_comments_link") do |page|
+                        page.visual_effect :slide_up, "#{@you_tube_video.you_tube_reference}_comments_long", :duration => 0.5
+                        page.delay(0.5) do
+                            page.visual_effect :slide_down, "#{@you_tube_video.you_tube_reference}_comments_short", :duration => 0.5
+                        end
+               end
+             %>) 
+            </div>
         </div>
     </div>
     
 </div>
+
+
 
 

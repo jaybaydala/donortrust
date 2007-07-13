@@ -5,16 +5,16 @@
         <% form_for(:you_tube_video, :url => you_tube_videos_path) do |f| %>
         <h2>You Tube Video URL:</h2>
         
-        <%= text_field("you_tube_videos","you_tube_reference")%><br/>
-        <%= observe_field("you_tube_videos_you_tube_reference", 
+        <%= text_field("you_tube_video","you_tube_reference")%><br/>
+        <%= observe_field("you_tube_video_you_tube_reference", 
             :frequency => 0.5, 
             :update => :you_tube_preview, 
             :url => '/bus_admin/you_tube_videos;preview',
-            :with => "you_tube_videos_you_tube_reference"
+            :with => "you_tube_video_you_tube_reference"
             ) %> 
         
         <h2>Comments:</h2>
-        <%= text_area("you_tube_videos","comments")%>
+        <%= text_area("you_tube_video","comments")%>
 
         <p>
             <%= submit_tag "Create" %> </br>

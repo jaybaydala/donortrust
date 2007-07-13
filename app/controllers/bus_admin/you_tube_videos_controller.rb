@@ -6,17 +6,17 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # GET /bus_admin_you_tube_videos
   # GET /bus_admin_you_tube_videos.xml
   def index
-    @you_tube_videos = BusAdmin::YouTubeVideo.find(:all)
+    @you_tube_videos = YouTubeVideo.find(:all)
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @bus_admin_you_tube_videos.to_xml }
+      format.xml  { render :xml => @you_tube_videos.to_xml }
     end
   end
 
   # GET /bus_admin_you_tube_videos/1
   # GET /bus_admin_you_tube_videos/1.xml
   def show
-    @you_tube_video = BusAdmin::YouTubeVideo.find(params[:id])
+    @you_tube_video = YouTubeVideo.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
@@ -34,7 +34,7 @@ class BusAdmin::YouTubeVideosController < ApplicationController
 
   # GET /bus_admin_you_tube_videos/new
   def new
-    @you_tube_video = BusAdmin::YouTubeVideo.new
+    @you_tube_video = YouTubeVideo.new
   end
 
   def preview
@@ -43,6 +43,7 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     else
       result = getVideoHash(params[:v])
     end
+    puts "preview"
     result
     render :layout => false
   end
@@ -54,15 +55,15 @@ class BusAdmin::YouTubeVideosController < ApplicationController
 
   # GET /bus_admin_you_tube_videos/1;edit
   def edit
-    @you_tube_video = BusAdmin::YouTubeVideo.find(params[:id])
+    @you_tube_video = YouTubeVideo.find(params[:id])
   end
 
   # POST /bus_admin_you_tube_videos
   # POST /bus_admin_you_tube_videos.xml
   def create
-    @you_tube_video = YouTubeVideo.new(params[:you_tube_videos])
+    @you_tube_video = YouTubeVideo.new(params[:you_tube_video])
     
-    url = params[:you_tube_videos][:you_tube_reference]
+    url = params[:you_tube_video][:you_tube_reference]
     chunks = url.split("v=")
     ref = chunks[1].split("&")
     
@@ -84,7 +85,7 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # PUT /bus_admin_you_tube_videos/1
   # PUT /bus_admin_you_tube_videos/1.xml
   def update
-    @you_tube_video = BusAdmin::YouTubeVideo.find(params[:id])
+    @you_tube_video = YouTubeVideo.find(params[:id])
     respond_to do |format|
       if @you_tube_video.update_attributes(params[:you_tube_video])
         flash[:notice] = 'BusAdmin::YouTubeVideo was successfully updated.'
