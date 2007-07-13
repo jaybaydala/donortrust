@@ -1,6 +1,6 @@
 class GroupsProjects < ActiveRecord::Migration
   def self.up
-    create_table :groups_projects do |t|
+    create_table :groups_projects, :id => false do |t|
       t.column :group_id,         :int
       t.column :project_id,       :int
     end    
