@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :indicator_measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/indicator_measurements"
+
+  map.resources :measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measurements"
+
   # The priority is based upon order of creation: first created -> highest priority.
   
   #

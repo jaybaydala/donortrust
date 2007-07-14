@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MilestoneTest < Test::Unit::TestCase
-  fixtures :measures, :milestone_statuses, :projects, :milestones
+  fixtures :milestone_statuses, :projects, :milestones
 
   def clean_new_instance( overrides = {})
     # Build (and return) an instance starting from known (expected) valid attribute

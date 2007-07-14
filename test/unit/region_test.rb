@@ -1,31 +1,27 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RegionTest < Test::Unit::TestCase
-  fixtures :countries
-  fixtures :regions
+context "Region" do
+  fixtures :regions, :countries
 
-  def test_invalid_with_empty_nation_id
-    region = Region.new
-    assert !region.valid?
-    assert region.errors.invalid?(:country_id)
+setup do
+    @region = Region.find(1)
   end
-  
-  def test_should_not_add_region_without_country
-  
-    region = Region.new
-    region.country_id = 0
-    assert !region.save
-  
-  end
-  
-  def test_invalid_with_empty_name
-    region = Region.new
-    assert !region.valid?
-    assert region.errors.invalid?(:region_name)
-  end
-  
-  def test_unique_name
-    region = Region.new( :region_name => regions(:one).region_name )
-    assert region.valid?
-  end
+
+specify "duplicate name should not validate" do
+   @region1 = Region.new( :region_name =>  @region.region_name )
+    @region1.should.not.validate
+    
 end
+
+specify "nil name should not validate" do
+    @region.region_name = nil
+    @region.should.not.validate
+  end
+  
+specify "nil country_id should not validate" do
+    @region.country_id = nil
+    @region.should.not.validate
+  end
+ 
+end
+

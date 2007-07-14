@@ -4,6 +4,7 @@ class MeasurementsRel001 < ActiveRecord::Migration
     t.column :indicator_measurement_id,       :int,  :null => false
      t.column :value,              :string,  :null => false
      t.column :comment,          :string,  :null => true
+
     end
 
   if (ENV['RAILS_ENV'] == 'development')

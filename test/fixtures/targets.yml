@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
-  millennium_development_goal_id: 1
+  millennium_goal_id: 1
   description: Target 1
 two:
   id: 2
-  millennium_development_goal_id: 1
+  millennium_goal_id: 1
   description: Target 2

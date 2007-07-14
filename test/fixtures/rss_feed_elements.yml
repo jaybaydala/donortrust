@@ -1,27 +1,12 @@
-require File.dirname(__FILE__) + '/../test_helper'
-
-context "RssFeedElement" do
-  
-  fixtures :rss_feeds
-  
-  setup do
-    @element = RssFeedElement.find(1)
-  end
-  
-  specify "should have title" do
-    @element.title = nil
-    @element.should.not.validate
-  end
-  
-  specify "should have description" do
-    @element.description = nil
-    @element.should.not.validate
-  end
-  
-  specify "should update parent pub date" do
-    @element.title = "Doesn't Mater";
-    @element.update
-    @element.rss_feed.pub_date.to_s.should.equal DateTime.now.to_s
-  end
-  
-end
+one:
+    id: 1
+    rss_feed_id: 1
+    title:           "Test Title"
+    link:             "http://www.validateMe.com" 
+    description:     "This is a description"
+    author:          "Joe"
+    comments:        "My comment"
+    pubDate:         "2007-08-01"
+    source:          "Source"
+          
+      

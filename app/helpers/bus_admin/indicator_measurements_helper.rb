@@ -1,0 +1,2 @@
+module BusAdmin::IndicatorMeasurementsHelper
+end

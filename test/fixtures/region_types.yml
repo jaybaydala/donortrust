@@ -1,7 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-testone:
-  id: 1
-  region_type_name: Province
-testtwo:
-  id: 2
-  region_type_name: State

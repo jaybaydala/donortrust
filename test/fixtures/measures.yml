@@ -1,4 +1,8 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+  t.column :indicator_measurement_id,       :int,  :null => false
+     t.column :value,              :string,  :null => false
+     t.column :comment,     
+
 testone:
   id: 1
   measure_category_id: 1
