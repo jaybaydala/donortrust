@@ -3,7 +3,7 @@ class IndicatorMeasurementsRel001 < ActiveRecord::Migration
     create_table "indicator_measurements", :force => true do |t|
       t.column :project_id,              :int,  :null => false
       t.column :indicator_id,       :int,  :null => false
-      t.column :frequency_id,       :int,  :null => false
+      t.column :frequency_type_id,       :int,  :null => false
       t.column :units,              :string,  :null => false
     end
  

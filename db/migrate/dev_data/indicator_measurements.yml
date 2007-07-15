@@ -2,13 +2,13 @@ test1:
   id: 1
   project_id: 1
   indicator_id: 1
-  frequency_id:  1
+  frequency_type_id:  1
   units:  people
   
 test2:
   id: 2
   project_id:  1
   indicator_id: 2
-  frequency_id: 2
+  frequency_type_id: 2
   units: lives
   
