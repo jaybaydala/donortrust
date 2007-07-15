@@ -1,6 +1,7 @@
 class Target < ActiveRecord::Base
 
 belongs_to :millennium_goal
+has_many :indicators
 
   validates_presence_of :millennium_goal_id
   validates_presence_of :description
