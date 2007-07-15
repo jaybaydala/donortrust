@@ -2,6 +2,8 @@ class FrequencyTypesRel001 < ActiveRecord::Migration
   def self.up
     create_table "frequency_types", :force => true do |t|
       t.column :name,              :string,  :null => false
+      t.column :active,           :bool,  :default => true
+      
     end
  
 
