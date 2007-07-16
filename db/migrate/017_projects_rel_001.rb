@@ -16,6 +16,8 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :urban_centre_id, :integer
       t.column :partner_id, :integer
       t.column :dollars_raised, :decimal, :precision => 12, :scale => 2, :default => 0
+      t.column :public, :boolean
+      t.column :note, :text
     end # projects
     
     if (ENV['RAILS_ENV'] == 'development')

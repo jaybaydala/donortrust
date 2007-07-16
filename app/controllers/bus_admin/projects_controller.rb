@@ -4,10 +4,10 @@ class BusAdmin::ProjectsController < ApplicationController
   active_scaffold :project do |config|
   
     config.columns = [ :name, :description, :project_status, :program, :expected_completion_date, :start_date, :end_date,
-                          :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre, :milestones_count, :milestones, :groups ]
+                          :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre, :milestones_count, :milestones, :groups, :note ]
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones, :milestones_count, :partner ]
     show.columns.exclude [ :milestones ]
-    update.columns.exclude [ :program, :milestones, :milestones_count ]
+    update.columns.exclude [ :program, :milestones, :milestones_count, :dollars_raised, :dollars_spent, :total_cost ]
     create.columns.exclude [ :milestones_count ]
     config.columns[ :name ].label = "Project"
     config.columns[ :project_status ].label = "Status"
@@ -19,6 +19,7 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :project_status ].form_ui = :select
     config.columns[ :urban_centre ].form_ui = :select
     config.columns[ :partner ].form_ui = :select
+    config.columns[ :groups ].form_ui = :select
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
 
@@ -43,14 +44,14 @@ class BusAdmin::ProjectsController < ApplicationController
    @percent_raised = @project.get_percent_raised
    render :partial => "bus_admin/projects/individual_report", :layout => 'application'
   end
-  
-  def individual_report_inline   
-   @id = params[:projectid]
-   @project = Project.get_project(@id)
-   @percent_raised = @project.get_percent_raised
-   render :partial => "bus_admin/projects/individual_report"
-  end
-  
+#  
+#  def individual_report_inline   
+#   @id = params[:projectid]
+#   @project = Project.get_project(@id)
+#   @percent_raised = @project.get_percent_raised
+#   render :partial => "bus_admin/projects/individual_report"
+#  end
+#  
   def export_to_csv
     @projects = Project.find(:all)  
     csv_string = FasterCSV.generate do |csv|
@@ -67,9 +68,8 @@ class BusAdmin::ProjectsController < ApplicationController
               :disposition => "attachment; filename=project.csv"
   end
   
-  def display_inline_report
-    @word = "laptop bag!"
-    @row = params[:row]
-    return if request.xhr?
+  def show_project_note   
+   @note = Project.find(params[:id]).note
+   render :partial => "layouts/note"   
   end
 end

@@ -102,6 +102,9 @@ ActionController::Routing::Routes.draw do |map|
   map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
   map.display_inline_report 'bus_admin/display_inline_report', :controller => 'bus_admin/projects', :action => 'display_inline_report'
   map.report 'bus_admin/individual_report_inline', :controller => 'bus_admin/projects', :action => 'individual_report_inline'
+  map.note 'bus_admin/show_note', :controller => 'bus_admin/partners', :action => 'show_note'
+  map.note_project 'bus_admin/show_project_note', :controller => 'bus_admin/projects', :action => 'show_project_note'
+  map.note_program 'bus_admin/show_program_note', :controller => 'bus_admin/programs', :action => 'show_program_note'
   
   # front-end resources - non-admin
   map.resources :projects, :controller=> 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :search => :get }, :member => { :project => :get, :village => :get, :nation => :get, :community => :get }

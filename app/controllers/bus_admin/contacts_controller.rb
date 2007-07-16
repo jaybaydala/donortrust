@@ -9,9 +9,9 @@ class BusAdmin::ContactsController < ApplicationController
     config.show.columns = [:first_name, :last_name, :urban_centre]
     
     config.columns[:continent].form_ui = :select
-    config.columns[:country].ui_type = :select
-    config.columns[:region].ui_type = :select
-    config.columns[:urban_centre].ui_type = :select
+    config.columns[:country].form_ui = :select
+    config.columns[:region].form_ui = :select
+    config.columns[:urban_centre].form_ui = :select
   end
 
   def populate_contact_countries
@@ -22,8 +22,7 @@ class BusAdmin::ContactsController < ApplicationController
       @result += "<option value=" + country.id.to_s + ">" + country.name.to_s + "</option>"
     end
     @result += "</select>"
-    puts @result
-#    render :text => @resul    
+    puts @result    
     render :partial => "bus_admin/contacts/country_form"   
   end
   

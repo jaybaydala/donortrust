@@ -21,6 +21,7 @@ projectone:
   urban_centre_id: 2
   partner_id: 1
   dollars_raised: 7780.00
+  public: true
   
 projecttwo:
   id: 2
@@ -37,6 +38,7 @@ projecttwo:
   urban_centre_id: 1
   partner_id: 1
   dollars_raised: 5052.00  
+  public: true
  
 projectthree:
   id: 3
@@ -53,6 +55,7 @@ projectthree:
   urban_centre_id: 1
   partner_id: 1
   dollars_raised: 5052.00
+  public: true
   
 projectfour:
   id: 4
@@ -69,7 +72,8 @@ projectfour:
   urban_centre_id: 1
   partner_id: 2
   dollars_raised: 2052.00
-
+  public: false
+  
 projectfive:
   id: 5
   program_id: 4
@@ -85,4 +89,5 @@ projectfive:
   urban_centre_id: 1
   partner_id: 2
   dollars_raised: 252.00
-  
+  public: true
+  note: Sample note.

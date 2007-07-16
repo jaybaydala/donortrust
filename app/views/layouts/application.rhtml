@@ -6,8 +6,11 @@
     <meta name="generator" content="HTML Tidy, see www.w3.org" />
     <meta http-equiv="Content-Type"
     content="text/html; charset=iso-8859-1" />
+<%= stylesheet_link_tag 'redbox' %>
 <%= javascript_include_tag :defaults %>
 <%= active_scaffold_includes %>
+<%= stylesheet_link_tag 'redbox' %> 
+<%= javascript_include_tag 'redbox' %>
 <% if @title %>
     <title><%=@title %></title>
 <% else %>
@@ -155,21 +158,22 @@
         <td width="57">
             <form name="editForm">
                 <select name="site" size=-1 onchange ="formLinkRedirector(this.form)">
-                <option value="">Manage...</option>
-                <option value="/bus_admin/index">Users</option>
+                <option value="">Manage...</option>   
+                <option value="/bus_admin/contacts">Contacts</option>
                 <option value="continents">Continents</option>
                 <option value="/bus_admin/countries">Countries</option>
-                <option value="regions">Regions</option>           
-                <option value="/bus_admin/urban_centres">Urban Centres</option> 
+                <option value="/bus_admin/groups">Groups</option>
+                <option value="/bus_admin/indicators">Indicators</option> 
+                <option value="milestone_statuses">Milestone Statuses</option>   
+                <option value="/bus_admin/millennium_goals">Millenium Goals</option> 
                 <option value="/bus_admin/partner_types">Partner Categories</option>
                 <option value="/bus_admin/partner_statuses">Partner Statuses</option>
                 <option value="/bus_admin/project_statuses">Project Statuses</option>
-                <option value="/bus_admin/contacts">Contacts</option>
-                <option value="milestone_statuses">Milestone Statuses</option>   
-                <option value="/bus_admin/millennium_goals">Millenium Goals</option> 
+                <option value="regions">Regions</option>           
                 <option value="/bus_admin/sectors">Sectors</option>       
-                <option value="/bus_admin/targets">Targets</option>       
-                <option value="/bus_admin/indicators">Indicators</option>        
+                <option value="/bus_admin/targets">Targets</option>   
+                <option value="/bus_admin/urban_centres">Urban Centres</option>     
+                <option value="/bus_admin/index">Users</option>    
             </form>                    
         </td>
       </tr>

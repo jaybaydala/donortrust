@@ -73,7 +73,7 @@ context "Projects" do
     Project.projects_nearing_end(NUMBER_OF_DAYS_UNTIL_END).size.should.equal expected    
   end  
   
-  specify "should return zero days remaining if no end date set" do
+  specify "should return nil days remaining if no end date set" do
       project = Project.new
       project.name = "bob"
       project.start_date = "2007-06-06"

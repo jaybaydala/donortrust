@@ -8,6 +8,7 @@ class PartnersRel001 < ActiveRecord::Migration
       t.column :partner_type_id, :integer
       t.column :partner_status_id, :integer
       t.column :version, :integer
+      t.column :note, :text
     end #partners   
     
     #Partner.create_versioned_table

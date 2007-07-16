@@ -5,6 +5,7 @@ class ProgramsRel001 < ActiveRecord::Migration
     create_table :programs do |t|
       t.column :name, :string, :null => false
       t.column :contact_id, :string, :null => false
+      t.column :note, :text
     end # programs
     
     if (ENV['RAILS_ENV'] == 'development')
