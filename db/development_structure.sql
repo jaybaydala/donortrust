@@ -11,33 +11,33 @@ CREATE TABLE `accounts` (
   `salt` varchar(40) default NULL,
   `last_logged_in` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `bus_secure_actions` (
   `id` int(11) NOT NULL auto_increment,
   `permitted_actions` varchar(255) default NULL,
   `bus_security_level_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `bus_secure_actions_bus_user_types` (
   `id` int(11) NOT NULL auto_increment,
   `bus_secure_action_id` int(11) default NULL,
   `bus_user_type_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `bus_security_levels` (
   `id` int(11) NOT NULL auto_increment,
   `controller` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `bus_user_types` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `bus_users` (
   `id` int(11) NOT NULL auto_increment,
@@ -51,7 +51,7 @@ CREATE TABLE `bus_users` (
   `remember_token_expires_at` datetime default NULL,
   `bus_user_type_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `contacts` (
   `id` int(11) NOT NULL auto_increment,
@@ -70,20 +70,20 @@ CREATE TABLE `contacts` (
   `address_line_2` varchar(255) default NULL,
   `postal_code` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `contacts_partners` (
   `id` int(11) NOT NULL auto_increment,
   `contact_id` int(11) NOT NULL,
   `partner_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `continents` (
   `id` int(11) NOT NULL auto_increment,
   `continent_name` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `countries` (
   `id` int(11) NOT NULL auto_increment,
@@ -91,29 +91,13 @@ CREATE TABLE `countries` (
   `continent_id` int(11) NOT NULL,
   `html_data` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `frequency_types` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `groups` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `description` text,
-  `group_type_id` int(11) default NULL,
-  `public` tinyint(1) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `groups_projects` (
-  `id` int(11) NOT NULL auto_increment,
-  `group_id` int(11) default NULL,
-  `project_id` int(11) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `indicator_measurements` (
   `id` int(11) NOT NULL auto_increment,
@@ -122,14 +106,14 @@ CREATE TABLE `indicator_measurements` (
   `frequency_id` int(11) NOT NULL,
   `units` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `indicators` (
   `id` int(11) NOT NULL auto_increment,
   `target_id` int(11) default NULL,
   `description` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `measurements` (
   `id` int(11) NOT NULL auto_increment,
@@ -137,14 +121,14 @@ CREATE TABLE `measurements` (
   `value` varchar(255) NOT NULL,
   `comment` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `milestone_statuses` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `milestones` (
   `id` int(11) NOT NULL auto_increment,
@@ -154,27 +138,27 @@ CREATE TABLE `milestones` (
   `target_date` date default NULL,
   `milestone_status_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `millennium_goals` (
   `id` int(11) NOT NULL auto_increment,
   `description` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `partner_statuses` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(25) NOT NULL,
   `description` varchar(250) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `partner_types` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(50) NOT NULL,
   `description` varchar(500) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `partner_versions` (
   `id` int(11) NOT NULL auto_increment,
@@ -186,7 +170,7 @@ CREATE TABLE `partner_versions` (
   `partner_status_id` int(11) default NULL,
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `partners` (
   `id` int(11) NOT NULL auto_increment,
@@ -196,14 +180,14 @@ CREATE TABLE `partners` (
   `partner_status_id` int(11) default NULL,
   `version` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `programs` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   `contact_id` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `project_histories` (
   `id` int(11) NOT NULL auto_increment,
@@ -220,21 +204,21 @@ CREATE TABLE `project_histories` (
   `project_status_id` int(11) default NULL,
   `bus_user_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `project_statuses` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   `description` text,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `project_you_tube_videos` (
   `id` int(11) NOT NULL auto_increment,
   `project_id` int(11) default NULL,
   `you_tube_video_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `projects` (
   `id` int(11) NOT NULL auto_increment,
@@ -252,13 +236,13 @@ CREATE TABLE `projects` (
   `partner_id` int(11) default NULL,
   `dollars_raised` decimal(12,2) default '0.00',
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `region_types` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `regions` (
   `id` int(11) NOT NULL auto_increment,
@@ -266,7 +250,7 @@ CREATE TABLE `regions` (
   `country_id` int(11) NOT NULL,
   `region_type_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `rss_feed_elements` (
   `id` int(11) NOT NULL auto_increment,
@@ -279,7 +263,7 @@ CREATE TABLE `rss_feed_elements` (
   `pubDate` datetime default NULL,
   `source` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `rss_feeds` (
   `id` int(11) NOT NULL auto_increment,
@@ -294,25 +278,25 @@ CREATE TABLE `rss_feeds` (
   `image_title` varchar(255) default NULL,
   `image_link` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `schema_info` (
   `version` int(11) default NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `sectors` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `description` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `targets` (
   `id` int(11) NOT NULL auto_increment,
   `millennium_goal_id` int(11) NOT NULL,
   `description` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tasks` (
   `id` int(11) NOT NULL auto_increment,
@@ -323,7 +307,7 @@ CREATE TABLE `tasks` (
   `end_date` date default NULL,
   `etc_date` date default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `urban_centres` (
   `id` int(11) NOT NULL auto_increment,
@@ -336,7 +320,7 @@ CREATE TABLE `urban_centres` (
   `village_plan` text,
   `facebook_group_id` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL auto_increment,
@@ -349,14 +333,14 @@ CREATE TABLE `users` (
   `remember_token` varchar(255) default NULL,
   `remember_token_expires_at` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `villages` (
   `id` int(11) NOT NULL auto_increment,
   `village_name` varchar(255) NOT NULL,
   `village_group_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `you_tube_videos` (
   `id` int(11) NOT NULL auto_increment,
@@ -364,6 +348,6 @@ CREATE TABLE `you_tube_videos` (
   `keywords` varchar(255) default NULL,
   `comments` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO schema_info (version) VALUES (48)
+INSERT INTO schema_info (version) VALUES (46)
