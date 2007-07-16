@@ -108,6 +108,7 @@ class Test::Unit::TestCase
   end
 
   # Add more helper methods to be used by all tests here...
+  include DtAuthenticatedTestHelper
 end
 
 require 'test/spec/rails'
@@ -127,4 +128,42 @@ Test::Spec::Should.class_eval do
     assert_equal @initial_value + value, @object.send(@method)
   end
 end
+
+# Adding an assert_difference wrapper for test-spec
+# see: http://poocs.net/2007/4/3/test-spec-on-rails-and-assert_difference
+# Credits: http://project.ioni.st/post/218#post-218
+module Test::Unit::AssertDifference
+  def assert_difference(object, method = nil, difference = 1)
+    initial_value = object.send(method)
+    yield
+    assert_equal initial_value + difference, object.send(method), "#{object}##{method}"
+  end
+
+  def assert_no_difference(object, method, &block)
+    assert_difference object, method, 0, &block
+  end
+end
+
+# Extension for test/spec/rails, wraps assert_difference
+module Test::Spec::Rails
+  module ShouldDiffer
+    def differ(*args)
+      assert_difference(*args, &@object)
+    end
+    alias :different :differ
+    alias :change :differ
+  end
+  module ShouldNotDiffer
+    def differ(*args)
+      assert_no_difference(*args, &@object)
+    end
+    alias :different :differ
+    alias :change :differ
+  end
+end
+
+Test::Spec::Should.send(:include, Test::Unit::AssertDifference)
+Test::Spec::Should.send(:include, Test::Spec::Rails::ShouldDiffer)
+Test::Spec::ShouldNot.send(:include, Test::Unit::AssertDifference)
+Test::Spec::ShouldNot.send(:include, Test::Spec::Rails::ShouldNotDiffer)
 
