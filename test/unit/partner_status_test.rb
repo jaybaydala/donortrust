@@ -1,6 +1,3 @@
-#class BusAdmin::PartnerStatusTest < Test::Unit::TestCase
-#  fixtures :partner_statuses
-#end
 require File.dirname(__FILE__) + '/../test_helper'
 
 context "PartnerStatuses" do

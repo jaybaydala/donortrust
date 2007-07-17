@@ -19,110 +19,180 @@ context "MilestoneStatuses" do
   end
 
   specify "new clean instance should validate" do
-    clean_new_instance( ).should.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance()
+    instance.should.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count + 1 )
   end
 
   specify "nil name should not validate" do
-    clean_new_instance( :name => nil ).should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :name => nil )
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "empty name should not validate" do
-    clean_new_instance( :name => "" ).should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :name => "" )
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "blank name should not validate" do
-    clean_new_instance( :name => " " ).should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :name => " " )
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "nil description should not validate" do
-    MilestoneStatus.new( :description => nil ).should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :description => nil )
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "empty description should not validate" do
-    MilestoneStatus.new( :description => "" ).should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :description => "" )
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "blank description should not validate" do
-    MilestoneStatus.new( :description => " " ).should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :description => " " )
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "new duplicate name should not validate" do
-    clean_new_instance( :name => milestone_statuses( :proposed ).name ).should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :name => milestone_statuses( :proposed ).name )
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "new original name should validate" do
-    clean_new_instance( :name => "new name" ).should.validate
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :name => "new name" )
+    instance.should.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count + 1 )
   end
 
   specify "modify existing record to nil name should not validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.name = nil
-    @sts.should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.name = nil
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify existing record to empty name should not validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.name = ""
-    @sts.should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.name = ""
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify existing record to blank name should not validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.name = " "
-    @sts.should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.name = " "
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify existing record to nil description should not validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.description = nil
-    @sts.should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.description = nil
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify existing record to empty description should not validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.description = ""
-    @sts.should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.description = ""
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify existing record to blank description should not validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.description = " "
-    @sts.should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.description = " "
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify existing record to (other) existing name should not validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.name = milestone_statuses( :complete ).name
-    @sts.should.not.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.name = milestone_statuses( :complete ).name
+    instance.should.not.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify existing record to new unigue name should validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.name = "new one"
-    @sts.should.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.name = "new one"
+    instance.should.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify description of existing record should validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.description = "some new description"
-    @sts.should.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.description = "some new description"
+    instance.should.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "modify description of existing record to duplicate of other should validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-    @sts.description = milestone_statuses( :complete ).description
-    @sts.should.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.description = milestone_statuses( :complete ).description
+    instance.should.validate
+    instance.save
+    MilestoneStatus.count.should.equal( old_instance_count )
   end
 
   specify "destroy existing (unused) record should validate" do
-    @sts = MilestoneStatus.find( milestone_statuses( :canceled ).id )
-    @sts.destroy.should.validate
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :canceled ).id )
+    instance.should.validate
+    instance.destroy
+    MilestoneStatus.count.should.equal( old_instance_count - 1 )
   end
 
 ## hpd how to verify that destroy fails.  As is this gets an exception instead of catching
 #  specify "destroy record used by Milestone should not validate" do
-#    @sts = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-#    @sts.destroy.should.raise "Can not destroy a MilestoneStatus that has Milestones"
+#    old_instance_count = MilestoneStatus.count
+#    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+#    instance.destroy.should.raise "Can not destroy a MilestoneStatus that has Milestones"
 #  end
 
 end

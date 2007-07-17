@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class TaskTest < Test::Unit::TestCase
+context "Tasks" do
   fixtures :milestones, :tasks
 
   def clean_new_instance( overrides = {})
@@ -17,46 +17,219 @@ class TaskTest < Test::Unit::TestCase
     instance
   end
 
-  def test_clean_instance
-    # Should be valid to create a new instance from the 'clean' instance created
-    # by the helper function.
-    old_task_count = Task.count
-    instance = clean_new_instance
-    assert_valid instance
+  specify "new clean instance should validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( )
+    instance.should.validate
     instance.save
-    assert_equal old_task_count+1, Task.count, "Task Count #{old_task_count+1} expect but was #{Task.count}"
-    # Each of the fixture instances should be valid
-    assert_valid( Task.find( tasks( :taskone ).id ))
-    assert_valid( Task.find( tasks( :tasktwo ).id ))
+    Task.count.should.equal( old_instance_count + 1 )
   end
 
-  def test_create_with_empty_milestone
-    # Should not be valid to create a new instance with a null milestone id, or an id that does not exist
-    assert_invalid( clean_new_instance, :milestone_id, nil, 0, -1, 989898 )
+  specify "each fixture instance should be valid" do
+    Task.find( tasks( :taskone ).id ).should.validate
+    Task.find( tasks( :tasktwo ).id ).should.validate
   end
 
-  def test_create_with_empty_name
-    # Should not be valid to create a new instance with an empty or null name
-    assert_invalid( clean_new_instance, :name, nil, "", " " )
+  specify "create with nil milestone (id) should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :milestone_id => nil )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
   end
 
-  def test_create_with_empty_description
-    # Should not be valid to create a new instance with an empty or blank description
-    assert_invalid( clean_new_instance, :description, nil, "", " " )
+  specify "create with zero milestone (id) should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :milestone_id => 0 )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
   end
 
-  def test_edit_to_empty_milestone
-    # Should not be valid to modify an existing instance to have a null milestone id, or an id that does not exist
-    assert_invalid( Task.find( tasks( :taskone ).id ), :milestone_id, nil, 0, -1, 989898 )
+  specify "create with -1 milestone (id) should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :milestone_id => -1 )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
   end
 
-  def test_edit_to_empty_name
-    # Should not be valid to modify an existing instance to have an empty or null name
-    assert_invalid( Task.find( tasks( :taskone ).id ), :name, nil, "", " " )
+  specify "create with 98987 milestone (id) should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :milestone_id => 98987 )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
   end
 
-  def test_edit_to_empty_description
-    # Should not be valid to modify an existing instance to have an empty or blank description
-    assert_invalid( Task.find( tasks( :taskone ).id ), :description, nil, "", " " )
+  specify "create with existing milestone (id) should validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :milestone_id => milestones( :two ).id )
+    instance.should.validate
+    instance.save
+    Task.count.should.equal( old_instance_count + 1 )
+  end
+
+  specify "create with nil name should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :name => nil )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "create with empty name should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :name => "" )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "create with blank name should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :name => " " )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "create with duplicate name should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :name => tasks( :taskone ).name )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "create with duplicate name for other milestone id should validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :milestone_id => milestones( :two ).id, :name => tasks( :taskone ).name )
+    instance.should.validate
+    instance.save
+    Task.count.should.equal( old_instance_count + 1 )
+  end
+
+  specify "create with nil description should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :description => nil )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "create with empty description should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :description => "" )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "create with blank description should not validate" do
+    old_instance_count = Task.count
+    instance = clean_new_instance( :description => " " )
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to nil milestone (id) should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.milestone_id = nil
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to 0 milestone (id) should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.milestone_id = 0
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to -1 milestone (id) should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.milestone_id = -1
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to 98989 milestone (id) should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.milestone_id = 98989
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to nil name should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.name = nil
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to empty name should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.name = ""
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to blank name should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.name = " "
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to duplicate name should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.name = tasks( :tasktwo ).name
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to nil description should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.description = nil
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to empty description should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.description = ""
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
+  end
+
+  specify "edit to blank description should not validate" do
+    old_instance_count = Task.count
+    instance = Task.find( tasks( :taskone ).id )
+    instance.description = " "
+    instance.should.not.validate
+    instance.save
+    Task.count.should.equal( old_instance_count )
   end
 end
