@@ -1,10 +1,12 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::ProjectYouTubeVideoTest < Test::Unit::TestCase
-  fixtures :bus_admin_project_you_tube_videos
+context "Project Youtube Videos" do
+  fixtures :project_you_tube_videos
 
-  # Replace this with your real tests.
-  def test_truth
+  def setup    
+  end
+  
+  specify "truth" do
     assert true
   end
 end
