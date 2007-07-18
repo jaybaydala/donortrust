@@ -14,3 +14,8 @@ default_project_status_four:
   id: 4
   name: Completed
   description: Status to indicate that the project has been completed. 
+  
+default_project_status_five:
+  id: 5
+  name: In Marketing
+  description: Status to indicate that the project is currently in the marketing phase. 
