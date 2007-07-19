@@ -1,5 +1,5 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-testcrashdummy:
+one:
   id: 1
   name: Information is free
   contact_id: 1

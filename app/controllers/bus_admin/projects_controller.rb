@@ -33,15 +33,22 @@ class BusAdmin::ProjectsController < ApplicationController
   end
   
   def report    
-   @all_projects = Project.find(:all)
+   @all_projects = []
+   program_id = params[:program_id]
+   if program_id != nil
+     @all_projects = Project.find :all, :conditions => ["program_id = ?", program_id.to_s]
+    else
+      @all_projects = Project.find(:all)
+   end
    @total = @all_projects.size
    render :partial => "bus_admin/projects/report" , :layout => 'application'
   end
   
   def individual_report    
    @id = params[:projectid]
-   @project = Project.get_project(@id)
+   @project = Project.find(@id)
    @percent_raised = @project.get_percent_raised
+   @milestones = @project.milestones.find(:all)
    render :partial => "bus_admin/projects/individual_report", :layout => 'application'
   end
 #  

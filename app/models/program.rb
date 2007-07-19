@@ -27,4 +27,33 @@ class Program < ActiveRecord::Base
   def self.get_programs
     return self.find(:all)   
   end
+  
+  
+  def get_total_costs
+    projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
+    total_cost = 0
+    projects.each do |project|
+      total_cost += project.total_cost
+    end
+    return total_cost
+  end
+  
+  def get_total_raised    
+    projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
+    total_raised = 0
+    projects.each do |project|
+      total_raised += project.dollars_raised
+    end
+    return total_raised
+  end
+  
+  def get_total_days_remaining
+    projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
+    total_days = 0
+    projects.each do |project|
+      total_days += project.days_remaining
+    end
+    return total_days
+  end
+  
 end

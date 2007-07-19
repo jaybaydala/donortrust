@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 #class BusAdmin::PartnersTest < Test::Unit::TestCase
 
 context "Partners" do
-  fixtures :partners, :projects
+  fixtures :partners, :projects#, :programs
   
   def setup    
     @fixture_partner = Partner.find(:first)
@@ -48,7 +48,7 @@ context "Partners" do
   
 #  def test_get_number_of_projects
 #    partner = Partner.find(:first)
-#    number = Projects.find(:all, :conditions => "partner_id = " + partner.id)
+#    number = Projects.find(:all, :conditions => "partner_id = " + partner.id).size
 #    puts number
 #  end
 
@@ -57,4 +57,46 @@ context "Partners" do
 #    @fixture_partner.partner_status_id.should.not.be.nil
 #    @fixture_partner.partner_type_id.should.not.be.nil
 #  end
+
+  specify "The total cost for a partner should not be nil and should be greater than 0" do
+    projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)    
+    projects.size.should.be > 
+    total_cost = 0
+    projects.each do |project|
+      total_cost += project.total_cost
+    end
+    total_cost.should.not.be.nil
+    total_cost.should.be > 0
+    total_cost.should.be == @fixture_partner.get_total_costs
+#    programs = []
+#    projects.each do |project|
+#      programs << project.program_id
+#    end
+#    programs.should.not.be.nil
+#    programs.size.should.be > 0    
+  end
+  
+  specify "The total cost for a partner should not be nil and should be greater than 0" do
+    projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)    
+    projects.size.should.be > 0
+    total_raised = 0
+    projects.each do |project|
+      total_raised += project.dollars_raised
+    end
+    total_raised.should.not.be.nil
+    total_raised.should.be > 0
+    total_raised.should.be == @fixture_partner.get_total_raised
+  end
+  
+  specify "Total percent raised should accept zero" do
+    projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)
+    @fixture_partner.get_total_percent_raised.should.not.be.nil
+    projects.each do |project|
+      project.total_cost = 0
+      project.update
+    end    
+    @fixture_partner.get_total_percent_raised.should.not.be.nil
+    @fixture_partner.get_total_percent_raised.to_i.should.be == 0
+  end
 end
+  

@@ -55,14 +55,29 @@ class Partner < ActiveRecord::Base
     return Project.find(:all, :conditions => "partner_id = " + partnerid.to_s)    
   end
   
-  def destroy
-    result = false
-    if partners.count > 0
-#      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Partners" )
-      raise( "Can not destroy a #{self.class.to_s} that has Partners" )
-    else
-      result = super
+  def get_total_costs
+    projects = Project.find(:all, :conditions => "partner_id = " + id.to_s)    
+    total_cost = 0
+    projects.each do |project|
+      total_cost += project.total_cost
     end
-    return result
+    return total_cost
+  end
+  
+  def get_total_raised    
+    projects = Project.find(:all, :conditions => "partner_id = " + id.to_s)    
+    total_raised = 0
+    projects.each do |project|
+      total_raised += project.dollars_raised
+    end
+    return total_raised
+  end
+  
+  def get_total_percent_raised    
+    percent_raised = 0
+    if get_total_costs > 0
+      percent_raised = ((get_total_raised / get_total_costs) * 100).floor
+    end
+    return percent_raised
   end
 end

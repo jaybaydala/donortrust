@@ -1,7 +1,7 @@
 class PartnerType < ActiveRecord::Base
   has_many :partners
   validates_length_of :name, :maximum => 50
-  validates_presence_of :name
+  validates_presence_of :name, :description
   
   def to_label
     "#{name}"

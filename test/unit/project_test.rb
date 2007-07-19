@@ -56,7 +56,6 @@ context "Projects" do
   specify "should return number of milestones with requested status" do
     project = Project.find(1)
     project.get_number_of_milestones_by_status(1).should.equal 2
-    #assert_equal 2, milestones
   end
   
   specify "should return number or projects ending within specified number of days" do    

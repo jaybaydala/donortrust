@@ -4,16 +4,6 @@
     <%= @total %>
 </p>
 
-<p>
-    <strong>Projects ending within 60 days:</strong>
-    <% endingProjects = Project.projects_nearing_end(60)%>
-    <% unless endingProjects.size <= 0 %>
-		<% endingProjects.each  do |project| %>
-        	<br /><%= link_to project.name, :controller => 'projects', :action => 'individual_report', :projectid => project.id  %>
-    	<% end %> 
-	<% end %> 
-</p>
-<p><strong>All Projects</strong></p>
 <table width=:100%" align="center" style="border: 1px solid #DDDDDD; font-weight: bold;" cellspacing="0" cellpadding="2">
 <tr style="background-color: #666; color: #fff;"><td>Project Name</td><td>Status</td><td>Dollars Spent</td><td>Dollars Raised</td><td>Milestones</td><td>Days Remaining</td><td>&nbsp;</td></tr>
 <% @all_projects.each do |project| %>
@@ -23,18 +13,22 @@
 <% else @colorize = true %>
     <tr>
 <% end %>
-    <td><%= project.name %></strong></td>
-    <td><%= ProjectStatus.find(project.project_status_id).name %></td>
+    <td><%= project.name %> <%= link_to "[Edit]", :controller => 'projects', :action => 'edit', :id => project.id%></strong></td>
+    <td>
+		<% begin %>
+    		<%= ProjectStatus.find(project.project_status_id).name %> 
+		<% rescue ActiveRecord::RecordNotFound %>
+		<% end %></td>
     <td><%= number_to_currency(project.dollars_spent) %></td>
     <td><%= number_to_currency(project.dollars_raised) %></td>
-    <td><%= project.milestones_count %></td>
+    <td><%= project.milestones.find(:all).size %></td>
     <td><%
       if project.days_remaining == nil
     -%>Not Set<%
       else -%><%=
         project.days_remaining.ceil -%><%
       end -%></td>
-    <td><strong><%= link_to "View Project Report", :controller => 'projects', :action => 'individual_report', :projectid => project.id %></strong></td>
-</tr>
+    <td><strong><%= link_to "View Project Report", :controller => 'projects', :action => 'individual_report', :projectid => project.id %> 
 <% end %>
 </table>
+<div id="here"></div>

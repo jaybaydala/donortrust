@@ -36,6 +36,9 @@ class Project < ActiveRecord::Base
     return result
   end
 
+  def milestones_count
+    return Milestone.find(:all).size
+  end
   
   def self.total_percent_raised
     unless self.total_costs == nil or self.total_costs == 0
@@ -47,9 +50,9 @@ class Project < ActiveRecord::Base
 
   def get_number_of_milestones_by_status(status)
     milestones = self.milestones.find(:all, :conditions => "milestone_status_id = " + status.to_s )    
-    return milestones.size unless milestones == nil 
+    return milestones.size unless milestones == nil     
   end
-    
+  
   def days_remaining
     result = nil
     result = end_date - Date.today if end_date != nil
