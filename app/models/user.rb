@@ -1,5 +1,8 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
+  has_many :memberships
+  has_many :groups, :through => :memberships
+
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
@@ -11,6 +14,7 @@ class User < ActiveRecord::Base
   validates_length_of       :login,    :within => 3..40
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :login, :email, :case_sensitive => false
+  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   before_save :encrypt_password
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.

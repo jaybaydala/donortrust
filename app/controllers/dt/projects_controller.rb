@@ -1,4 +1,4 @@
-class Dt::ProjectsController < ApplicationController
+class Dt::ProjectsController < DtApplicationController
   # GET /projects
   # GET /projects.xml
   def index

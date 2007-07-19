@@ -5,8 +5,8 @@
 <div id="content">
 <div class="contentmargin">
 <div id="project-<%= @project.id %>" class="article">
-	<h1 class="article-title"><%= @project.name %></h1>
-	<div class="article-body">
+	<h1 class="article-title" id="project-name"><%= @project.name %></h1>
+	<div class="article-body" id="project-description">
 	<%= textilize @project.description.gsub(/\n{2,}.*/, "") %>
 	<div style="text-align:right;margin-top:-1em;"><%= link_to "more&hellip;", dt_project_project_path(@project) %></div>
 	</div>
