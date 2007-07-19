@@ -1,7 +1,6 @@
-
 class ApplicationController < ActionController::Base
+  include DtApplicationHelper
   include AuthenticatedSystem
-  include DtAuthenticatedSystem
   include BusAdmin::UserInfo
   #include BusAdmin::ProjectsHelper
     
