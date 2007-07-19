@@ -1,9 +1,30 @@
-<h2>You Tube Videos | <%= link_to 'New You Tube Video', new_you_tube_video_path %></h2>
+<h2>You Tube Videos | &nbsp;<%= link_to 'New You Tube Video', new_you_tube_video_path %> | 
+
+&nbsp;
+
+<%= link_to_function("Search", nil, :id =>"searchLink") do |page|
+                        page.visual_effect :slide_down, "searchField", :duration => 0.5
+               end
+             %>
+</h2>
 
 <div align="left">
-<% for @you_tube_video in @you_tube_videos %>
-
-<%= render_partial "video", @you_tube_video  %>
-  
-<% end %>
+    <div id="searchField" style="display:none">
+        <%= form_remote_tag(:update => "videos", :url => '/bus_admin/you_tube_videos;search') %>
+            
+            <h2>Keywords</h2>
+            <%= text_field "search", "keywords" %>
+            <%= submit_tag "Search" %>
+        <% end_form_tag %>
+        
+        <%= link_to_function("Close", nil, :id =>"searchLink") do |page|
+                        page.visual_effect :slide_up, "searchField", :duration => 0.5
+               end
+             %>
+    </div>
+    <div id="videos" align="center">
+        <% for @you_tube_video in @you_tube_videos %>
+            <%= render_partial "video", @you_tube_video  %>
+        <% end %>
+    </div>
 </div>

@@ -10,11 +10,11 @@
     </div>
     
     <div id="you_tube_details">
-        <h1>
+        <you_tube_title>
             <%= @video_hash["ut_response"]["video_details"]["title"]%>
             <%= link_to(image_tag("/images/icons/edit_icon.gif"), edit_you_tube_video_path(@you_tube_video) ) %>     
             <%= link_to(image_tag("/images/icons/delete_icon.gif"), you_tube_video_path(@you_tube_video), :confirm => 'Are you sure?', :method => :delete )%>
-        </h1>
+        </you_tube_title><br/>
         <strong>From</strong>: <%= @video_hash["ut_response"]["video_details"]["author"]%><br/>
         
         <div class="you_tube_text_area">

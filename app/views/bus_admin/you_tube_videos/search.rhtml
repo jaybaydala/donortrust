@@ -1,0 +1,6 @@
+    <div id="videos">
+        You search for <%= @searchphrase %> returned <%= @you_tube_videos.size %>
+        <% for @you_tube_video in @you_tube_videos %>
+            <%= render_partial "video", @you_tube_video  %>
+        <% end %>
+    </div>

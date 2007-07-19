@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 context "RSSFeed" do
   
-  fixtures :rss_feed_elements
+  fixtures :rss_feeds, :rss_feed_elements
   
   setup do
     @rss_feed = RssFeed.find(1)
