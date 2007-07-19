@@ -108,7 +108,6 @@ class Test::Unit::TestCase
   end
 
   # Add more helper methods to be used by all tests here...
-  include DtAuthenticatedTestHelper
 end
 
 require 'test/spec/rails'
