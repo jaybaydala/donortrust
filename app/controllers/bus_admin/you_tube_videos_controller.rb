@@ -25,11 +25,17 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def search
-#    @you_tube_videos = BusAdmin::YouTubeVideo.find(:all, :conditions => ["match(comments) against (?)",])
-#    respond_to do |format|
-#      format.html # index.rhtml
-#      format.xml  { render :xml => @bus_admin_you_tube_videos.to_xml }
-#    end
+    @searchstring = params[:search][:keywords]
+    @searchphrases = @searchstring.split(' ')
+    @you_tube_videos = Array.new
+    for searchPhrase in @searchphrases
+      @results = YouTubeVideo.find(:all, :conditions => [ "keywords LIKE ?", '%'+searchPhrase+'%'])
+      for result in @results
+        @you_tube_videos.push(result)
+      end
+    end
+    [@you_tube_videos, @searchphrase]
+    render :layout => false
   end
 
   # GET /bus_admin_you_tube_videos/new
@@ -43,13 +49,14 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     else
       result = getVideoHash(params[:v])
     end
-    puts "preview"
     result
     render :layout => false
   end
 
   def getVideoHash(url)
     response = Net::HTTP.get_response(URI.parse('http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + url))
+    puts "Response********************"
+    puts response
     @video_hash = Hash.create_from_xml response.body[0,response.body.size]
   end
 
