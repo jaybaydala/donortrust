@@ -1,4 +1,20 @@
 ActionController::Routing::Routes.draw do |map|
+  # front-end resources - non-admin
+  map.resources :projects, 
+    :controller=> 'dt/projects', 
+    :name_prefix => 'dt_', 
+    :path_prefix => "/dt", 
+    :collection => { :search => :get }, 
+    :member => { :project => :get, :village => :get, :nation => :get, :community => :get }
+  map.resources :accounts, 
+      :controller=> 'dt/accounts', 
+      :name_prefix => 'dt_', 
+      :path_prefix => "/dt", 
+      :collection => { :signin => :get, :login => :post, :logout => :get }
+  #map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
+
+
+  # bus_admin resources
   map.resources :indicator_measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/indicator_measurements"
 
   map.resources :measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measurements"
@@ -106,16 +122,11 @@ ActionController::Routing::Routes.draw do |map|
   map.note_project 'bus_admin/show_project_note', :controller => 'bus_admin/projects', :action => 'show_project_note'
   map.note_program 'bus_admin/show_program_note', :controller => 'bus_admin/programs', :action => 'show_program_note'
   
-  # front-end resources - non-admin
-  map.resources :projects, :controller=> 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :search => :get }, :member => { :project => :get, :village => :get, :nation => :get, :community => :get }
-  #map.resources :users, :controller=> 'dt/users', :name_prefix => 'dt_', :path_prefix => '/dt'
-  #map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
-
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
   # Install the default route as the lowest priority.
-  map.connect "*anything",
-              :controller => 'dt/projects'
+  #map.connect "*anything",
+  #            :controller => 'dt/projects'
   # HPD these should not be used / exist when using 'full' RESTful structure
   #map.connect ':controller/:action/:id.:format'
   #map.connect ':controller/:action/:id'
