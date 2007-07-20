@@ -1,19 +1,25 @@
-<!--<form>-->
-    <table>
-        <tr>
-            <td>
-                Region:
-            </td>
-            <td>
-                <div id="contact_region">
-                    <select id="record_region"></select>
-                </div>
-            	<%= observe_field "record_region",
-                            :frequency => 1,
-                            :update => "contact_urban_centre",
-            				:url => { :action => 'populate_contact_urban_centres'},
-            				:with => 'record_region' %>	
-            </td>
-        </tr>
-    </table>    
-<!--</form>-->
+<dl>
+    <dt>
+        <label for="record_region">Region</label>
+    </dt>
+    <dd>
+        <div id="contact_region">
+            <select id="record_region" name="record[region][id]">
+        <% if params[:action] == "edit"  and !(@record.country.nil?)%>
+            <option value='' <%= (@record.region.nil? ? "selected=true" : "")%>>-- Select Region --</option>
+            <% for region in @record.country.regions %>
+                <option value=<%= region.id.to_s %> <%= (!@record.region.nil? and region.id == @record.region.id ? "selected=true" : "") %>><%=region.region_name%></option>
+            <% end %>
+        <% else %>
+            <option value=''></option>
+        <% end %>
+            </select>
+        </div><img alt="Loading..." id="region_spinner" src="spinner.gif" style="display:none;" />
+        
+    	<%= observe_field "record_region",
+            :frequency => 1,
+            :update => "contact_urban_centre",
+			:url => { :action => 'populate_contact_urban_centres'},
+			:with => 'record_region' %>	
+    </dd>
+</dl>

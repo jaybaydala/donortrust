@@ -1,19 +1,24 @@
-<!--<form>-->
-    <table>
-        <tr>
-            <td>
-                Country:
-            </td>
-            <td>
-                <div id="contact_country">
-                    <select id="record_country" name="record[country][id]"></select>
-                </div>
-            	<%= observe_field "record_country",
-                            :frequency => 1,
-                            :update => "contact_region",
-            				:url => { :action => :populate_contact_regions},
-            				:with => 'record_country' %>
-            </td>
-        </tr>
-    </table>    
-<!--</form>-->
+<dl>
+    <dt>
+        <label for="record_country">Country</label>
+    </dt>
+    <dd>
+        <div id="contact_country" v-align="middle">
+            <select id="record_country" name="record[country][id]">
+        <% if params[:action] == "edit" and !(@record.continent.nil?) %>
+            <option value='' <%= (@record.country.nil? ? "selected=true" : "")%>>-- Select Country --</option>
+            <% for country in @record.continent.countries %>
+                <option value=<%= country.id.to_s %> <%= (!(@record.country.nil?) and country.id == @record.country.id ? "selected=true" : "") %>><%=country.name%></option>
+            <% end %>
+        <% else %>
+            <option value=''></option>
+        <% end %>
+            </select>
+        </div>
+        <%= observe_field "record_country",
+                    :frequency => 1,
+                    :update => "contact_region",
+    				:url => { :action => :populate_contact_regions},
+    				:with => 'record_country' %>
+    </dd>
+</dl>

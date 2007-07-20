@@ -1,26 +1,53 @@
+<script type="text/javascript">
+function showSpinner() {
+    Element.show('country_spinner');
+}
 
+function hideSpinner() {
+    Element.hide('country_spinner');
+}
+</script>
+<dl>
+    <dt>
+        <label for="record_continent">Continent</label>
+    </dt>
+    <dd>
+        <div id="contact_continent">
+             <select id="record_continent" class="continent-input" name="record[continent][id]">
 
-<!--<form>-->
-    <table>
-        <tr>
-            <td>
-                Continent:
-            </td>
-            <td>
-                    <!-- id="record_urban_centre" class="urban_centre-input" name="record[urban_centre][id]" -->
-                <div id="contact_continent">
-                    <select id="record_continent" class="continent-input" name="record[continent][id]">
-                        <% for continent in Continent.find :all %>
-                            <option value=<%= continent.id.to_s %>><%= continent.continent_name %></option>
-                        <% end %>
-                    </select>
-                </div>
-            	<%= observe_field "record_continent",
-                            :frequency => 1,
-                            :update => "contact_country",
-            				:url => { :action => 'populate_contact_countries'},
-            				:with => 'record_continent' %>	
-            </td>
-        </tr>
-    </table>    
-<!--</form>-->
+            <% if params[:action] == "new" %>
+    
+                <option value='' selected=true>-- Select Continent --</option>
+                <% for continent in Continent.find :all %>
+                    <option value=<%= continent.id.to_s %>><%= continent.continent_name %></option>
+                <% end %>
+		         
+            <% else
+               if params[:action] == "edit" %>
+    	   
+                <option value=''>-- Select Continent --</option>
+                <% for continent in Continent.find :all %>
+                    <option value=<%= continent.id.to_s %>
+                    <% unless @record.continent.nil? %>
+                        <%= (continent.id == @record.continent.id ? "selected=true" : "") %>                        
+                    <% end %>                    
+                    ><%= continent.continent_name %></option>
+                <% end %>
+    	   
+            <%  end
+               end %>
+            </select>
+            <span id="country_spinner" style="display: none"><img border=0 class="loading-indicator" alt="Loading..." id="country_indicator" src="/images/active_scaffold/default/indicator.gif" height="16" width="16" /></span>
+        </div>
+               
+   	<%= observe_field "record_continent",
+        :frequency => 1,
+        :before => "ClearOptions('record_urban_centre'); ClearOptions('record_region'); ClearOptions('record_country');",
+        :update => "contact_country",
+		:url => { :action => 'populate_contact_countries'},
+		:with => 'record_continent', 
+        :on => 'blur' %>  
+   
+    </dd>
+</dl>
+
