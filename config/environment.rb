@@ -1,5 +1,5 @@
 # The app is set to production by default - this is for capistrano purposes - CM
- ENV['RAILS_ENV'] ||= 'development'
+ENV['RAILS_ENV'] ||= 'production'
 
 RAILS_GEM_VERSION = '1.2.3' unless defined? RAILS_GEM_VERSION
 

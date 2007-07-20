@@ -1,5 +1,13 @@
 <div id="top">
 <div id="logo"><a href="/"><span>Christmas Future - Change the world&hellip;for good</span></a></div>
 
-
+<div id="userbug">
+<% if logged_in? %>
+Welcome, <%= link_to current_user.name, dt_edit_account_path(current_user) %><br />
+<div id="notuserbug">Not <%= current_user.name %>? <%= link_to 'logout', dt_logout_accounts_path %> </div>
+<% else %>
+Welcome. <%= link_to 'Login', dt_signin_accounts_path %>
+<div id="notuserbug">Don't have an account? <%= link_to 'Sign up', dt_new_account_path %> </div>
+<% end %>
+</div>
 </div>
