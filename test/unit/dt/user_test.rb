@@ -17,28 +17,28 @@ context "User" do
   specify "should require login" do
     lambda {
       u = create_user(:login => nil)
-      assert u.errors.on(:login)
+      u.errors.on(:login).should.not.be.nil
     }.should.not.change(User, :count)
   end
   
   specify "should require password" do
     lambda {
       u = create_user(:password => nil)
-      assert u.errors.on(:password)
+      u.errors.on(:password).should.not.be.nil
     }.should.not.change(User, :count)
   end
 
   specify "should require password confirmation" do
     lambda {
       u = create_user(:password_confirmation => nil)
-      assert u.errors.on(:password_confirmation)
+      u.errors.on(:password_confirmation).should.not.be.nil
     }.should.not.change(User, :count)
   end
 
   specify "should require email" do
     lambda {
       u = create_user(:email => nil)
-      assert u.errors.on(:email)
+      u.errors.on(:email).should.not.be.nil
     }.should.not.change(User, :count)
   end
 
@@ -48,10 +48,10 @@ context "User" do
       create_user(:email => 'timglen@pivotib')
       
       u = create_user(:email => '@pivotib.com')
-      assert u.errors.on(:email)
+      u.errors.on(:email).should.not.be.nil
       
       u = create_user(:email => 'pivotib.com')
-      assert u.errors.on(:email)
+      u.errors.on(:email).should.not.be.nil
     }.should.not.change(User, :count)
   end
 

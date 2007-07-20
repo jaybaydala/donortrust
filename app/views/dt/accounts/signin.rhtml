@@ -1,4 +1,5 @@
-<% form_tag do -%>
+<%= flash[:error] %>
+<% form_for(:user, :url => dt_login_accounts_path) do |f| %>
 <p><label for="login">Login</label><br/>
 <%= text_field_tag 'login' %></p>
 

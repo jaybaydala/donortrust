@@ -49,16 +49,16 @@ context "Dt::Accounts #route_for" do
     route_for(:controller => "dt/accounts", :action => "destroy", :id => 1).should == "/dt/accounts/1"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'signin'} to /dt/accounts/;signin" do
-    route_for(:controller => "dt/accounts", :action => "destroy", :id => 1).should == "/dt/accounts/1"
+  specify "should map { :controller => 'dt/accounts', :action => 'signin'} to /dt/accounts;signin" do
+    route_for(:controller => "dt/accounts", :action => "signin").should == "/dt/accounts;signin"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'login'} to /dt/accounts/;login" do
-    route_for(:controller => "dt/accounts", :action => "destroy", :id => 1).should == "/dt/accounts/1"
+  specify "should map { :controller => 'dt/accounts', :action => 'login'} to /dt/accounts;login" do
+    route_for(:controller => "dt/accounts", :action => "login").should == "/dt/accounts;login"
   end
 
   specify "should map { :controller => 'dt/accounts', :action => 'logout'} to /dt/accounts/;logout" do
-    route_for(:controller => "dt/accounts", :action => "destroy", :id => 1).should == "/dt/accounts/1"
+    route_for(:controller => "dt/accounts", :action => "logout").should == "/dt/accounts;logout"
   end
   private 
   def route_for(options)
@@ -235,6 +235,39 @@ context "Dt::Accounts handling GET /dt/accounts" do
   end
 end
 
+context "Dt::Accounts handling GET /dt/accounts/signin" do
+  fixtures :users
+  include DtAuthenticatedTestHelper
+
+  setup do
+    @controller = Dt::AccountsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+  end
+
+  def do_get
+    get :signin
+  end
+
+  specify "should render dt/accounts/signin template if not logged_in?" do
+    do_get
+    template.should.be "dt/accounts/signin"
+  end
+  
+  specify "should redirect if logged_in?" do
+    login_as :quentin
+    do_get
+    should.redirect
+  end
+
+  specify "should have a form set to post to /dt/accounts;login" do
+    do_get
+    page.should.select "form[action=/dt/accounts;login][method=post]"
+  end
+
+end
+
+
 context "Dt::Accounts handling GET /dt/accounts/new" do
   fixtures :users
   include DtAuthenticatedTestHelper
@@ -259,6 +292,12 @@ context "Dt::Accounts handling GET /dt/accounts/new" do
     do_get
     should.redirect
   end
+
+  specify "should have a form set to post to /dt/accounts" do
+    do_get
+    page.should.select "form[action=/dt/accounts][method=post]"
+  end
+
 end
 
 context "Dt::Accounts handling GET /dt/accounts/1;edit" do
@@ -302,6 +341,15 @@ context "Dt::Accounts handling GET /dt/accounts/1;edit" do
     page.should.select "input#user_password"
     page.should.select "input#user_password_confirmation"
     page.should.select "input[type=submit]"
+  end
+
+  specify "should have a form set to put to /dt/accounts/1" do
+    login_as :quentin
+    do_get
+    page.should.select "form[action=/dt/accounts/1]"
+    assert_select "form#user_form" do
+      assert_select "input[type=submit]"
+    end
   end
 end
 

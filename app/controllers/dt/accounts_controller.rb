@@ -83,19 +83,27 @@ class Dt::AccountsController < DtApplicationController
   end
 
   def signin
-    login
+    redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') if logged_in?
   end
   
   def login
     return unless request.post?
     self.current_user = User.authenticate(params[:login], params[:password])
-    if logged_in?
-      if params[:remember_me] == "1"
-        self.current_user.remember_me
-        cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
+    respond_to do |format|
+      if logged_in?
+        if params[:remember_me] == "1"
+          self.current_user.remember_me
+          cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
+        end
+        flash[:notice] = "Logged in successfully"
+        format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
+        #format.js
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "signin" }
+        #format.js
+        format.xml  { render :xml => @user.errors.to_xml }
       end
-      redirect_back_or_default(:controller => '/dt/accounts', :action => 'index')
-      flash[:notice] = "Logged in successfully"
     end
   end
 

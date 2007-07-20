@@ -1,7 +1,32 @@
 <%= error_messages_for :user %>
-<% form_for :user, @user, :html => {:id => 'user_form'} do |f| -%>
+<% form_for :user, :url => dt_account_path(@user), :html => { :method =>'put', :id => 'user_form'} do |f| -%>
+<p><label for="login">Login</label><br/>
+<%= f.text_field :login %></p>
+
 <p><label for="user_email">Email</label><br/>
 <%= f.text_field :email %></p>
+
+<p><label for="first_name">First Name</label><br/>
+<%= f.text_field :first_name %></p>
+
+<p><label for="last_name">Last Name</label><br/>
+<%= f.text_field :last_name %></p>
+
+<p><label for="address">Address</label><br/>
+<%= f.text_field :address %></p>
+
+<p><label for="city">City</label><br/>
+<%= f.text_field :city %></p>
+
+<p><label for="province">Province/State</label><br/>
+<%= f.text_field :province %></p>
+
+<p><label for="postal_code">Postal/Zip Code</label><br/>
+<%= f.text_field :postal_code %></p>
+
+<p><label for="country">Country</label><br/>
+<%= f.text_field :country %></p>
+
 
 <p><label for="user_password">Password</label><br/>
 <%= f.password_field :password %></p>
