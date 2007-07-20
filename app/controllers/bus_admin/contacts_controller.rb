@@ -15,31 +15,50 @@ class BusAdmin::ContactsController < ApplicationController
   end
 
   def populate_contact_countries
-    countries = Country.find :all, :conditions => ["continent_id = ?", params[:record_continent]]
-    #id="record_urban_centre" class="urban_centre-input" name="record[urban_centre][id]"
-    @result = "<select id='record_country' class='country-input' name='record[country][id]'> "
-    for country in countries
-      @result += "<option value=" + country.id.to_s + ">" + country.name.to_s + "</option>"
-    end
-    @result += "</select>"
+    if params[:record_continent] != "" and params[:record_continent] != "null"  
+      countries = Country.find :all, :conditions => ["continent_id = ?", params[:record_continent]]
+      @result = "<select id='record_country' class='country-input' name='record[country][id]'> "
+      @result += "<option value=''>-- Select Country --</option>"    
+      for country in countries
+        @result += "<option value=" + country.id.to_s + ">" + country.name.to_s + "</option>"
+      end
+      @result += "</select>"
+    else
+      @result = "<select id='record_country' class='country-input' name='record[country][id]'><option value=''></option></select>"
+    end  
     puts @result    
     render :partial => "bus_admin/contacts/country_form"   
   end
   
   def populate_contact_regions
-  
-    regions = Region.find :all, :conditions => ["country_id = ?", params[:record_country]]
-    #id="record_urban_centre" class="urban_centre-input" name="record[urban_centre][id]"
-    result = "<select id='record_region' class='region-input' name='record[region][id]'> "
-    for region in regions
-      result += "<option value=" + region.id.to_s + ">" + region.region_name.to_s + "</option>"
+    if params[:record_country] != "" and params[:record_country] != "null"
+      regions = Region.find :all, :conditions => ["country_id = ?", params[:record_country]]
+      @result = "<select id='record_region' class='region-input' name='record[region][id]'> "
+      @result += "<option value=''>-- Select Region --</option>"
+      for region in regions
+        @result += "<option value=" + region.id.to_s + ">" + region.region_name.to_s + "</option>"
+      end
+      @result += "</select>"
+    else
+      @result = "<select id='record_region' class='region-input' name='record[region][id]'><option value=''></option></select>"
     end
-    result += "</select>"
-    puts result
-    render :text => result
+    puts @result
+    render :partial => "bus_admin/contacts/region_form"
   end
   
   def populate_contact_urban_centres
-  
+    if params[:record_region] != "" and params[:record_region] != "null"
+      urbanCentres = UrbanCentre.find :all, :conditions => ["region_id = ?", params[:record_region]]
+      @result = "<select id='record_urban_centre' class='urban-centre-input' name='record[urban_centre][id]'> "
+      @result += "<option value=''>-- Select Urban Centre --</option>"
+      for urbanCentre in urbanCentres
+        @result += "<option value=" + urbanCentre.id.to_s + ">" + urbanCentre.name.to_s + "</option>"
+      end
+      @result += "</select>"
+    else
+      @result = "<select id='record_urban_centre' class='urban-centre-input' name='record[urban_centre][id]'><option value=''></option></select>"
+    end
+    puts @result
+    render :partial => "bus_admin/contacts/urban_centre_form"
   end
 end
