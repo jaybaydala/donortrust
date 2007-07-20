@@ -1,6 +1,6 @@
 <%= error_messages_for :user %>
 <% form_for :user, :url => dt_account_path(@user), :html => { :method =>'put', :id => 'user_form'} do |f| -%>
-<p><label for="login">Login</label><br/>
+<p><label for="login">Username</label><br/>
 <%= f.text_field :login %></p>
 
 <p><label for="user_email">Email</label><br/>
@@ -27,6 +27,7 @@
 <p><label for="country">Country</label><br/>
 <%= f.text_field :country %></p>
 
+<div class="formnote">Enter a password if you wish to change it</div>
 
 <p><label for="user_password">Password</label><br/>
 <%= f.password_field :password %></p>

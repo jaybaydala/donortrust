@@ -64,6 +64,20 @@ div.column-title {
 }
 
 /* ------------------------------
+HEAD
+------------------------------ */
+#userbug {
+	font-size:.8em;
+	color:#666;
+	line-height:1em;
+	text-align:right;
+}
+#notuserbug {
+	font-size:.95em;
+	color:#999;
+}
+
+/* ------------------------------
 GENERAL TEXT CONTENT SHOULD USE div.article, h2.article-title and div.article-body
 ------------------------------ */
 div.article {

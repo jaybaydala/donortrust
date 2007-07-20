@@ -1,6 +1,17 @@
 /* ------------------------------
-LOGO
+HEAD
 ------------------------------ */
+#top {
+	position:relative;
+}
+
+#userbug {
+	display:block;
+	position:absolute;
+	top:10px;
+	right:10px;
+}
+
 #logo {
 	margin:12px 0 12px 24px;
 }
@@ -15,6 +26,14 @@ LOGO
 }
 #logo span {
 	visibility:hidden;
+}
+
+/* ------------------------------
+ACCOUNTS
+------------------------------ */
+div.formnote {
+	padding:2px;
+	background:#FFC;
 }
 
 /* ------------------------------
@@ -51,6 +70,7 @@ NAV
 #nav-resources a { background-image:url('/images/dt/nav/resources.gif'); }
 #nav-contact, #nav-contact a { width:84px; }
 #nav-contact a { background-image:url('/images/dt/nav/contact.gif'); }
+
 /* ------------------------------
 PROJECT NAV
 ------------------------------ */
