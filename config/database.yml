@@ -3,7 +3,7 @@ development:
   database: donortrust_development
   username: donortrust
   password: donortrust
-  host: localhost
+  host: db.pivotib.com
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -13,11 +13,11 @@ test:
   database: donortrust_test
   username: donortrust
   password: donortrust
-  host: localhost
+  host: db.pivotib.com
 
 production:
   adapter: mysql
   database: donortrust_production
   username: donortrust
   password: donortrust
-  host: localhost
+  host: db.pivotib.com
