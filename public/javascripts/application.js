@@ -5,3 +5,11 @@ function formLinkRedirector(form){
     var targetUrl = form.site.options[form.site.selectedIndex].value;
     window.location.href = targetUrl;
 }
+
+
+function ClearOptions(dropDownNameId) {
+    var drp = document.getElementById(dropDownNameId);
+    while (drp.options.length > 0) {
+            drp.remove(0);
+    }
+}
