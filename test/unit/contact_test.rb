@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-context "Contaccts" do
+context "Contacts" do
   fixtures :contacts
 
   setup do
@@ -27,4 +27,13 @@ context "Contaccts" do
     @contact.should.not.validate
   end
 
+  specify "fullname should concat 'first_name last_name'" do
+    contact = Contact.new( :first_name => 'testy', :last_name => 'testerson')
+    contact.fullname.should == "testy testerson"
+  end
+  
+  specify "to_label should concat 'last_name, first_name'" do
+    contact = Contact.new( :first_name => 'testy', :last_name => 'testerson')
+    contact.to_label.should == "testerson, testy"
+  end
 end
