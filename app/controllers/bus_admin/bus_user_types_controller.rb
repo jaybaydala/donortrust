@@ -47,15 +47,17 @@ class BusAdmin::BusUserTypesController < ApplicationController
     
 #    @condition BusSecureActionsBusUserType.find :first, :conditions => ["bus_secure_action_id = ?" AND "bus_user_type_id = ? ", action.id, params[:id]]
 #    if @condition != nil
-
-    bus_user_type = BusUserType.find(params[:bus_user_type_id])
+    
     checked = "";
-    for bus_secure_action in bus_user_type.bus_secure_actions
-        if bus_secure_action.bus_security_level_id == controller.id && bus_secure_action.id == action.id
-          puts "action: " + bus_secure_action.permitted_actions.to_s + " compared to: " + action.permitted_actions.to_s + " CHECKED"
-          checked =  ' checked="checked"'
+    if(params[:bus_user_type_id])
+      bus_user_type = BusUserType.find(params[:bus_user_type_id])
+      for bus_secure_action in bus_user_type.bus_secure_actions
+          if bus_secure_action.bus_security_level_id == controller.id && bus_secure_action.id == action.id
+            puts "action: " + bus_secure_action.permitted_actions.to_s + " compared to: " + action.permitted_actions.to_s + " CHECKED"
+            checked =  ' checked="checked"'
+          end
         end
-      end
+    end
     return checked
   end
   
