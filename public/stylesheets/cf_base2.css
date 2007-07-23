@@ -7,7 +7,7 @@
 
 body {
   color: #333;
-  background: #FFF url(../images/) repeat;
+  background: #FFF;
   font: 12px/16px Arial, Helvetica, sans-serif;
   text-align: center; /* this is asking IE to centre the container ;) */
 }
@@ -1075,6 +1075,7 @@ legend {
 #you_tube_video{
 	width: 400px;
 }
+
 
 
 you_tube_title {
