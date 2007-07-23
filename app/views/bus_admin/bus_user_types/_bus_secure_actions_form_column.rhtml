@@ -19,7 +19,8 @@ Controllers:
     :frequency => 1,
     :update => "bus_secure_action",
     :url => {:controller => 'bus_admin/bus_user_types', :action => "get_actions", :bus_user_type_id => params[:id] },
-    :with => "bus_security_level_id" %>
+    :with => "bus_security_level_id", 
+    :on => 'blur' %>  
 
 <br />
 <tr>
