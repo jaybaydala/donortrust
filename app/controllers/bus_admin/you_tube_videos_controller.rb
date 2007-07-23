@@ -25,16 +25,20 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def search
-    @searchstring = params[:search][:keywords]
-    @searchphrases = @searchstring.split(' ')
-    @you_tube_videos = Array.new
-    for searchPhrase in @searchphrases
-      @results = YouTubeVideo.find(:all, :conditions => [ "keywords LIKE ?", '%'+searchPhrase+'%'])
-      for result in @results
-        @you_tube_videos.push(result)
+  @you_tube_videos = Array.new
+  @searchstring = params[:search_keywords]
+    if @searchstring != nil
+      @searchphrases = @searchstring.split(' ')
+      for searchPhrase in @searchphrases
+        @results = YouTubeVideo.find(:all, :conditions => [ "LOWER(keywords) LIKE ?", '%'+searchPhrase.downcase+'%'])
+        for result in @results
+          if !@you_tube_videos.include?(result)
+            @you_tube_videos.push(result)
+          end
+        end
       end
     end
-    [@you_tube_videos, @searchphrase]
+    [@you_tube_videos, @searchstring]
     render :layout => false
   end
 
@@ -54,10 +58,11 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def getVideoHash(url)
-    response = Net::HTTP.get_response(URI.parse('http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + url))
-    puts "Response********************"
-    puts response
-    @video_hash = Hash.create_from_xml response.body[0,response.body.size]
+    if url != nil
+      response = Net::HTTP.get_response(URI.parse('http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + url))
+      @video_hash = Hash.create_from_xml response.body[0,response.body.size]
+      return @video_hash
+    end
   end
 
   # GET /bus_admin_you_tube_videos/1;edit
@@ -74,7 +79,7 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     chunks = url.split("v=")
     ref = chunks[1].split("&")
     
-    @you_tube_video.keywords = getVideoHash(ref[0])["ut_response"]["video_details"]["tags"]
+    @you_tube_video.keywords = getVideoHash(ref[0])["ut_response"]["video_details"]["tags"] + " " + params[:you_tube_video][:extra_tags]
     @you_tube_video.you_tube_reference = ref[0]
 
     respond_to do |format|

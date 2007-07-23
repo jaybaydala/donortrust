@@ -1049,7 +1049,23 @@ legend {
 }
 
 #you_tube_form{
-	float: left;
+}
+
+#you_tube_main{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ccc;
+	background-color: #ddffdd;
+	padding: 4px;
+}
+
+#you_tube_search_field{
+	background-color: #ffffdd;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ccc;
+	padding-bottom: 4px;
+	padding-left: 4px;
 }
 
 #you_tube_details {
@@ -1103,4 +1119,10 @@ you_tube_title {
 #errorExplanation ul li {
   font-size: 12px;
   list-style: square;
+}
+
+#ajax_busy {
+	top: 0;
+	right: 0;
+	padding:4px;
 }
