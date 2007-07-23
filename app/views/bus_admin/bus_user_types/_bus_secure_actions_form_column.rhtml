@@ -8,6 +8,8 @@
 <table>
 <tr>
 <td>
+<div style="display:none;"><%= session[:bus_user_type_id] = params[:id] %></div>
+	
 Controllers:
 </td>
 <td>
@@ -33,6 +35,9 @@ Bus Secure Actions:
 <td>
 <div id="bus_secure_action"></div>
 </td>
+</tr>
+<tr>
+	<div id="result"></div>
 </tr>
 </table>    
 
