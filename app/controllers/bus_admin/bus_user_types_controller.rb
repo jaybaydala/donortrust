@@ -31,27 +31,24 @@ class BusAdmin::BusUserTypesController < ApplicationController
 #    render :text => result
 #  end
   
-    def get_actions
-    
+   def get_actions    
     controller = BusSecurityLevel.find(params[:bus_security_level_id])
     @actions=  BusSecureAction.find :all, :conditions => ["bus_security_level_id = ?", controller.id]
     result = "<div style='overflow:auto;width:75px;border:1px solid #336699;'><ul style='padding-left:0; margin-left:0;list-style:none;'>"
-    for action in @actions
- 
-      result += "<li ><input type='checkbox' id='record_bus_security_level' name='record[bus_secure_actions][" + (action.id - 1).to_s + "][id]' value=" + action.id.to_s + checked(controller,action) +">" + action.permitted_actions + "</input></li>"
+    for action in @actions 
+      result += "<li ><input type='checkbox' id='record_bus_security_level' name='record[bus_secure_actions][" + (action.id - 1).to_s + "][id]' value='" + action.id.to_s + "' " + checked(controller,action) + ">" + action.permitted_actions + "</input></li>"
     end  
     
-    result += "</ui></div>"
+    result += "</ul></div>"
     render :text => result
   end
-  #checked(controller,action)
+  
   def checked(controller,action)
-    puts "controller id= " + controller.id.to_s + " action bussecureid = " + action.bus_security_level_id.to_s
-    
     
 #    @condition BusSecureActionsBusUserType.find :first, :conditions => ["bus_secure_action_id = ?" AND "bus_user_type_id = ? ", action.id, params[:id]]
 #    if @condition != nil
-    bus_user_type = BusUserType.find(session[:bus_user_type_id])
+
+    bus_user_type = BusUserType.find(params[:bus_user_type_id])
     checked = "";
     for bus_secure_action in bus_user_type.bus_secure_actions
         if bus_secure_action.bus_security_level_id == controller.id && bus_secure_action.id == action.id
