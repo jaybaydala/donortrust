@@ -16,7 +16,10 @@ ActionController::Routing::Routes.draw do |map|
 
   # bus_admin resources
   map.resources :indicator_measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/indicator_measurements"
-
+  map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
+  map.resources :bus_user_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_user_types"
+  map.resources :bus_secure_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_secure_actions"
+  map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measurements"
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -105,6 +108,7 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/bus_admin/login', :controller => 'bus_admin/bus_account', :action => 'login'
   map.logout '/bus_admin/logout', :controller => 'bus_admin/bus_account', :action => 'logout'
   map.index '/bus_admin/index', :controller => 'bus_admin/bus_account', :action => 'index'
+  map.get_actions '/bus_admin/bus_user_types/get_actions', :controller => 'bus_admin/bus_user_types', :action =>'get_actions'
   map.resources :bus_account, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_account"
   map.change_password '/bus_admin/change_password', :controller => 'bus_admin/bus_account', :action =>'change_password'
   map.show_encryption '/bus_admin/bus_account/show_encryption', :controller =>'bus_admin/bus_account',:action =>'show_encryption'
