@@ -26,7 +26,7 @@ class BusAdmin::ContactsController < ApplicationController
     else
       @result = "<select id='record_country' class='country-input' name='record[country][id]'><option value=''></option></select>"
     end  
-    puts @result    
+    #puts @result    
     render :partial => "bus_admin/contacts/country_form"   
   end
   
