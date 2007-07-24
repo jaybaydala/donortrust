@@ -3,7 +3,10 @@
         <label for="record_continent">Continent</label>
     </dt>
     <dd>
-        <div id="contact_continent">
+        <div id="contact_continent" style="width: 400px;">
+        <table cellspacing=0 cellpadding=0>
+        <tr height="16px">
+        <td>
              <select id="record_continent" class="continent-input" name="record[continent][id]">
 
             <% if params[:action] == "new" %>
@@ -28,7 +31,10 @@
             <%  end
                end %>
             </select>
-            <span id="country_spinner" style="display: none"><img border=0 class="loading-indicator" alt="Loading..." id="country_indicator" src="/images/active_scaffold/default/indicator.gif" height="16" width="16" /></span>
+            </td>
+            <td><%= show_spinner %></td>
+            </tr>
+            </table>
         </div>
                
    	<%= observe_field "record_continent",
