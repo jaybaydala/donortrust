@@ -80,13 +80,13 @@ context "Dt::Accounts handling login and logout requests" do
   end
 
   specify "should login and redirect" do
-    post :login, :login => 'quentin', :password => 'test'
+    post :login, :login => 'quentin@example.com', :password => 'test'
     session[:user].should.not.be.nil
     should.redirect
   end
 
   specify "should fail login and not redirect" do
-    post :login, :login => 'quentin', :password => 'bad password'
+    post :login, :login => 'quentin@example.com', :password => 'bad password'
     session[:user].should.be.nil
     status.should.be :success
   end
@@ -122,30 +122,22 @@ context "Dt::Accounts handling login and logout requests" do
     }.should.not.change(User, :count)
   end
 
-  specify "should require email on signup" do
+  specify "should require valid email as login on signup" do
     lambda {
-      create_user(:email => nil)
-      assigns(:user).errors.on(:email).should.not.be.nil
-      status.should.be :success
-    }.should.not.change(User, :count)
-  end
-
-  specify "should require valid email on signup" do
-    lambda {
-      create_user(:email => 'timglen')
-      assigns(:user).errors.on(:email).should.not.be.nil
+      create_user(:login => 'timglen')
+      assigns(:user).errors.on(:login).should.not.be.nil
       status.should.be :success
 
-      create_user(:email => 'timglen@pivotib')
-      assigns(:user).errors.on(:email).should.not.be.nil
+      create_user(:login => 'timglen@pivotib')
+      assigns(:user).errors.on(:login).should.not.be.nil
       status.should.be :success
       
-      create_user(:email => '@pivotib.com')
-      assigns(:user).errors.on(:email).should.not.be.nil
+      create_user(:login => '@pivotib.com')
+      assigns(:user).errors.on(:login).should.not.be.nil
       status.should.be :success
       
-      create_user(:email => 'pivotib.com')
-      assigns(:user).errors.on(:email).should.not.be.nil
+      create_user(:login => 'pivotib.com')
+      assigns(:user).errors.on(:login).should.not.be.nil
       status.should.be :success
     }.should.not.change(User, :count)
   end
@@ -158,12 +150,12 @@ context "Dt::Accounts handling login and logout requests" do
   end
 
   specify "should remember me" do
-    post :login, :login => 'quentin', :password => 'test', :remember_me => "1"
+    post :login, :login => 'quentin@example.com', :password => 'test', :remember_me => "1"
     @response.cookies["auth_token"].should.not.be.nil
   end
 
   specify "should not remember_me" do
-    post :login, :login => 'quentin', :password => 'test', :remember_me => "0"
+    post :login, :login => 'quentin@example.com', :password => 'test', :remember_me => "0"
     @response.cookies["auth_token"].should.be.nil
   end
   
@@ -197,8 +189,7 @@ context "Dt::Accounts handling login and logout requests" do
 
   protected
     def create_user(options = {})
-      post :create, :user => { :login => 'quire', :email => 'quire@example.com', 
-        :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+      post :create, :user => { :login => 'quire@example.com', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
     end
     
     def auth_token(token)
@@ -373,22 +364,43 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
   specify "should not redirect to signin if logged_in?" do
     login_as :quentin
     @user = User.find(1)
-    put :update, { :id => @user.id, :user => { :email => @user.email } }
+    put :update, { :id => @user.id, :user => { :first_name => 'Tim' } }
     should.redirect_to :action => 'index'
   end
   
   specify "should redirect to edit if not current_user" do
     login_as :quentin
     @user = User.find(2)
-    put :update, { :id => @user.id , :user => { :email => 'test@example.com' } }
+    put :update, { :id => @user.id , :user => { :first_name => 'Tim' } }
     should.redirect
   end
 
   specify "should update your user if logged in and you're the current user" do
     login_as :quentin
     u = User.find(1)
-    put :update, { :id => u.id, :user => { :email => 'test@example.com' } }
-    u.email.should.not.equal User.find(1).email
+    put :update, { :id => u.id, :user => { :first_name => 'Tim' } }
+    u.first_name.should.not.equal User.find(1).first_name
     should.redirect_to :action => 'index'
   end
 end
+
+
+#  - Email should be authenticated through an emailed auth_code
+#  - optional unique Display Name to be used if given. If not, First Name, Last Name are used for ident purposes
+#    - add formnote to this effect
+#    - either Display Name or First Name and Last Name are required at signup
+#
+#In the context of an unauthenticated account:
+#  - I cannot login until I authenticate my email address
+#  - I have the option to resend the authentication email
+#
+#As a donor I need to be edit my profile so others can see my info, etc:
+#  - if I change my email, it should be re-authenticated
+#  - Password changes require me to type in my old password
+#  - New password needs to be confirmed/re-entered
+#
+#As a user I want to be able to retrieve my password so I won't forget it:
+#  - creates a new password
+#  - sends email to user's email address with new password
+#  - on login, required to change the password to something rememberable
+#

@@ -35,38 +35,31 @@ context "User" do
     }.should.not.change(User, :count)
   end
 
-  specify "should require email" do
+  specify "should require valid email as login" do
     lambda {
-      u = create_user(:email => nil)
-      u.errors.on(:email).should.not.be.nil
-    }.should.not.change(User, :count)
-  end
-
-  specify "should require valid email" do
-    lambda {
-      u = create_user(:email => 'timglen')
-      create_user(:email => 'timglen@pivotib')
+      u = create_user(:login => 'timglen')
+      create_user(:login => 'timglen@pivotib')
       
-      u = create_user(:email => '@pivotib.com')
-      u.errors.on(:email).should.not.be.nil
+      u = create_user(:login => '@pivotib.com')
+      u.errors.on(:login).should.not.be.nil
       
-      u = create_user(:email => 'pivotib.com')
-      u.errors.on(:email).should.not.be.nil
+      u = create_user(:login => 'pivotib.com')
+      u.errors.on(:login).should.not.be.nil
     }.should.not.change(User, :count)
   end
 
   specify "should reset password" do
     users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    users(:quentin).should.equal User.authenticate('quentin', 'new password')
+    users(:quentin).should.equal User.authenticate('quentin@example.com', 'new password')
   end
 
   specify "should not rehash password" do
-    users(:quentin).update_attributes(:login => 'quentin2')
-    users(:quentin).should.equal User.authenticate('quentin2', 'test')
+    users(:quentin).update_attributes(:login => 'quentin2@example.com')
+    users(:quentin).should.equal User.authenticate('quentin2@example.com', 'test')
   end
 
   specify "should authenticate user" do
-    users(:quentin).should.equal User.authenticate('quentin', 'test')
+    users(:quentin).should.equal User.authenticate('quentin@example.com', 'test')
   end
 
   specify "should set remember token" do
@@ -82,8 +75,18 @@ context "User" do
     users(:quentin).remember_token.should.be.nil
   end
 
+  specify "should return 'first_name last_name' if display_name is empty" do
+    u = users(:quentin)
+    u.name.should.equal "#{u.first_name} #{u.last_name}"
+  end
+
+  specify "should return 'display_name' if display_name is not empty" do
+    u = users(:tim)
+    u.name.should.equal "#{u.display_name}"
+  end
+
   private
   def create_user(options = {})
-    User.create({ :login => 'quire', :email => 'quire@example.com', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
+    User.create({ :login => 'quire@example.com', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
   end
 end

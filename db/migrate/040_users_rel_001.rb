@@ -2,9 +2,9 @@ class UsersRel001 < ActiveRecord::Migration
   def self.up
     create_table "users", :force => true do |t|
       t.column :login,                     :string
-      t.column :email,                     :string
       t.column :first_name,                :string
       t.column :last_name,                 :string
+      t.column :display_name,              :string
       t.column :address,                   :string
       t.column :city,                      :string
       t.column :province,                  :string
