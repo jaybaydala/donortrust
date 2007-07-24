@@ -1,6 +1,18 @@
-    <div id="videos">
-        You search for <%= @searchstring %> returned <%= @you_tube_videos.size %> video(s)
+    <div id="search_videos">
+        You search for <%= @searchstring %> returned <%= @size %> video(s)
         <% for @you_tube_video in @you_tube_videos %>
             <%= render_partial "video", @you_tube_video  %>
+        <% end %>
+        <% for i in 1...@you_tube_video_pages.length+1 %>
+            <% if i != @you_tube_video_pages.current_page.to_i %>
+
+                <%= link_to_remote i.to_s, 
+                            :update => "search_videos", 
+                            :url => '/bus_admin/you_tube_videos;search?search_keywords=' + @searchstring + "&page=" + @you_tube_video_pages.current_page.to_s
+                                
+                            %>
+             <% else %>
+                <%= i.to_s %>
+             <% end %>
         <% end %>
     </div>

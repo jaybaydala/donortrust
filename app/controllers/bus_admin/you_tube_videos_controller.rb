@@ -3,10 +3,11 @@ require 'uri'
 
 class BusAdmin::YouTubeVideosController < ApplicationController
 
+
   # GET /bus_admin_you_tube_videos
   # GET /bus_admin_you_tube_videos.xml
   def index
-    @you_tube_videos = YouTubeVideo.find(:all)
+    @you_tube_video_pages, @you_tube_videos = paginate :you_tube_videos, :per_page => 1
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @you_tube_videos.to_xml }
@@ -17,7 +18,6 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # GET /bus_admin_you_tube_videos/1.xml
   def show
     @you_tube_video = YouTubeVideo.find(params[:id])
-
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @you_tube_video.to_xml }
@@ -25,8 +25,9 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def search
-  @you_tube_videos = Array.new
-  @searchstring = params[:search_keywords]
+    puts "Search"
+    @you_tube_videos = Array.new
+    @searchstring = params[:search_keywords]
     if @searchstring != nil
       @searchphrases = @searchstring.split(' ')
       for searchPhrase in @searchphrases
@@ -38,9 +39,19 @@ class BusAdmin::YouTubeVideosController < ApplicationController
         end
       end
     end
-    [@you_tube_videos, @searchstring]
+    @size = @you_tube_videos.length
+    page = (params[:page] ||= 1).to_i
+    items_per_page = 1
+    offset = (page - 1) * items_per_page
+    
+    @you_tube_video_pages = Paginator.new(self, @you_tube_videos.length, 1, page)
+    @you_tube_videos = @you_tube_videos[offset..(offset + items_per_page - 1)]
+    
+    [@you_tube_videos, @you_tube_video_pages, @searchstring, @size]
     render :layout => false
   end
+  
+  
 
   # GET /bus_admin_you_tube_videos/new
   def new

@@ -23,7 +23,7 @@
                 <%= text_field "search", "keywords" %>
                         
                     <%= observe_field("search_keywords", 
-                        :frequency => 1, 
+                        :frequency => 2, 
                         :update => :videos, 
                         :url => '/bus_admin/you_tube_videos;search',
                         :with => "search_keywords"
@@ -35,6 +35,7 @@
             <% for @you_tube_video in @you_tube_videos %>
                 <%= render_partial "video", @you_tube_video  %>
             <% end %>
+            <%= pagination_links(@you_tube_video_pages) %>
         </div>
     </div>
  </div>
