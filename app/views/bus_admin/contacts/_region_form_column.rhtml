@@ -14,12 +14,6 @@
             <option value=''></option>
         <% end %>
             </select>
-        </div><img alt="Loading..." id="region_spinner" src="spinner.gif" style="display:none;" />
-        
-    	<%= observe_field "record_region",
-            :frequency => 1,
-            :update => "contact_urban_centre",
-			:url => { :action => 'populate_contact_urban_centres'},
-			:with => 'record_region' %>	
+        </div>
     </dd>
 </dl>
