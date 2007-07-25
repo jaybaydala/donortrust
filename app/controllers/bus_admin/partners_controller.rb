@@ -3,10 +3,10 @@ class BusAdmin::PartnersController < ApplicationController
   active_scaffold :partner do |config|
 #    config.theme = :blue
 
-    config.columns[:partner_status].ui_type = :select
-    config.columns[:partner_type].ui_type = :select
-    config.columns[:contacts].ui_type = :select
-    
+    config.columns[:partner_status].form_ui = :select
+    config.columns[:partner_type].form_ui = :select
+#    config.columns[:contacts].form_ui = :select
+       
     config.create.columns.exclude :partner_versions
     config.list.columns.exclude :partner_versions
     config.update.columns.exclude :partner_versions
@@ -24,9 +24,6 @@ class BusAdmin::PartnersController < ApplicationController
     config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
 #    config.action_links.add 'list', :label => 'All', redirect_to partners 
     
-    # doesn't work in release 1.0 with nested RESTful URLs - may be fixed in later version
-    # if you have the entity un-nested for a work around - note that it does use the un-nested path for nesting
-    #    config.nested.add_link("History", [:partner_histories])    
   end
 
   def conditions_for_collection  

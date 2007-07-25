@@ -6,4 +6,4 @@ default_partner_type_one:
 default_partner_type_two:
   id: 2
   name: Silver
-  description: Type1 description
+  description: Type 2 description

@@ -10,15 +10,4 @@ class BusAdmin::PartnerStatusesController < ApplicationController
     create.columns.exclude :partners_count, :partners
 #    show.columns.exclude
   end
-
-  def destroy
-    begin
-      super.destroy
-    rescue
-      @error = "You cannot delete this status; it is being used by a Partner."
-      flash[:error] = @error #for some reason this won't display      
-      show_message_and_reset(@error, "error")        
-    end
-  end
-    
 end
