@@ -1,0 +1,7 @@
+<% if logged_in? %>
+<h3 class="title">Your Groups</h3>
+<ul id="group-list">
+<%= render_partial_collection 'dt/groups/group', current_user.groups if current_user.groups %>
+</ul>
+<p><small><%= link_to "create group", dt_new_group_path %></small></p>
+<% end %>

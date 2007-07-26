@@ -183,6 +183,47 @@ context "Dt::Accounts handling GET /dt/accounts" do
   end
 end
 
+context "Dt::Accounts handling GET /dt/accounts/1" do
+  fixtures :users
+  include DtAuthenticatedTestHelper
+
+  setup do
+    @controller = Dt::AccountsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+    @user = users(:quentin)
+    #User.stubs(:find).returns([@user])
+  end
+  
+  def do_get
+    get :show, :id => @user.id
+  end
+  
+  specify "should redirect to :index if not logged_in?" do
+    do_get
+    response.should.redirect :action => 'index', :id => nil
+  end
+
+  specify "should redirect to logged_in? as different user" do
+    login_as(:tim)
+    do_get
+    response.should.redirect :action => 'index'
+  end
+
+  specify "should not redirect when logged_in? as current_user" do
+    login_as(:quentin)
+    do_get
+    response.should.not.redirect
+  end
+
+  specify "should get /dt/accounts/show/1" do
+    login_as(:quentin)
+    do_get
+    template.should.be 'dt/accounts/show'
+  end
+
+end
+
 context "Dt::Accounts handling GET /dt/accounts/signin" do
   fixtures :users
   include DtAuthenticatedTestHelper
@@ -499,8 +540,8 @@ end
 
 
 #In the context of an unauthenticated account:
-#  - I have the option to resend the authentication email
-#
+#  - if I try to log in, I should be notified that my account is not yet activated
+#  - I should have the option to resend the authentication email
 #As a donor I need to be edit my profile so others can see my info, etc:
 #  - if I change my email, it should be re-authenticated
 #

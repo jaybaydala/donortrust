@@ -37,6 +37,9 @@ Rails::Initializer.run do |config|
   # config.active_record.default_timezone = :utc
   
   # See Rails::Configuration for more options
+  
+  # install user_observer for authenticated_mailer
+  config.active_record.observers = :user_observer
 
   # Add vendor/gems into the load path so we can unpack gems and keep them local
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 

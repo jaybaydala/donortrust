@@ -24,4 +24,8 @@ module DtApplicationHelper
     @partner_select = select("partner_select", "partner_id", projects, { :prompt => '--Select a Partner--' } )
     render 'dt/shared/project_search'
   end  
+
+  def dt_account_nav
+    render 'dt/accounts/account_nav'
+  end
 end

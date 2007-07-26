@@ -4,7 +4,8 @@ class GroupsRel001 < ActiveRecord::Migration
       t.column :name,             :string
       t.column :description,      :text
       t.column :group_type_id,    :int
-      t.column :public,           :boolean
+      t.column :private,          :boolean
+      t.column :owner_id,         :int
       t.column :created_at,       :datetime
       t.column :updated_at,       :datetime
     end    

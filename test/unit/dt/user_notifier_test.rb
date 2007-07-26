@@ -51,7 +51,7 @@ context "A UserNotifier on signup_notification" do
     @user_notifier.from.should == ( ["info@christmasfuture.org"])
   end
   
-  specify "should contain login reminder (User: aaron@example.com) in mail body" do
+  specify "should contain login reminder (User: quire@example.com) in mail body" do
     @user_notifier.body.should =~ ( /Username: quire@example.com/ )
   end
   

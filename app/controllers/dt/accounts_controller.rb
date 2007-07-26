@@ -1,10 +1,15 @@
 class Dt::AccountsController < DtApplicationController
   before_filter :login_required, :only => [ :edit, :update ]
-  include DtAuthenticatedSystem
 
   # say something nice, you goof!  something sweet.
   def index
     redirect_to(:action => 'new') unless logged_in? || User.count > 0
+  end
+
+  # GET /dt/accounts/1
+  def show
+    redirect_to(:action => 'index') unless authorized?
+    @user = User.find(params[:id])
   end
 
   # GET /dt/accounts/new
@@ -94,14 +99,6 @@ class Dt::AccountsController < DtApplicationController
   #  end
   #end
 
-  # protect the edit/update methods so you can only update/view your own record
-  def authorized?(user = current_user())
-    if ['edit', 'update'].include?(action_name)
-       return false unless logged_in? && params[:id] && current_user.id == params[:id].to_i
-    end
-    return true
-  end
-
   def signin
     redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') if logged_in?
   end
@@ -148,4 +145,14 @@ class Dt::AccountsController < DtApplicationController
         format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
     end
   end
+  
+  protected
+  # protect the edit/update methods so you can only update/view your own record
+  def authorized?(user = current_user())
+    if ['show', 'edit', 'update'].include?(action_name)
+       return false unless logged_in? && params[:id] && current_user.id == params[:id].to_i
+    end
+    return true
+  end
+
 end

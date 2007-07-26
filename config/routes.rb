@@ -7,11 +7,11 @@ ActionController::Routing::Routes.draw do |map|
     :collection => { :search => :get }, 
     :member => { :project => :get, :village => :get, :nation => :get, :community => :get }
   map.resources :accounts, 
-      :controller=> 'dt/accounts', 
-      :name_prefix => 'dt_', 
-      :path_prefix => "/dt", 
-      :collection => { :signin => :get, :login => :post, :logout => :get }
-  #map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
+    :controller=> 'dt/accounts', 
+    :name_prefix => 'dt_', 
+    :path_prefix => "/dt", 
+    :collection => { :signin => :get, :login => :post, :logout => :get, :activate => :get }
+  map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
 
 
   # bus_admin resources

@@ -72,29 +72,32 @@ NAV
 #nav-contact a { background-image:url('/images/dt/nav/contact.gif'); }
 
 /* ------------------------------
-PROJECT NAV
+SUBNAV
 ------------------------------ */
-#project-nav {
+#subnav {
 	margin:0;
 	margin-top:12px;
 	list-style:none;
 	height:24px;
 	border-bottom:1px #999 solid;
 }
-#project-nav li {
+#subnav li {
 	float:left;
 	padding:5px 16px 6px 16px;
 	background-repeat:no-repeat;
 	background-position:16px 5px;
 	border-right:1px #999 solid;
 }
-#project-nav li, #nav li a {
+#subnav li, #nav li a {
 	display:block;
 	height:13px;
 }
-#project-nav li a {text-decoration:none; }
-#project-nav li span { visibility:hidden; }
+#subnav li a {text-decoration:none; }
+#subnav li span { visibility:hidden; }
 
+/* ------------------------------
+PROJECT NAV
+------------------------------ */
 #project-nav-overview, #project-nav-about-us a { width:56px; }
 #project-nav-overview { background-image:url('/images/dt/project_nav/overview.gif'); }
 #project-nav-overview.current, #project-nav-about-us.current a { width:68px; }
@@ -178,3 +181,13 @@ PROJECT SEARCH
 	top:0;
 	background:url('/images/dt/search_right.gif') no-repeat;
 }
+
+/* ------------------------------
+ACCOUNTS
+------------------------------ */
+div.account-summary {}
+div.account-summary table {width:100%;}
+div.account-summary td { text-align:right; }
+div.account-summary tr td:first-child { text-align:left; }
+div.account-summary th { text-align:right;font-weight:bold;background:#999;color:#FFF;padding:2px; }
+div.account-summary tr th:first-child { text-align:left; }
