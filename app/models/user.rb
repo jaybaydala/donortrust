@@ -16,10 +16,13 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   before_save :encrypt_password
+  before_create :make_activation_code
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
-    u = find_by_login(login) # need to get the salt
+    #u = find_by_login(login) # need to get the salt
+    #check for account activation using activated_at
+    u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
     u && u.authenticated?(password) ? u : nil
   end
 
@@ -63,7 +66,24 @@ class User < ActiveRecord::Base
     self.login
   end
 
+  # Activates the user in the database.
+  def activate
+    @activated = true
+    update_attributes(:activated_at => Time.now.utc, :activation_code => nil)
+  end
+
+  # Returns true if the user has just been activated.
+  def recently_activated?
+    @activated
+  end
+
   protected
+    def validate
+      errors.add("first_name", "cannot be blank if Display name is empty") if first_name.blank? && display_name.blank?
+      errors.add("last_name", "cannot be blank if Display name is empty") if last_name.blank? && display_name.blank?
+      errors.add("display_name", "cannot be blank if First Name and Last Name are empty") if display_name.blank? && first_name.blank? && last_name.blank?
+    end
+    
     # before filter 
     def encrypt_password
       return if password.blank?
@@ -73,5 +93,10 @@ class User < ActiveRecord::Base
     
     def password_required?
       crypted_password.blank? || !password.blank?
+    end
+
+    # If you're going to use activation, uncomment this too
+    def make_activation_code
+      self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
     end
 end

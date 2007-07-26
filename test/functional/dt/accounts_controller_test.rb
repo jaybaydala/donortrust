@@ -57,8 +57,16 @@ context "Dt::Accounts #route_for" do
     route_for(:controller => "dt/accounts", :action => "login").should == "/dt/accounts;login"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'logout'} to /dt/accounts/;logout" do
+  specify "should map { :controller => 'dt/accounts', :action => 'logout'} to /dt/accounts;logout" do
     route_for(:controller => "dt/accounts", :action => "logout").should == "/dt/accounts;logout"
+  end
+
+  specify "should map { :controller => 'dt/accounts', :action => 'activate'} to /dt/accounts;activate" do
+    route_for(:controller => "dt/accounts", :action => "activate").should == "/dt/accounts;activate"
+  end
+
+  specify "should map { :controller => 'dt/accounts', :action => 'activate', :id => 'code' } to /dt/accounts;activate?id=code" do
+    route_for(:controller => "dt/accounts", :action => "activate", :id => 'code' ).should == "/dt/accounts;activate?id=code"
   end
   private 
   def route_for(options)
@@ -89,57 +97,6 @@ context "Dt::Accounts handling login and logout requests" do
     post :login, :login => 'quentin@example.com', :password => 'bad password'
     session[:user].should.be.nil
     status.should.be :success
-  end
-
-  specify "should allow signup" do
-    lambda {
-      create_user
-      should.redirect
-    }.should.change(User, :count)
-  end
- 
-  specify "should require login on signup" do
-    lambda {
-      create_user(:login => nil)
-      assigns(:user).errors.on(:login).should.not.be.nil
-      status.should.be :success
-    }.should.not.change(User, :count)
-  end
-
-  specify "should require password on signup" do
-    lambda {
-      create_user(:password => nil)
-      assigns(:user).errors.on(:password).should.not.be.nil
-      status.should.be :success
-    }.should.not.change(User, :count)
-  end
-
-  specify "should require password_confirmation on signup" do
-    lambda {
-      create_user(:password_confirmation => nil)
-      assigns(:user).errors.on(:password_confirmation).should.not.be.nil
-      status.should.be :success
-    }.should.not.change(User, :count)
-  end
-
-  specify "should require valid email as login on signup" do
-    lambda {
-      create_user(:login => 'timglen')
-      assigns(:user).errors.on(:login).should.not.be.nil
-      status.should.be :success
-
-      create_user(:login => 'timglen@pivotib')
-      assigns(:user).errors.on(:login).should.not.be.nil
-      status.should.be :success
-      
-      create_user(:login => '@pivotib.com')
-      assigns(:user).errors.on(:login).should.not.be.nil
-      status.should.be :success
-      
-      create_user(:login => 'pivotib.com')
-      assigns(:user).errors.on(:login).should.not.be.nil
-      status.should.be :success
-    }.should.not.change(User, :count)
   end
 
   specify "should logout" do
@@ -189,7 +146,7 @@ context "Dt::Accounts handling login and logout requests" do
 
   protected
     def create_user(options = {})
-      post :create, :user => { :login => 'quire@example.com', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+      post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
     end
     
     def auth_token(token)
@@ -258,6 +215,61 @@ context "Dt::Accounts handling GET /dt/accounts/signin" do
 
 end
 
+context "Dt::Accounts handling GET /dt/accounts;activate" do
+  fixtures :users
+  include DtAuthenticatedTestHelper
+
+  setup do
+    @controller = Dt::AccountsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+  end
+  
+  specify "should activate user" do
+    User.authenticate('aaron@example.com', 'test').should.be.nil
+    get :activate, :id => users(:aaron).activation_code
+    users(:aaron).should.equal User.authenticate('aaron@example.com', 'test')
+  end
+end
+
+context "Dt::Accounts user authentication mailer" do
+  fixtures :users
+  include DtAuthenticatedTestHelper
+
+  setup do
+    @controller = Dt::AccountsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+
+    # for testing action mailer
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
+  end
+
+  specify "should activate user and send activation email" do
+    get :activate, :id => users(:aaron).activation_code
+    @emails.length.should.equal 1
+    @emails.first.subject.should =~ /Your account has been activated/
+    @emails.first.body.should    =~ /#{assigns(:user).name}, your account has been activated/
+  end
+
+  specify "should send activation email after signup" do
+    create_user
+    @emails.length.should.equal 1
+    @emails.first.subject.should =~ /Please activate your new account/
+    @emails.first.body.should    =~ /Username: quire@example/
+    @emails.first.body.should    =~ /Password: quire/
+    @emails.first.body.should    =~ /dt\/accounts;activate\?id=#{assigns(:user).activation_code}/
+  end
+
+  protected
+  def create_user(options = {})
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+  end
+end
 
 context "Dt::Accounts handling GET /dt/accounts/new" do
   fixtures :users
@@ -289,6 +301,73 @@ context "Dt::Accounts handling GET /dt/accounts/new" do
     page.should.select "form[action=/dt/accounts][method=post]"
   end
 
+end
+
+context "Dt::Accounts handling POST /dt/accounts/create" do
+  fixtures :users
+  include DtAuthenticatedTestHelper
+
+  setup do
+    @controller = Dt::AccountsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+  end
+
+  specify "should allow signup" do
+    lambda {
+      create_user
+      should.redirect
+    }.should.change(User, :count)
+  end
+
+  specify "should require login on signup" do
+    lambda {
+      create_user(:login => nil)
+      assigns(:user).errors.on(:login).should.not.be.nil
+      status.should.be :success
+    }.should.not.change(User, :count)
+  end
+
+  specify "should require password on signup" do
+    lambda {
+      create_user(:password => nil)
+      assigns(:user).errors.on(:password).should.not.be.nil
+      status.should.be :success
+    }.should.not.change(User, :count)
+  end
+
+  specify "should require password_confirmation on signup" do
+    lambda {
+      create_user(:password_confirmation => nil)
+      assigns(:user).errors.on(:password_confirmation).should.not.be.nil
+      status.should.be :success
+    }.should.not.change(User, :count)
+  end
+
+  specify "should require valid email as login on signup" do
+    lambda {
+      create_user(:login => 'timglen')
+      assigns(:user).errors.on(:login).should.not.be.nil
+      status.should.be :success
+
+      create_user(:login => 'timglen@pivotib')
+      assigns(:user).errors.on(:login).should.not.be.nil
+      status.should.be :success
+    
+      create_user(:login => '@pivotib.com')
+      assigns(:user).errors.on(:login).should.not.be.nil
+      status.should.be :success
+    
+      create_user(:login => 'pivotib.com')
+      assigns(:user).errors.on(:login).should.not.be.nil
+      status.should.be :success
+    }.should.not.change(User, :count)
+  end
+
+  protected
+  def create_user(options = {})
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+  end
 end
 
 context "Dt::Accounts handling GET /dt/accounts/1;edit" do
@@ -328,9 +407,7 @@ context "Dt::Accounts handling GET /dt/accounts/1;edit" do
     login_as :quentin
     do_get
     page.should.select "form#user_form"
-    page.should.select "input#user_email"
-    page.should.select "input#user_password"
-    page.should.select "input#user_password_confirmation"
+    page.should.select "input#user_login"
     page.should.select "input[type=submit]"
   end
 
@@ -341,6 +418,14 @@ context "Dt::Accounts handling GET /dt/accounts/1;edit" do
     assert_select "form#user_form" do
       assert_select "input[type=submit]"
     end
+  end
+  
+  specify "form should have an old_password, password and password_confirmation fields" do
+    login_as :quentin
+    do_get
+    page.should.select "form#user_form input[name=old_password]"
+    page.should.select "input#user_password"
+    page.should.select "input#user_password_confirmation"
   end
 end
 
@@ -382,22 +467,42 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
     u.first_name.should.not.equal User.find(1).first_name
     should.redirect_to :action => 'index'
   end
+
+  specify "should allow a password change" do
+    login_as :quentin
+    u = User.find(1)
+    put :update, { :id => u.id, :old_password => 'test', :user => {:password => 'new_password', :password_confirmation => 'new_password' } }
+    u.crypted_password.should.not.equal User.find(1).crypted_password
+  end
+
+  specify "non-matching passwords should not change" do
+    login_as :quentin
+    u = User.find(1)
+    put :update, { :id => u.id, :old_password => 'test', :user => {:password => 'new_password', :password_confirmation => 'another_password' } }
+    u.crypted_password.should.equal User.find(1).crypted_password
+  end
+
+  specify "empty old_password should not change password" do
+    login_as :quentin
+    u = User.find(1)
+    put :update, { :id => u.id, :user => {:password => 'new_password', :password_confirmation => 'new_password' } }
+    u.crypted_password.should.equal User.find(1).crypted_password
+  end
+
+  specify "incorrect old_password should not change password" do
+    login_as :quentin
+    u = User.find(1)
+    put :update, { :id => u.id, :old_password => 'incorrect_password', :user => {:password => 'new_password', :password_confirmation => 'new_password' } }
+    u.crypted_password.should.equal User.find(1).crypted_password
+  end
 end
 
 
-#  - Email should be authenticated through an emailed auth_code
-#  - optional unique Display Name to be used if given. If not, First Name, Last Name are used for ident purposes
-#    - add formnote to this effect
-#    - either Display Name or First Name and Last Name are required at signup
-#
 #In the context of an unauthenticated account:
-#  - I cannot login until I authenticate my email address
 #  - I have the option to resend the authentication email
 #
 #As a donor I need to be edit my profile so others can see my info, etc:
 #  - if I change my email, it should be re-authenticated
-#  - Password changes require me to type in my old password
-#  - New password needs to be confirmed/re-entered
 #
 #As a user I want to be able to retrieve my password so I won't forget it:
 #  - creates a new password

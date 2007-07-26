@@ -1,0 +1,4 @@
+<ul id="subnav">
+<li><span>Account</span></li>
+<li<%= ' class="current"' if params['action'] == 'edit' %>><a href="<%= dt_edit_account_path(@user) %>"><span>Edit Profile</span></a></li>
+</ul>

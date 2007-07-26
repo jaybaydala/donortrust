@@ -3,9 +3,6 @@
 <p><label for="login">Username</label><br/>
 <%= f.text_field :login %></p>
 
-<p><label for="user_email">Email</label><br/>
-<%= f.text_field :email %></p>
-
 <p><label for="first_name">First Name</label><br/>
 <%= f.text_field :first_name %></p>
 
@@ -27,7 +24,12 @@
 <p><label for="country">Country</label><br/>
 <%= f.text_field :country %></p>
 
-<div class="formnote">Enter a password if you wish to change it</div>
+<div class="formnote">Change Password - Enter your current password and a new password if you wish</div>
+
+<%= error_messages_for :password %>
+
+<p><label for="user_old_password">Current Password</label><br/>
+<%= password_field_tag :old_password %></p>
 
 <p><label for="user_password">Password</label><br/>
 <%= f.password_field :password %></p>

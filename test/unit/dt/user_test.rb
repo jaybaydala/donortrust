@@ -35,6 +35,13 @@ context "User" do
     }.should.not.change(User, :count)
   end
 
+  specify "should require either (first_name & last_name) or display_name" do
+    lambda {
+      u = create_user(:first_name => nil, :last_name => nil, :display_name => nil)
+      u.errors.on(:first_name).should.not.be.nil
+    }.should.not.change(User, :count)
+  end
+
   specify "should require valid email as login" do
     lambda {
       u = create_user(:login => 'timglen')
@@ -48,6 +55,11 @@ context "User" do
     }.should.not.change(User, :count)
   end
 
+  specify "should return the same thing for login and email" do
+    u = users(:quentin)
+    u.login.should.be u.email
+  end
+  
   specify "should reset password" do
     users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
     users(:quentin).should.equal User.authenticate('quentin@example.com', 'new password')
@@ -87,6 +99,38 @@ context "User" do
 
   private
   def create_user(options = {})
-    User.create({ :login => 'quire@example.com', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
+    User.create({ :login => 'quire@example.com', :first_name => 'quire', :last_name => 'test', :display_name => 'quirename', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
   end
 end
+
+context "UserAuthentication" do
+  include DtAuthenticatedTestHelper
+  fixtures :users
+  
+  setup do
+  end
+
+  specify "authenticate should only return an activated user account where activated_at IS NOT NULL" do
+    User.authenticate('quentin@example.com', 'test').should.not.be.nil
+    User.authenticate('aaron@example.com', 'test').should.be.nil
+  end
+end
+
+context "UserActivation" do
+  include DtAuthenticatedTestHelper
+  fixtures :users
+  
+  setup do
+  end
+
+  specify "activate should nullify activation_code and set activated_at to now" do
+    @user = User.find_by_login('aaron@example.com')
+    @user.activation_code.should.not.be nil
+    @user.activated_at.should.be nil
+    @user.activate.should.be true
+    @user.activation_code.should.be nil
+    @user.activated_at.should.not.be nil
+  end
+  
+end
+
