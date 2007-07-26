@@ -37,7 +37,7 @@ set :svn, "/usr/bin/svn"         # defaults to searching the PATH
 # set :cvs, "/path/to/cvs"       # defaults to searching the PATH
 # set :gateway, "gate.host.com"  # default to no gateway
 set :use_sudo, false
-set :checkout, "export"
+#set :checkout, "export"
 set :svn_username, Proc.new { "sterrym --password gr8ce99" }
 
 # =============================================================================
