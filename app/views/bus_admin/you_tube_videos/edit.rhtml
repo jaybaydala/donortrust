@@ -1,12 +1,17 @@
+<div id="you_tube_main">
 <%  
     url = 'http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + @you_tube_video.you_tube_reference 
     response = Net::HTTP.get_response(URI.parse(url))
     @video_hash = Hash.create_from_xml response.body[0,response.body.size]
 %>
-    <h3>Editing <%= @video_hash["ut_response"]["video_details"]["title"] %></h3>
+    <h2>
+        Editing <%= @video_hash["ut_response"]["video_details"]["title"] %> |&nbsp; 
+        <%= link_to 'Show', you_tube_video_path(@you_tube_video) %> |&nbsp;
+        <%= link_to 'Back', you_tube_videos_path %></h2>
     
-    <object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/<%= @you_tube_video.you_tube_reference%>"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/<%= @you_tube_video.you_tube_reference%>" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>
-    
+    <div align="center">
+        <object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/<%= @you_tube_video.you_tube_reference%>"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/<%= @you_tube_video.you_tube_reference%>" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>
+    </div>
     
     <%= error_messages_for :you_tube_video %>
     
@@ -19,5 +24,4 @@
       </p>
     <% end %>
 
-<%= link_to 'Show', you_tube_video_path(@you_tube_video) %> |
-<%= link_to 'Back', you_tube_videos_path %>
+</div>

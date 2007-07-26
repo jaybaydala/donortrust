@@ -48,7 +48,7 @@ class BusAdmin::BusAccountController < ApplicationController
 
   def signup
     @bus_user = BusUser.new(params[:bus_user])
-    puts @bus_user.login
+    #puts @bus_user.login
     return unless request.post?
     @bus_user.save!
     self.current_bus_user = @bus_user

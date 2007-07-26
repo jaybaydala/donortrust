@@ -1,7 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+public:
   id: 1
-  name: Group 1
-two:
+  name: Public Group
+  description: this is the description
+  private: 0
+  group_type_id: 1
+private:
   id: 2
-  name: Group 2
+  name: Private Group
+  description: this is the description
+  private: 1
+  group_type_id: 1

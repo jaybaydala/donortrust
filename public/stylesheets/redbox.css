@@ -1,7 +1,7 @@
 #RB_overlay {
   position: absolute;
   z-index:100;
-  width: 100%;
+  width: 99%;
   height: 100%;
   top: 0;
   left: 0;
@@ -13,8 +13,12 @@
   filter: alpha(opacity=60);
 }
 
+#RB_relative{
+	position: relative;
+}
+
 #RB_redbox {
-  width: 100%;
+  width: 99%;
   position: absolute;
   top: 0px;
 }

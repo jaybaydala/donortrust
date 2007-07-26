@@ -15,10 +15,5 @@
         <% end %>
             </select>
         </div>
-        <%= observe_field "record_country",
-                    :frequency => 1,
-                    :update => "contact_region",
-    				:url => { :action => :populate_contact_regions},
-    				:with => 'record_country' %>
     </dd>
 </dl>

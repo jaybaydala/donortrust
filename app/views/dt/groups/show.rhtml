@@ -1,0 +1,10 @@
+<%= dt_account_nav %>
+
+<h2><%= h @group.name %></h2>
+
+<table border="0">
+	<caption>Group Info (<%= link_to "edit", dt_edit_group_path(@group) %>)</caption>
+	<tr><td>Name:</td><td><%= h @group.name %></td></tr>
+	<tr><td>Type:</td><td><%= h @group.group_type.name %></td></tr>
+	<tr><td>Description:</td><td><%= h @group.description %></td></tr>
+</table>

@@ -56,4 +56,14 @@ class Program < ActiveRecord::Base
     return total_days
   end
   
+  def get_percent_raised
+    percent_raised = 0
+    total_cost = get_total_costs
+    if total_cost > 0 
+      percent_raised = (get_total_raised * 100 / total_cost).floor
+      if percent_raised > 100 then percent_raised = 100 end
+    end    
+    return percent_raised
+  end
+  
 end

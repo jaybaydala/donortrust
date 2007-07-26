@@ -51,18 +51,35 @@ var RedBox = {
 
   setOverlaySize: function()
   {
-    if (window.innerHeight && window.scrollMaxY)
-    {  
-      yScroll = window.innerHeight + window.scrollMaxY;
+     if (window.innerHeight && window.scrollMaxY) 
+      {    
+          yScroll = window.innerHeight + window.scrollMaxY;
+      } 
+      else if (document.body.scrollHeight > document.body.offsetHeight)
+      { // all but Explorer Mac
+          yScroll = document.body.scrollHeight;
+      } 
+      else 
+      { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
+          yScroll = document.body.offsetHeight;
+      }
+	  if (self.innerHeight) 
+    {    // all except Explorer
+        windowHeight = self.innerHeight;
     } 
-    else if (document.body.scrollHeight > document.body.offsetHeight)
-    { // all but Explorer Mac
-      yScroll = document.body.scrollHeight;
-    }
-    else
-    { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
-      yScroll = document.body.offsetHeight;
-    }
+    else if (document.documentElement && document.documentElement.clientHeight) 
+    { // Explorer 6 Strict Mode
+        windowHeight = document.documentElement.clientHeight;
+    } 
+    else if (document.body) 
+    { // other Explorers
+        windowHeight = document.body.clientHeight;
+    }    
+	// for small pages with total height less then height of the viewport
+	if(yScroll < windowHeight)
+	{
+	    yScroll = windowHeight;
+	}
     $("RB_overlay").style['height'] = yScroll +"px";
   },
 

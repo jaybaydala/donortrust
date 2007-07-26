@@ -21,7 +21,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( )
     instance.should.validate
-    instance.save
+    instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count + 1 )
   end
 
@@ -34,7 +34,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :milestone_id => nil )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -42,7 +42,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :milestone_id => 0 )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -58,7 +58,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :milestone_id => 98987 )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -66,7 +66,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :milestone_id => milestones( :two ).id )
     instance.should.validate
-    instance.save
+    instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count + 1 )
   end
 
@@ -74,7 +74,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :name => nil )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -82,7 +82,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :name => "" )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -90,7 +90,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :name => " " )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -98,7 +98,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :name => tasks( :taskone ).name )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -114,7 +114,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :description => nil )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -122,7 +122,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :description => "" )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -130,7 +130,7 @@ context "Tasks" do
     old_instance_count = Task.count
     instance = clean_new_instance( :description => " " )
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -139,7 +139,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.milestone_id = nil
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -148,7 +148,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.milestone_id = 0
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -166,7 +166,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.milestone_id = 98989
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -175,7 +175,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.name = nil
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -193,7 +193,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.name = " "
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -202,7 +202,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.name = tasks( :tasktwo ).name
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -211,7 +211,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.description = nil
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -220,7 +220,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.description = ""
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 
@@ -229,7 +229,7 @@ context "Tasks" do
     instance = Task.find( tasks( :taskone ).id )
     instance.description = " "
     instance.should.not.validate
-    instance.save
+    instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
   end
 end

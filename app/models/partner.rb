@@ -5,10 +5,11 @@ class Partner < ActiveRecord::Base
 #  after_save :save_partner_history
   
   belongs_to    :partner_type
-  belongs_to    :partner_status
+  belongs_to  :partner_status
   has_many      :partner_versions
   has_many      :projects
   has_and_belongs_to_many :contacts #is this the right relationship? 
+  has_many    :programs, :through => :projects
   
   validates_presence_of :name, :partner_status_id, :partner_type_id
   validates_length_of   :name, :maximum => 50
@@ -28,16 +29,6 @@ class Partner < ActiveRecord::Base
     end
   end
   
-  #  def save_with_audit
-  #    save_result       = false
-  #    
-  #    if (self.save)
-  #      ph                    = PartnerHistory.new_audit(self)
-  #      save_result           = ph.save
-  #    end
-  #    return save_result
-  #  end
-  
   def self.is_a_partner?(object)
     return object.class.to_s == "Partner"
   end
@@ -51,8 +42,12 @@ class Partner < ActiveRecord::Base
     return projects.size unless projects == nil 
   end
   
-  def get_number_of_projects(partnerid)
-    return Project.find(:all, :conditions => "partner_id = " + partnerid.to_s)    
+  def get_number_of_projects
+    return Project.find(:all, :conditions => "partner_id = " + id.to_s).size   
+  end
+  
+  def get_number_of_programs
+    return Program.find(:all, :conditions => "id = " + id.to_s).size   
   end
   
   def get_total_costs
@@ -78,6 +73,7 @@ class Partner < ActiveRecord::Base
     if get_total_costs > 0
       percent_raised = ((get_total_raised / get_total_costs) * 100).floor
     end
+    if percent_raised > 100 then percent_raised = 100 end
     return percent_raised
   end
 end

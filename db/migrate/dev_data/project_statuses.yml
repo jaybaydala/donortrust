@@ -1,11 +1,11 @@
 default_project_status_one:
   id: 1
-  name: Not Started
+  name: Slated
   description: Status to indicate that the project is not started yet.
 default_project_status_two:
   id: 2
   name: Started
-  description: Status to indicate that the project has been started. 
+  description: Status to indicate that the project has  started. 
 default_project_status_three:
   id: 3
   name: Canceled

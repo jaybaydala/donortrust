@@ -1,6 +1,12 @@
+<div id="you_tube_main">
 
+
+    
     <div id="you_tube_form">        
-        <h3>Add a new You Tube Video</h3>
+        <h2>
+            Add a new You Tube Video |&nbsp;
+            <%= link_to 'Back', you_tube_videos_path %>
+        </h2>
         <%= error_messages_for :you_tube_video %>
         <% form_for(:you_tube_video, :url => you_tube_videos_path) do |f| %>
         <h2>You Tube Video URL:</h2>
@@ -12,18 +18,22 @@
             :url => '/bus_admin/you_tube_videos;preview',
             :with => "you_tube_video_you_tube_reference"
             ) %> 
+        <%= show_spinner %>
+        
+        
+        <h2>Extra Tags (space delimited):</h2>
+        <%= text_field("you_tube_video","extra_tags") %>
         
         <h2>Comments:</h2>
+            <div id="you_tube_preview">
+        <img src="/images/misc/you_tube/preview.png">
+    </div>
         <%= text_area("you_tube_video","comments")%>
+
 
         <p>
             <%= submit_tag "Create" %> </br>
-            <%= link_to 'Back', you_tube_videos_path %>
         </p>   
     <% end %>
     </div>
-
-    <div id="you_tube_preview">
-        <img src="/images/misc/you_tube/preview.png">
-    </div>
-  
+ </div>

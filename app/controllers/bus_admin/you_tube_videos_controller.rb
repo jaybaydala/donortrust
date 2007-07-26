@@ -3,10 +3,11 @@ require 'uri'
 
 class BusAdmin::YouTubeVideosController < ApplicationController
 
+
   # GET /bus_admin_you_tube_videos
   # GET /bus_admin_you_tube_videos.xml
   def index
-    @you_tube_videos = YouTubeVideo.find(:all)
+    @you_tube_video_pages, @you_tube_videos = paginate :you_tube_videos, :per_page => 1
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @you_tube_videos.to_xml }
@@ -17,7 +18,6 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # GET /bus_admin_you_tube_videos/1.xml
   def show
     @you_tube_video = YouTubeVideo.find(params[:id])
-
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @you_tube_video.to_xml }
@@ -25,18 +25,33 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def search
-    @searchstring = params[:search][:keywords]
-    @searchphrases = @searchstring.split(' ')
+    puts "Search"
     @you_tube_videos = Array.new
-    for searchPhrase in @searchphrases
-      @results = YouTubeVideo.find(:all, :conditions => [ "keywords LIKE ?", '%'+searchPhrase+'%'])
-      for result in @results
-        @you_tube_videos.push(result)
+    @searchstring = params[:search_keywords]
+    if @searchstring != nil
+      @searchphrases = @searchstring.split(' ')
+      for searchPhrase in @searchphrases
+        @results = YouTubeVideo.find(:all, :conditions => [ "LOWER(keywords) LIKE ?", '%'+searchPhrase.downcase+'%'])
+        for result in @results
+          if !@you_tube_videos.include?(result)
+            @you_tube_videos.push(result)
+          end
+        end
       end
     end
-    [@you_tube_videos, @searchphrase]
+    @size = @you_tube_videos.length
+    page = (params[:page] ||= 1).to_i
+    items_per_page = 1
+    offset = (page - 1) * items_per_page
+    
+    @you_tube_video_pages = Paginator.new(self, @you_tube_videos.length, 1, page)
+    @you_tube_videos = @you_tube_videos[offset..(offset + items_per_page - 1)]
+    
+    [@you_tube_videos, @you_tube_video_pages, @searchstring, @size]
     render :layout => false
   end
+  
+  
 
   # GET /bus_admin_you_tube_videos/new
   def new
@@ -54,10 +69,11 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def getVideoHash(url)
-    response = Net::HTTP.get_response(URI.parse('http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + url))
-    puts "Response********************"
-    puts response
-    @video_hash = Hash.create_from_xml response.body[0,response.body.size]
+    if url != nil
+      response = Net::HTTP.get_response(URI.parse('http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + url))
+      @video_hash = Hash.create_from_xml response.body[0,response.body.size]
+      return @video_hash
+    end
   end
 
   # GET /bus_admin_you_tube_videos/1;edit
@@ -74,7 +90,7 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     chunks = url.split("v=")
     ref = chunks[1].split("&")
     
-    @you_tube_video.keywords = getVideoHash(ref[0])["ut_response"]["video_details"]["tags"]
+    @you_tube_video.keywords = getVideoHash(ref[0])["ut_response"]["video_details"]["tags"] + " " + params[:you_tube_video][:extra_tags]
     @you_tube_video.you_tube_reference = ref[0]
 
     respond_to do |format|

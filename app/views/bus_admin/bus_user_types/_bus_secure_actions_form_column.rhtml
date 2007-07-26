@@ -1,40 +1,32 @@
-<head>
-       <%= javascript_include_tag :defaults %>
-</head>
-<body>
-<form>
+
 <label for="@record[:bus_secure_actions]">Bus Secure Actions</label>
 <h4>Permissions</h4>
 <table>
 <tr>
 <td>
+
 Controllers:
 </td>
 <td>
-<select id="bus_security_levels" name="bus_security_levels">
     <% for bus_security_level in BusSecurityLevel.find :all %>
-    <option value=<%= bus_security_level.id %>><%= bus_security_level.controller %></option>
+		<% controller = BusSecurityLevel.find(bus_security_level.id) %>
+    	<div id="bus_security_level_id<%= controller.id %>"  name="bus_security_level_id">
+    		<%= bus_security_level.controller %>
+		<div id="bus_secure_action">
+    	
+		Actions:
+    	<% @actions=  BusSecureAction.find :all, :conditions => ["bus_security_level_id = ?", controller.id] %>
+    	<div style='overflow:auto;width:75px;border:1px solid #336699;'><ul style='padding-left:0; margin-left:0;list-style:none;'>
+    	<% for action in @actions %>
+      		<li ><input type='checkbox' id='record_bus_security_level' name='record[bus_secure_actions][<%= (action.id - 1).to_s %>][id]' value='<%=  action.id.to_s %>'  <%= checked(controller, action, params[:id])%>> <%= action.permitted_actions %></input></li>
+    	<% end  %>
+    	</ul></div>
+	
+		</div>
 <% end %>
 </select>
-</td>
-</tr>
-<%= observe_field "bus_security_levels", 
-    :frequency => 1,
-    :update => "bus_secure_action",
-    :url => {:controller => 'bus_admin/bus_user_types', :action => "get_actions" },
-    :with => "bus_security_level_id" %>
-
-<br />
-<tr>
-<td>
-Bus Secure Actions: 
-</td>
-
-<td>
-<div id="bus_secure_action"></div>
 </td>
 </tr>
 </table>    
 
 
-</form>

@@ -1,10 +1,11 @@
 class MembershipsRel001 < ActiveRecord::Migration
   def self.up
     create_table :memberships, :id => false do |t|
-      t.column :user_id,       :int
-      t.column :group_id,      :int
-      t.column :created_at,    :datetime
-      t.column :updated_at,    :datetime
+      t.column :user_id,                :int
+      t.column :group_id,               :int
+      t.column :membership_type,        :int
+      t.column :created_at,             :datetime
+      t.column :updated_at,             :datetime
     end
     # add some indexes
     add_index :memberships, [:user_id, :group_id] 

@@ -35,38 +35,43 @@ context "User" do
     }.should.not.change(User, :count)
   end
 
-  specify "should require email" do
+  specify "should require either (first_name & last_name) or display_name" do
     lambda {
-      u = create_user(:email => nil)
-      u.errors.on(:email).should.not.be.nil
+      u = create_user(:first_name => nil, :last_name => nil, :display_name => nil)
+      u.errors.on(:first_name).should.not.be.nil
     }.should.not.change(User, :count)
   end
 
-  specify "should require valid email" do
+  specify "should require valid email as login" do
     lambda {
-      u = create_user(:email => 'timglen')
-      create_user(:email => 'timglen@pivotib')
+      u = create_user(:login => 'timglen')
+      create_user(:login => 'timglen@pivotib')
       
-      u = create_user(:email => '@pivotib.com')
-      u.errors.on(:email).should.not.be.nil
+      u = create_user(:login => '@pivotib.com')
+      u.errors.on(:login).should.not.be.nil
       
-      u = create_user(:email => 'pivotib.com')
-      u.errors.on(:email).should.not.be.nil
+      u = create_user(:login => 'pivotib.com')
+      u.errors.on(:login).should.not.be.nil
     }.should.not.change(User, :count)
   end
 
+  specify "should return the same thing for login and email" do
+    u = users(:quentin)
+    u.login.should.be u.email
+  end
+  
   specify "should reset password" do
     users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    users(:quentin).should.equal User.authenticate('quentin', 'new password')
+    users(:quentin).should.equal User.authenticate('quentin@example.com', 'new password')
   end
 
   specify "should not rehash password" do
-    users(:quentin).update_attributes(:login => 'quentin2')
-    users(:quentin).should.equal User.authenticate('quentin2', 'test')
+    users(:quentin).update_attributes(:login => 'quentin2@example.com')
+    users(:quentin).should.equal User.authenticate('quentin2@example.com', 'test')
   end
 
   specify "should authenticate user" do
-    users(:quentin).should.equal User.authenticate('quentin', 'test')
+    users(:quentin).should.equal User.authenticate('quentin@example.com', 'test')
   end
 
   specify "should set remember token" do
@@ -82,8 +87,50 @@ context "User" do
     users(:quentin).remember_token.should.be.nil
   end
 
+  specify "should return 'first_name last_name' if display_name is empty" do
+    u = users(:quentin)
+    u.name.should.equal "#{u.first_name} #{u.last_name}"
+  end
+
+  specify "should return 'display_name' if display_name is not empty" do
+    u = users(:tim)
+    u.name.should.equal "#{u.display_name}"
+  end
+
   private
   def create_user(options = {})
-    User.create({ :login => 'quire', :email => 'quire@example.com', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
+    User.create({ :login => 'quire@example.com', :first_name => 'quire', :last_name => 'test', :display_name => 'quirename', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
   end
 end
+
+context "UserAuthentication" do
+  include DtAuthenticatedTestHelper
+  fixtures :users
+  
+  setup do
+  end
+
+  specify "authenticate should only return an activated user account where activated_at IS NOT NULL" do
+    User.authenticate('quentin@example.com', 'test').should.not.be.nil
+    User.authenticate('aaron@example.com', 'test').should.be.nil
+  end
+end
+
+context "UserActivation" do
+  include DtAuthenticatedTestHelper
+  fixtures :users
+  
+  setup do
+  end
+
+  specify "activate should nullify activation_code and set activated_at to now" do
+    @user = User.find_by_login('aaron@example.com')
+    @user.activation_code.should.not.be nil
+    @user.activated_at.should.be nil
+    @user.activate.should.be true
+    @user.activation_code.should.be nil
+    @user.activated_at.should.not.be nil
+  end
+  
+end
+

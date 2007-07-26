@@ -16,53 +16,16 @@
             <%= link_to(image_tag("/images/icons/delete_icon.gif"), you_tube_video_path(@you_tube_video), :confirm => 'Are you sure?', :method => :delete )%>
         </you_tube_title><br/>
         <strong>From</strong>: <%= @video_hash["ut_response"]["video_details"]["author"]%><br/>
+       
         
-        <div class="you_tube_text_area">
-            <div id="<%= @you_tube_video.you_tube_reference%>_short" ><%= @video_hash["ut_response"]["video_details"]["description"][0,80]%> 
-            ... (<%= link_to_function("more", nil, :id =>"#{@you_tube_video.you_tube_reference}_less_link") do |page|
-                        page.visual_effect :slide_up, "#{@you_tube_video.you_tube_reference}_short", :duration => 0.5
-                        page.delay(0.5) do
-                            page.visual_effect :slide_down, "#{@you_tube_video.you_tube_reference}_long", :duration => 0.5
-                        end
-               end
-             %>)</div>            
-            <div id="<%= @you_tube_video.you_tube_reference%>_long" style="display:none"><%= @video_hash["ut_response"]["video_details"]["description"]%>
-           (<%= link_to_function("less", nil, :id =>"#{@you_tube_video.you_tube_reference}_less_link") do |page|
-                        page.visual_effect :slide_up, "#{@you_tube_video.you_tube_reference}_long", :duration => 0.5
-                        page.delay(0.5) do
-                            page.visual_effect :slide_down, "#{@you_tube_video.you_tube_reference}_short", :duration => 0.5
-                        end
-               end
-             %>)  
-            </div>
-            
-        </div>
-        <strong>Comments</strong>: 
-        <div class="you_tube_text_area">
-            <div id="<%= @you_tube_video.you_tube_reference%>_comments_short">
-                <%= @you_tube_video.comments[0,80] %>
-                ...
-                
-            (<%= link_to_function("more", nil, :id =>"#{@you_tube_video.you_tube_reference}_more_comments_link") do |page|
-                        page.visual_effect :slide_up, "#{@you_tube_video.you_tube_reference}_comments_short", :duration => 0.5
-                        page.delay(0.5) do
-                            page.visual_effect :slide_down, "#{@you_tube_video.you_tube_reference}_comments_long", :duration => 0.5
-                        end
-               end
-             %>) 
-            </div>
-            <div id="<%= @you_tube_video.you_tube_reference%>_comments_long" style="display:none">
-                <%= @you_tube_video.comments %>
-            
-            (<%= link_to_function("less", nil, :id =>"#{@you_tube_video.you_tube_reference}_less_comments_link") do |page|
-                        page.visual_effect :slide_up, "#{@you_tube_video.you_tube_reference}_comments_long", :duration => 0.5
-                        page.delay(0.5) do
-                            page.visual_effect :slide_down, "#{@you_tube_video.you_tube_reference}_comments_short", :duration => 0.5
-                        end
-               end
-             %>) 
-            </div>
-        </div>
+        <%= show_hide_text_area(@video_hash["ut_response"]["video_details"]["description"], 80, (@you_tube_video.you_tube_reference + "_description"), "you_tube_text_area")%>
+        
+        <strong>Comments</strong>:
+        <%= show_hide_text_area(@you_tube_video.comments, 80, (@you_tube_video.you_tube_reference + "_comments"), "you_tube_text_area")%>
+        
+        <strong>Tags</strong>:
+        <%= show_hide_text_area(@you_tube_video.keywords, 80, (@you_tube_video.you_tube_reference + "_keywords"), "you_tube_text_area")%>
+
     </div>
     
 </div>

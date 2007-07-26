@@ -1,16 +1,16 @@
 <%= error_messages_for :user %>
 <% form_for(:user, :url => dt_accounts_path) do |f| %>
-<p><label for="login">Username</label><br/>
+<p><label for="login">Email</label><br/>
 <%= f.text_field :login %></p>
-
-<p><label for="email">Email</label><br/>
-<%= f.text_field :email %></p>
 
 <p><label for="first_name">First Name</label><br/>
 <%= f.text_field :first_name %></p>
 
 <p><label for="last_name">Last Name</label><br/>
 <%= f.text_field :last_name %></p>
+
+<p><label for="display_name">Display Name</label><br/>
+<%= f.text_field :display_name %></p>
 
 <p><label for="address">Address</label><br/>
 <%= f.text_field :address %></p>

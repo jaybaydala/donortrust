@@ -5,6 +5,7 @@ class BusAdmin::ContactsController < ApplicationController
     config.label = "Contacts"
     config.list.columns = [:first_name, :last_name, :phone_number, :email_address]
     config.update.columns = [:first_name, :last_name, :phone_number, :fax_number, :email_address, :web_address, :department, :continent, :country, :region, :urban_centre, :address_line_1, :address_line_2, :postal_code]
+    #config.nested.columns = [:first_name, :last_name, :phone_number]
     config.create.columns = [:first_name, :last_name, :phone_number, :fax_number, :email_address, :web_address, :department, :continent, :country, :region, :urban_centre, :address_line_1, :address_line_2, :postal_code]
     config.show.columns = [:first_name, :last_name, :urban_centre]
     
@@ -12,6 +13,10 @@ class BusAdmin::ContactsController < ApplicationController
     config.columns[:country].form_ui = :select
     config.columns[:region].form_ui = :select
     config.columns[:urban_centre].form_ui = :select
+    
+    
+    config.subform.columns.exclude :fax_number,:web_address, :department, :continent, :country, :region, :urban_centre, :address_line_1, :address_line_2, :postal_code
+    
   end
 
   def populate_contact_countries
@@ -26,7 +31,7 @@ class BusAdmin::ContactsController < ApplicationController
     else
       @result = "<select id='record_country' class='country-input' name='record[country][id]'><option value=''></option></select>"
     end  
-    puts @result    
+    #puts @result    
     render :partial => "bus_admin/contacts/country_form"   
   end
   

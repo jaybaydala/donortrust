@@ -41,13 +41,15 @@ class Project < ActiveRecord::Base
   end
   
   def self.total_percent_raised
+    percent_raised = 100
     unless self.total_costs == nil or self.total_costs == 0
-      return self.total_money_raised * 100 / self.total_costs
+      percent_raised = self.total_money_raised * 100 / self.total_costs      
+      if percent_raised > 100 then percent_raised = 100 end
     else
-      return 100
+      return percent_raised
     end
   end 
-
+  
   def get_number_of_milestones_by_status(status)
     milestones = self.milestones.find(:all, :conditions => "milestone_status_id = " + status.to_s )    
     return milestones.size unless milestones == nil     
@@ -62,24 +64,16 @@ class Project < ActiveRecord::Base
   def village
     self.urban_centre
   end
-  
-  def self.percent_raised
-    return dollars_raised * 100 / total_cost
-  end  
-  
+   
   def get_percent_raised
+    percent_raised = 0
     if self.total_cost > 0 
-      return (dollars_raised * 100 / total_cost)
+      percent_raised = (dollars_raised * 100 / total_cost)
+      if percent_raised > 100 then percent_raised = 100 end
     end
+    return percent_raised
   end
   
-  def self.total_percent_raised
-    percent = 100
-    unless self.total_costs == nil or self.total_costs == 0
-      percent =  self.total_money_raised * 100 / self.total_costs
-    end
-    return percent
-  end 
   
   def self.projects_nearing_end(days_until_end)
     @projects = Project.find(:all) 

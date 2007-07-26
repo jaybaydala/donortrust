@@ -7,6 +7,7 @@ context "Groups" do
   def setup
     @group = Group.find(1)
   end
+
   specify "should not validate with nil name" do
     @group.should.validate
     @group.name = nil

@@ -1,0 +1,26 @@
+<%= dt_account_nav %>
+<div id="contentcontainer">
+<div id="content">
+<div class="contentmargin">
+<div class="column-title">All Groups</div>
+<ul id="group-list">
+<%= render_partial_collection 'dt/groups/group', @groups if @groups %>
+</ul>
+</div>
+</div>
+
+<div id="rail-left">
+<div class="contentmargin">
+<div class="column-title">Recently Created Groups</div>
+<ul id="recentgroup-list">
+<%= render_partial_collection 'dt/groups/group', @recent_groups if @recent_groups %>
+</ul>
+</div>
+</div>
+
+<div id="rail-right">
+<div class="contentmargin">
+<%= render_partial 'dt/groups/groups_sidebar' %>
+</div>
+</div>
+</div>

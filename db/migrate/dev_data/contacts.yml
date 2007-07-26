@@ -10,7 +10,7 @@ testcrashdummy:
 #  department: :string
 #  continent_id: 1
 #  region_id: 1
-  urban_centre_id: 1
+#  urban_centre_id: 1
 #  address_line_1: :string
 #  address_line_2: :string
 #  postal_code: :string
@@ -26,7 +26,7 @@ testcrashdummy2:
 #  department: :string
 #  continent_id: 1
 #  region_id: 1
-  urban_centre_id: 1
+#  urban_centre_id: 1
 #  address_line_1: :string
 #  address_line_2: :string
 #  postal_code: :string
@@ -42,7 +42,7 @@ testcrashdummy3:
 #  department: :string
 #  continent_id: 1
 #  region_id: 1
-  urban_centre_id: 1
+#  urban_centre_id: 1
 #  address_line_1: :string
 #  address_line_2: :string
 #  postal_code: :string

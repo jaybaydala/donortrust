@@ -1,33 +1,39 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ContactTest < Test::Unit::TestCase
+context "Contacts" do
   fixtures :contacts
 
-  def test_invalid_with_empty_names
-    contact = Contact.new
-    
-    assert !contact.valid?
-    assert contact.errors.invalid?(:first_name)
-    assert contact.errors.invalid?(:last_name)
-  end
-
-  def test_save_without_first_and_last_name
-    contact = Contact.new
-    assert !contact.save
+  setup do
+    @contact = Contact.find(1)
   end
   
-  def test_partner_relationship
-    contact = Contact.new
-    contact.id = 1
-    
-    partner1 = Partner.new(:name => "p1")
-    partner2 = Partner.new(:name => "p2")
-    
-    assert contact.partners.empty?
-    
-    contact.partners << partner1
-    contact.partners << partner2
-    
-    assert !contact.partners.empty?
+  specify "The contact should have a first and last name" do
+    @contact.first_name.should.not.be.nil
+    @contact.last_name.should.not.be.nil
+  end
+  
+  specify "duplicat first and last name should not validate" do
+    @contact1 = Contact.new( :first_name => @contact.first_name, :last_name => @contact.last_name )
+    @contact1.should.not.validate
+  end
+
+  specify "nil first_name should not validate" do
+    @contact.first_name = nil
+    @contact.should.not.validate
+  end
+  
+  specify "nil last_name should not validate" do
+    @contact.last_name = nil
+    @contact.should.not.validate
+  end
+
+  specify "fullname should concat 'first_name last_name'" do
+    contact = Contact.new( :first_name => 'testy', :last_name => 'testerson')
+    contact.fullname.should == "testy testerson"
+  end
+  
+  specify "to_label should concat 'last_name, first_name'" do
+    contact = Contact.new( :first_name => 'testy', :last_name => 'testerson')
+    contact.to_label.should == "testerson, testy"
   end
 end
