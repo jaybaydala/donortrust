@@ -9,5 +9,5 @@ private:
   id: 2
   name: Private Group
   description: this is the description
-  private: 0
+  private: 1
   group_type_id: 1
