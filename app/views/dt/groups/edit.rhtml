@@ -1,1 +1,16 @@
 <%= dt_account_nav %>
+
+<%= error_messages_for :group %>
+<% form_for(:group, :url => dt_group_path(@group)) do |f| %>
+<p><label for="group_name">Group name</label><br/>
+<%= f.text_field :name %></p>
+
+<p><label for="group_description">Description</label><br/>
+<%= f.text_area :description, :rows => 8, :cols => 30 %></p>
+
+<p><label for="group_private">Private</label> <%= f.check_box :private %></p>
+
+<p><label for="group_group_type">Group Type</label> <%= collection_select :group, :group_type_id, GroupType.find(:all), :id, :name %></p>
+
+<p><%= submit_tag 'Update Group' %></p>
+<% end -%>

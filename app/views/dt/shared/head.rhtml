@@ -3,7 +3,7 @@
 
 <div id="userbug">
 <% if logged_in? %>
-Welcome, <%= link_to current_user.name, dt_edit_account_path(current_user) %><br />
+Welcome, <%= link_to current_user.name, dt_account_path(current_user) %><br />
 <div id="notuserbug">Not <%= current_user.name %>? <%= link_to 'logout', dt_logout_accounts_path %> </div>
 <% else %>
 Welcome. <%= link_to 'Login', dt_signin_accounts_path %>
