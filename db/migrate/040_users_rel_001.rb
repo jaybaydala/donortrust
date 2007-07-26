@@ -19,6 +19,10 @@ class UsersRel001 < ActiveRecord::Migration
       t.column :activation_code,           :string, :limit => 40
       t.column :activated_at,              :datetime
     end
+    if (ENV['RAILS_ENV'] == 'development')
+      directory = File.join(File.dirname(__FILE__), "dev_data")
+      Fixtures.create_fixtures(directory, "users") if File.exists? "#{directory}/users.yml"
+    end
   end
 
   def self.down

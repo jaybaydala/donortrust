@@ -1,0 +1,19 @@
+tim:
+  id: 1
+  login: timglen@pivotib.com
+  first_name: Tim
+  last_name: Glen
+  display_name: sterrym
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  activated_at: <%= 30.minutes.ago.to_s :db %>
+  created_at: <%= 1.hour.ago.to_s :db %>
+jay:
+  id: 2
+  login: jay.baydala@christmasfuture.org
+  first_name: Jay
+  last_name: Baydala
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  activated_at: <%= 30.minutes.ago.to_s :db %>
+  created_at: <%= 1.hour.ago.to_s :db %>
