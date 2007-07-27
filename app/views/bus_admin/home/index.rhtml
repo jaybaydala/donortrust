@@ -70,7 +70,7 @@
 							
 						</td>
 						<td> % Dollars Raised<br />
-							<%= horizontal_bar_graph  [['Raised',  ((program.get_total_raised / program.get_total_costs) * 100 ).floor]] %>
+							<%= horizontal_bar_graph  [['Raised', program.get_percent_raised]] %>
 							Days Remaining in All Projects: <%= program.get_total_days_remaining %>		
 							<br />					
 							
