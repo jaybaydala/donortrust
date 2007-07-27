@@ -93,7 +93,7 @@
         </td>
 
         <td width="57">
-          <% if session[:user] %><span style="color: #666;">[<a href="logout">Logout</a> | <%= link_to_remote_redbox "Change Password", :url => {:controller => '/bus_admin/bus_account', :action => 'change_password'}%> ]</span></td><% end %>
+          <% if session[:user] %><span style="color: #666;">[<a href="logout">Logout</a> | <%= link_to_function "Change Password", {:controller => 'bus_admin/bus_accounts', :action => 'change_password'} %> ]</span></td><% end %>
       </tr>
 
       <tr>
