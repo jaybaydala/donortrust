@@ -28,11 +28,11 @@ class BusAdmin::BusAccountController < ApplicationController
   
   
   def login
-    return unless request.post?
+    if params[:login] != nil && params[:password] != nil
     self.current_bus_user = BusUser.authenticate(params[:login], params[:password])
-    if logged_in?
+     if logged_in?
       if params[:remember_me] == "1"
-        self.current_bus_user.remember_me
+        self.current_bus_user.remember_me   
         cookies[:auth_token] = { :value => self.current_bus_user.remember_token , :expires => self.current_bus_user.remember_token_expires_at }
       end
         jumpto = session[:jumpto] || {:action => 'index'}
@@ -42,22 +42,41 @@ class BusAdmin::BusAccountController < ApplicationController
       session[:user] = self.current_bus_user
       flash[:notice] = "Logged in successfully"
      else
+        
+        redirect_to('/bus_admin/login')
         flash[:notice] = "Your password may be incorrect, or the specified user doesn't exist"
       end
+    end
+   
   end
+
+
+#  def signup
+#    if BusUser.new(params[:bus_user])
+#    @bus_user = BusUser.new(params[:bus_user])
+#      if @bus_user.save
+#      #puts @bus_user.login
+#      
+#      @bus_user.save!
+#      self.current_bus_user = @bus_user
+#      
+#      redirect_back_or_default(:controller => '/bus_admin/bus_account', :action => 'index')
+#      flash[:notice] = "Thanks for signing up!"
+#    end
+#    end
+#  end
 
   def signup
     @bus_user = BusUser.new(params[:bus_user])
-    #puts @bus_user.login
-    return unless request.post?
+    return unless request.method == :post
     @bus_user.save!
     self.current_bus_user = @bus_user
-    
     redirect_back_or_default(:controller => '/bus_admin/bus_account', :action => 'index')
     flash[:notice] = "Thanks for signing up!"
   rescue ActiveRecord::RecordInvalid
     render :action => 'signup'
   end
+
   
   def logout
     self.current_bus_user.forget_me if logged_in?
@@ -68,7 +87,8 @@ class BusAdmin::BusAccountController < ApplicationController
   end
     
  def change_password
-   render :partial => "bus_admin/bus_account/password_form"
+  render :partial => "bus_admin/bus_account/password_form"
+    
  end
  
  def change_password_now  
