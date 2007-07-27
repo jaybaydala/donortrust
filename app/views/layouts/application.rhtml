@@ -82,18 +82,15 @@
 
         <td width="60" rowspan="2">&nbsp;</td>
 
-        <td width="163">
+        <td  colspan="2" align="right">
           <% if session[:user] and session[:user] != :false %>
-            <span style="color: #666;">Logged in as: <%= session[:user].login + " " %>
+            <span style="color: #666; font-weight: bold; text-align: right;">Logged in as: <%= session[:user].login + " " %>
             </span>
             
             <!--<a href="#"><img src="/images/logout.gif" alt="Menu"
             width="12" height="12" border="0" /></a>-->
            <% end %>
-        </td>
-
-        <td width="57">
-          <% if session[:user] %><span style="color: #666;">[<a href="logout">Logout</a> | <%= link_to_remote_redbox "Change Password", :url => {:controller => 'bus_admin/bus_account', :action => 'change_password'} %> ]</span></td><% end %>
+          <% if session[:user] %><span style="color: #666;"><br />[<a href="logout">Logout</a> | <%= link_to_remote_redbox "Change Password", :url => {:controller => 'bus_admin/bus_account', :action => 'change_password'} %>]</span></td><% end %>
       </tr>
 
       <tr>
@@ -104,7 +101,7 @@
           </div>
         </td>
 
-        <td width="57"><a href="/bus_admin/home">Home</a></td>
+        <td width="57" style="font-weight: bold; color: #666;"><a href="/bus_admin/home">Home</a></td>
       </tr>
     </table>
 
