@@ -9,6 +9,7 @@ class TasksRel001 < ActiveRecord::Migration
       t.column :start_date, :date
       t.column :end_date, :date
       t.column :etc_date, :date
+      t.column :version, :integer
     end
     
     if (ENV['RAILS_ENV'] == 'development')
