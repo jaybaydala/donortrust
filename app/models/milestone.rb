@@ -1,5 +1,8 @@
 class Milestone < ActiveRecord::Base
+  acts_as_versioned
+
   has_many :tasks, :dependent => :destroy
+  has_many :milestone_versions
   belongs_to :project
 #  belongs_to :program, :through => :project
   belongs_to :milestone_status
@@ -9,8 +12,6 @@ class Milestone < ActiveRecord::Base
   #:foreign_key => :project_id
   #:association_foreign_key
 
-  #validates_associated :project, :milestone_status
-  #validates_presence_of :project_id
   validates_presence_of :milestone_status_id
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :project_id
@@ -27,17 +28,6 @@ class Milestone < ActiveRecord::Base
     end
   end
 
-#  def destroy
-#    result = false
-#    if tasks.count > 0
-##      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Tasks" )
-#      raise( "Can not destroy a #{self.class.to_s} that has Tasks" )
-#    else
-#      result = super
-#    end
-#    return result
-#  end
-
   def tasks_count
     return tasks.count
   end
@@ -46,10 +36,7 @@ class Milestone < ActiveRecord::Base
     return self.project.program.name
   end
 
-  # Determine if an object instance is a Milestone
-  def self.is_a_milestone?( object )
-    #return object.class == self.class
-    #return object.class.to_s == self.class.to_s
-    return object.class.to_s == "Milestone"
+  def version_count
+    return milestone_versions.count
   end
 end

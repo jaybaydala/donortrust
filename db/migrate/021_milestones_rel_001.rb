@@ -8,6 +8,7 @@ class MilestonesRel001 < ActiveRecord::Migration
       t.column :description, :text
       t.column :target_date, :date
       t.column :milestone_status_id, :int, :null => false
+      t.column :version, :integer
     end # milestones
  
     if (ENV['RAILS_ENV'] == 'development')

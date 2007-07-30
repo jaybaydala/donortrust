@@ -18,6 +18,6 @@ class Task < ActiveRecord::Base
   attr_protected :milestone_id
 
   def version_count
-    return task_versions.size
+    return task_versions.count
   end
 end
