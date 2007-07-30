@@ -7,6 +7,7 @@ class Project < ActiveRecord::Base
   belongs_to :partner
   has_many :project_histories
   has_many :milestones
+  has_many :project_you_tube_videos
   belongs_to :urban_centre
   belongs_to :contact
   has_and_belongs_to_many :groups
@@ -84,6 +85,14 @@ class Project < ActiveRecord::Base
       end
     end
     return @projects_near_end
+  end
+  
+  def get_all_you_tube_videos
+    @you_tube_videos = Array.new
+    for project_you_tube_video in self.project_you_tube_videos
+      @you_tube_videos.push(project_you_tube_video.you_tube_video)
+    end
+    @you_tube_videos
   end
   
   def self.total_money_raised

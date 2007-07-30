@@ -1,0 +1,18 @@
+<div id="<%= project.id.to_s %>_div">
+    <strong><%= project.name %></strong><br/>
+    <%= link_to_function("Add Videos", nil, :id =>"addvideos") do |page|
+                page.visual_effect :slide_down, "cart_#{project.id.to_s}", :duration => 0.5
+       end
+     %>
+     <% project_id ||= 0%>
+    <div id="cart_<%= project.id%>" class="you_tube_cart" <%if project_id.to_i != project.id %>style="display:none"<% end %>>
+    <%= drop_receiving_element "cart_#{project.id}", :update => "cart_#{project.id}", :url => {:action => "add", :project_id => project.id}, :hoverclass => "you_tube_cart_active"%>
+    Drag Any Video you wish to associate with this project<br/>
+    <%= link_to_function("Done Adding Videos", nil, :id =>"addVideos") do |page|
+                        page.visual_effect :slide_up, "cart_#{project.id.to_s}", :duration => 0.5
+        end
+    %>
+    <% @you_tube_videos = project.get_all_you_tube_videos %>
+    <%= render(:partial => '/bus_admin/you_tube_videos/you_tube_video', :locals => {:prefix => "project_#{project.id}_"}, :collection => @you_tube_videos) %> 
+    </div>
+</div>

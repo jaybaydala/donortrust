@@ -19,12 +19,37 @@ module ApplicationHelper
     end
   end
   
+  #
+  # Generates a list of page links for updateing an div using AJAX
+  #
+  def pageinated_links_for_ajax(pageArray, update, controller, action, options)
+    result = ""
+    if pageArray.length > 1
+      for i in 1...pageArray.length+1
+        if i != pageArray.current_page.to_i
+          if options != nil
+            result = result + link_to_remote(i.to_s, :update => update, :url => {:controller => controller, :action => action, :with => options, :page => i.to_s })             
+          else
+            result = result + link_to_remote(i.to_s, :update => update, :url => {:controller => controller, :action => action, :page => i.to_s })             
+          end
+        else
+          result = result + i.to_s
+        end
+      end
+    end
+    return result
+  end
+  
+  
+  #
+  # Shows a spinner when any active AJAX requests are running - Joe
+  #
   def show_spinner
     content_tag "div", "Working... " + image_tag("/images/misc/spinner.gif"), :id => "ajax_busy", :style => "display:none;"
   end
   
   #
-  # Creates a simple show hide div box for displaying a small section of text
+  # Creates a simple show hide div box for displaying a small section of text - Joe
   #
   def show_hide_text_area(text, textLength, uniqueKeyWord, containerClassName)
     result = ""

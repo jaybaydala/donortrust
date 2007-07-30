@@ -1,0 +1,60 @@
+<%= show_spinner %>
+<div id="trash_bin" class="trash_bin">
+    <%= image_tag("/images/icons/delete_icon.gif")%> Drag any Videos you wish to remove from the a project into the trash bin.
+</div>
+<%= drop_receiving_element "trash_bin", :update => "projects", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
+    
+
+<div class="cart_container">
+    <h2>You Tube Videos | &nbsp;<%= link_to 'New You Tube Video', new_you_tube_video_path %> | 
+    &nbsp;
+    <%= link_to_function("Search", nil, :id =>"searchLink") do |page|
+                            page.visual_effect :slide_down, "you_tube_search_field", :duration => 0.5
+                   end
+                 %>
+    </h2>
+    <div id="you_tube_search_field" class="you_tube_search_field" style="display:none">
+            <h2>Keywords | &nbsp;
+            <%= link_to_function("Close", nil, :id =>"searchLink") do |page|
+                        page.visual_effect :slide_up, "you_tube_search_field", :duration => 0.5
+               end
+             %>
+            </h2>
+            <%= text_field "search", "keywords" %>
+                <%= observe_field("search_keywords", 
+                    :frequency => 2, 
+                    :update => :videos, 
+                    :url => '/bus_admin/you_tube_videos;search',
+                    :with => "search_keywords"
+                    ) %> 
+    </div>
+    <div id="videos"> 
+        <%= render(:partial => '/bus_admin/you_tube_videos/you_tube_video', :locals => {:prefix => "videos_"}, :collection => @you_tube_videos) %> 
+        <%= pageinated_links_for_ajax(@you_tube_video_pages, "videos", "/bus_admin/project_you_tube_videos", "videos", nil) %>
+    </div>
+</div>
+
+<div class="cart_container">
+    <h2>Projects  | 
+    &nbsp;
+    <%= link_to_function("Search", nil, :id =>"searchLink") do |page|
+                            page.visual_effect :slide_down, "project_search_field", :duration => 0.5
+                   end
+                 %></h2>
+    <div id="project_search_field" class="you_tube_search_field" style="display:none">
+            <h2>Keywords | &nbsp;
+            <%= link_to_function("Close", nil, :id =>"searchLink") do |page|
+                        page.visual_effect :slide_up, "project_search_field", :duration => 0.5
+               end
+             %>
+            </h2>
+            <%= text_field "project_search", "keywords" %>
+            <%= observe_field("project_search_keywords", :frequency => 2, :update => :projects, :url => '/bus_admin/project_you_tube_videos;search', :with => "project_search_keywords" ) %> 
+
+    </div>
+    <div id="projects">
+        <%= render(:partial => "project", :collection=>@projects)%>
+        <%= pageinated_links_for_ajax(@project_pages, "projects", "/bus_admin/project_you_tube_videos", "projects", nil) %>
+    </div>
+</div>
+

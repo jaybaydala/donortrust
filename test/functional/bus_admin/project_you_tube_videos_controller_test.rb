@@ -24,15 +24,15 @@ class BusAdmin::ProjectYouTubeVideosControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-  def test_should_create_project_you_tube_video
-    old_count = project_you_tube_video.count
-    post :create, :project_you_tube_video => { }
-    assert_equal old_count+1, project_you_tube_video.count
+  def test_should_create_project_you_tube_videos
+    old_count = BusAdmin::ProjectYouTubeVideos.count
+    post :create, :project_you_tube_videos => { }
+    assert_equal old_count+1, BusAdmin::ProjectYouTubeVideos.count
     
-    assert_redirected_to project_you_tube_video_path(assigns(:project_you_tube_video))
+    assert_redirected_to project_you_tube_videos_path(assigns(:project_you_tube_videos))
   end
 
-  def test_should_show_project_you_tube_video
+  def test_should_show_project_you_tube_videos
     get :show, :id => 1
     assert_response :success
   end
@@ -42,15 +42,15 @@ class BusAdmin::ProjectYouTubeVideosControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-  def test_should_update_project_you_tube_video
-    put :update, :id => 1, :project_you_tube_video => { }
-    assert_redirected_to project_you_tube_video_path(assigns(:project_you_tube_video))
+  def test_should_update_project_you_tube_videos
+    put :update, :id => 1, :project_you_tube_videos => { }
+    assert_redirected_to project_you_tube_videos_path(assigns(:project_you_tube_videos))
   end
   
-  def test_should_destroy_project_you_tube_video
-    old_count = project_you_tube_video.count
+  def test_should_destroy_project_you_tube_videos
+    old_count = BusAdmin::ProjectYouTubeVideos.count
     delete :destroy, :id => 1
-    assert_equal old_count-1, project_you_tube_video.count
+    assert_equal old_count-1, BusAdmin::ProjectYouTubeVideos.count
     
     assert_redirected_to bus_admin_project_you_tube_videos_path
   end

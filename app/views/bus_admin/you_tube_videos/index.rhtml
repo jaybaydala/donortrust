@@ -1,19 +1,13 @@
 <div id="you_tube_main">
-    <h2>You Tube Videos | &nbsp;<%= link_to 'New You Tube Video', new_you_tube_video_path %> | 
-    
-    &nbsp;
-    
+    <h2>You Tube Videos | &nbsp;<%= link_to 'New You Tube Video', new_you_tube_video_path %> |&nbsp; 
     <%= link_to_function("Search", nil, :id =>"searchLink") do |page|
                             page.visual_effect :slide_down, "you_tube_search_field", :duration => 0.5
                    end
                  %>
     </h2>
-    
     <div align="left">
-        <div id="you_tube_search_field" style="display:none">
-        
-
-                <% form_for(:you_tube_video, :url => you_tube_videos_path) do |f| %>
+        <div id="you_tube" style="display:none">
+            <% form_for(:you_tube_video, :url => you_tube_videos_path) do |f| %>
                 <h2>Keywords | &nbsp;
                 <%= link_to_function("Close", nil, :id =>"searchLink") do |page|
                             page.visual_effect :slide_up, "you_tube_search_field", :duration => 0.5
@@ -21,7 +15,6 @@
                  %>
                 </h2>
                 <%= text_field "search", "keywords" %>
-                        
                     <%= observe_field("search_keywords", 
                         :frequency => 2, 
                         :update => :videos, 
@@ -32,10 +25,8 @@
             <% end %>
         </div>
         <div id="videos">
-            <% for @you_tube_video in @you_tube_videos %>
-                <%= render_partial "video", @you_tube_video  %>
-            <% end %>
+            <%= render( :partial => "you_tube_video", :collection => @you_tube_videos ) %>
             <%= pagination_links(@you_tube_video_pages) %>
         </div>
     </div>
- </div>
+</div>

@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+
   # front-end resources - non-admin
   map.resources :projects, 
     :controller=> 'dt/projects', 
@@ -34,8 +35,8 @@ ActionController::Routing::Routes.draw do |map|
   #
   # Media Resources Specifically You Tube and Flickr Resources
   #
-  map.resources :you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/you_tube_videos", :collection => {:preview => :post, :search => :post}
-  map.resources :project_you_tube_videos, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos"
+  map.resources :you_tube_videos,         :path_prefix => "/bus_admin", :controller => "bus_admin/you_tube_videos",         :collection => {:preview => :post, :search => :post}
+  map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos", :collection => {:add => :post, :remove => :post, :search => :post, :projects => :post, :videos => :post}
 
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
 

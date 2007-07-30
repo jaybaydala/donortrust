@@ -34,6 +34,19 @@ class ApplicationController < ActionController::Base
   def dt_login_required
     return true
   end
+  
+  #
+  # Like it says, Paginates an array. - Joe
+  #
+  def paginate_array(page, array, items_per_page)
+    @size = array.length
+    page ||= 1
+    page = page.to_i
+    offset = (page - 1) * items_per_page
+    pages = Paginator.new(self, array.length, items_per_page, page)
+    array = array[offset..(offset + items_per_page - 1)]
+    [pages, array]
+  end
 
 protected
   def set_user

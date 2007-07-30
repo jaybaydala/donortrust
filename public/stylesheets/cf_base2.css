@@ -1039,13 +1039,15 @@ legend {
 }
 
 .you_tube_text_area{
-	width: 300px;
+	width: 200px;
 }
 
-#you_tube_video {
+.you_tube_video {
 	border: 1px #ccc solid;
 	padding: 5px;
 	margin: 5px;
+	width: 300px;
+	cursor: move;
 }
 
 #you_tube_form{
@@ -1059,7 +1061,7 @@ legend {
 	padding: 4px;
 }
 
-#you_tube_search_field{
+.you_tube_search_field{
 	background-color: #ffffdd;
 	border-style: solid;
 	border-width: 1px;
@@ -1072,17 +1074,72 @@ legend {
 	text-align: left;
 }
 
-#you_tube_video{
-	width: 400px;
-}
-
-
-
 you_tube_title {
 	color: #226622;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 }
+
+.you_tube_msg{
+	border-style: dashed;
+	border-width: 1px;
+	border-color: #ccc;
+	padding-bottom: 4px;
+	padding-left: 4px;
+	margin-top: 2px;
+}
+
+.you_tube_cart{
+	background-color: #ffffdd;
+	border-style: dashed;
+	border-width: 1px;
+	border-color: #ccc;
+	padding-bottom: 4px;
+	padding-left: 4px;
+	margin: 2px;
+	width: 330px;
+}
+
+.you_tube_cart_active{
+	background-color: #ddffdd;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ccc;
+	padding-bottom: 4px;
+	padding-left: 4px;
+	margin: 2px;
+	width: 330px;
+}
+
+.cart_container {
+	float: left;
+	border-style: solid;
+	border-width: 1px;
+	background-color: #ddffdd;
+	width: 340px;
+	padding: 2px;
+	margin: 0px 2px 0px 2px;
+}
+
+
+.trash_bin {
+	border-style: dashed;
+	border-width: 1px;
+	background-color: #fff;
+	width: 690px;
+	padding: 2px;
+	margin: 2px 2px 2px 2px;
+}
+
+.trash_bin_active {
+	border-style: dashed;
+	border-width: 1px;
+	background-color: #ddd;
+	width: 690px;
+	padding: 2px;
+	margin: 2px 2px 2px 2px;
+}
+
 /** end youtube stuff **/
 
 

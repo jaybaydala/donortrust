@@ -7,7 +7,7 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # GET /bus_admin_you_tube_videos
   # GET /bus_admin_you_tube_videos.xml
   def index
-    @you_tube_video_pages, @you_tube_videos = paginate :you_tube_videos, :per_page => 1
+    @you_tube_video_pages, @you_tube_videos = paginate :you_tube_videos, :per_page => 20
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @you_tube_videos.to_xml }
@@ -25,9 +25,9 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def search
-    puts "Search"
     @you_tube_videos = Array.new
     @searchstring = params[:search_keywords]
+    @searchstring ||= params[:with][:search_keywords]
     if @searchstring != nil
       @searchphrases = @searchstring.split(' ')
       for searchPhrase in @searchphrases
@@ -41,10 +41,10 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     end
     @size = @you_tube_videos.length
     page = (params[:page] ||= 1).to_i
-    items_per_page = 1
+    items_per_page = 20
     offset = (page - 1) * items_per_page
     
-    @you_tube_video_pages = Paginator.new(self, @you_tube_videos.length, 1, page)
+    @you_tube_video_pages = Paginator.new(self, @you_tube_videos.length, items_per_page, page)
     @you_tube_videos = @you_tube_videos[offset..(offset + items_per_page - 1)]
     
     [@you_tube_videos, @you_tube_video_pages, @searchstring, @size]
@@ -85,12 +85,11 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # POST /bus_admin_you_tube_videos.xml
   def create
     @you_tube_video = YouTubeVideo.new(params[:you_tube_video])
-    
     url = params[:you_tube_video][:you_tube_reference]
     chunks = url.split("v=")
     ref = chunks[1].split("&")
-    
-    @you_tube_video.keywords = getVideoHash(ref[0])["ut_response"]["video_details"]["tags"] + " " + params[:you_tube_video][:extra_tags]
+    videoHash = getVideoHash(ref[0])
+    @you_tube_video.keywords = videoHash["ut_response"]["video_details"]["tags"] + " " + params[:you_tube_video][:extra_tags] + videoHash["ut_response"]["video_details"]["title"]
     @you_tube_video.you_tube_reference = ref[0]
 
     respond_to do |format|
