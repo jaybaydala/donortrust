@@ -86,8 +86,8 @@ ActionController::Routing::Routes.draw do |map|
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :partner_types, :controller => "bus_admin/partner_types",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-#  map.resources :region_types, :controller => "bus_admin/region_types",
-#    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+  map.resources :region_types, :controller => "bus_admin/region_types",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
     
   map.resources :programs,    :controller => "bus_admin/programs",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
