@@ -3,11 +3,14 @@
     response = Net::HTTP.get_response(URI.parse(url))
     @video_hash = Hash.create_from_xml response.body[0,response.body.size]
     prefix ||= ""
+    draggable ||= false
 %>
 
-<div id="<%=prefix%>you_tube_video_<%= you_tube_video.id%>" class="you_tube_video" >
+<div id="<%=prefix%>you_tube_video_<%= you_tube_video.id%>" class="you_tube_video" <% if draggable %> style="cursor:move;" <% end %> >
+
     <div id="you_tube_thumbnail">
         <%= link_to image_tag(@video_hash["ut_response"]["video_details"]["thumbnail_url"]), you_tube_video_path(you_tube_video) %>
+   
     </div>
     
     <div id="you_tube_details">
@@ -30,7 +33,9 @@
     </div>
     
 </div>
-<%= draggable_element("#{prefix}you_tube_video_#{you_tube_video.id}",:revert=> true)%>
+<% if draggable %>
+    <%= draggable_element("#{prefix}you_tube_video_#{you_tube_video.id}",:revert=> true)%>
+<% end %>
 
 
 
