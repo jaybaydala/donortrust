@@ -1,4 +1,5 @@
 <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<%= render :partial => 'inactive' if !@activated %>
 <% form_for(:user, :url => dt_login_accounts_path) do |f| %>
 <p><label for="login">Username</label><br/>
 <%= text_field_tag 'login' %></p>
@@ -6,10 +7,8 @@
 <p><label for="password">Password</label><br/>
 <%= password_field_tag 'password' %></p>
 
-<!-- Uncomment this if you want this functionality
 <p><label for="remember_me">Remember me:</label>
 <%= check_box_tag 'remember_me' %></p>
--->
 
 <p><%= submit_tag 'Log in' %></p>
 <% end -%>

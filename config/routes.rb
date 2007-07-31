@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
     :controller=> 'dt/accounts', 
     :name_prefix => 'dt_', 
     :path_prefix => "/dt", 
-    :collection => { :signin => :get, :login => :post, :logout => :get, :activate => :get }
+    :collection => { :signin => :get, :login => :post, :logout => :get, :activate => :get, :resend => :get }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
 
 

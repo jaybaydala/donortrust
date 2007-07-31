@@ -1,4 +1,7 @@
 <%= dt_account_nav %>
+
+<%= render :partial => 'inactive' if !@user.activated? %>
+
 <%= error_messages_for :user %>
 <% form_for :user, :url => dt_account_path(@user), :html => { :method =>'put', :id => 'user_form'} do |f| -%>
 <p><label for="login">Username</label><br/>

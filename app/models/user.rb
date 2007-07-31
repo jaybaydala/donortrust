@@ -17,13 +17,15 @@ class User < ActiveRecord::Base
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   before_save :encrypt_password
   before_create :make_activation_code
+  before_update :update_activation_code
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
-    #u = find_by_login(login) # need to get the salt
+    u = find_by_login(login) # need to get the salt
     #check for account activation using activated_at
-    u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
-    u && u.authenticated?(password) ? u : nil
+    #u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
+    @activated = u.activated_at ? true : false
+    u && u.activated_at && u.authenticated?(password) ? u : nil
   end
 
   # Encrypts some data with the salt.
@@ -68,12 +70,20 @@ class User < ActiveRecord::Base
 
   # Activates the user in the database.
   def activate
-    @activated = true
+    @recently_activated = true
     update_attributes(:activated_at => Time.now.utc, :activation_code => nil)
   end
-
+  
   # Returns true if the user has just been activated.
   def recently_activated?
+    @recently_activated
+  end
+
+  # Returns true if the user has been activated.
+  def activated?
+    @activated
+  end
+  def self.activated?
     @activated
   end
 
@@ -98,5 +108,9 @@ class User < ActiveRecord::Base
     # If you're going to use activation, uncomment this too
     def make_activation_code
       self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    end
+    
+    def update_activation_code
+      make_activation_code if User.find_by_id(id).login != login
     end
 end

@@ -1,7 +1,13 @@
 class UserNotifier < ActionMailer::Base
   def signup_notification(user)
     setup_email(user)
-    @subject    += 'Please activate your new account'
+    @subject    += 'ChristmasFuture Account Activation'
+    @body[:url]  = "http://www.christmasfuture.org/dt/accounts;activate?id=#{user.activation_code}"
+  end
+
+  def change_notification(user)
+    setup_email(user)
+    @subject    += 'ChristmasFuture Account Email Confirmation'
     @body[:url]  = "http://www.christmasfuture.org/dt/accounts;activate?id=#{user.activation_code}"
   end
   

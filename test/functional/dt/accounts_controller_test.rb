@@ -68,13 +68,49 @@ context "Dt::Accounts #route_for" do
   specify "should map { :controller => 'dt/accounts', :action => 'activate', :id => 'code' } to /dt/accounts;activate?id=code" do
     route_for(:controller => "dt/accounts", :action => "activate", :id => 'code' ).should == "/dt/accounts;activate?id=code"
   end
+
+  specify "should map { :controller => 'dt/accounts', :action => 'resend' } to /dt/accounts;resend" do
+    route_for(:controller => "dt/accounts", :action => "resend" ).should == "/dt/accounts;resend"
+  end
   private 
   def route_for(options)
     @rs.generate options
   end
 end
 
-context "Dt::Accounts handling login and logout requests" do
+
+context "Dt::Accounts handling GET /dt/accounts;signin" do
+  fixtures :users
+  include DtAuthenticatedTestHelper
+
+  setup do
+    @controller = Dt::AccountsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+  end
+
+  def do_get
+    get :signin
+  end
+
+  specify "should render dt/accounts/signin template if not logged_in?" do
+    do_get
+    template.should.be "dt/accounts/signin"
+  end
+  
+  specify "should redirect if logged_in?" do
+    login_as :quentin
+    do_get
+    should.redirect
+  end
+
+  specify "should have a form set to post to /dt/accounts;login" do
+    do_get
+    page.should.select "form[action=/dt/accounts;login][method=post]"
+  end
+end
+
+context "Dt::Accounts handling POST dt/accounts;login requests" do
   include DtAuthenticatedTestHelper
   fixtures :users
 
@@ -97,13 +133,15 @@ context "Dt::Accounts handling login and logout requests" do
     post :login, :login => 'quentin@example.com', :password => 'bad password'
     session[:user].should.be.nil
     status.should.be :success
+    template.should.be "dt/accounts/signin"
   end
 
-  specify "should logout" do
-    login_as :quentin
-    get :logout
+  specify "when not activated, should not login show a 'not activated' message" do
+    post :login, :login => 'aaron@example.com', :password => 'test'
     session[:user].should.be.nil
-    should.redirect
+    assigns(:activated).should.be false
+    flash[:error].should.equal "A confirmation email has been sent to your login email address"
+    page.should.select "div.activation", :text => /An email has been sent to your login email address to make sure it is a valid address./
   end
 
   specify "should remember me" do
@@ -114,12 +152,6 @@ context "Dt::Accounts handling login and logout requests" do
   specify "should not remember_me" do
     post :login, :login => 'quentin@example.com', :password => 'test', :remember_me => "0"
     @response.cookies["auth_token"].should.be.nil
-  end
-  
-  specify "should delete token on logout" do
-    login_as :quentin
-    get :logout
-    @response.cookies["auth_token"].should.equal []
   end
 
   specify "should login with cookie" do
@@ -156,6 +188,33 @@ context "Dt::Accounts handling login and logout requests" do
     def cookie_for(user)
       auth_token users(user).remember_token
     end
+end
+
+context "Dt::Accounts handling logout requests" do
+  include DtAuthenticatedTestHelper
+  fixtures :users
+
+  setup do
+    @controller = Dt::AccountsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+  end
+  
+  teardown do
+  end
+
+  specify "should logout" do
+    login_as :quentin
+    get :logout
+    session[:user].should.be.nil
+    should.redirect
+  end
+
+  specify "should delete token on logout" do
+    login_as :quentin
+    get :logout
+    @response.cookies["auth_token"].should.equal []
+  end
 end
 
 context "Dt::Accounts handling GET /dt/accounts" do
@@ -224,38 +283,6 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
 
 end
 
-context "Dt::Accounts handling GET /dt/accounts/signin" do
-  fixtures :users
-  include DtAuthenticatedTestHelper
-
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
-  def do_get
-    get :signin
-  end
-
-  specify "should render dt/accounts/signin template if not logged_in?" do
-    do_get
-    template.should.be "dt/accounts/signin"
-  end
-  
-  specify "should redirect if logged_in?" do
-    login_as :quentin
-    do_get
-    should.redirect
-  end
-
-  specify "should have a form set to post to /dt/accounts;login" do
-    do_get
-    page.should.select "form[action=/dt/accounts;login][method=post]"
-  end
-
-end
-
 context "Dt::Accounts handling GET /dt/accounts;activate" do
   fixtures :users
   include DtAuthenticatedTestHelper
@@ -266,14 +293,77 @@ context "Dt::Accounts handling GET /dt/accounts;activate" do
     @response   = ActionController::TestResponse.new
   end
   
-  specify "should activate user" do
+  specify "non-activated user should not authenticate" do
     User.authenticate('aaron@example.com', 'test').should.be.nil
+  end
+
+  specify "should activate user" do
     get :activate, :id => users(:aaron).activation_code
     users(:aaron).should.equal User.authenticate('aaron@example.com', 'test')
   end
+
+  specify "user activation should make session[:tmp_user] nil" do
+    get :activate, :id => users(:aaron).activation_code
+    session[:tmp_user].should.be nil
+  end
 end
 
-context "Dt::Accounts user authentication mailer" do
+context "Dt::Accounts handling GET /dt/accounts;resend" do
+  fixtures :users
+  include DtAuthenticatedTestHelper
+
+  setup do
+    @controller = Dt::AccountsController.new
+    @request    = ActionController::TestRequest.new
+    @response   = ActionController::TestResponse.new
+    
+    # for testing action mailer
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
+  end
+
+  def do_get
+    get :resend
+  end
+  
+  specify "should redirect to /dt/accounts" do
+    do_get
+    should.redirect dt_accounts_path()
+  end
+  
+  specify "should send an email to session[:tmp_user] if not logged_in?" do
+    create_user
+    @emails.clear
+    do_get
+    @emails.length.should.equal 1
+    # to is an array of email recipients
+    @emails.first.to[0].should =~ User.find_by_id(session[:tmp_user]).login
+    @emails.first.subject.should =~ /ChristmasFuture Account Email Confirmation/
+    @emails.first.body.should    =~ /To confirm your email and activate your account, please follow the link below/
+  end
+  
+  specify "should send an email to current_user.login if logged_in?" do
+    login_as :quentin
+    u = User.find(1)
+    put :update, { :id => u.id, :user => {:login => 'newemail@example.com' } }
+    @emails.clear
+    do_get
+    @emails.length.should.equal 1
+    @emails.first.to[0].should =~ 'newemail@example.com'
+    @emails.first.subject.should =~ /ChristmasFuture Account Email Confirmation/
+    @emails.first.body.should    =~ /To confirm your email and activate your account, please follow the link below/
+  end
+
+  protected
+  def create_user(options = {})
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+  end
+end
+
+context "Dt::Accounts user activation mailer" do
   fixtures :users
   include DtAuthenticatedTestHelper
 
@@ -300,8 +390,8 @@ context "Dt::Accounts user authentication mailer" do
   specify "should send activation email after signup" do
     create_user
     @emails.length.should.equal 1
-    @emails.first.subject.should =~ /Please activate your new account/
-    @emails.first.body.should    =~ /Username: quire@example/
+    @emails.first.subject.should =~ /ChristmasFuture Account Activation/
+    @emails.first.body.should    =~ /Username: quire@example\.com/
     @emails.first.body.should    =~ /Password: quire/
     @emails.first.body.should    =~ /dt\/accounts;activate\?id=#{assigns(:user).activation_code}/
   end
@@ -405,6 +495,11 @@ context "Dt::Accounts handling POST /dt/accounts/create" do
     }.should.not.change(User, :count)
   end
 
+  specify "should make session[:tmp_user] available on create" do
+    create_user
+    session[:tmp_user].should.not.be nil
+  end
+
   protected
   def create_user(options = {})
     post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
@@ -479,11 +574,18 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     #User.stubs(:find).returns([@user])
+    
+    # for testing action mailer
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
   end
   
   specify "should redirect to signin if not logged_in?" do
     @user = User.find(1)
-    put :update, { :id => @user.id, :user => { :email => @user.email } }
+    put :update, { :id => @user.id, :user => { :login => @user.login } }
     should.redirect_to :action => 'signin'
   end
 
@@ -535,6 +637,15 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
     u = User.find(1)
     put :update, { :id => u.id, :old_password => 'incorrect_password', :user => {:password => 'new_password', :password_confirmation => 'new_password' } }
     u.crypted_password.should.equal User.find(1).crypted_password
+  end
+
+  specify "should send a confirmation email if the email address is changed" do
+    login_as :quentin
+    u = User.find(1)
+    put :update, { :id => u.id, :user => {:login => 'newemail@example.com' } }
+    @emails.length.should.equal 1
+    @emails.first.subject.should =~ /ChristmasFuture Account Email Confirmation/
+    @emails.first.body.should    =~ /To confirm your email and activate your account, please follow the link below/
   end
 end
 

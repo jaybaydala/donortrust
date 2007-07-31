@@ -56,7 +56,7 @@ end
 
 context "Dt::GroupsController authentication" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships
+  fixtures :users, :groups, :memberships, :group_types
   
   setup do
     @controller = Dt::GroupsController.new
@@ -85,7 +85,7 @@ end
 
 context "Dt::GroupsController handling GET /dt/groups" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships
+  fixtures :users, :groups, :memberships, :group_types
   
   setup do
     @controller = Dt::GroupsController.new
@@ -113,7 +113,7 @@ end
 
 context "Dt::GroupsController handling GET /dt/groups;new" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships
+  fixtures :users, :groups, :memberships, :group_types
   
   setup do
     @controller = Dt::GroupsController.new
@@ -140,7 +140,7 @@ end
 
 context "Dt::GroupsController handling POST /dt/groups;create" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships
+  fixtures :users, :groups, :memberships, :group_types
   
   setup do
     @controller = Dt::GroupsController.new
@@ -164,7 +164,7 @@ end
 
 context "Dt::GroupsController handling GET /dt/groups/1" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships
+  fixtures :users, :groups, :memberships, :group_types
   
   setup do
     @controller = Dt::GroupsController.new
@@ -196,7 +196,7 @@ end
 
 context "Dt::GroupsController handling GET /dt/groups/1;edit" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships
+  fixtures :users, :groups, :memberships, :group_types
   
   setup do
     @controller = Dt::GroupsController.new
@@ -223,7 +223,7 @@ end
 
 context "Dt::GroupsController handling PUT /dt/groups/1" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships
+  fixtures :users, :groups, :memberships, :group_types
   
   setup do
     @controller = Dt::GroupsController.new
@@ -245,7 +245,7 @@ end
 
 context "Dt::GroupsController handling DELETE /dt/groups/1" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships
+  fixtures :users, :groups, :memberships, :group_types
   
   setup do
     @controller = Dt::GroupsController.new
