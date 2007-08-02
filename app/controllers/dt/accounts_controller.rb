@@ -50,19 +50,19 @@ class Dt::AccountsController < DtApplicationController
   def update
     redirect_to(:action => 'edit', :id =>current_user.id) unless authorized?
     @user = User.find(params[:id])
-    old_login = @user.login
     
-    params[:user][:password] = nil if !params[:old_password]
-    params[:user][:password_confirmation] = nil if !params[:old_password]
-    if !params[:old_password] || ( params[:old_password] && current_user.authenticated?(params[:old_password]) )
-      @saved = @user.update_attributes(params[:user])
-    elsif params[:old_password]
+    # password changing - requires the old password to be entered and correct
+    if params[:old_password] && !current_user.authenticated?(params[:old_password])
+      params[:old_password] = nil
       @user.errors.add('old_password', "was incorrect")
     end
+    params[:user][:password] = nil if !params[:old_password]
+    #params[:user][:password_confirmation] = nil if !params[:old_password]
+    @saved = @user.update_attributes(params[:user])
     
     respond_to do |format|
       if @saved
-        if (params[:user][:login] && params[:user][:login] != old_login)
+        if @user.login_changed?
           flash[:notice] = 'A confirmation email has been sent to your email address.'
         else
           flash[:notice] = 'Account was successfully updated.'
@@ -99,7 +99,6 @@ class Dt::AccountsController < DtApplicationController
   def login
     return unless request.post?
     self.current_user = User.authenticate(params[:login], params[:password])
-    @activated = User.activated?
     respond_to do |format|
       if logged_in?
         if params[:remember_me] == "1"
@@ -111,8 +110,12 @@ class Dt::AccountsController < DtApplicationController
         #format.js
         format.xml  { head :ok }
       else
-        flash[:error] = "Either your username or password are incorrect" if @activated
-        flash[:error] = "A confirmation email has been sent to your login email address" if !@activated
+        if User.authenticate(params[:login], params[:password], false)
+          @activated = false
+          flash[:error] = "A confirmation email has been sent to your login email address"
+        else
+          flash[:error] = "Either your username or password are incorrect"
+        end
         format.html { render :action => "signin" }
         #format.js
         format.xml  { render :xml => @user.errors.to_xml }

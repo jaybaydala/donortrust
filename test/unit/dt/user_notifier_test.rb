@@ -43,8 +43,8 @@ context "A UserNotifier on signup_notification" do
     @user_notifier.to.should == ["quire@example.com"]
   end
   
-  specify "should set @subject to Welcome to DonorTrust! Please activate your new account" do
-    @user_notifier.subject.should == "Welcome to DonorTrust! Please activate your new account"
+  specify "should set @subject to 'Welcome to DonorTrust! ChristmasFuture Account Activation'" do
+    @user_notifier.subject.should == "Welcome to DonorTrust! ChristmasFuture Account Activation"
   end
   
   specify "should set @from to info@christmasfuture.org" do
