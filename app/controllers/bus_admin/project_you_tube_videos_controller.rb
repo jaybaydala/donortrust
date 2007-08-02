@@ -2,7 +2,12 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
   # GET /bus_admin_project_you_tube_videos
   # GET /bus_admin_project_you_tube_videos.xml
   def index
-    @projects = Project.find(:all)
+    if params[:id]
+      @projects = Array.new
+      @projects.push(Project.find_by_id(params[:id]))
+    else
+      @projects = Project.find(:all)    
+    end
     @you_tube_videos = YouTubeVideo.find(:all)
     
     @project_pages, @projects = paginate_array(params[:project_page], @projects, 20)
@@ -14,6 +19,10 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @project_you_tube_videos.to_xml }
     end
+  end
+  
+  def show
+    
   end
   
   def projects

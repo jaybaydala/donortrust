@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
 
+
   # front-end resources - non-admin
   map.resources :projects, 
     :controller=> 'dt/projects', 
@@ -37,6 +38,7 @@ ActionController::Routing::Routes.draw do |map|
   #
   map.resources :you_tube_videos,         :path_prefix => "/bus_admin", :controller => "bus_admin/you_tube_videos",         :collection => {:preview => :post, :search => :post}
   map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos", :collection => {:add => :post, :remove => :post, :search => :post, :projects => :post, :videos => :post}
+  map.resources :flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/flickr_images",                     :collection => {:search => :post, :add => :post, :show_flickr => :post, :remove => :post, :photos=>:post }
 
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
 

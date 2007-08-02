@@ -1,0 +1,4 @@
+<div id="<%= "flickr_db_image_#{photo.id}"%>" class="flickr_photo" style="cursor:move;">
+    <%= image_tag photo.sizes[0]['source'] %>
+</div>
+<%= draggable_element("flickr_db_image_#{photo.id}",:revert=> true)%>

@@ -1136,11 +1136,35 @@ you_tube_title {
 	background-color: #ddd;
 	width: 690px;
 	padding: 2px;
-	margin: 2px 2px 2px 2px;
+	margin: 4px 2px 4px 2px;
+	
 }
 
 /** end youtube stuff **/
 
+/** flickr stuff **/
+
+#flickr_search{
+	border-style: solid;
+	border-width: 1px;
+	background-color: #ddffdd;
+	width: 690px;
+	padding: 2px;
+	margin: 2px 2px 2px 2px;
+}
+
+.flickr_photo {
+	float:left;
+	margin: 1px;
+	padding: 1px;
+	border: solid 1px;
+}
+
+.cart_active {
+	background-color: #ffffdd;
+}
+
+/** end flickr stuff **/
 
 .fieldWithErrors {
   padding: 2px;

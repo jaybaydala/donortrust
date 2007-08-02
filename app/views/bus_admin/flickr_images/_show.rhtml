@@ -1,0 +1,5 @@
+<div style="width:500px; height:530px; margin: 10px; text-align: center; border: 1px solid #ccc;">
+    <% photo = Flickr::Photo.new(@flickr_image.photo_id.to_s) %>
+    <%= image_tag(photo.sizes[3]['source']) %>
+    <p style="text-align: center; margin-bottom: 0;"><%= link_to_close_redbox('[CLOSE]')%> </p>
+</div>
