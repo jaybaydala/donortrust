@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
-
   # front-end resources - non-admin
   map.resources :projects, 
     :controller=> 'dt/projects', 
@@ -59,6 +57,9 @@ ActionController::Routing::Routes.draw do |map|
 #  map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
   map.resources :villages, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/villages"
   map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
+
+  map.resources :country_sectors, :controller => "bus_admin/country_sectors",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
 
   #
   # Contacts

@@ -11,6 +11,7 @@ class Project < ActiveRecord::Base
   belongs_to :urban_centre
   belongs_to :contact
   has_and_belongs_to_many :groups
+  has_and_belongs_to_many :sectors
   validates_presence_of :program_id
     
   def create_project_history
