@@ -58,6 +58,10 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     @you_tube_video = YouTubeVideo.new
   end
 
+  def remove
+    
+  end
+
   def preview
     if(params[:you_tube_videos_you_tube_reference])
       result = getVideoHash(params[:you_tube_videos_you_tube_reference])

@@ -64,6 +64,7 @@ end
 require 'dt_application'
 require 'rubygems'
 require 'flickr'
+require 'ruby_tube'
 MY_KEY='dce9d80477ea833b9dd029bc5f0eceea'
 class Flickr
   alias old_initialize initialize
@@ -71,5 +72,14 @@ class Flickr
     old_initialize(api_key, email, password)
     @host="http://api.flickr.com"
     @activity_file='flickr_activity_cache.xml'
+  end
+end
+
+YOU_TUBE_KEY = 'BayCH1FukEw'
+class RubyTube
+  alias old_initialize initialize
+  
+  def initialize(you_tube_key=YOU_TUBE_KEY)
+    old_initialize(you_tube_key)
   end
 end

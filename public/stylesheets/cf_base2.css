@@ -1060,7 +1060,7 @@ legend {
 	padding: 4px;
 }
 
-.you_tube_search_field{
+.media_search_field{
 	background-color: #ffffdd;
 	border-style: solid;
 	border-width: 1px;
@@ -1144,7 +1144,7 @@ you_tube_title {
 
 /** flickr stuff **/
 
-#flickr_search{
+.media_search{
 	border-style: solid;
 	border-width: 1px;
 	background-color: #ddffdd;

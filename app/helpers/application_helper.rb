@@ -75,4 +75,16 @@ module ApplicationHelper
     return result
   end
   
+  def slide_down_link(text, id, div)
+      link_to_function(text, nil, :id =>id) do |page|
+                            page.visual_effect :slide_down, div, :duration => 0.5
+                   end
+  end
+  
+    def slide_up_link(text, id, div)
+      link_to_function(text, nil, :id =>id) do |page|
+                            page.visual_effect :slide_up, div, :duration => 0.5
+                   end
+  end
+  
 end

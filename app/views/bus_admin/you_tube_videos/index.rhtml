@@ -1,3 +1,64 @@
+<div id="you_tube_search" class="media_search">
+
+    <h2>YouTube Videos | 
+    
+        &nbsp;<%= slide_down_link "Tags", "search_link", "by_tag"%> |
+        &nbsp;<%= slide_down_link "Users", "search_link", "by_user"%> |
+        &nbsp;<%= slide_down_link "Category", "search_link", "by_category"%>      
+    
+    
+    </h2>
+      
+    <div id="by_tag" class="media_search_field" style="display:none;"> 
+        <h2>Search By Name</h2>
+        <%= form_remote_tag :url => {:action => 'search'}, :update => 'you_tube_videos' %>   
+            <%= text_field_tag "tags" %>
+            <%= submit_tag "Find" %>
+            <%= show_spinner%>     
+        <% end_form_tag %>
+        <br/>
+        <%= slide_up_link "Close", "close_search_link", "by_tag"%>   
+    </div>
+    
+    <div id="by_user" class="media_search_field" style="display:none;"> 
+        <h2>Search By User</h2>
+        <%= form_remote_tag :url => {:action => 'search'}, :update => 'you_tube_videos' %>   
+            <%= text_field_tag "username" %>
+            <%= submit_tag "Find" %>
+            <%= show_spinner%>     
+        <% end_form_tag %>
+        <br/>
+        <%= slide_up_link "Close", "close_by_user", "by_user"%>   
+    </div>
+    <div id="by_category" style="display:none;"> 
+        <h2>Search By Category and Tag</h2>
+        <%= form_remote_tag :url => {:action => 'search'}, :update => 'you_tube_videos' %>   
+            <%= text_field_tag "username" %>
+            <%= submit_tag "Find" %>
+            <%= show_spinner%>     
+        <% end_form_tag %>
+        <br/>
+        <%= slide_up_link "Close", "close_by_user", "by_category"%>   
+    </div>
+</div>
+<div id="trash_bin" class="trash_bin">
+    <%= image_tag("/images/icons/delete_icon.gif")%> Drag any videos you wish to remove from the database into the trash bin.
+</div>
+<%= drop_receiving_element "trash_bin", :update => "donor_trust_videos", :url => {:method => :delete}, :hoverclass => "trash_bin_active"%>
+    
+<div class="cart_container" id="you_tube_videos">
+    <h2>YouTube Photos</h2>
+</div>
+
+<div class="cart_container" id="donor_trust_videos">
+    <h2>DonorTrust Videos | </h2>
+    <%= render :partial => 'you_tube_video', :collection => @you_tube_videos, :locals=>{:draggable => true}%>
+</div>
+<%= drop_receiving_element "donor_trust_photos", :update => "donor_trust_photos", :url => "you_tube_videos", :hoverclass => "cart_active"%>
+    
+
+
+
 <div id="you_tube_main">
     <h2>You Tube Videos | &nbsp;<%= link_to 'New You Tube Video', new_you_tube_video_path %> |&nbsp; 
     <%= link_to_function("Search", nil, :id =>"searchLink") do |page|
