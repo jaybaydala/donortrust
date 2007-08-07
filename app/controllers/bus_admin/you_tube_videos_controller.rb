@@ -3,7 +3,7 @@ require 'uri'
 
 class BusAdmin::YouTubeVideosController < ApplicationController
 
-
+before_filter :login_required, :check_authorization
   def index
     @you_tube_videos = YouTubeVideo.find(:all)
     @you_tube_video_pages, @you_tube_videos = paginate_array(params[:page],@you_tube_videos , 20)

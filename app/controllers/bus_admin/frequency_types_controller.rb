@@ -1,5 +1,5 @@
 class BusAdmin::FrequencyTypesController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :check_authorization
 
   active_scaffold :frequency_type do |config|
     config.columns =[ :name, :active, :indicator_measurement_count ]

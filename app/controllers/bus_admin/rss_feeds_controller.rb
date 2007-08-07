@@ -1,5 +1,5 @@
 class BusAdmin::RssFeedsController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :check_authorization
   
   active_scaffold :rss_feeds do |config|
     config.list.columns = [:title, :link , :description, :pub_date]

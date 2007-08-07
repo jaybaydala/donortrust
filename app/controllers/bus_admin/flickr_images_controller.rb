@@ -1,4 +1,5 @@
 class BusAdmin::FlickrImagesController < ApplicationController
+  before_filter :login_required, :check_authorization
   # GET /bus_admin_flickr_images
   # GET /bus_admin_flickr_images.xml
   def index

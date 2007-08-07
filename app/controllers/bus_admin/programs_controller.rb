@@ -1,6 +1,5 @@
 class BusAdmin::ProgramsController < ApplicationController
-  before_filter :login_required  
-  
+  before_filter :login_required, :check_authorization
   active_scaffold :programs do |config|
     config.columns = [ :name, :contact, :projects_count, :projects, :note ]
     config.columns[ :name ].label = "Program"

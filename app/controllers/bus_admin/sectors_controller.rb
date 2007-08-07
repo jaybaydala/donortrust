@@ -1,5 +1,5 @@
 class BusAdmin::SectorsController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :check_authorization
 
   #hpd incomplete implementation: join tables / models do not exist yet
   active_scaffold :sectors do |config|

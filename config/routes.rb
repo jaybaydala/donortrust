@@ -168,7 +168,7 @@ ActionController::Routing::Routes.draw do |map|
   map.reset_password_now 'bus_admin/reset_password_now', :controller => 'bus_admin/bus_account', :action => 'reset_password_now'
   map.request_temporary_password 'bus_admin/request_temporary_password', :controller => 'bus_admin/bus_account', :action => 'request_temporary_password'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
-  
+  map.connect '', :controller => 'bus_admin/bus_account', :action => 'login'
   # Install the default route as the lowest priority.
   #map.connect "*anything",
   #            :controller => 'dt/projects'

@@ -1,6 +1,5 @@
 class BusAdmin::IndicatorMeasurementsController < ApplicationController
-before_filter :login_required  
-
+before_filter :login_required, :check_authorization
   active_scaffold :indicator_measurements do |config|
     create.columns.exclude [ :project ]
     update.columns.exclude [ :project ]

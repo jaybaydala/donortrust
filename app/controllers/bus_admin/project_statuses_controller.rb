@@ -1,6 +1,5 @@
 class BusAdmin::ProjectStatusesController < ApplicationController
-  before_filter :login_required
-  
+  before_filter :login_required, :check_authorization
   include ApplicationHelper
   
   active_scaffold :project_statuses do |config|

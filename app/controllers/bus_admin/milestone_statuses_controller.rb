@@ -1,5 +1,5 @@
 class BusAdmin::MilestoneStatusesController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :check_authorization
 
   include ApplicationHelper
 

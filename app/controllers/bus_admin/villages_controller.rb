@@ -1,5 +1,5 @@
 class BusAdmin::VillagesController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :check_authorization
   active_scaffold
 
 end
