@@ -4,12 +4,13 @@ class BusAdmin::BusAccountController < ApplicationController
   # If you want "remember me" functionality, add this before_filter to Application Controller
   # before_filter :login_from_cookie
   # say something nice, you goof!  something sweet.
-  before_filter :login_required, :except => [:login, :signup]
+  before_filter :login_required, :check_authorization, :except => [:login, :signup, :logout]
  
   active_scaffold :bus_user do |config|
     config.label = "Users"     
 
-    config.action_links.add 'change_password', :label => 'Change my password'
+   
+    config.action_links.add 'reset_password', :label => 'Reset A Password', :parameters =>{:controller=>'bus_account', :action => 'reset_password'}
     config.list.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at, :updated_at, :created_at]
     config.show.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
     config.create.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
@@ -26,6 +27,21 @@ class BusAdmin::BusAccountController < ApplicationController
     render :template => 'bus_admin/bus_account/account_admin', :layout => true
   end
   
+  def reset_password 
+    render :partial => 'bus_admin/bus_account/reset_password'
+  end
+  
+  def reset_password_now
+    bus_user = BusUser.find(params[:bus_user][:id])
+    if bus_user.reset_pass
+      redirect_to('/bus_admin/index')
+#      show_message_and_reset("Password sucessfully reset for " + bus_user.login.to_s, "info")
+    else
+      redirect_to('/bus_admin/index')
+#      show_message_and_reset("An errored occured for user: " + bus_user.login.to_s, "error")
+    end
+    
+  end
   
   def login
     if params[:login] != nil && params[:password] != nil
@@ -128,29 +144,29 @@ class BusAdmin::BusAccountController < ApplicationController
       end
       if( !has_numbers && !has_characters && has_symbols)
         
-       render_text "<h3>" + "Weak Password" + "</h3>"
+       render_text "<div id='weak'>" + "Weak Password" + "</div>"
         
       end
       if( !has_numbers && has_characters && !has_symbols)
-        render_text "<h3>" + "Weak Password" + "</h3>"
+        render_text "<div id='weak'>" + "Weak Password" + "</div>"
       end      
       if( !has_numbers && has_characters && has_symbols)
-        render_text "<h3>" + "Good Password" + "</h3>"
+        render_text "<div id='good'>" + "Good Password" + "</div>"
       end      
       if( has_numbers && !has_characters && !has_symbols)
-        render_text "<h3>" + "Very Weak Password" + "</h3>"
+        render_text "<div id='very-weak'>" + "Very Weak Password" + "</div>"
       end      
       if( has_numbers && !has_characters && has_symbols)
-        render_text "<h3>" + "Weak Password" + "</h3>"
+        render_text "<div id='weak'>" + "Weak Password" + "</div>"
       end      
       if( has_numbers && has_characters && !has_symbols)
-        render_text "<h3>" + "Good Password" + "</h3>"
+        render_text "<div id='good'>" + "Good Password" + "</div>"
       end      
       if( has_numbers && has_characters && has_symbols)
-        render_text "<h3>" + "Strong Password" + "</h3>"
+        render_text "<div id='strong'>" + "Strong Password" + "</div>"
       end      
     else
-      render_text "<h3>" + "Needs more characters..." + "</h3>"
+      render_text "<div id='needs-more'>" + "Needs more characters..." + "</div>"
     end
   end
   
