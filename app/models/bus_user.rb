@@ -2,6 +2,7 @@ require 'digest/sha1'
 class BusUser < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   belongs_to :bus_user_type
+  #has_many :projects, :through => :programs
   attr_accessor :password
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
@@ -71,6 +72,11 @@ class BusUser < ActiveRecord::Base
     "#{login}"
   end
   
+   def reset_pass
+      self.salt = nil;
+      self.crypted_password = nil;
+    end
+  
   protected
     # before filter 
     def encrypt_password
@@ -82,4 +88,6 @@ class BusUser < ActiveRecord::Base
     def password_required?
       crypted_password.blank? || !password.blank?
     end
+    
+   
 end
