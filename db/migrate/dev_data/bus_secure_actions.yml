@@ -1,4 +1,4 @@
-
+--- 
 bus_secure_actions_094: 
   bus_security_level_id: "19"
   permitted_actions: edit
@@ -243,6 +243,10 @@ bus_secure_actions_064:
   bus_security_level_id: "13"
   permitted_actions: show
   id: "75"
+bus_secure_actions_101: 
+  bus_security_level_id: "8"
+  permitted_actions: populate_contact_countries
+  id: "114"
 bus_secure_actions_086: 
   bus_security_level_id: "18"
   permitted_actions: show
@@ -263,6 +267,10 @@ bus_secure_actions_002:
   bus_security_level_id: "1"
   permitted_actions: show
   id: "2"
+bus_secure_actions_102: 
+  bus_security_level_id: "3"
+  permitted_actions: change_password
+  id: "115"
 bus_secure_actions_087: 
   bus_security_level_id: "18"
   permitted_actions: edit
@@ -283,6 +291,10 @@ bus_secure_actions_024:
   bus_security_level_id: "2"
   permitted_actions: edit
   id: "35"
+bus_secure_actions_103: 
+  bus_security_level_id: "8"
+  permitted_actions: populate_contact_regions
+  id: "116"
 bus_secure_actions_090: 
   bus_security_level_id: "18"
   permitted_actions: delete
@@ -307,6 +319,10 @@ bus_secure_actions_046:
   bus_security_level_id: "10"
   permitted_actions: list
   id: "57"
+bus_secure_actions_104: 
+  bus_security_level_id: "8"
+  permitted_actions: populate_contact_urban_centres
+  id: "117"
 bus_secure_actions_091: 
   bus_security_level_id: "19"
   permitted_actions: delete
@@ -335,6 +351,10 @@ bus_secure_actions_047:
   bus_security_level_id: "10"
   permitted_actions: delete
   id: "58"
+bus_secure_actions_105: 
+  bus_security_level_id: "3"
+  permitted_actions: reset_password
+  id: "118"
 bus_secure_actions_092: 
   bus_security_level_id: "19"
   permitted_actions: list

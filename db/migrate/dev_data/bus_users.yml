@@ -1,25 +1,45 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.htm
-one:
-  id: 1
-  login: joshmerchant
-  email: josh.merchant@unb.ca
-  crypted_password: fdbdc65f59f98525520866e90c3b3ef597fa0bfb
+--- 
+bus_users_001: 
   salt: 2817f526d5cf5e43eda4089d3e53b9881e23d05e
+  updated_at: 2007-08-07 09:54:59
+  crypted_password: fdbdc65f59f98525520866e90c3b3ef597fa0bfb
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "1"
+  remember_token: 
+  login: joshmerchant
   created_at: 2007-05-25 11:37:21
-  updated_at: 2007-05-25 11:37:21
-two:
-  id: 2
-  login: hpd
-  email: phil@home.lan
-  crypted_password: c6266acc024e2eee5f582706cc87b9ad2c05226f
+  email: josh.merchant@unb.ca
+bus_users_002: 
   salt: 213c3e29a830df2ddea77cdfdd0120c7a1b5a38d
-  created_at: 2007-06-03 11:37:21
   updated_at: 2007-06-03 11:37:21
-three:
-  id: 3
-  login: jim
-  email: bob@bob.com
-  crypted_password: d30944dcc5951f8920028e0089becfcd06236ab4
+  crypted_password: c6266acc024e2eee5f582706cc87b9ad2c05226f
+  bus_user_type_id: 
+  remember_token_expires_at: 
+  id: "2"
+  remember_token: 
+  login: hpd
+  created_at: 2007-06-03 11:37:21
+  email: phil@home.lan
+bus_users_003: 
   salt: 19259a24b474bf863396b321e016a328527e8704
-  created_at: 2007-06-08 13:41:09
   updated_at: 2007-06-08 13:41:09
+  crypted_password: d30944dcc5951f8920028e0089becfcd06236ab4
+  bus_user_type_id: 
+  remember_token_expires_at: 
+  id: "3"
+  remember_token: 
+  login: jim
+  created_at: 2007-06-08 13:41:09
+  email: bob@bob.com
+bus_users_004: 
+  salt: 3e459ffd73e38b908d02c9fbc2554e75d2bf0d1a
+  updated_at: 2007-08-07 09:54:46
+  crypted_password: c7b6c82ac82a4bbab3d99e4320b22454823d6209
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "6"
+  remember_token: 
+  login: testuser
+  created_at: 2007-08-07 09:54:10
+  email: testuser
