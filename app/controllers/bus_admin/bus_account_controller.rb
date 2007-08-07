@@ -33,13 +33,19 @@ class BusAdmin::BusAccountController < ApplicationController
   
   def reset_password_now
     bus_user = BusUser.find(params[:bus_user][:id])
-    if bus_user.reset_pass
+    temporary_password = params[:temporary_password]
+    if bus_user.reset_pass(temporary_password)
       redirect_to('/bus_admin/index')
 #      show_message_and_reset("Password sucessfully reset for " + bus_user.login.to_s, "info")
     else
       redirect_to('/bus_admin/index')
 #      show_message_and_reset("An errored occured for user: " + bus_user.login.to_s, "error")
     end
+    
+  end
+  
+  def request_temporary_password
+    render :text => "<dl><dt><label for='temporary_password'>Enter a temporary password:</label></dt><input autocomplete='off' class='text-input' id='temporary_password' name='temporary[password]' size='20' type='text' /></dl>"
     
   end
   
