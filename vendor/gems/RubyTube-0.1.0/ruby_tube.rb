@@ -124,14 +124,15 @@ class RubyTube
       else return;
       end
       per_page = 100 if per_page > 100 # max per page
-      hash_response = you_tube_method_call("youtube.videos.list_by_category_and_tag", "&tag=#{tag.gsub(' ','%20')}","&category_id=#{category_id}", "&page=#{page}" , "&per_page=#{per_page}")
-      
+      hash_response = you_tube_method_call("youtube.videos.list_by_category_and_tag", "&category_id=#{category_id}","&tag=#{tag.gsub(' ','%20')}", "&page=#{page}" , "&per_page=#{per_page}")
+      get_array_of_videos_from_hash_array(hash_response)
   end
   
   def get_array_of_videos_from_hash_array(hash_response)
     videos = Array.new
     if(hash_response['status'] != 'fail')
       video_list = hash_response['video_list'][0]['video']
+      puts video_list
       for i in 0...video_list.size
         video = Video.new
         video.populate_from_hash_array(video_list[i])

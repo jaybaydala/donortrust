@@ -1,93 +1,100 @@
+<%= show_spinner %>
 <div id="you_tube_search" class="media_search">
 
     <h2>YouTube Videos | 
     
+		&nbsp;<%= link_to_remote "Featured", :update => 'you_tube_videos', :url => {:action => 'list_by_featured'}%> |
         &nbsp;<%= slide_down_link "Tags", "search_link", "by_tag"%> |
         &nbsp;<%= slide_down_link "Users", "search_link", "by_user"%> |
-        &nbsp;<%= slide_down_link "Category", "search_link", "by_category"%>      
+        &nbsp;<%= slide_down_link "Category", "search_link", "by_category"%> |
+        &nbsp;<%= slide_down_link "Popular", "search_link", "by_popular"%>      
     
     
     </h2>
       
     <div id="by_tag" class="media_search_field" style="display:none;"> 
         <h2>Search By Name</h2>
-        <%= form_remote_tag :url => {:action => 'search'}, :update => 'you_tube_videos' %>   
-            <%= text_field_tag "tags" %>
-            <%= submit_tag "Find" %>
-            <%= show_spinner%>     
-        <% end_form_tag %>
-        <br/>
+        <%= form_remote_tag :url => {:action => 'search_by_tag'}, :update => 'you_tube_videos' %>   
+            <strong>Tags</strong><br/>
+			<%= text_field_tag "tags" %>
+            <%= submit_tag "Find" %>  
+        <%= end_form_tag %>
         <%= slide_up_link "Close", "close_search_link", "by_tag"%>   
     </div>
     
     <div id="by_user" class="media_search_field" style="display:none;"> 
         <h2>Search By User</h2>
-        <%= form_remote_tag :url => {:action => 'search'}, :update => 'you_tube_videos' %>   
-            <%= text_field_tag "username" %>
-            <%= submit_tag "Find" %>
-            <%= show_spinner%>     
-        <% end_form_tag %>
-        <br/>
+        <%= form_remote_tag :url => {:action => 'search_by_user'}, :update => 'you_tube_videos' %>   
+            <strong>User name</strong><br/>
+			<%= text_field_tag "user" %>
+            <%= submit_tag "Find" %>  
+        <%= end_form_tag %>
         <%= slide_up_link "Close", "close_by_user", "by_user"%>   
     </div>
-    <div id="by_category" style="display:none;"> 
+	
+	<div id="by_popular" class="media_search_field" style="display:none;"> 
+        <h2>Search By Popularity</h2>
+        <%= form_remote_tag :url => {:action => 'list_by_popular'}, :update => 'you_tube_videos' %>   
+                        <%= select_tag "popular", options_for_select(
+						[
+							['Today','day'],
+							['This Week','week'],
+							['This Month','month'],
+							['All','All'],
+						]) %>
+			<%= submit_tag "Find" %>
+            <%= show_spinner%>     
+        <%= end_form_tag %>
+        <%= slide_up_link "Close", "close_by_popular", "by_popular"%>   
+    </div>
+    <div id="by_category" class="media_search_field" style="display:none;"> 
         <h2>Search By Category and Tag</h2>
-        <%= form_remote_tag :url => {:action => 'search'}, :update => 'you_tube_videos' %>   
-            <%= text_field_tag "username" %>
+		<%= form_remote_tag :url => {:action => 'search_by_category_and_tag'}, :update => 'you_tube_videos' %>   
+            
+       	 	<strong>Category</strong><br/>
+			<%= select_tag "category", options_for_select(
+						[
+							['Films & Animation'],
+							['Autos & Vehicles'],
+							['Comedy'],
+							['Entertainment'], 
+							['Music'],
+							['News & Politics'], 
+							['People & Blogs'], 
+							['Pets & Animals'], 
+							['How-to & DIY'], 
+							['Sports'], 
+							['Travel & Places'], 
+							['Gadgets & Games']
+						]) %><br/>
+			<strong>Tags</strong><br/>
+			<%= text_field_tag "tags" %>
             <%= submit_tag "Find" %>
             <%= show_spinner%>     
-        <% end_form_tag %>
-        <br/>
+        <%= end_form_tag %>
         <%= slide_up_link "Close", "close_by_user", "by_category"%>   
     </div>
 </div>
 <div id="trash_bin" class="trash_bin">
     <%= image_tag("/images/icons/delete_icon.gif")%> Drag any videos you wish to remove from the database into the trash bin.
 </div>
-<%= drop_receiving_element "trash_bin", :update => "donor_trust_videos", :url => {:method => :delete}, :hoverclass => "trash_bin_active"%>
-    
-<div class="cart_container" id="you_tube_videos">
-    <h2>YouTube Photos</h2>
+<%= drop_receiving_element "trash_bin", :update => "donor_trust_videos", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
+ 
+<div class="media_cart">
+    <h1>YouTube Videos</h1>
 </div>
 
-<div class="cart_container" id="donor_trust_videos">
-    <h2>DonorTrust Videos | </h2>
-    <%= render :partial => 'you_tube_video', :collection => @you_tube_videos, :locals=>{:draggable => true}%>
+<div class="media_cart">
+    <h1>DonorTrust Videos</h1>
+</div>   
+   
+<div class="media_cart" id="you_tube_videos">
+		&nbsp;
 </div>
-<%= drop_receiving_element "donor_trust_photos", :update => "donor_trust_photos", :url => "you_tube_videos", :hoverclass => "cart_active"%>
-    
 
-
-
-<div id="you_tube_main">
-    <h2>You Tube Videos | &nbsp;<%= link_to 'New You Tube Video', new_you_tube_video_path %> |&nbsp; 
-    <%= link_to_function("Search", nil, :id =>"searchLink") do |page|
-                            page.visual_effect :slide_down, "you_tube_search_field", :duration => 0.5
-                   end
-                 %>
-    </h2>
-    <div align="left">
-        <div id="you_tube" style="display:none">
-            <% form_for(:you_tube_video, :url => you_tube_videos_path) do |f| %>
-                <h2>Keywords | &nbsp;
-                <%= link_to_function("Close", nil, :id =>"searchLink") do |page|
-                            page.visual_effect :slide_up, "you_tube_search_field", :duration => 0.5
-                   end
-                 %>
-                </h2>
-                <%= text_field "search", "keywords" %>
-                    <%= observe_field("search_keywords", 
-                        :frequency => 2, 
-                        :update => :videos, 
-                        :url => '/bus_admin/you_tube_videos;search',
-                        :with => "search_keywords"
-                        ) %> 
-                <%= show_spinner %>
-            <% end %>
-        </div>
-        <div id="videos">
-            <%= render( :partial => "you_tube_video", :collection => @you_tube_videos) %>
-            <%= pagination_links(@you_tube_video_pages) %>
-        </div>
-    </div>
+<div class="media_cart" id="donor_trust_videos">	
+	Drag any video you whish to add into this box<br/>
+	Page: <%= pageinated_links_for_ajax(@you_tube_video_pages, "list_videos", "you_tube_videos", "list_videos", nil)%>
+	<%= render :partial=>'you_tube_video', :collection => @you_tube_videos, :locals => { :draggable => true }%>
 </div>
+<%= drop_receiving_element "donor_trust_videos", :update => "donor_trust_videos", :url => {:action => 'add'}, :hoverclass => "media_cart_active"%>

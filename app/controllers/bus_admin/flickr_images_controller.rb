@@ -13,18 +13,18 @@ class BusAdmin::FlickrImagesController < ApplicationController
   def search
     flickr = Flickr.new
     begin
-    
       @tags = params[:tags]
       @tags ||= params[:with][:tags]
       
       @photos = flickr.photos(:tags => @tags, :per_page => '250')
+      @size = @photos.size
       @photo_pages, @photos = paginate_array(params[:page], @photos, 20)
 
     rescue # hackish solution to shitty programming by the Author of the Flickr.rb library
       @photos = Array.new
       @photo_pages, @photos = paginate_array(params[:page], @photos, 20)
     end
-    [@photos, @photo_pages, @tags]
+    [@photos, @photo_pages, @tags, @size]
     render :layout => false
   end
   
@@ -65,7 +65,12 @@ class BusAdmin::FlickrImagesController < ApplicationController
   end
 
   def show_flickr
-    @flickr_image = FlickrImage.find(params[:id])
+    @photo = Flickr::Photo.new(FlickrImage.find(params[:id]).photo_id.to_s)
     render :partial => 'show'
+  end
+    
+  def show_db_flickr
+    @photo = Flickr::Photo.new(params[:id])
+    render :partial => 'show', :locals => {:db => true}
   end
 end

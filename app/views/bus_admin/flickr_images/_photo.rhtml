@@ -1,4 +1,5 @@
 <div id="<%= "flickr_db_image_#{photo.id}"%>" class="flickr_photo" style="cursor:move;">
-    <%= image_tag photo.sizes[0]['source'] %>
+    <%= image_tag photo.sizes[0]['source'] %> <br/>
+    <%= link_to_remote_redbox( image_tag('icons/mag_glass.png'), :url => {:action => "show_db_flickr", :id => photo.id }) %>
 </div>
 <%= draggable_element("flickr_db_image_#{photo.id}",:revert=> true)%>

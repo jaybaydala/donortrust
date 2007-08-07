@@ -68,14 +68,15 @@ class TestRubyTube < Test::Unit::TestCase
     assert_equal videos.size, 100 # this is the only test I could think of, ensuring that we return 100 videos. contrary to the you_tube api it appears to return 100 videos.
   end
   
-  # def test_find_video_with_channel
-  #   video = @ruby_tube.get_video('93R_CdZuacE')
-  #   assert_not_nil video.channels
-  # end
+  def test_find_video_with_channel
+    video = @ruby_tube.get_video('93R_CdZuacE')
+    assert_not_nil video.channels
+  end
   
   def test_find_by_cateogry_and_Tag
-    videos1 = @ruby_tube.list_by_category_and_tag("video","Films & Animation",1,20)
+    videos1 = @ruby_tube.list_by_category_and_tag("video","Films & Animation",1,2)
     assert_not_nil videos1
+    puts videos1[0].title
     videos1 = @ruby_tube.list_by_category_and_tag("video","Autos & Vehicles",1,20)
     assert_not_nil videos1
     videos1 = @ruby_tube.list_by_category_and_tag("video","Comedy",1,20)

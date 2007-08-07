@@ -7,23 +7,20 @@
 <div id="<%=prefix%>you_tube_video_<%= you_tube_video.id%>" class="you_tube_video" <% if draggable %> style="cursor:move;" <% end %> >
 
     <div id="you_tube_thumbnail">
-        <%= link_to image_tag(video.thumbnail_url.to_s), you_tube_video_path(you_tube_video) %>
+        <%= link_to image_tag(video.thumbnail_url.to_s), you_tube_video_path(you_tube_video) %><br/>
+    	<%= link_to_remote_redbox  image_tag('icons/mag_glass.png'), :url => {:controller => '/bus_admin/you_tube_videos', :action => "show_video", :id => video.id } %>
+		<%= link_to_remote_redbox  image_tag('icons/edit_icon.gif'), :url => {:controller => '/bus_admin/you_tube_videos', :action => "edit_video", :id => you_tube_video.id.to_s} %>     
     </div>
     
     <div id="you_tube_details">
         <you_tube_title>
             <%= video.title %>
-            <%= link_to(image_tag("/images/icons/edit_icon.gif"), edit_you_tube_video_path(you_tube_video) ) %>     
-            <%= link_to(image_tag("/images/icons/delete_icon.gif"), you_tube_video_path(you_tube_video), :confirm => 'Are you sure?', :method => :delete )%>
-        </you_tube_title><br/>
+            </you_tube_title><br/>
         <strong>From</strong>: <%= video.author%><br/>
        
         
         <%= show_hide_text_area( video.description, 40, (you_tube_video.you_tube_reference + "_description"), "you_tube_text_area")%>
-        
-        <strong>Comments</strong>:
-        <%= show_hide_text_area(you_tube_video.comments, 40, (you_tube_video.you_tube_reference + "_comments"), "you_tube_text_area")%>
-        
+       
         <strong>Tags</strong>:
         <%= show_hide_text_area(you_tube_video.keywords, 40, (you_tube_video.you_tube_reference + "_keywords"), "you_tube_text_area")%>
 

@@ -1110,14 +1110,24 @@ you_tube_title {
 	width: 330px;
 }
 
-.cart_container {
+.media_cart {
 	float: left;
 	border-style: solid;
 	border-width: 1px;
 	background-color: #ddffdd;
 	width: 340px;
 	padding: 2px;
-	margin: 0px 2px 0px 2px;
+	margin: 2px 2px 2px 2px;
+}
+
+.media_cart_active {
+	float: left;
+	border-style: solid;
+	border-width: 1px;
+	background-color: #ffffdd;
+	width: 340px;
+	padding: 2px;
+	margin: 2px 2px 2px 2px;
 }
 
 
@@ -1144,6 +1154,11 @@ you_tube_title {
 
 /** flickr stuff **/
 
+.flickr_photo_sheet{
+	
+	border: solid;
+}
+
 .media_search{
 	border-style: solid;
 	border-width: 1px;
@@ -1153,16 +1168,29 @@ you_tube_title {
 	margin: 2px 2px 2px 2px;
 }
 
+.media_edit_box{
+	border-style: solid;
+	border-width: 1px;
+	background-color: #ddffdd;
+	width: 800px;
+	padding: 2px;
+	margin: 2px 2px 2px 2px;
+	
+}
+
 .flickr_photo {
 	float:left;
 	margin: 1px;
 	padding: 1px;
 	border: solid 1px;
 }
-
-.cart_active {
-	background-color: #ffffdd;
+.flickr_spacer{
+	width:320px;
+	
+	border: solid;
 }
+
+
 
 /** end flickr stuff **/
 

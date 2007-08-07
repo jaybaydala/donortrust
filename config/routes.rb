@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+
+
   # front-end resources - non-admin
   map.resources :projects, 
     :controller=> 'dt/projects', 
@@ -34,9 +36,38 @@ ActionController::Routing::Routes.draw do |map|
   #
   # Media Resources Specifically You Tube and Flickr Resources
   #
-  map.resources :you_tube_videos,         :path_prefix => "/bus_admin", :controller => "bus_admin/you_tube_videos",         :collection => {:preview => :post, :search => :post}
-  map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos", :collection => {:add => :post, :remove => :post, :search => :post, :projects => :post, :videos => :post}
-  map.resources :flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/flickr_images",                     :collection => {:search => :post, :add => :post, :show_flickr => :post, :remove => :post, :photos=>:post }
+  #
+  # take that REST
+  map.resources :you_tube_videos,         :path_prefix => "/bus_admin", :controller => "bus_admin/you_tube_videos",         :collection => {:preview => :post, 
+                                                                                                                                              :search => :post,
+                                                                                                                                              :search_by_tag => :post, 
+                                                                                                                                              :search_by_user => :post, 
+                                                                                                                                              :search_by_category_and_tag => :post, 
+                                                                                                                                              :list_by_featured => :post, 
+                                                                                                                                              :list_by_popular => :post,
+                                                                                                                                              :show_video => :post,
+                                                                                                                                              :edit_video => :post,
+                                                                                                                                              :remove => :post,
+                                                                                                                                              :add => :post
+                                                                                                                                           }
+  map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos", :collection => {  :add => :post, 
+                                                                                                                                              :remove => :post, 
+                                                                                                                                              :search => :post, 
+                                                                                                                                              :projects => :post, 
+                                                                                                                                              :videos => :post,
+                                                                                                                                            }
+  map.resources :flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/flickr_images",                     :collection => {  :search => :post, 
+                                                                                                                                              :add => :post, 
+                                                                                                                                              :show_flickr => :post, 
+                                                                                                                                              :show_db_flickr => :post, 
+                                                                                                                                              :remove => :post, 
+                                                                                                                                              :photos=>:post }
+                                                                                                                                              
+  map.resources :project_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/project_flickr_images", :collection => {      :add => :post, 
+                                                                                                                                              :remove => :post, 
+                                                                                                                                              :search => :post, 
+                                                                                                                                              :projects => :post, 
+                                                                                                                                            }
 
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
 

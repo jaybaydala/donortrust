@@ -4,24 +4,9 @@ require 'uri'
 class BusAdmin::YouTubeVideosController < ApplicationController
 
 
-  # GET /bus_admin_you_tube_videos
-  # GET /bus_admin_you_tube_videos.xml
   def index
-    @you_tube_video_pages, @you_tube_videos = paginate :you_tube_videos, :per_page => 20
-    respond_to do |format|
-      format.html # index.rhtml
-      format.xml  { render :xml => @you_tube_videos.to_xml }
-    end
-  end
-
-  # GET /bus_admin_you_tube_videos/1
-  # GET /bus_admin_you_tube_videos/1.xml
-  def show
-    @you_tube_video = YouTubeVideo.find(params[:id])
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @you_tube_video.to_xml }
-    end
+    @you_tube_videos = YouTubeVideo.find(:all)
+    @you_tube_video_pages, @you_tube_videos = paginate_array(params[:page],@you_tube_videos , 20)
   end
 
   def search
@@ -59,53 +44,42 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def remove
-    
+    YouTubeVideo.find(params[:id][(params[:id].rindex('_') + 1),params[:id].size]).destroy
+    @you_tube_videos = YouTubeVideo.find(:all)
+    @you_tube_video_pages, @you_tube_videos = paginate_array(params[:page],@you_tube_videos , 20)
+    render :action => 'list_videos', :layout => false
   end
-
-  def preview
-    if(params[:you_tube_videos_you_tube_reference])
-      result = getVideoHash(params[:you_tube_videos_you_tube_reference])
-    else
-      result = getVideoHash(params[:v])
-    end
-    result
+  
+  def list_videos
+    @you_tube_videos = YouTubeVideo.find(:all)
+    @you_tube_video_pages, @you_tube_videos = paginate_array(params[:page],@you_tube_videos , 20)
     render :layout => false
   end
-
-  def getVideoHash(url)
-    if url != nil
-      response = Net::HTTP.get_response(URI.parse('http://www.youtube.com/api2_rest?method=youtube.videos.get_details&dev_id=BayCH1FukEw&video_id=' + url))
-      @video_hash = Hash.create_from_xml response.body[0,response.body.size]
-      return @video_hash
-    end
-  end
-
-  # GET /bus_admin_you_tube_videos/1;edit
-  def edit
+  
+  def edit_video
+    puts params.inspect
     @you_tube_video = YouTubeVideo.find(params[:id])
+    render :partial => 'edit'
   end
 
   # POST /bus_admin_you_tube_videos
   # POST /bus_admin_you_tube_videos.xml
-  def create
-    @you_tube_video = YouTubeVideo.new(params[:you_tube_video])
-    url = params[:you_tube_video][:you_tube_reference]
-    chunks = url.split("v=")
-    ref = chunks[1].split("&")
-    videoHash = getVideoHash(ref[0])
-    @you_tube_video.keywords = videoHash["ut_response"]["video_details"]["tags"] + " " + params[:you_tube_video][:extra_tags] + videoHash["ut_response"]["video_details"]["title"]
-    @you_tube_video.you_tube_reference = ref[0]
-
-    respond_to do |format|
-      if @you_tube_video.save
-        flash[:notice] = 'You Tube Video was successfully created.'
-        format.html { redirect_to you_tube_video_url(@you_tube_video) }
-        format.xml  { head :created, :location => you_tube_video_url(@you_tube_video) }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @you_tube_video.errors.to_xml }
-      end
+  def add
+    video_id = params[:id][(params[:id].rindex('_') + 1),params[:id].size]
+    video = RubyTube.new().get_video(video_id)
+    
+    @you_tube_video = YouTubeVideo.new
+    @you_tube_video.keywords = video.tags
+    @you_tube_video.you_tube_reference = video_id
+    if @you_tube_video.save
+      flash[:notice] = 'You Tube Video was successfully created.'
+    else
+      flash[:notice] = 'You Tube Video was not created.'
     end
+    
+    @you_tube_videos = YouTubeVideo.find(:all)
+    @you_tube_video_pages, @you_tube_videos = paginate_array(params[:page],@you_tube_videos , 20)
+    render :action => 'list_videos', :layout => false
   end
 
   # PUT /bus_admin_you_tube_videos/1
@@ -114,8 +88,8 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     @you_tube_video = YouTubeVideo.find(params[:id])
     respond_to do |format|
       if @you_tube_video.update_attributes(params[:you_tube_video])
-        flash[:notice] = 'BusAdmin::YouTubeVideo was successfully updated.'
-        format.html { redirect_to you_tube_video_url(@you_tube_video) }
+        flash[:notice] = 'YouTubeVideo was successfully added.'
+        format.html { redirect_to you_tube_videos_url }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -124,14 +98,36 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     end
   end
 
-  # DELETE /bus_admin_you_tube_videos/1
-  # DELETE /bus_admin_you_tube_videos/1.xml
-  def destroy
-    @you_tube_video = BusAdmin::YouTubeVideo.find(params[:id])
-    @you_tube_video.destroy
-    respond_to do |format|
-      format.html { redirect_to you_tube_videos_url }
-      format.xml  { head :ok }
-    end
+  ## These are YouTube Search methods for getting stuff from the YouTube Database
+  def search_by_tag
+    @you_tube_db_videos = RubyTube.new().list_by_tag(params[:tags],1,20)
+    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true}   
   end
+  
+  
+  def search_by_user
+    @you_tube_db_videos = RubyTube.new().list_by_user(params[:user],1,20)
+    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true} 
+  end
+
+  def search_by_category_and_tag
+    @you_tube_db_videos = RubyTube.new().list_by_category_and_tag(params[:tags],params[:category],1,20)
+    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true}
+  end
+  
+  def list_by_featured
+    @you_tube_db_videos = RubyTube.new().list_featured
+    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true}
+  end
+  
+  def list_by_popular
+    @you_tube_db_videos = RubyTube.new().list_popular(params[:popular])
+    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true}
+  end
+  
+  def show_video
+    you_tube_db_video = RubyTube.new().get_video(params[:id])
+    render :partial => 'show_video', :locals => {:you_tube_db_video => you_tube_db_video}
+  end
+  
 end

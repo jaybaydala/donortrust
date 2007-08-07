@@ -1,6 +1,6 @@
 <% photo = Flickr::Photo.new(flickr_image.photo_id.to_s) %>
-<div id="<%= "flickr_dt_image_" + flickr_image.id.to_s %>" class="flickr_photo" style="cursor:move;">
+<div id="<%= "#{prefix}flickr_dt_image_" + flickr_image.id.to_s %>" class="flickr_photo" style="cursor:move;">
     <%= image_tag photo.sizes[0]['source'] %><br/>
-    <%= link_to_remote_redbox( image_tag('icons/mag_glass.png'), :url => {:action => "show_flickr", :id => flickr_image.id }) %>
+    <%= link_to_remote_redbox( image_tag('icons/mag_glass.png'), :url => {:controller => "/bus_admin/flickr_images",:action => "show_flickr", :id => flickr_image.id }) %>
 </div>
-<%= draggable_element("flickr_dt_image_#{flickr_image.id}",:revert=> true)%>
+<%= draggable_element("#{prefix}flickr_dt_image_#{flickr_image.id}",:revert=> true)%>

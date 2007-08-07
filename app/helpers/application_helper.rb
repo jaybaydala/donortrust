@@ -36,6 +36,8 @@ module ApplicationHelper
           result = result + i.to_s
         end
       end
+    else
+      result = "1"
     end
     return result
   end

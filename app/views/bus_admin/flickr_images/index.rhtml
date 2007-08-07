@@ -1,4 +1,4 @@
-<div id="flickr_search">
+<div id="flickr_search" class="media_search">
     <h2>Search Flickr Photos</h2>
     <%= form_remote_tag :url => {:action => 'search'}, :update => 'flickr_photos' %>
     
@@ -13,13 +13,13 @@
 </div>
 <%= drop_receiving_element "trash_bin", :update => "donor_trust_photos", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
     
-<div class="cart_container" id="flickr_photos">
+<div class="media_cart" id="flickr_photos">
     <h2>Flickr Photos</h2>
 </div>
 
-<div class="cart_container" id="donor_trust_photos">
+<div class="media_cart" id="donor_trust_photos">
     <h2>DonorTrust Photos | <%= pageinated_links_for_ajax(@flickr_image_pages, "donor_trust_photos", "/bus_admin/flickr_images", "photos", nil) %></h2>
     <%= render :partial => 'flickr_image', :collection => @flickr_images%>
     </div>
-<%= drop_receiving_element "donor_trust_photos", :update => "donor_trust_photos", :url => {:action => "add"}, :hoverclass => "cart_active"%>
+<%= drop_receiving_element "donor_trust_photos", :update => "donor_trust_photos", :url => {:action => "add"}, :hoverclass => "media_cart_active"%>
     

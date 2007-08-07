@@ -7,12 +7,17 @@ class Project < ActiveRecord::Base
   belongs_to :partner
   has_many :project_histories
   has_many :milestones
-  has_many :project_you_tube_videos
   belongs_to :urban_centre
   belongs_to :contact
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   validates_presence_of :program_id
+  
+  has_many :you_tube_videos, :through => :project_you_tube_videos
+  has_many :project_you_tube_videos, :dependent => :destroy
+  has_many :flickr_images, :through => :project_flickr_images
+  has_many :project_flickr_images, :dependent => :destroy
+  
     
   def create_project_history
     if Project.exists?(self.id)

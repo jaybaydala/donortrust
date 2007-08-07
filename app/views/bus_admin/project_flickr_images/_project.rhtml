@@ -1,0 +1,20 @@
+<div id="<%= project.id.to_s %>_div">
+    <strong><%= project.name %></strong> - Photos: <br/>
+	 <%= slide_down_link "Add Photos", "addPhotos", "cart_#{project.id.to_s}"%>
+     <% project_id ||= 0%>
+    <div id="cart_<%= project.id%>" class="you_tube_cart" <%if project_id.to_i != project.id %>style="display:none"<% end %>>
+	    <%= drop_receiving_element "cart_#{project.id}", :update => "cart_#{project.id}", :url => {:action => "add", :project_id => project.id}, :hoverclass => "you_tube_cart_active"%>
+	    Drag Any Photo you wish to associate with this project<br/>
+		<div>
+		    <% @flickr_images = project.flickr_images %>
+		    <%= render(:partial => '/bus_admin/flickr_images/flickr_image', :locals => {:prefix => "project_#{project.id}_", :draggable => true}, :collection => @flickr_images) %> 
+			<% 
+				remainder = project.flickr_images.size%4 
+			   	
+			%>
+		</div>
+		<div style:"width: 300px;">
+			<%= slide_up_link "Done Adding Photos", "addPhotos", "cart_#{project.id.to_s}"%> 
+		</div>
+	</div>
+</div>
