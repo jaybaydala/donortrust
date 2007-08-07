@@ -1166,6 +1166,35 @@ you_tube_title {
 
 /** end flickr stuff **/
 
+/** Change-password stuff **/
+#change-password {
+	border: 2px solid #fff;
+	padding:10px;
+	font:"Arial Black";
+	font-size:12px;
+}
+#change-password #password_notice #good{
+	color:blue;
+}
+
+#change-password #password_notice #weak{
+	color:red;	
+}
+
+#change-password #password_notice #very-weak{
+	color:red;	
+}
+
+#change-password #password_notice #strong {
+	color:green;	
+}
+
+#change-password #password_notice #needs-more{
+	color:gray;	
+}
+
+
+/** End Change-password stuff **/
 .fieldWithErrors {
   padding: 2px;
   background-color: red;
