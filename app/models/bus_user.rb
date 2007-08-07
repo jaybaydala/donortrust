@@ -72,9 +72,9 @@ class BusUser < ActiveRecord::Base
     "#{login}"
   end
   
-   def reset_pass
-      self.salt = nil;
-      self.crypted_password = nil;
+   def reset_pass(temp)
+      new_encrypted_password(temp)
+      update      
     end
   
   protected
@@ -87,6 +87,10 @@ class BusUser < ActiveRecord::Base
     
     def password_required?
       crypted_password.blank? || !password.blank?
+    end
+    
+    def new_encrypted_password(password)
+      self.crypted_password = encrypt(password)
     end
     
    
