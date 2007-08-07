@@ -133,7 +133,8 @@ ActionController::Routing::Routes.draw do |map|
   map.note 'bus_admin/show_note', :controller => 'bus_admin/partners', :action => 'show_note'
   map.note_project 'bus_admin/show_project_note', :controller => 'bus_admin/projects', :action => 'show_project_note'
   map.note_program 'bus_admin/show_program_note', :controller => 'bus_admin/programs', :action => 'show_program_note'
-  
+  map.reset_password 'bus_admin/reset_password', :controller => 'bus_admin/bus_account', :action => 'reset_password'
+  map.reset_password_now 'bus_admin/reset_password_now', :controller => 'bus_admin/bus_account', :action => 'reset_password_now'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   
   # Install the default route as the lowest priority.
