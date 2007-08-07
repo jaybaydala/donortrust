@@ -1,105 +1,401 @@
---- 
-bus_secure_actions_024: 
-  bus_security_level_id: "5"
-  permitted_actions: show
-  id: "24"
-bus_secure_actions_013: 
-  bus_security_level_id: "6"
-  permitted_actions: list
-  id: "13"
-bus_secure_actions_002: 
-  bus_security_level_id: "1"
-  permitted_actions: show
-  id: "2"
-bus_secure_actions_025: 
-  bus_security_level_id: "5"
-  permitted_actions: index
-  id: "25"
-bus_secure_actions_014: 
-  bus_security_level_id: "3"
-  permitted_actions: index
-  id: "14"
-bus_secure_actions_003: 
-  bus_security_level_id: "1"
-  permitted_actions: list
-  id: "3"
-bus_secure_actions_026: 
-  bus_security_level_id: "1"
-  permitted_actions: 
-  id: "27"
-bus_secure_actions_015: 
-  bus_security_level_id: "4"
-  permitted_actions: new
-  id: "15"
-bus_secure_actions_004: 
-  bus_security_level_id: "1"
-  permitted_actions: index
-  id: "4"
-bus_secure_actions_016: 
-  bus_security_level_id: "4"
+
+bus_secure_actions_094: 
+  bus_security_level_id: "19"
   permitted_actions: edit
-  id: "16"
-bus_secure_actions_005: 
-  bus_security_level_id: "1"
-  permitted_actions: new
-  id: "5"
-bus_secure_actions_017: 
+  id: "105"
+bus_secure_actions_073: 
+  bus_security_level_id: "15"
+  permitted_actions: edit
+  id: "84"
+bus_secure_actions_010: 
   bus_security_level_id: "3"
   permitted_actions: edit
   id: "17"
-bus_secure_actions_006: 
+bus_secure_actions_009: 
   bus_security_level_id: "4"
+  permitted_actions: edit
+  id: "16"
+bus_secure_actions_031: 
+  bus_security_level_id: "7"
+  permitted_actions: edit
+  id: "42"
+bus_secure_actions_052: 
+  bus_security_level_id: "11"
+  permitted_actions: edit
+  id: "63"
+bus_secure_actions_095: 
+  bus_security_level_id: "19"
+  permitted_actions: show
+  id: "106"
+bus_secure_actions_074: 
+  bus_security_level_id: "15"
   permitted_actions: list
-  id: "6"
-bus_secure_actions_018: 
+  id: "85"
+bus_secure_actions_011: 
   bus_security_level_id: "6"
   permitted_actions: edit
   id: "18"
-bus_secure_actions_007: 
-  bus_security_level_id: "3"
-  permitted_actions: new
-  id: "7"
-bus_secure_actions_019: 
+bus_secure_actions_032: 
+  bus_security_level_id: "7"
+  permitted_actions: create
+  id: "43"
+bus_secure_actions_053: 
+  bus_security_level_id: "11"
+  permitted_actions: create
+  id: "64"
+bus_secure_actions_096: 
+  bus_security_level_id: "20"
+  permitted_actions: show
+  id: "107"
+bus_secure_actions_075: 
+  bus_security_level_id: "15"
+  permitted_actions: create
+  id: "86"
+bus_secure_actions_012: 
   bus_security_level_id: "4"
   permitted_actions: show
   id: "19"
-bus_secure_actions_008: 
-  bus_security_level_id: "6"
-  permitted_actions: new
-  id: "8"
-bus_secure_actions_020: 
-  bus_security_level_id: "4"
-  permitted_actions: index
-  id: "20"
-bus_secure_actions_009: 
-  bus_security_level_id: "6"
-  permitted_actions: index
-  id: "9"
-bus_secure_actions_021: 
+bus_secure_actions_033: 
+  bus_security_level_id: "7"
+  permitted_actions: show
+  id: "44"
+bus_secure_actions_054: 
+  bus_security_level_id: "11"
+  permitted_actions: show
+  id: "65"
+bus_secure_actions_097: 
+  bus_security_level_id: "20"
+  permitted_actions: edit
+  id: "108"
+bus_secure_actions_076: 
+  bus_security_level_id: "16"
+  permitted_actions: list
+  id: "87"
+bus_secure_actions_034: 
+  bus_security_level_id: "7"
+  permitted_actions: list
+  id: "45"
+bus_secure_actions_055: 
+  bus_security_level_id: "11"
+  permitted_actions: delete
+  id: "66"
+bus_secure_actions_013: 
   bus_security_level_id: "5"
   permitted_actions: list
   id: "21"
-bus_secure_actions_010: 
-  bus_security_level_id: "3"
-  permitted_actions: list
-  id: "10"
-bus_secure_actions_022: 
+bus_secure_actions_098: 
+  bus_security_level_id: "20"
+  permitted_actions: create
+  id: "109"
+bus_secure_actions_077: 
+  bus_security_level_id: "16"
+  permitted_actions: create
+  id: "88"
+bus_secure_actions_056: 
+  bus_security_level_id: "12"
+  permitted_actions: delete
+  id: "67"
+bus_secure_actions_014: 
   bus_security_level_id: "5"
   permitted_actions: new
   id: "22"
-bus_secure_actions_011: 
-  bus_security_level_id: "6"
-  permitted_actions: show
-  id: "11"
-bus_secure_actions_023: 
+bus_secure_actions_035: 
+  bus_security_level_id: "7"
+  permitted_actions: delete
+  id: "46"
+bus_secure_actions_099: 
+  bus_security_level_id: "20"
+  permitted_actions: delete
+  id: "110"
+bus_secure_actions_080: 
+  bus_security_level_id: "16"
+  permitted_actions: edit
+  id: "91"
+bus_secure_actions_078: 
+  bus_security_level_id: "16"
+  permitted_actions: delete
+  id: "89"
+bus_secure_actions_015: 
   bus_security_level_id: "5"
   permitted_actions: edit
   id: "23"
-bus_secure_actions_012: 
-  bus_security_level_id: "3"
+bus_secure_actions_036: 
+  bus_security_level_id: "8"
   permitted_actions: show
-  id: "12"
+  id: "47"
+bus_secure_actions_057: 
+  bus_security_level_id: "12"
+  permitted_actions: show
+  id: "68"
+bus_secure_actions_081: 
+  bus_security_level_id: "17"
+  permitted_actions: edit
+  id: "92"
+bus_secure_actions_079: 
+  bus_security_level_id: "16"
+  permitted_actions: show
+  id: "90"
+bus_secure_actions_016: 
+  bus_security_level_id: "5"
+  permitted_actions: show
+  id: "24"
+bus_secure_actions_037: 
+  bus_security_level_id: "8"
+  permitted_actions: list
+  id: "48"
+bus_secure_actions_060: 
+  bus_security_level_id: "12"
+  permitted_actions: edit
+  id: "71"
+bus_secure_actions_058: 
+  bus_security_level_id: "12"
+  permitted_actions: create
+  id: "69"
+bus_secure_actions_082: 
+  bus_security_level_id: "17"
+  permitted_actions: list
+  id: "93"
+bus_secure_actions_017: 
+  bus_security_level_id: "5"
+  permitted_actions: index
+  id: "25"
+bus_secure_actions_038: 
+  bus_security_level_id: "8"
+  permitted_actions: create
+  id: "49"
+bus_secure_actions_059: 
+  bus_security_level_id: "12"
+  permitted_actions: list
+  id: "70"
+bus_secure_actions_018: 
+  bus_security_level_id: "1"
+  permitted_actions: create
+  id: "28"
+bus_secure_actions_040: 
+  bus_security_level_id: "8"
+  permitted_actions: delete
+  id: "51"
+bus_secure_actions_039: 
+  bus_security_level_id: "8"
+  permitted_actions: edit
+  id: "50"
+bus_secure_actions_061: 
+  bus_security_level_id: "13"
+  permitted_actions: list
+  id: "72"
+bus_secure_actions_083: 
+  bus_security_level_id: "17"
+  permitted_actions: show
+  id: "94"
+bus_secure_actions_020: 
+  bus_security_level_id: "2"
+  permitted_actions: delete
+  id: "31"
+bus_secure_actions_019: 
+  bus_security_level_id: "1"
+  permitted_actions: delete
+  id: "30"
+bus_secure_actions_041: 
+  bus_security_level_id: "9"
+  permitted_actions: edit
+  id: "52"
+bus_secure_actions_062: 
+  bus_security_level_id: "13"
+  permitted_actions: delete
+  id: "73"
+bus_secure_actions_084: 
+  bus_security_level_id: "17"
+  permitted_actions: delete
+  id: "95"
+bus_secure_actions_021: 
+  bus_security_level_id: "2"
+  permitted_actions: create
+  id: "32"
+bus_secure_actions_042: 
+  bus_security_level_id: "9"
+  permitted_actions: delete
+  id: "53"
+bus_secure_actions_063: 
+  bus_security_level_id: "13"
+  permitted_actions: create
+  id: "74"
+bus_secure_actions_100: 
+  bus_security_level_id: "20"
+  permitted_actions: list
+  id: "111"
+bus_secure_actions_085: 
+  bus_security_level_id: "17"
+  permitted_actions: create
+  id: "96"
 bus_secure_actions_001: 
   bus_security_level_id: "1"
   permitted_actions: edit
   id: "1"
+bus_secure_actions_022: 
+  bus_security_level_id: "2"
+  permitted_actions: list
+  id: "33"
+bus_secure_actions_043: 
+  bus_security_level_id: "9"
+  permitted_actions: list
+  id: "54"
+bus_secure_actions_064: 
+  bus_security_level_id: "13"
+  permitted_actions: show
+  id: "75"
+bus_secure_actions_086: 
+  bus_security_level_id: "18"
+  permitted_actions: show
+  id: "97"
+bus_secure_actions_023: 
+  bus_security_level_id: "2"
+  permitted_actions: show
+  id: "34"
+bus_secure_actions_044: 
+  bus_security_level_id: "9"
+  permitted_actions: create
+  id: "55"
+bus_secure_actions_065: 
+  bus_security_level_id: "13"
+  permitted_actions: edit
+  id: "76"
+bus_secure_actions_002: 
+  bus_security_level_id: "1"
+  permitted_actions: show
+  id: "2"
+bus_secure_actions_087: 
+  bus_security_level_id: "18"
+  permitted_actions: edit
+  id: "98"
+bus_secure_actions_045: 
+  bus_security_level_id: "9"
+  permitted_actions: show
+  id: "56"
+bus_secure_actions_066: 
+  bus_security_level_id: "14"
+  permitted_actions: list
+  id: "77"
+bus_secure_actions_003: 
+  bus_security_level_id: "1"
+  permitted_actions: list
+  id: "3"
+bus_secure_actions_024: 
+  bus_security_level_id: "2"
+  permitted_actions: edit
+  id: "35"
+bus_secure_actions_090: 
+  bus_security_level_id: "18"
+  permitted_actions: delete
+  id: "101"
+bus_secure_actions_088: 
+  bus_security_level_id: "18"
+  permitted_actions: create
+  id: "99"
+bus_secure_actions_067: 
+  bus_security_level_id: "14"
+  permitted_actions: show
+  id: "78"
+bus_secure_actions_004: 
+  bus_security_level_id: "4"
+  permitted_actions: list
+  id: "6"
+bus_secure_actions_025: 
+  bus_security_level_id: "3"
+  permitted_actions: create
+  id: "36"
+bus_secure_actions_046: 
+  bus_security_level_id: "10"
+  permitted_actions: list
+  id: "57"
+bus_secure_actions_091: 
+  bus_security_level_id: "19"
+  permitted_actions: delete
+  id: "102"
+bus_secure_actions_089: 
+  bus_security_level_id: "18"
+  permitted_actions: list
+  id: "100"
+bus_secure_actions_070: 
+  bus_security_level_id: "14"
+  permitted_actions: edit
+  id: "81"
+bus_secure_actions_068: 
+  bus_security_level_id: "14"
+  permitted_actions: create
+  id: "79"
+bus_secure_actions_005: 
+  bus_security_level_id: "3"
+  permitted_actions: list
+  id: "10"
+bus_secure_actions_026: 
+  bus_security_level_id: "3"
+  permitted_actions: delete
+  id: "37"
+bus_secure_actions_047: 
+  bus_security_level_id: "10"
+  permitted_actions: delete
+  id: "58"
+bus_secure_actions_092: 
+  bus_security_level_id: "19"
+  permitted_actions: list
+  id: "103"
+bus_secure_actions_071: 
+  bus_security_level_id: "15"
+  permitted_actions: show
+  id: "82"
+bus_secure_actions_069: 
+  bus_security_level_id: "14"
+  permitted_actions: delete
+  id: "80"
+bus_secure_actions_006: 
+  bus_security_level_id: "6"
+  permitted_actions: show
+  id: "11"
+bus_secure_actions_027: 
+  bus_security_level_id: "4"
+  permitted_actions: delete
+  id: "38"
+bus_secure_actions_048: 
+  bus_security_level_id: "10"
+  permitted_actions: edit
+  id: "59"
+bus_secure_actions_093: 
+  bus_security_level_id: "19"
+  permitted_actions: create
+  id: "104"
+bus_secure_actions_007: 
+  bus_security_level_id: "3"
+  permitted_actions: show
+  id: "12"
+bus_secure_actions_028: 
+  bus_security_level_id: "4"
+  permitted_actions: create
+  id: "39"
+bus_secure_actions_050: 
+  bus_security_level_id: "10"
+  permitted_actions: create
+  id: "61"
+bus_secure_actions_049: 
+  bus_security_level_id: "10"
+  permitted_actions: show
+  id: "60"
+bus_secure_actions_072: 
+  bus_security_level_id: "15"
+  permitted_actions: delete
+  id: "83"
+bus_secure_actions_008: 
+  bus_security_level_id: "6"
+  permitted_actions: list
+  id: "13"
+bus_secure_actions_030: 
+  bus_security_level_id: "6"
+  permitted_actions: create
+  id: "41"
+bus_secure_actions_029: 
+  bus_security_level_id: "6"
+  permitted_actions: delete
+  id: "40"
+bus_secure_actions_051: 
+  bus_security_level_id: "11"
+  permitted_actions: list
+  id: "62"
