@@ -3,7 +3,7 @@
 <div id="leftColW2">
 	<h1>Create Group</h1>
 	<%= error_messages_for :group %>
-	<% form_for(:group, :url => dt_groups_path, :html => { :id => 'creategroupform', :name => 'creategroupform' }) do |f| %>
+	<% form_for(:group, :url => dt_groups_path, :html => { :id => 'groupform', :name => 'groupform' }) do |f| %>
 
 	<div class="formInput">
 	<label for="group_name">Group name</label>
@@ -25,7 +25,7 @@
 	<%= collection_select :group, :group_type_id, GroupType.find(:all), :id, :name %>
 	</div>
 	
-	<div id="submitButtonMedium"><a href="javascript:document.creategroupform.submit()">Create Group</a></div>
+	<div id="submitButtonMedium"><a href="javascript:document.groupform.submit()">Create Group</a></div>
 	<% end -%>
 </div>
 <div id="rightColN">

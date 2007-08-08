@@ -453,14 +453,13 @@ p {
 }
 
 
-div.notice, div.activation {
+div.notice, div.activation, div.error {
 	padding:6px;
 	margin-bottom:.75em;
 	background: #D8DEE7;
+	border:1px solid #AAA;
 }
 div.error {
-	padding:6px;
-	margin-bottom:.75em;
 	background: #F99;
 	font-weight:bold;
 }
