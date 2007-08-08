@@ -1,33 +1,22 @@
 <%= project_nav %>
 
-<div id="contentcontainer-2col">
-
-<div id="content">
-<div class="contentmargin">
-<div id="project-<%= @project.id %>" class="article">
-	<h1 class="article-title" id="project-name"><%= @project.name %></h1>
-	<div class="article-body" id="project-description">
-	<%= textilize @project.description.gsub(/\n{2,}.*/, "") %>
-	<div style="text-align:right;margin-top:-1em;"><%= link_to "more&hellip;", dt_project_project_path(@project) %></div>
+<div id="leftColW">
+	<div id="project-<%= @project.id %>" class="article">
+		<h1 class="article-title" id="project-name"><%= @project.name %></h1>
+		<div class="article-body" id="project-description">
+		<%= textilize @project.description.gsub(/\n{2,}.*/, "") %>
+		<div style="text-align:right;margin-top:-1em;"><%= link_to "more&hellip;", dt_project_project_path(@project) %></div>
 	</div>
 
 	<h2 class="article-title">Community</h2>
 	<% if @project.village.facebook_group_id %>
-	<p><a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>">Facebook Group</a> <a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>"><%= image_tag "/images/dt/icons/facebook.gif" %></a></p>
+		<p><a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>">Facebook Group</a> <a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>"><%= image_tag "/images/dt/icons/facebook.gif" %></a></p>
+		<% end %>
+		<% if @project.village.blog_url %>
+		<p><a href="<%= @project.village.blog_url %>"><%= @project.village.blog_name %></a> </p>
 	<% end %>
-	<% if @project.village.blog_url %>
-	<p><a href="<%= @project.village.blog_url %>"><%= @project.village.blog_name %></a> </p>
-	<% end %>
-</div>
-</div>
 </div>
 
-
-<div id="rail-right">
-<div class="contentmargin">
+<div id="rightColN">
 	<%= render :partial => 'project_location' %>
 </div>
-</div>
-
-</div>
-

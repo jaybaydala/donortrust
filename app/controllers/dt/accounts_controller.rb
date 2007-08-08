@@ -110,8 +110,9 @@ class Dt::AccountsController < DtApplicationController
         #format.js
         format.xml  { head :ok }
       else
-        if User.authenticate(params[:login], params[:password], false)
+        if u = User.authenticate(params[:login], params[:password], false)
           @activated = false
+          session[:tmp_user] = u.id
           flash[:error] = "A confirmation email has been sent to your login email address"
         else
           flash[:error] = "Either your username or password are incorrect"
@@ -150,6 +151,7 @@ class Dt::AccountsController < DtApplicationController
       user = User.find_by_id( logged_in? ? current_user : session[:tmp_user] )
     end
     UserNotifier.deliver_change_notification(user) if user && user.activation_code
+    flash[:notice] = "We have resent the activation email to your login email address"
     redirect_to dt_accounts_url()
   end
   

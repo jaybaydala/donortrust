@@ -1,4 +1,4 @@
-<ul id="subnav">
+<ul id="subNav">
 <% if logged_in? %>
 <li><%= link_to "Account Summary", dt_account_path(current_user) %></li>
 <li<%= ' class="current"' if params['action'] == 'edit' %>><%= link_to "Edit Profile", dt_edit_account_path(current_user) %></li>
@@ -8,3 +8,7 @@
 <li><%= link_to "Signup", dt_new_account_path %></li>
 <% end %>
 </ul>
+
+<% if logged_in? %>
+<%= render :partial => 'dt/accounts/inactive' if !@current_user.activated? %>
+<% end %>

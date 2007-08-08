@@ -1,4 +1,1370 @@
-@import url('/stylesheets/dt/reset.css');
-@import url('/stylesheets/dt/type.css');
-@import url('/stylesheets/dt/grid.css');
-@import url('/stylesheets/dt/widgets.css');
+/* CSS Document by David Yarema */
+
+/* to reset browser specific settings */
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+  }
+  
+/* BASIC ELEMENTS */
+
+body {
+  background: #FFF;
+  font: 12px/16px Arial, Helvetica, sans-serif;
+  color: #333;
+  text-align: center; /* this is asking IE to centre the container ;) */
+}
+
+table {}
+table caption {
+	background-color:#D8DEE7;
+	text-align:left;
+}
+
+/* basic divs used to centre the layout */
+
+#container {
+  width: 100%;
+  height: auto;
+  background: none;
+  padding: 0px 0 30px 0;
+}
+#main {
+  position: relative;
+  width: 760px;
+  border-left: 1px solid #FFF;
+  background: #fff;
+  margin: 0 auto; /* to center the box */
+  text-align: left; /* to revoke the body definition to please IE */
+}
+
+/* SITE STRUCTURE */
+
+/* Use #content to set up an elastic border as backround image if required */
+
+#content {
+	width: 760px;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background: #FFF;
+	height: inherit;
+}
+
+/* Header Styles */
+
+#header {
+  	height: 70px;
+	background: #fff;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 70px;
+}
+#logo {
+	position: absolute;
+	top: 11px;
+	left: 45px;
+	background: #fff;
+	height: 50px;
+	width: 203px;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 50px;
+	width: 203px;
+}
+#yourAccountObject {
+	float: right;
+	padding: 30px 2px 0 0;
+	background: #FFF;
+	font: 11px Arial, Helvetica, sans-serif;
+	color:#333;
+	width: auto;
+	height: 15px;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: auto;
+	height: 15px;
+}
+#RSSicon {
+	float: right;
+	padding: 30px 38px 0 2px;
+	height: 15px;
+	width: auto;
+}
+
+/* NAVIGATION STYLES */
+
+/* Top Navigation Styles */
+
+#topNav {
+	margin: 0px 0px 0 18px;
+	padding: 6px 0 0 10px;
+	background: #CCC url(/images/dt/nav_elements/topNavBar.jpg) no-repeat;
+	height: 29px;
+	width: 714px;
+	color: #666;
+	text-align:left;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 29px;
+	width: 714px;
+}
+.topNav li {
+	font: 12px Arial, Helvetica, sans-serif;
+	color: #FFF;
+	font-weight: normal;
+	line-height:24px;
+	text-decoration:none;
+	display: inline;
+	list-style-type: none;
+	background-color: transparent;
+}
+.topNav li a:link, .topNav li a:visited {
+	display: inline;
+	list-style-type: none;
+	text-decoration: none;
+	color: #666;
+	font: 12px Arial, Helvetica, sans-serif;
+	line-height:24px;
+	font-weight: normal;
+	padding: 10px 14px 9px 14px;
+}
+.topNav li a:hover, .topNav li a:active {
+	display: inline;
+	list-style-type: none;
+	text-decoration: none;
+	color: #FFF;
+	font: 12px Arial, Helvetica, sans-serif;
+	line-height:24px;
+	font-weight: normal;
+	background-color:#999;
+	padding: 10px 14px 9px 14px;
+}
+body#about li.on0 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 10px 13px;}
+body#projects li.on1 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 10px 13px;}
+body#getInvolved li.on2 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 9px 13px;}
+body#schoolProgram li.on3 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 9px 13px;}
+body#resources li.on4 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 9px 13px;}
+body#contact li.on5 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 9px 13px;}
+
+#topNavSearch {
+	padding: 2px 10px 0 0px;
+	margin-right: 0px;
+	background: none ;
+	height: 22px;
+	width: 158px;
+	color: #666;
+	text-align:left;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 22px;
+	width: 158px;
+	float:right;
+}
+#topNavSearch input {width:115px;}
+
+/* FEATURE STYLES */
+
+#feature {
+	width: 724px;
+	height: auto;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0 0 0px;
+	background: #666;	 
+}
+#featurePhoto {
+	width:722px;
+	height:auto;
+	background: #333;
+	margin: 0px 0px 0px 18px;
+	border-top: 0px solid #900;
+	border-bottom: 0px solid #900;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+}
+#featureText {
+	position: absolute;
+	top: 257px;
+	left: 58px;
+	width: 250px;
+	height: 40px;
+}
+#featureText a {
+	font: 10px/16px Verdana, Arial, Helvetica, sans-serif;
+	color: #333;
+	padding: 0px 0px 0px 15px;
+}
+#featureText  a:link, #featureText  a:visited {
+	color: #333;
+	background: transparent url(/images/dt/nav_elements/arrows/arrow_right.gif);
+	background-position: 0px center;
+	background-repeat: no-repeat;
+}
+#featureText  a:hover, #featureText  a:active {
+	color: #900;
+	background: transparent url(/images/dt/nav_elements/arrows/arrow_right.gif);
+	background-position: 0px center;
+	background-repeat: no-repeat;
+}
+
+ /* PROGRESS BAR STYLES */
+
+#progessbar {
+	width:722px;
+	height:30px;
+	background: #CCC url(/images/dt/feature_graphics/progress_bars/progressBar_sample.jp) no-repeat top;
+	margin: 0 0 0px 18px;
+	border-right: 1px solid #999;
+	border-left: 1px solid #999;
+}
+
+ /* TOOLBAR STYLES */
+
+#toolbar {
+	width:724px;
+	height:35px;
+	background: #CCC url(/images/dt/toolbars/ToolBackground.jpg) no-repeat bottom;
+	margin: 0 0 10px 18px;
+}
+
+/* COLUMN STYLES */
+
+#contentContainer {
+	width: 724px;
+	height: auto;
+	text-align:left;
+	background: #FFF;
+	margin: 0px 0 10px 18px;
+	float:left;
+}
+#contentContainer2 {
+	width: 722px;
+	height: auto;
+	text-align:left;
+	background: #FFF url(/images/dt/backgrounds/lightFade.gif) no-repeat bottom center;
+	margin: 0px 0 10px 18px;
+	border: 1px solid #666;
+	float:left;
+}
+#contentContainer2 #rightCol {padding: 9px 7px 5px 0px;}
+
+/* Left Column Wide(W) with Narrow(N) Right Column */
+
+#leftColW {
+	float: left;
+	width: 476px;
+	height: auto;
+	background: none;
+	padding: 0px 0px 20px 0px;
+	margin-right: 0px;
+	background:none;
+}
+#leftColW2 {
+	float: left;
+	width: 448px;
+	height: auto;
+	background: none;
+	padding: 10px 10px 20px 18px;
+	margin-right: 0px;
+	background: #D8DEE7;
+}
+#rightColN {
+	float: right;
+	width: 221px;
+	height: auto;
+	padding: 0px 7px 5px 0px;
+	background: none;
+}
+
+/* Left Column Narrow(N) with Wide(W) Right Column */
+
+#leftColN {
+	float: right;
+	width: 221px;
+	height: auto;
+	padding: 0px 7px 5px 0px;
+	background: none;
+}
+#rightColW {
+	float: left;
+	width: 476px;
+	height: auto;
+	background: none;
+	padding: 0px 0px 5px 0px;
+	margin-right: 0px;
+}
+	
+/* Footer Styles */
+	
+#footer {
+	width: 724px;
+	height: auto;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	background: #FFF;
+	padding: 11px 0px 12px 0px;
+	margin: 0px 18px 0px 18px;
+	text-align: left;
+	clear: both;
+}
+#footer p {
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	color: #333;
+	padding:0;
+}
+.footer li {
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	color: #333;
+	font-weight: normal;
+	display: inline;
+	list-style-type: none;
+	padding: 0px 20px 0px 0px;
+}
+.footer li a:link, .footer li a:visited {
+	display: inline;
+	list-style-type: none;
+	color: #333;
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	font-weight: normal;
+}
+.footer li a:hover, .footer li a:active {
+	display: inline;
+	list-style-type: none;
+	color: #360;
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+/* Typographic & Paragraph Styles */
+
+h1 {
+	font: 24px/30px Georgia, "Times New Roman", Times, serif;
+	color: #033;
+	font-weight:normal;
+	background: transparent;
+	padding: 5px 20px 10px 7px;
+	margin: 0px 0px 0px 0px;
+	border-bottom: 0px solid #fff;
+}
+h2 {
+	font: 16px/20px Georgia, "Times New Roman", Times, serif;
+	color: #360;
+	font-weight:normal;
+	background: transparent;
+	padding: 0px 0px 5px 0px;
+	margin: 0px 0px 13px 7px;
+	border-bottom: 1px solid #666;
+	letter-spacing: 0px;
+}
+h3 {
+	font: 14px/18px Georgia, "Times New Roman", Times, serif;
+	font-weight:normal;
+	padding: 9px 0px 2px 9px;
+	color:#033;
+}
+h4 {
+	font: 16px/20px Georgia, "Times New Roman", Times, serif;
+	padding: 3px 0px 9px 0px;
+	color: #360;
+}
+h5 {
+	font: 11px/15px Arial, Helvetica, sans-serif;
+	padding: 3px 0px 3px 0px;
+	margin: 0 0 9px 0;
+	color: #360;
+	border-bottom: 1px solid #666;
+	letter-spacing: 1px;
+}
+
+#leftColW table, #leftColW2 table, #leftColN table {
+	margin: 0px 0px 10px 7px;
+}
+p {
+	font: 13px/22px Georgia, "Times New Roman", Times, serif;
+	padding: 0px 0px 10px 7px;
+	color: #333;
+	background-color: transparent;
+}
+#rightColN p {
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	padding: 0px 0px 11px 0px;
+	color: #333;
+}
+#leftColN p {
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	padding: 0px 0px 11px 0px;
+	color: #333;
+}
+.plist {
+	font: 13px/22px Arial, Helvetica, sans-serif;
+	padding: 0px 15px 10px 25px;
+	color: #333;
+	border-left: 0px solid #ccc;
+}
+.plist li {
+	padding-bottom: 6px;
+	padding-top: 2px;
+}
+.byLine {
+	font: 11px/14px Arial, Helvetica, sans-serif;
+	margin: 0px 0 0 0;
+	padding: 0px 0px 10px 7px;
+	color: #333;
+	}
+.textsm {
+	font: 11px/14px Arial, Helvetica, sans-serif;
+	margin: 10px 0 0 0;
+	padding: 0px 15px 14px 0px;
+	color: #333;
+	float:left;
+	}
+.textsm a:link, .textsm a:visited {
+	color: #333;
+	cursor: pointer; cursor: hand;
+	text-decoration: underline;
+}
+.textsm a:hover, .textsm a:active {	
+	color: #F60;
+	cursor: pointer; cursor: hand;
+	text-decoration: underline;
+}
+.textsm_bd {
+	font: 9px/15px Verdana, Arial, Helvetica, sans-serif;
+	padding: 0px 15px 10px 8px;
+	color: #333;
+	font-weight: bold;
+	margin: 0 0 0 0;
+}
+.textsmList {
+	display: block;
+	list-style-type: none;
+	font: 10px/14px Verdana, Arial, Helvetica, sans-serif;
+	padding: 0px 25px 10px 10px;
+	color: #CCC;
+	border-left: 0px solid #ccc;
+}
+
+
+div.notice, div.activation {
+	padding:6px;
+	margin-bottom:.75em;
+	background: #D8DEE7;
+}
+div.error {
+	padding:6px;
+	margin-bottom:.75em;
+	background: #F99;
+	font-weight:bold;
+}
+div.notice {
+	font-weight:bold;
+}
+
+/* Endline is a rule (line) used for ending/separating paragraphs */
+
+.endLine {
+	font: 2px/0px Arial, Helvetica, sans-serif;
+	margin: 0 0 0 7px;
+	padding: 5px 25px 0px 0px;
+	color: #333;
+	border-top: 1px solid #ccc;
+	border-left: 0px solid #ccc;
+}
+
+/* IMAGE STYLES */
+
+#rightCol img {margin: 0 0 10px 0;}
+#contentContainer2 #rightCol img {width:216px; margin: 3px 0 10px 0;}
+
+/* BUTTON AND LINK STYLES */
+
+a:link, a:visited {
+	text-decoration: underline;
+	color: #333;
+}
+a:hover, a:active{  
+  	text-decoration: none;
+	color: #F60;
+}
+p a:link, p a:visited {
+	color: #360;
+	cursor: pointer; cursor: hand;
+	text-decoration:inherit;
+}
+p a:hover, p a:active {	
+	color: #F60;
+	cursor: pointer; cursor: hand;
+	text-decoration:none;
+}
+
+/* Button behaviors */
+
+.linkMinor a {
+	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
+	color: #333;
+	font-weight: normal;
+	letter-spacing: 0px;
+	padding: 0px 0px 0px 13px;
+}
+.linkMinor a:link, .linkMinor a:visited {
+	color: #033;
+	font-weight: normal;
+	letter-spacing: 0px;
+	background: url(/images/dt/nav_elements/arrows/blue_arrowSM.gif);
+	background-position: 0px 2px;
+	background-repeat: no-repeat;
+	}
+.linkMinor a:hover, .linkMinor a:active {
+	color: #f60;
+	font-weight: normal;
+	background: url(/images/dt/nav_elements/arrows/orange_arrowSM.gif);
+	background-position: 0px 2px;
+	background-repeat: no-repeat;
+	text-decoration: underline;
+}
+.linkMajor a {
+	font: 11px/15px Arial, Helvetica, sans-serif;
+	color: #333;
+	font-weight: normal;
+	letter-spacing: 0px;
+	padding: 1px 0px 1px 18px;
+}
+.linkMajor a:link, .linkMajor a:visited {
+	color: #033;
+	font-weight: normal;
+	letter-spacing: 0px;
+	background: url(/images/dt/nav_elements/arrows/blue_arrow.gif) 0px center;
+	background-repeat: no-repeat;
+}
+.linkMajor a:hover, .linkMajor a:active {
+	color: #f60;
+	font-weight: normal;
+	letter-spacing: 0px;
+	background: url(/images/dt/nav_elements/arrows/orange_arrow.gif) 0px center;
+	background-repeat: no-repeat;
+}
+
+/* Gift this Project, Donate, and Tell a Friend Buttons */
+
+#buttonGiftProject {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	margin-left: 0px;
+	margin-right: 7px;
+	margin-bottom: 0px;
+	height: 22px; 
+    width: 100px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat center; 
+   	display: block;
+	list-style-type: none;
+    text-indent: -9000px;
+	float:left;
+}
+#buttonGiftProject a:link, #buttonGiftProject a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat center;
+	height: 22px; 
+    width: 100px;
+    display: block;
+	list-style-type: none;
+}
+#buttonGiftProject a:hover, #buttonGiftProject a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/giftProject_blue.gif) no-repeat center;
+	margin-left: auto;
+	margin-right: auto;
+	height: 22px; 
+	width: 100px;
+    display: block;
+	list-style-type: none;
+}
+#buttonDonate {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	margin-left: 0px;
+	margin-right: 7px;
+	margin-bottom: 0px;
+	height: 22px; 
+    width: 100px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/donate_lgrey2.gif) no-repeat center; 
+   	display: block;
+	list-style-type: none;
+    text-indent: -9000px;
+	float:left;
+}
+#buttonDonate a:link, #buttonDonate a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/donate_lgrey2.gif) no-repeat center;
+	height: 22px; 
+    width: 100px;
+    display: block;
+	list-style-type: none;
+}
+#buttonDonate a:hover, #buttonDonate a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/donate_blue.gif) no-repeat center;
+	margin-left: auto;
+	margin-right: auto;
+	height: 22px; 
+	width: 100px;
+    display: block;
+	list-style-type: none;
+}
+#buttonTellFriend {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	margin-left: 0px;
+	margin-right: 7px;
+	margin-bottom: 0px;
+	height: 22px; 
+    width: 100px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/tellFriend_lgrey2.gif) no-repeat center; 
+   	display: block;
+	list-style-type: none;
+    text-indent: -9000px;
+	float:left;
+}
+#buttonTellFriend a:link, #buttonTellFriend a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/tellFriend_lgrey2.gif) no-repeat center;
+	height: 22px; 
+    width: 100px;
+    display: block;
+	list-style-type: none;
+}
+#buttonTellFriend a:hover, #buttonTellFriend a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/tellFriend_blue.gif) no-repeat center;
+	margin-left: auto;
+	margin-right: auto;
+	height: 22px; 
+	width: 100px;
+    display: block;
+	list-style-type: none;
+}
+
+/* GO and SUBMIT Buttons */
+
+#buttonSubmit {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	height: 26px; 
+    width: 124px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/submit_blue.gif) no-repeat center 0px; 
+   	display: block;
+	list-style-type: none;
+    text-indent: -9000px;
+}
+#buttonSubmit a:link, #buttonSubmit a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/submit_blue.gif) no-repeat center 0px;
+	height: 26px; 
+    width: 124px;
+    display: block;
+	list-style-type: none;
+}
+#buttonSubmit a:hover, #buttonSubmit a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/submit_orange.gif) no-repeat center 0px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 26px; 
+	width: 124px;
+    display: block;
+	list-style-type: none;
+}
+#buttonGo {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	height: 20px; 
+    width: 35px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat; 
+   	display: block;
+	list-style-type: none;
+    text-indent: 0px;
+	float:right;
+}
+#buttonGo a:link, #buttonGo a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	padding: 2px 0 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat;
+	height: 20px; 
+    width: 35px;
+    display: block;
+	list-style-type: none;
+}
+#buttonGo a:hover, #buttonGo a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif) no-repeat;
+	padding: 2px 0 0 0;
+	height: 20px; 
+	width: 35px;
+    display: block;
+	list-style-type: none;
+}
+#buttonFindGift {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	height: 20px; 
+    width: 92px;
+	padding: 8px 10px 0 0;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_grey.gif) no-repeat 0px 8px; 
+   	display: block;
+	list-style-type: none;
+    text-indent: 0px;
+	float:right;
+}
+#buttonFindGift a:link, #buttonFindGift a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	padding: 2px 0 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_grey.gif) no-repeat;
+	height: 20px; 
+    width: 92px;
+    display: block;
+	list-style-type: none;
+}
+#buttonFindGift a:hover, #buttonFindGift a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_blue.gif) no-repeat;
+	padding: 2px 0 0 0;
+	height: 20px; 
+	width: 92px;
+    display: block;
+	list-style-type: none;
+}
+
+/* FORM ELEMENT STYLES */
+
+/* Input Fields */
+
+/* Input Boxs, Jump Menues  */
+
+input, select, textarea {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333;
+	background-color:#FFF;
+	border: 1px solid #999;
+	margin: 0;
+	padding: 2px 0px 2px 4px;
+	font-size: 11px;
+	voice-family: "\"}\""; 
+	voice-family:inherit;
+	font-size: 11px;
+	float:left;
+}
+input {
+	height:14px;
+}
+select {
+	margin-right: 5px;
+	padding-top: 1px;
+	width: 150px;
+	height:18px;
+}
+textarea {
+	margin-left:5px;
+}
+.formnote {
+	font-weight:bold;
+}
+
+.jumpMenu {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #666699;
+	letter-spacing: 0px;
+	background-color:#fff;
+	border: 1px solid #95AED0;
+	margin-right: 5px;
+	padding-top: 1px;
+	width: 150px;
+	height:18px;
+	font-size: 11px;
+	voice-family: "\"}\""; 
+	voice-family:inherit;
+	font-size: 11px;
+	}
+.jumpMenuSM {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #666699;
+	background-color:#fff;
+	border: 1px solid #95AED0;
+	margin-right: 0px;
+	padding-top: 1px;
+	width: 95px;
+	height:18px;
+	font-size: 9px;
+	voice-family: "\"}\""; 
+	voice-family:inherit;
+	font-size: 9px;
+}
+#relatedProjects {
+	width:228px; height:25px; 
+	float: right; 
+	background: #FFF url(/images/dt/nav_elements/subNavBar.jpg) no-repeat -496px 0px;
+	padding: 3px 0 5px 0;
+}
+#relatedProjects select {width: 220px; margin: 0;}
+
+#location, #cause, #organization {float:left; width:195px; padding: 9px 0px 0 10px;}
+#location input, #cause input, #project input {width: 220px; margin: 0;}
+#location select, #cause select, #organization select {width: 190px; margin: 0px;}
+
+/* SPECIAL STYLES */
+
+.dateStamp {
+	font: 10px/20px Arial, Helvetica, sans-serif;
+	padding: 0px 0 7px 22px;
+	margin: 0px 0 14px 0px;
+	border-bottom: 1px solid #ccc;
+	color: #333;
+	background: url(/images/dt/icons/doc_icon.gif);
+	background-position: 10px 4px;
+	background-repeat: no-repeat;
+}
+.dateStamp a:link, .dateStamp a:visited {
+	color: #ccc;
+	cursor: pointer; cursor: hand;
+}
+.dateStamp a:hover, .dateStamp a:active {	
+	color: #033;
+	cursor: pointer; cursor: hand;
+}
+
+/* Sign In, Sign Up Modules */
+
+#leftColW form, #leftColW2 form {
+	float:left;
+	width: auto; height: auto; /*395px*/
+	margin: 0px 0 10px 7px;
+	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
+	color: #333;
+}
+.formInput {
+	clear:both; 
+	padding-top:5px;
+}
+.formInput label {float:left; width:150px; text-align:right; padding: 4px 0 0 0;}
+.formInput input, .formInput select {float:left; width: 150px; margin: 0 0 0 5px;}
+.formInput input[type=checkbox], .formInput input[type=submit] {width: auto;}
+
+.signInLabel {
+	font: xx-small Arial, Helvetica, sans-serif;
+	color: #999;
+	padding-top: 3px;
+	padding-left: 1px;
+}
+.signInLabelb {
+	font: 10px Arial, Helvetica, sans-serif;
+	color: #333;
+	font-weight: bold;
+	padding: 3px 0 0px 2px;
+	float:left;
+}
+#nameInput, #pwInput {
+	display: block;
+	font-family: Arial, Helvetica, sans-serif;
+	color: black;
+	width: 125px; height: 13px;
+	margin:0 0 20px 0;
+	font-size: 11px;
+	voice-family: "\"}\""; 
+	voice-family:inherit;
+	font-size: 11px;
+	float: left;
+}
+#nameInput input, #pwInput input {width:115px;}
+
+#buttonSignIn {
+	float:left;
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	font-weight: normal;
+	text-decoration:none;
+	text-align:center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
+	margin: 1px 0 0px 0;
+	padding: 0px 5px 0px 0px;
+	height: 14px; width: 52px;
+	display: block;
+	list-style-type: none;
+}
+#buttonSignIn a:link, #buttonSignIn a:visited {
+	color: #FFF;
+	font-weight: normal;
+	text-decoration:none;
+	text-align:center;
+	padding: 2px 0px 2px 0px;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
+	border: 0px solid #000;
+	height: 14px; width: 52px;
+	display: block;
+	list-style-type: none;
+}
+#buttonSignIn a:hover, #buttonSignIn a:active {
+	color: #FFF;
+	font-weight: normal;
+	text-decoration: none;
+	text-align:center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
+	padding: 2px 0px 2px 0px;
+	border: 0px solid #000;
+	height: 14px; width: 52px;
+	display: block;
+	list-style-type: none;
+}
+#submitButtonSmall {
+	float:left;
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	font-weight: normal;
+	text-decoration:none;
+	text-align:center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
+	margin: 4px 0 0 154px;
+	padding: 0px 5px 0px 0px;
+	height: 14px; width: 52px;
+	display: block;
+	list-style-type: none;
+	clear:left;
+}
+#submitButtonSmall a:link, #submitButtonSmall a:visited {
+	color: #FFF;
+	font-weight: normal;
+	text-decoration:none;
+	text-align:center;
+	padding: 2px 0px 2px 0px;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
+	border: 0px solid #000;
+	height: 14px; width: 52px;
+	display: block;
+	list-style-type: none;
+}
+#submitButtonSmall a:hover, #submitButtonSmall a:active {
+	color: #FFF;
+	font-weight: normal;
+	text-decoration: none;
+	text-align:center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif) no-repeat;
+	padding: 2px 0px 2px 0px;
+	border: 0px solid #000;
+	height: 14px; width: 52px;
+	display: block;
+	list-style-type: none;
+}
+
+#submitButtonMedium {
+	float:left;
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	font-weight: normal;
+	text-decoration:none;
+	text-align:center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif) no-repeat;
+	margin: 4px 0 0 154px;
+	padding: 0px 5px 0px 0px;
+	height: 14px; width: 78px;
+	display: block;
+	list-style-type: none;
+	clear:left;
+}
+#submitButtonMedium a:link, #submitButtonMedium a:visited {
+	color: #FFF;
+	font-weight: normal;
+	text-decoration:none;
+	text-align:center;
+	padding: 2px 0px 2px 0px;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif) no-repeat;
+	border: 0px solid #000;
+	height: 14px; width: 78px;
+	display: block;
+	list-style-type: none;
+}
+#submitButtonMedium a:hover, #submitButtonMedium a:active {
+	color: #FFF;
+	font-weight: normal;
+	text-decoration: none;
+	text-align:center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_blue_medium.gif) no-repeat;
+	padding: 2px 0px 2px 0px;
+	border: 0px solid #000;
+	height: 14px; width: 78px;
+	display: block;
+	list-style-type: none;
+}
+
+#rememberMe {
+	float:left;
+	width:100%; height:18px;
+	margin: 0px 0 0 0;
+	font: 10px Arial, Helvetica, sans-serif;
+	color: #333;
+	font-weight: bold;
+	padding: 2px 0 0 2px;
+}
+#rememberMe input {
+	display: block;
+	margin: 2px 5px 0 0px;
+	width: 15px;
+	border:none;
+}
+#rememberMe label {
+	display: block;
+	padding: 3px 0 0 0px;
+}
+
+/* CF DONORTRUST CONTENT MODULES */
+
+/* Project Info Module */
+
+#projectInfo {
+	float:left;
+	width:724px;
+	text-align:left;
+	border-top: 0px solid #360;
+	border-bottom: 1px solid #666;
+	padding: 0 0 15px 0;
+	margin: 0px 0 10px 18px;
+}
+#projectInfo h1 {
+	font: 24px/30px Georgia, "Times New Roman", Times, serif;
+	color: #033;
+	font-weight:normal;
+	padding: 0px 20px 5px 7px;
+	margin: 0px 0px 1px 0px;
+	border-bottom: 0px solid #666;
+}
+#projectInfo h2 {
+	font: 16px/20px Arial, Helvetica, sans-serif;
+	color: #333;
+	padding: 0px 0px 3px 0px;
+	margin: 0px 0px 5px 0px;
+	width:476px;
+	border-bottom: 3px solid #666;
+}	
+#projectInfo p {
+	font: 13px/18px Georgia, "Times New Roman", Times, serif;
+	padding: 0px 0px 10px 7px;
+	width:469px;
+	float:left;
+}
+#projectInfo strong {
+	color:#360; padding-right:3px; float:left;
+}
+
+/* Project Description Module */
+
+#projectDesc {
+	width:476px;
+	float:left;
+}
+.projectSMtext {
+	font: 11px/15px Arial, Helvetica, sans-serif;
+	padding: 0px 0px 8px 7px;
+	color: #333;
+	width: 469px;
+	float:left;
+}
+
+/* Project Rank Text Module */
+
+.projectRank {
+	font: 11px/15px Arial, Helvetica, sans-serif;
+	padding: 0px 0px 8px 7px;
+	color: #333;
+	width: 469px;
+	float:left;
+}
+#villageRatingProject {float:left; width:75px; height:15px; background: transparent url(/images/dt/rate_stars/stars.gif) no-repeat -15px 0px}
+#villageRatingOrg {float:left; width:75px; height:15px; background: transparent url(/images/dt/rate_stars/stars.gif) no-repeat -45px 0px}
+
+/* Project Facts Module */
+
+#projectFacts {
+	float:right;
+	width: 228px;
+	padding: 0px 0px 5px 0px;
+	}
+#projectFacts ul {
+	width: 228px;
+	display:block;
+	list-style-type:none;
+}
+#projectFacts li {
+	font: 11px/15px Arial, Helvetica, sans-serif;
+	padding: 0px 0 3px 0px;
+	margin: 0 0 3px 0;
+	border-bottom: 1px solid #CCC;
+}
+#projectFacts h2 {
+	font: 16px/20px Arial, Helvetica, sans-serif;
+	color: #333;
+	padding: 0px 0px 3px 0px;
+	margin: 0px 0px 5px 0px;
+	width:100%;
+	border-bottom: 3px solid #666;
+}	
+
+/* Project Navigation Module */
+
+#subNav {
+	padding: 6px 0px 13px 10px;
+	background: #FFF url(/images/dt/nav_elements/subNavBar.gif) no-repeat 0px 0px;
+	height: 19px;
+	width: 724px;
+	text-align:left;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 19px;
+	width: 724px;
+}
+#subNav li {
+	font: 12px/14px Arial, Helvetica, sans-serif;
+	color: #FFF;
+	font-weight: normal;
+	text-decoration:none;
+	display: inline;
+	list-style-type: none;
+	width: 486px;
+	height: 25px;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 486px;
+	height: 25px;
+	background-color: transparent;
+}
+#subNav li a:link, #subNav li a:visited {
+	display: inline;
+	list-style-type: none;
+	text-decoration:none;
+	color: #666;
+	font: 12px Arial, Helvetica, sans-serif;
+	line-height: 14px;
+	font-weight: normal;
+	padding: 6px 15px 4px 15px;
+}
+#subNav li a:hover, #subNav li a:active {
+	display: inline;
+	list-style-type: none;
+	text-decoration:none;
+	color: #FFF;
+	font: 12px Arial, Helvetica, sans-serif;
+	line-height: 14px;
+	font-weight: normal;
+	background-color:#999;
+	padding: 6px 15px 4px 15px;
+}
+body.current00 li.on0 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
+body.current01 li.on1 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
+body.current02 li.on2 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
+body.current03 li.on3 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
+body.current04 li.on4 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
+body.current05 li.on5 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
+
+/* Rating Table */
+
+#ratingTableWrap {
+	float: left;
+	width: 476px;
+	height: auto;
+	text-align:left;
+	background: none;
+	padding: 0px 0px 20px 0px;
+	margin: 0 0 20px 7px;
+}
+#rTableHeader {
+	width:100%;
+}
+#rTableText {
+	float:left;
+	width:270px; height:32px;
+	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	padding: 8px 0 0 3px;
+}
+#rateKey {float:left; width:203px; height:40px;}
+
+#ratingTable {
+	float: left;
+	width: 476px;
+	height: auto;
+	text-align:left;
+	background: none;
+	margin: 0 0 20px 0px;
+}
+#rCol1 {
+	float:left;
+	width:170px; height: 131px;
+	background: #D8DEE7;
+	border-bottom: 1px solid white;
+}
+#rCol2 {
+	float:left;
+	width:100px; height: 131px;
+	background: #D8DEE7 url(/images/dt/ratings_elements/100pxMeasure.png) no-repeat bottom;
+	border-left:1px solid white;
+	border-right:1px solid white;
+	border-bottom: 1px solid white;
+}
+#rCol3 {
+	float:left;
+	width:204px; height: 131px;
+	background: #E3E9F3;
+	border-bottom: 1px solid white;
+}
+#surveyCatagory {
+	float:left;
+	width:33px; height:115px;
+	background: none;
+	text-align:center;
+	padding: 2px 0 0 0;
+	border-right:1px solid white;
+}
+#surveyResult {
+	float:left;
+	width:33px; height:15px;
+	background: none;
+	text-align:center;
+	padding: 2px 0 0 0;
+	border-right:1px solid white;
+}
+#rateRow {
+	float:left;
+	width:476px;
+	border-bottom: 1px solid white;
+}
+#orgCol {
+	float:left;
+	width:170px; height: 17px;
+	background: #D8DEE7;
+}
+#scoreCol {
+	float:left;
+	width:100px; height: 17px;
+	background: #D8DEE7 url(/images/dt/ratings_elements/100pxMeasure2.png) no-repeat bottom;
+	border-left:1px solid white;
+	border-right:1px solid white;
+}
+#resultCol {
+	float:left;
+	width:204px; height: 17px;
+	background: #E3E9F3;
+}
+#tableFooter {
+	font: 11px/14px Arial, Helvetica, sans-serif;
+	padding: 20px 15px 10px 7px;
+	color: #333;
+	}
+#tableFooter a:link, #tableFooter a:visited {
+	color: #333;
+	cursor: pointer; cursor: hand;
+	text-decoration: underline;
+}
+#tableFooter a:hover, #tableFooter a:active {	
+	color: #F60;
+	cursor: pointer; cursor: hand;
+	text-decoration: underline;
+}
+
+/* Rating Table Typography */
+
+#ratingTableWrap h1 {
+	font: 24px/30px Georgia, "Times New Roman", Times, serif;
+	color: #033;
+	font-weight:normal;
+	background: transparent;
+	padding: 5px 20px 10px 0px;
+	margin: 0px 0px 0px 0px;
+	border-bottom: 0px solid #fff;
+}
+#ratingTableWrap h2 {
+	font: 16px/20px Georgia, "Times New Roman", Times, serif;
+	color: #360;
+	font-weight:normal;
+	background: transparent;
+	padding: 0px 0px 5px 0px;
+	margin: 0px 0px 5px 0px;
+	border-bottom: 1px solid #666;
+	letter-spacing: 0px;
+}
+#ratingTableWrap h3 {
+	font: 16px/16px Georgia, "Times New Roman", Times, serif;
+	font-weight:normal;
+	padding: 4px 0px 5px 7px;
+	color:#033;
+	letter-spacing: 2px;
+	font-variant:small-caps;
+}
+#ratingTableWrap h4 {
+	font: 10px/12px Georgia, "Times New Roman", Times, serif;
+	padding: 1px 0px 1px 3px;
+	color: #FFF;
+	background: #637288;
+	display:block;
+	letter-spacing: 1px;
+}
+#ratingTable p {
+	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	padding: 2px 0px 2px 7px;
+	color: #333;
+}
+.scoreBar {
+	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
+	color:#FFF;
+	text-align:right;
+	height:10px; 
+	padding: 0px 0px 2px 0;
+	margin: 0px 0 0 0;
+	background: #390;
+}

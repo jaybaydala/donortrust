@@ -1,23 +1,17 @@
 <%= dt_account_nav %>
 
-<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<div id="leftColW">
+	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 
-<div id="contentcontainer-2col">
-<div id="content">
-<div class="contentmargin">
-<div class="column-title">Welcome!</div>
-<p>Your account with ChristmasFuture is what will allows you to start changing the world...for good!</p>
+	<h1>Welcome<% if logged_in? %> <%= @current_user.name %><% end %>!</h1>
+	<p>Your account with ChristmasFuture is what will allows you to start changing the world...for good!</p>
 
-<p>We are inspiring and empowering North Americans to refocus a portion of their Christmas spending towards strategic and sustainable projects in the villages of the developing world...and in doing so, eradicating extreme poverty.</p>
+	<p>We are inspiring and empowering North Americans to refocus a portion of their Christmas spending towards strategic and sustainable projects in the villages of the developing world...and in doing so, eradicating extreme poverty.</p>
 
-<p>Through your account in DonorTrust, we will provide a meaningful, transparent, and easy way for you to participate in this growing movement, to stop the suffering of the poor and to eradicate extreme poverty...for good.</p>
-</div>
+	<p>Through your account in DonorTrust, we will provide a meaningful, transparent, and easy way for you to participate in this growing movement, to stop the suffering of the poor and to eradicate extreme poverty...for good.</p>
 </div>
 
-<div id="rail-right">
-<div class="contentmargin">
+<div id="rightColN">
 <%= render_partial 'dt/groups/groups_sidebar' %>
-</div>
-</div>
 </div>
 

@@ -564,24 +564,24 @@ context "Dt::Accounts handling GET /dt/accounts/1;edit" do
   specify "should render the form" do
     login_as :quentin
     do_get
-    page.should.select "form#user_form"
+    page.should.select "form#userform"
     page.should.select "input#user_login"
-    page.should.select "input[type=submit]"
+    #page.should.select "input[type=submit]"
   end
 
   specify "should have a form set to put to /dt/accounts/1" do
     login_as :quentin
     do_get
     page.should.select "form[action=/dt/accounts/1]"
-    assert_select "form#user_form" do
-      assert_select "input[type=submit]"
+    assert_select "form#userform" do
+      #assert_select "input[type=submit]"
     end
   end
   
   specify "form should have an old_password, password and password_confirmation fields" do
     login_as :quentin
     do_get
-    page.should.select "form#user_form input[name=old_password]"
+    page.should.select "form#userform input[name=old_password]"
     page.should.select "input#user_password"
     page.should.select "input#user_password_confirmation"
   end
@@ -668,6 +668,7 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
     @emails.length.should.equal 1
     @emails.first.subject.should =~ /ChristmasFuture Account Email Confirmation/
     @emails.first.body.should    =~ /To confirm your email and activate your account, please follow the link below/
+    @emails.first.body.should    =~ /\/dt\/accounts;activate\?id=[A-za-z0-9]+/
   end
 end
 

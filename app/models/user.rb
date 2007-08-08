@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   end
 
   def name
-    return "#{self.first_name} #{self.last_name}" if self.display_name.blank?
+    return "#{self.first_name} #{self.last_name[0,1]}." if self.display_name.blank?
     self.display_name
   end
 
@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
 
   # Returns true if the user has been activated.
   def activated?
-    return activated_at ? true : false
+    return activation_code ? false : true
   end
 
   protected

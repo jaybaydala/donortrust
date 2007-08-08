@@ -7,8 +7,7 @@ class UserObserver < ActiveRecord::Observer
     UserNotifier.deliver_activation(user) if user.recently_activated?
   end
 
-  def before_update(user)
-    old_login = User.find_by_id(user.id).login
-    UserNotifier.deliver_change_notification(user) if old_login != user.login
+  def after_update(user)
+    UserNotifier.deliver_change_notification(user) if user.login_changed?
   end
 end
