@@ -1,159 +1,1464 @@
-test1:
+AF:
   id: 1
-  name: Canada
+  name: Afghanistan
+  code: AF
   continent_id: 1
-  html_data: hello world
-  
-test2:
+  html_data: 
+AX:
   id: 2
-  name: United States
+  name: Åland Islands
+  code: AX
   continent_id: 1
-  html_data: hello world
-  
-test3:
+  html_data: 
+AL:
   id: 3
-  name: Niger
-  continent_id: 2
-  html_data: hello world
-  
-test4:
+  name: Albania
+  code: AL
+  continent_id: 1
+  html_data: 
+DZ:
   id: 4
+  name: Algeria
+  code: DZ
+  continent_id: 1
+  html_data: 
+AS:
+  id: 5
+  name: American Samoa
+  code: AS
+  continent_id: 1
+  html_data: 
+AD:
+  id: 6
+  name: Andorra
+  code: AD
+  continent_id: 1
+  html_data: 
+AO:
+  id: 7
+  name: Angola
+  code: AO
+  continent_id: 1
+  html_data: 
+AI:
+  id: 8
+  name: Anguilla
+  code: AI
+  continent_id: 1
+  html_data: 
+AQ:
+  id: 9
+  name: Antarctica
+  code: AQ
+  continent_id: 1
+  html_data: 
+AG:
+  id: 10
+  name: Antigua and Barbuda
+  code: AG
+  continent_id: 1
+  html_data: 
+AR:
+  id: 11
+  name: Argentina
+  code: AR
+  continent_id: 1
+  html_data: 
+AM:
+  id: 12
+  name: Armenia
+  code: AM
+  continent_id: 1
+  html_data: 
+AW:
+  id: 13
+  name: Aruba
+  code: AW
+  continent_id: 1
+  html_data: 
+AU:
+  id: 14
+  name: Australia
+  code: AU
+  continent_id: 1
+  html_data: 
+AT:
+  id: 15
+  name: Austria
+  code: AT
+  continent_id: 1
+  html_data: 
+AZ:
+  id: 16
+  name: Azerbaijan
+  code: AZ
+  continent_id: 1
+  html_data: 
+BS:
+  id: 17
+  name: Bahamas
+  code: BS
+  continent_id: 1
+  html_data: 
+BH:
+  id: 18
+  name: Bahrain
+  code: BH
+  continent_id: 1
+  html_data: 
+BD:
+  id: 19
+  name: Bangladesh
+  code: BD
+  continent_id: 1
+  html_data: 
+BB:
+  id: 20
+  name: Barbados
+  code: BB
+  continent_id: 1
+  html_data: 
+BY:
+  id: 21
+  name: Belarus
+  code: BY
+  continent_id: 1
+  html_data: 
+BE:
+  id: 22
+  name: Belgium
+  code: BE
+  continent_id: 1
+  html_data: 
+BZ:
+  id: 23
+  name: Belize
+  code: BZ
+  continent_id: 1
+  html_data: 
+BJ:
+  id: 24
+  name: Benin
+  code: BJ
+  continent_id: 1
+  html_data: 
+BM:
+  id: 25
+  name: Bermuda
+  code: BM
+  continent_id: 1
+  html_data: 
+BT:
+  id: 26
+  name: Bhutan
+  code: BT
+  continent_id: 1
+  html_data: 
+BO:
+  id: 27
+  name: Bolivia
+  code: BO
+  continent_id: 1
+  html_data: 
+BA:
+  id: 28
+  name: Bosnia and Herzegovina
+  code: BA
+  continent_id: 1
+  html_data: 
+BW:
+  id: 29
+  name: Botswana
+  code: BW
+  continent_id: 1
+  html_data: 
+BV:
+  id: 30
+  name: Bouvet Island
+  code: BV
+  continent_id: 1
+  html_data: 
+BR:
+  id: 31
+  name: Brazil
+  code: BR
+  continent_id: 1
+  html_data: 
+IO:
+  id: 32
+  name: British Indian Ocean Territory
+  code: IO
+  continent_id: 1
+  html_data: 
+BN:
+  id: 33
+  name: Brunei Darussalam
+  code: BN
+  continent_id: 1
+  html_data: 
+BG:
+  id: 34
+  name: Bulgaria
+  code: BG
+  continent_id: 1
+  html_data: 
+BF:
+  id: 35
+  name: Burkina Faso
+  code: BF
+  continent_id: 1
+  html_data: 
+BI:
+  id: 36
+  name: Burundi
+  code: BI
+  continent_id: 1
+  html_data: 
+KH:
+  id: 37
+  name: Cambodia
+  code: KH
+  continent_id: 1
+  html_data: 
+CM:
+  id: 38
+  name: Cameroon
+  code: CM
+  continent_id: 1
+  html_data: 
+CA:
+  id: 39
+  name: Canada
+  code: CA
+  continent_id: 1
+  html_data: 
+CV:
+  id: 40
+  name: Cape Verde
+  code: CV
+  continent_id: 1
+  html_data: 
+KY:
+  id: 41
+  name: Cayman Islands
+  code: KY
+  continent_id: 1
+  html_data: 
+CF:
+  id: 42
+  name: Central African Republic
+  code: CF
+  continent_id: 1
+  html_data: 
+TD:
+  id: 43
+  name: Chad
+  code: TD
+  continent_id: 1
+  html_data: 
+CL:
+  id: 44
+  name: Chile
+  code: CL
+  continent_id: 1
+  html_data: 
+CN:
+  id: 45
+  name: China
+  code: CN
+  continent_id: 1
+  html_data: 
+CX:
+  id: 46
+  name: Christmas Island
+  code: CX
+  continent_id: 1
+  html_data: 
+CC:
+  id: 47
+  name: Cocos (Keeling) Islands
+  code: CC
+  continent_id: 1
+  html_data: 
+CO:
+  id: 48
+  name: Colombia
+  code: CO
+  continent_id: 1
+  html_data: 
+KM:
+  id: 49
+  name: Comoros
+  code: KM
+  continent_id: 1
+  html_data: 
+CG:
+  id: 50
+  name: Congo
+  code: CG
+  continent_id: 1
+  html_data: 
+CD:
+  id: 51
+  name: Congo, the Democratic Republic of the
+  code: CD
+  continent_id: 1
+  html_data: 
+CK:
+  id: 52
+  name: Cook Islands
+  code: CK
+  continent_id: 1
+  html_data: 
+CR:
+  id: 53
+  name: Costa Rica
+  code: CR
+  continent_id: 1
+  html_data: 
+CI:
+  id: 54
+  name: Côte D'ivoire
+  code: CI
+  continent_id: 1
+  html_data: 
+HR:
+  id: 55
+  name: Croatia
+  code: HR
+  continent_id: 1
+  html_data: 
+CU:
+  id: 56
+  name: Cuba
+  code: CU
+  continent_id: 1
+  html_data: 
+CY:
+  id: 57
+  name: Cyprus
+  code: CY
+  continent_id: 1
+  html_data: 
+CZ:
+  id: 58
+  name: Czech Republic
+  code: CZ
+  continent_id: 1
+  html_data: 
+DK:
+  id: 59
+  name: Denmark
+  code: DK
+  continent_id: 1
+  html_data: 
+DJ:
+  id: 60
+  name: Djibouti
+  code: DJ
+  continent_id: 1
+  html_data: 
+DM:
+  id: 61
+  name: Dominica
+  code: DM
+  continent_id: 1
+  html_data: 
+DO:
+  id: 62
+  name: Dominican Republic
+  code: DO
+  continent_id: 1
+  html_data: 
+EC:
+  id: 63
+  name: Ecuador
+  code: EC
+  continent_id: 1
+  html_data: 
+EG:
+  id: 64
+  name: Egypt
+  code: EG
+  continent_id: 1
+  html_data: 
+SV:
+  id: 65
+  name: El Salvador
+  code: SV
+  continent_id: 1
+  html_data: 
+GQ:
+  id: 66
+  name: Equatorial Guinea
+  code: GQ
+  continent_id: 1
+  html_data: 
+ER:
+  id: 67
+  name: Eritrea
+  code: ER
+  continent_id: 1
+  html_data: 
+EE:
+  id: 68
+  name: Estonia
+  code: EE
+  continent_id: 1
+  html_data: 
+ET:
+  id: 69
+  name: Ethiopia
+  code: ET
+  continent_id: 1
+  html_data: 
+FK:
+  id: 70
+  name: Falkland Islands (Malvinas)
+  code: FK
+  continent_id: 1
+  html_data: 
+FO:
+  id: 71
+  name: Faroe Islands
+  code: FO
+  continent_id: 1
+  html_data: 
+FJ:
+  id: 72
+  name: Fiji
+  code: FJ
+  continent_id: 1
+  html_data: 
+FI:
+  id: 73
+  name: Finland
+  code: FI
+  continent_id: 1
+  html_data: 
+FR:
+  id: 74
+  name: France
+  code: FR
+  continent_id: 1
+  html_data: 
+GF:
+  id: 75
+  name: French Guiana
+  code: GF
+  continent_id: 1
+  html_data: 
+PF:
+  id: 76
+  name: French Polynesia
+  code: PF
+  continent_id: 1
+  html_data: 
+TF:
+  id: 77
+  name: French Southern Territories
+  code: TF
+  continent_id: 1
+  html_data: 
+GA:
+  id: 78
+  name: Gabon
+  code: GA
+  continent_id: 1
+  html_data: 
+GM:
+  id: 79
+  name: Gambia
+  code: GM
+  continent_id: 1
+  html_data: 
+GE:
+  id: 80
+  name: Georgia
+  code: GE
+  continent_id: 1
+  html_data: 
+DE:
+  id: 81
+  name: Germany
+  code: DE
+  continent_id: 1
+  html_data: 
+GH:
+  id: 82
+  name: Ghana
+  code: GH
+  continent_id: 1
+  html_data: 
+GI:
+  id: 83
+  name: Gibraltar
+  code: GI
+  continent_id: 1
+  html_data: 
+GR:
+  id: 84
+  name: Greece
+  code: GR
+  continent_id: 1
+  html_data: 
+GL:
+  id: 85
+  name: Greenland
+  code: GL
+  continent_id: 1
+  html_data: 
+GD:
+  id: 86
+  name: Grenada
+  code: GD
+  continent_id: 1
+  html_data: 
+GP:
+  id: 87
+  name: Guadeloupe
+  code: GP
+  continent_id: 1
+  html_data: 
+GU:
+  id: 88
+  name: Guam 
+  code: GU
+  continent_id: 1
+  html_data: 
+GT:
+  id: 89
+  name: Guatemala
+  code: GT
+  continent_id: 1
+  html_data: 
+GG:
+  id: 90
+  name: Guernsey
+  code: GG
+  continent_id: 1
+  html_data: 
+GN:
+  id: 91
+  name: Guinea
+  code: GN
+  continent_id: 1
+  html_data: 
+GW:
+  id: 92
+  name: Guinea-Bissau
+  code: GW
+  continent_id: 1
+  html_data: 
+GY:
+  id: 93
+  name: Guyana
+  code: GY
+  continent_id: 1
+  html_data: 
+HT:
+  id: 94
+  name: Haiti
+  code: HT
+  continent_id: 1
+  html_data: 
+HM:
+  id: 95
+  name: Heard Island and Mcdonald Islands
+  code: HM
+  continent_id: 1
+  html_data: 
+VA:
+  id: 96
+  name: Holy See (Vatican City State)
+  code: VA
+  continent_id: 1
+  html_data: 
+HN:
+  id: 97
+  name: Honduras
+  code: HN
+  continent_id: 1
+  html_data: 
+HK:
+  id: 98
+  name: Hong Kong
+  code: HK
+  continent_id: 1
+  html_data: 
+HU:
+  id: 99
+  name: Hungary
+  code: HU
+  continent_id: 1
+  html_data: 
+IS:
+  id: 100
+  name: Iceland
+  code: IS
+  continent_id: 1
+  html_data: 
+IN:
+  id: 101
+  name: India
+  code: IN
+  continent_id: 1
+  html_data: 
+ID:
+  id: 102
+  name: Indonesia
+  code: ID
+  continent_id: 1
+  html_data: 
+IR:
+  id: 103
+  name: Iran, Islamic Republic of
+  code: IR
+  continent_id: 1
+  html_data: 
+IQ:
+  id: 104
+  name: Iraq
+  code: IQ
+  continent_id: 1
+  html_data: 
+IE:
+  id: 105
+  name: Ireland
+  code: IE
+  continent_id: 1
+  html_data: 
+IM:
+  id: 106
+  name: Isle of Man 
+  code: IM
+  continent_id: 1
+  html_data: 
+IL:
+  id: 107
+  name: Israel
+  code: IL
+  continent_id: 1
+  html_data: 
+IT:
+  id: 108
+  name: Italy
+  code: IT
+  continent_id: 1
+  html_data: 
+JM:
+  id: 109
+  name: Jamaica
+  code: JM
+  continent_id: 1
+  html_data: 
+JP:
+  id: 110
+  name: Japan
+  code: JP
+  continent_id: 1
+  html_data: 
+JE:
+  id: 111
+  name: Jersey 
+  code: JE
+  continent_id: 1
+  html_data: 
+JO:
+  id: 112
+  name: Jordan
+  code: JO
+  continent_id: 1
+  html_data: 
+KZ:
+  id: 113
+  name: Kazakhstan
+  code: KZ
+  continent_id: 1
+  html_data: 
+KE:
+  id: 114
+  name: Kenya
+  code: KE
+  continent_id: 1
+  html_data: 
+KI:
+  id: 115
+  name: Kiribati
+  code: KI
+  continent_id: 1
+  html_data: 
+KP:
+  id: 116
+  name: Korea, Democratic People's Republic of
+  code: KP
+  continent_id: 1
+  html_data: 
+KR:
+  id: 117
+  name: Korea, Republic of
+  code: KR
+  continent_id: 1
+  html_data: 
+KW:
+  id: 118
+  name: Kuwait
+  code: KW
+  continent_id: 1
+  html_data: 
+KG:
+  id: 119
+  name: Kyrgyzstan
+  code: KG
+  continent_id: 1
+  html_data: 
+LA:
+  id: 120
+  name: Lao People's Democratic Republic
+  code: LA
+  continent_id: 1
+  html_data: 
+LV:
+  id: 121
+  name: Latvia
+  code: LV
+  continent_id: 1
+  html_data: 
+LB:
+  id: 122
+  name: Lebanon
+  code: LB
+  continent_id: 1
+  html_data: 
+LS:
+  id: 123
+  name: Lesotho
+  code: LS
+  continent_id: 1
+  html_data: 
+LR:
+  id: 124
+  name: Liberia
+  code: LR
+  continent_id: 1
+  html_data: 
+LY:
+  id: 125
+  name: Libyan Arab Jamahiriya
+  code: LY
+  continent_id: 1
+  html_data: 
+LI:
+  id: 126
+  name: Liechtenstein
+  code: LI
+  continent_id: 1
+  html_data: 
+LT:
+  id: 127
+  name: Lithuania
+  code: LT
+  continent_id: 1
+  html_data: 
+LU:
+  id: 128
+  name: Luxembourg
+  code: LU
+  continent_id: 1
+  html_data: 
+MO:
+  id: 129
+  name: Macao
+  code: MO
+  continent_id: 1
+  html_data: 
+MK:
+  id: 130
+  name: Macedonia, the Former Yugoslav Republic of
+  code: MK
+  continent_id: 1
+  html_data: 
+MG:
+  id: 131
+  name: Madagascar
+  code: MG
+  continent_id: 1
+  html_data: 
+MW:
+  id: 132
+  name: Malawi
+  code: MW
+  continent_id: 1
+  html_data: 
+MY:
+  id: 133
+  name: Malaysia
+  code: MY
+  continent_id: 1
+  html_data: 
+MV:
+  id: 134
+  name: Maldives
+  code: MV
+  continent_id: 1
+  html_data: 
+ML:
+  id: 135
+  name: Mali
+  code: ML
+  continent_id: 1
+  html_data: 
+MT:
+  id: 136
+  name: Malta
+  code: MT
+  continent_id: 1
+  html_data: 
+MH:
+  id: 137
+  name: Marshall Islands
+  code: MH
+  continent_id: 1
+  html_data: 
+MQ:
+  id: 138
+  name: Martinique
+  code: MQ
+  continent_id: 1
+  html_data: 
+MR:
+  id: 139
+  name: Mauritania
+  code: MR
+  continent_id: 1
+  html_data: 
+MU:
+  id: 140
+  name: Mauritius
+  code: MU
+  continent_id: 1
+  html_data: 
+YT:
+  id: 141
+  name: Mayotte
+  code: YT
+  continent_id: 1
+  html_data: 
+MX:
+  id: 142
+  name: Mexico
+  code: MX
+  continent_id: 1
+  html_data: 
+FM:
+  id: 143
+  name: Micronesia, Federated States of
+  code: FM
+  continent_id: 1
+  html_data: 
+MD:
+  id: 144
+  name: Moldova, Republic of
+  code: MD
+  continent_id: 1
+  html_data: 
+MC:
+  id: 145
+  name: Monaco
+  code: MC
+  continent_id: 1
+  html_data: 
+MN:
+  id: 146
+  name: Mongolia
+  code: MN
+  continent_id: 1
+  html_data: 
+ME:
+  id: 147
+  name: Montenegro 
+  code: ME
+  continent_id: 1
+  html_data: 
+MS:
+  id: 148
+  name: Montserrat
+  code: MS
+  continent_id: 1
+  html_data: 
+MA:
+  id: 149
+  name: Morocco
+  code: MA
+  continent_id: 1
+  html_data: 
+MZ:
+  id: 150
+  name: Mozambique
+  code: MZ
+  continent_id: 1
+  html_data: 
+MM:
+  id: 151
+  name: Myanmar
+  code: MM
+  continent_id: 1
+  html_data: 
+NA:
+  id: 152
+  name: Namibia
+  code: NA
+  continent_id: 1
+  html_data: 
+NR:
+  id: 153
+  name: Nauru
+  code: NR
+  continent_id: 1
+  html_data: 
+NP:
+  id: 154
+  name: Nepal
+  code: NP
+  continent_id: 1
+  html_data: 
+NL:
+  id: 155
+  name: Netherlands
+  code: NL
+  continent_id: 1
+  html_data: 
+AN:
+  id: 156
+  name: Netherlands Antilles
+  code: AN
+  continent_id: 1
+  html_data: 
+NC:
+  id: 157
+  name: New Caledonia
+  code: NC
+  continent_id: 1
+  html_data: 
+NZ:
+  id: 158
+  name: New Zealand
+  code: NZ
+  continent_id: 1
+  html_data: 
+NI:
+  id: 159
+  name: Nicaragua
+  code: NI
+  continent_id: 1
+  html_data: 
+NE:
+  id: 160
+  name: Niger
+  code: NE
+  continent_id: 1
+  html_data: 
+NG:
+  id: 161
+  name: Nigeria
+  code: NG
+  continent_id: 1
+  html_data: 
+NU:
+  id: 162
+  name: Niue
+  code: NU
+  continent_id: 1
+  html_data: 
+NF:
+  id: 163
+  name: Norfolk Island
+  code: NF
+  continent_id: 1
+  html_data: 
+MP:
+  id: 164
+  name: Northern Mariana Islands
+  code: MP
+  continent_id: 1
+  html_data: 
+NO:
+  id: 165
+  name: Norway
+  code: NO
+  continent_id: 1
+  html_data: 
+OM:
+  id: 166
+  name: Oman
+  code: OM
+  continent_id: 1
+  html_data: 
+PK:
+  id: 167
+  name: Pakistan
+  code: PK
+  continent_id: 1
+  html_data: 
+PW:
+  id: 168
+  name: Palau
+  code: PW
+  continent_id: 1
+  html_data: 
+PS:
+  id: 169
+  name: Palestinian Territory, Occupied
+  code: PS
+  continent_id: 1
+  html_data: 
+PA:
+  id: 170
+  name: Panama
+  code: PA
+  continent_id: 1
+  html_data: 
+PG:
+  id: 171
+  name: Papua New Guinea
+  code: PG
+  continent_id: 1
+  html_data: 
+PY:
+  id: 172
+  name: Paraguay
+  code: PY
+  continent_id: 1
+  html_data: 
+PE:
+  id: 173
+  name: Peru
+  code: PE
+  continent_id: 1
+  html_data: 
+PH:
+  id: 174
+  name: Philippines
+  code: PH
+  continent_id: 1
+  html_data: 
+PN:
+  id: 175
+  name: Pitcairn
+  code: PN
+  continent_id: 1
+  html_data: 
+PL:
+  id: 176
+  name: Poland
+  code: PL
+  continent_id: 1
+  html_data: 
+PT:
+  id: 177
+  name: Portugal
+  code: PT
+  continent_id: 1
+  html_data: 
+PR:
+  id: 178
+  name: Puerto Rico
+  code: PR
+  continent_id: 1
+  html_data: 
+QA:
+  id: 179
+  name: Qatar
+  code: QA
+  continent_id: 1
+  html_data: 
+RE:
+  id: 180
+  name: Réunion
+  code: RE
+  continent_id: 1
+  html_data: 
+RO:
+  id: 181
+  name: Romania
+  code: RO
+  continent_id: 1
+  html_data: 
+RU:
+  id: 182
+  name: Russian Federation
+  code: RU
+  continent_id: 1
+  html_data: 
+RW:
+  id: 183
+  name: Rwanda
+  code: RW
+  continent_id: 1
+  html_data: 
+SH:
+  id: 184
+  name: Saint Helena
+  code: SH
+  continent_id: 1
+  html_data: 
+KN:
+  id: 185
+  name: Saint Kitts and Nevis
+  code: KN
+  continent_id: 1
+  html_data: 
+LC:
+  id: 186
+  name: Saint Lucia
+  code: LC
+  continent_id: 1
+  html_data: 
+PM:
+  id: 187
+  name: Saint Pierre and Miquelon
+  code: PM
+  continent_id: 1
+  html_data: 
+VC:
+  id: 188
+  name: Saint Vincent and the Grenadines
+  code: VC
+  continent_id: 1
+  html_data: 
+WS:
+  id: 189
+  name: Samoa
+  code: WS
+  continent_id: 1
+  html_data: 
+SM:
+  id: 190
+  name: San Marino
+  code: SM
+  continent_id: 1
+  html_data: 
+ST:
+  id: 191
+  name: Sao Tome and Principe
+  code: ST
+  continent_id: 1
+  html_data: 
+SA:
+  id: 192
+  name: Saudi Arabia
+  code: SA
+  continent_id: 1
+  html_data: 
+SN:
+  id: 193
+  name: Senegal
+  code: SN
+  continent_id: 1
+  html_data: 
+RS:
+  id: 194
+  name: Serbia
+  code: RS
+  continent_id: 1
+  html_data: 
+SC:
+  id: 195
+  name: Seychelles
+  code: SC
+  continent_id: 1
+  html_data: 
+SL:
+  id: 196
+  name: Sierra Leone
+  code: SL
+  continent_id: 1
+  html_data: 
+SG:
+  id: 197
+  name: Singapore
+  code: SG
+  continent_id: 1
+  html_data: 
+SK:
+  id: 198
+  name: Slovakia
+  code: SK
+  continent_id: 1
+  html_data: 
+SI:
+  id: 199
+  name: Slovenia
+  code: SI
+  continent_id: 1
+  html_data: 
+SB:
+  id: 200
+  name: Solomon Islands
+  code: SB
+  continent_id: 1
+  html_data: 
+SO:
+  id: 201
+  name: Somalia
+  code: SO
+  continent_id: 1
+  html_data: 
+ZA:
+  id: 202
+  name: South Africa
+  code: ZA
+  continent_id: 1
+  html_data: 
+GS:
+  id: 203
+  name: South Georgia and the South Sandwich Islands
+  code: GS
+  continent_id: 1
+  html_data: 
+ES:
+  id: 204
+  name: Spain
+  code: ES
+  continent_id: 1
+  html_data: 
+LK:
+  id: 205
+  name: Sri Lanka
+  code: LK
+  continent_id: 1
+  html_data: 
+SD:
+  id: 206
+  name: Sudan
+  code: SD
+  continent_id: 1
+  html_data: 
+SR:
+  id: 207
+  name: Suriname
+  code: SR
+  continent_id: 1
+  html_data: 
+SJ:
+  id: 208
+  name: Svalbard and Jan Mayen
+  code: SJ
+  continent_id: 1
+  html_data: 
+SZ:
+  id: 209
+  name: Swaziland
+  code: SZ
+  continent_id: 1
+  html_data: 
+SE:
+  id: 210
+  name: Sweden
+  code: SE
+  continent_id: 1
+  html_data: 
+CH:
+  id: 211
+  name: Switzerland
+  code: CH
+  continent_id: 1
+  html_data: 
+SY:
+  id: 212
+  name: Syrian Arab Republic
+  code: SY
+  continent_id: 1
+  html_data: 
+TW:
+  id: 213
+  name: Taiwan, Province of China
+  code: TW
+  continent_id: 1
+  html_data: 
+TJ:
+  id: 214
+  name: Tajikistan
+  code: TJ
+  continent_id: 1
+  html_data: 
+TZ:
+  id: 215
+  name: Tanzania, United Republic of
+  code: TZ
+  continent_id: 1
+  html_data: 
+TH:
+  id: 216
+  name: Thailand
+  code: TH
+  continent_id: 1
+  html_data: 
+TL:
+  id: 217
+  name: Timor-Leste
+  code: TL
+  continent_id: 1
+  html_data: 
+TG:
+  id: 218
+  name: Togo
+  code: TG
+  continent_id: 1
+  html_data: 
+TK:
+  id: 219
+  name: Tokelau
+  code: TK
+  continent_id: 1
+  html_data: 
+TO:
+  id: 220
+  name: Tonga
+  code: TO
+  continent_id: 1
+  html_data: 
+TT:
+  id: 221
+  name: Trinidad and Tobago
+  code: TT
+  continent_id: 1
+  html_data: 
+TN:
+  id: 222
+  name: Tunisia
+  code: TN
+  continent_id: 1
+  html_data: 
+TR:
+  id: 223
+  name: Turkey
+  code: TR
+  continent_id: 1
+  html_data: 
+TM:
+  id: 224
+  name: Turkmenistan
+  code: TM
+  continent_id: 1
+  html_data: 
+TC:
+  id: 225
+  name: Turks and Caicos Islands
+  code: TC
+  continent_id: 1
+  html_data: 
+TV:
+  id: 226
+  name: Tuvalu
+  code: TV
+  continent_id: 1
+  html_data: 
+UG:
+  id: 227
   name: Uganda
-  continent_id: 2
-  html_data: >
-    h2. Country Statistics
-    
-    
-    *Population:*
-    
-    <ul><li>30,262,610</li>
-    <li><small>note: estimates for this country explicitly take into account the effects of excess mortality due to AIDS; this can result in lower life expectancy, higher infant mortality and death rates, lower population and growth rates, and changes in the distribution of population by age and sex than would otherwise be expected (July 2007 est.)</small></li></ul>
-    
-    
-    *Age structure:*
-    
-    <ul><li>0-14 years: 50.2% (male 7,646,619/female 7,538,137)</li>
-    <li>15-64 years: 47.6% (male 7,231,196/female 7,185,058)</li>
-    <li>65 years and over: 2.2% (male 281,317/female 380,283) (2007 est.)</li></ul>
-    
-    
-    *Median age:*
-   
-    <ul><li>total: 14.9 years</li>
-    <li>male: 14.8 years</li>
-    <li>female: 15 years (2007 est.)</li></ul>
-    
-    
-    *Population growth rate:*
-    
-    <ul><li>3.572% (2007 est.)</li></ul>
-    
-    
-    *Birth rate:*
-    
-    <ul><li>48.12 births/1,000 population (2007 est.)</li></ul>
-    
-    
-    *Death rate:*
-    
-    <ul><li>12.64 deaths/1,000 population (2007 est.)</li></ul>
-    
-    
-    *Net migration rate:*
-    
-    <ul><li>0.24 migrant(s)/1,000 population (2007 est.)</li></ul>
-    
-    
-    *Sex ratio:*
-    
-    <ul><li>at birth: 1.03 male(s)/female</li>
-    <li>under 15 years: 1.014 male(s)/female</li>
-    <li>15-64 years: 1.006 male(s)/female</li>
-    <li>65 years and over: 0.74 male(s)/female</li>
-    <li>total population: 1.004 male(s)/female (2007 est.)</li></ul>
-    
-    
-    *Infant mortality rate:*
-    
-    <ul><li>total: 67.22 deaths/1,000 live births</li>
-    <li>male: 70.92 deaths/1,000 live births</li>
-    <li>female: 63.42 deaths/1,000 live births (2007 est.)</li></ul>
-    
-    
-    *Life expectancy at birth:*
-    
-    <ul><li>total population: 51.75 years</li>
-    <li>male: 50.78 years</li>
-    <li>female: 52.73 years (2007 est.)</li></ul>
-    
-    
-    *Total fertility rate:*
-    
-    <ul><li>6.84 children born/woman (2007 est.)</li></ul>
-    
-    
-    *HIV/AIDS - adult prevalence rate:*
-    
-    <ul><li>4.1% (2003 est.)</li></ul>
-    
-    
-    *HIV/AIDS - people living with HIV/AIDS:*
-    
-    <ul><li>530,000 (2001 est.)</li></ul>
-    
-    
-    *HIV/AIDS - deaths:*
-    
-    <ul><li>78,000 (2003 est.)</li></ul>
-    
-    
-    *Major infectious diseases:*
-    
-    <ul><li>Degree of risk: very high</li>
-    <li>food or waterborne diseases: bacterial diarrhea, hepatitis A, and typhoid fever</li>
-    <li>vectorborne diseases: malaria and African trypanosomiasis (sleeping sickness) are high risks in some locations</li>
-    <li>water contact disease: schistosomiasis (2007)</li></ul>
-    
-    
-    *Nationality:*
-    
-    <ul><li>noun: Ugandan(s)</li>
-    <li>adjective: Ugandan</li></ul>
-    
-    
-    *Ethnic groups:*
-    
-    <ul><li>Baganda 16.9%, Banyakole 9.5%, Basoga 8.4%, Bakiga 6.9%, Iteso 6.4%, Langi 6.1%, Acholi 4.7%, Bagisu 4.6%, Lugbara 4.2%, Bunyoro 2.7%, * other 29.6% (2002 census)</li></ul>
-    
-    
-    *Religions:*
-    
-    <ul><li>Roman Catholic 41.9%, Protestant 42% (Anglican 35.9%, Pentecostal 4.6%, Seventh Day Adventist 1.5%), Muslim 12.1%, other 3.1%, none 0.9% (2002 census)</li></ul>
-    
-    
-    *Languages:*
-    
-    <ul><li>English (official national language, taught in grade schools, used in courts of law and by most newspapers and some radio broadcasts), Ganda or Luganda (most widely used of the Niger-Congo languages, preferred for native language publications in the capital and may be taught in school), other Niger-Congo languages, Nilo-Saharan languages, Swahili, Arabic</li></ul>
-    
-    
-    *Literacy:*
-    
-    <ul><li>definition: age 15 and over can read and write</li>
-    <li>total population: 66.8%</li>
-    <li>male: 76.8%</li>
-    <li>female: 57.7% (2002 census)</li></ul>
-  
-    
-    h2. Get More...
-    
-    
-    "United Nations Declaration of Human Rights":http://www.christmasfuture.org/pdf/Univ%20Declr%20of%20Hum%20Rights%20.pdf
-    
-    
-    "ChristmasFuture One Page Summary":http://www.christmasfuture.org/pdf/CF%20Profile.pdf
-    
-    
-    "ChristmasFuture Strategy Document":http://www.christmasfuture.org/pdf/CF%20Strategy%20Doc%203.0.1.pdf
-    
-    
-    "ChristmasFuture Business Overview":http://www.christmasfuture.org/pdf/CF%20Bus%20Overview%204.0.pdf
+  code: UG
+  continent_id: 1
+  html_data: 
+UA:
+  id: 228
+  name: Ukraine
+  code: UA
+  continent_id: 1
+  html_data: 
+AE:
+  id: 229
+  name: United Arab Emirates
+  code: AE
+  continent_id: 1
+  html_data: 
+GB:
+  id: 230
+  name: United Kingdom
+  code: GB
+  continent_id: 1
+  html_data: 
+US:
+  id: 231
+  name: United States
+  code: US
+  continent_id: 1
+  html_data: 
+UM:
+  id: 232
+  name: United States Minor Outlying Islands
+  code: UM
+  continent_id: 1
+  html_data: 
+UY:
+  id: 233
+  name: Uruguay
+  code: UY
+  continent_id: 1
+  html_data: 
+UZ:
+  id: 234
+  name: Uzbekistan
+  code: UZ
+  continent_id: 1
+  html_data: 
+VU:
+  id: 235
+  name: Vanuatu
+  code: VU
+  continent_id: 1
+  html_data: 
+VE:
+  id: 236
+  name: Venezuela
+  code: VE
+  continent_id: 1
+  html_data: 
+VN:
+  id: 237
+  name: Viet Nam
+  code: VN
+  continent_id: 1
+  html_data: 
+VG:
+  id: 238
+  name: Virgin Islands, British
+  code: VG
+  continent_id: 1
+  html_data: 
+VI:
+  id: 239
+  name: Virgin Islands, U.S.
+  code: VI
+  continent_id: 1
+  html_data: 
+WF:
+  id: 240
+  name: Wallis and Futuna
+  code: WF
+  continent_id: 1
+  html_data: 
+EH:
+  id: 241
+  name: Western Sahara
+  code: EH
+  continent_id: 1
+  html_data: 
+YE:
+  id: 242
+  name: Yemen
+  code: YE
+  continent_id: 1
+  html_data: 
+ZM:
+  id: 243
+  name: Zambia
+  code: ZM
+  continent_id: 1
+  html_data: 
+ZW:
+  id: 244
+  name: Zimbabwe
+  code: ZW
+  continent_id: 1
+  html_data: 
