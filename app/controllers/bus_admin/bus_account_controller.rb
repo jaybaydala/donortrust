@@ -93,8 +93,8 @@ class BusAdmin::BusAccountController < ApplicationController
     return unless request.method == :post
     @bus_user.save!
     self.current_bus_user = @bus_user
-    redirect_back_or_default(:controller => '/bus_admin/bus_account', :action => 'index')
-    flash[:notice] = "Thanks for signing up!"
+    redirect_back_or_default(:controller => '/bus_admin/bus_account', :action => 'login')
+    flash[:notice] = "Thanks for signing up!<br />You will be notified via email when your account has been confirmed."
   rescue ActiveRecord::RecordInvalid
     render :action => 'signup'
   end
