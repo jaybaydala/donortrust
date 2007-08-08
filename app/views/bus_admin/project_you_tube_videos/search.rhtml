@@ -1,0 +1,5 @@
+    <div id="search_projects">
+        Your search for <%= @searchstring %> returned <%= @size %> video(s)
+        <%= render( :partial => "project", :collection => @projects )%>
+        <%= pageinated_links_for_ajax(@project_pages, "search_projects", "/bus_admin/project_you_tube_videos", "search", :project_search_keywords => @searchstring) %>
+    </div>

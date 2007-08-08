@@ -1,0 +1,37 @@
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+require 'rake/gempackagetask'
+require 'rubygems'
+
+task :default => [ :test, :gem, :rdoc ]
+
+Rake::TestTask.new("test") { |t|
+  t.test_files = FileList['test*.rb']
+}
+
+Rake::RDocTask.new { |rdoc|
+  rdoc.rdoc_dir = 'doc'
+  rdoc.rdoc_files.include('ruby_tube.rb')
+}
+
+spec = Gem::Specification.new do |s|
+  s.add_dependency('xml-simple', '>= 1.0.7')
+  s.name = 'RubyTube'
+  s.version = "0.1.0"
+  s.platform = Gem::Platform::RUBY
+  s.summary = "An interface into the YouTube API, mostly targeted at Rails applications. By Joe Gaudet (joe@choice-chicken.com)"
+  s.requirements << 'YouTub developers API key'
+  s.files = Dir.glob("*").delete_if { |item| item.include?("svn") }
+  s.require_path = '.'
+  s.autorequire = 'ruby_tube'
+  s.author = "Joe Gaudet"
+  s.email = "joe@obsidian-edge.ca"
+  s.rubyforge_project = "rubytube"
+  s.homepage = "http://www.obsidian-edge.ca/RubyTube/"
+end
+
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.need_zip = true
+  pkg.need_tar = true
+end

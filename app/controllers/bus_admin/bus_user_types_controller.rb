@@ -1,5 +1,5 @@
 class BusAdmin::BusUserTypesController < ApplicationController
-
+  before_filter :login_required, :check_authorization
   active_scaffold :bus_user_types do |config|
     #config.columns[:bus_secure_actions].ui_type = :select
     #config.create.columns.exclude :bus_secure_actions

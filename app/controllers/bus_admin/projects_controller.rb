@@ -4,8 +4,9 @@ class BusAdmin::ProjectsController < ApplicationController
   active_scaffold :project do |config|
   
     config.columns = [ :name, :description, :project_status, :program, :expected_completion_date, :start_date, :end_date,
-                          :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre, :milestones_count, :milestones, :groups, :note ]
-    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones, :milestones_count, :partner ]
+                          :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre,
+                          :milestones_count, :milestones, :sectors, :groups, :note ]
+    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones, :sectors, :milestones_count, :partner ]
     show.columns.exclude [ :milestones ]  
     update.columns.exclude [ :program, :milestones, :milestones_count, :dollars_raised, :dollars_spent, :total_cost ]
     create.columns.exclude [ :milestones_count ]
@@ -18,12 +19,16 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :dollars_spent ].label = "Spent"
     config.columns[ :project_status ].form_ui = :select
     config.columns[ :urban_centre ].form_ui = :select
+    config.columns[ :sectors ].form_ui = :select
     config.columns[ :partner ].form_ui = :select
     config.columns[ :groups ].form_ui = :select
+    
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
 
     #config.action_links.add 'report', :label => 'Report'
+    
+    config.action_links.add 'index', :label => '<img src="/images/icons/you_tube.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_you_tube_videos"}
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'projects', :action => 'report'},:page => true
     config.action_links.add 'list', :label => 'Export to CSV', :parameters =>{:controller=>'projects', :action => 'export_to_csv'},:page => true
 #    config.create.columns.exclude :project_histories

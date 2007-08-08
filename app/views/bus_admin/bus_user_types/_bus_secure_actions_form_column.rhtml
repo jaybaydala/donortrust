@@ -11,22 +11,41 @@ Controllers:
     <% for bus_security_level in BusSecurityLevel.find :all %>
 		<% controller = BusSecurityLevel.find(bus_security_level.id) %>
     	<div id="bus_security_level_id<%= controller.id %>"  name="bus_security_level_id">
-    		<%= bus_security_level.controller %>
+    		<b><%= bus_security_level.controller  %></b>
+    		<div id="more_link<%=bus_security_level.id.to_s%>">
+    		Actions:
+    		<%= link_to_function("(show)",nil,:id=> "more_link") do |page|
+                             page.visual_effect :slide_down, bus_security_level.to_s, :duration => 0.5 
+                             page.visual_effect :slide_up, "more_link" + bus_security_level.id.to_s, :duration => 0.5
+                             page.delay(0.5) do
+                                page.visual_effect :slide_down, "less_link" + bus_security_level.id.to_s , :duration => 0.5
+                             end
+                            
+                        end  %>
+                </div>
+                <div id="less_link<%=bus_security_level.id.to_s%>" style="display:none;">
+                Actions: 
+                <%= link_to_function("(hide)", nil, :id =>"less_link") do |page|
+                            page.visual_effect :slide_up, bus_security_level.to_s, :duration => 0.5
+                            page.visual_effect :slide_up, "less_link" + bus_security_level.id.to_s, :duration => 0.5 
+                            page.delay(0.5) do
+                                page.visual_effect :slide_down, "more_link" + bus_security_level.id.to_s , :duration => 0.5
+                             end  
+                       end %>
+                </div>
 		<div id="bus_secure_action">
-    	
-		Actions:
     	<% @actions=  BusSecureAction.find :all, :conditions => ["bus_security_level_id = ?", controller.id] %>
-    	<div style='overflow:auto;width:75px;border:1px solid #336699;'><ul style='padding-left:0; margin-left:0;list-style:none;'>
+  
+    	<div id="<%= bus_security_level.to_s %>" style="overflow:auto;width:75px;border:1px solid #336699;display:none;">
+    	<ul style='padding-left:0; margin-left:0;list-style:none;'>
     	<% for action in @actions %>
       		<li ><input type='checkbox' id='record_bus_security_level' name='record[bus_secure_actions][<%= (action.id - 1).to_s %>][id]' value='<%=  action.id.to_s %>'  <%= checked(controller, action, params[:id])%>> <%= action.permitted_actions %></input></li>
     	<% end  %>
-    	</ul></div>
-	
+    	</ul>
+	   </div>
 		</div>
 <% end %>
 </select>
 </td>
 </tr>
 </table>    
-
-

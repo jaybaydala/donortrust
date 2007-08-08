@@ -2,12 +2,12 @@ class BusAdmin::PartnerStatusesController < ApplicationController
   before_filter :login_required
 
   include ApplicationHelper
-  
+
   active_scaffold :partner_statuses do |config|
-    config.columns =[ :name, :description, :partners_count, :partners ]
-    list.columns.exclude [ :description, :partners ]
-    update.columns.exclude :partners_count, :partners
-    create.columns.exclude :partners_count, :partners
-#    show.columns.exclude
+    config.columns =[ :name, :description, :partners_count ]
+    list.columns.exclude :description
+    update.columns.exclude :partners_count
+    create.columns.exclude :partners_count
+    #show.columns.exclude
   end
 end

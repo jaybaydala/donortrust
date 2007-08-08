@@ -9,9 +9,9 @@ inprogress:
   name: InProgress
   description: First Tasks for Milestone have been started
 
-canceled:
+cancelled:
   id: 3
-  name: Canceled
+  name: Cancelled
   description: Milestone is no longer part of the project
 
 complete:

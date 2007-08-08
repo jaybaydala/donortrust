@@ -1,0 +1,49 @@
+<%= show_spinner %>
+<div id="trash_bin" class="trash_bin">
+    <%= image_tag("/images/icons/delete_icon.gif")%> Drag any Photos you wish to remove from the a project into the trash bin.
+</div>
+<%= drop_receiving_element "trash_bin", :update => "projects", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
+    
+
+<div class="media_cart">
+    <h2>DonorTrust Photos | 
+    &nbsp;<%= slide_down_link "Search", "search_link", "flickr_search_field" %>
+    </h2>
+    <div id="flickr_search_field" class="media_search" style="display:none">
+            <h2>Keywords | &nbsp;
+        	<%= slide_up_link "Close", "close_search_link", "flickr_search_field"%> 
+            </h2>
+            <%= text_field "search", "keywords" %>
+                <%= observe_field("search_keywords", 
+                    :frequency => 2, 
+                    :update => :videos, 
+                    :url => '/bus_admin/flickr;search',
+                    :with => "search_keywords"
+                    ) %> 
+    </div>
+    <div id="photos"> 
+        <%= render(:partial => '/bus_admin/flickr_images/flickr_image', :collection => @flickr_images, :locals => {:draggable => true}) %> 
+        <%= pageinated_links_for_ajax(@flickr_image_pages, "photos", "/bus_admin/flickr_images", "photos", nil) %>
+    </div>
+</div>
+
+<div class="media_cart">
+    <h2>Projects  | 
+    &nbsp;
+   	<%= slide_down_link "Search", "search_link", "project_search_field" %></h2>
+    <div id="project_search_field" class="media_search" style="display:none">
+            <h2>Keywords | &nbsp;
+			 <%= slide_up_link "Close", "close_search_link", "project_search_field"%> 
+            
+			 
+            </h2>
+            <%= text_field "project_search", "keywords" %>
+            <%= observe_field("project_search_keywords", :frequency => 2, :update => :projects, :url => '/bus_admin/project_you_tube_videos;search', :with => "project_search_keywords" ) %> 
+
+    </div>
+    <div id="projects">
+        <%= render(:partial => "project", :collection=>@projects)%>
+        <%= pageinated_links_for_ajax(@project_pages, "projects", "/bus_admin/project_you_tube_videos", "projects", nil) %>
+    </div>
+</div>
+

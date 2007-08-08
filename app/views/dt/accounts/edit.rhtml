@@ -1,42 +1,88 @@
 <%= dt_account_nav %>
-<%= error_messages_for :user %>
-<% form_for :user, :url => dt_account_path(@user), :html => { :method =>'put', :id => 'user_form'} do |f| -%>
-<p><label for="login">Username</label><br/>
-<%= f.text_field :login %></p>
 
-<p><label for="first_name">First Name</label><br/>
-<%= f.text_field :first_name %></p>
+<div id="leftColW2">
+	<h1>Edit Profile</h1>
+	
+	<%= error_messages_for :user %>
+	<% form_for(:user, :url => dt_account_path(@user), :html => { :method => 'put', :id => "userform", :name => "userform"}) do |f| -%>
 
-<p><label for="last_name">Last Name</label><br/>
-<%= f.text_field :last_name %></p>
+	<div class="formInput">
+	<label for="user_login">Email</label>
+	<%= f.text_field :login %>
+	</div>
 
-<p><label for="address">Address</label><br/>
-<%= f.text_field :address %></p>
+	<div style="padding:6px 0;clear:both;">
+	<div class="formnote">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website.</div>
+	
+	<div class="formInput">
+	<label for="user_first_name">First Name</label>
+	<%= f.text_field :first_name %>
+	</div>
 
-<p><label for="city">City</label><br/>
-<%= f.text_field :city %></p>
+	<div class="formInput">
+	<label for="user_last_name">Last Name</label>
+	<%= f.text_field :last_name %>
+	</div>
 
-<p><label for="province">Province/State</label><br/>
-<%= f.text_field :province %></p>
+	<div class="formInput">
+	<label for="user_display_name">Display Name</label>
+	<%= f.text_field :display_name %>
+	</div>
+	</div>
 
-<p><label for="postal_code">Postal/Zip Code</label><br/>
-<%= f.text_field :postal_code %></p>
+	<div style="padding:6px 0;clear:both;">
+	<div class="formnote">Change Password - Enter your current password and a new password if you wish</div>
+	
+	<%= error_messages_for :password %>
 
-<p><label for="country">Country</label><br/>
-<%= f.text_field :country %></p>
+	<div class="formInput">
+	<label for="old_password">Current Password</label>
+	<%= password_field_tag :old_password %>
+	</div>
 
-<div class="formnote">Change Password - Enter your current password and a new password if you wish</div>
+	<div class="formInput">
+	<label for="user_password">Password</label>
+	<%= f.password_field :password %>
+	</div>
 
-<%= error_messages_for :password %>
+	<div class="formInput">
+	<label for="user_password_confirmation">Confirm Password</label>
+	<%= f.password_field :password_confirmation %>
+	</div>
+	</div>
 
-<p><label for="user_old_password">Current Password</label><br/>
-<%= password_field_tag :old_password %></p>
 
-<p><label for="user_password">Password</label><br/>
-<%= f.password_field :password %></p>
+	<div class="formnote" style="padding:6px 0;clear:both;">The following fields are optional.</div>
+	<div class="formInput">
+	<label for="user_address">Address</label>
+	<%= f.text_field :address %>
+	</div>
 
-<p><label for="user_password_confirmation">Confirm Password</label><br/>
-<%= f.password_field :password_confirmation %></p>
+	<div class="formInput">
+	<label for="user_city">City</label>
+	<%= f.text_field :city %>
+	</div>
 
-<p><%= submit_tag 'Update profile' %></p>
-<% end -%>
+	<div class="formInput">
+	<label for="user_province">Province/State</label>
+	<%= f.text_field :province %>
+	</div>
+
+	<div class="formInput">
+	<label for="user_postal_code">Postal/Zip Code</label>
+	<%= f.text_field :postal_code %>
+	</div>
+
+	<div class="formInput">
+	<label for="user_country">Country</label>
+	<%= f.text_field :country %>
+	</div>
+
+	<div id="submitButtonMedium"><a href="javascript:document.userform.submit()">Update Profile</a></div>
+
+	<!--<p><%= submit_tag 'Update profile' %></p>-->
+	<% end -%>
+</div>
+<div id="rightColN">
+	
+</div>

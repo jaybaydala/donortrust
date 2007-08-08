@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  country_id: 4
+  sector_id: 2
+  content: Uganda and Education
+two:
+  id: 2
+  country_id: 3
+  sector_id: 1
+  content: Nigeria and Agriculture

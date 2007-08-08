@@ -1,0 +1,9 @@
+<div class="flickr_msg"><%= @msg %></div>
+Drag Any Video you wish to associate with this project<br/>
+<% slide_up_link("Done Adding Photos", "done", "cart_#{@project.id.to_s}") %>
+<% @flickr_images = @project.flickr_images %>
+<% prefix = "project_#{@project.id}_" %>   
+<%= render(:partial => '/bus_admin/flickr_images/flickr_image', 
+            :locals => {:prefix => prefix, :draggable => true}, 
+            :collection => @flickr_images)
+ %>

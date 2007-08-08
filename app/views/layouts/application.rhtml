@@ -57,7 +57,7 @@
 
         <td width="60" rowspan="2">
           <div style="text-align: center">
-            <a href="/dt/accounts"><img src="/images/Donors.png" alt="Donors"
+            <a href="/donors"><img src="/images/Donors.png" alt="Donors"
             width="26" height="32" border="0" /></a>
           </div>
         </td>
@@ -82,18 +82,15 @@
 
         <td width="60" rowspan="2">&nbsp;</td>
 
-        <td width="163">
+        <td  colspan="2" align="right">
           <% if session[:user] and session[:user] != :false %>
-            <span style="color: #666;">Logged in as: <%= session[:user].login + " " %>
+            <span style="color: #666; font-weight: bold; text-align: right;">Logged in as: <%= session[:user].login + " " %>
             </span>
             
             <!--<a href="#"><img src="/images/logout.gif" alt="Menu"
             width="12" height="12" border="0" /></a>-->
            <% end %>
-        </td>
-
-        <td width="57">
-          <% if session[:user] %><span style="color: #666;">[<a href="logout">Logout</a>]</span></td><% end %>
+          <% if session[:user] %><span style="color: #666;"><br />[<a href="logout">Logout</a> | <%= link_to_remote_redbox "Change Password", :url => {:controller => 'bus_admin/bus_account', :action => 'change_password'} %>]</span></td><% end %>
       </tr>
 
       <tr>
@@ -104,7 +101,7 @@
           </div>
         </td>
 
-        <td width="57"><a href="/bus_admin/home">Home</a></td>
+        <td width="57" style="font-weight: bold; color: #666;"><a href="/bus_admin/home">Home</a></td>
       </tr>
     </table>
 
@@ -155,38 +152,41 @@
         <td width="163">&nbsp;</td>
 
         <td width="57">
-            <form name="editForm">
-                <select name="site" size=-1 onchange ="formLinkRedirector(this.form)">
-                <option value="">Manage...</option>   
+            <select name="site" size="-1" onchange ="textLinkRedirector(this.value)">
+                <option value="">Manage...</option>
                 <option value="/bus_admin/contacts">Contacts</option>
-                <option value="continents">Continents</option>
+                <option value="/bus_admin/continents">Continents</option>
                 <option value="/bus_admin/countries">Countries</option>
+                <option value="/bus_admin/country_sectors">Country Sectors</option>
+                <option value="/bus_admin/frequency_types">Frequency Types</option>
                 <option value="/bus_admin/groups">Groups</option>
-                <option value="/bus_admin/indicators">Indicators</option> 
-                <option value="milestone_statuses">Milestone Statuses</option>   
-                <option value="/bus_admin/millennium_goals">Millenium Goals</option> 
+                <option value="/bus_admin/indicators">Indicators</option>
+                <option value="/bus_admin/indicator_measurements">Indicator Measurements</option>
+                <option value="/bus_admin/milestone_statuses">Milestone Statuses</option>
+                <option value="/bus_admin/millennium_goals">Millenium Goals</option>
                 <option value="/bus_admin/partner_types">Partner Categories</option>
                 <option value="/bus_admin/partner_statuses">Partner Statuses</option>
                 <option value="/bus_admin/project_statuses">Project Statuses</option>
-                <option value="regions">Regions</option>           
-                <option value="/bus_admin/sectors">Sectors</option>       
-                <option value="/bus_admin/targets">Targets</option>   
-                <option value="/bus_admin/urban_centres">Urban Centres</option>     
-                <option value="/bus_admin/index">Users</option>    
-            </form>                    
+                <option value="/bus_admin/regions">Regions</option>
+                <option value="/bus_admin/region_types">Region Types</option>
+                <option value="/bus_admin/sectors">Sectors</option>
+                <option value="/bus_admin/targets">Targets</option>
+                <option value="/bus_admin/urban_centres">Urban Centres</option>
+                <option value="/bus_admin/index">Users</option>
+            </select>
         </td>
       </tr>
     </table>
-     
+
     <table width="700" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="584" height="25" >
           <div style="text-align: left">
             <!-- CONTENT STARTS HERE -->
-            <p style="color: green;"><%= flash[:notice] %></p> 
+            <p style="color: green;"><%= flash[:notice] %></p>
 			<div id="message_div" style="color: red;"></div> <!-- this is here for our errors; activescaffold does not play nice with flash[:error, :info...] etc -->
             <%= yield  %>
-            
+
             <!-- CONTENT ENDS HERE -->
           </div>
         </td>
@@ -195,4 +195,3 @@
 	</div>
   </body>
 </html>
-

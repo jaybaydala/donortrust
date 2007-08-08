@@ -1,6 +1,5 @@
 class ProjectStatus < ActiveRecord::Base
   has_many :projects
-  has_many :project_histories
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -17,7 +16,7 @@ class ProjectStatus < ActiveRecord::Base
     return result
   end
 
-  def projects_count
+  def project_count
     return projects.count
   end
 end

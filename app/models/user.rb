@@ -17,13 +17,16 @@ class User < ActiveRecord::Base
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   before_save :encrypt_password
   before_create :make_activation_code
+  before_update :login_change
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  def self.authenticate(login, password)
-    #u = find_by_login(login) # need to get the salt
+  def self.authenticate(login, password, check_activated = true)
+    u = find_by_login(login) # need to get the salt
     #check for account activation using activated_at
-    u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
-    u && u.authenticated?(password) ? u : nil
+    #u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
+    
+    return u && u.activated? && u.authenticated?(password) ? u : nil if check_activated
+    return u && u.authenticated?(password) ? u : nil if !check_activated
   end
 
   # Encrypts some data with the salt.
@@ -32,7 +35,7 @@ class User < ActiveRecord::Base
   end
 
   def name
-    return "#{self.first_name} #{self.last_name}" if self.display_name.blank?
+    return "#{self.first_name} #{self.last_name[0,1]}." if self.display_name.blank?
     self.display_name
   end
 
@@ -71,10 +74,19 @@ class User < ActiveRecord::Base
     @activated = true
     update_attributes(:activated_at => Time.now.utc, :activation_code => nil)
   end
-
+  
   # Returns true if the user has just been activated.
   def recently_activated?
     @activated
+  end
+  
+  def login_changed?
+    @login_changed
+  end
+
+  # Returns true if the user has been activated.
+  def activated?
+    return activation_code ? false : true
   end
 
   protected
@@ -98,5 +110,12 @@ class User < ActiveRecord::Base
     # If you're going to use activation, uncomment this too
     def make_activation_code
       self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    end
+    
+    def login_change
+      if User.find_by_id(id).login != login
+        @login_changed = true
+        make_activation_code
+      end
     end
 end

@@ -10,7 +10,14 @@ class Project < ActiveRecord::Base
   belongs_to :urban_centre
   belongs_to :contact
   has_and_belongs_to_many :groups
+  has_and_belongs_to_many :sectors
   validates_presence_of :program_id
+  
+  has_many :you_tube_videos, :through => :project_you_tube_videos
+  has_many :project_you_tube_videos, :dependent => :destroy
+  has_many :flickr_images, :through => :project_flickr_images
+  has_many :project_flickr_images, :dependent => :destroy
+  
     
   def create_project_history
     if Project.exists?(self.id)
@@ -84,6 +91,14 @@ class Project < ActiveRecord::Base
       end
     end
     return @projects_near_end
+  end
+  
+  def get_all_you_tube_videos
+    @you_tube_videos = Array.new
+    for project_you_tube_video in self.project_you_tube_videos
+      @you_tube_videos.push(project_you_tube_video.you_tube_video)
+    end
+    @you_tube_videos
   end
   
   def self.total_money_raised

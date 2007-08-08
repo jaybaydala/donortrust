@@ -1,5 +1,8 @@
 class Task < ActiveRecord::Base
-  belongs_to :milestone
+  acts_as_versioned
+
+  has_many      :task_versions
+  belongs_to    :milestone
 
   validates_presence_of :name, :description#, :milestone_id
   validates_uniqueness_of :name, :scope => :milestone_id
@@ -14,4 +17,7 @@ class Task < ActiveRecord::Base
 
   attr_protected :milestone_id
 
+  def version_count
+    return task_versions.count
+  end
 end

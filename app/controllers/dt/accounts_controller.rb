@@ -31,8 +31,9 @@ class Dt::AccountsController < DtApplicationController
     @user = User.new(params[:user])
     respond_to do |format|
       if @saved = @user.save
+        session[:tmp_user] = @user.id
         #self.current_user = @user
-        flash[:notice] = 'Thanks for signing up! An activation email has been sent to you.'
+        flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address.'
         format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
         #format.js
         format.xml  { head :created, :location => dt_accounts_url }
@@ -49,31 +50,23 @@ class Dt::AccountsController < DtApplicationController
   def update
     redirect_to(:action => 'edit', :id =>current_user.id) unless authorized?
     @user = User.find(params[:id])
-
-    params[:user][:password] = nil if !params[:old_password]
-    params[:user][:password_confirmation] = nil if !params[:old_password]
-    if !params[:old_password] || ( params[:old_password] && current_user.authenticated?(params[:old_password]) )
-      @saved = @user.update_attributes(params[:user])
-    elsif params[:old_password]
+    
+    # password changing - requires the old password to be entered and correct
+    if params[:old_password] && !current_user.authenticated?(params[:old_password])
+      params[:old_password] = nil
       @user.errors.add('old_password', "was incorrect")
     end
+    params[:user][:password] = nil if !params[:old_password]
+    #params[:user][:password_confirmation] = nil if !params[:old_password]
+    @saved = @user.update_attributes(params[:user])
     
-    #if current_user.authenticated?(params[:old_password])
-    #  current_user.password = params[:password]
-    #  current_user.password_confirmation = params[:password_confirmation]
-    #  begin
-    #    current_user.save!
-    #    flash[:notice] = 'Successfully changed your password.'
-    #  rescue ActiveRecord::RecordInvalid => e
-    #    flash[:error] = "Couldn't change your password: #{e}" 
-    #  end
-    #else
-    #  flash[:error] = "Couldn't change your password: is that really your current password?" 
-    #end
-      
     respond_to do |format|
       if @saved
-        flash[:notice] = 'Account was successfully updated.'
+        if @user.login_changed?
+          flash[:notice] = 'A confirmation email has been sent to your email address.'
+        else
+          flash[:notice] = 'Account was successfully updated.'
+        end
         format.html { redirect_to dt_accounts_url() }
         #format.js
         format.xml  { head :ok }
@@ -117,7 +110,13 @@ class Dt::AccountsController < DtApplicationController
         #format.js
         format.xml  { head :ok }
       else
-        flash[:error] = "Either your username or password are incorrect"
+        if u = User.authenticate(params[:login], params[:password], false)
+          @activated = false
+          session[:tmp_user] = u.id
+          flash[:error] = "A confirmation email has been sent to your login email address"
+        else
+          flash[:error] = "Either your username or password are incorrect"
+        end
         format.html { render :action => "signin" }
         #format.js
         format.xml  { render :xml => @user.errors.to_xml }
@@ -137,13 +136,23 @@ class Dt::AccountsController < DtApplicationController
     @user = User.find_by_activation_code(params[:id]) if params[:id]
     if @user and @user.activate
       self.current_user = @user
-      flash[:notice] = "Your account has been activated!"
+      session[:tmp_user] = nil
+      flash[:notice] = "Your email address has been confirmed and your account is activated!"
     else
-      flash[:notice] = "Account activate has failed. Please review your email and try again."
+      flash[:notice] = "Account activation has failed. You may have followed an expired confirmation link, or have copied a link incorrectly. Please review your email and try again."
     end
     respond_to do |format|
         format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
     end
+  end
+  
+  def resend(user=nil)
+    if !user
+      user = User.find_by_id( logged_in? ? current_user : session[:tmp_user] )
+    end
+    UserNotifier.deliver_change_notification(user) if user && user.activation_code
+    flash[:notice] = "We have resent the activation email to your login email address"
+    redirect_to dt_accounts_url()
   end
   
   protected

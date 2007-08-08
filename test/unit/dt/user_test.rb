@@ -60,6 +60,18 @@ context "User" do
     u.login.should.be u.email
   end
   
+  specify "login_changed? should be true if the login changes" do
+    u = users(:quentin)
+    u.update_attributes(:login => 'quentin2@example.com')
+    u.should.login_changed
+  end
+
+  specify "login_changed? should be false if the login doesn't change" do
+    u = users(:quentin)
+    u.update_attributes(:login => 'quentin@example.com')
+    u.should.not.login_changed
+  end
+
   specify "should reset password" do
     users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
     users(:quentin).should.equal User.authenticate('quentin@example.com', 'new password')
@@ -110,9 +122,16 @@ context "UserAuthentication" do
   setup do
   end
 
-  specify "authenticate should only return an activated user account where activated_at IS NOT NULL" do
-    User.authenticate('quentin@example.com', 'test').should.not.be.nil
-    User.authenticate('aaron@example.com', 'test').should.be.nil
+  specify "authenticate should an activated user account where activated_at IS NOT NULL" do
+    User.authenticate('quentin@example.com', 'test').should.not.be nil
+  end
+
+  specify "authenticate should not return a user account where activated_at IS NULL" do
+    User.authenticate('aaron@example.com', 'test').should.be nil
+  end
+
+  specify "authenticate should not return a user account where activated_at IS NULL if we set check_activated to false" do
+    User.authenticate('aaron@example.com', 'test', false).should.not.be nil
   end
 end
 

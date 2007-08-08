@@ -1,15 +1,10 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-# Initial bulk load of Milestone statuses for development
-one:
-  id: 1
+--- 
+bus_user_types_001: 
   name: administrator
-
-two:
-  id: 2
+  id: "1"
+bus_user_types_002: 
   name: reader
-
-three:
-  id: 3
+  id: "2"
+bus_user_types_003: 
   name: collaborator
-
-  
+  id: "3"

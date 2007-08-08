@@ -1,81 +1,61 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-# Initial bulk load of Milestone statuses for development
-one:
-  id: 1
-  controller: bus_admin/continents
-  
-two:
-  id: 2
-  controller: bus_admin/countries
-
-three:
-  id: 3
-  controller: bus_admin/bus_account_controller
-
-four:
-  id: 4
-  controller: bus_admin/bus_secure_actions
-
-five:
-  id: 5
-  controller: bus_admin/security_levels
-
-six:
-  id: 6
-  controller: bus_admin/bus_user_types
-
-seven:
-  id: 7
-  controller: bus_admin/indicators
-
-eight:
-  id: 8
-  controller: bus_admin/contact
-
-nine:
-  id: 9
-  controller: bus_admin/measure_categories
-
-ten:
-  id: 10
-  controller: bus_admin/milestone_categories
-
-eleven:
-  id: 11
+--- 
+bus_security_levels_011: 
+  id: "11"
   controller: bus_admin/milestone_statuses
-  
-tweleve:
-  id: 12
+bus_security_levels_012: 
+  id: "12"
   controller: bus_admin/millennium_development
-  
-thirteen:
-  id: 13
+bus_security_levels_001: 
+  id: "1"
+  controller: bus_admin/continents
+bus_security_levels_013: 
+  id: "13"
   controller: bus_admin/partner_histories
-  
-fourteen:
-  id: 14
+bus_security_levels_002: 
+  id: "2"
+  controller: bus_admin/countries
+bus_security_levels_014: 
+  id: "14"
   controller: bus_admin/partner_statuses
-  
-fifteen:
-  id: 15
+bus_security_levels_003: 
+  id: "3"
+  controller: bus_admin/bus_account
+bus_security_levels_015: 
+  id: "15"
   controller: bus_admin/partner_types
-
-sixteen:
-  id: 16
+bus_security_levels_004: 
+  id: "4"
+  controller: bus_admin/bus_secure_actions
+bus_security_levels_016: 
+  id: "16"
   controller: bus_admin/partners
-
-seventeen:
-  id: 17
+bus_security_levels_005: 
+  id: "5"
+  controller: bus_admin/bus_security_levels
+bus_security_levels_017: 
+  id: "17"
   controller: bus_admin/programs
-
-eighteen:
-  id: 18
+bus_security_levels_006: 
+  id: "6"
+  controller: bus_admin/bus_user_types
+bus_security_levels_018: 
+  id: "18"
   controller: bus_admin/project_categories
-
-nineteen:
-  id: 19
-  controller: bus_admin/project_histories
- 
-twenty:
-  id: 20
+bus_security_levels_007: 
+  id: "7"
+  controller: bus_admin/indicators
+bus_security_levels_020: 
+  id: "20"
   controller: bus_admin/partner_statuses
+bus_security_levels_019: 
+  id: "19"
+  controller: bus_admin/project_histories
+bus_security_levels_008: 
+  id: "8"
+  controller: bus_admin/contacts
+bus_security_levels_010: 
+  id: "10"
+  controller: bus_admin/milestone_categories
+bus_security_levels_009: 
+  id: "9"
+  controller: bus_admin/measure_categories
