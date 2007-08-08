@@ -1,4 +1,4 @@
-class GroupsProjects < ActiveRecord::Migration
+class GroupsProjectsRel001 < ActiveRecord::Migration
   def self.up
     create_table :groups_projects do |t|
       t.column :group_id,         :int
