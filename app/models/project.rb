@@ -11,14 +11,21 @@ class Project < ActiveRecord::Base
   belongs_to :contact
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
-  validates_presence_of :program_id
+#  validates_presence_of :program_id
   
   has_many :you_tube_videos, :through => :project_you_tube_videos
   has_many :project_you_tube_videos, :dependent => :destroy
   has_many :flickr_images, :through => :project_flickr_images
   has_many :project_flickr_images, :dependent => :destroy
   
-    
+  validate do |me|
+    # In each of the 'unless' conditions, true means that the association is reloaded,
+    # if it does not exist, nil is returned
+    unless me.program( true )
+      me.errors.add :program_id, 'does not exist'
+    end
+  end
+  
   def create_project_history
     if Project.exists?(self.id)
       @create_project_history_ph = ProjectHistory.new_audit(Project.find(self.id))
