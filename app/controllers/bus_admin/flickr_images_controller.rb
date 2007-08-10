@@ -23,6 +23,7 @@ class BusAdmin::FlickrImagesController < ApplicationController
     rescue # hackish solution to shitty programming by the Author of the Flickr.rb library
       @photos = Array.new
       @photo_pages, @photos = paginate_array(params[:page], @photos, 20)
+
     end
     [@photos, @photo_pages, @tags, @size]
     render :layout => false
