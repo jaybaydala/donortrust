@@ -1,3 +1,4 @@
+<% prefix ||= ""%>
 <% photo = Flickr::Photo.new(flickr_image.photo_id.to_s) %>
 <div id="<%= "#{prefix}flickr_dt_image_" + flickr_image.id.to_s %>" class="flickr_photo" style="cursor:move;">
     <%= image_tag photo.sizes[0]['source'] %><br/>

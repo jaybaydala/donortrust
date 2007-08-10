@@ -5,15 +5,13 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
     @flickr_images = FlickrImage.find(:all)
     @flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20)
     
-    if params[:id]
-      @projects = Array.new
-      @projects.push(Project.find_by_id(params[:id]))
-    else
-      @projects = Project.find(:all)    
+    if(params[:id])
+      @project = Project.find(params[:id])
     end
     
-    @project_pages, @projects = paginate_array(params[:project_page], @projects, 20)
-    [@projects, @project_pages, @flickr_image_pages, @flickr_images]
+    @project ||= Project.find(:first)
+    
+    [@project, @flickr_image_pages, @flickr_images]
   end
 
   # GET /bus_admin_project_flickr_images/1
@@ -37,11 +35,18 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
     end
     
     [@project = Project.find(params[:project_id]), @msg]
-    render :layout => false
+    render :partial => 'project'
   end
 
   def remove
+    project_id = params[:id].split('_')[1]
     
+    flickr_dt_id = params[:id][(params[:id].rindex('_') + 1 ),params[:id].size]
+    ProjectFlickrImage.find_by_project_id_and_flickr_image_id(project_id,flickr_dt_id).destroy
+    @msg = "Photo has been removed from project"
+    
+    [@project = Project.find(project_id), @msg]
+    render :project => 'project'
   end
 
 end

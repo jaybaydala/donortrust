@@ -1,9 +1,10 @@
-<div class="flickr_msg"><%= @msg %></div>
-Drag Any Video you wish to associate with this project<br/>
-<% slide_up_link("Done Adding Photos", "done", "cart_#{@project.id.to_s}") %>
+<%= drop_receiving_element "cart_#{@project.id}", :update => "cart_#{@project.id}", :url => {:action => "add", :project_id => @project.id}, :hoverclass => "you_tube_cart_active"%>
+Drag Any Photo you wish to associate with this project<br/>
+
 <% @flickr_images = @project.flickr_images %>
-<% prefix = "project_#{@project.id}_" %>   
-<%= render(:partial => '/bus_admin/flickr_images/flickr_image', 
-            :locals => {:prefix => prefix, :draggable => true}, 
-            :collection => @flickr_images)
- %>
+<%= render(:partial => '/bus_admin/flickr_images/flickr_image', :locals => {:prefix => "project_#{@project.id}_", :draggable => true}, :collection => @flickr_images) %> 
+
+
+<div style="float: left; width: 300px;margin:5px;">
+	<%= slide_up_link "Done Adding Photos", "addPhotos", "cart_#{@project.id.to_s}"%> 
+</div>

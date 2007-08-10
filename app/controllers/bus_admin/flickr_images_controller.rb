@@ -40,7 +40,8 @@ class BusAdmin::FlickrImagesController < ApplicationController
       @msg = "Couldn't Add that to the database"
     end
     @flickr_images = FlickrImage.find(:all)
-    [@flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20), @msg]
+    @flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20)
+    [@flickr_image_pages, @flickr_images, @msg]
     render :layout => false
   end
 
