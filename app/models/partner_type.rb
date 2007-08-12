@@ -1,11 +1,8 @@
 class PartnerType < ActiveRecord::Base
   has_many :partners
+
   validates_length_of :name, :maximum => 50
   validates_presence_of :name, :description
-  
-  def to_label
-    "#{name}"
-  end
   
   def destroy
     result = false
@@ -16,5 +13,9 @@ class PartnerType < ActiveRecord::Base
       result = super
     end
     return result
+  end
+
+  def partner_count
+    return partners.count
   end
 end

@@ -1,8 +1,9 @@
 class MilestoneStatus < ActiveRecord::Base
   has_many :milestones
 
-  validates_presence_of :name, :description
+  validates_presence_of :name
   validates_uniqueness_of :name
+  validates_presence_of :description
 
   def destroy
     result = false
@@ -13,5 +14,9 @@ class MilestoneStatus < ActiveRecord::Base
       result = super
     end
     return result
+  end
+
+  def milestones_count
+    return milestones.count
   end
 end

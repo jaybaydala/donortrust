@@ -5,19 +5,10 @@ class BusAdmin::PartnerTypesController < ApplicationController
   
   active_scaffold :partner_type do |config|   
     config.label = "Partner Categories"
-    config.list.columns = [:name, :description] # reorder columns 
-    config.create.columns = [:name, :description] # reorder columns 
-    config.update.columns = [:name, :description] # reorder columns 
-    config.show.columns = [:name, :description] # reorder columns 
-  end
-
-  def destroy
-    begin
-      super.destroy
-    rescue
-      @error = "You cannot delete this category; it is being used by a Partner."
-      flash[:error] = @error #for some reason this won't display      
-      show_message_and_reset(@error, "error")        
-    end
+    config.columns =[ :name, :description, :partners_count, :partners ]
+    list.columns.exclude [ :partners_count, :partners ]
+    update.columns.exclude [ :partners_count, :partners ]
+    create.columns.exclude [ :partners_count, :partners ]
+    #show.columns.exclude
   end
 end

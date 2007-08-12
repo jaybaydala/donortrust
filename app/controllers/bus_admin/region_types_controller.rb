@@ -3,7 +3,8 @@ class BusAdmin::RegionTypesController < ApplicationController
 
   active_scaffold :region_types do |config|
     config.columns =[ :name, :region_count ]
-    #list.columns.exclude
+    config.columns[ :name ].label = "Type"
+    list.columns.exclude :region_count
     update.columns.exclude :region_count
     create.columns.exclude :region_count
     #show.columns.exclude

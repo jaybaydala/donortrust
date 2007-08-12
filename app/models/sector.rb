@@ -22,11 +22,11 @@ class Sector < ActiveRecord::Base
     return result
   end
 
-#  def project_count
-#    return projects.count
-#  end
-#
-#  def country_count
-#    return countries.count
-#  end
+  def project_count
+    return projects.count
+  end
+
+  def country_count
+    return countries.count
+  end
 end

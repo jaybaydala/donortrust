@@ -4,10 +4,11 @@ class BusAdmin::MilestoneStatusesController < ApplicationController
   include ApplicationHelper
 
   active_scaffold :milestone_statuses do |config|
-    config.columns =[ :name, :description ]
-    #list.columns.exclude [  ]
-    #update.columns.exclude [  ]
-    #create.columns.exclude [  ]
-    #show.columns.exclude [  ]
+    config.columns =[ :name, :description, :milestones_count, :milestones ]
+    config.columns[ :name ].label = "Status"
+    list.columns.exclude [ :milestones_count, :milestones ]
+    update.columns.exclude [ :milestones_count, :milestones ]
+    create.columns.exclude [ :milestones_count, :milestones ]
+    #show.columns.exclude [ ]
   end
 end
