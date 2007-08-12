@@ -6,7 +6,7 @@ class Project < ActiveRecord::Base
   belongs_to :program
   belongs_to :partner
   has_many :project_histories
-  has_many :milestones
+  has_many :milestones, :dependent => :destroy
   belongs_to :urban_centre
   belongs_to :contact
   has_and_belongs_to_many :groups
@@ -39,17 +39,6 @@ class Project < ActiveRecord::Base
     end
   end
   
-  def destroy
-    result = false
-    if milestones.count > 0
-#      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Milestones" )
-      raise( "Can not destroy a #{self.class.to_s} that has Milestones" )
-    else
-      result = super
-    end
-    return result
-  end
-
   def milestones_count
     return Milestone.find(:all).size
   end

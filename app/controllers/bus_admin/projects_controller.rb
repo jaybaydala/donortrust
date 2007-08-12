@@ -5,11 +5,12 @@ class BusAdmin::ProjectsController < ApplicationController
   
     config.columns = [ :name, :description, :project_status, :program, :expected_completion_date, :start_date, :end_date,
                           :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre,
-                          :milestones_count, :milestones, :sectors, :groups, :note ]
-    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones, :sectors, :milestones_count, :partner ]
-    show.columns.exclude [ :milestones ]  
+                          :milestones_count, :milestones, :sectors, :note ]
+    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones,
+                          :sectors, :milestones_count, :partner ]
+    #show.columns.exclude [ ]
     update.columns.exclude [ :program, :milestones, :milestones_count, :dollars_raised, :dollars_spent, :total_cost ]
-    create.columns.exclude [ :milestones_count ]
+    create.columns.exclude [ :milestones, :milestones_count  ]
     config.columns[ :name ].label = "Project"
     config.columns[ :project_status ].label = "Status"
     config.columns[ :milestones_count ].label = "Milestones"
@@ -21,7 +22,6 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :urban_centre ].form_ui = :select
     config.columns[ :sectors ].form_ui = :select
     config.columns[ :partner ].form_ui = :select
-    config.columns[ :groups ].form_ui = :select
     
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
