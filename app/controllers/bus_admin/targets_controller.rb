@@ -1,12 +1,12 @@
 class BusAdmin::TargetsController < ApplicationController
   before_filter :login_required
 
-   active_scaffold :targets do |config|
-    create.columns.exclude [ :millennium_goal ]
-    update.columns.exclude [ :millennium_goal ]
-    show.columns.exclude [ :indicators ]
-    update.columns.exclude [ :indicators]
-    create.columns.exclude [ :indicators ]
+  active_scaffold :targets do |config|
+    config.columns =[ :description, :millennium_goal, :indicator_count, :indicators ]
     config.nested.add_link( "Indicators", [:indicators])
+    list.columns.exclude [ :indicator_count, :indicators ]
+    update.columns.exclude [ :millennium_goal, :indicator_count, :indicators ]
+    create.columns.exclude [ :millennium_goal, :indicator_count, :indicators ]
+    show.columns.exclude [ :indicators ]
   end
 end
