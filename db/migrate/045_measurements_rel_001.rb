@@ -1,10 +1,10 @@
 class MeasurementsRel001 < ActiveRecord::Migration
   def self.up
     create_table "measurements", :force => true do |t|
-    t.column :indicator_measurement_id,       :int,  :null => false
-     t.column :value,              :string,  :null => false
-     t.column :comment,          :string,  :null => true
-
+      t.column :indicator_measurement_id,   :int,     :null => false
+      t.column :value,                      :string,  :null => false
+      t.column :comment,                    :string,  :null => true
+      t.column :date,                       :date,    :null => true
     end
 
   if (ENV['RAILS_ENV'] == 'development')
@@ -12,7 +12,6 @@ class MeasurementsRel001 < ActiveRecord::Migration
       Fixtures.create_fixtures(directory, "measurements")
     end
   end
-
 
   def self.down
     drop_table "measurements"

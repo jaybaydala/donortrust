@@ -4,9 +4,11 @@ one:
   id: 1
   indicator_measurement_id: 1
   value: 100
-  comment:  this is our comment
+  date: 2007-07-01
+  comment: this is our comment
 two:
   id: 2
   indicator_measurement_id: 2
   value: 1000
-  comment:  another comment
+  date: 2007-05-15
+  comment: another comment

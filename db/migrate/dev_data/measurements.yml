@@ -1,12 +1,14 @@
 test1:
   id: 1
   indicator_measurement_id: 1
-  value:  10,000
-  comment:  This test was great!
+  value: 10,000
+  date: 2007-07-01
+  comment: This test was great!
   
 test2:
   id: 2
   indicator_measurement_id: 2
-  value:  500
-  comment:  This test was also great!
+  value: 500
+  date: 2007-05-15
+  comment: This test was also great!
   
