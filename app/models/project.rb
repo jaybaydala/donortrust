@@ -24,6 +24,12 @@ class Project < ActiveRecord::Base
     unless me.program( true )
       me.errors.add :program_id, 'does not exist'
     end
+    unless me.partner( true )
+      me.errors.add :partner_id, 'does not exist'
+    end
+    unless me.project_status( true )
+      me.errors.add :project_status_id, 'does not exist'
+    end
   end
   
   def create_project_history
@@ -37,6 +43,10 @@ class Project < ActiveRecord::Base
       @create_project_history_ph.save
       @create_project_history_ph = nil
     end
+  end
+  
+  def milestone_count
+    return milestones.count
   end
   
   def milestones_count
@@ -70,7 +80,7 @@ class Project < ActiveRecord::Base
    
   def get_percent_raised
     percent_raised = 0
-    if self.total_cost > 0 
+    if self.total_cost > 0 then
       percent_raised = (dollars_raised * 100 / total_cost)
       if percent_raised > 100 then percent_raised = 100 end
     end
@@ -81,8 +91,8 @@ class Project < ActiveRecord::Base
   def self.projects_nearing_end(days_until_end)
     @projects = Project.find(:all) 
     @projects_near_end = Array.new
-    for aProject in @projects
-      if (aProject.end_date - Date.today) <= days_until_end  
+    for aProject in @projects #probable problem here when end_date is nil (or before today)
+      if (aProject.end_date - Date.today) <= days_until_end 
           @projects_near_end << aProject
       end
     end

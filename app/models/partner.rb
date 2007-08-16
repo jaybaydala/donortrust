@@ -3,19 +3,29 @@ class Partner < ActiveRecord::Base
 
 #  after_save  :create_partner_history
 #  after_save :save_partner_history
-  
+
   belongs_to    :partner_type
-  belongs_to  :partner_status
+  belongs_to    :partner_status
   has_many      :partner_versions
   has_many      :projects
   has_and_belongs_to_many :contacts #is this the right relationship? 
-  has_many    :programs, :through => :projects
-  
-  validates_presence_of :name, :partner_status_id, :partner_type_id
+  has_many      :programs, :through => :projects
+
+  validates_presence_of :name
   validates_length_of   :name, :maximum => 50
-  #validates_length_of   :description, :maximum => 1000
-  validates_length_of :description, :within => 0..1000, :too_long => "too long (max 1000)", :too_short => " can't be blank"
-  
+  validates_length_of :description, :within => 1..1000, :too_long => "too long (max 1000)", :too_short => " can't be blank"
+
+  validate do |me|
+    # In each of the 'unless' conditions, true means that the association is reloaded,
+    # if it does not exist, nil is returned
+    unless me.partner_status( true )
+      me.errors.add :partner_status_id, 'does not exist'
+    end
+    unless me.partner_type( true )
+      me.errors.add :partner_type_id, 'does not exist'
+    end
+  end
+
   def create_partner_history
     if Partner.exists?(self.id)
       @create_partner_history_ph = PartnerHistory.new_audit(Partner.find(self.id))

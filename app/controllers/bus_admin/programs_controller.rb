@@ -5,10 +5,10 @@ class BusAdmin::ProgramsController < ApplicationController
     config.columns = [ :name, :contact, :projects_count, :projects, :note ]
     config.columns[ :name ].label = "Program"
     config.columns[ :projects_count ].label = "Projects"
+    config.columns[ :contact ].form_ui = :select
     list.columns.exclude [ :projects ]
     update.columns.exclude [ :projects, :projects_count ]
-    create.columns.exclude [ :projects_count ]
-#    config.columns[:contact].form_ui = :select
+    create.columns.exclude [ :projects, :projects_count ]
     config.nested.add_link("Projects", [:projects])
   end
   

@@ -3,17 +3,17 @@ class BusAdmin::ProjectsController < ApplicationController
   
   active_scaffold :project do |config|
   
-    config.columns = [ :name, :description, :project_status, :program, :expected_completion_date, :start_date, :end_date,
+    config.columns = [ :name, :description, :program, :project_status, :expected_completion_date, :start_date, :end_date,
                           :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :urban_centre,
-                          :milestones_count, :milestones, :sectors, :note ]
+                          :milestone_count, :milestones, :sectors, :note ]
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :urban_centre, :milestones,
-                          :sectors, :milestones_count, :partner ]
+                          :sectors, :milestone_count, :partner ]
     #show.columns.exclude [ ]
-    update.columns.exclude [ :program, :milestones, :milestones_count, :dollars_raised, :dollars_spent, :total_cost ]
-    create.columns.exclude [ :milestones, :milestones_count  ]
+    update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_raised, :dollars_spent, :total_cost ]
+    create.columns.exclude [ :milestones, :milestone_count  ]
     config.columns[ :name ].label = "Project"
     config.columns[ :project_status ].label = "Status"
-    config.columns[ :milestones_count ].label = "Milestones"
+    config.columns[ :milestone_count ].label = "Milestones"
     config.columns[ :start_date ].label = "Start"
     config.columns[ :end_date ].label = "End"
     config.columns[ :dollars_raised ].label = "Raised"
@@ -21,7 +21,9 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :project_status ].form_ui = :select
     config.columns[ :urban_centre ].form_ui = :select
     config.columns[ :sectors ].form_ui = :select
+    config.columns[ :contact ].form_ui = :select
     config.columns[ :partner ].form_ui = :select
+    config.columns[ :program ].form_ui = :select
     
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
@@ -35,7 +37,6 @@ class BusAdmin::ProjectsController < ApplicationController
 #    config.create.columns.exclude :project_histories
 #    config.list.columns.exclude :project_histories
 #    config.update.columns.exclude :project_histories
-#    config.columns[:program].form_ui = :select
   end
   
   def report    

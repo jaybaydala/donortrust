@@ -1,10 +1,18 @@
 class Program < ActiveRecord::Base
   has_many :projects, :dependent => :destroy
   belongs_to :contact
-  validates_presence_of :contact_id
+
   validates_presence_of :name
   validates_uniqueness_of :name
-  
+
+  validate do |me|
+    # In each of the 'unless' conditions, true means that the association is reloaded,
+    # if it does not exist, nil is returned
+    unless me.contact( true )
+      me.errors.add :contact_id, 'does not exist'
+    end
+  end
+
   def projects_count
     return projects.count
   end
@@ -16,7 +24,6 @@ class Program < ActiveRecord::Base
   def self.get_programs
     return self.find(:all)   
   end
-  
   
   def get_total_costs
     projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
@@ -39,8 +46,17 @@ class Program < ActiveRecord::Base
   def get_total_days_remaining
     projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
     total_days = 0
+    total_undefined = false
     projects.each do |project|
-      total_days += project.days_remaining
+      project_days = project.days_remaining
+      if project_days == nil then
+        total_undefined = true
+      else
+        total_days += project_days
+      end
+    end
+    if total_undefined then
+      total_days = "undefined"
     end
     return total_days
   end

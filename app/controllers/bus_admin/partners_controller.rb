@@ -2,20 +2,16 @@ class BusAdmin::PartnersController < ApplicationController
   before_filter :login_required
   active_scaffold :partner do |config|
 #    config.theme = :blue
-
-    config.columns[:partner_status].form_ui = :select
-    config.columns[:partner_type].form_ui = :select
-#    config.columns[:contacts].form_ui = :select
-       
-    config.create.columns.exclude :partner_versions
-    config.list.columns.exclude :partner_versions
-    config.update.columns.exclude :partner_versions
-    
-    config.list.columns = [:name, :description, :partner_status, :partner_type, :note] # reorder columns 
-    config.create.columns = [:name, :description, :partner_status, :partner_type, :contacts, :note] # reorder columns 
-    config.update.columns = [:name, :description, :partner_status, :partner_type, :contacts, :note] # reorder columns 
-    config.show.columns = [:name, :description, :partner_status, :partner_type, :contacts, :note, :partner_versions] # reorder columns 
-    
+    config.columns = [ :name, :description, :partner_status, :partner_type, :contacts, :note, :partner_versions ]
+    config.columns[ :partner_status ].form_ui = :select
+    config.columns[ :partner_status ].label = "Status"
+    config.columns[ :partner_type ].form_ui = :select
+    config.columns[ :partner_type ].label = "Category"
+    config.columns[ :contacts ].form_ui = :select
+    list.columns.exclude [ :description, :contacts, :partner_versions ]
+    update.columns.exclude [ :partner_versions ]
+    create.columns.exclude [ :partner_versions ]
+    #show.columns.exclude
     config.nested.add_link("Projects", [:projects]) 
 
     #passing desired partner status in action link to filter list; 1 = Approved, 2 = Pending 
@@ -23,7 +19,6 @@ class BusAdmin::PartnersController < ApplicationController
     config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
     config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
 #    config.action_links.add 'list', :label => 'All', redirect_to partners 
-    
   end
 
   def conditions_for_collection  
