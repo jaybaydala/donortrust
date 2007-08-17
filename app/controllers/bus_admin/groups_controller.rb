@@ -1,9 +1,20 @@
 class BusAdmin::GroupsController < ApplicationController
 
   active_scaffold :groups do |config|
-    config.columns = [:name, :description, :projects, :public ]
-    config.actions.exclude :nested #:add_existing #this doesn't appear to work though the problem is now avoided by not allowing nested in Projects; what was when this was appearing
-    config.columns[:projects].form_ui = :select
+    config.columns = [:name, :group_type, :private, :description, :created_at, :updated_at, :project_count, :projects, :user_count, :users ]
+    # unable to select user(s) to add to group by simply adding :users to column.  Even though the relationship is defined as
+    # has_many :users, :through => :memberships
+    # the active scaffold code is generating SQL like:
+    # SELECT * FROM users WHERE (group_id IS NULL)
+    # which fails because there is no group_id field in the users table.  It is in memberships.
+    config.columns[ :group_type ].form_ui = :select
+    config.columns[ :group_type ].label = "Type"
+    config.columns[ :projects ].form_ui = :select
+    config.columns[ :users ].form_ui = :select
+    list.columns.exclude [ :description, :created_at, :updated_at, :project_count, :projects, :user_count, :users ]
+    update.columns.exclude [ :created_at, :updated_at, :project_count, :user_count, :users ]
+    create.columns.exclude [ :created_at, :updated_at, :project_count, :user_count, :users ]
+    #show.columns.exclude [  ]
   end
 
 end

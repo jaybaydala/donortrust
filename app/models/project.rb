@@ -11,7 +11,6 @@ class Project < ActiveRecord::Base
   belongs_to :contact
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
-#  validates_presence_of :program_id
   
   has_many :you_tube_videos, :through => :project_you_tube_videos
   has_many :project_you_tube_videos, :dependent => :destroy

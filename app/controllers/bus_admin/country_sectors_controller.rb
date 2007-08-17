@@ -1,8 +1,6 @@
 class BusAdmin::CountrySectorsController < ApplicationController
   before_filter :login_required
 
-  active_scaffold
-
   active_scaffold :country_sectors do |config|
     config.columns =[ :sector, :country, :content ]#, :continent
 #    config.columns[ :continent ].form_ui = :select
