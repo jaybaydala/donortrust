@@ -335,6 +335,7 @@ end
 #these will all allow a community to form through the group model
 #
 #As a group creator, I should:
+#  - automaticallu be added as a member of the group
 #  - be protected from other admins removing my admin status
 #
 #Low priority stories:
