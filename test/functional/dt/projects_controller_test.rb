@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 require 'dt/projects_controller'
-require 'pp'
 
 # Re-raise errors caught by the controller.
 class Dt::ProjectsController; def rescue_action(e) raise e end; end
 
-context "Dt::Accounts inheritance" do
+context "Dt::Projects inheritance" do
   specify "should inherit from DtApplicationController" do
     @controller = Dt::ProjectsController.new
+  pp @controller
     @controller.kind_of?(DtApplicationController).should == true
   end
 end

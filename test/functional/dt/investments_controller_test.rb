@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 require 'dt/investments_controller'
 
 # Re-raise errors caught by the controller.
-class Dt::ProjectsController; def rescue_action(e) raise e end; end
+class Dt::InvestmentsController; def rescue_action(e) raise e end; end
 
 context "Dt::Investments inheritance" do
   specify "should inherit from DtApplicationController" do

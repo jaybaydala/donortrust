@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 require 'dt/accounts_controller'
-#require 'mocha'
-require 'pp'
 
 # Re-raise errors caught by the controller.
 class Dt::AccountsController; def rescue_action(e) raise e end; end

@@ -1,6 +1,5 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 require 'dt/groups_controller'
-require 'pp'
 
 # Re-raise errors caught by the controller.
 class Dt::GroupsController; def rescue_action(e) raise e end; end
