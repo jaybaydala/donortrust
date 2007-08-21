@@ -7,7 +7,7 @@ class Group < ActiveRecord::Base
   has_and_belongs_to_many :projects
 
   validates_presence_of :name
-  validates_presence_of :private
+  #validates_presence_of :private
 
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,

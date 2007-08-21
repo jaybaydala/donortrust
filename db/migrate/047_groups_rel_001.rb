@@ -5,6 +5,11 @@ class GroupsRel001 < ActiveRecord::Migration
       t.column :description,      :text
       t.column :group_type_id,    :int
       t.column :private,          :boolean
+      t.column :country_id,       :int
+      t.column :region_id,        :int
+      t.column :city_id,          :int
+      t.column :city,             :text
+      t.column :group_sector_id,  :int
       t.column :created_at,       :datetime
       t.column :updated_at,       :datetime
     end    

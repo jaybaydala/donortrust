@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
 context "Groups" do
-  fixtures :groups
+  fixtures :users, :groups, :memberships, :group_types
 
   def setup
   end
@@ -20,11 +20,11 @@ context "Groups" do
     @group.should.validate
   end
 
-  specify "Group.name should be unique" do
+  specify "Group.name does not need to be unique" do
     @group = test_group()
     @group.save
     @group = test_group()
-    @group.should.not.validate
+    @group.should.validate
   end
   
   protected

@@ -78,8 +78,8 @@ context "User" do
   end
 
   specify "should not rehash password" do
-    users(:quentin).update_attributes(:login => 'quentin2@example.com')
-    users(:quentin).should.equal User.authenticate('quentin2@example.com', 'test')
+    users(:quentin).update_attributes(:first_name => 'Q')
+    users(:quentin).should.equal User.authenticate('quentin@example.com', 'test')
   end
 
   specify "should authenticate user" do
@@ -99,9 +99,9 @@ context "User" do
     users(:quentin).remember_token.should.be.nil
   end
 
-  specify "should return 'first_name last_name' if display_name is empty" do
+  specify "should return 'first_name last_initial' if display_name is empty" do
     u = users(:quentin)
-    u.name.should.equal "#{u.first_name} #{u.last_name}"
+    u.name.should.equal "#{u.first_name} #{u.last_name[0,1]}."
   end
 
   specify "should return 'display_name' if display_name is not empty" do

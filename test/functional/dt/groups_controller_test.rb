@@ -139,6 +139,14 @@ context "Dt::GroupsController handling GET /dt/groups;new" do
 end
 
 context "Dt::GroupsController handling POST /dt/groups;create" do
+#When creating a group, I should:
+#  x be required to enter a group name
+#  x Group name does not have to be unique
+#  x choose what type of group I'm creating - Corporate, School, Family, General, Special Interest
+#  x set group to Public/Private
+#  - choose geographic location of group
+#    - Country and Province/state are pre-populated select boxes, city/town should be text box autocomplete (non-constrained)
+#  - choose the sector/cause interest of the group
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
   
@@ -291,22 +299,17 @@ end
 #GROUP STORIES
 #=============
 #As a user, I should be able to:
-#  - see a list of "public" groups
+#  x see a list of "public" groups
 #  - not see "non-public" groups
 #  - see a public groups' name & description
 #  - join a public group
 #  - not join a non-public group
 #  - join a non-public group to which i've been invited
-#  - create a group
+#  x create a group
 #these will all allow a user to connect with people who share their interests
 #
-#When creating a group, I should:
-#  - be required to enter a group name
-#  - Group name should be unique
-#  - choose what type of group I'm creating - Corporate, School, Family, General
-#  - set group to Public/Private
-#  - choose geographic location of group
-#  - choose the sector/cause interest of the group
+#When looking at a list of groups:
+#  -  the group should show name, description, type, geographic location and interests
 #
 #As a group member, I should be able to:
 #  - leave a group
@@ -338,7 +341,6 @@ end
 #Group Accounts
 #  - Corporate Accounts (an Encana account where Encana will match employee giving)
 #Group Competition:
-#- Competing with other groups to raise funds (ie. an Encana employee group competing against a Talisman Group)
-#- Group admin would send a competitiion invite would be sent to another existing group (of any kind)
-#- Invite must be accepted for competition to begin...
-
+#  - Competing with other groups to raise funds (ie. an Encana employee group competing against a Talisman Group)
+#  - Group admin would send a competitiion invite would be sent to another existing group (of any kind)
+#  - Invite must be accepted for competition to begin...
