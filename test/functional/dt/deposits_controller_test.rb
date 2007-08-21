@@ -1,21 +1,21 @@
 require File.dirname(__FILE__) + '/../../test_helper'
-require 'dt/investments_controller'
+require 'dt/deposits_controller'
 
 # Re-raise errors caught by the controller.
-class Dt::ProjectsController; def rescue_action(e) raise e end; end
+class Dt::DepositsController; def rescue_action(e) raise e end; end
 
-context "Dt::Investments inheritance" do
+context "Dt::Deposits inheritance" do
   specify "should inherit from DtApplicationController" do
-    @controller = Dt::InvestmentsController.new
+    @controller = Dt::DepositsController.new
     @controller.kind_of?(DtApplicationController).should == true
   end
 end
 
 context "placeholder" do
-  fixtures :investments, :users, :projects, :groups
+  fixtures :user_transactions, :users
   
   setup do
-    @controller = Dt::InvestmentsController.new
+    @controller = Dt::DepositsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
