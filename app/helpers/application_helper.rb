@@ -89,4 +89,39 @@ module ApplicationHelper
                    end
   end
   
+  def insert_tabbed_pane(controllers,friendly_names)
+    result = "<div><ul class='tabselector' id='tabcontrol1'>"
+    i = 0
+    for controller in controllers         
+      if i == 0
+        result += "<li class='tab-selected' id='" + controller + "_tab'>"
+      else 
+        result += "<li class='tab-unselected' id='" + controller + "_tab'>"
+      end
+      result += link_to_function(friendly_names[i], "tabselect($('" + controller + "_tab'),'\" + " + url_for(:action => 'update_table') + " + \"'); paneselect($('"+ controller + "_pane'))") + " </li>"
+       i += 1
+    end
+    i = 0        
+    result += "</ul>"
+    result += "<ul class='panes' id='panecontrol1'>"
+    
+    for controller in controllers
+      if i == 0
+          result += "<li id='"+ controller + "_pane' class='pane-selected'>"
+      else
+         result += "<li id='"+ controller + "_pane' class='pane-unselected'>"
+      end
+      result += render :active_scaffold => 'bus_admin/' + controller
+      result += "</li>"
+      i += 1
+    end
+    result += "</ul></div>" 
+  end
+  
+  
+  
+
+  
+  
+  
 end
