@@ -1,29 +1,7 @@
-<%= javascript_include_tag 'tabbed_pane' %>
-<%= stylesheet_link_tag 'tabbed_pane' %>
+<%= insert_tabbed_pane(['bus_account','bus_user_types','bus_security_levels','bus_secure_actions'],
+					   ['Bus Users','Bus User Types','Bus Security Levels', 'Bus Secure Actions' ])
+ %>
+	
 
-<div><ul class="tabselector" id="tabcontrol1">
-  <li class="tab-selected" id="bus_users_tab">
-    <%= link_to_function('Bus Users', "tabselect($('bus_users_tab'),'" + url_for(:action => 'update_table') + "'); paneselect($('bus_users_pane'))") %></li>
-  <li class="tab-unselected" id="bus_user_types_tab">
-    <%= link_to_function('Bus User Types', "loadPane($('bus_user_types_pane'),'" + url_for(:action => 'update_table') + "'), tabselect($('bus_user_types_tab')); paneselect($('bus_user_types_pane'))") %></li>
-  <li class="tab-unselected" id="bus_security_levels_tab">
-    <%= link_to_function('Bus Security Level', "loadPane($('bus_security_levels_pane'),'" + url_for(:action => 'update_table') + "'), tabselect($('bus_security_levels_tab')); paneselect($('bus_security_levels_pane'))") %></li>
-   <li class="tab-unselected" id="bus_secure_actions_tab">
-    <%= link_to_function('Bus Secure Actions', "loadPane($('bus_secure_actions_pane'),'" + url_for(:action => 'update_table') + "'), tabselect($('bus_secure_actions_tab')); paneselect($('bus_secure_actions_pane'))") %></li>
-</ul>
 
-<ul class="panes" id="panecontrol1">
-  <li id="bus_users_pane" class="pane-selected">
-   <%= render :active_scaffold => 'bus_admin/bus_account' %> 
-  </li>
-  <li id="bus_user_types_pane" class="pane-unselected">
-   <%= render :active_scaffold => 'bus_admin/bus_user_types' %> 
-  </li>
-  <li id="bus_security_levels_pane" class="pane-unselected">
-    <%= render :active_scaffold => 'bus_admin/bus_security_levels' %> 
-  </li>
-   <li id="bus_secure_actions_pane" class="pane-unselected">
-    <%= render :active_scaffold => 'bus_admin/bus_secure_actions' %> 
-  </li>
-</ul>
-</div>
+  
