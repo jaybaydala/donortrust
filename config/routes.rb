@@ -21,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bus_secure_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_secure_actions"
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measurements"
+  map.resources :users, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/users"
 
   # The priority is based upon order of creation: first created -> highest priority.
   
