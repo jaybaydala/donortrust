@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :comments, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/comments"
+  map.feedback 'bus_admin/feedback', :controller => 'bus_admin/welcome', :action => 'feedback'                                                                                                    
   # front-end resources - non-admin
   map.resources :projects, 
     :controller=> 'dt/projects', 
@@ -12,8 +14,13 @@ ActionController::Routing::Routes.draw do |map|
     :path_prefix => "/dt", 
     :collection => { :signin => :get, :login => :post, :logout => :get, :activate => :get, :resend => :get }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
-
-
+  
+  # inactive_record resources
+  map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
+  map.recover_record 'bus_admin/milestone_statuses/recover_record', :controller => 'bus_admin/milestone_statuses', :action => 'recover_record'
+  map.inactive_records 'bus_admin/project_statuses/inactive_records', :controller => 'bus_admin/project_statuses', :action => 'inactive_records'
+  map.recover_record 'bus_admin/project_statuses/recover_record', :controller => 'bus_admin/project_statuses', :action => 'recover_record'
+  
   # bus_admin resources
   map.resources :indicator_measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/indicator_measurements"
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
@@ -67,7 +74,7 @@ ActionController::Routing::Routes.draw do |map|
                                                                                                                                               :search => :post, 
                                                                                                                                               :projects => :post, 
                                                                                                                                             }
-
+  map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
 
   map.resources :indicators, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/indicators"
@@ -169,11 +176,11 @@ ActionController::Routing::Routes.draw do |map|
   map.reset_password_now 'bus_admin/reset_password_now', :controller => 'bus_admin/bus_account', :action => 'reset_password_now'
   map.request_temporary_password 'bus_admin/request_temporary_password', :controller => 'bus_admin/bus_account', :action => 'request_temporary_password'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
-  
+  map.connect '', :controller => 'bus_admin/bus_account', :action => 'login'
   # Install the default route as the lowest priority.
   #map.connect "*anything",
   #            :controller => 'dt/projects'
   # HPD these should not be used / exist when using 'full' RESTful structure
   #map.connect ':controller/:action/:id.:format'
-  #map.connect ':controller/:action/:id'
+#  map.connect ':controller/:action/:id'
 end
