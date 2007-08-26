@@ -1,7 +1,73 @@
 --- 
+bus_users_006: 
+  salt: 552a6fc672ccf9b5d8fa95e57757f8d1f89d28a1
+  updated_at: 2007-08-04 02:12:53
+  crypted_password: d7d321d32d914b023b482147e5c1a2d265f50912
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "9"
+  remember_token: 
+  login: desireem
+  created_at: 2007-08-04 02:12:53
+  email: desiree.mckee@ideaca.com
+bus_users_007: 
+  salt: a147252ea762a646aab910986efa0358e32ed3e5
+  updated_at: 2007-08-04 02:43:42
+  crypted_password: b354251ab75ec2f25666262b97a68ff8e52869a1
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "10"
+  remember_token: 
+  login: raymac
+  created_at: 2007-08-04 02:13:13
+  email: raymac@shaw.ca
+bus_users_008: 
+  salt: 395da67d8e655e365cbce9edd5133d4bf644ed66
+  updated_at: 2007-08-04 02:13:42
+  crypted_password: bf054819504f7411aa9b90f671eee17e020baee6
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "11"
+  remember_token: 
+  login: leif.baradoy
+  created_at: 2007-08-04 02:13:30
+  email: leif.baradoy@christmasfuture.org
+bus_users_010: 
+  salt: 787f5f9f0454edc1fe9852657e3ac5a7b4b66bb5
+  updated_at: 2007-08-04 10:33:17
+  crypted_password: 4110430f8733b4544377dc43d3ae1962b6927831
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "13"
+  remember_token: 
+  login: jimbo
+  created_at: 2007-08-04 10:30:45
+  email: jdoree@gmail.com
+bus_users_009: 
+  salt: b34bf1cf726b1d71e66a947861ba0674e0cd0694
+  updated_at: 2007-08-04 02:47:29
+  crypted_password: d795d4a79ef704c1b8ca6205d6318b6679ec40ad
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "12"
+  remember_token: 
+  login: jay
+  created_at: 2007-08-04 02:47:29
+  email: jay.baydala@christmasfuture.org
+bus_users_011: 
+  salt: b5bdf5ba038cf788c826a52ed2a13a307fe2badd
+  updated_at: 2007-08-04 13:30:52
+  crypted_password: 3397e5fe38c1a995d43983c239fcfe676d3b5dd0
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "16"
+  remember_token: 
+  login: catienci
+  created_at: 2007-08-04 12:55:49
+  email: cristofer.atiencia@ideaca.com
 bus_users_001: 
   salt: 2817f526d5cf5e43eda4089d3e53b9881e23d05e
-  updated_at: 2007-08-07 09:54:59
+  updated_at: 2007-08-04 13:30:54
   crypted_password: fdbdc65f59f98525520866e90c3b3ef597fa0bfb
   bus_user_type_id: "1"
   remember_token_expires_at: 
@@ -12,9 +78,9 @@ bus_users_001:
   email: josh.merchant@unb.ca
 bus_users_002: 
   salt: 213c3e29a830df2ddea77cdfdd0120c7a1b5a38d
-  updated_at: 2007-06-03 11:37:21
+  updated_at: 2007-08-04 01:33:06
   crypted_password: c6266acc024e2eee5f582706cc87b9ad2c05226f
-  bus_user_type_id: 
+  bus_user_type_id: "1"
   remember_token_expires_at: 
   id: "2"
   remember_token: 
@@ -23,9 +89,9 @@ bus_users_002:
   email: phil@home.lan
 bus_users_003: 
   salt: 19259a24b474bf863396b321e016a328527e8704
-  updated_at: 2007-06-08 13:41:09
+  updated_at: 2007-08-04 01:33:02
   crypted_password: d30944dcc5951f8920028e0089becfcd06236ab4
-  bus_user_type_id: 
+  bus_user_type_id: "1"
   remember_token_expires_at: 
   id: "3"
   remember_token: 
@@ -33,13 +99,24 @@ bus_users_003:
   created_at: 2007-06-08 13:41:09
   email: bob@bob.com
 bus_users_004: 
-  salt: 3e459ffd73e38b908d02c9fbc2554e75d2bf0d1a
-  updated_at: 2007-08-07 09:54:46
-  crypted_password: c7b6c82ac82a4bbab3d99e4320b22454823d6209
+  salt: 0f2ddf950f9c021b1c4ba49f6140796576427e3c
+  updated_at: 2007-08-04 02:13:16
+  crypted_password: 8259e05250c15e247fc7ec614fe39a4990442ad7
   bus_user_type_id: "1"
   remember_token_expires_at: 
-  id: "6"
+  id: "7"
   remember_token: 
   login: testuser
-  created_at: 2007-08-07 09:54:10
+  created_at: 2007-08-04 01:33:22
   email: testuser
+bus_users_005: 
+  salt: 43087eb1856137cb95f69f4bd76e6706a0bfb55f
+  updated_at: 2007-08-04 02:24:01
+  crypted_password: fbdf7f888efff6a12c652bb84913bc79fb06d495
+  bus_user_type_id: "1"
+  remember_token_expires_at: 
+  id: "8"
+  remember_token: 
+  login: mraczynski
+  created_at: 2007-08-04 02:11:15
+  email: michael.raczynski@gmail.com
