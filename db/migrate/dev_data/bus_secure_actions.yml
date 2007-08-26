@@ -35,6 +35,10 @@ bus_secure_actions_077:
   bus_security_level_id: "16"
   permitted_actions: show
   id: "90"
+bus_secure_actions_190: 
+  bus_security_level_id: "11"
+  permitted_actions: record_management
+  id: "212"
 bus_secure_actions_161: 
   bus_security_level_id: "34"
   permitted_actions: show
@@ -51,6 +55,10 @@ bus_secure_actions_078:
   bus_security_level_id: "16"
   permitted_actions: edit
   id: "91"
+bus_secure_actions_191: 
+  bus_security_level_id: "20"
+  permitted_actions: record_mangement
+  id: "213"
 bus_secure_actions_162: 
   bus_security_level_id: "35"
   permitted_actions: list
@@ -71,6 +79,10 @@ bus_secure_actions_079:
   bus_security_level_id: "17"
   permitted_actions: edit
   id: "92"
+bus_secure_actions_192: 
+  bus_security_level_id: "23"
+  permitted_actions: record_management
+  id: "214"
 bus_secure_actions_163: 
   bus_security_level_id: "35"
   permitted_actions: edit
