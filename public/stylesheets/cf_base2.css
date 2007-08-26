@@ -1264,3 +1264,84 @@ you_tube_title {
 	right: 0;
 	padding:4px;
 }
+/* Welcome Stuff */
+#wrapper {
+	
+	text-align:center;
+}
+#header {
+	text-align:left;	
+}
+#main {
+	text-align:justify;
+}
+
+/* TableFactory - ActiveScaffold look&feel */
+td .colHeader {
+	font-family: arial,sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	font-size: 11px;
+	line-height: normal;
+	font-size-adjust: none;
+	font-stretch: normal;
+
+	background-color: #555555;
+	color: #ffffff;
+	padding-top: 2px;
+	padding-right: 15px;
+	padding-bottom: 2px;
+	padding-left: 5px;
+}
+tr .even td{
+	padding-top: 5px;
+	padding-right: 4px;
+	padding-bottom: 5px;
+	padding-left: 4px;
+	color: #333333;
+	font-family: Verdana,sans-serif;
+	font-size: 11px;
+	background-color: #e6f2ff;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #c5dbf7;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #c5dbf7;
+}
+tr .odd td{
+	padding-top: 5px;
+	padding-right: 4px;
+	padding-bottom: 5px;
+	padding-left: 4px;
+	color: #333333;
+	font-family: Verdana,sans-serif;
+	font-size: 11px;
+	background-color: #fff;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #c5dbf7;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #c5dbf7;
+}
+td .rowEnd {
+	border-right-width: 1px;
+
+border-right-style: solid;
+
+border-right-color: #cccccc;
+}
+td a.table {
+	color: #aaaaaa;
+	text-decoration: none;
+}
+
+td .even:hover{
+	background-color: #b9dcff;
+}
+.actions a #bus_admin__milestone_statuses-inactive_records--link .inactive_records action {
+	background: yellow;
+	
+}
