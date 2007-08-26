@@ -1,5 +1,5 @@
 class BusAdmin::RegionTypesController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :check_authorization
 
   active_scaffold :region_types do |config|
     config.columns =[ :name, :region_count ]

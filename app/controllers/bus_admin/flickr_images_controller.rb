@@ -1,4 +1,5 @@
 class BusAdmin::FlickrImagesController < ApplicationController
+  before_filter :login_required, :check_authorization
   # GET /bus_admin_flickr_images
   # GET /bus_admin_flickr_images.xml
   def index
@@ -75,4 +76,17 @@ class BusAdmin::FlickrImagesController < ApplicationController
     @photo = Flickr::Photo.new(params[:id])
     render :partial => 'show', :locals => {:db => true}
   end
+
+def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when("search" || "show_flickr" || "show_db_flickr" || "photos")
+        return permitted_action == 'show'
+      when("add")
+        return permitted_action == 'create'
+      when("remove")
+        return permitted_action == 'delete'
+      else
+        return false
+      end  
+ end
 end

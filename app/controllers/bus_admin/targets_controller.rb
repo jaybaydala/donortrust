@@ -1,5 +1,5 @@
 class BusAdmin::TargetsController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :check_authorization
 
   active_scaffold :targets do |config|
     config.columns =[ :description, :millennium_goal, :indicator_count, :indicators ]

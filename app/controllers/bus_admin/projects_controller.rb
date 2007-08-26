@@ -1,5 +1,5 @@
 class BusAdmin::ProjectsController < ApplicationController
-  before_filter :login_required  
+  before_filter :login_required, :check_authorization
   
   active_scaffold :project do |config|
   
@@ -86,4 +86,14 @@ class BusAdmin::ProjectsController < ApplicationController
    @note = Project.find(params[:id]).note
    render :partial => "layouts/note"   
   end
+
+  def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when("export_to_csv" || "show_project_note")
+        return permitted_action == 'show'
+      else
+        return false
+      end  
+ end
+  
 end

@@ -1,5 +1,5 @@
 class BusAdmin::CountrySectorsController < ApplicationController
-  before_filter :login_required
+ before_filter :login_required, :check_authorization
 
   active_scaffold :country_sectors do |config|
     config.columns =[ :sector, :country, :content ]#, :continent

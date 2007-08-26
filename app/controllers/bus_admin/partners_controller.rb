@@ -1,5 +1,5 @@
 class BusAdmin::PartnersController < ApplicationController
-  before_filter :login_required
+ before_filter :login_required, :check_authorization
   active_scaffold :partner do |config|
 #    config.theme = :blue
     config.columns = [ :name, :description, :partner_status, :partner_type, :contacts, :note, :partner_versions ]
@@ -43,4 +43,18 @@ class BusAdmin::PartnersController < ApplicationController
    @note = Partner.find(params[:id]).note
    render :partial => "layouts/note"   
   end
+
+def get_local_actions(requested_action,permitted_action)
+   if(requested_action == 'show_note')
+      puts 'show note note !!!!!!!!!'
+   end
+      
+   case(requested_action)
+      when('show_note' || "conditions_for_collection" || "report_parnters" || "individual_report_partners")
+        return permitted_action == 'edit' || permitted_action == 'show'
+      else
+        return false
+      end  
+ end
+
 end

@@ -7,17 +7,11 @@ class BusAdmin::BusAccountController < ApplicationController
   before_filter :login_required, :check_authorization, :except => [:login, :signup, :logout]
  
   active_scaffold :bus_user do |config|
-    config.label = "Users"     
-
-   
+    config.label = "Users"        
     config.action_links.add 'reset_password', :label => 'Reset A Password', :parameters =>{:controller=>'bus_account', :action => 'reset_password'}
     config.list.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at, :updated_at, :created_at]
     config.show.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
     config.create.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at]
-
-#     await version 1.1
-#    config.columns[:password].form_ui = :password
-#    config.columns[:password_confirmation].form_ui = :password
     config.create.columns.add [:password, :password_confirmation]
     config.update.columns.exclude [:crypted_password, :salt, :remember_token, :remember_token_expires_at, :upadted_at, :created_at]
     list.sorting = {:login => 'ASC'}
@@ -72,22 +66,6 @@ class BusAdmin::BusAccountController < ApplicationController
    
   end
 
-
-#  def signup
-#    if BusUser.new(params[:bus_user])
-#    @bus_user = BusUser.new(params[:bus_user])
-#      if @bus_user.save
-#      #puts @bus_user.login
-#      
-#      @bus_user.save!
-#      self.current_bus_user = @bus_user
-#      
-#      redirect_back_or_default(:controller => '/bus_admin/bus_account', :action => 'index')
-#      flash[:notice] = "Thanks for signing up!"
-#    end
-#    end
-#  end
-
   def signup
     @bus_user = BusUser.new(params[:bus_user])
     return unless request.method == :post
@@ -98,7 +76,6 @@ class BusAdmin::BusAccountController < ApplicationController
   rescue ActiveRecord::RecordInvalid
     render :action => 'signup'
   end
-
   
   def logout
     self.current_bus_user.forget_me if logged_in?
@@ -135,7 +112,6 @@ class BusAdmin::BusAccountController < ApplicationController
       end  
  end
  
-  
  def show_encryption
     @password = params[:new_password]
     characters = check_characters(@password)
@@ -190,6 +166,17 @@ class BusAdmin::BusAccountController < ApplicationController
   
   def inspect_password(password)
    return true
-  end
+ end
+ 
+ def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when("reset_password" || "reset_password_now" || "request_temporary_password")
+        return permitted_action == 'edit'
+      when("change_password" || "change_password_now" || "show_encryption")
+        return true      
+      else
+        return false
+      end  
+ end
 
 end

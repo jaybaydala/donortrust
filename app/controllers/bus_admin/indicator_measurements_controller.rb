@@ -1,5 +1,5 @@
 class BusAdmin::IndicatorMeasurementsController < ApplicationController
-before_filter :login_required  
+  before_filter :login_required, :check_authorization  
 
   active_scaffold :indicator_measurements do |config|
     config.columns =[ :units, :frequency_type, :indicator, :project, :measurements_count, :measurements ]

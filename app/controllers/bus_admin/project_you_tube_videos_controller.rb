@@ -1,4 +1,5 @@
 class BusAdmin::ProjectYouTubeVideosController < ApplicationController
+  before_filter :login_required, :check_authorization
   # GET /bus_admin_project_you_tube_videos
   # GET /bus_admin_project_you_tube_videos.xml
   def index
@@ -93,6 +94,18 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
     render :layout => false
   end
 
+  def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when("projcets" || "videos" || 'search')
+        return permitted_action == 'show'
+      when("add")
+        return permitted_action == 'create'
+      when("remove")
+        return permitted_action == 'delete'
+      else
+        return false
+      end  
+ end
   
 end
 

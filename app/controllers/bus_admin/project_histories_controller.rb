@@ -1,4 +1,5 @@
 class BusAdmin::ProjectHistoriesController < ApplicationController  
+  before_filter :login_required, :check_authorization
   active_scaffold do |config|
     
     config.actions = [:list, :show, :nested]

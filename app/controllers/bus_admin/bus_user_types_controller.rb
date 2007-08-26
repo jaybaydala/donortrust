@@ -23,4 +23,13 @@ class BusAdmin::BusUserTypesController < ApplicationController
     render :text => "you are tryng to complete"
   end
   
+  def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when("get_actions")
+        return permitted_action == 'edit' ||  permitted_action == 'create'
+      else
+        return false
+      end  
+ end
+  
 end

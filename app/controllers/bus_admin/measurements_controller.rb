@@ -1,5 +1,6 @@
 class BusAdmin::MeasurementsController < ApplicationController
-  before_filter :login_required
+
+  before_filter :login_required, :check_authorization
 
   active_scaffold :measurements do |config|
     config.columns =[ :value, :indicator_measurement, :date, :comment ]

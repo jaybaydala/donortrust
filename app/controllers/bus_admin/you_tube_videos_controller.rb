@@ -3,7 +3,7 @@ require 'uri'
 
 class BusAdmin::YouTubeVideosController < ApplicationController
 
-
+  before_filter :login_required, :check_authorization
   def index
     @you_tube_videos = YouTubeVideo.find(:all)
     @you_tube_video_pages, @you_tube_videos = paginate_array(params[:page],@you_tube_videos , 20)
@@ -129,5 +129,18 @@ class BusAdmin::YouTubeVideosController < ApplicationController
     you_tube_db_video = RubyTube.new().get_video(params[:id])
     render :partial => 'show_video', :locals => {:you_tube_db_video => you_tube_db_video}
   end
+  
+  def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when('list_by_popular' || 'edit_video' || 'show_video')
+        return permitted_action == 'show'
+      when("add")
+        return permitted_action == 'create'
+      when("remove")
+        return permitted_action == 'destroy'
+      else
+        return false
+      end  
+ end
   
 end

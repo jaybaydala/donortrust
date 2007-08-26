@@ -1,5 +1,5 @@
 class BusAdmin::ProgramsController < ApplicationController
-  before_filter :login_required  
+  before_filter :login_required, :check_authorization 
   
   active_scaffold :programs do |config|
     config.columns = [ :name, :contact, :projects_count, :projects, :note ]
@@ -15,5 +15,13 @@ class BusAdmin::ProgramsController < ApplicationController
   def show_program_note   
    @note = Program.find(params[:id]).note
    render :partial => "layouts/note"   
-  end
+ end
+  def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when("show_program_note")
+        return permitted_action == 'show'
+      else
+        return false
+      end  
+ end
 end

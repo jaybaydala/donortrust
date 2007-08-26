@@ -1,4 +1,5 @@
 class BusAdmin::ProjectFlickrImagesController < ApplicationController
+  before_filter :login_required, :check_authorization
   # GET /bus_admin_project_flickr_images
   # GET /bus_admin_project_flickr_images.xml
   def index
@@ -49,4 +50,14 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
     render :project => 'project'
   end
 
+  def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when("add")
+        return permitted_action == 'create'
+      when("remove")
+        return permitted_action == 'delete'
+      else
+        return false
+      end  
+ end
 end

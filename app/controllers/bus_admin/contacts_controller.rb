@@ -1,5 +1,6 @@
 class BusAdmin::ContactsController < ApplicationController
-  #before_filter :login_required
+  before_filter :login_required, :check_authorization
+  
   
   active_scaffold :contact do |config|    
     config.label = "Contacts"
@@ -18,6 +19,8 @@ class BusAdmin::ContactsController < ApplicationController
     config.subform.columns.exclude :fax_number,:web_address, :department, :continent, :country, :region, :urban_centre, :address_line_1, :address_line_2, :postal_code
     
   end
+
+
 
   def populate_contact_countries
     if params[:record_continent] != "" and params[:record_continent] != "null"  
@@ -66,4 +69,15 @@ class BusAdmin::ContactsController < ApplicationController
     puts @result
     render :partial => "bus_admin/contacts/urban_centre_form"
   end
+
+  def get_local_actions(requested_action,permitted_action)
+   case(requested_action)
+      when("populate_contact_countries" || "populate_contact_regions" || "populate_contact_urban_centres")
+        return permitted_action == 'edit' || permitted_action == 'create'
+      else
+        return false
+      end  
+ end
+
+
 end
