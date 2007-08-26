@@ -18,22 +18,24 @@ class ApplicationController < ActionController::Base
   end
   
   def check_authorization
-    
+    if logged_in?
     user = BusUser.find(session[:user])
     user_type = user.bus_user_type
     requested_action = action_name
     requested_controller = self.class.controller_path
+    requested_controller_id = self;
     unless user_type.bus_secure_actions.detect{|bus_secure_action|
-      #  puts "Permitted action: " + bus_secure_action.permitted_actions.to_s + " Desired Action: " + requested_action.to_s + " With controller: " + requested_controller
+        puts "Permitted action: " + bus_secure_action.permitted_actions.to_s + " Desired Action: " + requested_action.to_s + " With controller: " + requested_controller
         if direct_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s ) ||
-           indirect_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s )
+           indirect_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s, requested_controller_id )
             return true
         end
       }
       redirect_to('/bus_admin/home')
       flash[:notice] = "You are not authorized to view the page you requested" 
-      
+     
       return false
+    end
     end
   end
 
@@ -45,10 +47,10 @@ class ApplicationController < ActionController::Base
     return (requested_action == permitted_action) && (requested_controller == permitted_controller)
   end
   
-  def indirect_approve (requested_action, permitted_action, requested_controller, permitted_controller)
+  def indirect_approve (requested_action, permitted_action, requested_controller, permitted_controller, requested_controller_id)
     case(requested_action)
       when ("index")
-            return permitted_action == 'list' && (requested_controller == permitted_controller)
+            return (permitted_action == 'list' || permitted_action == 'show') && (requested_controller == permitted_controller)
       when("update")
              return permitted_action == 'edit' && (requested_controller == permitted_controller)
       when("table")
@@ -69,16 +71,13 @@ class ApplicationController < ActionController::Base
              return permitted_action == 'edit' && (requested_controller == permitted_controller)
       when("get_association")
              return permitted_action == 'edit' && (requested_controller == permitted_controller)
-      when("change_password_now")
-             return permitted_action == 'change_password' && (requested_controller == permitted_controller)
-      when("show_encryption")
-             return permitted_action == 'change_password' && (requested_controller == permitted_controller)
-      when("reset_password_now")
-             return permitted_action == 'reset_password' && (requested_controller == permitted_controller)
-      when("request_temporary_password")
-             return permitted_action == 'reset_password' && (requested_controller == permitted_controller)
+      when("inactive_records")
+             return permitted_action == 'record_management' && (requested_controller == permitted_controller)
+      when("recover_record")
+             return permitted_action == 'record_management' && (requested_controller == permitted_controller)      
       else
-            return false
+            defined? requested_controller_id.get_local_actions(requested_action,permitted_action)
+           
       end
   end
   
@@ -94,7 +93,32 @@ class ApplicationController < ActionController::Base
     array = array[offset..(offset + items_per_page - 1)]
     [pages, array]
   end
-
+  
+def recover_record
+    puts self.class.controller_path + " THIS IS HTE CLASS"
+    record = self.get_model.find_with_deleted(params[:id])
+    record.deleted_at = nil
+    record.update
+    puts "Redirecting to: " + self.class.controller_path
+    redirect_to("/" + self.class.controller_path)
+  end
+  
+  def inactive_records
+    @inactive_records = Array.new(self.get_model.count_with_deleted("deleted_at = !null"))
+    @record = self.get_model
+     for record in self.get_model.find_with_deleted(:all)
+        if record.deleted_at != nil
+           @inactive_records.push(record)
+        end
+     end
+    if !@inactive_records.empty?
+      render :partial => 'bus_admin/deleted_records/inactive_records'
+    else
+      render :text => "There are no deleted records"
+    end
+    
+  end
+  
 protected
   def set_user
     BusAdmin::UserInfo.current_user = session[:user]
