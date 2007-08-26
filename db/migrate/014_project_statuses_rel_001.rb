@@ -5,6 +5,7 @@ class ProjectStatusesRel001 < ActiveRecord::Migration
     create_table :project_statuses do |t|
       t.column :name, :string, :limit =>50, :null => false
       t.column :description, :text
+      t.column :deleted_at, :datetime
     end # project_statuses    
     
     if (ENV['RAILS_ENV'] == 'development')

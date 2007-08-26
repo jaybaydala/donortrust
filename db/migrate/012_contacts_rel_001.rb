@@ -16,6 +16,7 @@ class ContactsRel001 < ActiveRecord::Migration
       t.column :address_line_1, :string
       t.column :address_line_2, :string
       t.column :postal_code, :string, :limit => 12
+      t.column :deleted_at, :datetime
     end # contacts
     
     

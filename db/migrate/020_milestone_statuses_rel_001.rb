@@ -5,6 +5,7 @@ class MilestoneStatusesRel001 < ActiveRecord::Migration
     create_table :milestone_statuses do |t|
       t.column :name, :string, :null => false, :limit => 50
       t.column :description, :text
+      t.column :deleted_at, :datetime
     end #milestone_statuses
     
     if (ENV['RAILS_ENV'] == 'development')
