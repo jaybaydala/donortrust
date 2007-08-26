@@ -118,7 +118,82 @@ module ApplicationHelper
     result += "</ul></div>" 
   end
   
+    def tableFactory(objects, className, excludeList, joinNameHumanName, joinName, name)
+    #Build Row Header
+    result = append("<div class='tableFactory'","<table cellspacing=0><tr>")
+      for column in className.content_columns
+        if(!exclude(column.name, excludeList))
+          result = append(result,("<td class='colHeader'>"+ column.human_name + "</td>"))
+        end
+      end
+      
+      
+      if joinNameHumanName != nil
+        for i in 0...joinNameHumanName.length
+          result = append(result,("<td class='colHeader'>"+ joinNameHumanName[i] + "</td>"))
+        end
+      end
+      
+      result = append(result,"<td class='colHeader'>Functions</td>")
+      result = append(result,"</tr>")
+    
+    boolean = true
+    for object in objects 
+        if(boolean)
+            rowClass = 'even'
+        else
+            rowClass = 'odd'
+        end
+        boolean = !boolean
+
+      result = append(result,("<tr class=" + rowClass + ">"))
+      for column in className.content_columns
+        if(!exclude(column.name, excludeList))
+          result = append(result, ("<td>" + object.send(column.name).to_s + "</td>"))
+        end
+      end
+      
+      if joinName != nil
+        for i in 0...joinName.length
+          if(name[i])
+            result = append(result,("<td>"+ object.send(joinName[i]).name.to_s + "</td>"))
+          else
+            result = append(result,("<td>"+ object.send(joinName[i]).id.to_s + "</td>"))
+          end
+        end
+      end
+      
+      
+#      edit = link_to 'Edit', {:action => 'edit', :id => object}, :class => 'table'
+#      delete = link_to 'Remove', { :action => 'destroy', :id => object }, :confirm => 'Are you sure?', :post => true, :class => 'table'
+      recover = link_to "Recover", {:action => 'recover_record', :id => object }, :confirm => 'Recover record [' + object.name.to_s + '] ?'
+      
+      result = append(result, "<td class='rowEnd'>")
+      result = append(result, recover)
+      result = append(result, "</td>")
+    end
+    
+    result = append(result,"</table></div>")
+    return result
+  end
   
+  def append(result, str)
+     result + str;
+  end
+
+  def exclude(str, list)
+    result = false
+    if list != nil
+      for i in 0...list.length
+        if(list[i] == str)
+          result = true;
+          break;
+        end
+      end
+    end
+
+    return result;
+  end
   
 
   
