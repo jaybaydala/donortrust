@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :comments, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/comments"
-  map.feedback 'bus_admin/feedback', :controller => 'bus_admin/welcome', :action => 'feedback'                                                                                                    
+  map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
+ 
   # front-end resources - non-admin
   map.resources :projects, 
     :controller=> 'dt/projects', 
