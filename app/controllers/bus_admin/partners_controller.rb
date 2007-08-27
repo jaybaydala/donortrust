@@ -46,7 +46,7 @@ class BusAdmin::PartnersController < ApplicationController
 
 def get_local_actions(requested_action,permitted_action)
    if(requested_action == 'show_note')
-      puts 'show note note !!!!!!!!!'
+#      puts 'show note note !!!!!!!!!'
    end
       
    case(requested_action)

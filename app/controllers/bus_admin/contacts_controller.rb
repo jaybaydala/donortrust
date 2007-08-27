@@ -50,7 +50,7 @@ class BusAdmin::ContactsController < ApplicationController
     else
       @result = "<select id='record_region' class='region-input' name='record[region][id]'><option value=''></option></select>"
     end
-    puts @result
+#    puts @result
     render :partial => "bus_admin/contacts/region_form"
   end
   

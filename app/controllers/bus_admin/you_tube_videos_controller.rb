@@ -57,7 +57,7 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
   
   def edit_video
-    puts params.inspect
+#    puts params.inspect
     @you_tube_video = YouTubeVideo.find(params[:id])
     render :partial => 'edit'
   end
