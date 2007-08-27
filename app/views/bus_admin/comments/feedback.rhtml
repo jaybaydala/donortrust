@@ -1,0 +1,29 @@
+<h3>Leave some us feedback...</h3>
+<p>	As the Donortrust application is still undergoing development, it's important for us to hear what you have to say. 
+So leave us some feedback! Tell us what you do or don't like about the current release, and of course any bugs that you've
+experienced.  Thanks for testing the site!</p>
+<!--[form:comment]-->
+
+
+<% form_for :comment, :url =>  {:action => 'create'} do %>	
+ <%= error_messages_for :comment %>
+		<table>
+			<tr><td><label for="name">Name: </label></td>
+			<td><%= text_field  'comment', 'name'%></td></tr>
+			<tr><td><label for="email">Email: </label></td>
+			<td><%= text_field 'comment', 'email' %></td></tr>
+			<tr><td><label for="comment">Comment: </label>
+			</td><td><%= text_area 'comment', 'comment'%></td></tr>
+			
+		</table>
+		
+	<%= submit_tag as_('Submit')%>
+	 <%= link_to as_('View others!'), params_for(:action => 'list'), :class => 'cancel' %>
+	<% end %>
+   
+		
+	
+	
+	
+<%= end_form_tag %>
+<!--[eoform:comment]-->
