@@ -58,8 +58,10 @@ class Program < ActiveRecord::Base
     if total_undefined then
       total_days = "undefined"
     end
+    total_days = 0 if total_days < 0
     return total_days
   end
+  
   
   def get_percent_raised
     percent_raised = 0
