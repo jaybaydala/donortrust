@@ -11,7 +11,7 @@ class BusAdmin::PartnerTypesController < ApplicationController
     create.columns.exclude [ :partners_count, :partners ]
     config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
  
-    #show.columns.exclude
+    config.label = "Partner Types"
   end
    def get_model
     return PartnerType
