@@ -21,3 +21,4 @@ class MembershipsRel001 < ActiveRecord::Migration
     drop_table :memberships
   end
 end
+

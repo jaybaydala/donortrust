@@ -1,4 +1,5 @@
 class MillenniumGoal < ActiveRecord::Base
+  acts_as_paranoid
   has_many :targets
 
   validates_presence_of :description
@@ -6,17 +7,6 @@ class MillenniumGoal < ActiveRecord::Base
 
   def to_label  
     "#{description}"
-  end
-
-  def destroy
-    result = false
-    if targets.count > 0
-#      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Targets" )
-      raise( "Can not destroy a #{self.class.to_s} that has Targets" )
-    else
-      result = super
-    end
-    return result
   end
 
   def target_count

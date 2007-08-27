@@ -1,7 +1,7 @@
 class Target < ActiveRecord::Base
-
-belongs_to :millennium_goal
-has_many :indicators
+  acts_as_paranoid
+  belongs_to :millennium_goal
+  has_many :indicators
 
   validates_presence_of :description
   validates_uniqueness_of :description
@@ -16,17 +16,6 @@ has_many :indicators
 
   def to_label  
     "#{description}"
-  end
-
-  def destroy
-    result = false
-    if indicators.count > 0
-#      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Indicators" )
-      raise( "Can not destroy a #{self.class.to_s} that has Indicators" )
-    else
-      result = super
-    end
-    return result
   end
 
   def indicator_count

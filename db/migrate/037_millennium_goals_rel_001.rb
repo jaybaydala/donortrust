@@ -2,6 +2,7 @@ class MillenniumGoalsRel001 < ActiveRecord::Migration
   def self.up
     create_table :millennium_goals, :force => true do |t|
       t.column :description, :string
+      t.column :deleted_at, :datetime
      
     end
     

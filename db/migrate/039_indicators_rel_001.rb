@@ -3,6 +3,7 @@ class IndicatorsRel001 < ActiveRecord::Migration
     create_table :indicators, :force => true do |t|
     t.column :target_id, :int
     t.column :description, :string
+    t.column :deleted_at, :datetime
     end
     
     if (ENV['RAILS_ENV'] == 'development')

@@ -8,5 +8,11 @@ class BusAdmin::TargetsController < ApplicationController
     update.columns.exclude [ :millennium_goal, :indicator_count, :indicators ]
     create.columns.exclude [ :millennium_goal, :indicator_count, :indicators ]
     show.columns.exclude [ :indicators ]
+     config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
+    
+  end
+  
+   def get_model
+    return Target
   end
 end

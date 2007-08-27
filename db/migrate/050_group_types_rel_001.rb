@@ -4,6 +4,7 @@ class GroupTypesRel001 < ActiveRecord::Migration
       t.column :name,             :string
       t.column :created_at,       :datetime
       t.column :updated_at,       :datetime
+      t.column :deleted_at,       :datetime
     end    
     if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")

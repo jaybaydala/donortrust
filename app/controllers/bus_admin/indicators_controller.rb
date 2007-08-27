@@ -7,6 +7,12 @@ class BusAdmin::IndicatorsController < ApplicationController
     list.columns.exclude [ :target, :indicator_measurement_count ]
     update.columns.exclude [ :target, :indicator_measurement_count ]
     create.columns.exclude [ :target, :indicator_measurement_count ]
+     config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
+    
     #show.columns.exclude [  ]
+  end
+  
+   def get_model
+    return Indicator
   end
 end

@@ -3,6 +3,7 @@ class TargetsRel001 < ActiveRecord::Migration
     create_table :targets, :force => true do |t|
     t.column :millennium_goal_id, :int, :null => false
     t.column :description, :string 
+    t.column :deleted_at, :datetime
     end
     
     if (ENV['RAILS_ENV'] == 'development')

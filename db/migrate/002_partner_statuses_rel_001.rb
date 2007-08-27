@@ -6,6 +6,7 @@ class PartnerStatusesRel001 < ActiveRecord::Migration
     create_table :partner_statuses, :force => true do |t|
       t.column :name, :string, :null => false, :limit => 25
       t.column :description, :string, :limit => 250
+      t.column :deleted_at, :datetime
     end #partner_statuses
     
     if (ENV['RAILS_ENV'] == 'development')

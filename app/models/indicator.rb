@@ -1,4 +1,5 @@
 class Indicator < ActiveRecord::Base
+  acts_as_paranoid
   belongs_to  :target
   has_many    :indicator_measurements
 
@@ -17,16 +18,6 @@ class Indicator < ActiveRecord::Base
     "#{description}"
   end
 
-  def destroy
-    result = false
-    if indicator_measurements.count > 0
-#      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Indicator Measurements" )
-      raise( "Can not destroy a #{self.class.to_s} that has Indicator Measurements" )
-    else
-      result = super
-    end
-    return result
-  end
 
   def indicator_measurement_count
     return indicator_measurements.count

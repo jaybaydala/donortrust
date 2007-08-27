@@ -166,7 +166,7 @@ module ApplicationHelper
       
 #      edit = link_to 'Edit', {:action => 'edit', :id => object}, :class => 'table'
 #      delete = link_to 'Remove', { :action => 'destroy', :id => object }, :confirm => 'Are you sure?', :post => true, :class => 'table'
-      recover = link_to "Recover", {:action => 'recover_record', :id => object }, :confirm => 'Recover record [' + object.name.to_s + '] ?'
+      recover = link_to "Recover", {:action => 'recover_record', :id => object }, :confirm => 'Recover record?'
       
       result = append(result, "<td class='rowEnd'>")
       result = append(result, recover)

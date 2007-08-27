@@ -5,6 +5,7 @@ class PartnerTypesRel001 < ActiveRecord::Migration
     create_table :partner_types, :force => true do |t|
       t.column :name, :string, :limit => 50, :null => false
       t.column :description, :string, :limit => 500, :null => false
+      t.column :deleted_at, :datetime
     end #partner_types
     
     
