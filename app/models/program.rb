@@ -62,6 +62,18 @@ class Program < ActiveRecord::Base
     return total_days
   end
   
+  def days_until_last_project_ends 
+    projects = Project.find(:all, :conditions => "program_id = " + id.to_s)  
+    days_remaining = 0
+    if projects.size > 0
+      last_project = projects[0]
+      projects.each do |project|
+        last_project = project if project.days_remaining > last_project.days_remaining
+      end
+      days_remaining = last_project.days_remaining
+    end
+    return days_remaining
+  end
   
   def get_percent_raised
     percent_raised = 0
