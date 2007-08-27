@@ -95,11 +95,9 @@ class ApplicationController < ActionController::Base
   end
   
 def recover_record
-    puts self.class.controller_path + " THIS IS HTE CLASS"
     record = self.get_model.find_with_deleted(params[:id])
     record.deleted_at = nil
     record.update
-    puts "Redirecting to: " + self.class.controller_path
     redirect_to("/" + self.class.controller_path)
   end
   
