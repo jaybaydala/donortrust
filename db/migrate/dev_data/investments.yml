@@ -1,12 +1,8 @@
 one:
   id: 1
-  amount: 200.00
   project_id: 1
-  user_id: 1
   group_id: 1
 two:
   id: 2
-  amount: 400.00
   project_id: 1
-  user_id: 1
   group_id: 2

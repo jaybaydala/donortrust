@@ -101,6 +101,7 @@ class Dt::AccountsController < DtApplicationController
     self.current_user = User.authenticate(params[:login], params[:password])
     respond_to do |format|
       if logged_in?
+        session[:tmp_user] = nil
         if params[:remember_me] == "1"
           self.current_user.remember_me
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
