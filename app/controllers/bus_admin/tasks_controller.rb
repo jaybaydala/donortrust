@@ -1,5 +1,5 @@
 class BusAdmin::TasksController < ApplicationController
-  before_filter :login_required #, :check_authorization
+  before_filter :login_required , :check_authorization
 
   active_scaffold :tasks do |config|
     config.columns =[ :milestone, :name, :start_date, :end_date, :etc_date, :description, :task_versions ]
