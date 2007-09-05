@@ -1,5 +1,5 @@
 class BusAdmin::MilestonesController < ApplicationController
-  before_filter :login_required#, :check_authorization
+  before_filter :login_required, :check_authorization
 
   active_scaffold :milestones do |config|
     config.columns =[ :project, :name, :target_date, :description, :milestone_status,
