@@ -1,4 +1,7 @@
+require 'acts_as_paranoid_versioned'
 class Project < ActiveRecord::Base
+  acts_as_paranoid_versioned
+  
   after_save :create_project_history
   after_save :save_project_history  
   
@@ -6,7 +9,9 @@ class Project < ActiveRecord::Base
   belongs_to :program
   belongs_to :partner
   has_many :project_histories
+  
   has_many :milestones, :dependent => :destroy
+  
   belongs_to :urban_centre
   belongs_to :contact
   has_and_belongs_to_many :groups

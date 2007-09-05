@@ -1,4 +1,7 @@
+require 'acts_as_paranoid_versioned'
 class Program < ActiveRecord::Base
+  acts_as_paranoid_versioned
+  
   has_many :projects, :dependent => :destroy
   belongs_to :contact
 

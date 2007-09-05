@@ -1,5 +1,4 @@
 require 'active_record/fixtures'
-
 class PartnersRel001 < ActiveRecord::Migration
   def self.up
     create_table :partners do |t|
@@ -9,7 +8,11 @@ class PartnersRel001 < ActiveRecord::Migration
       t.column :partner_status_id, :integer
       t.column :version, :integer
       t.column :note, :text
+      t.column :deleted_at, :datetime
+      t.column :version, :integer
     end #partners   
+    
+    Partner.create_versioned_table
     
     #Partner.create_versioned_table
     
@@ -21,5 +24,6 @@ class PartnersRel001 < ActiveRecord::Migration
   
   def self.down
     drop_table :partners
+    Partner.drop_versioned_table
   end
 end

@@ -1,5 +1,8 @@
 require 'digest/sha1'
+require 'acts_as_paranoid_versioned' 
 class User < ActiveRecord::Base
+  #acts_as_versioned
+  acts_as_paranoid_versioned
   has_many :memberships
   has_many :groups, :through => :memberships
   has_many :transactions

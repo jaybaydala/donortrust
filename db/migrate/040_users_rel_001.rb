@@ -1,6 +1,7 @@
+require 'active_record/fixtures'
 class UsersRel001 < ActiveRecord::Migration
   def self.up
-    create_table "users", :force => true do |t|
+      create_table "users", :force => true do |t|
       t.column :login,                     :string
       t.column :first_name,                :string
       t.column :last_name,                 :string
@@ -18,7 +19,13 @@ class UsersRel001 < ActiveRecord::Migration
       t.column :remember_token_expires_at, :datetime
       t.column :activation_code,           :string, :limit => 40
       t.column :activated_at,              :datetime
+      #t.column :active,                    :boolean, :default => true
+      t.column :deleted_at, :datetime
+      t.column :version, :integer
     end
+    
+    User.create_versioned_table
+    
     if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
       Fixtures.create_fixtures(directory, "users") if File.exists? "#{directory}/users.yml"
@@ -27,5 +34,6 @@ class UsersRel001 < ActiveRecord::Migration
 
   def self.down
     drop_table "users"
+    User.drop_versioned_table
   end
 end

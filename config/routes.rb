@@ -154,8 +154,8 @@ ActionController::Routing::Routes.draw do |map|
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :milestones,  :controller => "bus_admin/milestones",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :milestone_versions, :controller => "bus_admin/milestone_versions",
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+  #map.resources :milestone_versions, :controller => "bus_admin/milestone_versions",
+  #  :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :tasks,       :controller => "bus_admin/tasks",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :task_versions, :controller => "bus_admin/task_versions",

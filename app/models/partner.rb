@@ -1,5 +1,6 @@
+require 'acts_as_paranoid_versioned'
 class Partner < ActiveRecord::Base
-  acts_as_versioned
+  acts_as_paranoid_versioned
 
 #  after_save  :create_partner_history
 #  after_save :save_partner_history
