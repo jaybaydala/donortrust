@@ -5,7 +5,10 @@ class User < ActiveRecord::Base
   acts_as_paranoid_versioned
   has_many :memberships
   has_many :groups, :through => :memberships
-  has_many :transactions
+  has_many :user_transactions
+  has_many :deposits
+  has_many :investments
+  has_many :gifts
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password

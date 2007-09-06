@@ -8,10 +8,6 @@ context "Investment" do
   setup do
   end
 
-  specify "Investment should extend UserTransactionType" do
-    Investment.base_class.should.be UserTransactionType
-  end
-
   specify "Investment table should be 'investments'" do
     Investment.table_name.should.equal 'investments'
   end

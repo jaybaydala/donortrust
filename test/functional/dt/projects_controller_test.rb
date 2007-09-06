@@ -7,7 +7,6 @@ class Dt::ProjectsController; def rescue_action(e) raise e end; end
 context "Dt::Projects inheritance" do
   specify "should inherit from DtApplicationController" do
     @controller = Dt::ProjectsController.new
-  pp @controller
     @controller.kind_of?(DtApplicationController).should == true
   end
 end

@@ -27,7 +27,7 @@ class CreditCard
     digits = ""
     ndx = 0
     cc.scan(/./) {|c|
-      digits += (ndx % 2 == 0 ? c.to_i * 2 : c).to_s
+      digits += (ndx % 2 == 1 ? c.to_i * 2 : c).to_s
       ndx+=1
     }
      
@@ -37,8 +37,7 @@ class CreditCard
       sum += d.to_i
     }
 
-
     # Valid card numbers will be transformed into a multiple of 10 
-    return sum%10 ? true : false
+    return sum%10 == 0 ? true : false
   end
 end

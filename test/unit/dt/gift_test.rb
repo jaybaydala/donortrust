@@ -8,10 +8,6 @@ context "Gift" do
   setup do
   end
 
-  specify "Gift should extend UserTransactionType" do
-    Gift.base_class.should.be UserTransactionType
-  end
-
   specify "Gift table should be 'gifts'" do
     Gift.table_name.should.equal 'gifts'
   end

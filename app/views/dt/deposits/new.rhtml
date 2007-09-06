@@ -1,0 +1,36 @@
+<div id="leftColW2">
+<h1>Deposit</h1>
+<%= error_messages_for :deposit %>
+<% form_for(:deposit, :url => dt_confirm_deposits_path, :html => {:id => "depositform", :name => "depositform"}) do |f| %>
+<p>Please enter your personal information. Your personal information, as entered below will be used to authorize your credit card. Please enter the information accurately. We will also update your account with the information you enter here.</p>
+<div class="userform">
+	<ul class="formsection">
+		<li class="header"><h2>Payment details</h2></li>
+		<li><label for="deposit_amount">Deposit Amount</label><%= f.text_field :amount %></li>
+		<li><label for="deposit_credit_card">Credit Card</label><%= f.text_field :credit_card %></li>
+		<li><label for="deposit_expiry_month">Card Expiry</label>
+			<%= f.select("expiry_month", %w{01 02 03 04 05 06 07 08 09 10 11 12}.collect {|m| [ m, m ] }, { :include_blank => true, :selected => @deposit.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) %>/<%= f.select("expiry_year", %w{0 1 2 3 4 5 6 7}.collect {|y| 
+				d = Date.civil(Date.today.year+y.to_i) 
+				[ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
+			</li>
+	</ul>	
+
+	<%= error_messages_for :user %>
+	<ul class="formsection">
+		<li class="header"><h2>Personal Information</h2></li>
+		<li><label for="user_first_name">First Name</label><%= text_field('user', 'first_name') %></li>
+		<li><label for="user_first_name">Last Name</label><%= text_field('user', 'last_name') %></li>
+		<li><label for="user_address">Address</label><%= text_field('user', 'address') %></li>
+		<li><label for="user_city">City</label><%= text_field('user', 'city') %></li>
+		<li><label for="user_province">Province</label><%= text_field('user', 'province') %></li>
+		<li><label for="user_postal_code">Postal Code</label><%= text_field('user', 'postal_code') %></li>
+		<li><label for="user_country">Country</label><%= text_field('user', 'country') %></li>
+	</ul>	
+
+	<%= submit_tag 'continue', :class => 'buttonsubmit' %>
+</div>
+<% end %>
+</div>
+<div id="rightColN">
+	
+</div>

@@ -3,13 +3,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+	<title>::: ChristmasFuture :::</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="description" content="" />
 	<meta name="keywords" content="ChristmasFuture, Change the world for good." />
-	<title>ChristmasFuture</title>
-<%= javascript_include_tag :defaults %>
-<%= stylesheet_link_tag 'dt/base.css', :media => 'all' %>
-<!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css' %><![endif]-->
+	<%= javascript_include_tag 'prototype' %>
+	<%= javascript_include_tag 'effects' %>
+	<%= javascript_include_tag 'dragdrop' %>
+	<%= javascript_include_tag 'controls' %>
+	<%= javascript_include_tag 'dt/application' %>
+	<%= stylesheet_link_tag 'dt/base.css', :media => 'all' %>
+	<%= stylesheet_link_tag 'dt/navigation.css', :media => 'all' %>
+	<!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css' %><![endif]-->
 </head>
 <body class="current">
 <div id="container">
@@ -26,24 +31,23 @@
 <%= yield  %>
 
 </div><!-- #contentContainer Ends -->
-</div><!-- #content Ends -->
-
 <div id="footer">
 <ul class="footer li">
 	<li>2007 &copy; <a href="http://www.christmasfuture.org/" target="_blank">ChristmasFuture Foundation</a>, All Rights Reserved.</li>
 	<li>Tel: 403.835.5444  </li>
-	<li>Email: <script language="javascript">
+	<li>Email: <script type="text/javascript">
     <!--
-	var emailUser = "info"
-	var emailHost = "christmasfuture.org"
-	var email = emailUser + '@' + emailHost
-	document.write("<a href=" + "mail" + "to:" + email + ">" + email + "</a>")
+		var emailUser = "info"
+		var emailHost = "christmasfuture.org"
+		var email = emailUser + '@' + emailHost
+		document.write("<a href=" + "mail" + "to:" + email + ">" + email + "</a>")
 	//-->
    </script></li>
 </ul>
 <p>Terms of Use | Privacy | Copyrights</p>
 </div>
 
+</div><!-- #content Ends -->
 </div><!-- #main Ends -->
 </div><!-- #container Ends -->
 </body>

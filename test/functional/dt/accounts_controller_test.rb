@@ -31,6 +31,10 @@ context "Dt::Accounts #route_for" do
     route_for(:controller => "dt/accounts", :action => "new").should == "/dt/accounts/new"
   end
   
+  specify "should map { :controller => 'dt/accounts', :action => 'create' } to /dt/accounts" do
+    route_for(:controller => "dt/accounts", :action => "create").should == "/dt/accounts"
+  end
+  
   specify "should map { :controller => 'dt/accounts', :action => 'show', :id => 1 } to /dt/accounts/1" do
     route_for(:controller => "dt/accounts", :action => "show", :id => 1).should == "/dt/accounts/1"
   end

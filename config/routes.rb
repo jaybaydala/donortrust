@@ -14,6 +14,13 @@ ActionController::Routing::Routes.draw do |map|
     :name_prefix => 'dt_', 
     :path_prefix => "/dt", 
     :collection => { :signin => :get, :login => :post, :logout => :get, :activate => :get, :resend => :get }
+  map.resources :deposits, 
+    :controller=> 'dt/deposits', 
+    :name_prefix => 'dt_', 
+    :path_prefix => "/dt", 
+    :collection => { :confirm => :post }
+  map.resources :gifts, :controller=> 'dt/gifts', :name_prefix => 'dt_', :path_prefix => "/dt"
+  map.resources :investments, :controller=> 'dt/investments', :name_prefix => 'dt_', :path_prefix => "/dt"
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
   
   # inactive_record resources

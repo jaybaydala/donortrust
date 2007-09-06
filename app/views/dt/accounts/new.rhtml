@@ -1,3 +1,5 @@
+<%= dt_account_nav %>
+
 <div id="leftColW2">
 	<h1>Sign up</h1>
 	
@@ -5,76 +7,33 @@
 	
 	<%= error_messages_for :user %>
 	<% form_for(:user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform"}) do |f| %>
-	<div class="formInput">
-	<label for="login">Email</label>
-	<%= f.text_field :login %>
-	</div>
+	<div class="userform">
+	<ul class="formsection">
+		<li class="header">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</li>
+		<li><label for="login">Email</label><%= f.text_field :login %></li>
+		<li><label for="first_name">First Name</label><%= f.text_field :first_name %></li>
+		<li><label for="last_name">Last Name</label><%= f.text_field :last_name %></li>
+		<li><label for="display_name">Display Name</label><%= f.text_field :display_name %></li>
+	</ul>
 
-	<div style="padding:6px 0;clear:both;">
-	<div class="formnote">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
-	
-	<div class="formInput">
-	<label for="first_name">First Name</label>
-	<%= f.text_field :first_name %>
-	</div>
+	<ul class="formsection">
+		<li class="header">Please provide a password. It must be longer than 3 characters and try to make it something you'll remember.</li>
+		<li><label for="password">Password</label><%= f.password_field :password %></li>
+		<li><label for="password_confirmation">Confirm Password</label><%= f.password_field :password_confirmation %></li>
+	</ul>
 
-	<div class="formInput">
-	<label for="last_name">Last Name</label>
-	<%= f.text_field :last_name %>
-	</div>
+	<ul class="formsection">
+		<li class="header">The following fields are optional.</li>
+		<li><label for="address">Address</label><%= f.text_field :address %></li>
+		<li><label for="city">City</label><%= f.text_field :city %></li>
+		<li><label for="province">Province/State</label><%= f.text_field :province %></li>
+		<li><label for="postal_code">Postal/Zip Code</label><%= f.text_field :postal_code %></li>
+		<li><label for="country">Country</label><%= f.text_field :country %></li>
+	</ul>
 
-	<div class="formInput">
-	<label for="display_name">Display Name</label>
-	<%= f.text_field :display_name %>
-	</div>
-	</div>
+	<%= submit_tag 'Sign up', :class => 'buttonsubmit' %>
 
-
-	<div style="padding:6px 0;clear:both;">
-	<div class="formnote">Please provide a password. It must be longer than 3 characters and try to make it something you'll remember.</div>
-	
-	<div class="formInput">
-	<label for="password">Password</label>
-	<%= f.password_field :password %>
 	</div>
-
-	<div class="formInput">
-	<label for="password_confirmation">Confirm Password</label>
-	<%= f.password_field :password_confirmation %>
-	</div>
-	</div>
-
-	<div class="formnote" style="padding:6px 0;clear:both;">The following fields are optional.</div>
-	<div class="formInput">
-	<label for="address">Address</label>
-	<%= f.text_field :address %>
-	</div>
-
-	<div class="formInput">
-	<label for="city">City</label>
-	<%= f.text_field :city %>
-	</div>
-
-	<div class="formInput">
-	<label for="province">Province/State</label>
-	<%= f.text_field :province %>
-	</div>
-
-	<div class="formInput">
-	<label for="postal_code">Postal/Zip Code</label>
-	<%= f.text_field :postal_code %>
-	</div>
-
-	<div class="formInput">
-	<label for="country">Country</label>
-	<%= f.text_field :country %>
-	</div>
-
-	<div id="submitButtonSmall" name="commit" type="submit" value="Sign up"><a href="javascript:document.signupform.submit()">Sign Up</a></div>
-
-	<!--<div class="formInput">
-	<%= submit_tag 'Sign up' %>
-	</div>-->
 	<% end -%>
 </div>
 <div id="rightColN">

@@ -1,0 +1,30 @@
+<div id="leftColW2">
+<h1>Investment</h1>
+<%= error_messages_for :user %>
+<%= error_messages_for :investment %>
+<% form_for(:investment, :url => dt_investment_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
+<p>Please enter your personal information. As the donor of this donation(s), your personal information, as entered below will appear on your charitable tax receipt. Please enter the information accurately, as donation tax receipts cannot be altered.</p>
+<div class="userform">
+<ul class="formsection">
+	<li class="header"><h2>Personal Information</h2></li>
+	<li><label for="user_first_name">First Name</label><%= text_field('user[]', 'first_name') %></li>
+	<li><label for="user_first_name">Last Name</label><%= text_field('user[]', 'last_name') %></li>
+	<li><label for="user_address">Address</label><%= text_field('user[]', 'address') %></li>
+	<li><label for="user_city">City</label><%= text_field('user[]', 'city') %></li>
+	<li><label for="user_province">Province</label><%= text_field('user[]', 'province') %></li>
+	<li><label for="user_postal_code">Postal Code</label><%= text_field('user[]', 'postal_code') %></li>
+	<li><label for="user_country">Country</label><%= text_field('user[]', 'country') %></li>
+</ul>	
+<ul class="formsection">
+	<li class="header"><h2>Investment Details</h2></li>
+	<li><label for="investment_amount">Project</label><%= f.hidden_field :project_id %></li>
+	<li><label for="investment_amount">Investment Amount</label><%= f.text_field :amount %></li>
+</ul>	
+
+	<%= submit_tag 'continue', :class => 'buttonsubmit' %>
+</div>
+<% end %>
+</div>
+<div id="rightColN">
+	
+</div>
