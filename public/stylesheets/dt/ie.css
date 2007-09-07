@@ -1,0 +1,28 @@
+.textsm a:link, .textsm a:visited {
+	cursor: hand;
+}
+.textsm a:hover, .textsm a:active {	
+	cursor: hand;
+}
+
+p a:link, p a:visited {
+	cursor: hand;
+}
+p a:hover, p a:active {	
+	cursor: hand;
+}
+
+
+.dateStamp a:link, .dateStamp a:visited {
+	cursor: hand;
+}
+.dateStamp a:hover, .dateStamp a:active {	
+	cursor: hand;
+}
+
+#tableFooter a:link, #tableFooter a:visited {
+	cursor: hand;
+}
+#tableFooter a:hover, #tableFooter a:active {	
+	cursor: hand;
+}

@@ -97,78 +97,13 @@ table caption {
 	width: auto;
 }
 
-/* NAVIGATION STYLES */
-
-/* Top Navigation Styles */
-
-#topNav {
-	margin: 0px 0px 0 18px;
-	padding: 6px 0 0 10px;
-	background: #CCC url(/images/dt/nav_elements/topNavBar.jpg) no-repeat;
-	height: 29px;
-	width: 714px;
-	color: #666;
-	text-align:left;
-	/* Box-model hack */
-	voice-family: "\"}\"";
-	voice-family: inherit;
-	height: 29px;
-	width: 714px;
+/* TYPOGRAPHY STYLES */
+.highlight {
+	background:#FFE;
 }
-.topNav li {
-	font: 12px Arial, Helvetica, sans-serif;
-	color: #FFF;
-	font-weight: normal;
-	line-height:24px;
-	text-decoration:none;
-	display: inline;
-	list-style-type: none;
-	background-color: transparent;
+div.highlight {
+	padding:4px;
 }
-.topNav li a:link, .topNav li a:visited {
-	display: inline;
-	list-style-type: none;
-	text-decoration: none;
-	color: #666;
-	font: 12px Arial, Helvetica, sans-serif;
-	line-height:24px;
-	font-weight: normal;
-	padding: 10px 14px 9px 14px;
-}
-.topNav li a:hover, .topNav li a:active {
-	display: inline;
-	list-style-type: none;
-	text-decoration: none;
-	color: #FFF;
-	font: 12px Arial, Helvetica, sans-serif;
-	line-height:24px;
-	font-weight: normal;
-	background-color:#999;
-	padding: 10px 14px 9px 14px;
-}
-body#about li.on0 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 10px 13px;}
-body#projects li.on1 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 10px 13px;}
-body#getInvolved li.on2 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 9px 13px;}
-body#schoolProgram li.on3 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 9px 13px;}
-body#resources li.on4 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 9px 13px;}
-body#contact li.on5 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 9px 13px;}
-
-#topNavSearch {
-	padding: 2px 10px 0 0px;
-	margin-right: 0px;
-	background: none ;
-	height: 22px;
-	width: 158px;
-	color: #666;
-	text-align:left;
-	/* Box-model hack */
-	voice-family: "\"}\"";
-	voice-family: inherit;
-	height: 22px;
-	width: 158px;
-	float:right;
-}
-#topNavSearch input {width:115px;}
 
 /* FEATURE STYLES */
 
@@ -219,7 +154,7 @@ body#contact li.on5 { border-left: 1px solid #999; border-right: 1px solid #999;
 #progessbar {
 	width:722px;
 	height:30px;
-	background: #CCC url(/images/dt/feature_graphics/progress_bars/progressBar_sample.jp) no-repeat top;
+	background: #CCC url(/images/dt/feature_graphics/progress_bars/progressBar_sample.jpg) no-repeat top;
 	margin: 0 0 0px 18px;
 	border-right: 1px solid #999;
 	border-left: 1px solid #999;
@@ -383,10 +318,6 @@ h5 {
 	border-bottom: 1px solid #666;
 	letter-spacing: 1px;
 }
-
-#leftColW table, #leftColW2 table, #leftColN table {
-	margin: 0px 0px 10px 7px;
-}
 p {
 	font: 13px/22px Georgia, "Times New Roman", Times, serif;
 	padding: 0px 0px 10px 7px;
@@ -428,12 +359,12 @@ p {
 	}
 .textsm a:link, .textsm a:visited {
 	color: #333;
-	cursor: pointer; cursor: hand;
+	cursor: pointer;
 	text-decoration: underline;
 }
 .textsm a:hover, .textsm a:active {	
 	color: #F60;
-	cursor: pointer; cursor: hand;
+	cursor: pointer;
 	text-decoration: underline;
 }
 .textsm_bd {
@@ -450,21 +381,6 @@ p {
 	padding: 0px 25px 10px 10px;
 	color: #CCC;
 	border-left: 0px solid #ccc;
-}
-
-
-div.notice, div.activation, div.error {
-	padding:6px;
-	margin-bottom:.75em;
-	background: #D8DEE7;
-	border:1px solid #AAA;
-}
-div.error {
-	background: #F99;
-	font-weight:bold;
-}
-div.notice {
-	font-weight:bold;
 }
 
 /* Endline is a rule (line) used for ending/separating paragraphs */
@@ -490,17 +406,16 @@ a:link, a:visited {
 	color: #333;
 }
 a:hover, a:active{  
-  	text-decoration: none;
+ 	text-decoration: none;
 	color: #F60;
 }
 p a:link, p a:visited {
 	color: #360;
-	cursor: pointer; cursor: hand;
-	text-decoration:inherit;
+	cursor: pointer;
 }
 p a:hover, p a:active {	
 	color: #F60;
-	cursor: pointer; cursor: hand;
+	cursor: pointer;
 	text-decoration:none;
 }
 
@@ -678,6 +593,7 @@ p a:hover, p a:active {
 	color: black;
 	font-weight: normal;
 	text-decoration: none;
+	text-transform:capitalize;
 	margin-left: auto;
 	margin-right: auto;
 	height: 26px; 
@@ -691,6 +607,7 @@ p a:hover, p a:active {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
+	text-transform:capitalize;
 	margin-left: auto;
 	margin-right: auto;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/submit_blue.gif) no-repeat center 0px;
@@ -703,6 +620,7 @@ p a:hover, p a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
+	text-transform:capitalize;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/submit_orange.gif) no-repeat center 0px;
 	margin-left: auto;
 	margin-right: auto;
@@ -748,6 +666,7 @@ p a:hover, p a:active {
 #buttonFindGift {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
+	text-transform:capitalize;
 	text-decoration: none;
 	height: 20px; 
     width: 92px;
@@ -762,6 +681,7 @@ p a:hover, p a:active {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
+	text-transform:capitalize;
 	padding: 2px 0 0 0;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_grey.gif) no-repeat;
 	height: 20px; 
@@ -773,6 +693,7 @@ p a:hover, p a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
+	text-transform:capitalize;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_blue.gif) no-repeat;
 	padding: 2px 0 0 0;
 	height: 20px; 
@@ -785,40 +706,121 @@ p a:hover, p a:active {
 
 /* Input Fields */
 
-/* Input Boxs, Jump Menues  */
+/* `Fields, Jump Menues, Labels  */
 
-input, select, textarea {
+#leftColW fieldset, #leftColW2 fieldset {
+	float:left; 
+	background: #D8DEE7; 
+	border: 0px solid #781351; 
+	display:block;
+	padding: 10px 143px 10px 0;
+}
+input {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #333;
-	background-color:#FFF;
 	border: 1px solid #999;
-	margin: 0;
 	padding: 2px 0px 2px 4px;
+	height: 14px;
 	font-size: 11px;
 	voice-family: "\"}\""; 
 	voice-family:inherit;
 	font-size: 11px;
+	height: 14px;
 	float:left;
 }
-input {
-	height:14px;
-}
 select {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333;
+	text-transform:capitalize;
+	background-color:#FFF;
+	border: 1px solid #999;
 	margin-right: 5px;
-	padding-top: 1px;
+	padding: 0px 0 1px 0;
 	width: 150px;
-	height:18px;
-}
-textarea {
-	margin-left:5px;
-}
-.formnote {
+	font-size: 11px;
+	voice-family: "\"}\""; 
+	voice-family:inherit;
+	font-size: 11px;
+	}
+label {
+	float:left; 
+	width:10em;
+	font: x-small Arial, Helvetica, sans-serif;
 	font-weight:bold;
+	color: #333;
+	padding-top:4px;
+	margin: 0px 0.5em 2px 0px; 
+	text-align: right; 
+	text-transform: capitalize;
+	display:block;
+}
+
+#leftColW form, #leftColW2 form {
+	width: 420px; /*395px or 420px*/
+	margin: 0px 0 10px 7px;
+	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
+	color: #333;
+}
+form {margin:0px 0 5px 0px;}
+form ul {margin:0;padding:0;}
+form li {clear: left; list-style-type: none; display: block; margin-bottom: 10px;}
+form div.userform input {width: 150px; margin: 0px 0px 0px 0; background:#FFF;}
+form div.userform input[type=submit] {display:block;width: auto; height:auto; background:#236; color:#FFF; margin:3px 0 0 105px;}
+
+#leftColW form ul.formsection {
+	border: #D8DEE7 6px solid;
+	background-color: transparent;
+	padding-bottom: 2em;
+	margin-bottom: 1em;
+}
+#leftColW2 form ul.formsection {
+	border: #EEF5FF 6px solid;
+	background-color: transparent;
+	padding-bottom: 2em;
+	margin-bottom: 1em;
+}
+form li.header {
+	background-color: #EEF5FF;
+	color: #033;
+}
+form li.header h2, form li.header h3 {
+	color: #033;
+	border-bottom: 0px;
+}
+
+div.buttonsubmit {
+	clear: left;
+	padding: 3px 0 0 105px;
+}
+div.buttonsubmit a:link, div.buttonsubmit a:visited, div.buttonsubmit a:hover, div.buttonsubmit a:active {
+	display: block;
+	height: 18px;
+	padding-top: 2px;
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: #FFF;
+	text-align: center;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+div.buttonsubmit a.small {width:52px;background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif);}
+div.buttonsubmit a.small:hover {background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif);}
+div.buttonsubmit a.medium {width:78px;background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif);}
+div.buttonsubmit a.medium:hover {background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_medium.gif);}
+
+div.errorExplanation {
+	margin:0 0 10px 0;
+	padding:4px;
+	border:2px solid #C00;
+}
+div.errorExplanation ul {
+	margin-left:2em;
 }
 
 .jumpMenu {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #666699;
+	text-transform:capitalize;
 	letter-spacing: 0px;
 	background-color:#fff;
 	border: 1px solid #95AED0;
@@ -834,6 +836,7 @@ textarea {
 .jumpMenuSM {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #666699;
+	text-transform:capitalize;
 	background-color:#fff;
 	border: 1px solid #95AED0;
 	margin-right: 0px;
@@ -845,10 +848,11 @@ textarea {
 	voice-family:inherit;
 	font-size: 9px;
 }
+
 #relatedProjects {
 	width:228px; height:25px; 
 	float: right; 
-	background: #FFF url(/images/dt/nav_elements/subNavBar.jpg) no-repeat -496px 0px;
+	background: #FFF url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat -496px 0px;
 	padding: 3px 0 5px 0;
 }
 #relatedProjects select {width: 220px; margin: 0;}
@@ -871,29 +875,14 @@ textarea {
 }
 .dateStamp a:link, .dateStamp a:visited {
 	color: #ccc;
-	cursor: pointer; cursor: hand;
+	cursor: pointer;
 }
 .dateStamp a:hover, .dateStamp a:active {	
 	color: #033;
-	cursor: pointer; cursor: hand;
+	cursor: pointer;
 }
 
 /* Sign In, Sign Up Modules */
-
-#leftColW form, #leftColW2 form {
-	float:left;
-	width: auto; height: auto; /*395px*/
-	margin: 0px 0 10px 7px;
-	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
-	color: #333;
-}
-.formInput {
-	clear:both; 
-	padding-top:5px;
-}
-.formInput label {float:left; width:150px; text-align:right; padding: 4px 0 0 0;}
-.formInput input, .formInput select {float:left; width: 150px; margin: 0 0 0 5px;}
-.formInput input[type=checkbox], .formInput input[type=submit] {width: auto;}
 
 .signInLabel {
 	font: xx-small Arial, Helvetica, sans-serif;
@@ -908,20 +897,59 @@ textarea {
 	padding: 3px 0 0px 2px;
 	float:left;
 }
+#signInWrapper {
+	float:left;
+	width:100%; height:25px;
+	font: 10px Arial, Helvetica, sans-serif;
+	color: #333;
+	padding: 0px 0 20px 0px;
+}
 #nameInput, #pwInput {
 	display: block;
 	font-family: Arial, Helvetica, sans-serif;
 	color: black;
 	width: 125px; height: 13px;
-	margin:0 0 20px 0;
+	margin:0 0 0px 0;
 	font-size: 11px;
 	voice-family: "\"}\""; 
 	voice-family:inherit;
 	font-size: 11px;
 	float: left;
 }
-#nameInput input, #pwInput input {width:115px;}
-
+#nameInput input, #pwInput input {width:115px;background: #FFF;}
+#nameInput label, #pwInput label {
+	width:7.5em;
+	font: 10px Arial, Helvetica, sans-serif;
+	color: #333;
+	font-weight: bold;
+	text-align: left; 
+	text-transform:capitalize;
+}
+#rememberMe {
+	float:left;
+	width:100%; height:18px;
+	font: 10px Arial, Helvetica, sans-serif;
+	color: #333;
+	padding: 2px 0 0 0px;
+	background:#D8DEE7;
+}
+#rememberMe input {
+	margin: 2px 5px 0 0px;
+	border:none;
+	padding:0px;
+}
+#rememberMe label {
+	float:left; 
+	width:7.5em;
+	font: 10px Arial, Helvetica, sans-serif;
+	color: #333;
+	font-weight: bold;
+	padding-top:2px;
+	margin: 0px 0em 0px 0px; 
+	text-align: left; 
+	text-transform:capitalize;
+	display:block;
+}
 #buttonSignIn {
 	float:left;
 	font: xx-small/14px Arial, Helvetica, sans-serif;
@@ -930,9 +958,9 @@ textarea {
 	text-decoration:none;
 	text-align:center;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
-	margin: 1px 0 0px 0;
+	margin: 2px 0 0px 0;
 	padding: 0px 5px 0px 0px;
-	height: 14px; width: 52px;
+	height: 18px; width: 52px;
 	display: block;
 	list-style-type: none;
 }
@@ -953,45 +981,6 @@ textarea {
 	font-weight: normal;
 	text-decoration: none;
 	text-align:center;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
-	padding: 2px 0px 2px 0px;
-	border: 0px solid #000;
-	height: 14px; width: 52px;
-	display: block;
-	list-style-type: none;
-}
-#submitButtonSmall {
-	float:left;
-	font: xx-small/14px Arial, Helvetica, sans-serif;
-	color: black;
-	font-weight: normal;
-	text-decoration:none;
-	text-align:center;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
-	margin: 4px 0 0 154px;
-	padding: 0px 5px 0px 0px;
-	height: 14px; width: 52px;
-	display: block;
-	list-style-type: none;
-	clear:left;
-}
-#submitButtonSmall a:link, #submitButtonSmall a:visited {
-	color: #FFF;
-	font-weight: normal;
-	text-decoration:none;
-	text-align:center;
-	padding: 2px 0px 2px 0px;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
-	border: 0px solid #000;
-	height: 14px; width: 52px;
-	display: block;
-	list-style-type: none;
-}
-#submitButtonSmall a:hover, #submitButtonSmall a:active {
-	color: #FFF;
-	font-weight: normal;
-	text-decoration: none;
-	text-align:center;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif) no-repeat;
 	padding: 2px 0px 2px 0px;
 	border: 0px solid #000;
@@ -999,65 +988,46 @@ textarea {
 	display: block;
 	list-style-type: none;
 }
-
-#submitButtonMedium {
+#buttonSignUp {
 	float:left;
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	font-weight: normal;
 	text-decoration:none;
 	text-align:center;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif) no-repeat;
-	margin: 4px 0 0 154px;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
+	margin: 1px 0px 0px 11.8em;
 	padding: 0px 5px 0px 0px;
-	height: 14px; width: 78px;
+	height: 18px; width: 52px;
 	display: block;
 	list-style-type: none;
 	clear:left;
 }
-#submitButtonMedium a:link, #submitButtonMedium a:visited {
+#buttonSignUp a:link, #buttonSignUp a:visited {
 	color: #FFF;
 	font-weight: normal;
 	text-decoration:none;
 	text-align:center;
 	padding: 2px 0px 2px 0px;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif) no-repeat;
+	margin-left: 0em;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
 	border: 0px solid #000;
-	height: 14px; width: 78px;
+	height: 14px; width: 52px;
 	display: block;
 	list-style-type: none;
 }
-#submitButtonMedium a:hover, #submitButtonMedium a:active {
+#buttonSignUp a:hover, #buttonSignUp a:active {
 	color: #FFF;
 	font-weight: normal;
 	text-decoration: none;
 	text-align:center;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_blue_medium.gif) no-repeat;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif) no-repeat;
 	padding: 2px 0px 2px 0px;
+	margin-left: 0em;
 	border: 0px solid #000;
-	height: 14px; width: 78px;
+	height: 14px; width: 52px;
 	display: block;
 	list-style-type: none;
-}
-
-#rememberMe {
-	float:left;
-	width:100%; height:18px;
-	margin: 0px 0 0 0;
-	font: 10px Arial, Helvetica, sans-serif;
-	color: #333;
-	font-weight: bold;
-	padding: 2px 0 0 2px;
-}
-#rememberMe input {
-	display: block;
-	margin: 2px 5px 0 0px;
-	width: 15px;
-	border:none;
-}
-#rememberMe label {
-	display: block;
-	padding: 3px 0 0 0px;
 }
 
 /* CF DONORTRUST CONTENT MODULES */
@@ -1151,64 +1121,6 @@ textarea {
 	width:100%;
 	border-bottom: 3px solid #666;
 }	
-
-/* Project Navigation Module */
-
-#subNav {
-	padding: 6px 0px 13px 10px;
-	background: #FFF url(/images/dt/nav_elements/subNavBar.gif) no-repeat 0px 0px;
-	height: 19px;
-	width: 724px;
-	text-align:left;
-	/* Box-model hack */
-	voice-family: "\"}\"";
-	voice-family: inherit;
-	height: 19px;
-	width: 724px;
-}
-#subNav li {
-	font: 12px/14px Arial, Helvetica, sans-serif;
-	color: #FFF;
-	font-weight: normal;
-	text-decoration:none;
-	display: inline;
-	list-style-type: none;
-	width: 486px;
-	height: 25px;
-	/* Box-model hack */
-	voice-family: "\"}\"";
-	voice-family: inherit;
-	width: 486px;
-	height: 25px;
-	background-color: transparent;
-}
-#subNav li a:link, #subNav li a:visited {
-	display: inline;
-	list-style-type: none;
-	text-decoration:none;
-	color: #666;
-	font: 12px Arial, Helvetica, sans-serif;
-	line-height: 14px;
-	font-weight: normal;
-	padding: 6px 15px 4px 15px;
-}
-#subNav li a:hover, #subNav li a:active {
-	display: inline;
-	list-style-type: none;
-	text-decoration:none;
-	color: #FFF;
-	font: 12px Arial, Helvetica, sans-serif;
-	line-height: 14px;
-	font-weight: normal;
-	background-color:#999;
-	padding: 6px 15px 4px 15px;
-}
-body.current00 li.on0 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
-body.current01 li.on1 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
-body.current02 li.on2 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
-body.current03 li.on3 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
-body.current04 li.on4 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
-body.current05 li.on5 { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 6px 14px 5px 14px;}
 
 /* Rating Table */
 
@@ -1306,12 +1218,12 @@ body.current05 li.on5 { border-left: 1px solid #999; border-right: 1px solid #99
 	}
 #tableFooter a:link, #tableFooter a:visited {
 	color: #333;
-	cursor: pointer; cursor: hand;
+	cursor: pointer;
 	text-decoration: underline;
 }
 #tableFooter a:hover, #tableFooter a:active {	
 	color: #F60;
-	cursor: pointer; cursor: hand;
+	cursor: pointer;
 	text-decoration: underline;
 }
 
@@ -1357,6 +1269,7 @@ body.current05 li.on5 { border-left: 1px solid #999; border-right: 1px solid #99
 	font-weight:bold;
 	padding: 2px 0px 2px 7px;
 	color: #333;
+	background-color: transparent;
 }
 .scoreBar {
 	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
@@ -1366,4 +1279,19 @@ body.current05 li.on5 { border-left: 1px solid #999; border-right: 1px solid #99
 	padding: 0px 0px 2px 0;
 	margin: 0px 0 0 0;
 	background: #390;
+}
+
+/* ACCOUNT STYLES */
+#transaction_list table {
+	border:1px #DDD solid;
+}
+#transaction_list th {
+	background:#999;
+	color:#FFF;
+	font-size:1.1em;
+	font-weight:bold;
+}
+#transaction_list td, #transaction_list th {
+	margin:0 1px 0 0;
+	padding:1px;
 }

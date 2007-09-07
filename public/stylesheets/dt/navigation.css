@@ -1,0 +1,117 @@
+/* CSS Document by David Yarema */
+
+/* NAVIGATION STYLES FOR: www.christmasfuture.org */
+
+/* NAVIGATION STYLES */
+
+/* Top (Primary) Navigation Styles */
+
+#topNav {
+	margin: 0px 0px 0 18px;
+	padding: 0px 0px 0 10px;
+	background: #CCC url(/images/dt/nav_elements/topNavBar.jpg) no-repeat;
+	height: 35px;
+	width: 714px;
+	color: #666;
+	text-align:left;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 35px;
+	width: 714px;
+}
+#topNav ul {float:left; width: 546px; padding-top:10px; padding-bottom:10px;}
+
+.topNav li {
+	font: 12px/15px Arial, Helvetica, sans-serif;
+	color: #FFF;
+	font-weight: normal;
+	text-decoration:none;
+	display: inline;
+	list-style-type: none;
+	background-color: transparent;
+}
+.topNav li a {
+	list-style-type: none;
+	text-decoration:none;
+	font: 12px/15px Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	padding: 10px 14px 10px 14px;
+}
+.topNav li a:link, .topNav li a:visited {
+	color: #666;
+}
+.topNav li a:hover, .topNav li a:active {
+	color: #FFF;
+	background-color:#999;
+}
+#topNav li.current { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 10px 13px 10px 13px;}
+#topNav li.current a:link, #topNav li.current a:visited, #topNav li.current a:hover, #topNav li.current a:active { padding:0;color:#FFF;background-color:transparent; }
+
+#topNavSearch {
+	padding: 8px 10px 0px 0px;
+	margin-bottom: 0px;
+	background: none;
+	height: 21px;
+	width: 158px;
+	color: #666;
+	text-align:left;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 21px;
+	width: 158px;
+	float:right;
+}
+#topNavSearch input {width:115px; background: white;}
+
+/* Secondary (Sub-)Navigation Module */
+
+#subNav {
+	padding: 0px 0px 13px 10px;
+	background: #FFF url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat 0px 0px;
+	height: 25px;
+	width: 486px;
+	text-align:left;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 25px;
+	width: 486px;
+}
+#subNav ul {float:left; width: 486px; padding-top:5px; padding-bottom:5px;}
+
+.subNav li {
+	font: 12px/15px Arial, Helvetica, sans-serif;
+	color: #FFF;
+	line-height:15px;
+	font-weight: normal;
+	text-decoration:none;
+	display: inline;
+	list-style-type: none;
+	width: 486px;
+	height: 25px;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	width: 486px;
+	height: 25px;
+	background-color: transparent;
+	padding-top:5px; padding-bottom:5px;
+}
+.subNav li a {
+	list-style-type: none;
+	text-decoration:none;
+	font: 12px/15px Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	padding: 5px 15px 5px 15px;
+}
+.subNav li a:link, .subNav li a:visited {
+	color: #666;
+}
+.subNav li a:hover, .subNav li a:active {
+	color: #FFF;
+	background-color:#999;
+}
+#subNav li.current { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 5px 14px 5px 14px;}
+#subNav li.current a:link, #subNav li.current a:visited, #subNav li.current a:hover, #subNav li.current a:active { padding:0;color:#FFF;background-color:transparent; }
