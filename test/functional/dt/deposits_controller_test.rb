@@ -12,11 +12,9 @@ context "Dt::Deposits inheritance" do
 end
 
 context "Dt::Deposits #route_for" do
+  use_controller Dt::DepositsController
   setup do
-    @controller = Dt::DepositsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    @rs         = ActionController::Routing::Routes
+    @rs = ActionController::Routing::Routes
   end
   
   specify "should recognize the routes" do
@@ -62,37 +60,10 @@ context "Dt::Deposits #route_for" do
   end
 end
 
-context "Dt::Deposits index behaviour"do
-  fixtures :deposits, :user_transactions, :users
-  include DtAuthenticatedTestHelper
-
-  setup do
-    @controller = Dt::DepositsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-  
-  specify "should redirect if !logged_in?" do
-    get :index
-    response.should.redirect
-  end
-
-  specify "should redirect to new if logged_in?" do
-    login_as :quentin
-    get :index
-    response.should.redirect :action => 'new'
-  end
-end
-
 context "Dt::Deposits new behaviour"do
+  use_controller Dt::DepositsController
   fixtures :deposits, :user_transactions, :users
   include DtAuthenticatedTestHelper
-  
-  setup do
-    @controller = Dt::DepositsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
   
   specify "method should exist" do
     @controller.methods.should.include 'new'
@@ -126,13 +97,13 @@ context "Dt::Deposits new behaviour"do
     get :new
     page.should.select "form[action=/dt/deposits;confirm][method=post]#depositform"
     assert_select "form#depositform input" do
-      assert_select "[id=user_first_name]"
-      assert_select "[id=user_last_name]"
-      assert_select "[id=user_address]"
-      assert_select "[id=user_city]"
-      assert_select "[id=user_province]"
-      assert_select "[id=user_postal_code]"
-      assert_select "[id=user_country]"
+      assert_select "[id=deposit_first_name]"
+      assert_select "[id=deposit_last_name]"
+      assert_select "[id=deposit_address]"
+      assert_select "[id=deposit_city]"
+      assert_select "[id=deposit_province]"
+      assert_select "[id=deposit_postal_code]"
+      assert_select "[id=deposit_country]"
       
       assert_select "[id=deposit_amount]"
       assert_select "[id=deposit_credit_card]"
@@ -146,24 +117,9 @@ context "Dt::Deposits new behaviour"do
 end
 
 context "Dt::Deposits confirm behaviour"do
+  use_controller Dt::DepositsController
   fixtures :deposits, :user_transactions, :users
   include DtAuthenticatedTestHelper
-  
-  setup do
-    @controller = Dt::DepositsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
-  def do_post(options = {})
-    deposit_params = { :amount => 200.00, :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
-    user_params = { :first_name => 'Timothy', :last_name => 'Glen' }
-    # merge the options
-    deposit_params.merge!(options[:deposit]) if options[:deposit]
-    user_params.merge!(options[:user]) if options[:user]
-    # do the post
-    post :confirm, :deposit => deposit_params, :user => user_params
-  end
   
   specify "should redirect if !logged_in?" do
     post :confirm
@@ -176,27 +132,21 @@ context "Dt::Deposits confirm behaviour"do
     response.should.not.redirect
     template.should.be "dt/deposits/confirm"
     page.should.select "form[action=/dt/deposits][method=post]#depositform"
-    assert_select "form#depositform input" do |input|
-      assert_select "[type=hidden][id=deposit_amount][value=200.00]"
-      assert_select "[type=hidden][id=deposit_credit_card][value=4111111111111111]"
-      assert_select "[type=submit]"
+    inputs = %w( input#deposit_amount input#deposit_first_name input#deposit_last_name input#deposit_address input#deposit_city input#deposit_province input#deposit_postal_code input#deposit_country input#deposit_credit_card input#deposit_card_expiry )
+    assert_select "form#depositform input" do
+      inputs.each {|f|
+        assert_select f
+      }
+      assert_select "input[type=submit]"
     end
   end
 
-  specify "should redirect if there's no amount" do
+  specify "should use new template if there's no first_name, last_name, address, city, province, postal_code, country, amount, credit_card, expiry_month or expiry_year" do
     login_as :quentin
-    post :confirm, :deposit => { :credit_card => 4111111111111111 }
-    response.should.redirect :action => 'new'
-  end
-
-  specify "should redirect if there's no credit_card or card expiry date" do
-    login_as :quentin
-    do_post( :deposit => { :credit_card => nil } )
-    response.should.redirect :action => 'new'
-    do_post( :deposit => { :expiry_month => nil } )
-    response.should.redirect :action => 'new'
-    do_post( :deposit => { :expiry_year => nil } )
-    response.should.redirect :action => 'new'
+    %w(first_name last_name address city province postal_code country amount credit_card expiry_month expiry_year).each {|f|
+      do_post :deposit => { f.to_sym => nil }
+      template.should.be 'dt/deposits/new'
+    }
   end
 
   specify "should use new template if !valid?" do
@@ -214,16 +164,21 @@ context "Dt::Deposits confirm behaviour"do
       assert_select "[type=button][onclick=javascript:history.go(-1);]"
     end
   end
+  
+  private
+  def do_post(options = {})
+    deposit_params = { :amount => 200.00, :first_name => 'Tim', :last_name => 'Glen', :address => '36 Example St.', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'CA', :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
+    # merge the options
+    deposit_params.merge!(options[:deposit]) if options[:deposit]
+    # do the post
+    post :confirm, :deposit => deposit_params
+  end
 end
 
 context "Dt::Deposits create behaviour"do
+  use_controller Dt::DepositsController
   fixtures :deposits, :user_transactions, :users
   include DtAuthenticatedTestHelper
-  setup do
-    @controller = Dt::DepositsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
   
   specify "method should exist" do
     @controller.methods.should.include 'create'
@@ -234,7 +189,7 @@ context "Dt::Deposits create behaviour"do
     should.redirect
   end
 
-  specify "should create a deposit" do
+  specify "should create a deposit and redirect to the user's account page" do
     login_as :quentin
     lambda {
       create_deposit
@@ -244,7 +199,7 @@ context "Dt::Deposits create behaviour"do
 
   private
   def create_deposit(options = {})
-    deposit_params = { :amount => 200.00, :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
+    deposit_params = { :amount => 200.00, :first_name => 'Tim', :last_name => 'Glen', :address => '36 Example St.', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'CA', :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
     # merge the options
     deposit_params.merge!(options[:deposit]) if options[:deposit]
     # do the post
@@ -252,42 +207,11 @@ context "Dt::Deposits create behaviour"do
   end
 end
 
-context "Dt::Deposits show behaviour"do
-  setup do
-    @controller = Dt::DepositsController.new
-  end
-  
+context "Dt::Deposits index, show, edit, update and destroy should not exist"do
+  use_controller Dt::DepositsController
   specify "method should not exist" do
-    @controller.methods.should.not.include 'show'
-  end
-end
-
-context "Dt::Deposits edit behaviour"do
-  setup do
-    @controller = Dt::DepositsController.new
-  end
-  
-  specify "method should not exist" do
-    @controller.methods.should.not.include 'edit'
-  end
-end
-
-context "Dt::Deposits update behaviour"do
-  setup do
-    @controller = Dt::DepositsController.new
-  end
-  
-  specify "method should not exist" do
-    @controller.methods.should.not.include 'update'
-  end
-end
-
-context "Dt::Deposits destroy behaviour"do
-  setup do
-    @controller = Dt::DepositsController.new
-  end
-  
-  specify "method should not exist" do
-    @controller.methods.should.not.include 'destroy'
+    %w( index show edit update destroy ).each do |m|
+      @controller.methods.should.not.include m
+    end
   end
 end

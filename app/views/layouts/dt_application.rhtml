@@ -16,9 +16,9 @@
 	<%= stylesheet_link_tag 'dt/navigation.css', :media => 'all' %>
 	<!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css' %><![endif]-->
 </head>
-<body class="current">
+<body>
 <div id="container">
-<div id="main"> 
+<div id="main">
 <div id="content">
 <%= dt_head %>
 
@@ -27,24 +27,23 @@
 <%= dt_masthead %>
 
 <div id="contentContainer">
-
 <%= yield  %>
-
 </div><!-- #contentContainer Ends -->
+
 <div id="footer">
-<ul class="footer li">
-	<li>2007 &copy; <a href="http://www.christmasfuture.org/" target="_blank">ChristmasFuture Foundation</a>, All Rights Reserved.</li>
-	<li>Tel: 403.835.5444  </li>
-	<li>Email: <script type="text/javascript">
-    <!--
-		var emailUser = "info"
-		var emailHost = "christmasfuture.org"
-		var email = emailUser + '@' + emailHost
-		document.write("<a href=" + "mail" + "to:" + email + ">" + email + "</a>")
-	//-->
-   </script></li>
-</ul>
-<p>Terms of Use | Privacy | Copyrights</p>
+	<ul class="footer li">
+		<li>2007 &copy; <a href="http://www.christmasfuture.org/">ChristmasFuture Foundation</a>, All Rights Reserved.</li>
+		<li>Tel: 403.835.5444  </li>
+		<li>Email: <script type="text/javascript">
+	    <!--
+			var emailUser = "info"
+			var emailHost = "christmasfuture.org"
+			var email = emailUser + '@' + emailHost
+			document.write("<a href=" + "mail" + "to:" + email + ">" + email + "</a>")
+		//-->
+	   </script></li>
+	</ul>
+	<p>Terms of Use | Privacy | Copyrights</p>
 </div>
 
 </div><!-- #content Ends -->

@@ -1,29 +1,18 @@
 class Dt::DepositsController < DtApplicationController
   before_filter :login_required
-  
-  # Disallow the confirm action being called unless it's using the 
-  # :post method and contains both the "user" and "deposit" hashes
-  # in the params. Will be redirected back to new if verification fails
-  #verify :params => [ "user", "deposit" ], :method => :post, 
-  #       :only => :confirm, 
-  #       :add_flash => { "error" => "Please confirm the below information" }, 
-  #       :redirect_to => :new
 
-  def index 
-    redirect_to(:action => 'new') if logged_in?
-  end
-  
   def new
-    @user = current_user
     @deposit = Deposit.new
   end
   
   def create
     @test_mode = ENV["RAILS_ENV"] == 'production' ? false : true
-    @deposit = Deposit.new( deposit_attributes )
-    iats_deposit(@deposit)
+    @deposit = Deposit.new( deposit_params )
+    iats = iats_process(@deposit)
+    @deposit.authorization_result = iats.authorization_result if iats.status == 1
+    
     respond_to do |format|
-      if @saved = @deposit.save
+      if @deposit.authorization_result != nil && @saved = @deposit.save
         flash[:notice] = "Your deposit was successful."
         format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'show', :id => current_user.id ) }
         #format.js
@@ -38,10 +27,7 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def confirm
-    redirect_to(:action => "new") and return if !params[:deposit][:amount] || !params[:deposit][:credit_card] || !params[:deposit][:expiry_month] || !params[:deposit][:expiry_year]
-    @user = current_user
-    @user.update_attributes( params[:user] ) if params[:user]
-    @deposit = Deposit.new( deposit_attributes )
+    @deposit = Deposit.new( deposit_params )
     respond_to do |format|
       if @deposit.valid?
         format.html { render :action => "confirm" }
@@ -52,48 +38,43 @@ class Dt::DepositsController < DtApplicationController
   end
   
   protected
-  def deposit_attributes
-    card_exp = "#{params[:deposit][:expiry_month]}/#{params[:deposit][:expiry_year]}" if params[:deposit][:expiry_month] && params[:deposit][:expiry_year]
-    card_exp = params[:deposit][:card_expiry] if params[:deposit][:card_expiry]
-    attributes = {
-      :user_id => current_user.id, 
-      :user_hash => current_user,
-      :amount => params[:deposit][:amount],
-      :credit_card => params[:deposit][:credit_card],
-      :card_expiry => card_exp
-      }
+  def deposit_params
+    card_exp = "#{params[:deposit][:expiry_month]}/#{params[:deposit][:expiry_year]}" if params[:deposit][:expiry_month] != nil && params[:deposit][:expiry_year] != nil
+    deposit_params = params[:deposit]
+    deposit_params.delete :expiry_month
+    deposit_params.delete :expiry_year
+    deposit_params[:card_expiry] = card_exp if deposit_params[:card_expiry] == nil
+    deposit_params[:user_id] = current_user.id
+    deposit_params
   end
-  
-  def iats_deposit(deposit)
+
+  def iats_process( record )
     require 'iats/iats_link'
     iats = IatsLink.new
     iats.test_mode = @test_mode
-    iats.agent_code = ''
-    iats.password = ''
+    iats.agent_code = '2CFK99'
+    iats.password = 'K56487'
     # When taking CDN$, can we only have cardholder_name or will it work with the US$ info?
     # if it would work, just use it all the time...
     #iats.cardholder_name = "#{current_user.first_name} #{current_user.last_name}"
     # When taking US$, you must remove cardholder_name and add the following before calling process_credit_card:
-    iats.first_name = deposit[:user_hash].first_name
-    iats.last_name = deposit[:user_hash].last_name
-    iats.street_address = deposit[:user_hash].address
-    iats.city = deposit[:user_hash].city
-    iats.state = deposit[:user_hash].province
-    iats.zip_code = deposit[:user_hash].postal_code
+    iats.first_name = record[:first_name]
+    iats.last_name = record[:last_name]
+    iats.street_address = record[:address]
+    iats.city = record[:city]
+    iats.state = record[:province]
+    iats.zip_code = record[:postal_code]
 
-    iats.card_number = deposit[:credit_card]
-    iats.card_expiry = deposit[:card_expiry]
-    iats.dollar_amount = deposit[:amount]
+    iats.card_number = record[:credit_card]
+    iats.card_expiry = record[:card_expiry]
+    iats.dollar_amount = record[:amount]
     
-    # kill this line when we get our IATS agent_code & password
-    deposit.authorization_result = "1234" if @test_mode == true
-    return if @test_mode == true
-    iats.process_credit_card
-    if iats.status == 1
-      deposit.authorization_result = iats.authorization_result
+    if ENV["RAILS_ENV"] == 'test'
+      iats.status = 1
+      iats.authorization_result = 1234
     else
-      deposit.errors.add("authorization_result", "was unable to authorize credit card")
+      iats.process_credit_card
     end
+    iats
   end
 end
-

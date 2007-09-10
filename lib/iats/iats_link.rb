@@ -10,7 +10,7 @@ class IatsLink
     :agent_code, :password, :card_type, :card_number, :card_expiry, :dollar_amount, 
     :web_server, :preapproval_code, :invoice_number, :comment, :CVV2, :issue_number, 
     :test_mode, :first_name, :last_name, :street_address, :city, :state, :zip_code, 
-    :cardholder_name
+    :cardholder_name, :status, :authorization_result
 
   # The IatsLink class is a port from the PHP/Java version provided by IATS.
   # Instantiate an IatsLink object, load up the values and run process_credit_card

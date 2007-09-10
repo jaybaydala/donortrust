@@ -12,10 +12,9 @@ context "Dt::Accounts inheritance" do
 end
 
 context "Dt::Accounts #route_for" do
+  use_controller Dt::AccountsController
+
   setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     @rs         = ActionController::Routing::Routes
   end
 
@@ -82,14 +81,9 @@ end
 
 
 context "Dt::Accounts handling GET /dt/accounts;signin" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
-
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   def do_get
     get :signin
@@ -113,17 +107,9 @@ context "Dt::Accounts handling GET /dt/accounts;signin" do
 end
 
 context "Dt::Accounts handling POST dt/accounts;login requests" do
+  use_controller Dt::AccountsController
   include DtAuthenticatedTestHelper
   fixtures :users
-
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-  
-  teardown do
-  end
 
   specify "should login and redirect" do
     post :login, :login => 'quentin@example.com', :password => 'test'
@@ -215,15 +201,10 @@ context "Dt::Accounts handling POST dt/accounts;login requests" do
 end
 
 context "Dt::Accounts handling logout requests" do
+  use_controller Dt::AccountsController
   include DtAuthenticatedTestHelper
   fixtures :users
 
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-  
   teardown do
   end
 
@@ -242,16 +223,10 @@ context "Dt::Accounts handling logout requests" do
 end
 
 context "Dt::Accounts handling GET /dt/accounts" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
 
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    #User.stubs(:find).returns([@user])
-  end
-  
   def do_get
     get :index
   end
@@ -267,30 +242,27 @@ context "Dt::Accounts handling GET /dt/accounts" do
 end
 
 context "Dt::Accounts handling GET /dt/accounts/1" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
 
   setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     @user = users(:quentin)
-    #User.stubs(:find).returns([@user])
   end
   
   def do_get
     get :show, :id => @user.id
   end
   
-  specify "should redirect to :index if not logged_in?" do
+  specify "should redirect to :signin if not logged_in?" do
     do_get
-    response.should.redirect :action => 'index', :id => nil
+    response.should.redirect :action => 'signin'
   end
 
-  specify "should redirect to logged_in? as different user" do
+  specify "should redirect to dt/accounts/id when logged_in? as different user" do
     login_as(:tim)
     do_get
-    response.should.redirect :action => 'index'
+    response.should.redirect :action => 'show', :id => users(:tim).id
   end
 
   specify "should not redirect when logged_in? as current_user" do
@@ -304,18 +276,12 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
     do_get
     template.should.be 'dt/accounts/show'
   end
-
 end
 
 context "Dt::Accounts handling GET /dt/accounts;activate" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
-
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
   
   specify "non-activated user should not authenticate" do
     User.authenticate('aaron@example.com', 'test').should.be.nil
@@ -333,14 +299,11 @@ context "Dt::Accounts handling GET /dt/accounts;activate" do
 end
 
 context "Dt::Accounts handling GET /dt/accounts;resend" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
 
   setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    
     # for testing action mailer
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
@@ -388,14 +351,11 @@ context "Dt::Accounts handling GET /dt/accounts;resend" do
 end
 
 context "Dt::Accounts user activation mailer" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
 
   setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-
     # for testing action mailer
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
@@ -427,14 +387,9 @@ context "Dt::Accounts user activation mailer" do
 end
 
 context "Dt::Accounts handling GET /dt/accounts/new" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
-
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   def do_get
     get :new
@@ -459,14 +414,9 @@ context "Dt::Accounts handling GET /dt/accounts/new" do
 end
 
 context "Dt::Accounts handling POST /dt/accounts/create" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
-
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   specify "should allow signup" do
     lambda {
@@ -531,16 +481,10 @@ context "Dt::Accounts handling POST /dt/accounts/create" do
 end
 
 context "Dt::Accounts handling GET /dt/accounts/1;edit" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
 
-  setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    #User.stubs(:find).returns([@user])
-  end
-  
   def do_get
     get :edit, :id => 1
   end
@@ -590,15 +534,11 @@ context "Dt::Accounts handling GET /dt/accounts/1;edit" do
 end
 
 context "Dt::Accounts handling PUT /dt/accounts/1;update" do
+  use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
 
   setup do
-    @controller = Dt::AccountsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-    #User.stubs(:find).returns([@user])
-    
     # for testing action mailer
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
@@ -675,14 +615,7 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
 end
 
 
-#In the context of an unauthenticated account:
-#  - if I try to log in, I should be notified that my account is not yet activated
-#  - I should have the option to resend the authentication email
-#As a donor I need to be edit my profile so others can see my info, etc:
-#  - if I change my email, it should be re-authenticated
-#
 #As a user I want to be able to retrieve my password so I won't forget it:
 #  - creates a new password
 #  - sends email to user's email address with new password
 #  - on login, required to change the password to something rememberable
-#

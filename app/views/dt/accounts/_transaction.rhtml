@@ -1,0 +1,14 @@
+<%
+transaction_type = transaction.tx.class.to_s
+amount = number_to_currency(transaction.tx.amount)
+date = transaction.tx.created_at.to_formatted_s(:short)
+bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
+%>
+<% case transaction_type -%>
+<% when "Deposit" -%>
+<tr><td<%= bg %>><%= transaction_type %></td><td<%= bg %>><%= date %></td><td<%= bg %>><%= amount %></td></tr>
+<% when "Gift" -%>
+<tr><td<%= bg %>><%= transaction_type %> to <%= transaction.tx.to_user.name %></td><td<%= bg %>><%= date %></td><td<%= bg %>><%= amount %></td></tr>
+<% when "Investment" -%>
+<tr><td<%= bg %>><%= transaction_type %> in <%= link_to transaction.tx.project.name, dt_project_path(transaction.tx.project.name) %>. Thanks!</td><td<%= bg %>><%= date %></td><td<%= bg %>>(<%= amount %>)</td></tr>
+<% end %>

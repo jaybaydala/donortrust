@@ -22,6 +22,8 @@ class Project < ActiveRecord::Base
   has_many :flickr_images, :through => :project_flickr_images
   has_many :project_flickr_images, :dependent => :destroy
   
+  has_many :investments
+
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -62,9 +64,8 @@ class Project < ActiveRecord::Base
     unless self.total_costs == nil or self.total_costs == 0
       percent_raised = self.total_money_raised * 100 / self.total_costs      
       if percent_raised > 100 then percent_raised = 100 end
-    else
-      return percent_raised
     end
+    percent_raised
   end 
   
   def get_number_of_milestones_by_status(status)
@@ -75,7 +76,7 @@ class Project < ActiveRecord::Base
   def days_remaining
     result = nil
     result = end_date - Date.today if end_date != nil
-    result = 0 if result < 0
+    result = 0 if result != nil && result < 0
     return result
   end
   

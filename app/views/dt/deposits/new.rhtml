@@ -9,22 +9,25 @@
 		<li><label for="deposit_amount">Deposit Amount</label><%= f.text_field :amount %></li>
 		<li><label for="deposit_credit_card">Credit Card</label><%= f.text_field :credit_card %></li>
 		<li><label for="deposit_expiry_month">Card Expiry</label>
-			<%= f.select("expiry_month", %w{01 02 03 04 05 06 07 08 09 10 11 12}.collect {|m| [ m, m ] }, { :include_blank => true, :selected => @deposit.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) %>/<%= f.select("expiry_year", %w{0 1 2 3 4 5 6 7}.collect {|y| 
-				d = Date.civil(Date.today.year+y.to_i) 
-				[ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
+<%= f.select("expiry_month", (1..12).to_a.collect {|m| 
+	mo = m.to_s.rjust(2, "0"); 
+	[ mo, mo ] }, { :include_blank => true, :selected => @deposit.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) -%>
+/<%= f.select("expiry_year", (1..7).to_a.collect {|y| 
+	d = Date.civil(Date.today.year+y.to_i) 
+	[ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
 			</li>
 	</ul>	
 
 	<%= error_messages_for :user %>
 	<ul class="formsection">
 		<li class="header"><h2>Personal Information</h2></li>
-		<li><label for="user_first_name">First Name</label><%= text_field('user', 'first_name') %></li>
-		<li><label for="user_first_name">Last Name</label><%= text_field('user', 'last_name') %></li>
-		<li><label for="user_address">Address</label><%= text_field('user', 'address') %></li>
-		<li><label for="user_city">City</label><%= text_field('user', 'city') %></li>
-		<li><label for="user_province">Province</label><%= text_field('user', 'province') %></li>
-		<li><label for="user_postal_code">Postal Code</label><%= text_field('user', 'postal_code') %></li>
-		<li><label for="user_country">Country</label><%= text_field('user', 'country') %></li>
+		<li><label for="deposit_first_name">First Name</label><%= f.text_field 'first_name', :value => current_user.first_name %></li>
+		<li><label for="deposit_first_name">Last Name</label><%= f.text_field 'last_name', :value => current_user.last_name %></li>
+		<li><label for="deposit_address">Address</label><%= f.text_field 'address', :value => current_user.address %></li>
+		<li><label for="deposit_city">City</label><%= f.text_field 'city', :value => current_user.city %></li>
+		<li><label for="deposit_province">Province</label><%= f.text_field 'province', :value => current_user.province %></li>
+		<li><label for="deposit_postal_code">Postal Code</label><%= f.text_field 'postal_code', :value => current_user.postal_code %></li>
+		<li><label for="deposit_country">Country</label><%= f.text_field 'country', :value => current_user.country %></li>
 	</ul>	
 
 	<%= submit_tag 'continue', :class => 'buttonsubmit' %>

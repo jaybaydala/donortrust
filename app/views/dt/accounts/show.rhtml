@@ -4,19 +4,32 @@
 	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 
 	<h1>Account Summary</h1>
-	<div style="text-align:right;font-weight:bold;">Uninvested Money: $300</div>
+	<% if @user.user_transactions.length > 0 %><div style="text-align:right;font-weight:bold;">Uninvested Money: <%= number_to_currency(current_user.balance) %></div><% end %>
 	<div class="account-summary">
-	<table>
-	<tr><th>Transaction Description</th><th>Date</th><th>Amount</th></tr>
-	<tr><td>Investment in <%= link_to "Mbiki Village Library", dt_project_path(4) %>. Thanks!</td><td>Jul 26, 07</td><td>($200)</td></tr>
-	<tr><td style="background:#EEE;">Investment in <%= link_to "Another Project", dt_project_path(2) %>. Thanks!</td><td style="background:#EEE;">Jul 24, 07</td><td style="background:#EEE;">($100)</td></tr>
-	<tr><td>Investment in <%= link_to "A third project", dt_project_path(1) %>. Thanks!</td><td>Jul 22, 07</td><td>($200)</td></tr>
-	<tr><td style="background:#EEE;">Investment in <%= link_to "A fourth project", dt_project_path(1) %>. Thanks!</td><td style="background:#EEE;">Jul 20, 07</td><td style="background:#EEE;">($200)</td></tr>
-	<tr><td>Deposit</td><td>Jul 18, 07</td><td>$1,000</td></tr>
-	</table>
+		<% if @user.user_transactions.length > 0 -%>
+		<div id="transaction_list">
+			<table style="width:100%;">
+			<tr><th>Transaction Description</th><th>Date</th><th>Amount</th></tr>
+			<%= render :partial => "transaction", :collection => @user.user_transactions %>
+			<!--
+			<tr><td>Investment in <%= link_to "Mbiki Village Library", dt_project_path(4) %>. Thanks!</td><td>Jul 26, 07</td><td>($200)</td></tr>
+			<tr><td style="background:#EEE;">Investment in <%= link_to "Another Project", dt_project_path(2) %>. Thanks!</td><td style="background:#EEE;">Jul 24, 07</td><td style="background:#EEE;">($100)</td></tr>
+			<tr><td>Investment in <%= link_to "A third project", dt_project_path(1) %>. Thanks!</td><td>Jul 22, 07</td><td>($200)</td></tr>
+			<tr><td style="background:#EEE;">Investment in <%= link_to "A fourth project", dt_project_path(1) %>. Thanks!</td><td style="background:#EEE;">Jul 20, 07</td><td style="background:#EEE;">($200)</td></tr>
+			<tr><td>Deposit</td><td>Jul 18, 07</td><td>$1,000</td></tr>
+			-->
+			</table>
+		</div>
+		<% else -%>
+		<div class="highlight">
+			<p>You have not made any transactions in your account yet.</p>
+			<p>Get started by <%= link_to "depositing money", dt_new_deposit_path %> into your account. You can use this money to Invest in projects and give Gifts to your friends and family.</p>
+		</div>
+		<% end -%>
+	</div>
 </div>
 
 <div id="rightColN">
-	<%= render_partial 'dt/groups/groups_sidebar' %>
+	<!--<%= render_partial 'dt/groups/groups_sidebar' %>-->
 </div>
 

@@ -5,7 +5,7 @@
 <li<%= ' class="current"' if params['action'] == 'edit' %>><%= link_to "Edit Profile", dt_edit_account_path(current_user) %></li>
 <li><%= link_to "Groups", dt_groups_path() %></li>
 <li><%= link_to "Deposit", dt_new_deposit_path() %></li>
-<li><%= link_to "Gift", dt_new_gift_path() %></li>
+<li><%= link_to "Give a Gift", dt_new_gift_path() %></li>
 <% else %>
 <li<%= ' class="current"' if params['action'] == 'signin' %>><%= link_to "Login", dt_signin_accounts_path() %></li>
 <li<%= ' class="current"' if params['action'] == 'new' %>><%= link_to "Signup", dt_new_account_path() %></li>
@@ -14,5 +14,5 @@
 </div>
 
 <% if logged_in? %>
-<%= render :partial => 'dt/accounts/inactive' if !@current_user.activated? %>
+<%= render :partial => 'dt/accounts/inactive' if !current_user.activated? %>
 <% end %>

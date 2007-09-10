@@ -70,6 +70,16 @@ context "Deposit" do
       t.errors.on(:card_expiry).should.not.be.nil
     }.should.not.change(Deposit, :count)
   end
+  
+  specify "should require first_name last_name address city postal_code country" do
+    %w( first_name last_name address city postal_code country ).each {|f|
+      lambda {
+        fsym = f.to_sym
+        t = create_deposit(fsym => nil)
+        t.errors.on(fsym).should.not.be.nil
+      }.should.not.change(Deposit, :count)
+    }
+  end
 
   specify "card_expiry= should take a variety of formats and come out as the last day the month specified" do
     date = Date.civil(2009, 4, -1).to_s
@@ -93,18 +103,20 @@ context "Deposit" do
     end
   end
 
-  specify "should require card_expiry" do
-    lambda {
-      t = create_deposit(:card_expiry => nil)
-      t.errors.on(:card_expiry).should.not.be.nil
-    }.should.not.change(Deposit, :count)
-  end
-
   specify "should error on invalid card_expiry" do
     lambda {
       t = create_deposit(:card_expiry => 4009 )
       t.errors.on(:card_expiry).should.not.be.nil
     }.should.not.change(Deposit, :count)
+  end
+
+  specify "if a gift_id is present, should not require credit_card, card_expiry or authorization_result" do
+    lambda {
+      t = create_deposit(:gift_id => 1, :credit_card => nil, :card_expiry => nil, :authorization_result =>nil )
+      t.errors.on(:credit_card).should.be.nil
+      t.errors.on(:card_expiry).should.be.nil
+      t.errors.on(:authorization_result).should.be.nil
+    }.should.change(Deposit, :count)
   end
 
   specify "creating a Deposit should create a UserTransaction" do
@@ -113,8 +125,13 @@ context "Deposit" do
     }.should.change(UserTransaction, :count)
   end
 
+  specify "sum should return a positive amount" do
+    t = create_deposit()
+    t.sum.should.be > 0
+  end
+
   private
   def create_deposit(options = {})
-    Deposit.create({ :amount => 1, :user_id => 1, :credit_card => 4111111111111111, :card_expiry => '04/09', :authorization_result => '1234' }.merge(options))
+    Deposit.create({ :amount => 1, :user_id => 1, :first_name => 'Tim', :last_name => 'Glen', :address => '36 Example St.', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'Canada', :credit_card => 4111111111111111, :card_expiry => '04/09', :authorization_result => '1234' }.merge(options))
   end
 end

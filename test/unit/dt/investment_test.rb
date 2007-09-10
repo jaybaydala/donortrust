@@ -65,6 +65,11 @@ context "Investment" do
     }.should.change(UserTransaction, :count)
   end
 
+  specify "sum should return a negative amount" do
+    t = create_investment()
+    t.sum.should.be < 0
+  end
+
   private
   def create_investment(options = {})
     Investment.create({ :amount => 1, :user_id => 1, :project_id => 1, :group_id => 1 }.merge(options))

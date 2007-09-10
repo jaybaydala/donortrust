@@ -1,5 +1,5 @@
 class Dt::AccountsController < DtApplicationController
-  before_filter :login_required, :only => [ :edit, :update ]
+  before_filter :login_required, :only => [ :show, :edit, :update ]
 
   # say something nice, you goof!  something sweet.
   def index
@@ -8,8 +8,7 @@ class Dt::AccountsController < DtApplicationController
 
   # GET /dt/accounts/1
   def show
-    redirect_to(:action => 'index') unless authorized?
-    @user = User.find(params[:id])
+    @user = User.find(params[:id], :include => :user_transactions)
   end
 
   # GET /dt/accounts/new
@@ -26,7 +25,6 @@ class Dt::AccountsController < DtApplicationController
 
   # POST /dt/accounts
   # POST /dt/accounts.xml
-
   def create
     @user = User.new(params[:user])
     respond_to do |format|
@@ -164,4 +162,14 @@ class Dt::AccountsController < DtApplicationController
     return true
   end
 
+  def access_denied
+    if 'show' == action_name && logged_in?
+        respond_to do |accepts|
+        accepts.html do
+          redirect_to :controller => '/dt/accounts', :action => 'show', :id => current_user.id  and return
+        end
+      end
+    end
+    super
+  end
 end

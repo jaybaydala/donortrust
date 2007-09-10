@@ -44,6 +44,19 @@ class User < ActiveRecord::Base
     return "#{self.first_name} #{self.last_name[0,1]}." if self.display_name.blank?
     self.display_name
   end
+  
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
+  def balance
+    user_transactions = UserTransaction.find(:all, :conditions => { :user_id => self[:id] })
+    balance = 0
+    user_transactions.each do |trans|
+      balance = balance + trans.tx.sum if trans.tx
+    end
+    balance || 0
+  end
 
   # Encrypts the password with the user salt
   def encrypt(password)
@@ -113,7 +126,6 @@ class User < ActiveRecord::Base
       crypted_password.blank? || !password.blank?
     end
 
-    # If you're going to use activation, uncomment this too
     def make_activation_code
       self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
     end

@@ -1,6 +1,8 @@
 class Investment < ActiveRecord::Base
   include UserTransactionHelper
   belongs_to :user
+  belongs_to :project
+  belongs_to :group
   validates_presence_of :amount
   validates_numericality_of :amount
   validates_presence_of :user_id
@@ -8,6 +10,6 @@ class Investment < ActiveRecord::Base
   validates_presence_of :project_id
   
   def sum
-    amount * -1
+    super * -1
   end
 end

@@ -104,6 +104,11 @@ context "User" do
     u.name.should.equal "#{u.first_name} #{u.last_name[0,1]}."
   end
 
+  specify "full_name should return 'first_name last_name'" do
+    u = users(:quentin)
+    u.full_name.should.equal "#{u.first_name} #{u.last_name}"
+  end
+
   specify "should return 'display_name' if display_name is not empty" do
     u = users(:tim)
     u.name.should.equal "#{u.display_name}"
