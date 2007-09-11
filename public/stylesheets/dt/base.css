@@ -837,7 +837,7 @@ div.buttonsubmit a.small:hover {background-image: url(/images/dt/nav_elements/bu
 div.buttonsubmit a.medium {width:78px;background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif);}
 div.buttonsubmit a.medium:hover {background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_medium.gif);}
 
-div.errorExplanation {
+div.error, div.errorExplanation {
 	margin:0 0 10px 0;
 	padding:4px;
 	border:2px solid #C00;

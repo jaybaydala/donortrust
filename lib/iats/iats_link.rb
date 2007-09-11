@@ -93,7 +93,7 @@ class IatsLink
     
     # start the actual processing
     begin
-      params = post_data
+      logger.debug "IATS post_data: #{post_data.inspect}" 
       begin
         # set up the HTTP POST object
         require 'net/http'
@@ -103,7 +103,9 @@ class IatsLink
         res = Net::HTTP.new(url.host, url.port, @proxy_host, @proxy_port, @proxy_username, @proxy_password)
         res.use_ssl = true if @test_mode == false
         #res.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        logger.info "Starting IATS processing" 
         resp = res.start {|http| http.request(req) }
+        logger.info "IATS HTTP Result: #{resp.inspect}" 
 
         case resp
         when Net::HTTPSuccess, Net::HTTPRedirection
@@ -121,7 +123,7 @@ class IatsLink
           # use a quick Regexp instead. Doing it the other way gets rid of some 
           # requirements for php and java but Regexp is standard in Ruby
           iats_return = resp.body.match(/AUTHORIZATION RESULT:([^<]+)/)[1].strip
-          #p iats_return
+          logger.info "IATS HTML Result: #{iats_return.inspect}"
       
           if iats_return == ""
             @status = 0
@@ -153,25 +155,25 @@ class IatsLink
   end
 
   def post_data
-    params = { 'AgentCode' => @agent_code, 'Password' => @password, 'CCNum' => CreditCard.clean_num(@card_number),
+    post_data = { 'AgentCode' => @agent_code, 'Password' => @password, 'CCNum' => CreditCard.clean_num(@card_number),
       'CCExp' => @card_expiry, 'MOP' => @card_type||CreditCard.cc_type(@card_number), 'Total' => @dollar_amount }
-    params['InvoiceNum'] = @invoice_number if @invoice_number && !@invoice_number.empty?
-    params['PreapprovalCode'] = @preapproval_code if @preapproval_code && !@preapproval_code.empty?
-    params['Comment'] = @comment if @comment && !@comment.empty?
-    params['CVV2'] = @CVV2 if @CVV2 && !@CVV2.empty?
-    params['IssueNum'] = @issue_number if @issue_number && !@issue_number.empty?
+    post_data['InvoiceNum'] = @invoice_number if @invoice_number && !@invoice_number.empty?
+    post_data['PreapprovalCode'] = @preapproval_code if @preapproval_code && !@preapproval_code.empty?
+    post_data['Comment'] = @comment if @comment && !@comment.empty?
+    post_data['CVV2'] = @CVV2 if @CVV2 && !@CVV2.empty?
+    post_data['IssueNum'] = @issue_number if @issue_number && !@issue_number.empty?
     if @cardholder_name && !@cardholder_name.empty?
-      params['FirstName'] = @cardholder_name
+      post_data['FirstName'] = @cardholder_name
     else
-      params['FirstName'] = @first_name
-      params['LastName'] = @last_name
-      params['Address'] = @address
-      params['City'] = @city
-      params['state'] = @state
-      params['ZipCode'] = @zip_code
+      post_data['FirstName'] = @first_name
+      post_data['LastName'] = @last_name
+      post_data['Address'] = @address
+      post_data['City'] = @city
+      post_data['state'] = @state
+      post_data['ZipCode'] = @zip_code
     end
-    params['Version'] = @version
-    params
+    post_data['Version'] = @version
+    post_data
   end
 
   protected
