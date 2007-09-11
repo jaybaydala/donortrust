@@ -5,82 +5,41 @@
 	
 	<%= error_messages_for :user %>
 	<% form_for(:user, :url => dt_account_path(@user), :html => { :method => 'put', :id => "userform", :name => "userform"}) do |f| -%>
+	<div class="userform">
+		
 
-	<div class="formInput">
-	<label for="user_login">Email</label>
-	<%= f.text_field :login %>
+		<ul class="formsection">
+			<li class="header"><h2>Login/Email</h2></li>
+			<li><label for="user_login">Email</label> <%= f.text_field :login %></li>
+		</ul>
+
+		<ul class="formsection">
+			<li class="header"><div class="formnote">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website.</div></li>
+			<li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li>
+			<li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li>
+			<li><label for="user_display_name">Display Name</label> <%= f.text_field :display_name %></li>
+		</ul>
+
+		<%= error_messages_for :password %>
+		<ul class="formsection">
+			<li class="header"><div class="formnote">Change Password - Enter your current password and a new password if you wish</div></li>
+			<li><label for="old_password">Current Password</label> <%= password_field_tag :old_password %></li>
+			<li><label for="user_password">Password</label> <%= f.password_field :password %></li>
+			<li><label for="user_password_confirmation">Confirm Password</label> <%= f.password_field :password_confirmation %></li>
+		</div>
+
+
+		<ul class="formsection">
+			<li class="header"><div class="formnote">The following fields are optional.</div></li>
+			<li class="formInput"><label for="user_address">Address</label> <%= f.text_field :address %></li>
+			<li><label for="user_city">City</label> <%= f.text_field :city %></li>
+			<li><label for="user_province">Province/State</label> <%= f.text_field :province %></li>
+			<li><label for="user_postal_code">Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
+			<li><label for="user_country">Country</label> <%= f.text_field :country %></li>
+		</ul>
+
+		<%= submit_tag 'Update Profile', :class => 'buttonsubmit' %>
 	</div>
-
-	<div style="padding:6px 0;clear:both;">
-	<div class="formnote">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website.</div>
-	
-	<div class="formInput">
-	<label for="user_first_name">First Name</label>
-	<%= f.text_field :first_name %>
-	</div>
-
-	<div class="formInput">
-	<label for="user_last_name">Last Name</label>
-	<%= f.text_field :last_name %>
-	</div>
-
-	<div class="formInput">
-	<label for="user_display_name">Display Name</label>
-	<%= f.text_field :display_name %>
-	</div>
-	</div>
-
-	<div style="padding:6px 0;clear:both;">
-	<div class="formnote">Change Password - Enter your current password and a new password if you wish</div>
-	
-	<%= error_messages_for :password %>
-
-	<div class="formInput">
-	<label for="old_password">Current Password</label>
-	<%= password_field_tag :old_password %>
-	</div>
-
-	<div class="formInput">
-	<label for="user_password">Password</label>
-	<%= f.password_field :password %>
-	</div>
-
-	<div class="formInput">
-	<label for="user_password_confirmation">Confirm Password</label>
-	<%= f.password_field :password_confirmation %>
-	</div>
-	</div>
-
-
-	<div class="formnote" style="padding:6px 0;clear:both;">The following fields are optional.</div>
-	<div class="formInput">
-	<label for="user_address">Address</label>
-	<%= f.text_field :address %>
-	</div>
-
-	<div class="formInput">
-	<label for="user_city">City</label>
-	<%= f.text_field :city %>
-	</div>
-
-	<div class="formInput">
-	<label for="user_province">Province/State</label>
-	<%= f.text_field :province %>
-	</div>
-
-	<div class="formInput">
-	<label for="user_postal_code">Postal/Zip Code</label>
-	<%= f.text_field :postal_code %>
-	</div>
-
-	<div class="formInput">
-	<label for="user_country">Country</label>
-	<%= f.text_field :country %>
-	</div>
-
-	<div id="submitButtonMedium"><a href="javascript:document.userform.submit()">Update Profile</a></div>
-
-	<!--<p><%= submit_tag 'Update profile' %></p>-->
 	<% end -%>
 </div>
 <div id="rightColN">

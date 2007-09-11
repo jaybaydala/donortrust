@@ -176,7 +176,7 @@ div.highlight {
 	height: auto;
 	text-align:left;
 	background: #FFF;
-	margin: 0px 0 10px 18px;
+	margin: 0px 0 0px 18px;
 	float:left;
 }
 #contentContainer2 {
@@ -290,7 +290,7 @@ h1 {
 	border-bottom: 0px solid #fff;
 }
 h2 {
-	font: 16px/20px Georgia, "Times New Roman", Times, serif;
+	font: 16px/24px Georgia, "Times New Roman", Times, serif;
 	color: #360;
 	font-weight:normal;
 	background: transparent;
@@ -310,6 +310,12 @@ h4 {
 	padding: 3px 0px 9px 0px;
 	color: #360;
 }
+#leftColW h4 {
+	font: 16px Georgia, "Times New Roman", Times, serif;
+	line-height:20px;
+	padding: 3px 0px 9px 7px;
+	color: #360;
+}
 h5 {
 	font: 11px/15px Arial, Helvetica, sans-serif;
 	padding: 3px 0px 3px 0px;
@@ -324,6 +330,16 @@ p {
 	color: #333;
 	background-color: transparent;
 }
+#leftColW  ul {
+	font: 13px/22px Georgia, "Times New Roman", Times, serif;
+	color:#333;
+	font-weight:normal;
+  	padding:0px 30px 0px 24px;
+	margin-bottom:15px;
+	list-style-type:disc;
+}
+#leftColW  li {padding-bottom:5px;}
+
 #rightColN p {
 	font: 11px/18px Arial, Helvetica, sans-serif;
 	padding: 0px 0px 11px 0px;
@@ -333,6 +349,19 @@ p {
 	font: 11px/18px Arial, Helvetica, sans-serif;
 	padding: 0px 0px 11px 0px;
 	color: #333;
+}
+#rightColN ul {
+	width: 228px;
+	margin-bottom:10px;
+	display:block;
+	list-style-type:none;
+}
+#rightColN li {
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	padding: 0px 0 3px 14px;
+	margin: 0 0 3px 0;
+	border-bottom: 1px solid #CCC;
+	background: transparent url(/images/dt/nav_elements/arrows/arrow_right2.gif) 0px 4px no-repeat;
 }
 .plist {
 	font: 13px/22px Arial, Helvetica, sans-serif;
@@ -1112,6 +1141,7 @@ div.errorExplanation ul {
 	padding: 0px 0 3px 0px;
 	margin: 0 0 3px 0;
 	border-bottom: 1px solid #CCC;
+	background:none;
 }
 #projectFacts h2 {
 	font: 16px/20px Arial, Helvetica, sans-serif;

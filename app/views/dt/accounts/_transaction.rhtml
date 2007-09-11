@@ -6,7 +6,7 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 %>
 <% case transaction_type -%>
 <% when "Deposit" -%>
-<tr><td<%= bg %>><%= transaction_type %></td><td<%= bg %>><%= date %></td><td<%= bg %>><%= amount %></td></tr>
+<tr><td<%= bg %>><%= transaction_type %><%= " (a gift from #{transaction.tx.gift.name})" if transaction.tx.gift_id %></td><td<%= bg %>><%= date %></td><td<%= bg %>><%= amount %></td></tr>
 <% when "Gift" -%>
 <tr><td<%= bg %>><%= transaction_type %> to <%= transaction.tx.to_user.name %></td><td<%= bg %>><%= date %></td><td<%= bg %>><%= amount %></td></tr>
 <% when "Investment" -%>

@@ -2,6 +2,7 @@
 
 <div id="leftColW2">
 <h1>Gift</h1>
+<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 <%= error_messages_for :gift %>
 <% form_for(:gift, :url => dt_confirm_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
 <p>Please enter your personal information. Your personal information, as entered below will be used to authorize your credit card. Please enter the information accurately. We will also update your account with the information you enter here.</p>

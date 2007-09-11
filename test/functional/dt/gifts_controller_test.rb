@@ -53,8 +53,12 @@ context "Dt::Gifts #route_for" do
     route_for(:controller => "dt/gifts", :action => "confirm").should == "/dt/gifts;confirm"
   end
 
-  specify "should map { :controller => 'dt/gifts', :action => 'open', :id => 1} to /dt/gifts/1;open" do
-    route_for(:controller => "dt/gifts", :action => "open", :id => 1).should == "/dt/gifts/1;open"
+  specify "should map { :controller => 'dt/gifts', :action => 'open'} to /dt/gifts;open" do
+    route_for(:controller => "dt/gifts", :action => "open").should == "/dt/gifts;open"
+  end
+  
+  specify "should map { :controller => 'dt/gifts', :action => 'unwrap', :id => 1} to /dt/gifts/1;unwrap" do
+    route_for(:controller => "dt/gifts", :action => "unwrap", :id => 1).should == "/dt/gifts/1;unwrap"
   end
   
   private 
@@ -283,11 +287,90 @@ context "Dt::Gifts create behaviour"do
   end
 end
 
-#context "Dt::Gifts open behaviour"do
-#  use_controller Dt::GiftsController
-#  fixtures :gifts, :user_transactions, :users
-#  include DtAuthenticatedTestHelper
-#end
+context "Dt::Gifts open behaviour" do
+  use_controller Dt::GiftsController
+  fixtures :gifts, :user_transactions, :users
+  include DtAuthenticatedTestHelper
+
+  specify "if no pickup_code is passed, show a basic pickup form" do
+    get :open
+    assert_select "form[method=get][action=/dt/gifts;open]#giftform"
+    assert_select "form[method=get][action=/dt/gifts;open]#giftform" do
+      assert_select "input[type=text]#code"
+    end
+  end
+
+  specify "if an invalid pickup_code is passed, show an error" do
+    get :open, :code => 'notcorrect'
+    flash[:error].should.not.be.blank
+    assert_select "div.error"
+  end
+
+  specify "if a valid pickup_code is passed show the gift with links to login/signup" do
+    get :open, :code => '2bf1be756e096ae6cf3e15542df08762ff257b35'
+    assert_select "div#login-signup"
+  end
+
+  specify "if logged_in? and a valid pickup_code is passed show the gift with an unwrap form" do
+    login_as :quentin
+    get :open, :code => '2bf1be756e096ae6cf3e15542df08762ff257b35'
+    assert_select "form[method=post][action=/dt/gifts/#{assigns(:gift).id};unwrap]#giftform" do
+      assert_select "input[type=hidden][value=2bf1be756e096ae6cf3e15542df08762ff257b35]"
+      assert_select "input[type=submit]"
+    end
+  end
+end
+
+context "Dt::Gifts unwrap behaviour" do
+  use_controller Dt::GiftsController
+  fixtures :gifts, :user_transactions, :users
+  include DtAuthenticatedTestHelper
+  
+  specify "should get redirected if not logged_in?" do
+    do_post
+    should.redirect :controller => 'dt/accounts', :action => 'signin'
+  end
+
+  specify "should get redirected if no gift pickup_code is passed" do
+    login_as :quentin
+    do_post(:pickup_code => nil)
+    should.redirect :action => 'open'
+    do_post(:pickup_code => "")
+    should.redirect :action => 'open'
+  end
+
+  specify "should remove the pickup_code and set picked_up_at to Time.now" do
+    login_as :quentin
+    do_post
+    assigns(:gift).pickup_code.should.be.nil
+    assigns(:gift).picked_up_at.to_s.should.equal Time.now.utc.to_s
+  end
+
+  specify "should create a deposit and put the gift into my account" do
+    login_as :quentin
+    lambda {
+      do_post
+    }.should.change(Deposit, :count)
+  end
+
+  specify "should create a UserTransaction" do
+    login_as :quentin
+    lambda {
+      do_post
+    }.should.change(UserTransaction, :count)
+  end
+
+  specify "should redirect to my account overview" do
+    login_as :quentin
+    do_post
+    should.redirect :controller => 'dt/accounts', :action => 'show', :id => users(:quentin).id
+  end
+  
+  private 
+  def do_post(options = {})
+    post :unwrap, :id => 2, :gift => { :pickup_code => "2bf1be756e096ae6cf3e15542df08762ff257b35" }.merge(options)
+  end
+end
 
 context "Dt::Gifts index, show, edit, update and destroy should not exist" do
   use_controller Dt::GiftsController
