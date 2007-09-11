@@ -334,9 +334,10 @@ end
 #these will all allow a community to form through the group model
 #
 #As a group creator, I should:
-#  - automaticallu be added as a member of the group
+#  - automatically be added as a member of the group
+#  - as well as you should become an owner of the group you just added
 #  - be protected from other admins removing my admin status
-#
+#  - 
 #Low priority stories:
 #Group Accounts
 #  - Corporate Accounts (an Encana account where Encana will match employee giving)
@@ -344,3 +345,4 @@ end
 #  - Competing with other groups to raise funds (ie. an Encana employee group competing against a Talisman Group)
 #  - Group admin would send a competitiion invite would be sent to another existing group (of any kind)
 #  - Invite must be accepted for competition to begin...
+
