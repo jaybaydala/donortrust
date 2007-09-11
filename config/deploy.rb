@@ -11,7 +11,8 @@
 # form the root of the application path.
 
 set :application, "donor_trust"
-set :repository, "http://svn.yourhost.com/#{application}/trunk"
+set :repository, "svn+ssh://sterrym@rubyforge.org/var/svn/donortrust/branches/pivot-preview003"
+
 
 # =============================================================================
 # ROLES
@@ -22,16 +23,16 @@ set :repository, "http://svn.yourhost.com/#{application}/trunk"
 # be used to single out a specific subset of boxes in a particular role, like
 # :primary => true.
 
-role :web, "www01.example.com", "www02.example.com"
-role :app, "app01.example.com", "app02.example.com", "app03.example.com"
-role :db,  "db01.example.com", :primary => true
-role :db,  "db02.example.com", "db03.example.com"
+role :web, "dt.pivotib.com"
+role :app, "dt.pivotib.com"
+role :db,  "dt.pivotib.com", :primary => true
+#role :db,  "db02.example.com", "db03.example.com"
 
 # =============================================================================
 # OPTIONAL VARIABLES
 # =============================================================================
-# set :deploy_to, "/path/to/app" # defaults to "/u/apps/#{application}"
-# set :user, "flippy"            # defaults to the currently logged in user
+set :deploy_to, "/home/pivot/dt.pivotib.com" # defaults to "/u/apps/#{application}"
+set :user, "pivot"            # defaults to the currently logged in user
 # set :scm, :darcs               # defaults to :subversion
 # set :svn, "/path/to/svn"       # defaults to searching the PATH
 # set :darcs, "/path/to/darcs"   # defaults to searching the PATH
@@ -42,6 +43,7 @@ role :db,  "db02.example.com", "db03.example.com"
 # SSH OPTIONS
 # =============================================================================
 # ssh_options[:keys] = %w(/path/to/my/key /path/to/another/key)
+ssh_options[:keys] = %w(/Users/tim/.ssh/id_rsa)
 # ssh_options[:port] = 25
 
 # =============================================================================
@@ -61,8 +63,8 @@ task :backup, :roles => :db, :only => { :primary => true } do
   # a transaction (see below), AND it or a subsequent task fails.
   on_rollback { delete "/tmp/dump.sql" }
 
-  run "mysqldump -u theuser -p thedatabase > /tmp/dump.sql" do |ch, stream, out|
-    ch.send_data "thepassword\n" if out =~ /^Enter password:/
+  run "mysqldump -u donortrust -p donortrust_production > /tmp/dump.sql" do |ch, stream, out|
+    ch.send_data "donortrust\n" if out =~ /^Enter password:/
   end
 end
 
@@ -90,33 +92,33 @@ end
 #   are treated as local variables, which are made available to the (ERb)
 #   template.
 
-desc "Demonstrates the various helper methods available to recipes."
-task :helper_demo do
-  # "setup" is a standard task which sets up the directory structure on the
-  # remote servers. It is a good idea to run the "setup" task at least once
-  # at the beginning of your app's lifetime (it is non-destructive).
-  setup
-
-  buffer = render("maintenance.rhtml", :deadline => ENV['UNTIL'])
-  put buffer, "#{shared_path}/system/maintenance.html", :mode => 0644
-  sudo "killall -USR1 dispatch.fcgi"
-  run "#{release_path}/script/spin"
-  delete "#{shared_path}/system/maintenance.html"
-end
+#desc "Demonstrates the various helper methods available to recipes."
+#task :helper_demo do
+#  # "setup" is a standard task which sets up the directory structure on the
+#  # remote servers. It is a good idea to run the "setup" task at least once
+#  # at the beginning of your app's lifetime (it is non-destructive).
+#  setup
+#
+#  buffer = render("maintenance.rhtml", :deadline => ENV['UNTIL'])
+#  put buffer, "#{shared_path}/system/maintenance.html", :mode => 0644
+#  sudo "killall -USR1 dispatch.fcgi"
+#  run "#{release_path}/script/spin"
+#  delete "#{shared_path}/system/maintenance.html"
+#end
 
 # You can use "transaction" to indicate that if any of the tasks within it fail,
 # all should be rolled back (for each task that specifies an on_rollback
 # handler).
 
-desc "A task demonstrating the use of transactions."
-task :long_deploy do
-  transaction do
-    update_code
-    disable_web
-    symlink
-    migrate
-  end
-
-  restart
-  enable_web
-end
+#desc "A task demonstrating the use of transactions."
+#task :long_deploy do
+#  transaction do
+#    update_code
+#    disable_web
+#    symlink
+#    migrate
+#  end
+#
+#  restart
+#  enable_web
+#end
