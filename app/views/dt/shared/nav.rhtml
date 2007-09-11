@@ -1,13 +1,16 @@
 <div id="topNav">
 	<ul class="topNav">
-		<li><a href="about.html">About Us </a></li>
-		<li><a href="projects.html">Projects </a></li>
-		<li><a href="get_involved.html">Get Involved </a></li>
-		<li><a href="school_program.html">School Program </a></li>
-		<li><a href="resources.html">Resources </a></li>
-		<li><a href="contact.html">Contact </a></li>
+		<li><a href="/about.html">About Us </a></li>
+		<li><a href="/dt/projects">Projects </a></li>
+		<li><a href="/get_involved.html">Get Involved </a></li>
+		<li><a href="/school_program.html">School Program </a></li>
+		<li><a href="/resources.html">Resources </a></li>
+		<li><a href="/contact.html">Contact </a></li>
 	</ul>
-	<div id="topNavSearch"><input name="Search" type="text" id="searchBox" title="Search" value="Search" size="15" maxlength="30" />
-		<div id="buttonGo"><a href="javascript:submit()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
- 	</div>
+	<form name="searchform" method="get" action="/search">
+		<div id="topNavSearch">
+			<input name="search" type="text" id="searchBox" title="Search" value="Search" size="15" maxlength="30" />
+			<div id="buttonGo"><a href="javascript:document.searchform.submit()"><span>Go</span></a></div>
+ 		</div>
+	</form>
 </div><!-- Header ends -->

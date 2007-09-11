@@ -1,0 +1,2 @@
+module Dt::DepositsHelper
+end

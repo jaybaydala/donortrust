@@ -9,12 +9,14 @@ class Dt::DepositsController < DtApplicationController
     @test_mode = ENV["RAILS_ENV"] == 'production' ? false : true
     @deposit = Deposit.new( deposit_params )
     iats = iats_process(@deposit)
+require 'pp'
+pp iats
     @deposit.authorization_result = iats.authorization_result if iats.status == 1
     
     respond_to do |format|
       if @deposit.authorization_result != nil && @saved = @deposit.save
         flash[:notice] = "Your deposit was successful."
-        format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'show', :id => current_user.id ) }
+        format.html { redirect_to :controller => '/dt/accounts', :action => 'show', :id => current_user.id }
         #format.js
         format.xml  { head :created, :location => dt_accounts_url }
       else
@@ -69,7 +71,7 @@ class Dt::DepositsController < DtApplicationController
     iats.card_expiry = record[:card_expiry]
     iats.dollar_amount = record[:amount]
     
-    if ENV["RAILS_ENV"] == 'test'
+    if ENV["RAILS_ENV"] == 'test' || ENV["RAILS_ENV"] == 'development'
       iats.status = 1
       iats.authorization_result = 1234
     else

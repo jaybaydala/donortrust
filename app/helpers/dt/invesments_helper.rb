@@ -1,0 +1,2 @@
+module Dt::InvestmentsHelper
+end

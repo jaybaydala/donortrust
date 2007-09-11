@@ -1,5 +1,6 @@
 class Dt::GiftsController < DtApplicationController
-
+  before_filter :login_required, :only => :unwrap
+  
   def new
     store_location
     @gift = Gift.new
@@ -36,6 +37,22 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def open
+    store_location
+    @gift = Gift.validate_pickup(params[:code]) if params[:code]
+    respond_to do |format|
+      flash[:error] = 'The provided pickup code is not valid. Please check your email and try again.' if params[:code] && !@gift
+      format.html
+    end
+  end
+  
+  def unwrap
+    @gift = Gift.validate_pickup(params[:gift][:pickup_code], params[:id])
+    redirect_to :action => 'open' and return if !@gift
+    @gift.pickup
+    Deposit.create_from_gift(@gift, current_user.id)
+    respond_to do |format|
+      format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
+    end
   end
 
   protected

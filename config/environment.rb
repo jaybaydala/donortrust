@@ -38,8 +38,9 @@ Rails::Initializer.run do |config|
   
   # See Rails::Configuration for more options
   
-  # install user_observer for authenticated_mailer
-  config.active_record.observers = :user_observer
+  # install user_observer for authenticated_mailer 
+  # install gift_observer for gift_notifier
+  config.active_record.observers = :user_observer, :gift_observer
 
   # Add vendor/gems into the load path so we can unpack gems and keep them local
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 

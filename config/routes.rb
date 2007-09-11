@@ -28,9 +28,8 @@ ActionController::Routing::Routes.draw do |map|
     :controller=> 'dt/gifts', 
     :name_prefix => 'dt_', 
     :path_prefix => "/dt", 
-    :collection => { :confirm => :post },
-    :member => { :open => :get }
-  map.resources :gifts, :controller=> 'dt/gifts', :name_prefix => 'dt_', :path_prefix => "/dt"
+    :collection => { :confirm => :post, :open => :get },
+    :member => { :unwrap => :post }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
   
   # inactive_record resources

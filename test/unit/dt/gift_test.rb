@@ -1,7 +1,9 @@
 require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/gift_test_helper'
 
 # see user_transaction_test.rb for amount and user tests
 context "Gift" do
+  include GiftTestHelper
   include DtAuthenticatedTestHelper
   fixtures :user_transactions, :gifts, :users
 
@@ -158,13 +160,15 @@ context "Gift" do
     t.pickup_code.should.not.be nil
   end
 
-  private
-  def credit_card_params(options = {})
-    { :credit_card => 4111111111111111, :card_expiry => '04/09', :first_name => 'Tim', :last_name => 'Glen', :address => '36 Example St.', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'CA' }.merge(options)
+  specify "pickup should make pickup_code == nil" do
+    t = create_gift
+    t.pickup
+    t.pickup_code.should.be nil
   end
 
-  def create_gift(options = {})
-    options = credit_card_params if options.empty?
-    Gift.create({ :amount => 1, :to_name => 'To Name', :to_email => 'to@example.com', :name => 'From Name', :email => 'from@example.com', :message => 'hello world!' }.merge(options))
+  specify "pickup should make picked_up_at == Time.now()" do
+    t = create_gift
+    t.pickup
+    t.picked_up_at.to_formatted_s.should.equal Time.now.utc.to_formatted_s
   end
 end

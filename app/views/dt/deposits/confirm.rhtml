@@ -8,7 +8,7 @@
 		<li class="header"><h2>Payment details</h2></li>
 		<li><label for="deposit_amount">Deposit Amount</label> <%= number_to_currency(params[:deposit][:amount]) %> <%= f.hidden_field :amount, :value => number_with_precision(params[:deposit][:amount], 2) %></li>
 		<li><label for="deposit_credit_card">Credit Card</label> <%= params[:deposit][:credit_card] %> <%= f.hidden_field :credit_card %></li>
-		<li><label for="deposit_card_expiry">Card Expiry</label> <%= params[:deposit][:expiry_month] %>/<%= params[:deposit][:expiry_year] %> <%= f.hidden_field :card_expiry, :value => params[:deposit][:card_expiry] %></li>
+		<li><label for="deposit_card_expiry">Card Expiry</label> <%= params[:deposit][:card_expiry] %> <%= f.hidden_field :card_expiry, :value => params[:deposit][:card_expiry] %></li>
 	</ul>	
 	<ul class="formsection">
 		<li class="header"><h2>Personal Information</h2></li>
