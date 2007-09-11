@@ -81,6 +81,20 @@
 }
 #subNav ul {float:left; width: 486px; padding-top:5px; padding-bottom:5px;}
 
+#subNavWide {
+	padding: 0px 0px 13px 10px;
+	background: #FFF url(/images/dt/nav_elements/subNavBar.jpg) no-repeat 0px 0px;
+	height: 25px;
+	width: 486px;
+	text-align:left;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 25px;
+	width: 714px;
+}
+#subNavWide ul {float:left; width: 714px; padding-top:5px; padding-bottom:5px;}
+
 .subNav li {
 	font: 12px/15px Arial, Helvetica, sans-serif;
 	color: #FFF;
@@ -115,3 +129,6 @@
 }
 #subNav li.current { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 5px 14px 5px 14px;}
 #subNav li.current a:link, #subNav li.current a:visited, #subNav li.current a:hover, #subNav li.current a:active { padding:0;color:#FFF;background-color:transparent; }
+
+#subNavWide li.current { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 5px 14px 5px 14px;}
+#subNavWide li.current a:link, #subNavWide li.current a:visited, #subNavWide li.current a:hover, #subNavWide li.current a:active { padding:0;color:#FFF;background-color:transparent; }
