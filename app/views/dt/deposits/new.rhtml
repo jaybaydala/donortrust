@@ -1,10 +1,12 @@
+<%= dt_account_nav %>
+
 <div id="leftColW2">
 <h1>Deposit</h1>
 <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 
 <%= error_messages_for :deposit %>
 <% form_for(:deposit, :url => dt_confirm_deposits_path, :html => {:id => "depositform", :name => "depositform"}) do |f| %>
-<p>Please enter your personal information. Your personal information, as entered below will be used to authorize your credit card. Please enter the information accurately. We will also update your account with the information you enter here.</p>
+<p>Please enter your personal information. Your personal information, as entered below will be used to authorize your credit card. Please enter the information accurately.</p>
 <div class="userform">
 	<ul class="formsection">
 		<li class="header"><h2>Payment details</h2></li>
@@ -22,14 +24,14 @@
 
 	<%= error_messages_for :user %>
 	<ul class="formsection">
-		<li class="header"><h2>Personal Information</h2></li>
-		<li><label for="deposit_first_name">First Name</label><%= f.text_field 'first_name', :value => current_user.first_name %></li>
-		<li><label for="deposit_first_name">Last Name</label><%= f.text_field 'last_name', :value => current_user.last_name %></li>
-		<li><label for="deposit_address">Address</label><%= f.text_field 'address', :value => current_user.address %></li>
-		<li><label for="deposit_city">City</label><%= f.text_field 'city', :value => current_user.city %></li>
-		<li><label for="deposit_province">Province</label><%= f.text_field 'province', :value => current_user.province %></li>
-		<li><label for="deposit_postal_code">Postal Code</label><%= f.text_field 'postal_code', :value => current_user.postal_code %></li>
-		<li><label for="deposit_country">Country</label><%= f.text_field 'country', :value => current_user.country %></li>
+		<li class="header"><h2>Credit Card Information</h2></li>
+		<li><label for="deposit_first_name">First Name</label><%= f.text_field 'first_name' %></li>
+		<li><label for="deposit_first_name">Last Name</label><%= f.text_field 'last_name' %></li>
+		<li><label for="deposit_address">Address</label><%= f.text_field 'address' %></li>
+		<li><label for="deposit_city">City</label><%= f.text_field 'city' %></li>
+		<li><label for="deposit_province">Province</label><%= f.text_field 'province' %></li>
+		<li><label for="deposit_postal_code">Postal Code</label><%= f.text_field 'postal_code' %></li>
+		<li><label for="deposit_country">Country</label><%= f.text_field 'country' %></li>
 	</ul>	
 
 	<%= submit_tag 'continue', :class => 'buttonsubmit' %>

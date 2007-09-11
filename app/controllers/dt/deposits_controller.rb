@@ -9,8 +9,8 @@ class Dt::DepositsController < DtApplicationController
     @test_mode = ENV["RAILS_ENV"] == 'production' ? false : true
     @deposit = Deposit.new( deposit_params )
     iats = iats_process(@deposit)
-require 'pp'
-pp iats
+  require 'pp'
+  pp iats
     @deposit.authorization_result = iats.authorization_result if iats.status == 1
     
     respond_to do |format|
@@ -71,7 +71,8 @@ pp iats
     iats.card_expiry = record[:card_expiry]
     iats.dollar_amount = record[:amount]
     
-    if ENV["RAILS_ENV"] == 'test' || ENV["RAILS_ENV"] == 'development'
+    # FIXME: need to change this once the IATS login is working
+    if true #ENV["RAILS_ENV"] == 'test' || ENV["RAILS_ENV"] == 'development'
       iats.status = 1
       iats.authorization_result = 1234
     else

@@ -1,3 +1,5 @@
+<%= dt_account_nav %>
+
 <div id="leftColW2">
 <h1>Deposit Confirmation</h1>
 <%= error_messages_for :deposit %>
@@ -11,7 +13,7 @@
 		<li><label for="deposit_card_expiry">Card Expiry</label> <%= params[:deposit][:card_expiry] %> <%= f.hidden_field :card_expiry, :value => params[:deposit][:card_expiry] %></li>
 	</ul>	
 	<ul class="formsection">
-		<li class="header"><h2>Personal Information</h2></li>
+		<li class="header"><h2>Credit Card Information</h2></li>
 		<li><label for="deposit_first_name">First Name</label> <%= params[:deposit][:first_name] %> <%= f.hidden_field :first_name %></li>
 		<li><label for="deposit_last_name">Last Name</label> <%= params[:deposit][:last_name] %> <%= f.hidden_field :last_name %></li>
 		<li><label for="deposit_address">Address</label> <%= params[:deposit][:address] %> <%= f.hidden_field :address %></li>
