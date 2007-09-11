@@ -2,7 +2,6 @@ class Dt::GiftsController < DtApplicationController
   before_filter :login_required, :only => :unwrap
   
   def new
-    store_location
     @gift = Gift.new
     if logged_in?
       user = User.find(current_user.id)
@@ -13,7 +12,6 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def create
-    store_location
     @gift = Gift.new( gift_params )
     respond_to do |format|
       if @gift.save
@@ -25,7 +23,6 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def confirm
-    store_location
     @gift = Gift.new( gift_params )
     respond_to do |format|
       if @gift.valid?
