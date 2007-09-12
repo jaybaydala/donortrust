@@ -1,15 +1,15 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'project_histories_controller'
+require File.dirname(__FILE__) + '/../../test_helper'
+require 'bus_admin/project_histories_controller'
 
 # Re-raise errors caught by the controller.
-class ProjectHistoriesController; def rescue_action(e) raise e end; end
+class BusAdmin::ProjectHistoriesController; def rescue_action(e) raise e end; end
 
-class ProjectHistoriesControllerTest < Test::Unit::TestCase
+class BusAdmin::ProjectHistoriesControllerTest < Test::Unit::TestCase
   fixtures :projects
   fixtures :project_histories
 
   def setup
-    @controller = ProjectHistoriesController.new
+    @controller = BusAdmin::ProjectHistoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     

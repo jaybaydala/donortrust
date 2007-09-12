@@ -1,14 +1,14 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'programs_controller'
+require File.dirname(__FILE__) + '/../../test_helper'
+require 'bus_admin/programs_controller'
 
 # Re-raise errors caught by the controller.
-class ProgramsController; def rescue_action(e) raise e end; end
+class BusAdmin::ProgramsController; def rescue_action(e) raise e end; end
 
-class ProgramsControllerTest < Test::Unit::TestCase
+class BusAdmin::ProgramsControllerTest < Test::Unit::TestCase
   fixtures :programs
 
   def setup
-    @controller = ProgramsController.new
+    @controller = BusAdmin::ProgramsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end

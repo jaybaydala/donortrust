@@ -1,10 +1,10 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'bus_account_controller'
+require File.dirname(__FILE__) + '/../../test_helper'
+require 'bus_admin/bus_account_controller'
 
 # Re-raise errors caught by the controller.
-class BusAccountController; def rescue_action(e) raise e end; end
+class BusAdmin::BusAccountController; def rescue_action(e) raise e end; end
 
-class BusAccountControllerTest < Test::Unit::TestCase
+class BusAdmin::BusAccountControllerTest < Test::Unit::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
@@ -12,7 +12,7 @@ class BusAccountControllerTest < Test::Unit::TestCase
   fixtures :bus_users
 
   def setup
-    @controller = BusAccountController.new
+    @controller = BusAdmin::BusAccountController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
