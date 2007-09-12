@@ -4,7 +4,7 @@
 		<p><%= @gift.name %> has sent you a gift of <%= number_to_currency( @gift.amount ) %>!</p>
 		<p>Just deposit the gift into your ChristmasFuture account to start changing the world.</p>
 		<% if logged_in? %>
-		<% form_for(:gift, :url => dt_unwrap_gift_path(@gift), :html => {:id => "giftform", :name => "giftform"}) do |f| %>
+		<% form_for(:gift, :url => dt_unwrap_gift_path(@gift), :html => {:method => :put, :id => "giftform", :name => "giftform"}) do |f| %>
 		<div class="userform">
 			Click &quot;Deposit Gift&quot; below to deposit the gift into your account.
 			<%= f.hidden_field :pickup_code %>
