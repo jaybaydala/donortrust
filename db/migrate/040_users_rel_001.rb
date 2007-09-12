@@ -19,6 +19,7 @@ class UsersRel001 < ActiveRecord::Migration
       t.column :remember_token_expires_at, :datetime
       t.column :activation_code,           :string, :limit => 40
       t.column :activated_at,              :datetime
+      t.column :last_logged_in_at,         :datetime
       #t.column :active,                    :boolean, :default => true
       t.column :deleted_at, :datetime
       t.column :version, :integer

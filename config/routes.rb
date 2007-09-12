@@ -29,7 +29,7 @@ ActionController::Routing::Routes.draw do |map|
     :name_prefix => 'dt_', 
     :path_prefix => "/dt", 
     :collection => { :confirm => :post, :open => :get },
-    :member => { :unwrap => :post }
+    :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
   
   # inactive_record resources
