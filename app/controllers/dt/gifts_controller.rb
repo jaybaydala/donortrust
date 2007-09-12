@@ -46,9 +46,14 @@ class Dt::GiftsController < DtApplicationController
     @gift = Gift.validate_pickup(params[:gift][:pickup_code], params[:id])
     redirect_to :action => 'open' and return if !@gift
     @gift.pickup
-    Deposit.create_from_gift(@gift, current_user.id)
     respond_to do |format|
-      format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
+      if @gift.picked_up?
+        Deposit.create_from_gift(@gift, current_user.id)
+        format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
+      else
+        flash[:error] = 'Your gift couldn\'t be picked up at this time. Please recheck your code and try again.'
+        format.html { redirect_to :action => 'open' }
+      end
     end
   end
 

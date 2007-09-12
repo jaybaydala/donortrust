@@ -104,7 +104,7 @@ context "Gift" do
 
   specify "should error on invalid credit_card" do
     lambda {
-      t = create_gift(:credit_card => 4111111111111112 )
+      t = create_gift(credit_card_params(:credit_card => 4111111111111112) )
       t.errors.on(:credit_card).should.not.be.nil
     }.should.not.change(Deposit, :count)
   end
@@ -113,7 +113,7 @@ context "Gift" do
     %w( card_expiry first_name last_name address city postal_code country ).each {|f|
       lambda {
         fsym = f.to_sym
-        t = create_gift(:credit_card => 4111111111111111, fsym => nil)
+        t = create_gift(credit_card_params(fsym => nil))
         t.errors.on(fsym).should.not.be.nil
       }.should.not.change(Deposit, :count)
     }
@@ -132,20 +132,26 @@ context "Gift" do
     d = Deposit.new
     today = Date.today
     [ today, Date.civil(today.year, today.month, -1), today+1, today+31, today+365 ].each do |exp|
-      t = create_gift(:credit_card => 4111111111111111, :card_expiry => exp)
+      t = create_gift(credit_card_params(:credit_card => 4111111111111111, :card_expiry => exp))
       t.errors.on(:card_expiry).should.be.nil
     end
     [ today-365, today-31 ].each do |exp|
-      t = create_gift(:credit_card => 4111111111111111, :card_expiry => exp)
+      t = create_gift(credit_card_params(:credit_card => 4111111111111111, :card_expiry => exp))
       t.errors.on(:card_expiry).should.not.be.nil
     end
   end
 
   specify "should error on invalid card_expiry" do
     lambda {
-      t = create_gift(:credit_card => 4111111111111111, :card_expiry => 4009 )
+      t = create_gift(credit_card_params(:credit_card => 4111111111111111, :card_expiry => 4009 ))
       t.errors.on(:card_expiry).should.not.be.nil
     }.should.not.change(Deposit, :count)
+  end
+
+  specify "after save, credit_card should only contain the last 4 digits of the card number" do
+    card_number = 4111111111111111
+    t = create_gift(credit_card_params(:credit_card => card_number ))
+    t.credit_card.should.equal card_number.to_s[-4, 4]
   end
 
   specify "if user_id != nil and credit_card == nil, cannot give more than the user's current balance" do
@@ -164,6 +170,13 @@ context "Gift" do
     t = create_gift
     t.pickup
     t.pickup_code.should.be nil
+  end
+
+  specify "picked_up? should return true after pickup" do
+    t = create_gift
+    t.picked_up?.should.be false
+    t.pickup
+    t.picked_up?.should.be true
   end
 
   specify "pickup should make picked_up_at == Time.now()" do

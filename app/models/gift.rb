@@ -21,12 +21,15 @@ class Gift < ActiveRecord::Base
   end
   
   def pickup
-    @picked_up = true
-    update_attributes(:picked_up_at => Time.now.utc, :pickup_code => nil)
+    @picked_up = true if update_attributes(:picked_up_at => Time.now.utc, :pickup_code => nil)
   end
-
+  
+  def picked_up?
+    @picked_up || false
+  end
+  
   protected
-  def validate
+  def validate_on_create
     require 'iats/credit_card'
     if !credit_card_empty || user_id_empty
       errors.add_on_empty %w( first_name last_name address city province postal_code country credit_card expiry_month expiry_year card_expiry )
@@ -49,7 +52,7 @@ class Gift < ActiveRecord::Base
   end
 
   def before_save
-    credit_card = credit_card.to_s[ -4, 4 ] if credit_card != nil
+    self.credit_card = credit_card.to_s[-4, 4] if credit_card != nil
   end
 
   def make_pickup_code

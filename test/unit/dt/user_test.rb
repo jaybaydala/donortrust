@@ -86,6 +86,20 @@ context "User" do
     users(:quentin).should.equal User.authenticate('quentin@example.com', 'test')
   end
 
+  specify "should authenticate user who has never logged in" do
+    u = User.find(users(:quentin).id)
+    u.update_attributes( :last_logged_in_at => nil )
+    User.authenticate('quentin@example.com', 'test').should.not.be.nil
+  end
+
+  specify "should not authenticate user who hasn't logged in for more than a year" do
+    u = User.find(users(:quentin).id)
+    u.update_attributes( :last_logged_in_at => Time.now.last_year )
+    User.authenticate('quentin@example.com', 'test').should.not.be.nil
+    u.update_attributes( :last_logged_in_at => Time.now.ago((3600 * 24 * 365) + 1) ) # 1 year plus 1 second ago
+    User.authenticate('quentin@example.com', 'test').should.be.nil
+  end
+
   specify "should set remember token" do
     users(:quentin).remember_me
     users(:quentin).remember_token.should.not.be.nil

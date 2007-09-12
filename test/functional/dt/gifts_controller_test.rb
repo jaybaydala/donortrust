@@ -315,6 +315,7 @@ context "Dt::Gifts open behaviour" do
     login_as :quentin
     get :open, :code => '2bf1be756e096ae6cf3e15542df08762ff257b35'
     assert_select "form[method=post][action=/dt/gifts/#{assigns(:gift).id};unwrap]#giftform" do
+      assert_select "input[type=hidden][name=_method][value=put]"
       assert_select "input[type=hidden][value=2bf1be756e096ae6cf3e15542df08762ff257b35]"
       assert_select "input[type=submit]"
     end
@@ -327,48 +328,49 @@ context "Dt::Gifts unwrap behaviour" do
   include DtAuthenticatedTestHelper
   
   specify "should get redirected if not logged_in?" do
-    do_post
+    unwrap_gift
     should.redirect :controller => 'dt/accounts', :action => 'signin'
   end
 
   specify "should get redirected if no gift pickup_code is passed" do
     login_as :quentin
-    do_post(:pickup_code => nil)
+    unwrap_gift(:pickup_code => nil)
     should.redirect :action => 'open'
-    do_post(:pickup_code => "")
+    unwrap_gift(:pickup_code => "")
     should.redirect :action => 'open'
   end
 
   specify "should remove the pickup_code and set picked_up_at to Time.now" do
     login_as :quentin
-    do_post
+    now = Time.now.utc
+    unwrap_gift
     assigns(:gift).pickup_code.should.be.nil
-    assigns(:gift).picked_up_at.to_s.should.equal Time.now.utc.to_s
+    assigns(:gift).picked_up_at.to_s.should.equal now.to_s
   end
 
   specify "should create a deposit and put the gift into my account" do
     login_as :quentin
     lambda {
-      do_post
+      unwrap_gift
     }.should.change(Deposit, :count)
   end
 
   specify "should create a UserTransaction" do
     login_as :quentin
     lambda {
-      do_post
+      unwrap_gift
     }.should.change(UserTransaction, :count)
   end
 
   specify "should redirect to my account overview" do
     login_as :quentin
-    do_post
+    unwrap_gift
     should.redirect :controller => 'dt/accounts', :action => 'show', :id => users(:quentin).id
   end
   
   private 
-  def do_post(options = {})
-    post :unwrap, :id => 2, :gift => { :pickup_code => "2bf1be756e096ae6cf3e15542df08762ff257b35" }.merge(options)
+  def unwrap_gift(options = {})
+    put :unwrap, :id => 2, :gift => { :pickup_code => "2bf1be756e096ae6cf3e15542df08762ff257b35" }.merge(options)
   end
 end
 
