@@ -808,6 +808,9 @@ form div.userform input[type=submit] {display:block;width: auto; height:auto; ba
 	padding-bottom: 2em;
 	margin-bottom: 1em;
 }
+form span.required {
+	color:#C00;
+}
 form li.header {
 	background-color: #EEF5FF;
 	color: #033;
