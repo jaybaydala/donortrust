@@ -39,23 +39,16 @@ class Dt::GroupsController < DtApplicationController
 
   def create
     @group = Group.new(params[:group])
-    group_saved = @group.save
-    
-    membership = @group.memberships.build(:user_id => current_user.id, :membership_type => 3)
-    membership_saved = membership.save
+	group_saved = @group.save
+	membership = @group.memberships.build(:user_id => current_user.id, :membership_type => 3) if group_saved
+	membership_saved = membership.save if membership
 
     respond_to do |format|
-      if group_saved and membership_saved
+      if membership_saved
         flash[:notice] = 'Group and membership was successfully created.'
         format.html { redirect_to dt_group_url(@group) }
-        format.xml  { head :created, :location => dt_group_url(@group) }
-      elsif !membership_saved
-        format.html { render :action => "new" }
-        format.xml  { render :xml => membership.errors.to_xml }
       else
-      	puts @group.errors.to_xml
         format.html { render :action => "new" }
-        format.xml  { render :xml => @group.errors.to_xml }
       end
     end
   end
