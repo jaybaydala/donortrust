@@ -108,6 +108,25 @@ context "Dt::GroupsController handling GET /dt/groups" do
     assigns(:groups).should.not.be nil
     template.should.be "dt/groups/index"
   end
+
+  #When looking at a list of groups:
+  #  -  the group should show name, description, type, geographic location and interests
+  specify "should show many groups" do
+    login_as :tim
+    do_get
+    assert_select "ul>li#?", /group-\d+/
+  end
+
+  specify "should show name, description, type" do
+    login_as :tim
+    do_get
+    #puts response.body
+  	assert_select "a", "Public Group"
+  	assert_select "a", "Private Group"
+  	assert_select "p", 'this is the description'
+  	assert_select "p", 'School'
+  end
+
 end
 
 context "Dt::GroupsController handling GET /dt/groups;new" do
@@ -183,6 +202,12 @@ context "Dt::GroupsController handling POST /dt/groups;create" do
     }.should.not.change(Group, :count)
   end
   
+  specify "should automatically be added as a member of this group and made the owner" do
+    lambda {
+      create_group
+    }.should.change(Membership, :count)
+	Membership.find(:first, :order => 'created_at desc').membership_type.should.be(3)
+  end
   
   def create_group(options = {}, login = true)
     login_as :tim if login == true
@@ -334,10 +359,10 @@ end
 #these will all allow a community to form through the group model
 #
 #As a group creator, I should:
-#  - automatically be added as a member of the group
-#  - as well as you should become an owner of the group you just added
+#  x automatically be added as a member of the group
+#  x should become an owner of the group you just added
 #  - be protected from other admins removing my admin status
-#  - 
+#  
 #Low priority stories:
 #Group Accounts
 #  - Corporate Accounts (an Encana account where Encana will match employee giving)
@@ -346,3 +371,11 @@ end
 #  - Group admin would send a competitiion invite would be sent to another existing group (of any kind)
 #  - Invite must be accepted for competition to begin...
 
+# membership connects users and groups and can store roles
+# groups has many users through memberships
+# users has many groups through memberships
+# http://railscasts.com/episodes/47
+# Roles
+# 1 - Philistine dogs (everyone)
+# 2 - Admin
+# 3 - Group owner (only one or called in and got it from )
