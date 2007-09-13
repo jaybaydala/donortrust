@@ -1,3 +1,6 @@
 <li id="group-<%= group.id %>" class="list-item">
-<div class="group-title"><%= link_to group.name, dt_group_path(group) %></div>
+<div class="group-title"><%= link_to group.name, dt_group_path(group) %>
+<p><%= group.description %></p>
+<p><%= group.group_type.name %></p>
+</div>
 </li>
