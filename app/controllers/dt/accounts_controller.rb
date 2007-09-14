@@ -148,7 +148,7 @@ class Dt::AccountsController < DtApplicationController
     if !user
       user = User.find_by_id( logged_in? ? current_user : session[:tmp_user] )
     end
-    UserNotifier.deliver_change_notification(user) if user && user.activation_code
+    DonortrustMailer.deliver_user_change_notification(user) if user && user.activation_code
     flash[:notice] = "We have resent the activation email to your login email address"
     redirect_to dt_accounts_url()
   end

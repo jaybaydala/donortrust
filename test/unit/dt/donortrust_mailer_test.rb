@@ -90,7 +90,7 @@ end
 #  end
 #end
 
-require 'gift_test_helper'
+require File.dirname(__FILE__) + '/gift_test_helper'
 context "DonortrustMailer gift_mail Test" do
   include GiftTestHelper
   FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures'
