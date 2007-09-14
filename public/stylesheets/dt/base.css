@@ -47,7 +47,7 @@ table caption {
 #content {
 	width: 760px;
 	margin: 0;
-	padding: 0;
+	padding: 0 0 15px 0;
 	color: #333;
 	background: #FFF;
 	height: inherit;
@@ -198,7 +198,7 @@ div.highlight {
 	height: auto;
 	background: none;
 	padding: 0px 0px 20px 0px;
-	margin-right: 0px;
+	margin: 0px 0 15px 0;
 	background:none;
 }
 #leftColW2 {
@@ -207,14 +207,14 @@ div.highlight {
 	height: auto;
 	background: none;
 	padding: 10px 10px 20px 18px;
-	margin-right: 0px;
+	margin: 0px 0 15px 0;
 	background: #D8DEE7;
 }
 #rightColN {
 	float: right;
-	width: 221px;
+	width: 228px;
 	height: auto;
-	padding: 0px 7px 5px 0px;
+	padding: 0px 0px 5px 0px;
 	background: none;
 }
 
@@ -224,7 +224,7 @@ div.highlight {
 	float: right;
 	width: 221px;
 	height: auto;
-	padding: 0px 7px 5px 0px;
+	padding: 0px 0px 5px 0px;
 	background: none;
 }
 #rightColW {
@@ -285,7 +285,7 @@ h1 {
 	color: #033;
 	font-weight:normal;
 	background: transparent;
-	padding: 5px 20px 10px 7px;
+	padding: 0px 20px 10px 7px;
 	margin: 0px 0px 0px 0px;
 	border-bottom: 0px solid #fff;
 }
@@ -299,10 +299,11 @@ h2 {
 	border-bottom: 1px solid #666;
 	letter-spacing: 0px;
 }
+#rightColN h2 {margin: 0 0 13px 0;}
 h3 {
 	font: 14px/18px Georgia, "Times New Roman", Times, serif;
 	font-weight:normal;
-	padding: 9px 0px 2px 9px;
+	padding: 9px 0px 7px 9px;
 	color:#033;
 }
 h4 {
@@ -330,7 +331,7 @@ p {
 	color: #333;
 	background-color: transparent;
 }
-#leftColW  ul {
+#leftColW  ul, #leftColW2  ul {
 	font: 13px/22px Georgia, "Times New Roman", Times, serif;
 	color:#333;
 	font-weight:normal;
@@ -338,7 +339,7 @@ p {
 	margin-bottom:15px;
 	list-style-type:disc;
 }
-#leftColW  li {padding-bottom:5px;}
+#leftColW li, #leftColW2 li {padding-bottom:5px;}
 
 #rightColN p {
 	font: 11px/18px Arial, Helvetica, sans-serif;
@@ -351,7 +352,7 @@ p {
 	color: #333;
 }
 #rightColN ul {
-	width: 228px;
+	width: 221px;
 	margin-bottom:10px;
 	display:block;
 	list-style-type:none;
@@ -381,10 +382,9 @@ p {
 	}
 .textsm {
 	font: 11px/14px Arial, Helvetica, sans-serif;
-	margin: 10px 0 0 0;
-	padding: 0px 15px 14px 0px;
+	margin: 0px 0 0 0;
+	padding: 0px 0px 15px 0px;
 	color: #333;
-	float:left;
 	}
 .textsm a:link, .textsm a:visited {
 	color: #333;
@@ -398,18 +398,44 @@ p {
 }
 .textsm_bd {
 	font: 9px/15px Verdana, Arial, Helvetica, sans-serif;
-	padding: 0px 15px 10px 8px;
+	padding: 0px 0px 10px 8px;
 	color: #333;
 	font-weight: bold;
 	margin: 0 0 0 0;
 }
-.textsmList {
+/*.textsmList {
 	display: block;
 	list-style-type: none;
 	font: 10px/14px Verdana, Arial, Helvetica, sans-serif;
 	padding: 0px 25px 10px 10px;
 	color: #CCC;
 	border-left: 0px solid #ccc;
+}*/
+
+.pageNav {
+	font: 11px/17px Arial, Helvetica, sans-serif;
+	margin: 0px 0 0 7px;
+	padding: 0px 0px 8px 0px;
+	color: #333;
+}
+.pageNav li {
+	list-style-type:none;
+	display:inline;
+	padding-right: 2px;
+}
+.pageNav a:link, .pageNav a:visited {
+	color: #333;
+	cursor: pointer;
+	text-decoration: none;
+	border: 1px solid #FFF;
+	padding: 1px 4px 1px 4px;
+}
+.pageNav a:hover, .pageNav a:active {	
+	color: #333;
+	cursor: pointer;
+	text-decoration: none;
+	border: 1px solid #F60;
+	padding: 1px 4px 1px 4px;
 }
 
 /* Endline is a rule (line) used for ending/separating paragraphs */
@@ -425,8 +451,9 @@ p {
 
 /* IMAGE STYLES */
 
-#rightCol img {margin: 0 0 10px 0;}
-#contentContainer2 #rightCol img {width:216px; margin: 3px 0 10px 0;}
+#rightColN img {margin: 0 0 10px 0;}
+#contentContainer2 #rightCol img {width:216px; margin: 3px 0 15px 0;}
+#leftColW img, #leftColW2 img {width:469px; padding:0px; border:0px solid #CCC; margin: 0px 0 15px 0;}
 
 /* BUTTON AND LINK STYLES */
 
@@ -731,19 +758,90 @@ p a:hover, p a:active {
 	list-style-type: none;
 }
 
-/* FORM ELEMENT STYLES */
+/* FORM STYLES */
 
-/* Input Fields */
+/* Input Field, Fields, Jump Menues, Labels  */
 
-/* `Fields, Jump Menues, Labels  */
+form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
 
-#leftColW fieldset, #leftColW2 fieldset {
-	float:left; 
-	background: #D8DEE7; 
-	border: 0px solid #781351; 
-	display:block;
-	padding: 10px 143px 10px 0;
+#leftColW form {
+	float:lef;
+	width: 469px; height: auto;
+	margin: 0px 0 10px 7px;
+	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
+	color: #333;
 }
+#leftColW2 form {
+	float:lef;
+	width: 100%; height: auto;
+	margin: 0px 0 10px 7px;
+	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
+	color: #333;
+}
+
+#leftColW form fieldset {float:left; width:465px; border-top: 1px solid #95AED0; padding:0px 0px 0 0; margin: 0 0 15px 0;}
+#leftColW2 form fieldset {float:left; width:95%; border-top: 1px solid #95AED0; padding:0 0 0 0; margin: 0 0 15px 0;}
+#leftColW form legend, #leftColW2 form legend {
+	font: x-small/12px Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	background: transparent; 
+	border-bottom: 0px solid #95AED0; 
+	display: ;
+	padding: 0px 5px 5px 0px;
+	margin: 0 0px; /* IE Win */
+}
+/*\*//*/
+legend {
+  display: inline-block;
+}
+/* IE Mac legend fix */
+
+/* SIGN IN, SIGN UP Modules */
+
+.userform {margin:0px 0 5px 0px;}
+.userform ul {margin-top:10px; padding-left:50px;}
+.userform ol {margin-top:10px; padding-left:50px;}
+.userform li {float:left; list-style-type: none; display: block; margin-bottom: 0px;}
+.userform input {float:left; width: 150px; margin: 0px 20px 0px 0; background:#FFF;}
+.userform input[type=submit] {display:block;width: auto; height:auto; background:#999; color:#FFF; margin:3px 0 0 157px;}
+
+/* old userform 
+.userform {float:left; margin:0px 0 5px 0px;}
+.userform ul {margin:0;padding:0;}
+.userform ol {margin:0;padding:0;}
+.userform li {float:left; list-style-type: none; display: block;margin-bottom: 5px;}
+.userform input {float:left; width: 150px; margin: 0px 20px 0px 0; background:#FFF;}
+.userform input[type=submit] {display:block;width: auto; height:auto; background:#999; color:#FFF; margin:3px 0 0 105px;}
+*/
+
+#textInput {float:left; width:465px; height:auto; margin: 0px 0 10px 0; background:;}
+textarea {float:left; border:1px solid #CCC; width:462px; margin-top:0px; padding:0px;}
+#textInput label {
+	float:left;
+	display:inline-block; 
+	width:11.5em;
+	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold; 
+	color: ; 
+	margin: 10px 0.5em 4px 0px; 
+	text-align: left; 
+	text-transform:capitalize;
+	text-display:block;
+}
+label {
+	float:left; 
+	width:10em;
+	font: x-small Arial, Helvetica, sans-serif;
+	font-weight:normal;
+	color: #333;
+	padding-top:2px;
+	margin: 0px 0.75em 2px 0px; 
+	text-align: right; 
+	text-transform:capitalize;
+	display:block;
+}	
+#ecard input[type=checkbox] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
+input[type=checkbox] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
 input {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #333;
@@ -757,92 +855,14 @@ input {
 	height: 14px;
 	float:left;
 }
-select {
-	font-family: Arial, Helvetica, sans-serif;
-	color: #333;
-	text-transform:capitalize;
-	background-color:#FFF;
-	border: 1px solid #999;
-	margin-right: 5px;
-	padding: 0px 0 1px 0;
-	width: 150px;
-	font-size: 11px;
-	voice-family: "\"}\""; 
-	voice-family:inherit;
-	font-size: 11px;
-	}
-label {
-	float:left; 
-	width:10em;
-	font: x-small Arial, Helvetica, sans-serif;
-	font-weight:bold;
-	color: #333;
-	padding-top:4px;
-	margin: 0px 0.5em 2px 0px; 
-	text-align: right; 
-	text-transform: capitalize;
-	display:block;
-}
 
-#leftColW form, #leftColW2 form {
-	width: 420px; /*395px or 420px*/
-	margin: 0px 0 10px 7px;
-	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
-	color: #333;
-}
-form {margin:0px 0 5px 0px;}
-form ul {margin:0;padding:0;}
-form li {clear: left; list-style-type: none; display: block; margin-bottom: 10px;}
-form div.userform input {width: 150px; margin: 0px 0px 0px 0; background:#FFF;}
-form div.userform input[type=submit] {display:block;width: auto; height:auto; background:#236; color:#FFF; margin:3px 0 0 105px;}
-
-#leftColW form ul.formsection {
-	border: #D8DEE7 6px solid;
-	background-color: transparent;
-	padding-bottom: 2em;
-	margin-bottom: 1em;
-}
-#leftColW2 form ul.formsection {
-	border: #EEF5FF 6px solid;
-	background-color: transparent;
-	padding-bottom: 2em;
-	margin-bottom: 1em;
-}
-form span.required {
-	color:#C00;
-}
-form li.header {
-	background-color: #EEF5FF;
-	color: #033;
-}
-form li.header h2, form li.header h3 {
-	color: #033;
-	border-bottom: 0px;
-}
-
-div.buttonsubmit {
-	clear: left;
-	padding: 3px 0 0 105px;
-}
-div.buttonsubmit a:link, div.buttonsubmit a:visited, div.buttonsubmit a:hover, div.buttonsubmit a:active {
-	display: block;
-	height: 18px;
-	padding-top: 2px;
-	font: xx-small/14px Arial, Helvetica, sans-serif;
-	color: #FFF;
-	text-align: center;
-	text-decoration: none;
-	background-repeat: no-repeat;
-	background-color: transparent;
-}
-div.buttonsubmit a.small {width:52px;background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif);}
-div.buttonsubmit a.small:hover {background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif);}
-div.buttonsubmit a.medium {width:78px;background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif);}
-div.buttonsubmit a.medium:hover {background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_medium.gif);}
-
-div.error, div.errorExplanation {
+div.notice, div.error, div.errorExplanation {
 	margin:0 0 10px 0;
 	padding:4px;
+}
+div.notice {
+}
+div.error, div.errorExplanation {
 	border:2px solid #C00;
 }
 div.errorExplanation ul {
@@ -881,11 +901,28 @@ div.errorExplanation ul {
 	font-size: 9px;
 }
 
+select {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #333;
+	text-transform:capitalize;
+	background-color:#FFF;
+	border: 1px solid #999;
+	margin-right: 4px;
+	padding: 0px 0 1px 0;
+	width: 149px;
+	font-size: 11px;
+	voice-family: "\"}\""; 
+	voice-family:inherit;
+	font-size: 11px;
+	float:left;
+}
+.inlineSelect {float:left; margin: 5px 0 5px 0; padding:0; width:100%; height:auto;}
+
 #relatedProjects {
 	width:228px; height:25px; 
 	float: right; 
 	background: #FFF url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat -496px 0px;
-	padding: 3px 0 5px 0;
+	padding: 3px 0 10px 0;
 }
 #relatedProjects select {width: 220px; margin: 0;}
 
@@ -914,7 +951,37 @@ div.errorExplanation ul {
 	cursor: pointer;
 }
 
-/* Sign In, Sign Up Modules */
+/* SUBMIT BUTTONS */
+
+div.buttonsubmit {
+	clear:left;
+	padding:3px 0 0 158px;
+}
+div.buttonsubmit a:link, div.buttonsubmit a:visited, div.buttonsubmit a:hover, div.buttonsubmit a:active {
+	display:block;
+	height: 18px;
+	padding-top: 2px;
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color:#FFF;
+	text-align:center;
+	text-decoration:none;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+div.buttonsubmit a.small {
+	width:52px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif);
+}
+div.buttonsubmit a.small:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif);
+}
+div.buttonsubmit a.medium {
+	width:78px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif);
+}
+div.buttonsubmit a.medium:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_medium.gif);
+}
 
 .signInLabel {
 	font: xx-small Arial, Helvetica, sans-serif;
@@ -1068,32 +1135,32 @@ div.errorExplanation ul {
 
 #projectInfo {
 	float:left;
-	width:724px;
+	width:717px;
 	text-align:left;
 	border-top: 0px solid #360;
-	border-bottom: 1px solid #666;
-	padding: 0 0 15px 0;
-	margin: 0px 0 10px 18px;
+	border-bottom: 2px solid #360;
+	padding: 0 0 10px 0px;
+	margin: 0px 0 10px 25px;
 }
 #projectInfo h1 {
 	font: 24px/30px Georgia, "Times New Roman", Times, serif;
 	color: #033;
 	font-weight:normal;
-	padding: 0px 20px 5px 7px;
+	padding: 0px 20px 5px 0px;
 	margin: 0px 0px 1px 0px;
 	border-bottom: 0px solid #666;
 }
 #projectInfo h2 {
-	font: 16px/20px Arial, Helvetica, sans-serif;
-	color: #333;
-	padding: 0px 0px 3px 0px;
+	font: 16px/20px  Georgia, "Times New Roman", Times, serif;
+	color: #360;
+	padding: 0px 0px 5px 0px;
 	margin: 0px 0px 5px 0px;
-	width:476px;
-	border-bottom: 3px solid #666;
+	width:469px;
+	border-bottom: 1px solid #666;
 }	
 #projectInfo p {
 	font: 13px/18px Georgia, "Times New Roman", Times, serif;
-	padding: 0px 0px 10px 7px;
+	padding: 0px 0px 10px 0px;
 	width:469px;
 	float:left;
 }
@@ -1108,10 +1175,10 @@ div.errorExplanation ul {
 	float:left;
 }
 .projectSMtext {
-	font: 11px/15px Arial, Helvetica, sans-serif;
-	padding: 0px 0px 8px 7px;
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	padding: 0px 0px 8px 0px;
 	color: #333;
-	width: 469px;
+	width: 100% ;/*469px */
 	float:left;
 }
 
@@ -1119,40 +1186,41 @@ div.errorExplanation ul {
 
 .projectRank {
 	font: 11px/15px Arial, Helvetica, sans-serif;
-	padding: 0px 0px 8px 7px;
+	padding: 0px 0px 8px 0px;
 	color: #333;
 	width: 469px;
 	float:left;
 }
-#villageRatingProject {float:left; width:75px; height:15px; background: transparent url(/images/dt/rate_stars/stars.gif) no-repeat -15px 0px}
-#villageRatingOrg {float:left; width:75px; height:15px; background: transparent url(/images/dt/rate_stars/stars.gif) no-repeat -45px 0px}
+#villageRatingProject {float:left; width:75px; height:17px; margin-right:10px; background: transparent url(/images/dt/rate_stars/stars.gif) no-repeat -15px 0px}
+#villageRatingOrg {float:left; width:75px; height:17px; margin-right:10px; background: transparent url(/images/dt/rate_stars/stars.gif) no-repeat -45px 0px}
 
 /* Project Facts Module */
 
-#projectFacts {
+#factList {
 	float:right;
 	width: 228px;
 	padding: 0px 0px 5px 0px;
 	}
-#projectFacts ul {
-	width: 228px;
+#factList ul {
+	width: 100%;
 	display:block;
 	list-style-type:none;
+	margin-bottom:10px;
 }
-#projectFacts li {
+#factList li {
 	font: 11px/15px Arial, Helvetica, sans-serif;
 	padding: 0px 0 3px 0px;
 	margin: 0 0 3px 0;
 	border-bottom: 1px solid #CCC;
 	background:none;
 }
-#projectFacts h2 {
-	font: 16px/20px Arial, Helvetica, sans-serif;
-	color: #333;
-	padding: 0px 0px 3px 0px;
+#factList h2 {
+	font: 16px/20px  Georgia, "Times New Roman", Times, serif;
+	color: #360;
+	padding: 0px 0px 5px 0px;
 	margin: 0px 0px 5px 0px;
 	width:100%;
-	border-bottom: 3px solid #666;
+	border-bottom: 1px solid #666;
 }	
 
 /* Rating Table */
@@ -1328,3 +1396,60 @@ div.errorExplanation ul {
 	margin:0 1px 0 0;
 	padding:1px;
 }
+
+/* TABLE-LESS TABLE STYLES */
+
+#row {height:19px; width:auto; padding:2px 0 4px 0; margin:0px 0 2px 0px; background:; border-bottom:1px solid #CCC;}
+#ecardInputs ul {padding:0;margin:0;}
+#row li {list-style-type: none; display: inline; padding:0px 0 1px 0;}
+#row .tableHead li {float:left; display:block; background:; border-bottom:0px solid #999}
+
+/* E-CARD STYLES */
+
+#ecard {background: ;}
+
+#ecard p {
+	font: 13px/22px Georgia, "Times New Roman", Times, serif;
+	padding: 0px 0px 10px 0px;
+	margin:0;
+	color: #333;
+}
+#ecard .textsm {
+	font: 11px/14px Arial, Helvetica, sans-serif;
+	margin: 5px 0 5px 0;
+	padding: 0px 0px 0px 0px;
+	color: #333;
+	background:;
+	width:100%;
+	float:left; 
+	display:block;
+}
+#ecardInputs { 
+	width:469px; height:auto; 
+	background:; 
+	padding: 0 0 5px 0; 
+	margin: 10px 0 15px 0px;
+	border-top:0px solid #900; 
+	border-bottom:0px solid #900;
+}
+.name {float:left; height:19px; width:auto; background:;}
+.email {float:left; height:19px; width:auto; background:;}
+
+#ecardInputs .name input {float:left; width: 110px; margin:0px;}
+#ecardInputs .email input {float:left; width: 124px; margin:0px;}
+
+#ecardInputs label {
+	float:left;
+	display:inline-block; 
+	width:11.5em;
+	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
+	font-weight:; 
+	color: ; 
+	margin: 0px 0.5em 0px 0px; 
+	text-align: right; 
+	text-transform:capitalize;
+	text-display:block;
+}
+.ecardButtons {display: inline;}
+.ecardButtons li {float:left; list-style-type:none; margin-right:5px;}
+.ecardButtons input {height:25px; padding:0;margin:0;}
