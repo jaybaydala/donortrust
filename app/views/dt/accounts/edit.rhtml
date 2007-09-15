@@ -7,36 +7,43 @@
 	<% form_for(:user, :url => dt_account_path(@user), :html => { :method => 'put', :id => "userform", :name => "userform"}) do |f| -%>
 	<div class="userform">
 		
+		<fieldset>
+			<legend class="header">Login/Email</legend>
+			<ul>
+				<li><label for="user_login">Email</label> <%= f.text_field :login %></li>
+			</ul>
+		</fieldset>
 
-		<ul class="formsection">
-			<li class="header"><h2>Login/Email</h2></li>
-			<li><label for="user_login">Email</label> <%= f.text_field :login %></li>
-		</ul>
-
-		<ul class="formsection">
-			<li class="header"><div class="formnote">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website.</div></li>
-			<li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li>
-			<li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li>
-			<li><label for="user_display_name">Display Name</label> <%= f.text_field :display_name %></li>
-		</ul>
-
+		<fieldset>
+			<legend>You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website.</legend>
+			<ul>
+				<li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li>
+				<li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li>
+				<li><label for="user_display_name">Display Name</label> <%= f.text_field :display_name %></li>
+			</ul>
+		</fieldset>
+		
 		<%= error_messages_for :password %>
-		<ul class="formsection">
-			<li class="header"><div class="formnote">Change Password - Enter your current password and a new password if you wish</div></li>
-			<li><label for="old_password">Current Password</label> <%= password_field_tag :old_password %></li>
-			<li><label for="user_password">Password</label> <%= f.password_field :password %></li>
-			<li><label for="user_password_confirmation">Confirm Password</label> <%= f.password_field :password_confirmation %></li>
-		</div>
+		
+		<fieldset>
+			<legend>Change Password - Enter your current password and a new password if you wish</legend>
+			<ul>
+				<li><label for="old_password">Current Password</label> <%= password_field_tag :old_password %></li>
+				<li><label for="user_password">Password</label> <%= f.password_field :password %></li>
+				<li><label for="user_password_confirmation">Confirm Password</label> <%= f.password_field :password_confirmation %></li>
+			</ul>
+		</fieldset>
 
-
-		<ul class="formsection">
-			<li class="header"><div class="formnote">The following fields are optional.</div></li>
-			<li class="formInput"><label for="user_address">Address</label> <%= f.text_field :address %></li>
-			<li><label for="user_city">City</label> <%= f.text_field :city %></li>
-			<li><label for="user_province">Province/State</label> <%= f.text_field :province %></li>
-			<li><label for="user_postal_code">Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
-			<li><label for="user_country">Country</label> <%= f.text_field :country %></li>
-		</ul>
+		<fieldset>
+			<legend>The following fields are optional.</legend>
+			<ul>
+				<li class="formInput"><label for="user_address">Address</label> <%= f.text_field :address %></li>
+				<li><label for="user_city">City</label> <%= f.text_field :city %></li>
+				<li><label for="user_province">Province/State</label> <%= f.text_field :province %></li>
+				<li><label for="user_postal_code">Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
+				<li><label for="user_country">Country</label> <%= f.text_field :country %></li>
+			</ul>
+		</fieldset>
 
 		<%= submit_tag 'Update Profile', :class => 'buttonsubmit' %>
 	</div>

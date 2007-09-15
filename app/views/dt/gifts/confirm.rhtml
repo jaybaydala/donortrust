@@ -9,11 +9,11 @@
 
 	<ul class="formsection">
 		<li class="header"><h2>Gift Details</h2></li>
-		<li><label for="gift_to_name">To (Name)</label><%= params[:gift][:to_name] %> <%= f.hidden_field :to_name %></li>
-		<li><label for="gift_to_email">To (Email)</label><%= params[:gift][:to_email] %> <%= f.hidden_field :to_email %></li>
 		<li><label for="gift_amount">Gift Amount</label><%= number_to_currency(params[:gift][:amount]) %> <%= f.hidden_field :amount, :value => number_with_precision(params[:gift][:amount], 2) %></li>
 		<li><label for="gift_name">From (Name)</label><%= params[:gift][:name] %> <%= f.hidden_field :name %></li>
-		<li><label for="gift_Email">From (Email)</label><%= params[:gift][:email] %> <%= f.hidden_field :email %></li>
+		<li><label for="gift_email">From (Email)</label><%= params[:gift][:email] %> <%= f.hidden_field :email %></li>
+		<li><label for="gift_to_name">To (Name)</label><%= params[:gift][:to_name] %> <%= f.hidden_field :to_name %></li>
+		<li><label for="gift_to_email">To (Email)</label><%= params[:gift][:to_email] %> <%= f.hidden_field :to_email %></li>
 		<li><label for="gift_message">Gift Message</label><%= params[:gift][:message] %> <%= f.hidden_field :message %></li>
 	</ul>
 
@@ -43,7 +43,8 @@
 		</ul>
 	</div>
 
-	<%= submit_tag 'continue', :class => 'buttonsubmit' %>
+	<%= submit_tag 'Gift It', :class => 'buttonsubmit' %>
+	<input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit">
 </div>
 <% end %>
 </div>

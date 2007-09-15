@@ -1,7 +1,7 @@
 <%
 transaction_type = transaction.tx.class.to_s
 amount = number_to_currency(transaction.tx.amount)
-date = transaction.tx.created_at.to_formatted_s(:short)
+date = transaction.tx.created_at.to_formatted_s(:short) if transaction.tx.created_at
 bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 %>
 <% case transaction_type -%>

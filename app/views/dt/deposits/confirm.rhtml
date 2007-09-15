@@ -23,8 +23,8 @@
 		<li><label for="deposit_country">Country</label> <%= params[:deposit][:country] %> <%= f.hidden_field :country %></li>
 	</ul>	
 
-	<input type="button" value="go back" onclick="javascript:history.go(-1);" class="buttonsubmit">
-	<%= submit_tag 'continue', :class => 'buttonsubmit' %>
+	<%= submit_tag 'Complete Deposit', :class => 'buttonsubmit' %>
+	<input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit">
 </div>
 <% end %>
 </div>

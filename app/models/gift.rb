@@ -10,7 +10,7 @@ class Gift < ActiveRecord::Base
   before_create :make_pickup_code
 
   def sum
-    super * -1
+    return credit_card ? 0 : super * -1
   end
 
   def self.validate_pickup(pickup_code, id=nil)

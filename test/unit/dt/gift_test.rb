@@ -97,9 +97,14 @@ context "Gift" do
     }.should.change(UserTransaction, :count)
   end
 
-  specify "sum should return a negative amount" do
-    t = create_gift()
+  specify "sum should return a negative amount if !credit_card" do
+    t = create_gift(:user_id => 1)
     t.sum.should.be < 0
+  end
+
+  specify "sum should return 0 if credit_card" do
+    t = create_gift(credit_card_params)
+    t.sum.should.be 0
   end
 
   specify "should error on invalid credit_card" do
@@ -155,8 +160,9 @@ context "Gift" do
   end
 
   specify "if user_id != nil and credit_card == nil, cannot give more than the user's current balance" do
+    balance = User.find(users(:quentin).id).balance
     lambda {
-      t = create_gift( :user_id => 1, :amount => 2000.00 )
+      t = create_gift( :user_id => users(:quentin).id, :amount => balance + 0.01 )
       t.errors.on(:amount).should.not.be.nil
     }.should.not.change(Deposit, :count)
   end

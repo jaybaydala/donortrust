@@ -24,7 +24,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def before_save
-    credit_card = credit_card.to_s[ -4, 4 ] if credit_card != nil
+    self[:credit_card] = credit_card.to_s[-4, 4] if credit_card != nil
     if gift_id == nil
       errors.add_on_empty %w( authorization_result )
     end

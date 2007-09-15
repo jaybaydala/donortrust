@@ -242,7 +242,7 @@ context "Dt::Gifts create behaviour"do
   specify "should create a gift and render the create template" do
     # !logged_in?
     lambda {
-      create_gift({}, false)
+      create_gift(nil, false)
       template.should.be "dt/gifts/create"
     }.should.change(Gift, :count)
     # logged_in?
@@ -250,6 +250,16 @@ context "Dt::Gifts create behaviour"do
       create_gift()
       template.should.be "dt/gifts/create"
     }.should.change(Gift, :count)
+  end
+
+  specify "@gift should be assigned on create" do
+    create_gift()
+    assigns(:gift).should.not.be.nil
+  end
+  
+  specify "@gift should contain an authorization_result when a credit_card is used" do
+    create_gift(nil, false)
+    assigns(:gift).authorization_result.should.not.be nil
   end
 
   protected
@@ -281,9 +291,9 @@ context "Dt::Gifts create behaviour"do
     gift_params[:user_id] = users(:quentin).id if login == true
     
     # merge with passed options
-    gift_params.merge!(options[:gift]) if options[:gift] != nil
+    gift_params.merge!(options) if options != nil
     
-    post :create, { :gift => gift_params.merge(options)}
+    post :create, { :gift => gift_params }
   end
 end
 

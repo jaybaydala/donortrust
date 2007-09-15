@@ -1,5 +1,17 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
-two:
-  id: 2
+  amount: 5000.00
+  first_name: Quentin
+  last_name: Test
+  address: 36 Example St.
+  city: Calgary
+  province: AB
+  postal_code: T2Y 3N2
+  country: CA
+  credit_card: 1111
+  card_expiry: 2009-04-30
+  authorization_result: 1234567890:TEST
+  gift_id: 
+  user_id: 1
+  created_at: <%= 5.days.ago.to_s :db %>
+  updated_at: <%= 5.days.ago.to_s :db %>

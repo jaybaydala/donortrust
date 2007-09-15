@@ -161,7 +161,7 @@ context "Dt::Deposits confirm behaviour"do
     login_as :quentin
     do_post
     assert_select "form#depositform input" do |input|
-      assert_select "[type=button][onclick=javascript:history.go(-1);]"
+      assert_select "[type=button][onclick=history.go(-1);]"
     end
   end
   
@@ -196,12 +196,12 @@ context "Dt::Deposits create behaviour"do
       should.redirect :controller => 'dt/accounts', :action => 'show', :id => users(:quentin).id
     }.should.change(Deposit, :count)
   end
-
+  
   private
   def create_deposit(options = {})
-    deposit_params = { :amount => 200.00, :first_name => 'Tim', :last_name => 'Glen', :address => '36 Example St.', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'CA', :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
+    deposit_params = { :amount => 200.00, :first_name => 'Timothy', :last_name => 'Glen', :address => '36 Hill Trail', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'CA', :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
     # merge the options
-    deposit_params.merge!(options[:deposit]) if options[:deposit]
+    deposit_params.merge!(options) if options
     # do the post
     post :create, :deposit => deposit_params
   end

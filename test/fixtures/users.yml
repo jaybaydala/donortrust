@@ -4,7 +4,8 @@ quentin:
   first_name: Quentin
   last_name: Tester
   address: 1 Test Address
-  city: California
+  city: Hollywood
+  province: CA
   postal_code: 90210
   country: USA
   salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd

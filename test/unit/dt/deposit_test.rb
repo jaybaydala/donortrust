@@ -130,6 +130,11 @@ context "Deposit" do
     t.sum.should.be > 0
   end
 
+  specify "credit_card should only contain the last 4 digits after save" do
+    t = create_deposit( :credit_card => 4111111111111111 )
+    t.credit_card.should.equal "1111"
+  end
+
   private
   def create_deposit(options = {})
     Deposit.create({ :amount => 1, :user_id => 1, :first_name => 'Tim', :last_name => 'Glen', :address => '36 Example St.', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'Canada', :credit_card => 4111111111111111, :card_expiry => '04/09', :authorization_result => '1234' }.merge(options))
