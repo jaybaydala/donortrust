@@ -1,16 +1,12 @@
-require 'iats/credit_card'
+require File.dirname(__FILE__) + '/credit_card'
 
 class IatsLink
-  attr_reader :version, :proxy_host, :proxy_port, :proxy_username, :proxy_password, 
-    :agent_code, :password, :card_type, :card_number, :card_expiry, :dollar_amount, 
-    :web_server, :preapproval_code, :invoice_number, :comment, :CVV2, :issue_number, 
-    :test_mode, :first_name, :last_name, :street_address, :city, :state, :zip_code, 
-    :cardholder_name, :status, :authorization_result, :error
-  attr_writer :proxy_host, :proxy_port, :proxy_username, :proxy_password, 
+  attr_accessor :proxy_host, :proxy_port, :proxy_username, :proxy_password, 
     :agent_code, :password, :card_type, :card_number, :card_expiry, :dollar_amount, 
     :web_server, :preapproval_code, :invoice_number, :comment, :CVV2, :issue_number, 
     :test_mode, :first_name, :last_name, :street_address, :city, :state, :zip_code, 
     :cardholder_name, :status, :authorization_result
+  attr_reader :version, :error
 
   # The IatsLink class is a port from the PHP/Java version provided by IATS.
   # Instantiate an IatsLink object, load up the values and run process_credit_card
@@ -42,7 +38,12 @@ class IatsLink
   # iats.state = 'CA'
   # iats.zip_code = '90210'
 
-  def initialize
+  def initialize(attributes = {})
+    attributes.each {|k, v|
+      if methods.include?("#{k}=")
+        send("#{k}=".to_sym, v)
+      end
+    }
     @version ="1.30";
 
     # Initialize defaults.
@@ -52,7 +53,6 @@ class IatsLink
     # Initialize outputs.
     @status = 0
     @authorization_result = "REJECT: 1"
-
     @error = "AUTH ERROR!"
   end
 
@@ -93,19 +93,20 @@ class IatsLink
     
     # start the actual processing
     begin
-      logger.debug "IATS post_data: #{post_data.inspect}" 
+      post_params = post_data
+      RAILS_DEFAULT_LOGGER.debug "IATS post_data: #{post_params.inspect}"
       begin
         # set up the HTTP POST object
         require 'net/http'
         require 'net/https'
         req = Net::HTTP::Post.new(url.path, {'User-Agent' => user_agent})
-        req.set_form_data(post_data)
+        req.set_form_data(post_params)
         res = Net::HTTP.new(url.host, url.port, @proxy_host, @proxy_port, @proxy_username, @proxy_password)
         res.use_ssl = true if @test_mode == false
         #res.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        logger.info "Starting IATS processing" 
+        RAILS_DEFAULT_LOGGER.debug "Starting IATS processing" 
         resp = res.start {|http| http.request(req) }
-        logger.info "IATS HTTP Result: #{resp.inspect}" 
+        RAILS_DEFAULT_LOGGER.debug "IATS HTTP Result: #{resp.inspect}" 
 
         case resp
         when Net::HTTPSuccess, Net::HTTPRedirection
@@ -116,14 +117,12 @@ class IatsLink
           
           # this is basically what they did in the ph pand java versions. I think it's a lot of work
           #iats_return = resp.body[resp.body.index(/AUTHORIZATION RESULT:/i), resp.body.length]
-          #p iats_return
           #iats_return = iats_return[iats_return.index(":")+2, iats_return.index("<")-iats_return.index(":")-3]
-          #p iats_return
           
           # use a quick Regexp instead. Doing it the other way gets rid of some 
           # requirements for php and java but Regexp is standard in Ruby
           iats_return = resp.body.match(/AUTHORIZATION RESULT:([^<]+)/)[1].strip
-          logger.info "IATS HTML Result: #{iats_return.inspect}"
+          RAILS_DEFAULT_LOGGER.debug "IATS HTML Result: #{iats_return.inspect}"
       
           if iats_return == ""
             @status = 0
@@ -132,6 +131,12 @@ class IatsLink
           elsif iats_return.match(/OK:/)
             @status = 1
             @error = ""
+            @authorization_result = iats_return
+          else
+            error_code = 'Timeout' if iats_return.match(/Timeout/)
+            error_code = iats_return.match(/REJECT:([^$]+)/)[1].strip if !error_code
+            @status = 1
+            @error = IatsLink.error_message(error_code)
             @authorization_result = iats_return
           end
         else
@@ -176,6 +181,42 @@ class IatsLink
     post_data
   end
 
+  def self.error_message(err)
+    error_map = {
+      '1' => "Agent code has not been set up on the authorization system.", 
+      '2' => "Unable to process transaction. Verify and re-enter credit card information.", 
+      '3' => "Charge card expired.", 
+      '4' => "Incorrect expiration date.", 
+      '5' => "Invalid transaction. Verify and re-enter credit card information.", 
+      '6' => "Transaction not supported by institution.", 
+      '7' => "Lost or stolen card.", 
+      '8' => "Invalid card status.", 
+      '9' => "Restricted card status. Usually on corporate cards restricted to specific sales.", 
+      '10' => "Error. Please verify and re-enter credit card information.", 
+      '11' => "General decline code. Please call the number on the back of your credit card", 
+      '14' => "The card is over the limit.", 
+      '15' => "General decline code. Please call the number on the back of your credit card", 
+      '16' => "Invalid charge card number. Verify and re-enter credit card information.", 
+      '17' => "Unable to authorize transaction. Authorizer needs more information for approval.", 
+      '18' => "Card not supported by institution.", 
+      '19' => "Incorrect CVV2 security code (U.S.)", 
+      '22' => "Bank timeout. Bank lines may be down or busy. Re-try transaction later.", 
+      '23' => "System error. Re-try transaction later.", 
+      '24' => "Charge card expired.", 
+      '25' => "Capture card. Reported lost or stolen.", 
+      '26' => "Invalid transaction, invalid expiry date. Please confirm and retry transaction.", 
+      '27' => "Please have cardholder call the number of the back of credit card.", 
+      '39' => "Contact Ticketmaster 1-888-955-5455.", 
+      '40' => "Invalid cc number. Card not supported by Ticketmaster.", 
+      '41' => "Invalid Expiry date.", 
+      '100' => "DO NOT REPROCESS.", 
+      'Timeout' => "The system has not responded in the time allotted. Please contact Ticketmaster at 1-888-955-5455."
+    }
+    message = error_map[err.to_s] if error_map.include?(err.to_s)
+    message = error_map['1'] if !message
+    message
+  end
+    
   protected
   def url
     require 'uri'
