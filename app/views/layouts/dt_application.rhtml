@@ -18,36 +18,22 @@
 </head>
 <body>
 <div id="container">
-<div id="main">
-<div id="content">
+  <div id="main">
+    <div id="content">
 <%= dt_head %>
 
 <%= dt_nav %>
 
 <%= dt_masthead %>
 
-<div id="contentContainer">
-<%= yield  %>
-</div><!-- #contentContainer Ends -->
+      <div id="contentContainer">
+<%= yield %>
+      </div><!-- #contentContainer Ends -->
 
-<div id="footer">
-	<ul class="footer li">
-		<li>2007 &copy; <a href="http://www.christmasfuture.org/">ChristmasFuture Foundation</a>, All Rights Reserved.</li>
-		<li>Tel: 403.835.5444  </li>
-		<li>Email: <script type="text/javascript">
-	    <!--
-			var emailUser = "info"
-			var emailHost = "christmasfuture.org"
-			var email = emailUser + '@' + emailHost
-			document.write("<a href=" + "mail" + "to:" + email + ">" + email + "</a>")
-		//-->
-	   </script></li>
-	</ul>
-	<p>Terms of Use | Privacy | Copyrights</p>
-</div>
+<%= dt_footer %>
 
-</div><!-- #content Ends -->
-</div><!-- #main Ends -->
+    </div><!-- #content Ends -->
+  </div><!-- #main Ends -->
 </div><!-- #container Ends -->
 </body>
 </html>

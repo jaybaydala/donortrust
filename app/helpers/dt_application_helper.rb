@@ -28,4 +28,9 @@ module DtApplicationHelper
   def dt_account_nav
     render 'dt/accounts/account_nav'
   end
+
+  def dt_footer
+    render 'dt/shared/footer'
+  end
+
 end

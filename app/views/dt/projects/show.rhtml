@@ -1,20 +1,34 @@
+<h1><%= @project.name %></h1>
 <%= project_nav %>
 
 <div id="leftColW">
-	<div id="project-<%= @project.id %>" class="article">
-		<h1 class="article-title" id="project-name"><%= @project.name %></h1>
-		<div class="article-body" id="project-description">
-		<%= textilize @project.description.gsub(/\n{2,}.*/, "") %>
-		<div style="text-align:right;margin-top:-1em;"><%= link_to "more&hellip;", dt_project_project_path(@project) %></div>
+	<div id="projectInfo">
+		<div id="projectDesc">
+			<% if @project.start_date %><span class="projectRank"><strong>Start Date:</strong> <%= @project.start_date.to_s :long %></span><% end %>
+		
+			<p><%= @project.description %></p>
+		
+			<div class="projectSMtext">
+				<div id="buttonGiftProject"><%= link_to "Gift this Project", dt_new_gift_path( :project_id => @project.id ) %></div>
+				<div id="buttonDonate"><%= link_to "Donate", dt_new_investment_path( :project_id => @project.id ) %></div>
+				<div id="buttonTellFriend"><a href="#">Tell-A-Friend</a></div>
+			</div>
+			<% if @project.partner %><div class="projectSMtext"><strong>Implementing Organization: </strong> <%= @project.partner.name %></div><% end %>
+		</div>
+		<div id="factList">
+			<h2>Quick Facts</h2>
+			<ul> 
+				<li><strong>Location:</strong> </li>
+				<li><strong>Cause:</strong> </li>
+				<li><strong>Village Projects:</strong> </li>
+				<li><strong>Lives Affected:</strong> </li>
+				<li><strong>Life Saving Impact:</strong> </li>
+				<li><strong>Funding Requirement:</strong> </li>
+				<li><strong>Raised:</strong> </li>
+				<li><strong>Curent Need:</strong> </li>
+			 </ul>
+		</div>
 	</div>
-
-	<h2 class="article-title">Community</h2>
-	<% if @project.village.facebook_group_id %>
-		<p><a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>">Facebook Group</a> <a href="http://www.facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>"><%= image_tag "/images/dt/icons/facebook.gif" %></a></p>
-		<% end %>
-		<% if @project.village.blog_url %>
-		<p><a href="<%= @project.village.blog_url %>"><%= @project.village.blog_name %></a> </p>
-	<% end %>
 </div>
 
 <div id="rightColN">

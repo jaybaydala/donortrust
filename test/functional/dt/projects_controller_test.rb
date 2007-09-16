@@ -11,24 +11,30 @@ context "Dt::Projects inheritance" do
   end
 end
 
-context "As a donor I want to view project-specific content so I can give to the project knowing what it's about" do
+context "Dt::Projects index behaviour" do
+  use_controller Dt::ProjectsController
   fixtures :continents, :countries, :regions, :urban_centres, :projects
   
-  setup do
-    @controller = Dt::ProjectsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
   specify "Project index is available" do
     @project = Project.find(1)
     get :index
     status.should.be :success
   end
 
+  xspecify "need to add project list/search specs" do
+  end
+end
+
+context "Dt::Projects show behaviour" do
+  use_controller Dt::ProjectsController
+  fixtures :continents, :countries, :regions, :urban_centres, :projects
+
+  def do_get(id)
+    get :show, :id => id
+  end
   specify "The project overview should show the project name & description" do
     @project = Project.find(1)
-    get :show, :id => @project.id
+    do_get(@project.id)
     status.should.be :success
     # use assert_select since the block type of `page.select "selector" do |foo|` seems to be borked
     assert_select "div#project-#{@project.id}" do
@@ -36,17 +42,34 @@ context "As a donor I want to view project-specific content so I can give to the
       assert_select "#project-description"
     end 
   end
-
-  specify "See the project's categories" do
+  
+  specify "should contain the project_nav (#subNav)" do
+    
   end
 
-  specify "Project village page should show village information" do
+  specify "should contain quick facts" do
+  end
+  
+  specify "should contain #relatedProjects" do
+    assert_select "div#relatedProjects"
   end
 
-  specify "Project nation page should show nation information" do
+  specify "should contain \"Gift It\" link which goes to dt/gifts/new" do
   end
 
-  specify "Project community page should show village information" do
+  specify "should contain \"Donate\" link which goes to dt/investments/new" do
+  end
+
+  specify "should contain \"Tell a Friend\" link which goes to dt/share/new" do
+  end
+end
+
+context "Dt::Projects new, create, edit, update and destroy should not exist" do
+  use_controller Dt::ProjectsController
+  specify "method should not exist" do
+    %w( new create edit update destroy ).each do |m|
+      @controller.methods.should.not.include m
+    end
   end
 end
 
