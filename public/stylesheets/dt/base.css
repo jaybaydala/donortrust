@@ -362,7 +362,7 @@ p {
 	padding: 0px 0 3px 14px;
 	margin: 0 0 3px 0;
 	border-bottom: 1px solid #CCC;
-	background: transparent url(/images/dt/nav_elements/arrows/arrow_right2.gif) 0px 4px no-repeat;
+	background: transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) 0px 4px no-repeat;
 }
 .plist {
 	font: 13px/22px Arial, Helvetica, sans-serif;
@@ -412,32 +412,6 @@ p {
 	border-left: 0px solid #ccc;
 }*/
 
-.pageNav {
-	font: 11px/17px Arial, Helvetica, sans-serif;
-	margin: 0px 0 0 7px;
-	padding: 0px 0px 8px 0px;
-	color: #333;
-}
-.pageNav li {
-	list-style-type:none;
-	display:inline;
-	padding-right: 2px;
-}
-.pageNav a:link, .pageNav a:visited {
-	color: #333;
-	cursor: pointer;
-	text-decoration: none;
-	border: 1px solid #FFF;
-	padding: 1px 4px 1px 4px;
-}
-.pageNav a:hover, .pageNav a:active {	
-	color: #333;
-	cursor: pointer;
-	text-decoration: none;
-	border: 1px solid #F60;
-	padding: 1px 4px 1px 4px;
-}
-
 /* Endline is a rule (line) used for ending/separating paragraphs */
 
 .endLine {
@@ -474,6 +448,17 @@ p a:hover, p a:active {
 	cursor: pointer;
 	text-decoration:none;
 }
+h2 a:link, h2 a:visited {
+	color: #360;
+	cursor: pointer;
+	text-decoration:none;
+}
+h2 a:hover, h2 a:active {	
+	color: #360;
+	cursor: pointer;
+	text-decoration:underline;
+}
+
 
 /* Button behaviors */
 
@@ -760,6 +745,23 @@ p a:hover, p a:active {
 
 /* FORM STYLES */
 
+/* Notices and error messages - General program flow helpers */
+
+div.notice, div.error, div.errorExplanation {
+	margin:0 0 10px 0;
+	padding:4px;
+}
+div.notice {
+}
+div.error, div.errorExplanation {
+	border:2px solid #C00;
+}
+div.errorExplanation ul {
+	margin-left:2em;
+}
+
+
+
 /* Input Field, Fields, Jump Menues, Labels  */
 
 form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
@@ -855,20 +857,6 @@ input {
 	height: 14px;
 	float:left;
 }
-
-div.notice, div.error, div.errorExplanation {
-	margin:0 0 10px 0;
-	padding:4px;
-}
-div.notice {
-}
-div.error, div.errorExplanation {
-	border:2px solid #C00;
-}
-div.errorExplanation ul {
-	margin-left:2em;
-}
-
 .jumpMenu {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #666699;
@@ -900,7 +888,6 @@ div.errorExplanation ul {
 	voice-family:inherit;
 	font-size: 9px;
 }
-
 select {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #333;
@@ -917,6 +904,7 @@ select {
 	float:left;
 }
 .inlineSelect {float:left; margin: 5px 0 5px 0; padding:0; width:100%; height:auto;}
+
 
 #relatedProjects {
 	width:228px; height:25px; 
@@ -1221,7 +1209,10 @@ div.buttonsubmit a.medium:hover {
 	margin: 0px 0px 5px 0px;
 	width:100%;
 	border-bottom: 1px solid #666;
-}	
+}
+#factList strong {
+	color:#360; padding-right:3px; float:left;
+}
 
 /* Rating Table */
 
@@ -1382,6 +1373,13 @@ div.buttonsubmit a.medium:hover {
 	background: #390;
 }
 
+/* TABLE-LESS TABLE STYLES */
+
+#row {height:19px; width:auto; padding:2px 0 4px 0; margin:0px 0 2px 0px; background:; border-bottom:1px solid #CCC;}
+#ecardInputs ul {padding:0;margin:0;}
+#row li {list-style-type: none; display: inline; padding:0px 0 1px 0;}
+#row .tableHead li {float:left; display:block; background:; border-bottom:0px solid #999}
+
 /* ACCOUNT STYLES */
 #transaction_list table {
 	border:1px #DDD solid;
@@ -1396,13 +1394,6 @@ div.buttonsubmit a.medium:hover {
 	margin:0 1px 0 0;
 	padding:1px;
 }
-
-/* TABLE-LESS TABLE STYLES */
-
-#row {height:19px; width:auto; padding:2px 0 4px 0; margin:0px 0 2px 0px; background:; border-bottom:1px solid #CCC;}
-#ecardInputs ul {padding:0;margin:0;}
-#row li {list-style-type: none; display: inline; padding:0px 0 1px 0;}
-#row .tableHead li {float:left; display:block; background:; border-bottom:0px solid #999}
 
 /* E-CARD STYLES */
 
@@ -1453,3 +1444,17 @@ div.buttonsubmit a.medium:hover {
 .ecardButtons {display: inline;}
 .ecardButtons li {float:left; list-style-type:none; margin-right:5px;}
 .ecardButtons input {height:25px; padding:0;margin:0;}
+
+/* MINI GALLERY FOR RIGHT COLUMN NARROW */
+
+#miniGallery {
+	width:220px; height:350px;
+}
+#medImgWrap {width:100%; height:165px;}
+.medImg {float:left;width:140px; height:140px; background:#66758B;}
+
+.selectButton {float:right; width:42px; height:15px; background:#66758B; margin: 125px 30px 0 5px;}
+.medImgNav {float:left;width:140px; height:15px; padding:5px 0 5px 0;background:;}
+
+#thumbWrap {float:left;width:220px;}
+.thumb {float:left; width:50px; height:50px; background:#66758B; margin: 0 5px 5px 0;}
