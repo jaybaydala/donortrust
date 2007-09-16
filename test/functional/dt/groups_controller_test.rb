@@ -122,9 +122,14 @@ context "Dt::GroupsController handling GET /dt/groups" do
     do_get
     #puts response.body
   	assert_select "a", "Public Group"
-  	assert_select "a", "Private Group"
   	assert_select "p", 'this is the description'
   	assert_select "p", 'School'
+  end
+
+  specify "should not see non-public groups" do
+    login_as :tim
+    do_get
+    assert_select "a", {:count=>0, :text=>"Private Group"}
   end
 
 end
@@ -320,15 +325,14 @@ context "Dt::GroupsController handling DELETE /dt/groups/1" do
   end
 end
 
+
+
 #GROUP STORIES
 #=============
 #As a user, I should be able to:
 #  x see a list of "public" groups
-#  - not see "non-public" groups
+#  x not see "non-public" groups
 #  - see a public groups' name & description
-#  - join a public group
-#  - not join a non-public group
-#  - join a non-public group to which i've been invited
 #  x create a group
 #these will all allow a user to connect with people who share their interests
 #
@@ -336,7 +340,6 @@ end
 #  -  the group should show name, description, type, geographic location and interests
 #
 #As a group member, I should be able to:
-#  - leave a group
 #  - write on the group wall
 #  - view other member's wall messages
 #  - view group admin messages
@@ -376,6 +379,6 @@ end
 # users has many groups through memberships
 # http://railscasts.com/episodes/47
 # Roles
-# 1 - Philistine dogs (everyone)
+# 1 - Member
 # 2 - Admin
-# 3 - Group owner (only one or called in and got it from )
+# 3 - Owner (only one or called in and got it added by support staff )
