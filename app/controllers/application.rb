@@ -37,10 +37,6 @@ class ApplicationController < ActionController::Base
     end
     end
   end
-
-  def dt_login_required
-    return true
-  end
   
   def direct_approve (requested_action, permitted_action, requested_controller, permitted_controller)
     return (requested_action == permitted_action) && (requested_controller == permitted_controller)
