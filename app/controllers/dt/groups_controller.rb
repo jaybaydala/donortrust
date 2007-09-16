@@ -4,11 +4,10 @@ class Dt::GroupsController < DtApplicationController
   # GET /groups
   # GET /groups.xml
   def index
-    @groups = Group.find(:all)
+    @groups = Group.find :all, :conditions => {:private, 0}
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @groups.to_xml }
     end
   end
 
