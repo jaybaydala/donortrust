@@ -10,5 +10,5 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 <% when "Gift" -%>
 <tr><td<%= bg %>><%= transaction_type %> to <%= transaction.tx.to_user.name %></td><td<%= bg %>><%= date %></td><td<%= bg %>><%= amount %></td></tr>
 <% when "Investment" -%>
-<tr><td<%= bg %>><%= transaction_type %> in <%= link_to transaction.tx.project.name, dt_project_path(transaction.tx.project.name) %>. Thanks!</td><td<%= bg %>><%= date %></td><td<%= bg %>>(<%= amount %>)</td></tr>
+<tr><td<%= bg %>><%= transaction_type %> in <%= link_to transaction.tx.project.name, dt_project_path(transaction.tx.project.id) %>. Thanks!</td><td<%= bg %>><%= date %></td><td<%= bg %>>(<%= amount %>)</td></tr>
 <% end %>
