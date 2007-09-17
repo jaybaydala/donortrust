@@ -63,7 +63,7 @@ context "Dt::GroupsController authentication" do
     @response   = ActionController::TestResponse.new
   end
   
-  xspecify "should not redirect to /dt/accounts;signin when logged in" do
+  xspecify "should not redirect to /login when logged in" do
     login_as :tim
     get :index
     should.not.redirect
@@ -96,9 +96,9 @@ context "Dt::GroupsController handling GET /dt/groups" do
     get :index
   end
 
-  specify "should redirect to /dt/accounts;signin when not logged in" do
+  specify "should redirect to /login when not logged in" do
     do_get
-    should.redirect dt_signin_accounts_path()
+    should.redirect dt_login_path()
   end
 
   specify "should get index" do
@@ -148,9 +148,9 @@ context "Dt::GroupsController handling GET /dt/groups;new" do
     get :new
   end
 
-  specify "should redirect to /dt/accounts;signin when not logged in" do
+  specify "should redirect to /login when not logged in" do
     do_get
-    should.redirect dt_signin_accounts_path()
+    should.redirect dt_login_path()
   end
 
   specify "should get new" do
@@ -179,9 +179,9 @@ context "Dt::GroupsController handling POST /dt/groups;create" do
     @response   = ActionController::TestResponse.new
   end
 
-  specify "should redirect to /dt/accounts;signin when not logged in" do
+  specify "should redirect to /login when not logged in" do
     create_group({}, false)
-    should.redirect dt_signin_accounts_path()
+    should.redirect dt_login_path()
   end
 
   specify "should create group" do
@@ -234,9 +234,9 @@ context "Dt::GroupsController handling GET /dt/groups/1" do
     get :show, :id => 1
   end
 
-  specify "should redirect to /dt/accounts;signin when not logged in" do
+  specify "should redirect to /login when not logged in" do
     do_get
-    should.redirect dt_signin_accounts_path()
+    should.redirect dt_login_path()
   end
 
   specify "should show group" do
@@ -266,9 +266,9 @@ context "Dt::GroupsController handling GET /dt/groups/1;edit" do
     get :edit, :id => 1
   end
 
-  specify "should redirect to /dt/accounts;signin when not logged in" do
+  specify "should redirect to /login when not logged in" do
     do_get
-    should.redirect dt_signin_accounts_path()
+    should.redirect dt_login_path()
   end
 
   specify "should get edit" do
@@ -289,9 +289,9 @@ context "Dt::GroupsController handling PUT /dt/groups/1" do
     @response   = ActionController::TestResponse.new
   end
   
-  specify "should redirect to /dt/accounts;signin when not logged in" do
+  specify "should redirect to /login when not logged in" do
     put :update, :id => 1, :group => { :name => 'new name' }
-    should.redirect dt_signin_accounts_path()
+    should.redirect dt_login_path()
   end
 
   specify "should update group" do
@@ -311,9 +311,9 @@ context "Dt::GroupsController handling DELETE /dt/groups/1" do
     @response   = ActionController::TestResponse.new
   end
   
-  specify "should redirect to /dt/accounts;signin when not logged in" do
+  specify "should redirect to /login when not logged in" do
     delete :destroy, :id => 1
-    should.redirect dt_signin_accounts_path()
+    should.redirect dt_login_path()
   end
 
   specify "should destroy group" do

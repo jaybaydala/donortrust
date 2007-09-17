@@ -18,40 +18,40 @@ context "Dt::Deposits #route_for" do
   end
   
   specify "should recognize the routes" do
-    @rs.generate(:controller => "dt/deposits", :action => "index").should.equal "/dt/deposits"
+    @rs.generate(:controller => "dt/deposits", :account_id => 1, :action => "index").should.equal "/dt/accounts/1/deposits"
   end
   
-  specify "should map { :controller => 'dt/deposits', :action => 'index' } to /dt/deposits" do
-    route_for(:controller => "dt/deposits", :action => "index").should == "/dt/deposits"
+  specify "should map { :controller => 'dt/deposits', :action => 'index' } to /dt/accounts/1/deposits" do
+    route_for(:controller => "dt/deposits", :account_id => 1, :action => "index").should == "/dt/accounts/1/deposits"
   end
   
-  specify "should map { :controller => 'dt/deposits', :action => 'show', :id => 1 } to /dt/deposits/1" do
-    route_for(:controller => "dt/deposits", :action => "show", :id => 1).should == "/dt/deposits/1"
+  specify "should map { :controller => 'dt/deposits', :action => 'show', :id => 1 } to /dt/accounts/1/deposits/1" do
+    route_for(:controller => "dt/deposits", :account_id => 1, :action => "show", :id => 1).should == "/dt/accounts/1/deposits/1"
   end
   
-  specify "should map { :controller => 'dt/deposits', :action => 'new' } to /dt/deposits/new" do
-    route_for(:controller => "dt/deposits", :action => "new").should == "/dt/deposits/new"
+  specify "should map { :controller => 'dt/deposits', :action => 'new' } to /dt/accounts/1/deposits/new" do
+    route_for(:controller => "dt/deposits", :account_id => 1, :action => "new").should == "/dt/accounts/1/deposits/new"
   end
   
-  specify "should map { :controller => 'dt/deposits', :action => 'create' } to /dt/deposits/new" do
-    route_for(:controller => "dt/deposits", :action => "new").should == "/dt/deposits/new"
+  specify "should map { :controller => 'dt/deposits', :action => 'create' } to /dt/accounts/1/deposits/new" do
+    route_for(:controller => "dt/deposits", :account_id => 1, :action => "new").should == "/dt/accounts/1/deposits/new"
   end
     
-  specify "should map { :controller => 'dt/deposits', :action => 'edit', :id => 1 } to /dt/deposits/1;edit" do
-    route_for(:controller => "dt/deposits", :action => "edit", :id => 1).should == "/dt/deposits/1;edit"
+  specify "should map { :controller => 'dt/deposits', :action => 'edit', :id => 1 } to /dt/accounts/1/deposits/1;edit" do
+    route_for(:controller => "dt/deposits", :account_id => 1, :action => "edit", :id => 1).should == "/dt/accounts/1/deposits/1;edit"
     #dt_edit_deposit_path(1).should.not.throw
   end
   
-  specify "should map { :controller => 'dt/deposits', :action => 'update', :id => 1} to /dt/deposits/1" do
-    route_for(:controller => "dt/deposits", :action => "update", :id => 1).should == "/dt/deposits/1"
+  specify "should map { :controller => 'dt/deposits', :action => 'update', :id => 1} to /dt/accounts/1/deposits/1" do
+    route_for(:controller => "dt/deposits", :account_id => 1, :action => "update", :id => 1).should == "/dt/accounts/1/deposits/1"
   end
   
-  specify "should map { :controller => 'dt/deposits', :action => 'destroy', :id => 1} to /dt/deposits/1" do
-    route_for(:controller => "dt/deposits", :action => "destroy", :id => 1).should == "/dt/deposits/1"
+  specify "should map { :controller => 'dt/deposits', :action => 'destroy', :id => 1} to /dt/accounts/1/deposits/1" do
+    route_for(:controller => "dt/deposits", :account_id => 1, :action => "destroy", :id => 1).should == "/dt/accounts/1/deposits/1"
   end
 
-  specify "should map { :controller => 'dt/deposits', :action => 'confirm'} to /dt/deposits/1" do
-    route_for(:controller => "dt/deposits", :action => "confirm").should == "/dt/deposits;confirm"
+  specify "should map { :controller => 'dt/deposits', :action => 'confirm'} to /dt/accounts/1/deposits/1" do
+    route_for(:controller => "dt/deposits", :account_id => 1, :action => "confirm").should == "/dt/accounts/1/deposits;confirm"
   end
   
   private 
@@ -70,32 +70,32 @@ context "Dt::Deposits new behaviour"do
   end
 
   specify "should redirect if !logged_in?" do
-    get :new
+    get :new, :account_id => users(:quentin).id
     response.should.redirect
   end
 
   specify "should not redirect if logged_in?" do
     login_as :quentin
-    get :new
+    get :new, :account_id => users(:quentin).id
     response.should.not.redirect
   end
 
   specify "should use 'new' template" do
     login_as :quentin
-    get :new
+    get :new, :account_id => users(:quentin).id
     template.should.be 'dt/deposits/new'
   end
 
   specify "form should post to a confirmation page" do
     login_as :quentin
-    get :new
-    page.should.select "form[action=/dt/deposits;confirm][method=post]"
+    get :new, :account_id => users(:quentin).id
+    page.should.select "form[action=/dt/accounts/1/deposits;confirm][method=post]"
   end
 
   specify "should show form with the appropriate fields" do
     login_as :quentin
-    get :new
-    page.should.select "form[action=/dt/deposits;confirm][method=post]#depositform"
+    get :new, :account_id => users(:quentin).id
+    page.should.select "form[action=/dt/accounts/1/deposits;confirm][method=post]#depositform"
     assert_select "form#depositform input" do
       assert_select "[id=deposit_first_name]"
       assert_select "[id=deposit_last_name]"
@@ -122,7 +122,7 @@ context "Dt::Deposits confirm behaviour"do
   include DtAuthenticatedTestHelper
   
   specify "should redirect if !logged_in?" do
-    post :confirm
+    post :confirm, :account_id => users(:quentin).id
     response.should.redirect
   end
   
@@ -131,7 +131,7 @@ context "Dt::Deposits confirm behaviour"do
     do_post
     response.should.not.redirect
     template.should.be "dt/deposits/confirm"
-    page.should.select "form[action=/dt/deposits][method=post]#depositform"
+    page.should.select "form[action=/dt/accounts/1/deposits][method=post]#depositform"
     inputs = %w( input#deposit_amount input#deposit_first_name input#deposit_last_name input#deposit_address input#deposit_city input#deposit_province input#deposit_postal_code input#deposit_country input#deposit_credit_card input#deposit_card_expiry )
     assert_select "form#depositform input" do
       inputs.each {|f|
@@ -171,7 +171,7 @@ context "Dt::Deposits confirm behaviour"do
     # merge the options
     deposit_params.merge!(options[:deposit]) if options[:deposit]
     # do the post
-    post :confirm, :deposit => deposit_params
+    post :confirm, :account_id => users(:quentin).id, :deposit => deposit_params
   end
 end
 
@@ -203,7 +203,7 @@ context "Dt::Deposits create behaviour"do
     # merge the options
     deposit_params.merge!(options) if options
     # do the post
-    post :create, :deposit => deposit_params
+    post :create, :account_id => users(:quentin).id, :deposit => deposit_params
   end
 end
 

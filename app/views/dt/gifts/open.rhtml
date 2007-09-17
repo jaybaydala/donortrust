@@ -12,7 +12,7 @@
 		</div>
 		<% end -%>
 		<% else %>
-		<div id="login-signup"><p>Either <%= link_to "login", dt_signin_accounts_path %> or <%= link_to "signup", dt_new_account_path %> to get started. After you login or signup, you will be redirected back here. If you get lost in the meantime, don't worry. Just grab the Pickup Code from your email again to get back here.</p></div>
+		<div id="login-signup"><p>Either <%= link_to "login", dt_login_path %> or <%= link_to "signup", dt_signup_path %> to get started. After you login or signup, you will be redirected back here. If you get lost in the meantime, don't worry. Just grab the Pickup Code from your email again to get back here.</p></div>
 		<% end %>
 	<% else -%>
 		<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>

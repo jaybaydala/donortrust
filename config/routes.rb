@@ -3,31 +3,22 @@ ActionController::Routing::Routes.draw do |map|
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
  
   # front-end resources - non-admin
-  map.resources :projects, 
-    :controller=> 'dt/projects', 
-    :name_prefix => 'dt_', 
-    :path_prefix => "/dt", 
-    :collection => { :search => :get }, 
-    :member => { :project => :get, :village => :get, :nation => :get, :community => :get }
-  map.resources :accounts, 
-    :controller=> 'dt/accounts', 
-    :name_prefix => 'dt_', 
-    :path_prefix => "/dt", 
-    :collection => { :signin => :get, :login => :post, :logout => :get, :activate => :get, :resend => :get }
-  map.resources :deposits, 
-    :controller=> 'dt/deposits', 
-    :name_prefix => 'dt_', 
-    :path_prefix => "/dt", 
-    :collection => { :confirm => :post }
-  map.resources :investments, 
-    :controller=> 'dt/investments', 
-    :name_prefix => 'dt_', 
-    :path_prefix => "/dt", 
-    :collection => { :confirm => :post }
-  map.resources :gifts, 
-    :controller=> 'dt/gifts', 
-    :name_prefix => 'dt_', 
-    :path_prefix => "/dt", 
+  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :specs => :get } do |project|
+    project.resources :villages, :controller => 'dt/villages', :name_prefix => 'dt_'
+    project.resources :nations, :controller => 'dt/nations', :name_prefix => 'dt_'
+    project.resources :communities, :controller => 'dt/communities', :name_prefix => 'dt_'
+    project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
+  end
+  map.resources :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt'
+  map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', 
+    :collection => { :activate => :get, :resend => :get } do |account|
+    account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
+  end
+  map.resource :session, :controller => 'dt/sessions', :name_prefix => 'dt_', :path_prefix => '/dt'
+  map.dt_signup '/signup', :controller => 'dt/accounts', :action => 'new'
+  map.dt_login  '/login',  :controller => 'dt/sessions', :action => 'new'
+  map.dt_logout '/logout', :controller => 'dt/sessions', :action => 'destroy'
+  map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', 
     :collection => { :confirm => :post, :open => :get },
     :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'

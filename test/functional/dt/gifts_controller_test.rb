@@ -339,7 +339,7 @@ context "Dt::Gifts unwrap behaviour" do
   
   specify "should get redirected if not logged_in?" do
     unwrap_gift
-    should.redirect :controller => 'dt/accounts', :action => 'signin'
+    should.redirect :controller => 'dt/sessions', :action => 'new'
   end
 
   specify "should get redirected if no gift pickup_code is passed" do

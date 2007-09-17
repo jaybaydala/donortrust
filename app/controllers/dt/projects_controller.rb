@@ -25,7 +25,7 @@ class Dt::ProjectsController < DtApplicationController
     redirect_to dt_project_path(params[:project_id]) if params[:project_id]
   end
 
-  def project
+  def specs
     @project = Project.find(params[:id])
   end
 

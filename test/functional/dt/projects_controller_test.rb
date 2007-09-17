@@ -11,6 +11,54 @@ context "Dt::Projects inheritance" do
   end
 end
 
+context "Dt::Projects #route_for" do
+  use_controller Dt::ProjectsController
+  setup do
+    @rs = ActionController::Routing::Routes
+  end
+  
+  specify "should recognize the routes" do
+    @rs.generate(:controller => "dt/projects", :action => "index").should.equal "/dt/projects"
+  end
+  
+  specify "should map { :controller => 'dt/projects', :action => 'index' } to /dt/projects" do
+    route_for(:controller => "dt/projects", :action => "index").should == "/dt/projects"
+  end
+  
+  specify "should map { :controller => 'dt/projects', :action => 'show', :id => 1 } to /dt/projects/1" do
+    route_for(:controller => "dt/projects", :action => "show", :id => 1).should == "/dt/projects/1"
+  end
+  
+  specify "should map { :controller => 'dt/projects', :action => 'new' } to /dt/projects/new" do
+    route_for(:controller => "dt/projects", :action => "new").should == "/dt/projects/new"
+  end
+  
+  specify "should map { :controller => 'dt/projects', :action => 'create' } to /dt/projects/new" do
+    route_for(:controller => "dt/projects", :action => "new").should == "/dt/projects/new"
+  end
+    
+  specify "should map { :controller => 'dt/projects', :action => 'edit', :id => 1 } to /dt/projects/1;edit" do
+    route_for(:controller => "dt/projects", :action => "edit", :id => 1).should == "/dt/projects/1;edit"
+  end
+  
+  specify "should map { :controller => 'dt/projects', :action => 'update', :id => 1} to /dt/projects/1" do
+    route_for(:controller => "dt/projects", :action => "update", :id => 1).should == "/dt/projects/1"
+  end
+  
+  specify "should map { :controller => 'dt/projects', :action => 'destroy', :id => 1} to /dt/projects/1" do
+    route_for(:controller => "dt/projects", :action => "destroy", :id => 1).should == "/dt/projects/1"
+  end
+
+  specify "should map { :controller => 'dt/projects', :action => 'specs', :id => 1} to /dt/projects/1;specs" do
+    route_for(:controller => "dt/projects", :action => "specs", :id => 1).should == "/dt/projects/1;specs"
+  end
+  
+  private 
+  def route_for(options)
+    @rs.generate options
+  end
+end
+
 context "Dt::Projects index behaviour" do
   use_controller Dt::ProjectsController
   fixtures :continents, :countries, :regions, :urban_centres, :projects
@@ -29,7 +77,7 @@ context "Dt::Projects show behaviour" do
   use_controller Dt::ProjectsController
   fixtures :continents, :countries, :regions, :urban_centres, :projects
 
-  def do_get(id)
+  def do_get(id = 1)
     get :show, :id => id
   end
   specify "The project overview should show the project name & description" do
@@ -37,30 +85,49 @@ context "Dt::Projects show behaviour" do
     do_get(@project.id)
     status.should.be :success
     # use assert_select since the block type of `page.select "selector" do |foo|` seems to be borked
-    assert_select "div#project-#{@project.id}" do
-      assert_select "#project-name", :text => /#{@project.name}/
-      assert_select "#project-description"
+    assert_select "h1", :text => /#{@project.name}/
+    assert_select "div#projectInfo" do
+      assert_select "#projectDesc"
     end 
   end
   
   specify "should contain the project_nav (#subNav)" do
-    
+    do_get
+    assert_select "div#subNav"
   end
 
-  specify "should contain quick facts" do
+  specify "should contain quick facts (#factList)" do
+    do_get
+    page.should.select "div#factList ul"
   end
   
   specify "should contain #relatedProjects" do
+    do_get
     assert_select "div#relatedProjects"
   end
 
-  specify "should contain \"Gift It\" link which goes to dt/gifts/new" do
+  specify "should contain \"Gift It\" link which goes to dt/gifts/new?project_id=x" do
+    project_id = 1
+    do_get(project_id)
+    assert_select "div#buttonGiftProject" do
+      assert_select "a[href=/dt/gifts/new?project_id=#{project_id}]"
+    end
   end
 
   specify "should contain \"Donate\" link which goes to dt/investments/new" do
+    project_id = 1
+    do_get(project_id)
+    assert_select "div#buttonDonate" do
+      assert_select "a[href=/dt/investments/new?project_id=#{project_id}]"
+    end
   end
 
-  specify "should contain \"Tell a Friend\" link which goes to dt/share/new" do
+  xspecify "should contain \"Tell a Friend\" link which goes to dt/share/new" do
+    project_id = 1
+    do_get(project_id)
+    assert_select "div#buttonTellFriend" do
+      assert_select "a[href=/dt/investments/new?project_id=#{project_id}]"
+    end
   end
 end
 
