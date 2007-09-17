@@ -24,7 +24,7 @@ module Test                     # :nodoc:
 end
 
 module Test::Spec
-  VERSION = "0.3"
+  VERSION = "0.3" if VERSION == nil
   
   CONTEXTS = {}                 # :nodoc:
 

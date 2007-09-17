@@ -274,17 +274,17 @@ class XmlSimple
       xmldeclaration outputfile noescape suppressempty
       anonymoustag indent grouptags noindent
     )
-  }
+  } if KNOWN_OPTIONS == nil
 
   # Define some reasonable defaults.
-  DEF_KEY_ATTRIBUTES  = []
-  DEF_ROOT_NAME       = 'opt'
-  DEF_CONTENT_KEY     = 'content'
-  DEF_XML_DECLARATION = "<?xml version='1.0' standalone='yes'?>"
-  DEF_ANONYMOUS_TAG   = 'anon'
-  DEF_FORCE_ARRAY     = true
-  DEF_INDENTATION     = '  '
-  DEF_KEY_TO_SYMBOL   = false
+  DEF_KEY_ATTRIBUTES  = []                                        if DEF_KEY_ATTRIBUTES == nil
+  DEF_ROOT_NAME       = 'opt'                                     if DEF_ROOT_NAME == nil
+  DEF_CONTENT_KEY     = 'content'                                 if DEF_CONTENT_KEY == nil
+  DEF_XML_DECLARATION = "<?xml version='1.0' standalone='yes'?>"  if DEF_XML_DECLARATION == nil
+  DEF_ANONYMOUS_TAG   = 'anon'                                    if DEF_ANONYMOUS_TAG == nil
+  DEF_FORCE_ARRAY     = true                                      if DEF_FORCE_ARRAY == nil
+  DEF_INDENTATION     = '  '                                      if DEF_INDENTATION == nil
+  DEF_KEY_TO_SYMBOL   = false                                     if DEF_KEY_TO_SYMBOL == nil
   
   # Normalizes option names in a hash, i.e., turns all
   # characters to lower case and removes all underscores.
