@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 require 'donortrust_mailer'
 
 context "DonortrustMailer on user_signup_notification" do
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures'
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures'
   CHARSET = "utf-8"
   
   include ActionMailer::Quoting
@@ -93,8 +93,8 @@ end
 require File.dirname(__FILE__) + '/gift_test_helper'
 context "DonortrustMailer gift_mail Test" do
   include GiftTestHelper
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures'
-  CHARSET = "utf-8"
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures' if FIXTURES_PATH == nil
+  CHARSET = "utf-8" if CHARSET == nil
 
   include ActionMailer::Quoting
 
@@ -112,7 +112,7 @@ context "DonortrustMailer gift_mail Test" do
 
   specify "gift_mail should match fixture" do
     @expected.subject = 'You have received a ChristmasFuture Gift from ' + ( @gift.name != nil ? @gift.name : @gift.email )
-    @expected.body    = read_fixture('gift')
+    @expected.body    = read_fixture('gift_mail')
     @expected.date    = Time.now
 
     email = DonortrustMailer.create_gift_mail(@gift).encoded
@@ -124,7 +124,7 @@ context "DonortrustMailer gift_mail Test" do
 
   xspecify "gift_open should match fixture" do
     @expected.subject = 'GiftNotifier#open'
-    @expected.body    = read_fixture('open')
+    @expected.body    = read_fixture('gift_open')
     @expected.date    = Time.now
 
     assert_equal @expected.encoded, DonortrustMailer.create_gift_open(@gift).encoded
@@ -132,7 +132,7 @@ context "DonortrustMailer gift_mail Test" do
 
   xspecify "gift_remind should match fixture" do
     @expected.subject = 'GiftNotifier#remind'
-    @expected.body    = read_fixture('remind')
+    @expected.body    = read_fixture('gift_remind')
     @expected.date    = Time.now
 
     assert_equal @expected.encoded, DonortrustMailer.create_gift_remind(@gift).encoded
@@ -140,7 +140,7 @@ context "DonortrustMailer gift_mail Test" do
 
   private
     def read_fixture(action)
-      IO.readlines("#{FIXTURES_PATH}/gift_notifier/#{action}")
+      IO.readlines("#{FIXTURES_PATH}/donortrust_mailer/#{action}")
     end
 
     def encode(subject)
