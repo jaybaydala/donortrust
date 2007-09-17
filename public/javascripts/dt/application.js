@@ -10,6 +10,11 @@ Event.observe(window, 'load', function() {
 		Event.observe(search, 'focus', function(e) {if (search.value == 'Search') search.value = ''})
 		Event.observe(search, 'blur', function(e) {if (search.value == '') search.value = 'Search'})
 	}
+	if (notices = $$('div.notice')) {
+		notices.each(function(s) {
+			new Effect.Highlight(s)
+		});
+	}
 });
 
 var SubmitButton = Class.create();
