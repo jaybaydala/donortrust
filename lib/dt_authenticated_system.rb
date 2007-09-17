@@ -65,7 +65,7 @@ module DtAuthenticatedSystem
       respond_to do |accepts|
         accepts.html do
           store_location
-          redirect_to :controller => '/dt/accounts', :action => 'signin'
+          redirect_to dt_login_url
         end
         accepts.xml do
           headers["Status"]           = "Unauthorized"

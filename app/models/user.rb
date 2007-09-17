@@ -26,17 +26,24 @@ class User < ActiveRecord::Base
   before_update :login_change
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  def self.authenticate(login, password, check_activated = true)
-    #u = find_by_login(login) # need to get the salt
-    u = find_by_login(login, :conditions => ["(last_logged_in_at IS NULL OR last_logged_in_at >= ?)", Time.now.last_year ]) # need to get the salt
-    #check for account activation using activated_at
-    #u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
-    
-    authenticated = u && u.activated? && u.authenticated?(password) ? u : nil if check_activated
-    authenticated = u && u.authenticated?(password) ? u : nil if !check_activated
-    u.update_attributes( :last_logged_in_at => Time.now ) if check_activated && authenticated
-    authenticated
+  #def self.authenticate(login, password, check_activated = true)
+  #  #u = find_by_login(login) # need to get the salt
+  #  u = find_by_login(login, :conditions => ["(last_logged_in_at IS NULL OR last_logged_in_at >= ?)", Time.now.last_year ]) # need to get the salt
+  #  #check for account activation using activated_at
+  #  #u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
+  #  
+  #  authenticated = u && u.activated? && u.authenticated?(password) ? u : nil if check_activated
+  #  authenticated = u && u.authenticated?(password) ? u : nil if !check_activated
+  #  u.update_attributes( :last_logged_in_at => Time.now ) if check_activated && authenticated
+  #  authenticated
+  #end
+
+  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
+  def self.authenticate(login, password)
+    u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login] # need to get the salt
+    u && u.authenticated?(password) && u.expired? == false ? u : nil
   end
+
 
   # Encrypts some data with the salt.
   def self.encrypt(password, salt)
@@ -68,6 +75,11 @@ class User < ActiveRecord::Base
 
   def authenticated?(password)
     crypted_password == encrypt(password)
+  end
+  
+  def expired?
+    return false if self.last_logged_in_at == nil
+    self.last_logged_in_at.to_i < Time.now.last_year.to_i
   end
 
   def remember_token?

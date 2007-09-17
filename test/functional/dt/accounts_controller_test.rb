@@ -15,7 +15,7 @@ context "Dt::Accounts #route_for" do
   use_controller Dt::AccountsController
 
   setup do
-    @rs         = ActionController::Routing::Routes
+    @rs = ActionController::Routing::Routes
   end
 
   specify "should recognize the routes" do
@@ -50,18 +50,6 @@ context "Dt::Accounts #route_for" do
     route_for(:controller => "dt/accounts", :action => "destroy", :id => 1).should == "/dt/accounts/1"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'signin'} to /dt/accounts;signin" do
-    route_for(:controller => "dt/accounts", :action => "signin").should == "/dt/accounts;signin"
-  end
-
-  specify "should map { :controller => 'dt/accounts', :action => 'login'} to /dt/accounts;login" do
-    route_for(:controller => "dt/accounts", :action => "login").should == "/dt/accounts;login"
-  end
-
-  specify "should map { :controller => 'dt/accounts', :action => 'logout'} to /dt/accounts;logout" do
-    route_for(:controller => "dt/accounts", :action => "logout").should == "/dt/accounts;logout"
-  end
-
   specify "should map { :controller => 'dt/accounts', :action => 'activate'} to /dt/accounts;activate" do
     route_for(:controller => "dt/accounts", :action => "activate").should == "/dt/accounts;activate"
   end
@@ -76,149 +64,6 @@ context "Dt::Accounts #route_for" do
   private 
   def route_for(options)
     @rs.generate options
-  end
-end
-
-
-context "Dt::Accounts handling GET /dt/accounts;signin" do
-  use_controller Dt::AccountsController
-  fixtures :users
-  include DtAuthenticatedTestHelper
-
-  def do_get
-    get :signin
-  end
-
-  specify "should render dt/accounts/signin template if not logged_in?" do
-    do_get
-    template.should.be "dt/accounts/signin"
-  end
-  
-  specify "should redirect if logged_in?" do
-    login_as :quentin
-    do_get
-    should.redirect
-  end
-
-  specify "should have a form set to post to /dt/accounts;login" do
-    do_get
-    page.should.select "form[action=/dt/accounts;login][method=post]"
-  end
-end
-
-context "Dt::Accounts handling POST dt/accounts;login requests" do
-  use_controller Dt::AccountsController
-  include DtAuthenticatedTestHelper
-  fixtures :users
-
-  specify "should login and redirect" do
-    post :login, :login => 'quentin@example.com', :password => 'test'
-    session[:user].should.not.be.nil
-    should.redirect
-  end
-
-  specify "should fail login and not redirect" do
-    post :login, :login => 'quentin@example.com', :password => 'bad password'
-    session[:user].should.be.nil
-    status.should.be :success
-    template.should.be "dt/accounts/signin"
-  end
-
-  specify "when not activated, should fail login" do
-    post :login, :login => 'aaron@example.com', :password => 'test'
-    session[:user].should.be.nil
-  end
-
-  specify "when not activated, should show a 'not activated' message" do
-    post :login, :login => 'aaron@example.com', :password => 'test'
-    assigns(:activated).should.be false
-    flash[:error].should.equal "A confirmation email has been sent to your login email address"
-    page.should.select "div.activation", :text => /An email has been sent to your login email address to make sure it is a valid address./
-  end
-
-  specify "when not activated with correct login and wrong password, @activated should be nil" do
-    post :login, :login => 'aaron@example.com', :password => 'wrongpassword'
-    assigns(:activated).should.be nil
-  end
-  
-  specify "when not activated with correct login and wrong password, should show a 'username or password are incorrect' message" do
-    post :login, :login => 'aaron@example.com', :password => 'wrongpassword'
-    flash[:error].should =~ /username or password are incorrect/
-    page.should.not.select "div.activation"
-  end
-
-  specify "when activated with correct login and wrong address, should show a 'username or password are incorrect' message" do
-    post :login, :login => 'quentin@example.com', :password => 'wrongpassword'
-    assigns(:activated).should.be nil
-    flash[:error].should =~ /username or password are incorrect/
-    page.should.not.select "div.activation"
-  end
-
-  specify "should remember me" do
-    post :login, :login => 'quentin@example.com', :password => 'test', :remember_me => "1"
-    @response.cookies["auth_token"].should.not.be.nil
-  end
-
-  specify "should not remember_me" do
-    post :login, :login => 'quentin@example.com', :password => 'test', :remember_me => "0"
-    @response.cookies["auth_token"].should.be.nil
-  end
-
-  specify "should login with cookie" do
-    users(:quentin).remember_me
-    @request.cookies["auth_token"] = cookie_for(:quentin)
-    get :index
-    @controller.send(:logged_in?).should.be true
-  end
-
-  specify "should fail expired cookie login" do
-    users(:quentin).remember_me
-    users(:quentin).update_attribute :remember_token_expires_at, 5.minutes.ago
-    @request.cookies["auth_token"] = cookie_for(:quentin)
-    get :index
-    @controller.send(:logged_in?).should.be false
-  end
-
-  specify "should fail cookie login" do
-    users(:quentin).remember_me
-    @request.cookies["auth_token"] = auth_token('invalid_auth_token')
-    get :index
-    @controller.send(:logged_in?).should.be false
-  end
-
-  protected
-    def create_user(options = {})
-      post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
-    end
-    
-    def auth_token(token)
-      CGI::Cookie.new('name' => 'auth_token', 'value' => token)
-    end
-    
-    def cookie_for(user)
-      auth_token users(user).remember_token
-    end
-end
-
-context "Dt::Accounts handling logout requests" do
-  use_controller Dt::AccountsController
-  include DtAuthenticatedTestHelper
-  fixtures :users
-
-  teardown do
-  end
-
-  specify "should logout" do
-    login_as :quentin
-    get :logout
-    session[:user].should.be.nil
-    should.redirect
-  end
-
-  specify "should delete token on logout" do
-    login_as :quentin
-    get :logout
-    @response.cookies["auth_token"].should.equal []
   end
 end
 
@@ -256,7 +101,7 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
   
   specify "should redirect to :signin if not logged_in?" do
     do_get
-    response.should.redirect :action => 'signin'
+    response.should.redirect dt_login_path
   end
 
   specify "should redirect to dt/accounts/id when logged_in? as different user" do
@@ -491,7 +336,7 @@ context "Dt::Accounts handling GET /dt/accounts/1;edit" do
   
   specify "should redirect to signin if not logged in" do
     do_get
-    should.redirect :action => 'signin'
+    should.redirect dt_login_path
   end
 
   specify "should redirect if trying to edit other than current_user" do
@@ -550,7 +395,7 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
   specify "should redirect to signin if not logged_in?" do
     @user = User.find(1)
     put :update, { :id => @user.id, :user => { :login => @user.login } }
-    should.redirect_to :action => 'signin'
+    should.redirect_to dt_login_path
   end
 
   specify "should not redirect to signin if logged_in?" do

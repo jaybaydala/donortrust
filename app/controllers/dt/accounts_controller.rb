@@ -76,60 +76,6 @@ class Dt::AccountsController < DtApplicationController
     end
   end
 
-  # DELETE /dt/accounts/1
-  # DELETE /dt/accounts/1.xml
-  #def destroy
-  #  @user = User.find(params[:id])
-  #  @user.destroy
-  #
-  #  respond_to do |format|
-  #    format.html { redirect_to dt_accounts_url }
-  #    format.js
-  #    format.xml  { head :ok }
-  #  end
-  #end
-
-  def signin
-    redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') if logged_in?
-  end
-  
-  def login
-    return unless request.post?
-    self.current_user = User.authenticate(params[:login], params[:password])
-    respond_to do |format|
-      if logged_in?
-        session[:tmp_user] = nil
-        if params[:remember_me] == "1"
-          self.current_user.remember_me
-          cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
-        end
-        flash[:notice] = "Logged in successfully"
-        format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
-        #format.js
-        format.xml  { head :ok }
-      else
-        if u = User.authenticate(params[:login], params[:password], false)
-          @activated = false
-          session[:tmp_user] = u.id
-          flash[:error] = "A confirmation email has been sent to your login email address"
-        else
-          flash[:error] = "Either your username or password are incorrect"
-        end
-        format.html { render :action => "signin" }
-        #format.js
-        format.xml  { render :xml => @user.errors.to_xml }
-      end
-    end
-  end
-
-  def logout
-    self.current_user.forget_me if logged_in?
-    cookies.delete :auth_token
-    reset_session
-    flash[:notice] = "You have been logged out."
-    redirect_back_or_default(:controller => '/dt/accounts', :action => 'index')
-  end
-
   def activate
     @user = User.find_by_activation_code(params[:id]) if params[:id]
     if @user and @user.activate
