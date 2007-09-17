@@ -752,6 +752,7 @@ div.notice, div.error, div.errorExplanation {
 	padding:4px;
 }
 div.notice {
+	border:1px solid #360;
 }
 div.error, div.errorExplanation {
 	border:2px solid #C00;
@@ -767,14 +768,14 @@ div.errorExplanation ul {
 form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
 
 #leftColW form {
-	float:lef;
+	float:left;
 	width: 469px; height: auto;
 	margin: 0px 0 10px 7px;
 	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
 	color: #333;
 }
 #leftColW2 form {
-	float:lef;
+	float:left;
 	width: 100%; height: auto;
 	margin: 0px 0 10px 7px;
 	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
@@ -788,7 +789,6 @@ form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
 	font-weight: bold;
 	background: transparent; 
 	border-bottom: 0px solid #95AED0; 
-	display: ;
 	padding: 0px 5px 5px 0px;
 	margin: 0 0px; /* IE Win */
 }
@@ -1039,82 +1039,11 @@ div.buttonsubmit a.medium:hover {
 }
 #buttonSignIn {
 	float:left;
-	font: xx-small/14px Arial, Helvetica, sans-serif;
-	color: black;
-	font-weight: normal;
-	text-decoration:none;
-	text-align:center;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
-	margin: 2px 0 0px 0;
-	padding: 0px 5px 0px 0px;
-	height: 18px; width: 52px;
-	display: block;
-	list-style-type: none;
-}
-#buttonSignIn a:link, #buttonSignIn a:visited {
-	color: #FFF;
-	font-weight: normal;
-	text-decoration:none;
-	text-align:center;
-	padding: 2px 0px 2px 0px;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
-	border: 0px solid #000;
-	height: 14px; width: 52px;
-	display: block;
-	list-style-type: none;
-}
-#buttonSignIn a:hover, #buttonSignIn a:active {
-	color: #FFF;
-	font-weight: normal;
-	text-decoration: none;
-	text-align:center;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif) no-repeat;
-	padding: 2px 0px 2px 0px;
-	border: 0px solid #000;
-	height: 14px; width: 52px;
-	display: block;
-	list-style-type: none;
+	clear:left;
+	margin: 0 0 0 90px;
+	padding: 0;
 }
 #buttonSignUp {
-	float:left;
-	font: xx-small/14px Arial, Helvetica, sans-serif;
-	color: black;
-	font-weight: normal;
-	text-decoration:none;
-	text-align:center;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
-	margin: 1px 0px 0px 11.8em;
-	padding: 0px 5px 0px 0px;
-	height: 18px; width: 52px;
-	display: block;
-	list-style-type: none;
-	clear:left;
-}
-#buttonSignUp a:link, #buttonSignUp a:visited {
-	color: #FFF;
-	font-weight: normal;
-	text-decoration:none;
-	text-align:center;
-	padding: 2px 0px 2px 0px;
-	margin-left: 0em;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif) no-repeat;
-	border: 0px solid #000;
-	height: 14px; width: 52px;
-	display: block;
-	list-style-type: none;
-}
-#buttonSignUp a:hover, #buttonSignUp a:active {
-	color: #FFF;
-	font-weight: normal;
-	text-decoration: none;
-	text-align:center;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif) no-repeat;
-	padding: 2px 0px 2px 0px;
-	margin-left: 0em;
-	border: 0px solid #000;
-	height: 14px; width: 52px;
-	display: block;
-	list-style-type: none;
 }
 
 /* CF DONORTRUST CONTENT MODULES */
