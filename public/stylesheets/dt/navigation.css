@@ -71,15 +71,23 @@
 	padding: 0px 0px 13px 10px;
 	background: #FFF url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat 0px 0px;
 	height: 25px;
-	width: 486px;
+	width: 714px;/*486px*/
 	text-align:left;
 	/* Box-model hack */
 	voice-family: "\"}\"";
 	voice-family: inherit;
 	height: 25px;
-	width: 486px;
+	width: 714px;
 }
 #subNav ul {float:left; width: 486px; padding-top:5px; padding-bottom:5px;}
+
+/* 
+The subNav should have an 18px left margin if not contained in #contentContainer. 
+This allows us to validate the project overview page by not repeating 
+#contentContainer twice needlessly
+*/
+#subNav {margin-left:18px;}
+#contentContainer #subNav {margin-left:0;}
 
 #subNavWide {
 	padding: 0px 0px 13px 10px;
@@ -132,3 +140,50 @@
 
 #subNavWide li.current { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 5px 14px 5px 14px;}
 #subNavWide li.current a:link, #subNavWide li.current a:visited, #subNavWide li.current a:hover, #subNavWide li.current a:active { padding:0;color:#FFF;background-color:transparent; }
+
+#pageNav {
+	padding: 0px 0px 1px 0px;
+	margin: 0 0 8px 7px;
+	background: ;
+	height: 18px;
+	width: 716px;
+	text-align:left;
+	border-bottom:1px solid #ccc;
+}
+#pageNav ul {float:left; padding: 1px 0 1px 0px;}
+
+.pageNav li {
+	font: 11px/16px Arial, Helvetica, sans-serif;
+	color: #333;
+	background-color:;
+	padding: 1px 0px 1px 0px;
+	margin-right:3px;
+	text-decoration:none;
+	display: inline;
+	list-style-type: none;
+	width: ; height: 17px;
+	float:left;
+}
+.pageNav a {
+	list-style-type: none;
+	text-decoration:none;
+	font: 11px/16px Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	padding: 1px 6px 1px 6px;
+	background:;
+	border: 1px solid #FFF;
+}
+.pageNav a:link, .pageNav a:visited {
+	color: #333;
+}
+.pageNav a:hover, .pageNav a:active {
+	color: #333;
+	background-color:#FFF;
+	border: 1px solid #F60;
+}
+
+#pageNav li.currentPg { background-color:; padding: 1px 0 1px 0;}
+#pageNav li.currentPg a:link, #pageNav li.currentPg a:visited, 
+#pageNav li.currentPg a:hover, #pageNav li.currentPg a:active { color:#FFF; background-color:#66758B;}
+
+

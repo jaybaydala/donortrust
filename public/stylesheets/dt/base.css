@@ -1197,7 +1197,7 @@ div.buttonsubmit a.medium:hover {
 }
 #factList li {
 	font: 11px/15px Arial, Helvetica, sans-serif;
-	padding: 0px 0 3px 0px;
+	padding: 0 0 3px 0px;
 	margin: 0 0 3px 0;
 	border-bottom: 1px solid #CCC;
 	background:none;
@@ -1211,7 +1211,8 @@ div.buttonsubmit a.medium:hover {
 	border-bottom: 1px solid #666;
 }
 #factList strong {
-	color:#360; padding-right:3px; float:left;
+	color:#360;
+	float:none;
 }
 
 /* Rating Table */
