@@ -1,0 +1,34 @@
+<%= dt_account_nav %>
+
+<div id="leftColW2">
+	<h1>Sign-in</h1>
+	<p>To sign in, enter your member name and password in the spaces below.</p>
+	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+	<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
+
+	<% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
+		<div id="nameInput">
+			<label for="login" class="signInLabelb">Username</label>
+			<%= text_field_tag 'login' %>
+		</div>
+		<div id="pwInput">
+			<label for="password" class="signInLabelb">Password</label>
+			<%= password_field_tag 'password' %>
+		</div>
+
+		<div style="clear:left;float:left;margin:0 0 0 144px;"><input type="submit" value="Sign In" class="buttonsubmit" /></div>
+
+		<div id="rememberMe">
+			<span><%= check_box_tag 'remember_me' %><label for="remember_me">Remember me</label></span>
+		</div>
+
+		<span class="textsm">
+			<!--<a href="">Forgot your password?</a> <br /><br />-->
+			If you are not a registered member, <%= link_to "sign up", dt_signup_path %>.<br />
+			Registration is FREE and takes only a few minutes.
+		</span>
+	<% end %>
+</div>
+<div id="rightColN">
+	
+</div>
