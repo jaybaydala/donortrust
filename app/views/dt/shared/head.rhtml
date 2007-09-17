@@ -1,7 +1,7 @@
       <div id="header">
-        <div id="logo"><a href="index.html"><img src="/images/dt/brand_elements/cf_headerlogo.gif" width="203" height="50" alt="ChristmasFuture - Change the world&hellip;for good" /></a></div>
-        <div id="RSSicon"><a href="cf_html.htm"><img src="/images/dt/icons/rss_icon.gif" alt="RSS Feed" width="36" height="14" /></a></div>
+        <div id="logo"><a href="/"><img src="/images/dt/brand_elements/cf_headerlogo.gif" width="203" height="50" alt="ChristmasFuture - Change the world&hellip;for good" /></a></div>
+        <div id="RSSicon"><a href="<%= rss_path %>"><img src="/images/dt/icons/rss_icon.gif" alt="RSS Feed" width="36" height="14" /></a></div>
         <div id="yourAccountObject"><% if logged_in? -%>
-Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %><div id="notuserbug">Not <%=h current_user.name %>? <%= link_to 'logout', dt_logout_accounts_path %> </div><% else -%>
-<%= link_to 'Login', dt_signin_accounts_path %><div id="notuserbug"><%= link_to 'Create Account', dt_new_account_path %> </div><% end -%></div>
+Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %><div id="notuserbug">Not <%=h current_user.name %>? <%= link_to 'logout', dt_logout_path %> </div><% else -%>
+<%= link_to 'Login', dt_login_path %><div id="notuserbug"><%= link_to 'Create Account', dt_signup_path %> </div><% end -%></div>
       </div><!-- header ends -->
