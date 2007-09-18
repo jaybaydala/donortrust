@@ -60,12 +60,7 @@ class User < ActiveRecord::Base
   end
 
   def balance
-    user_transactions = UserTransaction.find(:all, :conditions => { :user_id => self[:id] })
-    balance = 0
-    user_transactions.each do |trans|
-      balance = balance + trans.tx.sum if trans.tx
-    end
-    balance || 0
+    @balance || calculate_balance
   end
 
   # Encrypts the password with the user salt
@@ -130,6 +125,15 @@ class User < ActiveRecord::Base
       errors.add("display_name", "cannot be blank if First Name and Last Name are empty") if display_name.blank? && first_name.blank? && last_name.blank?
     end
     
+    def calculate_balance
+      user_transactions = UserTransaction.find(:all, :conditions => { :user_id => self[:id] })
+      balance = 0
+      user_transactions.each do |trans|
+        balance = balance + trans.tx.sum if trans.tx
+      end
+      @balance = balance || 0
+    end
+
     # before filter 
     def encrypt_password
       return if password.blank?
