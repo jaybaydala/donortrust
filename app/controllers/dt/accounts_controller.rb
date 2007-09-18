@@ -100,7 +100,7 @@ class Dt::AccountsController < DtApplicationController
   end
   
   protected
-  # protect the edit/update methods so you can only update/view your own record
+  # protect the show/edit/update methods so you can only update/view your own record
   def authorized?(user = current_user())
     if ['show', 'edit', 'update'].include?(action_name)
        return false unless logged_in? && params[:id] && current_user.id == params[:id].to_i
@@ -110,12 +110,11 @@ class Dt::AccountsController < DtApplicationController
 
   def access_denied
     if 'show' == action_name && logged_in?
-        respond_to do |accepts|
-        accepts.html do
-          redirect_to :controller => '/dt/accounts', :action => 'show', :id => current_user.id  and return
-        end
+      respond_to do |accepts|
+        accepts.html { redirect_to( :controller => '/dt/accounts', :action => 'show', :id => current_user.id) }
       end
+    else
+      super
     end
-    super
   end
 end
