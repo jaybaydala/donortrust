@@ -28,27 +28,37 @@ class Gift < ActiveRecord::Base
     @picked_up || false
   end
   
+  def send_gift_mail
+    @sent = true if update_attributes(:sent_at => Time.now.utc)
+    DonortrustMailer.deliver_gift_mail(self)
+  end
+  
+  def send_gift_mail?
+    return new_record? == false && self[:send_at] == nil ? true : false
+  end
+  
   protected
   def validate_on_create
     require 'iats/credit_card'
-    if !credit_card_empty || user_id_empty
+    if !emptyval?(credit_card) || emptyval?(user_id)
       errors.add_on_empty %w( first_name last_name address city province postal_code country credit_card expiry_month expiry_year card_expiry )
       errors.add("credit_card", "has invalid format") unless CreditCard.is_valid(credit_card)
       errors.add("credit_card", "is an unknown card type") unless CreditCard.cc_type(credit_card) != 'UNKNOWN'
       errors.add("card_expiry", "is in the past") if card_expiry && card_expiry < Date.today
     end
-    if !user_id_empty && credit_card_empty
+    if !emptyval?(user_id) && emptyval?(credit_card)
       errors.add("amount", "cannot be greater than your balance. Please make a deposit first or use your credit card.") unless amount != nil && self.user.balance > amount
     end
     super
   end
-
-  def credit_card_empty
-    credit_card == nil || ( credit_card.kind_of?(String) && credit_card.empty? )
+  
+  def validate
+    errors.add("send_at", "must be in the future") if !emptyval?(send_at) && send_at.to_i <= Time.now.to_i
+    super
   end
 
-  def user_id_empty
-    user_id == nil || ( user_id.kind_of?(String) && user_id.empty? )
+  def emptyval?(value)
+    value == nil || ( value.kind_of?(String) && value.empty? )
   end
 
   def before_save

@@ -4,7 +4,9 @@
 <h1>Thanks!</h1>
 
 <p>
-	Your gift has been emailed. If it isn't picked up, we will notify you before it expires in 30 days.
+	<%= "Your gift has been emailed." if @gift.sent_at != nil %> 
+	<%= "Your gift has been scheduled to be emailed." if @gift.sent_at == nil %> 
+	If it isn't picked up, we will notify you before it expires in 30 days after notification.
 </p>
 
 <p>

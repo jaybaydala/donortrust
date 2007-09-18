@@ -5,6 +5,10 @@ class Dt::GiftsController < DtApplicationController
   
   def new
     @gift = Gift.new
+    if params[:project_id]
+      @project = Project.find(params[:project_id]) 
+      @gift.project_id = @project.id if @project
+    end
     if logged_in?
       user = User.find(current_user.id)
       %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] }
@@ -15,12 +19,14 @@ class Dt::GiftsController < DtApplicationController
 
   def create
     @gift = Gift.new( gift_params )
-    if params[:gift][:credit_card]
+    if params[:gift][:credit_card] && params[:gift][:credit_card] != ''
       iats = iats_payment(@gift)
       @gift.authorization_result = iats.authorization_result if iats.status == 1
     end
     respond_to do |format|
       if @gift.save
+        # send the email if it's not scheduled for later.
+        @gift.send_gift_mail if @gift.send_gift_mail? == true
         format.html
       else
         format.html { render :action => "new" }
@@ -30,6 +36,8 @@ class Dt::GiftsController < DtApplicationController
 
   def confirm
     @gift = Gift.new( gift_params )
+    @project = Project.find(@gift.project_id) if @gift.project_id
+    schedule(@gift)
     respond_to do |format|
       if @gift.valid?
         format.html { render :action => "confirm" }
@@ -64,6 +72,10 @@ class Dt::GiftsController < DtApplicationController
   end
 
   protected
+  def send_later?
+    return @send_at ? true : false
+  end
+
   def gift_params
     card_exp = "#{params[:gift][:expiry_month]}/#{params[:gift][:expiry_year]}" if params[:gift][:expiry_month] != nil && params[:gift][:expiry_year] != nil
     gift_params = params[:gift]
@@ -71,6 +83,31 @@ class Dt::GiftsController < DtApplicationController
     gift_params.delete :expiry_year
     gift_params[:card_expiry] = card_exp if gift_params[:card_expiry] == nil
     gift_params[:user_id] = current_user.id if logged_in?
+    normalize_send_at!(gift_params)
     gift_params
+  end
+  
+  def schedule(gift)
+    send_at_vals = Array.new
+    (1..5).each do |x|
+      send_at_vals << params[:gift]["send_at(#{x}i)"] if params[:gift]["send_at(#{x}i)"] && params[:gift]["send_at(#{x}i)"] != ""
+    end
+    @send_at = Time.utc(send_at_vals[0], send_at_vals[1], send_at_vals[2], send_at_vals[3], send_at_vals[4]) if send_at_vals.length == 5
+    gift.send_at = @send_at
+    if gift.send_at && params[:time_zone] && params[:time_zone] != ''
+      gift.send_at = gift.send_at + -(TimeZone.new(params[:time_zone]).utc_offset)
+    end
+  end
+  
+  def normalize_send_at!(gift_params)
+    delete_send_at = false
+    (1..5).each do |x|
+      delete_send_at = true if gift_params["send_at(#{x}i)"] == '' || !gift_params["send_at(#{x}i)"]
+    end
+    if delete_send_at
+      (1..5).each do |x|
+        gift_params.delete("send_at(#{x}i)")
+      end
+    end
   end
 end

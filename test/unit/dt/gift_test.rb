@@ -39,7 +39,7 @@ context "Gift" do
   specify "should not require a message" do
     lambda {
       t = create_gift(credit_card_params(:message => nil))
-      t.errors.on(:mesasge).should.be.nil
+      t.errors.on(:message).should.be.nil
     }.should.change(Gift, :count)
   end
 
@@ -86,7 +86,52 @@ context "Gift" do
       t.errors.on(:email).should.not.be.nil
     }.should.not.change(Gift, :count)
   end
+
+  specify "should not require project_id" do
+    lambda {
+      t = create_gift(credit_card_params(:project_id => nil))
+      t.errors.on(:project_id).should.be.nil
+    }.should.change(Gift, :count)
+  end
   
+  specify "should not require send_at" do
+    lambda {
+      t = create_gift(credit_card_params(:send_at => nil))
+      t.errors.on(:send_at).should.be.nil
+    }.should.change(Gift, :count)
+  end
+
+  specify "send_at should allow future dates" do
+    lambda {
+      t = create_gift(credit_card_params(:send_at => Time.now + 2))
+      t.errors.on(:send_at).should.be.nil
+    }.should.change(Gift, :count)
+  end
+
+  specify "send_at should not allow current or past dates" do
+    lambda {
+      t = create_gift(credit_card_params(:send_at => Time.now))
+      t.errors.on(:send_at).should.not.be.nil
+    }.should.not.change(Gift, :count)
+  end
+
+  specify "send_gift_mail? should be false if send_at is not nil" do
+    t = create_gift(credit_card_params(:send_at => Time.now + 2))
+    t.send_gift_mail?.should.be false
+  end
+
+  specify "send_gift_mail? should be true if send_at is nil" do
+    t = create_gift(credit_card_params(:send_at => nil))
+    t.send_gift_mail?.should.be true
+  end
+
+  specify "send_gift_mail should set sent_at to not be nil" do
+    t = create_gift(credit_card_params(:send_at => nil))
+    t.sent_at.should.be.nil
+    t.send_gift_mail
+    t.sent_at.should.not.be.nil
+  end
+
   specify "creating a Gift should create a UserTransaction if user_id is present" do
     lambda {
       t = create_gift()
