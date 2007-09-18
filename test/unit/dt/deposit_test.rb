@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 # see user_transaction_test.rb for amount and user tests
 context "Deposit" do
   include DtAuthenticatedTestHelper
-  fixtures :user_transactions, :deposits
+  fixtures :user_transactions, :deposits, :gifts, :investments
 
   setup do
   end
@@ -128,6 +128,11 @@ context "Deposit" do
   specify "sum should return a positive amount" do
     t = create_deposit()
     t.sum.should.be > 0
+  end
+
+  specify "sum should be 0 if it refers to a gift_id which in turn refers to a project" do
+    t = Deposit.find(3)
+    t.sum.should.be 0
   end
 
   specify "credit_card should only contain the last 4 digits after save" do

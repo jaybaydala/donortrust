@@ -388,6 +388,20 @@ context "Dt::Gifts unwrap behaviour" do
     }.should.change(Deposit, :count)
   end
 
+  specify "if the gift includes a project_id, should still create a deposit" do
+    login_as :quentin
+    lambda {
+      unwrap_gift(:id => 3)
+    }.should.change(Deposit, :count)
+  end
+
+  specify "if the gift includes a project_id, should also create a investment" do
+    login_as :quentin
+    lambda {
+      unwrap_gift({}, 3)
+    }.should.change(Investment, :count)
+  end
+
   specify "should create a UserTransaction" do
     login_as :quentin
     lambda {
@@ -402,8 +416,8 @@ context "Dt::Gifts unwrap behaviour" do
   end
   
   private 
-  def unwrap_gift(options = {})
-    put :unwrap, :id => 2, :gift => { :pickup_code => "2bf1be756e096ae6cf3e15542df08762ff257b35" }.merge(options)
+  def unwrap_gift(options = {}, id = 2)
+    put :unwrap, :id => id, :gift => { :pickup_code => "2bf1be756e096ae6cf3e15542df08762ff257b35" }.merge(options)
   end
 end
 

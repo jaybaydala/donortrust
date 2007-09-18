@@ -1,6 +1,7 @@
 class Gift < ActiveRecord::Base
   include UserTransactionHelper
   belongs_to :user
+  belongs_to :project
   has_one :deposit
   validates_presence_of :amount
   validates_numericality_of :amount

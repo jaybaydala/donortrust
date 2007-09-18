@@ -88,7 +88,7 @@ end
 
 context "Dt::Accounts handling GET /dt/accounts/1" do
   use_controller Dt::AccountsController
-  fixtures :users
+  fixtures :users, :user_transactions, :gifts, :investments, :deposits
   include DtAuthenticatedTestHelper
 
   setup do
@@ -120,6 +120,27 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
     login_as(:quentin)
     do_get
     template.should.be 'dt/accounts/show'
+  end
+  
+  specify "should show all three types of transactions - gifts, investments, deposits" do
+    login_as(:quentin)
+    do_get
+    page.should.select "div.giftTransaction"
+    page.should.select "div.depositTransaction"
+    page.should.select "div.investmentTransaction"
+  end
+  
+  specify "if a deposit with a gift_id that does not have a project_id, should show depost" do
+    login_as(:quentin)
+    do_get
+    page.should.select "div.depositTransaction#depositTransaction-1"
+  end
+
+  specify "if a deposit with a gift_id that has a project_id, should show deposit with link to project" do
+    login_as(:quentin)
+    do_get
+    d = Deposit.find(3) # this is a picked up gift with a project_id
+    page.should.select "div.depositTransaction#depositTransaction-#{d.id}"
   end
 end
 

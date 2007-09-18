@@ -6,9 +6,28 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 %>
 <% case transaction_type -%>
 <% when "Deposit" -%>
-<tr><td<%= bg %>><%= transaction_type %><%= " (a gift from #{transaction.tx.gift.name})" if transaction.tx.gift_id %></td><td<%= bg %>><%= date %></td><td<%= bg %>><%= amount %></td></tr>
+<tr>
+  <td<%= bg %>><div id="depositTransaction-<%= transaction.tx.id %>" class="depositTransaction"><%= transaction_type %></div>
+  <% if transaction.tx.gift_id %> 
+    (<%= "a gift from #{transaction.tx.gift.name}" %>
+    <% if transaction.tx.gift.project_id %>to the &quot;<%= link_to transaction.tx.project.name, dt_project_path(transaction.tx.project.id) %>&quot; Project<% end %>)
+  <% end %></td>
+  <td<%= bg %>><%= date %></td>
+  <td<%= bg %>><%= amount %></td>
+</tr>
 <% when "Gift" -%>
-<tr><td<%= bg %>><%= transaction_type %> to <%= link_to transaction.tx.to_name || transaction.tx.to_email, "mailto:#{transaction.tx.to_email}" %></td><td<%= bg %>><%= date %></td><td<%= bg %>><%= amount %></td></tr>
+<tr>
+  <td<%= bg %>><div id="giftTransaction-<%= transaction.tx.id %>" class="giftTransaction"><%= transaction_type %></div> 
+    to <%= link_to transaction.tx.to_name || transaction.tx.to_email, "mailto:#{transaction.tx.to_email}" %></td>
+  <td<%= bg %>><%= date %></td>
+  <td<%= bg %>><%= amount %></td>
+</tr>
 <% when "Investment" -%>
-<tr><td<%= bg %>><%= transaction_type %> in <%= link_to transaction.tx.project.name, dt_project_path(transaction.tx.project.id) %>. Thanks!</td><td<%= bg %>><%= date %></td><td<%= bg %>>(<%= amount %>)</td></tr>
+<tr>
+  <td<%= bg %>><div id="investmentTransaction-<%= transaction.tx.id %>" class="investmentTransaction"><%= transaction_type %></div> 
+  <% if transaction.tx.gift_id %>(<%= "a gift from #{transaction.tx.gift.name}" %>)<% end %>
+  in <%= link_to transaction.tx.project.name, dt_project_path(transaction.tx.project.id) %>. Thanks!</td>
+  <td<%= bg %>><%= date %></td>
+  <td<%= bg %>>(<%= amount %>)</td>
+</tr>
 <% end %>

@@ -63,6 +63,7 @@ class Dt::GiftsController < DtApplicationController
     respond_to do |format|
       if @gift.picked_up?
         Deposit.create_from_gift(@gift, current_user.id)
+        Investment.create_from_gift(@gift, current_user.id)
         format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
       else
         flash[:error] = 'Your gift couldn\'t be picked up at this time. Please recheck your code and try again.'

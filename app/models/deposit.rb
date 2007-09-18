@@ -11,6 +11,11 @@ class Deposit < ActiveRecord::Base
     Deposit.create( :amount => gift.amount, :gift_id => gift.id, :user_id => user_id )
   end
   
+  def sum
+    return 0 if self[:gift_id] && self.gift[:project_id]
+    super
+  end
+  
   protected
   def validate
     require 'iats/credit_card'

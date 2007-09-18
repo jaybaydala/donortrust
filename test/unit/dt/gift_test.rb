@@ -114,24 +114,7 @@ context "Gift" do
       t.errors.on(:send_at).should.not.be.nil
     }.should.not.change(Gift, :count)
   end
-
-  specify "send_gift_mail? should be false if send_at is not nil" do
-    t = create_gift(credit_card_params(:send_at => Time.now + 2))
-    t.send_gift_mail?.should.be false
-  end
-
-  specify "send_gift_mail? should be true if send_at is nil" do
-    t = create_gift(credit_card_params(:send_at => nil))
-    t.send_gift_mail?.should.be true
-  end
-
-  specify "send_gift_mail should set sent_at to not be nil" do
-    t = create_gift(credit_card_params(:send_at => nil))
-    t.sent_at.should.be.nil
-    t.send_gift_mail
-    t.sent_at.should.not.be.nil
-  end
-
+  
   specify "creating a Gift should create a UserTransaction if user_id is present" do
     lambda {
       t = create_gift()
@@ -234,5 +217,46 @@ context "Gift" do
     t = create_gift
     t.pickup
     t.picked_up_at.to_formatted_s.should.equal Time.now.utc.to_formatted_s
+  end
+end
+
+context "Gift Notification" do
+  include GiftTestHelper
+  include DtAuthenticatedTestHelper
+  fixtures :user_transactions, :gifts, :users
+  
+  setup do
+    # for testing action mailer
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
+  end
+  
+  specify "send_gift_mail? should be false if send_at is not nil" do
+    t = create_gift(credit_card_params(:send_at => Time.now + 2))
+    t.send_gift_mail?.should.be false
+  end
+  
+  specify "send_gift_mail? should be true if send_at is nil" do
+    t = create_gift(credit_card_params(:send_at => nil))
+    t.send_gift_mail?.should.be true
+  end
+  
+  specify "send_gift_mail should set sent_at to not be nil" do
+    t = create_gift(credit_card_params(:send_at => nil))
+    t.sent_at.should.be.nil
+    t.send_gift_mail
+    t.sent_at.should.not.be.nil
+  end
+  
+  specify "send_gift_mail should create an email" do
+    t = create_gift(credit_card_params(:send_at => nil))
+    t.send_gift_mail
+    @emails.length.should.equal 1
+    @emails.first.subject.should =~ /^You have received a ChristmasFuture Gift/
+    @emails.first.body.should    =~ /You have been given a ChristmasFuture gift by #{t.name}/
+    @emails.first.body.should    =~ /Pickup Code: #{t.pickup_code}/
   end
 end
