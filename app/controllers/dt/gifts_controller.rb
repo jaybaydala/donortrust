@@ -62,8 +62,14 @@ class Dt::GiftsController < DtApplicationController
     @gift.pickup
     respond_to do |format|
       if @gift.picked_up?
-        Deposit.create_from_gift(@gift, current_user.id)
-        Investment.create_from_gift(@gift, current_user.id)
+        logger.info "STARTING UNWRAP TRANSACTION"
+        Gift.transaction do
+          logger.info "CREATING DEPOSIT"
+          Deposit.create_from_gift(@gift, current_user.id)
+          logger.info "CREATING INVESTMENT"
+          Investment.create_from_gift(@gift, current_user.id)
+        end
+        logger.info "FINISHING UNWRAP TRANSACTION"
         format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
       else
         flash[:error] = 'Your gift couldn\'t be picked up at this time. Please recheck your code and try again.'

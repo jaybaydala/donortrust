@@ -123,19 +123,19 @@ class IatsLink
           # requirements for php and java but Regexp is standard in Ruby
           iats_return = resp.body.match(/AUTHORIZATION RESULT:([^<]+)/)[1].strip
           RAILS_DEFAULT_LOGGER.debug "IATS HTML Result: #{iats_return.inspect}"
-      
-          if iats_return == ""
+
+          if iats_return.match(/OK:/)
+            @status = 1
+            @error = ""
+            @authorization_result = iats_return.match(/OK:([^$]+)/)[1].strip
+          elsif iats_return == ""
             @status = 0
             @error = "PAGE ERROR"
             @authorization_result = "REJECT: ERRPAGE"
-          elsif iats_return.match(/OK:/)
-            @status = 1
-            @error = ""
-            @authorization_result = iats_return
           else
+            @status = 0
             error_code = 'Timeout' if iats_return.match(/Timeout/)
             error_code = iats_return.match(/REJECT:([^$]+)/)[1].strip if !error_code
-            @status = 1
             @error = IatsLink.error_message(error_code)
             @authorization_result = iats_return
           end

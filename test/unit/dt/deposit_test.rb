@@ -130,11 +130,6 @@ context "Deposit" do
     t.sum.should.be > 0
   end
 
-  specify "sum should be 0 if it refers to a gift_id which in turn refers to a project" do
-    t = Deposit.find(3)
-    t.sum.should.be 0
-  end
-
   specify "credit_card should only contain the last 4 digits after save" do
     t = create_deposit( :credit_card => 4111111111111111 )
     t.credit_card.should.equal "1111"

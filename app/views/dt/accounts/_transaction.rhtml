@@ -10,7 +10,7 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
   <td<%= bg %>><div id="depositTransaction-<%= transaction.tx.id %>" class="depositTransaction"><%= transaction_type %></div>
   <% if transaction.tx.gift_id %> 
     (<%= "a gift from #{transaction.tx.gift.name}" %>
-    <% if transaction.tx.gift.project_id %>to the &quot;<%= link_to transaction.tx.project.name, dt_project_path(transaction.tx.project.id) %>&quot; Project<% end %>)
+    <% if transaction.tx.gift.project_id %>to the &quot;<%= link_to transaction.tx.gift.project.name, dt_project_path(transaction.tx.gift.project.id) %>&quot; Project<% end %>)
   <% end %></td>
   <td<%= bg %>><%= date %></td>
   <td<%= bg %>><%= amount %></td>

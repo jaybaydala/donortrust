@@ -17,7 +17,7 @@ class Dt::DepositsController < DtApplicationController
         flash[:notice] = "Your deposit was successful."
         format.html { redirect_to :controller => '/dt/accounts', :action => 'show', :id => current_user.id }
       else
-        flash[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>."
+        flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>."
         format.html { render :action => "new" }
       end
     end

@@ -10,21 +10,21 @@
 	<fieldset>
 		<legend>Personal Information</legend>
 		<ul>
-			<li><label for="user_first_name">First Name</label> <%= @user.first_name %></li>
-			<li><label for="user_first_name">Last Name</label> <%= @user.last_name %></li>
-			<li><label for="user_address">Address</label> <%= @user.address %></li>
-			<li><label for="user_city">City</label> <%= @user.city %></li>
-			<li><label for="user_province">Province</label> <%= @user.province %></li>
-			<li><label for="user_postal_code">Postal Code</label> <%= @user.postal_code %></li>
-			<li><label for="user_country">Country</label> <%= @user.country %></li>
+			<li style="clear:left;"><label for="user_first_name">First Name</label> <%= @user.first_name %></li>
+			<li style="clear:left;"><label for="user_first_name">Last Name</label> <%= @user.last_name %></li>
+			<li style="clear:left;"><label for="user_address">Address</label> <%= @user.address %></li>
+			<li style="clear:left;"><label for="user_city">City</label> <%= @user.city %></li>
+			<li style="clear:left;"><label for="user_province">Province</label> <%= @user.province %></li>
+			<li style="clear:left;"><label for="user_postal_code">Postal Code</label> <%= @user.postal_code %></li>
+			<li style="clear:left;"><label for="user_country">Country</label> <%= @user.country %></li>
 		</ul>	
 	</fieldset>
 
 	<fieldset>
 		<legend>Investment Details</legend>
 		<ul>
-			<li><label for="investment_amount">Project</label> <%= @investment.project.name %> <%= f.hidden_field 'project_id' %></li>
-			<li><label for="investment_amount">Investment Amount</label> <%= number_to_currency(@investment.amount) %> <%= f.hidden_field :amount %></li>
+			<li style="clear:left;"><label for="investment_amount">Project</label> <%= @investment.project.name %> <%= f.hidden_field 'project_id' %></li>
+			<li style="clear:left;"><label for="investment_amount">Investment Amount</label> <%= number_to_currency(@investment.amount) %> <%= f.hidden_field :amount %></li>
 		</ul>
 	</fieldset>
 

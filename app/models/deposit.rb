@@ -8,11 +8,12 @@ class Deposit < ActiveRecord::Base
   has_one :user_transaction, :as => :tx
   
   def self.create_from_gift(gift, user_id)
-    Deposit.create( :amount => gift.amount, :gift_id => gift.id, :user_id => user_id )
+    d = Deposit.new( :amount => gift.amount, :gift_id => gift.id, :user_id => user_id )
+    d.save!
   end
   
   def sum
-    return 0 if self[:gift_id] && self.gift[:project_id]
+    #return 0 if self[:gift_id] && self.gift[:project_id]
     super
   end
   
