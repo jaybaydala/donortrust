@@ -10,12 +10,13 @@
 		<fieldset>
 			<legend class="header">Login/Email</legend>
 			<ul>
-				<li><label for="user_login">Email</label> <%= f.text_field :login %></li>
+    		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
 			</ul>
 		</fieldset>
 
 		<fieldset>
-			<legend>You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website.</legend>
+  	  <legend>Your Indentity</legend>
+  	  <div class="textsm">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
 			<ul>
 				<li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li>
 				<li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li>
@@ -26,7 +27,8 @@
 		<%= error_messages_for :password %>
 		
 		<fieldset>
-			<legend>Change Password - Enter your current password and a new password if you wish</legend>
+  	  <legend>Change Password</legend>
+  		<div class="textsm">If you wish to change your password, please enter your current password along with a new password. It must be longer than 4 characters and try to make it something you'll remember.</div>
 			<ul>
 				<li><label for="old_password">Current Password</label> <%= password_field_tag :old_password %></li>
 				<li><label for="user_password">Password</label> <%= f.password_field :password %></li>
@@ -35,7 +37,8 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>The following fields are optional.</legend>
+  	  <legend>Personal Details</legend>
+  		<div class="textsm">The following fields are optional.</div>
 			<ul>
 				<li class="formInput"><label for="user_address">Address</label> <%= f.text_field :address %></li>
 				<li><label for="user_city">City</label> <%= f.text_field :city %></li>
