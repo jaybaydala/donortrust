@@ -382,10 +382,12 @@ p {
 	}
 .textsm {
 	font: 11px/14px Arial, Helvetica, sans-serif;
-	margin: 0px 0 0 0;
-	padding: 0px 0px 15px 0px;
 	color: #333;
-	}
+}
+div.textsm {
+	margin: 0;
+	padding: 0 0 15px 0;
+}
 .textsm a:link, .textsm a:visited {
 	color: #333;
 	cursor: pointer;
@@ -817,7 +819,7 @@ legend {
 */
 
 #textInput {float:left; width:465px; height:auto; margin: 0px 0 10px 0; background:;}
-textarea {float:left; border:1px solid #CCC; width:462px; margin-top:0px; padding:0px;}
+textarea {float:left; border:1px solid #999; width:462px; margin-top:0px; padding:0px;}
 #textInput label {
 	float:left;
 	display:inline-block; 
@@ -905,6 +907,20 @@ select {
 }
 .inlineSelect {float:left; margin: 5px 0 5px 0; padding:0; width:100%; height:auto;}
 
+
+#gift_send_at_select {
+	float:right;
+}
+#gift_send_at_select select {
+	width:auto;
+	float:none;
+	padding:0;
+	margin:0;
+}
+#gift_send_at_select * {
+	width:auto;
+	float:none;
+}
 
 #relatedProjects {
 	width:228px; height:25px; 
