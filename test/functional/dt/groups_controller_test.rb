@@ -354,8 +354,6 @@ end
 #  - edit the group name & description
 #  - invite new existing DT account holders
 #  - invite non-account holders via email
-#  - make a current member a group admin
-#  - remove admin status from another group-admin
 #  - post group admin messages to the group
 #  - add Projects to the "interested in" list
 #  - remove Projects from the "interested in" list

@@ -22,7 +22,27 @@ ActionController::Routing::Routes.draw do |map|
     :collection => { :confirm => :post, :open => :get },
     :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
-  
+
+#>> ActionController::Routing::Routes.generate :controller => "dt/memberships"
+  map.resources :memberships, 
+  	:controller=> 'dt/memberships', 
+  	:name_prefix => 'dt_',
+  	:path_prefix => '/dt'
+
+#>> ActionController::Routing::Routes.generate :controller => "dt/memberships", :action => :join, :group_id => 1
+  map.resources :memberships, 
+  	:controller=> 'dt/memberships', 
+  	:new => { :join => :put },
+  	:name_prefix => 'dt_groups_messages', 
+  	:path_prefix => '/dt/groups/:group_id'
+
+
+  #map.resources :memberships, 
+  	#:controller=> 'dt/memberships', 
+  	#:name_prefix => 'dt_', 
+  	#:path_prefix => '/dt/groups/:group_id', 
+  	#:member => { :swa => :post }
+
   # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
   map.recover_record 'bus_admin/milestone_statuses/recover_record', :controller => 'bus_admin/milestone_statuses', :action => 'recover_record'
