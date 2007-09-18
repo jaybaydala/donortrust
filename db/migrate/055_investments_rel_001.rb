@@ -5,6 +5,7 @@ class InvestmentsRel001 < ActiveRecord::Migration
         t.column :user_id,              :int
         t.column :project_id,           :int
         t.column :group_id,             :int
+        t.column :gift_id,              :int
         t.column :created_at,           :datetime
         t.column :updated_at,           :datetime
       end

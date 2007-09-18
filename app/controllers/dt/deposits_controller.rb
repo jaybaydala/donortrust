@@ -16,13 +16,9 @@ class Dt::DepositsController < DtApplicationController
       if @deposit.authorization_result != nil && @saved = @deposit.save
         flash[:notice] = "Your deposit was successful."
         format.html { redirect_to :controller => '/dt/accounts', :action => 'show', :id => current_user.id }
-        #format.js
-        format.xml  { head :created, :location => dt_accounts_url }
       else
         flash[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>."
         format.html { render :action => "new" }
-        #format.js
-        format.xml  { render :xml => @user.errors.to_xml }
       end
     end
   end

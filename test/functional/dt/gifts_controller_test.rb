@@ -33,8 +33,8 @@ context "Dt::Gifts #route_for" do
     route_for(:controller => "dt/gifts", :action => "new").should == "/dt/gifts/new"
   end
   
-  specify "should map { :controller => 'dt/gifts', :action => 'create' } to /dt/gifts/new" do
-    route_for(:controller => "dt/gifts", :action => "new").should == "/dt/gifts/new"
+  specify "should map { :controller => 'dt/gifts', :action => 'create' } to /dt/gifts" do
+    route_for(:controller => "dt/gifts", :action => "create").should == "/dt/gifts"
   end
     
   specify "should map { :controller => 'dt/gifts', :action => 'edit', :id => 1 } to /dt/gifts/1;edit" do
@@ -78,7 +78,7 @@ end
 
 context "Dt::Gifts new behaviour"do
   use_controller Dt::GiftsController
-  fixtures :gifts, :user_transactions, :users
+  fixtures :gifts, :user_transactions, :users, :projects
   include DtAuthenticatedTestHelper
   
   specify "should not redirect whether you're logged_in? or not" do
@@ -97,7 +97,10 @@ context "Dt::Gifts new behaviour"do
   specify "form output should always contain amount, to_name, to_email, credit_card, card_expiry fields, comments" do
     # !logged_in?
     get :new
-    inputs = %w( input#gift_amount input#gift_to_name input#gift_to_email textarea#gift_message input#gift_credit_card select#gift_expiry_month select#gift_expiry_year input#gift_first_name input#gift_last_name input#gift_address input#gift_city input#gift_province input#gift_postal_code input#gift_country )
+    inputs = %w( input#gift_amount input#gift_to_name input#gift_to_email textarea#gift_message 
+                 select#gift_send_at_1i select#gift_send_at_2i select#gift_send_at_3i select#gift_send_at_4i select#gift_send_at_5i 
+                 input#gift_credit_card select#gift_expiry_month select#gift_expiry_year input#gift_first_name input#gift_last_name 
+                 input#gift_address input#gift_city input#gift_province input#gift_postal_code input#gift_country )
     assert_select "#giftform" do
       inputs.each do |selector|
         assert_select selector
@@ -144,11 +147,22 @@ context "Dt::Gifts new behaviour"do
     page.should.select "#giftform #credit_payment[style=display:none;]"
     page.should.select "#giftform #account_payment[style=display:none;]"
   end
+
+  specify "if project_id is passed, should show the project" do
+    get :new, :project_id => 1
+    page.should.select "#giftform input[type=hidden]#gift_project_id"
+  end
+
+  specify "if project_id is not passed, should suggest giving a project" do
+    get :new
+    page.should.select "#giftform #projectsuggest a[href=/dt/search]"
+  end
+
 end
 
 context "Dt::Gifts confirm behaviour"do
   use_controller Dt::GiftsController
-  fixtures :gifts, :user_transactions, :users
+  fixtures :gifts, :user_transactions, :users, :projects
   include DtAuthenticatedTestHelper
   
   specify "should show confirm template on a post with login" do
@@ -167,7 +181,9 @@ context "Dt::Gifts confirm behaviour"do
   end
 
   specify "form output should always contain amount, name, email, to_name, to_email, comments, credit_card, card_expiry, first_name, last_name, address, city, province, postal_code, country fields" do
-    inputs = %w( input#gift_amount input#gift_to_name input#gift_to_email input#gift_message input#gift_credit_card input#gift_card_expiry input#gift_first_name input#gift_last_name input#gift_address input#gift_city input#gift_province input#gift_postal_code input#gift_country )
+    inputs = %w( input#gift_amount input#gift_to_name input#gift_to_email input#gift_message input#gift_send_at
+                 input#gift_credit_card input#gift_card_expiry input#gift_first_name input#gift_last_name 
+                 input#gift_address input#gift_city input#gift_province input#gift_postal_code input#gift_country )
     # !logged_in?
     do_post
     assert_select "#giftform" do
@@ -184,17 +200,22 @@ context "Dt::Gifts confirm behaviour"do
     end
   end
 
+  specify "form output should include project_id field when params[:project_id] is passed" do
+    do_post( :project_id => 1 )
+    assert_select "#giftform input[type=hidden]#gift_project_id"
+  end
+
   specify "form should use new template if we don't include to_email, email, amount" do
     gift_params = {}
     fields = %w( to_email email amount ).each {|f| 
-      do_post({ f.to_sym => nil })
+      do_post({ :gift => {f.to_sym => nil} })
       template.should.be 'dt/gifts/new'
     }
   end
 
   specify "form should use new template if we are paying by credit card but don't include first_name, last_name, address, city, province, postal_code, country, expiry_month, expiry_year" do
     fields = %w( first_name last_name address city province postal_code country expiry_month expiry_year ).each {|f|
-      do_post( { :credit_card => '4111111111111111', f.to_sym => nil }, true, true )
+      do_post({ :gift => { :credit_card => '4111111111111111', f.to_sym => nil }}, true, true )
       template.should.be 'dt/gifts/new'
     }
   end
@@ -204,12 +225,13 @@ context "Dt::Gifts confirm behaviour"do
     login_as :quentin if login == true
     credit = true if login == false
     gift_params = { 
+      :project_id => 1, 
       :amount => 100.00, 
       :name => 'Tim Glen', 
       :email => 'timglen@pivotib.com', 
       :to_name => 'Curtis', 
       :to_email => 'curtis@pivotib.com', 
-      :message => 'Hello World!'
+      :message => 'Hello World!',
       }
     if credit == true
       gift_params.merge!( {
@@ -229,14 +251,15 @@ context "Dt::Gifts confirm behaviour"do
     
     # merge with passed options
     gift_params.merge!(options[:gift]) if options[:gift] != nil
+    options.delete(:gift) if options[:gift] != nil
     
-    post :confirm, { :gift => gift_params.merge(options)}
+    post :confirm, { :gift => gift_params}.merge(options)
   end
 end
 
 context "Dt::Gifts create behaviour"do
   use_controller Dt::GiftsController
-  fixtures :gifts, :user_transactions, :users
+  fixtures :gifts, :user_transactions, :users, :projects
   include DtAuthenticatedTestHelper
   
   specify "should create a gift and render the create template" do
@@ -299,7 +322,7 @@ end
 
 context "Dt::Gifts open behaviour" do
   use_controller Dt::GiftsController
-  fixtures :gifts, :user_transactions, :users
+  fixtures :gifts, :user_transactions, :users, :projects
   include DtAuthenticatedTestHelper
 
   specify "if no pickup_code is passed, show a basic pickup form" do
@@ -334,12 +357,12 @@ end
 
 context "Dt::Gifts unwrap behaviour" do
   use_controller Dt::GiftsController
-  fixtures :gifts, :user_transactions, :users
+  fixtures :gifts, :user_transactions, :users, :projects
   include DtAuthenticatedTestHelper
   
   specify "should get redirected if not logged_in?" do
     unwrap_gift
-    should.redirect :controller => 'dt/sessions', :action => 'new'
+    should.redirect dt_login_path
   end
 
   specify "should get redirected if no gift pickup_code is passed" do

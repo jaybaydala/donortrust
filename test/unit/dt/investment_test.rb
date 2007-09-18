@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 # see user_transaction_test.rb for amount and user tests
 context "Investment" do
   include DtAuthenticatedTestHelper
-  fixtures :user_transactions, :investments
+  fixtures :investments, :deposits, :gifts, :user_transactions, :users
 
   setup do
   end
@@ -87,7 +87,15 @@ context "Investment" do
   
   specify "should not require group_id" do
     lambda {
-      t = create_investment()
+      t = create_investment(:group_id => nil)
+      t.errors.on(:group_id).should.be.nil
+    }.should.change(Investment, :count)
+  end
+  
+  specify "should not require gift_id" do
+    lambda {
+      t = create_investment(:gift_id => nil )
+      t.errors.on(:gift_id).should.be.nil
     }.should.change(Investment, :count)
   end
   
@@ -104,6 +112,6 @@ context "Investment" do
 
   private
   def create_investment(options = {})
-    Investment.create({ :amount => 1, :user_id => 1, :project_id => 1, :group_id => 1 }.merge(options))
+    Investment.create({ :amount => 1, :user_id => 1, :project_id => 1, :group_id => 1, :gift_id => 1 }.merge(options))
   end
 end
