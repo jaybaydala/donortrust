@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   validates_length_of       :login,    :within => 3..100
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
+  validates_uniqueness_of   :activation_code, :allow_nil => :true
   before_save :encrypt_password
   before_create :make_activation_code
   before_update :login_change

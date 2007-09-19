@@ -73,6 +73,24 @@ context "Gift" do
     }.should.not.change(Gift, :count)
   end
 
+  specify "to_email_confirmation should match to_email" do
+    lambda {
+      t = create_gift(:to_email_confirmation => "")
+      t.errors.on(:to_email).should.not.be.nil
+      t = create_gift(:to_email_confirmation => "nomatch@example.com")
+      t.errors.on(:to_email).should.not.be.nil
+    }.should.not.change(Gift, :count)
+  end
+
+  specify "email_confirmation should match email" do
+    lambda {
+      t = create_gift(:email_confirmation => "")
+      t.errors.on(:email).should.not.be.nil
+      t = create_gift(:email_confirmation => "nomatch@example.com")
+      t.errors.on(:email).should.not.be.nil
+    }.should.not.change(Gift, :count)
+  end
+
   specify "should not require name" do
     lambda {
       t = create_gift(credit_card_params(:name => nil))

@@ -76,6 +76,23 @@ context "Dt::Gifts new, create, confirm and open should exist "do
   end
 end
 
+context "Dt::Gifts index behaviour"do
+  use_controller Dt::GiftsController
+  fixtures :gifts, :user_transactions, :users
+  include DtAuthenticatedTestHelper
+
+  specify "index should redirect to new" do
+    get :index
+    should.redirect :action => 'new'
+  end
+
+ specify "index should redirect to new when logged_in?" do
+    login_as :quentin
+    get :index
+    should.redirect :action => 'new'
+  end
+end
+
 context "Dt::Gifts new behaviour"do
   use_controller Dt::GiftsController
   fixtures :gifts, :user_transactions, :users, :projects
@@ -97,7 +114,8 @@ context "Dt::Gifts new behaviour"do
   specify "form output should always contain amount, to_name, to_email, credit_card, card_expiry fields, comments" do
     # !logged_in?
     get :new
-    inputs = %w( input#gift_amount input#gift_to_name input#gift_to_email textarea#gift_message 
+    inputs = %w( input#gift_amount input#gift_name input#gift_email input#gift_email_confirmation input#gift_to_name 
+                 input#gift_to_email input#gift_to_email_confirmation textarea#gift_message 
                  select#gift_send_at_1i select#gift_send_at_2i select#gift_send_at_3i select#gift_send_at_4i select#gift_send_at_5i 
                  input#gift_credit_card select#gift_expiry_month select#gift_expiry_year input#gift_first_name input#gift_last_name 
                  input#gift_address input#gift_city input#gift_province input#gift_postal_code input#gift_country )
@@ -181,7 +199,7 @@ context "Dt::Gifts confirm behaviour"do
   end
 
   specify "form output should always contain amount, name, email, to_name, to_email, comments, credit_card, card_expiry, first_name, last_name, address, city, province, postal_code, country fields" do
-    inputs = %w( input#gift_amount input#gift_to_name input#gift_to_email input#gift_message input#gift_send_at
+    inputs = %w( input#gift_amount input#gift_name input#gift_email input#gift_to_name input#gift_to_email input#gift_message input#gift_send_at
                  input#gift_credit_card input#gift_card_expiry input#gift_first_name input#gift_last_name 
                  input#gift_address input#gift_city input#gift_province input#gift_postal_code input#gift_country )
     # !logged_in?
@@ -333,23 +351,22 @@ context "Dt::Gifts open behaviour" do
     end
   end
 
-  specify "if an invalid pickup_code is passed, show an error" do
+  specify "if an invalid pickup_code is passed, show the open template again" do
     get :open, :code => 'notcorrect'
-    flash[:error].should.not.be.blank
-    assert_select "div.error"
+    template.should.be 'dt/gifts/open'
   end
 
   specify "if a valid pickup_code is passed show the gift with links to login/signup" do
-    get :open, :code => '2bf1be756e096ae6cf3e15542df08762ff257b35'
+    get :open, :code => 'nqlut05m74jp'
     assert_select "div#login-signup"
   end
 
   specify "if logged_in? and a valid pickup_code is passed show the gift with an unwrap form" do
     login_as :quentin
-    get :open, :code => '2bf1be756e096ae6cf3e15542df08762ff257b35'
+    get :open, :code => 'r4tyfgo0xt7v'
     assert_select "form[method=post][action=/dt/gifts/#{assigns(:gift).id};unwrap]#giftform" do
       assert_select "input[type=hidden][name=_method][value=put]"
-      assert_select "input[type=hidden][value=2bf1be756e096ae6cf3e15542df08762ff257b35]"
+      assert_select "input[type=hidden][value=r4tyfgo0xt7v]"
       assert_select "input[type=submit]"
     end
   end
@@ -398,7 +415,7 @@ context "Dt::Gifts unwrap behaviour" do
   specify "if the gift includes a project_id, should also create a investment" do
     login_as :quentin
     lambda {
-      unwrap_gift({}, 3)
+      unwrap_gift({ :pickup_code => 'nqlut05m74jp' }, 3) #pickup_code is for fixture with id of 3
     }.should.change(Investment, :count)
   end
 
@@ -417,15 +434,32 @@ context "Dt::Gifts unwrap behaviour" do
   
   private 
   def unwrap_gift(options = {}, id = 2)
-    put :unwrap, :id => id, :gift => { :pickup_code => "2bf1be756e096ae6cf3e15542df08762ff257b35" }.merge(options)
+    put :unwrap, :id => id, :gift => { :pickup_code => "r4tyfgo0xt7v" }.merge(options)
   end
 end
 
-context "Dt::Gifts index, show, edit, update and destroy should not exist" do
+context "Dt::Gifts show, edit, update and destroy should not exist" do
   use_controller Dt::GiftsController
   specify "method should not exist" do
-    %w( index show edit update destroy ).each do |m|
+    %w( show edit update destroy ).each do |m|
       @controller.methods.should.not.include m
     end
   end
 end
+
+
+# As any gift giver, I should:
+#   - be able to choose an ecard
+# 
+# When confirming my gift, I should:
+#   - be able to preview my card
+# 
+# Having completed the gift giving process, I should:
+#   - be offered a printable card (with the same image) upon completion
+# 
+# As a gift receiver I should:
+#   - be notified receiver email that money has been given to them - email must contain a "gift code"
+#   - 7 days before expiry, if the gift is unclaimed send an email to the giver and receiver letting them know
+#   - 2 days before expiry, if the gift is unclaimed send an email to the giver and receiver letting them know
+#   - 1 day before expiry, if the gift is unclaimed send an email to the giver and receiver letting them know
+#   - upon expiry, the money is allocated directly to the highest priority project

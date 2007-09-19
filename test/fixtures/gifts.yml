@@ -27,7 +27,7 @@ two:
   credit_card: 4111111111111111
   card_expiry: 04/09
   authorization_result: 1234
-  pickup_code: 2bf1be756e096ae6cf3e15542df08762ff257b35
+  pickup_code: r4tyfgo0xt7v
   picked_up_at: 
   user_id: 3
 three:
@@ -48,7 +48,7 @@ three:
   credit_card: 4111111111111111
   card_expiry: 04/09
   authorization_result: 1234
-  pickup_code: 2bf1be756e096ae6cf3e15542df08762ff257b35
+  pickup_code: nqlut05m74jp
   project_id: 1
   send_at: <%= 5.days.from_now.to_s :db %>
   picked_up_at: 

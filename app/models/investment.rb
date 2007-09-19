@@ -1,14 +1,16 @@
 class Investment < ActiveRecord::Base
   include UserTransactionHelper
+
   belongs_to :user
   belongs_to :project
   belongs_to :group
   belongs_to :gift
+  has_one :user_transaction, :as => :tx
+
   validates_presence_of :amount
   validates_numericality_of :amount
   validates_presence_of :user_id
   validates_numericality_of :project_id, :only_integer => true
-  has_one :user_transaction, :as => :tx
   validates_presence_of :project_id
   
   def sum
@@ -16,12 +18,10 @@ class Investment < ActiveRecord::Base
     super * -1
   end
 
-  def self.create_from_gift(gift, user_id)
+  def self.new_from_gift(gift, user_id)
     logger.info "Gift: #{gift.inspect}"
     if gift.project_id
       i = Investment.new( :amount => gift.amount, :user_id => user_id, :project_id => gift.project_id, :gift_id => gift.id )
-      i.save!
-      logger.info "Investment: #{i.inspect}"
     end
   end
 
