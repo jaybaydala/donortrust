@@ -23,20 +23,18 @@ ActionController::Routing::Routes.draw do |map|
     :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
 
-#>> ActionController::Routing::Routes.generate :controller => "dt/memberships"
   map.resources :memberships, 
   	:controller=> 'dt/memberships', 
   	:name_prefix => 'dt_',
-  	:path_prefix => '/dt'
+  	:path_prefix => '/dt',
+  	:member => { :bestow => :post }
 
-#>> ActionController::Routing::Routes.generate :controller => "dt/memberships", :action => :join, :group_id => 1
   map.resources :memberships, 
   	:controller=> 'dt/memberships', 
   	:new => { :join => :put },
   	:name_prefix => 'dt_groups_messages', 
   	:path_prefix => '/dt/groups/:group_id'
-
-
+    
   #map.resources :memberships, 
   	#:controller=> 'dt/memberships', 
   	#:name_prefix => 'dt_', 

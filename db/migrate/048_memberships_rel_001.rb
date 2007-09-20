@@ -1,6 +1,6 @@
 class MembershipsRel001 < ActiveRecord::Migration
   def self.up
-    create_table :memberships, :id => false do |t|
+    create_table :memberships do |t|
       t.column :user_id,                :int
       t.column :group_id,               :int
       t.column :membership_type,        :int

@@ -1,8 +1,8 @@
 development:
   adapter: mysql
   database: donortrust_development
-  username: donortrust
-  password: donortrust
+  username: root
+  password: 
   host: localhost
 
 # Warning: The database defined as 'test' will be erased and
@@ -11,8 +11,8 @@ development:
 test:
   adapter: mysql
   database: donortrust_test
-  username: donortrust
-  password: donortrust
+  username: root
+  password: 
   host: localhost
 
 production:
