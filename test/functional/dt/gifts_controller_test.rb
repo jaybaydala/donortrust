@@ -106,6 +106,11 @@ context "Dt::Gifts new behaviour"do
     should.not.redirect
   end
 
+  specify "should assign the dt/gifts javascript to @action_js" do
+    get :new
+    assigns(:action_js).should.equal 'dt/ecards'
+  end
+
   specify "should show form#giftform with the appropriate attributes" do
     get :new
     page.should.select "form[action=/dt/gifts;confirm][method=post]#giftform"

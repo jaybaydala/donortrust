@@ -141,6 +141,8 @@ This allows us to validate the project overview page by not repeating
 #subNavWide li.current { border-left: 1px solid #999; border-right: 1px solid #999; background-color:#360; padding: 5px 14px 5px 14px;}
 #subNavWide li.current a:link, #subNavWide li.current a:visited, #subNavWide li.current a:hover, #subNavWide li.current a:active { padding:0;color:#FFF;background-color:transparent; }
 
+/* TERTIARY NAVIGATION (OR SUB-SUB NAVIGATION) */
+
 #pageNav {
 	padding: 0px 0px 1px 0px;
 	margin: 0 0 8px 7px;
@@ -186,4 +188,47 @@ This allows us to validate the project overview page by not repeating
 #pageNav li.currentPg a:link, #pageNav li.currentPg a:visited, 
 #pageNav li.currentPg a:hover, #pageNav li.currentPg a:active { color:#FFF; background-color:#66758B;}
 
+/* GALLERY NAVIGATION */
 
+#galleryNav {
+	padding: 0px 0px 4px 0px;
+	margin: 0 0 8px 0px;
+	background: ;
+	height: 18px;
+	width: 100%;
+	border-bottom:1px solid #ccc;
+}
+#galleryNav ul {float:left; padding: 1px 0 1px 0px;}
+#galleryNav li {padding: 1px 2px 1px 0px;background:none; border:none;}
+
+.galleryNav li {
+	font: 11px/16px Arial, Helvetica, sans-serif;
+	color: #333;
+	margin-right:1px;
+	text-decoration:none;
+	display: inline;
+	list-style-type: none;
+	width: ; height: 17px;
+	float:left;
+}
+.galleryNav a {
+	list-style-type: none;
+	text-decoration:none;
+	font: 11px/16px Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	padding: 1px 4px 1px 4px;
+	background:none;
+	border: 1px solid #FFF;
+}
+.galleryNav a:link, .galleryNav a:visited {
+	color: #333;
+}
+.galleryNav a:hover, .galleryNav a:active {
+	color: #333;
+	background-color:#FFF;
+	border: 1px solid #F60;
+}
+
+#galleryNav li.currentPg { background-color:; padding: 1px 0 1px 0;}
+#galleryNav li.currentPg a:link, #galleryNav li.currentPg a:visited, 
+#galleryNav li.currentPg a:hover, #galleryNav li.currentPg a:active { color:#FFF; background-color:#66758B;}

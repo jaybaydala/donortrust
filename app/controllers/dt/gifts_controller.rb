@@ -11,6 +11,7 @@ class Dt::GiftsController < DtApplicationController
   
   def new
     @gift = Gift.new
+    @action_js = "dt/ecards"
     if params[:project_id]
       @project = Project.find(params[:project_id]) 
       @gift.project_id = @project.id if @project
