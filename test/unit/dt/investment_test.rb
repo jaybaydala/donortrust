@@ -46,13 +46,22 @@ context "Investment" do
     }.should.not.change(Investment, :count)
   end
 
-  specify "amount can't be more than the associated user.balance" do
+  specify "amount can't be more than the associated user.balance when there's no gift_id" do
     # we know that User(1) has a balance
     balance = User.find(1).balance
     lambda {
-      t = create_investment(:amount => balance+0.01)
+      t = create_investment(:amount => balance+0.01, :gift_id => nil)
       t.errors.on(:amount).should.not.be.nil
     }.should.not.change(Investment, :count)
+  end
+
+  specify "amount can be more than the associated user.balance when there a gift_id" do
+    # we know that User(1) has a balance
+    balance = User.find(1).balance
+    lambda {
+      t = create_investment(:amount => balance+0.01, :gift_id => 1)
+      t.errors.on(:amount).should.be.nil
+    }.should.change(Investment, :count)
   end
 
   specify "should require project_id" do

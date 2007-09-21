@@ -1,15 +1,16 @@
 class Deposit < ActiveRecord::Base
   include UserTransactionHelper
+
   belongs_to :user
   belongs_to :gift
+  has_one :user_transaction, :as => :tx
+
   validates_presence_of :amount
   validates_numericality_of :amount
   validates_presence_of :user_id
-  has_one :user_transaction, :as => :tx
   
-  def self.create_from_gift(gift, user_id)
-    d = Deposit.new( :amount => gift.amount, :gift_id => gift.id, :user_id => user_id )
-    d.save!
+  def self.new_from_gift(gift, user_id)
+    Deposit.new( :amount => gift.amount, :gift_id => gift.id, :user_id => user_id )
   end
   
   def sum

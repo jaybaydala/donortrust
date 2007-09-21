@@ -190,6 +190,7 @@ div.highlight {
 }
 #contentContainer2 #rightCol {padding: 9px 7px 5px 0px;}
 
+
 /* Left Column Wide(W) with Narrow(N) Right Column */
 
 #leftColW {
@@ -684,6 +685,16 @@ h2 a:hover, h2 a:active {
     text-indent: 0px;
 	float:right;
 }
+#buttonGo a {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	height: 20px; 
+    width: 35px;
+    background: transparent; 
+   	display: block;
+	list-style-type: none;
+}
 #buttonGo a:link, #buttonGo a:visited {
 	color: #fff;
 	font-weight: normal;
@@ -719,6 +730,16 @@ h2 a:hover, h2 a:active {
 	list-style-type: none;
     text-indent: 0px;
 	float:right;
+}
+#buttonFindGift a {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	height: 20px; 
+    width: 92px;
+	padding: 0;
+    background: transparent; 
+   	display: block;
 }
 #buttonFindGift a:link, #buttonFindGift a:visited {
 	color: #fff;
@@ -809,17 +830,8 @@ legend {
 .userform input {float:left; width: 150px; margin: 0px 20px 0px 0; background:#FFF;}
 .userform input[type=submit] {display:block;width: auto; height:auto; background:#999; color:#FFF; margin:3px 0 0 157px;}
 
-/* old userform 
-.userform {float:left; margin:0px 0 5px 0px;}
-.userform ul {margin:0;padding:0;}
-.userform ol {margin:0;padding:0;}
-.userform li {float:left; list-style-type: none; display: block;margin-bottom: 5px;}
-.userform input {float:left; width: 150px; margin: 0px 20px 0px 0; background:#FFF;}
-.userform input[type=submit] {display:block;width: auto; height:auto; background:#999; color:#FFF; margin:3px 0 0 105px;}
-*/
-
 #textInput {float:left; width:465px; height:auto; margin: 0px 0 10px 0; background:;}
-textarea {float:left; border:1px solid #999; width:462px; margin-top:0px; padding:0px;}
+textarea {float:left; border:1px solid #CCC; width:462px; margin-top:0px; padding:0px;}
 #textInput label {
 	float:left;
 	display:inline-block; 
@@ -909,7 +921,6 @@ select {
 
 
 #gift_send_at_select {
-	float:right;
 }
 #gift_send_at_select select {
 	width:auto;
@@ -1328,10 +1339,10 @@ div.buttonsubmit a.large:hover {
 
 /* TABLE-LESS TABLE STYLES */
 
-#row {height:19px; width:auto; padding:2px 0 4px 0; margin:0px 0 2px 0px; background:; border-bottom:1px solid #CCC;}
+.row {height:19px; width:auto; padding:2px 0 4px 0; margin:0px 0 2px 0px; background:; border-bottom:1px solid #CCC;}
 #ecardInputs ul {padding:0;margin:0;}
-#row li {list-style-type: none; display: inline; padding:0px 0 1px 0;}
-#row .tableHead li {float:left; display:block; background:; border-bottom:0px solid #999}
+.row li {list-style-type: none; display: inline; padding:0px 0 1px 0;}
+.row .tableHead li {float:left; display:block; background:; border-bottom:0px solid #999}
 
 /* ACCOUNT STYLES */
 #transaction_list table {
@@ -1376,8 +1387,8 @@ div.buttonsubmit a.large:hover {
 	border-top:0px solid #900; 
 	border-bottom:0px solid #900;
 }
-.name {float:left; height:19px; width:auto; background:;}
-.email {float:left; height:19px; width:auto; background:;}
+.name {float:left; width:auto;}
+.email {float:left; width:auto;}
 
 #ecardInputs .name input {float:left; width: 110px; margin:0px;}
 #ecardInputs .email input {float:left; width: 124px; margin:0px;}
@@ -1400,14 +1411,33 @@ div.buttonsubmit a.large:hover {
 
 /* MINI GALLERY FOR RIGHT COLUMN NARROW */
 
-#miniGallery {
-	width:220px; height:350px;
+#miniGallery {width:220px; height:350px;}
+
+#medImgWrap {width:220px; height:165px;}
+.medImg {float:left;width:140px; height:140px; background:#66758B; margin-right:5px;}
+.medImgNav {float:left;width:140px; height:15px; padding:5px 0 5px 0;}
+.prev {float:left; width:auto; font:x-small/12px Arial,Helvetica,sans-serif; padding:0 4px 0 0px;}
+.next {float:right; width:auto; font:x-small/12px Arial,Helvetica,sans-serif; text-align:right; padding:0 0px 0 4px;}
+
+#selectWrap {float:left; width:70px; height:140px;}
+.selectButton {float:left; width:42px; height:15px; margin: 125px 0px 0 5px;}
+
+#miniThumbs {float:left;width:220px;}
+#miniThumbs li {float:left;display:block;width:50px; height:50px; background:#66758B; margin: 0 5px 5px 0; padding:0px;}
+
+/* Message or Instructions for Using Tool Bar Module */
+
+#toolBarHang {width:724px; height: 60px; background:#666; margin:0 0 10px 0px;}
+
+#toolBarHang ul {padding:0; margin:7px 0 0 10px;}
+#toolBarHang li {
+	font: x-small/11px Arial, Helvetica, sans-serif;
+	color: #FFF;
+	padding: 3px 7px 3px 7px;
+	background: #66758B;
+	float: left;
+	display:inline;
+	text-decoration:none;
 }
-#medImgWrap {width:100%; height:165px;}
-.medImg {float:left;width:140px; height:140px; background:#66758B;}
 
-.selectButton {float:right; width:42px; height:15px; background:#66758B; margin: 125px 30px 0 5px;}
-.medImgNav {float:left;width:140px; height:15px; padding:5px 0 5px 0;background:;}
 
-#thumbWrap {float:left;width:220px;}
-.thumb {float:left; width:50px; height:50px; background:#66758B; margin: 0 5px 5px 0;}

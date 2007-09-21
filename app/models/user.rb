@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   validates_length_of       :login,    :within => 3..100
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
+  validates_uniqueness_of   :activation_code, :allow_nil => :true
   before_save :encrypt_password
   before_create :make_activation_code
   before_update :login_change
@@ -146,9 +147,26 @@ class User < ActiveRecord::Base
     end
 
     def make_activation_code
-      self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+      code = User.generate_activation_code
+      # ensure it's not currently being used
+      if !User.find_by_activation_code(code)
+        self.activation_code = code and return
+      end
+      # if we get here, it's being used, so try again
+      make_activation_code
     end
-    
+
+    def self.generate_activation_code
+      hash = ""
+      srand()
+      (1..12).each do
+        rnd = (rand(2147483648)%36) # using 2 ** 31
+        rnd = rnd<26 ? rnd+97 : rnd+22
+        hash = hash + rnd.chr
+      end
+      hash
+    end
+
     def login_change
       if User.find_by_id(id).login != login
         @login_changed = true

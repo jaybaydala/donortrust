@@ -1,4 +1,10 @@
 Event.observe(window, 'load', function() {
+	if (anchors = $$('a')) {
+		anchors.each(function(anchor) {
+			if (anchor.getAttribute("href") && anchor.getAttribute("rel") == "blank" && !anchor.getAttribute("target"))
+				anchor.target = "_blank"
+		});
+	}
 	if (submits = $$('input.buttonsubmit')) {
 		i = 0;
 		submits.each(function(s) {

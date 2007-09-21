@@ -3,8 +3,15 @@ class Dt::GiftsController < DtApplicationController
   include IatsProcess
   before_filter :login_required, :only => :unwrap
   
+  def index
+    respond_to do |format|
+      format.html { redirect_to :action => 'new' }
+    end
+  end
+  
   def new
     @gift = Gift.new
+    @action_js = "dt/ecards"
     if params[:project_id]
       @project = Project.find(params[:project_id]) 
       @gift.project_id = @project.id if @project
@@ -51,7 +58,7 @@ class Dt::GiftsController < DtApplicationController
     store_location
     @gift = Gift.validate_pickup(params[:code]) if params[:code]
     respond_to do |format|
-      flash[:error] = 'The provided pickup code is not valid. Please check your email and try again.' if params[:code] && !@gift
+      flash.now[:error] = 'The pickup code is not valid. Please check your email and try again.' if params[:code] && !@gift
       format.html
     end
   end
@@ -65,9 +72,11 @@ class Dt::GiftsController < DtApplicationController
         logger.info "STARTING UNWRAP TRANSACTION"
         Gift.transaction do
           logger.info "CREATING DEPOSIT"
-          Deposit.create_from_gift(@gift, current_user.id)
+          @deposit = Deposit.new_from_gift(@gift, current_user.id)
+          @deposit.save!
           logger.info "CREATING INVESTMENT"
-          Investment.create_from_gift(@gift, current_user.id)
+          @investment = Investment.new_from_gift(@gift, current_user.id) if @gift.project_id
+          @investment.save! if @investment
         end
         logger.info "FINISHING UNWRAP TRANSACTION"
         format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }

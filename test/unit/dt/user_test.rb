@@ -55,6 +55,11 @@ context "User" do
     }.should.not.change(User, :count)
   end
 
+  specify "should add an activation_code upon create" do
+    user = create_user
+    user.activation_code.should.not.be.nil
+  end
+
   specify "should return the same thing for login and email" do
     u = users(:quentin)
     u.login.should.be u.email

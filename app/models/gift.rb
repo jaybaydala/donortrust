@@ -1,15 +1,20 @@
+require 'digest/sha1'
 class Gift < ActiveRecord::Base
   include UserTransactionHelper
+
+  before_create :make_pickup_code
+
   belongs_to :user
   belongs_to :project
   has_one :deposit
+  has_one :user_transaction, :as => :tx
+
   validates_presence_of :amount
   validates_numericality_of :amount
-  has_one :user_transaction, :as => :tx
-  validates_presence_of :to_email
-  validates_presence_of :email
-  before_create :make_pickup_code
-
+  validates_presence_of :to_email, :email
+  validates_confirmation_of :to_email, :email, :on => :create
+  validates_uniqueness_of :pickup_code, :allow_nil => :true
+  
   def sum
     return credit_card ? 0 : super * -1
   end
@@ -67,6 +72,23 @@ class Gift < ActiveRecord::Base
   end
 
   def make_pickup_code
-    self.pickup_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    code = Gift.generate_pickup_code
+    # ensure it's not currently being used
+    if !Gift.find_by_pickup_code(code)
+      self.pickup_code = code and return
+    end
+    # if we get here, it's being used, so try again
+    make_pickup_code
+  end
+  
+  def self.generate_pickup_code
+    hash = ""
+    srand()
+    (1..12).each do
+      rnd = (rand(2147483648)%36) # using 2 ** 31
+      rnd = rnd<26 ? rnd+97 : rnd+22
+      hash = hash + rnd.chr
+    end
+    hash
   end
 end
