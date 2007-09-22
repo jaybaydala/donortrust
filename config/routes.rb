@@ -19,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
   map.dt_login  '/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', 
-    :collection => { :confirm => :post, :open => :get },
+    :collection => { :confirm => :post, :open => :get, :preview => :get },
     :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
 
