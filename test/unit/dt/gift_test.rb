@@ -274,7 +274,7 @@ context "Gift Notification" do
     t.send_gift_mail
     @emails.length.should.equal 1
     @emails.first.subject.should =~ /^You have received a ChristmasFuture Gift/
-    @emails.first.body.should    =~ /You have been given a ChristmasFuture gift by #{t.name}/
+    @emails.first.body.should    =~ /You have been given a ChristmasFuture gift by /
     @emails.first.body.should    =~ /Pickup Code: #{t.pickup_code}/
   end
 end
