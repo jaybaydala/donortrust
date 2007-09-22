@@ -18,7 +18,7 @@ Event.observe(window, 'load', function() {
 	}
 	if (notices = $$('div.notice')) {
 		notices.each(function(s) {
-			new Effect.Highlight(s)
+			new Effect.Highlight(s,{delay:2,duration:1,startcolor:'#FFFFCC',endcolor:'#FFFFFF',restorecolor:'#FFFFFF'})
 		});
 	}
 });

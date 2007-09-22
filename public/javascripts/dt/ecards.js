@@ -4,6 +4,9 @@ Event.observe(window, 'load', function() {
 			new Ecard(link);
 		});
 	}
+	if (ecard_preview = $('ecardPreview')) {
+		ecard_preview.show();
+	}
 });
 
 var Ecard = Class.create();

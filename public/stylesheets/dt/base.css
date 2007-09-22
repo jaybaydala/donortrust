@@ -775,6 +775,7 @@ div.notice, div.error, div.errorExplanation {
 	padding:4px;
 }
 div.notice {
+	background-color:rgb(255, 255, 204);
 	border:1px solid #360;
 }
 div.error, div.errorExplanation {
