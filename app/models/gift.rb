@@ -46,25 +46,21 @@ class Gift < ActiveRecord::Base
   protected
   def validate_on_create
     require 'iats/credit_card'
-    if !emptyval?(credit_card) || emptyval?(user_id)
+    if credit_card? || !user_id?
       errors.add_on_empty %w( first_name last_name address city province postal_code country credit_card expiry_month expiry_year card_expiry )
       errors.add("credit_card", "has invalid format") unless CreditCard.is_valid(credit_card)
       errors.add("credit_card", "is an unknown card type") unless CreditCard.cc_type(credit_card) != 'UNKNOWN'
       errors.add("card_expiry", "is in the past") if card_expiry && card_expiry < Date.today
     end
-    if !emptyval?(user_id) && emptyval?(credit_card)
+    if user_id? && !credit_card?
       errors.add("amount", "cannot be greater than your balance. Please make a deposit first or use your credit card.") unless amount != nil && self.user.balance > amount
     end
     super
   end
   
   def validate
-    errors.add("send_at", "must be in the future") if !emptyval?(send_at) && send_at.to_i <= Time.now.to_i
+    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
     super
-  end
-
-  def emptyval?(value)
-    value == nil || ( value.kind_of?(String) && value.empty? )
   end
 
   def before_save

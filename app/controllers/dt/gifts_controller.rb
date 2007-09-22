@@ -87,6 +87,23 @@ class Dt::GiftsController < DtApplicationController
     end
   end
 
+  def preview
+    @gift = Gift.new( gift_params )
+    # there are a couple of necessary field just for previewing
+    valid = true
+    %w( email to_email ).each do |field|
+      valid = false if !@gift.send(field + '?')
+    end
+    if valid
+      @gift.pickup_code = '[pickup code]'
+      @gift_mail = DonortrustMailer.create_gift_mail_preview(@gift)
+    end
+    respond_to do |format|
+      flash.now['error'] = 'You must provide your email and the recipient\'s email' if !valid
+      format.html { render :layout => false }
+    end
+  end
+
   protected
   def send_later?
     return @send_at ? true : false

@@ -58,6 +58,8 @@
       <label for="gift_message">Your message</label><%= f.text_area :message, :rows => 6, :cols => 35, :style => 'width:225px;' %>
   </fieldset>
 
+  <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your gift email" id="gift_preview" onclick="var params=Form.serialize($('giftform'));window.open('<%= dt_preview_gifts_path() %>?' + params, 'preview', 'width=800,height=440,resizable=true,scrollable=true');" class="buttonsubmit" /></div>
+
   <fieldset>
     <legend>Gift Schedule</legend>
     <ul>
@@ -126,7 +128,7 @@
     </fieldset>
   </div>
 
-  <%= submit_tag 'Preview / Continue', :class => 'buttonsubmit' %>
+  <%= submit_tag 'Confirm', :class => 'buttonsubmit' %>
   <%= render :partial => 'dt/shared/form_requirednote' %>
 </div>
 <% end %>

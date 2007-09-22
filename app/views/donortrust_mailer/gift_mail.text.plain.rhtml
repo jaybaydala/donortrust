@@ -1,0 +1,21 @@
+Hello <%=h @gift.to_name? ? @gift.to_name : @gift.to_email %>,
+
+You have been given a ChristmasFuture gift by <%=h @gift.to_name? ? "#{@gift.to_name} <#{@gift.to_email}>" : @gift.to_email %>.
+
+<% if @gift.message? %>
+Their message to you:
+<%=h @gift.message %>
+<% end %>
+
+=======================
+
+Please click on the following link to open your gift so that you can help to change the world.
+<%= @url + "?code=#{@gift.pickup_code}" %>
+
+If that does not work for you, copy and paste the following link into your web browser and enter your pickup code:
+<%= @url %>
+
+Pickup Code: <%= @gift.pickup_code %>
+
+Thanks,
+The ChristmasFuture Team
