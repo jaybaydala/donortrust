@@ -17,10 +17,6 @@ context "Dt::Gifts #route_for" do
     @rs = ActionController::Routing::Routes
   end
   
-  specify "should recognize the routes" do
-    @rs.generate(:controller => "dt/gifts", :action => "index").should.equal "/dt/gifts"
-  end
-  
   specify "should map { :controller => 'dt/gifts', :action => 'index' } to /dt/gifts" do
     route_for(:controller => "dt/gifts", :action => "index").should == "/dt/gifts"
   end
