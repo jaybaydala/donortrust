@@ -332,7 +332,7 @@ p {
 	color: #333;
 	background-color: transparent;
 }
-#leftColW  ul, #leftColW2  ul {
+#leftColW ul, #leftColW2 ul {
 	font: 13px/22px Georgia, "Times New Roman", Times, serif;
 	color:#333;
 	font-weight:normal;
@@ -431,6 +431,7 @@ div.textsm {
 #rightColN img {margin: 0 0 10px 0;}
 #contentContainer2 #rightCol img {width:216px; margin: 3px 0 15px 0;}
 #leftColW img, #leftColW2 img {width:469px; padding:0px; border:0px solid #CCC; margin: 0px 0 15px 0;}
+#factList img {margin: 0px 0px 10px 0px;}
 
 /* BUTTON AND LINK STYLES */
 
@@ -785,8 +786,6 @@ div.errorExplanation ul {
 	margin-left:2em;
 }
 
-
-
 /* Input Field, Fields, Jump Menues, Labels  */
 
 form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
@@ -822,13 +821,32 @@ legend {
 }
 /* IE Mac legend fix */
 
+#leftColW form p {padding-left:0; padding-right:0;margin-left:0;}
+#leftColW form .textsm {
+	font: 11px/14px Arial, Helvetica, sans-serif;
+	margin: 5px 0 10px 0;
+	padding: 0px 0px 0px 0px;
+	color: #333;
+	background:;
+	width:100%;
+	float:left; 
+	display:block;
+}
+#leftColW .fieldsetN {float:left;width:225px;margin-right:15px;}
+#leftColW .fieldsetN2 {float:left;width:225px;margin-right:0px;}
+#leftColW .fieldsetN input, #leftColW .fieldsetN2 input {width:131px;margin:0;}
+#leftColW .fieldsetN label, #leftColW .fieldsetN2 label {width:72px;}
+#leftColW .fieldsetN ul, #leftColW .fieldsetN2 ul {padding-left:0px;padding-right:0px;}
+#leftColW .fieldsetN li, #leftColW .fieldsetN2 li {padding-left:0px;padding-right:0px;}
+
 /* SIGN IN, SIGN UP Modules */
 
 .userform {margin:0px 0 5px 0px;}
-.userform ul {margin-top:10px; padding-left:50px;}
-.userform ol {margin-top:10px; padding-left:50px;}
+.userform ul {margin-top:10px; padding-left:40px;padding-right:0;}
+.userform ol {margin-top:10px; padding-left:40px;padding-right:0;}
 .userform li {float:left; list-style-type: none; display: block; margin-bottom: 0px;}
-.userform input {float:left; width: 150px; margin: 0px 20px 0px 0; background:#FFF;}
+.userform p {padding-left:0;}
+.userform input {float:left; width: 146px; margin: 0px 20px 0px 0; background:#FFF;}
 .userform input[type=submit] {display:block;width: auto; height:auto; background:#999; color:#FFF; margin:3px 0 0 157px;}
 
 #textInput {float:left; width:465px; height:auto; margin: 0px 0 10px 0; background:;}
@@ -847,7 +865,7 @@ textarea {float:left; border:1px solid #CCC; width:462px; margin-top:0px; paddin
 }
 label {
 	float:left; 
-	width:10em;
+	width:11.5em;
 	font: x-small Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	color: #333;
@@ -857,13 +875,11 @@ label {
 	text-transform:capitalize;
 	display:block;
 }	
-#ecard input[type=checkbox] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
-input[type=checkbox] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
 input {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #333;
 	border: 1px solid #999;
-	padding: 2px 0px 2px 4px;
+	padding: 2px 4px 2px 4px;
 	height: 14px;
 	font-size: 11px;
 	voice-family: "\"}\""; 
@@ -872,6 +888,11 @@ input {
 	height: 14px;
 	float:left;
 }
+form input[type=checkbox] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
+form input[type=radio] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
+input[type=checkbox] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
+input[type=radio] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
+
 .jumpMenu {
 	font-family: Arial, Helvetica, sans-serif;
 	color: #666699;
@@ -920,19 +941,20 @@ select {
 }
 .inlineSelect {float:left; margin: 5px 0 5px 0; padding:0; width:100%; height:auto;}
 
-
 #gift_send_at_select {
+	float:left;
 }
 #gift_send_at_select select {
 	width:auto;
 	float:none;
 	padding:0;
-	margin:0;
+	margin:0 0 3px 0;
 }
 #gift_send_at_select * {
 	width:auto;
 	float:none;
 }
+#pageNav select {width:100px;margin-bottom:2px;font-size:10px;height:17px;}
 
 #relatedProjects {
 	width:228px; height:25px; 
@@ -971,7 +993,7 @@ select {
 
 div.buttonsubmit {
 	clear:left;
-	padding:3px 0 0 158px;
+	padding:3px 0 0 11.5em;
 }
 div.buttonsubmit a:link, div.buttonsubmit a:visited, div.buttonsubmit a:hover, div.buttonsubmit a:active {
 	display:block;
@@ -1080,6 +1102,12 @@ div.buttonsubmit a.large:hover {
 }
 #buttonSignUp {
 }
+
+.sendMessage a {font:11px/18px Arial, Helvetica, sans-serif;text-decoration:none; padding:0 0 0 3px;}
+.sendMessage a:link, .sendMessage a:visited {text-decoration:none; display:block; color:#FFF; background:#66758B;}
+.sendMessage a:hover, .sendMessage a:active {text-decoration:none; display:block; color:#FFF; background:#F60;}
+.sendMessage img {text-decoration:none; display:block; float:left; position:relative; top:2px;}
+
 
 /* CF DONORTRUST CONTENT MODULES */
 
@@ -1346,6 +1374,7 @@ div.buttonsubmit a.large:hover {
 .row .tableHead li {float:left; display:block; background:; border-bottom:0px solid #999}
 
 /* ACCOUNT STYLES */
+
 #transaction_list table {
 	border:1px #DDD solid;
 }
@@ -1362,15 +1391,15 @@ div.buttonsubmit a.large:hover {
 
 /* E-CARD STYLES */
 
-#ecard {background: ;}
+#ecardform {background: ;}
 
-#ecard p {
+#ecardform p {
 	font: 13px/22px Georgia, "Times New Roman", Times, serif;
 	padding: 0px 0px 10px 0px;
 	margin:0;
 	color: #333;
 }
-#ecard .textsm {
+#ecardform .textsm {
 	font: 11px/14px Arial, Helvetica, sans-serif;
 	margin: 5px 0 5px 0;
 	padding: 0px 0px 0px 0px;
@@ -1388,8 +1417,8 @@ div.buttonsubmit a.large:hover {
 	border-top:0px solid #900; 
 	border-bottom:0px solid #900;
 }
-.name {float:left; width:auto;}
-.email {float:left; width:auto;}
+.name {float:left; height:19px; width:auto; background:;}
+.email {float:left; height:19px; width:auto; background:;}
 
 #ecardInputs .name input {float:left; width: 110px; margin:0px;}
 #ecardInputs .email input {float:left; width: 124px; margin:0px;}
@@ -1413,10 +1442,11 @@ div.buttonsubmit a.large:hover {
 /* MINI GALLERY FOR RIGHT COLUMN NARROW */
 
 #miniGallery {width:220px; height:350px;}
+#miniGallery .textsm {font: 11px/14px Arial, Helvetica, sans-serif; color: #333; padding:5px 0 5px 0;}
 
-#medImgWrap {width:220px; height:165px;}
+#medImgWrap {width:220px; height:140px;}
 .medImg {float:left;width:140px; height:140px; background:#66758B; margin-right:5px;}
-.medImgNav {float:left;width:140px; height:15px; padding:5px 0 5px 0;}
+.medImgNav {float:left;width:100%; height:15px; padding:5px 0 5px 0;}
 .prev {float:left; width:auto; font:x-small/12px Arial,Helvetica,sans-serif; padding:0 4px 0 0px;}
 .next {float:right; width:auto; font:x-small/12px Arial,Helvetica,sans-serif; text-align:right; padding:0 0px 0 4px;}
 
@@ -1425,6 +1455,23 @@ div.buttonsubmit a.large:hover {
 
 #miniThumbs {float:left;width:220px;}
 #miniThumbs li {float:left;display:block;width:50px; height:50px; background:#66758B; margin: 0 5px 5px 0; padding:0px;}
+#thumbs img {width:74px; height:50px; margin: 0; padding:0;}
+
+/* GALLERY FOR LEFT COLUMN WIDE */
+
+#gallery {float:left; width:476px; height:auto; margin:0 0 10px 7px;}
+
+#thumbs {float:left; font:xx-small/10px Arial, Helvetica, sans-serif;}
+#thumbs li {float:left;display:block;width:74px; height:75px; background:none; margin: 0 5px 5px 0; padding:0px;}
+#thumbs img {width:50px; height:50px; margin: 0; padding:0;}
+.thumbLabel {float:left; width:42px; height:20px; padding:3px 4px 2px 0px;}
+.thumbLabel a {
+	font:xx-small/10px Arial, Helvetica, sans-serif;
+	padding: 3px 4px 2px 0px;
+	text-decoration:none;
+}
+#thumbLabel a:link, #thumbLabel a:visited {text-decoration:none;}
+#thumbLabel a:hover, #thumbLabel a:active {text-decoration:none;}
 
 /* Message or Instructions for Using Tool Bar Module */
 
