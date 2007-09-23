@@ -9,10 +9,12 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :communities, :controller => 'dt/communities', :name_prefix => 'dt_'
     project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   end
+  map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', 
     :collection => { :activate => :get, :resend => :get } do |account|
-    account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
+      account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
+      account.resources :wishlists, :controller => 'dt/wishlists', :name_prefix => 'dt_'
   end
   map.resource :session, :controller => 'dt/sessions', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.dt_signup '/signup', :controller => 'dt/accounts', :action => 'new'
