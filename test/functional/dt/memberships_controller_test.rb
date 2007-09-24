@@ -71,25 +71,25 @@ context "Dt::MembershipsController handling POST join" do
     create_membership(true, 2)
     Membership.count.should.equal old_count
   end
-
+  
   specify "should be able to withdraw membership from a group" do
     login_as :tim
     old_count = Membership.count    
     delete :destroy, {:controller => 'dt/memberships', :id => 1}
     Membership.count.should.equal old_count-1    
   end
-
-  #specify "should be able to bestow group admin status to a current member" do
-    #login_as :tim
-    #post :bestow, {:controller => 'dt/memberships', :id => 1 }
-    #m = Membership.find 1
-    #m.membership_type.should.equal 2
-  #end
-
-  def create_membership(login = true, group_id = 1)
+    
+  specify "should be able to bestow group admin status to a current member" do
+    login_as :tim
+    post :bestow, {:controller => 'dt/memberships', :id => 3 }
+    m = Membership.find 3        
+    m.membership_type.should.equal 2
+  end
+  
+  def create_membership( login = true, group_id = 1)
     login_as :tim if login == true
     put :join, :group_id => group_id
-  end
+  end  
 end
 
 
