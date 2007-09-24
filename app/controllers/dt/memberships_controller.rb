@@ -36,12 +36,10 @@ class Dt::MembershipsController < DtApplicationController
     end
   end
 
-  def bestow
+  def bestow  
     @membership = Membership.find(params[:id])     
-    
-    bestower = current_user.memberships.find :first, :conditions => {:group_id => @membership.group_id}
-    
-    if bestower.membership_type > 1
+    bestowing_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
+    if bestowing_membership.membership_type > 1 
       @membership.update_attributes(:membership_type => 2) 
       flash[:notice] = 'Membership was successfully upgraded to Admin status.'
     else
