@@ -29,9 +29,13 @@ class Dt::GiftsController < DtApplicationController
     if params[:gift][:credit_card] && params[:gift][:credit_card] != ''
       iats = iats_payment(@gift)
       @gift.authorization_result = iats.authorization_result if iats.status == 1
+      @saved = @gift.save if @gift.authorization_result != nil
+      flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
+    else
+      @saved = @gift.save
     end
     respond_to do |format|
-      if @gift.save
+      if @saved
         # send the email if it's not scheduled for later.
         @gift.send_gift_mail if @gift.send_gift_mail? == true
         format.html
