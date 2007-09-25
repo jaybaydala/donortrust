@@ -1,4 +1,24 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :quick_fact_places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_places"
+
+  map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
+
+  map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
+
+  map.resources :placetypes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/placetypes"
+
+  map.resources :placetypes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/placetypes"
+
+  map.resources :placetypes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/placetypes"
+
+  map.resources :placetypes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/placetypes"
+
+  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
+
+  map.resources :quick_fact_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_types"
+
+  map.resources :quick_facts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_facts"
+
   map.resources :comments, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/comments"
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
  
