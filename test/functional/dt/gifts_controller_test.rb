@@ -17,10 +17,6 @@ context "Dt::Gifts #route_for" do
     @rs = ActionController::Routing::Routes
   end
   
-  specify "should recognize the routes" do
-    @rs.generate(:controller => "dt/gifts", :action => "index").should.equal "/dt/gifts"
-  end
-  
   specify "should map { :controller => 'dt/gifts', :action => 'index' } to /dt/gifts" do
     route_for(:controller => "dt/gifts", :action => "index").should == "/dt/gifts"
   end
@@ -60,6 +56,10 @@ context "Dt::Gifts #route_for" do
   specify "should map { :controller => 'dt/gifts', :action => 'unwrap', :id => 1} to /dt/gifts/1;unwrap" do
     route_for(:controller => "dt/gifts", :action => "unwrap", :id => 1).should == "/dt/gifts/1;unwrap"
   end
+
+  specify "should map { :controller => 'dt/gifts', :action => 'preview'} to /dt/gifts;preview" do
+    route_for(:controller => "dt/gifts", :action => "preview").should == "/dt/gifts;preview"
+  end
   
   private 
   def route_for(options)
@@ -67,10 +67,10 @@ context "Dt::Gifts #route_for" do
   end
 end
 
-context "Dt::Gifts new, create, confirm and open should exist "do
+context "Dt::Gifts new, create, confirm, open, unwrap and preview should exist "do
   use_controller Dt::GiftsController
   specify "methods should exist" do
-    %w( new create confirm open ).each do |m|
+    %w( new create confirm open unwrap preview ).each do |m|
       @controller.methods.should.include m
     end
   end
@@ -180,7 +180,49 @@ context "Dt::Gifts new behaviour"do
     get :new
     page.should.select "#giftform #projectsuggest a[href=/dt/search]"
   end
+  
+  specify "should contain a preview submit button" do
+    get :new
+    page.should.select "#giftform input[type=button]#gift_preview"
+  end
 
+end
+
+
+context "Dt::Gifts preview behaviour"do
+  use_controller Dt::GiftsController
+  fixtures :gifts, :users, :projects
+  include DtAuthenticatedTestHelper
+  
+  specify 'should have @gift and @gift_mail in the assigns' do
+    do_post
+    assigns(:gift).should.not.be.nil
+    assigns(:gift_mail).should.not.be.nil
+  end
+
+  specify 'should use dt/gifts/preview template' do
+    do_post
+    template.should.be 'dt/gifts/preview'
+  end
+  
+  private
+  def do_post(options={})
+    gift_params = { 
+      :project_id => 1, 
+      :amount => 100.00, 
+      :name => 'Tim Glen', 
+      :email => 'timglen@pivotib.com', 
+      :to_name => 'Curtis', 
+      :to_email => 'curtis@pivotib.com', 
+      :message => 'Hello World!',
+      }
+    
+    # merge with passed options
+    gift_params.merge!(options[:gift]) if options[:gift] != nil
+    options.delete(:gift) if options[:gift] != nil
+    
+    post :preview, { :gift => gift_params }.merge(options)
+  end
 end
 
 context "Dt::Gifts confirm behaviour"do

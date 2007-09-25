@@ -48,7 +48,7 @@
     </fieldset>
   
   	<div id="buttonSignUp"><%= submit_tag 'Create Account', :class => 'buttonsubmit' %></div>
-  	<p class="textsm"><em>*</em>= required field</p>
+  	<%= render :partial => 'dt/shared/form_requirednote' %>
 
 	</div>
 	<% end -%>

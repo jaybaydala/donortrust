@@ -9,17 +9,19 @@ ActionController::Routing::Routes.draw do |map|
     project.resources :communities, :controller => 'dt/communities', :name_prefix => 'dt_'
     project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   end
+  map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', 
     :collection => { :activate => :get, :resend => :get } do |account|
-    account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
+      account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
+      account.resources :wishlists, :controller => 'dt/wishlists', :name_prefix => 'dt_'
   end
   map.resource :session, :controller => 'dt/sessions', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.dt_signup '/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', 
-    :collection => { :confirm => :post, :open => :get },
+    :collection => { :confirm => :post, :open => :get, :preview => :get },
     :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
 
@@ -27,19 +29,15 @@ ActionController::Routing::Routes.draw do |map|
   	:controller=> 'dt/memberships', 
   	:name_prefix => 'dt_',
   	:path_prefix => '/dt',
-  	:member => { :bestow => :post }
-
+  	:member => { :bestow => :post, :revoke => :post  }
+   
+  #/dt/groups/:group_id/memberships;
   map.resources :memberships, 
   	:controller=> 'dt/memberships', 
   	:new => { :join => :put },
-  	:name_prefix => 'dt_groups_messages', 
+  	:collection => { :list => :get },
+  	:name_prefix => 'dt_groups_', 
   	:path_prefix => '/dt/groups/:group_id'
-    
-  #map.resources :memberships, 
-  	#:controller=> 'dt/memberships', 
-  	#:name_prefix => 'dt_', 
-  	#:path_prefix => '/dt/groups/:group_id', 
-  	#:member => { :swa => :post }
 
   # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'

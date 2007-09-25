@@ -7,7 +7,6 @@ class GiftsRel001 < ActiveRecord::Migration
         t.column :to_name,              :string
         t.column :to_email,             :string
         t.column :message,              :text
-        t.column :send_at,              :datetime
         t.column :first_name,           :string
         t.column :last_name,            :string
         t.column :address,              :string
@@ -21,6 +20,8 @@ class GiftsRel001 < ActiveRecord::Migration
         t.column :authorization_result, :string
         t.column :pickup_code,          :string, :limit => 40
         t.column :picked_up_at,         :datetime
+        t.column :ecard,                :string
+        t.column :send_at,              :datetime
         t.column :sent_at,              :datetime
         t.column :user_id,              :int
         t.column :created_at,           :datetime

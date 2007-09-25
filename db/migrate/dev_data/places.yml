@@ -1,0 +1,69 @@
+africa:
+  id: 1
+  name: Africa
+  place_type_id: 1
+uganda:
+  id: 2
+  name: Uganda
+  place_type_id: 2
+  parent_id: 1
+western:
+  id: 3
+  name: Western
+  place_type_id: 3
+  parent_id: 2
+eastern:
+  id: 4
+  name: Eastern
+  place_type_id: 3
+  parent_id: 2
+northern:
+  id: 5
+  name: Northern
+  place_type_id: 3
+  parent_id: 2
+central:
+  id: 6
+  name: Central
+  place_type_id: 3
+  parent_id: 2
+Bombo:
+  id: 7
+  name: Bombo
+  place_type_id: 6
+  parent_id: 6
+Bweyogerere:
+  id: 8
+  name: Bweyogerere
+  place_type_id: 6
+  parent_id: 6
+Jinja-Kawempe:
+  id: 9
+  name: Jinja-Kawempe
+  place_type_id: 6
+  parent_id: 6
+Kajansi:
+  id: 10
+  name: Kajansi
+  place_type_id: 6
+  parent_id: 6
+Kampala:
+  id: 11
+  name: Kampala
+  place_type_id: 6
+  parent_id: 6
+Lukaya:
+  id: 12
+  name: Lukaya
+  place_type_id: 6
+  parent_id: 6
+Mityana:
+  id: 13
+  name: Mityana
+  place_type_id: 6
+  parent_id: 6
+Mpigi:
+  id: 14
+  name: Mpigi
+  place_type_id: 6
+  parent_id: 6

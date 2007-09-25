@@ -31,6 +31,7 @@
 			<% elsif @project -%>
 			<%= @project.name %>
 			<%= f.hidden_field :project_id %>
+			<% if @project.village.facebook_group_id %><p>You can also <a href="http://facebook.com/group.php?gid=<%= @project.village.facebook_group_id %>">check out the facebook group</a> for this project's &quot;village&quot;.</p><% end %>
 			<% end %></li>
 		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount %></li>
 	</ul>	

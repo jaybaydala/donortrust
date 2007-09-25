@@ -10,10 +10,13 @@ class Gift < ActiveRecord::Base
   has_one :user_transaction, :as => :tx
 
   validates_presence_of :amount
-  validates_numericality_of :amount
+  validates_numericality_of :amount, :if => Proc.new { |gift| gift.amount?}
   validates_presence_of :to_email, :email
   validates_confirmation_of :to_email, :email, :on => :create
+  validates_format_of   :to_email,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address", :if => Proc.new { |gift| gift.to_email?}
+  validates_format_of   :email,       :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address", :if => Proc.new { |gift| gift.email?}
   validates_uniqueness_of :pickup_code, :allow_nil => :true
+  validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id?}
   
   def sum
     return credit_card ? 0 : super * -1
@@ -46,25 +49,26 @@ class Gift < ActiveRecord::Base
   protected
   def validate_on_create
     require 'iats/credit_card'
-    if !emptyval?(credit_card) || emptyval?(user_id)
+    if credit_card? || !user_id?
       errors.add_on_empty %w( first_name last_name address city province postal_code country credit_card expiry_month expiry_year card_expiry )
       errors.add("credit_card", "has invalid format") unless CreditCard.is_valid(credit_card)
       errors.add("credit_card", "is an unknown card type") unless CreditCard.cc_type(credit_card) != 'UNKNOWN'
       errors.add("card_expiry", "is in the past") if card_expiry && card_expiry < Date.today
     end
-    if !emptyval?(user_id) && emptyval?(credit_card)
-      errors.add("amount", "cannot be greater than your balance. Please make a deposit first or use your credit card.") unless amount != nil && self.user.balance > amount
+    if user_id? && !credit_card?
+      errors.add("amount", "cannot be greater than your balance. Please make a deposit first or use your credit card.") if amount? && amount > self.user.balance
     end
     super
   end
   
-  def validate
-    errors.add("send_at", "must be in the future") if !emptyval?(send_at) && send_at.to_i <= Time.now.to_i
-    super
+  def before_validation
+    self[:project_id] = nil if project_id == 0
   end
-
-  def emptyval?(value)
-    value == nil || ( value.kind_of?(String) && value.empty? )
+  
+  def validate
+    errors.add("project_id", "is not a valid project") if project_id? && project_id <= 0
+    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
+    super
   end
 
   def before_save

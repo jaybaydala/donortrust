@@ -43,7 +43,8 @@ class Dt::GiftsController < DtApplicationController
 
   def confirm
     @gift = Gift.new( gift_params )
-    @project = Project.find(@gift.project_id) if @gift.project_id
+    @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
+    @action_js = "dt/ecards"
     schedule(@gift)
     respond_to do |format|
       if @gift.valid?
@@ -84,6 +85,23 @@ class Dt::GiftsController < DtApplicationController
         flash[:error] = 'Your gift couldn\'t be picked up at this time. Please recheck your code and try again.'
         format.html { redirect_to :action => 'open' }
       end
+    end
+  end
+
+  def preview
+    @gift = Gift.new( gift_params )
+    # there are a couple of necessary field just for previewing
+    valid = true
+    %w( email to_email ).each do |field|
+      valid = false if !@gift.send(field + '?')
+    end
+    if valid
+      @gift.pickup_code = '[pickup code]'
+      @gift_mail = DonortrustMailer.create_gift_mail_preview(@gift)
+    end
+    respond_to do |format|
+      flash.now[:error] = 'To preview your ecard, please provide your email and the recipient\'s email' if !valid
+      format.html { render :layout => false }
     end
   end
 

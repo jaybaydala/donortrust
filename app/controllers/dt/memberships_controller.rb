@@ -2,13 +2,22 @@ class Dt::MembershipsController < DtApplicationController
   before_filter :login_required
 
   def index
-    @memberships = current_user.memberships
+    @groups = current_user.groups
 
     respond_to do |format|
       format.html # index.rhtml
     end
   end
-  
+
+  def list    
+    g = Group.find params[:group_id]
+    @membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => params[:group_id]}    
+    @memberships = g.memberships
+    respond_to do |format|
+      format.html # list.rhtml
+    end
+  end
+    
   def join
     group_id = params[:group_id]
     group = Group.find group_id
@@ -22,7 +31,7 @@ class Dt::MembershipsController < DtApplicationController
       else
         flash[:notice] = 'Membership was not successfully created.'
       end
-      format.html { redirect_to :action => 'index' }    	
+      format.html { redirect_to :action => 'list', :group_id => group_id }
     end
   
   end
@@ -32,26 +41,38 @@ class Dt::MembershipsController < DtApplicationController
     @membership.destroy
 
     respond_to do |format|
-      format.html { redirect_to :action => 'index' }    	
+      format.html { redirect_to :action => 'index'}
     end
   end
 
-  def bestow
+  def bestow  
     @membership = Membership.find(params[:id])     
-    
-    bestower = current_user.memberships.find :first, :conditions => {:group_id => @membership.group_id}
-    
-    if bestower.membership_type > 1
+    bestowing_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
+    if bestowing_membership.membership_type > 1 
       @membership.update_attributes(:membership_type => 2) 
       flash[:notice] = 'Membership was successfully upgraded to Admin status.'
     else
       flash[:notice] = 'Must be an admin to bestow admin status on another member.'
     end
     respond_to do |format|
-      format.html { redirect_to :action => 'index' }    	
+      format.html { redirect_to :action => 'list', :group_id => @membership.group_id }             
     end    
   end
-    
+
+  def revoke      
+    @membership = Membership.find(params[:id])     
+    revoking_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
+    if revoking_membership.membership_type > 1 or revoking_membership.membership_type < @membership
+      @membership.update_attributes(:membership_type => 1) 
+      flash[:notice] = 'Membership was successfully downgraded to User status.'
+    else
+      flash[:notice] = 'Must be an admin to revoke admin status on another member.'
+    end
+    respond_to do |format|
+      format.html { redirect_to :action => 'list', :group_id => @membership.group_id }             
+    end        
+  end
+   
 end
 
 
