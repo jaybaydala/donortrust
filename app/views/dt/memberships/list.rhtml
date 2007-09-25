@@ -1,0 +1,13 @@
+<%= dt_account_nav %>
+
+<div id="leftColW">
+	<h2>Group Members</h2>
+	
+	<ul id="membership-list">
+	<%= render_partial_collection 'dt/memberships/membership', @memberships if @memberships %>
+	</ul>
+
+</div>
+<div id="rightColN">
+	
+</div>

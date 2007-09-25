@@ -1,22 +1,18 @@
 <%= dt_account_nav %>
-<div id="contentcontainer">
-<div id="content">
-<div class="contentmargin">
-<div class="column-title">All Groups</div>
-<ul id="group-list">
-</ul>
-</div>
-</div>
 
-<div id="rail-left">
-<div class="contentmargin">
-<div class="column-title">Recently Created Groups</div>
+<div id="leftColW">
+	<h2>My Groups</h2>
 
+	<% if logged_in? %>
+	<h3 class="title">Your Groups</h3>
+	<% if current_user.groups.length > 0 -%>
+	<ul id="group-list">  
+	<%= render_partial_collection 'dt/memberships/group', current_user.groups if current_user.groups %>
+	</ul>
+	<% end -%>
+	<p><small><%= link_to "create group", dt_new_group_path %></small></p>
+	<% end %>
 </div>
-</div>
-
-<div id="rail-right">
-<div class="contentmargin">
-</div>
-</div>
+<div id="rightColN">
+	
 </div>

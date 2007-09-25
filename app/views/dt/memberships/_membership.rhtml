@@ -1,0 +1,14 @@
+	<li id="membership-<%= membership.id %>" class="list-item">
+	<div>
+	<%= link_to "#{membership.user.first_name} #{membership.user.last_name}", dt_membership_path(membership) -%>
+	<% if @membership.membership_type == 3 -%>   
+	<% if membership.membership_type == 2 -%>
+	|	<%= link_to "Make Group Admin", { :action => "bestow", :id => membership.id }, :method => :post -%> 
+	<% end -%>  
+	<% if membership.membership_type == 3 -%>
+	|	<%= link_to "Remove Group Admin status", { :action => "revoke", :id => membership.id }, :method => :post -%> 
+	<% end -%>
+	<% end -%>  	
+	</div>
+	</li>
+         

@@ -120,7 +120,6 @@ context "Dt::GroupsController handling GET /dt/groups" do
   specify "should show name, description, type" do
     login_as :tim
     do_get
-    #puts response.body
   	assert_select "a", "Public Group"
   	assert_select "p", 'this is the description'
   	assert_select "p", 'School'
@@ -131,7 +130,7 @@ context "Dt::GroupsController handling GET /dt/groups" do
     do_get
     assert_select "a", {:count=>0, :text=>"Private Group"}
   end
-
+  
 end
 
 context "Dt::GroupsController handling GET /dt/groups;new" do
@@ -207,7 +206,7 @@ context "Dt::GroupsController handling POST /dt/groups;create" do
     }.should.not.change(Group, :count)
   end
   
-  specify "should automatically be added as a member of this group and made the owner" do
+  specify "should be able to create a group and automatically be added as a member of that group" do
     lambda {
       create_group
     }.should.change(Membership, :count)
@@ -362,7 +361,6 @@ end
 #As a group creator, I should:
 #  x automatically be added as a member of the group
 #  x should become an owner of the group you just added
-#  - be protected from other admins removing my admin status
 #  
 #Low priority stories:
 #Group Accounts
