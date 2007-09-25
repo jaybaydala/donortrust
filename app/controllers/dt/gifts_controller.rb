@@ -43,7 +43,8 @@ class Dt::GiftsController < DtApplicationController
 
   def confirm
     @gift = Gift.new( gift_params )
-    @project = Project.find(@gift.project_id) if @gift.project_id
+    @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
+    @action_js = "dt/ecards"
     schedule(@gift)
     respond_to do |format|
       if @gift.valid?
@@ -99,7 +100,7 @@ class Dt::GiftsController < DtApplicationController
       @gift_mail = DonortrustMailer.create_gift_mail_preview(@gift)
     end
     respond_to do |format|
-      flash.now['error'] = 'You must provide your email and the recipient\'s email' if !valid
+      flash.now[:error] = 'To preview your ecard, please provide your email and the recipient\'s email' if !valid
       format.html { render :layout => false }
     end
   end

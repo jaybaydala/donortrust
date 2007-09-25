@@ -21,11 +21,13 @@
   </style>
 </head>
 <body>
-<div style="text-align:left;">
+<div style="text-align:left;width:496px;margin:auto;">
 
 <p>Hello <%=h @gift.to_name? ? @gift.to_name : @gift.to_email %>,</p>
 
-<p>You have been given a ChristmasFuture gift by <a href="mailto:<%= @gift.to_email %>"><%=h @gift.to_name? ? @gift.to_name : @gift.to_email %></a>.</p>
+<p>You have been given a ChristmasFuture gift by <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a>.</p>
+
+<% if @gift.ecard? %><%= image_tag "http://#{@host}#{@gift.ecard}", :alt => "" %><% end %>
 
 <% if @gift.message? %>
 <p>Their message to you:</p>

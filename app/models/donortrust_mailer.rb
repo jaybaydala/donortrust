@@ -31,8 +31,8 @@ class DonortrustMailer < ActionMailer::Base
   def gift_mail_preview(gift)
     gift_mail(gift)
     content_type 'text/html'
-    body :gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")
-    content_type 'text/html'
+    #body :gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")
+    #content_type 'text/html'
   end
 
   def gift_open(gift)
