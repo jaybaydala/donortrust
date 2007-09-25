@@ -1027,6 +1027,9 @@ div.buttonsubmit a.large {
 div.buttonsubmit a.large:hover {
 	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_large.gif);
 }
+#ecardPreview div.buttonsubmit {
+	padding-left:0;
+}
 
 .signInLabel {
 	font: xx-small Arial, Helvetica, sans-serif;
