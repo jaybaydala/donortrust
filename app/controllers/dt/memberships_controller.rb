@@ -62,7 +62,10 @@ class Dt::MembershipsController < DtApplicationController
   def revoke      
     @membership = Membership.find(params[:id])     
     revoking_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
-    if revoking_membership.admin? or revoking_membership.owner?
+    revokable = false
+    revokable = true if revoking_membership.admin? 
+    revokable = false if revoking_membership.membership_type < @membership.membership_type
+    if revokable 
       @membership.update_attributes(:membership_type => 1) 
       flash[:notice] = 'Membership was successfully downgraded to User status.'
     else

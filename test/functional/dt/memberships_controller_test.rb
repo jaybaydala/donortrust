@@ -182,17 +182,24 @@ context "Dt::MembershipsController handling POST /dt/memberships;bestow, /dt/mem
   specify "should be able to revoke group admin status from a current member" do
     login_as :tim
     post :revoke, {:controller => 'dt/memberships', :id => 5 }
-    m = Membership.find 5        
+    m = Membership.find 5
     m.membership_type.should.equal 1
   end
-   
+  
+  #As a group creator(owner), I
   specify "should be protected from other admins removing my admin status" do
-    login_as :aaron #Admin
-    group_id = 4 #Owner
-    post :revoke, {:controller => 'dt/memberships', :id => group_id }
-    m = Membership.find group_id       
-    m.membership_type.should.equal 1
-  end
+    login_as :aaron #Admin of the group about to be used
+    id = 4 #membership id of with Owner status
+    post :revoke, {:controller => 'dt/memberships', :id => id }
+    m = Membership.find id       
+    m.admin?.should.be true
+
+    login_as :tim #Owner
+    id = 5 #membership id of with admin status - I hate fixtures
+    post :revoke, {:controller => 'dt/memberships', :id => id }
+    m = Membership.find id       
+    m.admin?.should.be false  
+  end  
 end 
 
 context "Dt::MembershipsController handling DELETE /dt/membership/1" do
