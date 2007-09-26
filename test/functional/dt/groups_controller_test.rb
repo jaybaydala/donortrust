@@ -369,12 +369,3 @@ end
 #  - Competing with other groups to raise funds (ie. an Encana employee group competing against a Talisman Group)
 #  - Group admin would send a competitiion invite would be sent to another existing group (of any kind)
 #  - Invite must be accepted for competition to begin...
-
-# membership connects users and groups and can store roles
-# groups has many users through memberships
-# users has many groups through memberships
-# http://railscasts.com/episodes/47
-# Roles
-# 1 - Member
-# 2 - Admin
-# 3 - Owner (only one or called in and got it added by support staff )
