@@ -2,7 +2,6 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 # see user_transaction_test.rb for amount and user tests
 context "Investment" do
-  include DtAuthenticatedTestHelper
   fixtures :investments, :deposits, :gifts, :user_transactions, :users
 
   setup do
