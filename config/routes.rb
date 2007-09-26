@@ -51,15 +51,19 @@ ActionController::Routing::Routes.draw do |map|
   	:path_prefix => '/dt',
   	:member => { :bestow => :post, :revoke => :post  }
    
-  #/dt/groups/:group_id/memberships;
   map.resources :memberships, 
   	:controller=> 'dt/memberships', 
   	:new => { :join => :put },
   	:collection => { :list => :get },
   	:name_prefix => 'dt_groups_', 
   	:path_prefix => '/dt/groups/:group_id'
-
-  # inactive_record resources
+    
+  map.resources :admin_messages, 
+    :controller=> 'dt/admin_messages', 
+    :name_prefix => 'dt_groups_', 
+    :path_prefix => '/dt/groups/:group_id'
+    	
+    	  # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
   map.recover_record 'bus_admin/milestone_statuses/recover_record', :controller => 'bus_admin/milestone_statuses', :action => 'recover_record'
   map.inactive_records 'bus_admin/project_statuses/inactive_records', :controller => 'bus_admin/project_statuses', :action => 'inactive_records'
