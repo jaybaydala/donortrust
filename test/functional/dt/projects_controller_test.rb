@@ -16,11 +16,7 @@ context "Dt::Projects #route_for" do
   setup do
     @rs = ActionController::Routing::Routes
   end
-  
-  specify "should recognize the routes" do
-    @rs.generate(:controller => "dt/projects", :action => "index").should.equal "/dt/projects"
-  end
-  
+    
   specify "should map { :controller => 'dt/projects', :action => 'index' } to /dt/projects" do
     route_for(:controller => "dt/projects", :action => "index").should == "/dt/projects"
   end
@@ -61,7 +57,7 @@ end
 
 context "Dt::Projects index behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :continents, :countries, :regions, :urban_centres, :projects
+  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
   
   specify "Project index is available" do
     @project = Project.find(1)
@@ -69,13 +65,20 @@ context "Dt::Projects index behaviour" do
     status.should.be :success
   end
 
-  xspecify "need to add project list/search specs" do
+  specify "should show a list of featured projects" do
+    get :index
+    page.should.select "#featuredProjectList"
+  end
+
+  specify "should have @projects assigned" do
+    get :index
+    assigns(:projects).should.not.be.nil
   end
 end
 
 context "Dt::Projects show behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :continents, :countries, :regions, :urban_centres, :projects
+  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
 
   def do_get(id = 1)
     get :show, :id => id
@@ -141,7 +144,7 @@ context "Dt::Projects new, create, edit, update and destroy should not exist" do
 end
 
 #context "As a donor I want to view nation-level content so I can see the project in context of the nation" do
-#  fixtures :projects
+#  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
 #  
 #  setup do
 #    @controller = Dt::ProjectsController.new
@@ -157,7 +160,7 @@ end
 #end
 #
 #context "As a donor I want to view village-level content so I can see the project in context of the village" do
-#  fixtures :projects
+#  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
 #  
 #  setup do
 #    @controller = Dt::ProjectsController.new

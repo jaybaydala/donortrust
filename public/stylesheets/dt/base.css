@@ -1117,6 +1117,7 @@ div.buttonsubmit a.large:hover {
 /* Project Info Module */
 
 #projectInfo {
+	clear:both;
 	float:left;
 	width:717px;
 	text-align:left;
