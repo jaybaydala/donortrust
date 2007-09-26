@@ -13,8 +13,8 @@ one:
   province: ON
   postal_code: N1E 7C5
   country: CA
-  credit_card: 4111111111111111
-  card_expiry: 04/09
+  credit_card: 1111
+  card_expiry: 2009-04-30
   authorization_result: 1234
   pickup_code: 
   picked_up_at: <%= 5.days.ago.to_s :db %>
@@ -34,8 +34,8 @@ two:
   province: ON
   postal_code: N1E 7C5
   country: CA
-  credit_card: 4111111111111111
-  card_expiry: 04/09
+  credit_card: 1111
+  card_expiry: 2009-04-30
   authorization_result: 1234
   pickup_code: 2bf1be756e096ae6cf3e15542df08762ff257b35
   picked_up_at: 
