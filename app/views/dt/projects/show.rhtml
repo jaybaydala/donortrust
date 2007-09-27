@@ -7,14 +7,10 @@
 	
 		<p><%= @project.description %></p>
 	
-		<div class="projectSMtext">
-			<div id="buttonGiftProject"><%= link_to "Gift this Project", dt_new_gift_path( :project_id => @project.id ) %></div>
-			<div id="buttonDonate"><%= link_to "Donate", dt_new_investment_path( :project_id => @project.id ) %></div>
-			<div id="buttonTellFriend"><a href="#">Tell-A-Friend</a></div>
-		</div>
+		<%= project_actions %>
 		<% if @project.partner %><div class="projectSMtext"><strong>Implementing Organization: </strong> <%= @project.partner.name %></div><% end %>
 	</div>
-  <%= render :partial => 'dt/projects/project_quickfacts' %>
+	<%= project_quickfacts %>
 </div>
 <div id="contentContainer">
   <div id="leftColW"></div>

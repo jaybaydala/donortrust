@@ -1,13 +1,35 @@
+<h1><%= @project.name %></h1>
 <%= project_nav %>
 
 <div id="leftColW">
-<div id="village-<%= @project.village.id %>" class="article">
-	<h1 class="article-title"><%= @project.village.name %>, <%= @project.village.region.region_name %>, <a href="<%= dt_nation_project_path(@project) %>"><%= @project.village.region.country.name %></a></h1>
-	<div class="article-body">
-	<%= textilize @project.village.village_plan %>
-	</div>
+  <h1><%= @village.name %></h1>
+  <p>This page is about how lives are changed. (Theme: Proof Of Impact)</p>
+  <h2>Village Plan</h2>
+  <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Awaiting model</div>
+
+	<%= project_actions %>
+    
+  <h2>Village Coordinator's Blog</h2>
+  <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Awaiting blogs</div>
+  <p>&nbsp;</p>
 </div>
 
 <div id="rightColN">
-	
+  <div id="factList">
+    <h2>Quick Facts</h2>
+    <ul>
+      <li><span style="background:#C00;color:#FFF;padding:1px;">Awaiting Village QuickFacts model and data</span></li>
+    </ul>
+  </div>
+
+  <h5>OTHER PROJECTS IN THIS VILLAGE</h5>
+  <span style="background:#C00;color:#FFF;padding:1px;">Awaiting Place model</span>
+  
+  <h5>VILLAGE VIDEO</h5>
+  <span style="background:#C00;color:#FFF;padding:1px;">Awaiting Youtube data</span>
+
+  <h5>VILLAGE PHOTOS</h5>
+  <span style="background:#C00;color:#FFF;padding:1px;">Awaiting Flickr data</span>
+
+  <%= mdg_goals %>
 </div>
