@@ -291,7 +291,7 @@ h1 {
 	border-bottom: 0px solid #fff;
 }
 h2 {
-	font: 16px/24px Georgia, "Times New Roman", Times, serif;
+	font: 16px/20px Georgia, "Times New Roman", Times, serif;
 	color: #360;
 	font-weight:normal;
 	background: transparent;
@@ -325,15 +325,16 @@ h5 {
 	color: #360;
 	border-bottom: 1px solid #666;
 	letter-spacing: 1px;
+	text-transform:uppercase;
 }
 p {
-	font: 13px/22px Georgia, "Times New Roman", Times, serif;
+	font: 13px/20px Georgia, "Times New Roman", Times, serif;
 	padding: 0px 0px 10px 7px;
 	color: #333;
 	background-color: transparent;
 }
 #leftColW ul, #leftColW2 ul {
-	font: 13px/22px Georgia, "Times New Roman", Times, serif;
+	font: 13px/20px Georgia, "Times New Roman", Times, serif;
 	color:#333;
 	font-weight:normal;
   	padding:0px 30px 0px 24px;
@@ -342,6 +343,32 @@ p {
 }
 #leftColW li, #leftColW2 li {padding-bottom:5px;}
 
+#leftColW ol, #leftColW2 ol {
+	font: 13px/20px Georgia, "Times New Roman", Times, serif;
+	color:#333;
+	font-weight:normal;
+  	padding:0px 30px 0px 32px;
+	margin-bottom:10px;
+	list-style-type:decimal;
+}
+#projectDesc ul, #projectDesc ul {
+	font: 13px/20px Georgia, "Times New Roman", Times, serif;
+	color:#333;
+	font-weight:normal;
+  	padding:0px 30px 0px 7px;
+	margin-bottom:15px;
+	list-style-type:none;
+}
+#projectDesc li, #projectDesc li {padding-bottom:5px;}
+
+#projectDesc ol, #projectDesc ol {
+	font: 13px/20px Georgia, "Times New Roman", Times, serif;
+	color:#333;
+	font-weight:normal;
+  	padding:0px 30px 0px 32px;
+	margin-bottom:10px;
+	list-style-type:decimal;
+}
 #rightColN p {
 	font: 11px/18px Arial, Helvetica, sans-serif;
 	padding: 0px 0px 11px 0px;
@@ -353,11 +380,17 @@ p {
 	color: #333;
 }
 #rightColN ul {
-	width: 221px;
 	margin-bottom:10px;
 	display:block;
 	list-style-type:none;
 }
+#rightColN ol {
+	margin-bottom:10px;
+	display:block;
+	list-style:decimal outside;
+}
+#rightColN ol li {background: none;padding-left:0;margin-left:24px;}
+
 #rightColN li {
 	font: 11px/18px Arial, Helvetica, sans-serif;
 	padding: 0px 0 3px 14px;
@@ -512,6 +545,10 @@ h2 a:hover, h2 a:active {
 }
 
 /* Gift this Project, Donate, and Tell a Friend Buttons */
+
+#rightColN #buttonGiftProject {margin-bottom: 10px;}
+#rightColN #buttonDonate {margin-bottom: 10px;}
+#rightColN #buttonTellFriend {margin-bottom: 10px;}
 
 #buttonGiftProject {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
@@ -1100,16 +1137,16 @@ div.buttonsubmit a.large:hover {
 #buttonSignIn {
 	float:left;
 	clear:left;
-	margin: 0 0 0 90px;
+	margin: 0 0 0 140px;
 	padding: 0;
 }
 #buttonSignUp {
 }
 
-.sendMessage a {font:11px/18px Arial, Helvetica, sans-serif;text-decoration:none; padding:0 0 0 3px;}
-.sendMessage a:link, .sendMessage a:visited {text-decoration:none; display:block; color:#FFF; background:#66758B;}
-.sendMessage a:hover, .sendMessage a:active {text-decoration:none; display:block; color:#FFF; background:#F60;}
-.sendMessage img {text-decoration:none; display:block; float:left; position:relative; top:2px;}
+.blueblock a {font:11px/18px Arial, Helvetica, sans-serif;text-decoration:none; padding:0 0 0 3px;}
+.blueblock a:link, .blueblock a:visited {text-decoration:none; display:block; color:#FFF; background:#66758B;}
+.blueblock a:hover, .blueblock a:active {text-decoration:none; display:block; color:#FFF; background:#F60;}
+.blueblock img {text-decoration:none; display:block; float:left; position:relative; top:2px;}
 
 
 /* CF DONORTRUST CONTENT MODULES */
@@ -1208,6 +1245,7 @@ div.buttonsubmit a.large:hover {
 }
 #factList strong {
 	color:#360;
+	text-transform:capitalize;
 	float:none;
 }
 
@@ -1463,11 +1501,11 @@ div.buttonsubmit a.large:hover {
 
 /* GALLERY FOR LEFT COLUMN WIDE */
 
-#gallery {float:left; width:476px; height:auto; margin:0 0 10px 7px;}
+#gallery {float:left; width:476px; height:auto; margin:0 0 0px 7px;padding-bottom:10px;}
 
 #thumbs {float:left; font:xx-small/10px Arial, Helvetica, sans-serif;}
 #thumbs li {float:left;display:block;width:74px; height:75px; background:none; margin: 0 5px 5px 0; padding:0px;}
-#thumbs img {width:50px; height:50px; margin: 0; padding:0;}
+#thumbs img {float:left; width:50px; height:50px; margin: 0; padding:0;}
 .thumbLabel {float:left; width:42px; height:20px; padding:3px 4px 2px 0px;}
 .thumbLabel a {
 	font:xx-small/10px Arial, Helvetica, sans-serif;
