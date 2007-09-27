@@ -1,0 +1,16 @@
+<dl>
+    <dt>
+         <label for="record_place">Place</label>
+    </dt>
+    <dd>
+        <div id="contact_urban_centre">
+        	<select class="place-input" id="record_place" name="record[place][id]"><option value="" selected="selected">- select -</option>
+	        	<% for place in Place.find :all %>
+					<% if place.place_type_id == 1 %>
+						<option value= <%= place.id.to_s %>> <%=place.name%></option>
+           			<% end %>
+         		<% end %>					
+            </select>
+        </div>
+    </dd>
+</dl>
