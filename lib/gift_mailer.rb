@@ -31,7 +31,7 @@ class GiftEmailer
       @num_sent += run_once() 
     }
     RAILS_DEFAULT_LOGGER.debug "[#{Time.now.to_s}] Gift Email scheduler starting up. Interval: #{@interval}. Job ID: #{@job_id}" if RAILS_DEFAULT_LOGGER
-    @scheduler.join
+    @scheduler.join if ENV['RAILS_ENV'] != 'test'
   end
 
   def stop
