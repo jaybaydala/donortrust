@@ -1,0 +1,11 @@
+test1:
+  id: 1
+  name: Rank Type 1
+  description: First
+  
+  
+test2:
+  id: 2
+  name: Rank Type 2
+  description: second
+  

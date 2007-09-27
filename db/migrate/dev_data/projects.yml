@@ -18,7 +18,6 @@ projectone:
   end_date: "2007-08-30"
   project_status_id: 2
   contact_id: 1
-  urban_centre_id: 2
   partner_id: 1
   dollars_raised: 77800.00
   public: true
@@ -35,7 +34,6 @@ projecttwo:
   end_date: "2007-08-01"
   project_status_id: 2
   contact_id: 2
-  urban_centre_id: 1
   partner_id: 1
   dollars_raised: 5052.00  
   public: true
@@ -52,7 +50,6 @@ projectthree:
   end_date: "2007-08-01"
   project_status_id: 4
   contact_id: 2
-  urban_centre_id: 1
   partner_id: 1
   dollars_raised: 5052.00
   public: true
@@ -69,7 +66,6 @@ projectfour:
   end_date: "2007-08-01"
   project_status_id: 2
   contact_id: 2
-  urban_centre_id: 1
   partner_id: 2
   dollars_raised: 2052.00
   public: false
@@ -86,7 +82,6 @@ projectfive:
   end_date: "2007-08-01"
   project_status_id: 3
   contact_id: 2
-  urban_centre_id: 1
   partner_id: 2
   dollars_raised: 252.00
   public: true

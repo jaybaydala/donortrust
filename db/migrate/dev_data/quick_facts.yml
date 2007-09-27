@@ -9,3 +9,27 @@ test2:
   name: Language
   description: What they speak
   quick_fact_type_id: 1
+  
+test3:
+  id: 3
+  name: Established since 
+  description: none
+  quick_fact_type_id: 2
+  
+test4:
+  id: 4
+  name: No. of Members
+  description: none
+  quick_fact_type_id: 2
+  
+test5:
+  id: 5
+  name: Cause
+  description: none
+  quick_fact_type_id: 3
+  
+test6:
+  id: 6
+  name: More Cause
+  description: none
+  quick_fact_type_id: 3
