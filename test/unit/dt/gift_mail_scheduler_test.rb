@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'config/environment'
-require 'dt/gift_mailer'
+require 'gift_mailer'
 #require File.dirname(__FILE__) + '/test/test_helper'
  
 
