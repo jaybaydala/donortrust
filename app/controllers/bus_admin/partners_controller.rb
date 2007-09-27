@@ -18,6 +18,7 @@ class BusAdmin::PartnersController < ApplicationController
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'partners', :action => 'report_partners'},:page => true
     config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
     config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
+    config.nested.add_link("Quick Fact", [:quick_fact_partners])
 #    config.action_links.add 'list', :label => 'All', redirect_to partners 
   end
 
