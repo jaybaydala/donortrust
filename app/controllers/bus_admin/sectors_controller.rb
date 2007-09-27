@@ -9,8 +9,10 @@ class BusAdmin::SectorsController < ApplicationController
     update.columns.exclude [ :project_count, :country_count, :country_sectors ]
     create.columns.exclude [ :project_count, :country_count, :country_sectors ]
     show.columns.exclude [ :country_sectors ]
-     config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
-    
+    config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
+    config.nested.add_link("Quick Fact", [:quick_fact_sectors])
+    config.nested.add_link("Sub-Category", [:causes])
+   
   end
   
    def get_model
