@@ -11,6 +11,7 @@ class Partner < ActiveRecord::Base
   has_many      :projects
   has_and_belongs_to_many :contacts #is this the right relationship? 
   has_many      :programs, :through => :projects
+  has_many      :quick_fact_partners
 
   validates_presence_of :name
   validates_length_of   :name, :maximum => 50
