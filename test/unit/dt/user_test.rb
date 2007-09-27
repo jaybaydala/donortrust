@@ -121,6 +121,37 @@ context "User" do
   end
 end
 
+context "User Account" do
+  include DtAuthenticatedTestHelper
+  fixtures :users
+
+  specify "should get deposits balance" do
+    u = User.find(users(:quentin).id)
+    u.deposited.should.not.be.nil
+  end
+
+  specify "should get investments balance" do
+    u = User.find(users(:quentin).id)
+    u.invested.should.not.be.nil
+  end
+
+  specify "should get gifts balance" do
+    u = User.find(users(:quentin).id)
+    u.gifted.should.not.be.nil
+  end
+
+  specify "should get an account balance" do
+    u = User.find(users(:quentin).id)
+    u.balance.should.not.be.nil
+  end
+
+  specify "balance should equal (deposited - invested - gifted(true))" do
+    u = User.find(users(:quentin).id)
+    u.balance.should.equal u.deposited - u.invested - u.gifted(true)
+  end
+end
+
+
 context "UserAuthentication" do
   include DtAuthenticatedTestHelper
   fixtures :users

@@ -38,6 +38,16 @@ class Project < ActiveRecord::Base
     end
   end
   
+  # TODO: implement Place model once it's done
+  def village_id
+    14
+  end
+
+  # TODO: implement Place model once it's done
+  def nation_id
+    2
+  end
+  
   def create_project_history
     if Project.exists?(self.id)
       @create_project_history_ph = ProjectHistory.new_audit(Project.find(self.id))
@@ -81,7 +91,11 @@ class Project < ActiveRecord::Base
   end
   
   def village
-    self.urban_centre
+    Place.find(village_id)
+  end
+  
+  def nation
+    Place.find(nation_id)
   end
    
   def get_percent_raised
@@ -123,10 +137,6 @@ class Project < ActiveRecord::Base
   
   def self.total_money_spent
     return self.sum(:dollars_spent)
-  end
-  
-  def village
-    self.urban_centre
   end
   
   def self.is_a_project?(object)

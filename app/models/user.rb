@@ -64,6 +64,18 @@ class User < ActiveRecord::Base
     @balance || calculate_balance
   end
 
+  def deposited
+    @deposits || calculate_deposits
+  end
+
+  def invested
+    @balance || calculate_investments
+  end
+
+  def gifted(exclude_credit_card = false)
+    calculate_gifts(exclude_credit_card)
+  end
+
   # Encrypts the password with the user salt
   def encrypt(password)
     self.class.encrypt(password, salt)
@@ -127,12 +139,38 @@ class User < ActiveRecord::Base
     end
     
     def calculate_balance
-      user_transactions = UserTransaction.find(:all, :conditions => { :user_id => self[:id] })
+      calculate_deposits
+      calculate_investments
+      @balance = @deposits - @investments - calculate_gifts(true) || 0
+    end
+
+    def calculate_deposits
+      deposits = Deposit.find(:all, :conditions => { :user_id => self[:id] })
       balance = 0
-      user_transactions.each do |trans|
-        balance = balance + trans.tx.sum if trans.tx
+      deposits.each do |trans|
+        balance = balance + trans.amount
       end
-      @balance = balance || 0
+      @deposits = balance || 0
+    end
+
+    def calculate_investments
+      investments = Investment.find(:all, :conditions => { :user_id => self[:id] })
+      balance = 0
+      investments.each do |trans|
+        balance = balance + trans.amount
+      end
+      @investments = balance || 0
+    end
+
+    def calculate_gifts(exclude_credit_card = false)
+      conditions = { :user_id => self[:id] }
+      conditions[:credit_card] = nil if exclude_credit_card == true
+      gifts = Gift.find(:all, :conditions => conditions)
+      balance = 0
+      gifts.each do |trans|
+        balance = balance + trans.amount
+      end
+      balance
     end
 
     # before filter 

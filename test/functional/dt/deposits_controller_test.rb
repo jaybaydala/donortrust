@@ -17,10 +17,6 @@ context "Dt::Deposits #route_for" do
     @rs = ActionController::Routing::Routes
   end
   
-  specify "should recognize the routes" do
-    @rs.generate(:controller => "dt/deposits", :account_id => 1, :action => "index").should.equal "/dt/accounts/1/deposits"
-  end
-  
   specify "should map { :controller => 'dt/deposits', :action => 'index' } to /dt/accounts/1/deposits" do
     route_for(:controller => "dt/deposits", :account_id => 1, :action => "index").should == "/dt/accounts/1/deposits"
   end
