@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/environment'
+
+require File.dirname(__FILE__) + '/../lib/gift_mailer'
+mailer = GiftEmailer.new
+mailer.interval = '5s'
+mailer.start

@@ -12,13 +12,13 @@ class GiftEmailer
 
   def run_once
     num_sent = 0
-    now = Time.now 
-    gifts = find_records now
-    for g in gifts
+    gifts = find_records
+    gifts.each do |g|
       num_sent+=1
       g.send_gift_mail
       #p g[:sent]
     end
+    RAILS_DEFAULT_LOGGER.info "[#{Time.now.to_s}] Scheduled Gift Emails Sent: #{num_sent}" if RAILS_DEFAULT_LOGGER
     return num_sent
   end
 
@@ -26,7 +26,12 @@ class GiftEmailer
     @started_on = Time.now
     @is_running = true
     @scheduler.start
-    @job_id = @scheduler.schedule_every(@interval){ @num_sent += run_once() }
+    @job_id = @scheduler.schedule_every(@interval){ 
+      RAILS_DEFAULT_LOGGER.info "[#{Time.now.to_s}] Checking for scheduled Gifts to Email" if RAILS_DEFAULT_LOGGER
+      @num_sent += run_once() 
+    }
+    RAILS_DEFAULT_LOGGER.debug "[#{Time.now.to_s}] Gift Email scheduler starting up. Interval: #{@interval}. Job ID: #{@job_id}" if RAILS_DEFAULT_LOGGER
+    @scheduler.join
   end
 
   def stop
@@ -34,7 +39,7 @@ class GiftEmailer
     @is_running = false
   end
 
-  def find_records(send_at_time)
+  def find_records(send_at_time = Time.now)
     return Gift.find(:all, :conditions=>['sent_at is null and send_at <= ?', send_at_time.to_s(:db)])
   end
 end
