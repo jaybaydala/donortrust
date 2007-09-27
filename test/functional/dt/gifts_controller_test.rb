@@ -167,23 +167,23 @@ context "Dt::Gifts new behaviour"do
     get :new
     page.should.select "#giftform input[type=radio][name=payment][value=account]"
     page.should.select "#giftform input[type=radio][name=payment][value=credit]"
-    page.should.select "#giftform #credit_payment[style=display:none;]"
-    page.should.select "#giftform #account_payment[style=display:none;]"
+    page.should.select "#giftform #credit_payment"
+    page.should.select "#giftform #account_payment"
   end
 
   specify "if project_id is passed, should show the project" do
     get :new, :project_id => 1
-    page.should.select "#giftform input[type=hidden]#gift_project_id"
+    page.should.select "#giftform input[type=radio][value=1]#gift_project_id_1"
   end
 
   specify "if project_id is not passed, should suggest giving a project" do
     get :new
-    page.should.select "#giftform #projectsuggest a[href=/dt/search]"
+    page.should.select "#giftform #projectsuggest a[href=/dt/projects]"
   end
   
   specify "should contain a preview submit button" do
     get :new
-    page.should.select "#giftform input[type=button]#gift_preview"
+    page.should.select "#ecardPreview"
   end
 
 end

@@ -1,0 +1,14 @@
+      <div id="factList">
+        <h2>Quick Facts</h2>
+        <ul>
+          <li><strong>Location:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Awaiting new Place model</span></li>
+          <li><strong>Cause(s):</strong> <span style="background:#C00;color:#FFF;padding:1px;">Awaiting new Sector/Cause model</span></li>
+          <li><strong>Village Projects:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Awaiting new Place model</span></li>
+          <li><strong>Lives Affected:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Where is this coming from?</span></li>
+          <li><strong>Life Saving Impact:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Where is this coming from?</span></li>
+          <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
+          <li><strong>Dollars Spent:</strong> <%= number_to_currency(@project.dollars_spent) %></li>
+          <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
+          <li><strong>Current Need:</strong> <%= number_to_currency(@project.total_cost - @project.dollars_raised) %></li>
+        </ul>
+      </div>

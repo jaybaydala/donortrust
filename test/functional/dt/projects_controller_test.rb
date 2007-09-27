@@ -16,11 +16,7 @@ context "Dt::Projects #route_for" do
   setup do
     @rs = ActionController::Routing::Routes
   end
-  
-  specify "should recognize the routes" do
-    @rs.generate(:controller => "dt/projects", :action => "index").should.equal "/dt/projects"
-  end
-  
+    
   specify "should map { :controller => 'dt/projects', :action => 'index' } to /dt/projects" do
     route_for(:controller => "dt/projects", :action => "index").should == "/dt/projects"
   end
@@ -53,15 +49,37 @@ context "Dt::Projects #route_for" do
     route_for(:controller => "dt/projects", :action => "specs", :id => 1).should == "/dt/projects/1;specs"
   end
   
+  specify "should map { :controller => 'dt/projects', :action => 'village', :id => 1} to /dt/projects/1;village" do
+    route_for(:controller => "dt/projects", :action => "village", :id => 1).should == "/dt/projects/1;village"
+  end
+  
+  specify "should map { :controller => 'dt/projects', :action => 'nation', :id => 1} to /dt/projects/1;nation" do
+    route_for(:controller => "dt/projects", :action => "nation", :id => 1).should == "/dt/projects/1;nation"
+  end
+  
+  specify "should map { :controller => 'dt/projects', :action => 'community', :id => 1} to /dt/projects/1;community" do
+    route_for(:controller => "dt/projects", :action => "community", :id => 1).should == "/dt/projects/1;community"
+  end
+  
   private 
   def route_for(options)
     @rs.generate options
   end
 end
 
+context "Dt::Projects index, show, specs, village, nation and community should exist" do
+  use_controller Dt::ProjectsController
+  specify "method should not exist" do
+    %w( index show specs village nation community ).each do |m|
+      @controller.methods.should.include m
+    end
+  end
+end
+
+
 context "Dt::Projects index behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :continents, :countries, :regions, :urban_centres, :projects
+  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
   
   specify "Project index is available" do
     @project = Project.find(1)
@@ -69,13 +87,20 @@ context "Dt::Projects index behaviour" do
     status.should.be :success
   end
 
-  xspecify "need to add project list/search specs" do
+  specify "should show a list of featured projects" do
+    get :index
+    page.should.select "#featuredProjectList"
+  end
+
+  specify "should have @projects assigned" do
+    get :index
+    assigns(:projects).should.not.be.nil
   end
 end
 
 context "Dt::Projects show behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :continents, :countries, :regions, :urban_centres, :projects
+  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
 
   def do_get(id = 1)
     get :show, :id => id
@@ -122,14 +147,69 @@ context "Dt::Projects show behaviour" do
     end
   end
 
-  xspecify "should contain \"Tell a Friend\" link which goes to dt/share/new" do
+  specify "should contain \"Tell a Friend\" link which goes to dt/shares/new" do
     project_id = 1
     do_get(project_id)
     assert_select "div#buttonTellFriend" do
-      assert_select "a[href=/dt/investments/new?project_id=#{project_id}]"
+      assert_select "a[href=/dt/shares/new?project_id=#{project_id}]"
     end
   end
 end
+
+context "Dt::Projects village behaviour" do
+  use_controller Dt::ProjectsController
+  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
+
+  def do_get(id = 1)
+    get :village, :id => id
+  end
+  
+  specify "should contain the project_nav (#subNav)" do
+    do_get
+    assert_select "div#subNav"
+  end
+  
+  specify "should assign projects and village" do
+    do_get 
+    assigns(:project).should.not.be.nil
+    assigns(:village).should.not.be.nil
+  end
+end
+
+context "Dt::Projects nation behaviour" do
+  use_controller Dt::ProjectsController
+  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
+
+  def do_get(id = 1)
+    get :nation, :id => id
+  end
+
+  specify "should contain the project_nav (#subNav)" do
+    do_get
+    assert_select "div#subNav"
+  end
+
+  specify "should assign projects and village" do
+    do_get 
+    assigns(:project).should.not.be.nil
+    assigns(:nation).should.not.be.nil
+  end
+end
+
+context "Dt::Projects community behaviour" do
+  use_controller Dt::ProjectsController
+  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
+
+  def do_get(id = 1)
+    get :community, :id => id
+  end
+
+  specify "should contain the project_nav (#subNav)" do
+    do_get
+    assert_select "div#subNav"
+  end
+end
+
 
 context "Dt::Projects new, create, edit, update and destroy should not exist" do
   use_controller Dt::ProjectsController
@@ -139,35 +219,3 @@ context "Dt::Projects new, create, edit, update and destroy should not exist" do
     end
   end
 end
-
-#context "As a donor I want to view nation-level content so I can see the project in context of the nation" do
-#  fixtures :projects
-#  
-#  setup do
-#    @controller = Dt::ProjectsController.new
-#    @request    = ActionController::TestRequest.new
-#    @response   = ActionController::TestResponse.new
-#  end
-#
-#  xspecify "Show nation name & description" do
-#  end
-#
-#  xspecify "Link to nation 'Further Reading' - model should have a link and a link description" do
-#  end
-#end
-#
-#context "As a donor I want to view village-level content so I can see the project in context of the village" do
-#  fixtures :projects
-#  
-#  setup do
-#    @controller = Dt::ProjectsController.new
-#    @request    = ActionController::TestRequest.new
-#    @response   = ActionController::TestResponse.new
-#  end
-#
-#  xspecify "Show village name & description" do
-#  end
-#
-#  xspecify "Show village goals/plan" do
-#  end
-#end

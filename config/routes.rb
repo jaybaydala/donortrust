@@ -1,14 +1,31 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :quick_fact_places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_places"
+
+  map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
+
+  map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
+
+  map.resources :placetypes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/placetypes"
+
+  map.resources :placetypes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/placetypes"
+
+  map.resources :placetypes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/placetypes"
+
+  map.resources :placetypes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/placetypes"
+
+  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
+
+  map.resources :quick_fact_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_types"
+
+  map.resources :quick_facts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_facts"
+
   map.resources :comments, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/comments"
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
  
   # front-end resources - non-admin
-  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :specs => :get } do |project|
-    project.resources :villages, :controller => 'dt/villages', :name_prefix => 'dt_'
-    project.resources :nations, :controller => 'dt/nations', :name_prefix => 'dt_'
-    project.resources :communities, :controller => 'dt/communities', :name_prefix => 'dt_'
-    project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
-  end
+  map.resources :villages, :controller => 'dt/villages', :name_prefix => 'dt_', :path_prefix => '/dt'
+  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :specs => :get, :village => :get, :nation => :get, :community => :get }
+  map.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', 
@@ -17,12 +34,13 @@ ActionController::Routing::Routes.draw do |map|
       account.resources :wishlists, :controller => 'dt/wishlists', :name_prefix => 'dt_'
   end
   map.resource :session, :controller => 'dt/sessions', :name_prefix => 'dt_', :path_prefix => '/dt'
-  map.dt_signup '/signup', :controller => 'dt/accounts', :action => 'new'
-  map.dt_login  '/login',  :controller => 'dt/sessions', :action => 'new'
-  map.dt_logout '/logout', :controller => 'dt/sessions', :action => 'destroy'
+  map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
+  map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
+  map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', 
     :collection => { :confirm => :post, :open => :get, :preview => :get },
     :member => { :unwrap => :put }
+  map.resources :shares, :controller => 'dt/shares', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
 
   map.resources :memberships, 
@@ -31,15 +49,19 @@ ActionController::Routing::Routes.draw do |map|
   	:path_prefix => '/dt',
   	:member => { :bestow => :post, :revoke => :post  }
    
-  #/dt/groups/:group_id/memberships;
   map.resources :memberships, 
   	:controller=> 'dt/memberships', 
   	:new => { :join => :put },
   	:collection => { :list => :get },
   	:name_prefix => 'dt_groups_', 
   	:path_prefix => '/dt/groups/:group_id'
-
-  # inactive_record resources
+    
+  map.resources :admin_messages, 
+    :controller=> 'dt/admin_messages', 
+    :name_prefix => 'dt_groups_', 
+    :path_prefix => '/dt/groups/:group_id'
+    	
+    	  # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
   map.recover_record 'bus_admin/milestone_statuses/recover_record', :controller => 'bus_admin/milestone_statuses', :action => 'recover_record'
   map.inactive_records 'bus_admin/project_statuses/inactive_records', :controller => 'bus_admin/project_statuses', :action => 'inactive_records'
@@ -216,10 +238,10 @@ ActionController::Routing::Routes.draw do |map|
   map.reset_password_now 'bus_admin/reset_password_now', :controller => 'bus_admin/bus_account', :action => 'reset_password_now'
   map.request_temporary_password 'bus_admin/request_temporary_password', :controller => 'bus_admin/bus_account', :action => 'request_temporary_password'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
-  map.connect '', :controller => 'bus_admin/bus_account', :action => 'login'
+  #map.connect '', :controller => 'bus_admin/bus_account', :action => 'login'
+  map.connect '', :controller => 'dt/projects'
   # Install the default route as the lowest priority.
-  #map.connect "*anything",
-  #            :controller => 'dt/projects'
+  # map.connect "*anything", :controller => '404'
   # HPD these should not be used / exist when using 'full' RESTful structure
   #map.connect ':controller/:action/:id.:format'
 #  map.connect ':controller/:action/:id'

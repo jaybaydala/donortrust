@@ -7,26 +7,10 @@
 	
 		<p><%= @project.description %></p>
 	
-		<div class="projectSMtext">
-			<div id="buttonGiftProject"><%= link_to "Gift this Project", dt_new_gift_path( :project_id => @project.id ) %></div>
-			<div id="buttonDonate"><%= link_to "Donate", dt_new_investment_path( :project_id => @project.id ) %></div>
-			<div id="buttonTellFriend"><a href="#">Tell-A-Friend</a></div>
-		</div>
+		<%= project_actions %>
 		<% if @project.partner %><div class="projectSMtext"><strong>Implementing Organization: </strong> <%= @project.partner.name %></div><% end %>
 	</div>
-	<div id="factList">
-		<h2>Quick Facts</h2>
-		<ul> 
-			<li><strong>Location:</strong> </li>
-			<li><strong>Cause(s):</strong> <%= render( :partial => "project_sector", :collection => @project.sectors ) if @project.sectors %></li>
-			<li><strong>Village Projects:</strong> </li>
-			<li><strong>Lives Affected:</strong> </li>
-			<li><strong>Life Saving Impact:</strong> </li>
-			<li><strong>Funding Requirement: <%= number_to_currency(@project.total_cost) %></strong> </li>
-			<li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
-			<li><strong>Current Need:</strong> <%= number_to_currency(@project.total_cost - @project.dollars_raised) %></li>
-		 </ul>
-	</div>
+	<%= project_quickfacts %>
 </div>
 <div id="contentContainer">
   <div id="leftColW"></div>

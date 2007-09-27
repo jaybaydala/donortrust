@@ -37,7 +37,7 @@ class Dt::MembershipsController < DtApplicationController
   end
   
   def destroy
-    @membership = Membership.find params[:id] #:first, :conditions => {:group_id => params[:group_id], :user_id => current_user.id } 
+    @membership = Membership.find params[:id]
     @membership.destroy
 
     respond_to do |format|
@@ -48,7 +48,7 @@ class Dt::MembershipsController < DtApplicationController
   def bestow  
     @membership = Membership.find(params[:id])     
     bestowing_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
-    if bestowing_membership.membership_type > 1 
+    if bestowing_membership.admin?
       @membership.update_attributes(:membership_type => 2) 
       flash[:notice] = 'Membership was successfully upgraded to Admin status.'
     else
@@ -62,7 +62,10 @@ class Dt::MembershipsController < DtApplicationController
   def revoke      
     @membership = Membership.find(params[:id])     
     revoking_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
-    if revoking_membership.membership_type > 1 or revoking_membership.membership_type < @membership
+    revokable = false
+    revokable = true if revoking_membership.admin? 
+    revokable = false if revoking_membership.membership_type < @membership.membership_type
+    if revokable 
       @membership.update_attributes(:membership_type => 1) 
       flash[:notice] = 'Membership was successfully downgraded to User status.'
     else

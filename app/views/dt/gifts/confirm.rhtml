@@ -22,6 +22,7 @@
     <% else %>
     To any project the recipient specifies upon receiving your gift
     <% end %></p>
+    <%= f.hidden_field :project_id %>
   </fieldset>
 
   <fieldset>
@@ -40,7 +41,7 @@
     <ul>
       <li><label for="gift_send_at_2i">Schedule</label>
         <%= "#{@send_at.to_formatted_s(:long)} #{params[:time_zone]}" if @send_at %>
-        <%= "no schedule" if !@send_at %>
+        <%= "Send now" if !@send_at %>
         <%= f.hidden_field :send_at %>
       </li>
     </ul>
@@ -88,7 +89,7 @@
   <div id="miniGallery">
       <p>This is the e-card you have selected to send with your gift.</p>
       <div id="medImgWrap">
-        <div class="medImg"><%= image_tag @gift.ecard.gsub(/\/large\//,'/medium/'), :alt => '' %></div>
+        <div class="medImg"><%= image_tag(@gift.ecard.gsub(/\/large\//,'/medium/'), :alt => '') if @gift.ecard? %></div>
       </div>
       <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your gift email" id="gift_preview" onclick="var params=Form.serialize($('giftform'));window.open('<%= dt_preview_gifts_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
     </div>  

@@ -32,5 +32,4 @@ module DtApplicationHelper
   def dt_footer
     render 'dt/shared/footer'
   end
-
 end

@@ -1,0 +1,11 @@
+test1:
+  id: 1
+  name: Population
+  description: How many people
+  quick_fact_type_id: 1
+  
+test2:
+  id: 2
+  name: Language
+  description: What they speak
+  quick_fact_type_id: 1

@@ -38,9 +38,9 @@ class Dt::GroupsController < DtApplicationController
 
   def create
     @group = Group.new(params[:group])
-	group_saved = @group.save
-	membership = @group.memberships.build(:user_id => current_user.id, :membership_type => 3) if group_saved
-	membership_saved = membership.save if membership
+    group_saved = @group.save
+    membership = @group.memberships.build(:user_id => current_user.id, :membership_type => 3) if group_saved
+    membership_saved = membership.save if membership
 
     respond_to do |format|
       if membership_saved

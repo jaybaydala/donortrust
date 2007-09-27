@@ -88,7 +88,7 @@ end
 
 context "Dt::Accounts handling GET /dt/accounts/1" do
   use_controller Dt::AccountsController
-  fixtures :users, :user_transactions, :gifts, :investments, :deposits
+  fixtures :users, :projects, :user_transactions, :gifts, :investments, :deposits
   include DtAuthenticatedTestHelper
 
   setup do

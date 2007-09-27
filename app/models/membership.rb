@@ -14,4 +14,28 @@ class Membership < ActiveRecord::Base
       me.errors.add :group_id, 'does not exist'
     end
   end
+  
+  def owner?
+    if membership_type == 3
+      true 
+    else
+      false
+    end
+  end
+
+  def admin?
+    if membership_type >= 2
+      true 
+    else
+      false
+    end
+  end
+
+  def member?
+    if membership_type >= 1
+      true 
+    else
+      false
+    end
+  end
 end
