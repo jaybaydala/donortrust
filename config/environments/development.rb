@@ -16,11 +16,11 @@ config.action_view.cache_template_extensions         = false
 config.action_view.debug_rjs                         = true
 
 # Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = true
+config.action_mailer.raise_delivery_errors = false
 
-ActionMailer::Base.delivery_method = :smtp
+ActionMailer::Base.delivery_method = :sendmail
 ActionMailer::Base.smtp_settings = {
-  :address         => 'mail.dreamhost.com',
+  :address         => 'mail.pivotib.com',
   :authentication  => :login,
   :user_name       => 'dev@dt.pivotib.com',
   :password        => 'donortrust'
