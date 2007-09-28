@@ -13,7 +13,7 @@ class PlaceSector < ActiveRecord::Base
     unless me.sector( true )
       me.errors.add :sector_id, 'does not exist'
     end
-    unless me.country( true )
+    unless me.place( true )
       me.errors.add :place_id, 'does not exist'
     end
   end
