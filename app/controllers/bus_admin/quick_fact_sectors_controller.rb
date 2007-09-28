@@ -5,8 +5,7 @@ class BusAdmin::QuickFactSectorsController < ApplicationController
     config.label = "Quick Facts"
     config.columns = [ :quick_fact,:sector, :description ]    
     config.columns[ :quick_fact ].form_ui = :select
-    config.columns[ :sector ].form_ui = :select    
-    config.action_links.add 'index', :label => '<img src="/images/icons/you_tube.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_you_tube_videos"}
+    config.columns[ :sector ].form_ui = :select        
   end
   
 end
