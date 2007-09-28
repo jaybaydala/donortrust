@@ -1,8 +1,0 @@
-<%= @result %>
-<%= observe_field "record_country",
-            :frequency => 1,
-            :before => "ClearOptions('record_urban_centre'); ClearOptions('record_region');",
-            :update => "contact_region",
-			:url => { :action => :populate_contact_regions},
-			:with => 'record_country', 
-			:on => 'blur' %>	
