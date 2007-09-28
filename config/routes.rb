@@ -1,4 +1,25 @@
 ActionController::Routing::Routes.draw do |map|
+  
+  map.resources :causes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/causes"
+  
+  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
+
+  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
+
+  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
+
+  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
+
+  map.resources :rank_tasks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_tasks"
+
+  map.resources :rank_tasks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_tasks"
+
+  map.resources :ranks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks"
+
+  map.resources :quick_fact_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_groups"
+
+  map.resources :quick_fact_partners, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_partners"
+  
   map.resources :quick_fact_places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_places"
 
   map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
