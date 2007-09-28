@@ -2,10 +2,7 @@ class Contact < ActiveRecord::Base
   acts_as_paranoid
   has_many :programs
   has_many :projects
-  belongs_to :continent
-  belongs_to :country
-  belongs_to :region
-  belongs_to :urban_centre
+  belongs_to :place
   has_and_belongs_to_many :partners
  
   
@@ -19,9 +16,5 @@ class Contact < ActiveRecord::Base
   
   def fullname    
     "#{first_name} #{last_name}"
-  end
-  
-
-  
-  
+  end  
 end
