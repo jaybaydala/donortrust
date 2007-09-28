@@ -2,8 +2,9 @@ class Sector < ActiveRecord::Base
   acts_as_paranoid
   
   has_and_belongs_to_many :projects
-  has_many :country_sectors
-  has_many :countries, :through => :country_sectors
+  has_many :place_sectors
+  
+  has_many :places , :through => :place_sectors
   has_many :quick_fact_sectors   
   has_many :causes 
    
@@ -14,7 +15,7 @@ class Sector < ActiveRecord::Base
     return projects.count
   end
 
-  def country_count
-    return countries.count
-  end
+#  def country_count
+#    return countries.count
+#  end
 end
