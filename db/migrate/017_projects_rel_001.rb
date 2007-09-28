@@ -12,7 +12,7 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :end_date, :date
       t.column :project_status_id, :integer
       t.column :contact_id, :integer
-      t.column :urban_centre_id, :integer
+      t.column :place_id, :integer
       t.column :partner_id, :integer
       t.column :dollars_raised, :decimal, :precision => 12, :scale => 2, :default => 0
       t.column :featured, :boolean
