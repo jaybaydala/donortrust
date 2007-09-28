@@ -1,4 +1,6 @@
 require 'iats/iats_process.rb'
+require 'pdf/writer'
+
 class Dt::GiftsController < DtApplicationController
   include IatsProcess
   before_filter :login_required, :only => :unwrap
@@ -6,6 +8,23 @@ class Dt::GiftsController < DtApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to :action => 'new' }
+    end
+  end
+
+  def printable
+    @gift = Gift.find(params[:id])
+    if not @gift[:pickup_code]
+      flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
+      redirect_to :action => 'new' 
+    elsif 
+      _pdf = PDF::Writer.new
+      _pdf.select_font "Times-Roman"
+      _pdf.compressed=true
+      i0 = _pdf.image File.dirname(__FILE__) + "/../../../public/images/dt/ecards/printable/cf_ecard-003.jpg"
+      # make sure to add text on top of the image! 
+      #_pdf.add_text_wrap(85, 145, 500, @gift[:pickup_code], 12, :justification=>:right)
+      _pdf.add_text(138, 151, @gift[:pickup_code], 12)
+      send_data _pdf.render, :filename => "ecard.pdf", :type => "application/pdf"
     end
   end
   
