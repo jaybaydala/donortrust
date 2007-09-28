@@ -12,7 +12,10 @@ class Project < ActiveRecord::Base
   
   has_many :milestones, :dependent => :destroy
   
-  belongs_to :urban_centre
+  has_many :ranks
+  belongs_to :place
+  belongs_to :cause
+  #belongs_to :urban_centre
   belongs_to :contact
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
