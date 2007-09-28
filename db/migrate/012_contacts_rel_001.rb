@@ -10,9 +10,7 @@ class ContactsRel001 < ActiveRecord::Migration
       t.column :email_address, :string, :limit => 50
       t.column :web_address, :string, :limit =>50
       t.column :department, :string, :limit =>50
-      t.column :country_id, :integer
-      t.column :region_id, :integer#, :null => false
-      t.column :urban_centre_id, :integer#, :null => false
+      t.column :place_id, :integer
       t.column :address_line_1, :string
       t.column :address_line_2, :string
       t.column :postal_code, :string, :limit => 12
