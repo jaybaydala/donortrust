@@ -3,9 +3,7 @@ class QuickFactSectorsRel001 < ActiveRecord::Migration
       create_table :quick_fact_sectors do |t|
         t.column :quick_fact_id,      :int
         t.column :description,        :string
-        t.column :you_tube_video_id,  :int
-        t.column :flicker_id,         :int
-        t.column :sector_id,           :int
+        t.column :sector_id,          :int
       end
   end
 
