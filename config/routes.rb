@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :quick_fact_place_you_tube_videos, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_place_you_tube_videos"
+
   
   map.resources :causes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/causes"
   
