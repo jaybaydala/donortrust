@@ -37,6 +37,6 @@ two:
   credit_card: 1111
   card_expiry: 2009-04-30
   authorization_result: 1234
-  pickup_code: 2bf1be756e096ae6cf3e15542df08762ff257b35
+  pickup_code: nqlut05m74jp
   send_at: <%= 30.minutes.ago.to_s :db %>
   user_id: 3
