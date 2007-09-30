@@ -3,8 +3,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :causes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/causes"
 
-  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
-
   map.resources :ranks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks"
 
   map.resources :quick_fact_partners, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_partners"
@@ -14,12 +12,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :quick_fact_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_sectors"
 
   map.resources :quick_fact_places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_places"
-
-  map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
-
-  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
-
-  map.resources :quick_fact_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_types"
 
   map.resources :quick_facts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_facts"
 
@@ -150,11 +142,7 @@ ActionController::Routing::Routes.draw do |map|
   #
   # Geographical Resources
   #
-  map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
-  map.resources :countries, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/countries"
-
-  map.resources :country_sectors, :controller => "bus_admin/country_sectors",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
 
   #
   # Contacts
@@ -186,7 +174,10 @@ ActionController::Routing::Routes.draw do |map|
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :group_types, :controller => "bus_admin/group_types",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-    
+  map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
+  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
+  map.resources :quick_fact_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_types"
+
   map.resources :programs,    :controller => "bus_admin/programs",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :projects,    :controller => 'bus_admin/projects',
