@@ -4,6 +4,7 @@ class Program < ActiveRecord::Base
   
   has_many :projects, :dependent => :destroy
   belongs_to :contact
+  belongs_to :rss_feed
 
   validates_presence_of :name
   validates_uniqueness_of :name

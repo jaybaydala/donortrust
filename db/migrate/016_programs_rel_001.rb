@@ -5,6 +5,8 @@ class ProgramsRel001 < ActiveRecord::Migration
       t.column :name, :string, :null => false
       t.column :contact_id, :string, :null => false
       t.column :note, :text
+      t.column :blog_url, :string
+      t.column :rss_feed_id, :integer
       t.column :deleted_at, :datetime
       t.column :version, :integer
     end # programs
