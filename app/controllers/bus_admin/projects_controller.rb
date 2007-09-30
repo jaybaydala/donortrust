@@ -26,7 +26,6 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :program ].form_ui = :select
     config.columns[ :cause ].form_ui = :select
     
-    #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
     config.nested.add_link( "Rank", [:ranks])
     
@@ -36,11 +35,6 @@ class BusAdmin::ProjectsController < ApplicationController
     config.action_links.add 'index', :label => '<img src="/images/icons/flickr.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_flickr_images"}
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'projects', :action => 'report'},:page => true
     config.action_links.add 'list', :label => 'Export to CSV', :parameters =>{:controller=>'projects', :action => 'export_to_csv'},:page => true
-#    config.create.columns.exclude :project_histories
-#    config.list.columns.exclude :project_histories
-#    config.update.columns.exclude :project_histories
-    
-    
   end
   
   def report    
