@@ -8,9 +8,6 @@ testcrashdummy:
   email_address: bob@example.com
 #  web_address: :string
 #  department: :string
-#  continent_id: 1
-#  region_id: 1
-#  urban_centre_id: 1
 #  address_line_1: :string
 #  address_line_2: :string
 #  postal_code: :string
@@ -24,9 +21,6 @@ testcrashdummy2:
   email_address: bob@bob.com
 #  web_address: :string
 #  department: :string
-#  continent_id: 1
-#  region_id: 1
-#  urban_centre_id: 1
 #  address_line_1: :string
 #  address_line_2: :string
 #  postal_code: :string
@@ -40,9 +34,6 @@ testcrashdummy3:
   email_address: bob@bob.com
 #  web_address: :string
 #  department: :string
-#  continent_id: 1
-#  region_id: 1
-#  urban_centre_id: 1
 #  address_line_1: :string
 #  address_line_2: :string
 #  postal_code: :string

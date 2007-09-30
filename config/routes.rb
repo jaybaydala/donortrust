@@ -152,12 +152,6 @@ ActionController::Routing::Routes.draw do |map|
   #
   map.resources :continents, :controller => 'bus_admin/continents', :active_scaffold => true, :path_prefix => '/bus_admin'
   map.resources :countries, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/countries"
-  map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"
-  #map.resources :regions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/regions"  #, :path_prefix => "/countries/:country_id"
-  map.resources :urban_centres, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/urban_centres"
-#  map.resources :village_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/village_groups"
-  map.resources :villages, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/villages"
-  map.resources :villages #, :path_prefix => "/village_groups/:village_group_id"
 
   map.resources :country_sectors, :controller => "bus_admin/country_sectors",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
@@ -189,8 +183,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :partner_statuses, :controller => "bus_admin/partner_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :partner_types, :controller => "bus_admin/partner_types",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :region_types, :controller => "bus_admin/region_types",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :group_types, :controller => "bus_admin/group_types",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
