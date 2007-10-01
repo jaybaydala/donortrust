@@ -1,2 +1,0 @@
-module BusAdmin::CausesHelper
-end
