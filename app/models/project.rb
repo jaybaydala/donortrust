@@ -7,6 +7,7 @@ class Project < ActiveRecord::Base
   belongs_to :partner
   belongs_to :place
   belongs_to :contact
+  belongs_to :rss_feed
   has_many :milestones, :dependent => :destroy
   has_many :project_you_tube_videos, :dependent => :destroy
   has_many :project_flickr_images, :dependent => :destroy
