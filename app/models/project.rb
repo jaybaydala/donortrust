@@ -6,7 +6,6 @@ class Project < ActiveRecord::Base
   belongs_to :program
   belongs_to :partner
   belongs_to :place
-  belongs_to :cause
   belongs_to :contact
   has_many :milestones, :dependent => :destroy
   has_many :project_you_tube_videos, :dependent => :destroy
