@@ -5,9 +5,9 @@ class BusAdmin::ProjectsController < ApplicationController
   
     config.columns = [ :name, :description, :program, :project_status, :expected_completion_date, :start_date, :end_date,
                           :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :place,
-                          :milestone_count, :milestones, :sectors, :note, :cause ]
+                          :milestone_count, :milestones, :sectors, :note]
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones,
-                          :sectors, :milestone_count, :partner, :cause ]
+                          :sectors, :milestone_count, :partner]
     #show.columns.exclude [ ]
     update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_raised, :dollars_spent, :total_cost ]
     create.columns.exclude [ :milestones, :milestone_count  ]
@@ -24,8 +24,8 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :contact ].form_ui = :select
     config.columns[ :partner ].form_ui = :select
     config.columns[ :program ].form_ui = :select
-    config.columns[ :cause ].form_ui = :select
     
+    #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
     config.nested.add_link( "Rank", [:ranks])
     
@@ -35,6 +35,11 @@ class BusAdmin::ProjectsController < ApplicationController
     config.action_links.add 'index', :label => '<img src="/images/icons/flickr.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_flickr_images"}
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'projects', :action => 'report'},:page => true
     config.action_links.add 'list', :label => 'Export to CSV', :parameters =>{:controller=>'projects', :action => 'export_to_csv'},:page => true
+#    config.create.columns.exclude :project_histories
+#    config.list.columns.exclude :project_histories
+#    config.update.columns.exclude :project_histories
+    
+    
   end
   
   def report    
