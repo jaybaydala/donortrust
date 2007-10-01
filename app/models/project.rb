@@ -1,7 +1,15 @@
 require 'acts_as_paranoid_versioned'
 class Project < ActiveRecord::Base
-  acts_as_paranoid_versioned
-
+acts_as_simile_timeline_event(
+    :fields =>
+    {
+      :start       => :start_date,
+      :title       => :name,
+      :description => :description
+    }
+  )
+ acts_as_paranoid_versioned
+ 
   belongs_to :project_status
   belongs_to :program
   belongs_to :partner
@@ -18,7 +26,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   
-
+ 
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
