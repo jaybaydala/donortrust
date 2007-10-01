@@ -17,8 +17,4 @@ class Task < ActiveRecord::Base
   end
 
   attr_protected :milestone_id
-
-  def version_count
-    return task_versions.count
-  end
 end

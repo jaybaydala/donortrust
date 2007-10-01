@@ -190,8 +190,6 @@ ActionController::Routing::Routes.draw do |map|
   #  :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :tasks,       :controller => "bus_admin/tasks",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :task_versions, :controller => "bus_admin/task_versions",
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :measures
   map.resources :accounts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/accounts"
   map.resources :groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/groups"
