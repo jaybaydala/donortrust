@@ -2,7 +2,7 @@ class BusAdmin::PartnersController < ApplicationController
  before_filter :login_required, :check_authorization
   active_scaffold :partner do |config|
 #    config.theme = :blue
-    config.columns = [ :name, :description, :partner_status, :partner_type, :contacts, :note, :partner_versions ]
+    config.columns = [ :name, :description, :website, :partner_status, :partner_type, :contacts, :note, :partner_versions ]
     config.columns[ :partner_status ].form_ui = :select
     config.columns[ :partner_status ].label = "Status"
     config.columns[ :partner_type ].form_ui = :select
@@ -19,7 +19,8 @@ class BusAdmin::PartnersController < ApplicationController
     config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
     config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
     config.nested.add_link("Quick Fact", [:quick_fact_partners])
-#    config.action_links.add 'list', :label => 'All', redirect_to partners 
+   #    config.action_links.add 'list', :label => 'All', redirect_to partners 
+   
   end
 
   def conditions_for_collection  
