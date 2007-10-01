@@ -19,10 +19,7 @@ ActionController::Routing::Routes.draw do |map|
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
  
   # front-end resources - non-admin
-  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :specs => :get } do |project|
-    project.resources :villages, :controller => 'dt/villages', :name_prefix => 'dt_'
-    project.resources :nations, :controller => 'dt/nations', :name_prefix => 'dt_'
-    project.resources :communities, :controller => 'dt/communities', :name_prefix => 'dt_'
+  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :specs => :get, :village => :get, :nation => :get, :community => :get } do |project|
     project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   end
   map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
@@ -42,6 +39,7 @@ ActionController::Routing::Routes.draw do |map|
     :collection => { :confirm => :post, :open => :get, :preview => :get },
     :member => { :unwrap => :put, :printable=>:get }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt'
+  map.resources :shares, :controller=> 'dt/shares', :name_prefix => 'dt_', :path_prefix => '/dt'
 
   map.resources :memberships, 
   	:controller=> 'dt/memberships', 
