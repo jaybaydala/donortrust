@@ -27,6 +27,18 @@
 		</div>
 		<% end -%>
 	</div>
+
+	<% if @user.tax_receipts.length > 0 -%>
+	<h1>Tax Receipts</h1>
+	<div class="account-summary">
+		<div id="transaction_list">
+			<table style="width:100%;">
+			<tr><th>Investment</th><th>Date</th><th>Amount</th></tr>
+			<%= render :partial => "tax_receipt", :collection => @user.tax_receipts %>
+			</table>
+		</div>
+	</div>
+	<% end -%>
 </div>
 
 <div id="rightColN">

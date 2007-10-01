@@ -1,0 +1,25 @@
+gift:
+  id: 1
+  first_name: receipt first name
+  last_name: receipt last name
+  address: 1 main st
+  city: san francisco
+  province: ca
+  postal_code: 94118
+  country: US
+  created_at: <%= 1.day.ago.to_s :db %>
+  updated_at: <%= 1.hour.ago.to_s :db %>
+  user_id: 3
+investment:
+  id: 2
+  first_name: receipt first name
+  last_name: receipt last name
+  address: 1 main st
+  city: san francisco
+  province: ca
+  postal_code: 94118
+  country: US
+  created_at: <%= 1.day.ago.to_s :db %>
+  updated_at: <%= 1.hour.ago.to_s :db %>
+  user_id: 3
+  investment_id: 1

@@ -10,13 +10,13 @@
 	<fieldset>
 		<legend>Personal Information</legend>
 		<ul>
-			<li style="clear:left;"><label for="user_first_name">First Name</label> <%= @user.first_name %></li>
-			<li style="clear:left;"><label for="user_first_name">Last Name</label> <%= @user.last_name %></li>
-			<li style="clear:left;"><label for="user_address">Address</label> <%= @user.address %></li>
-			<li style="clear:left;"><label for="user_city">City</label> <%= @user.city %></li>
-			<li style="clear:left;"><label for="user_province">Province</label> <%= @user.province %></li>
-			<li style="clear:left;"><label for="user_postal_code">Postal Code</label> <%= @user.postal_code %></li>
-			<li style="clear:left;"><label for="user_country">Country</label> <%= @user.country %></li>
+			<li style="clear:left;"><label for="tax_receipt_first_name">First Name</label> <%= @tax_receipt.first_name %><%= hidden_field 'tax_receipt', 'first_name' %></li>
+			<li style="clear:left;"><label for="tax_receipt_first_name">Last Name</label> <%= @tax_receipt.last_name %><%= hidden_field 'tax_receipt', 'last_name' %></li>
+			<li style="clear:left;"><label for="tax_receipt_address">Address</label> <%= @tax_receipt.address %><%= hidden_field 'tax_receipt', 'address' %></li>
+			<li style="clear:left;"><label for="tax_receipt_city">City</label> <%= @tax_receipt.city %><%= hidden_field 'tax_receipt', 'city' %></li>
+			<li style="clear:left;"><label for="tax_receipt_province">Province</label> <%= @tax_receipt.province %><%= hidden_field 'tax_receipt', 'province' %></li>
+			<li style="clear:left;"><label for="tax_receipt_postal_code">Postal Code</label> <%= @tax_receipt.postal_code %><%= hidden_field 'tax_receipt', 'postal_code' %></li>
+			<li style="clear:left;"><label for="tax_receipt_country">Country</label> <%= @tax_receipt.country %><%= hidden_field 'tax_receipt', 'country' %></li>
 		</ul>	
 	</fieldset>
 

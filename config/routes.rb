@@ -31,6 +31,8 @@ ActionController::Routing::Routes.draw do |map|
     :collection => { :activate => :get, :resend => :get } do |account|
       account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
       account.resources :wishlists, :controller => 'dt/wishlists', :name_prefix => 'dt_'
+      account.resources :tax_receipts, :controller => 'dt/tax_receipts', :name_prefix => 'dt_', 
+        :member=> { :printable=>:get }
   end
   map.resource :session, :controller => 'dt/sessions', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.dt_signup '/signup', :controller => 'dt/accounts', :action => 'new'

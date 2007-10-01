@@ -2,20 +2,32 @@ class Dt::InvestmentsController < DtApplicationController
   before_filter :login_required
 
   def new
-    @user = current_user
     @investment = Investment.new( :project_id => params[:project_id] )
     @projects = Project.find(:all) if !params[:project_id]
     @project = Project.find(params[:project_id]) if params[:project_id]
+    @tax_receipt = TaxReceipt.new do |r|
+      r[:first_name] = current_user[:first_name]
+      r[:last_name] = current_user[:last_name]
+      r[:address] = current_user[:address]
+      r[:city] = current_user[:city]
+      r[:province] = current_user[:province]
+      r[:postal_code] = current_user[:postal_code]
+      r[:country] = current_user[:country]
+    end
   end
   
   def confirm
-    @user = current_user
-    user_validation(@user)
-    @user.attributes = params[:user] if params[:user]
+    user = current_user
+    user_validation(user)
+    user.attributes = params[:tax_receipt] if params[:tax_receipt]
     @investment = Investment.new( params[:investment] )
-    @investment.user = @user
+    @investment.user = user
+    @tax_receipt = TaxReceipt.new (params[:tax_receipt]) 
+    @tax_receipt.investment = @investment
+    @tax_receipt.user = user
+    @projects = Project.find(:all) if !params[:project_id]
     respond_to do |format|
-      if @investment.valid? && @user.save
+      if @investment.valid? && @tax_receipt.valid? && user.save
         format.html
       else
         format.html { render :action => 'new' }
@@ -26,8 +38,11 @@ class Dt::InvestmentsController < DtApplicationController
   def create
     @investment = Investment.new( params[:investment] )
     @investment.user = current_user
+    @tax_receipt = TaxReceipt.new (params[:tax_receipt]) 
+    @tax_receipt.investment = @investment
+    @tax_receipt.user = current_user
     respond_to do |format|
-      if @investment.save
+      if @investment.save && @tax_receipt.save
         flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
         format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
       else

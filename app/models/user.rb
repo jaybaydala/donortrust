@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :deposits
   has_many :investments
   has_many :gifts
+  has_many :tax_receipts
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
