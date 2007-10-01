@@ -1,8 +1,8 @@
 class ECardsRel001 < ActiveRecord::Migration
   def self.up
     create_table :e_cards do |t|
-      t.column :name,     :text
-      t.column :credit,   :text   
+      t.column :name,     :string
+      t.column :credit,   :string  
       t.column :file,     :text     
     end
   end
