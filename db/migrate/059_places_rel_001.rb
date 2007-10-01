@@ -5,9 +5,9 @@ class PlacesRel001 < ActiveRecord::Migration
       t.column :place_type_id,        :int
       t.column :parent_id,            :int
       t.column :description,          :text
-      t.column :blog_url,             :text
+      t.column :blog_url,             :string
       t.column :rss_url,              :text
-      t.column :image,                :blob
+      t.column :file,                 :text
       t.column :you_tube_reference,   :int
       t.column :flickr_reference,     :int
       t.column :facebook_id,          :int
