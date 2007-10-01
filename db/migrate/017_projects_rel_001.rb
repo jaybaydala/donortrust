@@ -8,7 +8,7 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :total_cost, :decimal, :precision => 12, :scale => 2, :default => 0
       t.column :dollars_spent, :decimal, :precision => 12, :scale => 2, :default => 0
       t.column :expected_completion_date, :date
-      t.column :blog_url, :text
+      t.column :blog_url, :string
       t.column :rss_url, :text
       t.column :start_date, :date
       t.column :end_date, :date
