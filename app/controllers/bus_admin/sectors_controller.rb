@@ -10,12 +10,17 @@ class BusAdmin::SectorsController < ApplicationController
     create.columns.exclude [ :project_count, :country_count, :place_sectors ]
     show.columns.exclude [ :place_sectors ]
     config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
+    config.nested.add_link("Next", [:children])
     config.nested.add_link("Quick Fact", [:quick_fact_sectors])
-    config.nested.add_link("Sub-Category", [:causes])
-   
+       
   end
   
    def get_model
-    return Sector
+      return Sector
+    end
+    
+    def list
+      @sectors= Sector.find_all_by_parent_id(nil)
+    end
+  
   end
-end
