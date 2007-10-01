@@ -12,4 +12,8 @@ class TaxReceipt < ActiveRecord::Base
   validates_presence_of :country
   validates_presence_of :user
   validates_presence_of :investment
+
+  def id_display
+    return id.to_s.rjust(10,'0') if id
+  end
 end

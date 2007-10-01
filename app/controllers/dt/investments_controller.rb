@@ -17,17 +17,14 @@ class Dt::InvestmentsController < DtApplicationController
   end
   
   def confirm
-    user = current_user
-    user_validation(user)
-    user.attributes = params[:tax_receipt] if params[:tax_receipt]
     @investment = Investment.new( params[:investment] )
-    @investment.user = user
+    @investment.user = current_user
     @tax_receipt = TaxReceipt.new (params[:tax_receipt]) 
     @tax_receipt.investment = @investment
-    @tax_receipt.user = user
+    @tax_receipt.user = current_user
     @projects = Project.find(:all) if !params[:project_id]
     respond_to do |format|
-      if @investment.valid? && @tax_receipt.valid? && user.save
+      if @investment.valid? && @tax_receipt.valid? #&& user.save
         format.html
       else
         format.html { render :action => 'new' }
@@ -42,12 +39,14 @@ class Dt::InvestmentsController < DtApplicationController
     @tax_receipt.investment = @investment
     @tax_receipt.user = current_user
     respond_to do |format|
-      if @investment.save && @tax_receipt.save
-        flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
-        format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
-      else
-        flash.now[:error] = "There was a problem saving your Investment. Please review your information and try again."
-        format.html { render :action => 'new' }
+      Investment.transaction do
+        if @investment.save && @tax_receipt.save
+          flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
+          format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
+        else
+          flash.now[:error] = "There was a problem saving your Investment. Please review your information and try again."
+          format.html { render :action => 'new' }
+        end
       end
     end
   end

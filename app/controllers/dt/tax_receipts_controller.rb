@@ -21,7 +21,7 @@ class Dt::TaxReceiptsController < DtApplicationController
     _pdf.add_text(x, 81, @receipt.postal_code, 12)
     _pdf.add_text(x, 71, @receipt.country, 12)
     #_pdf.encrypt(user_pass='something', owner_pass='something else', permissions=[:print])
-    send_data _pdf.render, :filename => "tax_receipt.pdf", :type => "application/pdf"
+    send_data _pdf.render, :filename => "CFTaxReceipt-#{@receipt.id_display}.pdf", :type => "application/pdf"
   end
 
 
