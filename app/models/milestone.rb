@@ -1,12 +1,15 @@
 require 'acts_as_paranoid_versioned'
 class Milestone < ActiveRecord::Base
-  acts_as_paranoid_versioned
-
-  has_many :tasks, :dependent => :destroy
+ has_many :tasks, :dependent => :destroy
   has_many :milestone_versions
   belongs_to :project 
 #  belongs_to :program, :through => :project
   belongs_to :milestone_status
+  
+  acts_as_paranoid_versioned
+  
+
+
 
   #attr_reader
 
