@@ -15,7 +15,6 @@ class CreateTaxReceipts < ActiveRecord::Migration
     end
     if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
-      puts directory
       Fixtures.create_fixtures(directory, "tax_receipts") if File.exists? "#{directory}/tax_receipts.yml"
     end
   end
