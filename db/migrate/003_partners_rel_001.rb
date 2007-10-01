@@ -4,6 +4,7 @@ class PartnersRel001 < ActiveRecord::Migration
     create_table :partners do |t|
       t.column :name, :string, :null => false, :limit => 50
       t.column :description, :text
+      t.column :website, :text
       t.column :partner_type_id, :integer
       t.column :partner_status_id, :integer
       t.column :version, :integer
