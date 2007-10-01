@@ -1,4 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :e_cards, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/e_cards"
+
+  map.resources :e_cards, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/e_cards"
+
+  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
+
+  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
+
+  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
+
   map.resources :place_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_sectors"
 
   map.resources :causes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/causes"
