@@ -2,7 +2,6 @@ require 'acts_as_paranoid_versioned'
 class Task < ActiveRecord::Base
   acts_as_paranoid_versioned
 
-  has_many      :task_versions
   belongs_to    :milestone
 
   validates_presence_of :name, :description#, :milestone_id
