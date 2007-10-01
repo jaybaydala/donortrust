@@ -5,6 +5,12 @@ class PlacesRel001 < ActiveRecord::Migration
       t.column :place_type_id,        :int
       t.column :parent_id,            :int
       t.column :description,          :text
+      t.column :blog_url,             :text
+      t.column :rss_url,              :text
+      t.column :image,                :blob
+      t.column :you_tube_reference,   :int
+      t.column :flickr_reference,     :int
+      t.column :facebook_id,          :int
       t.column :created_at,           :datetime
       t.column :updated_at,           :datetime
     end
