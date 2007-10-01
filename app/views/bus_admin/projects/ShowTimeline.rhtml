@@ -1,0 +1,44 @@
+ <%= javascript_include_tag 'http://simile.mit.edu/timeline/api/timeline-api.js' -%>
+     <%= javascript_include_tag 'prototype' -%>
+
+     
+      <%
+     	
+       project_timeline = ::Simile::Timeline::Timeline.new(
+         :name        => “Projects”,
+         :event_source => {
+             :controller => 'projects',
+             :action     => 'byProject'
+             },
+         :event_band   => :days,
+         :bands       => {
+           :months => {
+             :trackGap       => '0.1',
+             :showEventText  => 'false',
+             :width          => '”8%”',
+             :intervalUnit   => 'Timeline.DateTime.MONTH',
+             :intervalPixels => '600'
+           },
+           :days => {
+             :trackGap       => '0.1',
+             :showEventText  => 'false',
+             :width          => '”8%”',
+             :intervalUnit   => 'Timeline.DateTime.DAY',
+             :intervalPixels => '600'
+           },
+           :hours => {
+             :width          => '”84%”',
+             :intervalUnit   => 'Timeline.DateTime.HOUR',
+             :intervalPixels => '200'
+           }
+         },
+         :bands_order => [ :months, :days, :hours ],
+         :synchronize => {
+           :months => :hours,
+           :days   => :hours
+         },
+         :highlight => [ :months, :days ]
+       )
+     	
+     %>
+     
