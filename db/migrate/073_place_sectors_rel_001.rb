@@ -3,7 +3,6 @@ class PlaceSectorsRel001 < ActiveRecord::Migration
     create_table :place_sectors do |t|
       t.column :place_id,     :integer
       t.column :sector_id,    :integer   
-      t.column :content,      :string
     end
   end
   def self.down
