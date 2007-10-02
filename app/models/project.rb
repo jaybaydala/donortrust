@@ -21,6 +21,8 @@ acts_as_simile_timeline_event(
   has_many :project_flickr_images, :dependent => :destroy
   has_many :you_tube_videos, :through => :project_you_tube_videos
   has_many :flickr_images, :through => :project_flickr_images
+  has_many :financial_sources
+  has_many :collaborating_agency  
   has_many :ranks
   has_many :investments
   has_and_belongs_to_many :groups
