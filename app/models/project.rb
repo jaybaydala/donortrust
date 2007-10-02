@@ -43,7 +43,7 @@ acts_as_simile_timeline_event(
   
   # TODO: implement Place model once it's done
   def village_id
-    14
+    self[:place_id]
   end
 
   # TODO: implement Place model once it's done
@@ -81,7 +81,7 @@ acts_as_simile_timeline_event(
   end
   
   def village
-    Place.find(village_id)
+    self.place
   end
   
   def nation
