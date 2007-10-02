@@ -1,0 +1,24 @@
+<%= @parentString %><br/>
+  <select id="record_place" class="place-input" name="record[place][id]">
+    <% if @parentString == "" %>
+        <option value='' selected=true>-- Select Place --</option>
+    <% end %>
+      <% for place in @places %>
+      <option value=<%= place.id.to_s %>><%= place.name %></option>
+    <% end %>
+</select>
+
+<% if @boolShowTop == true %>
+    <%= link_to_remote "Top",
+      :update => "nested_project_place",
+      :url => { :action => 'populate_project_places' },
+      :with => "'posttype=top'"
+    %>
+<% end %>
+<%= link_to_remote "Down",
+    :update => "nested_project_place",
+    :url => { :action => 'populate_project_places' },
+    :with => "'record_place=' + escape($('record_place').value) + '&posttype=down'"
+%>
+<br/>
+<%= @filterMessage %>
