@@ -4,7 +4,7 @@ class PlaceSector < ActiveRecord::Base
   belongs_to :place
   
   
-  validates_presence_of :place_id, :sector_id, :content
+  validates_presence_of :place_id, :sector_id
   validates_uniqueness_of :sector_id, :scope => :place_id, :message => "and Country already taken"
 
   validate do |me|
