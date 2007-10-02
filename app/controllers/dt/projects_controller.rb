@@ -1,4 +1,8 @@
 class Dt::ProjectsController < DtApplicationController
+  def initialize
+    @topnav = 'projects'
+  end
+  
   def index
     @projects = FeaturedProject.find_projects(:all) if FeaturedProject.count > 0
     # TODO: Project should be order_by Rating once rating model is done
