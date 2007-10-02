@@ -1,8 +1,8 @@
         <div id="topNav">
           <ul class="topNav">
             <li><a href="/about.html">About Us </a></li>
-            <li><a href="/dt/projects">Projects </a></li>
-            <li><a href="/get_involved.html">Get Involved </a></li>
+            <li<%= ' class="current"' if @topnav == 'projects' %>><a href="/dt/projects">Projects </a></li>
+            <li<%= ' class="current"' if @topnav == 'get_involved' %>><a href="/get_involved.html">Get Involved </a></li>
             <li><a href="/school_program.html">School Program </a></li>
             <li><a href="/resources.html">Resources </a></li>
             <li><a href="/contact.html">Contact </a></li>
