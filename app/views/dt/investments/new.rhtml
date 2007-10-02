@@ -10,10 +10,10 @@
 <p>Please enter your personal information. As the donor of this donation(s), your personal information, as entered below will appear on your charitable tax receipt. Please enter the information accurately, as donation tax receipts cannot be altered. We will also update your user account with the information you provide.</p>
 <div class="userform">
 <fieldset>
-	<legend>Personal Information</legend>
+	<legend>Personal Information - Tax Receipt</legend>
 	<ul>
 		<li><label for="tax_receipt_first_name"><%= render :partial => 'dt/shared/form_required' %>First Name</label><%= text_field 'tax_receipt', 'first_name' %></li>
-		<li><label for="tax_receipt_first_name"><%= render :partial => 'dt/shared/form_required' %>Last Name</label><%= text_field 'tax_receipt', 'last_name' %></li>
+		<li><label for="tax_receipt_last_name"><%= render :partial => 'dt/shared/form_required' %>Last Name</label><%= text_field 'tax_receipt', 'last_name' %></li>
 		<li><label for="tax_receipt_address"><%= render :partial => 'dt/shared/form_required' %>Address</label><%= text_field 'tax_receipt', 'address' %></li>
 		<li><label for="tax_receipt_city"><%= render :partial => 'dt/shared/form_required' %>City</label><%= text_field 'tax_receipt', 'city' %></li>
 		<li style="clear:left;"><label for="tax_receipt_province"><%= render :partial => 'dt/shared/form_required' %>Province</label><%= text_field 'tax_receipt', 'province', { :size => 2, :maxlength => 2, :style => 'width:auto;' } %></li>
