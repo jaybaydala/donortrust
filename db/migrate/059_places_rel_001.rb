@@ -10,7 +10,7 @@ class PlacesRel001 < ActiveRecord::Migration
       t.column :file,                 :text
       t.column :you_tube_reference,   :int
       t.column :flickr_reference,     :int
-      t.column :facebook_id,          :int
+      t.column :facebook_group_id,    :int
       t.column :created_at,           :datetime
       t.column :updated_at,           :datetime
     end

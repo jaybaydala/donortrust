@@ -73,12 +73,12 @@ context "Projects" do
   end  
   
   specify "should return nil days remaining if no end date set" do
-      project = Project.new
-      project.name = "bob"
-      project.start_date = "2007-06-06"
-      project.end_date = nil
-      project.days_remaining.should.be.nil   
- end
+    project = Project.new
+    project.name = "bob"
+    project.start_date = "2007-06-06"
+    project.end_date = nil
+    project.days_remaining.should.be.nil   
+  end
  
   def test_total_costs
     assert_equal 2100, Project.total_costs

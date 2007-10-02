@@ -41,16 +41,6 @@ acts_as_simile_timeline_event(
     end
   end
   
-  # TODO: implement Place model once it's done
-  def village_id
-    self[:place_id]
-  end
-
-  # TODO: implement Place model once it's done
-  def nation_id
-    2
-  end
-  
   def milestone_count
     return milestones.count
   end
@@ -69,7 +59,7 @@ acts_as_simile_timeline_event(
   end 
   
   def get_number_of_milestones_by_status(status)
-    milestones = self.milestones.find(:all, :conditions => "milestone_status_id = " + status.to_s )    
+    milestones = self.milestones.find(:all, :conditions => {:milestone_status_id => status.to_s } )
     return milestones.size unless milestones == nil     
   end
   
@@ -80,12 +70,44 @@ acts_as_simile_timeline_event(
     return result
   end
   
-  def village
-    self.place
+  def village_id
+    self.place_id
   end
   
-  def nation
-    Place.find(nation_id)
+  def village_id?
+    self.place_id?
+  end
+
+  def nation_id
+    self.nation if !@nation
+    return @nation ? @nation.id : nil
+  end
+
+  def nation_id?
+    self.nation if !@nation
+    return @nation ? @nation.id? : false
+  end
+
+  def village
+    @village = self.place if self.place_id?
+  end
+  
+  def village_project_count
+    self.village.projects.size
+  end
+  
+  def nation(node = nil)
+    if @nation.nil?
+      node = self.village if !node
+      return @nation = nil if !node
+      node = node.parent while node.parent && node.parent.place_type_id != 2
+      @nation = node.parent if node.parent.place_type_id == 2
+    end
+    @nation
+  end
+  
+  def current_need
+    self.total_cost - self.dollars_raised
   end
    
   def get_percent_raised
@@ -99,14 +121,7 @@ acts_as_simile_timeline_event(
   
   
   def self.projects_nearing_end(days_until_end)
-    @projects = Project.find(:all) 
-    @projects_near_end = Array.new
-    for aProject in @projects #probable problem here when end_date is nil (or before today)
-      if (aProject.end_date - Date.today) <= days_until_end 
-          @projects_near_end << aProject
-      end
-    end
-    return @projects_near_end
+    @projects = Project.find(:all, :conditions => ["(end_date BETWEEN ? AND ?)", Time.now, days_until_end.days.from_now])
   end
   
   def get_all_you_tube_videos
