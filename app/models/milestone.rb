@@ -1,15 +1,11 @@
 require 'acts_as_paranoid_versioned'
 class Milestone < ActiveRecord::Base
- has_many :tasks, :dependent => :destroy
-  has_many :milestone_versions
+  has_many :tasks, :dependent => :destroy
   belongs_to :project 
 #  belongs_to :program, :through => :project
   belongs_to :milestone_status
   
   acts_as_paranoid_versioned
-  
-
-
 
   #attr_reader
 
@@ -38,9 +34,5 @@ class Milestone < ActiveRecord::Base
 
   def parent_program
     return self.project.program.name
-  end
-
-  def version_count
-    return milestone_versions.count
   end
 end
