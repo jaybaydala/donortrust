@@ -767,3 +767,7 @@ bus_secure_actions_075:
   bus_security_level_id: "16"
   permitted_actions: create
   id: "88"
+bus_secure_actions_193:
+  bus_security_level_id: "8"
+  permitted_actions: populate_contact_places
+  id: "215"
