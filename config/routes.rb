@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
 
   map.resources :place_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_sectors"
+  map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
 
   map.resources :ranks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks"
 
@@ -159,6 +160,11 @@ ActionController::Routing::Routes.draw do |map|
   #
   map.resources :project_statuses, :controller => "bus_admin/project_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+ 
+  map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
+    
+  map.populate_place_sector_places '/bus_admin/projects/populate_place_sector_places', :controller => 'bus_admin/place_sectors', :action => 'populate_place_sector_places'
+   
   map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses", 
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :frequency_types, :controller => "bus_admin/frequency_types",
