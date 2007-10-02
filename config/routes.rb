@@ -1,17 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :e_cards, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/e_cards"
 
-  map.resources :e_cards, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/e_cards"
-
-  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
-
-  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
-
   map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
 
   map.resources :place_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_sectors"
-
-  map.resources :causes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/causes"
 
   map.resources :ranks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks"
 
@@ -86,8 +78,6 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/indicators/recover_record', :controller => 'bus_admin/indicators', :action => 'recover_record'
   map.inactive_records 'bus_admin/targets/inactive_records', :controller => 'bus_admin/targets', :action => 'inactive_records'
   map.recover_record 'bus_admin/targets/recover_record', :controller => 'bus_admin/targets', :action => 'recover_record'
-  map.inactive_records 'bus_admin/causes/inactive_records', :controller => 'bus_admin/causes', :action => 'inactive_records'
-  map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
   
   # bus_admin resources
   map.resources :indicator_measurements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/indicator_measurements"
