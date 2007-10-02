@@ -2,15 +2,15 @@ class BusAdmin::PartnersController < ApplicationController
  before_filter :login_required, :check_authorization
   active_scaffold :partner do |config|
 #    config.theme = :blue
-    config.columns = [ :name, :description, :website, :partner_status, :partner_type, :contacts, :note, :partner_versions ]
+    config.columns = [ :name, :description, :website, :partner_status, :partner_type, :contacts, :note ]
     config.columns[ :partner_status ].form_ui = :select
     config.columns[ :partner_status ].label = "Status"
     config.columns[ :partner_type ].form_ui = :select
     config.columns[ :partner_type ].label = "Category"
     config.columns[ :contacts ].form_ui = :select
-    list.columns.exclude [ :description, :contacts, :partner_versions ]
-    update.columns.exclude [ :partner_versions ]
-    create.columns.exclude [ :partner_versions ]
+    list.columns.exclude [ :description, :contacts ]
+    #update.columns.exclude [  ]
+    #create.columns.exclude [  ]
     #show.columns.exclude
     config.nested.add_link("Projects", [:projects]) 
 

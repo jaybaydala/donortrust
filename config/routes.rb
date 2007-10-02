@@ -152,12 +152,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
   map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
 
-  map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners' do |partner|
-    #partner.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
-  end
-  map.resources :partner_versions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/partner_versions"
-  #map.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
-  #map.resources :partner_histories
+  map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners'
 
   #
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
