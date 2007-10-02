@@ -160,9 +160,7 @@ ActionController::Routing::Routes.draw do |map|
   # Contacts
   # 
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
-  map.populate_contact_countries '/bus_admin/contacts/populate_contact_countries', :controller => 'bus_admin/contacts', :action =>'populate_contact_countries'
-  map.populate_contact_regions '/bus_admin/contacts/populate_contact_regions', :controller => 'bus_admin/contacts', :action =>'populate_contact_regions'
-  map.populate_contact_urban_centres '/bus_admin/contacts/populate_contact_urban_centres', :controller => 'bus_admin/contacts', :action =>'populate_contact_urban_centres'  
+  map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
 
   map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners' do |partner|
     #partner.resources :partner_histories, :active_scaffold => true, :path_prefix => '/bus_admin', :controller => 'bus_admin/partner_histories' 
