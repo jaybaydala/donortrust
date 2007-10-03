@@ -4,21 +4,24 @@ class BusAdmin::ProjectsController < ApplicationController
   active_scaffold :project do |config|
   
     config.columns = [ :name, :description, :program, :project_status, :expected_completion_date, :start_date, :end_date,
-                          :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :place,
-                          :milestone_count, :milestones, :sectors, :note, :featured, :blog_url, :rss_feed ]
+                          :dollars_spent, :total_cost, :partner, :contact, :place,
+                          :milestone_count, :milestones, :sectors, :note, :featured, :blog_url, :rss_feed,
+                          :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects ]      
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones,
-                          :sectors, :milestone_count, :partner, :blog_url, :rss_feed ]
+                          :sectors, :milestone_count, :partner, :blog_url, :rss_feed, :intended_outcome, 
+                          :meas_eval_plan, :project_in_community, :other_projects ]
     #show.columns.exclude [ ]
-    update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_raised, :dollars_spent, :total_cost ]
+    update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_spent, :total_cost ]
     create.columns.exclude [ :milestones, :milestone_count  ]
     config.columns[ :name ].label = "Project"
     config.columns[ :project_status ].label = "Status"
     config.columns[ :milestone_count ].label = "Milestones"
     config.columns[ :start_date ].label = "Start"
     config.columns[ :end_date ].label = "End"
-    config.columns[ :dollars_raised ].label = "Raised"
     config.columns[ :dollars_spent ].label = "Spent"
-    config.columns[ :featured ].label = "Is Featured?"
+    config.columns[ :featured ].label = "Is Featured?"    
+    config.columns[ :project_in_community ].label = "How project fits into community development"
+    config.columns[ :meas_eval_plan ].label = "Measurement and Evaluation Plan"
     config.columns[ :project_status ].form_ui = :select
     config.columns[ :place ].form_ui = :select
     config.columns[ :sectors ].form_ui = :select
