@@ -1,18 +1,17 @@
 class Dt::GroupsController < DtApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => [ :index, :show ]
+  def initialize
+    @topnav = 'get_involved'
+  end
 
-  # GET /groups
-  # GET /groups.xml
   def index
-    @groups = Group.find :all, :conditions => {:private, 0}
+    @groups = Group.find :all, :conditions => {:private => :false}
 
     respond_to do |format|
       format.html # index.rhtml
     end
   end
 
-  # GET /groups/1
-  # GET /groups/1.xml
   def show
     @group = Group.find(params[:id])
 
@@ -22,19 +21,13 @@ class Dt::GroupsController < DtApplicationController
     end
   end
 
-  # GET /groups/new
   def new
     @group = Group.new
   end
 
-  # GET /groups/1;edit
   def edit
     @group = Group.find(params[:id])
   end
-
-  # POST /groups
-  # POST /groups.xml
-  
 
   def create
     @group = Group.new(params[:group])
@@ -52,8 +45,6 @@ class Dt::GroupsController < DtApplicationController
     end
   end
 
-  # PUT /groups/1
-  # PUT /groups/1.xml
   def update
     @group = Group.find(params[:id])
 
@@ -69,8 +60,6 @@ class Dt::GroupsController < DtApplicationController
     end
   end
 
-  # DELETE /groups/1
-  # DELETE /groups/1.xml
   def destroy
     @group = Group.find(params[:id])
     @group.destroy
