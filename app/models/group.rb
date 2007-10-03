@@ -16,6 +16,15 @@ class Group < ActiveRecord::Base
     unless me.group_type( true )
       me.errors.add :group_type_id, 'does not exist'
     end
+    
+    #need to validate the presence of other featured groups
+    #  there cannot be more than 5 featured groups
+    if me.featured == true
+      groups = Group.find :all, :conditions => ["featured = 1"]
+      if groups.length >= 5
+        me.errors.add "There are already 5 featured groups. This group "
+      end
+    end
   end
 
   def project_count
