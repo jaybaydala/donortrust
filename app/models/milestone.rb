@@ -1,5 +1,7 @@
 require 'acts_as_paranoid_versioned'
 class Milestone < ActiveRecord::Base
+
+  
   has_many :tasks, :dependent => :destroy
   belongs_to :project 
 #  belongs_to :program, :through => :project
