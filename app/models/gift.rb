@@ -38,8 +38,12 @@ class Gift < ActiveRecord::Base
   end
   
   def send_gift_mail
-    @sent = true if update_attributes(:sent_at => Time.now.utc)
-    DonortrustMailer.deliver_gift_mail(self)
+    if update_attributes(:sent_at => Time.now.utc)
+      DonortrustMailer.deliver_gift_mail(self)
+      @sent = true
+    else
+      p self
+    end
   end
   
   def send_gift_mail?
@@ -58,6 +62,7 @@ class Gift < ActiveRecord::Base
     if user_id? && !credit_card?
       errors.add("amount", "cannot be greater than your balance. Please make a deposit first or use your credit card.") if amount? && amount > self.user.balance
     end
+    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
     super
   end
   
@@ -67,7 +72,6 @@ class Gift < ActiveRecord::Base
   
   def validate
     errors.add("project_id", "is not a valid project") if project_id? && project_id <= 0
-    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
     super
   end
 
