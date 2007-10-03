@@ -3,14 +3,17 @@ class PartnersRel001 < ActiveRecord::Migration
   def self.up
     create_table :partners do |t|
       t.column :name, :string, :null => false, :limit => 50
-      t.column :description, :text
-      t.column :website, :string
-      t.column :partner_type_id, :integer
-      t.column :partner_status_id, :integer
-      t.column :version, :integer
-      t.column :note, :text
-      t.column :deleted_at, :datetime
-      t.column :version, :integer
+      t.column :description,        :text
+      t.column :website,            :string
+      t.column :partner_type_id,    :integer
+      t.column :partner_status_id,  :integer      
+      t.column :business_model,     :text
+      t.column :funding_sources,    :text
+      t.column :mission_statement,  :text
+      t.column :philosophy_dev,     :text
+      t.column :version,            :integer
+      t.column :note,               :text
+      t.column :deleted_at,         :datetime     
     end #partners   
     
     Partner.create_versioned_table
