@@ -5,7 +5,7 @@ class BusAdmin::ProjectsController < ApplicationController
   
     config.columns = [ :name, :description, :program, :project_status, :expected_completion_date, :start_date, :end_date,
                           :dollars_raised, :dollars_spent, :total_cost, :partner, :contact, :place,
-                          :milestone_count, :milestones, :sectors, :note, :blog_url, :rss_feed ]
+                          :milestone_count, :milestones, :sectors, :note, :featured, :blog_url, :rss_feed ]
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones,
                           :sectors, :milestone_count, :partner, :blog_url, :rss_feed ]
     #show.columns.exclude [ ]
@@ -18,6 +18,7 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :end_date ].label = "End"
     config.columns[ :dollars_raised ].label = "Raised"
     config.columns[ :dollars_spent ].label = "Spent"
+    config.columns[ :featured ].label = "Is Featured?"
     config.columns[ :project_status ].form_ui = :select
     config.columns[ :place ].form_ui = :select
     config.columns[ :sectors ].form_ui = :select
@@ -67,11 +68,25 @@ class BusAdmin::ProjectsController < ApplicationController
   
   def byProject
     @id = params[:id]
-       @projects = Project.find(@id)
+    @projects = Project.find(@id)
+    #     @milestones = @project.milestones.find(:all)
+    #      @tasks = @milestones.tasks.find(:all)
+    render :partial => 'timeline_json'
+  end
+  
+  #  
+  #  def individual_report_inline   
+  #   @id = params[:projectid]
+  #   @project = Project.get_project(@id)
+  #   @percent_raised = @project.get_percent_raised
+  #   render :partial => "bus_admin/projects/individual_report"
+  #  end
+  #  
+   #    @projects = Project.find(@id)
    #    @milestones = @project.milestones.find(:all)
  #      @tasks = @milestones.tasks.find(:all)
-        render :partial => 'timeline_json'
-      end
+  #      render :partial => 'timeline_json'
+   #   end
       
 #  
 #  def individual_report_inline   
