@@ -68,7 +68,7 @@ class BusAdmin::ProjectsController < ApplicationController
   
   def byProject
     @id = params[:id]
-    @projects = Project.find(@id)
+    @projects = Project.find(:all)
     #     @milestones = @project.milestones.find(:all)
     #      @tasks = @milestones.tasks.find(:all)
     render :partial => 'timeline_json'
