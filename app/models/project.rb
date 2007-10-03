@@ -41,6 +41,15 @@ acts_as_simile_timeline_event(
     unless me.project_status( true )
       me.errors.add :project_status_id, 'does not exist'
     end
+    
+    #need to validate the presence of other featured projects
+    #  there cannot be more than 5 featured projects
+    if me.featured == true
+      projects = Project.find :all, :conditions => ["deleted_at is null and featured = 1"]
+      if projects.length >= 5
+        me.errors.add "There are already 5 featured projects. This project "
+      end
+    end
   end
   
   def milestone_count
@@ -145,4 +154,5 @@ acts_as_simile_timeline_event(
   def self.total_money_spent
     return self.sum(:dollars_spent)
   end
+  
 end
