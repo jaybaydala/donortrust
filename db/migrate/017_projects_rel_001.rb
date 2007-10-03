@@ -19,6 +19,10 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :featured, :boolean
       t.column :public, :boolean
       t.column :note, :text
+      t.column :intended_outcome, :string
+      t.column :meas_eval_plan, :string
+      t.column :project_in_community, :string
+      t.column :other_projects, :string   
       t.column :deleted_at, :datetime
       t.column :version, :integer
     end # projects
