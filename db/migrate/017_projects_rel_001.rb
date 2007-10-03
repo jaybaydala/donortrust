@@ -16,7 +16,6 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :contact_id, :integer
       t.column :place_id, :integer
       t.column :partner_id, :integer
-      t.column :dollars_raised, :decimal, :precision => 12, :scale => 2, :default => 0
       t.column :featured, :boolean
       t.column :public, :boolean
       t.column :note, :text
