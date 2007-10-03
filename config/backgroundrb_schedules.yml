@@ -1,0 +1,6 @@
+gift_mailer:
+  :class: :gift_mailer_worker
+  :worker_method: :do_work
+  :trigger_args:
+    :start: <%= Time.now %>
+    :repeat_interval: <%= 30.minutes %>
