@@ -19,7 +19,6 @@ projectone:
   project_status_id: 2
   contact_id: 1
   partner_id: 1
-  dollars_raised: 77800.00
   public: true
   
 projecttwo:
@@ -35,7 +34,6 @@ projecttwo:
   project_status_id: 2
   contact_id: 2
   partner_id: 1
-  dollars_raised: 5052.00  
   public: true
  
 projectthree:
@@ -51,7 +49,6 @@ projectthree:
   project_status_id: 4
   contact_id: 2
   partner_id: 1
-  dollars_raised: 5052.00
   public: true
   
 projectfour:
@@ -67,7 +64,6 @@ projectfour:
   project_status_id: 2
   contact_id: 2
   partner_id: 2
-  dollars_raised: 2052.00
   public: false
   
 projectfive:
@@ -83,6 +79,5 @@ projectfive:
   project_status_id: 3
   contact_id: 2
   partner_id: 2
-  dollars_raised: 252.00
   public: true
   note: Sample note.
