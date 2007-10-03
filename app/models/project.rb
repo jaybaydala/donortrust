@@ -109,7 +109,7 @@ acts_as_simile_timeline_event(
     self.village.projects.size
   end
   
-  def nation(node = nil)
+  def nation
     if @nation.nil?
       node = self.village if !node
       return @nation = nil if !node
@@ -121,6 +121,14 @@ acts_as_simile_timeline_event(
   
   def current_need
     self.total_cost - self.dollars_raised
+  end
+  
+  def dollars_raised
+    raised = 0
+    Investment.find(:all, :conditions => {:project_id => self.id} ).each do |investment|
+      raised = raised + investment.amount
+    end
+    raised
   end
    
   def get_percent_raised
@@ -146,7 +154,11 @@ acts_as_simile_timeline_event(
   end
   
   def self.total_money_raised
-    return self.sum(:dollars_raised)
+    total = 0
+    Project.find(:all).each do |project|
+      total = total + project.dollars_raised
+    end
+    total
   end
   
   def self.total_costs

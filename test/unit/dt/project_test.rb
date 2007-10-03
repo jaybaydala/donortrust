@@ -40,4 +40,12 @@ context "As a donor I want to view project-specific content so I can give to the
     @project.current_need.should.equal @project.total_cost - @project.dollars_raised
   end
   
+  specify "dollars_raised should equal the Investments in the project" do
+    @project = Project.find(1)
+    total = 0
+    Investment.find(:all, :conditions => {:project_id => @project.id}).each do |investment|
+      total = total + investment.amount
+    end
+    @project.dollars_raised.should.equal total
+  end
 end

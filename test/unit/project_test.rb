@@ -22,11 +22,10 @@ context "Projects" do
     @fixture_project.should.not.validate
   end
   
-  def test_percent_raised
-    @project.total_cost = 100
-    @project.dollars_raised = 45
-    expected = 45
-    assert_equal expected, @project.get_percent_raised
+  specify "get_percent_raised should return 6 for project 1" do
+    @project = Project.find(1)
+    expected = 6
+    expected.should.equal @project.get_percent_raised
   end
   
   specify "total cost of zero should produce 0 percent raised" do
@@ -80,16 +79,16 @@ context "Projects" do
     project.days_remaining.should.be.nil   
   end
  
-  def test_total_costs
-    assert_equal 2100, Project.total_costs
+  specify "total_cost should equal 12000" do
+    Project.total_costs.should.equal 12000
   end
   
-  def test_total_money_raised
-    assert_equal 150, Project.total_money_raised
+  specify "total_money_raised should equal 150" do
+    Project.total_money_raised.should.equal 600
   end
   
-  def test_total_percent_raised
-    assert_equal 7, Project.total_percent_raised.floor
+  specify "total_percent_raised.floor should equal 5" do
+    Project.total_percent_raised.floor.should.equal 5
   end
   
   specify "percent raised should be 100 if total cost is 0 or nil" do       
@@ -110,9 +109,18 @@ context "Projects" do
   specify "percent raised should be 0 if total raised is 0" do       
     projects = Project.find(:all)
     projects.each do |p|
-      p.dollars_raised = 0
-      p.update
+      Investment.destroy_all(:project_id => p.id)
     end
     Project.total_percent_raised.to_i.should.equal 0
   end
+
+  specify "dollars_raised should equal the Investments in the project" do
+    @project = Project.find(1)
+    total = 0
+    Investment.find(:all, :conditions => {:project_id => @project.id}).each do |investment|
+      total = total + investment.amount
+    end
+    @project.dollars_raised.should.equal total
+  end
+
 end
