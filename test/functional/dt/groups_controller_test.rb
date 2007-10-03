@@ -53,35 +53,6 @@ context "Dt::Groups #route_for" do
   end
 end
 
-context "Dt::GroupsController authentication" do
-  include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships, :group_types
-  
-  setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-  
-  xspecify "should not redirect to /login when logged in" do
-    login_as :tim
-    get :index
-    should.not.redirect
-    get :new
-    should.not.redirect
-    post :create
-    should.not.redirect
-    get :show, :id => 1
-    should.not.redirect
-    get :edit, :id => 1
-    should.not.redirect
-    put :update, :id => 1, :group => { :name => 'another test' }
-    should.redirect dt_group_path(1)
-    delete :destroy, :id => 1
-    should.redirect dt_groups_path()
-  end
-end
-
 context "Dt::GroupsController handling GET /dt/groups" do
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
@@ -96,9 +67,9 @@ context "Dt::GroupsController handling GET /dt/groups" do
     get :index
   end
 
-  specify "should redirect to /login when not logged in" do
+  specify "should not redirect to /login when not logged in" do
     do_get
-    should.redirect dt_login_path()
+    should.not.redirect
   end
 
   specify "should get index" do
@@ -233,9 +204,9 @@ context "Dt::GroupsController handling GET /dt/groups/1" do
     get :show, :id => 1
   end
 
-  specify "should redirect to /login when not logged in" do
+  specify "should not redirect when not logged in" do
     do_get
-    should.redirect dt_login_path()
+    should.not.redirect dt_login_path()
   end
 
   specify "should show group" do

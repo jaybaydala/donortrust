@@ -132,6 +132,11 @@ context "Gift" do
       t.errors.on(:send_at).should.not.be.nil
     }.should.not.change(Gift, :count)
   end
+
+  specify "send_at should allow current or past dates on update" do
+    t = create_gift(credit_card_params(:send_at => 1.second.from_now))
+    t.update_attributes(:send_at => 1.second.ago).should.equal true
+  end
   
   specify "creating a Gift should create a UserTransaction if user_id is present" do
     lambda {
