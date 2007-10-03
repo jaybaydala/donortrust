@@ -6,10 +6,11 @@
 </style>
 </head>
 <body>
+<div>
 <%
      	
        project_timeline = ::Simile::Timeline::Timeline.new(
-         :name        => "Projects",
+         :name        => "ProjectsTimeline",
          :event_source => {
              :controller => 'projects',
              :action     => 'byProject'
@@ -45,7 +46,8 @@
        )
      	
      %>
-
+</div>
+<%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %>
 
 
 </body>

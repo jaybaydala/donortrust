@@ -3,9 +3,8 @@ class Project < ActiveRecord::Base
 acts_as_simile_timeline_event(
     :fields =>
     {
-      :start       => :start_date,
-      :title       => :name,
-      :description => :description
+      :start       => :StartDate,
+      :title       => :name
     }
   )
  acts_as_paranoid_versioned
@@ -28,6 +27,9 @@ acts_as_simile_timeline_event(
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   
+ def StartDate
+  "#{self.start_date}"
+  end
  
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
