@@ -4,6 +4,8 @@ class ProjectsSectorsRel001 < ActiveRecord::Migration
       t.column :project_id, :int
       t.column :sector_id, :int
     end
+    add_index :projects_sectors, [:project_id, :sector_id] 
+    add_index :projects_sectors, :sector_id 
 
     if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
