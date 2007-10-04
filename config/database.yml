@@ -18,7 +18,7 @@ test:
 production:
   adapter: mysql
   database: donortrust_production
-  username: root
-  password: 
+  username: donortrust_prod
+  password: donor99truDB
   host: localhost
 
