@@ -31,11 +31,14 @@ namespace :deploy do
     donortrust cold deployment
     DESC
     task :cold do
-      update
-      migrate
-      setup_mongrel_cluster
-      start
-      start_backgroundrb
+      transaction do
+        update
+        migrate
+        setup_mongrel_cluster
+        install_backgroundrb # it's not included in the repository because of windows incompatibilities
+        start
+        start_backgroundrb
+      end
     end
 
     desc <<-DESC
@@ -43,9 +46,11 @@ namespace :deploy do
     DESC
     task :default do
       transaction do
+        stop_backgroundrb
         update
-        restart_backgroundrb
+        install_backgroundrb # it's not included in the repository because of windows incompatibilities
         restart
+        start_backgroundrb
       end
     end
   end
@@ -54,6 +59,14 @@ namespace :deploy do
     sudo "cp #{release_path}/config/mongrel_cluster.yml #{mongrel_conf}"
     sudo "chown mongrel:www-data #{mongrel_conf}"
     sudo "chmod g+w #{mongrel_conf}"
+  end
+  
+  desc <<-DESC
+  Install backgrounDRB since it's incompatible with windows boxes
+  DESC
+  task :install_backgroundrb, :roles => :web do
+    cmd "cd #{release_path}/vendor/plugins;svn co http://svn.devjavu.com/backgroundrb/tags/release-0.2.1 backgroundrb;cd #{release_path}"
+    send(run_method, cmd)
   end
   
   desc <<-DESC
