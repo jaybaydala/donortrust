@@ -47,7 +47,7 @@ namespace :deploy do
     task :default do
       transaction do
         stop_backgroundrb
-        update
+        update # creates the symlink
         install_backgroundrb # it's not included in the repository because of windows incompatibilities
         restart
         start_backgroundrb
@@ -65,24 +65,24 @@ namespace :deploy do
   Install backgrounDRB since it's incompatible with windows boxes
   DESC
   task :install_backgroundrb, :roles => :web do
-    cmd = "cd #{release_path}/vendor/plugins;svn co http://svn.devjavu.com/backgroundrb/tags/release-0.2.1 backgroundrb;cd #{release_path}"
-    send(run_method, cmd)
+    cmd = "svn co http://svn.devjavu.com/backgroundrb/tags/release-0.2.1 #{release_path}/vendor/plugins/backgroundrb;"
+    run cmd
   end
   
   desc <<-DESC
   Start the Backgroundrb daemon on the app server.
   DESC
   task :start_backgroundrb , :roles => :web do
-    cmd = "#{release_path}/script/backgroundrb start"
-    send(run_method, cmd)
+    cmd = "#{current_path}/script/backgroundrb start"
+    run cmd
   end
 
   desc <<-DESC
   Restart the Backgroundrb daemon on the app server.
   DESC
   task :restart_backgroundrb , :roles => :web do
-    cmd = "#{release_path}/script/backgroundrb restart"
-    send(run_method, cmd)
+    cmd = "#{current_path}/script/backgroundrb restart"
+    run cmd
   end
 
   desc <<-DESC
