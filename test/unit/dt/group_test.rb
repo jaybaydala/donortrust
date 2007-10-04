@@ -13,7 +13,7 @@ context "Groups" do
     @group.should.validate
   end
 
-  specify "should not validate with nil group_type_id" do
+  specify "should validate with nil group_type_id" do
     @group = test_group({ :group_type_id => nil })
     @group.should.not.validate
     @group.group_type_id = 1

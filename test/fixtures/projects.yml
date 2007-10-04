@@ -13,7 +13,6 @@ project_one:
   contact_id: 1
   place_id: 14  
   partner_id: 1
-  dollars_raised: 50
   public: true
   
 project_two:
@@ -30,7 +29,6 @@ project_two:
   contact_id: 1
   place_id: 13  
   partner_id: 1
-  dollars_raised: 50
   public: true
   
 project_three:
@@ -47,6 +45,5 @@ project_three:
   contact_id: 1
   place_id: 12  
   partner_id: 1
-  dollars_raised: 50
   public: false
   note: Sample note.

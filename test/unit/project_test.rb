@@ -30,7 +30,6 @@ context "Projects" do
   
   specify "total cost of zero should produce 0 percent raised" do
     @project.total_cost = 0
-    @project.dollars_raised = 45
     @project.get_percent_raised.should.equal 0
   end
   
