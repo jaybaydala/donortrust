@@ -85,11 +85,3 @@ class RubyTube
     old_initialize(you_tube_key)
   end
 end
-
-if RUBY_PLATFORM =~ /mswin/
-  remove_plugins = [ 'backgroundrb' ]
-  remove_plugins.each do |plugin|
-    path = "#{RAILS_ROOT}/vendor/plugins/#{plugin}/lib"
-    $LOAD_PATH.delete path
-  end
-end
