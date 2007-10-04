@@ -1,5 +1,5 @@
 class DonortrustMailer < ActionMailer::Base
-  HTTP_HOST = ENV['RAILS_ENV'] == 'development' ? 'dt.pivotib.com' : 'christmasfuture.org'
+  HTTP_HOST = ENV['RAILS_ENV'] == 'development' ? 'localhost' : 'www.christmasfuture.org'
   
   def user_signup_notification(user)
     user_setup_email(user)

@@ -65,7 +65,7 @@ namespace :deploy do
   Install backgrounDRB since it's incompatible with windows boxes
   DESC
   task :install_backgroundrb, :roles => :web do
-    cmd "cd #{release_path}/vendor/plugins;svn co http://svn.devjavu.com/backgroundrb/tags/release-0.2.1 backgroundrb;cd #{release_path}"
+    cmd = "cd #{release_path}/vendor/plugins;svn co http://svn.devjavu.com/backgroundrb/tags/release-0.2.1 backgroundrb;cd #{release_path}"
     send(run_method, cmd)
   end
   
@@ -89,7 +89,7 @@ namespace :deploy do
   Stop the Backgroundrb daemon on the app server.
   DESC
   task :stop_backgroundrb , :roles => :web do
-    cmd = "#{release_path}/script/backgroundrb stop"
+    cmd = "#{current_path}/script/backgroundrb stop"
     send(run_method, cmd)
   end
 
