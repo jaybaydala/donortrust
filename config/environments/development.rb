@@ -18,10 +18,12 @@ config.action_view.debug_rjs                         = true
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
-ActionMailer::Base.delivery_method = :sendmail
+ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
-  :address         => 'mail.pivotib.com',
-  :authentication  => :login,
-  :user_name       => 'dev@dt.pivotib.com',
-  :password        => 'donortrust'
+  :address         => 'slice.christmasfuture.org',
+  :authentication  => :plain,
+  :user_name       => 'smtpuser',
+  :password        => '$authsmtp&',
+  :port            => 587,
+  :domain          => 'mail.christmasfuture.org'
 }
