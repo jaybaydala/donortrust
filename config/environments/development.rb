@@ -25,5 +25,5 @@ ActionMailer::Base.smtp_settings = {
   :user_name       => 'smtpuser',
   :password        => '$authsmtp&',
   :port            => 587,
-  :domain          => 'mail.christmasfuture.org'
+  :domain          => "192.168.1.1"
 }
