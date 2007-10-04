@@ -1,15 +1,7 @@
- <head>
 <%= javascript_include_tag 'http://simile.mit.edu/timeline/api/timeline-api.js' -%>
 <%= javascript_include_tag 'prototype' -%>
-<style type="text/css">
-.default_timeline { width: 400px; height: 250px; }
-</style>
-</head>
-<body>
-<div>
-<%
-     	
-       project_timeline = ::Simile::Timeline::Timeline.new(
+<%  
+        project_timeline = ::Simile::Timeline::Timeline.new(
          :name        => "ProjectsTimeline",
          :event_source => {
              :controller => 'projects',
@@ -46,11 +38,7 @@
        )
      	
      %>
-</div>
+
 <%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %>
-
-
-</body>
-
  
  

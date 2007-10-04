@@ -1,10 +1,12 @@
 require 'acts_as_paranoid_versioned'
+require 'simile_timeline'
 class Project < ActiveRecord::Base
 acts_as_simile_timeline_event(
     :fields =>
     {
-      :start       => :StartDate,
-      :title       => :name
+      :start       => :startDate,
+      :title       => :name,
+      :description => :description
     }
   )
  acts_as_paranoid_versioned
@@ -27,7 +29,7 @@ acts_as_simile_timeline_event(
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   
- def StartDate
+ def startDate
   "#{self.start_date}"
   end
  

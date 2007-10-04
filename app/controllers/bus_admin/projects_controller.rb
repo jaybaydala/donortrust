@@ -39,7 +39,7 @@ class BusAdmin::ProjectsController < ApplicationController
     config.action_links.add 'index', :label => '<img src="/images/icons/you_tube.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_you_tube_videos"}
     config.action_links.add 'index', :label => '<img src="/images/icons/flickr.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_flickr_images"}
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'projects', :action => 'report'},:page => true
-       config.action_links.add 'list', :label => 'Timeline', :parameters =>{:controller=>'projects', :action => 'byProject'},:page => true, :type=> :record
+       config.action_links.add 'list', :label => 'Timeline', :parameters =>{:controller=>'projects', :action => 'showProjectTimeline'},:page => true, :type=> :record
     
     config.action_links.add 'list', :label => 'Export to CSV', :parameters =>{:controller=>'projects', :action => 'export_to_csv'},:page => true
 #    config.create.columns.exclude :project_histories
@@ -76,6 +76,13 @@ class BusAdmin::ProjectsController < ApplicationController
     #      @tasks = @milestones.tasks.find(:all)
     render :partial => 'timeline_json'
   end
+  
+   def showProjectTimeline
+    
+    render :partial => 'bus_admin/projects/showProjectTimeline'
+  end
+  
+  
   
   #  
   #  def individual_report_inline   
