@@ -94,10 +94,10 @@ context "Dt::InvestmentsController new behaviour" do
     status.should.be :success
   end
 
-  specify "should assign @user and @investment" do
+  specify "should assign @tax_receipt and @investment" do
     login_as :quentin
     get :new
-    assigns(:user).should.not.be.nil
+    assigns(:tax_receipt).should.not.be.nil
     assigns(:investment).should.not.be.nil
   end
 
@@ -117,13 +117,13 @@ context "Dt::InvestmentsController new behaviour" do
     login_as :quentin
     get :new
     assert_select "form#investmentform" do
-      assert_select "#user_first_name"
-      assert_select "#user_last_name"
-      assert_select "#user_address"
-      assert_select "#user_city"
-      assert_select "#user_province"
-      assert_select "#user_postal_code"
-      assert_select "#user_country"
+      assert_select "#tax_receipt_first_name"
+      assert_select "#tax_receipt_last_name"
+      assert_select "#tax_receipt_address"
+      assert_select "#tax_receipt_city"
+      assert_select "#tax_receipt_province"
+      assert_select "#tax_receipt_postal_code"
+      assert_select "#tax_receipt_country"
       assert_select "#investment_project_id"
       assert_select "#investment_amount"
       assert_select "input[type=submit]"
@@ -147,10 +147,10 @@ context "Dt::InvestmentsController confirm behaviour" do
     status.should.be :success
   end
 
-  specify "should assign @user and @investment" do
+  specify "should assign @tax_receipt and @investment" do
     login_as :quentin
     get :new
-    assigns(:user).should.not.be.nil
+    assigns(:tax_receipt).should.not.be.nil
     assigns(:investment).should.not.be.nil
   end
 
@@ -211,11 +211,14 @@ context "Dt::InvestmentsController confirm behaviour" do
 
   private
   def do_post(options = {})
-    user_params = users(:quentin).attributes
-    user_params.merge!(options[:user]) if options[:user]
+    tax_receipt_params = {}
+    %w( first_name last_name address city province postal_code country ).each do |field|
+      tax_receipt_params[field.to_sym] = users(:quentin).send(field)
+    end
+    tax_receipt_params.merge!(options[:tax_receipt]) if options[:tax_receipt]
     investment_params = { :project_id => 1, :amount => 1 }
     investment_params.merge!(options[:investment]) if options[:investment]
-    post :confirm, { :user => user_params, :investment => investment_params }
+    post :confirm, { :tax_receipt => tax_receipt_params, :investment => investment_params }
   end
 end
 
@@ -279,8 +282,12 @@ context "Dt::InvestmentsController create behaviour" do
 
   private
   def do_post(options = {})
+    tax_receipt_params = {}
+    %w( first_name last_name address city province postal_code country ).each do |field|
+      tax_receipt_params[field.to_sym] = users(:quentin).send(field)
+    end
     investment_params = { :project_id => 1, :amount => 1 }
     investment_params.merge!(options[:investment]) if options[:investment]
-    post :create, { :investment => investment_params }
+    post :create, { :investment => investment_params, :tax_receipt => tax_receipt_params }
   end
 end
