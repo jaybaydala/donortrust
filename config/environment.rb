@@ -46,6 +46,7 @@ Rails::Initializer.run do |config|
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
     File.directory?(lib = "#{dir}/lib") ? lib : dir
   end
+
 end
 
 # Add new inflection rules using the following format 
@@ -82,5 +83,13 @@ class RubyTube
   
   def initialize(you_tube_key=YOU_TUBE_KEY)
     old_initialize(you_tube_key)
+  end
+end
+
+if RUBY_PLATFORM =~ /mswin/
+  remove_plugins = [ 'backgroundrb' ]
+  remove_plugins.each do |plugin|
+    path = "#{RAILS_ROOT}/vendor/plugins/#{plugin}/lib"
+    $LOAD_PATH.delete path
   end
 end
