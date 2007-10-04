@@ -1,6 +1,6 @@
 require 'mongrel_cluster/recipes'
 set :application, "donortrust"
-set :repository,  "svn+ssh://sterrym@rubyforge.org/var/svn/#{application}/trunk"
+set :repository,  "svn://rubyforge.org/var/svn/#{application}/trunk"
 
 set :deploy_to, "/home/dtrust/#{application}"
 set :user, "dtrust"
