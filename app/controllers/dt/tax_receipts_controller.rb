@@ -11,7 +11,6 @@ class Dt::TaxReceiptsController < DtApplicationController
     _pdf.select_font "Times-Roman"
     _pdf.compressed=true
     i0 = _pdf.image File.dirname(__FILE__) + "/tax_receipt-duplicate.png"
-    # TODO: re-align once final receipt template is received
     x = 227
     font_size = 8
     _pdf.add_text(x+14, 639, @receipt.id_display, font_size)
@@ -26,8 +25,39 @@ class Dt::TaxReceiptsController < DtApplicationController
     _pdf.add_text(x3, 533, @receipt.province, font_size)
     _pdf.add_text(x2, 517, @receipt.postal_code, font_size)
     _pdf.add_text(x3, 517, @receipt.country, font_size)
-    send_data _pdf.render, :filename => "CFTaxReceipt-#{@receipt.id_display}.pdf", :type => "application/pdf"
+
+    #had to create a temp files, b/c I don't know how to stream to system function
+    # once pdftk is installed, set the full path here: 
+    # pdftk = "/usr/bin/pdftk"
+    pdftk = nil
+    if pdftk
+      @filename = "CFTaxReceipt-#{@receipt.id_display}.pdf"
+      forig = File.open("/tmp/" + @filename + ".orig", 'w')
+      forig.write(_pdf.render)
+      forig.close()
+      password = generate_password
+      system("pdftk /tmp/#{@filename}.orig output /tmp/#{@filename} owner_pw #{password} allow printing")
+      f = File.open("/tmp/" + @filename, 'r')
+      send_data f.read, :filename => "CFTaxReceipt-#{@receipt.id_display}.pdf", :type => "application/pdf"
+      f.close()
+      File.delete("/tmp/#{@filename}")
+      File.delete("/tmp/#{@filename}.orig")
+    else
+      send_data _pdf.render, :filename => "CFTaxReceipt-#{@receipt.id_display}.pdf", :type => "application/pdf"
+    end
   end
+
+  def generate_password
+    hash = ""
+    srand()
+    (1..12).each do
+      rnd = (rand(2147483648)%36) # using 2 ** 31
+      rnd = rnd<26 ? rnd+97 : rnd+22
+      hash = hash + rnd.chr
+    end
+    hash
+  end
+
 
 
 end
