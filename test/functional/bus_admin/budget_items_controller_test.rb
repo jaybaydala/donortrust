@@ -5,7 +5,7 @@ require 'bus_admin/budget_items_controller'
 class BusAdmin::BudgetItemsController; def rescue_action(e) raise e end; end
 
 class BusAdmin::BudgetItemsControllerTest < Test::Unit::TestCase
-  fixtures :bus_admin_budget_items
+  fixtures :budget_items
 
   def setup
     @controller = BusAdmin::BudgetItemsController.new
@@ -16,7 +16,7 @@ class BusAdmin::BudgetItemsControllerTest < Test::Unit::TestCase
   def test_should_get_index
     get :index
     assert_response :success
-    assert assigns(:bus_admin_budget_items)
+    assert assigns(:budget_items)
   end
 
   def test_should_get_new
