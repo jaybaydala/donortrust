@@ -1,10 +1,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::BudgetItemTest < Test::Unit::TestCase
-  fixtures :bus_admin_budget_items
+class BudgetItemTest < Test::Unit::TestCase
+  fixtures :projects
+  fixtures :budget_items
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
+  should_belong_to :project
+
 end
