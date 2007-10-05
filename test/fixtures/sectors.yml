@@ -1,6 +1,6 @@
 test1:
   id: 1
-  name: Health (HIV, Maternal, Infant Mortality)
+  name: Health
   description: Projects to support Health
 test2:
   id: 2
@@ -13,61 +13,61 @@ test3:
 test4:
   id: 4
   name: Hunger
-  description: 
+  description: description
 test5:
   id: 5
   name: Water & Sanitation
-  description: 
+  description: description
 test6:
   id: 6
   name: Gender Specific
-  description: 
+  description: description
 test7:
   id: 7
   name: Economic
-  description: 
+  description: description
 test8:
   id: 8
   name: Environmental Sustainability
-  description: 
+  description: description
 test9:
   id: 9
   name: Community
-  description:  
+  description: description 
 test10:
   id: 10
   name: HIV
-  description: 
+  description: description
   parent_id: 1
 test11:
   id: 11
   name: Books
-  description: 
+  description: description
   parent_id: 2
 test12:
   id: 12
   name: test3
-  description: 
+  description: description
   parent_id: 3
 test13:
   id: 13
   name: test4
-  description: 
+  description: description
   parent_id: 4
 test14:
   id: 14
   name: test5
-  description: 
+  description: description
   parent_id: 5
 test15:
   id: 15
   name: test6
-  description: 
+  description: description
   parent_id: 6
 test16:
   id: 16
   name: test7
-  description: 
+  description: description
   parent_id: 7
 test17:
   id: 17
@@ -77,5 +77,5 @@ test17:
 test18:
   id: 18
   name: test9
-  description: 
+  description: description
   parent_id: 9
