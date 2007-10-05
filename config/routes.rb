@@ -1,4 +1,4 @@
-ActionController::Routing::Routes.draw do |map|
+ActionController::Routing::Routes.draw do |map|  
   # front-end resources - non-admin
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :specs => :get, :village => :get, :nation => :get, :community => :get } do |project|
     project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
@@ -60,6 +60,7 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/targets/recover_record', :controller => 'bus_admin/targets', :action => 'recover_record'
   
   # bus_admin resources
+  map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
   map.resources :financial_sources, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/financial_sources"
   map.resources :collaborating_agencies, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborating_agencies"
   map.resources :e_cards, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/e_cards"
