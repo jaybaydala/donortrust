@@ -79,7 +79,7 @@ end
 
 context "Dt::Projects index behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
+  fixtures :projects, :places, :programs, :partners, :project_statuses
   
   specify "Project index is available" do
     @project = Project.find(1)
@@ -100,7 +100,7 @@ end
 
 context "Dt::Projects show behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
+  fixtures :projects, :places, :programs, :partners, :project_statuses
 
   def do_get(id = 1)
     get :show, :id => id
@@ -158,7 +158,7 @@ end
 
 context "Dt::Projects village behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
+  fixtures :projects, :places, :programs, :partners, :project_statuses
 
   def do_get(id = 1)
     get :village, :id => id
@@ -178,7 +178,7 @@ end
 
 context "Dt::Projects nation behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
+  fixtures :projects, :places, :programs, :partners, :project_statuses
 
   def do_get(id = 1)
     get :nation, :id => id
@@ -198,7 +198,7 @@ end
 
 context "Dt::Projects community behaviour" do
   use_controller Dt::ProjectsController
-  fixtures :projects, :places, :featured_projects, :programs, :partners, :project_statuses
+  fixtures :projects, :places, :programs, :partners, :project_statuses
 
   def do_get(id = 1)
     get :community, :id => id

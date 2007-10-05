@@ -4,11 +4,9 @@ class Dt::ProjectsController < DtApplicationController
   end
   
   def index
-    @projects = FeaturedProject.find_projects(:all) if FeaturedProject.count > 0
+    @projects = Project.find(:all, :conditions => { :featured => 1 })
     # TODO: Project should be order_by Rating once rating model is done
-    @projects = Project.find(:all, :limit => 3) if FeaturedProject.count == 0
-p "HITHERE"
-p @projects
+    @projects = Project.find(:all, :limit => 3) if @projects.size == 0
     respond_to do |format|
       format.html # index.rhtml
     end
