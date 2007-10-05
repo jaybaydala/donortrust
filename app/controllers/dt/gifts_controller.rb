@@ -20,11 +20,12 @@ class Dt::GiftsController < DtApplicationController
       _pdf = PDF::Writer.new
       _pdf.select_font "Times-Roman"
       _pdf.compressed=true
-      i0 = _pdf.image File.dirname(__FILE__) + "/../../../public/images/dt/ecards/printable/cf_ecard-003.jpg"
+      image_path = File.expand_path("#{RAILS_ROOT}/public#{@gift.ecard.sub(/\/large\//, '/printable/')}")
+      i0 = _pdf.image image_path if File.exists?(image_path)
       # make sure to add text on top of the image! 
       #_pdf.add_text_wrap(85, 145, 500, @gift[:pickup_code], 12, :justification=>:right)
       _pdf.add_text(138, 151, @gift[:pickup_code], 12)
-      send_data _pdf.render, :filename => "ecard.pdf", :type => "application/pdf"
+      send_data _pdf.render, :filename => "ChristmasFuture gift card.pdf", :type => "application/pdf"
     end
   end
   
