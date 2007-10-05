@@ -5,10 +5,10 @@ class BusAdmin::ProjectsController < ApplicationController
   
     config.columns = [ :name, :description, :program, :project_status, :expected_completion_date, :start_date, :end_date,
                           :dollars_spent, :total_cost, :partner, :contact, :place,
-                          :milestone_count, :milestones, :sectors, :note, :featured, :blog_url, :rss_feed,
+                          :milestone_count, :milestones, :sectors, :public, :note, :featured, :blog_url, :rss_feed,
                           :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects ]      
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones,
-                          :sectors, :milestone_count, :partner, :blog_url, :rss_feed, :intended_outcome, 
+                          :sectors, :public, :milestone_count, :partner, :blog_url, :rss_feed, :intended_outcome, 
                           :meas_eval_plan, :project_in_community, :other_projects ]
     #show.columns.exclude [ ]
     update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_spent, :total_cost ]
@@ -29,6 +29,8 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :partner ].form_ui = :select
     config.columns[ :program ].form_ui = :select
     config.columns[ :rss_feed ].form_ui = :select
+#    config.columns[ :public ].form_ui = :select
+    
     
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
@@ -45,8 +47,8 @@ class BusAdmin::ProjectsController < ApplicationController
 #    config.create.columns.exclude :project_histories
 #    config.list.columns.exclude :project_histories
 #    config.update.columns.exclude :project_histories
-    
-    
+  
+  
   end
   
   def report    
