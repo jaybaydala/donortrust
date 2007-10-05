@@ -23,6 +23,7 @@ acts_as_simile_timeline_event(
   has_many :you_tube_videos, :through => :project_you_tube_videos
   has_many :flickr_images, :through => :project_flickr_images
   has_many :financial_sources
+  has_many :budget_items
   has_many :collaborating_agency  
   has_many :ranks
   has_many :investments
