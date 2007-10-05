@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 #class BusAdmin::ProjectTest < Test::Unit::TestCase
 context "Projects" do
   
-  fixtures :projects, :milestones
+  fixtures :projects, :milestones, :budget_items
 
   NUMBER_OF_DAYS_UNTIL_END = 30
     
@@ -121,5 +121,16 @@ context "Projects" do
     end
     @project.dollars_raised.should.equal total
   end
+  
+  specify "total calculated budget should match the total value" do
+    budget_items = BudgetItem.find_all_by_project_id(1)
+    expected_value = 0.0
+    budget_items.each do |item|
+      expected_value += item.cost
+    end
+    total_budget = @fixture_project.get_total_budget
+    total_budget.should.equal expected_value
+    #total_budget.should.equal 3000.00
+  end    
 
 end
