@@ -156,6 +156,14 @@ acts_as_simile_timeline_event(
     @you_tube_videos
   end
   
+  def get_total_budget
+    total_budget_items_cost = 0.0
+    budget_items(force_reload=true).each do |item|
+      total_budget_items_cost += item.cost
+    end
+    total_budget_items_cost
+  end
+  
   def self.total_money_raised
     total = 0
     Project.find(:all).each do |project|
