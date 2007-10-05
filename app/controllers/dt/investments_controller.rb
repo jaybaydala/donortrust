@@ -19,10 +19,7 @@ class Dt::InvestmentsController < DtApplicationController
   def confirm
     @investment = Investment.new( params[:investment] )
     @investment.user = current_user
-    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )def tax_receipt] ) (args)
-      
-    end
-     
+    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
     @tax_receipt.investment = @investment
     @tax_receipt.user = current_user
     @projects = Project.find(:all) if !params[:project_id]
