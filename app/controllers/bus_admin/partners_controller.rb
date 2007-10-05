@@ -2,16 +2,15 @@ class BusAdmin::PartnersController < ApplicationController
  before_filter :login_required, :check_authorization
   active_scaffold :partner do |config|
 #    config.theme = :blue
-    config.columns = [ :name, :description, :website, :partner_status, :partner_type, :contacts, :note ]
+    config.columns = [ :name, :description, :website, :partner_status, :partner_type, :contacts, :note,
+                       :business_model, :funding_sources, :mission_statement, :philosophy_dev]
     config.columns[ :partner_status ].form_ui = :select
     config.columns[ :partner_status ].label = "Status"
     config.columns[ :partner_type ].form_ui = :select
     config.columns[ :partner_type ].label = "Category"
+    config.columns[ :philosophy_dev ].label = "Philosophy Development"    
     config.columns[ :contacts ].form_ui = :select
-    list.columns.exclude [ :description, :contacts ]
-    #update.columns.exclude [  ]
-    #create.columns.exclude [  ]
-    #show.columns.exclude
+    list.columns.exclude [ :description, :contacts,:business_model , :funding_sources, :mission_statement, :philosophy_dev ]
     config.nested.add_link("Projects", [:projects]) 
 
     #passing desired partner status in action link to filter list; 1 = Approved, 2 = Pending 
@@ -20,7 +19,7 @@ class BusAdmin::PartnersController < ApplicationController
     config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
     config.nested.add_link("Quick Fact", [:quick_fact_partners])
    #    config.action_links.add 'list', :label => 'All', redirect_to partners 
-   
+       
   end
 
   def conditions_for_collection  
