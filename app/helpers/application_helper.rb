@@ -11,7 +11,7 @@ module ApplicationHelper
       when info
         @color = "green"
     end
-         render :update do |page|
+    render :update do |page|
         page.replace_html message_div, '<p style="color: ' + @color + ';">' + message + '</p>' 
         page.delay(5) do          
           page.replace_html message_div, ''  
@@ -28,9 +28,9 @@ module ApplicationHelper
       for i in 1...pageArray.length+1
         if i != pageArray.current_page.to_i
           if options != nil
-            result = result + link_to_remote(i.to_s, :update => update, :url => {:controller => controller, :action => action, :with => options, :page => i.to_s })             
+            result = result + link_to_remote(i.to_s, :update => update, :url => {:controller => controller, :action => action, :with => options, :page => i.to_s })   + " "           
           else
-            result = result + link_to_remote(i.to_s, :update => update, :url => {:controller => controller, :action => action, :page => i.to_s })             
+            result = result + link_to_remote(i.to_s, :update => update, :url => {:controller => controller, :action => action, :page => i.to_s }) + " "
           end
         else
           result = result + i.to_s
