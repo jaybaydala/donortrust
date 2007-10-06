@@ -38,12 +38,9 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
     render :layout => false
   end
   
-  def add 
-    videoNameBuffer = params[:id]
-    you_tube_video_id = videoNameBuffer[videoNameBuffer.rindex('_')+1,videoNameBuffer.size]
-    if ProjectYouTubeVideo.find_by_project_id_and_you_tube_video_id(params[:project_id], you_tube_video_id) == nil
-
-      ProjectYouTubeVideo.create :you_tube_video_id => you_tube_video_id, :project_id => params[:project_id]
+  def add
+    if ProjectYouTubeVideo.find_by_project_id_and_you_tube_video_id(params[:project_id], params[:id]) == nil
+      ProjectYouTubeVideo.create :you_tube_video_id => params[:id], :project_id => params[:project_id]
       @msg = "You Tube Video successfully associated with project"
     else
       @msg = "The You Tube video is already associated with this project."
@@ -54,10 +51,11 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
   
   
   def remove
-    stringBuffer = params[:id]
-    chunks = stringBuffer.split('_')
-    project_id = chunks[1]
-    you_tube_video_id = chunks[5]
+    chunks = params[:id].split('_')
+    project_id = chunks[0]
+    you_tube_video_id = chunks[1]
+    puts project_id
+    puts you_tube_video_id
     @project_you_tube_video = ProjectYouTubeVideo.find_by_project_id_and_you_tube_video_id(project_id, you_tube_video_id)
     if @project_you_tube_video != nil
       @project_you_tube_video.destroy

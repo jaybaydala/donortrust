@@ -27,10 +27,13 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
   end
   
   def add
-    flickr_dt_id = params[:id][(params[:id].rindex('_') + 1 ),params[:id].size]
-    if(ProjectFlickrImage.find_by_project_id_and_flickr_image_id(params[:project_id],flickr_dt_id) == nil)
-      ProjectFlickrImage.create :project_id => params[:project_id], :flickr_image_id => flickr_dt_id
-      @msg = "Photo has been added to project"
+    if(ProjectFlickrImage.find_by_project_id_and_flickr_image_id(params[:project_id],params[:id]) == nil)
+      begin
+        ProjectFlickrImage.create :project_id => params[:project_id], :flickr_image_id => params[:id]
+        @msg = "Photo has been added to project"
+      rescue
+        @msg = "Photo could not be added to this projectL: " + $!.to_s
+      end
     else
       @msg = "That Photo has already been added to this project"
     end
@@ -40,14 +43,17 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
   end
 
   def remove
-    project_id = params[:id].split('_')[1]
-    
-    flickr_dt_id = params[:id][(params[:id].rindex('_') + 1 ),params[:id].size]
-    ProjectFlickrImage.find_by_project_id_and_flickr_image_id(project_id,flickr_dt_id).destroy
-    @msg = "Photo has been removed from project"
-    
+    chunks = params[:id].split('_')
+    project_id = chunks[0]
+    flickr_dt_id = chunks[1]
+    begin
+      ProjectFlickrImage.find_by_project_id_and_flickr_image_id(project_id,flickr_dt_id).destroy
+      @msg = "Photo has been removed from project"
+    rescue
+      @msg = "Photo could not be removed from project: " + $!.to_s
+    end
     [@project = Project.find(project_id), @msg]
-    render :project => 'project'
+    render :partial => 'project'
   end
 
   def get_local_actions(requested_action,permitted_action)

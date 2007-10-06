@@ -43,7 +43,7 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   end
 
   def remove
-    YouTubeVideo.find(params[:id][(params[:id].rindex('_') + 1),params[:id].size]).destroy
+    YouTubeVideo.find(params[:id]).destroy
     @you_tube_videos = YouTubeVideo.find(:all)
     @you_tube_video_pages, @you_tube_videos = paginate_array(params[:page],@you_tube_videos , 20)
     render :action => 'list_videos', :layout => false
@@ -64,12 +64,10 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   # POST /bus_admin_you_tube_videos
   # POST /bus_admin_you_tube_videos.xml
   def add
-    video_id = params[:id][(params[:id].rindex('_') + 1),params[:id].size]
-    video = RubyTube.new().get_video(video_id)
-    
+    video = RubyTube.new().get_video(params[:id])
     @you_tube_video = YouTubeVideo.new
     @you_tube_video.keywords = video.tags
-    @you_tube_video.you_tube_reference = video_id
+    @you_tube_video.you_tube_reference = params[:id]
     if @you_tube_video.save
       flash[:notice] = 'You Tube Video was successfully created.'
     else
@@ -99,29 +97,30 @@ class BusAdmin::YouTubeVideosController < ApplicationController
 
   ## These are YouTube Search methods for getting stuff from the YouTube Database
   def search_by_tag
-    @you_tube_db_videos = RubyTube.new().list_by_tag(params[:tags],1,20)
-    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true}   
+    @you_tube_videos = RubyTube.new().list_by_tag(params[:tags],1,20)
+    render :partial => 'you_tube_video', :collection => @you_tube_videos, :locals => {:class_name => "you_tube_video"}   
   end
   
   
   def search_by_user
-    @you_tube_db_videos = RubyTube.new().list_by_user(params[:user],1,20)
-    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true} 
+    params[:user] = params[:user].gsub(' ','') # cleaning user name of spaces
+    @you_tube_videos = RubyTube.new().list_by_user(params[:user],1,20)
+    render :partial => 'you_tube_video', :collection => @you_tube_videos, :locals => {:class_name => "you_tube_video"} 
   end
 
   def search_by_category_and_tag
-    @you_tube_db_videos = RubyTube.new().list_by_category_and_tag(params[:tags],params[:category],1,20)
-    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true}
+    @you_tube_videos = RubyTube.new().list_by_category_and_tag(params[:tags],params[:category],1,20)
+    render :partial => 'you_tube_video', :collection => @you_tube_videos, :locals => {:class_name => "you_tube_video"}
   end
   
   def list_by_featured
-    @you_tube_db_videos = RubyTube.new().list_featured
-    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true}
+    @you_tube_videos = RubyTube.new().list_featured
+    render :partial => 'you_tube_video', :collection => @you_tube_videos, :locals => {:class_name => "you_tube_video"}
   end
   
   def list_by_popular
-    @you_tube_db_videos = RubyTube.new().list_popular(params[:popular])
-    render :partial => 'you_tube_db_video', :collection => @you_tube_db_videos, :locals => {:draggable => true}
+    @you_tube_videos = RubyTube.new().list_popular(params[:popular])
+    render :partial => 'you_tube_video', :collection => @you_tube_videos, :locals => {:class_name => "you_tube_video"}
   end
   
   def show_video

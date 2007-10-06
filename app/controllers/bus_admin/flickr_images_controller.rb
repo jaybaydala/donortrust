@@ -1,5 +1,5 @@
 class BusAdmin::FlickrImagesController < ApplicationController
-  before_filter :login_required, :check_authorization
+  #before_filter :login_required, :check_authorization
   # GET /bus_admin_flickr_images
   # GET /bus_admin_flickr_images.xml
   def index
@@ -19,26 +19,23 @@ class BusAdmin::FlickrImagesController < ApplicationController
       
       @photos = flickr.photos(:tags => @tags, :per_page => '250')
       @size = @photos.size
-      @photo_pages, @photos = paginate_array(params[:page], @photos, 20)
+      @flickr_photo_pages, @flickr_photos = paginate_array(params[:page], @photos, 20)
 
     rescue # hackish solution to shitty programming by the Author of the Flickr.rb library
-      @photos = Array.new
-      @photo_pages, @photos = paginate_array(params[:page], @photos, 20)
+      @flickr_photos = Array.new
+      @photo_pages, @flickr_photos = paginate_array(params[:page], @photos, 20)
 
     end
-    [@photos, @photo_pages, @tags, @size]
+    [@flickr_photos, @flickr_photo_pages, @tags, @size]
     render :layout => false
   end
   
   def add 
-    id = params[:id]
-    if(id.to_s.include? "flickr_db_image_")
-      chunks = id.split('_')
-      id = chunks[chunks.size-1]
-      FlickrImage.create :photo_id => id
-      @msg = "Image Sucessfully Added."
-    else
-      @msg = "Couldn't Add that to the database"
+    begin
+      FlickrImage.create :photo_id => params[:id]
+      @msg = "Flickr Photo Successfully Added"
+    rescue
+      @msg = "Flickr Photo Could Not Be Added: " + $!.to_s
     end
     @flickr_images = FlickrImage.find(:all)
     @flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20)
@@ -53,17 +50,15 @@ class BusAdmin::FlickrImagesController < ApplicationController
   end
  
   def remove
-    id = params[:id]
-    if(id.to_s.include? "flickr_dt_image_")
-      chunks = id.split('_')
-      id = chunks[chunks.size-1]
-      @flickr_image = FlickrImage.find(id)
-      @flickr_image.destroy
-      @msg = "Image Sucessfully Deleted."
-    else
-      @msg = "Couldn't Destory that to the database"
+    begin
+      FlickrImage.find(params[:id]).destroy
+      @msg = "Flickr Photo Successfully Destroyed"
+    rescue
+      @msg = "Flickr Photo Could Not Be Destroyed: " + $!.to_s
     end
-    [@flickr_images = FlickrImage.find(:all), @msg]
+    @flickr_images = FlickrImage.find(:all)
+    @flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20)
+    [@flickr_image_pages, @flickr_images, @msg]
     render :action => 'add', :layout => false
   end
 
