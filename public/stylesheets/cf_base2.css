@@ -326,7 +326,7 @@ p a:hover, p a:active {
 	list-style-type: none;
 	font: 10px/14px Verdana, Arial, Helvetica, sans-serif;
 	padding: 0px 25px 10px 10px;
-	color: a0a0a0;
+	color: #a0a0a0;
 	border-left: 0px solid #ccc;
 }
 .dateStamp { font: 10px/20px Arial, Helvetica, sans-serif; padding: 0 0 7px 22px; margin: 0 0 14px 0; border-bottom: 1px solid #ccc; color: #333; background-color: transparent; background-position: 10px 4px; background-repeat: no-repeat; background-attachment: scroll; }
@@ -649,13 +649,17 @@ Img{border:0;}
     
 }
 .outerBG{
- background-color: #39476E; padding-left: 1;
+ 	background-color: #39476E; 
+	padding-left: 1px;
 }
+
 .innerBG{
  BACKGROUND-COLOR: #F9F9F9;
 }
+
 .power{
-	COLOR: #3854A1; padding-right: 4;
+	color: #3854A1; 
+	padding-right: 4px;
 }
 /*********************** Styles for Contents Page *****/
 .headingCont 
@@ -1049,6 +1053,20 @@ legend {
 	width: 300px;
 }
 
+.donor_trust_you_tube_video {
+	border: 1px #ccc solid;
+	padding: 5px;
+	margin: 5px;
+	width: 300px;
+}
+
+.project_you_tube_video {
+	border: 1px #ccc solid;
+	padding: 5px;
+	margin: 5px;
+	width: 300px;
+}
+
 #you_tube_form{
 }
 
@@ -1184,6 +1202,21 @@ you_tube_title {
 	padding: 1px;
 	border: solid 1px;
 }
+
+.donor_trust_flickr_photo {
+	float:left;
+	margin: 1px;
+	padding: 1px;
+	border: solid 1px;
+}
+
+.project_flickr_photo {
+	float:left;
+	margin: 1px;
+	padding: 1px;
+	border: solid 1px;
+}
+
 .flickr_spacer{
 	width:320px;
 	
@@ -1198,7 +1231,7 @@ you_tube_title {
 #change-password {
 	border: 2px solid #fff;
 	padding:10px;
-	font:"Arial Black";
+	font: "Arial Black";
 	font-size:12px;
 }
 #change-password #password_notice #good{
