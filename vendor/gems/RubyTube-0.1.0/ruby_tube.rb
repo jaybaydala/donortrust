@@ -132,7 +132,9 @@ class RubyTube
     videos = Array.new
     if(hash_response['status'] != 'fail')
       video_list = hash_response['video_list'][0]['video']
-      puts video_list
+      if video_list == nil
+        return videos
+      end
       for i in 0...video_list.size
         video = Video.new
         video.populate_from_hash_array(video_list[i])
