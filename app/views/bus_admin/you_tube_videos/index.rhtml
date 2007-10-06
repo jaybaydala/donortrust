@@ -78,7 +78,7 @@
 <div id="trash_bin" class="trash_bin">
     <%= image_tag("/images/icons/delete_icon.gif")%> Drag any videos you wish to remove from the database into the trash bin.
 </div>
-<%= drop_receiving_element "trash_bin", :update => "donor_trust_videos", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
+<%= drop_receiving_element "trash_bin", :update => "donor_trust_videos", :accept => "donor_trust_you_tube_video", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
  
 <div class="media_cart">
     <h1>YouTube Videos</h1>
@@ -95,6 +95,6 @@
 <div class="media_cart" id="donor_trust_videos">	
 	Drag any video you whish to add into this box<br/>
 	Page: <%= pageinated_links_for_ajax(@you_tube_video_pages, "list_videos", "you_tube_videos", "list_videos", nil)%>
-	<%= render :partial=>'you_tube_video', :collection => @you_tube_videos, :locals => { :draggable => true }%>
+	<%= render :partial => 'you_tube_video', :collection => @you_tube_videos, :locals => { :dt_video => true } %>
 </div>
-<%= drop_receiving_element "donor_trust_videos", :update => "donor_trust_videos", :url => {:action => 'add'}, :hoverclass => "media_cart_active"%>
+<%= drop_receiving_element "donor_trust_videos", :update => "donor_trust_videos", :accept => "you_tube_video", :url => {:action => 'add'}, :hoverclass => "media_cart_active"%>
