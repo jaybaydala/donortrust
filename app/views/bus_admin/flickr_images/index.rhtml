@@ -11,7 +11,7 @@
 <div id="trash_bin" class="trash_bin">
     <%= image_tag("/images/icons/delete_icon.gif")%> Drag any images you wish to remove from the a project into the trash bin.
 </div>
-<%= drop_receiving_element "trash_bin", :update => "donor_trust_photos", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
+<%= drop_receiving_element "trash_bin", :update => "donor_trust_photos", :accept => :donor_trust_flickr_photo, :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
     
 <div class="media_cart" id="flickr_photos">
     <h2>Flickr Photos</h2>
@@ -19,7 +19,7 @@
 
 <div class="media_cart" id="donor_trust_photos">
     <h2>DonorTrust Photos | <%= pageinated_links_for_ajax(@flickr_image_pages, "donor_trust_photos", "/bus_admin/flickr_images", "photos", nil) %></h2>
-    <%= render :partial => 'flickr_image', :collection => @flickr_images%>
+    <%= render :partial => 'flickr_image', :collection => @flickr_images %>
 </div>
-<%= drop_receiving_element "donor_trust_photos", :update => "donor_trust_photos", :url => {:action => "add"}, :hoverclass => "media_cart_active"%>
+<%= drop_receiving_element "donor_trust_photos", :update => "donor_trust_photos", :accept => "flickr_photo", :url => {:action => "add"}, :hoverclass => "media_cart_active"%>
     

@@ -2,7 +2,7 @@
 <div id="trash_bin" class="trash_bin">
     <%= image_tag("/images/icons/delete_icon.gif")%> Drag any Photos you wish to remove from the a project into the trash bin.
 </div>
-<%= drop_receiving_element "trash_bin", :update => "projects", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
+<%= drop_receiving_element "trash_bin", :update => "cart", :accept => :project_flickr_photo, :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
     
 
 <div id="photos"class="media_cart">
@@ -27,9 +27,9 @@
     <%= render(:partial => '/bus_admin/flickr_images/flickr_image', :collection => @flickr_images, :locals => {:draggable => true}) %> 
 </div>
 
-<div id="cart_<%= @project.id%>" class="media_cart">
+<div id="cart" class="media_cart">
 	<%= render(:partial => "project" )%>
 </div>
-<%= drop_receiving_element "cart_#{@project.id}", :update => "cart_#{@project.id}", :url => {:action => "add", :project_id => @project.id}, :hoverclass => "media_cart_active"%>
+<%= drop_receiving_element "cart", :update => "cart", :accept => :donor_trust_flickr_photo, :url => {:action => "add", :project_id => @project.id}, :hoverclass => "media_cart_active"%>
     
 

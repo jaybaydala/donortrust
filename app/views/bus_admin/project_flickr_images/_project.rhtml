@@ -3,6 +3,6 @@
 <% project_id ||= 0%>
 
 Drag Any Photo you wish to associate with this project<br/>
-
+<%= @msg -%>
 <% @flickr_images = project.flickr_images %>
-<%= render(:partial => '/bus_admin/flickr_images/flickr_image', :locals => {:prefix => "project_#{project.id}_", :draggable => true}, :collection => @flickr_images) %> 
+<%= render(:partial => '/bus_admin/flickr_images/flickr_image', :locals => {:prefix => "#{project.id}", :class_name => :project_flickr_photo}, :collection => @flickr_images) %> 
