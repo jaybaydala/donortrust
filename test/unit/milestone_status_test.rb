@@ -175,19 +175,17 @@ context "MilestoneStatuses" do
     MilestoneStatus.count.should.equal( old_instance_count )
   end
 
-  specify "destroy existing (unused) record should validate" do
+  specify "destroy existing record should validate (but not actually delete)" do
     old_instance_count = MilestoneStatus.count
-    instance = MilestoneStatus.find( milestone_statuses( :canceled ).id )
+    existing_id = milestone_statuses( :canceled ).id
+    existing_name = milestone_statuses( :canceled ).name
+    instance = MilestoneStatus.find( existing_id )
     instance.destroy
     MilestoneStatus.count.should.equal( old_instance_count - 1 )
+    still_here = MilestoneStatus.find_with_deleted( existing_id )
+    still_here.name.should.equal existing_name
   end
 
-## hpd how to verify that destroy fails.  As is this gets an exception instead of catching
-## and displaying the failure.
-#  specify "destroy record used by Milestone should not validate" do
-#    old_instance_count = MilestoneStatus.count
-#    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
-#    instance.destroy.should.raise "Can not destroy a MilestoneStatus that has Milestones"
-#  end
-
+  #specify "create with name matching destroyed record should not validate" do
+  #end
 end
