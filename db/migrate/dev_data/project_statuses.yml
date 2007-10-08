@@ -1,21 +1,26 @@
-default_project_status_one:
-  id: 1
+--- 
+project_statuses_001: 
   name: Slated
+  deleted_at: 
+  id: "1"
   description: Status to indicate that the project is not started yet.
-default_project_status_two:
-  id: 2
+project_statuses_002: 
   name: Started
-  description: Status to indicate that the project has  started. 
-default_project_status_three:
-  id: 3
+  deleted_at: 
+  id: "2"
+  description: Status to indicate that the project has  started.
+project_statuses_003: 
   name: Canceled
-  description: Status to indicate that the project has been canceled. 
-default_project_status_four:
-  id: 4
+  deleted_at: 
+  id: "3"
+  description: Status to indicate that the project has been canceled.
+project_statuses_004: 
   name: Completed
-  description: Status to indicate that the project has been completed. 
-  
-default_project_status_five:
-  id: 5
+  deleted_at: 
+  id: "4"
+  description: Status to indicate that the project has been completed.
+project_statuses_005: 
   name: In Marketing
-  description: Status to indicate that the project is currently in the marketing phase. 
+  deleted_at: 
+  id: "5"
+  description: Status to indicate that the project is currently in the marketing phase.

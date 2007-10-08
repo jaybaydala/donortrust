@@ -1,18 +1,31 @@
-continent:
-  id: 1
+--- 
+place_types_001: 
   name: Continent
-country:
-  id: 2
+  updated_at: 
+  id: "1"
+  created_at: 
+place_types_002: 
   name: Country
-state:
-  id: 3
+  updated_at: 
+  id: "2"
+  created_at: 
+place_types_003: 
   name: State
-district:
-  id: 4
+  updated_at: 
+  id: "3"
+  created_at: 
+place_types_004: 
   name: District
-region:
-  id: 5
+  updated_at: 
+  id: "4"
+  created_at: 
+place_types_005: 
   name: Region
-city:
-  id: 6
+  updated_at: 
+  id: "5"
+  created_at: 
+place_types_006: 
   name: City
+  updated_at: 
+  id: "6"
+  created_at: 

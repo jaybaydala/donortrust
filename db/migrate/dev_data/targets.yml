@@ -1,4 +1,71 @@
-test1:
-  id: 1
-  millennium_goal_id: 1
-  description: test
+--- 
+targets_010: 
+  deleted_at: 
+  millennium_goal_id: "7"
+  id: "11"
+  description: Halve, by 2015, the proportion of people without sustainable access to safe drinking water and basic sanitation
+targets_011: 
+  deleted_at: 
+  millennium_goal_id: "7"
+  id: "12"
+  description: By 2020, to have achieved a significant improvement in the lives of at least 100 million slum dwellers
+targets_012: 
+  deleted_at: 
+  millennium_goal_id: "8"
+  id: "13"
+  description: In cooperation with developing countries, develop and implement strategies for decent and productive work for youth
+targets_001: 
+  deleted_at: 
+  millennium_goal_id: "1"
+  id: "2"
+  description: Halve, between 1990 and 2015, the proportion of people whose income is less than one dollar a day
+targets_013: 
+  deleted_at: 
+  millennium_goal_id: "8"
+  id: "14"
+  description: In cooperation with pharmaceutical companies, provide access to affordable essential drugs in developing countries
+targets_002: 
+  deleted_at: 
+  millennium_goal_id: "1"
+  id: "3"
+  description: Halve, between 1990 and 2015, the proportion of people who suffer from hunger
+targets_014: 
+  deleted_at: 
+  millennium_goal_id: "8"
+  id: "15"
+  description: In cooperation with the private sector, make available the benefits of new technologies, especially information and communications
+targets_003: 
+  deleted_at: 
+  millennium_goal_id: "2"
+  id: "4"
+  description: Ensure that, by 2015, childern everywhere, boys and girls alike, will be able to complete a full course of primary schooling
+targets_004: 
+  deleted_at: 
+  millennium_goal_id: "3"
+  id: "5"
+  description: Eliminate gender disparity in primary and secondary education, preferably by 2005, and in all levels of education no later than 2015
+targets_005: 
+  deleted_at: 
+  millennium_goal_id: "4"
+  id: "6"
+  description: Reduce by two-thirds, between 1990 and 2015, the under-five mortality rate
+targets_006: 
+  deleted_at: 
+  millennium_goal_id: "5"
+  id: "7"
+  description: Reduce by three-quarters, between 1990 and 2015, the maternal mortality ratio
+targets_007: 
+  deleted_at: 
+  millennium_goal_id: "6"
+  id: "8"
+  description: Have halted by 2015 and begun to reverse the spread of HIV/AIDS
+targets_008: 
+  deleted_at: 
+  millennium_goal_id: "6"
+  id: "9"
+  description: Have halted by 2015 and begun to reverse the incidence of malaria and other major diseases
+targets_009: 
+  deleted_at: 
+  millennium_goal_id: "7"
+  id: "10"
+  description: Integrate the principles of sustainable development into country policies and programmes and reverse the loss of environmental resources

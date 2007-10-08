@@ -1,14 +1,13 @@
-test1:
-  id: 1
+--- 
+quick_fact_types_001: 
   name: Location
+  id: "1"
   description: where it is
-  
-test2:
-  id: 2
+quick_fact_types_002: 
   name: Organization
+  id: "2"
   description: Who it is
-  
-test3:
-  id: 3
+quick_fact_types_003: 
   name: Cause
+  id: "3"
   description: none

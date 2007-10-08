@@ -8,9 +8,9 @@ class PlacesRel001 < ActiveRecord::Migration
       t.column :blog_url,             :string
       t.column :rss_url,              :text
       t.column :file,                 :text
-      t.column :you_tube_reference,   :int
-      t.column :flickr_reference,     :int
-      t.column :facebook_group_id,    :int
+      t.column :you_tube_reference,   :numeric
+      t.column :flickr_reference,     :numeric
+      t.column :facebook_group_id,    :numeric
       t.column :created_at,           :datetime
       t.column :updated_at,           :datetime
     end

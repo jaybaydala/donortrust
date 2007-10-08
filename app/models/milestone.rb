@@ -1,6 +1,13 @@
 require 'acts_as_paranoid_versioned'
 class Milestone < ActiveRecord::Base
-
+acts_as_simile_timeline_event(
+    :fields =>
+    {
+      :start       => :targetDate,
+      :title       => :name,
+      :description => :description
+    }
+  )
   
   has_many :tasks, :dependent => :destroy
   belongs_to :project 
@@ -30,6 +37,10 @@ class Milestone < ActiveRecord::Base
     end
   end
 
+def targetDate
+  "#{self.target_date}"
+  end
+ 
   def tasks_count
     return tasks.count
   end

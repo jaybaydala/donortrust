@@ -1,81 +1,61 @@
-test1:
-  id: 1
-  name: Health
-  description: Projects to support Health
-test2:
-  id: 2
+--- 
+sectors_002: 
   name: Education
+  deleted_at: 
+  id: "2"
   description: Projects to support Education
-test3:
-  id: 3
+  parent_id: 
+sectors_003: 
   name: Agriculture
+  deleted_at: 
+  id: "3"
   description: Projects to support Agriculture
-test4:
-  id: 4
-  name: Hunger
-  description: description 
-test5:
-  id: 5
+  parent_id: 
+sectors_004: 
+  name: Economy
+  deleted_at: 
+  id: "4"
+  description: 
+  parent_id: 
+sectors_005: 
   name: Water & Sanitation
-  description: description 
-test6:
-  id: 6
-  name: Gender Specific
-  description: description
-test7:
-  id: 7
-  name: Economic
-  description: description
-test8:
-  id: 8
-  name: Environmental Sustainability
-  description: description
-test9:
-  id: 9
-  name: Community
-  description: description
-test10:
-  id: 10
+  deleted_at: 
+  id: "5"
+  description: 
+  parent_id: "1"
+sectors_006: 
+  name: Gender
+  deleted_at: 
+  id: "6"
+  description: 
+  parent_id: 
+sectors_007: 
+  name: Infrastructure
+  deleted_at: 
+  id: "8"
+  description: 
+  parent_id: "3"
+sectors_008: 
+  name: Community Development
+  deleted_at: 
+  id: "9"
+  description: 
+  parent_id: 
+sectors_010: 
+  name: Malaria
+  deleted_at: 
+  id: "11"
+  description: 
+  parent_id: "1"
+sectors_009: 
   name: HIV
-  description: description
-  parent_id: 1
-test11:
-  id: 11
-  name: Books
-  description: description
-  parent_id: 2
-test12:
-  id: 12
-  name: test3
-  description: description
-  parent_id: 3
-test13:
-  id: 13
-  name: test4
-  description: description
-  parent_id: 4
-test14:
-  id: 14
-  name: test5
-  description: description
-  parent_id: 5
-test15:
-  id: 15
-  name: test6
-  description: description
-  parent_id: 6
-test16:
-  id: 16
-  name: test7
-  description: description
-  parent_id: 7
-test17:
-  id: 17
-  name: test8
-  description:
-  parent_id: 8
-test18:
-  id: 18
-  name: test9
-  description: description
-  parent_id: 9
+  deleted_at: 
+  id: "10"
+  description: 
+  parent_id: "1"
+sectors_001: 
+  name: Health
+  deleted_at: 
+  id: "1"
+  description: Projects to support Health
+  parent_id: 
