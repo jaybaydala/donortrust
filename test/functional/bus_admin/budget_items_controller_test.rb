@@ -14,6 +14,8 @@ class BusAdmin::BudgetItemsControllerTest < Test::Unit::TestCase
     @budget_item = budget_items(:budget_item_one)
   end
 
+  # Generates all the necessary tests in the similar way "active_scaffold :budget_items do |config| ..." 
+  # generates the necessary controller's and view's codes: 
   should_be_restful do |resource|
     resource.klass = BudgetItem
     resource.formats = [:html]
