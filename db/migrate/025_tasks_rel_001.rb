@@ -5,9 +5,10 @@ class TasksRel001 < ActiveRecord::Migration
       t.column :milestone_id, :int, :null => false
       t.column :name, :string, :null => false, :limit =>50
       t.column :description, :text
-      t.column :start_date, :date
-      t.column :end_date, :date
-      t.column :etc_date, :date
+       t.column :target_start_date, :date
+      t.column :target_end_date, :date
+      t.column :actual_start_date, :date
+      t.column :actual_end_date, :date
       t.column :deleted_at, :datetime
       t.column :version, :integer
     end

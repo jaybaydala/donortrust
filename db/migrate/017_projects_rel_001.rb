@@ -10,8 +10,10 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :expected_completion_date, :date
       t.column :blog_url, :string
       t.column :rss_url, :text
-      t.column :start_date, :date
-      t.column :end_date, :date
+      t.column :actual_start_date, :date
+      t.column :actual_end_date, :date
+      t.column :target_start_date, :date
+      t.column :target_end_date, :date
       t.column :project_status_id, :integer
       t.column :contact_id, :integer
       t.column :place_id, :integer

@@ -81,7 +81,7 @@ acts_as_simile_timeline_event(
   
   def days_remaining
     result = nil
-    result = end_date - Date.today if end_date != nil
+    result = target_end_date - Date.today if target_end_date != nil
     result = 0 if result != nil && result < 0
     return result
   end
@@ -145,7 +145,7 @@ acts_as_simile_timeline_event(
   
   
   def self.projects_nearing_end(days_until_end)
-    @projects = Project.find(:all, :conditions => ["(end_date BETWEEN ? AND ?)", Time.now, days_until_end.days.from_now])
+    @projects = Project.find(:all, :conditions => ["(target_end_date BETWEEN ? AND ?)", Time.now, days_until_end.days.from_now])
   end
   
   def get_all_you_tube_videos

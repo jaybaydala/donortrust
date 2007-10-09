@@ -3,8 +3,8 @@ class BusAdmin::ProjectsController < ApplicationController
   
   active_scaffold :project do |config|
   
-    config.columns = [ :name, :description, :program, :project_status, :expected_completion_date, :start_date, :end_date,
-                          :dollars_spent, :total_cost, :partner, :contact, :place,
+    config.columns = [ :name, :description, :program, :project_status, :expected_completion_date, :target_start_date, :target_end_date,
+                           :actual_start_date, :actual_end_date, :dollars_spent, :total_cost, :partner, :contact, :place,
                           :milestone_count, :milestones, :sectors, :public, :note, :featured, :blog_url, :rss_feed,
                           :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects ]      
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones,
@@ -16,8 +16,10 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :name ].label = "Project"
     config.columns[ :project_status ].label = "Status"
     config.columns[ :milestone_count ].label = "Milestones"
-    config.columns[ :start_date ].label = "Start"
-    config.columns[ :end_date ].label = "End"
+    config.columns[ :target_start_date ].label = "Target Start"
+    config.columns[ :target_end_date ].label = "Target End"
+    config.columns[ :actual_start_date ].label = "Actual Start"
+    config.columns[ :actual_end_date ].label = "Actual End"
     config.columns[ :dollars_spent ].label = "Spent"
     config.columns[ :featured ].label = "Is Featured?"    
     config.columns[ :project_in_community ].label = "How project fits into community development"

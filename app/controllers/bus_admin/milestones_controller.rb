@@ -2,7 +2,8 @@ class BusAdmin::MilestonesController < ApplicationController
   before_filter :login_required, :check_authorization
 
   active_scaffold :milestones do |config|
-    config.columns =[ :project, :name, :target_date, :description, :milestone_status,
+    config.columns =[ :project, :name, :target_start_date, :target_end_date,
+                           :actual_start_date, :actual_end_date, :description, :milestone_status,
       :tasks_count, :tasks ]#:parent_program,
     list.columns.exclude [ :description, :tasks, :tasks_count, :version_count ]
     #show.columns.exclude [ ]
