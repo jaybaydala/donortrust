@@ -1,4 +1,7 @@
 --- 
+bus_security_levels_044: 
+  id: "45"
+  controller: bus_admin/quick_fact_partners
 bus_security_levels_033: 
   id: "33"
   controller: bus_admin/frequency_types
@@ -8,6 +11,9 @@ bus_security_levels_022:
 bus_security_levels_011: 
   id: "11"
   controller: bus_admin/milestone_statuses
+bus_security_levels_045: 
+  id: "46"
+  controller: bus_admin/quick_fact_sectors
 bus_security_levels_034: 
   id: "34"
   controller: bus_admin/indicator_measurements
@@ -20,6 +26,9 @@ bus_security_levels_012:
 bus_security_levels_001: 
   id: "1"
   controller: bus_admin/continents
+bus_security_levels_046: 
+  id: "47"
+  controller: bus_admin/place_sectors
 bus_security_levels_035: 
   id: "35"
   controller: bus_admin/region_types
@@ -32,6 +41,9 @@ bus_security_levels_013:
 bus_security_levels_002: 
   id: "2"
   controller: bus_admin/countries
+bus_security_levels_047: 
+  id: "48"
+  controller: bus_admin/group_types
 bus_security_levels_036: 
   id: "36"
   controller: bus_admin/urban_centres
@@ -44,6 +56,9 @@ bus_security_levels_014:
 bus_security_levels_003: 
   id: "3"
   controller: bus_admin/bus_account
+bus_security_levels_048: 
+  id: "49"
+  controller: bus_admin/rank_types
 bus_security_levels_037: 
   id: "37"
   controller: bus_admin/targets
@@ -56,6 +71,9 @@ bus_security_levels_015:
 bus_security_levels_004: 
   id: "4"
   controller: bus_admin/bus_secure_actions
+bus_security_levels_049: 
+  id: "51"
+  controller: bus_admin/tasks
 bus_security_levels_038: 
   id: "38"
   controller: bus_admin/groups
@@ -83,6 +101,9 @@ bus_security_levels_017:
 bus_security_levels_006: 
   id: "6"
   controller: bus_admin/bus_user_types
+bus_security_levels_041: 
+  id: "42"
+  controller: bus_admin/places
 bus_security_levels_030: 
   id: "30"
   controller: bus_admin/frequency_types
@@ -95,6 +116,9 @@ bus_security_levels_018:
 bus_security_levels_007: 
   id: "7"
   controller: bus_admin/indicators
+bus_security_levels_042: 
+  id: "43"
+  controller: bus_admin/quick_fact_places
 bus_security_levels_031: 
   id: "31"
   controller: bus_admin/regions
@@ -107,6 +131,9 @@ bus_security_levels_019:
 bus_security_levels_008: 
   id: "8"
   controller: bus_admin/contacts
+bus_security_levels_043: 
+  id: "44"
+  controller: bus_admin/quick_facts
 bus_security_levels_032: 
   id: "32"
   controller: bus_admin/groups
