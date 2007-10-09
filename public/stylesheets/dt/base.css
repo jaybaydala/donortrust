@@ -1735,7 +1735,7 @@ form #groupInfo input[type=radio] {border:none; width:20px;font-size: 14px; marg
 
 #createGroup, .buttonGroupWrapN {
 	padding: 0px 0px 1px 0px;
-	margin: 0 0 0px 0px;
+	margin: 0 0 8px 0px;
 	background: ;
 	height: 24px;
 	width: 228px;
@@ -1763,12 +1763,12 @@ form #groupInfo input[type=radio] {border:none; width:20px;font-size: 14px; marg
 	color: #033;
 	font-weight:normal;
 	background:;
-	padding: 0px 0px 0px 7px;
+	padding: 0px 0px 8px 7px;
 	margin: 0px 0px 5px 18px;
 	border-bottom: 2px solid #360;
 	float:left;
 }
-
+#h1_header .buttonGroupWrapN {margin:2px 0 0 0;}
 
 
 
