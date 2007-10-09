@@ -3,7 +3,7 @@ one:
   id: 1
   user_id: 1
   group_id: 1
-  membership_type: 1
+  membership_type: 3
 two:
   id: 2
   user_id: 2
@@ -20,7 +20,7 @@ four:
   group_id: 2
   membership_type: 3
 five:
-    id: 5
-    user_id: 2
-    group_id: 2
-    membership_type: 2
+  id: 5
+  user_id: 2
+  group_id: 2
+  membership_type: 2
