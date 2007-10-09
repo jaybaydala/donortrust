@@ -31,37 +31,37 @@ context "Membership types" do
     @m = Membership.new
   end
   
-  specify "should know when it is an owner" do
-    @m.membership_type = 3
-    @m.owner?.should.be true
+  specify "should know when it is a founder" do
+    @m.membership_type = Membership.founder
+    @m.founder?.should.be true
   end
 
   specify "should know when it is not an owner" do
-    @m.membership_type = 1
+    @m.membership_type = Membership.member
     @m.owner?.should.be false
-    @m.membership_type = 2
+    @m.membership_type = Membership.admin
     @m.owner?.should.be false
   end
 
   specify "should know when it is an admin" do
-    @m.membership_type = 2
+    @m.membership_type = Membership.admin
     @m.admin?.should.be true
 
-    @m.membership_type = 3
+    @m.membership_type = Membership.founder
     @m.admin?.should.be true
   end
 
   specify "should know when it is not an admin" do
-    @m.membership_type = 1
+    @m.membership_type = Membership.member
     @m.admin?.should.be false
   end
 
   specify "should know when it is a member" do
-    @m.membership_type = 1
+    @m.membership_type = Membership.member
     @m.member?.should.be true
-    @m.membership_type = 2
+    @m.membership_type = Membership.admin
     @m.member?.should.be true
-    @m.membership_type = 3
+    @m.membership_type = Membership.founder
     @m.member?.should.be true
   end
 

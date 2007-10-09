@@ -27,6 +27,11 @@ context "Groups" do
     @group.should.validate
   end
   
+  specify "founder should return a User" do
+    @group = Group.find(1)
+    pp @group.user.class
+  end
+  
   protected
   def test_group(options={})
     Group.new({ :name => 'Test', :group_type_id => 1, :private => 0 }.merge(options))

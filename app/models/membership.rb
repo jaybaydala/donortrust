@@ -7,35 +7,24 @@ class Membership < ActiveRecord::Base
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
-    unless me.user( true )
-      me.errors.add :user_id, 'does not exist'
-    end
-    unless me.group( true )
-      me.errors.add :group_id, 'does not exist'
-    end
-  end
-  
-  def owner?
-    if membership_type == 3
-      true 
-    else
-      false
-    end
+    me.errors.add :user_id, 'does not exist' unless me.user( true )
+    me.errors.add :group_id, 'does not exist' unless me.group( true )
   end
 
-  def admin?
-    if membership_type >= 2
-      true 
-    else
-      false
-    end
-  end
+  def founder?; membership_type == Membership.founder ? true : false; end
+  def owner?;   founder?; end
+  def admin?;   membership_type >= Membership.admin ? true : false; end
+  def member?;  membership_type >= Membership.member ? true : false; end
 
-  def member?
-    if membership_type >= 1
-      true 
-    else
-      false
+  class << self
+    def founder; 3; end
+    def owner; founder; end
+    def admin; 2; end
+    def member; 1; end
+    
+    def find_group_founder(group_id)
+      member = find_by_membership_type(Membership.founder, :conditions => {:group_id => group_id})
+      founder = member.user unless member.user.nil?
     end
   end
 end

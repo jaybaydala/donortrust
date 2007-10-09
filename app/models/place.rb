@@ -8,6 +8,7 @@ class Place < ActiveRecord::Base
   has_many :quick_fact_places
   has_many :projects
   has_many :place_sectors
+  has_many :groups
   
   def Place.getParentString(place)
     parentString = ""
