@@ -38,8 +38,8 @@ class BusAdmin::ProjectsController < ApplicationController
     
     #config.action_links.add 'report', :label => 'Report'
     
-    config.action_links.add 'index', :label => '<img src="/images/icons/you_tube.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_you_tube_videos"}
-    config.action_links.add 'index', :label => '<img src="/images/icons/flickr.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_flickr_images"}
+    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/you_tube.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_you_tube_videos"}
+    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/flickr.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_flickr_images"}
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'projects', :action => 'report'},:page => true
     config.action_links.add 'list', :label => 'Timeline', :parameters =>{:controller=>'projects', :action => 'showProjectTimeline'},:page => true, :type=> :record
     

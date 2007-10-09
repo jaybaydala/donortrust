@@ -26,7 +26,7 @@ function paneselect(pane) {
 }
 
 function loadPane(pane, src) {
-  if (pane.innerHTML=='' || pane.innerHTML=='<img alt="Wait" src="/images/spinner.gif" style="vertical-align:-3px" /> Loading...') {
+  if (pane.innerHTML=='' || pane.innerHTML=='<img alt="Wait" src="/images/bus_admin/spinner.gif" style="vertical-align:-3px" /> Loading...') {
     reloadPane(pane, src);
   }
 }

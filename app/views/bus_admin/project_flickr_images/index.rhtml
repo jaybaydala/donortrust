@@ -1,6 +1,6 @@
 <%= show_spinner %>
 <div id="trash_bin" class="trash_bin">
-    <%= image_tag("/images/icons/delete_icon.gif")%> Drag any Photos you wish to remove from the a project into the trash bin.
+    <%= image_tag("/images/bus_admin/icons/delete_icon.gif")%> Drag any Photos you wish to remove from the a project into the trash bin.
 </div>
 <%= drop_receiving_element "trash_bin", :update => "cart", :accept => :project_flickr_photo, :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
     

@@ -15,7 +15,7 @@ module CalendarDateSelect
         out = text_field_tag(name, value, options)
         out << " "
         
-        out << image_tag("calendar.gif", 
+        out << image_tag("/bus_admin/calendar.gif", 
             :onclick => "new CalendarDateSelect('#{options[:id]}', #{options_for_javascript(calendar_options)} );",
             :id => "_#{name}_link", 
             :style => 'border:0px; cursor:pointer;')

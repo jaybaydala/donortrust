@@ -14,7 +14,7 @@ module BusAdmin::ProjectsHelper
   
   def note_column(record)
      if record.note?
-      link_to_remote_redbox image_tag('note2.png'), :url => {:controller => 'bus_admin/projects', :action => 'show_project_note', :id => record.id}
+      link_to_remote_redbox image_tag('/images/bus_admin/note2.png'), :url => {:controller => 'bus_admin/projects', :action => 'show_project_note', :id => record.id}
      end  
    end
 end

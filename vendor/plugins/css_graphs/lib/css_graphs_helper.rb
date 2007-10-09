@@ -33,7 +33,7 @@ module CssGraphsHelper
         bottom: 34px;
         padding: 0 !important;
         margin: 0 !important;
-        background-image: url('/images/css_graphs/colorbar.jpg') no-repeat !important;
+        background-image: url('/images/bus_admin/css_graphs/colorbar.jpg') no-repeat !important;
         text-align: center;
         font-weight: bold;
         color: white;
@@ -158,7 +158,7 @@ module CssGraphsHelper
         bottom: 34px;
         padding: 0 !important;
         margin: 0 !important;
-        background-image: url('/images/css_graphs/colorbar.jpg') no-repeat !important;
+        background-image: url('/images/bus_admin/css_graphs/colorbar.jpg') no-repeat !important;
         text-align: center;
         font-weight: bold;
         color: #cccccc;
@@ -318,13 +318,13 @@ module CssGraphsHelper
       	width: 197px; 
       	height: 20px; 
       	margin: 0 0 15px; 
-      	background: url("/images/css_graphs/g_colorbar.jpg"); 
+      	background: url("/images/bus_admin/css_graphs/g_colorbar.jpg"); 
       }
       * html div#complex_bar_graph dd { float: none; } /* IE is dumb; Quick IE hack, apply favorite filter methods for wider browser compatibility */
   
       div#complex_bar_graph dd div { 
       	position: relative; 
-      	background: url("/images/css_graphs/g_colorbar2.jpg"); 
+      	background: url("/images/bus_admin/css_graphs/g_colorbar2.jpg"); 
       	height: 20px; 
       	width: 75%; 
       	text-align:right; 
@@ -334,7 +334,7 @@ module CssGraphsHelper
       	right: -5px; 
       	top: -2px; 
       	display: block; 
-      	background: url("/images/css_graphs/g_marker.gif"); 
+      	background: url("/images/bus_admin/css_graphs/g_marker.gif"); 
       	height: 24px; 
       	width: 9px; 
       	text-align: left;

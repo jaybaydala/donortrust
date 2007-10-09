@@ -1,6 +1,6 @@
 --- 
 quick_fact_types_001: 
-  name: Location
+  name: Village
   id: "1"
   description: where it is
 quick_fact_types_002: 
@@ -11,3 +11,7 @@ quick_fact_types_003:
   name: Cause
   id: "3"
   description: none
+quick_fact_types_001: 
+  name: Country
+  id: "4"
+  description: where it is
