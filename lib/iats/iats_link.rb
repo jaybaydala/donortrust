@@ -99,6 +99,7 @@ class IatsLink
         # set up the HTTP POST object
         require 'net/http'
         require 'net/https'
+        RAILS_DEFAULT_LOGGER.debug "[#{Time.now}] IATS Webserver Address: #{url.inspect}"
         req = Net::HTTP::Post.new(url.path, {'User-Agent' => user_agent})
         req.set_form_data(post_params)
         res = Net::HTTP.new(url.host, url.port, @proxy_host, @proxy_port, @proxy_username, @proxy_password)
@@ -115,7 +116,7 @@ class IatsLink
           @error = "AUTH ERROR!"
           @authorization_result = "REJECT: 1"
           
-          # this is basically what they did in the ph pand java versions. I think it's a lot of work
+          # this is basically what they did in the php and java versions. I think it's a lot of work
           #iats_return = resp.body[resp.body.index(/AUTHORIZATION RESULT:/i), resp.body.length]
           #iats_return = iats_return[iats_return.index(":")+2, iats_return.index("<")-iats_return.index(":")-3]
           

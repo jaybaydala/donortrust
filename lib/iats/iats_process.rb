@@ -18,15 +18,15 @@ module IatsProcess
 	  }
 	  require 'iats/iats_link'
 	  iats = IatsLink.new(attributes)
-	  iats.test_mode = ENV["RAILS_ENV"] == 'test' || ENV["RAILS_ENV"] == 'development'
+	  iats.test_mode = ENV["RAILS_ENV"] == 'production' ? false : true
 	  iats.agent_code = '2CFK99'
 	  iats.password = 'K56487'
   
-	  if ENV["RAILS_ENV"] == 'test'
-	    iats.status = 1
-	    iats.authorization_result = "OK: 123456"
-	  else
+	  if iats.test_mode == false
 	    iats.process_credit_card
+	  else
+	    iats.status = 1
+	    iats.authorization_result = "OK:123456:N"
 	  end
 	  iats
 	end
