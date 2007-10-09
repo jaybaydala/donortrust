@@ -1,5 +1,5 @@
 class BusAdmin::PlaceSectorsController < ApplicationController
-  before_filter :login_required#, :check_authorization
+  before_filter :login_required, :check_authorization
   
   active_scaffold :place_sectors do |config|
       config.columns =[ :sector, :place]

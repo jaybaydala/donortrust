@@ -1,5 +1,5 @@
 class BusAdmin::GroupTypesController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :check_authorization
 
   active_scaffold :group_type do |config|
     config.columns =[ :name, :group_count ]

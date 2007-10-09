@@ -1,5 +1,5 @@
 class BusAdmin::PlacesController < ApplicationController
-  before_filter :login_required#, :check_authorization
+  before_filter :login_required, :check_authorization
   
   active_scaffold :places do |config|
     config.columns =[ :name, :place_type, :file,:blog_url, :rss_feed , :description ]

@@ -1,5 +1,5 @@
 class BusAdmin::QuickFactsController < ApplicationController
-  before_filter :login_required #, :check_authorization
+  before_filter :login_required , :check_authorization
   
   active_scaffold :quick_facts do |config|
     config.columns = [:name, :description, :quick_fact_type ]

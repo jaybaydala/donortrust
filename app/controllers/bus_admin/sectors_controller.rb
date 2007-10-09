@@ -1,5 +1,5 @@
 class BusAdmin::SectorsController < ApplicationController
-  before_filter :login_required#, :check_authorization
+  before_filter :login_required, :check_authorization
 
   active_scaffold :sectors do |config|
     config.columns =[ :name, :description, :project_count, :country_count, :place_sectors ]
