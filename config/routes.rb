@@ -13,9 +13,9 @@ ActionController::Routing::Routes.draw do |map|
         :member=> { :printable=>:get }
   end
   map.resource :session, :controller => 'dt/sessions', :name_prefix => 'dt_', :path_prefix => '/dt'
-  map.dt_signup '/signup', :controller => 'dt/accounts', :action => 'new'
-  map.dt_login  '/login',  :controller => 'dt/sessions', :action => 'new'
-  map.dt_logout '/logout', :controller => 'dt/sessions', :action => 'destroy'
+  map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
+  map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
+  map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', 
     :collection => { :confirm => :post, :open => :get, :preview => :get },
     :member => { :unwrap => :put, :printable=>:get }
@@ -214,8 +214,9 @@ ActionController::Routing::Routes.draw do |map|
   map.reset_password 'bus_admin/reset_password', :controller => 'bus_admin/bus_account', :action => 'reset_password'
   map.reset_password_now 'bus_admin/reset_password_now', :controller => 'bus_admin/bus_account', :action => 'reset_password_now'
   map.request_temporary_password 'bus_admin/request_temporary_password', :controller => 'bus_admin/bus_account', :action => 'request_temporary_password'
+
   map.connect ':controller/service.wsdl', :action => 'wsdl'
-  map.connect '', :controller => 'bus_admin/bus_account', :action => 'login'
+  map.connect '/bus_admin', :controller => 'bus_admin/home'
   # Install the default route as the lowest priority.
   #map.connect "*anything",
   #            :controller => 'dt/projects'
