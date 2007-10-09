@@ -30,5 +30,34 @@ class Task < ActiveRecord::Base
     end
   end
 
+  def validate_on_create
+    check_deleted
+  end
+  
+  def validate_on_update
+    check_deleted
+    #check_deleted( :condtions => [ "name = ?", name ])
+  end
+  
+# Perhaps this can be refactored.  Is there a good place to put a generic check_deleted method?
+#  def get_model
+#    return Task
+#  end
+
+  protected
+  def check_deleted
+    check_result = true
+    existing = Task.find_with_deleted( :all, :conditions => [ "name = ?", name ])
+    #existing = self.get_model.find_with_deleted( :all, :conditions => [ "name = ?", name ])
+    if existing.size > 0 then
+      # if existing.size > 1 then exception duplicates already exists
+      if not existing[ 0 ].deleted_at.nil? then
+        check_result = false 
+        self.errors.add :name, 'already exists but is inactive'
+      end
+    end
+    return check_result
+  end
+  
   attr_protected :milestone_id
 end

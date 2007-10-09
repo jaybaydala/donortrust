@@ -177,15 +177,39 @@ context "MilestoneStatuses" do
 
   specify "destroy existing record should validate (but not actually delete)" do
     old_instance_count = MilestoneStatus.count
-    existing_id = milestone_statuses( :canceled ).id
-    existing_name = milestone_statuses( :canceled ).name
-    instance = MilestoneStatus.find( existing_id )
+    old_instance_count_all = MilestoneStatus.count_with_deleted
+    old_instance_count.should.be > 0
+    old_instance_count.should.be >= old_instance_count
+    instance = MilestoneStatus.find( milestone_statuses( :canceled ).id )
+    existing_id = instance.id
+    existing_name = instance.name
     instance.destroy
     MilestoneStatus.count.should.equal( old_instance_count - 1 )
+    old_instance_count_all.should.equal( MilestoneStatus.count_with_deleted )
     still_here = MilestoneStatus.find_with_deleted( existing_id )
     still_here.name.should.equal existing_name
   end
 
-  #specify "create with name matching destroyed record should not validate" do
-  #end
+  specify "create with name matching destroyed record should not validate" do
+    instance = MilestoneStatus.find( milestone_statuses( :canceled ).id )
+    existing_name = instance.name
+    instance.destroy
+    old_instance_count = MilestoneStatus.count
+    instance = clean_new_instance( :name => existing_name )
+    instance.should.not.validate
+    instance.save.should.equal( false )
+    MilestoneStatus.count.should.equal( old_instance_count )
+  end
+
+  specify "update name to match destroyed record should not validate" do
+    instance = MilestoneStatus.find( milestone_statuses( :canceled ).id )
+    existing_name = instance.name
+    instance.destroy
+    old_instance_count = MilestoneStatus.count
+    instance = MilestoneStatus.find( milestone_statuses( :proposed ).id )
+    instance.name = existing_name
+    instance.should.not.validate
+    instance.save.should.equal( false )
+    MilestoneStatus.count.should.equal( old_instance_count )
+  end
 end
