@@ -1,5 +1,5 @@
 # The app is set to production by default - this is for capistrano purposes - CM
- ENV['RAILS_ENV'] ||= 'development'
+ENV['RAILS_ENV'] ||= 'development'
 
 RAILS_GEM_VERSION = '1.2.3' unless defined? RAILS_GEM_VERSION
 
@@ -23,7 +23,9 @@ Rails::Initializer.run do |config|
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')
-  # config.action_controller.session_store = :active_record_store
+  if ENV['RAILS_ENV'] != 'production'
+    config.action_controller.session_store = :active_record_store
+  end
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper, 
@@ -64,9 +66,11 @@ end
 
 # Include your application configuration below
 
-# using SQLSessionStore because it's really fast...
-ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.update(:database_manager => SqlSessionStore)
-SqlSessionStore.session_class = MysqlSession
+if ENV['RAILS_ENV'] == 'production'
+  # using SQLSessionStore because it's really fast...
+  ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.update(:database_manager => SqlSessionStore)
+  SqlSessionStore.session_class = MysqlSession
+end
 
 
 require 'dt_application'
