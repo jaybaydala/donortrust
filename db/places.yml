@@ -1,0 +1,198 @@
+--- 
+places_011: 
+  name: Kampala
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "11"
+  description: 
+  blog_url: 
+  place_type_id: "6"
+  parent_id: "6"
+  created_at: 
+  file: 
+places_012: 
+  name: Lukaya
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "12"
+  description: 
+  blog_url: 
+  place_type_id: "6"
+  parent_id: "6"
+  created_at: 
+  file: 
+places_001: 
+  name: Africa
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "1"
+  description: 
+  blog_url: 
+  place_type_id: "1"
+  parent_id: 
+  created_at: 
+  file: 
+places_013: 
+  name: Mityana
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "13"
+  description: 
+  blog_url: 
+  place_type_id: "6"
+  parent_id: "6"
+  created_at: 
+  file: 
+places_002: 
+  name: Uganda
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "2"
+  description: 
+  blog_url: 
+  place_type_id: "2"
+  parent_id: "1"
+  created_at: 
+  file: 
+ 
+places_014: 
+  name: Mpigi
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: "3362029547"
+  rss_url: 
+  you_tube_reference: 
+  id: "14"
+  description: 
+  blog_url: 
+  place_type_id: "6"
+  parent_id: "6"
+  created_at: 
+  file: 
+places_003: 
+  name: Western
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "3"
+  description: 
+  blog_url: 
+  place_type_id: "3"
+  parent_id: "2"
+  created_at: 
+  file: 
+places_004: 
+  name: Eastern
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "4"
+  description: 
+  blog_url: 
+  place_type_id: "3"
+  parent_id: "2"
+  created_at: 
+  file: 
+places_005: 
+  name: Northern
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "5"
+  description: 
+  blog_url: 
+  place_type_id: "3"
+  parent_id: "2"
+  created_at: 
+  file: 
+places_006: 
+  name: Central
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "6"
+  description: 
+  blog_url: 
+  place_type_id: "3"
+  parent_id: "2"
+  created_at: 
+  file: 
+places_007: 
+  name: Bombo
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "7"
+  description: 
+  blog_url: 
+  place_type_id: "6"
+  parent_id: "6"
+  created_at: 
+  file: 
+places_008: 
+  name: Bweyogerere
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "8"
+  description: 
+  blog_url: 
+  place_type_id: "6"
+  parent_id: "6"
+  created_at: 
+  file: 
+places_010: 
+  name: Kajansi
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "10"
+  description: 
+  blog_url: 
+  place_type_id: "6"
+  parent_id: "6"
+  created_at: 
+  file: 
+places_009: 
+  name: Jinja-Kawempe
+  updated_at: 
+  flickr_reference: 
+  facebook_group_id: 
+  rss_url: 
+  you_tube_reference: 
+  id: "9"
+  description: 
+  blog_url: 
+  place_type_id: "6"
+  parent_id: "6"
+  created_at: 
+  file: 

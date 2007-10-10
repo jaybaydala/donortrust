@@ -1,2 +1,63 @@
 
+  --- 
+milestones_002: 
+  target_end_date: "2008-01-31"
+  name: Collect Baseline Information
+  project_id: "6"
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-01-11"
+  id: "2"
+  version: "1"
+  description: Collect information from the village as a baseline for future measures. Will include things such as attendance, grades, etc.
+  milestone_status_id: "1"
+  actual_start_date: 
+milestones_003: 
+  target_end_date: "2008-03-14"
+  name: School Renovations
+  project_id: "6"
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-01-28"
+  id: "3"
+  version: "2"
+  description: Improve school room conditions,  upgrade books, etc
+  milestone_status_id: "1"
+  actual_start_date: 
+milestones_004: 
+  target_end_date: "2008-05-30"
+  name: Construct School Kitchens
+  project_id: "6"
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-03-03"
+  id: "4"
+  version: "1"
+  description: Start the constuction of kitchens for 28 schools
+  milestone_status_id: "1"
+  actual_start_date: 
+milestones_005: 
+  target_end_date: "2008-06-13"
+  name: Implement School Feeding program
+  project_id: "6"
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-04-07"
+  id: "5"
+  version: "1"
+  description: Teach Women to use kitchens, collect food.
+  milestone_status_id: "1"
+  actual_start_date: 
+milestones_001: 
+  target_end_date: "2007-10-25"
+  name: test
+  project_id: "1"
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2007-10-09"
+  id: "1"
+  version: "1"
+  description: test
+  milestone_status_id: "1"
+  actual_start_date: 
   

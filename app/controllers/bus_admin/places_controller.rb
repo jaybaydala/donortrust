@@ -8,6 +8,7 @@ class BusAdmin::PlacesController < ApplicationController
     config.columns[ :rss_feed ].form_ui = :select
     config.nested.add_link("Next", [:children]) 
     config.nested.add_link("Quick Fact", [:quick_fact_places]) 
+    config.nested.add_link("Sectors", [:place_sectors]) 
     config.columns[ :file ].label = "Image File"
     config.create.multipart = true
     config.update.multipart = true

@@ -1,0 +1,57 @@
+--- 
+budget_items_006: 
+  updated_at: 2007-10-09 22:30:56
+  project_id: "6"
+  cost: "0.00"
+  deleted_at: 
+  id: "6"
+  description: Communication
+  created_at: 2007-10-09 22:30:56
+budget_items_007: 
+  updated_at: 2007-10-09 22:31:34
+  project_id: "6"
+  cost: "8518.00"
+  deleted_at: 
+  id: "7"
+  description: Administrative Goods & Services
+  created_at: 2007-10-09 22:31:34
+budget_items_001: 
+  updated_at: 2007-10-09 22:26:41
+  project_id: "6"
+  cost: "2585.00"
+  deleted_at: 
+  id: "1"
+  description: Personnel
+  created_at: 2007-10-09 22:26:41
+budget_items_002: 
+  updated_at: 2007-10-09 22:28:07
+  project_id: "6"
+  cost: "142444.00"
+  deleted_at: 
+  id: "2"
+  description: Service Contracts and Surveys
+  created_at: 2007-10-09 22:28:07
+budget_items_003: 
+  updated_at: 2007-10-09 22:29:41
+  project_id: "6"
+  cost: "27228.00"
+  deleted_at: 
+  id: "3"
+  description: Grants, Scholarships, Training
+  created_at: 2007-10-09 22:28:46
+budget_items_004: 
+  updated_at: 2007-10-09 22:29:19
+  project_id: "6"
+  cost: "72874.00"
+  deleted_at: 
+  id: "4"
+  description: Materials
+  created_at: 2007-10-09 22:29:19
+budget_items_005: 
+  updated_at: 2007-10-09 22:30:38
+  project_id: "6"
+  cost: "95.00"
+  deleted_at: 
+  id: "5"
+  description: Travel & Transportation
+  created_at: 2007-10-09 22:30:38

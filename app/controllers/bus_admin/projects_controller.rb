@@ -3,16 +3,17 @@ class BusAdmin::ProjectsController < ApplicationController
   
   active_scaffold :project do |config|
   
-    config.columns = [ :name, :description, :program, :project_status, :expected_completion_date, :target_start_date, :target_end_date,
-                           :actual_start_date, :actual_end_date, :dollars_spent, :total_cost, :partner, :contact, :place,
+    config.columns = [ :name, :description, :program, :project_status,  :target_start_date, :target_end_date,
+                            :actual_start_date, :actual_end_date,:dollars_spent, :total_cost, :partner, :contact, :place,
                           :milestone_count, :milestones, :sectors, :public, :note, :featured, :blog_url, :rss_feed,
                           :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects ]      
-    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones,
-                          :sectors, :public, :milestone_count, :partner, :blog_url, :rss_feed, :intended_outcome, 
+    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones, :actual_start_date, :actual_end_date,
+                         :target_end_date,:dollars_spent, :sectors, :public, :milestone_count, :partner, :blog_url, :rss_feed, :intended_outcome, 
                           :meas_eval_plan, :project_in_community, :other_projects ]
     #show.columns.exclude [ ]
     update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_spent, :total_cost ]
     create.columns.exclude [ :milestones, :milestone_count  ]
+
     config.columns[ :name ].label = "Project"
     config.columns[ :project_status ].label = "Status"
     config.columns[ :milestone_count ].label = "Milestones"
@@ -21,7 +22,7 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :actual_start_date ].label = "Actual Start"
     config.columns[ :actual_end_date ].label = "Actual End"
     config.columns[ :dollars_spent ].label = "Spent"
-    config.columns[ :featured ].label = "Is Featured?"    
+    config.columns[ :featured ].label = "Featured?"    
     config.columns[ :project_in_community ].label = "How project fits into community development"
     config.columns[ :meas_eval_plan ].label = "Measurement and Evaluation Plan"
     config.columns[ :project_status ].form_ui = :select
@@ -32,11 +33,13 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :program ].form_ui = :select
     config.columns[ :rss_feed ].form_ui = :select
 #    config.columns[ :public ].form_ui = :select
-    
-    
+   
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
-    config.nested.add_link( "Rank", [:ranks])
+    
+config.nested.add_link( "Rank", [:ranks])
+config.nested.add_link( "Budget", [:budget_items])
+config.nested.add_link( "Indicators", [:indicator_measurements])
     
     #config.action_links.add 'report', :label => 'Report'
     

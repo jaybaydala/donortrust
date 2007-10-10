@@ -1,4 +1,8 @@
 --- 
+bus_secure_actions_245: 
+  bus_security_level_id: "53"
+  permitted_actions: show
+  id: "267"
 bus_secure_actions_057: 
   bus_security_level_id: "12"
   permitted_actions: list
@@ -23,6 +27,10 @@ bus_secure_actions_219:
   bus_security_level_id: "47"
   permitted_actions: list
   id: "241"
+bus_secure_actions_246: 
+  bus_security_level_id: "53"
+  permitted_actions: create
+  id: "268"
 bus_secure_actions_058: 
   bus_security_level_id: "12"
   permitted_actions: edit
@@ -43,6 +51,10 @@ bus_secure_actions_192:
   bus_security_level_id: "23"
   permitted_actions: record_management
   id: "214"
+bus_secure_actions_247: 
+  bus_security_level_id: "54"
+  permitted_actions: edit
+  id: "269"
 bus_secure_actions_059: 
   bus_security_level_id: "13"
   permitted_actions: list
@@ -55,6 +67,10 @@ bus_secure_actions_166:
   bus_security_level_id: "36"
   permitted_actions: show
   id: "186"
+bus_secure_actions_248: 
+  bus_security_level_id: "54"
+  permitted_actions: create
+  id: "270"
 bus_secure_actions_086: 
   bus_security_level_id: "18"
   permitted_actions: create
@@ -67,6 +83,10 @@ bus_secure_actions_193:
   bus_security_level_id: "8"
   permitted_actions: populate_contact_places
   id: "215"
+bus_secure_actions_249: 
+  bus_security_level_id: "54"
+  permitted_actions: list
+  id: "271"
 bus_secure_actions_087: 
   bus_security_level_id: "18"
   permitted_actions: list
@@ -347,6 +367,10 @@ bus_secure_actions_048:
   bus_security_level_id: "10"
   permitted_actions: create
   id: "61"
+bus_secure_actions_237: 
+  bus_security_level_id: "52"
+  permitted_actions: edit
+  id: "259"
 bus_secure_actions_075: 
   bus_security_level_id: "16"
   permitted_actions: create
@@ -363,6 +387,10 @@ bus_secure_actions_049:
   bus_security_level_id: "11"
   permitted_actions: list
   id: "62"
+bus_secure_actions_238: 
+  bus_security_level_id: "52"
+  permitted_actions: show
+  id: "260"
 bus_secure_actions_157: 
   bus_security_level_id: "33"
   permitted_actions: show
@@ -375,6 +403,10 @@ bus_secure_actions_076:
   bus_security_level_id: "16"
   permitted_actions: delete
   id: "89"
+bus_secure_actions_239: 
+  bus_security_level_id: "52"
+  permitted_actions: delete
+  id: "261"
 bus_secure_actions_158: 
   bus_security_level_id: "34"
   permitted_actions: list
@@ -543,6 +575,10 @@ bus_secure_actions_142:
   bus_security_level_id: "21"
   permitted_actions: delete
   id: "157"
+bus_secure_actions_250: 
+  bus_security_level_id: "54"
+  permitted_actions: show
+  id: "272"
 bus_secure_actions_224: 
   bus_security_level_id: "48"
   permitted_actions: delete
@@ -567,6 +603,10 @@ bus_secure_actions_170:
   bus_security_level_id: "37"
   permitted_actions: show
   id: "190"
+bus_secure_actions_251: 
+  bus_security_level_id: "54"
+  permitted_actions: delete
+  id: "273"
 bus_secure_actions_225: 
   bus_security_level_id: "48"
   permitted_actions: edit
@@ -823,6 +863,10 @@ bus_secure_actions_132:
   bus_security_level_id: "27"
   permitted_actions: show
   id: "147"
+bus_secure_actions_240: 
+  bus_security_level_id: "52"
+  permitted_actions: create
+  id: "262"
 bus_secure_actions_214: 
   bus_security_level_id: "45"
   permitted_actions: show
@@ -843,6 +887,10 @@ bus_secure_actions_133:
   bus_security_level_id: "27"
   permitted_actions: edit
   id: "148"
+bus_secure_actions_241: 
+  bus_security_level_id: "52"
+  permitted_actions: list
+  id: "263"
 bus_secure_actions_215: 
   bus_security_level_id: "45"
   permitted_actions: list
@@ -871,6 +919,10 @@ bus_secure_actions_160:
   bus_security_level_id: "34"
   permitted_actions: create
   id: "180"
+bus_secure_actions_242: 
+  bus_security_level_id: "53"
+  permitted_actions: list
+  id: "264"
 bus_secure_actions_216: 
   bus_security_level_id: "45"
   permitted_actions: delete
@@ -899,6 +951,10 @@ bus_secure_actions_161:
   bus_security_level_id: "34"
   permitted_actions: show
   id: "181"
+bus_secure_actions_243: 
+  bus_security_level_id: "53"
+  permitted_actions: delete
+  id: "265"
 bus_secure_actions_029: 
   bus_security_level_id: "7"
   permitted_actions: edit
@@ -923,6 +979,10 @@ bus_secure_actions_217:
   bus_security_level_id: "47"
   permitted_actions: create
   id: "239"
+bus_secure_actions_244: 
+  bus_security_level_id: "53"
+  permitted_actions: edit
+  id: "266"
 bus_secure_actions_056: 
   bus_security_level_id: "12"
   permitted_actions: create

@@ -4,7 +4,7 @@ class BusAdmin::TasksController < ApplicationController
   active_scaffold :tasks do |config|
     config.columns =[ :milestone, :name, :target_start_date, :target_end_date,
                            :actual_start_date, :actual_end_date, :description ]
-    list.columns.exclude [ :description ]
+    list.columns.exclude [ :description, :actual_start_date, :actual_end_date]
     #show.columns.exclude [ ]
     update.columns.exclude [ :milestone, :version_count ]
     create.columns.exclude [ :version_count ]

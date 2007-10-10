@@ -1,14 +1,31 @@
-test1:
-  id: 1
-  project_id: 1
-  indicator_id: 1
-  frequency_type_id:  1
-  units:  people
-  
-test2:
-  id: 2
-  project_id:  1
-  indicator_id: 2
-  frequency_type_id: 2
+--- 
+indicator_measurements_005: 
+  project_id: "6"
+  units: students
+  indicator_id: "8"
+  id: "5"
+  frequency_type_id: "3"
+indicator_measurements_001: 
+  project_id: "1"
+  units: people
+  indicator_id: "1"
+  id: "1"
+  frequency_type_id: "1"
+indicator_measurements_002: 
+  project_id: "1"
   units: lives
-  
+  indicator_id: "2"
+  id: "2"
+  frequency_type_id: "2"
+indicator_measurements_003: 
+  project_id: "6"
+  units: women to every 10 men
+  indicator_id: "12"
+  id: "3"
+  frequency_type_id: "3"
+indicator_measurements_004: 
+  project_id: "6"
+  units: people
+  indicator_id: "42"
+  id: "4"
+  frequency_type_id: "3"

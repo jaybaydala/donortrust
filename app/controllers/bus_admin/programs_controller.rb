@@ -2,8 +2,8 @@ class BusAdmin::ProgramsController < ApplicationController
   before_filter :login_required, :check_authorization 
   
   active_scaffold :programs do |config|
-    config.columns = [ :name, :contact, :projects_count, :projects, :blog_url, :rss_feed, :note ]
-    list.columns.exclude [ :projects, :blog_url, :rss_feed ]
+    config.columns = [ :name, :contact, :projects_count, :projects, :note ]
+    list.columns.exclude [ :projects ]
     #show.columns.exclude [ ]
     update.columns.exclude [ :projects, :projects_count ]
     create.columns.exclude [ :projects, :projects_count ]

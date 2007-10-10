@@ -71,6 +71,9 @@ bus_security_levels_015:
 bus_security_levels_004: 
   id: "4"
   controller: bus_admin/bus_secure_actions
+bus_security_levels_050: 
+  id: "52"
+  controller: bus_admin/ranks
 bus_security_levels_049: 
   id: "51"
   controller: bus_admin/tasks
@@ -86,6 +89,9 @@ bus_security_levels_016:
 bus_security_levels_005: 
   id: "5"
   controller: bus_admin/bus_security_levels
+bus_security_levels_051: 
+  id: "53"
+  controller: bus_admin/budget_items
 bus_security_levels_040: 
   id: "41"
   controller: bus_admin/rss_feed_elements
@@ -101,6 +107,9 @@ bus_security_levels_017:
 bus_security_levels_006: 
   id: "6"
   controller: bus_admin/bus_user_types
+bus_security_levels_052: 
+  id: "54"
+  controller: bus_admin/measurements
 bus_security_levels_041: 
   id: "42"
   controller: bus_admin/places
