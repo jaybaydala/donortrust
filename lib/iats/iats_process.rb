@@ -19,6 +19,7 @@ module IatsProcess
 	  require 'iats/iats_link'
 	  iats = IatsLink.new(attributes)
 	  iats.test_mode = ENV["RAILS_ENV"] == 'production' ? false : true
+	  iats.test_mode = true
 	  iats.agent_code = '2CFK99'
 	  iats.password = 'K56487'
   
