@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   session :session_key => '_donortrust_session_id'
    #before_filter :login_from_cookie
   def login_required
-    unless session[:user]
+    unless session[:user_id]
     flash[:notice] = "Please log in" 
     session[:jumpto] = request.parameters
     redirect_to(:controller => "/bus_admin/bus_account", :action => "login")
@@ -18,28 +18,44 @@ class ApplicationController < ActionController::Base
   
   def check_authorization
     if logged_in?
-    user = BusUser.find(session[:user])
-    user_type = user.bus_user_type
-    requested_action = action_name
-    requested_controller = self.class.controller_path
-    requested_controller_id = self;
-    unless user_type.bus_secure_actions.detect{|bus_secure_action|
-        puts "Permitted action: " + bus_secure_action.permitted_actions.to_s + " Desired Action: " + requested_action.to_s + " With controller: " + requested_controller
-        if direct_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s ) ||
-           indirect_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s, requested_controller_id )
-            return true
+      user = BusUser.find(session[:user_id])
+      user_type = user.bus_user_type
+      requested_action = action_name
+      requested_controller = self.class.controller_path
+      requested_controller_id = self;
+      unless user_type.bus_secure_actions.detect{|bus_secure_action|
+         permitted_actions = BusSecureAction.find :all, :conditions => {"bus_security_level_id","#{requested_controller_id}"}
+         for permitted_action in permitted_actions
+            if user_type.bus_secure_action_id == permitted_action.id || indirect_approve()
+              return true
+            end
+         end
+        
+#          puts "Permitted action: " + bus_secure_action.permitted_actions.to_s + " Desired Action: " + requested_action.to_s + " With controller: " + requested_controller
+#          if direct_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s ) ||
+#             indirect_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s, requested_controller_id )
+#              return true
+#          end
+        } 
+        
+        flash[:notice] = "You are not authorized to view the requested page." 
+
+    
+        if request.parameters.has_value?('_list_inline_adapter') || request.parameters.has_value?('_method=delete')
+          render :text => "You do not have access"
+        else
+          redirect_to ('/bus_admin/home')
         end
-      }
-      redirect_to('/bus_admin/home')
-      flash[:notice] = "You are not authorized to view the page you requested" 
-     
+        return false
+      end
+    else
       return false
-    end
     end
   end
   
   def direct_approve (requested_action, permitted_action, requested_controller, permitted_controller)
-    return (requested_action == permitted_action) && (requested_controller == permitted_controller)
+   
+    return (request.parameters.has_value?(permitted_action)) && (requested_controller == permitted_controller)
   end
   
   def indirect_approve (requested_action, permitted_action, requested_controller, permitted_controller, requested_controller_id)
@@ -118,6 +134,6 @@ protected
   def set_user
     BusAdmin::UserInfo.current_user = session[:user]
   end
-end
 
- 
+
+end
