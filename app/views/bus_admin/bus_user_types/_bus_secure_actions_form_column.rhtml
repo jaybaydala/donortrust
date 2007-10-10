@@ -7,8 +7,9 @@
 
 Controllers:
 </td>
-<td>
-    <% for bus_security_level in BusSecurityLevel.find :all %>
+<td><% bus_security_levels = BusSecurityLevel.find :all 
+	   %>
+    <% for bus_security_level in bus_security_levels.sort_by { |bus_security_level| bus_security_level[:controller] } %>
 		<% controller = BusSecurityLevel.find(bus_security_level.id) %>
     	<div id="bus_security_level_id<%= controller.id %>"  name="bus_security_level_id">
     		<b><%= bus_security_level.controller  %></b>
@@ -36,7 +37,7 @@ Controllers:
 		<div id="bus_secure_action">
     	<% @actions=  BusSecureAction.find :all, :conditions => ["bus_security_level_id = ?", controller.id] %>
   
-    	<div id="<%= bus_security_level.to_s %>" style="overflow:auto;width:75px;border:1px solid #336699;display:none;">
+    	<div id="<%= bus_security_level.to_s %>" style="overflow:auto;border:1px solid #336699;display:none;">
     	<ul style='padding-left:0; margin-left:0;list-style:none;'>
     	<% for action in @actions %>
       		<li ><input type='checkbox' id='record_bus_security_level' name='record[bus_secure_actions][<%= (action.id - 1).to_s %>][id]' value='<%=  action.id.to_s %>'  <%= checked(controller, action, params[:id])%>> <%= action.permitted_actions %></input></li>
