@@ -7,4 +7,4 @@ gift_mailer:
 session_cleaner:
   :class: :session_cleaner_worker
   :worker_method: :do_work
-  :trigger_args: */10 * * * *
+  :trigger_args: * */10 * * *
