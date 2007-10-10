@@ -20,7 +20,7 @@ class BusUser < ActiveRecord::Base
     u && u.authenticated?(password) ? u : nil
   end
   def current_user
-    session[:user]
+    session[:user_id]
   end
   # Encrypts some data with the salt.
   def self.encrypt(password, salt)
