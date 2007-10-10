@@ -13,7 +13,7 @@
 						<option value= <%= quick_fact.id.to_s %>> <%=quick_fact.name%></option>
            			<% end %>
          		<% end %>	
-         		<% else if @record.place.place_type_id == 2%>
+         		<% else if @record.place.place_type_id == 2 %>
          		     <% for quick_fact in QuickFact.find :all %>
 					   <% if quick_fact.quick_fact_type_id == 4 %>
 						<option value= <%= quick_fact.id.to_s %>> <%=quick_fact.name%></option>

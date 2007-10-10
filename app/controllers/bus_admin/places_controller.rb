@@ -2,10 +2,10 @@ class BusAdmin::PlacesController < ApplicationController
   before_filter :login_required, :check_authorization
   
   active_scaffold :places do |config|
-    config.columns =[ :name, :place_type, :file,:blog_url, :rss_feed , :description ]
-    list.columns.exclude [ :blog_url, :rss_feed, :description ]
+    config.columns =[ :name, :place_type, :file,:blog_url, :rss_url , :description ]
+    list.columns.exclude [ :blog_url, :rss_url, :description ]
     config.columns[ :place_type ].form_ui = :select
-    config.columns[ :rss_feed ].form_ui = :select
+   
     config.nested.add_link("Next", [:children]) 
     config.nested.add_link("Quick Fact", [:quick_fact_places]) 
     config.nested.add_link("Sectors", [:place_sectors]) 

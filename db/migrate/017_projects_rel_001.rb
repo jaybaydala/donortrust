@@ -9,7 +9,7 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :dollars_spent, :decimal, :precision => 12, :scale => 2, :default => 0
       t.column :expected_completion_date, :date
       t.column :blog_url, :string
-      t.column :rss_url, :text
+      t.column :rss_url, :string
       t.column :actual_start_date, :date
       t.column :actual_end_date, :date
       t.column :target_start_date, :date
