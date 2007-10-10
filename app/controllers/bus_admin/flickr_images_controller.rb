@@ -1,5 +1,5 @@
 class BusAdmin::FlickrImagesController < ApplicationController
-  #before_filter :login_required, :check_authorization
+  before_filter :login_required, :check_authorization
   # GET /bus_admin_flickr_images
   # GET /bus_admin_flickr_images.xml
   def index
@@ -74,7 +74,13 @@ class BusAdmin::FlickrImagesController < ApplicationController
 
 def get_local_actions(requested_action,permitted_action)
    case(requested_action)
-      when("search" || "show_flickr" || "show_db_flickr" || "photos")
+      when("search")
+        return permitted_action == 'show'
+      when("show_flickr")
+        return permitted_action == 'show'
+      when("show_db_flickr")
+        return permitted_action == 'show'
+      when("photos")
         return permitted_action == 'show'
       when("add")
         return permitted_action == 'create'
