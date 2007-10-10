@@ -36,10 +36,10 @@ namespace :deploy do
         update
         migrate
         setup_mongrel_cluster
-        install_backgroundrb # it's not included in the repository because of windows incompatibilities
+        #install_backgroundrb # it's not included in the repository because of windows incompatibilities
         asset_folder_fix
         start
-        start_backgroundrb
+        #start_backgroundrb
       end
     end
 
@@ -47,14 +47,14 @@ namespace :deploy do
     donortrust-specific deployment task
     DESC
     task :default do
-      stop_backgroundrb
+      #stop_backgroundrb
       transaction do
         update # creates the symlink
-        install_backgroundrb # it's not included in the repository because of windows incompatibilities
+        #install_backgroundrb # it's not included in the repository because of windows incompatibilities
         asset_folder_fix
         restart
       end
-      start_backgroundrb
+      #start_backgroundrb
     end
   end
 
