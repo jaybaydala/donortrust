@@ -55,7 +55,7 @@ class BusAdmin::BusAccountController < ApplicationController
         session[:jumpto] = nil
         redirect_to('/bus_admin/home')
       
-      session[:user] = self.current_bus_user
+      session[:user_id] = self.current_bus_user.id
       flash[:notice] = "Logged in successfully"
      else
         
