@@ -63,6 +63,12 @@ end
 # Mime::Type.register "application/x-mobile", :mobile
 
 # Include your application configuration below
+
+# using SQLSessionStore because it's really fast...
+ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.update(:database_manager => SqlSessionStore)
+SqlSessionStore.session_class = MysqlSession
+
+
 require 'dt_application'
 require 'rubygems'
 require 'flickr'

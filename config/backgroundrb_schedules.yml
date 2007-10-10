@@ -4,3 +4,7 @@ gift_mailer:
   :trigger_args:
     :start: <%= Time.now %>
     :repeat_interval: <%= 30.minutes %>
+session_cleaner:
+  :class: :session_cleaner_worker
+  :worker_method: :do_work
+  :trigger_args: */10 * * * *
