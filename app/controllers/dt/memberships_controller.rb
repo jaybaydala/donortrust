@@ -1,83 +1,116 @@
 class Dt::MembershipsController < DtApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => :index
 
   def index
-    @groups = current_user.groups
-
+    @group = Group.find(params[:group_id])
+    @memberships = @group.memberships
+    @membership = Membership.find(:first, :conditions => {:user_id => current_user.id, :group_id => params[:group_id]}) if logged_in?
     respond_to do |format|
       format.html # index.rhtml
     end
   end
-
-  def list    
-    g = Group.find params[:group_id]
-    @membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => params[:group_id]}    
-    @memberships = g.memberships
-    respond_to do |format|
-      format.html # list.rhtml
-    end
-  end
     
-  def join
+  def create
     group_id = params[:group_id]
-    group = Group.find group_id
-    @membership = Membership.new(:group_id => group_id, :user_id => current_user.id, :membership_type => 1)
+    group = Group.find(group_id)
+    @membership = Membership.find(:first, :conditions => {:user_id => current_user.id, :group_id => params[:group_id]})
+    @member = Membership.new(:group_id => group.id, :user_id => current_user.id, :membership_type => 1)
     membership_saved = false
-    membership_saved = @membership.save if !group.private?
+    membership_saved = @member.save unless group.private?
     
     respond_to do |format|
       if membership_saved
-        flash[:notice] = 'Membership was successfully created.'
+        flash[:notice] = "You successfully joined #{group.name}."
       else
-        flash[:notice] = 'Membership was not successfully created.'
+        flash[:notice] = 'You are not able to join that group directly.'
       end
-      format.html { redirect_to :action => 'list', :group_id => group_id }
+      if group.private?
+        format.html { redirect_to :controller => 'dt/groups', :action => 'index' }
+      else
+        format.html { redirect_to :controller => 'dt/groups', :action => 'show', :id => group.id }
+      end
     end
-  
   end
   
   def destroy
-    @membership = Membership.find params[:id]
-    @membership.destroy
-
+    @member = Membership.find params[:id]
+    destroyed = @member.destroy
     respond_to do |format|
-      format.html { redirect_to :action => 'index'}
+      flash[:notice] = 'You have successfully left the group' if destroyed && current_user.id == @member.user_id
+      flash[:notice] = 'You have successfully removed the membership' if destroyed && current_user.id != @member.user_id
+      format.html { redirect_to :action => 'index', :group_id => params[:group_id]}
     end
   end
 
-  def bestow  
-    @membership = Membership.find(params[:id])     
-    bestowing_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
-    if bestowing_membership.admin?
-      @membership.update_attributes(:membership_type => 2) 
-      flash[:notice] = 'Membership was successfully upgraded to Admin status.'
-    else
-      flash[:notice] = 'Must be an admin to bestow admin status on another member.'
-    end
-    respond_to do |format|
-      format.html { redirect_to :action => 'list', :group_id => @membership.group_id }             
-    end    
+  def typify
+   params[:membership].each do |membership_id, membership|
+     if member = Membership.find(membership_id)
+       member.membership_type = membership[:membership_type]
+       member.save
+     end
+   end
+   respond_to do |format|
+     flash[:notice] = 'Your member changes have been saved'
+     format.html { redirect_to :action => 'index', :group_id => params[:group_id] }
+   end    
   end
-
-  def revoke      
-    @membership = Membership.find(params[:id])     
-    revoking_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
-    revokable = false
-    revokable = true if revoking_membership.admin? 
-    revokable = false if revoking_membership.membership_type < @membership.membership_type
-    if revokable 
-      @membership.update_attributes(:membership_type => 1) 
-      flash[:notice] = 'Membership was successfully downgraded to User status.'
-    else
-      flash[:notice] = 'Must be an admin to revoke admin status on another member.'
-    end
-    respond_to do |format|
-      format.html { redirect_to :action => 'list', :group_id => @membership.group_id }             
-    end        
+  
+  #def bestow  
+  #  @membership = Membership.find(params[:id])     
+  #  bestowing_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
+  #  if bestowing_membership.admin?
+  #    @membership.update_attributes(:membership_type => 2) 
+  #    flash[:notice] = 'Membership was successfully upgraded to Admin status.'
+  #  else
+  #    flash[:notice] = 'Must be an admin to bestow admin status on another member.'
+  #  end
+  #  respond_to do |format|
+  #    format.html { redirect_to :action => 'index', :group_id => @membership.group_id }
+  #  end    
+  #end
+  #
+  #def revoke      
+  #  @membership = Membership.find(params[:id])     
+  #  revoking_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
+  #  revokable = false
+  #  revokable = true if revoking_membership.admin? 
+  #  revokable = false if revoking_membership.membership_type < @membership.membership_type
+  #  if revokable 
+  #    @membership.update_attributes(:membership_type => 1) 
+  #    flash[:notice] = 'Membership was downgraded to User status.'
+  #  else
+  #    flash[:notice] = 'Must be an admin to revoke admin status on another member.'
+  #  end
+  #  respond_to do |format|
+  #    format.html { redirect_to :action => 'index', :group_id => @membership.group_id }
+  #  end        
+  #end
+  
+  protected
+  def current_member
+    @current_member ||= Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => params[:group_id]} if logged_in?
   end
-   
+  
+  def authorized?
+    if ['create'].include?(action_name)
+       return false unless logged_in?
+    end
+    if ['update', 'destroy'].include?(action_name)
+      return false unless logged_in? && current_member && current_member.admin?
+    end
+    true
+  end
+  
+  def access_denied
+    respond_to do |format|
+      format.html do
+        if logged_in?
+          redirect_to :action => 'index', :group_id => params[:group_id]
+        else
+          store_location
+          redirect_to dt_login_path
+        end
+      end
+    end   
+  end
 end
-
-
-
-

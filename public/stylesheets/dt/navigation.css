@@ -104,7 +104,7 @@ The subNav should have an 18px left margin if not contained in #contentContainer
 This allows us to validate the project overview page by not repeating 
 #contentContainer twice needlessly
 */
-#contentContainer #subNav {margin-left:0;}
+#contentContainer #subNav, #contentContainer #subNavWide {margin-left:0;}
 
 #subNavWide {
 	padding: 0px 0px 13px 10px;

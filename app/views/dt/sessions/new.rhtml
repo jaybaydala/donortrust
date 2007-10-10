@@ -1,34 +1,35 @@
 <%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW2">
+  	<h1>Sign-in</h1>
+  	<p>To sign in, enter your member name and password in the spaces below.</p>
+  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  	<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
 
-<div id="leftColW2">
-	<h1>Sign-in</h1>
-	<p>To sign in, enter your member name and password in the spaces below.</p>
-	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-	<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
-
-  <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
-    <div id="signInWrapper">
-      <div id="nameInput">
-        <label for="login">Username </label>
-        <%= text_field_tag 'login', nil, :tabindex => 1 %>
+    <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
+      <div id="signInWrapper">
+        <div id="nameInput">
+          <label for="login">Username </label>
+          <%= text_field_tag 'login', nil, :tabindex => 1 %>
+        </div>
+        <div id="pwInput">
+          <label for="password">Password </label>
+          <%= password_field_tag 'password', nil, :tabindex => 2 %>
+        </div>
+        <div id="buttonSignIn"><%= submit_tag 'Login', :class => 'buttonsubmit' %></div>
       </div>
-      <div id="pwInput">
-        <label for="password">Password </label>
-        <%= password_field_tag 'password', nil, :tabindex => 2 %>
-      </div>
-      <div id="buttonSignIn"><%= submit_tag 'Login', :class => 'buttonsubmit' %></div>
-    </div>
 
-    <div id="rememberMe">
-      <input id="remember_me" name="remember_me" type="checkbox" value="1" /><label for="remember_me">Remember me </label>
-    </div>
-    <p class="textsm">
-      <!-- <a href="signIn.html">Forgot your password?</a> <br /> -->
-      If you are not a registered member, <%= link_to "click here", dt_signup_path %> to sign up.<br />
-      Registration is FREE and takes only a few minutes.
-    </p>
-  <% end %>
-</div>
-<div id="rightColN">
+      <div id="rememberMe">
+        <input id="remember_me" name="remember_me" type="checkbox" value="1" /><label for="remember_me">Remember me </label>
+      </div>
+      <p class="textsm">
+        <!-- <a href="signIn.html">Forgot your password?</a> <br /> -->
+        If you are not a registered member, <%= link_to "click here", dt_signup_path %> to sign up.<br />
+        Registration is FREE and takes only a few minutes.
+      </p>
+    <% end %>
+  </div>
+  <div id="rightColN">
 	
+  </div>
 </div>

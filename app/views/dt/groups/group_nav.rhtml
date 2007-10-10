@@ -1,1 +1,12 @@
-<input type="search" class="inputtext inputsearch" placeholder="Search for Groups" autosave="christmasfuture.org.donortrust.search.group" id="q_dashboard" name="q" value="" results="10" />
+<div id="subSubNav_2col">
+  <ul class="pageNav">
+    <li<%= ' class="currentPg"' if params[:controller] == 'dt/groups' && params[:action] == 'show' %>><%= link_to "Group Overview", dt_group_path(@group) %></li>
+    <li<%= ' class="currentPg"' if params[:controller] == 'dt/group_projects' && params[:action] == 'index' %>><%= link_to "Group Projects", dt_group_projects_path(@group) %></li>
+    <li<%= ' class="currentPg"' if params[:controller] == 'dt/memberships' && params[:action] == 'index' %>><%= link_to "Members", dt_memberships_path(@group) %></li>
+  </ul>
+  <div class="buttonGroupWrapN">
+    <ul class="buttonGroup">
+      <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path %></div></li>
+    </ul>
+  </div>
+</div>

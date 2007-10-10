@@ -1,5 +1,7 @@
 class Dt::GroupsController < DtApplicationController
   before_filter :login_required, :except => [ :index, :show ]
+  before_filter :load_membership, :except => [ :index, :new, :create ]
+  
   def initialize
     @topnav = 'get_involved'
   end
@@ -14,7 +16,7 @@ class Dt::GroupsController < DtApplicationController
 
   def show
     @group = Group.find(params[:id])
-
+    @membership = Membership.find_by_user_id(current_user.id, :conditions => { :group_id => params[:id] })
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @group.to_xml }
@@ -23,6 +25,7 @@ class Dt::GroupsController < DtApplicationController
 
   def new
     @group = Group.new
+    @sectors = Sector.find(:all)
   end
 
   def edit
@@ -31,14 +34,19 @@ class Dt::GroupsController < DtApplicationController
 
   def create
     @group = Group.new(params[:group])
-    group_saved = @group.save
-    membership = @group.memberships.build(:user_id => current_user.id, :membership_type => 3) if group_saved
-    membership_saved = membership.save if membership
-
+    Group.transaction do
+      group_saved = @group.valid? && @group.save!
+      membership_saved = @group.memberships.create({ :user_id => current_user.id, :membership_type => Membership.founder })
+      @saved = group_saved && membership_saved
+      begin
+      raise Exception if !@saved
+      rescue Exception
+      end
+    end
     respond_to do |format|
-      if membership_saved
+      if @saved
         flash[:notice] = 'Group and membership was successfully created.'
-        format.html { redirect_to dt_group_url(@group) }
+        format.html { redirect_to dt_group_path(@group) }
       else
         format.html { render :action => "new" }
       end
@@ -47,11 +55,11 @@ class Dt::GroupsController < DtApplicationController
 
   def update
     @group = Group.find(params[:id])
-
+    @saved = @group.update_attributes(params[:group])
     respond_to do |format|
-      if @group.update_attributes(params[:group])
+      if @saved
         flash[:notice] = 'Group was successfully updated.'
-        format.html { redirect_to dt_group_url(@group) }
+        format.html { redirect_to dt_group_path(@group) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -71,8 +79,12 @@ class Dt::GroupsController < DtApplicationController
   end
   
   protected
+  def load_membership
+    return if params[:id].nil? || params[:id].empty?
+    @membership = Membership.find_by_user_id(current_user.id, :conditions => { :group_id => params[:id] })
+  end
+  
   def authorized?
     true
   end
 end
-

@@ -37,10 +37,10 @@
 <hr />
 
 <p>Please click on the following link to open your gift so that you can help to change the world.<br />
-<%= @url + "?code=#{@gift.pickup_code}" %></p>
+<%= link_to @url + "?code=#{@gift.pickup_code}", @url + "?code=#{@gift.pickup_code}" %></p>
 
 <p>If that does not work for you, copy and paste the following link into your web browser and enter your pickup code:<br />
-<%= @url %></p>
+<%= link_to @url, @url %></p>
 
 <p>Pickup Code: <%=h @gift.pickup_code %></p>
 

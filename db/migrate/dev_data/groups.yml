@@ -5,9 +5,11 @@ public:
   description: this is the description
   private: 0
   group_type_id: 1
+  created_at: <%= 5.days.ago.to_s :db %>
 private:
   id: 2
   name: Private Group
   description: this is the description
   private: 1
   group_type_id: 1
+  created_at: <%= 5.minutes.ago.to_s :db %>

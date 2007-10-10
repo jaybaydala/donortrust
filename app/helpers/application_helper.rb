@@ -194,9 +194,8 @@ module ApplicationHelper
 
     return result;
   end
-  
 
-  
-  
-  
+  def textilize(text)
+    RedCloth.new(text).to_html
+  end
 end

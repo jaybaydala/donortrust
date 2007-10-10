@@ -1,57 +1,58 @@
 <%= dt_account_nav %>
-
-<div id="leftColW2">
-	<h1>Edit Profile</h1>
+<div id="contentContainer">
+  <div id="leftColW">
+  	<h1>Edit Profile</h1>
 	
-	<%= error_messages_for :user %>
-	<% form_for(:user, :url => dt_account_path(@user), :html => { :method => 'put', :id => "userform", :name => "userform"}) do |f| -%>
-	<div class="userform">
+  	<%= error_messages_for :user %>
+  	<% form_for(:user, :url => dt_account_path(@user), :html => { :method => 'put', :id => "userform", :name => "userform"}) do |f| -%>
+  	<div class="userform">
 		
-		<fieldset>
-			<legend class="header">Login/Email</legend>
-			<ul>
-    		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
-			</ul>
-		</fieldset>
+  		<fieldset>
+  			<legend class="header">Login/Email</legend>
+  			<ul>
+      		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
+  			</ul>
+  		</fieldset>
 
-		<fieldset>
-  	  <legend>Your Indentity</legend>
-  	  <div class="textsm">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
-			<ul>
-				<li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li>
-				<li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li>
-				<li><label for="user_display_name">Display Name</label> <%= f.text_field :display_name %></li>
-			</ul>
-		</fieldset>
+  		<fieldset>
+    	  <legend>Your Indentity</legend>
+    	  <div class="textsm">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
+  			<ul>
+  				<li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li>
+  				<li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li>
+  				<li><label for="user_display_name">Display Name</label> <%= f.text_field :display_name %></li>
+  			</ul>
+  		</fieldset>
 		
-		<%= error_messages_for :password %>
+  		<%= error_messages_for :password %>
 		
-		<fieldset>
-  	  <legend>Change Password</legend>
-  		<div class="textsm">If you wish to change your password, please enter your current password along with a new password. It must be longer than 4 characters and try to make it something you'll remember.</div>
-			<ul>
-				<li><label for="old_password">Current Password</label> <%= password_field_tag :old_password %></li>
-				<li><label for="user_password">Password</label> <%= f.password_field :password %></li>
-				<li><label for="user_password_confirmation">Confirm Password</label> <%= f.password_field :password_confirmation %></li>
-			</ul>
-		</fieldset>
+  		<fieldset>
+    	  <legend>Change Password</legend>
+    		<div class="textsm">If you wish to change your password, please enter your current password along with a new password. It must be longer than 4 characters and try to make it something you'll remember.</div>
+  			<ul>
+  				<li><label for="old_password">Current Password</label> <%= password_field_tag :old_password %></li>
+  				<li><label for="user_password">Password</label> <%= f.password_field :password %></li>
+  				<li><label for="user_password_confirmation">Confirm Password</label> <%= f.password_field :password_confirmation %></li>
+  			</ul>
+  		</fieldset>
 
-		<fieldset>
-  	  <legend>Personal Details</legend>
-  		<div class="textsm">The following fields are optional.</div>
-			<ul>
-				<li class="formInput"><label for="user_address">Address</label> <%= f.text_field :address %></li>
-				<li><label for="user_city">City</label> <%= f.text_field :city %></li>
-				<li><label for="user_province">Province/State</label> <%= f.text_field :province %></li>
-				<li><label for="user_postal_code">Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
-				<li><label for="user_country">Country</label> <%= f.text_field :country %></li>
-			</ul>
-		</fieldset>
+  		<fieldset>
+    	  <legend>Personal Details</legend>
+    		<div class="textsm">The following fields are optional.</div>
+  			<ul>
+  				<li class="formInput"><label for="user_address">Address</label> <%= f.text_field :address %></li>
+  				<li><label for="user_city">City</label> <%= f.text_field :city %></li>
+  				<li><label for="user_province">Province/State</label> <%= f.text_field :province %></li>
+  				<li><label for="user_postal_code">Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
+  				<li><label for="user_country">Country</label> <%= f.text_field :country %></li>
+  			</ul>
+  		</fieldset>
 
-		<%= submit_tag 'Update Profile', :class => 'buttonsubmit' %>
-	</div>
-	<% end -%>
-</div>
-<div id="rightColN">
-	
+  		<%= submit_tag 'Update Profile', :class => 'buttonsubmit' %>
+  	</div>
+  	<% end -%>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
 </div>

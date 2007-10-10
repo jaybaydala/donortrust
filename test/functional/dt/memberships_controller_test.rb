@@ -19,76 +19,29 @@ context "Dt::Memberships #route_for" do
     @rs         = ActionController::Routing::Routes
   end
 
-  specify "should map { :controller => 'dt/memberships' } to /dt/memberships" do
-    route_for(:controller => "dt/memberships").should == "/dt/memberships"
+  specify "should map { :controller => 'dt/memberships', :group_id => 1 } to /dt/memberships" do
+    route_for(:controller => "dt/memberships").should == "/dt/groups/1/memberships"
   end
   
-  specify "should map { :controller => 'dt/memberships', :action => :join, :group_id => 1 } to /dt/groups/1/memberships/new;join" do
-	  route_for(:controller => "dt/memberships", :action => :join, :group_id => 1 ).should == "/dt/groups/1/memberships/new;join"
+  specify "should map { :controller => 'dt/memberships', :group_id => 1 , :action => 'edit', :id => 1 } to /dt/memberships/1;edit" do
+    route_for(:controller => "dt/memberships", :action => "edit", :id => 1).should == "/dt/groups/1/memberships/1;edit"
   end
 
-  specify "should map { :controller => 'dt/memberships', :action => 'edit', :id => 1 } to /dt/memberships/1;edit" do
-    route_for(:controller => "dt/memberships", :action => "edit", :id => 1).should == "/dt/memberships/1;edit"
-  end
-
-  specify "should map { :controller => 'dt/memberships', :action => 'bestow', :id => 1 } to /dt/memberships/1;bestow" do
-    route_for(:controller => "dt/memberships", :action => "bestow", :id => 1).should == "/dt/memberships/1;bestow"
-  end
-
-  specify "should map { :controller => 'dt/memberships', :action => 'revoke', :id => 1 } to /dt/memberships/1;revoke" do
-    route_for(:controller => "dt/memberships", :action => "revoke", :id => 1).should == "/dt/memberships/1;revoke"
+  specify "should map { :controller => 'dt/memberships', :group_id => 1 , :action => 'typify'} to /dt/memberships;typify" do
+    route_for(:controller => "dt/memberships", :action => "typify").should == "/dt/groups/1/memberships;typify"
   end
   
-  specify "should map { :controller => 'dt/memberships', :action => 'destroy', :id => 1} to /dt/memberships/1" do
-    route_for(:controller => "dt/memberships", :action => "destroy", :id => 1).should == "/dt/memberships/1"
+  specify "should map { :controller => 'dt/memberships', :group_id => 1 , :action => 'destroy', :id => 1} to /dt/memberships/1" do
+    route_for(:controller => "dt/memberships", :action => "destroy", :id => 1).should == "/dt/groups/1/memberships/1"
   end
-       
-  specify "should map {:controller => 'dt/memberships', :action => 'list', :group_id => 1} to /dt/groups/1/memberships/1;list" do
-    route_for(:controller => "dt/memberships", :action => "list", :group_id => 1).should == "/dt/groups/1/memberships;list"
-  end  
 
   private 
   def route_for(options)
-    @rs.generate options
+    @rs.generate options.merge(:group_id => 1)
   end  
 end
 
-context "Dt::MembershipsController handling GET /dt/memberships" do
-  include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships, :group_types
-  
-  setup do
-    @controller = Dt::MembershipsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
-  def do_get
-    get :index
-  end
-
-  specify "should redirect to /login when not logged in" do
-    do_get
-    should.redirect dt_login_path()
-  end
-
-  specify "should show many groups" do
-    login_as :aaron # aaron has more than one membership, one public and one private
-    do_get
-    assigns(:groups).should.not.be nil
-    template.should.be "dt/memberships/index"    
-    assert_select "ul>li#?", /group-\d+/, { :minimum=> 2 }
-  end      
-
-  specify "should display a link to remove membership" do
-    login_as :aaron
-    do_get
-  	assert_select "a", "Leave group", { :minimum => 2 }      
-  end  
-  
-end
-
-context "Dt::MembershipsController handling GET /dt/groups/1/memberships;list" do
+context "Dt::MembershipsController handling GET /dt/groups/1/memberships" do
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
   
@@ -99,12 +52,12 @@ context "Dt::MembershipsController handling GET /dt/groups/1/memberships;list" d
   end
 
   def do_get(group_id=2)
-    get :list, :group_id => group_id
+    get :index, :group_id => group_id
   end
 
-  specify "should redirect to /login when not logged in" do
+  specify "should not redirect not logged in" do
     do_get(1)
-    should.redirect dt_login_path()
+    should.not.redirect
   end
 
   specify "should show all the members of a group" do
@@ -112,24 +65,28 @@ context "Dt::MembershipsController handling GET /dt/groups/1/memberships;list" d
     do_get
     assigns(:memberships).should.not.be nil
     assigns(:membership).should.not.be nil
-    template.should.be "dt/memberships/list"    
+    template.should.be "dt/memberships/index"
   end 
 
-  specify "should display a link to revoke admin status" do
-    login_as :tim
-    do_get
-  	assert_select "a", "Remove Group Admin status", { :maximum=> 1 }      
+  specify "should display a remove link for a group admin" do
+    login_as :quentin
+    do_get(1)
+    assigns(:memberships).each do |membership|
+    	assert_select("a[href=/dt/groups/1/memberships/#{membership.id}]#membership-remove-link-#{membership.id}", "remove") if membership.id != users(:quentin).id
+    end
   end  
 
-  specify "should display a link to bestow admin status" do
-    login_as :tim
-    do_get
-  	assert_select "a", "Make Group Admin", { :maximum=> 1 }      
+  specify "should display a select to give/take admin status" do
+    login_as :quentin
+    do_get(1)
+    assigns(:memberships).each do |membership|
+    	assert_select "select#membership_#{membership.id}_membership_type" if membership.id != users(:quentin).id
+    end
   end  
 
 end
 
-context "Dt::MembershipsController handling POST join" do
+context "Dt::MembershipsController handling create" do
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
   
@@ -139,9 +96,14 @@ context "Dt::MembershipsController handling POST join" do
     @response   = ActionController::TestResponse.new
   end
 
-  specify "should redirect to /dt/accounts;signin when not logged in" do
+  specify "should redirect to /dt/login when not logged in" do
     create_membership(false)
     should.redirect dt_login_path()
+  end
+  
+  specify "should redirect when logged in" do
+    create_membership
+    should.redirect dt_group_path(1)
   end
 
   specify "should be able to create membership" do
@@ -155,52 +117,57 @@ context "Dt::MembershipsController handling POST join" do
     create_membership(true, 2)
     Membership.count.should.equal old_count
   end
+
+  specify "attempting to join a private group should redirect to the groups index" do
+    create_membership(true, 2)
+    should.redirect dt_groups_path
+  end
   
   def create_membership( login = true, group_id = 1)
     login_as :tim if login == true
-    put :join, :group_id => group_id
+    post :create, :group_id => group_id
   end  
 end
 
-context "Dt::MembershipsController handling POST /dt/memberships;bestow, /dt/memberships;revoke" do
-  include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships, :group_types
-
-  setup do
-    @controller = Dt::MembershipsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-  
-  specify "should be able to bestow group admin status to a current member" do
-    login_as :tim
-    post :bestow, {:controller => 'dt/memberships', :id => 3 }
-    m = Membership.find 3        
-    m.membership_type.should.equal 2
-  end
-
-  specify "should be able to revoke group admin status from a current member" do
-    login_as :tim
-    post :revoke, {:controller => 'dt/memberships', :id => 5 }
-    m = Membership.find 5
-    m.membership_type.should.equal 1
-  end
-  
-  #As a group creator(owner), I
-  specify "should be protected from other admins removing my admin status" do
-    login_as :aaron #Admin of the group about to be used
-    id = 4 #membership id of with Owner status
-    post :revoke, {:controller => 'dt/memberships', :id => id }
-    m = Membership.find id       
-    m.admin?.should.be true
-
-    login_as :tim #Owner
-    id = 5 #membership id of with admin status - I hate fixtures
-    post :revoke, {:controller => 'dt/memberships', :id => id }
-    m = Membership.find id       
-    m.admin?.should.be false  
-  end  
-end 
+#context "Dt::MembershipsController handling POST /dt/memberships;bestow, /dt/memberships;revoke" do
+#  include DtAuthenticatedTestHelper
+#  fixtures :users, :groups, :memberships, :group_types
+#
+#  setup do
+#    @controller = Dt::MembershipsController.new
+#    @request    = ActionController::TestRequest.new
+#    @response   = ActionController::TestResponse.new
+#  end
+#  
+#  specify "should be able to bestow group admin status to a current member" do
+#    login_as :tim
+#    post :bestow, {:controller => 'dt/memberships', :id => 3, :group_id => 1  }
+#    m = Membership.find 3        
+#    m.membership_type.should.equal 2
+#  end
+#
+#  specify "should be able to revoke group admin status from a current member" do
+#    login_as :tim
+#    post :revoke, {:controller => 'dt/memberships', :id => 5, :group_id => 1  }
+#    m = Membership.find 5
+#    m.membership_type.should.equal 1
+#  end
+#  
+#  #As a group creator(owner), I
+#  specify "should be protected from other admins removing my admin status" do
+#    login_as :aaron #Admin of the group about to be used
+#    id = 4 #membership id of with Owner status
+#    post :revoke, {:controller => 'dt/memberships', :id => id, :group_id => 1  }
+#    m = Membership.find id       
+#    m.admin?.should.be true
+#
+#    login_as :tim #Owner
+#    id = 5 #membership id of with admin status - I hate fixtures
+#    post :revoke, {:controller => 'dt/memberships', :id => id, :group_id => 1  }
+#    m = Membership.find id       
+#    m.admin?.should.be false  
+#  end  
+#end 
 
 context "Dt::MembershipsController handling DELETE /dt/membership/1" do
   include DtAuthenticatedTestHelper
@@ -213,12 +180,15 @@ context "Dt::MembershipsController handling DELETE /dt/membership/1" do
   end
 
   specify "should be able to withdraw membership from a group" do
-    login_as :tim
-    old_count = Membership.count    
-    delete :destroy, {:controller => 'dt/memberships', :id => 1}
+    login_as :quentin
+    old_count = Membership.count
+    delete :destroy, {:controller => 'dt/memberships', :id => 1, :group_id => 1 }
+    do_delete
     Membership.count.should.equal old_count-1    
   end
 
+  def do_delete(id=1)
+  end
 end
 
 #MEMBER STORIES

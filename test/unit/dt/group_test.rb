@@ -29,7 +29,17 @@ context "Groups" do
   
   specify "founder should return a User" do
     @group = Group.find(1)
-    pp @group.user.class
+    @group.founder.id.should.equal 1
+  end
+  
+  specify "raised should return a number" do
+    @group = Group.find(1)
+    @group.raised.should >= 0
+  end
+
+  specify "causes should return an Array" do
+    @group = Group.find(1)
+    @group.causes.class.should.equal Array
   end
   
   protected

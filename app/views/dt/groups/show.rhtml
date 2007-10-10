@@ -1,15 +1,38 @@
-<%= dt_account_nav %>
+<%= dt_get_involved_nav %>
 
-<div id="leftColW">
-	<h2><%= h @group.name %></h2>
+<%= dt_group_nav %>
 
-	<table border="0">
-		<caption>Group Info (<%= link_to "edit", dt_edit_group_path(@group) %>)</caption>
-		<tr><td>Name:</td><td><%= h @group.name %></td></tr>
-		<tr><td>Type:</td><td><%= h @group.group_type.name %></td></tr>
-		<tr><td>Description:</td><td><%= h @group.description %></td></tr>
-	</table>
-</div>
-<div id="rightColN">
-	
-</div>
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div id="leftColW">
+  	<h1><%= h @group.name %></h1>
+      <div class="col" style="height:90px;">
+        <ul id="factList2">
+          <% if !@group.founder.nil? %><li><strong>Founder:</strong> <%= @group.founder.name %></li><% end %>
+          <% if !@group.created_at.nil? %><li><strong>Start Date:</strong> <%= @group.created_at.to_date.to_s :long %></li><% end %>
+          <li>&nbsp;</li>
+          <li><strong>Group Status:</strong> <%= @group.private? ? 'Private' : 'Public' %></li>
+          <li><strong>Total Invested:</strong> <%= number_to_currency(@group.raised) %></li>
+        </ul>
+      </div>
+      <div class="colEnd">
+        <ul id="factList2" style="height:90px;">
+          <li><strong>Number of Members:</strong> <%= @group.memberships.size %></li>
+          <% if @group.place_id? && @group.place? %><li><strong>Location:</strong> <%= @group.place.name %><%= ", #{@group.place.parent.name}" if @group.place.parent_id? %></li><% end %>
+          <li><strong>Total Group Projects:</strong> <%= @group.projects.size %></li>
+          <li><strong><span style="text-transform:none;">Cause(s):</span></strong> <%= @group.causes.size > 0 ? group_causes(@group) : 'n/a' %></li>
+        </ul>
+      </div>
+
+  		<h2>Group News</h2>
+  		<p class="byLine">By-Line</p>
+  		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Fusce tempor tempus quam. Morbi tempor, mauris quis tristique ultricies, purus dui venenatis ligula, malesuada consectetuer neque velit sit amet tellus. Donec ut tortor. Proin nisl. Morbi laoreet, dolor vel molestie volutpat, est ligula vestibulum eros, non facilisis velit pede egestas mi. Vestibulum sollicitudin dignissim pede. Donec mattis justo non lectus. Sed nec est facilisis tellus ultrices blandit. Aliquam viverra nisi eu purus. Nullam quam lectus, pellentesque in, dignissim varius, sagittis sit amet, odio. Nullam viverra ligula aliquam sem.</p>
+  		<p>Ut a tellus vel justo elementum euismod. Duis vulputate, neque nec accum-<br />
+  san tincidunt, risus quam varius eros, eu gravida nunc neque ut tortor. Cras con-dismentum justo sit amet quam.</p>
+  		<p class="dateStamp">date stamp </p>
+  	</div>
+  	<div id="rightColN">
+  	  <%= dt_profile_sidebar %>
+    </div>
+  </div>

@@ -1,0 +1,18 @@
+<%= dt_get_involved_nav %>
+<%= dt_group_nav %>
+
+<div id="contentContainer">
+  <% if @projects.size > 0 %>
+  <%= render :partial => '/dt/projects/project_list', :collection => @projects %>
+  <% else %>
+  <div id="leftColW">
+    <p>There are no projects currently added to this group.</p>
+    <% if current_member(@group) && current_member(@group).admin? %>
+    <p><%= link_to "Find a project", dt_projects_path %> to add to your group so you can change the world together.</p>
+    <% end %>
+  </div>
+  <div id="rightColN">
+    <%= dt_profile_sidebar %>
+  </div>
+  <% end %>
+</div>

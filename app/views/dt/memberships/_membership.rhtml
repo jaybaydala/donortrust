@@ -1,14 +1,17 @@
-	<li id="membership-<%= membership.id %>" class="list-item">
-	<div>
-	<%= link_to "#{membership.user.first_name} #{membership.user.last_name}", dt_membership_path(membership) -%>
-	<% if @membership.owner? -%>   
-	<% if membership.admin? -%>
-	|	<%= link_to "Make Group Admin", { :action => "bestow", :id => membership.id }, :method => :post -%> 
-	<% end -%>  
-	<% if membership.owner? -%>
-	|	<%= link_to "Remove Group Admin status", { :action => "revoke", :id => membership.id }, :method => :post -%> 
-	<% end -%>
-	<% end -%>  	
-	</div>
-	</li>
-         
+<li id="membership-<%= membership.id %>">
+	<div class="name"><%= membership.user.name %></div>
+	<div class="date"><% if membership.created_at? %><%= membership.created_at.to_date.to_s "%y/%m/%d" %><% else %>&nbsp;<% end %></div>
+	<div class="mtype"><% if @membership && @membership.admin? && @membership.id != membership.id -%>
+<% fields_for 'membership[]', membership do |m| %>
+<%= m.select :membership_type, [['Member', '1'], ['Admin', '2'], ['Founder', '3']], :selected => membership.membership_type %>
+<% end -%>
+<% else -%>
+<%= "Founder" if membership.membership_type == Membership.founder -%>
+<%= "Admin" if membership.membership_type == Membership.admin -%>
+<%= "Member" if membership.membership_type == Membership.member -%>
+<% end -%>
+</div>
+<% if @membership && @membership.admin? && @membership.id != membership.id -%>
+<div class="control"><%= link_to "remove", dt_membership_path(:group_id => @group.id, :id => membership.id), :id => "membership-remove-link-#{membership.id}", :method => 'delete', :confirm => 'Are you sure you want to remove this member?' %></div>
+<% end %>
+</li>

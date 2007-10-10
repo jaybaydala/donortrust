@@ -121,6 +121,26 @@ context "User" do
   end
 end
 
+context "User under 13" do
+  include DtAuthenticatedTestHelper
+  fixtures :users
+  
+  setup do
+  end
+  
+  xspecify "A user under 13 cannot include their email address as login" do
+    lambda {
+      u = create_user(:login => 'email@example.com')
+      u.errors.on(:email).should.not.be.nil
+    }.should.not.change(User, :count)
+  end
+  
+  private
+  def create_user(options = {})
+    User.create({ :under_thirteen => true, :login => 'timg', :display_name => 'tester', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
+  end
+end
+
 context "User Account" do
   include DtAuthenticatedTestHelper
   fixtures :users

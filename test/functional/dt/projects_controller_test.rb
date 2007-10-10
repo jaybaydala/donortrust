@@ -111,14 +111,23 @@ context "Dt::Projects show behaviour" do
     status.should.be :success
     # use assert_select since the block type of `page.select "selector" do |foo|` seems to be borked
     assert_select "h1", :text => /#{@project.name}/
-    assert_select "div#projectInfo" do
-      assert_select "#projectDesc"
+    assert_select "div#leftColW" do
+      assert_select "div.projectRank" do
+        assert_select "ul.specList"
+      end
+      assert_select "div.projectDescription"
     end 
+    assert_select "div#rightColN" do
+      assert_select "div#relatedProjects"
+      assert_select "div#factList"
+    end
   end
   
   specify "should contain the project_nav (#subNav)" do
     do_get
-    assert_select "div#subNav"
+    assert_select "div#subNavWide" do
+      assert_select "ul.subNav"
+    end
   end
 
   specify "should contain quick facts (#factList)" do
@@ -164,9 +173,11 @@ context "Dt::Projects village behaviour" do
     get :village, :id => id
   end
   
-  specify "should contain the project_nav (#subNav)" do
+  specify "should contain the project_nav (#subNavWide)" do
     do_get
-    assert_select "div#subNav"
+    assert_select "div#subNavWide" do
+      assert_select "ul.subNav"
+    end
   end
   
   specify "should assign projects and village" do
@@ -184,9 +195,11 @@ context "Dt::Projects nation behaviour" do
     get :nation, :id => id
   end
 
-  specify "should contain the project_nav (#subNav)" do
+  specify "should contain the project_nav (#subNavWide)" do
     do_get
-    assert_select "div#subNav"
+    assert_select "div#subNavWide" do
+      assert_select "ul.subNav"
+    end
   end
 
   specify "should assign projects and village" do
@@ -204,9 +217,11 @@ context "Dt::Projects community behaviour" do
     get :community, :id => id
   end
 
-  specify "should contain the project_nav (#subNav)" do
+  specify "should contain the project_nav (#subNavWide)" do
     do_get
-    assert_select "div#subNav"
+    assert_select "div#subNavWide" do
+      assert_select "ul.subNav"
+    end
   end
 end
 

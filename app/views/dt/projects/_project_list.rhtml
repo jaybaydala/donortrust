@@ -1,22 +1,25 @@
 <% @project = project_list -%>
-    <div id="projectInfo">
-      <div id="projectDesc">
+    <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
+      <div class="leftColW">
         <h2><%= params[:action] == 'show' ? @project.name : (link_to @project.name, dt_project_path(@project.id))  %></h2>
-        <div><span style="background:#C00;color:#FFF;padding:1px;">Awaiting new Rating model</span></div>
+        
         <div class="projectRank">
-          <strong>Project Rating:</strong>
-          <div id="villageRatingProject"></div>
-          <strong>Start Date:</strong> <%= @project.start_date.to_formatted_s(:long) %>
+          <ul class="specList">
+            <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
+            <!--<li style="margin-right:3px; "><span><strong>Project Rating:</strong></span></li>
+            <li><span class="villageRatingProject"></span></li>-->
+          </ul>
         </div>
+        
         <p><strong>Project Description:</strong> <%= @project.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
-        <div class="projectSMtext">
-          <% if @project.partner_id? && @project.partner %><strong>Implementing Organization: </strong> <%= @project.partner.name %><br /><% end %>
-          <div><span style="background:#C00;color:#FFF;padding:1px;">Awaiting new Rating model</span></div>
-          <strong>Village Ranking of Implementing Organization: </strong>
-          <div id="villageRatingOrg"></div>
-        </div>
+        
+        <p class="rating">
+          <strong>Implementing Organization: </strong> <a href="http://www.christmasfuture.org/">ChristmasFuture Foundation</a><br />
+          <!--<strong>Village Ranking of Implementing Organization: </strong><span class="villageRatingOrg"></span>-->
+        </p>
       </div>
-      <!-- projectDesc End-->
       
+    	<div class="factList">
     	<%= project_quickfacts %>
+    	</div>
     </div>

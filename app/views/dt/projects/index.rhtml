@@ -1,3 +1,5 @@
-<div id="featuredProjectList">
-  <%= render :partial => '/dt/projects/project_list', :collection => @projects if @projects %>
+<div id="contentContainer">
+  <div id="featuredProjectList">
+  <%= render :partial => '/dt/projects/project_list', :collection => @projects, :locals => {:use_class => true} if @projects %>
+  </div>
 </div>

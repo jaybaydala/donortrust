@@ -67,7 +67,7 @@ context "Dt::GroupsController handling GET /dt/groups" do
     get :index
   end
 
-  specify "should not redirect to /login when not logged in" do
+  specify "should not redirect when not logged in" do
     do_get
     should.not.redirect
   end
@@ -85,15 +85,13 @@ context "Dt::GroupsController handling GET /dt/groups" do
   specify "should show many groups" do
     login_as :tim
     do_get
-    assert_select "ul>li#?", /group-\d+/
+    assert_select "div.projectInfo#?", /group-\d+/
   end
 
   specify "should show name, description, type" do
     login_as :tim
     do_get
   	assert_select "a", "Public Group"
-  	assert_select "p", 'this is the description'
-  	assert_select "p", 'School'
   end
 
   specify "should not see non-public groups" do
@@ -139,9 +137,9 @@ context "Dt::GroupsController handling POST /dt/groups;create" do
 #  x set group to Public/Private
 #  - choose geographic location of group
 #    - Country and Province/state are pre-populated select boxes, city/town should be text box autocomplete (non-constrained)
-#  - choose the sector/cause interest of the group
+#  x choose the sector/cause interest of the group
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships, :group_types
+  fixtures :users, :groups, :memberships, :group_types, :sectors
   
   setup do
     @controller = Dt::GroupsController.new
@@ -158,6 +156,10 @@ context "Dt::GroupsController handling POST /dt/groups;create" do
     old_count = Group.count
     create_group
     Group.count.should.equal old_count+1
+  end
+  
+  specify "should redirect after group creation" do
+    create_group
     should.redirect dt_group_path(assigns(:group))
   end
   
@@ -181,7 +183,9 @@ context "Dt::GroupsController handling POST /dt/groups;create" do
     lambda {
       create_group
     }.should.change(Membership, :count)
-	Membership.find(:first, :order => 'created_at desc').membership_type.should.be(3)
+    group = assigns(:group)
+    group.memberships.size.should.equal 1
+    group.memberships[0].membership_type.should.be Membership.founder
   end
   
   def create_group(options = {}, login = true)
@@ -210,12 +214,18 @@ context "Dt::GroupsController handling GET /dt/groups/1" do
   end
 
   specify "should show group" do
-    login_as :tim
+    login_as :quentin
     do_get
     status.should.be :success
     template.should.be 'dt/groups/show'
   end
 
+  specify "should load @membership" do
+    login_as :quentin
+    do_get
+    assigns(:membership).should.not.be nil
+  end
+  
   protected
   def create_group(options = {})
     post :create, :group => { :name => 'Test Group', :description => 'This is the group description', :private => 0, :group_type_id => 1 }.merge(options)
@@ -251,7 +261,7 @@ end
 
 context "Dt::GroupsController handling PUT /dt/groups/1" do
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships, :group_types
+  fixtures :users, :groups, :memberships, :group_types, :sectors
   
   setup do
     @controller = Dt::GroupsController.new

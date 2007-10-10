@@ -11,6 +11,7 @@ class UsersRel001 < ActiveRecord::Migration
       t.column :province,                  :string
       t.column :postal_code,               :string
       t.column :country,                   :string
+      t.column :under_thirteen,            :boolean
       t.column :crypted_password,          :string, :limit => 40
       t.column :salt,                      :string, :limit => 40
       t.column :created_at,                :datetime

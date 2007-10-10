@@ -1,18 +1,33 @@
-<%= dt_account_nav %>
+<%= dt_get_involved_nav %>
 
-<div id="leftColW">
-	<h2>My Groups</h2>
-
-	<% if logged_in? %>
-	<h3 class="title">Your Groups</h3>
-	<% if current_user.groups.length > 0 -%>
-	<ul id="group-list">  
-	<%= render_partial_collection 'dt/memberships/group', current_user.groups if current_user.groups %>
-	</ul>
-	<% end -%>
-	<p><small><%= link_to "create group", dt_new_group_path %></small></p>
-	<% end %>
-</div>
-<div id="rightColN">
-	
+<%= dt_group_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+    <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+    <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  
+    <h1><%=h @group.name %> Members</h1>
+  
+    <% if @memberships.size > 0 %>
+    <% form_tag(dt_typify_memberships_path(@group), {:method => 'put', :id => 'membershipform', :name => 'membershipform'} ) do %>
+    <div id="memberList">
+      <ul>
+    		<li>
+    			<div class="name"><strong>Member</strong></div>
+    			<div class="date"><strong>Joined</strong></div>
+    			<div class="mtype"><strong>Type</strong></div>
+    			<div class="control">&nbsp;</div>
+    		</li>
+        <%= render :partial => 'membership', :collection => @memberships %>
+      </ul>
+    </div>
+    <%= submit_tag( "Update members", :class => "buttonsubmit" ) if @membership && @membership.admin? %>
+    <% end -%>
+    <% else %>
+      <p>There are currently no members in this group.</p>
+    <% end %>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+	</div>
 </div>

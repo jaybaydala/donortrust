@@ -1,18 +1,41 @@
-<h1><%= @project.name %></h1>
-<%= project_nav %>
-
-<div id="projectInfo">
-	<div id="projectDesc">
-		<% if @project.start_date %><span class="projectRank"><strong>Start Date:</strong> <%= @project.start_date.to_s :long %></span><% end %>
-	
-		<p><%= @project.description %></p>
-	
-		<%= project_actions %>
-		<% if @project.partner %><div class="projectSMtext"><strong>Implementing Organization: </strong> <%= @project.partner.name %></div><% end %>
-	</div>
-	<%= project_quickfacts %>
-</div>
 <div id="contentContainer">
-  <div id="leftColW"></div>
-  <div id="rightColN"></div>
+  <h1><%= @project.name %></h1>
+  <%= project_nav %>
+
+  <div id="leftColW">
+
+    <div class="projectRank">
+      <ul class="specList">
+        <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
+        <!--<li style="margin-right:3px; "><span><strong>Project Rating:</strong></span></li>
+        <li><span class="villageRatingProject"></span></li>-->
+      </ul>
+    </div>
+
+  	<div class="projectDescription">
+  	<p><%= @project.description %></p>
+  	</div>
+
+  	<%= project_actions %>
+
+    <p class="rating">
+      <strong>Implementing Organization: </strong> <a href="http://www.christmasfuture.org/">ChristmasFuture Foundation</a><br />
+      <!--<strong>Village Ranking of Implementing Organization: </strong><span class="villageRatingOrg"></span>-->
+    </p>
+  </div>
+          
+  <div id="rightColN">
+    <div id="relatedProjects">
+      <select name="Village Projects">
+        <option>Other Projects in this Village</option>
+        <option value="1">Project 1</option>
+        <option value="2">Project 2</option>
+        <option value="3">Project 3</option>
+        <option value="">etc.</option>
+      </select>
+    </div>
+    <div id="factList">
+	  <%= project_quickfacts %>
+	  </div>
+  </div>
 </div>

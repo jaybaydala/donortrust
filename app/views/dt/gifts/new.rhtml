@@ -1,148 +1,149 @@
 <%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  <h1>Gift it!</h1>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <%= error_messages_for :gift %>
+  <% form_for(:gift, :url => dt_confirm_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
+  <p>After selecting an image from the Gift Card Gallery in the right column, please enter your personal information and the gift amount in the form below. Your personal information will be used to authorize your credit card and to update your account information. Be sure to enter your information correctly to ensure accuracy.</p>
+  <div class="userform">
 
-<div id="leftColW">
-<h1>Gift it!</h1>
-<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-<%= error_messages_for :gift %>
-<% form_for(:gift, :url => dt_confirm_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
-<p>After selecting an image from the Gift Card Gallery in the right column, please enter your personal information and the gift amount in the form below. Your personal information will be used to authorize your credit card and to update your account information. Be sure to enter your information correctly to ensure accuracy.</p>
-<div class="userform">
-
-  <fieldset>
-    <legend>Please enter your gift amount:</legend>
-    <ul>
-      <li style="padding-bottom:0px;"><label for="gift_amount"><%= render :partial => 'dt/shared/form_required' %>Gift Amount</label><%= f.text_field :amount %></li>
-    </ul>
-  </fieldset>
-
-  <fieldset>
-    <legend>Please specify how you would like your gift to be allocated:</legend>
-    <div id="projectsuggest">
-      <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", nil, :style => 'border:none; padding:0; margin-right:3px;' %>to any project the recipient specifies upon receiving your gift</p>
-      <p class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? ? @gift.project_id : 0 ), :style => 'border:none; padding:0; margin-right:3px;' %>to a specific project&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></p>
-    </div>
-  </fieldset>
-
-  <fieldset class="fieldsetN">
-    <legend>Sender Information</legend>
-    <ul>
-      <li><label for="gift_name">From (Name)</label><%= f.text_field :name %></li>
-      <li><label for="gift_email"><em>*</em>From (Email)</label><%= f.text_field :email %></li>
-      <li><label for="gift_email_confirmation"><em>*</em>Retype Email</label><%= f.text_field :email_confirmation %></li>
-    </ul>
-  <%= render :partial => 'dt/shared/form_requirednote' %>
-  </fieldset>
-  <fieldset  class="fieldsetN2">
-  <legend>Recipient Information</legend>
-    <ul>
-      <li><label for="gift_to_name">To (Name)</label><%= f.text_field :to_name %></li>
-      <li><label for="gift_to_email"><em>*</em>To (Email)</label><%= f.text_field :to_email %></li>
-      <li><label for="gift_to_email_confirmation"><em>*</em>Retype Email</label><%= f.text_field :to_email_confirmation %></li>
-    </ul>
-  </fieldset>
-  
-  <fieldset id="textInput">
-      <legend>Your message</legend>
-      <%= f.text_area :message, :rows => 6, :cols => 35 %>
-  </fieldset>
-
-  <fieldset>
-    <legend>Gift Schedule</legend>
-    <ul>
-      <div class="textsm" style="padding-bottom:0;">Select a date &amp; time to schedule your gift, or leave them blank to send it right away.</div>
-      <li>
-        <div id="gift_send_at_select">
-          <%= f.datetime_select :send_at, 
-            :order => [:month, :day, :year, :hour, :minute], 
-            :start_year => Time.now.year, 
-            :end_year => Time.now.year+1, 
-            :discard_second => true, 
-            :minute_step=> 30, 
-            :include_blank => true %>
-            <%= select_tag :time_zone, time_zone_options_for_select('Mountain Time (US & Canada)')%>
-        </div>
-      </li>
-    </ul>
-  </fieldset>
-  
-  <% if logged_in? %>
-  <fieldset>
-    <legend>Please specify how you would like to pay for your gift</legend>
-    <p class="textsm" style="margin-bottom:0px;"><%= radio_button_tag 'payment', 'account' %> from my account (current balance: <%= number_to_currency( current_user.balance ) %>)&nbsp;&nbsp; &#8250; <%= link_to "make a deposit", dt_new_deposit_path(:account_id => current_user.id) %></p>
-    <p class="textsm"><%= radio_button_tag 'payment', 'credit' %> using my credit card (fill in the following details)</p>
-  </fieldset>
-  
-  <div id="account_payment"<%= " style=\"display:none;\"" unless params[:payment] == "account" %>>
     <fieldset>
-      <legend>Account Payment</legend>
-      <div class="textsm">Your gift amount cannot be more than your current balance. Would you like to ?</div>
+      <legend>Please enter your gift amount:</legend>
       <ul>
-        <li>Balance: <%= number_to_currency( current_user.balance ) %>
-          <span class="textsm">(<%= link_to("Make a deposit", dt_new_deposit_path( :account_id => current_user.id )) %>)</span></li>
+        <li><label for="gift_amount"><%= render :partial => 'dt/shared/form_required' %>Gift Amount</label><%= f.text_field :amount %></li>
       </ul>
     </fieldset>
-  </div>
-  <% end %>
 
-  <div id="credit_payment">
     <fieldset>
-      <legend>Credit Card Details</legend>
-      <ul style="width:305px;">
-        <li><label for="gift_first_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>First Name</label><%= f.text_field 'first_name' %></li>
-        <li><label for="gift_last_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Last Name</label><%= f.text_field 'last_name' %></li>
-        <li><label for="gift_address"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Address</label><%= f.text_field 'address' %></li>
-        <li><label for="gift_city"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>City</label><%= f.text_field 'city' %></li>
-        <li><label for="gift_province"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Province</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
-        <li><label for="gift_postal_code"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Postal Code</label><%= f.text_field 'postal_code', :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
-        <li><label for="gift_country"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Country</label><%= f.text_field 'country', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
-        <li><label for="gift_credit_card"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Credit Card</label><%= f.text_field :credit_card %></li>
-        <li><label for="gift_expiry_month"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Card Expiry</label>
-          <%= f.select("expiry_month", (1..12).to_a.collect {|m| 
-          mo = m.to_s.rjust(2, "0"); 
-          [ mo, mo ] }, { :include_blank => true, :selected => @gift.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) -%>
-          <div style="width:1em;float:left;">/</div>
-          <%= f.select("expiry_year", (1..7).to_a.collect {|y| 
-          d = Date.civil(Date.today.year+y.to_i) 
-          [ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
+      <legend>Please specify how you would like your gift to be allocated:</legend>
+      <div id="projectsuggest">
+        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", nil, :style => 'border:none; padding:0; margin-right:3px;' %>to any project the recipient specifies upon receiving your gift</p>
+        <p class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? ? @gift.project_id : 0 ), :style => 'border:none; padding:0; margin-right:3px;' %>to a specific project&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></p>
+      </div>
+    </fieldset>
+
+    <fieldset class="fieldsetN">
+      <legend>Sender Information</legend>
+      <ul>
+        <li><label for="gift_name">From (Name)</label><%= f.text_field :name %></li>
+        <li><label for="gift_email"><em>*</em>From (Email)</label><%= f.text_field :email %></li>
+        <li><label for="gift_email_confirmation"><em>*</em>Retype Email</label><%= f.text_field :email_confirmation %></li>
+      </ul>
+    <%= render :partial => 'dt/shared/form_requirednote' %>
+    </fieldset>
+    <fieldset  class="fieldsetN2">
+    <legend>Recipient Information</legend>
+      <ul>
+        <li><label for="gift_to_name">To (Name)</label><%= f.text_field :to_name %></li>
+        <li><label for="gift_to_email"><em>*</em>To (Email)</label><%= f.text_field :to_email %></li>
+        <li><label for="gift_to_email_confirmation"><em>*</em>Retype Email</label><%= f.text_field :to_email_confirmation %></li>
+      </ul>
+    </fieldset>
+  
+    <fieldset id="textInput">
+        <legend>Your message</legend>
+        <%= f.text_area :message, :rows => 6, :cols => 35 %>
+    </fieldset>
+
+    <fieldset>
+      <legend>Gift Schedule</legend>
+      <ul>
+        <div class="textsm" style="padding-bottom:0;">Select a date &amp; time to schedule your gift, or leave them blank to send it right away.</div>
+        <li>
+          <div id="gift_send_at_select">
+            <%= f.datetime_select :send_at, 
+              :order => [:month, :day, :year, :hour, :minute], 
+              :start_year => Time.now.year, 
+              :end_year => Time.now.year+1, 
+              :discard_second => true, 
+              :minute_step=> 30, 
+              :include_blank => true %>
+              <%= select_tag :time_zone, time_zone_options_for_select('Mountain Time (US & Canada)')%>
+          </div>
         </li>
       </ul>
     </fieldset>
-  </div>
   
-  <%= f.hidden_field 'ecard', :id => "ecardsrc" %>
-  <%= submit_tag 'Confirm', :class => 'buttonsubmit' %>
-  <%= render :partial => 'dt/shared/form_requirednote' %>
-</div>
-<% end %>
-</div>
-
-<div id="rightColN">
-  <h2>Gift Card Gallery</h2>
-
-<div id="miniGallery">
-  <div class="textsm">Select an E-card</div>
-    <p>Select the e-card you wish to send with your gift. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
-    <div id="medImgWrap">
-      <div class="medImg"><img src="/images/dt/ecards/medium/cf-ecard-001.jpg" id="mediumEcard" /></div>
-      <div id="selectWrap">
-        <div class="selectButton"><img src="/images/dt/nav_elements/buttonsCF/buttonSelect.gif" id="ecardSelect" /></div>
-      </div>
-      <!--
-        <div class="medImgNav">
-        <div class="prev"><a href="#">&lt; prev</a></div>
-        <div class="next"><a href="#">next &gt;</a></div>
-      </div>
-      -->
+    <% if logged_in? %>
+    <fieldset>
+      <legend>Please specify how you would like to pay for your gift</legend>
+      <p class="textsm" style="margin-bottom:0px;"><%= radio_button_tag 'payment', 'account' %> from my account (current balance: <%= number_to_currency( current_user.balance ) %>)&nbsp;&nbsp; &#8250; <%= link_to "make a deposit", dt_new_deposit_path(:account_id => current_user.id) %></p>
+      <p class="textsm"><%= radio_button_tag 'payment', 'credit' %> using my credit card (fill in the following details)</p>
+    </fieldset>
+  
+    <div id="account_payment"<%= " style=\"display:none;\"" unless params[:payment] == "account" %>>
+      <fieldset>
+        <legend>Account Payment</legend>
+        <div class="textsm">Your gift amount cannot be more than your current balance. Would you like to ?</div>
+        <ul>
+          <li>Balance: <%= number_to_currency( current_user.balance ) %>
+            <span class="textsm">(<%= link_to("Make a deposit", dt_new_deposit_path( :account_id => current_user.id )) %>)</span></li>
+        </ul>
+      </fieldset>
     </div>
-    <div class="textsm">Choose a card below to preview the image.</div>
-    <div id="miniThumbs">
-      <ul>
-        <% (1..12).each do |x| %>
-        <li><a href="/images/dt/ecards/medium/cf-ecard-<%= x.to_s.rjust(3, '0') %>.jpg" rel="blank"><img src="/images/dt/ecards/small/cf-ecard-<%= x.to_s.rjust(3, '0') %>.jpg" alt="" /></a></li>
-        <% end %>
-      </ul>
+    <% end %>
+
+    <div id="credit_payment">
+      <fieldset>
+        <legend>Credit Card Details</legend>
+        <ul style="width:305px;">
+          <li><label for="gift_first_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>First Name</label><%= f.text_field 'first_name' %></li>
+          <li><label for="gift_last_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Last Name</label><%= f.text_field 'last_name' %></li>
+          <li><label for="gift_address"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Address</label><%= f.text_field 'address' %></li>
+          <li><label for="gift_city"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>City</label><%= f.text_field 'city' %></li>
+          <li><label for="gift_province"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Province</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
+          <li><label for="gift_postal_code"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Postal Code</label><%= f.text_field 'postal_code', :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
+          <li><label for="gift_country"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Country</label><%= f.text_field 'country', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
+          <li><label for="gift_credit_card"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Credit Card</label><%= f.text_field :credit_card %></li>
+          <li><label for="gift_expiry_month"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Card Expiry</label>
+            <%= f.select("expiry_month", (1..12).to_a.collect {|m| 
+            mo = m.to_s.rjust(2, "0"); 
+            [ mo, mo ] }, { :include_blank => true, :selected => @gift.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) -%>
+            <div style="width:1em;float:left;">/</div>
+            <%= f.select("expiry_year", (1..7).to_a.collect {|y| 
+            d = Date.civil(Date.today.year+y.to_i) 
+            [ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
+          </li>
+        </ul>
+      </fieldset>
     </div>
-    <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your gift email" id="gift_preview" onclick="var params=Form.serialize($('giftform'));window.open('<%= dt_preview_gifts_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
-  </div>  
+  
+    <%= f.hidden_field 'ecard', :id => "ecardsrc" %>
+    <%= submit_tag 'Confirm', :class => 'buttonsubmit' %>
+    <%= render :partial => 'dt/shared/form_requirednote' %>
+  </div>
+  <% end %>
+  </div>
+
+  <div id="rightColN">
+    <h2>Gift Card Gallery</h2>
+
+    <div id="miniGallery">
+      <div class="textsm">Select an E-card</div>
+      <p>Select the e-card you wish to send with your gift. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
+      <div id="medImgWrap">
+        <div class="medImg"><img src="/images/dt/ecards/medium/cf-ecard-001.jpg" id="mediumEcard" /></div>
+        <div id="selectWrap">
+          <div class="selectButton"><img src="/images/dt/nav_elements/buttonsCF/buttonSelect.gif" id="ecardSelect" /></div>
+        </div>
+        <!--
+          <div class="medImgNav">
+          <div class="prev"><a href="#">&lt; prev</a></div>
+          <div class="next"><a href="#">next &gt;</a></div>
+        </div>
+        -->
+      </div>
+      <div class="textsm">Choose a card below to preview the image.</div>
+      <div id="miniThumbs">
+        <ul>
+          <% (1..12).each do |x| %>
+          <li><a href="/images/dt/ecards/medium/cf-ecard-<%= x.to_s.rjust(3, '0') %>.jpg" rel="blank"><img src="/images/dt/ecards/small/cf-ecard-<%= x.to_s.rjust(3, '0') %>.jpg" alt="" /></a></li>
+          <% end %>
+        </ul>
+      </div>
+      <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your gift email" id="gift_preview" onclick="var params=Form.serialize($('giftform'));window.open('<%= dt_preview_gifts_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
+    </div>  
+  </div>
 </div>

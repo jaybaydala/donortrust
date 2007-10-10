@@ -294,6 +294,19 @@ h1 {
 	margin: 0px 0px 0px 0px;
 	border-bottom: 0px solid #fff;
 }
+#h1_header {
+	width:717px; height:;
+	font: 24px Georgia, "Times New Roman", Times, serif;
+	color: #033;
+	font-weight:normal;
+	background:;
+	padding: 0px 0px 8px 0px;
+	margin: 0px 0px 10px 25px;
+	border-bottom: 2px solid #360;
+	float:left;
+}
+#h1_header .buttonGroupWrapN {margin:2px 0 0 0;}
+
 h2 {
 	font: 16px/20px Georgia, "Times New Roman", Times, serif;
 	color: #360;
@@ -436,6 +449,13 @@ div.textsm {
 }*/
 
 /* Endline is a rule (line) used for ending/separating paragraphs */
+
+.line1W {width:469px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:#360;}
+.line1N {width:228px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:#360;}
+.line2W {width:469px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:#360;}
+.line2N {width:228px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:#360;}
+.line2Full {width:717px; margin:0px 0 0px 7px; padding:0; float:left; border-bottom:2px solid #360; background:#360;}
+
 
 .endLine {
 	font: 2px/0px Arial, Helvetica, sans-serif;
@@ -832,6 +852,33 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
+/* BUTTON GROUP */
+
+.buttonGroupWrapN {
+	padding: 0px 0px 1px 0px;
+	margin: 0 0 8px 0px;
+	background: ;
+	height: 24px;
+	width: 228px;
+	text-align:left;
+	border-bottom:0px solid #ccc;
+	float:right;
+}
+#subSubNav_2col .buttonGroupWrapN {margin-bottom: 0px;}
+.buttonGroupWrap ul, #rightColN .buttonGroupWrap ul {float:lef; padding: 0px 0 2px 0px; margin:0;}
+.buttonGroup li, #rightColN .buttonGroup li {
+	font: 11px/16px Arial, Helvetica, sans-serif;
+	color: #333;
+	background:;
+	padding: 1px 0px 1px 0px;
+	margin:0 3px 0 0;
+	text-decoration:none;
+	display: inline;
+	list-style-type: none;
+	width:auto ; height:auto ;
+	border-bottom:none;
+	float:left;
+}
 
 /* FORM STYLES */
 
@@ -1036,10 +1083,10 @@ select {
 #relatedProjects {
 	width:228px; height:25px; 
 	float: right; 
-	background: #FFF url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat -496px 0px;
-	padding: 3px 0 10px 0;
+	background: #FFF /* url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat -496px 0px; */
+	padding: 3px 0 10px 0; margin-bottom:5px;
 }
-#relatedProjects select {width: 220px; margin: 0;}
+#relatedProjects select {width: 228px; margin: 0;}
 
 #location, #cause, #organization {float:left; width:195px; padding: 9px 0px 0 10px;}
 #location input, #cause input, #project input {width: 220px; margin: 0;}
@@ -1152,7 +1199,6 @@ div.buttonsubmit a.large:hover {
 	font: 10px Arial, Helvetica, sans-serif;
 	color: #333;
 	padding: 2px 0 0 0px;
-	background:#D8DEE7;
 }
 #rememberMe input {
 	margin: 2px 5px 0 0px;
@@ -1174,7 +1220,7 @@ div.buttonsubmit a.large:hover {
 #buttonSignIn {
 	float:left;
 	clear:left;
-	margin: 0 0 0 90px;
+	margin: 0 0 0 136px;
 	padding: 0;
 }
 #buttonSignUp {
@@ -1196,7 +1242,7 @@ div.buttonsubmit a.large:hover {
 	text-align:left;
 	border-top: 0px solid #360;
 	border-bottom: 2px solid #360;
-	padding: 0 0 10px 0px;
+	padding: 0 0 0px 0px;
 	margin: 0px 0 10px 18px;
 }
 #contentContainer .projectInfo {margin-left:0px;}
@@ -1278,9 +1324,11 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 #factList, .factList {
 	float:right;
 	width:228px;
-	padding: 0px 0px 5px 0px;
-	margin-bottom:10px;
+	padding: 0px 0px 0px 0px;
+	margin-bottom:0px;
 }
+#rightColN .factList {padding:0; margin-bottom:0;}
+
 #factList2, .factList2 {
 	float:left;
 	width:221px;
@@ -1292,6 +1340,9 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 	display:block;
 	list-style-type:none;
 }
+#leftColW .factList2 li {padding-bottom:0;}
+#rightColN .factList ul {margin-bottom: 10px;}
+
 #factList li, .factList li {
 	font: 11px/15px Arial, Helvetica, sans-serif;
 	padding: 0 0 3px 0px;
@@ -1696,7 +1747,7 @@ form #groupInfo input[type=radio] {border:none; width:20px;font-size: 14px; marg
 #newMember input {float:left; height:14px; width:195px; }
 #newMember .select {float:left;}
 
-/* ADD MEMBERS BUTTON */
+/* Add Members Button */
 
 #addButton a {
 	float:left;
@@ -1731,44 +1782,7 @@ form #groupInfo input[type=radio] {border:none; width:20px;font-size: 14px; marg
 	border: 0px solid #F60;
 }
 
-/* BUTTON GROUP */
 
-#createGroup, .buttonGroupWrapN {
-	padding: 0px 0px 1px 0px;
-	margin: 0 0 8px 0px;
-	background: ;
-	height: 24px;
-	width: 228px;
-	text-align:left;
-	border-bottom:0px solid #ccc;
-	float:right;
-}
-#createGroup ul, .buttonGroupWrap ul, #rightColN .buttonGroupWrap ul {float:lef; padding: 0px 0 2px 0px; margin:0;}
-.buttonGroup li, #rightColN .buttonGroup li {
-	font: 11px/16px Arial, Helvetica, sans-serif;
-	color: #333;
-	background:;
-	padding: 1px 0px 1px 0px;
-	margin:0 3px 0 0;
-	text-decoration:none;
-	display: inline;
-	list-style-type: none;
-	width:auto ; height:auto ;
-	border-bottom:none;
-	float:left;
-}
-#h1_header {
-	width:717px; height:;
-	font: 24px Georgia, "Times New Roman", Times, serif;
-	color: #033;
-	font-weight:normal;
-	background:;
-	padding: 0px 0px 8px 7px;
-	margin: 0px 0px 5px 18px;
-	border-bottom: 2px solid #360;
-	float:left;
-}
-#h1_header .buttonGroupWrapN {margin:2px 0 0 0;}
 
 
 

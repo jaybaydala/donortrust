@@ -1,5 +1,5 @@
 <%= dt_account_nav %>
-
+<div id="contentContainer">
 <div id="leftColW">
 	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 
@@ -42,6 +42,6 @@
 </div>
 
 <div id="rightColN">
-	<!--<%= render_partial 'dt/groups/groups_sidebar' %>-->
+  <%= dt_profile_sidebar %>
 </div>
-
+</div>

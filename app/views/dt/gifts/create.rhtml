@@ -1,18 +1,21 @@
 <%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Thanks!</h1>
 
-<div id="leftColW2">
-<h1>Thanks!</h1>
+    <p>
+    	<%= "Your gift has been emailed." if @gift.sent_at != nil %> 
+    	<%= "Your gift has been scheduled to be emailed." if @gift.sent_at == nil %> 
+    	If it isn't picked up, we will notify you before it expires in 30 days after notification.
+    	The ecard can be downloaded <a href="<%= "/dt/gifts/%s;printable" % [@gift.id] %>">here</a>. 
+    </p>
 
-<p>
-	<%= "Your gift has been emailed." if @gift.sent_at != nil %> 
-	<%= "Your gift has been scheduled to be emailed." if @gift.sent_at == nil %> 
-	If it isn't picked up, we will notify you before it expires in 30 days after notification.
-	The ecard can be downloaded <a href="<%= "/dt/gifts/%s;printable" % [@gift.id] %>">here</a>. 
-</p>
-
-<p>
-	Thanks again,<br />
-	The ChristmasFuture team
-</p>
-
+    <p>
+    	Thanks again,<br />
+    	The ChristmasFuture team
+    </p>
+  </div>
+  <div id="rightColN">
+    <%= dt_profile_sidebar %>
+  </div>
 </div>

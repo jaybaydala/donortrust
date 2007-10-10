@@ -29,7 +29,19 @@ module DtApplicationHelper
     render 'dt/accounts/account_nav'
   end
 
+  def dt_get_involved_nav
+    render 'dt/groups/get_involved_nav'
+  end
+
   def dt_footer
     render 'dt/shared/footer'
+  end
+
+  def dt_profile_sidebar
+    render 'dt/accounts/profile_sidebar'
+  end
+
+  def textilize(text)
+    RedCloth.new(text).to_html
   end
 end

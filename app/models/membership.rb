@@ -24,7 +24,7 @@ class Membership < ActiveRecord::Base
     
     def find_group_founder(group_id)
       member = find_by_membership_type(Membership.founder, :conditions => {:group_id => group_id})
-      founder = member.user unless member.user.nil?
+      founder = member.user if member && member.user_id? && !member.user.nil?
     end
   end
 end

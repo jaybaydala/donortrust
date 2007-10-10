@@ -1,38 +1,39 @@
 <%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  <h1>Investment</h1>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
+  <p>Please review your personal information. As the donor of this donation(s), your personal information, as entered below will appear on your charitable tax receipt. Please ensure the information is accurate, as donation tax receipts cannot be altered. Your user account has been updated with the information you provide.</p>
+  <div class="userform">
+  	<fieldset>
+  		<legend>Personal Information - Tax Receipt</legend>
+  		<ul>
+  			<li style="clear:left;"><label for="tax_receipt_first_name">First Name</label> <%= @tax_receipt.first_name %><%= hidden_field 'tax_receipt', 'first_name' %></li>
+  			<li style="clear:left;"><label for="tax_receipt_first_name">Last Name</label> <%= @tax_receipt.last_name %><%= hidden_field 'tax_receipt', 'last_name' %></li>
+  			<li style="clear:left;"><label for="tax_receipt_address">Address</label> <%= @tax_receipt.address %><%= hidden_field 'tax_receipt', 'address' %></li>
+  			<li style="clear:left;"><label for="tax_receipt_city">City</label> <%= @tax_receipt.city %><%= hidden_field 'tax_receipt', 'city' %></li>
+  			<li style="clear:left;"><label for="tax_receipt_province">Province</label> <%= @tax_receipt.province %><%= hidden_field 'tax_receipt', 'province' %></li>
+  			<li style="clear:left;"><label for="tax_receipt_postal_code">Postal Code</label> <%= @tax_receipt.postal_code %><%= hidden_field 'tax_receipt', 'postal_code' %></li>
+  			<li style="clear:left;"><label for="tax_receipt_country">Country</label> <%= @tax_receipt.country %><%= hidden_field 'tax_receipt', 'country' %></li>
+  		</ul>	
+  	</fieldset>
 
-<div id="leftColW2">
-<h1>Investment</h1>
-<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-<% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
-<p>Please review your personal information. As the donor of this donation(s), your personal information, as entered below will appear on your charitable tax receipt. Please ensure the information is accurate, as donation tax receipts cannot be altered. Your user account has been updated with the information you provide.</p>
-<div class="userform">
-	<fieldset>
-		<legend>Personal Information - Tax Receipt</legend>
-		<ul>
-			<li style="clear:left;"><label for="tax_receipt_first_name">First Name</label> <%= @tax_receipt.first_name %><%= hidden_field 'tax_receipt', 'first_name' %></li>
-			<li style="clear:left;"><label for="tax_receipt_first_name">Last Name</label> <%= @tax_receipt.last_name %><%= hidden_field 'tax_receipt', 'last_name' %></li>
-			<li style="clear:left;"><label for="tax_receipt_address">Address</label> <%= @tax_receipt.address %><%= hidden_field 'tax_receipt', 'address' %></li>
-			<li style="clear:left;"><label for="tax_receipt_city">City</label> <%= @tax_receipt.city %><%= hidden_field 'tax_receipt', 'city' %></li>
-			<li style="clear:left;"><label for="tax_receipt_province">Province</label> <%= @tax_receipt.province %><%= hidden_field 'tax_receipt', 'province' %></li>
-			<li style="clear:left;"><label for="tax_receipt_postal_code">Postal Code</label> <%= @tax_receipt.postal_code %><%= hidden_field 'tax_receipt', 'postal_code' %></li>
-			<li style="clear:left;"><label for="tax_receipt_country">Country</label> <%= @tax_receipt.country %><%= hidden_field 'tax_receipt', 'country' %></li>
-		</ul>	
-	</fieldset>
+  	<fieldset>
+  		<legend>Investment Details</legend>
+  		<ul>
+  			<li style="clear:left;"><label for="investment_amount">Project</label> <%= @investment.project.name %> <%= f.hidden_field 'project_id' %></li>
+  			<li style="clear:left;"><label for="investment_amount">Investment Amount</label> <%= number_to_currency(@investment.amount) %> <%= f.hidden_field :amount %></li>
+  		</ul>
+  	</fieldset>
 
-	<fieldset>
-		<legend>Investment Details</legend>
-		<ul>
-			<li style="clear:left;"><label for="investment_amount">Project</label> <%= @investment.project.name %> <%= f.hidden_field 'project_id' %></li>
-			<li style="clear:left;"><label for="investment_amount">Investment Amount</label> <%= number_to_currency(@investment.amount) %> <%= f.hidden_field :amount %></li>
-		</ul>
-	</fieldset>
-
-	<%= submit_tag 'Gift it!', :class => 'buttonsubmit' %>
-	<input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
-</div>
-<% end %>
-</div>
-<div id="rightColN">
-	
+  	<%= submit_tag 'Gift it!', :class => 'buttonsubmit' %>
+  	<input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
+  </div>
+  <% end %>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
 </div>

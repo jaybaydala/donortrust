@@ -6,7 +6,6 @@ class Group < ActiveRecord::Base
   #has_many :users, :through => :groupwall
   #has_many :users, :through => :group_admin_notes
   has_and_belongs_to_many :projects
-  has_and_belongs_to_many :sectors
   belongs_to :place
 
   validates_presence_of :name
@@ -40,20 +39,41 @@ class Group < ActiveRecord::Base
     Membership.find_group_founder(self[:id])
   end
   
-  def associated_sectors
-    self.sectors.collect{ |sector| sector.id }
+  def raised
+    @raised ||= calculate_raised
   end
-  def associated_sectors=(sector_ids)
-    all_sectors = Sector.find(:all)
-    selected_sectors = []
-    for sector_id in sector_ids
-      sector = Sector.find(sector_id.to_i)
-      self.sectors << sector if not self.sectors.include?(sector)
-      selected_sectors << sector
+  
+  def causes
+    @causes ||= calculate_causes
+  end
+
+  def member(user)
+    memberships.find_by_user_id(user.id)
+  end
+  
+  protected
+  def calculate_raised
+    members = ''
+    Group.find(self[:id]).memberships.each do |member|
+      members+=" OR " unless members.empty?
+      members+="user_id=#{member.user_id}"
     end
-    missing_sectors = all_sectors - selected_sectors
-    for sector in missing_sectors
-      self.sectors.delete(sector) if self.sectors.include?(sector)
+    raised = 0
+    unless members.empty?
+      Investment.find(:all, :conditions =>"group_id=#{self[:id]} AND (#{members})").each do |investment|
+        raised+=investment.amount
+      end
     end
+    raised
+  end
+  
+  def calculate_causes
+    causes = []
+    projects.find(:all, :include => :sectors).each do |project|
+      project.sectors.each do |sector|
+        causes << sector unless causes.include?(sector)
+      end
+    end
+    causes
   end
 end

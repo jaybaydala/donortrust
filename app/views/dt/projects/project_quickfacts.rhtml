@@ -1,14 +1,14 @@
-      <div id="factList">
         <h2>Quick Facts</h2>
         <ul>
-          <% if @project.place_id %><li><strong>Location:</strong> <%= link_to @project.village.name, dt_village_project_path(@project) %>, <%= link_to @project.nation.name, dt_nation_project_path(@project) %></li><% end %>
-          <% if @project.sectors %><li><strong>Cause(s):</strong> <span style="background:#C00;color:#FFF;padding:1px;">Awaiting new Sector/Cause model</span></li><% end %>
-          <% if @project.place_id %><li><strong>Village Projects:</strong> <%= @project.village_project_count %></li><% end %>
+          <% if @project.place_id? && @project.place %><li><strong>Location:</strong> <%= link_to @project.village.name, dt_village_project_path(@project) %>, <%= link_to @project.nation.name, dt_nation_project_path(@project) %></li><% end %>
+          <% if @project.sectors.size > 0 %><li><strong>Cause(s):</strong> <span style="background:#C00;color:#FFF;padding:1px;">Awaiting new Sector/Cause model</span></li><% end %>
+          <% if @project.place_id? && @project.place %><li><strong>Village Projects:</strong> <%= @project.village_project_count %></li><% end %>
           <li><strong>Lives Affected:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Where is this coming from?</span></li>
           <li><strong>Life Saving Impact:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Where is this coming from?</span></li>
           <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
           <li><strong>Dollars Spent:</strong> <%= number_to_currency(@project.dollars_spent) %></li>
           <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
           <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %></li>
+          <li class="blueblock"><a href="#">&nbsp;Add to Project Watchlist</a></li>
+          <li class="blueblock"><a href="#">&nbsp;Send a Gift E-Card</a></li>
         </ul>
-      </div>

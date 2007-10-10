@@ -1,0 +1,6 @@
+<%= dt_account_nav %>
+
+<h2>Recently Admin Messages</h2>
+<ul id="recentadminmessages-list">
+<%= render :partial => 'dt/group_news/group_news', :collection => @recent_group_news if @recent_group_news %>
+</ul>

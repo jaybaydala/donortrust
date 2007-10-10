@@ -62,19 +62,23 @@ class User < ActiveRecord::Base
   end
 
   def balance
-    @balance || calculate_balance
+    @balance ||= calculate_balance
   end
 
   def deposited
-    @deposits || calculate_deposits
+    @deposits ||= calculate_deposits
   end
 
   def invested
-    @investment || calculate_investments
+    @investment ||= calculate_investments
   end
 
   def gifted(exclude_credit_card = false)
-    calculate_gifts(exclude_credit_card)
+    if (exclude_credit_card)
+      @gifted_without_credit_card ||= calculate_gifts(exclude_credit_card)
+    else
+      @gifted_with_credit_card ||= calculate_gifts(exclude_credit_card)
+    end
   end
 
   # Encrypts the password with the user salt
@@ -140,7 +144,7 @@ class User < ActiveRecord::Base
     end
     
     def calculate_balance
-      @balance = deposited - invested - gifted(true) || 0
+      balance = deposited - invested - gifted(true) || 0
     end
 
     def calculate_deposits
@@ -149,7 +153,7 @@ class User < ActiveRecord::Base
       deposits.each do |trans|
         balance = balance + trans.amount
       end
-      @deposits = balance || 0
+      balance
     end
 
     def calculate_investments
@@ -158,7 +162,7 @@ class User < ActiveRecord::Base
       investments.each do |trans|
         balance = balance + trans.amount
       end
-      @investments = balance || 0
+      balance
     end
 
     def calculate_gifts(exclude_credit_card = false)

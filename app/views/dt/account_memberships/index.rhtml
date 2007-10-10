@@ -1,0 +1,16 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <h1>My Groups</h1>
+  <% if @groups.size > 0 %>
+  <%= render :partial => 'dt/groups/group', :collection => @groups %>
+  <% else %>
+  <div id="leftColW">
+    <p>You are not currently a member of any group. <%= link_to "Get involved", dt_groups_path %>.</p>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+	</div>
+  <% end %>
+</div>

@@ -1,58 +1,67 @@
 <%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  	<h1>Sign up</h1>
+	
+  	<p>To sign up, enter your information in the spaces below.</p>
+	
+  	<%= error_messages_for :user %>
+  	<% form_for(:user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform"}) do |f| %>
+  	<div class="userform">
+	    <fieldset>
+        <legend>Age Verification</legend>
+        <ul>
+          <li><label>Are you under 13?</label> <%= f.check_box :under_thirteen, :onclick => 'Account.toggle_personal_info(this.checked);' %></li>
+        </ul>
+      </fieldset>
 
-<div id="leftColW2">
-	<h1>Sign up</h1>
-	
-	<p>To sign up, enter your information in the spaces below.</p>
-	
-	<%= error_messages_for :user %>
-	<% form_for(:user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform"}) do |f| %>
-	<div class="userform">
-	  
-  	<fieldset>
-  		<legend class="header">Login/Email</legend>
-  		<ul>
-    		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
-  		</ul>
-  	</fieldset>
+    	<fieldset>
+    		<legend class="header">Login/Email</legend>
+    		<!--<div class="textsm underThirteen" style="display:none;">You cannot use your email address for login - please use a login that isn't personally identifiable</div>-->
+    		<ul>
+      		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
+    		</ul>
+    	</fieldset>
 
-  	<fieldset>
-  	  <legend>Your Indentity</legend>
-  	  <div class="textsm">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
-  	  <ul>
-    		<li><label for="first_name">First Name</label><%= f.text_field :first_name %></li>
-    		<li><label for="last_name">Last Name</label><%= f.text_field :last_name %></li>
-  		  <li><label for="display_name">Display Name</label><%= f.text_field :display_name %></li>
-  	  </ul>
-    </fieldset>
+    	<fieldset>
+    	  <legend>Your Identity</legend>
+    	  <div class="textsm personalinfo">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
+    		<div class="textsm underThirteen" style="display:none;">Please enter a display name that is not your real name</div>
+    	  <ul>
+      		<li class="personalinfo"><label for="first_name">First Name</label><%= f.text_field :first_name %></li>
+      		<li class="personalinfo"><label for="last_name">Last Name</label><%= f.text_field :last_name %></li>
+    		  <li><label for="display_name">Display Name</label><%= f.text_field :display_name %></li>
+    	  </ul>
+      </fieldset>
 	
-  	<fieldset>
-  	  <legend>Password</legend>
-  		<div class="textsm">Please provide a password. It must be longer than 4 characters and try to make it something you'll remember.</div>
-  	  <ul>
-  		  <li><label for="password"><%= render :partial => 'dt/shared/form_required' %>Password</label><%= f.password_field :password %></li>
-  		  <li><label for="password_confirmation"><%= render :partial => 'dt/shared/form_required' %>Confirm Password</label><%= f.password_field :password_confirmation %></li>
-  	  </ul>
-    </fieldset>
+    	<fieldset>
+    	  <legend>Password</legend>
+    		<div class="textsm">Please provide a password. It must be longer than 4 characters and try to make it something you'll remember.</div>
+    	  <ul>
+    		  <li><label for="password"><%= render :partial => 'dt/shared/form_required' %>Password</label><%= f.password_field :password %></li>
+    		  <li><label for="password_confirmation"><%= render :partial => 'dt/shared/form_required' %>Confirm Password</label><%= f.password_field :password_confirmation %></li>
+    	  </ul>
+      </fieldset>
 	
-  	<fieldset>
-  	  <legend>Personal Details</legend>
-  		<div class="textsm">The following fields are optional.</div>
-    	<ul>
-    		<li><label for="address">Address</label><%= f.text_field :address %></li>
-    		<li><label for="city">City</label><%= f.text_field :city %></li>
-    		<li style="clear:left;"><label for="province">Province/State</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
-    		<li style="clear:left;"><label for="postal_code">Postal/Zip Code</label><%= f.text_field :postal_code, :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
-    		<li style="clear:left;"><label for="country">Country</label><%= f.text_field :country, :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
-    	</ul>
-    </fieldset>
+    	<fieldset class="personalinfo">
+    	  <legend>Personal Details</legend>
+    		<div class="textsm">The following fields are optional.</div>
+      	<ul>
+      		<li><label for="address">Address</label><%= f.text_field :address %></li>
+      		<li><label for="city">City</label><%= f.text_field :city %></li>
+      		<li style="clear:left;"><label for="province">Province/State</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
+      		<li style="clear:left;"><label for="postal_code">Postal/Zip Code</label><%= f.text_field :postal_code, :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
+      		<li style="clear:left;"><label for="country">Country</label><%= f.text_field :country, :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
+      	</ul>
+      </fieldset>
   
-  	<div id="buttonSignUp"><%= submit_tag 'Create Account', :class => 'buttonsubmit' %></div>
-  	<%= render :partial => 'dt/shared/form_requirednote' %>
+    	<div id="buttonSignUp"><%= submit_tag 'Create Account', :class => 'buttonsubmit' %></div>
+    	<%= render :partial => 'dt/shared/form_requirednote' %>
 
-	</div>
-	<% end -%>
-</div>
-<div id="rightColN">
+  	</div>
+  	<% end -%>
+  </div>
+  <div id="rightColN">
 	
+  </div>
 </div>
