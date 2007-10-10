@@ -130,7 +130,11 @@ class BusAdmin::YouTubeVideosController < ApplicationController
   
   def get_local_actions(requested_action,permitted_action)
    case(requested_action)
-      when('list_by_popular' || 'edit_video' || 'show_video')
+      when('list_by_popular')
+        return permitted_action == 'show'
+      when('edit_video')
+        return permitted_action == 'show'
+      when('show_video')
         return permitted_action == 'show'
       when("add")
         return permitted_action == 'create'
