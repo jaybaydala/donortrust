@@ -8,7 +8,7 @@ class BusAdmin::PartnersController < ApplicationController
     config.columns[ :partner_status ].label = "Status"
     config.columns[ :partner_type ].form_ui = :select
     config.columns[ :partner_type ].label = "Category"
-    config.columns[ :philosophy_dev ].label = "Philosophy Development"    
+    config.columns[ :philosophy_dev ].label = "Philosophy of Development"    
     config.columns[ :contacts ].form_ui = :select
     list.columns.exclude [ :description, :contacts,:business_model , :funding_sources, :mission_statement, :philosophy_dev ]
     config.nested.add_link("Projects", [:projects]) 
