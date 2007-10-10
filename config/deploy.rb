@@ -1,9 +1,10 @@
 require 'mongrel_cluster/recipes'
 set :application, "donortrust"
-set :repository,  "svn://rubyforge.org/var/svn/#{application}/trunk"
+set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
 
 set :deploy_to, "/home/dtrust/#{application}"
 set :user, "dtrust"
+set :rails_env, "development"
 
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_clean, true
@@ -36,6 +37,7 @@ namespace :deploy do
         migrate
         setup_mongrel_cluster
         install_backgroundrb # it's not included in the repository because of windows incompatibilities
+        asset_folder_fix
         start
         start_backgroundrb
       end
@@ -45,13 +47,14 @@ namespace :deploy do
     donortrust-specific deployment task
     DESC
     task :default do
+      stop_backgroundrb
       transaction do
-        stop_backgroundrb
         update # creates the symlink
         install_backgroundrb # it's not included in the repository because of windows incompatibilities
+        asset_folder_fix
         restart
-        start_backgroundrb
       end
+      start_backgroundrb
     end
   end
 
@@ -91,6 +94,23 @@ namespace :deploy do
   task :stop_backgroundrb , :roles => :web do
     cmd = "#{current_path}/script/backgroundrb stop"
     send(run_method, cmd)
+  end
+
+  desc <<-DESC
+  symlink the images, stylesheets and javascripts to current_path
+  DESC
+  task :asset_folder_fix , :roles => :web do
+    %w( stylesheets javascripts ).each do |dir|
+      asset_path = "#{latest_release}/public/#{dir}"
+      server_path = "/var/www/wp.christmasfuture.org/#{dir}"
+      send(run_method, "rm -f #{server_path} && ln -s #{asset_path} #{server_path}")
+    end
+    image_paths = ["active_scaffold", "bus_admin", "calendar.gif", "dt", "rails.png", "redbox_spinner.gif"]
+    image_paths.each do |image|
+      asset_path = "#{latest_release}/public/images/#{image}"
+      server_path = "/var/www/wp.christmasfuture.org/images/#{image}"
+      send(run_method, "rm -f #{server_path} && ln -s #{asset_path} #{server_path}")
+    end
   end
 
 end
