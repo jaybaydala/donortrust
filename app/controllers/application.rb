@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
         if request.parameters.has_value?('_list_inline_adapter') || request.parameters.has_value?('_method=delete')
           render :text => "You do not have access"
         else
-          redirect_to ('/bus_admin/home')
+          redirect_to('/bus_admin/home')
         end
         return false
       end

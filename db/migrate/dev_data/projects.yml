@@ -9,16 +9,14 @@ projects_001:
   project_status_id: "2"
   rss_url: 
   deleted_at: 
-  featured: 
+  featured: "1"
   target_start_date: "2006-12-10"
   actual_end_date: 
   expected_completion_date: "2007-08-30"
   contact_id: "1"
   id: "1"
   version: 
-  description: "Our first full library project is in the community of Mpigi, located two hours drive southwest of Kampala, the capital of Uganda. With a surrounding population of ten thousand people, the town is the economic and political centre of Mpigi district.\n\n\
-    A December 2006 visit to Uganda by two directors has established links with local and national partners and given us a wealth of insight into how best to proceed. At the invitation of the National Library of Uganda, we attended library project consultations with community groups \xE2\x80\x93 including youth representatives, village elders, government officials, farmers, fishermen, women\xE2\x80\x99s groups  - in three communities in Mpigi district. They spent time in local schools, speaking with students and teachers about the lack of books in Ugandan classrooms. On a visit to an existing community library in Buikwe, a town in a neighboring district, they saw encouraging evidence that access to books can make a remarkable difference in encouraging rural students to stay in school longer, achieve better grades, and go on to certificate and degree programs in college and university. The common theme that libraries are both needed and desperately wanted arose throughout meetings and discussions.\n\n\
-    Based on a two year period of support, we are budgeting between $12,000 and $20,000 (upper range includes potential land costs), with 75% of funds required over the first year. Canadian operations will be limited primarily to fundraising, and we will rely largely on Ugandan partners to ensure the project is locally-driven and relevant to the specific needs of the community. Monitoring and evaluation of progress will be carried out through regular communication with the library committee and the National Library of Uganda. An annual trip by at least one director will also contribute to project evaluation.\n"
+  description: "Our first full library project is in the community of Mpigi, located two hours drive southwest of Kampala, the capital of Uganda. With a surrounding population of ten thousand people, the town is the economic and political centre of Mpigi district."
   note: 
   partner_id: "1"
   blog_url: 

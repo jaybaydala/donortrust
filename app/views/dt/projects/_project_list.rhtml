@@ -1,7 +1,7 @@
 <% @project = project_list -%>
     <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
       <div class="leftColW">
-        <h2><%= params[:action] == 'show' ? @project.name : (link_to @project.name, dt_project_path(@project.id))  %></h2>
+        <h2><%= params[:action] == 'show' ? @project.name : (link_to @project.name, dt_project_path(@project))  %></h2>
         
         <div class="projectRank">
           <ul class="specList">

@@ -9,6 +9,6 @@
           <li><strong>Dollars Spent:</strong> <%= number_to_currency(@project.dollars_spent) %></li>
           <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
           <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %></li>
-          <li class="blueblock"><%= link_to "&nbsp;Add to Project Watchlist", dt_new_watchlist_path %></li>
+          <li class="blueblock"><%= link_to "&nbsp;Add to Project Watchlist", dt_new_watchlist_path(:project_id => @project.id) %></li>
           <li class="blueblock"><%= link_to "&nbsp;Send a Gift E-Card", dt_new_gift_path(:project_id => @project.id) %></li>
         </ul>

@@ -1,5 +1,4 @@
 require 'iats/iats_process.rb'
-require 'pdf/writer'
 
 class Dt::GiftsController < DtApplicationController
   include IatsProcess
@@ -12,6 +11,7 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def printable
+    require 'pdf/writer'
     @gift = Gift.find(params[:id])
     if not @gift[:pickup_code]
       flash[:notice] = "The gift has already been picked up so the printable card is no longer available."

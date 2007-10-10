@@ -2,14 +2,37 @@
 <%= dt_group_nav %>
 
 <div id="contentContainer">
-  <% if @projects.size > 0 %>
-  <%= render :partial => '/dt/projects/project_list', :collection => @projects %>
-  <% else %>
   <div id="leftColW">
-    <p>There are no projects currently added to this group.</p>
+    <h1><%= @group.name %></h1>
+    <% if @projects_invested.size > 0 %>
+    <div class="tableHeader">
+      <div style="float:left; ">Projects Invested In</div>
+      <div class="tableHeader_button"><!-- <img src="/images/dt/nav_elements/buttonsCF/button_grey_medium.gif" /> --></div>
+    </div>
+  
+    <div id="tableList">
+    <ul>
+      <%= render :partial => 'project', :collection => @projects_invested %>
+    </ul>
+    </div>
+  	<% end %>	
+
+    <% if @projects_watched.size > 0 %>
+    <div class="tableHeader">
+      <div style="float:left; ">Project Watchlist</div>
+      <div class="tableHeader_button"><!-- <img src="/images/dt/nav_elements/buttonsCF/button_grey_medium.gif" /> --></div>
+    </div>
+  
+    <div id="tableList">
+    <ul>
+      <%= render :partial => 'project', :collection => @projects_watched %>
+    </ul>
+    </div>
+  	<% end %>	
+  		
+    <!--<p>There are no projects currently added to this group.</p>
     <% if current_member(@group) && current_member(@group).admin? %>
-    <p><%= link_to "Find a project", dt_projects_path %> to add to your group so you can change the world together.</p>
-    <% end %>
+    <p><%= link_to "Find a project", dt_projects_path %> to add to your group so you can change the world together.</p>-->
   </div>
   <div id="rightColN">
     <%= dt_profile_sidebar %>

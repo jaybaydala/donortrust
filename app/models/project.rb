@@ -29,6 +29,8 @@ acts_as_simile_timeline_event(
   has_many :indicator_measurements
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
+  has_many :wishlists
+  has_many :users, :through => :wishlists
   
  def startDate
   "#{self.start_date}"

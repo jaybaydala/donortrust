@@ -39,18 +39,18 @@ context "Dt::GroupProjects #route_for" do
   end
 end
 
-context "Dt::GroupProjects %w(index new create destroy) should exist "do
+context "Dt::GroupProjects %w(index destroy) should exist "do
   use_controller Dt::GroupProjectsController
   specify "methods should exist" do
-    %w( index new create destroy ).each do |m|
+    %w( index destroy ).each do |m|
       @controller.methods.should.include m
     end
   end
 end
-context "Dt::GroupProjects %w(show edit update) should not exist "do
+context "Dt::GroupProjects %w(show new create edit update) should not exist "do
   use_controller Dt::GroupProjectsController
   specify "methods should not exist" do
-    %w( show edit update ).each do |m|
+    %w( show new create edit update ).each do |m|
       @controller.methods.should.not.include m
     end
   end
@@ -86,9 +86,11 @@ context "Dt::GroupProjects index handling" do
     page.should.select "#subSubNav_2col"
   end
 
-  specify "should show list of group projects" do
+  specify "should assign projects_invested and projects_watched" do
     login_as :quentin
     get :index, :group_id => 1
+    assigns(:projects_invested).should.not.be.nil
+    assigns(:projects_watched).should.not.be.nil
     #page.should.select 
   end
 end

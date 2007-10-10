@@ -11,12 +11,16 @@
   	<li><strong>Invested:</strong> <%= number_to_currency(current_user.invested) %></li>
   	<li><strong>Account Balance:</strong> <%= number_to_currency(current_user.balance) %></li>
   </ul>
+  <% if current_user.projects.size > 0 %>
   <h5>My Projects</h5>
   <ul>
-  	<li><%= link_to "Project Name 1", dt_project_path(1) %></li>
-  	<li><%= link_to "Project Name 2", dt_project_path(2) %></li>
-  	<li><%= link_to "Project Name 3", dt_project_path(3) %></li>
+    <% 
+    current_user.projects.each do |project|
+      p '<li>'+ link_to(project.name, dt_project_path(1)) + "</li>\n"
+    end 
+    %>
   </ul>
+  <% end %>
 <% else %>
 <p><strong><%= link_to "Login", dt_login_path %> to see your profile and get involved!</strong></p>
 <% end %>

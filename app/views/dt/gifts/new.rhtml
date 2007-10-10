@@ -43,8 +43,9 @@
     </fieldset>
   
     <fieldset id="textInput">
-        <legend>Your message</legend>
-        <%= f.text_area :message, :rows => 6, :cols => 35 %>
+      <ul class="row">
+        <li><label for="gift_message">Your message</label><%= f.text_area :message, :rows => 6, :cols => 35 %></li>
+      </ul>
     </fieldset>
 
     <fieldset>

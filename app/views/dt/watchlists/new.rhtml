@@ -1,8 +1,16 @@
 <div id="contentContainer">
   <div id="leftColW">
-    <% form_tag dt_watchlists_path, :id => 'watchlistform' do -%>
-    
-    <% end -%>
+    <% form_tag dt_watchlists_path, :id => 'watchlistform' do %>
+      <div class="userform">
+        <fieldset>
+          <legend>Choose the watchlist for &quot;<%= @project.name %>&quot;</legend>
+          <ul>
+            <li><label for="watchlisttype">Watchlists:</label> <%= select_tag 'watchlist_type', options_for_watchlist_select, :id => 'watchlisttype' %></li>
+          </ul>
+        </fieldset>
+        <%= submit_tag "Add to Watchlist", :class => 'buttonsubmit' %>
+      </div>
+    <% end %>
   </div>
   <div id="rightColN">
     <%= dt_profile_sidebar %>
