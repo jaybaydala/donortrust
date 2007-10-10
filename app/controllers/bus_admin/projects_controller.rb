@@ -27,7 +27,6 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :meas_eval_plan ].label = "Measurement and Evaluation Plan"
     config.columns[ :project_status ].form_ui = :select
     config.columns[ :place ].form_ui = :select
-    config.columns[ :sectors ].form_ui = :select
     config.columns[ :contact ].form_ui = :select
     config.columns[ :partner ].form_ui = :select
     config.columns[ :program ].form_ui = :select
