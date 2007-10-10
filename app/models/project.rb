@@ -24,7 +24,7 @@ acts_as_simile_timeline_event(
   has_many :flickr_images, :through => :project_flickr_images
   has_many :financial_sources
   has_many :budget_items
-  has_many :collaborating_agency  
+  has_many :collaborating_agencies 
   has_many :ranks
   has_many :investments
   has_many :indicator_measurements
