@@ -15,21 +15,26 @@
 </div>
 
 <div id="rightColN">
+  <%= render :partial => 'related_projects' %>
+  <% if @village.quick_fact_places.size > 0 -%>
   <div id="factList">
     <h2>Quick Facts</h2>
     <ul>
-      <li><span style="background:#C00;color:#FFF;padding:1px;">Awaiting Village QuickFacts model and data</span></li>
+      <%= render :partial => 'quickfact_place', :collection => @village.quick_fact_places %>
     </ul>
   </div>
+  <% end -%>
 
-  <h5>OTHER PROJECTS IN THIS VILLAGE</h5>
-  <span style="background:#C00;color:#FFF;padding:1px;">Awaiting Place model</span>
+  <h5>PROJECTS IN THIS VILLAGE</h5>
+  <ul>
+    <%= render :partial => 'project_list_item', :collection => @project.village.projects %>
+  </ul>
   
   <h5>VILLAGE VIDEO</h5>
-  <span style="background:#C00;color:#FFF;padding:1px;">Awaiting Youtube data</span>
+  <p>Video Thumbnails. When clicked will reveal new window. YouTube.com? Other?</p> 
 
   <h5>VILLAGE PHOTOS</h5>
-  <span style="background:#C00;color:#FFF;padding:1px;">Awaiting Flickr data</span>
+  <p>Photo Thumbnails. When clicked will reveal new window in flickr</p>
 
   <%= mdg_goals %>
 </div>

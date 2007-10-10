@@ -1,33 +1,23 @@
-<h1><%= @project.name %></h1>
-<%= project_nav %>
+<div id="contentContainer">
+  <h1><%= @project.name %></h1>
+  <%= project_nav %>
 
-<div id="leftColW">
-  <!--<h2>Village Facebook Group</h2>
-  <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Awaiting facebook integration</div>
-  -->
+  <div id="leftColW">
+    <!--<h2>Village Facebook Group</h2>
+    <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Awaiting facebook integration</div>
+    -->
     
-  <h2>ChristmasFuture Groups interested in this project</h2>
-  <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Groups in progress</div>
-  <p>&nbsp;</p>
-</div>
-
-<div id="rightColN">
-  <% if logged_in? -%>
-  <h2>My Profile</h5>
-  <p><strong><%= current_user.full_name %></strong></p>
-  <div id="factList">
-    <ul> 
-      <li class="blueblock"><%= link_to "View Account Overview", dt_account_path(current_user) %></a></li>
-      <li class="blueblock"><%= link_to "Edit Profile", dt_edit_account_path(current_user) %></a></li>
-      <li><strong>CF Groups:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Groups in process</span></li>
-      <li><strong>CF Groups:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Awaiting Place model</span></li>
-      <li><strong>Cause(s):</strong> <span style="background:#C00;color:#FFF;padding:1px;">Awating Cause model</span></li>
-      <li><strong>Village Projects:</strong> <span style="background:#C00;color:#FFF;padding:1px;">Awaiting Place model</span></li>
-      <li><strong>Invested:</strong> <%= number_to_currency(current_user.invested) %></li>
-      <li><strong>Gifted:</strong> <%= number_to_currency(current_user.gifted) %></li>
-      <li><strong>Account Balance:</strong> <%= number_to_currency(current_user.balance) %></li>
-    </ul>
+    <h2>ChristmasFuture Groups interested in this project</h2>
+    <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Groups in progress</div>
+    <p>&nbsp;</p>
   </div>
-  <% end -%>
-  
+
+  <div id="rightColN">
+    <%= render :partial => 'related_projects' %>
+    <%= dt_profile_sidebar %>
+
+    <div id="factList">
+	  <%= project_quickfacts %>
+	  </div>
+  </div>
 </div>
