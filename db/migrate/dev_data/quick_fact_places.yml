@@ -1,2 +1,46 @@
---- {}
-
+--- 
+quick_fact_places_002: 
+  place_id: "13"
+  id: "2"
+  description: "9,563"
+  quick_fact_id: "2"
+quick_fact_places_003: 
+  place_id: "13"
+  id: "3"
+  description: 60% Women
+  quick_fact_id: "3"
+quick_fact_places_004: 
+  place_id: "13"
+  id: "4"
+  description: "26"
+  quick_fact_id: "19"
+quick_fact_places_005: 
+  place_id: "13"
+  id: "5"
+  description: "3,000"
+  quick_fact_id: "20"
+quick_fact_places_006: 
+  place_id: "13"
+  id: "6"
+  description: "Yes"
+  quick_fact_id: "21"
+quick_fact_places_007: 
+  place_id: "13"
+  id: "7"
+  description: 1 health centre, 50km to hospital
+  quick_fact_id: "22"
+quick_fact_places_008: 
+  place_id: "13"
+  id: "8"
+  description: "76"
+  quick_fact_id: "23"
+quick_fact_places_009: 
+  place_id: "13"
+  id: "9"
+  description: "100"
+  quick_fact_id: "25"
+quick_fact_places_001: 
+  place_id: "13"
+  id: "1"
+  description: "37,000"
+  quick_fact_id: "1"
