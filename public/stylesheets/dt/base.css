@@ -450,11 +450,13 @@ div.textsm {
 
 /* Endline is a rule (line) used for ending/separating paragraphs */
 
+hr { height:2px; border:0px; border-bottom:2px solid #ff1493;margin:0;padding:0; }
+
 .line1W {width:469px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:#360;}
 .line1N {width:228px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:#360;}
 .line2W {width:469px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:#360;}
 .line2N {width:228px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:#360;}
-.line2Full {width:717px; margin:0px 0 0px 7px; padding:0; float:left; border-bottom:2px solid #360; background:#360;}
+.line2Full {height:1px;width:717px; margin:15px 0 0px 7px; padding:0; float:left; border-bottom:2px solid #360;}
 
 
 .endLine {
@@ -1241,9 +1243,9 @@ div.buttonsubmit a.large:hover {
 	width:724px;
 	text-align:left;
 	border-top: 0px solid #360;
-	border-bottom: 2px solid #360;
+	border-bottom: 0px solid #360;
 	padding: 0 0 0px 0px;
-	margin: 0px 0 10px 18px;
+	margin: 0px 0 8px 18px;
 }
 #contentContainer .projectInfo {margin-left:0px;}
 #projectInfo h1 {
