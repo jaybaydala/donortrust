@@ -1,6 +1,4 @@
 --- 
-user: mongrel
-group: mongrel
 cwd: /home/dtrust/donortrust/current/
 log_file: /home/dtrust/donortrust/shared/log/mongrel.log
 port: "8000"

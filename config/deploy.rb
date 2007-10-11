@@ -60,7 +60,7 @@ namespace :deploy do
   end
 
   task :setup_mongrel_cluster do
-    sudo "cp #{release_path}/config/mongrel_cluster.yml #{mongrel_conf}"
+    sudo "cp #{current_path}/config/mongrel_cluster.yml #{mongrel_conf}"
     sudo "chown mongrel:www-data #{mongrel_conf}"
     sudo "chmod g+w #{mongrel_conf}"
   end
@@ -68,8 +68,8 @@ namespace :deploy do
   desc <<-DESC
   Install backgrounDRB since it's incompatible with windows boxes
   DESC
-  task :install_backgroundrb, :roles => :web do
-    cmd = "svn co http://svn.devjavu.com/backgroundrb/tags/release-0.2.1 #{release_path}/vendor/plugins/backgroundrb;"
+  task :install_backgroundrb, :roles => :schedule do
+    cmd = "svn co -q http://svn.devjavu.com/backgroundrb/tags/release-0.2.1 #{current_path}/vendor/plugins/backgroundrb;"
     run cmd
   end
   
@@ -101,17 +101,21 @@ namespace :deploy do
   symlink the images, stylesheets and javascripts to current_path
   DESC
   task :asset_folder_fix , :roles => :web do
+    cmd = ""
     %w( stylesheets javascripts ).each do |dir|
       asset_path = "#{latest_release}/public/#{dir}"
       server_path = "/var/www/wp.christmasfuture.org/#{dir}"
-      send(run_method, "rm -f #{server_path} && ln -s #{asset_path} #{server_path}")
+      cmd += " && " unless cmd.empty?
+      cmd += "rm -f #{server_path} && ln -s #{asset_path} #{server_path}"
     end
     image_paths = ["active_scaffold", "bus_admin", "calendar.gif", "dt", "rails.png", "redbox_spinner.gif"]
     image_paths.each do |image|
       asset_path = "#{latest_release}/public/images/#{image}"
       server_path = "/var/www/wp.christmasfuture.org/images/#{image}"
-      send(run_method, "rm -f #{server_path} && ln -s #{asset_path} #{server_path}")
+      cmd += " && " unless cmd.empty?
+      cmd += "rm -f #{server_path} && ln -s #{asset_path} #{server_path}"
     end
+    send(run_method, cmd)
   end
 
 end
