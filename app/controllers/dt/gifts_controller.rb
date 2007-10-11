@@ -1,7 +1,9 @@
 require 'iats/iats_process.rb'
+require 'pdf_factory'
 
 class Dt::GiftsController < DtApplicationController
   include IatsProcess
+  include PDFFactory
   before_filter :login_required, :only => :unwrap
   
   def index
@@ -10,6 +12,7 @@ class Dt::GiftsController < DtApplicationController
     end
   end
 
+
   def printable
     require 'pdf/writer'
     @gift = Gift.find(params[:id])
@@ -17,14 +20,7 @@ class Dt::GiftsController < DtApplicationController
       flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
       redirect_to :action => 'new' 
     elsif 
-      _pdf = PDF::Writer.new
-      _pdf.select_font "Times-Roman"
-      _pdf.compressed=true
-      image_path = File.expand_path("#{RAILS_ROOT}/public#{@gift.ecard.sub(/\/large\//, '/printable/')}")
-      i0 = _pdf.image image_path if File.exists?(image_path)
-      # make sure to add text on top of the image! 
-      #_pdf.add_text_wrap(85, 145, 500, @gift[:pickup_code], 12, :justification=>:right)
-      _pdf.add_text(138, 151, @gift[:pickup_code], 12)
+      _pdf = create_gift_pdf(@gift)
       send_data _pdf.render, :filename => "ChristmasFuture gift card.pdf", :type => "application/pdf"
     end
   end

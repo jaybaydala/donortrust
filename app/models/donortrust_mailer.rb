@@ -1,4 +1,6 @@
+require 'pdf_factory'
 class DonortrustMailer < ActionMailer::Base
+  include PDFFactory
   HTTP_HOST = 'www.christmasfuture.org'
   
   def user_signup_notification(user)
@@ -19,13 +21,18 @@ class DonortrustMailer < ActionMailer::Base
     body :user => user, :host => HTTP_HOST, :url => url_for( :host => HTTP_HOST, :controller => 'dt/accounts', :action => 'show', :id => user.id )
   end
   
-
   def gift_mail(gift)
     gift_setup_email(gift)
     subject 'You have received a ChristmasFuture Gift from ' + ( gift.name? ? gift.name : gift.email )
     headers "Reply-To" => gift.name? ? "#{gift.name} <#{gift.email}>" : gift.email
-    body :gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")
-    content_type 'multipart/alternative'
+    body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}
+    part :content_type => "text/html", 
+      :body => render_message('gift_mail.text.html.rhtml', body_data)
+
+    attachment "application/pdf" do |a|
+      a.filename= "ChristmasFuture gift card.pdf" 
+      a.body = create_gift_pdf(gift).render
+    end
   end
 
   def gift_mail_preview(gift)
