@@ -4,12 +4,12 @@ set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
 
 set :deploy_to, "/home/dtrust/#{application}"
 set :user, "dtrust"
-set :rails_env, "development"
+set :rails_env, "staging"
 
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_clean, true
 
-role :app, "slice.christmasfuture.org"
+role :app, "slice2.christmasfuture.org"
 role :web, "slice.christmasfuture.org"
 role :db,  "slice.christmasfuture.org", :primary => true
 
@@ -36,7 +36,7 @@ namespace :deploy do
         update
         migrate
         setup_mongrel_cluster
-        #install_backgroundrb # it's not included in the repository because of windows incompatibilities
+        install_backgroundrb # it's not included in the repository because of windows incompatibilities
         asset_folder_fix
         start
         #start_backgroundrb
@@ -50,7 +50,7 @@ namespace :deploy do
       #stop_backgroundrb
       transaction do
         update # creates the symlink
-        #install_backgroundrb # it's not included in the repository because of windows incompatibilities
+        install_backgroundrb # it's not included in the repository because of windows incompatibilities
         asset_folder_fix
         restart
       end

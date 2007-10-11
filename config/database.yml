@@ -5,6 +5,13 @@ development:
   password: donortrust
   host: localhost
 
+staging:
+  adapter: mysql
+  database: donortrust_staging
+  username: donortrust_staging
+  password: donor99truDB
+  host: mysql.christmasfuture.org
+
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
@@ -20,5 +27,5 @@ production:
   database: donortrust_production
   username: donortrust_prod
   password: donor99truDB
-  host: localhost
+  host: mysql.christmasfuture.org
 

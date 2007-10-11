@@ -1,8 +1,10 @@
 --- 
+user: mongrel
+group: mongrel
 cwd: /home/dtrust/donortrust/current/
-log_file: log/mongrel.log
+log_file: /home/dtrust/donortrust/shared/log/mongrel.log
 port: "8000"
-environment: development
+environment: staging
 address: 127.0.0.1
-pid_file: tmp/pids/mongrel.pid
-servers: 2
+pid_file: /home/dtrust/donortrust/shared/pids/mongrel.pid
+servers: 3
