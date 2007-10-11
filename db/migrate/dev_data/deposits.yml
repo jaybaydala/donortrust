@@ -30,3 +30,10 @@ three:
   user_id: 1
   created_at: <%= 5.days.ago.to_s :db %>
   updated_at: <%= 5.days.ago.to_s :db %>
+four:
+  id: 4
+  amount: 999999.00
+  gift_id: 4
+  user_id: 4
+  created_at: <%= 5.days.ago.to_s :db %>
+  updated_at: <%= 5.days.ago.to_s :db %>
