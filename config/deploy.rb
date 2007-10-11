@@ -12,6 +12,7 @@ set :mongrel_clean, true
 role :app, "slice2.christmasfuture.org"
 role :web, "slice.christmasfuture.org"
 role :db,  "slice.christmasfuture.org", :primary => true
+role :schedule,  "slice2.christmasfuture.org"
 
 namespace :deploy do
 
@@ -73,25 +74,25 @@ namespace :deploy do
   end
   
   desc <<-DESC
-  Start the Backgroundrb daemon on the app server.
+  Start the Backgroundrb daemon on the schedule server.
   DESC
-  task :start_backgroundrb , :roles => :web do
+  task :start_backgroundrb , :roles => :schedule do
     cmd = "#{current_path}/script/backgroundrb start"
     run cmd
   end
 
   desc <<-DESC
-  Restart the Backgroundrb daemon on the app server.
+  Restart the Backgroundrb daemon on the schedule server.
   DESC
-  task :restart_backgroundrb , :roles => :web do
+  task :restart_backgroundrb , :roles => :schedule do
     cmd = "#{current_path}/script/backgroundrb restart"
     run cmd
   end
 
   desc <<-DESC
-  Stop the Backgroundrb daemon on the app server.
+  Stop the Backgroundrb daemon on the schedule server.
   DESC
-  task :stop_backgroundrb , :roles => :web do
+  task :stop_backgroundrb , :roles => :schedule do
     cmd = "#{current_path}/script/backgroundrb stop"
     send(run_method, cmd)
   end
