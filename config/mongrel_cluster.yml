@@ -3,6 +3,6 @@ cwd: /home/dtrust/donortrust/current/
 log_file: /home/dtrust/donortrust/shared/log/mongrel.log
 port: "8000"
 environment: staging
-address: web
+address: www.christmasfuture.org
 pid_file: /home/dtrust/donortrust/shared/pids/mongrel.pid
 servers: 3
