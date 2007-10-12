@@ -1,5 +1,5 @@
 class BusAdmin::MeasuresController < ApplicationController
- #before_filter :login_required, :check_authorization
+ before_filter :login_required, :check_authorization
 
   active_scaffold :measures do |config|
     config.columns = [:description, :key_measures, :key_measures_count ]
@@ -7,12 +7,10 @@ class BusAdmin::MeasuresController < ApplicationController
     list.columns.exclude [ :key_measures, :key_measures_count ]
     update.columns.exclude [ :key_measures, :key_measures_count ]
     create.columns.exclude [ :key_measures, :key_measures_count ]
-     config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
-    
-    #show.columns.exclude [  ]
+    config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
   end
   
-   def get_model
+  def get_model
     return Indicator
   end
 end
