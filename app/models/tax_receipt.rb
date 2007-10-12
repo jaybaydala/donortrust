@@ -1,3 +1,5 @@
+require 'donortrust_mailer'
+
 class TaxReceipt < ActiveRecord::Base
   belongs_to :user
   belongs_to :investment
@@ -15,5 +17,9 @@ class TaxReceipt < ActiveRecord::Base
 
   def id_display
     return id.to_s.rjust(10,'0') if id
+  end
+
+  def send_tax_receipt
+    DonortrustMailer.deliver_tax_receipt(self)
   end
 end

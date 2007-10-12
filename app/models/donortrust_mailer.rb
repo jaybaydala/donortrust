@@ -31,7 +31,7 @@ class DonortrustMailer < ActionMailer::Base
 
     attachment "application/pdf" do |a|
       a.filename= "ChristmasFuture gift card.pdf" 
-      a.body = create_gift_pdf(gift).render
+      a.body = PDFFactory.create_gift_pdf(gift).render
     end
   end
 
@@ -46,13 +46,30 @@ class DonortrustMailer < ActionMailer::Base
     gift_setup_email(gift)
     recipients "#{gift.email}"
     subject "Your gift to #{gift.to_name} has been opened!"
-    headers {}
+    attachment "application/pdf" do |a|
+      a.filename= "ChristmasFuture gift card.pdf" 
+      a.body = create_gift_pdf(gift).render
+    end
   end
 
   def gift_remind(gift)
     gift_setup_email(gift)
     subject 'GiftNotifier#gift'
+    content_type 'text/plain'
     headers {}
+  end
+
+  def tax_receipt(receipt)
+    content_type "text/html"
+    recipients  "#{receipt.first_name} #{receipt.last_name} <#{receipt.user.email}>"
+    from        "The ChristmasFuture Team <info@christmasfuture.org>"
+    sent_on     Time.now
+    subject "Tax receipt for your gift"
+    body "Thank you for your gift, please find your attached tax receipt"
+    attachment "application/pdf" do |a|
+      a.filename = "CFTaxReceipt-#{receipt.id_display}.pdf"
+      a.body = create_tax_receipt_pdf(receipt, duplicate=false).render
+    end
   end
 
   protected
@@ -69,4 +86,5 @@ class DonortrustMailer < ActionMailer::Base
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
   end
+
 end

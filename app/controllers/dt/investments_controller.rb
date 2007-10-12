@@ -44,6 +44,7 @@ class Dt::InvestmentsController < DtApplicationController
       
     respond_to do |format|
       if @saved
+        @tax_receipt.send_tax_receipt
         flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
         format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
       else
