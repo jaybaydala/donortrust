@@ -1,5 +1,5 @@
 class KeyMeasure < ActiveRecord::Base
-  has_many    :key_measure_data
+  has_many    :key_measure_datas
   belongs_to  :project
   belongs_to  :measure
 
@@ -32,6 +32,7 @@ class KeyMeasure < ActiveRecord::Base
   end
 
   def measurement_count
-    return key_measure_data.count
+    return key_measure_datas.count
   end
 end
+
