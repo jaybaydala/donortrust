@@ -38,15 +38,17 @@ class Dt::InvestmentsController < DtApplicationController
     @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
     @tax_receipt.investment = @investment
     @tax_receipt.user = current_user
+    Investment.transaction do
+      @saved =  @investment.save! && @tax_receipt.save!
+    end
+      
     respond_to do |format|
-      Investment.transaction do
-        if @investment.save && @tax_receipt.save
-          flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
-          format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
-        else
-          flash.now[:error] = "There was a problem saving your Investment. Please review your information and try again."
-          format.html { render :action => 'new' }
-        end
+      if @saved
+        flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
+        format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
+      else
+        flash.now[:error] = "There was a problem saving your Investment. Please review your information and try again."
+        format.html { render :action => 'new' }
       end
     end
   end
