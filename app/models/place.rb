@@ -9,6 +9,9 @@ class Place < ActiveRecord::Base
   has_many :place_sectors
   has_many :groups
   
+  validates_presence_of :name
+  validates_presence_of :place_type_id
+  
   def Place.getParentString(place)
     parentString = ""
     
