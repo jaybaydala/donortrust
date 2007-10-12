@@ -47,6 +47,7 @@ class Dt::TaxReceiptsController < DtApplicationController
     end
   end
 
+  private
   def generate_password
     hash = ""
     srand()
@@ -58,6 +59,17 @@ class Dt::TaxReceiptsController < DtApplicationController
     hash
   end
 
+  def authorized?
+    receipt = TaxReceipt.find(id=params[:id])
+    current_user.id == receipt.user.id ? true : false
+  end
 
+  def access_denied
+    respond_to do |format|
+      #(dt_account_path(current_user.id))
+      flash[:notice] = "We are sorry, but you can only download your own receipts."
+      format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
+    end
+  end
 
 end
