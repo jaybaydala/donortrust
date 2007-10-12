@@ -1,5 +1,5 @@
-class Measurement < ActiveRecord::Base
-  belongs_to :key_measure
+class KeyMeasureData < ActiveRecord::Base
+    belongs_to :key_measure
 
   validates_presence_of :value
   validates_presence_of :date
@@ -7,7 +7,7 @@ class Measurement < ActiveRecord::Base
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
-    unless me.indicator_measurement( true )
+    unless me.key_measure( true )
       me.errors.add :key_measure_id, 'does not exist'
     end
   end
