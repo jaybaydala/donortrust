@@ -15,6 +15,9 @@ context "BusAdmin::Ranks #route_for" do
     
     @rs.generate(:controller => "bus_admin/ranks", :action => "index").should.equal "/bus_admin/ranks"
   end
-  
+   
+  specify "should map { :controller => 'dt/account_memberships', :action => 'index', :account_id => 1 } to /dt/accounts/1/account_memberships" do
+    route_for(:controller => "bus_admin/ranks", :action => "index").should == "/bus_admin/ranks"
+  end
  end
 

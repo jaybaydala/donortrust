@@ -5,11 +5,11 @@ class BusAdmin::ProjectsController < ApplicationController
   
     config.columns = [ :name, :description, :program, :project_status,  :target_start_date, :target_end_date,
                             :actual_start_date, :actual_end_date,:dollars_spent, :total_cost, :partner, :contact, :place,
-                          :milestone_count, :milestones, :sectors, :public, :note, :featured, :blog_url, :rss_url,
+                          :milestone_count, :milestones,:key_measures, :sectors, :public, :note, :featured, :blog_url, :rss_url,
                           :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects, :collaborating_agencies, :financial_sources ]      
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones, :actual_start_date, :actual_end_date,
                          :target_end_date,:dollars_spent, :sectors, :public, :milestone_count, :partner, :blog_url, :rss_url, :intended_outcome, 
-                          :meas_eval_plan, :project_in_community, :other_projects, :collaborating_agencies, :financial_sources  ]
+                          :meas_eval_plan, :project_in_community, :key_measures, :other_projects, :collaborating_agencies, :financial_sources  ]
     #show.columns.exclude [ ]
     update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_spent, :total_cost ]
     create.columns.exclude [ :milestones, :milestone_count  ]
@@ -37,7 +37,7 @@ class BusAdmin::ProjectsController < ApplicationController
     
 config.nested.add_link( "Rank", [:ranks])
 config.nested.add_link( "Budget", [:budget_items])
-config.nested.add_link( "Indicators", [:indicator_measurements])
+config.nested.add_link( "Key Measures", [:key_measures])
     
     #config.action_links.add 'report', :label => 'Report'
     

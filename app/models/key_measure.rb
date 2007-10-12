@@ -1,8 +1,7 @@
-class IndicatorMeasurement < ActiveRecord::Base
-  has_many    :measurements
+class KeyMeasure < ActiveRecord::Base
+  has_many    :key_measure_data
   belongs_to  :project
-  belongs_to  :indicator
-  belongs_to  :frequency_type
+  belongs_to  :measure
 
   validates_presence_of :units
   validate do |me|
@@ -11,17 +10,15 @@ class IndicatorMeasurement < ActiveRecord::Base
     unless me.project( true )
       me.errors.add :project_id, 'does not exist'
     end
-    unless me.indicator( true )
-      me.errors.add :indicator_id, 'does not exist'
+    unless me.measure( true )
+      me.errors.add :measure_id, 'does not exist'
     end
-    unless me.frequency_type( true )
-      me.errors.add :frequency_type_id, 'does not exist'
-    end
+    
   end
 
   def destroy
     result = false
-    if measurements.count > 0
+    if key_measure_data.count > 0
 #      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Measurements" )
       raise( "Can not destroy a #{self.class.to_s} that has Measurements" )
     else
@@ -35,6 +32,6 @@ class IndicatorMeasurement < ActiveRecord::Base
   end
 
   def measurement_count
-    return measurements.count
+    return key_measure_data.count
   end
 end

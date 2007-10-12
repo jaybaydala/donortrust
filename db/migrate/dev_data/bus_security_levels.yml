@@ -16,7 +16,7 @@ bus_security_levels_045:
   controller: bus_admin/quick_fact_sectors
 bus_security_levels_034: 
   id: "34"
-  controller: bus_admin/indicator_measurements
+  controller: bus_admin/key_measures
 bus_security_levels_023: 
   id: "23"
   controller: bus_admin/project_statuses
@@ -109,7 +109,7 @@ bus_security_levels_006:
   controller: bus_admin/bus_user_types
 bus_security_levels_052: 
   id: "54"
-  controller: bus_admin/measurements
+  controller: bus_admin/key_measures_data
 bus_security_levels_041: 
   id: "42"
   controller: bus_admin/places
@@ -124,7 +124,7 @@ bus_security_levels_018:
   controller: bus_admin/project_categories
 bus_security_levels_007: 
   id: "7"
-  controller: bus_admin/indicators
+  controller: bus_admin/measures
 bus_security_levels_042: 
   id: "43"
   controller: bus_admin/quick_fact_places
