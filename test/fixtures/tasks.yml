@@ -4,22 +4,25 @@ taskone:
   milestone_id: 1
   name: task one name
   description: Test one task description
-  start_date: 2007-04-08
-  end_date: 2007-04-08
-  etc_date: 2007-04-08
+  target_start_date: 2007-04-08
+  target_end_date: 2007-04-08
+  #actual_start_date:
+  #actual_end_date: 2007-04-08
 tasktwo:
   id: 2
   milestone_id: 1
   name: task two name
   description: Test two task description
-  #start_date: 2007-04-08
-  #end_date: 2007-04-08
-  #etc_date: 2007-04-08
+  #target_start_date: 2007-04-08
+  #target_end_date: 2007-04-08
+  #actual_start_date:
+  #actual_end_date:
 taskthree:
   id: 3
   milestone_id: 2
   name: task three name
   description: Test three task description
-  #start_date: 2007-04-08
-  #end_date: 2007-04-08
-  #etc_date: 2007-04-08
+  #target_start_date: 2007-04-08
+  #target_end_date: 2007-04-08
+  #actual_start_date:
+  #actual_end_date:

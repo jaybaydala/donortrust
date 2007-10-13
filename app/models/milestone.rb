@@ -37,8 +37,8 @@ acts_as_simile_timeline_event(
     end
   end
 
-def targetDate
-  "#{self.target_date}"
+  def targetDate
+    "#{self.target_start_date}"
   end
  
   def tasks_count

@@ -17,10 +17,10 @@ class Task < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :milestone_id
   
   def startDate
-  "#{self.start_date}"
+    "#{self.target_start_date}"
   end
   def endDate
-  "#{self.end_date}"
+    "#{self.target_end_date}"
   end
   validate do |task|
     # In each of the 'unless' conditions, true means that the association is reloaded,

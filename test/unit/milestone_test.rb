@@ -10,7 +10,6 @@ context "Milestones" do
       :project_id => projects( :project_one ).id,
       :name => "valid milestone title",
       :milestone_status_id => milestone_statuses( :proposed ).id,
-      :target_date => "2007-08-01",
       :description => "test valid milestone description"
     }.merge( overrides )
     Milestone.new( opts )
@@ -249,11 +248,44 @@ context "Milestones" do
     MilestoneVersion.count.should.equal( old_version_count + 1 )
   end
 
-  specify "edit target date should create new version record" do
+  specify "edit target start date should create new version record" do
     old_instance_count = Milestone.count
     old_version_count = MilestoneVersion.count
     instance = Milestone.find( milestones( :one ).id )
-    instance.target_date = "2008/01/01"
+    instance.target_start_date = "2008/01/01"
+    instance.should.validate
+    instance.save.should.equal( true )
+    Milestone.count.should.equal( old_instance_count )
+    MilestoneVersion.count.should.equal( old_version_count + 1 )
+  end
+
+  specify "edit target end date should create new version record" do
+    old_instance_count = Milestone.count
+    old_version_count = MilestoneVersion.count
+    instance = Milestone.find( milestones( :one ).id )
+    instance.target_end_date = "2008/01/01"
+    instance.should.validate
+    instance.save.should.equal( true )
+    Milestone.count.should.equal( old_instance_count )
+    MilestoneVersion.count.should.equal( old_version_count + 1 )
+  end
+
+  specify "edit actual start date should create new version record" do
+    old_instance_count = Milestone.count
+    old_version_count = MilestoneVersion.count
+    instance = Milestone.find( milestones( :one ).id )
+    instance.actual_start_date = "2008/01/01"
+    instance.should.validate
+    instance.save.should.equal( true )
+    Milestone.count.should.equal( old_instance_count )
+    MilestoneVersion.count.should.equal( old_version_count + 1 )
+  end
+
+  specify "edit actual end date should create new version record" do
+    old_instance_count = Milestone.count
+    old_version_count = MilestoneVersion.count
+    instance = Milestone.find( milestones( :one ).id )
+    instance.actual_end_date = "2008/01/01"
     instance.should.validate
     instance.save.should.equal( true )
     Milestone.count.should.equal( old_instance_count )
@@ -271,7 +303,7 @@ context "Milestones" do
     MilestoneVersion.count.should.equal( old_version_count + 1 )
   end
 
-  #destroy should deleted any associated Tasks for milestone instance, but NOT the history for either the milestone or tasks
+  #destroy should [mark as] delete any associated Tasks for milestone instance, but NOT the history for either the milestone or tasks
   specify "destroy instance should remove child tasks but not history" do
     old_instance_count = Milestone.count
     old_version_count = MilestoneVersion.count

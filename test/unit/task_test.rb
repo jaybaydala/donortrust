@@ -321,33 +321,44 @@ context "Tasks" do
     ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
   end
 
-  specify "edit start date should create new version record" do
+  specify "edit target start date should create new version record" do
     old_instance_count = Task.count
     old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
     instance = Task.find( tasks( :taskone ).id )
-    instance.start_date = '2008-02-10'
+    instance.target_start_date = '2008-02-10'
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
     ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
   end
 
-  specify "edit end date should create new version record" do
+  specify "edit target end date should create new version record" do
     old_instance_count = Task.count
     old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
     instance = Task.find( tasks( :taskone ).id )
-    instance.end_date = '2008-02-10'
+    instance.target_end_date = '2008-02-10'
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
     ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
   end
 
-  specify "edit etc date should create new version record" do
+  specify "edit actual start date should create new version record" do
     old_instance_count = Task.count
     old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
     instance = Task.find( tasks( :taskone ).id )
-    instance.etc_date = '2008-02-10'
+    instance.actual_start_date = '2008-02-10'
+    instance.should.validate
+    instance.save.should.equal( true )
+    Task.count.should.equal( old_instance_count )
+    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+  end
+
+  specify "edit actual end date should create new version record" do
+    old_instance_count = Task.count
+    old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
+    instance = Task.find( tasks( :taskone ).id )
+    instance.actual_end_date = '2008-02-10'
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
