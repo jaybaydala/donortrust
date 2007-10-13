@@ -11,8 +11,8 @@ class BusAdmin::ProjectsController < ApplicationController
                          :target_end_date,:dollars_spent, :sectors, :public, :milestone_count, :partner, :blog_url, :rss_url, :intended_outcome, 
                           :meas_eval_plan, :project_in_community, :key_measures, :other_projects, :collaborating_agencies, :financial_sources  ]
     #show.columns.exclude [ ]
-    update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_spent, :total_cost ]
-    create.columns.exclude [ :milestones, :milestone_count  ]
+    update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_spent, :total_cost, :key_measures ]
+    create.columns.exclude [ :milestones, :milestone_count, :key_measures  ]
 
     config.columns[ :name ].label = "Project"
     config.columns[ :project_status ].label = "Status"
