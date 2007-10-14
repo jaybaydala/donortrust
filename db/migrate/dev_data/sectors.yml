@@ -4,58 +4,33 @@ sectors_002:
   deleted_at: 
   id: "2"
   description: Projects to support Education
-  parent_id: 
 sectors_003: 
   name: Agriculture
   deleted_at: 
   id: "3"
   description: Projects to support Agriculture
-  parent_id: 
 sectors_004: 
   name: Economy
   deleted_at: 
   id: "4"
   description: 
-  parent_id: 
 sectors_005: 
   name: Water & Sanitation
   deleted_at: 
   id: "5"
   description: 
-  parent_id: "1"
 sectors_006: 
   name: Gender
   deleted_at: 
   id: "6"
   description: 
-  parent_id: 
-sectors_007: 
-  name: Infrastructure
-  deleted_at: 
-  id: "8"
-  description: 
-  parent_id: "3"
 sectors_008: 
   name: Community Development
   deleted_at: 
   id: "9"
   description: 
-  parent_id: 
-sectors_010: 
-  name: Malaria
-  deleted_at: 
-  id: "11"
-  description: 
-  parent_id: "1"
-sectors_009: 
-  name: HIV
-  deleted_at: 
-  id: "10"
-  description: 
-  parent_id: "1"
 sectors_001: 
   name: Health
   deleted_at: 
   id: "1"
   description: Projects to support Health
-  parent_id: 

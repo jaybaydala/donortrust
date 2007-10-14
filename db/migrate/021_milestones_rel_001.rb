@@ -5,10 +5,8 @@ class MilestonesRel001 < ActiveRecord::Migration
       t.column :project_id, :int, :null => false
       t.column :name, :string, :limit => 50
       t.column :description, :text
-      t.column :target_start_date, :date
-      t.column :target_end_date, :date
-      t.column :actual_start_date, :date
-      t.column :actual_end_date, :date
+      t.column :target_date, :date
+      t.column :actual_date, :date
       t.column :milestone_status_id, :int, :null => false
       t.column :deleted_at, :datetime
       t.column :version, :integer

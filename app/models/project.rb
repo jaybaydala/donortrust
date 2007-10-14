@@ -16,6 +16,7 @@ acts_as_simile_timeline_event(
   belongs_to :partner
   belongs_to :place
   belongs_to :contact
+  belongs_to :frequency_type
   has_many :milestones, :dependent => :destroy
   has_many :project_you_tube_videos, :dependent => :destroy
   has_many :project_flickr_images, :dependent => :destroy
@@ -29,6 +30,7 @@ acts_as_simile_timeline_event(
   has_many :key_measures
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
+  has_and_belongs_to_many :causes
   has_many :wishlists
   has_many :users, :through => :wishlists
   

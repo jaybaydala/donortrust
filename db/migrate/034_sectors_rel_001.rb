@@ -2,8 +2,7 @@ class SectorsRel001 < ActiveRecord::Migration
   def self.up
     create_table :sectors, :force => true do |t|
       t.column :name, :string, :limit => 50
-      t.column :description, :string, :limit => 50
-      t.column :parent_id, :int
+      t.column :description, :text
       t.column :deleted_at, :datetime
     end
     

@@ -3,13 +3,13 @@ class BusAdmin::ProjectsController < ApplicationController
   
   active_scaffold :project do |config|
   
-    config.columns = [ :name, :description, :program, :project_status,  :target_start_date, :target_end_date,
+    config.columns = [ :name, :description, :program, :project_status,  :target_start_date, :target_end_date, :causes,
                             :actual_start_date, :actual_end_date,:dollars_spent, :total_cost, :partner, :contact, :place,
                           :milestone_count, :milestones,:key_measures, :sectors, :public, :note, :featured, :blog_url, :rss_url,
-                          :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects, :collaborating_agencies, :financial_sources ]      
+                          :frequency_type, :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects, :causes, :collaborating_agencies, :financial_sources ]      
     list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones, :actual_start_date, :actual_end_date,
                          :target_end_date,:dollars_spent, :sectors, :public, :milestone_count, :partner, :blog_url, :rss_url, :intended_outcome, 
-                          :meas_eval_plan, :project_in_community, :key_measures, :other_projects, :collaborating_agencies, :financial_sources  ]
+                          :meas_eval_plan, :frequency_type, :project_in_community, :key_measures, :other_projects, :collaborating_agencies, :financial_sources  ]
     #show.columns.exclude [ ]
     update.columns.exclude [ :program, :milestones, :milestone_count, :dollars_spent, :total_cost, :key_measures ]
     create.columns.exclude [ :milestones, :milestone_count, :key_measures  ]
@@ -24,18 +24,22 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :dollars_spent ].label = "Spent"
     config.columns[ :featured ].label = "Featured?"    
     config.columns[ :project_in_community ].label = "How project fits into community development"
-    config.columns[ :meas_eval_plan ].label = "Measurement and Evaluation Plan"
+    config.columns[ :meas_eval_plan ].label = "Measurement&nbsp;and Evaluation Plan"
     config.columns[ :project_status ].form_ui = :select
     config.columns[ :place ].form_ui = :select
     config.columns[ :contact ].form_ui = :select
     config.columns[ :partner ].form_ui = :select
     config.columns[ :program ].form_ui = :select
+     config.columns[ :sectors ].form_ui = :select
+    config.columns[ :frequency_type ].label = "Frequency&nbsp;of&nbsp;Feedback"   
+    config.columns[ :frequency_type ].form_ui = :select
+     config.columns[ :causes ].form_ui = :select
 #    config.columns[ :public ].form_ui = :select
    
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
     
-config.nested.add_link( "Rank", [:ranks])
+config.nested.add_link( "At a glance", [:ranks])
 config.nested.add_link( "Budget", [:budget_items])
 config.nested.add_link( "Key Measures", [:key_measures])
     

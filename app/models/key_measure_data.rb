@@ -11,8 +11,11 @@ class KeyMeasureData < ActiveRecord::Base
       me.errors.add :key_measure_id, 'does not exist'
     end
   end
+  def to_label
+     "#{key_measure.description}"
+  end
   
   def name
-    return "#{value}"
+     "#{key_measure.description}"
   end
 end

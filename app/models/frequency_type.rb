@@ -1,6 +1,7 @@
 class FrequencyType < ActiveRecord::Base
   acts_as_paranoid
-  has_many :key_measures
+  has_many :projects
+  
 
   validates_presence_of :name  #, :active
   validates_uniqueness_of :name

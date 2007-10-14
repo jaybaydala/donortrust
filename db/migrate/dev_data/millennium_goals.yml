@@ -2,32 +2,32 @@
 millennium_goals_001: 
   deleted_at: 
   id: "1"
-  description: Eradicate extreme poverty and hunger
+  name: Eradicate extreme poverty and hunger
 millennium_goals_002: 
   deleted_at: 
   id: "2"
-  description: Achieve universal primary education
+  name: Achieve universal primary education
 millennium_goals_003: 
   deleted_at: 
   id: "3"
-  description: Promote gender equality and empower women
+  name: Promote gender equality and empower women
 millennium_goals_004: 
   deleted_at: 
   id: "4"
-  description: Reduce child mortality
+  name: Reduce child mortality
 millennium_goals_005: 
   deleted_at: 
   id: "5"
-  description: Improve maternal health
+  name: Improve maternal health
 millennium_goals_006: 
   deleted_at: 
   id: "6"
-  description: Combat HIV/AIDS, malaria and other diseases
+  name: Combat HIV/AIDS, malaria and other diseases
 millennium_goals_007: 
   deleted_at: 
   id: "7"
-  description: Ensure environmental sustainability
+  name: Ensure environmental sustainability
 millennium_goals_008: 
   deleted_at: 
   id: "8"
-  description: Develop a global partnership for development
+  name: Develop a global partnership for development

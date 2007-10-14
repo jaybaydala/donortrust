@@ -5,6 +5,7 @@ class KeyMeasuresRel001 < ActiveRecord::Migration
       t.column :measure_id,       :int,  :null => false
       t.column :units,              :string,  :null => false
        t.column :target,              :string,  :null => false
+       t.column :millennium_goal_id,   :int
     end
  
  # if (ENV['RAILS_ENV'] == 'development')

@@ -2,6 +2,7 @@ class KeyMeasure < ActiveRecord::Base
   has_many    :key_measure_datas
   belongs_to  :project
   belongs_to  :measure
+  has_and_belongs_to_many :millennium_goals
 
   validates_presence_of :units
   validate do |me|
@@ -16,6 +17,7 @@ class KeyMeasure < ActiveRecord::Base
     
   end
 
+  
   def destroy
     result = false
     if key_measure_data.count > 0
@@ -28,7 +30,7 @@ class KeyMeasure < ActiveRecord::Base
   end
 
   def to_label
-    return "#{units}"
+    return "#{measure.description}"
   end
 
   def measurement_count

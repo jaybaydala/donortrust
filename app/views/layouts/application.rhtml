@@ -8,6 +8,7 @@
     content="text/html; charset=iso-8859-1" />
 <%= stylesheet_link_tag 'redbox' %>
 <%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'prototype' %>
 <%= active_scaffold_includes %>
 <%= stylesheet_link_tag 'redbox' %> 
 <%= javascript_include_tag 'redbox' %>
@@ -171,6 +172,7 @@
             <select name="site" size="-1" onchange ="textLinkRedirector(this.value)">
                 <option value="">Manage...</option>
 				<option value="/bus_admin/contacts">Contacts</option>
+				<option value="/bus_admin/causes">Causes</option>
                 <option value="/bus_admin/frequency_types">Frequency Types</option>
                 <option value="/bus_admin/group_types">Group Types</option>
                 <option value="/bus_admin/groups">Groups</option>
