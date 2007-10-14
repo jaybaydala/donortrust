@@ -27,7 +27,7 @@ context "Tasks" do
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count + 1 )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "each fixture instance should be valid" do
@@ -82,7 +82,7 @@ context "Tasks" do
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count + 1 )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "create with nil name should not validate" do
@@ -119,6 +119,7 @@ context "Tasks" do
     old_instance_count = Task.count
     old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
     instance = clean_new_instance( :name => tasks( :taskone ).name )
+    instance.milestone_id.should.equal( tasks( :taskone ).milestone_id )
     instance.should.not.validate
     instance.save.should.equal( false )
     Task.count.should.equal( old_instance_count )
@@ -128,11 +129,43 @@ context "Tasks" do
   specify "create with duplicate name for other milestone id should validate" do
     old_instance_count = Task.count
     old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
-    instance = clean_new_instance( :milestone_id => milestones( :two ).id, :name => tasks( :taskone ).name )
+    instance = clean_new_instance( :name => tasks( :taskthree ).name )
+    instance.milestone_id.should.not.equal( tasks( :taskthree ).milestone_id )
     instance.should.validate
     instance.save
     Task.count.should.equal( old_instance_count + 1 )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
+  end
+
+  specify "create with duplicate name (deleted name with same milestone) should not validate" do
+    instance = Task.find( tasks( :taskone ).id )
+    existing_name = instance.name
+    existing_milestone_id = instance.milestone_id
+    instance.destroy
+    old_instance_count = Task.count
+    old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
+    instance = clean_new_instance( :name => existing_name )
+    instance.milestone_id.should.equal( existing_milestone_id )
+    instance.should.not.validate
+    instance.save.should.equal( false )
+    Task.count.should.equal( old_instance_count )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+  end
+
+  specify "create with duplicate name (deleted name with other milestone) should validate" do
+    instance = Task.find( tasks( :taskthree ).id )
+    instance.milestone_id.should.not.equal( tasks( :taskone ).id )
+    existing_name = instance.name
+    existing_milestone_id = instance.milestone_id
+    instance.destroy
+    old_instance_count = Task.count
+    old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
+    instance = clean_new_instance( :name => existing_name )
+    instance.milestone_id.should.not.equal( existing_milestone_id )
+    instance.should.validate
+    instance.save.should.equal( true )
+    Task.count.should.equal( old_instance_count + 1 )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "create with nil description should not validate" do
@@ -219,7 +252,7 @@ context "Tasks" do
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "edit to nil name should not validate" do
@@ -259,6 +292,7 @@ context "Tasks" do
     old_instance_count = Task.count
     old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
     instance = Task.find( tasks( :taskone ).id )
+    instance.milestone_id.should.equal( tasks( :tasktwo ).milestone_id )
     instance.name = tasks( :tasktwo ).name
     instance.should.not.validate
     instance.save.should.equal( false )
@@ -266,15 +300,48 @@ context "Tasks" do
     old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
   end
 
-  specify "edit to name used in other milestone task should validate" do
+  specify "edit to duplicate name used in other milestone task should validate" do
     old_instance_count = Task.count
     old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
     instance = Task.find( tasks( :taskone ).id )
+    instance.milestone_id.should.not.equal( tasks( :taskthree ).milestone_id )
     instance.name = tasks( :taskthree ).name
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
+  end
+
+  specify "edit to duplicate name (deleted name with same milestone) should not validate" do
+    instance = Task.find( tasks( :tasktwo ).id )
+    existing_name = instance.name
+    existing_milestone_id = instance.milestone_id
+    instance.destroy
+    old_instance_count = Task.count
+    old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
+    instance = Task.find( tasks( :taskone ).id )
+    instance.milestone_id.should.equal( existing_milestone_id )
+    instance.name = existing_name
+    instance.should.not.validate
+    instance.save.should.equal( false )
+    Task.count.should.equal( old_instance_count )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+  end
+
+  specify "edit to duplicate name (deleted name with other milestone) should validate" do
+    instance = Task.find( tasks( :taskthree ).id )
+    existing_name = instance.name
+    existing_milestone_id = instance.milestone_id
+    instance.destroy
+    old_instance_count = Task.count
+    old_version_count = Task.find_with_deleted( :all, :from => "task_versions" ).size
+    instance = Task.find( tasks( :taskone ).id )
+    instance.milestone_id.should.not.equal( existing_milestone_id )
+    instance.name = existing_name
+    instance.should.validate
+    instance.save.should.equal( true )
+    Task.count.should.equal( old_instance_count )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "edit to nil description should not validate" do
@@ -318,7 +385,7 @@ context "Tasks" do
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "edit target start date should create new version record" do
@@ -329,7 +396,7 @@ context "Tasks" do
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "edit target end date should create new version record" do
@@ -340,7 +407,7 @@ context "Tasks" do
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "edit actual start date should create new version record" do
@@ -351,7 +418,7 @@ context "Tasks" do
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "edit actual end date should create new version record" do
@@ -362,7 +429,7 @@ context "Tasks" do
     instance.should.validate
     instance.save.should.equal( true )
     Task.count.should.equal( old_instance_count )
-    ( old_version_count + 1 ).should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size )
+    old_version_count.should.equal( Task.find_with_deleted( :all, :from => "task_versions" ).size - 1 )
   end
 
   specify "destroy existing instance should validate (but not actually delete)" do

@@ -47,8 +47,9 @@ class Task < ActiveRecord::Base
   protected
   def check_deleted
     check_result = true
-    existing = Task.find_with_deleted( :all, :conditions => [ "name = ?", name ])
-    #existing = self.get_model.find_with_deleted( :all, :conditions => [ "name = ?", name ])
+    existing = Task.find_with_deleted( :all, :conditions => [ "name = ? and milestone_id = ?", name, milestone_id ])
+    #Is it practical to make this generic, and have it figure out the needed constraint conditions?
+    #existing = self.get_model.find_with_deleted( :all, :conditions => [ "name = ? and milestone_id = ?", name, milestone_id ])
     if existing.size > 0 then
       # if existing.size > 1 then exception duplicates already exists
       if not existing[ 0 ].deleted_at.nil? then

@@ -10,7 +10,7 @@ class BusAdmin::TasksController < ApplicationController
     create.columns.exclude [ :version_count ]
     config.columns[ :milestone ].form_ui = :select
     config.columns[ :name ].label = "Task"
-   config.columns[ :target_start_date ].label = "Target Start"
+    config.columns[ :target_start_date ].label = "Target Start"
     config.columns[ :target_end_date ].label = "Target End"
     config.columns[ :actual_start_date ].label = "Actual Start"
     config.columns[ :actual_end_date ].label = "Actual End"
