@@ -1,3 +1,4 @@
+
 class Dt::ProjectsController < DtApplicationController
   before_filter :project_id_to_session, :only=>[:facebook_login]
   before_filter :require_facebook_login, :only=>[:facebook_login]
@@ -54,7 +55,9 @@ class Dt::ProjectsController < DtApplicationController
       members_results = fbsession.groups_getMembers(:gid=>gid)
       # wierd! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
       member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
+      puts member_ids.length
       @members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
+      @member_pages, @members = paginate_array(params[:page],@members , 30)
       @fb_user_in_group = true if member_ids.find{ |id| @fbid==id}
     end
   end
@@ -79,6 +82,15 @@ class Dt::ProjectsController < DtApplicationController
     puts session[:project_id]
     session[:project_id] = params[:id]
     puts session[:project_id]
+  end
+  def paginate_array(page, array, items_per_page)
+    @size = array.length
+    page ||= 1
+    page = page.to_i
+    offset = (page - 1) * items_per_page
+    pages = Paginator.new(self, array.length, items_per_page, page)
+    array = array[offset..(offset + items_per_page - 1)]
+    [pages, array]
   end
 
 end

@@ -9,6 +9,35 @@ width:normal;
 </style>
 
 <div id="leftColW">
+<% if @group %>
+<div id="subSubNav">
+  <ul class="pageNav">
+    <li class="currentPg"><a href="#">Overview</a></li>
+    <li><a href="/projectCommunityPhotos.html">Photos</a></li>
+    <li><a href="/projectCommunityEvents.html">Events</a></li>
+  </ul>
+  <ul class="pageNav">
+  <%= render :partial => "member_paginator", :locals => { :paginator => @member_pages } %>
+<!--
+    <li><%= @members.length %> Members</li>
+    <li>&nbsp;</li>
+    <li>|</li>
+    <li>&nbsp;</li>
+    <li>page 1 of 5</li>
+    <li>&nbsp;</li>
+    <li>| </li>
+    <li><a href="#"><</a></li>
+    <li class="currentPg"><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">></a></li>
+-->
+  </ul>
+</div><!-- subSubNav end -->
+<% end %>
+
   <h2>Facebook Village Group</h2>
   <% if not @group_available %>
   <p>There is no facebook group available for this location.</p>
@@ -17,16 +46,14 @@ width:normal;
   <p><%= link_to "Login", :action=>"facebook_login", :id=>@project.id %> into facebook, to view village details.</p>
   <p>&nbsp;</p>
   <% else -%>
-  <p class="blueblock"><a target="_blank" href="http://<%= @group.website %>"><img src="/images/dt/icons/fbIcon.gif"> Go to Facebook Group</a></p>
+  <p class="blueblock"><a target="_blank" href="<%= @facebook_group_link %>"><img src="/images/dt/icons/fbIcon.gif"> &nbsp; Go to Facebook Group: <%= @group.name %></a></p>
   <!-- p><a href="http://<%= @group.website %>"><img src="<%= @group.pic_big %>"/></a></p -->
-  <p>You are currently logged into facebook as: <%= @fb_user.name %></p>
+  <p>Facebook user: <%= @fb_user.name %></p>
   <% if @fb_user_in_group %>
   <p>You are a member of this group</p>
     <% else -%>
-  <p>You are not a member of this group. Click here to join. </p>
+  <p>You are not a member of this group. To join, go to the <%= link_to "#{@group.name} page", @facebook_group_link %> and select "Join this group". </p>
   <% end %>
-  <p><%= @group.description %></p>
-  <p>Current Members:</p>
   <div id="gallery">
   <ul id="thumbs">
   <% for m in @members %>
