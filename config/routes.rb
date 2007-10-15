@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   
   
   # front-end resources - non-admin
-  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :specs => :get, :village => :get, :nation => :get, :community => :get } do |project|
+  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :specs => :get, :village => :get, :nation => :get, :community => :get, :facebook_login=>:get } do |project|
     project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   end
   map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'

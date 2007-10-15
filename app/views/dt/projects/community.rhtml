@@ -2,15 +2,42 @@
   <h1><%= @project.name %></h1>
   <%= project_nav %>
 
-  <div id="leftColW">
-    <!--<h2>Village Facebook Group</h2>
-    <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Awaiting facebook integration</div>
-    -->
-    
-    <h2>ChristmasFuture Groups interested in this project</h2>
-    <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Groups in progress</div>
-    <p>&nbsp;</p>
-  </div>
+<style type="text/css">
+img.facebook{
+width:normal;
+}
+</style>
+
+<div id="leftColW">
+  <h2>Facebook Village Group</h2>
+  <% if not @group_available %>
+  <p>There is no facebook group available for this location.</p>
+  <p>&nbsp;</p>
+  <% elsif not @group -%>
+  <p><%= link_to "Login", :action=>"facebook_login", :id=>@project.id %> into facebook, to view village details.</p>
+  <p>&nbsp;</p>
+  <% else -%>
+  <p class="blueblock"><a target="_blank" href="http://<%= @group.website %>"><img src="/images/dt/icons/fbIcon.gif"> Go to Facebook Group</a></p>
+  <!-- p><a href="http://<%= @group.website %>"><img src="<%= @group.pic_big %>"/></a></p -->
+  <p>You are currently logged into facebook as: <%= @fb_user.name %></p>
+  <% if @fb_user_in_group %>
+  <p>You are a member of this group</p>
+    <% else -%>
+  <p>You are not a member of this group. Click here to join. </p>
+  <% end %>
+  <p><%= @group.description %></p>
+  <p>Current Members:</p>
+  <div id="gallery">
+  <ul id="thumbs">
+  <% for m in @members %>
+  <li>
+    <a href="http://www.facebook.com/profile.php?id=<%= m.uid %>"><img alt="<%=m.name %>" src="<%= m.pic_square %>" /></a>
+    <div class="thumbLabel"><%= m.name %></div>
+  </li>
+  <% end %>
+  </ul>
+  <% end %>
+</div>
 
   <div id="rightColN">
     <%= render :partial => 'related_projects' %>
