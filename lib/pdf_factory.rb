@@ -2,22 +2,52 @@ require 'pdf/writer'
 require 'action_view/helpers/number_helper'
 include ActionView::Helpers::NumberHelper
 
-module PDFFactory
-  def create_gift_pdf(gift)
-      _pdf = PDF::Writer.new
-      _pdf.select_font "Times-Roman"
-      _pdf.compressed=true
-      image_path = File.expand_path("#{RAILS_ROOT}/public#{gift.ecard.sub(/\/large\//, '/printable/')}")
-      i0 = _pdf.image image_path if File.exists?(image_path)
-      # make sure to add text on top of the image! 
-      #_pdf.add_text_wrap(85, 145, 500, gift[:pickup_code], 12, :justification=>:right)
-      _pdf.add_text(138, 151, gift[:pickup_code], 12)
-      return _pdf
+PDFTK = "/usr/bin/pdftk"
+#PDFTK = nil
+
+module PDFProxy
+  def create_pdf_proxy(model)
+    if model.class == TaxReceipt
+      return TaxReceiptPDFProxy.new(model)
+    elsif model.class == Gift
+      return GiftPDFProxy.new(model)
+    end
+  end
+end
+
+class TaxReceiptPDFProxy
+  def initialize(receipt)
+    @receipt = receipt
   end
 
+  def render(duplicate=true)
+    puts "rendering #{@model.class}"
+    #render_tax_receipt
+    pdf = create_pdf(@receipt, duplicate)
 
-  
-  def create_tax_receipt_pdf(receipt, duplicate=true)
+    if PDFTK
+      encrypt(pdf)
+    else
+      pdf.render
+    end
+  end
+
+  def post_render
+    # cleans up temp files needed for encryption
+    begin
+      File.delete("/tmp/#{filename}")
+      File.delete("/tmp/#{filename}.orig")
+    rescue
+      puts 'homething'
+    end
+  end
+
+  def filename
+    return "CFTaxReceipt-#{@receipt.id_display}.pdf"
+  end
+
+  protected 
+  def create_pdf(receipt, duplicate)
     _pdf = PDF::Writer.new
     _pdf.select_font "Times-Roman"
     _pdf.compressed=true
@@ -42,5 +72,55 @@ module PDFFactory
     _pdf.add_text(x2, 517, receipt.postal_code, font_size)
     _pdf.add_text(x3, 517, receipt.country, font_size)
     return _pdf
+  end
+
+  def encrypt(pdf)
+    forig = File.open("/tmp/#{filename}.orig", 'w')
+    forig.write(pdf.render)
+    forig.close()
+    password = generate_password
+    system("#{PDFTK} /tmp/#{filename}.orig output /tmp/#{filename} owner_pw #{password} allow printing")
+    f = File.open("/tmp/" + filename, 'r')
+    f.read
+  end
+
+  def generate_password
+    # generates an unused password in order to encrypt the pdf
+    hash = ""
+    srand()
+    (1..12).each do
+      rnd = (rand(2147483648)%36) # using 2 ** 31
+      rnd = rnd<26 ? rnd+97 : rnd+22
+      hash = hash + rnd.chr
+    end
+    hash
+  end
+end
+class GiftPDFProxy
+
+  def initialize(gift)
+    @gift = gift
+  end
+
+  def render
+    create_gift_pdf(@gift).render
+  end
+  def post_render
+  end
+  def filename
+    return "ChristmasFuture gift card.pdf" 
+  end
+
+  protected
+  def create_gift_pdf(gift)
+      _pdf = PDF::Writer.new
+      _pdf.select_font "Times-Roman"
+      _pdf.compressed=true
+      image_path = File.expand_path("#{RAILS_ROOT}/public#{gift.ecard.sub(/\/large\//, '/printable/')}")
+      i0 = _pdf.image image_path if File.exists?(image_path)
+      # make sure to add text on top of the image! 
+      #_pdf.add_text_wrap(85, 145, 500, gift[:pickup_code], 12, :justification=>:right)
+      _pdf.add_text(138, 151, gift[:pickup_code], 12)
+      return _pdf
   end
 end

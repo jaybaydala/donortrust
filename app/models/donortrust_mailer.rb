@@ -1,6 +1,6 @@
 require 'pdf_factory'
 class DonortrustMailer < ActionMailer::Base
-  include PDFFactory
+  include PDFProxy
   HTTP_HOST = 'www.christmasfuture.org'
   
   def user_signup_notification(user)
@@ -30,8 +30,9 @@ class DonortrustMailer < ActionMailer::Base
       :body => render_message('gift_mail.text.html.rhtml', body_data)
 
     attachment "application/pdf" do |a|
-      a.filename= "ChristmasFuture gift card.pdf" 
-      a.body = PDFFactory.create_gift_pdf(gift).render
+      proxy = create_pdf_proxy(gift)
+      a.filename= proxy.filename
+      a.body = proxy.render
     end
   end
 
@@ -47,8 +48,9 @@ class DonortrustMailer < ActionMailer::Base
     recipients "#{gift.email}"
     subject "Your gift to #{gift.to_name} has been opened!"
     attachment "application/pdf" do |a|
-      a.filename= "ChristmasFuture gift card.pdf" 
-      a.body = create_gift_pdf(gift).render
+      proxy = PDFProxy.create_pdf_proxy(gift)
+      a.filename= proxy.filename
+      a.body = proxy.render
     end
   end
 
@@ -67,8 +69,11 @@ class DonortrustMailer < ActionMailer::Base
     subject "Tax receipt for your gift"
     body "Thank you for your gift, please find your attached tax receipt"
     attachment "application/pdf" do |a|
-      a.filename = "CFTaxReceipt-#{receipt.id_display}.pdf"
-      a.body = create_tax_receipt_pdf(receipt, duplicate=false).render
+      # switched to a proxy pattern (encryption requires a lot of shenanigans)
+      proxy = create_pdf_proxy(receipt)
+      a.body = proxy.render(duplicate=false)
+      a.filename = proxy.filename
+      proxy.post_render # this removes the tmp files needed to encrypt
     end
   end
 

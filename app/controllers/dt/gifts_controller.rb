@@ -1,9 +1,9 @@
 require 'iats/iats_process.rb'
 require 'pdf_factory'
+include PDFProxy
 
 class Dt::GiftsController < DtApplicationController
   include IatsProcess
-  include PDFFactory
   before_filter :login_required, :only => :unwrap
   
   def index
@@ -19,9 +19,9 @@ class Dt::GiftsController < DtApplicationController
     if not @gift[:pickup_code]
       flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
       redirect_to :action => 'new' 
-    elsif 
-      _pdf = create_gift_pdf(@gift)
-      send_data _pdf.render, :filename => "ChristmasFuture gift card.pdf", :type => "application/pdf"
+    else
+      proxy = create_pdf_proxy(@gift)
+      send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
     end
   end
   
