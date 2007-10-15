@@ -1,9 +1,9 @@
-    <div id="relatedProjects">
+    <% unless @project.village.nil? || @project.village.projects.nil? %><div id="relatedProjects">
       <% form_tag dt_projects_path, :method => :get do -%>
-        <%= select_tag "id", options_for_select(
+        <div><%= select_tag "id", options_for_select(
             (@project.village.projects.collect do |project|
               [project.name, project.id]
             end).unshift(['Other projects in this village', ''])
-          ), :onchange => 'id=this.options[this.selectedIndex].value;if(id){document.location.href=this.up(\'form\').action + \'/\' + id}' %>
+          ), :onchange => 'id=this.options[this.selectedIndex].value;if(id){document.location.href=this.up(\'form\').action + \'/\' + id}' %></div>
       <% end -%>
-    </div>
+    </div><% end %>

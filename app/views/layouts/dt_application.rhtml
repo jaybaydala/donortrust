@@ -25,7 +25,17 @@
 
 <%= dt_nav %>
 
-<%= dt_masthead %>
+<div id="featurePhoto" style="height:155px ">
+  <%= image_tag dt_masthead_image %>
+</div>
+<div id="toolbar">
+  <% form_tag dt_search_path, :id => 'projectsearchform', :method => :get do %>
+    <div id="buttonFindGift"><a href="javascript:$('projectsearchform').submit()">&nbsp;</a></div>
+    <div id="location"><%= dt_search_by_country_select %></div>
+    <div id="cause"><%= dt_search_by_cause_select %></div>
+    <div id="organization"><%= dt_search_by_organization_select %></div>
+  <% end %>
+</div>
 
 <%= yield %>
 

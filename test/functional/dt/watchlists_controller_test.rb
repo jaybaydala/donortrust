@@ -11,7 +11,7 @@ context "Dt::Watchlists inheritance" do
   end
 end
 
-context "Dt::Accounts #route_for" do
+context "Dt::Watchlists #route_for" do
   use_controller Dt::WatchlistsController
 
   setup do
@@ -36,7 +36,7 @@ context "Dt::Accounts #route_for" do
   end
 end
 
-context "Dt::Accounts handling GET /dt/watchlists/new" do
+context "Dt::Watchlists handling GET /dt/watchlists/new" do
   use_controller Dt::WatchlistsController
   include DtAuthenticatedTestHelper
   fixtures :users
@@ -73,7 +73,7 @@ context "Dt::Accounts handling GET /dt/watchlists/new" do
   end
 end
 
-context "Dt::Accounts handling POST /dt/watchlists" do
+context "Dt::Watchlists handling POST /dt/watchlists" do
   use_controller Dt::WatchlistsController
   include DtAuthenticatedTestHelper
   fixtures :users

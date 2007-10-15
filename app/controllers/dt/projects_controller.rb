@@ -1,4 +1,3 @@
-
 class Dt::ProjectsController < DtApplicationController
   before_filter :project_id_to_session, :only=>[:facebook_login]
   before_filter :require_facebook_login, :only=>[:facebook_login]
@@ -43,21 +42,21 @@ class Dt::ProjectsController < DtApplicationController
     #facebook stuff
     #gid = @project.place.facebook_group_id
     if @project.place and @project.place.facebook_group_id
-      @group_available = true
+      @fb_group_available = true
       @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
     end
     if fbsession and fbsession.is_valid?:
       #gid = 3362029547
       gid = @project.place.facebook_group_id
       @fbid = fbsession.users_getLoggedInUser()
-      @group = fbsession.groups_get(:gids=>gid)
+      @fb_group = fbsession.groups_get(:gids=>gid)
       @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
       members_results = fbsession.groups_getMembers(:gid=>gid)
       # wierd! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
       member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
       puts member_ids.length
-      @members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
-      @member_pages, @members = paginate_array(params[:page],@members , 30)
+      @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
+      @fb_member_pages, @members = paginate_array(params[:page], @fb_members , 30)
       @fb_user_in_group = true if member_ids.find{ |id| @fbid==id}
     end
   end

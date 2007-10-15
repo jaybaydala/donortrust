@@ -8,22 +8,36 @@ module DtApplicationHelper
     render 'dt/shared/nav'
   end
 
-  def dt_masthead
-    @masthead = { 
-      :image => '/images/dt/masthead_default.jpg'
-      }
-    render 'dt/shared/masthead'
+  def dt_masthead_image
+    @image = '/images/dt/feature_graphics/feelGreat155.jpg'
   end
-
-  def dt_project_search
-    projects = Project.find(:all).collect {|p| [ p.name, p.id ] }
-    @project_select = select("project_select", "project_id", projects, { :prompt => '--Select a Project--' }, { :onchange => "window.location.href='#{dt_search_projects_path}?project_id='+this.options[this.selectedIndex].value" } )
-    countries = Country.find(:all).collect {|p| [ p.name, p.id ] }
-    @country_select = select("country_select", "country_id", projects, { :prompt => '--Select a Region--' } )
-    partners = Partner.find(:all).collect {|p| [ p.name, p.id ] }
-    @partner_select = select("partner_select", "partner_id", projects, { :prompt => '--Select a Partner--' } )
-    render 'dt/shared/project_search'
-  end  
+  
+  def dt_search_by_country_select
+    @countries = [['Choose a Country', '']]
+    Place.find(:all, :conditions => { :place_type_id => 2 }, :order => :name).each do |country|
+      @countries << [country.name, country.id]
+    end
+    select_tag("country_id", options_for_select(@countries)) if @countries
+  end
+  
+  def dt_search_by_cause_select
+    @causes = [['Choose a Cause', '']]
+    Sector.find(:all, :conditions => { :parent_id => nil }, :order => :name).each do |sector|
+      @causes << [sector.name, sector.id]
+      Sector.find(:all, :conditions => { :parent_id => sector.id }, :order => :name).each do |cause|
+        @causes << ["- #{cause.name}", cause.id]
+      end
+    end
+    select_tag("sector_id", options_for_select(@causes)) if @causes
+  end
+  
+  def dt_search_by_organization_select
+    @partners = [['Choose an Organization', '']]
+    Partner.find(:all, :conditions => { :partner_status_id => 1 }, :order => :name).each do |partner|
+      @partners << [partner.name, partner.id]
+    end
+    select_tag("place_id", options_for_select(@partners)) if @partners
+  end
 
   def dt_account_nav
     render 'dt/accounts/account_nav'

@@ -1,4 +1,5 @@
 <% if logged_in? %>
+  <h2>My Profile</h2>
   <p><%= link_to "Edit My Account", dt_edit_account_path(current_user) %> | <%= link_to "Sign Out", dt_logout_path %></p>
   <p><strong><%= current_user.full_name %></strong> (<%= current_user.name %>)</p>
 	<% if @group && !@group.new_record? %><ul>
@@ -6,7 +7,7 @@
 	  <% if current_member(@group) && current_member(@group).founder? %><li class="blueblock"><%= link_to "&nbsp;Delete this Group", dt_memberships_path(@group), :method => :delete, :confirm => "Do you want to delete #{@group.name}?" %></li><% end %>
 	</ul><% end %>
   <h5>My Portfolio</h5>
-  <ul id="factList"> 
+  <ul class="factList"> 
   	<li><strong>Groups:</strong> <%= render :partial => 'dt/accounts/membership', :collection => current_user.memberships %></li>
   	<li><strong>Invested:</strong> <%= number_to_currency(current_user.invested) %></li>
   	<li><strong>Account Balance:</strong> <%= number_to_currency(current_user.balance) %></li>

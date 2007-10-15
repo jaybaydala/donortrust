@@ -6,7 +6,7 @@ class PartnersRel001 < ActiveRecord::Migration
       t.column :description,        :text
       t.column :website,            :string
       t.column :partner_type_id,    :integer
-      t.column :partner_status_id,  :integer      
+      t.column :partner_status_id,  :integer
       t.column :business_model,     :text
       t.column :funding_sources,    :text
       t.column :mission_statement,  :text
