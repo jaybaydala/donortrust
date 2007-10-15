@@ -13,15 +13,18 @@ class Dt::GiftsController < DtApplicationController
   end
 
 
-  def printable
-    require 'pdf/writer'
+  def show
     @gift = Gift.find(params[:id])
-    if not @gift[:pickup_code]
-      flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
-      redirect_to :action => 'new' 
-    else
-      proxy = create_pdf_proxy(@gift)
-      send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
+    respond_to do |format|
+      format.pdf{
+        if not @gift[:pickup_code]
+          flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
+          redirect_to :action => 'new' 
+        else
+          proxy = create_pdf_proxy(@gift)
+          send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
+        end
+      }
     end
   end
   

@@ -3,13 +3,17 @@ require 'pdf_proxy'
 include PDFProxy
 
 class Dt::TaxReceiptsController < DtApplicationController
-  before_filter :login_required, :only => [ :printable ]
+  before_filter :login_required, :only => [ :show ]
 
-  def printable
+  def show
     @receipt = TaxReceipt.find(id=params[:id])
-    proxy = create_pdf_proxy(@receipt)
-    send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
-    proxy.post_render
+    respond_to do |format|
+      format.pdf{
+        proxy = create_pdf_proxy(@receipt)
+        send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
+        proxy.post_render
+      }
+    end
   end
 
   def authorized?

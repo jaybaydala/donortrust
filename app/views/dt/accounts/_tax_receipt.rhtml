@@ -3,7 +3,7 @@ bg = tax_receipt_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 %>
 
 <tr>
-  <td<%= bg %>><%= link_to tax_receipt.investment.project.name, "/dt/accounts/%s/tax_receipts/%s;printable" % [tax_receipt.user.id, tax_receipt.id] %></td>
+  <td<%= bg %>><%= link_to tax_receipt.investment.project.name, "/dt/accounts/%s/tax_receipts/%s.pdf" % [tax_receipt.user.id, tax_receipt.id] %></td>
   <td<%= bg %>><%= tax_receipt.created_at.to_formatted_s :short %></td>
   <td<%= bg %>><%= number_to_currency tax_receipt.investment.amount %></td>
 </tr>

@@ -7,7 +7,7 @@
     	<%= "Your gift has been emailed." if @gift.sent_at != nil %> 
     	<%= "Your gift has been scheduled to be emailed." if @gift.sent_at == nil %> 
     	If it isn't picked up, we will notify you before it expires in 30 days after notification.
-    	The ecard can be downloaded <a href="<%= "/dt/gifts/%s;printable" % [@gift.id] %>">here</a>. 
+    	The ecard can be downloaded <a href="<%= "/dt/gifts/%s.pdf" % [@gift.id] %>">here</a>. 
     </p>
 
     <p>

@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
     :collection => { :activate => :get, :resend => :get } do |account|
       account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
       account.resources :wishlists, :controller => 'dt/wishlists', :name_prefix => 'dt_'
-      account.resources :tax_receipts, :controller => 'dt/tax_receipts', :name_prefix => 'dt_', :member=> { :printable=>:get }
+      account.resources :tax_receipts, :controller => 'dt/tax_receipts', :name_prefix => 'dt_'
       account.resources :account_memberships, :controller => 'dt/account_memberships', :name_prefix => 'dt_'
   end
   map.resource :session, :controller => 'dt/sessions', :name_prefix => 'dt_', :path_prefix => '/dt'
@@ -20,7 +20,7 @@ ActionController::Routing::Routes.draw do |map|
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', 
     :collection => { :confirm => :post, :open => :get, :preview => :get },
-    :member => { :unwrap => :put, :printable=>:get }
+  :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt' do |group|
     group.resources :memberships, :controller => 'dt/memberships', :name_prefix => 'dt_', :collection => { :typify => :put }
     group.resources :group_projects, :controller => 'dt/group_projects', :name_prefix => 'dt_'

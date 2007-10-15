@@ -38,7 +38,7 @@ class TaxReceiptPDFProxy
       File.delete("/tmp/#{filename}")
       File.delete("/tmp/#{filename}.orig")
     rescue
-      puts 'homething'
+      puts 'unable to delete temp files'
     end
   end
 
