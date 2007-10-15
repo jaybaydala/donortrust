@@ -7,9 +7,9 @@ PDFTK = "/usr/bin/pdftk"
 
 module PDFProxy
   def create_pdf_proxy(model)
-    if model.class == TaxReceipt
+    if model.kind_of?(TaxReceipt)
       return TaxReceiptPDFProxy.new(model)
-    elsif model.class == Gift
+    elsif model.kind_of?(Gift)
       return GiftPDFProxy.new(model)
     end
   end
