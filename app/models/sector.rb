@@ -8,7 +8,7 @@ class Sector < ActiveRecord::Base
   has_many :places , :through => :place_sectors
   has_many :quick_fact_sectors   
      
-  validates_presence_of :name, :description
+  validates_presence_of :name
   validates_uniqueness_of :name
 
 #  def project_count
