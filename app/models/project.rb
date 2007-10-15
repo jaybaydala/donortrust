@@ -38,6 +38,8 @@ acts_as_simile_timeline_event(
   "#{self.start_date}"
   end
  
+ validates_presence_of :name
+ 
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
