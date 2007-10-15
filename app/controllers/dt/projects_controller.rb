@@ -43,6 +43,7 @@ class Dt::ProjectsController < DtApplicationController
     #gid = @project.place.facebook_group_id
     if @project.place and @project.place.facebook_group_id
       @group_available = true
+      @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
     end
     if fbsession and fbsession.is_valid?:
       #gid = 3362029547
@@ -51,26 +52,26 @@ class Dt::ProjectsController < DtApplicationController
       @group = fbsession.groups_get(:gids=>gid)
       @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
       members_results = fbsession.groups_getMembers(:gid=>gid)
-      # wierd! api seems to have bug: cannot do member.uid, have to jump thru hoops
+      # wierd! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
       member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
       @members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
-      @fb_user_in_group = true if @members.include?(@fbid)
+      @fb_user_in_group = true if member_ids.find{ |id| @fbid==id}
     end
   end
 
   def facebook_login
     # placeholder for the before_filters above: project_id_to_session, facebook_login
     # is there a more elegant way to do this? 
-    # stores the project id, so that when the user returns from facebook, they will right back
-    # to the community before the bounce
-    # require_facebook_login is a rfacebook thing that bounces the user to facebook
+    # project_id_to_session: stores the project id in the (surprise) session, 
+    # require_facebook_login is a rfacebook thing that bounces the user to facebook, gets a session id, and stores it in the rails session, makes the fbsession object available to controllers
   end
   def finish_facebook_login
-    # redirect here
     project_id = session[:project_id]
     session[:project_id] = nil
     respond_to do |format|
-      format.html { redirect_to :action => 'community', :id=>session[:project_id] }
+      # TODO: translate to the hash format
+      # :action => 'community', :id=>session[:project_id] 
+      format.html { redirect_to "/dt/projects/#{project_id};community" }
     end
   end
 
