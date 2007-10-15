@@ -1,4 +1,4 @@
-require 'pdf_factory'
+require 'pdf_proxy'
 class DonortrustMailer < ActionMailer::Base
   include PDFProxy
   HTTP_HOST = 'www.christmasfuture.org'

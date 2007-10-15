@@ -1,5 +1,5 @@
 require 'iats/iats_process.rb'
-require 'pdf_factory'
+require 'pdf_proxy'
 include PDFProxy
 
 class Dt::GiftsController < DtApplicationController

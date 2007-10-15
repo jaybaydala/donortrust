@@ -1,5 +1,5 @@
 require 'pdf/writer'
-require 'pdf_factory'
+require 'pdf_proxy'
 include PDFProxy
 
 class Dt::TaxReceiptsController < DtApplicationController
