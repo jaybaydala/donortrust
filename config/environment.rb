@@ -48,7 +48,6 @@ Rails::Initializer.run do |config|
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
     File.directory?(lib = "#{dir}/lib") ? lib : dir
   end
-
 end
 
 # Add new inflection rules using the following format 
@@ -74,7 +73,6 @@ if ENV['RAILS_ENV'] == 'production'
 end
 
 
-require 'dt_application'
 require 'rubygems'
 #require 'flickr'
 #require 'ruby_tube'
