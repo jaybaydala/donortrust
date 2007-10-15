@@ -9,3 +9,9 @@ two:
   user_id: 3
   tx_type: Gift
   tx_id: 2
+three:
+  id: 3
+  user_id: 4
+  tx_type: Investment
+  tx_id: 1
+  created_at: <%= 5.days.ago.to_s :db %>
