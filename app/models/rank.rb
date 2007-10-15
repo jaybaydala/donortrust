@@ -5,16 +5,21 @@ class Rank < ActiveRecord::Base
    
    
   validates_presence_of :rank_type
+   validates_presence_of :rank
   validates_presence_of :rank, :if => :check_validation?
-  validates_numericality_of :rank 
+  #validates_numericality_of :rank 
   
   protected 
   def check_validation?
-    rank <= 100
+    if rank != nil
+      rank <= 4 
+    end
   end
-  
-  def validate  
-    errors.add(:rank, "Rank must be between 0 and 100" ) if rank > 100 or rank < 0
+    
+  def validate
+    if rank != nil
+      errors.add(:rank, "Rank must be between 0 and 4" ) if rank > 4 or rank < 0 #or rank = nil
+    end
   end  
 end
  
