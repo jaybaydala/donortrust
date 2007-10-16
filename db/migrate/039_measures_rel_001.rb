@@ -4,7 +4,7 @@ class MeasuresRel001 < ActiveRecord::Migration
     t.column :millennium_goal_id, :int
     t.column :description, :string
     t.column :deleted_at, :datetime
-    end
+  end
     
   #  if (ENV['RAILS_ENV'] == 'development')
   #    directory = File.join(File.dirname(__FILE__), "dev_data")
