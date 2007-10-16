@@ -1,10 +1,32 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::QuickFactTest < Test::Unit::TestCase
-  fixtures :bus_admin_quick_facts
+  fixtures :quick_facts#, :quick_fact_types
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  context "Quick Fact Tests " do
+    
+    specify "should create a quick fact" do
+      QuickFact.should.differ(:count).by(1) {create_quick_fact} 
+    end
+    
+    specify "should require name" do
+      lambda {
+        t = create_quick_fact(:name => nil)
+        t.errors.on(:name).should.not.be.nil
+      }.should.not.change(QuickFact, :count)
+    end
+   
+    specify "should require quick fact type" do
+      lambda {
+        t = create_quick_fact(:quick_fact_type => nil)
+        t.errors.on(:quick_fact_type).should.not.be.nil
+      }.should.not.change(QuickFact, :count)
+    end
+   
+   def create_quick_fact(options = {})
+    QuickFact.create({ :name => 'TestQuickFact', :description => 'My Description', :quick_fact_type_id => 1 }.merge(options))  
+   end 
+    
+   
   end
 end
