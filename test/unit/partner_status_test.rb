@@ -109,6 +109,32 @@ context "PartnerStatuses" do
     instance.destroy
     PartnerStatus.count.should.equal( old_instance_count - 1 )
   end
+  
+  specify "should create a partner" do
+      Partner.should.differ(:count).by(1) { create_partner() } 
+  end
+  
+  specify "name should be less then 25 Characters" do
+      lambda {
+        t = create_partner(:name=> 'This will enter more then 25 characters.')
+        t.errors.on(:name).should.not.be.nil
+      }.should.not.change(PartnerStatus, :count)
+    end
+    
+  specify "description should be less then 250 Characters" do
+    lambda {
+      t = create_partner(:description=> 'This will enter more then Two hundred and 
+      fifty characters into the column. This will enter more then Two hundred and 
+      fifty characters into the column. This will enter more then Two hundred and 
+      fifty characters into the column. This will enter more then Two hundred and 
+      fifty characters into the column.')
+      t.errors.on(:description).should.not.be.nil
+    }.should.not.change(PartnerStatus, :count)
+  end
+    
+  def create_partner(options = {})
+    PartnerStatus.create({ :name => 'Test Name', :description => 'My Description' }.merge(options))                          
+  end 
 
 ## hpd how to verify that destroy fails.  As is this gets an exception instead of catching
 ## and displaying the failure.
