@@ -1,6 +1,6 @@
 class ECard < ActiveRecord::Base
   file_column :file
   
-  validates_presence_of :name, :credit
+  validates_presence_of :name
   
 end
