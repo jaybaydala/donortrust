@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::CollaboratingAgencyTest < Test::Unit::TestCase
-  fixtures :collaborating_agencies
+  fixtures :collaborating_agencies, :projects
 
   context "Collaborating Agency Tests " do
    
@@ -31,7 +31,7 @@ class BusAdmin::CollaboratingAgencyTest < Test::Unit::TestCase
     end
      
     def create_collaborating_agency(options = {})
-      CollaboratingAgency.create({ :project_id => 1, :agency_name => 'Test Agency', :responsibilities => 'Test Responsibilities' }.merge(options))  
+      CollaboratingAgency.create({ :project_id => 1, :agency_name => "Test Agency", :responsibilities => 'Test Responsibilities' }.merge(options))  
     end                                                          
   end
 end
