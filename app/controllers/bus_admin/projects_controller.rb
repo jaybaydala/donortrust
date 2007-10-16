@@ -79,15 +79,19 @@ config.nested.add_link( "Key Measures", [:key_measures])
   end
   
   def byProject
-    @id  = params[:id]
+    @id  = params[:projectId]
     @projects = Project.find(@id)
-    @milestones = @projects.milestones
-    #      @tasks = @milestones.tasks.find(:all)
+    @milestones = @projects.milestones(:include => [:tasks])
+   @tasks =@projects.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
+
     render :partial => 'timeline_json'
   end
   
    def showProjectTimeline
-
+    @id  = params[:id]
+   @projects = Project.find(@id)
+    @milestones = @projects.milestones(:order => "target_date desc")
+    @startDate = "Jan 02 2008 00:00:00 GMT"
     render :partial => 'bus_admin/projects/showProjectTimeline'
   end
   

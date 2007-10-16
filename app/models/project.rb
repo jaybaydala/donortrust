@@ -33,6 +33,8 @@ acts_as_simile_timeline_event(
   has_and_belongs_to_many :causes
   has_many :wishlists
   has_many :users, :through => :wishlists
+  has_many :tasks, :through => :milestones
+
   
  def startDate
   "#{self.start_date}"

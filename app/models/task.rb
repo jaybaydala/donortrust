@@ -5,8 +5,7 @@ class Task < ActiveRecord::Base
     {
       :start       => :startDate,
       :end         => :endDate,
-      :title       => :name,
-      :description => :description
+      :title       => :name
     }
   )
   acts_as_paranoid_versioned

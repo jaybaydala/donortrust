@@ -22,7 +22,8 @@
 class ActiveRecord::Base
   def self.acts_as_simile_timeline_event(attr)
     @@simile_timeline_fields = attr[:fields]
-
+    #@simile_timeline_fields2 = attr[:fields]
+    
     define_method(:to_simile_timeline_JSON_event) do
       event = {}
       @@simile_timeline_fields.each_pair do |field, value|
@@ -38,6 +39,7 @@ class ActiveRecord::Base
               event[field] = event[field].iso8601
           end
         end
+      
       event.to_json
     end
   end
@@ -146,7 +148,7 @@ module Simile #:nodoc:
           synchronization_js,
           highlight_js,
           "#{js_id}=Timeline.create($('#{js_id}'),#{js_id}_bands);",
-          onscroll_js(event_source_url),
+         # onscroll_js(event_source_url),
           event_load_js(event_source_url),
           "};"
         ].join(SPLIT_CHAR)
@@ -175,30 +177,7 @@ module Simile #:nodoc:
         out.join(SPLIT_CHAR)
       end
 
-      def onscroll_js(event_source_url)
-        [
-          "#{js_id}.getBand(#{@band_index[@event_band]}).addOnScrollListener(function(timeline){",
-          "if (#{js_id}_timer==null){",
-          "#{js_id}_timer=window.setTimeout(function(){",
-          "#{js_id}_timer=null;",
-          "var start_date1=timeline.getMinDate();var start_date2=start_date1;",
-          "var end_date1=timeline.getMaxDate();var end_date2=end_date1;",
-          "var earliest_event=timeline.getEventSource().getEarliestDate();",
-          "var latest_event=timeline.getEventSource().getLatestDate();",
-          "if(start_date2<latest_event){start_date2=latest_event}",
-          "if(end_date1>earliest_event){end_date1=earliest_event}",
-          "if(end_date1>start_date1){",
-          "Timeline.loadJSON(",
-          "event_source_url(\"#{event_source_url}\",start_date1,end_date1),",
-          "function(xml,url){#{js_id}_event_source.loadJSON(xml,url);})}",
-          "if(end_date2>start_date2){",
-          "Timeline.loadJSON(",
-          "event_source_url(\"#{event_source_url}\",start_date2,end_date2),",
-          "function(xml,url){#{js_id}_event_source.loadJSON(xml,url);})",
-          "}}",
-          ", 500)}});",
-        ].join(SPLIT_CHAR)
-      end
+
 
       def bands_js
         out = [ ]
@@ -352,9 +331,12 @@ module SimileTimelineHelper #:nodoc:
   # Example:
   # in recent.rhtml
   # <%= simile_timeline_JSON_events(@shipments) -%>
-  def simile_timeline_JSON_events(events)
+  def simile_timeline_JSON_events(events, events2)
     events_JSON_array = []
     events.each do |event|
+      events_JSON_array << event.to_simile_timeline_JSON_event
+    end
+     events2.each do |event|
       events_JSON_array << event.to_simile_timeline_JSON_event
     end
     "{'dateTimeFormat':'iso8601','events':[" + events_JSON_array.join(",") + "]}"

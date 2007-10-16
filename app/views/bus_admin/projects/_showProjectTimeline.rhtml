@@ -12,20 +12,35 @@
          :name        => "ProjectsTimeline",
          :event_source => {
              :controller => 'projects',
-             :action     => 'byProject'
+             :action     => 'byProject',
+			 :projectId => params[:id]
              },
-         :event_band   => :months,
+ 
+         :event_band   => :weeks,
          :bands       => {
-           :months => {
+           :weeks => {
              :trackGap       => '0.1',
              :showEventText  => 'true',
-             :width          => '"100%"',
+             :width          => '"75%"',
+             :intervalUnit   => 'Timeline.DateTime.WEEK',
+             :intervalPixels => '50'
+           },
+ 			:months => {
+            :trackGap       => '0.1',
+             :width          => '"25%"',
              :intervalUnit   => 'Timeline.DateTime.MONTH',
-             :intervalPixels => '300'
-           }
-           
-         },
-         :highlight => [ :months]
+             :intervalPixels => '150',
+			:trackHeight => '0.5', 
+			 :showEventText  => 'false'
+           } 
+		  },
+         :bands_order => [ :weeks, :months],
+		 :highlight => [:months],
+         :synchronize => {
+           :weeks => :months
+		
+         }
+
        )
      	
      %>
