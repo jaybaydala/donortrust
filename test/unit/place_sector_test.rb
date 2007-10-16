@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::PlaceSectorTest < Test::Unit::TestCase
- fixtures :place_sectors#, :places, :sectors
+ fixtures :place_sectors, :places, :sectors
 
  context "Place Sector Tests " do
     
