@@ -8,13 +8,24 @@ class BusAdmin::UserTest < Test::Unit::TestCase
    specify "should create a user" do
       User.should.differ(:count).by(1) {create_user} 
     end
+   
+    specify "login should be valid email" do
+      lambda {
+        t = create_user(:login => 'one@here.ca')
+        t.errors.on(:login).should.be.nil
+        t = create_user(:login => 'one')
+        t.errors.on(:login).should.not.be.nil
+      }.should.change(User, :count)
+    end
     
-    specify "login should be unique" do
-      @user = create_user()
-      @user.save
-      @user = create_user()
-      @user.should.not.validate
-    end  
+     specify "login should unique" do
+      lambda {
+        t = create_user(:login => 'one@here.ca')
+        t.errors.on(:login).should.be.nil
+        t = create_user(:login => 'one@here.ca')
+        t.errors.on(:login).should.not.be.nil
+      }.should.change(User, :count)
+    end
     
     specify "password should be less then 40 Characters" do
       lambda {
