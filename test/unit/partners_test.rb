@@ -9,35 +9,10 @@ context "Partners" do
     @fixture_partner = Partner.find(:first)
   end
   
-    
-#  def create_instance(overrides = {})
-#    opts = {
-#      :id => 1,
-#      :name => "name",
-#      :description => "description",
-#      :partner_status_id => 1,
-#      :partner_type_id => 1
-#    }.merge(overrides)
-#    
-#    Partner.new(opts)
-#  end
+  specify "should create a partner" do
+      Partner.should.differ(:count).by(1) { create_partner } 
+  end
   
-#  def test_create_new
-#    assert_valid create_instance
-#  end
-  
-#  def test_create_blank_name
-#    assert_invalid(create_instance, :name, '')
-#  end
-#  
-#  def test_long_name
-#    assert_invalid(create_instance, :name, '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890')
-#  end
-#  
-#  def test_long_description
-#    assert_invalid(create_instance, :description, '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890')
-#  end
-
   def test_total_projects
     assert_equal 3, Partner.find(:first).total_projects
   end
@@ -46,18 +21,6 @@ context "Partners" do
     assert_equal 1, Partner.find(:first).get_number_of_projects_by_status(1)
   end
   
-#  def test_get_number_of_projects
-#    partner = Partner.find(:first)
-#    number = Projects.find(:all, :conditions => "partner_id = " + partner.id).size
-#    puts number
-#  end
-
-#  specify "The partner should have a name partner_status_id & partner_type id" do
-#    @fixture_partner.name.should.not.be.nil
-#    @fixture_partner.partner_status_id.should.not.be.nil
-#    @fixture_partner.partner_type_id.should.not.be.nil
-#  end
-
   specify "The total cost for a partner should not be nil and should be greater than 0" do
     projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)    
     projects.size.should.be > 
@@ -76,17 +39,17 @@ context "Partners" do
 #    programs.size.should.be > 0    
   end
   
-  specify "The total cost for a partner should not be nil and should be greater than 0" do
-    projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)    
-    projects.size.should.be > 0
-    total_raised = 0
-    projects.each do |project|
-      total_raised += project.dollars_raised
-    end
-    total_raised.should.not.be.nil
-    total_raised.should.be > 0
-    total_raised.should.be == @fixture_partner.get_total_raised
-  end
+#  specify "The total cost for a partner should not be nil and should be greater than 0" do
+#    projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)    
+#    projects.size.should.be > 0
+#    total_raised = 0
+#    projects.each do |project|
+#      total_raised += project.dollars_raised
+#    end
+#    total_raised.should.not.be.nil
+#    total_raised.should.be > 0
+#    total_raised.should.be == @fixture_partner.get_total_raised
+#  end
   
   specify "Total percent raised should accept zero" do
     projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)
@@ -98,5 +61,65 @@ context "Partners" do
     @fixture_partner.get_total_percent_raised.should.not.be.nil
     @fixture_partner.get_total_percent_raised.to_i.should.be == 0
   end
+  
+  specify "should require name" do
+    lambda {
+      t = create_partner(:name => nil)
+      t.errors.on(:name).should.not.be.nil
+    }.should.not.change(Partner, :count)
+  end
+   
+  specify "should require description" do
+    lambda {
+      t = create_partner(:description => nil)
+      t.errors.on(:description).should.not.be.nil
+    }.should.not.change(Partner, :count)
+  end
+    
+  specify "should require partner_type_id" do
+    lambda {
+      t = create_partner(:partner_type_id => nil)
+      t.errors.on(:partner_type_id).should.not.be.nil
+    }.should.not.change(Partner, :count)
+  end
+    
+  specify "should require partner_status_id" do
+    lambda {
+      t = create_partner(:partner_status_id => nil)
+      t.errors.on(:partner_status_id).should.not.be.nil
+    }.should.not.change(Partner, :count)
+  end
+  
+  specify "name should be less then 50 Characters" do
+    lambda {
+      t = create_partner(:name=> 'This will enter more then fifty characters into the column')
+      t.errors.on(:name).should.not.be.nil
+    }.should.not.change(Partner, :count)
+  end
+    
+  specify "description should be less then 1000 Characters" do
+    lambda {
+      t = create_partner(:description=> 'This will enter more then one thousand characters 
+        into the column. This will enter more then one thousand characters into the 
+        column. This will enter more then one thousand characters into the column. This 
+        will enter more then one thousand characters into the column. This will enter 
+        more then one thousand characters into the column. This will enter more then one 
+        thousand characters into the column. This will enter more then one thousand 
+        characters into the column. This will enter more then one thousand characters 
+        into the column. This will enter more then one thousand characters into the 
+        column. This will enter more then one thousand characters into the column. This 
+        will enter more then one thousand characters into the column. This will enter 
+        more then one thousand characters into the column. This will enter more then 
+        one thousand characters into the column. This will enter more then one thousand 
+        characters into the column. This will enter more then one thousand characters 
+        into the column.')
+      t.errors.on(:description).should.not.be.nil
+    }.should.not.change(Partner, :count)
+  end
+  
+  def create_partner(options = {})
+    Partner.create({ :name => 'Test Name', :description => 'My Description', :website => 'www.google.ca', :partner_type_id => 1, :partner_status_id => 1, :business_model => 'Test model', :funding_sources => 'Test Fund', :mission_statement => 'Test Mission Statement', :philosophy_dev => 'Test Philosophy', :note => 'Test Note' }.merge(options))  
+  end                                                          
+     
 end
   
