@@ -7,18 +7,12 @@ class BusAdmin::PlaceTest < Test::Unit::TestCase
     include DtAuthenticatedTestHelper
     fixtures :places, :place_types, :users
   
-    setup do
-      @controller = BusAdmin::PlacesController.new
-      @request    = ActionController::TestRequest.new
-      @response   = ActionController::TestResponse.new
-    end
-  
     def do_get(place_id=1)
       get :index
     end
     
     specify "should create a place" do
-      Place.should.differ(:count).by(1) {Place.create(:name => 'TestPlace', :place_type_id => 1, :parent_id => 1, :description => 'My Description', :blog_url => 'blog_url', :rss_url => 'rss_url', :you_tube_reference => 1, :flickr_reference => 1, :facebook_group_id => 1)}  
+      Place.should.differ(:count).by(1) {create_place} 
     end
     
     specify "should require name" do
