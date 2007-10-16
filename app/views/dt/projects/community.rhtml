@@ -26,7 +26,7 @@
       <p class="blueblock">
         <%= link_to image_tag("/images/dt/icons/fbIcon.gif", :alt => '') + "&nbsp; Go to Facebook Group: #{@fb_group.name}", @facebook_group_link, :rel => 'blank' %>
       </p>
-      <!-- <p><a href="http://<%= @fb_group.website %>"><img src="<%= @fb_group.pic_big %>"/></a></p> -->
+      <!-- <p><%= link_to image_tag(@fb_group.pic_big, :alt => ''), @fb_group.website %></p> -->
       <p>Facebook user: <%= @fb_user.name %></p>
       <% if @fb_user_in_group %>
         <p>You are a member of this group</p>
@@ -36,7 +36,7 @@
       <div id="gallery">
         <ul id="thumbs">
         <% for m in @fb_members %>
-          <li><%= link_to image_tag(m.pic_square, :alt => m.name), "http://www.facebook.com/profile.php?id=#{m.uid}" %><div class="thumbLabel"><%= m.name %></div></li>
+          <li><%= link_to image_tag((m.pic_square.empty? ? "http://static.ak.facebook.com/pics/s_default.jpg" : m.pic_square) , :alt => m.name, :style => "width:50px;height:50px;"), "http://www.facebook.com/profile.php?id=#{m.uid}" %><div class="thumbLabel"><%= m.name %></div></li>
         <% end %>
         </ul>
       </div>
@@ -47,9 +47,12 @@
   <div id="rightColN">
     <%= render :partial => 'related_projects' %>
     <%= dt_profile_sidebar %>
-
-    <div id="factList">
-    <%= project_quickfacts %>
-    </div>
+    
+    <% if @project.groups %>
+    <h2>ChristmasFuture Groups Interested in this Project</h2>
+    <ul>
+      <% for group in @project.groups %><li><%= link_to group.name, dt_group_path(group) %></li><% end %>
+    </ul>
+    <% end %>
   </div>
 </div>

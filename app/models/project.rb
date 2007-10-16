@@ -128,10 +128,6 @@ acts_as_simile_timeline_event(
     @nation
   end
   
-  def causes
-    @causes ||= sectors
-  end
-  
   def current_need
     self.total_cost - self.dollars_raised
   end

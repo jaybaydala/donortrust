@@ -1,0 +1,5 @@
+  <h1><%= @rss_feed.entries.first.title %></h1>
+  <p class="byLine"><%= @rss_feed.entries.first.authors %></p>
+  <%= @rss_feed.entries.first.content %>
+  <p class="dateStamp"><%= @rss_feed.entries.first.date_published %></p>
+  <p>&nbsp;</p>

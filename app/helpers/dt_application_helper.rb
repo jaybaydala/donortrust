@@ -22,13 +22,10 @@ module DtApplicationHelper
   
   def dt_search_by_cause_select
     @causes = [['Choose a Cause', '']]
-    Sector.find(:all, :conditions => { :parent_id => nil }, :order => :name).each do |sector|
-      @causes << [sector.name, sector.id]
-      Sector.find(:all, :conditions => { :parent_id => sector.id }, :order => :name).each do |cause|
-        @causes << ["- #{cause.name}", cause.id]
-      end
+    Cause.find(:all, :order => :name).each do |cause|
+      @causes << [cause.name, cause.id]
     end
-    select_tag("sector_id", options_for_select(@causes)) if @causes
+    select_tag("cause_id", options_for_select(@causes)) if @causes
   end
   
   def dt_search_by_organization_select

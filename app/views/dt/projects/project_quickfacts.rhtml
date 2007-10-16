@@ -1,7 +1,7 @@
         <h2>Quick Facts</h2>
         <ul>
           <% if @project.place_id? && @project.place %><li><strong>Location:</strong> <%= link_to @project.village.name, dt_village_project_path(@project) %>, <%= link_to @project.nation.name, dt_nation_project_path(@project) %></li><% end %>
-          <% if @project.sectors.size > 0 %><li><strong>Cause(s):</strong> <%= render :partial => 'cause', :collection => @project.causes %></li><% end %>
+          <% if @project.causes.size > 0 %><li><strong>Cause(s):</strong> <%= render :partial => 'cause', :collection => @project.causes %></li><% end %>
           <% if @project.place_id? && @project.place %><li><strong>Village Projects:</strong> <%= @project.village_project_count %></li><% end %>
           <% if @project.lives_saved? %><li><strong>Lives Affected:</strong> <%= @project.lives_saved %></li><% end %>
           <% if @project.life_saving_impact? %><li><strong>Life Saving Impact:</strong> <%= @project.life_saving_impact %></li><% end %>

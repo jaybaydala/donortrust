@@ -1,35 +1,42 @@
-namespace :bootstrap do
-  desc "Load initial database fixtures (in db/bootstrap/*.yml) into the current environment's database. Load specific fixtures using FIXTURES=x,y" 
-  task :load => :environment do
-    require 'active_record/fixtures'
-    ActiveRecord::Base.establish_connection(RAILS_ENV.to_sym)
-    (ENV['FIXTURES'] ? ENV['FIXTURES'].split(/,/) : Dir.glob(File.join(RAILS_ROOT, 'db', 'bootstrap', '*.{yml,csv}'))).sort.each do |fixture_file|
+namespace :db do
+  desc "Loads a schema.rb file into the database and then loads the initial database fixtures."
+  task :bootstrap => ['db:schema:load', 'db:bootstrap:load']
 
-      table_names = File.basename(fixture_file, '.*')
-      file_names = table_names
-      class_names = {}
-      fixtures_directory = 'db/bootstrap'
+  namespace :bootstrap do
+    desc "Load initial database fixtures (in db/bootstrap/*.yml) into the current environment's database.  Load specific fixtures using FIXTURES=x,y"
+    task :load => :environment do
+      require 'active_record/fixtures'
 
-      #table_names =  table_names[3..table_names.length]
-      table_names = [table_names].flatten.map { |n| n.to_s }
+      if ENV['FIXTURES']
+        fixture_files = ENV['FIXTURES'].split(/s*,s*/).map {|fixture| [File.join(RAILS_ROOT, 'db', 'bootstrap', fixture), fixture]}
+      else
+        found_files = Dir.glob(File.join(RAILS_ROOT, 'db', 'bootstrap', '*.{yml,csv}'))
+        numbered_files = found_files.select {|path| path =~ /d+_[^.]+.ymlZ/i }
+        fixture_files = numbered_files.sort {|x,y| x[/(d+)_.*Z/,1].to_i <=> y[/(d+)_.*Z/,1].to_i }.map { |fixture_path|
+          [fixture_path[/(.*).(yml|csv)Z/i,1], fixture_path[/d+_([^.]+).(yml|csv)Z/i, 1]]
+        }
+        fixture_files += (found_files - numbered_files).map {|file|
+          path = file[0, file.rindex('.')]; [path, File.basename(path)]
+        }
+        raise "No fixtures found matching \"db/bootstrap/*.{yml,csv}\"! Specify fixtures using \"FIXTURES=\"" if fixture_files.empty?
+      end
+
+      ActiveRecord::Base.establish_connection(RAILS_ENV.to_sym)
 
       connection = ActiveRecord::Base.connection
-      ActiveRecord::Base.silence do
-        fixtures_map = {}
-        fixtures = table_names.map do |table_name|
-          fixtures_map[table_name] = Fixtures.new(connection, File.split(table_name.to_s).last, class_names[table_name.to_sym], File.join(fixtures_directory, file_names.to_s))
-        end               
-        Fixtures.all_loaded_fixtures.merge! fixtures_map  
 
-        connection.transaction(Thread.current['open_transactions'] == 0) do
-          fixtures.reverse.each { |fixture| fixture.delete_existing_fixtures }
-          fixtures.each { |fixture| fixture.insert_fixtures }
+      fixtures = fixture_files.map do |fixture_path, table_name|
+        Fixtures.new(connection, table_name, nil, fixture_path)
+      end
 
-          # Cap primary key sequences to max(pk).
-          if connection.respond_to?(:reset_pk_sequence!)
-            table_names.each do |table_name|
-              connection.reset_pk_sequence!(table_name)
-            end
+      connection.transaction(Thread.current['open_transactions'] == 0) do
+        fixtures.reverse.each { |fixture| fixture.delete_existing_fixtures }
+        fixtures.each { |fixture| fixture.insert_fixtures }
+
+        # Cap primary key sequences to max(pk).
+        if connection.respond_to?(:reset_pk_sequence!)
+          fixture_files.each do |fixture_path, table_name|
+            connection.reset_pk_sequence!(table_name)
           end
         end
       end

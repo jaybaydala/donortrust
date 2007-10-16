@@ -5,13 +5,14 @@
   <h1><%= @village.name %></h1>
   <p>This page is about how lives are changed. (Theme: Proof Of Impact)</p>
   <h2>Village Plan</h2>
-  <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Awaiting model</div>
+  <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Not clear on what's going here</div>
 
 	<%= project_actions %>
     
+  <% if @project.village.rss_url && @rss_feed %>
   <h2>Village Coordinator's Blog</h2>
-  <div style="background:#C00;color:#FFF;padding:1px;margin-bottom:1em;">Awaiting blogs</div>
-  <p>&nbsp;</p>
+  <%= render :partial => 'blog' %>
+  <% end %>
 </div>
 
 <div id="rightColN">

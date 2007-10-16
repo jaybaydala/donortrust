@@ -1,4 +1,5 @@
 class Dt::ProjectsController < DtApplicationController
+  include RssParser
   before_filter :project_id_to_session, :only=>[:facebook_login]
   before_filter :require_facebook_login, :only=>[:facebook_login]
 
@@ -17,6 +18,8 @@ class Dt::ProjectsController < DtApplicationController
 
   def show
     @project = Project.find(params[:id])
+    @rss_feed = last_rss_entry(@project.rss_url) if @project.rss_url
+    #@rss_feed.clean! if @rss_feed # sanitize the html
     respond_to do |format|
       format.html # show.rhtml
     end
@@ -28,6 +31,8 @@ class Dt::ProjectsController < DtApplicationController
 
   def village
     @project = Project.find(params[:id])
+    @rss_feed = last_rss_entry(@project.village.rss_url) if @project.village.rss_url
+    #@rss_feed.clean! if @rss_feed # sanitize the html
     @village = @project.village
   end
     
