@@ -6,16 +6,9 @@ class BusAdmin::PlaceTypeTest < Test::Unit::TestCase
 
   context "BusAdmin::PlaceTypesControllerTest handling GET " do
     include DtAuthenticatedTestHelper
-    fixtures :place_types, :users
+    fixtures :place_types#, :users
   
-    setup do
-      @controller = BusAdmin::PlacesController.new
-      @request    = ActionController::TestRequest.new
-      @response   = ActionController::TestResponse.new
-    end
-  
-   specify "should create a place type" do
-      #PlaceType.should.differ(:count).by(1) {PlaceType.create(:name => 'TestPlaceType')}  
+    specify "should create a place type" do
       PlaceType.should.differ(:count).by(1) { create_place_type }  
     end
     
@@ -23,10 +16,10 @@ class BusAdmin::PlaceTypeTest < Test::Unit::TestCase
       lambda {
         t = create_place_type(:name => nil)
         t.errors.on(:name).should.not.be.nil
-        }.should.not.change(Place, :count)     
-   end
+        }.should.not.change(PlaceType, :count)     
+    end
    
-   def create_place_type(options = {})
+    def create_place_type(options = {})
       PlaceType.create({ :name => 'TestPlaceType' }.merge(options))  
     end
   end
