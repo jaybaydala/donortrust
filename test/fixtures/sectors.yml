@@ -38,44 +38,35 @@ test10:
   id: 10
   name: HIV
   description: description
-  parent_id: 1
 test11:
   id: 11
   name: Books
   description: description
-  parent_id: 2
 test12:
   id: 12
   name: test3
   description: description
-  parent_id: 3
 test13:
   id: 13
   name: test4
   description: description
-  parent_id: 4
 test14:
   id: 14
   name: test5
   description: description
-  parent_id: 5
 test15:
   id: 15
   name: test6
   description: description
-  parent_id: 6
 test16:
   id: 16
   name: test7
   description: description
-  parent_id: 7
 test17:
   id: 17
   name: test8
   description:
-  parent_id: 8
 test18:
   id: 18
   name: test9
   description: description
-  parent_id: 9
