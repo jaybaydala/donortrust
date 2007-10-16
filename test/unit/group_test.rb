@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::GroupTest < Test::Unit::TestCase
 context "Groups" do
-  fixtures :groups
+  fixtures :groups, :group_types, :places
     
     specify "should create a group" do
       Group.should.differ(:count).by(1) {create_group} 
