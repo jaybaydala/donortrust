@@ -59,10 +59,9 @@ class Dt::ProjectsController < DtApplicationController
       members_results = fbsession.groups_getMembers(:gid=>gid)
       # wierd! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
       member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
-      puts member_ids.length
       @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
       @fb_member_pages, @members = paginate_array(params[:page], @fb_members , 30)
-      @fb_user_in_group = true if member_ids.find{ |id| @fbid==id}
+      @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
     end
   end
 
