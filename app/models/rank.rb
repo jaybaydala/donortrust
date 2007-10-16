@@ -5,9 +5,9 @@ class Rank < ActiveRecord::Base
    
    
   validates_presence_of :rank_type
-   validates_presence_of :rank
+  validates_presence_of :rank
   validates_presence_of :rank, :if => :check_validation?
-  #validates_numericality_of :rank 
+  validates_numericality_of :rank 
   
   protected 
   def check_validation?
