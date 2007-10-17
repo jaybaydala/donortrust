@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 #class BusAdmin::PartnersTest < Test::Unit::TestCase
 
 context "Partners" do
-  fixtures :partners, :projects#, :programs
+  fixtures :partners, :partner_types, :partner_statuses
   
   def setup    
     @fixture_partner = Partner.find(:first)
