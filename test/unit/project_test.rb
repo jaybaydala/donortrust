@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 #class BusAdmin::ProjectTest < Test::Unit::TestCase
 context "Projects" do
   
-  fixtures :projects, :milestones, :budget_items
+  fixtures :projects, :milestones, :budget_items, :investments
 
   NUMBER_OF_DAYS_UNTIL_END = 30
     
@@ -35,7 +35,7 @@ context "Projects" do
   
   def test_days_remaining #need to mock out time.now
     project = Project.find(:first)
-    project.end_date = '2007-08-08'
+    project.target_end_date = '2007-08-08'
     #Time.now = '2007-08-02'
     #assert_equal @project.days_remaining, 6
   end
@@ -59,12 +59,12 @@ context "Projects" do
   specify "should return number or projects ending within specified number of days" do    
     @projects = Project.find(:all)
     @projects.each do |p|
-      p.end_date = Time.now + 86400 #set end date to one day from now
+      p.target_end_date = Time.now + 86400 #set end date to one day from now
       p.update
     end    
     Project.projects_nearing_end(NUMBER_OF_DAYS_UNTIL_END).size.should.equal Project.find(:all).size
     project_one = Project.find(:first)
-    project_one.end_date = Date.today  + NUMBER_OF_DAYS_UNTIL_END + 2 #increase end date beyond limit
+    project_one.target_end_date = Date.today  + NUMBER_OF_DAYS_UNTIL_END + 2 #increase end date beyond limit
     project_one.update
     expected = Project.find(:all).size - 1
     Project.projects_nearing_end(NUMBER_OF_DAYS_UNTIL_END).size.should.equal expected    
@@ -73,8 +73,8 @@ context "Projects" do
   specify "should return nil days remaining if no end date set" do
     project = Project.new
     project.name = "bob"
-    project.start_date = "2007-06-06"
-    project.end_date = nil
+    project.target_start_date = "2007-06-06"
+    project.target_end_date = nil
     project.days_remaining.should.be.nil   
   end
  
