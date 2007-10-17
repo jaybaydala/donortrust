@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::QuickFactPartnerTest < Test::Unit::TestCase
-  fixtures :quick_fact_partners
+  fixtures :quick_fact_partner, :quick_fact, :partners
 
   context "Quick Fact Partner Tests " do
     
@@ -11,15 +11,15 @@ class BusAdmin::QuickFactPartnerTest < Test::Unit::TestCase
  
     specify "should require quick_fact" do
       lambda {
-        t = create_quick_fact(:quick_fact => nil)
-        t.errors.on(:quick_fact).should.not.be.nil
+        t = create_quick_fact(:quick_fact_id => nil)
+        t.errors.on(:quick_fact_id).should.not.be.nil
       }.should.not.change(QuickFactPartner, :count)
     end
    
     specify "should require partner" do
       lambda {
-        t = create_quick_fact(:partner => nil)
-        t.errors.on(:partner).should.not.be.nil
+        t = create_quick_fact(:partner_id => nil)
+        t.errors.on(:partner_id).should.not.be.nil
       }.should.not.change(QuickFactPartner, :count)
     end
    
