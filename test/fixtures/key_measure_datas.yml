@@ -6,7 +6,7 @@ one:
   date: <%= 5.days.ago.to_s :db %>
 two:
   id: 2
-  key_measure_id: 1
+  key_measure_id: 2
   value: none
   comment: none
   date: <%= 5.days.ago.to_s :db %>
