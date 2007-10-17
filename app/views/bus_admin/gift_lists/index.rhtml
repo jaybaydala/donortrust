@@ -1,0 +1,37 @@
+<font size=3 face="arial" color="#666" ><b>Gifts Greater then 30 days</b></font> 
+<br></br> 
+<div class='tableFactory'>
+	<table cellspacing=0 width="100%" >		
+		<td class='colHeader'>Created On</td>
+	  	<td class='colHeader'>Gift Amount</td>
+		<td class='colHeader'>Project</td>
+		<td class='colHeader'></td>		
+	  	<% counter = 0 %>
+		<% for gift in Gift.find :all, :conditions => ['created_at < ?', 30.days.ago]  %>
+			<% if counter == 0%>
+				<tr class="even">
+	      		<td><%=  gift.created_at %></td>
+	      		<td><%=  gift.amount %>	 </td>
+				<%counter = 1 %>
+		  	<%else%>
+				<tr class="odd">
+		      	<td><%=  gift.created_at %></td>
+		      	<td><%=  gift.amount %>	 </td>
+				<%counter = 0 %>
+			<% end %>
+			<td>
+	        	<select class="project-input" id="project" ><option value="" selected="selected">- select -</option>
+		    		<% for project in Project.find :all %>
+						<option value= <%= project.id.to_s %>> <%=project.name%></option>
+					<% end %>					
+	     		</select>	
+			</td>
+			<td>			
+				<%= link_to_remote "Submit",			     
+						    :url => { :action => 'test' },
+							:confirm => 'Are you sure?'
+				%>
+			 </td>	   	
+		<% end %>		 
+   </table>
+</div>
