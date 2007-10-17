@@ -4,7 +4,7 @@ class Rank < ActiveRecord::Base
   belongs_to :rank_type 
    
    
-  validates_presence_of :rank_type
+  validates_presence_of :rank_type_id
   validates_presence_of :rank
   validates_presence_of :rank, :if => :check_validation?
   validates_numericality_of :rank 
