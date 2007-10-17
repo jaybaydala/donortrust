@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: Life saving impact
+  description: Life saving impact of the project
+two:
+  id: 2
+  name: Development Expert Rating
+  description: Rating from a development expert
+three:
+  id: 3
+  name: Villager Rating
+  description: Rating from a villager
+four:
+  id: 4
+  name: Time sensitivity/ Urgency
+  description: Time sensitivity of the project
