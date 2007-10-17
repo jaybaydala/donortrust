@@ -89,6 +89,7 @@ config.nested.add_link( "Key Measures", [:key_measures])
   
    def showProjectTimeline
     @id  = params[:id]
+    @startDate = params[:startDate]
    @projects = Project.find(@id)
     @milestones = @projects.milestones(:order => "target_date desc")
     @startDate = "Jan 02 2008 00:00:00 GMT"

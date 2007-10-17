@@ -1,8 +1,10 @@
 <head>
 <%= javascript_include_tag 'http://simile.mit.edu/timeline/api/timeline-api.js' -%>
 <%= javascript_include_tag 'prototype' -%>
+<%= javascript_include_tag 'theme' -%>
 <style type="text/css">
-.default_timeline { width: 800px; height: 250px; }
+.default_timeline 
+{ width: 800px; height: 250px; }
 </style>
 </head>
 <body>
@@ -17,13 +19,15 @@
              },
  
          :event_band   => :weeks,
-         :bands       => {
+		 :bands       => {
            :weeks => {
              :trackGap       => '0.1',
              :showEventText  => 'true',
              :width          => '"75%"',
              :intervalUnit   => 'Timeline.DateTime.WEEK',
-             :intervalPixels => '50'
+             :intervalPixels => '50',
+			 :date => '"Jan 02 2008"'
+			
            },
  			:months => {
             :trackGap       => '0.1',
@@ -31,13 +35,14 @@
              :intervalUnit   => 'Timeline.DateTime.MONTH',
              :intervalPixels => '150',
 			:trackHeight => '0.5', 
-			 :showEventText  => 'false'
+			 :showEventText  => 'false',
+			 :date => '"Jan 02 2008"'
            } 
 		  },
          :bands_order => [ :weeks, :months],
-		 :highlight => [:months],
+		 :highlight => [:weeks, :months],
          :synchronize => {
-           :weeks => :months
+           :months => :weeks
 		
          }
 
