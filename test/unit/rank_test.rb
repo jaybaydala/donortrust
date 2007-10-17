@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::RankTest < Test::Unit::TestCase
-  fixtures :ranks
+  fixtures :rank, :rank_type
   
   context "Rank Tests " do
    
@@ -15,29 +15,25 @@ class BusAdmin::RankTest < Test::Unit::TestCase
         t.errors.on(:rank).should.not.be.nil
       }.should.not.change(Rank, :count)
     end
-
+    
     specify "rank should be positive" do
-      lambda {
-        t = create_rank(:rank => 1)
-        t.errors.on(:rank).should.be.nil
-        t = create_rank(:rank => -1)
-        t.errors.on(:rank).should.not.be.nil
-      }.should.not.change(Rank, :count)
+      t = create_rank(:rank => 0)
+      t.errors.on(:rank).should.be.nil
+      t = create_rank(:rank => -1)
+      t.errors.on(:rank).should.not.be.nil
     end  
     
     specify "rank should be <= 4" do
-      lambda {
-        t = create_rank(:rank => 5)
-        t.errors.on(:rank).should.not.be.nil
-        t = create_rank(:rank => 4)
-        t.errors.on(:rank).should.be.nil
-      }.should.not.change(Rank, :count)
+      t = create_rank(:rank => 5)
+      t.errors.on(:rank).should.not.be.nil
+      t = create_rank(:rank => 4)
+      t.errors.on(:rank).should.be.nil
     end  
     
     specify "should require rank_type" do
       lambda {
-        t = create_rank(:rank_type => nil)
-        t.errors.on(:rank_type).should.not.be.nil
+        t = create_rank(:rank_type_id => nil)
+        t.errors.on(:rank_type_id).should.not.be.nil
       }.should.not.change(Rank, :count)
    end
      
