@@ -1,17 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-  t.column :indicator_measurement_id,       :int,  :null => false
-     t.column :value,              :string,  :null => false
-     t.column :comment,     
-
 testone:
   id: 1
-  measure_category_id: 1
-  #quantity: 0
-  #measure_date: :date
-  #user_id: :int
+  millennium_goal_id: 1
+  description: test1
 testtwo:
   id: 2
-  measure_category_id: 2
-  #quantity: 
-  #measure_date: 2007-04-06
-  #user_id: :int
+  millennium_goal_id: 2
+  description: test2
