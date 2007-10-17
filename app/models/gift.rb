@@ -8,6 +8,7 @@ class Gift < ActiveRecord::Base
   belongs_to :project
   has_one :deposit
   has_one :user_transaction, :as => :tx
+  has_many :gift_lists
 
   validates_presence_of :amount
   validates_numericality_of :amount, :if => Proc.new { |gift| gift.amount?}
