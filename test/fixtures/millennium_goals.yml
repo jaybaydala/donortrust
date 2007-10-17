@@ -1,7 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
+  name: test
   description: Goal 1
 two:
   id: 2
+  name: test2
   description: Goal 2
