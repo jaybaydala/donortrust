@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 context "PartnerStatuses" do
-  fixtures :partner_statuses, :partners
+  fixtures :partner_statuses
 
   def clean_new_instance( overrides = {})
     # Build (and return) an instance starting from known (expected) valid attribute
@@ -110,8 +110,8 @@ context "PartnerStatuses" do
     PartnerStatus.count.should.equal( old_instance_count - 1 )
   end
   
-  specify "should create a partner" do
-      Partner.should.differ(:count).by(1) { create_partner() } 
+  specify "should create a partner status" do
+      PartnerStatus.should.differ(:count).by(1) { create_partner } 
   end
   
   specify "name should be less then 25 Characters" do
@@ -132,8 +132,8 @@ context "PartnerStatuses" do
     }.should.not.change(PartnerStatus, :count)
   end
     
-  def create_partner(options = {})
-    PartnerStatus.create({ :name => 'Test Name', :description => 'My Description' }.merge(options))                          
+  def create_partner(options = {})  
+    PartnerStatus.create({ :name => 'Test', :description => 'description' }.merge(options))                          
   end 
 
 ## hpd how to verify that destroy fails.  As is this gets an exception instead of catching
