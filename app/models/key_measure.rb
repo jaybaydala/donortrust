@@ -4,7 +4,7 @@ class KeyMeasure < ActiveRecord::Base
   belongs_to  :measure
   has_and_belongs_to_many :millennium_goals
 
-  validates_presence_of :units
+
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned

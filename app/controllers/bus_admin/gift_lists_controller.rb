@@ -1,7 +1,7 @@
 class BusAdmin::GiftListsController < ApplicationController
   
 
- def test
+ def unwrap
   
   @gift = Investment.create(:amount =>2, :project_id => 2, :user_id => 2)
   @gift.save  

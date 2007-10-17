@@ -146,7 +146,7 @@ ActionController::Routing::Routes.draw do |map|
   # 
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
   map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
-  map.test '/bus_admin/gift_lists/test', :controller => 'bus_admin/gift_lists', :action => 'test'
+  map.unwrap '/bus_admin/gift_lists/unwrap', :controller => 'bus_admin/gift_lists', :action => 'unwrap'
   map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners'
 
   #
