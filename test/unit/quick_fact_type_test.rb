@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::QuickFactTypeTest < Test::Unit::TestCase
-  fixtures :quick_fact_types
+  fixtures :quick_fact_type
 
   context "QuickFactTests " do
     
