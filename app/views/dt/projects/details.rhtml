@@ -1,0 +1,23 @@
+<div id="contentContainer">
+  <h1><%= @project.name %></h1>
+  <%= project_nav %>
+
+  <div id="leftColW">
+
+    <h2>Project Plan</h2>
+
+  	<%= project_actions %>
+
+  </div>
+          
+  <div id="rightColN">
+    <%= render :partial => 'related_projects' %>
+
+    <div id="factList">
+      @project.key_measures.each do |km|
+        km.measure.description
+        km.target/km.key_measures_datas.latest.value #bar
+      end
+    </div>
+  </div>
+</div>

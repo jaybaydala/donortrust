@@ -45,20 +45,24 @@ context "Dt::Projects #route_for" do
     route_for(:controller => "dt/projects", :action => "destroy", :id => 1).should == "/dt/projects/1"
   end
 
-  specify "should map { :controller => 'dt/projects', :action => 'specs', :id => 1} to /dt/projects/1;specs" do
-    route_for(:controller => "dt/projects", :action => "specs", :id => 1).should == "/dt/projects/1;specs"
+  specify "should map { :controller => 'dt/projects', :action => 'details', :id => 1} to /dt/projects/1;details" do
+    route_for(:controller => "dt/projects", :action => "details", :id => 1).should == "/dt/projects/1;details"
   end
   
-  specify "should map { :controller => 'dt/projects', :action => 'village', :id => 1} to /dt/projects/1;village" do
-    route_for(:controller => "dt/projects", :action => "village", :id => 1).should == "/dt/projects/1;village"
+  specify "should map { :controller => 'dt/projects', :action => 'community', :id => 1} to /dt/projects/1;community" do
+    route_for(:controller => "dt/projects", :action => "community", :id => 1).should == "/dt/projects/1;community"
   end
   
   specify "should map { :controller => 'dt/projects', :action => 'nation', :id => 1} to /dt/projects/1;nation" do
     route_for(:controller => "dt/projects", :action => "nation", :id => 1).should == "/dt/projects/1;nation"
   end
+
+  specify "should map { :controller => 'dt/projects', :action => 'organization', :id => 1} to /dt/projects/1;organization" do
+    route_for(:controller => "dt/projects", :action => "organization", :id => 1).should == "/dt/projects/1;organization"
+  end
   
-  specify "should map { :controller => 'dt/projects', :action => 'community', :id => 1} to /dt/projects/1;community" do
-    route_for(:controller => "dt/projects", :action => "community", :id => 1).should == "/dt/projects/1;community"
+  specify "should map { :controller => 'dt/projects', :action => 'connect', :id => 1} to /dt/projects/1;connect" do
+    route_for(:controller => "dt/projects", :action => "connect", :id => 1).should == "/dt/projects/1;connect"
   end
   
   private 
@@ -67,10 +71,10 @@ context "Dt::Projects #route_for" do
   end
 end
 
-context "Dt::Projects index, show, specs, village, nation and community should exist" do
+context "Dt::Projects index, show, details, community, nation and connect   should exist" do
   use_controller Dt::ProjectsController
   specify "method should not exist" do
-    %w( index show specs village nation community ).each do |m|
+    %w( index show details community nation organization connect ).each do |m|
       @controller.methods.should.include m
     end
   end
@@ -105,6 +109,19 @@ context "Dt::Projects show behaviour" do
   def do_get(id = 1)
     get :show, :id => id
   end
+
+  specify "should contain the project_nav (#subNav)" do
+    do_get
+    assert_select "div#subNavWide" do
+      assert_select "ul.subNav"
+    end
+  end
+
+  specify "should use show template" do
+    do_get
+    template.should.be 'dt/projects/show'
+  end
+
   specify "The project overview should show the project name & description" do
     @project = Project.find(1)
     do_get(@project.id)
@@ -123,13 +140,6 @@ context "Dt::Projects show behaviour" do
     end
   end
   
-  specify "should contain the project_nav (#subNav)" do
-    do_get
-    assert_select "div#subNavWide" do
-      assert_select "ul.subNav"
-    end
-  end
-
   specify "should contain quick facts (#factList)" do
     do_get
     page.should.select "div#factList ul"
@@ -165,12 +175,33 @@ context "Dt::Projects show behaviour" do
   end
 end
 
-context "Dt::Projects village behaviour" do
+context "Dt::Projects details behaviour" do
   use_controller Dt::ProjectsController
   fixtures :projects, :places, :programs, :partners, :project_statuses
 
   def do_get(id = 1)
-    get :village, :id => id
+    get :details, :id => id
+  end
+
+  specify "should contain the project_nav (#subNav)" do
+    do_get
+    assert_select "div#subNavWide" do
+      assert_select "ul.subNav"
+    end
+  end
+
+  specify "should use details template" do
+    do_get
+    template.should.be 'dt/projects/details'
+  end
+end
+
+context "Dt::Projects community behaviour" do
+  use_controller Dt::ProjectsController
+  fixtures :projects, :places, :programs, :partners, :project_statuses
+
+  def do_get(id = 1)
+    get :community, :id => id
   end
   
   specify "should contain the project_nav (#subNavWide)" do
@@ -180,11 +211,17 @@ context "Dt::Projects village behaviour" do
     end
   end
   
-  specify "should assign projects and village" do
+  specify "should use community template" do
+    do_get
+    template.should.be 'dt/projects/community'
+  end
+
+  specify "should assign projects and community" do
     do_get 
     assigns(:project).should.not.be.nil
-    assigns(:village).should.not.be.nil
+    assigns(:community).should.not.be.nil
   end
+
 end
 
 context "Dt::Projects nation behaviour" do
@@ -202,19 +239,46 @@ context "Dt::Projects nation behaviour" do
     end
   end
 
-  specify "should assign projects and village" do
+  specify "should assign projects and community" do
     do_get 
     assigns(:project).should.not.be.nil
     assigns(:nation).should.not.be.nil
   end
+
+  specify "should use nation template" do
+    do_get
+    template.should.be 'dt/projects/nation'
+  end
 end
 
-context "Dt::Projects community behaviour" do
+context "Dt::Projects organization behaviour" do
   use_controller Dt::ProjectsController
   fixtures :projects, :places, :programs, :partners, :project_statuses
 
   def do_get(id = 1)
-    get :community, :id => id
+    get :organization, :id => id
+  end
+
+  specify "should contain the project_nav (#subNav)" do
+    do_get
+    assert_select "div#subNavWide" do
+      assert_select "ul.subNav"
+    end
+  end
+
+  specify "should use organization template" do
+    do_get
+    template.should.be 'dt/projects/organization'
+  end
+end
+
+
+context "Dt::Projects connect behaviour" do
+  use_controller Dt::ProjectsController
+  fixtures :projects, :places, :programs, :partners, :project_statuses
+
+  def do_get(id = 1)
+    get :connect, :id => id
   end
 
   specify "should contain the project_nav (#subNavWide)" do

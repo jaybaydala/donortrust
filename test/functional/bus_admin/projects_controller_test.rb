@@ -25,9 +25,9 @@ class BusAdmin::ProjectsControllerTest < Test::Unit::TestCase
   end
   
   def test_should_create_project
-    old_count = BusAdmin::Project.count
+    old_count = Project.count
     post :create, :project => { }
-    assert_equal old_count+1, BusAdmin::Project.count
+    assert_equal old_count+1, Project.count
     
     assert_redirected_to project_path(assigns(:project))
   end
@@ -44,13 +44,13 @@ class BusAdmin::ProjectsControllerTest < Test::Unit::TestCase
   
   def test_should_update_project
     put :update, :id => 1, :project => { }
-    assert_redirected_to project_path(assigns(:project))
+    assert_redirected_to bus_admin_project_path(assigns(:project))
   end
   
   def test_should_destroy_project
-    old_count = BusAdmin::Project.count
+    old_count = Project.count
     delete :destroy, :id => 1
-    assert_equal old_count-1, BusAdmin::Project.count
+    assert_equal old_count-1, Project.count
     
     assert_redirected_to bus_admin_projects_path
   end

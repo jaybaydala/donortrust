@@ -92,11 +92,11 @@ class Project < ActiveRecord::Base
     return result
   end
   
-  def village_id
+  def community_id
     self.place_id
   end
   
-  def village_id?
+  def community_id?
     self.place_id?
   end
 
@@ -110,17 +110,17 @@ class Project < ActiveRecord::Base
     return @nation ? @nation.id? : false
   end
 
-  def village
-    @village = self.place if self.place_id?
+  def community
+    @community = self.place if self.place_id?
   end
   
-  def village_project_count
-    self.village.projects.size
+  def community_project_count
+    self.community.projects.size
   end
   
   def nation
     if @nation.nil?
-      node = self.village if !node
+      node = self.community if !node
       return @nation = nil if !node
       node = node.parent while node.parent && node.parent.place_type_id != 2
       @nation = node.parent if node.parent.place_type_id == 2

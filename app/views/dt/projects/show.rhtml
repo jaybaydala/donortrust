@@ -18,12 +18,6 @@
 
   	<%= project_actions %>
 
-    <p class="rating">
-      <strong>Implementing Organization: </strong> <a href="http://www.christmasfuture.org/">ChristmasFuture Foundation</a><br />
-      <!--<strong>Village Ranking of Implementing Organization: </strong><span class="villageRatingOrg"></span>-->
-    </p>
-    
-    
     <% if @project.rss_url && @rss_feed %>
     <h2>Stories from the field</h2>
     <%= render :partial => 'blog' %>

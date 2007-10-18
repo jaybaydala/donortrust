@@ -25,23 +25,27 @@ class Dt::ProjectsController < DtApplicationController
     end
   end
 
-  def specs
+  def details
     @project = Project.find(params[:id])
   end
 
-  def village
+  def community
     @project = Project.find(params[:id])
-    @rss_feed = last_rss_entry(@project.village.rss_url) if @project.village.rss_url
+    @rss_feed = last_rss_entry(@project.community.rss_url) if @project.community.rss_url
     #@rss_feed.clean! if @rss_feed # sanitize the html
-    @village = @project.village
+    @community = @project.community
   end
     
   def nation
     @project = Project.find(params[:id])
     @nation = @project.nation
   end
+  
+  def organization
+    @project = Project.find(params[:id])
+  end
     
-  def community
+  def connect
     @project = Project.find(params[:id])
 
     #facebook stuff

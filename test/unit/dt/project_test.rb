@@ -13,11 +13,11 @@ context "As a donor I want to view project-specific content so I can give to the
     @project.description.should.not.be.nil
   end
 
-  specify "A project's village should be available through @project.village, etc." do
+  specify "A project's community should be available through @project.community, etc." do
     @project = Project.find(1)
-    @project.village_id
-    @project.village_id?.should.be true
-    @project.village.should.not.be.nil
+    @project.community_id
+    @project.community_id?.should.be true
+    @project.community.should.not.be.nil
   end
 
   specify "A project's nation should be available through @project.nation, etc." do
@@ -27,9 +27,9 @@ context "As a donor I want to view project-specific content so I can give to the
     @project.nation.should.not.be.nil
   end
 
-  specify "should return village_projects_count as an int" do
+  specify "should return community_projects_count as an int" do
     @project = Project.find(1)
-    @project.village_project_count.should >= 0
+    @project.community_project_count.should >= 0
   end
   
   specify "should return total_cost, dollars_spent, dollars_raised and current_need" do

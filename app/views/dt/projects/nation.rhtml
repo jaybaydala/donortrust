@@ -14,15 +14,18 @@
       <h2>Quick Facts</h2>
       <ul>
         <%= render :partial => 'quickfact_place', :collection => @nation.quick_fact_places %>
+        <li class="blueblock"><%= link_to "Find other projects in this country", "#" %></li>
       </ul>
     </div>
     <% end -%>
-
-    <h5>OTHER PROJECTS IN THIS VILLAGE</h5>
+    
+    <% if @project.nation.rss_url? && @news_feed %>
+    <h5>NEWS FEEDS</h5>
     <ul>
-      <%= render :partial => 'project_list_item', :collection => @project.village.projects %>
-    </ul>
-  
+      TODO
+      loop through three times and display
+    </ul><% end %>
+    
     <h5>VIDEO</h5>
     <p>Video Thumbnails. When clicked will reveal new window. YouTube.com? Other?</p> 
 
