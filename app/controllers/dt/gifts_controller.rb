@@ -57,6 +57,8 @@ class Dt::GiftsController < DtApplicationController
       if @saved
         # send the email if it's not scheduled for later.
         @gift.send_gift_mail if @gift.send_gift_mail? == true
+        # send confirmation to the gifter
+        @gift.send_gift_confirm
         format.html
       else
         format.html { render :action => "new" }

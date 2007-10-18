@@ -1,8 +1,9 @@
 require 'pdf_proxy'
+
 class DonortrustMailer < ActionMailer::Base
   include PDFProxy
   HTTP_HOST = 'www.christmasfuture.org'
-  
+
   def user_signup_notification(user)
     user_setup_email(user)
     subject  "#{@subject} ChristmasFuture Account Activation"
@@ -29,10 +30,25 @@ class DonortrustMailer < ActionMailer::Base
     part :content_type => "text/html", 
       :body => render_message('gift_mail.text.html.rhtml', body_data)
 
+    #attachment "application/pdf" do |a|
+    #  proxy = create_pdf_proxy(gift)
+    #  a.filename= proxy.filename
+    #  a.body = proxy.render
+    #end
+  end
+
+  def gift_confirm(gift)
+    content_type "text/html"
+    recipients  "#{gift.first_name} #{gift.last_name} <#{gift.email}>"
+    from        "The ChristmasFuture Team <info@christmasfuture.org>"
+    sent_on     Time.now
+    subject "Your gift has been sent"
+    body "Thank you for your gift, please find your attached gift card"
     attachment "application/pdf" do |a|
+      # switched to a proxy pattern (encryption requires a lot of shenanigans)
       proxy = create_pdf_proxy(gift)
-      a.filename= proxy.filename
       a.body = proxy.render
+      a.filename = proxy.filename
     end
   end
 
@@ -77,6 +93,14 @@ class DonortrustMailer < ActionMailer::Base
     end
   end
 
+  # not sure why, but had to add these to avoid gift email rendering problems, seems
+  # to be required by the rfacebook_on_rails/view_extensions
+  def in_facebook_canvas?
+    return false
+  end
+  def in_mock_ajax?
+    return false
+  end
   protected
   def user_setup_email(user)
     @subject    = "Welcome to DonorTrust!"
@@ -91,5 +115,4 @@ class DonortrustMailer < ActionMailer::Base
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
   end
-
 end

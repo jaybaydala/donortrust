@@ -47,6 +47,10 @@ class Gift < ActiveRecord::Base
     end
   end
   
+  def send_gift_confirm
+    DonortrustMailer.deliver_gift_confirm(self)
+  end
+
   def send_gift_mail?
     return new_record? == false && self[:send_at] == nil ? true : false
   end
