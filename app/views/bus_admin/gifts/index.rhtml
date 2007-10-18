@@ -20,7 +20,7 @@
 				<%counter = 0 %>
 			<% end %>
 			<td>
-	        	<select class="project-input" id="project" ><option value="" selected="selected">- select -</option>
+	        	<select class="project-input" id="project_record" ><option value="" selected="selected">- select -</option>
 		    		<% for project in Project.find :all %>
 						<option value= <%= project.id.to_s %>> <%=project.name%></option>
 					<% end %>					
@@ -29,7 +29,8 @@
 			<td>			
 				<%= link_to_remote "Submit",			     
 						    :url => { :action => 'unwrap' },
-							:confirm => 'Are you sure?'
+							:confirm => 'Are you sure?', 
+							:with => "'projectId=' + escape($('project_record').value) + "'&gift_id='" + gift.id.to_s + "''"
 				%>
 			 </td>	   	
 		<% end %>		 
