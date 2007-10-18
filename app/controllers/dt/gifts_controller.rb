@@ -115,14 +115,17 @@ class Dt::GiftsController < DtApplicationController
 
   def preview
     @gift = Gift.new( gift_params )
+    
     # there are a couple of necessary field just for previewing
     valid = true
     %w( email to_email ).each do |field|
       valid = false if !@gift.send(field + '?')
     end
+    logger.info "valid? #{valid}"
     if valid
       @gift.pickup_code = '[pickup code]'
-      @gift_mail = DonortrustMailer.create_gift_mail_preview(@gift)
+      @gift_mail = DonortrustMailer.create_gift_mail(@gift)
+      logger.info "gift mail: #{@gift_mail.class}"
     end
     respond_to do |format|
       flash.now[:error] = 'To preview your ecard, please provide your email and the recipient\'s email' if !valid

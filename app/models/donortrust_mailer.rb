@@ -27,8 +27,8 @@ class DonortrustMailer < ActionMailer::Base
     subject 'You have received a ChristmasFuture Gift from ' + ( gift.name? ? gift.name : gift.email )
     headers "Reply-To" => gift.name? ? "#{gift.name} <#{gift.email}>" : gift.email
     body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}
-    part :content_type => "text/html", 
-      :body => render_message('gift_mail.text.html.rhtml', body_data)
+    content_type "text/html"
+    body render_message('gift_mail.text.html.rhtml', body_data)
 
     #attachment "application/pdf" do |a|
     #  proxy = create_pdf_proxy(gift)
@@ -52,12 +52,7 @@ class DonortrustMailer < ActionMailer::Base
     end
   end
 
-  def gift_mail_preview(gift)
-    gift_mail(gift)
-    content_type 'text/html'
-    #body :gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")
-    #content_type 'text/html'
-  end
+    
 
   def gift_open(gift)
     gift_setup_email(gift)
