@@ -3,12 +3,11 @@
           <% if @project.place_id? && @project.place %><li><strong>Location:</strong> <%= link_to @project.village.name, dt_village_project_path(@project) %>, <%= link_to @project.nation.name, dt_nation_project_path(@project) %></li><% end %>
           <% if @project.causes.size > 0 %><li><strong>Cause(s):</strong> <%= render :partial => 'cause', :collection => @project.causes %></li><% end %>
           <% if @project.place_id? && @project.place %><li><strong>Village Projects:</strong> <%= @project.village_project_count %></li><% end %>
-          <% if @project.lives_saved? %><li><strong>Lives Affected:</strong> <%= @project.lives_saved %></li><% end %>
-          <% if @project.life_saving_impact? %><li><strong>Life Saving Impact:</strong> <%= @project.life_saving_impact %></li><% end %>
+          <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
           <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
           <li><strong>Dollars Spent:</strong> <%= number_to_currency(@project.dollars_spent) %></li>
           <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
           <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %></li>
           <li class="blueblock"><%= link_to "&nbsp;Add to Project Watchlist", dt_new_watchlist_path(:project_id => @project.id) %></li>
-          <li class="blueblock"><%= link_to "&nbsp;Send a Gift E-Card", dt_new_gift_path(:project_id => @project.id) %></li>
         </ul>
+ 

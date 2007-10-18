@@ -13,10 +13,8 @@
         
         <p><strong>Project Description:</strong> <%= @project.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
         
-        <p class="rating">
-          <strong>Implementing Organization: </strong> <a href="http://www.christmasfuture.org/">ChristmasFuture Foundation</a><br />
-          <!--<strong>Village Ranking of Implementing Organization: </strong><span class="villageRatingOrg"></span>-->
-        </p>
+        <%= project_actions %>
+
       </div>
       
     	<div class="factList">

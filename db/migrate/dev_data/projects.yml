@@ -29,8 +29,7 @@ projects_002:
   target_end_date: "2009-01-14"
   name: Sauri - School Feeding Program
   program_id: "5"
-  life_saving_impact: High
-  lives_saved: 200
+  lives_affected: 200
   meas_eval_plan: |-
     Goal:  Increase quality of Education
 

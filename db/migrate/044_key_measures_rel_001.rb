@@ -3,8 +3,7 @@ class KeyMeasuresRel001 < ActiveRecord::Migration
     create_table "key_measures", :force => true do |t|
       t.column :project_id,              :int,  :null => false
       t.column :measure_id,              :int,  :null => false
-      t.column :units,                   :string,  :null => false
-      t.column :target,                  :int,  :null => false
+      t.column :target,                  :integer,  :null => false
       t.column :millennium_goal_id,      :int
     end
  

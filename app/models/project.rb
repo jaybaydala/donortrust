@@ -1,14 +1,12 @@
 require 'acts_as_paranoid_versioned'
 require 'simile_timeline'
 class Project < ActiveRecord::Base
-acts_as_simile_timeline_event(
-    :fields =>
-    {
+  acts_as_simile_timeline_event(
+    :fields => {
       :start       => :startDate,
       :title       => :name,
       :description => :description
-    }
-  )
+    })
  acts_as_paranoid_versioned
  
   belongs_to :project_status

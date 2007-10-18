@@ -19,8 +19,7 @@ class ProjectsRel001 < ActiveRecord::Migration
       t.column :place_id, :integer
       t.column :partner_id, :integer
       t.column :frequency_type_id, :integer
-      t.column :life_saving_impact, :string
-      t.column :lives_saved, :integer
+      t.column :lives_affected, :integer
       t.column :featured, :boolean
       t.column :public, :boolean
       t.column :note, :text

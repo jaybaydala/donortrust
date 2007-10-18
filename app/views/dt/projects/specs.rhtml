@@ -26,7 +26,10 @@
     <%= render :partial => 'related_projects' %>
 
     <div id="factList">
-	  <%= project_quickfacts %>
-	  </div>
+      @project.key_measures.each do |km|
+        km.measure.description
+        km.target/km.key_measures_datas.latest.value #bar
+      end
+    </div>
   </div>
 </div>

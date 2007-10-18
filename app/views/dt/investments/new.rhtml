@@ -9,32 +9,33 @@
   <% form_for(:investment, :url => dt_confirm_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
   <p>Please enter your personal information. As the donor of this donation(s), your personal information, as entered below will appear on your charitable tax receipt. Please enter the information accurately, as donation tax receipts cannot be altered. We will also update your user account with the information you provide.</p>
   <div class="userform">
-  <fieldset>
-  	<legend>Personal Information - Tax Receipt</legend>
-  	<ul>
-  		<li><label for="tax_receipt_first_name"><%= render :partial => 'dt/shared/form_required' %>First Name</label><%= text_field 'tax_receipt', 'first_name' %></li>
-  		<li><label for="tax_receipt_last_name"><%= render :partial => 'dt/shared/form_required' %>Last Name</label><%= text_field 'tax_receipt', 'last_name' %></li>
-  		<li><label for="tax_receipt_address"><%= render :partial => 'dt/shared/form_required' %>Address</label><%= text_field 'tax_receipt', 'address' %></li>
-  		<li><label for="tax_receipt_city"><%= render :partial => 'dt/shared/form_required' %>City</label><%= text_field 'tax_receipt', 'city' %></li>
-  		<li style="clear:left;"><label for="tax_receipt_province"><%= render :partial => 'dt/shared/form_required' %>Province</label><%= text_field 'tax_receipt', 'province', { :size => 2, :maxlength => 2, :style => 'width:auto;' } %></li>
-  		<li style="clear:left;"><label for="tax_receipt_postal_code"><%= render :partial => 'dt/shared/form_required' %>Postal Code</label><%= text_field 'tax_receipt', 'postal_code', { :size => 10, :maxlength => 10, :style => 'width:auto;' } %></li>
-  		<li style="clear:left;"><label for="tax_receipt_country"><%= render :partial => 'dt/shared/form_required' %>Country</label><%= text_field 'tax_receipt', 'country', { :size => 2, :maxlength => 2, :style => 'width:auto;' } %></li>
-  	</ul>	
-  </fieldset>
+    <fieldset>
+    	<legend>Your Project</legend>
+    	<ul>
+    		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Project</label>
+    			<% if @projects -%>
+    			<%= link_to "You must choose a project", dt_projects_path %>
+    			<% elsif @project -%>
+    			<%= link_to @project.name, dt_project_path(@project) %>
+    			<%= f.hidden_field :project_id %>
+    			&nbsp; &#8250;  <%= link_to "Choose another project", dt_projects_path %>
+    			<% end %></li>
+    		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount %></li>
+    	</ul>	
+    </fieldset>
 
-  <fieldset>
-  	<legend>Investment Details</legend>
-  	<ul>
-  		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Project</label>
-  			<% if @projects -%>
-  			<%= f.select 'project_id', @projects.collect{|p| [p.name, p.id] }, { :prompt=>"Choose a project..." } %>
-  			<% elsif @project -%>
-  			<%= link_to @project.name, dt_project_path(@project) %>
-  			<%= f.hidden_field :project_id %>
-  			<% end %></li>
-  		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount %></li>
-  	</ul>	
-  </fieldset>
+    <fieldset>
+    	<legend>Personal Information for your Tax Receipt</legend>
+    	<ul style="width:305px;">
+    		<li><label for="tax_receipt_first_name"><%= render :partial => 'dt/shared/form_required' %>First Name</label><%= text_field 'tax_receipt', 'first_name' %></li>
+    		<li><label for="tax_receipt_last_name"><%= render :partial => 'dt/shared/form_required' %>Last Name</label><%= text_field 'tax_receipt', 'last_name' %></li>
+    		<li><label for="tax_receipt_address"><%= render :partial => 'dt/shared/form_required' %>Address</label><%= text_field 'tax_receipt', 'address' %></li>
+    		<li><label for="tax_receipt_city"><%= render :partial => 'dt/shared/form_required' %>City</label><%= text_field 'tax_receipt', 'city' %></li>
+    		<li><label for="tax_receipt_province"><%= render :partial => 'dt/shared/form_required' %>Province</label><%= text_field 'tax_receipt', 'province', { :size => 2, :maxlength => 2, :style => 'width:auto;' } %></li>
+    		<li><label for="tax_receipt_postal_code"><%= render :partial => 'dt/shared/form_required' %>Postal Code</label><%= text_field 'tax_receipt', 'postal_code', { :size => 10, :maxlength => 10, :style => 'width:auto;' } %></li>
+    		<li><label for="tax_receipt_country"><%= render :partial => 'dt/shared/form_required' %>Country</label><%= text_field 'tax_receipt', 'country', { :size => 2, :maxlength => 2, :style => 'width:auto;' } %></li>
+    	</ul>
+    </fieldset>
 
   	<%= submit_tag 'continue', :class => 'buttonsubmit' %>
   </div>

@@ -25,7 +25,7 @@
     
     
     <% if @project.rss_url && @rss_feed %>
-    <h2>Project Manager's Report</h2>
+    <h2>Stories from the field</h2>
     <%= render :partial => 'blog' %>
     <% end %>
   </div>
@@ -35,5 +35,17 @@
     <div id="factList">
 	  <%= project_quickfacts %>
 	  </div>
+	  
+    <h5>VILLAGE VIDEO</h5>
+    <p>Video Thumbnails. When clicked will reveal new window. YouTube.com? Other?</p> 
+
+    <h5>VILLAGE PHOTOS</h5>
+    <p>Photo Thumbnails. When clicked will reveal new window in flickr</p>
+	  @project.project_flickr_images.each do |pf|
+      #use the flickr plugin to make this display correctly
+      # photo = Flickr::Photo.new(flickr_image.photo_id.to_s)
+      # &lt;%= image_tag photo.sizes[0]['source'] %&gt;<br/>
+      pf.flickr_image_id.photo_id
+    end
   </div>
 </div>
