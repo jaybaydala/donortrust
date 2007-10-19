@@ -48,7 +48,7 @@ namespace :deploy do
     donortrust-specific deployment task
     DESC
     task :default do
-      stop_backgroundrb
+      #stop_backgroundrb
       transaction do
         update # creates the symlink
         install_backgroundrb # it's not included in the repository because of windows incompatibilities
