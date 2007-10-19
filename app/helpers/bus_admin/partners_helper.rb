@@ -4,22 +4,37 @@ module BusAdmin::PartnersHelper
       link_to_remote_redbox image_tag('/images/bus_admin/note2.png'), :url => {:controller => 'bus_admin/partners', :action => 'show_note', :id => record.id}
     end  
   end        
+  
   def description_column(record)
-    SuperRedCloth.new(record.description).to_html
-  end        
+    if record.description != nil 
+      RedCloth.new(record.description).to_html
+    end
+  end      
+  
   def business_model_column(record)
-    SuperRedCloth.new(record.business_model).to_html
-  end        
+    if record.business_model != nil 
+      RedCloth.new(record.business_model).to_html
+    end
+  end    
+  
   def funding_sources_column(record)
-    SuperRedCloth.new(record.funding_sources).to_html
-  end  
+    if record.funding_sources != nil 
+      RedCloth.new(record.funding_sources).to_html
+    end
+ end
+
   def mission_statement_column(record)
-    SuperRedCloth.new(record.mission_statement).to_html
+    if record.mission_statement != nil 
+      RedCloth.new(record.mission_statement).to_html
+    end
   end        
+  
   def philosophy_dev_column(record)
-    SuperRedCloth.new(record.philosophy_dev).to_html
+    if record.philosophy_dev != nil 
+      RedCloth.new(record.philosophy_dev).to_html
+    end
   end        
 #  def note_column(record)
-#    SuperRedCloth.new(record.note).to_html
+#    RedCloth.new(record.note).to_html
 #  end
 end
