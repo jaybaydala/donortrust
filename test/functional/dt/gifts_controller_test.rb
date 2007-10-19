@@ -360,7 +360,8 @@ context "Dt::Gifts create behaviour"do
       :email => 'timglen@pivotib.com', 
       :to_name => 'Curtis', 
       :to_email => 'curtis@pivotib.com', 
-      :message => 'Hello World!'
+      :message => 'Hello World!', 
+      :ecard => '/images/dt/ecards/large/cf-ecard-001.jpg'
       }
     if credit == true
       gift_params.merge!( {
@@ -488,7 +489,7 @@ end
 context "Dt::Gifts show, edit, update and destroy should not exist" do
   use_controller Dt::GiftsController
   specify "method should not exist" do
-    %w( show edit update destroy ).each do |m|
+    %w( edit update destroy ).each do |m|
       @controller.methods.should.not.include m
     end
   end

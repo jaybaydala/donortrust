@@ -21,7 +21,6 @@ class TaxReceiptPDFProxy
   end
 
   def render(duplicate=true)
-    puts "rendering #{@model.class}"
     #render_tax_receipt
     pdf = create_pdf(@receipt, duplicate)
 
