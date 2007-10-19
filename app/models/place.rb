@@ -45,4 +45,8 @@ class Place < ActiveRecord::Base
     return Place.find(:all, :conditions => ["parent_id = ?", place.parent_id])
   end
   
+  def file_image?
+    return true if self[:file].match /\.(jpg|gif|png)$/
+    return false
+  end
 end

@@ -270,6 +270,12 @@ context "Dt::Projects organization behaviour" do
     do_get
     template.should.be 'dt/projects/organization'
   end
+  
+  specify "should assign @project and @organization" do
+    do_get
+    assigns(:project).id.should.equal 1
+    assigns(:organization).id.should.equal assigns(:project).partner_id
+  end
 end
 
 

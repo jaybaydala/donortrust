@@ -1,12 +1,12 @@
-      <div id="subNavWide">
-        <ul class="subNav">
-          <li id="project-nav-overview"<%=      ' class="current"' if params[:action] == 'show'         && params[:controller] == 'dt/projects' %>><a href="<%= dt_project_path(@project) %>"><span>Overview</span></a></li>
-          <li id="project-nav-specs"<%=         ' class="current"' if params[:action] == 'details'      && params[:controller] == 'dt/projects' %>><a href="<%= dt_details_project_path(@project) %>"><span>Project Details</span></a></li>
-          <li id="project-nav-community"<%=     ' class="current"' if params[:action] == 'community'    && params[:controller] == 'dt/projects' %>><a href="<%= dt_community_project_path(@project) %>"><span>Community</span></a></li>
-          <li id="project-nav-nation"<%=        ' class="current"' if params[:action] == 'nation'       && params[:controller] == 'dt/projects' %>><a href="<%= dt_nation_project_path(@project) %>"><span>Nation</span></a></li>
-          <li id="project-nav-orgranization"<%= ' class="current"' if params[:action] == 'organization' && params[:controller] == 'dt/projects' %>><a href="<%= dt_organization_project_path(@project) %>"><span>Organization</span></a></li>
-          <li id="project-nav-connect"<%=       ' class="current"' if params[:action] == 'connect'      && params[:controller] == 'dt/projects' %>><a href="<%= dt_connect_project_path(@project) %>"><span>Connect</span></a></li>
+      <div id="subNav">
+        <ul class="subNav li">
+          <li id="project-nav-overview"<%=     ' class="current"' if params[:action] == 'show'         && params[:controller] == 'dt/projects' %>><%= link_to "Overview ", dt_project_path(@project) %></li>
+          <li id="project-nav-specs"<%=        ' class="current"' if params[:action] == 'details'      && params[:controller] == 'dt/projects' %>><%= link_to "Project Details ", dt_details_project_path(@project) %></li>
+          <li id="project-nav-community"<%=    ' class="current"' if params[:action] == 'community'    && params[:controller] == 'dt/projects' %>><%= link_to "Community ", dt_community_project_path(@project) %></li>
+          <li id="project-nav-nation"<%=       ' class="current"' if params[:action] == 'nation'       && params[:controller] == 'dt/projects' %>><%= link_to "Nation ",  dt_nation_project_path(@project) %></li>
+          <li id="project-nav-organization"<%= ' class="current"' if params[:action] == 'organization' && params[:controller] == 'dt/projects' %>><%= link_to "Organization ", dt_organization_project_path(@project) %></li>
         </ul>
+        <div id="buttonConnect"><%= link_to "<span>Connect</span> ", dt_connect_project_path(@project) %></div>
       </div><!-- subNav ends -->
       <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
       <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>

@@ -43,6 +43,7 @@ class Dt::ProjectsController < DtApplicationController
   
   def organization
     @project = Project.find(params[:id])
+    @organization = @project.partner if @project.partner_id?
   end
     
   def connect

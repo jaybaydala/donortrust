@@ -1,11 +1,15 @@
 <% if logged_in? %>
   <h2>My Profile</h2>
-  <p><%= link_to "Edit My Account", dt_edit_account_path(current_user) %> | <%= link_to "Sign Out", dt_logout_path %></p>
   <p><strong><%= current_user.full_name %></strong> (<%= current_user.name %>)</p>
-	<% if @group && !@group.new_record? %><ul>
+	<ul>
+    <li class="blueblock"><%= link_to "Edit My Account", dt_edit_account_path(current_user) %></li>
+    <li class="blueblock"><%= link_to "Logout", dt_logout_path %></li>
+    <% if @group && !@group.new_record? %>
 	  <% if !current_member(@group) || !current_member(@group).founder? %><li class="blueblock"><% if current_member(@group) %><%= link_to "&nbsp;Leave Group", dt_membership_path(:id => current_member(@group).id, :group_id => @group.id), :method => 'delete', :confirm => "Do you want to leave #{@group.name}?" %><% else %><%= link_to "&nbsp;Join This Group", dt_memberships_path(@group), :method => :post, :confirm => "Do you want to join #{@group.name}?" %><% end %></li><% end %>
 	  <% if current_member(@group) && current_member(@group).founder? %><li class="blueblock"><%= link_to "&nbsp;Delete this Group", dt_memberships_path(@group), :method => :delete, :confirm => "Do you want to delete #{@group.name}?" %></li><% end %>
-	</ul><% end %>
+	  <% end %>
+	</ul>
+
   <h5>My Portfolio</h5>
   <ul class="factList"> 
   	<li><strong>Groups:</strong> <%= render :partial => 'dt/accounts/membership', :collection => current_user.memberships %></li>
