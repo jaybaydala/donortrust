@@ -452,10 +452,10 @@ div.textsm {
 
 hr { height:2px; border:0px; border-bottom:2px solid #ff1493;margin:0;padding:0; }
 
-.line1W {width:469px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:#360;}
-.line1N {width:228px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:#360;}
-.line2W {width:469px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:#360;}
-.line2N {width:228px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:#360;}
+.line1W {height:1px;width:469px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:;}
+.line1N {height:1px;width:228px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:;}
+.line2W {height:1px;width:469px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:;}
+.line2N {height:1px;width:228px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:;}
 .line2Full {height:1px;width:717px; margin:15px 0 0px 7px; padding:0; float:left; border-bottom:2px solid #360;}
 
 
@@ -474,6 +474,7 @@ hr { height:2px; border:0px; border-bottom:2px solid #ff1493;margin:0;padding:0;
 #rightColN img {margin: 0 0 10px 0;}
 #contentContainer2 #rightCol img {width:216px; margin: 3px 0 15px 0;}
 #leftColW img, #leftColW2 img {width:auto; padding:0px; border:0px solid #CCC; margin: 0px 0 15px 7px;}
+#leftColW fieldset img {width:auto; padding:0px; border:0px solid #CCC; margin: 0px 0 0px 0px;}
 #factList img, #factList2 img {margin: 0px 0px 10px 0px;}
 
 /* BUTTON AND LINK STYLES */
@@ -851,9 +852,63 @@ h2 a:hover, h2 a:active {
 	padding: 2px 0 0 0;
 	height: 20px; 
 	width: 92px;
-    display: block;
+  display: block;
 	list-style-type: none;
 }
+#buttonConnect {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-transform:capitalize;
+	text-decoration: none;
+	height: 20px; 
+	width: 92px;
+	padding: 3px 10px 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/connectButton_grey.gif) no-repeat 0px 3  px; 
+	display: block;
+	list-style-type: none;
+	text-indent: 0px;
+	float:left;
+}
+#buttonConnect a span {
+	visibility:hidden;
+}
+#buttonConnect a {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	height: 20px; 
+	width: 92px;
+	padding: 0;
+	background: transparent; 
+	display: block;
+}
+#buttonConnect a:link, #buttonConnect a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	text-transform:capitalize;
+	padding: 2px 0 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/connectButton_grey.gif) no-repeat;
+	height: 20px; 
+	width: 92px;
+	display: block;
+	list-style-type: none;
+}
+#buttonConnect a:hover, #buttonConnect a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	text-transform:capitalize;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/connectButton_blue.gif) no-repeat;
+	padding: 2px 0 0 0;
+	height: 20px; 
+	width: 92px;
+	display: block;
+	list-style-type: none;
+}
+
+
+
 /* BUTTON GROUP */
 
 .buttonGroupWrapN {

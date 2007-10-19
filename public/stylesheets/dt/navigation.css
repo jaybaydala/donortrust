@@ -99,6 +99,13 @@
 }
 #subNav ul {float:left; width: 486px; padding-top:5px; padding-bottom:5px;}
 
+#subNavEnd {
+	width:228px; height:25px; 
+	float: right; 
+	background: #FFF url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat -496px 0px;
+	padding: 3px 0 10px 0; margin-bottom:5px;
+}
+
 /* 
 The subNav should have an 18px left margin if not contained in #contentContainer. 
 This allows us to validate the project overview page by not repeating 
