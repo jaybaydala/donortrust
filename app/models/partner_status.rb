@@ -1,5 +1,6 @@
 class PartnerStatus < ActiveRecord::Base
   acts_as_paranoid
+  acts_as_textiled :description
   has_many :partners#, :dependent => :destroy
 
   validates_presence_of :name, :description
