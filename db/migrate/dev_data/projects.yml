@@ -1,9 +1,9 @@
 projects_001: 
   target_end_date: "2007-08-30"
-  name: Mpigi Library
+  name: Zwota Library
   program_id: "5"
   meas_eval_plan: 
-  place_id: "14"
+  place_id: "180184"
   total_cost: "20000.00"
   public: "1"
   project_status_id: "2"
@@ -16,7 +16,7 @@ projects_001:
   contact_id: "1"
   id: "1"
   version: 
-  description: "Our first full library project is in the community of Mpigi, located two hours drive southwest of Kampala, the capital of Uganda. With a surrounding population of ten thousand people, the town is the economic and political centre of Mpigi district."
+  description: "Our first full library project is in the community of Zwota, located two hours drive southwest of Kampala, the capital of Uganda. With a surrounding population of ten thousand people, the town is the economic and political centre of Zwota district."
   note: 
   partner_id: "1"
   blog_url: 
