@@ -5,4 +5,4 @@ port: "8000"
 environment: staging
 address: www.christmasfuture.org
 pid_file: /home/dtrust/donortrust/shared/pids/mongrel.pid
-servers: 3
+servers: 6
