@@ -1,4 +1,5 @@
 module BusAdmin::PlacesHelper
+  
 def file_form_column(record, input_name)
     file_column_field 'record', :file
   end
@@ -8,7 +9,7 @@ def file_form_column(record, input_name)
   end
       
   def description_column(record)
-    RedCloth.new(record.description).to_html
+    SuperRedCloth.new(record.description).to_html
   end
   
 end
