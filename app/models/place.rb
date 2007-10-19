@@ -1,5 +1,4 @@
 class Place < ActiveRecord::Base
-  acts_as_textiled :description
   acts_as_tree :order=>"name"  
 
   file_column :file, :web_root => "images/bus_admin/uploads/", :root_path => File.join(RAILS_ROOT, "public/images/bus_admin/uploads")
