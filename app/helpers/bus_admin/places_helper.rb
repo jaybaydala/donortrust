@@ -6,4 +6,9 @@ def file_form_column(record, input_name)
   def file_column(record)
     record.file ?  link_to(File.basename(record.file), url_for_file_column(record, 'file'), :popup => true) : "-" 
   end
+      
+  def description_column(record)
+    RedCloth.new(record.description).to_html
+  end
+  
 end
