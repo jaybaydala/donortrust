@@ -38,10 +38,13 @@ class Dt::InvestmentsController < DtApplicationController
     @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
     @tax_receipt.investment = @investment
     @tax_receipt.user = current_user
-    Investment.transaction do
-      @saved =  @investment.save! && @tax_receipt.save!
+    @saved = false
+    if @investment.valid? && @tax_receipt.valid? 
+      Investment.transaction do
+        @saved =  @investment.save! && @tax_receipt.save!
+      end
     end
-      
+
     respond_to do |format|
       if @saved
         @tax_receipt.send_tax_receipt
