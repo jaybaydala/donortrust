@@ -1,7 +1,7 @@
 require 'acts_as_paranoid_versioned'
 class Partner < ActiveRecord::Base
   acts_as_paranoid_versioned
-
+  acts_as_textiled :description, :business_model, :funding_sources, :mission_statement
   belongs_to    :partner_type
   belongs_to    :partner_status
   has_many      :projects
