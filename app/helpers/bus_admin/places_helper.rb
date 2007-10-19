@@ -9,7 +9,7 @@ def file_form_column(record, input_name)
   end
       
   def description_column(record)
-    if record.responsibilities!= nil 
+    if record.description!= nil 
       SuperRedCloth.new(record.description).to_html
     end
   end 
