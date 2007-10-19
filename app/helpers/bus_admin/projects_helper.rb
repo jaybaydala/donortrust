@@ -20,38 +20,38 @@ module BusAdmin::ProjectsHelper
   
   def description_column(record)
      if record.description != nil 
-       SuperRedCloth.new(record.description).to_html
+       RedCloth.new(record.description).to_html
     end    
   end
   
   def intended_outcome_column(record)
      if record.intended_outcome != nil 
-        SuperRedCloth.new(record.intended_outcome).to_html
+        RedCloth.new(record.intended_outcome).to_html
     end   
   end
   
   def meas_eval_plan_column(record)
      if record.meas_eval_plan != nil 
-       SuperRedCloth.new(record.meas_eval_plan).to_html
+      RedCloth.new(record.meas_eval_plan).to_html
     end    
   end
   
   def project_in_community_column(record)
      if record.project_in_community != nil 
-       SuperRedCloth.new(record.project_in_community).to_html
+       RedCloth.new(record.project_in_community).to_html
     end    
   end
   
   def other_projects_column(record)
      if record.other_projects != nil 
-        SuperRedCloth.new(record.other_projects).to_html
+        RedCloth.new(record.other_projects).to_html
     end   
   end
   
 #  def   responsibilities_column(record)
 #     if record.responsibilities != nil 
 #    end
-#    SuperRedCloth.new(record.responsibilities).to_html
+#    RedCloth.new(record.responsibilities).to_html
 #  end
     
 end
