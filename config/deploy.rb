@@ -40,7 +40,7 @@ namespace :deploy do
         install_backgroundrb # it's not included in the repository because of windows incompatibilities
         asset_folder_fix
         start
-        start_backgroundrb
+        #start_backgroundrb
       end
     end
 
@@ -55,7 +55,7 @@ namespace :deploy do
         asset_folder_fix
         restart
       end
-      start_backgroundrb
+      #start_backgroundrb
     end
   end
 
