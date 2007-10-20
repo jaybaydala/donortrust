@@ -31,7 +31,7 @@ class Dt::ProjectsController < DtApplicationController
 
   def community
     @project = Project.find(params[:id])
-    @rss_feed = last_rss_entry(@project.community.rss_url) if @project.community.rss_url
+    @rss_feed = last_rss_entry(@project.community.rss_url) if @project.community.rss_url?
     #@rss_feed.clean! if @rss_feed # sanitize the html
     @community = @project.community
   end
