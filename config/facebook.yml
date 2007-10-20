@@ -10,6 +10,17 @@ development:
       port: 1234
       local_port: 5678
 
+staging:
+    key: 6bc8f93333e6565ab0421fc62d5bea96
+    secret: 6bc8f93333e6565ab0421fc62d5bea96
+    canvas_path: /christmasfuture/
+    callback_path: /dt/projects
+    tunnel:
+      username: yourLoginName
+      host: www.christmasfuture.org
+      port: 1234
+      local_port: 5678
+
 test:
     key: YOUR_API_KEY_HERE
     secret: YOUR_API_SECRET_HERE
