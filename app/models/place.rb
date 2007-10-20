@@ -46,7 +46,8 @@ class Place < ActiveRecord::Base
   end
   
   def file_image?
-    return true if file? && file.match /\.(jpg|gif|png)$/
+    return false if !file?
+    return true if self[:file].match /\.(jpg|gif|png)$/ 
     return false
   end
 end
