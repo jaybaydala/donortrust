@@ -4,7 +4,7 @@ set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
 
 set :deploy_to, "/home/dtrust/#{application}"
 set :user, "dtrust"
-set :rails_env, "development"
+set :rails_env, "staging"
 
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_clean, true
