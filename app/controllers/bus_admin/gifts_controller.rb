@@ -20,14 +20,17 @@ class BusAdmin::GiftsController < ApplicationController
   end
   @investment = Investment.new_from_gift(@gift, @gift.user_id)
   @investment.save! if @investment
-  
+   respond_to do |format|
   if @investment.valid?
    flash[:notice] = 'Investment was successfully created.'
+    @gifts = Gift.find(:all, :conditions => ['sent_at < ? and picked_up_at is null', 31.days.ago])
+   format.html {render :partial => 'list', :layout => false }
+   format.xml  { head :ok }
  else
    format.xml  { render :xml => @investment.errors.to_xml }
   end
-   render(:update) { |page| page.call 'location.reload' }
-
+  # render(:update) { |page| page.call 'location.reload' }
+end
  end
    
 

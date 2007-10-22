@@ -27,7 +27,7 @@
 	     					</select>	
 					</td>
 					<td>			
-						<%= link_to_remote "Submit",			     
+						<%= link_to_remote "Submit",		:update => "gifts",	     
 						    :url => { :action => 'unwrap' },
 							:confirm => 'Are you sure?', 
 							:with => "'projectId=' + escape($('project_record').value) + '&gift_id=" + gift.id.to_s + "'"      %>
