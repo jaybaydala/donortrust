@@ -48,10 +48,10 @@ module BusAdmin::ProjectsHelper
     end   
   end
   
-#  def   responsibilities_column(record)
-#     if record.responsibilities != nil 
-#    end
-#    RedCloth.new(record.responsibilities).to_html
-#  end
+  def   responsibilities_column(record)
+     if record.responsibilities != nil 
+       RedCloth.new(record.responsibilities).to_html
+    end    
+  end
     
 end
