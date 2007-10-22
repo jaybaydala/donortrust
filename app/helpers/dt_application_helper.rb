@@ -12,28 +12,41 @@ module DtApplicationHelper
     @image = '/images/dt/feature_graphics/feelGreat155.jpg'
   end
   
-  def dt_search_by_country_select
-    @countries = [['Choose a Country', '']]
-    Place.find(:all, :conditions => { :place_type_id => 2 }, :order => :name).each do |country|
-      @countries << [country.name, country.id]
+  def dt_search_by_place_select
+    projects = Project.find_public(:all, :include => :place)
+    all_places = []
+    projects.each do |project|
+      if project.nation
+        all_places << project.nation.parent.id if project.nation.parent && !all_places.include?(project.nation.parent.id) # continent
+        all_places << project.nation.id if !all_places.include?(project.nation.id)
+      end
     end
-    select_tag("country_id", options_for_select(@countries)) if @countries
+    @places = [['Choose a Place', '']]
+    Place.find(all_places, :order => "parent_id, name").each do |place|
+      name = place.parent_id? ? "- #{place.name}" : place.name
+      @places << [name, place.id]
+    end
+    select_tag("place_id", options_for_select(@places)) if @places
   end
   
   def dt_search_by_cause_select
+    projects = Project.find_public(:all, :include => :causes)
     @causes = [['Choose a Cause', '']]
-    Cause.find(:all, :order => :name).each do |cause|
-      @causes << [cause.name, cause.id]
+    projects.each do |project|
+      project.causes.each do |cause|
+        @causes << [cause.name, cause.id]
+      end
     end
     select_tag("cause_id", options_for_select(@causes)) if @causes
   end
   
   def dt_search_by_organization_select
+    projects = Project.find_public(:all, :include => :partner)
     @partners = [['Choose an Organization', '']]
-    Partner.find(:all, :conditions => { :partner_status_id => 1 }, :order => :name).each do |partner|
-      @partners << [partner.name, partner.id]
+    projects.each do |project|
+      @partners << [project.partner.name, project.partner.id]
     end
-    select_tag("place_id", options_for_select(@partners)) if @partners
+    select_tag("partner_id", options_for_select(@partners)) if @partners
   end
 
   def dt_account_nav
