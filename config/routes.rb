@@ -1,5 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
+<<<<<<< .mine
+  map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
 
+  map.resources :rank_values, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_values"
+
+  
+  
+=======
+
+>>>>>>> .r1434
   # front-end resources - non-admin
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :facebook_login => :get } do |project|
     project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
@@ -52,9 +61,11 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
  
   # bus_admin resources
+
   map.resources :launch, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/launch"
   map.test '/bus_admin/launch/launch', :controller => 'bus_admin/launch', :action => 'launch'
-  map.resources :gifts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/gifts"
+ map.resources :gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/gifts", :collection => {:unwrap => :post}
+ 
   map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
   map.resources :financial_sources, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/financial_sources"
   map.resources :collaborating_agencies, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborating_agencies"
@@ -147,7 +158,6 @@ ActionController::Routing::Routes.draw do |map|
   # 
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
   map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
-  map.unwrap '/bus_admin/gifts/unwrap', :controller => 'bus_admin/gifts', :action => 'unwrap'
   map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners'
 
   #
