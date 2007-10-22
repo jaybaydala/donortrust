@@ -5,5 +5,7 @@
   <dd> 
     <%= textile_editor  'record', 'responsibilities'  -%>
   </dd>	
-</dl> 
-
+</dl>
+<% if params[:action] != "edit" or params[:action] != "new"  %>
+	<%= textile_editor_initialize -%>
+<% end %>
