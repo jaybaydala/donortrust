@@ -27,6 +27,7 @@ class BusAdmin::GiftsController < ApplicationController
    format.html {render :partial => 'list', :layout => false }
    format.xml  { head :ok }
  else
+    format.html {render :partial => 'list', :layout => false }
    format.xml  { render :xml => @investment.errors.to_xml }
   end
   # render(:update) { |page| page.call 'location.reload' }
