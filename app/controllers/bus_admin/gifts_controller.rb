@@ -1,17 +1,34 @@
+require 'net/http'
+require 'uri'
+
 class BusAdmin::GiftsController < ApplicationController
   
-
+  def index
+    @gifts = Gift.find(:all, :conditions => ['sent_at < ? and picked_up_at is null', 31.days.ago])
+   # render :partial => "list", :layout => false
+  end
+  
  def unwrap
   @giftId = params[:gift_id]
   @gift = Gift.find(@giftId)
+  
+   @gift.picked_up_at = Time.now
+  @gift.save! if @gift
+  
   if not @gift.project_id?
-    @gift.project_id =  params[:project_id]
+    @gift.project_id =  params[:projectId]
   end
   @investment = Investment.new_from_gift(@gift, @gift.user_id)
   @investment.save! if @investment
-  #@gift = Investment.create(:amount => params[:record_amount], :project_id => params[:record_project_id], :user_id => params[:record_user_id])
-   render :partial => "bus_admin/gifts/unwrap"
- 
+  
+  if @investment.valid?
+   flash[:notice] = 'Investment was successfully created.'
+ else
+   format.xml  { render :xml => @investment.errors.to_xml }
+  end
+   render(:update) { |page| page.call 'location.reload' }
+
  end
    
+
 end
