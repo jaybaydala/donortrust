@@ -4,6 +4,7 @@ class BannerImagesRel001 < ActiveRecord::Migration
       t.column :model_id,       :int
       t.column :controller, :string
       t.column :action, :string
+      t.column :file, :text
       t.column :deleted_at, :datetime
     end
   end
