@@ -44,13 +44,13 @@ module Transaction
     :cannot_commit_named_transaction => te % "cannot commit nonexistant transaction %s.",
     :cannot_start_empty_block_transaction => te % "cannot start a block transaction with no objects.",
     :cannot_obtain_transaction_lock => te % "cannot obtain transaction lock for #%s.",
-  }
+  } unless const_defined?('Messages')
 end
 
 # = Transaction::Simple for Ruby
 # Simple object transaction support for Ruby
 module Transaction::Simple
-  TRANSACTION_SIMPLE_VERSION = '1.4.0'
+  TRANSACTION_SIMPLE_VERSION = '1.4.0' unless const_defined?('TRANSACTION_SIMPLE_VERSION')
 
   class << self
     # Sets the Transaction::Simple debug object. It must respond to #<<.
@@ -433,7 +433,7 @@ module Transaction::Simple
     end
   end
 
-  SKIP_TRANSACTION_VARS = %w(@__transaction_checkpoint__ @__transaction_level__)
+  SKIP_TRANSACTION_VARS = %w(@__transaction_checkpoint__ @__transaction_level__) unless const_defined?('SKIP_TRANSACTION_VARS')
 
   def __rewind_this_transaction #:nodoc:
     defined? @__transaction_checkpoint__ or @__transaction_checkpoint__ = nil

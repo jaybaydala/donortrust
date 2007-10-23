@@ -24,9 +24,9 @@ module Test                     # :nodoc:
 end
 
 module Test::Spec
-  VERSION = "0.3" if VERSION == nil
+  VERSION = "0.3" unless const_defined?('VERSION')
   
-  CONTEXTS = {}                 # :nodoc:
+  CONTEXTS = {} unless const_defined?('CONTEXTS')                 # :nodoc:
 
   class DefinitionError < StandardError
   end
