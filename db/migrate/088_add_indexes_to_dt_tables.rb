@@ -1,5 +1,8 @@
 class AddIndexesToDtTables < ActiveRecord::Migration
   def self.up
+    # places table
+    add_index :places, :place_type_id
+    add_index :places, :parent_id
     # projects table
     add_index :projects, :program_id
     add_index :projects, :project_status_id
@@ -38,9 +41,18 @@ class AddIndexesToDtTables < ActiveRecord::Migration
     add_index :key_measures, :project_id
     add_index :key_measures, :measure_id
     add_index :key_measures, :millennium_goal_id
+    # deposits
+    add_index :deposits, :gift_id
+    add_index :deposits, :user_id
+    # gifts
+    add_index :gifts, :user_id
+    add_index :gifts, :project_id
   end
 
   def self.down
+    # places table
+    remove_index :places, :place_type_id
+    remove_index :places, :parent_id
     # projects table
     remove_index :projects, :program_id
     remove_index :projects, :project_status_id
@@ -79,5 +91,11 @@ class AddIndexesToDtTables < ActiveRecord::Migration
     remove_index :key_measures, :project_id
     remove_index :key_measures, :measure_id
     remove_index :key_measures, :millennium_goal_id
+    # deposits
+    remove_index :deposits, :gift_id
+    remove_index :deposits, :user_id
+    # gifts
+    remove_index :gifts, :user_id
+    remove_index :gifts, :project_id
   end
 end
