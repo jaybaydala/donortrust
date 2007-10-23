@@ -5,6 +5,8 @@ class KeyMeasure < ActiveRecord::Base
   has_and_belongs_to_many :millennium_goals
 
 
+  validates_presence_of :project_id
+  validates_presence_of :measure_id
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
