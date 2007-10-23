@@ -13,8 +13,8 @@ class DtApplicationController < ActionController::Base
   end
     
   def rescue_action_in_public(exception)
-    case exception
-      when DtNotFoundError, RoutingError, UnknownAction
+    case exception.to_s
+      when /DtNotFoundError/, /RoutingError/, /UnknownAction/
         render :template => "dt/shared/errors/error404", :layout => "dt_application", :status => "404"
       else
         @message = exception
@@ -41,8 +41,8 @@ class DtApplicationController < ActionController::Base
  #    logger.error(e)
  #  end
  #end
-end
 
-# Error Handling
-class DtNotFoundError < Exception
+ # Error Handling
+ class DtNotFoundError < Exception
+ end
 end

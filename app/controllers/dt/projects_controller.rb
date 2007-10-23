@@ -17,37 +17,65 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def show
-    @project = Project.find(params[:id])
-    @rss_feed = last_rss_entry(@project.rss_url) if @project.rss_url
+    begin
+      @project = Project.find_public(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @rss_feed = last_rss_entry(@project.rss_url) if @project && @project.rss_url
     #@rss_feed.clean! if @rss_feed # sanitize the html
     respond_to do |format|
-      format.html # show.rhtml
+      format.html
     end
   end
 
   def details
-    @project = Project.find(params[:id])
+    begin
+      @project = Project.find_public(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html
+    end
   end
 
   def community
-    @project = Project.find(params[:id])
-    @rss_feed = last_rss_entry(@project.community.rss_url) if @project.community.rss_url?
+    begin
+      @project = Project.find_public(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    
+    @rss_feed = last_rss_entry(@project.community.rss_url) if @project && @project.community.rss_url?
     #@rss_feed.clean! if @rss_feed # sanitize the html
     @community = @project.community
   end
     
   def nation
-    @project = Project.find(params[:id])
+    begin
+      @project = Project.find_public(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
     @nation = @project.nation
   end
   
   def organization
-    @project = Project.find(params[:id])
+    begin
+      @project = Project.find_public(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
     @organization = @project.partner if @project.partner_id?
   end
     
   def connect
-    @project = Project.find(params[:id])
+    begin
+      @project = Project.find_public(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
 
     #facebook stuff
     #gid = @project.place.facebook_group_id
@@ -65,7 +93,7 @@ class Dt::ProjectsController < DtApplicationController
       # wierd! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
       member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
       @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
-      @fb_member_pages, @members = paginate_array(params[:page], @fb_members , 30)
+      @fb_member_pages, @members = fb_paginate_array(params[:page], @fb_members , 30)
       @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
     end
   end
@@ -91,7 +119,8 @@ class Dt::ProjectsController < DtApplicationController
     session[:project_id] = params[:id]
     puts session[:project_id]
   end
-  def paginate_array(page, array, items_per_page)
+
+  def fb_paginate_array(page, array, items_per_page)
     @size = array.length
     page ||= 1
     page = page.to_i

@@ -12,7 +12,9 @@
     <fieldset>
       <legend>Select your card image from the right:</legend>
       <ul>
-        <li><label for="gift_amount"><%= render :partial => 'dt/shared/form_required' %>Gift Image</label>
+        <li>
+          <p class="textsm"><%= render :partial => 'dt/shared/form_required' %> Selected E-Card Image:</p>
+          <img src="/images/dt/ecards/small/cf-ecard-001.jpg" alt="selected ecard" id="previewEcard" />
           <%= f.hidden_field 'ecard', :id => "ecardsrc" %>
           </li>
       </ul>
@@ -134,9 +136,9 @@
       <p>Select the e-card you wish to send with your gift. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
       <div id="medImgWrap">
         <div class="medImg"><img src="/images/dt/ecards/medium/cf-ecard-001.jpg" id="mediumEcard" /></div>
-        <div id="selectWrap">
+        <!--<div id="selectWrap">
           <div class="selectButton"><img src="/images/dt/nav_elements/buttonsCF/buttonSelect.gif" id="ecardSelect" /></div>
-        </div>
+        </div>-->
         <!--
           <div class="medImgNav">
           <div class="prev"><a href="#">&lt; prev</a></div>

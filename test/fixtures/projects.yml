@@ -13,7 +13,6 @@ project_one:
   contact_id: 1
   place_id: 14  
   partner_id: 1
-  public: true
   
 project_two:
   id: 2
@@ -29,7 +28,6 @@ project_two:
   contact_id: 1
   place_id: 13  
   partner_id: 1
-  public: true
   
 project_three:
   id: 3
@@ -45,5 +43,20 @@ project_three:
   contact_id: 1
   place_id: 12  
   partner_id: 1
-  public: false
+  note: Sample note.
+  
+project_four:
+  id: 4
+  program_id: 1
+  name: test project 4
+  description: The fourth project. Start smallishy. 
+  total_cost: 1000.00
+  dollars_spent: 5.00
+  expected_completion_date: "2007-04-02"
+  target_start_date: "2007-03-02"
+  target_end_date: "2007-06-06"
+  project_status_id: 4
+  contact_id: 1
+  place_id: 12  
+  partner_id: 1
   note: Sample note.

@@ -106,13 +106,13 @@ context "Dt::Projects show behaviour" do
   use_controller Dt::ProjectsController
   fixtures :projects, :places, :programs, :partners, :project_statuses
 
-  def do_get(id = 1)
+  def do_get(id = 2)
     get :show, :id => id
   end
 
   specify "should contain the project_nav (#subNav)" do
     do_get
-    assert_select "div#subNavWide" do
+    assert_select "div#subNav" do
       assert_select "ul.subNav"
     end
   end
@@ -121,9 +121,17 @@ context "Dt::Projects show behaviour" do
     do_get
     template.should.be 'dt/projects/show'
   end
+  
+  specify "should not show a project that is not public" do
+    project = Project.find_public(:first)
+    project.project_status_id = 1
+    project.save
+    do_get
+    status.should.be 404
+  end
 
   specify "The project overview should show the project name & description" do
-    @project = Project.find(1)
+    @project = Project.find(2)
     do_get(@project.id)
     status.should.be :success
     # use assert_select since the block type of `page.select "selector" do |foo|` seems to be borked
@@ -151,7 +159,7 @@ context "Dt::Projects show behaviour" do
   end
 
   specify "should contain \"Gift It\" link which goes to dt/gifts/new?project_id=x" do
-    project_id = 1
+    project_id = 2
     do_get(project_id)
     assert_select "div#buttonGiftProject" do
       assert_select "a[href=/dt/gifts/new?project_id=#{project_id}]"
@@ -159,7 +167,7 @@ context "Dt::Projects show behaviour" do
   end
 
   specify "should contain \"Donate\" link which goes to dt/investments/new" do
-    project_id = 1
+    project_id = 2
     do_get(project_id)
     assert_select "div#buttonDonate" do
       assert_select "a[href=/dt/investments/new?project_id=#{project_id}]"
@@ -167,7 +175,7 @@ context "Dt::Projects show behaviour" do
   end
 
   specify "should contain \"Tell a Friend\" link which goes to dt/shares/new" do
-    project_id = 1
+    project_id = 2
     do_get(project_id)
     assert_select "div#buttonTellFriend" do
       assert_select "a[href=/dt/shares/new?project_id=#{project_id}]"
@@ -179,13 +187,13 @@ context "Dt::Projects details behaviour" do
   use_controller Dt::ProjectsController
   fixtures :projects, :places, :programs, :partners, :project_statuses
 
-  def do_get(id = 1)
+  def do_get(id = 2)
     get :details, :id => id
   end
 
   specify "should contain the project_nav (#subNav)" do
     do_get
-    assert_select "div#subNavWide" do
+    assert_select "div#subNav" do
       assert_select "ul.subNav"
     end
   end
@@ -194,19 +202,27 @@ context "Dt::Projects details behaviour" do
     do_get
     template.should.be 'dt/projects/details'
   end
+
+  specify "should not show a project that is not public" do
+    project = Project.find_public(:first)
+    project.project_status_id = 1
+    project.save
+    do_get
+    status.should.be 404
+  end
 end
 
 context "Dt::Projects community behaviour" do
   use_controller Dt::ProjectsController
   fixtures :projects, :places, :programs, :partners, :project_statuses
 
-  def do_get(id = 1)
+  def do_get(id = 2)
     get :community, :id => id
   end
   
-  specify "should contain the project_nav (#subNavWide)" do
+  specify "should contain the project_nav (#subNav)" do
     do_get
-    assert_select "div#subNavWide" do
+    assert_select "div#subNav" do
       assert_select "ul.subNav"
     end
   end
@@ -222,19 +238,26 @@ context "Dt::Projects community behaviour" do
     assigns(:community).should.not.be.nil
   end
 
+  specify "should not show a project that is not public" do
+    project = Project.find_public(:first)
+    project.project_status_id = 1
+    project.save
+    do_get
+    status.should.be 404
+  end
 end
 
 context "Dt::Projects nation behaviour" do
   use_controller Dt::ProjectsController
   fixtures :projects, :places, :programs, :partners, :project_statuses
 
-  def do_get(id = 1)
+  def do_get(id = 2)
     get :nation, :id => id
   end
 
-  specify "should contain the project_nav (#subNavWide)" do
+  specify "should contain the project_nav (#subNav)" do
     do_get
-    assert_select "div#subNavWide" do
+    assert_select "div#subNav" do
       assert_select "ul.subNav"
     end
   end
@@ -249,19 +272,27 @@ context "Dt::Projects nation behaviour" do
     do_get
     template.should.be 'dt/projects/nation'
   end
+
+  specify "should not show a project that is not public" do
+    project = Project.find_public(:first)
+    project.project_status_id = 1
+    project.save
+    do_get
+    status.should.be 404
+  end
 end
 
 context "Dt::Projects organization behaviour" do
   use_controller Dt::ProjectsController
   fixtures :projects, :places, :programs, :partners, :project_statuses
 
-  def do_get(id = 1)
+  def do_get(id = 2)
     get :organization, :id => id
   end
 
   specify "should contain the project_nav (#subNav)" do
     do_get
-    assert_select "div#subNavWide" do
+    assert_select "div#subNav" do
       assert_select "ul.subNav"
     end
   end
@@ -273,8 +304,16 @@ context "Dt::Projects organization behaviour" do
   
   specify "should assign @project and @organization" do
     do_get
-    assigns(:project).id.should.equal 1
+    assigns(:project).id.should.equal 2
     assigns(:organization).id.should.equal assigns(:project).partner_id
+  end
+
+  specify "should not show a project that is not public" do
+    project = Project.find_public(:first)
+    project.project_status_id = 1
+    project.save
+    do_get
+    status.should.be 404
   end
 end
 
@@ -283,15 +322,23 @@ context "Dt::Projects connect behaviour" do
   use_controller Dt::ProjectsController
   fixtures :projects, :places, :programs, :partners, :project_statuses
 
-  def do_get(id = 1)
+  def do_get(id = 2)
     get :connect, :id => id
   end
 
-  specify "should contain the project_nav (#subNavWide)" do
+  specify "should contain the project_nav (#subNav)" do
     do_get
-    assert_select "div#subNavWide" do
+    assert_select "div#subNav" do
       assert_select "ul.subNav"
     end
+  end
+
+  specify "should not show a project that is not public" do
+    project = Project.find_public(:first)
+    project.project_status_id = 1
+    project.save
+    do_get
+    status.should.be 404
   end
 end
 

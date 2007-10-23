@@ -1,5 +1,5 @@
     <div class="projectSMtext">
       <div id="buttonGiftProject"><%= link_to "Gift this Project", dt_new_gift_path( :project_id => @project.id ) %></div>
       <div id="buttonDonate"><%= link_to "Donate", dt_new_investment_path( :project_id => @project.id ) %></div>
-      <div id="buttonTellFriend"><%= link_to "Tell-A-Friend", dt_new_share_path( :project_id => @project.id ) %></div>
+      <div id="buttonTellFriend"><%= link_to "Tell-A-Friend", dt_new_tell_friend_path( :project_id => @project.id ) %></div>
     </div>

@@ -7,7 +7,7 @@ class Project < ActiveRecord::Base
       :title       => :name,
       :description => :description
     })
- acts_as_paranoid_versioned
+  acts_as_paranoid_versioned
  
   belongs_to :project_status
   belongs_to :program
@@ -22,7 +22,7 @@ class Project < ActiveRecord::Base
   has_many :flickr_images, :through => :project_flickr_images
   has_many :financial_sources
   has_many :budget_items
-  has_many :collaborating_agencies 
+  has_many :collaborating_agencies
   has_many :ranks
   has_many :investments
   has_many :key_measures
@@ -32,7 +32,6 @@ class Project < ActiveRecord::Base
   has_many :wishlists
   has_many :users, :through => :wishlists
   has_many :tasks, :through => :milestones
-
   
  def startDate
   "#{self.start_date}"
@@ -126,6 +125,27 @@ class Project < ActiveRecord::Base
       @nation = node.parent if node.parent.place_type_id == 2
     end
     @nation
+  end
+  
+  def self.find_public(*args)
+    options = extract_options_from_args!(args)
+    valid_project_status_ids = [2,4]
+    case args.first
+      when :first then Project.find_by_project_status_id(valid_project_status_ids, options)
+      when :all   then Project.find_all_by_project_status_id(valid_project_status_ids, options)
+      else
+        if options[:conditions]
+          if options[:conditiond].is_a?(Hash)
+            options[:conditions][:project_status_id] = valid_project_status_ids
+          else
+            options[:conditions][0]+=" AND (project_status_id IN (?))"
+            options[:conditions] << valid_project_status_ids
+          end
+        else
+          options[:conditions] = { :project_status_id => valid_project_status_ids }
+        end
+        Project.find(args.first, options)
+    end
   end
   
   def current_need
