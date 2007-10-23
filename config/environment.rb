@@ -23,7 +23,7 @@ Rails::Initializer.run do |config|
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')
-  if ENV['RAILS_ENV'] != 'production'
+  if ENV['RAILS_ENV'] != 'production' && ENV['RAILS_ENV'] != 'staging'
     config.action_controller.session_store = :active_record_store
   end
 
@@ -66,7 +66,7 @@ Mime::Type.register "application/pdf", :pdf
 
 # Include your application configuration below
 
-if ENV['RAILS_ENV'] == 'production'
+if ENV['RAILS_ENV'] == 'production' || ENV['RAILS_ENV'] == 'staging'
   # using SQLSessionStore because it's really fast...
   ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.update(:database_manager => SqlSessionStore)
   SqlSessionStore.session_class = MysqlSession
