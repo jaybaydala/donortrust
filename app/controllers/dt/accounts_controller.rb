@@ -9,8 +9,6 @@ class Dt::AccountsController < DtApplicationController
   # GET /dt/accounts/1
   def show
     @user = User.find(params[:id], :include => :user_transactions)
-    require 'pp'
-    pp session
   end
 
   # GET /dt/accounts/new

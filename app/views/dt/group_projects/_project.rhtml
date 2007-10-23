@@ -1,5 +1,5 @@
       <li><strong><%= link_to project.name, dt_project_path(project) %></strong></a>
-        <div class="textsm"><strong>Location:</strong> <%= project.village.name %>, <%= project.nation.name %></div>
+        <div class="textsm"><strong>Location:</strong> <%= project.community.name %>, <%= project.nation.name %></div>
         <div class="textsm">
           <strong>Cause:</strong> Water 
           <% if project.project_status_id? && project.project_status %>| <strong>Status:</strong> <%= project.project_status.name %> <% end %>

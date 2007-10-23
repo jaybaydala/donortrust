@@ -174,11 +174,11 @@ context "Dt::Projects show behaviour" do
     end
   end
 
-  specify "should contain \"Tell a Friend\" link which goes to dt/shares/new" do
+  specify "should contain \"Tell a Friend\" link which goes to dt/tell_friends/new" do
     project_id = 2
     do_get(project_id)
     assert_select "div#buttonTellFriend" do
-      assert_select "a[href=/dt/shares/new?project_id=#{project_id}]"
+      assert_select "a[href=/dt/tell_friends/new?project_id=#{project_id}]"
     end
   end
 end

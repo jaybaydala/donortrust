@@ -84,38 +84,38 @@ context "Dt::InvestmentsController new behaviour" do
   include DtAuthenticatedTestHelper
   
   specify "should redirect if !logged_in?" do
-    get :new
+    get :new, :project_id => Project.find_public(:first)
     status.should.be :redirect
   end
 
   specify "should respond" do
     login_as :quentin
-    get :new
+    get :new, :project_id => Project.find_public(:first)
     status.should.be :success
   end
 
   specify "should assign @tax_receipt and @investment" do
     login_as :quentin
-    get :new
+    get :new, :project_id => Project.find_public(:first)
     assigns(:tax_receipt).should.not.be.nil
     assigns(:investment).should.not.be.nil
   end
 
   specify "body should contain a form#investmentform" do
     login_as :quentin
-    get :new
+    get :new, :project_id => Project.find_public(:first)
     assert_select "form#investmentform"
   end
 
   specify "form should :post to /dt/investments;confirm" do
     login_as :quentin
-    get :new
+    get :new, :project_id => Project.find_public(:first)
     assert_select "form#investmentform[method=post][action=/dt/investments;confirm]"
   end
 
   specify "form#investmentform should contain the proper inputs" do
     login_as :quentin
-    get :new
+    get :new, :project_id => Project.find_public(:first)
     assert_select "form#investmentform" do
       assert_select "#tax_receipt_first_name"
       assert_select "#tax_receipt_last_name"
