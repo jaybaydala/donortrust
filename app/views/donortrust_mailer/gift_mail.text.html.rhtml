@@ -27,7 +27,7 @@
 
 <p>You have been given a ChristmasFuture gift by <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a>.</p>
 
-<% if @gift.ecard? %><%= image_tag "http://#{@host}#{@gift.ecard}", :alt => "" %><% end %>
+<% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
 
 <% if @gift.message? %>
 <p>Their message to you:</p>

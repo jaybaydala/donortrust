@@ -10,14 +10,9 @@
   <div class="userform">
 
     <fieldset>
-      <legend>Select your card image from the right:</legend>
-      <ul>
-        <li>
-          <p class="textsm"><%= render :partial => 'dt/shared/form_required' %> Selected E-Card Image:</p>
-          <img src="/images/dt/ecards/small/cf-ecard-001.jpg" alt="selected ecard" id="previewEcard" />
-          <%= f.hidden_field 'ecard', :id => "ecardsrc" %>
-          </li>
-      </ul>
+      <legend>Please select an image from the E-Card Gallery on the right:</legend>
+      <p class="textsm"><%= render :partial => 'dt/shared/form_required' %> Selected E-Card Image:</p>
+      <%= render :partial => 'dt/ecards/ecard_preview', :locals => {:ecard => @ecards[0], :form => f} %>
     </fieldset>
 
     <fieldset>
@@ -61,21 +56,17 @@
 
     <fieldset>
       <legend>Gift Schedule</legend>
-      <ul>
-        <div class="textsm" style="padding-bottom:0;">Select a date &amp; time to schedule your gift, or leave them blank to send it right away.</div>
-        <li>
-          <div id="gift_send_at_select">
-            <%= f.datetime_select :send_at, 
-              :order => [:month, :day, :year, :hour, :minute], 
-              :start_year => Time.now.year, 
-              :end_year => Time.now.year+1, 
-              :discard_second => true, 
-              :minute_step=> 30, 
-              :include_blank => true %>
-              <%= select_tag :time_zone, time_zone_options_for_select('Mountain Time (US & Canada)')%>
-          </div>
-        </li>
-      </ul>
+        <div class="textsm" style="padding-bottom:0;">Select a date &amp; time to send your gift email or leave this area blank to send it right away.</div>
+        <div id="gift_send_at_select">
+          <%= f.datetime_select :send_at, 
+            :order => [:month, :day, :year, :hour, :minute], 
+            :start_year => Time.now.year, 
+            :end_year => Time.now.year+1, 
+            :discard_second => true, 
+            :minute_step=> 30, 
+            :include_blank => true %>
+            <%= select_tag :time_zone, time_zone_options_for_select('Mountain Time (US & Canada)')%>
+        </div>
     </fieldset>
   
     <% if logged_in? %>
@@ -107,7 +98,7 @@
           <li><label for="gift_city"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>City</label><%= f.text_field 'city' %></li>
           <li><label for="gift_province"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Province</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
           <li><label for="gift_postal_code"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Postal Code</label><%= f.text_field 'postal_code', :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
-          <li><label for="gift_country"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Country</label><%= f.text_field 'country', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
+          <li><label for="gift_country"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Country</label><%= f.select 'country', country_select_options, { :style => 'width:auto;' } %></li>
           <li><label for="gift_credit_card"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Credit Card</label><%= f.text_field :credit_card %></li>
           <li><label for="gift_expiry_month"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Card Expiry</label>
             <%= f.select("expiry_month", (1..12).to_a.collect {|m| 
@@ -132,15 +123,15 @@
     <h2>Gift Card Gallery</h2>
 
     <div id="miniGallery">
-      <div class="textsm">Select an E-card</div>
+      <p><strong>Select an E-Card</strong></p>
       <p>Select the e-card you wish to send with your gift. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
       <div id="medImgWrap">
-        <div class="medImg"><img src="/images/dt/ecards/medium/cf-ecard-001.jpg" id="mediumEcard" /></div>
-        <!--<div id="selectWrap">
-          <div class="selectButton"><img src="/images/dt/nav_elements/buttonsCF/buttonSelect.gif" id="ecardSelect" /></div>
-        </div>-->
+        <div class="medImg"><%= image_tag url_for_file_column(@ecards[0], "medium"), :id => 'mediumEcard', :alt => '' %></div>
         <!--
-          <div class="medImgNav">
+        <div id="selectWrap">
+          <div class="selectButton"><img src="/images/dt/nav_elements/buttonsCF/buttonSelect.gif" id="ecardSelect" /></div>
+        </div>
+        <div class="medImgNav">
           <div class="prev"><a href="#">&lt; prev</a></div>
           <div class="next"><a href="#">next &gt;</a></div>
         </div>
@@ -149,9 +140,7 @@
       <div class="textsm">Choose a card below to preview the image.</div>
       <div id="miniThumbs">
         <ul>
-          <% (1..12).each do |x| %>
-          <li><a href="/images/dt/ecards/medium/cf-ecard-<%= x.to_s.rjust(3, '0') %>.jpg" rel="blank"><img src="/images/dt/ecards/small/cf-ecard-<%= x.to_s.rjust(3, '0') %>.jpg" alt="" /></a></li>
-          <% end %>
+          <%= render :partial => 'dt/ecards/thumbnail', :collection => @ecards %>
         </ul>
       </div>
       <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your gift email" id="gift_preview" onclick="var params=Form.serialize($('giftform'));window.open('<%= dt_preview_gifts_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>

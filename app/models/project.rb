@@ -26,18 +26,18 @@ class Project < ActiveRecord::Base
   has_many :ranks
   has_many :investments
   has_many :key_measures
-  has_and_belongs_to_many :groups
-  has_and_belongs_to_many :sectors
-  has_and_belongs_to_many :causes
   has_many :wishlists
   has_many :users, :through => :wishlists
   has_many :tasks, :through => :milestones
+  has_and_belongs_to_many :groups
+  has_and_belongs_to_many :sectors
+  has_and_belongs_to_many :causes
   
  def startDate
   "#{self.start_date}"
   end
  
- validates_presence_of :name
+  validates_presence_of :name
  
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,

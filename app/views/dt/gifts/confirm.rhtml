@@ -76,7 +76,7 @@
       </fieldset>
     </div>
 
-    <%= f.hidden_field 'ecard', :id => 'ecardsrc' %>
+    <%= f.hidden_field 'e_card_id', :id => 'e_card_id' %>
     <!--<input type="image" value="Gift It" src="/images/dt/nav_elements/buttonsCF/giftProject_blue.gif" style="width:104px;height:24px;margin-left:100px;border:0;" />-->
     <%= submit_tag 'Gift It', :class => 'buttonsubmit' %>
     <input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
@@ -89,7 +89,7 @@
     <div id="miniGallery">
         <p>This is the e-card you have selected to send with your gift.</p>
         <div id="medImgWrap">
-          <div class="medImg"><%= image_tag(@gift.ecard.gsub(/\/large\//,'/medium/'), :alt => '') if @gift.ecard? %></div>
+          <div class="medImg"><%= image_tag(url_for_file_column(@gift.e_card, "medium"), :alt => '') if @gift.e_card_id? && @gift.e_card %></div>
         </div>
         <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your gift email" id="gift_preview" onclick="var params=Form.serialize($('giftform'));window.open('<%= dt_preview_gifts_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
       </div>  

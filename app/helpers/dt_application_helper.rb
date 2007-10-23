@@ -16,7 +16,7 @@ module DtApplicationHelper
     projects = Project.find_public(:all, :include => :place)
     all_places = []
     projects.each do |project|
-      if project.nation
+      if project.place_id? && project.place && project.nation
         all_places << project.nation.parent.id if project.nation.parent && !all_places.include?(project.nation.parent.id) # continent
         all_places << project.nation.id if !all_places.include?(project.nation.id)
       end
@@ -44,7 +44,7 @@ module DtApplicationHelper
     projects = Project.find_public(:all, :include => :partner)
     @partners = [['Choose an Organization', '']]
     projects.each do |project|
-      @partners << [project.partner.name, project.partner.id]
+      @partners << [project.partner.name, project.partner.id] if project.partner_id? && project.partner
     end
     select_tag("partner_id", options_for_select(@partners)) if @partners
   end

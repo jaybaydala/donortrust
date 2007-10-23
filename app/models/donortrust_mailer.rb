@@ -2,7 +2,7 @@ require 'pdf_proxy'
 
 class DonortrustMailer < ActionMailer::Base
   include PDFProxy
-  HTTP_HOST = 'www.christmasfuture.org'
+  HTTP_HOST = 'www.christmasfuture.org' if !const_defined?('HTTP_HOST')
 
   def user_signup_notification(user)
     user_setup_email(user)
@@ -43,7 +43,7 @@ class DonortrustMailer < ActionMailer::Base
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
     subject "Your gift has been sent"
-    body "Thank you for your gift, please find your attached gift card"
+    body "<p>Happy holidays! You've chosen to give a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty.</p><p>Please find your attached gift card</p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
     attachment "application/pdf" do |a|
       # switched to a proxy pattern (encryption requires a lot of shenanigans)
       proxy = create_pdf_proxy(gift)
@@ -51,8 +51,6 @@ class DonortrustMailer < ActionMailer::Base
       a.filename = proxy.filename
     end
   end
-
-    
 
   def gift_open(gift)
     gift_setup_email(gift)

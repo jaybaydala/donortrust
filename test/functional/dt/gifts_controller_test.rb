@@ -95,7 +95,7 @@ end
 
 context "Dt::Gifts new behaviour"do
   use_controller Dt::GiftsController
-  fixtures :gifts, :user_transactions, :users, :projects
+  fixtures :gifts, :e_cards, :user_transactions, :users, :projects
   include DtAuthenticatedTestHelper
   
   specify "should not redirect whether you're logged_in? or not" do
@@ -116,6 +116,14 @@ context "Dt::Gifts new behaviour"do
     page.should.select "form[action=/dt/gifts;confirm][method=post]#giftform"
   end
 
+  specify "should assign @ecards" do
+    get :new
+    assigns(:ecards).class.should.be Array
+    assigns(:ecards).each do |ecard|
+      ecard.class.should.be ECard
+    end
+  end
+
   specify "form output should always contain amount, to_name, to_email, credit_card, card_expiry fields, comments" do
     # !logged_in?
     get :new
@@ -123,7 +131,7 @@ context "Dt::Gifts new behaviour"do
                  input#gift_to_email input#gift_to_email_confirmation textarea#gift_message 
                  select#gift_send_at_1i select#gift_send_at_2i select#gift_send_at_3i select#gift_send_at_4i select#gift_send_at_5i 
                  input#gift_credit_card select#gift_expiry_month select#gift_expiry_year input#gift_first_name input#gift_last_name 
-                 input#gift_address input#gift_city input#gift_province input#gift_postal_code input#gift_country )
+                 input#gift_address input#gift_city input#gift_province input#gift_postal_code select#gift_country )
     assert_select "#giftform" do
       inputs.each do |selector|
         assert_select selector
@@ -142,7 +150,7 @@ context "Dt::Gifts new behaviour"do
   specify "first_name last_name address city province postal_code country email and name fields should match the current_user model values" do
     login_as :quentin
     get :new
-    fields = %w( first_name last_name address city province postal_code country email )
+    fields = %w( first_name last_name address city province postal_code email )
     assert_select "#giftform" do
       fields.each do |field|
         value = users(:quentin).send(field)
@@ -227,7 +235,7 @@ end
 
 context "Dt::Gifts confirm behaviour"do
   use_controller Dt::GiftsController
-  fixtures :gifts, :user_transactions, :users, :projects
+  fixtures :gifts, :e_cards, :user_transactions, :users, :projects
   include DtAuthenticatedTestHelper
   
   specify "should show confirm template on a post with login" do
@@ -361,7 +369,7 @@ context "Dt::Gifts create behaviour"do
       :to_name => 'Curtis', 
       :to_email => 'curtis@pivotib.com', 
       :message => 'Hello World!', 
-      :ecard => '/images/dt/ecards/large/cf-ecard-001.jpg'
+      :e_card_id => 1
       }
     if credit == true
       gift_params.merge!( {

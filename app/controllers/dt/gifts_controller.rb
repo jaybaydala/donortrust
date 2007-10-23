@@ -3,8 +3,10 @@ require 'pdf_proxy'
 include PDFProxy
 
 class Dt::GiftsController < DtApplicationController
+  helper "dt/places"
   include IatsProcess
   before_filter :login_required, :only => :unwrap
+  
   
   def index
     respond_to do |format|
@@ -12,14 +14,13 @@ class Dt::GiftsController < DtApplicationController
     end
   end
 
-
   def show
     @gift = Gift.find(params[:id])
     respond_to do |format|
-      format.pdf{
+      format.pdf {
         if not @gift[:pickup_code]
           flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
-          redirect_to :action => 'new' 
+          redirect_to :action => 'new'
         else
           proxy = create_pdf_proxy(@gift)
           send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
@@ -29,7 +30,9 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def new
+    store_location
     @gift = Gift.new
+    @ecards = ECard.find(:all, :order => :id)
     @action_js = "dt/ecards"
     if params[:project_id]
       @project = Project.find(params[:project_id]) 
@@ -68,6 +71,7 @@ class Dt::GiftsController < DtApplicationController
 
   def confirm
     @gift = Gift.new( gift_params )
+    @ecards = ECard.find(:all, :order => :id)
     @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
     @action_js = "dt/ecards"
     schedule(@gift)

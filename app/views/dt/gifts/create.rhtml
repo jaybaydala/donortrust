@@ -6,9 +6,14 @@
     <p>
     	<%= "Your gift has been emailed." if @gift.sent_at != nil %> 
     	<%= "Your gift has been scheduled to be emailed." if @gift.sent_at == nil %> 
-    	If it isn't picked up, we will notify you before it expires in 30 days after notification.
-    	The ecard can be downloaded <a href="<%= "/dt/gifts/%s.pdf" % [@gift.id] %>">here</a>. 
+    	If it isn't picked up, we will notify you before it expires (30 days after the gift email is sent).
     </p>
+    
+    <p>This year you have chosen to give a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty.</p>
+
+    <p>We have sent you an email with a printable card if that's how you prefer to give your gift. You can also <a href="<%= "/dt/gifts/%s.pdf" % [@gift.id] %>">download the printable card here</a>.</p>
+
+    <p>All the best to you this holiday season.</p>
 
     <p>
     	Thanks again,<br />

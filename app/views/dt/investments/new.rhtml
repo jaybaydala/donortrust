@@ -33,7 +33,7 @@
     		<li><label for="tax_receipt_city"><%= render :partial => 'dt/shared/form_required' %>City</label><%= text_field 'tax_receipt', 'city' %></li>
     		<li><label for="tax_receipt_province"><%= render :partial => 'dt/shared/form_required' %>Province</label><%= text_field 'tax_receipt', 'province', { :size => 2, :maxlength => 2, :style => 'width:auto;' } %></li>
     		<li><label for="tax_receipt_postal_code"><%= render :partial => 'dt/shared/form_required' %>Postal Code</label><%= text_field 'tax_receipt', 'postal_code', { :size => 10, :maxlength => 10, :style => 'width:auto;' } %></li>
-    		<li><label for="tax_receipt_country"><%= render :partial => 'dt/shared/form_required' %>Country</label><%= text_field 'tax_receipt', 'country', { :size => 2, :maxlength => 2, :style => 'width:auto;' } %></li>
+    		<li><label for="tax_receipt_country"><%= render :partial => 'dt/shared/form_required' %>Country</label><%= select 'tax_receipt', 'country', country_select_options, { :style => 'width:auto;' } %></li>
     	</ul>
     </fieldset>
 
