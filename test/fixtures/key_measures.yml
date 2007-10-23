@@ -3,13 +3,11 @@ one:
   id: 1
   project_id: 1
   measure_id: 1
-  units: people
   target: target
   millennium_goal_id: 1
 two:
   id: 2
   project_id: 1
   measure_id: 2
-  units: people
   target: target
   millennium_goal_id: 1
