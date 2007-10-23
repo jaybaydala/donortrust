@@ -1,9 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
-
-  map.resources :rank_values, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_values"
-
-
+ 
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :facebook_login => :get } do |project|
     project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   end
@@ -56,10 +52,10 @@ ActionController::Routing::Routes.draw do |map|
  
   # bus_admin resources
 
-  map.resources :launch, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/launch"
-  map.test '/bus_admin/launch/launch', :controller => 'bus_admin/launch', :action => 'launch'
- map.resources :gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/gifts", :collection => {:unwrap => :post}
- 
+  map.resources :gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/gifts", :collection => {:unwrap => :post}
+  map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
+  map.resources :rank_values, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_values"
+  map.resources :load,  :path_prefix => "/bus_admin", :controller => "bus_admin/load", :collection => {:loads => :post}
   map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
   map.resources :financial_sources, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/financial_sources"
   map.resources :collaborating_agencies, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborating_agencies"
