@@ -906,6 +906,9 @@ h2 a:hover, h2 a:active {
 	display: block;
 	list-style-type: none;
 }
+#buttonConnect a:link.current, #buttonConnect a:visited.current {
+	background: transparent url(/images/dt/nav_elements/buttonsCF/connectButton_blue.gif) no-repeat;
+}
 
 
 

@@ -11,6 +11,7 @@ var Ecards = Class.create();
 Ecards.prototype = {
 	cards: null,
 	medium_container: 'mediumEcard',
+	preview_container: 'previewEcard',
 	form_container: 'ecardsrc',
 	current: null,
 	initialize: function(card_links, medium_container, form_container) {
@@ -40,6 +41,9 @@ Ecards.prototype = {
 			img.src = this.cards[card_index].medium
 			if (form_el = $(this.form_container)) {
 				form_el.value = this.cards[card_index].large
+			}
+			if (preview_el = $(this.preview_container)) {
+				preview_el.src = this.cards[card_index].small
 			}
 			this.current = card_index
 		}
