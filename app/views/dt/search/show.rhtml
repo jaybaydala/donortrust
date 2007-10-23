@@ -1,0 +1,43 @@
+<div id="h1_header">
+  <span style="float:left; ">Search Projects Results</span>
+</div>
+<% if @projects.size > 0 %>
+<div id="subSubNav">
+  <ul class="pageNav">
+    <li><strong>SORT BY:</strong></li>
+    <li>&nbsp;</li>
+    <li<%= ' class="currentPg"' if params[:order] == 'newest' %>><%= link_to "Newest", dt_search_path(params.merge({:order => 'newest'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'target_start_date' %>><%= link_to "Target Start Date", dt_search_path(params.merge({:order => 'target_start_date'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'budget' %>><%= link_to "Budget", dt_search_path(params.merge({:order => 'budget'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'organization' %>><%= link_to "Organization", dt_search_path(params.merge({:order => 'organization'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'place' %>><%= link_to "Place", dt_search_path(params.merge({:order => 'place'})) %></li>
+  </ul>
+  <ul class="pageNav">
+    <li><%= @projects.size %> Projects</li>
+    <!--
+    <li>&nbsp;</li>
+    <li>|</li>
+    <li>&nbsp;</li>
+    <li>page 1 of 23</li>
+    <li>&nbsp;</li>
+    <li>| </li>
+    <li><a href="/projectNetwork.html"><</a></li>
+    <li class="currentPg"><a href="/projects.html">1</a></li>
+    <li><a href="/projects.html">2</a></li>
+    <li><a href="/projects.html">3</a></li>
+    <li><a href="/projects.html">4</a></li>
+    <li><a href="/projects.html">5</a></li>
+    <li><a href="/projects.html">></a></li>
+    -->
+  </ul>
+</div>
+<% end %>
+<div id="contentContainer">
+  <% if @projects.size > 0 %>
+  <div id="featuredProjectList">
+  <%= render :partial => '/dt/projects/project_list', :collection => @projects %>
+  </div>
+  <% else %>
+  <p>We're sorry, but we couldn't find any projects using your search terms. Try just selecting one of the search options to broaden your search.</p>
+  <% end %>
+</div>
