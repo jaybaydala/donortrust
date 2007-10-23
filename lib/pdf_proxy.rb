@@ -19,12 +19,16 @@ class TaxReceiptPDFProxy
   def initialize(receipt)
     @receipt = receipt
   end
+  
+  def use_pdftk?
+    File.exists?(PDFTK) && File.executable?(PDFTK)
+  end
 
   def render(duplicate=true)
     #render_tax_receipt
     pdf = create_pdf(@receipt, duplicate)
 
-    if PDFTK
+    if use_pdftk?
       encrypt(pdf)
     else
       pdf.render
@@ -32,12 +36,14 @@ class TaxReceiptPDFProxy
   end
 
   def post_render
-    # cleans up temp files needed for encryption
-    begin
-      File.delete("/tmp/#{filename}")
-      File.delete("/tmp/#{filename}.orig")
-    rescue
-      puts 'unable to delete temp files'
+    if use_pdftk?
+      # cleans up temp files needed for encryption
+      begin
+        File.delete("/tmp/#{filename}")
+        File.delete("/tmp/#{filename}.orig")
+      rescue
+        puts 'unable to delete temp files'
+      end
     end
   end
 
@@ -74,12 +80,13 @@ class TaxReceiptPDFProxy
   end
 
   def encrypt(pdf)
-    forig = File.open("/tmp/#{filename}.orig", 'w')
+    tmpdir = Dir.tmpdir
+    forig = File.open("#{tmpdir}/#{filename}.orig", 'w')
     forig.write(pdf.render)
     forig.close()
     password = generate_password
-    system("#{PDFTK} /tmp/#{filename}.orig output /tmp/#{filename} owner_pw #{password} allow printing")
-    f = File.open("/tmp/" + filename, 'r')
+    system("#{PDFTK} #{tmpdir}/#{filename}.orig output #{tmpdir}/#{filename} owner_pw #{password} allow printing")
+    f = File.open("#{tmpdir}/" + filename, 'r')
     f.read
   end
 
