@@ -1,7 +1,7 @@
 module BusAdmin::ECardsHelper
   
   def file_form_column(record, input_name)
-    file_column_field 'record', :file
+    file_column_field 'record', :small
   end
 
   def file_column(record)
