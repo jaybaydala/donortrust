@@ -13,7 +13,7 @@ class BusAdmin::LoadController < ApplicationController
       @gift.amount = 5
       @gift.to_name = load.name
       @gift.to_email = load.email
-      @gift.email = 'whoitsfrom@hotmail.com' 
+      @gift.email = 'desireemckee@hotmail.com' 
       @gift.name =  'from me'
       @gift.message = 'free cash'
       @gift.ecard= '/images/dt/ecards/large/cf-ecard-001.jpg' 
