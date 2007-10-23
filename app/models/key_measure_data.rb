@@ -3,6 +3,7 @@ class KeyMeasureData < ActiveRecord::Base
 
   validates_presence_of :value
   validates_presence_of :date
+  validates_presence_of :key_measure_id
 
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
