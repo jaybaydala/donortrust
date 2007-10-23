@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BusAdmin::KeyMeasureDataTest < Test::Unit::TestCase
-fixtures :key_measure_datas
+fixtures :key_measures, :key_measure_datas, :projects, :measures, :millennium_goals
   context "Key Measure data Tests " do
       
-    specify "should create a key measure data" do
+    specify "should create some key measure data" do
       KeyMeasureData.should.differ(:count).by(1) {create_key_measure} 
     end     
     
@@ -21,7 +21,7 @@ fixtures :key_measure_datas
         t.errors.on(:value).should.not.be.nil
       }.should.not.change(KeyMeasureData, :count)
     end
-   
+    
     specify "should require key_measure_id" do
       lambda {
         t = create_key_measure(:key_measure_id => nil)
@@ -30,7 +30,7 @@ fixtures :key_measure_datas
     end
    
     def create_key_measure(options = {})
-      KeyMeasureData.create({ :key_measure_id => 1, :value => 'Test Value', :comment => 'Test Comment', :date => '2007-10-15' }.merge(options))  
+      KeyMeasureData.create({ :key_measure_id => 1, :value => 1, :comment => 'Test', :date => '2007-10-31' }.merge(options))  
     end                                                          
   end
 end
