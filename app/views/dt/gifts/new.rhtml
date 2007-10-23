@@ -125,24 +125,7 @@
     <div id="miniGallery">
       <p><strong>Select an E-Card</strong></p>
       <p>Select the e-card you wish to send with your gift. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
-      <div id="medImgWrap">
-        <div class="medImg"><%= image_tag url_for_file_column(@ecards[0], "medium"), :id => 'mediumEcard', :alt => '' %></div>
-        <!--
-        <div id="selectWrap">
-          <div class="selectButton"><img src="/images/dt/nav_elements/buttonsCF/buttonSelect.gif" id="ecardSelect" /></div>
-        </div>
-        <div class="medImgNav">
-          <div class="prev"><a href="#">&lt; prev</a></div>
-          <div class="next"><a href="#">next &gt;</a></div>
-        </div>
-        -->
-      </div>
-      <div class="textsm">Choose a card below to preview the image.</div>
-      <div id="miniThumbs">
-        <ul>
-          <%= render :partial => 'dt/ecards/thumbnail', :collection => @ecards %>
-        </ul>
-      </div>
+      <%= render 'dt/ecards/sidebar' %>
       <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your gift email" id="gift_preview" onclick="var params=Form.serialize($('giftform'));window.open('<%= dt_preview_gifts_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
     </div>  
   </div>
