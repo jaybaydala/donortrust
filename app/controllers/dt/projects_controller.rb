@@ -36,6 +36,7 @@ class Dt::ProjectsController < DtApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
+    @action_js = "http://simile.mit.edu/timeline/api/timeline-api.js"
     respond_to do |format|
       format.html
     end
@@ -130,5 +131,11 @@ class Dt::ProjectsController < DtApplicationController
     array = array[offset..(offset + items_per_page - 1)]
     [pages, array]
   end
-
+  
+  def timeline
+    @project = Project.find(params[:id])
+    @milestones = @project.milestones(:include => :tasks)
+    @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
+    render :partial => 'timeline'
+  end
 end

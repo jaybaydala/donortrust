@@ -5,6 +5,42 @@
   <div id="leftColW">
 
     <h2>Project Plan</h2>
+    <%
+    project_timeline = ::Simile::Timeline::Timeline.new(
+      :name        => "ProjectsTimeline",
+      :event_source => {
+        :controller => 'dt/projects',
+        :action     => 'timeline',
+        :id         => params[:id]
+      },
+      :event_band   => :weeks,
+      :bands       => {
+        :weeks => {
+            :trackGap       => '0.1',
+            :showEventText  => 'true',
+            :width          => '"75%"',
+            :intervalUnit   => 'Timeline.DateTime.WEEK',
+            :intervalPixels => '50',
+            :date           => '"Jan 02 2008"'
+          },
+        :months => {
+          :trackGap       => '0.1',
+          :width          => '"25%"',
+          :intervalUnit   => 'Timeline.DateTime.MONTH',
+          :intervalPixels => '150',
+          :trackHeight    => '0.5', 
+          :showEventText  => 'false',
+          :date           => '"Jan 02 2008"'
+        } 
+      },
+      :bands_order => [ :weeks, :months],
+      :highlight => [:weeks, :months],
+      :synchronize => {
+        :months => :weeks
+      }
+    )
+    -%>
+    <div id="projectTimeline"><%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %></div>
 
   	<%= project_actions %>
 

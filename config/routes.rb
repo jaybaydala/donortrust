@@ -1,28 +1,26 @@
 ActionController::Routing::Routes.draw do |map|
  
-  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :facebook_login => :get } do |project|
+  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :facebook_login => :get, :timeline => :get } do |project|
     project.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   end
   map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt'
-  map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', 
-    :collection => { :activate => :get, :resend => :get } do |account|
-      account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
-      account.resources :wishlists, :controller => 'dt/wishlists', :name_prefix => 'dt_'
-      account.resources :tax_receipts, :controller => 'dt/tax_receipts', :name_prefix => 'dt_'
-      account.resources :account_memberships, :controller => 'dt/account_memberships', :name_prefix => 'dt_'
+  map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :activate => :get, :resend => :get } do |account|
+    account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
+    account.resources :wishlists, :controller => 'dt/wishlists', :name_prefix => 'dt_'
+    account.resources :tax_receipts, :controller => 'dt/tax_receipts', :name_prefix => 'dt_'
+    account.resources :account_memberships, :controller => 'dt/account_memberships', :name_prefix => 'dt_'
   end
   map.resource :session, :controller => 'dt/sessions', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
-  map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', 
-    :collection => { :confirm => :post, :open => :get, :preview => :get },
-  :member => { :unwrap => :put }
+  map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :open => :get, :preview => :get }, :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt' do |group|
     group.resources :memberships, :controller => 'dt/memberships', :name_prefix => 'dt_', :collection => { :typify => :put }
     group.resources :group_projects, :controller => 'dt/group_projects', :name_prefix => 'dt_'
     group.resources :group_news, :controller => 'dt/group_news', :name_prefix => 'dt_'
+    group.resources :group_invitations, :controller => 'dt/group_invitations', :name_prefix => 'dt_'
   end
   map.resources :watchlists, :controller=> 'dt/watchlists', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :tell_friends, :controller=> 'dt/tell_friends', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :preview => :get }

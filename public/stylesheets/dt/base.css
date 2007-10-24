@@ -1329,6 +1329,14 @@ div.buttonsubmit a.large:hover {
 	float:left;
 }
 
+#projectTimeline {
+	width:470px;
+	height:250px;
+	line-height:normal;
+	padding:0 0 10px 7px;
+}
+#projectTimeline .default_timeline { width: 470px; height: 250px; }
+
 /* Project Description Module */
 
 #leftColW .projectSMtext {
