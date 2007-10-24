@@ -15,6 +15,7 @@ class Dt::InvestmentsController < DtApplicationController
       r[:postal_code] = current_user[:postal_code]
       r[:country] = current_user[:country]
     end
+    @user = current_user
   end
   
   def confirm
@@ -24,6 +25,7 @@ class Dt::InvestmentsController < DtApplicationController
     @tax_receipt.investment = @investment
     @tax_receipt.user = current_user
     @projects = Project.find(:all) if !params[:project_id]
+    @user = current_user
     respond_to do |format|
       if @investment.valid? && @tax_receipt.valid? #&& user.save
         format.html

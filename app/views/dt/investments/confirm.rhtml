@@ -19,6 +19,14 @@
   			<li style="clear:left;"><label for="tax_receipt_country">Country</label> <%= @tax_receipt.country %><%= hidden_field 'tax_receipt', 'country' %></li>
   		</ul>	
   	</fieldset>
+        <% if @investment.group %>
+        <fieldset>
+                <legend>Project Wishlist</legend>
+                <ul>
+  			<li style="clear:left;"><label for="investment_group">Group</label> <%= @investment.group.name %><%= hidden_field 'investment', 'group_id' %></li>
+                </ul>
+        </fieldset>
+	<% end %>
 
   	<fieldset>
   		<legend>Investment Details</legend>
