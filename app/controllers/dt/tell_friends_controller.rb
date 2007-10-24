@@ -40,6 +40,7 @@ class Dt::TellFriendsController < DtApplicationController
   def create
     @share = Share.new( params[:share] )
     @share.user_id = current_user if logged_in?
+    @share.ip = request.remote_ip
     @saved = @share.save
     respond_to do |format|
       if @saved
