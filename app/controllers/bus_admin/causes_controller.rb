@@ -1,5 +1,5 @@
 class BusAdmin::CausesController < ApplicationController
-  #before_filter :login_required, :check_authorization
+  before_filter :login_required, :check_authorization
 
   active_scaffold :cause do |config|
     config.columns =[ :name, :description, :sectors, :millennium_goals ]
