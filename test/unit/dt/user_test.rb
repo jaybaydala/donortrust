@@ -128,16 +128,23 @@ context "User under 13" do
   setup do
   end
   
-  xspecify "A user under 13 cannot include their email address as login" do
-    lambda {
-      u = create_user(:login => 'email@example.com')
-      u.errors.on(:email).should.not.be.nil
-    }.should.not.change(User, :count)
+  specify "An under 13 user cannot their first name, last_name, address, city, province, postal_code or country" do
+    %w( first_name last_name address city province postal_code country ).each do |field|
+      lambda {
+        u = create_user(field.to_sym => 'Foo')
+        u.errors.on(field.to_sym).should.not.be.nil
+      }.should.not.change(User, :count)
+    end
+  end
+
+  specify "full_name should return 'display_name'" do
+    u = create_user
+    u.full_name.should.equal u.display_name
   end
   
   private
   def create_user(options = {})
-    User.create({ :under_thirteen => true, :login => 'timg', :display_name => 'tester', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
+    User.create({ :under_thirteen => true, :login => 'parents_email@example.com', :display_name => 'tester', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
   end
 end
 

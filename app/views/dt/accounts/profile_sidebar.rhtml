@@ -1,6 +1,6 @@
 <h2>My Profile</h2>
 <% if logged_in? %>
-  <p><strong><%= current_user.full_name %></strong> (<%= current_user.name %>)</p>
+  <p><strong><%= current_user.full_name %></strong> <% unless current_user.under_thirteen? %>(<%= current_user.name %>)<% end %></p>
 	<ul>
     <li class="blueblock"><%= link_to "My Account Summary", dt_account_path(current_user) %></li>
     <li class="blueblock"><%= link_to "Edit My Account", dt_edit_account_path(current_user) %></li>

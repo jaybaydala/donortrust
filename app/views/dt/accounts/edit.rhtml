@@ -9,17 +9,22 @@
 		
   		<fieldset>
   			<legend class="header">Login/Email</legend>
+    		<div class="textsm">If you need to change your email address, please have your parent use their alternate valid email address. <a href="#" rel="blank">What's this?</a></div>
   			<ul>
       		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
   			</ul>
   		</fieldset>
 
   		<fieldset>
-    	  <legend>Your Indentity</legend>
+    	  <legend>Your Identity</legend>
+    	  <% if @user.under_thirteen? %>
+    	  <div class="textsm">Please enter a display name for your child that is not personally identifiable</div>
+    	  <% else %>
     	  <div class="textsm">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
+    	  <% end %>
   			<ul>
-  				<li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li>
-  				<li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li>
+  				<% unless @user.under_thirteen? %><li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li><% end %>
+  				<% unless @user.under_thirteen? %><li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li><% end %>
   				<li><label for="user_display_name">Display Name</label> <%= f.text_field :display_name %></li>
   			</ul>
   		</fieldset>
@@ -36,6 +41,7 @@
   			</ul>
   		</fieldset>
 
+  		<% unless @user.under_thirteen? %>
   		<fieldset>
     	  <legend>Personal Details</legend>
     		<div class="textsm">The following fields are optional.</div>
@@ -47,7 +53,8 @@
   				<li><label for="user_country">Country</label> <%= f.text_field :country %></li>
   			</ul>
   		</fieldset>
-
+      <% end %>
+      
   		<%= submit_tag 'Update Profile', :class => 'buttonsubmit' %>
   	</div>
   	<% end -%>

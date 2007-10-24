@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   end
   
   def full_name
-    "#{self.first_name} #{self.last_name}"
+    under_thirteen? ? self.display_name : "#{self.first_name} #{self.last_name}" 
   end
 
   def balance
@@ -140,9 +140,19 @@ class User < ActiveRecord::Base
 
   protected
     def validate
-      errors.add("first_name", "cannot be blank if Display name is empty") if first_name.blank? && display_name.blank?
-      errors.add("last_name", "cannot be blank if Display name is empty") if last_name.blank? && display_name.blank?
-      errors.add("display_name", "cannot be blank if First Name and Last Name are empty") if display_name.blank? && first_name.blank? && last_name.blank?
+      if under_thirteen?
+        errors.add("first_name", "cannot be included") unless first_name.blank?
+        errors.add("last_name", "cannot be included") unless last_name.blank?
+        errors.add("address", "cannot be included") unless address.blank?
+        errors.add("city", "cannot be included") unless city.blank?
+        errors.add("province", "cannot be included") unless province.blank?
+        errors.add("postal_code", "cannot be included") unless postal_code.blank?
+        errors.add("country", "cannot be included") unless country.blank?
+      else
+        errors.add("first_name", "cannot be blank if Display name is empty") if first_name.blank? && display_name.blank?
+        errors.add("last_name", "cannot be blank if Display name is empty") if last_name.blank? && display_name.blank?
+        errors.add("display_name", "cannot be blank if First Name and Last Name are empty") if display_name.blank? && first_name.blank? && last_name.blank?
+      end
     end
     
     def calculate_balance
