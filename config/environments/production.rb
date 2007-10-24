@@ -17,5 +17,6 @@ config.action_controller.perform_caching             = true
 
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
-  :address         => 'slice.christmasfuture.org'
+  :address => '127.0.0.1',
+  :domain  => '192.168.1.1'
 }
