@@ -27,7 +27,7 @@ class DonortrustMailer < ActionMailer::Base
     recipients  share.to_name ? "#{share.to_name}<#{share.to_email}>" : "#{share.to_email}"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
-    subject     'You have received a ChristmasFuture Gift from ' + ( share.name? ? share.name : share.email )
+    subject     'You have received a ChristmasFuture E-card from ' + ( share.name? ? share.name : share.email )
     headers     "Reply-To" => share.name? ? "#{share.name} <#{share.email}>" : share.email
     url = share.project_id? ? dt_project_path(share.project) : dt_projects_path
     body_data = {:share => share, :host => HTTP_HOST, :url => url}
