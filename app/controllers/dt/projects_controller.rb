@@ -2,6 +2,7 @@ class Dt::ProjectsController < DtApplicationController
   include RssParser
   before_filter :project_id_to_session, :only=>[:facebook_login]
   before_filter :require_facebook_login, :only=>[:facebook_login]
+  helper "dt/groups"
 
   def initialize
     @topnav = 'projects'

@@ -15,8 +15,9 @@
   <% end %>
 
 <div id="contentContainer">
+  <%= render(:partial => 'connect_group', :collection => @project.groups) if @project.groups.size > 0 %>
+    		
   <div id="leftColW">
-    
     <% if @fb_group_available -%>
     <h2>Village Facebook Group</h2>
     <% if not @fb_group -%>
@@ -47,12 +48,5 @@
   <div id="rightColN">
     <%= render :partial => 'related_projects' %>
     <%= dt_profile_sidebar %>
-    
-    <% if @project.groups %>
-    <h2>ChristmasFuture Groups Interested in this Project</h2>
-    <ul>
-      <% for group in @project.groups %><li><%= link_to group.name, dt_group_path(group) %></li><% end %>
-    </ul>
-    <% end %>
   </div>
 </div>

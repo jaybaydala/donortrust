@@ -46,6 +46,10 @@ class Group < ActiveRecord::Base
   def causes
     @causes ||= calculate_causes
   end
+  
+  def lives_affected
+    @lives_affected ||= calculate_lives_affected
+  end
 
   def member(user)
     memberships.find_by_user_id(user.id)
@@ -69,11 +73,19 @@ class Group < ActiveRecord::Base
   
   def calculate_causes
     causes = []
-    projects.find(:all, :include => :sectors).each do |project|
-      project.sectors.each do |sector|
-        causes << sector unless causes.include?(sector)
+    projects.find(:all, :include => :causes).each do |project|
+      project.causes.each do |cause|
+        causes << cause unless causes.include?(cause)
       end
     end
     causes
+  end
+
+  def calculate_lives_affected
+    lives = 0
+    projects.find(:all).each do |project|
+      lives += project.lives_affected if project.lives_affected?
+    end
+    lives
   end
 end
