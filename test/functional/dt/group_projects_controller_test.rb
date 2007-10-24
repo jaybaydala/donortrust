@@ -71,9 +71,10 @@ context "Dt::GroupProjects index handling" do
     assigns(:group).should.not.be nil
   end
 
-  specify "should assign @projects" do
+  specify "should assign @projects_invested && @projects_watched" do
     get :index, :group_id => 1
-    assigns(:projects).should.not.be nil
+    assigns(:projects_invested).should.not.be nil
+    assigns(:projects_watched).should.not.be nil
   end
 
   specify "should show subnav" do
