@@ -6,7 +6,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def user_signup_notification(user)
     user_setup_email(user)
-    subject  "#{@subject} ChristmasFuture Account Activation"
+    subject  "The future is here."
     body     :user => user, :url => url_for( :host => HTTP_HOST, :controller => 'dt/accounts', :action => 'activate', :id => user.activation_code )
   end
 
@@ -27,7 +27,7 @@ class DonortrustMailer < ActionMailer::Base
     recipients  share.to_name ? "#{share.to_name}<#{share.to_email}>" : "#{share.to_email}"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
-    subject     'You have received a ChristmasFuture E-card from ' + ( share.name? ? share.name : share.email )
+    subject     'Your friend thought you would like this.'
     headers     "Reply-To" => share.name? ? "#{share.name} <#{share.email}>" : share.email
     url = share.project_id? ? dt_project_path(share.project) : dt_projects_path
     body_data = {:share => share, :host => HTTP_HOST, :url => url}
@@ -37,7 +37,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def gift_mail(gift)
     gift_setup_email(gift)
-    subject 'You have received a ChristmasFuture Gift from ' + ( gift.name? ? gift.name : gift.email )
+    subject 'Happy Holidays. Unwrap your gift from ' + ( gift.name? ? gift.name : gift.email )
     headers "Reply-To" => gift.name? ? "#{gift.name} <#{gift.email}>" : gift.email
     body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}
     content_type "text/html"
@@ -50,7 +50,7 @@ class DonortrustMailer < ActionMailer::Base
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
     subject "Your gift has been sent"
-    body "<p>Happy holidays! You've chosen to give a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty.</p><p>Please find your attached gift card</p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
+    body "<p>Thanks kind gifter! With your generous gift of  $#{gift.amount}  ’re one gift closer to changing the world...for good. </p><p>Please find your attached gift card</p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
     attachment "application/pdf" do |a|
       # switched to a proxy pattern (encryption requires a lot of shenanigans)
       proxy = create_pdf_proxy(gift)
