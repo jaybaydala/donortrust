@@ -25,7 +25,7 @@
 
 <p>Hello <%=h @gift.to_name? ? @gift.to_name : @gift.to_email %>,</p>
 
-<p>Happy holidays!</a>.</p>
+<p>Happy holidays!</a></p>
 
 <% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
 
