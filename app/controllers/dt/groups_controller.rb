@@ -7,8 +7,8 @@ class Dt::GroupsController < DtApplicationController
   end
 
   def index
-    @groups = Group.find :all, :conditions => {:private => :false}
-
+    @groups = Group.find :all, :conditions => {:featured => :true, :private => :false}
+    @groups = Group.find :all, :conditions => {:private => :false} if @groups.empty?
     respond_to do |format|
       format.html # index.rhtml
     end
@@ -16,10 +16,13 @@ class Dt::GroupsController < DtApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @membership = Membership.find_by_user_id(current_user.id, :conditions => { :group_id => params[:id] })
+    @membership = Membership.find_by_user_id(current_user, :conditions => { :group_id => params[:id] })
     respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @group.to_xml }
+      if @group.private && !@membership
+        format.html { redirect_to :action => :index }
+      else
+        format.html
+      end
     end
   end
 
@@ -81,7 +84,7 @@ class Dt::GroupsController < DtApplicationController
   protected
   def load_membership
     return if params[:id].nil? || params[:id].empty?
-    @membership = Membership.find_by_user_id(current_user.id, :conditions => { :group_id => params[:id] })
+    @membership = Membership.find_by_user_id(current_user, :conditions => { :group_id => params[:id] })
   end
   
   def authorized?

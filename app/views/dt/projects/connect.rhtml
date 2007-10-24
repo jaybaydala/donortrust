@@ -15,7 +15,7 @@
   <% end %>
 
 <div id="contentContainer">
-  <%= render(:partial => 'connect_group', :collection => @project.groups) if @project.groups.size > 0 %>
+  <%= render(:partial => 'connect_group', :collection => @project.public_groups) if @project.public_groups.size > 0 %>
     		
   <div id="leftColW">
     <% if @fb_group_available -%>

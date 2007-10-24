@@ -71,7 +71,7 @@ context "Dt::GroupsController handling GET /dt/groups" do
     do_get
     should.not.redirect
   end
-
+  
   specify "should get index" do
     login_as :tim
     do_get
@@ -204,13 +204,19 @@ context "Dt::GroupsController handling GET /dt/groups/1" do
     @response   = ActionController::TestResponse.new
   end
   
-  def do_get 
-    get :show, :id => 1
+  def do_get(id=1)
+    get :show, :id => id
   end
 
   specify "should not redirect when not logged in" do
     do_get
     should.not.redirect dt_login_path()
+  end
+
+  specify "should redirect if group is private and you are not a member" do
+    @group = Group.create(:name => 'test', :private => :true, :group_type_id => 1)
+    do_get(@group.id)
+    should.redirect :action => 'index'
   end
 
   specify "should show group" do

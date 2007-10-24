@@ -30,18 +30,16 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :contact ].form_ui = :select
     config.columns[ :partner ].form_ui = :select
     config.columns[ :program ].form_ui = :select
-     config.columns[ :sectors ].form_ui = :select
+    config.columns[ :sectors ].form_ui = :select
     config.columns[ :frequency_type ].label = "Frequency&nbsp;of&nbsp;Feedback"   
     config.columns[ :frequency_type ].form_ui = :select
-     config.columns[ :causes ].form_ui = :select
-#    config.columns[ :public ].form_ui = :select
-   
+    config.columns[ :causes ].form_ui = :select
+    #config.columns[ :public ].form_ui = :select
     #config.nested.add_link( "History", [:project_histories])
     config.nested.add_link( "Milestones", [:milestones])
-    
-config.nested.add_link( "At a glance", [:ranks])
-config.nested.add_link( "Budget", [:budget_items])
-config.nested.add_link( "Key Measures", [:key_measures])
+    config.nested.add_link( "At a glance", [:ranks])
+    config.nested.add_link( "Budget", [:budget_items])
+    config.nested.add_link( "Key Measures", [:key_measures])
     
     #config.action_links.add 'report', :label => 'Report'
     
@@ -59,38 +57,38 @@ config.nested.add_link( "Key Measures", [:key_measures])
   end
   
   def report    
-   @all_projects = []
-   program_id = params[:program_id]
-   if program_id != nil
-     @all_projects = Project.find :all, :conditions => ["program_id = ?", program_id.to_s]
+    @all_projects = []
+    program_id = params[:program_id]
+    if program_id != nil
+      @all_projects = Project.find :all, :conditions => ["program_id = ?", program_id.to_s]
     else
       @all_projects = Project.find(:all)
-   end
-   @total = @all_projects.size
-   render :partial => "bus_admin/projects/report" , :layout => 'application'
+    end
+    @total = @all_projects.size
+    render :partial => "bus_admin/projects/report" , :layout => 'application'
   end
   
   def individual_report    
-   @id = params[:projectid]
-   @project = Project.find(@id)
-   @percent_raised = @project.get_percent_raised
-   @milestones = @project.milestones.find(:all)
-   render :partial => "bus_admin/projects/individual_report", :layout => 'application'
+    @id = params[:projectid]
+    @project = Project.find(@id)
+    @percent_raised = @project.get_percent_raised
+    @milestones = @project.milestones.find(:all)
+    render :partial => "bus_admin/projects/individual_report", :layout => 'application'
   end
   
   def byProject
     @id  = params[:projectId]
     @projects = Project.find(@id)
     @milestones = @projects.milestones(:include => [:tasks])
-   @tasks =@projects.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
+    @tasks =@projects.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
 
     render :partial => 'timeline_json'
   end
   
-   def showProjectTimeline
+  def showProjectTimeline
     @id  = params[:id]
     @startDate = params[:startDate]
-   @projects = Project.find(@id)
+    @projects = Project.find(@id)
     @milestones = @projects.milestones(:order => "target_date desc")
     @startDate = "Jan 02 2008 00:00:00 GMT"
     render :partial => 'bus_admin/projects/showProjectTimeline'

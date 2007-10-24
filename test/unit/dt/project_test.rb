@@ -48,6 +48,11 @@ context "Project" do
     end
     @project.dollars_raised.should.equal total
   end
+  
+  specify "public_groups should return an array of non-private groups" do
+    @project = Project.find(1)
+    @project.public_groups.class.should.be Array
+  end
 end
 
 context "Project Statuses" do

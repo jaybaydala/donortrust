@@ -70,6 +70,10 @@ class Project < ActiveRecord::Base
     return Milestone.find(:all).size
   end
   
+  def public_groups
+    @public_groups ||= groups.find(:all, :conditions => { :private => :false })
+  end
+  
   def self.total_percent_raised
     percent_raised = 100
     unless self.total_costs == nil or self.total_costs == 0
