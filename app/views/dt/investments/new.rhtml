@@ -26,14 +26,15 @@
 
     <% if @user.groups.length>0 %>
     <fieldset>
-        <legend>Project Wishlist</legend>
-	<div id="projectsuggest">
-	    <p><label for="investment_group_id"><%= render :partial => 'dt/shared/form_required' %>You have the option to invest on behalf of one of your groups, would you like to do this now?</p>
-	    <p><label for="investment_group_id">Not at this time. </label> <%= f.radio_button :group_id, '' %></p>
-	    <% for g in @user.groups %>
-	    <p><label for="investment_group_id"><%= g.name %></label> <%= f.radio_button :group_id, g.id %></p>
-	    <% end %>
-	</div>
+      <legend>Group Projects</legend>
+      <p class="textsm"><%= render :partial => 'dt/shared/form_required' %>You have the option to invest on behalf of one of your groups, would you like to do this now?</p>
+      <div id="projectsuggest" style="clear:left;">
+        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button :group_id, '' %>Not at this time.</p>
+        <% for g in @user.groups %>
+        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button :group_id, g.id %><%= g.name %></p>
+        <% end %>
+      </div>
+      <div style="height:10px;"></div>
     </fieldset>
     <% end %>
 
