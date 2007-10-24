@@ -31,8 +31,8 @@
 
 <p>Hello <%=h @share.to_name? ? @share.to_name : @share.to_email %>,</p>
 
-<p>Your friend, <a href="mailto:<%= @share.email %>"><%=h @share.name? ? @share.name : @share.email %></a> asked us to share ChristmasFuture with you.</p>
-
+<p>Your friend, <a href="mailto:<%= @share.email %>"><%=h @share.name? ? @share.name : @share.email %></a> found something on the ChristmasFuture website that you might like. Click the link below to check it out.</p>
+ 
 <% if @share.e_card_id? && @share.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@share.e_card, "large")}", :alt => "" %><% end %>
 
 <% if @share.message? %>
