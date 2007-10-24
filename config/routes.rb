@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :group_news, :controller => 'dt/group_news', :name_prefix => 'dt_'
   end
   map.resources :watchlists, :controller=> 'dt/watchlists', :name_prefix => 'dt_', :path_prefix => '/dt'
-  map.resources :tell_friends, :controller=> 'dt/tell_friends', :name_prefix => 'dt_', :path_prefix => '/dt'
+  map.resources :tell_friends, :controller=> 'dt/tell_friends', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :preview => :get }
   map.connect '/dt', :controller => 'dt/projects'
 
   # inactive_record resources

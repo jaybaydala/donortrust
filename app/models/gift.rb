@@ -43,8 +43,6 @@ class Gift < ActiveRecord::Base
     if update_attributes(:sent_at => Time.now.utc)
       DonortrustMailer.deliver_gift_mail(self)
       @sent = true
-    else
-      p self
     end
   end
   

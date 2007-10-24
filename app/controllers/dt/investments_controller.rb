@@ -1,5 +1,6 @@
 class Dt::InvestmentsController < DtApplicationController
   before_filter :login_required
+  helper 'dt/places'
 
   def new
     @investment = Investment.new( :project_id => params[:project_id] )

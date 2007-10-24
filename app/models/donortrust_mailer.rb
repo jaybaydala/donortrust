@@ -22,6 +22,19 @@ class DonortrustMailer < ActionMailer::Base
     body :user => user, :host => HTTP_HOST, :url => url_for( :host => HTTP_HOST, :controller => 'dt/accounts', :action => 'show', :id => user.id )
   end
   
+  def share_mail(share)
+    content_type "text/html"
+    recipients  share.to_name ? "#{share.to_name}<#{share.to_email}>" : "#{share.to_email}"
+    from        "The ChristmasFuture Team <info@christmasfuture.org>"
+    sent_on     Time.now
+    subject     'You have received a ChristmasFuture Gift from ' + ( share.name? ? share.name : share.email )
+    headers     "Reply-To" => share.name? ? "#{share.name} <#{share.email}>" : share.email
+    url = share.project_id? ? dt_project_path(share.project) : dt_projects_path
+    body_data = {:share => share, :host => HTTP_HOST, :url => url}
+    content_type "text/html"
+    body render_message('share_mail.text.html.rhtml', body_data)
+  end
+
   def gift_mail(gift)
     gift_setup_email(gift)
     subject 'You have received a ChristmasFuture Gift from ' + ( gift.name? ? gift.name : gift.email )
@@ -29,12 +42,6 @@ class DonortrustMailer < ActionMailer::Base
     body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}
     content_type "text/html"
     body render_message('gift_mail.text.html.rhtml', body_data)
-
-    #attachment "application/pdf" do |a|
-    #  proxy = create_pdf_proxy(gift)
-    #  a.filename= proxy.filename
-    #  a.body = proxy.render
-    #end
   end
 
   def gift_confirm(gift)
