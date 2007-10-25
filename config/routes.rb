@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt'
+  map.resources :my_wishlists, :controller => 'dt/my_wishlists', :name_prefix => 'dt_'
   map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :activate => :get, :resend => :get } do |account|
     account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
     account.resources :my_wishlists, :controller => 'dt/my_wishlists', :name_prefix => 'dt_'
