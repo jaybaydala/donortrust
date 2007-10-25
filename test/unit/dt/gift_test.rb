@@ -278,8 +278,8 @@ context "Gift Notification" do
     t = create_gift(credit_card_params(:send_at => nil))
     t.send_gift_mail
     @emails.length.should.equal 1
-    @emails.first.subject.should =~ /^You have received a ChristmasFuture Gift/
-    @emails.first.body.should    =~ /You have been given a ChristmasFuture gift by /
+    @emails.first.subject.should =~ /^Happy Holidays. Unwrap your gift from From/
+    @emails.first.body.should    =~ /chose to give you a new kind of gift through the ChristmasFuture website/
     @emails.first.body.should    =~ /Pickup Code: #{t.pickup_code}/
   end
 end

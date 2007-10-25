@@ -1,4 +1,4 @@
-class Wishlist < ActiveRecord::Base
+class MyWishlist < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
 

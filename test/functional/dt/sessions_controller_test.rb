@@ -60,6 +60,7 @@ context "Dt::Sessions handling GET /dt/session/new" do
     do_get
     page.should.select "form[action=/dt/session][method=post]"
   end
+  
 end
 
 context "Dt::Sessions handling POST dt/session requests" do
@@ -142,6 +143,12 @@ context "Dt::Sessions handling POST dt/session requests" do
     @controller.send(:logged_in?).should.be false
   end
 
+  specify "should set a cookie with current_user.id" do
+    do_post
+    get :new
+    cookies['dt_login'].should.equal ["1"]
+  end
+
   protected
     def do_post(options = {})
       post :create, {:login => 'quentin@example.com', :password => 'test'}.merge(options)
@@ -150,7 +157,7 @@ context "Dt::Sessions handling POST dt/session requests" do
     def auth_token(token)
       CGI::Cookie.new('name' => 'auth_token', 'value' => token)
     end
-    
+
     def cookie_for(user)
       auth_token users(user).remember_token
     end
@@ -173,4 +180,11 @@ context "Dt::Sessions handling logout requests" do
     get :destroy
     @response.cookies["auth_token"].should.equal []
   end
+
+  specify "should delete dt_login cookie on logout" do
+    login_as :quentin
+    get :destroy
+    @response.cookies["dt_login"].should.equal []
+  end
+
 end

@@ -240,7 +240,7 @@ context "Dt::Accounts user activation mailer" do
   specify "should send activation email after signup" do
     create_user
     @emails.length.should.equal 1
-    @emails.first.subject.should =~ /ChristmasFuture Account Activation/
+    @emails.first.subject.should =~ /The future is here./
     @emails.first.body.should    =~ /Username: quire@example\.com/
     @emails.first.body.should    =~ /Password: quire/
     @emails.first.body.should    =~ /dt\/accounts;activate\?id=#{assigns(:user).activation_code}/
