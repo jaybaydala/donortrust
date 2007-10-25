@@ -2,21 +2,20 @@
 <div id="trash_bin" class="trash_bin">
     <%= image_tag("/images/bus_admin/icons/delete_icon.gif")%> Drag any Photos you wish to remove from the a project into the trash bin.
 </div>
-<%= drop_receiving_element "trash_bin", :update => "cart", :accept => :project_flickr_photo, :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
-    
+   
 <% project ||= @project%>
 <div class="media_cart" id="flickr_photos">
 	
     <h2>DonorTrust Photos | 
     &nbsp;<%= slide_down_link "Search", "search_link", "flickr_search_field" %>
-	&nbsp; | <%= pageinated_links_for_ajax(@flickr_image_pages, "photos", "/bus_admin/project_flickr_images",  "flickr_photos", nil) %>
+	&nbsp; 
  
     </h2>
     <div id="flickr_search_field" class="media_search" style="display:none">
             <h2>Keywords | &nbsp;
         	<%= slide_up_link "Close", "close_search_link", "flickr_search_field"%> 
             </h2>
-           <%= form_remote_tag :url => {:action => 'search', :with => "'project_id=" + project.id.to_s + "'"}, :update => 'flickr_photos' %>
+           <%= form_remote_tag :url => {:action => 'search', :project_id => @project.id}, :update => 'flickr_photos' %>
     
         <%= text_field_tag "tags" %>
         <%= submit_tag "Find" %>
@@ -29,6 +28,3 @@
 <div id="cart" class="media_cart">
 	<%= render(:partial => "project" )%>
 </div>
-<%= drop_receiving_element "cart", :update => "cart", :accept => :donor_trust_flickr_photo, :url => {:action => "add", :project_id => @project.id}, :hoverclass => "media_cart_active"%>
-    
-

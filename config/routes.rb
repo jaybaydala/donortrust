@@ -123,6 +123,15 @@ ActionController::Routing::Routes.draw do |map|
                                                                                                                                               :remove => :post, 
                                                                                                                                               :photos=>:post }
                                                                                                                                               
+  
+    map.resources :place_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/place_flickr_images", :collection => {      :add => :post, 
+                                                                                                                                              :remove => :post, 
+                                                                                                                                              :search => :post, 
+                                                                                                                                              :places => :post, 
+                                                                                                                                              :show_flickr => :post, 
+                                                                                                                                              :show_db_flickr => :post,
+                                                                                                                                              :photos=>:post }
+  
   map.resources :project_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/project_flickr_images", :collection => {      :add => :post, 
                                                                                                                                               :remove => :post, 
                                                                                                                                               :search => :post, 

@@ -1216,7 +1216,12 @@ you_tube_title {
 	padding: 1px;
 	border: solid 1px;
 }
-
+.place_flickr_photo {
+	float:left;
+	margin: 1px;
+	padding: 1px;
+	border: solid 1px;
+}
 .flickr_spacer{
 	width:320px;
 	

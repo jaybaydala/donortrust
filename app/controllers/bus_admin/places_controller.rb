@@ -9,10 +9,12 @@ class BusAdmin::PlacesController < ApplicationController
     config.nested.add_link("Next", [:children]) 
     config.nested.add_link("Quick Fact", [:quick_fact_places]) 
     config.nested.add_link("Sectors", [:place_sectors]) 
+    config.nested.add_link("Flickr", [:place_flickr_images]) 
     config.columns[ :file ].label = "Image File"
     config.create.multipart = true
     config.update.multipart = true
-  
+    
+    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/flickr.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/place_flickr_images"}
   end
   
   def list

@@ -3,7 +3,7 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
   # GET /bus_admin_project_flickr_images
   # GET /bus_admin_project_flickr_images.xml
   def index
-    @flickr_images = FlickrImage.find(:all)
+    @flickr_images = ProjectFlickrImage.find(:all, :conditions => "project_id = " + params[:id].to_s)
     @flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20)
     
     if(params[:id])
@@ -18,7 +18,7 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
   # GET /bus_admin_project_flickr_images/1
   # GET /bus_admin_project_flickr_images/1.xml
   def show
-    @project_flickr_images = ProjectFlickrImage.find(params[:id])
+    @project_flickr_images = ProjectFlickrImage.find(:all, :conditions => "project_id = " + params[:id].to_s)
 
     respond_to do |format|
       format.html # show.rhtml
@@ -27,9 +27,9 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
   end
   
   def add
-    if(ProjectFlickrImage.find_by_project_id_and_flickr_id(params[:with][:project_id],params[:id]) == nil)
+    if(ProjectFlickrImage.find_by_project_id_and_photo_id(params[:project_id],params[:id]) == nil)
       begin
-        ProjectFlickrImage.create :project_id => params[:project_id], :flickr_image_id => params[:id]
+        ProjectFlickrImage.create :project_id => params[:project_id], :photo_id => params[:id]
         @msg = "Photo has been added to project"
       rescue
         @msg = "Photo could not be added to this projectL: " + $!.to_s
@@ -41,26 +41,33 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
     [@project = Project.find(params[:project_id]), @msg]
     render :partial => 'project'
   end
+  
  def show_flickr
-    @photo = Flickr::Photo.new(FlickrImage.find(params[:id]).photo_id.to_s)
+    @photo = Flickr::Photo.new(params[:id])
+     @project_id = params[:project_id]
+      @project_id ||= params[:with][:project_id]
+      
     render :partial => 'show'
   end
     
   def show_db_flickr
     @photo = Flickr::Photo.new(params[:id])
+    @project_id = params[:project_id]
+      @project_id ||= params[:with][:project_id]
+      
     render :partial => 'show', :locals => {:db => true}
   end
   def remove
-    chunks = params[:id].split('_')
-    project_id = chunks[0]
-    flickr_dt_id = chunks[1]
+   # chunks = params[:id].split('_')
+   # project_id = chunks[0]
+   # flickr_dt_id = chunks[1]
     begin
-      ProjectFlickrImage.find_by_project_id_and_flickr_id(project_id,flickr_dt_id).destroy
+      ProjectFlickrImage.find_by_project_id_and_photo_id(params[:project_id],params[:id]).destroy
       @msg = "Photo has been removed from project"
     rescue
       @msg = "Photo could not be removed from project: " + $!.to_s
     end
-    [@project = Project.find(project_id), @msg]
+    [@project = Project.find(params[:project_id]), @msg]
     render :partial => 'project'
   end
 
@@ -69,7 +76,8 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
     begin
       @tags = params[:tags]
       @tags ||= params[:with][:tags]
-     @project_Id ||= params[:project_id]
+      @project_id = params[:project_id]
+      @project_id ||= params[:with][:project_id]
       
       @photos = flickr.photos(:tags => @tags, :per_page => '250')
       @size = @photos.size
@@ -80,7 +88,7 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
       @photo_pages, @flickr_photos = paginate_array(params[:page], @photos, 20)
 
     end
-    [@flickr_photos, @flickr_photo_pages, @tags, @size]
+    [@flickr_photos, @flickr_photo_pages, @tags, @size, @project_id]
     render :layout => false
   end
   

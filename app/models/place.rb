@@ -10,6 +10,7 @@ class Place < ActiveRecord::Base
   has_many :projects
   has_many :place_sectors
   has_many :groups
+  has_many :place_flickr_images, :dependent => :destroy
   
   validates_presence_of :name
   validates_presence_of :place_type_id
