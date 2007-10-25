@@ -27,7 +27,7 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
   end
   
   def add
-    if(ProjectFlickrImage.find_by_project_id_and_flickr_image_id(params[:project_id],params[:id]) == nil)
+    if(ProjectFlickrImage.find_by_project_id_and_flickr_id(params[:with][:project_id],params[:id]) == nil)
       begin
         ProjectFlickrImage.create :project_id => params[:project_id], :flickr_image_id => params[:id]
         @msg = "Photo has been added to project"
@@ -41,13 +41,21 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
     [@project = Project.find(params[:project_id]), @msg]
     render :partial => 'project'
   end
-
+ def show_flickr
+    @photo = Flickr::Photo.new(FlickrImage.find(params[:id]).photo_id.to_s)
+    render :partial => 'show'
+  end
+    
+  def show_db_flickr
+    @photo = Flickr::Photo.new(params[:id])
+    render :partial => 'show', :locals => {:db => true}
+  end
   def remove
     chunks = params[:id].split('_')
     project_id = chunks[0]
     flickr_dt_id = chunks[1]
     begin
-      ProjectFlickrImage.find_by_project_id_and_flickr_image_id(project_id,flickr_dt_id).destroy
+      ProjectFlickrImage.find_by_project_id_and_flickr_id(project_id,flickr_dt_id).destroy
       @msg = "Photo has been removed from project"
     rescue
       @msg = "Photo could not be removed from project: " + $!.to_s
@@ -55,6 +63,27 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
     [@project = Project.find(project_id), @msg]
     render :partial => 'project'
   end
+
+ def search
+    flickr = Flickr.new
+    begin
+      @tags = params[:tags]
+      @tags ||= params[:with][:tags]
+     @project_Id ||= params[:project_id]
+      
+      @photos = flickr.photos(:tags => @tags, :per_page => '250')
+      @size = @photos.size
+      @flickr_photo_pages, @flickr_photos = paginate_array(params[:page], @photos, 20)
+
+    rescue # hackish solution to shitty programming by the Author of the Flickr.rb library
+      @flickr_photos = Array.new
+      @photo_pages, @flickr_photos = paginate_array(params[:page], @photos, 20)
+
+    end
+    [@flickr_photos, @flickr_photo_pages, @tags, @size]
+    render :layout => false
+  end
+  
 
   def get_local_actions(requested_action,permitted_action)
    case(requested_action)
@@ -65,5 +94,5 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
       else
         return false
       end  
- end
+   end
 end

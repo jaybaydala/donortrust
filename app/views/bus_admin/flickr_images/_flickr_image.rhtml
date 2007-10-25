@@ -19,6 +19,10 @@
 	
 <div id="<%= div_name %>" class="<%= class_name%>" style="cursor:move;">
     <%= image_tag photo.sizes[0]['source'] %><br/>
-    <%= link_to_remote_redbox( image_tag('icons/mag_glass.png'), :url => {:controller => "/bus_admin/flickr_images",:action => action.to_s, :id => flickr_image.id }) %>
+    <%= link_to_remote_redbox( image_tag('/bus_admin/icons/mag_glass.png'), :url => {:controller => "/bus_admin/flickr_images",:action => action.to_s, :id => flickr_image.id }) %>
 </div>
+   <%= link_to_remote "Add to project",		:update => "photos",	     
+						    :url => { :controller => "/bus_admin/flickr_images",:action => "add", :id => flickr_image.id } 
+							  %>
+							
 <%= draggable_element(div_name,:revert=> true)%>

@@ -39,12 +39,13 @@
 						<%=  gift.project.name %>
 					</td>
 					<td>
-								<%= form_remote_tag :url => {:action => 'unwrap', :projectId => gift.project_id, :gift_id => gift.id }, :update => 'gifts' %>   
-         
-            					<%= submit_tag "Submit" %>  
-        <%= end_form_tag %>		
-		
-					
+						<%= link_to_remote "Submit",		:update => "gifts",	     
+						    :url => { :action => 'unwrap' },
+							:confirm => 'Are you sure?', 
+							:with => "'projectId=" +gift.project_id+ "&gift_id=" + gift.id.to_s + "'"      %>
+							
+							
+								
 			 		</td>	   	
 				<%end%>
 			

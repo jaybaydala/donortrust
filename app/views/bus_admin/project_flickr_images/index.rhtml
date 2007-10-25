@@ -4,28 +4,27 @@
 </div>
 <%= drop_receiving_element "trash_bin", :update => "cart", :accept => :project_flickr_photo, :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
     
-
-<div id="photos"class="media_cart">
+<% project ||= @project%>
+<div class="media_cart" id="flickr_photos">
 	
     <h2>DonorTrust Photos | 
     &nbsp;<%= slide_down_link "Search", "search_link", "flickr_search_field" %>
-	&nbsp; | <%= pageinated_links_for_ajax(@flickr_image_pages, "photos", "/bus_admin/flickr_images", "photos", nil) %>
+	&nbsp; | <%= pageinated_links_for_ajax(@flickr_image_pages, "photos", "/bus_admin/project_flickr_images",  "flickr_photos", nil) %>
  
     </h2>
     <div id="flickr_search_field" class="media_search" style="display:none">
             <h2>Keywords | &nbsp;
         	<%= slide_up_link "Close", "close_search_link", "flickr_search_field"%> 
             </h2>
-            <%= text_field "search", "keywords" %>
-                <%= observe_field("search_keywords", 
-                    :frequency => 2, 
-                    :update => :videos, 
-                    :url => '/bus_admin/flickr;search',
-                    :with => "search_keywords"
-                    ) %> 
+           <%= form_remote_tag :url => {:action => 'search', :with => "'project_id=" + project.id.to_s + "'"}, :update => 'flickr_photos' %>
+    
+        <%= text_field_tag "tags" %>
+        <%= submit_tag "Find" %>
+        <%= show_spinner%>
+    
+    <% end_form_tag %>
     </div>
-    <%= render(:partial => '/bus_admin/flickr_images/flickr_image', :collection => @flickr_images, :locals => {:draggable => true}) %> 
-</div>
+ </div>
 
 <div id="cart" class="media_cart">
 	<%= render(:partial => "project" )%>

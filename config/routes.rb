@@ -126,7 +126,10 @@ ActionController::Routing::Routes.draw do |map|
                                                                                                                                               :remove => :post, 
                                                                                                                                               :search => :post, 
                                                                                                                                               :projects => :post, 
-                                                                                                                                            }
+                                                                                                                                              :show_flickr => :post, 
+                                                                                                                                              :show_db_flickr => :post,
+                                                                                                                                              :photos=>:post }
+                                                                                                                                            
   map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
 
