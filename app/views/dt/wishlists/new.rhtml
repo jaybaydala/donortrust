@@ -5,7 +5,7 @@
         <fieldset>
           <legend>Choose the wishlist for &quot;<%= @project.name %>&quot;</legend>
           <ul>
-            <li><label for="watchlisttype">Watchlists:</label> <%= select_tag 'watchlist_type', options_for_watchlist_select, :id => 'watchlisttype' %></li>
+            <li><label for="watchlisttype">Watchlists:</label> <%= select_tag 'watchlist_type', options_for_wishlist_select, :id => 'watchlisttype' %></li>
           </ul>
         </fieldset>
         <%= submit_tag "Add to Watchlist", :class => 'buttonsubmit' %>

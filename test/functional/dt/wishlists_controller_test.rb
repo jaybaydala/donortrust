@@ -89,7 +89,7 @@ context "Dt::Wishlists handling POST /dt/wishlists" do
     should.redirect dt_projects_path
   end
   
-  specify "should redirect to personal wishlists page ir watchlisttype == 'personal'" do
+  xspecify "should redirect to personal wishlists page ir watchlisttype == 'personal'" do
     login_as :quentin
     do_post(:watchlist_type => 'personal')
     should.redirect dt_wishlists_path(@controller.send('current_user'))
