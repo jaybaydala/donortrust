@@ -18,7 +18,6 @@ class Project < ActiveRecord::Base
   has_many :milestones, :dependent => :destroy
   has_many :project_you_tube_videos, :dependent => :destroy
   has_many :project_flickr_images, :dependent => :destroy
-  has_many :you_tube_videos, :through => :project_you_tube_videos
   has_many :financial_sources
   has_many :budget_items
   has_many :collaborating_agencies

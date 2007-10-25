@@ -9,7 +9,6 @@ class BusAdmin::PlacesController < ApplicationController
     config.nested.add_link("Next", [:children]) 
     config.nested.add_link("Quick Fact", [:quick_fact_places]) 
     config.nested.add_link("Sectors", [:place_sectors]) 
-    config.nested.add_link("Flickr", [:place_flickr_images]) 
     config.columns[ :file ].label = "Image File"
     config.create.multipart = true
     config.update.multipart = true

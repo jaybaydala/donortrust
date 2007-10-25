@@ -14,7 +14,7 @@
       
     <div id="by_tag" class="media_search_field" style="display:none;"> 
         <h2>Search By Name</h2>
-        <%= form_remote_tag :url => {:action => 'search_by_tag'}, :update => 'you_tube_videos' %>   
+        <%= form_remote_tag :url => {:action => 'search_by_tag', :project_id => @project_id}, :update => 'you_tube_videos' %>   
             <strong>Tags</strong><br/>
 			<%= text_field_tag "tags" %>
             <%= submit_tag "Find" %>  
@@ -24,7 +24,7 @@
     
     <div id="by_user" class="media_search_field" style="display:none;"> 
         <h2>Search By User</h2>
-        <%= form_remote_tag :url => {:action => 'search_by_user'}, :update => 'you_tube_videos' %>   
+        <%= form_remote_tag :url => {:action => 'search_by_user', :project_id => @project_id}, :update => 'you_tube_videos' %>   
             <strong>User name</strong><br/>
 			<%= text_field_tag "user" %>
             <%= submit_tag "Find" %>  
@@ -34,7 +34,7 @@
 	
 	<div id="by_popular" class="media_search_field" style="display:none;"> 
         <h2>Search By Popularity</h2>
-        <%= form_remote_tag :url => {:action => 'list_by_popular'}, :update => 'you_tube_videos' %>   
+        <%= form_remote_tag :url => {:action => 'list_by_popular', :project_id =>  @project_id}, :update => 'you_tube_videos' %>   
                         <%= select_tag "popular", options_for_select(
 						[
 							['Today','day'],
@@ -49,7 +49,7 @@
     </div>
     <div id="by_category" class="media_search_field" style="display:none;"> 
         <h2>Search By Category and Tag</h2>
-		<%= form_remote_tag :url => {:action => 'search_by_category_and_tag'}, :update => 'you_tube_videos' %>   
+		<%= form_remote_tag :url => {:action => 'search_by_category_and_tag', :project_id =>  @project_id}, :update => 'you_tube_videos' %>   
             
        	 	<strong>Category</strong><br/>
 			<%= select_tag "category", options_for_select(
@@ -75,11 +75,7 @@
         <%= slide_up_link "Close", "close_by_user", "by_category"%>   
     </div>
 </div>
-<div id="trash_bin" class="trash_bin">
-    <%= image_tag("/images/bus_admin/icons/delete_icon.gif")%> Drag any videos you wish to remove from the database into the trash bin.
-</div>
-<%= drop_receiving_element "trash_bin", :update => "donor_trust_videos", :accept => "donor_trust_you_tube_video", :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
- 
+
 <div class="media_cart">
     <h1>YouTube Videos</h1>
 </div>

@@ -1,15 +1,8 @@
 <div class="you_tube_msg"><%= @msg %></div>
-Drag Any Video you wish to associate with this project<br/>
-<%= link_to_function("Done Adding Videos", nil, :id =>"addvideos") do |page|
-            page.visual_effect :slide_up, "cart_#{@project.id.to_s}", :duration => 0.5
-   end
- %>
-<% @you_tube_videos = @project.get_all_you_tube_videos %>
+
+<% @you_tube_videos = @project.project_you_tube_videos %>
 <% prefix = "project_#{@project.id}_" %>   
-<%= render(:partial => '/bus_admin/you_tube_videos/you_tube_video', 
+<%= render(:partial => '/bus_admin/project_you_tube_videos/you_tube_video', 
             :locals => {:prefix => prefix}, 
             :collection => @you_tube_videos)
  %> 
-<% for @you_tube_video in @you_tube_videos %>
-    <%= draggable_element("#{prefix}you_tube_video_#{@you_tube_video.id}",:revert=> true)%>
-<% end %>

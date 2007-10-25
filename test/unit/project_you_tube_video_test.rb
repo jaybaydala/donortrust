@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 context "Project Youtube Videos" do
-  fixtures :project_you_tube_videos
+ # fixtures :project_you_tube_videos
 
   def setup    
   end
