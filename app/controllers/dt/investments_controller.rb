@@ -41,6 +41,7 @@ class Dt::InvestmentsController < DtApplicationController
     @tax_receipt.investment = @investment
     @tax_receipt.user = current_user
     @saved = false
+    @investment.user_ip_addr = request.remote_ip
     if @investment.valid? && @tax_receipt.valid? 
       Investment.transaction do
         @saved =  @investment.save! && @tax_receipt.save!

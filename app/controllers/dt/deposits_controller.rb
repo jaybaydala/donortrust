@@ -11,6 +11,7 @@ class Dt::DepositsController < DtApplicationController
     @deposit = Deposit.new( deposit_params )
     iats = iats_payment(@deposit)
     @deposit.authorization_result = iats.authorization_result if iats.status == 1
+    @deposit.user_ip_addr = request.remote_ip
     
     respond_to do |format|
       if @deposit.authorization_result != nil && @saved = @deposit.save
