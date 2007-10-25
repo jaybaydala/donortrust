@@ -1,0 +1,5 @@
+      <li>
+        <div><%= key_measure.description %></div>
+        <% data = key_measure.key_measure_datas(:first, :order => 'date DESC') %>
+        <%= key_measure.target / data.value %>
+      </li>

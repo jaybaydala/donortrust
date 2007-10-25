@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :activate => :get, :resend => :get } do |account|
     account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
-    account.resources :wishlists, :controller => 'dt/wishlists', :name_prefix => 'dt_'
+    account.resources :my_wishlists, :controller => 'dt/my_wishlists', :name_prefix => 'dt_'
     account.resources :tax_receipts, :controller => 'dt/tax_receipts', :name_prefix => 'dt_'
     account.resources :account_memberships, :controller => 'dt/account_memberships', :name_prefix => 'dt_'
   end
@@ -22,7 +22,7 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :group_news, :controller => 'dt/group_news', :name_prefix => 'dt_'
     group.resources :group_invitations, :controller => 'dt/group_invitations', :name_prefix => 'dt_'
   end
-  map.resources :watchlists, :controller=> 'dt/watchlists', :name_prefix => 'dt_', :path_prefix => '/dt'
+  map.resources :wishlists, :controller=> 'dt/wishlists', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :tell_friends, :controller=> 'dt/tell_friends', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :preview => :get }
   map.connect '/dt', :controller => 'dt/projects'
 

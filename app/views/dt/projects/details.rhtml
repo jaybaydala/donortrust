@@ -4,6 +4,7 @@
 
   <div id="leftColW">
 
+    <% if @project.milestones.size > 0 %>
     <h2>Project Plan</h2>
     <%
     project_timeline = ::Simile::Timeline::Timeline.new(
@@ -41,6 +42,7 @@
     )
     -%>
     <div id="projectTimeline"><%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %></div>
+    <% end %>
 
   	<%= project_actions %>
 
@@ -49,11 +51,10 @@
   <div id="rightColN">
     <%= render :partial => 'related_projects' %>
 
+    <% if @project.key_measures.size > 0 %>
     <div id="factList">
-      @project.key_measures.each do |km|
-        km.measure.description
-        km.target/km.key_measures_datas.latest.value #bar
-      end
+      <%= render :partial => 'key_measure', :collection => @project.key_measures %>
     </div>
+    <% end %>
   </div>
 </div>

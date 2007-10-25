@@ -294,6 +294,9 @@ h1 {
 	margin: 0px 0px 0px 0px;
 	border-bottom: 0px solid #fff;
 }
+h1.title {
+	margin-left:18px;
+}
 #h1_header {
 	width:717px; height:;
 	font: 24px Georgia, "Times New Roman", Times, serif;
@@ -1780,6 +1783,26 @@ form #groupInfo input[type=radio] {border:none; width:20px;font-size: 14px; marg
 #groupDescription {width:476px; margin-bottom:0px;}
 #groupDescription .row {float:left; width:465px; padding:0 0 5px 4px;background:#D8DEE7;}
 #groupDescription ul {margin-left:0px;margin-bottom:0;}
+
+/* GROUP LOCATION MODULE */
+
+#groupLocation {width:100%; margin-bottom:0px;}
+#groupLocation .row {float:left; width:465px; padding-left:4px; background:#D8DEE7;}
+#groupLocation ul {margin-left:0px;margin-bottom:0;}
+form #groupLocation label {
+	float:left;
+	display:inline-block; 
+	width:8.5em;
+	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
+	color: ; 
+	margin: 1px 0.5em 4px 0px; 
+	text-align: right; 
+	text-transform:capitalize;
+	text-display:block;
+}
+form #groupLocation input {float:left; width:120px; margin: 0px 240px 2px 0;}
+form #groupLocation .textsm {margin: 0px 0px 4px 0;}
+
 
 /* MEMBERSHIP LIST */
 

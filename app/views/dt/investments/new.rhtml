@@ -13,24 +13,24 @@
     	<legend>Your Project</legend>
     	<ul>
     		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Project</label>
-    			<% if @projects -%>
+    			<div class="textsm"><% if @projects -%>
     			<%= link_to "You must choose a project", dt_projects_path %>
     			<% elsif @project -%>
     			<%= link_to @project.name, dt_project_path(@project) %>
     			<%= f.hidden_field :project_id %>
     			&nbsp; &#8250;  <%= link_to "Choose another project", dt_projects_path %>
-    			<% end %></li>
+    			<% end %></div></li>
     		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount %></li>
     	</ul>	
     </fieldset>
 
-    <% if @user.groups.length>0 %>
+    <% if logged_in? && current_user.groups.length > 0 %>
     <fieldset>
       <legend>Group Projects</legend>
       <p class="textsm"><%= render :partial => 'dt/shared/form_required' %>You have the option to invest on behalf of one of your groups, would you like to do this now?</p>
       <div id="projectsuggest" style="clear:left;">
         <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button :group_id, '' %>Not at this time.</p>
-        <% for g in @user.groups %>
+        <% for g in current_user.groups %>
         <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button :group_id, g.id %><%= g.name %></p>
         <% end %>
       </div>

@@ -9,7 +9,7 @@
   <div id="factList">
     <h2>Quick Facts</h2>
     <ul>
-      <% if !group.place.nil? %><li><strong>Location:</strong> <%= render :partial => 'place', :locals => {:group => group} %></li><% end %>
+      <% if group.place? %><li><strong>Location:</strong> <%= group.place %></li><% end %>
       <% if group.causes.size > 0 %><li><strong>Cause(s):</strong> <%= group_causes(group) %></li><% end %>
       <li><strong>Group Projects:</strong> <a href="#"><%= link_to group.projects.size, "#" %><!--dt_group_projects_path(group)--></a></li>
       <li><strong>Number of Members:</strong> <%= group.memberships.size %></li>

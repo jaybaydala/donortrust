@@ -2,6 +2,7 @@ class Dt::ProjectsController < DtApplicationController
   include RssParser
   before_filter :project_id_to_session, :only=>[:facebook_login]
   before_filter :require_facebook_login, :only=>[:facebook_login]
+  before_filter :store_location, :except=>[:facebook_login, :finish_facebook_login, :timeline]
   helper "dt/groups"
 
   def initialize
@@ -116,6 +117,14 @@ class Dt::ProjectsController < DtApplicationController
     end
   end
 
+  def timeline
+    @project = Project.find(params[:id])
+    @milestones = @project.milestones(:include => :tasks)
+    @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
+    render :partial => 'timeline'
+  end
+
+  protected
   def project_id_to_session
     puts session[:project_id]
     session[:project_id] = params[:id]
@@ -132,10 +141,4 @@ class Dt::ProjectsController < DtApplicationController
     [pages, array]
   end
   
-  def timeline
-    @project = Project.find(params[:id])
-    @milestones = @project.milestones(:include => :tasks)
-    @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
-    render :partial => 'timeline'
-  end
 end

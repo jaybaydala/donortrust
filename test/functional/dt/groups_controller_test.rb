@@ -112,8 +112,8 @@ context "Dt::GroupsController handling GET /dt/groups;new" do
     @response   = ActionController::TestResponse.new
   end
 
-  def do_get
-    get :new
+  def do_get(options=nil)
+    get :new, options
   end
 
   specify "should redirect to /login when not logged in" do
@@ -126,6 +126,18 @@ context "Dt::GroupsController handling GET /dt/groups;new" do
     do_get
     status.should.be :success
     template.should.be "dt/groups/new"
+  end
+  
+  specify "should have a form for creation" do
+    login_as :tim
+    do_get
+    should.select "form#groupform"
+  end
+
+  specify "should have a hidden project_id field when params[:project_id] is passed" do
+    login_as :tim
+    do_get(:project_id => 1)
+    should.select "form#groupform input[type=hidden][name=project_id]"
   end
 end
 
@@ -252,13 +264,13 @@ context "Dt::GroupsController handling GET /dt/groups/1;edit" do
     get :edit, :id => 1
   end
 
-  specify "should redirect to /login when not logged in" do
+  specify "should redirect to /dt/login when not logged in" do
     do_get
     should.redirect dt_login_path()
   end
 
   specify "should get edit" do
-    login_as :tim
+    login_as :quentin
     do_get
     status.should.be :success
     template.should.be 'dt/groups/edit'
@@ -299,11 +311,11 @@ context "Dt::GroupsController handling DELETE /dt/groups/1" do
   
   specify "should redirect to /login when not logged in" do
     delete :destroy, :id => 1
-    should.redirect dt_login_path()
+    should.redirect dt_login_path
   end
 
   specify "should destroy group" do
-    login_as :tim
+    login_as :quentin
     old_count = Group.count
     delete :destroy, :id => 1
     Group.count.should.equal old_count-1

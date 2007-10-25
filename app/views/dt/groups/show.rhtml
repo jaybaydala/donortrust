@@ -19,7 +19,7 @@
       <div class="colEnd">
         <ul id="factList2" style="height:90px;">
           <li><strong>Number of Members:</strong> <%= @group.memberships.size %></li>
-          <% if @group.place_id? && @group.place? %><li><strong>Location:</strong> <%= @group.place.name %><%= ", #{@group.place.parent.name}" if @group.place.parent_id? %></li><% end %>
+          <% if @group.place? %><li><strong>Location:</strong> <%= @group.place %></li><% end %>
           <li><strong>Total Group Projects:</strong> <%= @group.projects.size %></li>
           <li><strong><span style="text-transform:none;">Cause(s):</span></strong> <%= @group.causes.size > 0 ? group_causes(@group) : 'n/a' %></li>
         </ul>

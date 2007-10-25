@@ -22,8 +22,4 @@ module Dt::GroupsHelper
   def group_admin_nav
     render 'dt/groups/group_admin_nav'
   end
-
-  def current_member(group, user = current_user)
-    @current_member ||= group.memberships.find_by_user_id(user) if user
-  end
 end

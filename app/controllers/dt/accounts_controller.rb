@@ -1,6 +1,7 @@
 class Dt::AccountsController < DtApplicationController
   before_filter :login_required, :only => [ :show, :edit, :update ]
-
+  helper "dt/places"
+  
   # say something nice, you goof!  something sweet.
   def index
     redirect_to(:action => 'new') unless logged_in? || User.count > 0

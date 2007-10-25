@@ -15,7 +15,6 @@ class Dt::InvestmentsController < DtApplicationController
       r[:postal_code] = current_user[:postal_code]
       r[:country] = current_user[:country]
     end
-    @user = current_user
   end
   
   def confirm

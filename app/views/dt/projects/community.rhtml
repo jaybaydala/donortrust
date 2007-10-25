@@ -1,44 +1,45 @@
-<h1><%= @project.name %></h1>
+<h1 class="title"><%= @project.name %></h1>
 <%= project_nav %>
-
-<div id="leftColW">
-  <h1><%= @community.name %></h1>
-  <p>This page is about how lives are changed. (Theme: Proof Of Impact)</p>
-  <h2>Community Plan</h2>
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1><%= @community.name %></h1>
+    <p>This page is about how lives are changed. (Theme: Proof Of Impact)</p>
+    <h2>Community Plan</h2>
   
-  <div>
-    <%= @community.description %>
-  </div>
+    <div>
+      <%= @community.description %>
+    </div>
 
-	<%= project_actions %>
+  	<%= project_actions %>
     
-  <% if @project.community.rss_url && @rss_feed %>
-  <h2>Stories from the community</h2>
-  <%= render :partial => 'blog' %>
-  <% end %>
-</div>
-
-<div id="rightColN">
-  <%= render :partial => 'related_projects' %>
-  <% if @community.quick_fact_places.size > 0 -%>
-  <div id="factList">
-    <h2>Quick Facts</h2>
-    <ul>
-      <%= render :partial => 'quickfact_place', :collection => @community.quick_fact_places %>
-    </ul>
+    <% if @project.community.rss_url && @rss_feed %>
+    <h2>Stories from the community</h2>
+    <%= render :partial => 'blog' %>
+    <% end %>
   </div>
-  <% end -%>
 
-  <h5>PROJECTS IN THIS COMMUNITY</h5>
-  <ul>
-    <%= render :partial => 'project_list_item', :collection => @project.community.projects %>
-  </ul>
+  <div id="rightColN">
+    <%= render :partial => 'related_projects' %>
+    <% if @community.quick_fact_places.size > 0 -%>
+    <div id="factList">
+      <h2>Quick Facts</h2>
+      <ul>
+        <%= render :partial => 'quickfact_place', :collection => @community.quick_fact_places %>
+      </ul>
+    </div>
+    <% end -%>
+
+    <h5>PROJECTS IN THIS COMMUNITY</h5>
+    <ul>
+      <%= render :partial => 'project_list_item', :collection => @project.community.projects %>
+    </ul>
   
-  <h5>VILLAGE VIDEO</h5>
-  <p>Video Thumbnails. When clicked will reveal new window. YouTube.com? Other?</p> 
+    <h5>VILLAGE VIDEO</h5>
+    <p>Video Thumbnails. When clicked will reveal new window. YouTube.com? Other?</p> 
 
-  <h5>VILLAGE PHOTOS</h5>
-  <p>Photo Thumbnails. When clicked will reveal new window in flickr</p>
+    <h5>VILLAGE PHOTOS</h5>
+    <p>Photo Thumbnails. When clicked will reveal new window in flickr</p>
 
-  <%= mdg_goals %>
+    <%= mdg_goals %>
+  </div>
 </div>

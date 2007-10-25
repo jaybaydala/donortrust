@@ -55,7 +55,24 @@ class Group < ActiveRecord::Base
     memberships.find_by_user_id(user.id)
   end
   
+  def place
+    @place ||= calculate_place
+  end
+  
+  def place?
+    place.empty? ? false : true
+  end
+  
   protected
+  def calculate_place
+    str = ''
+    %w( city province country ).each do |place|
+      str+=', ' unless str.empty? || str[2,-2] == ', '
+      str+=send("#{place}") if send("#{place}?")
+    end
+    str
+  end
+  
   def calculate_raised
     members = ''
     Group.find(self[:id]).memberships.each do |member|

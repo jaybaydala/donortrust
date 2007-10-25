@@ -1,9 +1,9 @@
 <div id="contentContainer">
   <div id="leftColW">
-    <% form_tag dt_watchlists_path, :id => 'watchlistform' do %>
+    <% form_tag dt_wishlists_path, :id => 'watchlistform' do %>
       <div class="userform">
         <fieldset>
-          <legend>Choose the watchlist for &quot;<%= @project.name %>&quot;</legend>
+          <legend>Choose the wishlist for &quot;<%= @project.name %>&quot;</legend>
           <ul>
             <li><label for="watchlisttype">Watchlists:</label> <%= select_tag 'watchlist_type', options_for_watchlist_select, :id => 'watchlisttype' %></li>
           </ul>

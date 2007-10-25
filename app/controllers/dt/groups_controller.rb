@@ -1,6 +1,8 @@
 class Dt::GroupsController < DtApplicationController
   before_filter :login_required, :except => [ :index, :show ]
   before_filter :load_membership, :except => [ :index, :new, :create ]
+  helper 'dt/places'
+  helper_method :current_member
   
   def initialize
     @topnav = 'get_involved'
@@ -82,12 +84,41 @@ class Dt::GroupsController < DtApplicationController
   end
   
   protected
+  def current_member(group = nil, user = current_user)
+    group ||= Group.find(params[:id])
+    @current_member ||= group.memberships.find_by_user_id(user) if user
+  end
+
   def load_membership
     return if params[:id].nil? || params[:id].empty?
     @membership = Membership.find_by_user_id(current_user, :conditions => { :group_id => params[:id] })
   end
   
-  def authorized?
-    true
+  # protect the show/edit/update methods so you can only update/view your own record
+  def authorized?(user = current_user())
+    if ['new', 'create'].include?(action_name)
+      return false unless logged_in?
+    end
+    if ['edit', 'update'].include?(action_name)
+      return false unless logged_in? && current_member && current_member.membership_type >= Membership.admin
+    end
+    if ['destroy'].include?(action_name)
+      return false unless logged_in? && current_member && current_member.membership_type >= Membership.founder
+    end
+    return true
+  end
+
+  def access_denied
+    if ['new', 'create'].include?(action_name) 
+      respond_to do |accepts|
+        accepts.html { redirect_to dt_login_path and return }
+      end
+    end
+    if ['edit', 'update', 'destroy'].include?(action_name) && logged_in?
+      respond_to do |accepts|
+        accepts.html { redirect_to( :controller => '/dt/groups', :action => 'show', :id => params[:id]) and return }
+      end
+    end
+    super
   end
 end

@@ -6,7 +6,7 @@
 <div id="contentContainer">
   <div id="leftColW">
 	  <h1><%= h @group.name %></h1>
-    <%= group_admin_nav %>
+
     <div class="tableHeader">
 		  <div style="float:left; ">Group Description</div>
 		  <div class="tableHeader_button"></div>
@@ -23,31 +23,41 @@
     <div class="colEnd">
       <ul id="factList2" style="height:90px;">
         <li><strong>Number of Members:</strong> <%= @group.memberships.size %></li>
-        <% if @group.place_id? && @group.place? %><li><strong>Location:</strong> <%= @group.place.name %><%= ", #{@group.place.parent.name}" if @group.place.parent_id? %></li><% end %>
+        <% if @group.place? %><li><strong>Location:</strong> <%= @group.place %></li><% end %>
         <li><strong>Total Group Projects:</strong> <%= @group.projects.size %></li>
         <li><strong><span style="text-transform:none;">Cause(s):</span></strong> <%= group_causes(@group) %></li>
       </ul>
     </div>
 
-    <form action="#" id="" method="post" name="groupAdmin">
+    <%= error_messages_for :group %>
+    <% form_for(:group, :url => dt_groups_path, :html => { :id => 'groupform', :name => 'groupform' }) do |f| %>
       <fieldset id="groupInfo">
-        <legend>Update Your Group Information </legend>
-        <ul class="row"  style="padding-top:10px; padding-bottom:10px;">
-          <li class="textsm" style="margin-bottom:4px; "><input name="choose[public]" type="radio" id="choose_public" value="0" checked="checked"  style="border:none; padding:0; margin-right:3px;"  />Public Group - Choose to reveal group to public.</li>
-          <li class="textsm" style="margin-bottom:4px; "><input name="choose[private]" type="radio" id="choose_private" value="1" style="border:none; padding:0; margin-right:3px;" />Private Group - Choose to hide group from public view.</li>
-          <li><label for="group_name">Group Name</label><input name="group[name]" type="text" id="group_name"  style="width:340px;" value="Current Group Name" size="30"/></li>
-          <li><label for="group_city" >City</label><input name="group[city]" type="text" id="group_city"  style="margin-right:5px; " value="Current Group City" size="30"/></li>
-          <li><label for="group_country" style="width:5em; ">Country</label><input name="group[country]" type="text" id="group_country"  style="margin-right:px; " value="Current Group Country" size="30" /></li>
+  			<legend>Update your group information </legend>
+  			<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+  				<li class="textsm" style="margin-bottom:4px; "><%= f.radio_button :private, 0, :style => "border:none; padding:0; margin-right:3px;" %> Public Group - Choose to reveal group to public.</li>
+  				<li class="textsm" style="margin-bottom:4px; "><%= f.radio_button :private, 1, :style => "border:none; padding:0; margin-right:3px;" %> Private Group - Choose to hide group from public view.</li>
+  				<li><label for="group_name"><%= render :partial => 'dt/shared/form_required' %>Group name</label><%= f.text_field :name, :style => 'width:340px;' %></li>
+  				<!--<li><label for="group_location" >Group Location</label><input name="group[location]" type="text" id="group_location"  style="width:340px; margin-right:5px; " size="30"/></li>-->
+          <li><label for="group_group_type">Group Type</label> <%= collection_select :group, :group_type_id, group_types, :id, :name, { :include_blank => true } %></li>
+  			</ul>
+  		</fieldset>
+
+      <fieldset id="groupDescription">
+        <legend>Update your Group Description</legend>
+        <ul class="row">
+          <li><label for="group_description">Group Description</label><%= f.text_area :description, :rows => 8, :cols => 30 %></li>
         </ul>
       </fieldset>
 
-      <fieldset id="groupDescription">
-        <legend>Update Your Group Description </legend>
-        <ul class="row">
-          <li><label for="group_description">Group Description</label><textarea cols="35" id="group_description" name="group[description]" rows="6" >Current Group Description</textarea></li>
+      <fieldset id="groupLocation">
+        <legend>Update your Group Location</legend>
+        <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="group_city">City/Town</label><%= f.text_field :city %></li>
+          <li><label for="group_province">Province/State</label><%= f.text_field :province %></li>
+          <li><label for="group_country">Country</label><%= f.select :country, country_select_options %></li>
         </ul>
       </fieldset>
-    </form>
+    <% end %>
   </div>
   <div id="rightColN">
 	  <%= dt_profile_sidebar %>

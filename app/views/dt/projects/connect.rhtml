@@ -1,20 +1,20 @@
-<h1><%= @project.name %></h1>
+<h1 class="title"><%= @project.name %></h1>
 <%= project_nav %>
 
   <% if @fb_group %>
   <div id="subSubNav">
-    <!--<ul class="pageNav">
-      <li class="currentPg"><a href="#">Overview</a></li>
-      <li><a href="/projectCommunityPhotos.html">Photos</a></li>
-      <li><a href="/projectCommunityEvents.html">Events</a></li>
-    </ul>-->
     <ul class="pageNav">
     <%= render :partial => "member_paginator", :locals => { :paginator => @fb_member_pages } %>
     </ul>
-  </div><!-- subSubNav end -->
+  </div>
   <% end %>
 
 <div id="contentContainer">
+  <div class="buttonGroupWrapN">
+    <ul class="buttonGroup">
+      <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path(:project_id => @project) %></div></li>
+    </ul>
+  </div>
   <%= render(:partial => 'connect_group', :collection => @project.public_groups) if @project.public_groups.size > 0 %>
     		
   <div id="leftColW">

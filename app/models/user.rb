@@ -137,6 +137,10 @@ class User < ActiveRecord::Base
   def activated?
     return activation_code ? false : true
   end
+  
+  def group_admin?
+    @group_admin ||= ( memberships.find(:first, :conditions => ['membership_type >= ?', Membership.admin]) ? true : false)
+  end
 
   protected
     def validate

@@ -114,6 +114,18 @@ context "User" do
     u = users(:tim)
     u.name.should.equal "#{u.display_name}"
   end
+  
+  specify "group_admin? should return whether the user is the admin of any group" do
+    u = users(:quentin)
+    u.group_admin?.should.be true
+    # make tim a general member for all groups...
+    u = users(:tim)
+    u.memberships.each do |m|
+      m.membership_type = Membership.member
+      m.save
+    end
+    u.group_admin?.should.be false
+  end
 
   private
   def create_user(options = {})

@@ -18,11 +18,22 @@
       <fieldset id="groupDescription">
         <legend>Enter your Group Description</legend>
         <ul class="row">
-          <li><label for="group_description">Group Description</label><%= f.text_area :description, :rows => 8, :cols => 30 %></textarea></li>
+          <li><label for="group_description">Group Description</label><%= f.text_area :description, :rows => 8, :cols => 30 %></li>
         </ul>
       </fieldset>
 
+      <fieldset id="groupLocation">
+        <legend>Enter your Group Location</legend>
+        <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="group_city">City/Town</label><%= f.text_field :city %></li>
+          <li><label for="group_province">Province/State</label><%= f.text_field :province %></li>
+          <li><label for="group_country">Country</label><%= f.select :country, country_select_options %></li>
+        </ul>
+      </fieldset>
+
+      
       <%= submit_tag 'Create Group', :class => 'buttonsubmit' %>
+      <%= hidden_field_tag(:project_id, params[:project_id]) if params[:project_id] %>
     <% end -%>
   </div>
   <div id="rightColN">
