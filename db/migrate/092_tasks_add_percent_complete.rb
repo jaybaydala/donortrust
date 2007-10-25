@@ -6,8 +6,8 @@ class TasksAddPercentComplete < ActiveRecord::Migration
   end
 
   def self.down
-   remove_column :tasks, :percent_complete, :integer
-   remove_column :task_versions, :percent_complete, :integer
+   remove_column :tasks, :percent_complete
+   remove_column :task_versions, :percent_complete
   end
 end
 

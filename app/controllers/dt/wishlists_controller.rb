@@ -1,4 +1,4 @@
-class Dt::WatchlistsController < DtApplicationController
+class Dt::WishlistsController < DtApplicationController
   before_filter :login_required
 
   def new
@@ -12,9 +12,6 @@ class Dt::WatchlistsController < DtApplicationController
     if matchdata = params[:watchlist_type].match(/^group-(\d*)/)
       @group = Group.find(matchdata[1])
       @saved = @group.projects << @project
-    else
-      @wishlist = Wishlist.new(:user_id => current_user, :project_id => @project)
-      @saved = @wishlist.save
     end
     respond_to do |format|
       format.html do

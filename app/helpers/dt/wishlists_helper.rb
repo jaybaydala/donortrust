@@ -1,5 +1,5 @@
-module Dt::WatchlistsHelper
-  def options_for_watchlist_select
+module Dt::WishlistsHelper
+  def options_for_wishlist_select
     watchlists = []
     account = ['My Watchlist', 'personal']
     menberships = Membership.find_all_by_user_id(current_user.id, :conditions => ['membership_type >= ?', Membership.admin])
