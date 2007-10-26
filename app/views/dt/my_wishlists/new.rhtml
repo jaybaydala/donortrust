@@ -1,0 +1,21 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>My Wishlist</h1>
+    <% if params[:project_id] && @project %>
+    <% form_tag dt_my_wishlists_path(:account_id => current_user), :id => 'wishlistform' do %>
+      <div class="userform">
+        <fieldset>
+          <legend>Would you like to add &quot;<%= @project.name %>&quot; to your personal wishlist?</legend>
+          <%= hidden_field_tag :project_id, params[:project_id] %>
+        </fieldset>
+        <%= submit_tag "Add to My Wishlist", :class => 'buttonsubmit' %>
+      </div>
+    <% end %>
+    <% else %>
+    <p>You need to <%= link_to "choose a project", dt_projects_path %> to add to your wishlist</p>
+    <% end %>
+  </div>
+  <div id="rightColN">
+    <%= dt_profile_sidebar %>
+  </div>
+</div>

@@ -9,7 +9,7 @@ class Dt::AccountsController < DtApplicationController
 
   # GET /dt/accounts/1
   def show
-    @user = User.find(params[:id], :include => :user_transactions)
+    @user = User.find(params[:id], :include => [:user_transactions, :projects])
   end
 
   # GET /dt/accounts/new

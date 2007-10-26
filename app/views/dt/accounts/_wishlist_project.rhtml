@@ -1,0 +1,6 @@
+      <li class="wishlist-item">
+        <%= wishlist_project.name %> 
+        <div class="textsm">
+          <span class="linkMinor"><%= link_to "REMOVE PROJECT", dt_my_wishlists_path(:account_id => current_user), :method => :delete %></span>
+        </div>
+      </li>

@@ -1,7 +1,7 @@
 <div id="subNav">
 <ul class="subNav li">
 <li><a href="get_involved.html">Overview </a></li>
-<li<%= ' class="current"' if params[:controller] == 'group' %>><%= link_to "Groups ", dt_groups_path %></li>
+<li<%= ' class="current"' if ['dt/groups', 'dt/memberships', 'dt/group_memberships'].include?(params[:controller]) %>><%= link_to "Groups ", dt_groups_path %></li>
 <li><a href="donate.html">Donate </a></li>
 <li><a href="volunteer.html">Volunteer </a></li>
 <li><a href="events.html">Events </a></li>

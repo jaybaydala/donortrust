@@ -142,6 +142,20 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
     d = Deposit.find(3) # this is a picked up gift with a project_id
     page.should.select "div.depositTransaction#depositTransaction-#{d.id}"
   end
+  
+  specify "should show my project wishlist" do
+    login_as(:quentin)
+    u = users(:quentin)
+    u.projects << Project.find(1)
+    u.projects << Project.find(2)
+    do_get
+    assert_select "div#wishlist" do
+      assert_select "li[class=wishlist-item]", 2 do
+        assert_select "a[href=/dt/accounts/1/my_wishlists]"
+      end
+    end
+    assert_select "a[href=/dt/projects]", {:count => 1, :text => 'Find a project for your wishlist'} do
+  end
 end
 
 context "Dt::Accounts handling GET /dt/accounts;activate" do

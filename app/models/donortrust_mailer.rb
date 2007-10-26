@@ -22,10 +22,25 @@ class DonortrustMailer < ActionMailer::Base
     body :user => user, :host => HTTP_HOST, :url => url_for( :host => HTTP_HOST, :controller => 'dt/accounts', :action => 'show', :id => user.id )
   end
   
+  def wishlist_mail(share, project_ids)
+    content_type "text/html"
+    recipients  share.to_name ? "#{share.to_name}<#{share.to_email}>" : "#{share.to_email}"
+    from        "The ChristmasFuture Team <info@christmasfuture.org>"
+    sent_on     Time.now
+    subject     'Your friend wanted you to see their ChristmasFuture Wishlist.'
+    headers     "Reply-To" => share.name? ? "#{share.name} <#{share.email}>" : share.email
+    url = share.project_id? ? dt_project_path(share.project) : dt_projects_path
+    projects = Project.find(project_ids)
+    body_data = {:share => share, :host => HTTP_HOST, :url => url, :projects => projects}
+    content_type "text/html"
+    body render_message('wishlist_mail.text.html.rhtml', body_data)
+  end
+
   def share_mail(share)
     content_type "text/html"
     recipients  share.to_name ? "#{share.to_name}<#{share.to_email}>" : "#{share.to_email}"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
+    headers     "Reply-To" => share.name? ? "#{gift.name}<#{gift.email}>" : "#{gift.email}"
     sent_on     Time.now
     subject     'Your friend thought you would like this.'
     headers     "Reply-To" => share.name? ? "#{share.name} <#{share.email}>" : share.email
@@ -104,14 +119,14 @@ class DonortrustMailer < ActionMailer::Base
   protected
   def user_setup_email(user)
     @subject    = "Welcome to DonorTrust!"
-    recipients  user.full_name ? "#{user.full_name}<#{user.email}>" : "#{user.email}"
+    recipients  user.full_name? ? "#{user.full_name}<#{user.email}>" : "#{user.email}"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
   end
 
   def gift_setup_email(gift)
     content_type "text/html"
-    recipients  gift.to_name ? "#{gift.to_name}<#{gift.to_email}>" : "#{gift.to_email}"
+    recipients  gift.to_name? ? "#{gift.to_name}<#{gift.to_email}>" : "#{gift.to_email}"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
   end
