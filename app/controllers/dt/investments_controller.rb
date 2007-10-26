@@ -6,27 +6,27 @@ class Dt::InvestmentsController < DtApplicationController
     @investment = Investment.new( :project_id => params[:project_id] )
     @projects = Project.find(:all) if !params[:project_id]
     @project = Project.find(params[:project_id]) if params[:project_id]
-    @tax_receipt = TaxReceipt.new do |r|
-      r[:first_name] = current_user[:first_name]
-      r[:last_name] = current_user[:last_name]
-      r[:address] = current_user[:address]
-      r[:city] = current_user[:city]
-      r[:province] = current_user[:province]
-      r[:postal_code] = current_user[:postal_code]
-      r[:country] = current_user[:country]
-    end
+#    @tax_receipt = TaxReceipt.new do |r|
+#      r[:first_name] = current_user[:first_name]
+#      r[:last_name] = current_user[:last_name]
+#      r[:address] = current_user[:address]
+#      r[:city] = current_user[:city]
+#      r[:province] = current_user[:province]
+#      r[:postal_code] = current_user[:postal_code]
+#      r[:country] = current_user[:country]
+#    end
   end
   
   def confirm
     @investment = Investment.new( params[:investment] )
     @investment.user = current_user
-    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
-    @tax_receipt.investment = @investment
-    @tax_receipt.user = current_user
+#    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
+#    @tax_receipt.investment = @investment
+#    @tax_receipt.user = current_user
     @projects = Project.find(:all) if !params[:project_id]
     @user = current_user
     respond_to do |format|
-      if @investment.valid? && @tax_receipt.valid? #&& user.save
+      if @investment.valid? #&& @tax_receipt.valid? #&& user.save
         format.html
       else
         format.html { render :action => 'new' }
@@ -37,20 +37,20 @@ class Dt::InvestmentsController < DtApplicationController
   def create
     @investment = Investment.new( params[:investment] )
     @investment.user = current_user
-    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
-    @tax_receipt.investment = @investment
-    @tax_receipt.user = current_user
+#    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
+#    @tax_receipt.investment = @investment
+#    @tax_receipt.user = current_user
     @saved = false
     @investment.user_ip_addr = request.remote_ip
-    if @investment.valid? && @tax_receipt.valid? 
+    if @investment.valid? #&& @tax_receipt.valid? 
       Investment.transaction do
-        @saved =  @investment.save! && @tax_receipt.save!
+        @saved =  @investment.save! #&& @tax_receipt.save!
       end
     end
 
     respond_to do |format|
       if @saved
-        @tax_receipt.send_tax_receipt
+#        @tax_receipt.send_tax_receipt
         flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
         format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
       else
