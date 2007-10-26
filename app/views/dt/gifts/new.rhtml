@@ -1,12 +1,12 @@
 <%= dt_account_nav %>
 <div id="contentContainer">
   <div id="leftColW">
-  <h1>Gift it!</h1>
+  <h1>Experience a new way to give. Gift It!</h1>
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <%= error_messages_for :gift %>
   <% form_for(:gift, :url => dt_confirm_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
-  <p>After selecting an image from the Gift Card Gallery in the right column, please enter your personal information and the gift amount in the form below. Your personal information will be used to authorize your credit card and to update your account information. Be sure to enter your information correctly to ensure accuracy.</p>
+  <p>Refocus your holiday spending. Select an image from the Gift Card Gallery in the right column, then enter your personal information and the gift amount in the form below. Your personal information will be used to authorize your credit card and to update your ChristmasFuture account information. Be sure to enter your information correctly.</p>
   <div class="userform">
 
     <fieldset>
