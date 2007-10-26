@@ -1,0 +1,5 @@
+<% place ||= @place%>
+    <div id="cart_<%= place.id%>" >
+    <% @you_tube_videos = place.place_you_tube_videos %>
+    <%= render(:partial => '/bus_admin/place_you_tube_videos/you_tube_video', :locals => {:prefix => "#{place.id}", :class_name => "place_you_tube_video"}, :collection => @you_tube_videos) %> 
+    </div>
