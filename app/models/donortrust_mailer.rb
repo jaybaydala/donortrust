@@ -52,7 +52,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def gift_mail(gift)
     gift_setup_email(gift)
-    subject 'Happy Holidays. Unwrap your gift from ' + ( gift.name? ? gift.name : gift.email )
+    subject 'You’ve been gifted!'
     headers "Reply-To" => gift.name? ? "#{gift.name} <#{gift.email}>" : gift.email
     body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}
     content_type "text/html"
@@ -94,7 +94,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def tax_receipt(receipt)
     content_type "text/html"
-    recipients  "#{receipt.first_name} #{receipt.last_name} <#{receipt.user.email}>"
+    recipients  "#{receipt.first_name} #{receipt.last_name} <#{receipt.email}>"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
     subject "Tax receipt for your gift"
