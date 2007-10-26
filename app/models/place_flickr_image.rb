@@ -14,5 +14,3 @@ class PlaceFlickrImage < ActiveRecord::Base
   
 end
 
-
-end

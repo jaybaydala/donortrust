@@ -1,5 +1,5 @@
 class BusAdmin::ProjectFlickrImagesController < ApplicationController
-  before_filter :login_required, :check_authorization
+ # before_filter :login_required, :check_authorization
   # GET /bus_admin_project_flickr_images
   # GET /bus_admin_project_flickr_images.xml
   def index
@@ -32,7 +32,7 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
         ProjectFlickrImage.create :project_id => params[:project_id], :photo_id => params[:id]
         @msg = "Photo has been added to project"
       rescue
-        @msg = "Photo could not be added to this projectL: " + $!.to_s
+        @msg = "Photo could not be added to this project: " + $!.to_s
       end
     else
       @msg = "That Photo has already been added to this project"

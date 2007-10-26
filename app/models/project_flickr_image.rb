@@ -7,7 +7,7 @@ class ProjectFlickrImage < ActiveRecord::Base
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
    
-    unless me.place( true )
+    unless me.project( true )
       me.errors.add :project_id, 'does not exist'
     end
   end
