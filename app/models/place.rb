@@ -11,6 +11,7 @@ class Place < ActiveRecord::Base
   has_many :place_sectors
   has_many :groups
   has_many :place_flickr_images, :dependent => :destroy
+  has_many :place_you_tube_videos, :dependent => :destroy
   
   validates_presence_of :name
   validates_presence_of :place_type_id

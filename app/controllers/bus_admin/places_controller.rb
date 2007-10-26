@@ -13,6 +13,7 @@ class BusAdmin::PlacesController < ApplicationController
     config.create.multipart = true
     config.update.multipart = true
     
+    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/you_tube.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/place_you_tube_videos"}
     config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/flickr.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/place_flickr_images"}
   end
   

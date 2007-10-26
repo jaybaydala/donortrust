@@ -4,7 +4,7 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
   # GET /bus_admin_project_you_tube_videos.xml
   def index
     
-     @project_id = params[:id]
+    @project_id = params[:id]
     if params[:id]
       @project = Project.find_by_id(params[:id])
     else
@@ -18,7 +18,7 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
     
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @project_you_tube_videos.to_xml }
+      format.xml  { render :xml => @you_tube_videos.to_xml }
     end
  end 
 
@@ -37,8 +37,8 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
   
   def add
     @project_id = params[:project_id]
-    if ProjectYouTubeVideo.find_by_project_id_and_you_tube_video_id(params[:project_id], params[:id]) == nil
-      ProjectYouTubeVideo.create :you_tube_video_id => params[:id], :project_id => params[:project_id]
+    if ProjectYouTubeVideo.find_by_project_id_and_you_tube_id(params[:project_id], params[:id]) == nil
+      ProjectYouTubeVideo.create :you_tube_id => params[:id], :project_id => params[:project_id]
       @msg = "You Tube Video successfully associated with project"
     else
       @msg = "The You Tube video is already associated with this project."
@@ -50,7 +50,7 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
   
   def remove
    @project_id = params[:project_id]
-    @project_you_tube_video = ProjectYouTubeVideo.find_by_project_id_and_you_tube_video_id(params[:project_id], params[:id])
+    @project_you_tube_video = ProjectYouTubeVideo.find_by_project_id_and_you_tube_id(params[:project_id], params[:id])
     if @project_you_tube_video != nil
       @project_you_tube_video.destroy
      end
@@ -60,6 +60,7 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
   
   def search
     @projects = Array.new
+    @project_id = params[:project_id]
     @searchstring = params[:project_search_keywords]
     @searchstring ||= params[:with][:project_search_keywords]
     if @searchstring != nil
@@ -82,7 +83,7 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
     #@projects = @projects[offset..(offset + items_per_page - 1)]
     
     @project_pages, @projects = paginate_array(params[:page], @projects, 1)
-    [@projects, @project_pages, @searchstring, @size]
+    [@projects, @project_pages, @searchstring, @size, @project_id]
     render :layout => false
   end
 
