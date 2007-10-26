@@ -48,6 +48,7 @@ class Dt::GiftsController < DtApplicationController
 
   def create
     @gift = Gift.new( gift_params )
+    @gift.user_ip_addr = request.remote_ip
     if params[:gift][:credit_card] && params[:gift][:credit_card] != ''
       iats = iats_payment(@gift)
       @gift.authorization_result = iats.authorization_result if iats.status == 1
@@ -103,9 +104,11 @@ class Dt::GiftsController < DtApplicationController
         Gift.transaction do
           logger.info "CREATING DEPOSIT"
           @deposit = Deposit.new_from_gift(@gift, current_user.id)
+          @deposit.user_ip_addr = request.remote_ip
           @deposit.save!
           logger.info "CREATING INVESTMENT"
           @investment = Investment.new_from_gift(@gift, current_user.id) if @gift.project_id
+          @investment.user_ip_addr = request.remote_ip
           @investment.save! if @investment
         end
         logger.info "FINISHING UNWRAP TRANSACTION"
