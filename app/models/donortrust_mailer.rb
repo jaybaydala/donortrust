@@ -52,7 +52,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def gift_mail(gift)
     gift_setup_email(gift)
-    subject 'You’ve been gifted!'
+    subject 'You have been gifted!'
     headers "Reply-To" => gift.name? ? "#{gift.name} <#{gift.email}>" : gift.email
     body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}
     content_type "text/html"
