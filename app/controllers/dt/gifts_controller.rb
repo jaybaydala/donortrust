@@ -48,6 +48,7 @@ class Dt::GiftsController < DtApplicationController
   
   def create
     @gift = Gift.new( gift_params )    
+    @gift.user_ip_addr = request.remote_ip
     @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
     
     if params[:gift][:credit_card] && params[:gift][:credit_card] != ''
