@@ -3,6 +3,8 @@ require 'donortrust_mailer'
 class TaxReceipt < ActiveRecord::Base
   belongs_to :user
   belongs_to :investment
+  belongs_to :gift
+  belongs_to :deposit
 
   # make all fields required
   validates_presence_of :first_name
@@ -11,9 +13,9 @@ class TaxReceipt < ActiveRecord::Base
   validates_presence_of :city
   validates_presence_of :province
   validates_presence_of :postal_code
-  validates_presence_of :country
-  validates_presence_of :user
-  validates_presence_of :investment
+#  validates_presence_of :country
+#  validates_presence_of :user
+#  validates_presence_of :investment
 
   def id_display
     return id.to_s.rjust(10,'0') if id
