@@ -3,12 +3,18 @@
   <div id="leftColW">
   	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 
-  	<h1>Welcome<% if logged_in? %> <%= @current_user.name %><% end %>!</h1>
-  	<p>Your account with ChristmasFuture is what will allows you to start changing the world...for good!</p>
+  	<h1>Welcome<% if logged_in? %> <%= @current_user.name %><% end %>! The future is here.</h1>
+  	<p>Welcome to ChristmasFuture. Thank you for joining this growing movement, which will help to make extreme poverty a thing of the past</p>
 
-  	<p>We are inspiring and empowering North Americans to refocus a portion of their Christmas spending towards strategic and sustainable projects in the villages of the developing world...and in doing so, eradicating extreme poverty.</p>
-
-  	<p>Through your account in DonorTrust, we will provide a meaningful, transparent, and easy way for you to participate in this growing movement, to stop the suffering of the poor and to eradicate extreme poverty...for good.</p>
+  	<p>Using your account you can:
+		<p style=" text-indent:30px; ">-	track projects that you're interested in or you've given to</p>
+		<p style=" text-indent:30px; ">-	deposit into your account to make giving and investing easy</p>
+		<p style=" text-indent:30px; ">-	join ChristmasFuture groups</p>
+		<p style=" text-indent:30px; ">-	create a wishlist</p>		
+		<p style=" text-indent:30px; ">-	more. . .</p>	
+	</p>
+  
+  	<p>Click <%= link_to "Account Summary ", dt_account_path(current_user) %> to get started.</p>
   </div>
 
   <div id="rightColN">
