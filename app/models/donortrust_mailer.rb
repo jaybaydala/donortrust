@@ -119,7 +119,7 @@ class DonortrustMailer < ActionMailer::Base
   protected
   def user_setup_email(user)
     @subject    = "Welcome to DonorTrust!"
-    recipients  user.full_name? ? "#{user.full_name}<#{user.email}>" : "#{user.email}"
+    recipients  user.full_name.empty? ? "#{user.email}" : "#{user.full_name}<#{user.email}>"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
   end
