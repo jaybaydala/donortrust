@@ -16,6 +16,7 @@ class Project < ActiveRecord::Base
   belongs_to :contact
   belongs_to :frequency_type
   has_many :milestones, :dependent => :destroy
+  has_many :tasks, :through => :milestones
   has_many :project_you_tube_videos, :dependent => :destroy
   has_many :project_flickr_images, :dependent => :destroy
   has_many :financial_sources
@@ -24,9 +25,8 @@ class Project < ActiveRecord::Base
   has_many :ranks
   has_many :investments
   has_many :key_measures
-  has_many :wishlists
-  has_many :users, :through => :wishlists
-  has_many :tasks, :through => :milestones
+  has_many :my_wishlists
+  has_many :users, :through => :my_wishlists
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
