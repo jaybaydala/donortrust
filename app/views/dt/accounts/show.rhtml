@@ -30,6 +30,7 @@
 			When we launch to North America on Nov. 1, 2007 you can support us directly through our site. If you wish to support ChristmasFuture's operations before this time, you can donate to us through <a href="http://www.canadahelps.org/CharityProfilePage.aspx?CharityID=s90579">www.canadaHelps.org</a> .
 			</p>
 		</div>
+  <h2>My Projects</h2>
 	<% if @user.user_transactions.length > 0 %><div style="text-align:right;font-weight:bold;">Uninvested Money: <%= number_to_currency(current_user.balance) %></div><% end %>
 	<div class="account-summary">
 		<% if @user.user_transactions.length > 0 -%>
@@ -54,7 +55,7 @@
 		<% end -%>
 	</div>
 	
-	<h1>My Wishlist</h1>
+	<h2>My Wishlist</h2>
 	<p class="blueblock"><%= link_to "Find a project for your wishlist" %></p>
 	<% if @user.projects.size > 0 %>
 	<div id="wishlist">
