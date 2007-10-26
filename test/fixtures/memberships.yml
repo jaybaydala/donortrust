@@ -1,25 +1,25 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+one: # quentin is the founder of group 1
   id: 1
   user_id: 1
   group_id: 1
   membership_type: 3
-two:
+two: # aaron is a regular member of group 1
   id: 2
   user_id: 2
   group_id: 1
   membership_type: 1        
-three:
+three: # quentin is a regular member of group 2
   id: 3
   user_id: 1
   group_id: 2
   membership_type: 1
-four:
+four: # tim is the founder of group 2
   id: 4
   user_id: 3
   group_id: 2
   membership_type: 3
-five:
+five: # aaron is an admin of group 2
   id: 5
   user_id: 2
   group_id: 2

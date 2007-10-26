@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :memberships, :controller => 'dt/memberships', :name_prefix => 'dt_', :collection => { :typify => :put }
     group.resources :group_projects, :controller => 'dt/group_projects', :name_prefix => 'dt_'
     group.resources :group_news, :controller => 'dt/group_news', :name_prefix => 'dt_'
-    group.resources :group_invitations, :controller => 'dt/group_invitations', :name_prefix => 'dt_'
+    group.resources :invitations, :controller => 'dt/invitations', :name_prefix => 'dt_'
   end
   map.resources :wishlists, :controller=> 'dt/wishlists', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :tell_friends, :controller=> 'dt/tell_friends', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :preview => :get }
@@ -98,18 +98,6 @@ ActionController::Routing::Routes.draw do |map|
   #
   #
   # take that REST
-    map.resources :place_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/place_you_tube_videos", :collection => {  :add => :post, 
-                                                                                                                                              :remove => :post, 
-                                                                                                                                              :search => :post, 
-                                                                                                                                              :places => :post,
-                                                                                                                                              :preview => :post, 
-                                                                                                                                              :search_by_tag => :post, 
-                                                                                                                                              :search_by_user => :post, 
-                                                                                                                                              :search_by_category_and_tag => :post, 
-                                                                                                                                              :list_by_featured => :post, 
-                                                                                                                                              :list_by_popular => :post,
-                                                                                                                                              :show_video => :post
-                                                                                                                                            }
   map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos", :collection => {  :add => :post, 
                                                                                                                                               :remove => :post, 
                                                                                                                                               :search => :post, 

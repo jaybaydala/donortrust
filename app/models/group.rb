@@ -1,6 +1,7 @@
 class Group < ActiveRecord::Base
   belongs_to :group_type
   has_many :investments
+  has_many :invitations
   has_many :memberships
   has_many :users, :through => :memberships
   #has_many :users, :through => :groupwall
@@ -52,6 +53,7 @@ class Group < ActiveRecord::Base
   end
 
   def member(user)
+    return unless user
     memberships.find_by_user_id(user.id)
   end
   
