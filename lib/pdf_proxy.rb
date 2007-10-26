@@ -64,10 +64,16 @@ class TaxReceiptPDFProxy
     end
     x = 227
     font_size = 8
-    _pdf.add_text(x+14, 639, receipt.id_display, font_size)
-    _pdf.add_text(x, 625, number_to_currency(receipt.investment.amount), font_size)
+    _pdf.add_text(x+14, 639, receipt.id_display, font_size)    
+    if receipt.gift != nil
+      _pdf.add_text(x, 625, number_to_currency(receipt.gift.amount), font_size)
+      _pdf.add_text(x, 598, receipt.gift.created_at.to_s(), font_size)
+    elsif receipt.deposit != nil
+      _pdf.add_text(x, 625, number_to_currency(receipt.deposit.amount), font_size)
+      _pdf.add_text(x, 598, receipt.deposit.created_at.to_s(), font_size)
+    end   
     _pdf.add_text(x, 612, receipt.created_at.to_s(), font_size)
-    _pdf.add_text(x, 598, receipt.investment.created_at.to_s(), font_size)
+    
     x2 = 187
     _pdf.add_text(x2, 565, receipt[:first_name] + ' ' + receipt[:last_name], font_size)
     _pdf.add_text(x2, 549, receipt.address, font_size)
