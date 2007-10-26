@@ -43,12 +43,13 @@ class Dt::GiftsController < DtApplicationController
       %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] }
       @gift[:name] = current_user.full_name if logged_in?
       @gift[:email] = current_user.email
-    end
+    end  
   end
-
+  
   def create
-    @gift = Gift.new( gift_params )
-    @gift.user_ip_addr = request.remote_ip
+    @gift = Gift.new( gift_params )    
+    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
+    
     if params[:gift][:credit_card] && params[:gift][:credit_card] != ''
       iats = iats_payment(@gift)
       @gift.authorization_result = iats.authorization_result if iats.status == 1
@@ -58,7 +59,13 @@ class Dt::GiftsController < DtApplicationController
       @saved = @gift.save
     end
     respond_to do |format|
-      if @saved
+      if @saved               
+       if params[:gift][:credit_card] && params[:gift][:credit_card] != '' and @gift.country == 'Canada' 
+         get_receipt
+       end  #could do 1 ugly if
+        if @tax_receipt.country == 'CA' or @tax_receipt.country == 'Canada' and  !logged_in?
+          get_receipt
+       end
         # send the email if it's not scheduled for later.
         @gift.send_gift_mail if @gift.send_gift_mail? == true
         # send confirmation to the gifter
@@ -156,6 +163,23 @@ class Dt::GiftsController < DtApplicationController
     gift_params
   end
   
+  def get_receipt
+    if logged_in?
+      @tax_receipt.user = current_user
+    end
+    @tax_receipt.gift_id = @gift.id
+    @tax_receipt.email = @gift.email
+    @tax_receipt.first_name = @gift.first_name
+    @tax_receipt.last_name = @gift.last_name
+    @tax_receipt.address = @gift.address
+    @tax_receipt.city = @gift.city
+    @tax_receipt.province = @gift.province
+    @tax_receipt.postal_code = @gift.postal_code
+    @tax_receipt.country = @gift.country
+    @tax_receipt.save
+    @tax_receipt.send_tax_receipt   
+  end
+  
   def schedule(gift)
     send_at_vals = Array.new
     (1..5).each do |x|
@@ -178,5 +202,5 @@ class Dt::GiftsController < DtApplicationController
         gift_params.delete("send_at(#{x}i)")
       end
     end
-  end
+  end     
 end
