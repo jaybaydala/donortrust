@@ -5,7 +5,7 @@
 
     <h2>YouTube Videos | 
     
-		&nbsp;<%= link_to_remote "Featured", :update => 'you_tube_videos', :url => {:action => 'list_by_featured'}%> |
+		&nbsp;<%= link_to_remote "Featured", :update => 'you_tube_videos', :url => {:action => 'list_by_featured', :project_id => @project_id}%> |
         &nbsp;<%= slide_down_link "Tags", "search_link", "by_tag"%> |
         &nbsp;<%= slide_down_link "Users", "search_link", "by_user"%> |
         &nbsp;<%= slide_down_link "Category", "search_link", "by_category"%> |

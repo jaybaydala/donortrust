@@ -4,7 +4,7 @@
 	dt_video = class_name != "you_tube_video"
 	if dt_video
 		
-    	video = RubyTube.new().get_video(you_tube_video.you_tube_video_id)
+    	video = RubyTube.new().get_video(you_tube_video.you_tube_id)
 		video_id = video.id.to_s
 	else
 		video = you_tube_video
