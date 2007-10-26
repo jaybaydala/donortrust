@@ -9,7 +9,7 @@ set :rails_env, "staging"
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_clean, true
 
-role :app, "slice2.christmasfuture.org"
+role :app, "slice.christmasfuture.org", "slice2.christmasfuture.org"
 role :web, "slice.christmasfuture.org"
 role :db,  "slice.christmasfuture.org", :primary => true
 role :schedule,  "slice2.christmasfuture.org"
