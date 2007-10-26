@@ -16,7 +16,6 @@ class DepositsRel001 < ActiveRecord::Migration
       t.column :user_id,              :int
       t.column :created_at,           :datetime
       t.column :updated_at,           :datetime
-      t.column :user_ip_addr,         :string, :limit => 50
     end
     if (ENV['RAILS_ENV'] == 'development')
       directory = File.join(File.dirname(__FILE__), "dev_data")
