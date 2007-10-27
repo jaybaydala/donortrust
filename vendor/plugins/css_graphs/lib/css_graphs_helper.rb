@@ -240,6 +240,41 @@ module CssGraphsHelper
     html
   end
   
+  
+    def horizontal_bar_graph_no_title(data)
+    html = <<-"HTML"
+      <style>
+      /* Basic Bar Graph */
+      .graph { 
+        position: relative; /* IE is dumb */
+        width: 200px; 
+        border: 1px solid #B1D632; 
+        padding: 2px; 
+        margin-bottom: .5em;          
+      }
+      .graph .bar { 
+        display: block; 
+        position: relative;
+        background: #B1D632; 
+        text-align: center; 
+        color: #333; 
+        height: 2em; 
+        line-height: 2em;                 
+      }
+      .graph .bar span { position: absolute; left: 1em; } /* This extra markup is necessary because IE does not want to follow the rules for overflow: visible */  
+      </style>
+    HTML
+    
+    data.each do |d|
+      html += <<-"HTML"
+        <div class="graph">
+          <strong class="bar" style="width: #{d[1]}%;" ><span></span> </strong>
+        </div>
+      HTML
+    end
+    return html
+  end
+  
   # Make a horizontal graph that only shows percentages.
   #
   # The label will be set as the title of the bar element.
@@ -282,6 +317,7 @@ module CssGraphsHelper
     end
     return html
   end
+
   
   # Makes a multi-colored bar graph with a bar down the middle, representing the value.
   #
