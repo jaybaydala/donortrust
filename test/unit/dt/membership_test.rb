@@ -22,6 +22,38 @@ context "Membership class" do
   specify "should respond to member?" do
     @membership.should.respond_to 'member?'
   end
+
+  specify "should create a member" do
+    Membership.should.differ(:count).by(1) {
+      m = create_membership(:user_id => users(:tim).id, :group_id => 1)
+    }
+  end
+  
+  specify "should require user_id and group_id" do
+    %w( user_id group_id ).each do |field|
+      lambda {
+        u = create_membership(field.to_sym => nil)
+        u.errors.on(field.to_sym).should.not.be.nil
+      }.should.not.change(Membership, :count)
+    end
+  end
+  
+  specify "if no membership_type is supplied, should default to Membership.member" do
+    m = create_membership(:user_id => users(:tim).id, :group_id => 1, :membership_type => nil)
+    m.membership_type.should.equal Membership.member
+  end
+
+  specify "if a bogus membership_type is supplied, should default to Membership.member" do
+    m = create_membership(:user_id => users(:tim).id, :group_id => 1, :membership_type => 99)
+    m.membership_type.should.equal Membership.member
+    m.destroy
+    m = create_membership(:user_id => users(:tim).id, :group_id => 1, :membership_type => -1)
+    m.membership_type.should.equal Membership.member
+  end
+  
+  def create_membership(options={})
+    @membership = Membership.create({:user_id => 1, :group_id => 1, :membership_type => Membership.member}.merge(options))
+  end
 end 
 
 context "Membership types" do

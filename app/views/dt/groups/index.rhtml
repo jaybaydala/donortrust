@@ -1,5 +1,20 @@
 <div id="contentContainer">
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="projectInfo">
+    <div class="leftColW">
+      <h1>We change the world together.</h1>
+      <p>Connect with other people in your own city or from across the world who have chosen to help eradicate extreme poverty. Share your concern for specific projects, developing communities, or implementing organizations. Search &lsquo;Connect&rsquo; to find people who have already given to certain projects, or see who is interested in a specific project.</p>
+    </div>
+    <div id="rightColN">
+      <div class="buttonGroupWrapN">
+        <ul class="buttonGroup">
+          <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path %></div></li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-bottom: 8px;" class="line2Full"></div>
+  </div>
+
   <%= render :partial => 'group', :collection => @groups if @groups %>
 </div>

@@ -42,6 +42,14 @@ context "Dt::MyWishlists #route_for" do
     route_for(:controller => "dt/my_wishlists", :action => "new_message", :account_id => 1).should == "/dt/accounts/1/my_wishlists;new_message"
   end
 
+  specify "should map { :controller => 'dt/my_wishlists', :action => 'confirm', :account_id => 1} to /dt/accounts/1/my_wishlists;confirm" do
+    route_for(:controller => "dt/my_wishlists", :action => "confirm", :account_id => 1).should == "/dt/accounts/1/my_wishlists;confirm"
+  end
+
+  specify "should map { :controller => 'dt/my_wishlists', :action => 'preview', :account_id => 1} to /dt/accounts/1/my_wishlists;preview" do
+    route_for(:controller => "dt/my_wishlists", :action => "preview", :account_id => 1).should == "/dt/accounts/1/my_wishlists;preview"
+  end
+
   specify "should map { :controller => 'dt/my_wishlists', :action => 'send_message', :account_id => 1} to /dt/accounts/1/my_wishlists;send_message" do
     route_for(:controller => "dt/my_wishlists", :action => "send_message", :account_id => 1).should == "/dt/accounts/1/my_wishlists;send_message"
   end

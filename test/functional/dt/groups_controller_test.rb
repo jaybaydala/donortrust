@@ -225,10 +225,27 @@ context "Dt::GroupsController handling GET /dt/groups/1" do
     should.not.redirect dt_login_path()
   end
 
-  specify "should redirect if group is private and you are not a member" do
+  specify "should not redirect if group is private and you are not a member" do
     @group = Group.create(:name => 'test', :private => :true, :group_type_id => 1)
     do_get(@group.id)
-    should.redirect :action => 'index'
+    should.not.redirect
+  end
+
+  specify "should not show group nav if group if private and you are not a member" do
+    login_as :quentin
+    @group = Group.create(:name => 'test', :private => :true, :group_type_id => 1)
+    do_get(@group.id)
+    page.should.not.select ".pageNav"
+  end
+
+  specify "if an invitation exists, should show an accept/decline form" do
+    @group = Group.create(:name => 'test', :private => :true, :group_type_id => 1)
+    @group.memberships.create(:user_id => users(:tim).id, :membership_type => Membership.founder)
+    @group.invitations.create(:user_id => users(:tim).id, :to_email => users(:quentin).email)
+    login_as :quentin
+    do_get(@group.id)
+    page.should.select "#invitationaccept"
+    page.should.select "#invitationdecline"
   end
 
   specify "should show group" do

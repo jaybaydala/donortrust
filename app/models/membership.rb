@@ -10,7 +10,14 @@ class Membership < ActiveRecord::Base
     me.errors.add :user_id, 'does not exist' unless me.user( true )
     me.errors.add :group_id, 'does not exist' unless me.group( true )
   end
-
+  
+  def before_save
+    self[:membership_type] = Membership.member unless [Membership.founder, Membership.admin, Membership.member].include?(self[:membership_type])
+    if ![Membership.founder, Membership.admin, Membership.member].include?(self[:membership_type])
+      pp "hithere"
+    end
+  end
+  
   def founder?; membership_type == Membership.founder ? true : false; end
   def owner?;   founder?; end
   def admin?;   membership_type >= Membership.admin ? true : false; end

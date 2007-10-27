@@ -1,6 +1,7 @@
 class Dt::GroupsController < DtApplicationController
   before_filter :login_required, :except => [ :index, :show ]
   before_filter :load_membership, :except => [ :index, :new, :create ]
+  before_filter :store_location
   helper 'dt/places'
   helper_method :current_member
   
@@ -18,13 +19,12 @@ class Dt::GroupsController < DtApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @membership = Membership.find_by_user_id(current_user, :conditions => { :group_id => params[:id] })
+    if @group.private && !@membership
+      flash.now[:notice] = "This is a private group" unless flash[:notice]
+      @invitation = Invitation.find(:first, :conditions => {:to_email => current_user.email, :accepted => nil}) if logged_in?
+    end
     respond_to do |format|
-      if @group.private && !@membership
-        format.html { redirect_to :action => :index }
-      else
-        format.html
-      end
+      format.html
     end
   end
 
@@ -35,6 +35,9 @@ class Dt::GroupsController < DtApplicationController
 
   def edit
     @group = Group.find(params[:id])
+    respond_to do |format|
+      format.html
+    end
   end
 
   def create
@@ -90,7 +93,7 @@ class Dt::GroupsController < DtApplicationController
   end
 
   def load_membership
-    return if params[:id].nil? || params[:id].empty?
+    return if !logged_in? || params[:id].nil? || params[:id].empty?
     @membership = Membership.find_by_user_id(current_user, :conditions => { :group_id => params[:id] })
   end
   
@@ -100,10 +103,10 @@ class Dt::GroupsController < DtApplicationController
       return false unless logged_in?
     end
     if ['edit', 'update'].include?(action_name)
-      return false unless logged_in? && current_member && current_member.membership_type >= Membership.admin
+      return false unless logged_in? && current_member && current_member.admin?
     end
     if ['destroy'].include?(action_name)
-      return false unless logged_in? && current_member && current_member.membership_type >= Membership.founder
+      return false unless logged_in? && current_member && current_member.founder?
     end
     return true
   end

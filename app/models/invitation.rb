@@ -13,4 +13,10 @@ class Invitation < ActiveRecord::Base
       i.errors.add :group_id, 'is not accessible to non-admins' unless i.group.member(i.user) && i.group.member(i.user).admin?
     end
   end
+  
+  def after_create
+    if update_attributes(:sent_at => Time.now)
+      DonortrustMailer.deliver_invitation_mail(self)
+    end
+  end
 end

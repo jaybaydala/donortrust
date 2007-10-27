@@ -2,7 +2,7 @@ require 'pdf_proxy'
 
 class DonortrustMailer < ActionMailer::Base
   include PDFProxy
-  HTTP_HOST = 'www.christmasfuture.org' if !const_defined?('HTTP_HOST')
+  HTTP_HOST = (['staging', 'production'].include?(ENV['RAILS_ENV']) ? 'www.christmasfuture.org' : 'localhost:3000') if !const_defined?('HTTP_HOST')
 
   def user_signup_notification(user)
     user_setup_email(user)
@@ -34,6 +34,18 @@ class DonortrustMailer < ActionMailer::Base
     body_data = {:share => share, :host => HTTP_HOST, :url => url, :projects => projects}
     content_type "text/html"
     body render_message('wishlist_mail.text.html.rhtml', body_data)
+  end
+  
+  def invitation_mail(invitation)
+    content_type "text/html"
+    recipients  invitation.to_name ? "#{invitation.to_name}<#{invitation.to_email}>" : "#{invitation.to_email}"
+    from        invitation.user.full_name.empty? ? invitation.user.email : "#{invitation.user.full_name}<#{invitation.user.email}>"
+    sent_on     Time.now
+    subject     "Your have been invited to join the \"#{invitation.group.name}\" group at ChristmasFuture"
+    url = dt_group_url(:host => HTTP_HOST, :id => invitation.group_id)
+    body_data = {:invitation => invitation, :host => HTTP_HOST, :url => url}
+    content_type "text/html"
+    body render_message('invitation_mail.text.html.rhtml', body_data)
   end
 
   def share_mail(share)

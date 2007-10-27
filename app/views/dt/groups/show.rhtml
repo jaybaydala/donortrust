@@ -1,12 +1,23 @@
 <%= dt_get_involved_nav %>
 
-<%= dt_group_nav %>
+<%= dt_group_nav unless @group.private && !@membership %>
 
 <div id="contentContainer">
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <div id="leftColW">
   	<h1><%= h @group.name %></h1>
+  	<% if !@group.private || (@group.private && @membership) || @invitation %>
+  	  <% if !@membership && @invitation %>
+  	    <p>You have been invited to join this group. Would you like to accept?</p>
+    	  <% form_tag dt_invitation_path(:group_id => @group, :id => @invitation), :method => 'put' do %>
+    	    <%= hidden_field_tag "accepted", 1 %><%= submit_tag "Accept", :class => 'buttonsubmit', :id => 'invitationaccept' %>
+    	  <% end %>
+    	  
+    	  <% form_tag dt_invitation_path(:group_id => @group, :id => @invitation), :method => 'put' do %>
+    	    <%= hidden_field_tag "accepted", 0 %><%= submit_tag "Decline", :class => 'buttonsubmit', :id => 'invitationdecline' %>
+    	  <% end %>
+  	  <% end %>
       <div class="col" style="height:90px;">
         <ul id="factList2">
           <% if !@group.founder.nil? %><li><strong>Founder:</strong> <%= @group.founder.name %></li><% end %>
@@ -31,6 +42,12 @@
   		<p>Ut a tellus vel justo elementum euismod. Duis vulputate, neque nec accum-<br />
   san tincidunt, risus quam varius eros, eu gravida nunc neque ut tortor. Cras con-dismentum justo sit amet quam.</p>
   		<p class="dateStamp">date stamp </p>
+  	<% else %>
+  	  <p>
+  	    <%= logged_in? ? "We cannot find an invitation to your login email." : "If you believe you've been invited to this group, please login using the email address that you were invited with." %>
+  	    You cannot access this group without an invitation from a group administrator.
+  	  </p>
+  	<% end %>
   	</div>
   	<div id="rightColN">
   	  <%= dt_profile_sidebar %>

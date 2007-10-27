@@ -72,6 +72,8 @@ if ENV['RAILS_ENV'] == 'production' || ENV['RAILS_ENV'] == 'staging'
   SqlSessionStore.session_class = MysqlSession
 end
 
+# add in a readable date format
+ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:dt_default => "%b %e, %Y")
 
 require 'rubygems'
 require 'flickr'

@@ -5,6 +5,7 @@ class Dt::MembershipsController < DtApplicationController
     @group = Group.find(params[:group_id])
     @memberships = @group.memberships
     @membership = Membership.find(:first, :conditions => {:user_id => current_user.id, :group_id => params[:group_id]}) if logged_in?
+    @invitation = Invitation.new(:group_id => @group.id, :user_id => current_user.id) if @membership && (!@group.private? || (@group.private? && @membership.admin?))
     respond_to do |format|
       format.html # index.rhtml
     end

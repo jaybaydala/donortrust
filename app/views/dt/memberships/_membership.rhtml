@@ -1,6 +1,6 @@
 <li id="membership-<%= membership.id %>">
 	<div class="name"><%= membership.user.name %></div>
-	<div class="date"><% if membership.created_at? %><%= membership.created_at.to_date.to_s "%y/%m/%d" %><% else %>&nbsp;<% end %></div>
+	<div class="date"><%= membership.created_at? ? membership.created_at.to_date.to_formatted_s(:dt_default) : '&nbsp;' %></div>
 	<div class="mtype"><% if @membership && @membership.admin? && @membership.id != membership.id -%>
 <% fields_for 'membership[]', membership do |m| %>
 <%= m.select :membership_type, [['Member', '1'], ['Admin', '2'], ['Founder', '3']], :selected => membership.membership_type %>
