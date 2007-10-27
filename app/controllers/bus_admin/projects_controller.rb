@@ -5,9 +5,9 @@ class BusAdmin::ProjectsController < ApplicationController
   
     config.columns = [ :name, :description, :program, :project_status,  :target_start_date, :target_end_date, :causes,
                             :actual_start_date, :actual_end_date,:dollars_spent, :total_cost, :partner, :contact, :place,
-                          :milestone_count, :milestones,:key_measures, :sectors, :public, :note, :featured, :blog_url, :rss_url,
+                          :milestone_count, :rank, :milestones,:key_measures, :sectors, :public, :note, :featured, :blog_url, :rss_url,
                           :frequency_type, :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects, :causes, :collaborating_agencies, :financial_sources, :lives_affected ]      
-    list.columns.exclude [ :description, :expected_completion_date, :total_cost, :contact, :place, :milestones, :actual_start_date, :actual_end_date,
+    list.columns.exclude [ :description,:rank, :expected_completion_date, :total_cost, :contact, :place, :milestones, :actual_start_date, :actual_end_date,
                          :target_end_date,:dollars_spent, :sectors, :public, :milestone_count, :partner, :blog_url, :rss_url, :intended_outcome, 
                           :meas_eval_plan, :frequency_type, :project_in_community, :key_measures, :other_projects, :collaborating_agencies, :financial_sources, :lives_affected  ]
     #show.columns.exclude [ ]
@@ -46,6 +46,8 @@ class BusAdmin::ProjectsController < ApplicationController
     config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/you_tube.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_you_tube_videos"}
     config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/flickr.png" border=0>', :page => true, :type=> :record, :parameters =>{:controller=>"bus_admin/project_flickr_images"}
     config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'projects', :action => 'report'},:page => true
+    config.action_links.add 'list', :label => 'KPI Reports', :parameters =>{:controller=>'projects', :action => 'kpi_report'},:page => true, :type => :record
+    
     config.action_links.add 'list', :label => 'Timeline', :parameters =>{:controller=>'projects', :action => 'showProjectTimeline'},:page => true, :type=> :record
     
     config.action_links.add 'list', :label => 'Export to CSV', :parameters =>{:controller=>'projects', :action => 'export_to_csv'},:page => true
@@ -74,6 +76,13 @@ class BusAdmin::ProjectsController < ApplicationController
     @percent_raised = @project.get_percent_raised
     @milestones = @project.milestones.find(:all)
     render :partial => "bus_admin/projects/individual_report", :layout => 'application'
+  end
+  
+  def kpi_report    
+    @id = params[:id]
+    @project = Project.find(@id)
+    @measures = @project.key_measures.find(:all)
+    render :partial => "bus_admin/projects/kpi_report", :layout => 'application'
   end
   
   def byProject
