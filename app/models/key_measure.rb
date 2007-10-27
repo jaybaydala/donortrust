@@ -38,5 +38,23 @@ class KeyMeasure < ActiveRecord::Base
   def measurement_count
     return key_measure_datas.count
   end
+  
+  def get_percent_target
+    percent_target = 0
+    measureData = self.key_measure_datas(:first, :order => 'date DESC')
+    data = measureData.find(:first)
+    if data != nil then
+      if(self.decrease_target)
+        percent_target = (self.target * 100 / data.value )
+      else
+        percent_target = (data.value * 100 / self.target)
+      end
+     # if percent_target > 100 then percent_target = 100 end
+      
+    end
+    return percent_target
+  end
+  
+  
 end
 

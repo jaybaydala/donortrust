@@ -1,6 +1,6 @@
 class Place < ActiveRecord::Base
 
-  acts_as_tree :order=>"name"  
+  acts_as_tree :order=>"name" , :forgien_key => "parent_id"
 
   file_column :file, :web_root => "images/bus_admin/uploads/", :root_path => File.join(RAILS_ROOT, "public/images/bus_admin/uploads")
   
@@ -10,8 +10,8 @@ class Place < ActiveRecord::Base
   has_many :projects
   has_many :place_sectors
   has_many :groups
-  has_many :place_flickr_images, :dependent => :destroy
-  has_many :place_you_tube_videos, :dependent => :destroy
+  has_many :place_flickr_images
+  has_many :place_you_tube_videos
   
   validates_presence_of :name
   validates_presence_of :place_type_id
