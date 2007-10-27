@@ -24,7 +24,7 @@ project_timeline = ::Simile::Timeline::Timeline.new(
         :width          => '"75%"',
         :intervalUnit   => 'Timeline.DateTime.WEEK',
         :intervalPixels => '50',
-        :date => '"Jan 02 2008"'
+        :date =>  "'" + @startDate.to_s + "'"
       },
     :months => {
       :trackGap       => '0.1',
@@ -33,7 +33,7 @@ project_timeline = ::Simile::Timeline::Timeline.new(
       :intervalPixels => '150',
       :trackHeight => '0.5', 
       :showEventText  => 'false',
-      :date => '"Jan 02 2008"'
+      :date =>  "'" + @startDate.to_s + "'"
     } 
   },
   :bands_order => [ :weeks, :months],
