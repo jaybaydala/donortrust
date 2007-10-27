@@ -2,6 +2,8 @@
 <%= project_nav %>
 
 <div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <div class="buttonGroupWrapN">
     <ul class="buttonGroup">
       <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path(:project_id => @project) %></div></li>

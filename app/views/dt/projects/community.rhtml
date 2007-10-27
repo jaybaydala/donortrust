@@ -1,6 +1,8 @@
 <h1 class="title"><%= @project.name %></h1>
 <%= project_nav %>
 <div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <div id="leftColW">
     <h1><%= @community.name %></h1>
     <p>This page is about how lives are changed. (Theme: Proof Of Impact)</p>

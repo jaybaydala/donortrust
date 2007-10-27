@@ -1,4 +1,6 @@
 <div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <div class="projectInfo">
     <div class="leftColW">
       <h1>Lasting, Sustainable Results</h1>
