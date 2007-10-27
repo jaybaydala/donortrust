@@ -26,7 +26,7 @@ namespace :db do
       require 'active_record/fixtures'
 
       if ENV['FIXTURES']
-        fixture_files = ENV['FIXTURES'].split(/s*,s*/).map {|fixture| [File.join(RAILS_ROOT, 'db', 'bootstrap', fixture), fixture]}
+        fixture_files = ENV['FIXTURES'].split(/s*,s*/).map {|fixture| [File.join(RAILS_ROOT, 'db', 'bootstrap', fixture)[/(.*).(yml|csv)/i,1], fixture[/\d+_([^.]+).(yml|csv)/i, 1]]}
       else
         found_files = Dir.glob(File.join(RAILS_ROOT, 'db', 'bootstrap', '*.{yml,csv}'))
         numbered_files = found_files.select {|path| path =~ /\d+_[^.]+.(yml|csv)/i }
@@ -46,22 +46,15 @@ namespace :db do
       fixtures = fixture_files.map do |fixture_path, table_name|
         Fixtures.new(connection, table_name, nil, fixture_path)
       end
-
-p "Fixtures Loaded"
-
       connection.transaction(Thread.current['open_transactions'] == 0) do
         fixtures.reverse.each { |fixture| fixture.delete_existing_fixtures }
-p "Existing fixtures deleted"
         fixtures.each { |fixture| fixture.insert_fixtures }
-p "Fixtures inserted"
-
         # Cap primary key sequences to max(pk).
         if connection.respond_to?(:reset_pk_sequence!)
           fixture_files.each do |fixture_path, table_name|
             connection.reset_pk_sequence!(table_name)
           end
         end
-p "Primary Keys Fixed"
       end
     end
   end
