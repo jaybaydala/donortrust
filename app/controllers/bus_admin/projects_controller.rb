@@ -5,9 +5,9 @@ class BusAdmin::ProjectsController < ApplicationController
   
     config.columns = [ :name, :description, :program, :project_status,  :target_start_date, :target_end_date, :causes,
                             :actual_start_date, :actual_end_date,:dollars_spent, :total_cost, :partner, :contact, :place,
-                          :milestone_count, :rank, :milestones,:key_measures, :sectors, :public, :note, :featured, :blog_url, :rss_url,
+                          :milestone_count, :ranks, :milestones,:key_measures, :sectors, :public, :note, :featured, :blog_url, :rss_url,
                           :frequency_type, :intended_outcome, :meas_eval_plan, :project_in_community, :other_projects, :causes, :collaborating_agencies, :financial_sources, :lives_affected ]      
-    list.columns.exclude [ :description,:rank, :expected_completion_date, :total_cost, :contact, :place, :milestones, :actual_start_date, :actual_end_date,
+    list.columns.exclude [ :description,:ranks, :expected_completion_date, :total_cost, :contact, :place, :milestones, :actual_start_date, :actual_end_date,
                          :target_end_date,:dollars_spent, :sectors, :public, :milestone_count, :partner, :blog_url, :rss_url, :intended_outcome, 
                           :meas_eval_plan, :frequency_type, :project_in_community, :key_measures, :other_projects, :collaborating_agencies, :financial_sources, :lives_affected  ]
     #show.columns.exclude [ ]
