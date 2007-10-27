@@ -3,7 +3,7 @@ class DtApplicationController < ActionController::Base
   include DtAuthenticatedSystem
 
   # "remember me" functionality
-  before_filter :login_from_cookie
+  before_filter :login_from_cookie, :ssl_filter
   
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_donortrustfe_session_id'
@@ -26,6 +26,21 @@ class DtApplicationController < ActionController::Base
     return false
   end
 
+def ssl_filter
+  if ['staging', 'production'].include?(ENV['RAILS_ENV'])
+    redirect_to url_for(:protocol => 'https://') if !request.ssl? && ssl_required? 
+    redirect_to url_for(:protocol => 'http://') if request.ssl? && !ssl_required? 
+  end
+end
+
+
+protected
+  def ssl_required?
+    return false
+  end
+
+
+    
  #protected  
  #
  #def log_error(exception) 
