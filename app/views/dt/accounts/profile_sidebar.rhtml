@@ -13,7 +13,7 @@
 	</ul>
 
   <h5>My Portfolio</h5>
-  <ul class="factList"> 
+  <ul id="factList"> 
   	<li><strong>Groups:</strong> <%= render :partial => 'dt/accounts/membership', :collection => current_user.memberships %><% if current_user.memberships.size == 0 %><%= link_to "Find a group to join", dt_groups_path %><% end %></li>
   	<li><strong>Invested:</strong> <%= number_to_currency(current_user.invested) %></li>
   	<li><strong>Account Balance:</strong> <%= number_to_currency(current_user.balance) %></li>
@@ -25,8 +25,8 @@
   </ul>
   <% end %>
 <% else %>
-<p><strong><%= link_to "Login", dt_login_path %> to see your profile and get involved!</strong></p>
-<ul>
-  <li class="blueblock"><%= link_to "Make a Deposit", dt_new_deposit_path(:account_id => current_user) %></li>
-</ul>
+  <p><strong><%= link_to "Login", dt_login_path %> to see your profile and get involved!</strong></p>
+  <ul>
+    <li class="blueblock"><%= link_to "Make a Deposit", dt_new_deposit_path(:account_id => current_user) %></li>
+  </ul>
 <% end %>

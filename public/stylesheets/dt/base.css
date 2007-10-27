@@ -197,8 +197,8 @@ div.highlight {
 	float: left;
 	width: 476px;
 	height: auto;
-	padding: 0px 0px 20px 0px;
-	margin: 0px 0 15px 0;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0 0px 0;
 }
 #leftColW2 {
 	float: left;
@@ -240,6 +240,13 @@ div.highlight {
 
 #leftColW .col ul, #leftColW .colEnd ul {margin:0 0 10px 0;padding:0 0;list-style-type:none;}
 form #leftColW .col ul, form #leftColW .colEnd ul {margin:0 0 10px 0;padding:0 0;list-style-type:none;}
+
+/* SMALL COLUMN STYLES */
+
+#smColWrap {width:auto; height:auto; margin:0 0 10px 0px; float:left;}
+#smColWrap img {margin-bottom: 5px;}
+.smCol {width:144px; height:auto; margin:0 18px 0 0; float:left;}
+.smColEnd {width:144px; height:auto; margin:0 0 0 0; float:left;}
 
 /* Footer Styles */
 	
@@ -459,7 +466,7 @@ hr { height:2px; border:0px; border-bottom:2px solid #ff1493;margin:0;padding:0;
 .line1N {height:1px;width:228px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:;}
 .line2W {height:1px;width:469px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:;}
 .line2N {height:1px;width:228px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:;}
-.line2Full {height:1px;width:717px; margin:15px 0 0px 7px; padding:0; float:left; border-bottom:2px solid #360;}
+.line2Full {height:1px;width:717px; margin:5px 0 0px 7px; padding:0; float:left; border-bottom:2px solid #360;}
 
 
 .endLine {
@@ -565,6 +572,9 @@ h2 a:hover, h2 a:active {
 #rightColN #buttonTellFriend {margin-bottom: 10px;}
 #rightColN #buttonCreateGroup {margin-bottom: 10px;}
 #rightColN li #buttonCreateGroup {margin-bottom: 0px;}
+#rightColN #buttonDeleteGroup {margin-bottom: 10px;}
+#rightColN li #buttonDeleteGroup {margin-bottom: 0px;}
+
 
 #buttonGiftProject {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
@@ -683,6 +693,47 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
+#buttonEcard {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	margin-left: 0px;
+	margin-right: 7px;
+	margin-bottom: 0px;
+	height: 22px; 
+    width: 100px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/ecard_grey.gif) no-repeat center; 
+   	display: block;
+	list-style-type: none;
+    text-indent: -9000px;
+	float:left;
+}
+#buttonEcard a:link, #buttonEcard a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/ecard_grey.gif) no-repeat center;
+	height: 22px; 
+    width: 100px;
+    display: block;
+	list-style-type: none;
+}
+#buttonEcard a:hover, #buttonEcard a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/ecard_blue.gif) no-repeat center;
+	margin-left: auto;
+	margin-right: auto;
+	height: 22px; 
+	width: 100px;
+    display: block;
+	list-style-type: none;
+}
+
+
 #buttonCreateGroup {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
@@ -722,6 +773,85 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
+#buttonDeleteGroup {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	margin-left: 0px;
+	margin-right: 7px;
+	margin-bottom: 0px;
+	height: 22px; 
+    width: 100px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/deleteGroup_grey.gif) no-repeat center; 
+   	display: block;
+	list-style-type: none;
+    text-indent: -9000px;
+	float:left;
+}
+#buttonDeleteGroup a:link, #buttonDeleteGroup a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/deleteGroup_grey.gif) no-repeat center;
+	height: 22px; 
+    width: 100px;
+    display: block;
+	list-style-type: none;
+}
+#buttonDeleteGroup a:hover, #buttonDeleteGroup a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/deleteGroup_orange.gif) no-repeat center;
+	margin-left: auto;
+	margin-right: auto;
+	height: 22px; 
+	width: 100px;
+    display: block;
+	list-style-type: none;
+}
+#addProjButton {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	height: 16px; 
+    width: 120px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/addProjButton_grey.gif) no-repeat center; 
+   	display: block;
+	list-style-type: none;
+    text-indent: -9000px;
+	float:left;
+}
+#addProjButton a:link, #addProjButton a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/addProjButton_grey.gif) no-repeat center;
+	height: 16px; 
+    width: 120px;
+    display: block;
+	list-style-type: none;
+}
+#addProjButton a:hover, #addProjButton a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/addProjButton_blue.gif) no-repeat center;
+	margin-left: auto;
+	margin-right: auto;
+	height: 16px; 
+	width: 120px;
+    display: block;
+	list-style-type: none;
+}
+
 
 /* GO and SUBMIT Buttons */
 
@@ -855,7 +985,7 @@ h2 a:hover, h2 a:active {
 	padding: 2px 0 0 0;
 	height: 20px; 
 	width: 92px;
-  display: block;
+    display: block;
 	list-style-type: none;
 }
 #buttonConnect {
@@ -864,9 +994,9 @@ h2 a:hover, h2 a:active {
 	text-transform:capitalize;
 	text-decoration: none;
 	height: 20px; 
-	width: 92px;
+    width: 92px;
 	padding: 3px 10px 0 0;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/connectButton_grey.gif) no-repeat 0px 3  px; 
+	background: transparent url(/images/dt/nav_elements/buttonsCF/connectButton_grey.gif) no-repeat 0px 3px;
 	display: block;
 	list-style-type: none;
 	text-indent: 0px;
@@ -906,13 +1036,9 @@ h2 a:hover, h2 a:active {
 	padding: 2px 0 0 0;
 	height: 20px; 
 	width: 92px;
-	display: block;
+    display: block;
 	list-style-type: none;
 }
-#buttonConnect a:link.current, #buttonConnect a:visited.current {
-	background: transparent url(/images/dt/nav_elements/buttonsCF/connectButton_blue.gif) no-repeat;
-}
-
 
 
 /* BUTTON GROUP */
@@ -920,7 +1046,7 @@ h2 a:hover, h2 a:active {
 .buttonGroupWrapN {
 	padding: 0px 0px 1px 0px;
 	margin: 0 0 8px 0px;
-	background: ;
+	background:#ccc ;
 	height: 24px;
 	width: 228px;
 	text-align:left;
@@ -928,13 +1054,13 @@ h2 a:hover, h2 a:active {
 	float:right;
 }
 #subSubNav_2col .buttonGroupWrapN {margin-bottom: 0px;}
-.buttonGroupWrap ul, #rightColN .buttonGroupWrap ul {float:lef; padding: 0px 0 2px 0px; margin:0;}
+.buttonGroupWrapN ul, #rightColN .buttonGroupWrapN ul {padding: 0px 0 2px 0px; margin:0;}
 .buttonGroup li, #rightColN .buttonGroup li {
 	font: 11px/16px Arial, Helvetica, sans-serif;
 	color: #333;
 	background:;
 	padding: 1px 0px 1px 0px;
-	margin:0 3px 0 0;
+	margin:0 0px 0 0;
 	text-decoration:none;
 	display: inline;
 	list-style-type: none;
@@ -1289,10 +1415,10 @@ div.buttonsubmit a.large:hover {
 #buttonSignUp {
 }
 
-.blueblock a {font:11px/18px Arial, Helvetica, sans-serif;text-decoration:none; padding:0 0 0 3px;}
-.blueblock a:link, .blueblock a:visited {text-decoration:none; display:block; color:#FFF; background:#66758B;}
-.blueblock a:hover, .blueblock a:active {text-decoration:none; display:block; color:#FFF; background:#F60;}
-.blueblock img {text-decoration:none; display:block; float:left; position:relative; top:2px;}
+.blueblock a {width:225px;font:11px/18px Arial, Helvetica, sans-serif;text-decoration:none; padding:0 0 0 3px;}
+.blueblock a:link, .blueblock a:visited {text-decoration:none; display:block; color:#FFF; background:#66758B url(/images/dt/nav_elements/buttonsCF/button_blueGrey_228.gif);}
+.blueblock a:hover, .blueblock a:active {text-decoration:none; display:block; color:#FFF; background:#F60 url(/images/dt/nav_elements/buttonsCF/button_orange_228.gif);}
+#leftColW .blueblock img {text-decoration:none; display:block; float:left; position:relative; top:2px;margin-left:0;}
 
 
 /* CF DONORTRUST CONTENT MODULES */
@@ -1305,7 +1431,7 @@ div.buttonsubmit a.large:hover {
 	text-align:left;
 	border-top: 0px solid #360;
 	border-bottom: 0px solid #360;
-	padding: 0 0 0px 0px;
+	padding: 0 0 10px 0px;
 	margin: 0px 0 8px 18px;
 }
 #contentContainer .projectInfo {margin-left:0px;}
@@ -1399,6 +1525,13 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 	margin-bottom:0px;
 }
 #rightColN .factList {padding:0; margin-bottom:0;}
+#rightColN .factList li {
+	font: 11px/18px Arial, Helvetica, sans-serif;
+	padding: 0px 0 3px 0px;
+	margin: 0 0 3px 0;
+	border-bottom: 1px solid #CCC;
+	background: ;
+}
 
 #factList2, .factList2 {
 	float:left;
@@ -1840,7 +1973,7 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 
 /* Add Members Button */
 
-#addButton {
+#addButton a {
 	float:left;
 	font: 10px/10px Arial, Helvetica, sans-serif;
 	color: #006;
@@ -1853,9 +1986,6 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	margin-top: 2px;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/newMemberOff.gif) 0px center;
 	border: 0px solid #006;
-}
-#addButton a {
-	width:102px; height:10px;
 	display:block;
 }
 #addButton a span {
@@ -1879,6 +2009,80 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	border: 0px solid #F60;
 }
 
+/* GIFT CODE ENTRY BAR - home page only */
+
+#giftCodeBar {
+	width:722px; height:25px; 
+	margin-left:18px; border-left:1px solid #999; border-right:1px solid #999;
+	background: #1E2231 url(/images/dt/backgrounds/giftCodeBack.gif) no-repeat 0 0;
+}
+#giftCodeBar input {float:left; margin: 0px 5px 0 0;}
+
+#giftCodeBox {
+	padding: 3px 10px 0px 7px;
+	margin-bottom: 0px;
+	background: #1E2231;
+	height: 25px;
+	width: 215px;
+	color: #666;
+	text-align:left;
+	/* Box-model hack */
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: 25px;
+	width: 218px;
+	float:lef;
+}
+#giftCodeBox input {width:140px; background: white;}
+
+#buttonUnwrap {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-transform:capitalize;
+	text-decoration: none;
+	height: 18px; 
+    width: 65px;
+	padding: 0px 0px 0 0;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_grey.gif) no-repeat 0px 3px; 
+   	display: block;
+	list-style-type: none;
+    text-indent: 0px;
+	float:right;
+}
+#buttonUnwrap a {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	height: 18px; 
+    width: 65px;
+	padding: 0;
+    background: transparent; 
+   	display: block;
+}
+#buttonUnwrap a:link, #buttonUnwrap a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	text-transform:capitalize;
+	padding: 2px 0 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_grey.gif) no-repeat;
+	height: 18px; 
+    width: 65px;
+    display: block;
+	list-style-type: none;
+}
+#buttonUnwrap a:hover, #buttonUnwrap a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	text-transform:capitalize;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_blue.gif) no-repeat;
+	padding: 2px 0 0 0;
+	height: 18px; 
+	width: 65px;
+    display: block;
+	list-style-type: none;
+}
 
 
 

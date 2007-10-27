@@ -21,19 +21,15 @@
     <%= render :partial => 'blog' %>
     <% end %>
 
-    <h2>Community Photos</h2>
-    <p>Photo Thumbnails. When clicked will reveal new window in flickr</p>
-    <pre>
-    @project.project_flickr_images.each do |pf|
-      #use the flickr plugin to make this display correctly
-      # photo = Flickr::Photo.new(flickr_image.photo_id.to_s)
-      # &lt;%= image_tag photo.sizes[0]['source'] %&gt;
-      pf.flickr_image_id.photo_id
-    end
-    </pre>
+    <% if @project.project_flickr_images.size > 0 %>
+    <h2>Project Photos</h2>
+    <%= render :partial => 'flickr_photo', :collection => @project.project_flickr_images %>
+    <% end %>
     
-    <h2>Community Video</h2>
-    <p>Video Thumbnails. When clicked will reveal new window. YouTube.com? Other?</p> 
+    <% if @project.project_you_tube_videos.size > 0 %>
+    <h2>Project Video</h2>
+    <%= render :partial => 'youtube_video', :collection => @project.project_you_tube_videos %>
+    <% end %>
 
   </div>
           
