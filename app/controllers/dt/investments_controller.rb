@@ -1,7 +1,11 @@
 class Dt::InvestmentsController < DtApplicationController
   before_filter :login_required
   helper 'dt/places'
-
+  
+  def ssl_required?
+    true
+  end
+  
   def new
     @investment = Investment.new( :project_id => params[:project_id] )
     @projects = Project.find(:all) if !params[:project_id]

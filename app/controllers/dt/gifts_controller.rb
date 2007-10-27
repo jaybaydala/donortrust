@@ -8,6 +8,10 @@ class Dt::GiftsController < DtApplicationController
   before_filter :login_required, :only => :unwrap
   
   
+  def ssl_required?
+   true
+  end
+  
   def index
     respond_to do |format|
       format.html { redirect_to :action => 'new' }

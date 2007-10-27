@@ -4,6 +4,10 @@ include PDFProxy
 class Dt::DepositsController < DtApplicationController
   include IatsProcess
   before_filter :login_required
+  
+  def ssl_required?
+    true
+  end
 
   def new
     @deposit = Deposit.new
