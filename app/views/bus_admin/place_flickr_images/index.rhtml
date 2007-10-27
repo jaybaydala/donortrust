@@ -1,7 +1,7 @@
 <%= show_spinner %>
 
    
-<% project ||= @project %>
+<% place ||= @place %>
 <div class="media_cart" id="flickr_photos">
 	
     <h2>DonorTrust Photos | 
@@ -13,7 +13,7 @@
             <h2>Keywords | &nbsp;
         	<%= slide_up_link "Close", "close_search_link", "flickr_search_field"%> 
             </h2>
-           <%= form_remote_tag :url => {:action => 'search', :project_id => @project.id}, :update => 'flickr_photos' %>
+           <%= form_remote_tag :url => {:action => 'search', :place_id => @place.id}, :update => 'flickr_photos' %>
     
         <%= text_field_tag "tags" %>
         <%= submit_tag "Find" %>
@@ -24,5 +24,5 @@
  </div>
 
 <div id="cart" class="media_cart">
-	<%= render(:partial => "project" )%>
+	<%= render(:partial => "place" )%>
 </div>

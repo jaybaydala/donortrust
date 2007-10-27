@@ -15,10 +15,10 @@
 	
 	if dt_image
 		photo = Flickr::Photo.new(flickr_image.photo_id.to_s)
-		project_id = flickr_image.project_id.to_s
+		place_id = flickr_image.place_id.to_s
 	else
 		photo = flickr_image
-		project_id = @project_id
+		place_id = @place_id
 		action = "show_db_flickr"
 	end
 
@@ -27,15 +27,15 @@
 	
 <div id="<%= div_name %>" class="<%= class_name%>" style="cursor:move;">
     <%= image_tag photo.sizes[0]['source'] %><br/>
-    <%= link_to_remote_redbox( image_tag('/images/bus_admin/icons/mag_glass.png'), :url => {:controller => "/bus_admin/project_flickr_images",:action => action.to_s, :id => flickr_image.id}) %>
+    <%= link_to_remote_redbox( image_tag('/images/bus_admin/icons/mag_glass.png'), :url => {:controller => "/bus_admin/place_flickr_images",:action => action.to_s, :id => flickr_image.id}) %>
 &nbsp;
 	 <% if dt_image %>
 		<%=			link_to_remote "Remove",		:update =>  "cart" ,	     
-						    :url => { :controller => "/bus_admin/project_flickr_images",:action => "remove", :id => flickr_image.photo_id, :project_id=> project_id } 
+						    :url => { :controller => "/bus_admin/place_flickr_images",:action => "remove", :id => flickr_image.photo_id, :place_id=> place_id } 
 						%>
 	`	 <% else %>
 		<%=	 link_to_remote "Add",		:update =>  "cart" ,	     
-						    :url => { :controller => "/bus_admin/project_flickr_images",:action => "add", :id => flickr_image.id, :project_id=> project_id} 
+						    :url => { :controller => "/bus_admin/place_flickr_images",:action => "add", :id => flickr_image.id, :place_id=> place_id} 
 				%>			
 		<% end  %>
 </div>

@@ -1,0 +1,10 @@
+
+<table width=:100%" align="center" style="border: 1px solid #DDDDDD;" cellpadding="2" cellspacing="0">
+<% @measures.each do |measure| %>
+    <h2><%= measure.measure.description %> <%= measure.get_percent_target %></h2>
+	
+<br />
+<% end %>
+    
+</tr>
+</table>

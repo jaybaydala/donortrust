@@ -1,0 +1,9 @@
+
+	<h2>Flickr Images | &nbsp; <%= pageinated_links_for_ajax(@flickr_photo_pages, "flickr_photos", "/bus_admin/place_flickr_images", "search", {:tags => @tags, :place_id => @place_id}) %></h2>
+	Your Search Returned <%= @size %> result(s) from the Flickr Database.
+	<%= render :partial => 'bus_admin/place_flickr_images/flickr_image', :collection => @flickr_photos, :locals => {:class_name => "flickr_photo", :place_id => @place_id} %>
+
+
+
+
+

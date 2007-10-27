@@ -1,10 +1,10 @@
-<%= drop_receiving_element "cart_#{@place.id}", :update => "cart_#{@place.id}", :url => {:action => "add", :place_id => @place.id}, :hoverclass => "you_tube_cart_active"%>
+<%= drop_receiving_element "cart_#{@project.id}", :update => "cart_#{@project.id}", :url => {:action => "add", :project_id => @project.id}, :hoverclass => "you_tube_cart_active"%>
 Drag Any Photo you wish to associate with this project<br/>
 
 <% @flickr_images = @project.flickr_images %>
-<%= render(:partial => '/bus_admin/place_flickr_images/flickr_image', :locals => {:prefix => "place_#{@place.id}_", :draggable => true}, :collection => @flickr_images) %> 
+<%= render(:partial => '/bus_admin/project_flickr_images/flickr_image', :locals => {:prefix => "project_#{@project.id}_", :draggable => true}, :collection => @flickr_images) %> 
 
 
 <div style="float: left; width: 300px;margin:5px;">
-	<%= slide_up_link "Done Adding Photos", "addPhotos", "cart_#{@place.id.to_s}"%> 
+	<%= slide_up_link "Done Adding Photos", "addPhotos", "cart_#{@project.id.to_s}"%> 
 </div>
