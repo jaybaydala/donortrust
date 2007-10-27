@@ -7,5 +7,5 @@
    <li>|</li>
    <li>&nbsp;</li>
    <li><%= link_to(h('<'), {:page => paginator.current.previous})  if paginator.current.previous %></li>
-   <li> <%=pagination_links(paginator, :window_size => 4) %> </li>
+   <li> <%= pagination_links(paginator, :window_size => 4) %> </li>
    <li><%= link_to(h('>'), {:page => paginator.current.next}) if paginator.current.next %></li>

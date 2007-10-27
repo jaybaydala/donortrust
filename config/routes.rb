@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :open => :get, :preview => :get }, :member => { :unwrap => :put }
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt' do |group|
-    group.resources :memberships, :controller => 'dt/memberships', :name_prefix => 'dt_', :collection => { :typify => :put }
+    group.resources :memberships, :controller => 'dt/memberships', :name_prefix => 'dt_', :member => { :promote => :put, :demote => :put }
     group.resources :group_projects, :controller => 'dt/group_projects', :name_prefix => 'dt_'
     group.resources :group_news, :controller => 'dt/group_news', :name_prefix => 'dt_'
     group.resources :invitations, :controller => 'dt/invitations', :name_prefix => 'dt_'

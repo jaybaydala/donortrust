@@ -1,17 +1,20 @@
 <li id="membership-<%= membership.id %>">
 	<div class="name"><%= membership.user.name %></div>
 	<div class="date"><%= membership.created_at? ? membership.created_at.to_date.to_formatted_s(:dt_default) : '&nbsp;' %></div>
-	<div class="mtype"><% if @membership && @membership.admin? && @membership.id != membership.id -%>
-<% fields_for 'membership[]', membership do |m| %>
-<%= m.select :membership_type, [['Member', '1'], ['Admin', '2'], ['Founder', '3']], :selected => membership.membership_type %>
-<% end -%>
-<% else -%>
+	<div class="mtype">
 <%= "Founder" if membership.membership_type == Membership.founder -%>
 <%= "Admin" if membership.membership_type == Membership.admin -%>
 <%= "Member" if membership.membership_type == Membership.member -%>
-<% end -%>
 </div>
 <% if @membership && @membership.admin? && @membership.id != membership.id -%>
-<div class="control"><%= link_to "remove", dt_membership_path(:group_id => @group.id, :id => membership.id), :id => "membership-remove-link-#{membership.id}", :method => 'delete', :confirm => 'Are you sure you want to remove this member?' %></div>
+  <% unless membership.founder? %>
+  <%= link_to "Remove", dt_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :id => "#membership-remove-link-#{membership.id}", :confirm => "You are attempting to remove #{membership.user.name} from a group. Are you sure you want to remove #{membership.user.name}?" %> | 
+  <% end %>
+  
+  <% if membership.member? && !membership.admin? %>
+  <%= link_to "Make Admin", dt_promote_membership_path(:group_id => @group.id, :id => membership.id), :method => :put, :confirm => "Are you sure you want to make #{membership.user.name} an admin? This will let them have the same control that you do over your group." %>
+  <% elsif !membership.founder? %>
+  <%= link_to "Remove Admin", dt_demote_membership_path(:group_id => @group.id, :id => membership.id), :method => :put, :confirm => "You are attempting to remove #{membership.user.name} as an administrator from a group. Are you sure you want to remove #{membership.user.name} as an administrator?" %>
+  <% end %>
 <% end %>
 </li>

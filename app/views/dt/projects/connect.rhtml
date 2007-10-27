@@ -1,14 +1,6 @@
 <h1 class="title"><%= @project.name %></h1>
 <%= project_nav %>
 
-  <% if @fb_group %>
-  <div id="subSubNav">
-    <ul class="pageNav">
-    <%= render :partial => "member_paginator", :locals => { :paginator => @fb_member_pages } %>
-    </ul>
-  </div>
-  <% end %>
-
 <div id="contentContainer">
   <div class="buttonGroupWrapN">
     <ul class="buttonGroup">
@@ -19,11 +11,32 @@
     		
   <div id="leftColW">
     <% if @fb_group_available -%>
-    <h2>Village Facebook Group</h2>
+    <h2>Facebook Community Group</h2>
     <% if not @fb_group -%>
       <p><%= link_to "Login", :action=>"facebook_login", :id=>@project.id %> into facebook, to view village details.</p>
       <p>&nbsp;</p>
     <% else -%>
+      <div id="pageNav2" style="margin-bottom:5px; ">
+        <ul class="pageNav" style="margin:0;">
+          <%= render :partial => "member_paginator", :locals => { :paginator => @fb_member_pages } %>
+          <!--<li>258 Members</li>
+          <li>&nbsp;</li>
+          <li>|</li>
+
+          <li>&nbsp;</li>
+          <li>page 1 of 23</li>
+          <li>&nbsp;</li>
+          <li>| </li>
+          <li><a href="#"><</a></li>
+          <li class="currentPg"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">></a></li>-->
+        </ul>
+      </div>
       <p class="blueblock">
         <%= link_to image_tag("/images/dt/icons/fbIcon.gif", :alt => '') + "&nbsp; Go to Facebook Group: #{@fb_group.name}", @facebook_group_link, :rel => 'blank' %>
       </p>

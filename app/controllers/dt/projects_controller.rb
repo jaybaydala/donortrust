@@ -82,22 +82,21 @@ class Dt::ProjectsController < DtApplicationController
 
     #facebook stuff
     #gid = @project.place.facebook_group_id
-    if @project.place and @project.place.facebook_group_id
+    if @project.place and @project.place.facebook_group_id?
       @fb_group_available = true
       @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
-    end
-    if fbsession and fbsession.is_valid?:
-      #gid = 3362029547
-      gid = @project.place.facebook_group_id
-      @fbid = fbsession.users_getLoggedInUser()
-      @fb_group = fbsession.groups_get(:gids=>gid)
-      @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
-      members_results = fbsession.groups_getMembers(:gid=>gid)
-      # wierd! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
-      member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
-      @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
-      @fb_member_pages, @members = fb_paginate_array(params[:page], @fb_members , 30)
-      @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
+      if fbsession and fbsession.is_valid?:
+        gid = @project.place.facebook_group_id
+        @fbid = fbsession.users_getLoggedInUser()
+        @fb_group = fbsession.groups_get(:gids=>gid)
+        @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
+        members_results = fbsession.groups_getMembers(:gid=>gid)
+        # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
+        member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
+        @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
+        @fb_member_pages, @members = fb_paginate_array(params[:page], @fb_members , 30)
+        @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
+      end
     end
   end
 

@@ -37,23 +37,54 @@ class Dt::MembershipsController < DtApplicationController
     @member = Membership.find params[:id]
     destroyed = @member.destroy
     respond_to do |format|
-      flash[:notice] = 'You have successfully left the group' if destroyed && current_user.id == @member.user_id
-      flash[:notice] = 'You have successfully removed the membership' if destroyed && current_user.id != @member.user_id
+      flash[:notice] = 'You have left the group' if destroyed && current_user.id == @member.user_id
+      flash[:notice] = "You have removed #{@membership.user.name} from the group" if destroyed && current_user.id != @member.user_id
       format.html { redirect_to :action => 'index', :group_id => params[:group_id]}
     end
   end
 
-  def typify
-   params[:membership].each do |membership_id, membership|
-     if member = Membership.find(membership_id)
-       member.membership_type = membership[:membership_type]
-       member.save
-     end
-   end
-   respond_to do |format|
-     flash[:notice] = 'Your member changes have been saved'
-     format.html { redirect_to :action => 'index', :group_id => params[:group_id] }
-   end    
+  #def typify
+  # params[:membership].each do |membership_id, membership|
+  #   if member = Membership.find(membership_id)
+  #     member.membership_type = membership[:membership_type]
+  #     member.save
+  #   end
+  # end
+  # respond_to do |format|
+  #   flash[:notice] = 'Your member changes have been saved'
+  #   format.html { redirect_to :action => 'index', :group_id => params[:group_id] }
+  # end    
+  #end
+  
+  def promote
+    @membership = Membership.find(params[:id])     
+    bestowing_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
+    if bestowing_membership.admin?
+      @membership.update_attributes(:membership_type => Membership.admin) 
+      flash[:notice] = "#{@membership.user.name} was successfully promoted to Admin."
+    else
+      flash[:error] = 'You must be an admin to promote a member.'
+    end
+    respond_to do |format|
+      format.html { redirect_to :action => 'index', :group_id => @membership.group_id }
+    end    
+  end
+  
+  def demote
+    @membership = Membership.find(params[:id])     
+    revoking_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
+    revokable = false
+    revokable = true if revoking_membership.admin? 
+    revokable = false if revoking_membership.membership_type < @membership.membership_type
+    if revokable 
+      @membership.update_attributes(:membership_type => 1) 
+      flash[:notice] = "#{@membership.user.name}  was demoted to regular membership."
+    else
+      flash[:notice] = 'You must be an admin to demote a member.'
+    end
+    respond_to do |format|
+      format.html { redirect_to :action => 'index', :group_id => @membership.group_id }
+    end    
   end
   
   #def bestow  
