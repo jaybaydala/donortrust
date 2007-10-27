@@ -87,10 +87,9 @@ class BusAdmin::ProjectsController < ApplicationController
   
   def showProjectTimeline
     @id  = params[:id]
-    @startDate = params[:startDate]
     @projects = Project.find(@id)
     @milestones = @projects.milestones(:order => "target_date desc")
-    @startDate = "Jan 02 2008 00:00:00 GMT"
+    @startDate =  (@projects.target_start_date >> 1).strftime("%b %d %Y")
     render :partial => 'bus_admin/projects/showProjectTimeline'
   end
   
