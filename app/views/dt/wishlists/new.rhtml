@@ -1,10 +1,10 @@
 <div id="contentContainer">
   <div id="leftColW">
-    <% form_tag dt_wishlists_path, :id => 'watchlistform' do %>
+    <% form_tag dt_wishlists_path, :id => 'wishlistform' do %>
       <div class="userform">
         <fieldset>
           <legend>Choose the Group Wishlist for &quot;<%= @project.name %>&quot;</legend>
-          <p class="textsm"><label for="watchlisttype">Groups:</label> <%= select_tag 'wishlist_type', options_for_wishlist_select, :id => 'wishlisttype' %></p>
+          <p class="textsm"><label for="wishlisttype">Groups:</label> <%= select_tag 'wishlist_type', options_for_wishlist_select, :id => 'wishlisttype' %></p>
         </fieldset>
         <%= submit_tag "Add to Group Wishlist", :class => 'buttonsubmit' %>
       </div>

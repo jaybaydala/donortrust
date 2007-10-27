@@ -52,7 +52,6 @@ class DonortrustMailer < ActionMailer::Base
     content_type "text/html"
     recipients  share.to_name ? "#{share.to_name}<#{share.to_email}>" : "#{share.to_email}"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
-    headers     "Reply-To" => share.name? ? "#{gift.name}<#{gift.email}>" : "#{gift.email}"
     sent_on     Time.now
     subject     'Your friend thought you would like this.'
     headers     "Reply-To" => share.name? ? "#{share.name} <#{share.email}>" : share.email

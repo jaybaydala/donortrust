@@ -64,11 +64,11 @@ context "Dt::Wishlists handling GET /dt/wishlists/new" do
     assigns(:project).should.not.be.nil
   end
 
-  specify "should contain form#watchlistform with appropriate fields" do
+  specify "should contain form#wishlistform with appropriate fields" do
     login_as :quentin
     get :new, :project_id => 1
-    assert_select "form#watchlistform" do
-      assert_select "select#watchlisttype"
+    assert_select "form#wishlistform" do
+      assert_select "select#wishlisttype"
     end
   end
 end
@@ -89,12 +89,6 @@ context "Dt::Wishlists handling POST /dt/wishlists" do
     should.redirect dt_projects_path
   end
   
-  xspecify "should redirect to personal wishlists page ir watchlisttype == 'personal'" do
-    login_as :quentin
-    do_post(:watchlist_type => 'personal')
-    should.redirect dt_wishlists_path(@controller.send('current_user'))
-  end
-
   specify "should assign @group if watchlisttype != 'personal'" do
     login_as :quentin
     do_post(:watchlist_type => 'group-1')
@@ -114,13 +108,6 @@ context "Dt::Wishlists handling POST /dt/wishlists" do
     Group.find(1).projects.size.should.equal old_count+1
   end
 
-  xspecify "should increase Wishlists.count by one if passed personal" do
-    login_as :quentin
-    old_count = Wishlist.count
-    do_post(:watchlist_type => 'personal')
-    Wishlist.count.should.equal old_count+1
-  end
-  
   def do_post(options={})
     post :create, {:watchlist_type => 'personal', :project_id => 1}.merge(options)
   end

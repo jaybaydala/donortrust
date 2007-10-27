@@ -99,13 +99,13 @@ context "Dt::Deposits new behaviour"do
       assert_select "[id=deposit_city]"
       assert_select "[id=deposit_province]"
       assert_select "[id=deposit_postal_code]"
-      assert_select "[id=deposit_country]"
       
       assert_select "[id=deposit_amount]"
       assert_select "[id=deposit_credit_card]"
       assert_select "[type=submit]"
     end
     assert_select "form#depositform select" do
+      assert_select "[id=deposit_country]"
       assert_select "[id=deposit_expiry_month]"
       assert_select "[id=deposit_expiry_year]"
     end

@@ -15,13 +15,6 @@
 			<table style="width:100%;">
 			<tr><th>Transaction Description</th><th>Date</th><th>Amount</th></tr>
 			<%= render :partial => "transaction", :collection => @user.user_transactions %>
-			<!--
-			<tr><td>Investment in <%= link_to "Mbiki Village Library", dt_project_path(4) %>. Thanks!</td><td>Jul 26, 07</td><td>($200)</td></tr>
-			<tr><td style="background:#EEE;">Investment in <%= link_to "Another Project", dt_project_path(2) %>. Thanks!</td><td style="background:#EEE;">Jul 24, 07</td><td style="background:#EEE;">($100)</td></tr>
-			<tr><td>Investment in <%= link_to "A third project", dt_project_path(1) %>. Thanks!</td><td>Jul 22, 07</td><td>($200)</td></tr>
-			<tr><td style="background:#EEE;">Investment in <%= link_to "A fourth project", dt_project_path(1) %>. Thanks!</td><td style="background:#EEE;">Jul 20, 07</td><td style="background:#EEE;">($200)</td></tr>
-			<tr><td>Deposit</td><td>Jul 18, 07</td><td>$1,000</td></tr>
-			-->
 			</table>
 		</div>
 		<% else -%>
@@ -34,18 +27,18 @@
 	
 	<h2>My Wishlist</h2>
 	<p class="blueblock"><%= link_to "Find a project for your wishlist" %></p>
-	<% if @user.projects.size > 0 %>
 	<div id="wishlist">
+	<% if @user.projects.size > 0 %>
     <ul>
       <%= render :partial => 'wishlist_project', :collection => @user.projects %>
     </ul>
-	</div>
 	<% else %>
-	<div class="highlight">
-	  <p>You have not added any projects to your wishlist</p>
-	  <p><%= link_to "Find a project", dt_projects_path %> and click the &quot;Add to My Wishlist&quot; button beside it.</p>
-	</div>
+	  <div class="highlight">
+	    <p>You have not added any projects to your wishlist</p>
+	    <p><%= link_to "Find a project", dt_projects_path %> and click the &quot;Add to My Wishlist&quot; button beside it.</p>
+	  </div>
 	<% end %>
+  </div>
 
 	<% if @user.tax_receipts.length > 0 -%>
 	<h1>Tax Receipts</h1>

@@ -7,26 +7,15 @@
   <% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
   <p>Please review your personal information. As the donor of this donation(s), your personal information, as entered below will appear on your charitable tax receipt. Please ensure the information is accurate, as donation tax receipts cannot be altered. Your user account has been updated with the information you provide.</p>
   <div class="userform">
-  	<fieldset>
-  		<legend>Personal Information - Tax Receipt</legend>
-  		<ul>
-  			<li style="clear:left;"><label for="tax_receipt_first_name">First Name</label> <%= @tax_receipt.first_name %><%= hidden_field 'tax_receipt', 'first_name' %></li>
-  			<li style="clear:left;"><label for="tax_receipt_first_name">Last Name</label> <%= @tax_receipt.last_name %><%= hidden_field 'tax_receipt', 'last_name' %></li>
-  			<li style="clear:left;"><label for="tax_receipt_address">Address</label> <%= @tax_receipt.address %><%= hidden_field 'tax_receipt', 'address' %></li>
-  			<li style="clear:left;"><label for="tax_receipt_city">City</label> <%= @tax_receipt.city %><%= hidden_field 'tax_receipt', 'city' %></li>
-  			<li style="clear:left;"><label for="tax_receipt_province">Province</label> <%= @tax_receipt.province %><%= hidden_field 'tax_receipt', 'province' %></li>
-  			<li style="clear:left;"><label for="tax_receipt_postal_code">Postal Code</label> <%= @tax_receipt.postal_code %><%= hidden_field 'tax_receipt', 'postal_code' %></li>
-  			<li style="clear:left;"><label for="tax_receipt_country">Country</label> <%= @tax_receipt.country %><%= hidden_field 'tax_receipt', 'country' %></li>
-  		</ul>	
-  	</fieldset>
-        <% if @investment.group %>
-        <fieldset>
-                <legend>Project Wishlist</legend>
-                <ul>
-  			<li style="clear:left;"><label for="investment_group">Group</label> <%= @investment.group.name %><%= hidden_field 'investment', 'group_id' %></li>
-                </ul>
-        </fieldset>
-	<% end %>
+
+    <% if @investment.group %>
+    <fieldset>
+      <legend>Project Wishlist</legend>
+      <ul>
+        <li style="clear:left;"><label for="investment_group">Group</label> <%= @investment.group.name %><%= hidden_field 'investment', 'group_id' %></li>
+      </ul>
+    </fieldset>
+    <% end %>
 
   	<fieldset>
   		<legend>Investment Details</legend>

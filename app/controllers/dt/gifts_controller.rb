@@ -60,12 +60,12 @@ class Dt::GiftsController < DtApplicationController
     end
     respond_to do |format|
       if @saved               
-       if params[:gift][:credit_card] && params[:gift][:credit_card] != '' and @gift.country == 'Canada' 
-         get_receipt
-       end  #could do 1 ugly if
-        if @tax_receipt.country == 'CA' or @tax_receipt.country == 'Canada' and  !logged_in?
+        if params[:gift][:credit_card] && params[:gift][:credit_card] != '' && @gift.country == 'Canada' 
           get_receipt
-       end
+        end  #could do 1 ugly if
+        if @tax_receipt.country == 'Canada' or @tax_receipt.country == 'Canada' and  !logged_in?
+          get_receipt
+        end
         # send the email if it's not scheduled for later.
         @gift.send_gift_mail if @gift.send_gift_mail? == true
         # send confirmation to the gifter
@@ -115,7 +115,7 @@ class Dt::GiftsController < DtApplicationController
           @deposit.save!
           logger.info "CREATING INVESTMENT"
           @investment = Investment.new_from_gift(@gift, current_user.id) if @gift.project_id
-          @investment.user_ip_addr = request.remote_ip
+          @investment.user_ip_addr = request.remote_ip if @investment
           @investment.save! if @investment
         end
         logger.info "FINISHING UNWRAP TRANSACTION"

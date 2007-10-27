@@ -2,6 +2,7 @@ require 'iats/iats_process.rb'
 require 'pdf_proxy'
 include PDFProxy
 class Dt::DepositsController < DtApplicationController
+  helper 'dt/places'
   include IatsProcess
   before_filter :login_required
   
@@ -17,7 +18,7 @@ class Dt::DepositsController < DtApplicationController
     
     respond_to do |format|
       if @deposit.authorization_result != nil && @saved = @deposit.save
-        if @deposit.country == 'CA'
+        if @deposit.country == 'Canada'
           gift_tax_receipt         
         end
         flash[:notice] = "Your deposit was successful."

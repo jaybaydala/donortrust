@@ -150,11 +150,20 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
     u.projects << Project.find(2)
     do_get
     assert_select "div#wishlist" do
-      assert_select "li[class=wishlist-item]", 2 do
+      assert_select("li[class=wishlist-item]", 2) do
         assert_select "a[href=/dt/accounts/1/my_wishlists]"
       end
     end
-    assert_select "a[href=/dt/projects]", {:count => 1, :text => 'Find a project for your wishlist'} do
+  end
+
+  specify "should show an empty project wishlist" do
+    login_as(:quentin)
+    u = users(:quentin)
+    u.projects.clear
+    do_get
+    assert_select "div#wishlist" do
+      assert_select "a[href=/dt/projects]", {:count => 1, :text => 'Find a project'}
+    end
   end
 end
 
@@ -290,7 +299,6 @@ context "Dt::Accounts handling GET /dt/accounts/new" do
     do_get
     page.should.select "form[action=/dt/accounts][method=post]"
   end
-
 end
 
 context "Dt::Accounts handling POST /dt/accounts/create" do

@@ -7,8 +7,6 @@
     <div class="projectRank">
       <ul class="specList">
         <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
-        <!--<li style="margin-right:3px; "><span><strong>Project Rating:</strong></span></li>
-        <li><span class="villageRatingProject"></span></li>-->
       </ul>
     </div>
 
@@ -33,7 +31,6 @@
       pf.flickr_image_id.photo_id
     end
     </pre>
-    </p>
     
     <h2>Community Video</h2>
     <p>Video Thumbnails. When clicked will reveal new window. YouTube.com? Other?</p> 
