@@ -6,10 +6,10 @@ class MeasuresRel001 < ActiveRecord::Migration
     t.column :deleted_at, :datetime
   end
     
-  #  if (ENV['RAILS_ENV'] == 'development')
-  #    directory = File.join(File.dirname(__FILE__), "dev_data")
-  #    Fixtures.create_fixtures(directory, "measures")
-  #  end
+    if (ENV['RAILS_ENV'] == 'development')
+      directory = File.join(File.dirname(__FILE__), "dev_data")
+      Fixtures.create_fixtures(directory, "measures")
+    end
     
   end
 
