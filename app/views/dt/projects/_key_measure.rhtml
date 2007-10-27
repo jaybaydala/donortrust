@@ -1,5 +1,7 @@
       <li>
-        <div><%= key_measure.description %></div>
-        <% data = key_measure.key_measure_datas(:first, :order => 'date DESC') %>
-        <%= key_measure.target / data.value %>
+        <div><%= key_measure.target%> <%= key_measure.measure.description %> </div>
+		<%= horizontal_bar_graph_no_title  [[key_measure.measure.description, key_measure.get_percent_target]] %>
+			
       </li>
+
+	  
