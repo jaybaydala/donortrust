@@ -24,7 +24,7 @@ class BusAdmin::KeyMeasureTest < Test::Unit::TestCase
     end
    
     def create_key_measure(options = {})
-      KeyMeasure.create({ :project_id => 1, :measure_id => 1, :target => 1, :millennium_goal_id => 1 }.merge(options))  
+      KeyMeasure.create({ :project_id => 1, :measure_id => 1, :target => 1, :millennium_goal_id => 1, :decrease_target => true }.merge(options))  
     end                                                          
   end
 end

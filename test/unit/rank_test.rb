@@ -9,26 +9,12 @@ class BusAdmin::RankTest < Test::Unit::TestCase
       Rank.should.differ(:count).by(1) {create_rank} 
     end
     
-    specify "rank should be numerical" do
+     specify "should require rank_value" do
       lambda {
-        t = create_rank(:rank => 'test')
-        t.errors.on(:rank).should.not.be.nil
+        t = create_rank(:rank_value_id => nil)
+        t.errors.on(:rank_value_id).should.not.be.nil
       }.should.not.change(Rank, :count)
-    end
-    
-    specify "rank should be positive" do
-      t = create_rank(:rank => 0)
-      t.errors.on(:rank).should.be.nil
-      t = create_rank(:rank => -1)
-      t.errors.on(:rank).should.not.be.nil
-    end  
-    
-    specify "rank should be <= 4" do
-      t = create_rank(:rank => 5)
-      t.errors.on(:rank).should.not.be.nil
-      t = create_rank(:rank => 4)
-      t.errors.on(:rank).should.be.nil
-    end  
+   end
     
     specify "should require rank_type" do
       lambda {
@@ -38,7 +24,7 @@ class BusAdmin::RankTest < Test::Unit::TestCase
    end
      
     def create_rank(options = {})
-      Rank.create({ :rank => 1, :rank_type_id => 1, :project_id => 1 }.merge(options))  
+      Rank.create({ :rank_value_id => 1, :rank_type_id => 1, :project_id => 1 }.merge(options))  
     end                                                          
   end
 end
