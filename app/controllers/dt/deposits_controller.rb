@@ -5,10 +5,6 @@ class Dt::DepositsController < DtApplicationController
   include IatsProcess
   before_filter :login_required
   
-  def ssl_required?
-    true
-  end
-
   def new
     @deposit = Deposit.new
   end
@@ -45,6 +41,10 @@ class Dt::DepositsController < DtApplicationController
   end
   
   protected
+  def ssl_required?
+    true
+  end
+
   def deposit_params
     card_exp = "#{params[:deposit][:expiry_month]}/#{params[:deposit][:expiry_year]}" if params[:deposit][:expiry_month] != nil && params[:deposit][:expiry_year] != nil
     deposit_params = params[:deposit]
@@ -56,7 +56,6 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def gift_tax_receipt
-
     @deposit_tax_receipt = TaxReceipt.new( params[:tax_receipt] ) 
     if logged_in?
       @deposit_tax_receipt.user = current_user
@@ -73,5 +72,4 @@ class Dt::DepositsController < DtApplicationController
     @deposit_tax_receipt.save
     @deposit_tax_receipt.send_tax_receipt     
   end
-
 end

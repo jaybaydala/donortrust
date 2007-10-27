@@ -26,36 +26,32 @@ class DtApplicationController < ActionController::Base
     return false
   end
 
-def ssl_filter
-  if ['staging', 'production'].include?(ENV['RAILS_ENV'])
-    redirect_to url_for(:protocol => 'https://') if !request.ssl? && ssl_required? 
-    redirect_to url_for(:protocol => 'http://') if request.ssl? && !ssl_required? 
+  def ssl_filter
+    if ['staging', 'production'].include?(ENV['RAILS_ENV'])
+      redirect_to url_for(:protocol => 'https://') if !request.ssl? && ssl_required? 
+      redirect_to url_for(:protocol => 'http://') if request.ssl? && !ssl_required? 
+    end
   end
-end
 
 
-protected
+  protected
   def ssl_required?
     return false
   end
 
-
-    
- #protected  
- #
- #def log_error(exception) 
- #  super(exception)
- #  begin
- #    ErrorMailer.deliver_snapshot(
- #      exception, 
- #      clean_backtrace(exception), 
- #      @session.instance_variable_get("@data"), 
- #      @params, 
- #      @request.env)
- #  rescue => e
- #    logger.error(e)
- #  end
- #end
+  #def log_error(exception) 
+  #  super(exception)
+  #  begin
+  #    ErrorMailer.deliver_snapshot(
+  #      exception, 
+  #      clean_backtrace(exception), 
+  #      @session.instance_variable_get("@data"), 
+  #      @params, 
+  #      @request.env)
+  #  rescue => e
+  #    logger.error(e)
+  #  end
+  #end
 
  # Error Handling
  class DtNotFoundError < Exception

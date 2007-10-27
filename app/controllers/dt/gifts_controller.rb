@@ -7,11 +7,6 @@ class Dt::GiftsController < DtApplicationController
   include IatsProcess
   before_filter :login_required, :only => :unwrap
   
-  
-  def ssl_required?
-   true
-  end
-  
   def index
     respond_to do |format|
       format.html { redirect_to :action => 'new' }
@@ -153,6 +148,10 @@ class Dt::GiftsController < DtApplicationController
   end
 
   protected
+  def ssl_required?
+    true
+  end
+  
   def send_later?
     return @send_at ? true : false
   end
