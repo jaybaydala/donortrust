@@ -15,7 +15,7 @@ class BusAdmin::AddToGroupController < ApplicationController
       @invitation.group_id = 5
       @invitation.to_name = load.name
       @invitation.to_email = load.email
-      @invitation.message = 'hello mr man'
+      @invitation.message = 'message'
       @invitation.ip = request.remote_ip
       
       @invitation.save if @invitation      
