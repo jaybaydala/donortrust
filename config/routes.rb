@@ -55,6 +55,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
   map.resources :rank_values, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_values"
   map.resources :load,  :path_prefix => "/bus_admin", :controller => "bus_admin/load", :collection => {:loads => :post}
+  map.resources :add_to_group,  :path_prefix => "/bus_admin", :controller => "bus_admin/add_to_group", :collection => {:add_to_groups => :post}    
   map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
   map.resources :financial_sources, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/financial_sources"
   map.resources :collaborating_agencies, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborating_agencies"
