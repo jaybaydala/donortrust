@@ -119,7 +119,7 @@ TextileEditor.Methods = {
    	  theButton.setAttribute('open', button.open);
 
 		  var img = document.createElement('img');
-		  img.src = '/images/textile-editor/' + button.display;
+		  img.src = '/images/bus_admin/textile-editor/' + button.display;
 		  theButton.appendChild(img);
 	  } else {
 	    return button;

@@ -89,7 +89,7 @@ class Project < ActiveRecord::Base
   def days_remaining
     result = nil
     result = target_end_date - Date.today if target_end_date != nil
-    result = 0 if result != nil && result < 0
+    result = 0 if result == nil || result < 0
     return result
   end
   
