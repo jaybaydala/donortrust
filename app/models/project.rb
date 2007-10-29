@@ -123,8 +123,8 @@ class Project < ActiveRecord::Base
     if @nation.nil?
       node = self.community if !node
       return @nation = nil if !node
-      node = node.parent while node.parent && node.parent.place_type_id != 2
-      @nation = node.parent if node.parent.place_type_id == 2
+      node = node.parent while node.parent && node.parent.place_type_id? && node.parent.place_type_id != 2
+      @nation = node.parent if node.parent.place_type_id? && node.parent.place_type_id == 2
     end
     @nation
   end
