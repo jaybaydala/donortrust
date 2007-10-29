@@ -635,6 +635,7 @@ background-color: #ffc;
 
 .active-scaffold textarea {
 height: 65px;
+width: 440px;
 font-family: Arial, sans-serif;
 font-size: 12px;
 padding: 1px;
