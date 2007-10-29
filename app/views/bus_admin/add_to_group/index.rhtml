@@ -1,0 +1,31 @@
+<div class="active-scaffold-header">
+      <div class="actions">    
+                
+    <img alt="loading indicator" class="loading-indicator" id="bus_admin__users-table-loading-indicator" src="/images/active_scaffold/default/indicator.gif?1192652899" style="visibility:hidden;" />
+  </div>
+<font size=3 face="arial" color="#666" ><b>Christmas Future Add to Group</b></font> 
+<br></br> 
+<div class='tableFactory'>
+	<table cellspacing=0 width="100%" >		
+		<td class='colHeader'>Name</td>
+		<td class='colHeader'>Email</td>	
+	  	<% counter = 0 %>
+		<% for member in @members %>
+			<% if counter == 0%>
+				<tr class="even">					
+	      		<td><%=  member.name %></td>
+				<td><%=  member.email %></td>
+				<%counter = 1 %>
+		  	<%else%>
+				<tr class="odd">
+		      	<td><%=  member.name %></td>
+	      		<td><%=  member.email %></td>
+				<%counter = 0 %>
+			<% end %>		
+		<% end %>		 
+   </table>
+</div>
+<%= form_remote_tag :url => {:action => 'add_to_groups' } %>   
+	<%= submit_tag "Add to Group" %>  
+<%= end_form_tag %>		
+
