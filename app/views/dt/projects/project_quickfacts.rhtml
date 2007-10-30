@@ -1,6 +1,6 @@
         <h2>Quick Facts</h2>
         <ul>
-          <% if @project.place_id? && @project.place %><li><strong>Location:</strong> <%= link_to @project.community.name, dt_community_project_path(@project) %>, <%= link_to @project.nation.name, dt_nation_project_path(@project) %></li><% end %>
+          <% if @project.place_id? && @project.place %><li><strong>Location:</strong> <%= link_to @project.community.name, dt_community_project_path(@project) %><% if @project.nation %>, <%= link_to @project.nation.name, dt_nation_project_path(@project) %><% end %></li><% end %>
           <% if @project.causes.size > 0 %><li><strong>Cause(s):</strong> <%= render :partial => 'cause', :collection => @project.causes %></li><% end %>
           <% if @project.place_id? && @project.place %><li><strong>Community Projects:</strong> <%= @project.community_project_count %></li><% end %>
           <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>

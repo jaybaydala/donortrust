@@ -16,7 +16,7 @@ module DtApplicationHelper
     projects = Project.find_public(:all, :include => :place)
     all_places = []
     projects.each do |project|
-      if project.place_id? && project.place && project.nation
+      if project.community_id? && project.community && project.nation_id?
         all_places << project.nation.parent.id if project.nation.parent && !all_places.include?(project.nation.parent.id) # continent
         all_places << project.nation.id if !all_places.include?(project.nation.id)
       end

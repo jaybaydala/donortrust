@@ -31,8 +31,8 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
   
- def startDate
-  "#{self.start_date}"
+  def startDate
+    "#{self.start_date}"
   end
  
   validates_presence_of :name
@@ -102,11 +102,12 @@ class Project < ActiveRecord::Base
   end
 
   def nation_id
-    self.nation if !@nation
+    @nation ||= nation
     return @nation ? @nation.id : nil
   end
 
   def nation_id?
+    @nation ||= nation
     self.nation if !@nation
     return @nation ? @nation.id? : false
   end
@@ -120,11 +121,10 @@ class Project < ActiveRecord::Base
   end
   
   def nation
-    if @nation.nil?
-      node = self.community if !node
-      return @nation = nil if !node
-      node = node.parent while node.parent && node.parent.place_type_id? && node.parent.place_type_id != 2
-      @nation = node.parent if node.parent.place_type_id? && node.parent.place_type_id == 2
+    if @nation.nil? && community_id? && community
+      community.ancestors.reverse.each do |ancestor|
+        return ancestor if ancestor.place_type_id? && ancestor.place_type_id == 2
+      end
     end
     @nation
   end
