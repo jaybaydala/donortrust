@@ -17,6 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :open => :get, :preview => :get }, :member => { :unwrap => :put }
+
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt' do |group|
     group.resources :memberships, :controller => 'dt/memberships', :name_prefix => 'dt_', :member => { :promote => :put, :demote => :put }
     group.resources :group_projects, :controller => 'dt/group_projects', :name_prefix => 'dt_'
@@ -52,6 +53,7 @@ ActionController::Routing::Routes.draw do |map|
   # bus_admin resources
 
   map.resources :gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/gifts", :collection => {:unwrap => :post}
+  map.resources :unallocated_investments,  :path_prefix => "/bus_admin", :controller => "bus_admin/unallocated_investments", :collection => {:unallocate => :post}
   map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
   map.resources :rank_values, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_values"
   map.resources :load,  :path_prefix => "/bus_admin", :controller => "bus_admin/load", :collection => {:loads => :post}
