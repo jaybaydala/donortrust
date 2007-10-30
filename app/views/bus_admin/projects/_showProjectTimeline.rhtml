@@ -1,11 +1,9 @@
 <head>
 <%= javascript_include_tag 'http://simile.mit.edu/timeline/api/timeline-api.js' -%>
+<%= stylesheet_link_tag '/stylesheets/timeline-custom.css' -%>
 <%= javascript_include_tag 'prototype' -%>
 <%= javascript_include_tag 'theme' -%>
-<style type="text/css">
-.default_timeline 
-{ width: 800px; height: 250px; }
-</style>
+
 </head>
 <body>
 <%
@@ -23,14 +21,14 @@ project_timeline = ::Simile::Timeline::Timeline.new(
         :showEventText  => 'true',
         :width          => '"75%"',
         :intervalUnit   => 'Timeline.DateTime.WEEK',
-        :intervalPixels => '50',
+        :intervalPixels => '40',
         :date =>  "'" + @startDate.to_s + "'"
       },
     :months => {
       :trackGap       => '0.1',
       :width          => '"25%"',
       :intervalUnit   => 'Timeline.DateTime.MONTH',
-      :intervalPixels => '150',
+      :intervalPixels => '120',
       :trackHeight => '0.5', 
       :showEventText  => 'false',
       :date =>  "'" + @startDate.to_s + "'"

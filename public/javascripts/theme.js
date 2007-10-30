@@ -3,10 +3,10 @@ Timeline.ClassicTheme._Impl = function() {
     
     this.ether = {
         backgroundColors: [
-            "#EEE",
-            "#DDD",
-            "#CCC",
-            "#AAA"
+            "#EEEEE0",
+            "#EEEEE0",
+            "#EEEEE0",
+            "#EEEEE0"
         ],
         highlightColor:     "white",
         highlightOpacity:   50,
@@ -17,7 +17,7 @@ Timeline.ClassicTheme._Impl = function() {
                 opacity:    25
             },
             weekend: {
-                color:       "#EEE",
+                color:       "#EEEEE0",
                 opacity:    30
             },
             marker: {
@@ -59,22 +59,23 @@ Timeline.ClassicTheme._Impl = function() {
             gap:            0.5  // em
         },
         instant: {
-            icon:           "/images/dt/icons/doc_icon.gif",
+            icon:           "/javascripts/timeline/api/images/blue-circle.png",
             lineColor:      "#58A0DC",
             impreciseColor: "#58A0DC",
             impreciseOpacity: 20,
             showLineForNoText: true
         },
         duration: {
-            color:          "#58A0DC",
+            color:          "#336600",
             opacity:        100,
-            impreciseColor: "#58A0DC",
+            impreciseColor: "#336600",
             impreciseOpacity: 20
         },
         label: {
             insideColor:    "white",
             outsideColor:   "black",
-            width:          200 // px
+            width:          250 // px,
+          
         },
         highlightColors: [
             "#FFFF00",

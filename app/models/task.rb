@@ -6,7 +6,7 @@ class Task < ActiveRecord::Base
       :start       => :startDate,
       :end         => :endDate,
       :title       => :name,
-      :description => :description
+      :description => :timeline_details
     }
   )
   acts_as_paranoid_versioned
@@ -16,6 +16,14 @@ class Task < ActiveRecord::Base
   validates_presence_of :name, :description#, :milestone_id
   validates_uniqueness_of :name, :scope => :milestone_id
   
+  def timeline_details
+    if self.percent_complete != nil
+      "#{self.description}<br> Percent Completed; #{self.percent_complete} "
+    else
+      "#{self.description}"
+    end
+ 
+  end
   def startDate
     "#{self.target_start_date}"
   end

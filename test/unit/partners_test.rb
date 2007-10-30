@@ -13,43 +13,26 @@ context "Partners" do
       Partner.should.differ(:count).by(1) { create_partner } 
   end
   
-  def test_total_projects
-    assert_equal 3, Partner.find(:first).total_projects
-  end
-  
-  def test_get_number_of_projects_by_status    
-    assert_equal 1, Partner.find(:first).get_number_of_projects_by_status(1)
-  end
-  
-  specify "The total cost for a partner should not be nil and should be greater than 0" do
-    projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)    
-    projects.size.should.be > 
-    total_cost = 0
-    projects.each do |project|
-      total_cost += project.total_cost
-    end
-    total_cost.should.not.be.nil
-    total_cost.should.be > 0
-    total_cost.should.be == @fixture_partner.get_total_costs
+# This test doesn't make sense unless the total cost field is not allowed to be null
+#  specify "The total cost for a partner should not be nil and should be greater than 0" do
+#   projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)    
+#    projects.size.should.be > 
+#    total_cost = 0
+#    projects.each do |project|
+#      total_cost += project.total_cost
+#    end
+#   total_cost.should.not.be.nil
+#    total_cost.should.be > 0
+#    total_cost.should.be == @fixture_partner.get_total_costs
 #    programs = []
 #    projects.each do |project|
 #      programs << project.program_id
 #    end
 #    programs.should.not.be.nil
 #    programs.size.should.be > 0    
-  end
+ # end
   
-#  specify "The total cost for a partner should not be nil and should be greater than 0" do
-#    projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)    
-#    projects.size.should.be > 0
-#    total_raised = 0
-#    projects.each do |project|
-#      total_raised += project.dollars_raised
-#    end
-#    total_raised.should.not.be.nil
-#    total_raised.should.be > 0
-#    total_raised.should.be == @fixture_partner.get_total_raised
-#  end
+
   
   specify "Total percent raised should accept zero" do
     projects = Project.find(:all, :conditions => "partner_id = " + @fixture_partner.id.to_s)
@@ -97,25 +80,7 @@ context "Partners" do
     }.should.not.change(Partner, :count)
   end
     
-  specify "description should be less then 1000 Characters" do
-    lambda {
-      t = create_partner(:description=> 'This will enter more then one thousand characters 
-        into the column. This will enter more then one thousand characters into the 
-        column. This will enter more then one thousand characters into the column. This 
-        will enter more then one thousand characters into the column. This will enter 
-        more then one thousand characters into the column. This will enter more then one 
-        thousand characters into the column. This will enter more then one thousand 
-        characters into the column. This will enter more then one thousand characters 
-        into the column. This will enter more then one thousand characters into the 
-        column. This will enter more then one thousand characters into the column. This 
-        will enter more then one thousand characters into the column. This will enter 
-        more then one thousand characters into the column. This will enter more then 
-        one thousand characters into the column. This will enter more then one thousand 
-        characters into the column. This will enter more then one thousand characters 
-        into the column.')
-      t.errors.on(:description).should.not.be.nil
-    }.should.not.change(Partner, :count)
-  end
+ 
   
   def create_partner(options = {})
     Partner.create({ :name => 'Test Name', :description => 'My Description', :website => 'www.google.ca', :partner_type_id => 1, :partner_status_id => 1, :business_model => 'Test model', :funding_sources => 'Test Fund', :mission_statement => 'Test Mission Statement', :philosophy_dev => 'Test Philosophy', :note => 'Test Note' }.merge(options))  

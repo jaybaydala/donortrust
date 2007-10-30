@@ -10,9 +10,9 @@ class Partner < ActiveRecord::Base
   has_many      :quick_fact_partners
 
   validates_presence_of :name
+  validates_presence_of :description
   validates_length_of   :name, :maximum => 50
-  validates_length_of :description, :within => 1..1000, :too_long => "too long (max 1000)", :too_short => " can't be blank"
-
+ 
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
