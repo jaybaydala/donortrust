@@ -209,6 +209,14 @@ context "Dt::Projects show behaviour" do
       assert_select "a[href=/dt/tell_friends/new?project_id=#{project_id}]"
     end
   end
+
+  specify "shouldn't break when there's no place_id associated with the project" do
+    project = Project.find(2)
+    project.place_id = nil
+    project.save
+    do_get(project.id)
+  end
+
 end
 
 context "Dt::Projects details behaviour" do
