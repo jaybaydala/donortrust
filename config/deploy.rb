@@ -7,9 +7,11 @@ set :user, "dtrust"
 set :rails_env, "staging"
 
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
+set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
 set :mongrel_clean, true
 
-role :app, "slice.christmasfuture.org", "slice2.christmasfuture.org"
+role :app, "slice2.christmasfuture.org"
+role :admin, "slice2.christmasfuture.org"
 role :web, "slice.christmasfuture.org"
 role :db,  "slice.christmasfuture.org", :primary => true
 role :schedule,  "slice2.christmasfuture.org"
@@ -27,43 +29,34 @@ namespace :deploy do
   task :start,    :roles => :app do start_mongrel_cluster end
   task :stop,     :roles => :app do stop_mongrel_cluster end
   task :restart,  :roles => :app do restart_mongrel_cluster end
-
-  namespace :donortrust do
-    desc <<-DESC
-    donortrust cold deployment
-    DESC
-    task :cold do
-      transaction do
-        update
-        migrate
-        setup_mongrel_cluster
-        install_backgroundrb # it's not included in the repository because of windows incompatibilities
-        asset_folder_fix
-        start
-        start_backgroundrb
-      end
-    end
-
-    desc <<-DESC
-    donortrust-specific deployment task
-    DESC
-    task :default do
-      stop_backgroundrb
-      transaction do
-        update # creates the symlink
-        install_backgroundrb # it's not included in the repository because of windows incompatibilities
-        asset_folder_fix
-        restart
-      end
-      start_backgroundrb
-    end
+  
+  # donortrust hooks
+  task :after_start do start_admin end
+  task :after_stop do stop_admin end
+  task :after_restart do restart_admin end
+  task :before_deploy do stop_backgroundrb end
+  task :after_deploy do start_backgroundrb end
+  task :after_symlink, :roles => :app do
+    stats = <<-JS
+      <script src="http://www.google-analytics.com/urchin.js"></script>
+      <script type="text/javascript">
+      _uacct = "UA-832237-2";
+      urchinTracker();
+      </script>
+    JS
+    layout = "#{current_path}/app/views/layouts/dt_application.rhtml" 
+    run "sed -i 's?</body>?#{stats}</body>?' #{layout}" 
+  end
+  task :after_update do
+    asset_folder_fix
+    install_backgroundrb
   end
 
   task :setup_mongrel_cluster do
     sudo "cp #{current_path}/config/mongrel_cluster.yml #{mongrel_conf}"
     sudo "chown mongrel:www-data #{mongrel_conf}"
     sudo "chmod g+w #{mongrel_conf}"
-  end
+  end 
   
   desc <<-DESC
   Install backgrounDRB since it's incompatible with windows boxes
@@ -118,4 +111,27 @@ namespace :deploy do
     send(run_method, cmd)
   end
 
+  task :start_admin , :roles => :admin do
+    cmd = "#{mongrel_rails} cluster::start -C #{mongrel_admin_conf}"
+    cmd += " --clean" if mongrel_clean    
+    send(run_method, cmd)
+  end
+  task :restart_admin , :roles => :admin do
+    cmd = "#{mongrel_rails} cluster::restart -C #{mongrel_admin_conf}"
+    cmd += " --clean" if mongrel_clean    
+    send(run_method, cmd)
+  end
+  task :stop_admin , :roles => :admin do
+    cmd = "#{mongrel_rails} cluster::stop -C #{mongrel_admin_conf}"
+    cmd += " --clean" if mongrel_clean    
+    send(run_method, cmd)
+  end
+end
+
+desc <<-DESC
+Check the status of all mongrel processes
+DESC
+task :status,  :roles => :app do status_mongrel_cluster end
+task :after_status , :roles => :admin do
+  send(run_method, "#{mongrel_rails} cluster::status -C #{mongrel_admin_conf}")
 end
