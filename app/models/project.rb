@@ -36,7 +36,6 @@ class Project < ActiveRecord::Base
   end
  
   validates_presence_of :name
-  validates_presence_of :name
   validates_presence_of :place, :if => :check_validation?  
   
   validate do |me|
