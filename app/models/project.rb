@@ -70,7 +70,7 @@ class Project < ActiveRecord::Base
   def validate    
     if place != nil       
       @places = Place.find(place)# :all, :conditions => ["places.id = ?", :place]
-      errors.add(:place, "Must select a city/village #{place.id.to_s}") if @places.place_type_id != 6  
+      errors.add(:place, "Must be a city/village #{place.id.to_s}") if @places.place_type_id != 6  
     end    
   end    
   
