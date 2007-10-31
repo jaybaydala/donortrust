@@ -96,8 +96,8 @@
           <li><label for="gift_last_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Last Name</label><%= f.text_field 'last_name' %></li>
           <li><label for="gift_address"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Address</label><%= f.text_field 'address' %></li>
           <li><label for="gift_city"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>City</label><%= f.text_field 'city' %></li>
-          <li><label for="gift_province"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Province</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
-          <li><label for="gift_postal_code"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Postal Code</label><%= f.text_field 'postal_code', :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
+          <li><label for="gift_province"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Province/State</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
+          <li><label for="gift_postal_code"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Postal/Zip Code</label><%= f.text_field 'postal_code', :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
           <li><label for="gift_country"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Country</label><%= f.select 'country', country_select_options, { :style => 'width:auto;' } %></li>
           <li><label for="gift_credit_card"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Credit Card</label><%= f.text_field :credit_card %></li>
           <li><label for="gift_expiry_month"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Card Expiry</label>
