@@ -11,7 +11,7 @@ module Cluster
     
     def validate
       valid_exists?(@config_file, "Configuration file does not exist. Run mongrel_rails cluster::configure.")
-      return @valid
+      @valid
     end
       
     def read_options
@@ -62,25 +62,28 @@ module Cluster
       argv = [ "mongrel_rails" ]
       argv << "start"
       argv << "-d"
-      argv << "-e #{@options["environment"]}" if @options["environment"]
-      argv << "-a #{@options["address"]}"  if @options["address"]
-      argv << "-c #{@options["cwd"]}" if @options["cwd"]
-      argv << "-t #{@options["timeout"]}" if @options["timeout"]
-      argv << "-m #{@options["mime_map"]}" if @options["mime_map"]
-      argv << "-r #{@options["docroot"]}" if @options["docroot"]
-      argv << "-n #{@options["num_procs"]}" if @options["num_procs"]
-      argv << "-B" if @options["debug"]
-      argv << "-S #{@options["config_script"]}" if @options["config_script"]
-      argv << "--user #{@options["user"]}" if @options["user"]
-      argv << "--group #{@options["group"]}" if @options["group"]
-      argv << "--prefix #{@options["prefix"]}" if @options["prefix"]
+      argv << "-e #{@options['environment']}" if @options['environment']
+      argv << "-a #{@options['address']}"  if @options['address']
+      argv << "-c #{@options['cwd']}" if @options['cwd']
+      argv << "-o #{@options['timeout']}" if @options['timeout']
+      argv << "-t #{@options['throttle']}" if @options['throttle']
+      argv << "-m #{@options['mime_map']}" if @options['mime_map']
+      argv << "-r #{@options['docroot']}" if @options['docroot']
+      argv << "-n #{@options['num_procs']}" if @options['num_procs']
+      argv << "-B" if @options['debug']
+      argv << "-S #{@options['config_script']}" if @options['config_script']
+      argv << "--user #{@options['user']}" if @options['user']
+      argv << "--group #{@options['group']}" if @options['group']
+      argv << "--prefix #{@options['prefix']}" if @options['prefix']
       cmd = argv.join " "
       
       @ports.each do |port|              
         if @clean && pid_file_exists?(port) && !check_process(port)
           pid_file = port_pid_file(port)        
           log "missing process: removing #{pid_file}"
-          File.unlink(pid_file) 
+          chdir_cwd do
+            File.unlink(pid_file) 
+          end
         end
         
         if pid_file_exists?(port) && check_process(port)
@@ -149,7 +152,7 @@ module Cluster
         puts ""
       end
 
-      return status
+      status
     end
 
     def pid_file_exists?(port)    
@@ -169,13 +172,17 @@ module Cluster
       else
         pid = find_pid(port)
       end
-      return pid
+      pid
     end 
     
-    def cmd_name 
-      RUBY_PLATFORM =~ /solaris/i ? "args" : "command"
+    def cmd_name
+      RUBY_PLATFORM =~ /solaris|aix/i ? "args" : "command"
     end
-
+        
+    def cmd_flags
+      RUBY_PLATFORM =~ /solaris|aix/i ? "-eo" : "-ewwo"
+    end
+    
     def chdir_cwd
       pwd = Dir.pwd
       Dir.chdir(@options["cwd"]) if @options["cwd"]     
@@ -189,21 +196,20 @@ module Cluster
       chdir_cwd do     
         pid = File.read(pid_file)
       end
-      return pid
+      pid
     end
  
     def find_pid(port)
-      ps_cmd = "ps -ewwo pid,#{cmd_name}"
-      ps_output = `#{ps_cmd}`      
-      ps_output.each do |line|     
-        if line =~ /-P #{Regexp.escape(port_pid_file(port))} /              
+      ps_cmd = "ps #{cmd_flags} pid,#{cmd_name}"
+      ps_output = `#{ps_cmd}`
+      ps_output.each do |line|
+        if line =~ /-P #{Regexp.escape(port_pid_file(port))} /
           pid = line.split[0]
           return pid
         end
       end
-      return nil
     end
-
+    
     def log_error(message)
       log(message)
     end
@@ -282,7 +288,8 @@ module Cluster
         ['-l', '--log FILE', "Where to write log messages", :@log_file, "log/mongrel.log"],
         ['-P', '--pid FILE', "Where to write the PID", :@pid_file, "tmp/pids/mongrel.pid"],
         ['-c', '--chdir PATH', "Change to dir before starting (will be expanded)", :@cwd, nil],
-        ['-t', '--timeout SECONDS', "Timeout all requests after SECONDS time", :@timeout, nil],
+        ['-o', '--timeout TIME', "Time to wait (in seconds) before killing a stalled thread", :@timeout, nil],
+        ['-t', '--throttle TIME', "Time to pause (in hundredths of a second) between accepting clients", :@throttle, nil],
         ['-m', '--mime PATH', "A YAML file that lists additional MIME types", :@mime_map, nil],
         ['-r', '--root PATH', "Set the document root (default 'public')", :@docroot, nil],
         ['-n', '--num-procs INT', "Number of processor threads to use", :@num_procs, nil],
@@ -302,7 +309,7 @@ module Cluster
       valid?(@servers > 0, "Must give a valid number of servers")
       valid_dir? File.dirname(@config_file), "Path to config file not valid: #{@config_file}"
       
-      return @valid
+      @valid
     end
 
     def run
@@ -315,9 +322,10 @@ module Cluster
       @options["log_file"] = @log_file if @log_file
       @options["debug"] = @debug if @debug
       @options["num_procs"] = @num_procs if @num_procs
-      @options["docroot"] = @docroot if @docroots
+      @options["docroot"] = @docroot if @docroot
       @options["address"] = @address if @address
       @options["timeout"] = @timeout if @timeout
+      @options["throttle"] = @throttle if @throttle
       @options["environment"] = @environment if @environment
       @options["mime_map"] = @mime_map if @mime_map
       @options["config_script"] = @config_script if @config_script
