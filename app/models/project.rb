@@ -60,9 +60,8 @@ class Project < ActiveRecord::Base
         me.errors.add "There are already 5 featured projects. This project "
       end
     end
-  end
-  
-  protected 
+  end  
+   
   def check_validation?
     if place != nil   
     end
