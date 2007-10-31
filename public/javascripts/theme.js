@@ -63,7 +63,8 @@ Timeline.ClassicTheme._Impl = function() {
             lineColor:      "#58A0DC",
             impreciseColor: "#58A0DC",
             impreciseOpacity: 20,
-            showLineForNoText: true
+            showLineForNoText: true, 
+			 padding: 2
         },
         duration: {
             color:          "#336600",

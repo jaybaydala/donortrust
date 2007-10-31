@@ -77,6 +77,9 @@
 .timeline-instant-event {
     position: absolute;
     overflow: hidden;
+	position: absolute;
+    border-left: 1px solid blue;
+    padding-left: 2px;
 }
 
 .timeline-event-bubble-title {
