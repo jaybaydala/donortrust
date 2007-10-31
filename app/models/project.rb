@@ -36,7 +36,9 @@ class Project < ActiveRecord::Base
   end
  
   validates_presence_of :name
- 
+  validates_presence_of :name
+  validates_presence_of :place, :if => :check_validation?  
+  
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -59,6 +61,19 @@ class Project < ActiveRecord::Base
       end
     end
   end
+  
+  protected 
+  def check_validation?
+    if place != nil   
+    end
+  end
+    
+  def validate    
+    if place != nil       
+      @places = Place.find(place)# :all, :conditions => ["places.id = ?", :place]
+      errors.add(:place, "Must select a city/village #{place.id.to_s}") if @places.place_type_id != 6  
+    end    
+  end    
   
   def milestone_count
     return milestones.count
