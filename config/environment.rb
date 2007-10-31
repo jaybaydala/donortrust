@@ -23,9 +23,9 @@ Rails::Initializer.run do |config|
 
   # Use the database for sessions instead of the file system
   # (create the session table with 'rake db:sessions:create')
-  if ENV['RAILS_ENV'] != 'production' && ENV['RAILS_ENV'] != 'staging'
-    config.action_controller.session_store = :active_record_store
-  end
+  #if ENV['RAILS_ENV'] != 'production' && ENV['RAILS_ENV'] != 'staging'
+  config.action_controller.session_store = :active_record_store
+  #end
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper, 
@@ -66,11 +66,11 @@ Mime::Type.register "application/pdf", :pdf
 
 # Include your application configuration below
 
-if ENV['RAILS_ENV'] == 'production' || ENV['RAILS_ENV'] == 'staging'
-  # using SQLSessionStore because it's really fast...
-  ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.update(:database_manager => SqlSessionStore)
-  SqlSessionStore.session_class = MysqlSession
-end
+#if ENV['RAILS_ENV'] == 'production' || ENV['RAILS_ENV'] == 'staging'
+#  # using SQLSessionStore because it's really fast...
+#  ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.update(:database_manager => SqlSessionStore)
+#  SqlSessionStore.session_class = MysqlSession
+#end
 
 # add in a readable date format
 ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:dt_default => "%b %e, %Y")
