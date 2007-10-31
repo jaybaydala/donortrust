@@ -33,3 +33,10 @@
     padding-left: 5px;
     padding-bottom: 5px;
 }
+
+.timeline-instant-event {
+    position: absolute;
+    border-left: 1px solid blue;
+    padding-left: 10px;
+}
+
