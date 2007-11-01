@@ -879,8 +879,8 @@ h2 a:hover, h2 a:active {
 	margin-right: auto;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey_grey.gif) no-repeat center;
 	height: 16px; 
-    width: 120px;
-    display: block;
+	width: 120px;
+	display: block;
 	list-style-type: none;
 }
 #sendWishlistButton a:hover, #sendWishlistButton a:active {
@@ -892,7 +892,7 @@ h2 a:hover, h2 a:active {
 	margin-right: auto;
 	height: 16px; 
 	width: 120px;
-    display: block;
+	display: block;
 	list-style-type: none;
 }
 
