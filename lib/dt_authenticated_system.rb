@@ -65,7 +65,7 @@ module DtAuthenticatedSystem
       respond_to do |accepts|
         accepts.html do
           store_location
-          redirect_to dt_login_url
+          redirect_to dt_login_url and return
         end
         accepts.xml do
           headers["Status"]           = "Unauthorized"
