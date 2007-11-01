@@ -1,13 +1,11 @@
 <% @project = project_list -%>
     <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
       <div class="leftColW">
-        <h2><%= params[:action] == 'show' ? @project.name : (link_to @project.name, dt_project_path(@project))  %></h2>
+        <h2><%= link_to @project.name, dt_project_path(@project) %></h2>
         
         <div class="projectRank">
           <ul class="specList">
             <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
-            <!--<li style="margin-right:3px; "><span><strong>Project Rating:</strong></span></li>
-            <li><span class="villageRatingProject"></span></li>-->
           </ul>
         </div>
         

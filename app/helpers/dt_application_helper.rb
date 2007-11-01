@@ -13,16 +13,8 @@ module DtApplicationHelper
   end
   
   def dt_search_by_place_select
-    projects = Project.find_public(:all, :include => :place)
-    all_places = []
-    projects.each do |project|
-      if project.community_id? && project.community && project.nation_id?
-        all_places << project.nation.parent.id if project.nation.parent && !all_places.include?(project.nation.parent.id) # continent
-        all_places << project.nation.id if !all_places.include?(project.nation.id)
-      end
-    end
     @places = [['Choose a Place', '']]
-    Place.find(all_places, :order => "parent_id, name").each do |place|
+    Place.find(Project.places, :order => "parent_id, name").each do |place|
       name = place.parent_id? ? "- #{place.name}" : place.name
       @places << [name, place.id]
     end
@@ -30,21 +22,17 @@ module DtApplicationHelper
   end
   
   def dt_search_by_cause_select
-    projects = Project.find_public(:all, :include => :causes)
     @causes = [['Choose a Cause', '']]
-    projects.each do |project|
-      project.causes.each do |cause|
-        @causes << [cause.name, cause.id]
-      end
+    Project.causes do |cause|
+      @causes << [cause.name, cause.id]
     end
     select_tag("cause_id", options_for_select(@causes)) if @causes
   end
   
   def dt_search_by_organization_select
-    projects = Project.find_public(:all, :include => :partner)
     @partners = [['Choose an Organization', '']]
-    projects.each do |project|
-      @partners << [project.partner.name, project.partner.id] if project.partner_id? && project.partner
+    Project.partners.each do |partner|
+      @partners << [partner.name, partner.id]
     end
     select_tag("partner_id", options_for_select(@partners)) if @partners
   end

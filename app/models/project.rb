@@ -65,13 +65,71 @@ class Project < ActiveRecord::Base
     if place != nil   
     end
   end
-    
-  def validate    
+
+  def validate  
     if place != nil       
       @places = Place.find(place)# :all, :conditions => ["places.id = ?", :place]
-      errors.add(:place, "Must be a city/village #{place.id.to_s}") if @places.place_type_id != 6  
+      errors.add(:place, "Must be a city/village #{place.id.to_s}") if @places.place_type_id != 6
     end    
   end    
+
+  class << self
+    def find_public(*args)
+      options = extract_options_from_args!(args)
+      valid_project_status_ids = [2,4]
+      case args.first
+        when :first then Project.find_by_project_status_id(valid_project_status_ids, options)
+        when :all   then Project.find_all_by_project_status_id(valid_project_status_ids, options)
+        else
+          if options[:conditions]
+            if options[:conditiond].is_a?(Hash)
+              options[:conditions][:project_status_id] = valid_project_status_ids
+            else
+              options[:conditions][0]+=" AND (project_status_id IN (?))"
+              options[:conditions] << valid_project_status_ids
+            end
+          else
+            options[:conditions] = { :project_status_id => valid_project_status_ids }
+          end
+          Project.find(args.first, options)
+      end
+    end
+    
+    def places
+      if @places.nil?
+        @places = []
+        Project.find_public(:all, :include => :place).each do |project|
+          if project.community_id? && project.community && project.nation_id?
+            @places << project.nation.parent if project.nation.parent && !@places.include?(project.nation.parent) # continent
+            @places << project.nation unless @places.include?(project.nation)
+          end
+        end
+      end
+      @places
+    end
+    
+    def causes
+      if @causes.nil?
+        @causes = []
+        Project.find_public(:all, :include => :causes).each do |project|
+          project.causes.each do |cause|
+            @causes << cause unless @causes.include?(cause)
+          end
+        end
+      end
+      @causes
+    end
+    
+    def partners
+      if @partners.nil?
+        @partners = []
+        Project.find_public(:all, :include => :partner, :order => 'partners.name').each do |project|
+          @partners << project.partner unless @partners.include?(project.partner)
+        end
+      end
+      @partners
+    end
+  end
   
   def milestone_count
     return milestones.count
@@ -140,27 +198,6 @@ class Project < ActiveRecord::Base
       end
     end
     @nation
-  end
-  
-  def self.find_public(*args)
-    options = extract_options_from_args!(args)
-    valid_project_status_ids = [2,4]
-    case args.first
-      when :first then Project.find_by_project_status_id(valid_project_status_ids, options)
-      when :all   then Project.find_all_by_project_status_id(valid_project_status_ids, options)
-      else
-        if options[:conditions]
-          if options[:conditiond].is_a?(Hash)
-            options[:conditions][:project_status_id] = valid_project_status_ids
-          else
-            options[:conditions][0]+=" AND (project_status_id IN (?))"
-            options[:conditions] << valid_project_status_ids
-          end
-        else
-          options[:conditions] = { :project_status_id => valid_project_status_ids }
-        end
-        Project.find(args.first, options)
-    end
   end
   
   def current_need
