@@ -14,7 +14,7 @@ module DtApplicationHelper
   
   def dt_search_by_place_select
     @places = [['Choose a Place', '']]
-    Place.find(Project.places, :order => "parent_id, name").each do |place|
+    Project.continents_and_countries.each do |place|
       name = place.parent_id? ? "- #{place.name}" : place.name
       @places << [name, place.id]
     end

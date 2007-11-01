@@ -194,10 +194,10 @@ context "Dt::Projects show behaviour" do
     end
   end
 
-  specify "should contain \"Donate\" link which goes to dt/investments/new" do
+  specify "should contain \"Invest\" link which goes to dt/investments/new" do
     project_id = 2
     do_get(project_id)
-    assert_select "div#buttonDonate" do
+    assert_select "div#buttonInvest" do
       assert_select "a[href=/dt/investments/new?project_id=#{project_id}]"
     end
   end

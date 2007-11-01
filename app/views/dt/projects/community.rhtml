@@ -5,15 +5,15 @@
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <div id="leftColW">
     <h1><%= @community.name %></h1>
-    <p>This page is about how lives are changed. (Theme: Proof Of Impact)</p>
+
+    <% if @community.description? || @community.file_image? %>
     <h2>Community Plan</h2>
-  
     <div>
+      <% if @community.file_image? %><%= image_tag @community.file_image, :alt => "#{@community.name} Plan" %><% end %>
       <%= @community.description %>
     </div>
+    <% end %>
 
-  	<%= project_actions %>
-    
     <% if @project.community.rss_url && @rss_feed %>
     <h2>Stories from the community</h2>
     <%= render :partial => 'blog' %>
@@ -32,6 +32,7 @@
   </div>
 
   <div id="rightColN">
+    <%= project_actions %>
     <%= render :partial => 'related_projects' %>
     <% if @community.quick_fact_places.size > 0 -%>
     <div id="factList">

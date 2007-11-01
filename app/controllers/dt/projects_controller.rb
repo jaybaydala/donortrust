@@ -88,14 +88,18 @@ class Dt::ProjectsController < DtApplicationController
       if fbsession and fbsession.is_valid?:
         gid = @project.place.facebook_group_id
         @fbid = fbsession.users_getLoggedInUser()
-        @fb_group = fbsession.groups_get(:gids=>gid)
-        @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
-        members_results = fbsession.groups_getMembers(:gid=>gid)
-        # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
-        member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
-        @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
-        @fb_member_pages, @members = fb_paginate_array(params[:page], @fb_members , 30)
-        @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
+        begin
+          @fb_group = fbsession.groups_get(:gids=>gid)
+          @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
+          members_results = fbsession.groups_getMembers(:gid=>gid)
+          # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
+          member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
+          @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
+          @fb_member_pages, @members = fb_paginate_array(params[:page], @fb_members , 30)
+          @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
+        rescue
+          @fb_group_available = false
+        end
       end
     end
   end
@@ -111,8 +115,8 @@ class Dt::ProjectsController < DtApplicationController
     session[:project_id] = nil
     respond_to do |format|
       # TODO: translate to the hash format
-      # :action => 'community', :id=>session[:project_id] 
-      format.html { redirect_to "/dt/projects/#{project_id};community" }
+      # :action => 'connect', :id=>session[:project_id] 
+      format.html { redirect_to dt_connect_project_path(project_id) }
     end
   end
 

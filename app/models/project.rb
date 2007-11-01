@@ -95,17 +95,47 @@ class Project < ActiveRecord::Base
       end
     end
     
-    def places
-      if @places.nil?
-        @places = []
-        Project.find_public(:all, :include => :place).each do |project|
-          if project.community_id? && project.community && project.nation_id?
-            @places << project.nation.parent if project.nation.parent && !@places.include?(project.nation.parent) # continent
-            @places << project.nation unless @places.include?(project.nation)
+    def continents_and_countries
+      if @continents_and_countries.nil?
+        @continents_and_countries = []
+        continents.each do |continent|
+          @continents_and_countries << continent
+          countries.each do |country|
+            @continents_and_countries << country if country.parent_id? && country.parent_id == continent.id
           end
         end
       end
-      @places
+      @continents_and_countries
+    end
+    
+    def continents
+      if @continents.nil?
+        @continents = []
+        Project.find_public(:all, :include => :place).each do |project|
+          if project.community_id? && project.community
+            project.place.ancestors.each do |ancestor|
+              @continents << ancestor and break if ancestor.place_type_id == 1 && !@continents.include?(ancestor)
+            end
+          end
+        end
+        @continents.sort!{|x,y| x.name <=> y.name}
+      end
+      @continents
+    end
+
+    def countries
+      if @countries.nil?
+        @countries = []
+        Project.find_public(:all, :include => :place).each do |project|
+          if project.community_id? && project.community
+            project.place.ancestors.each do |ancestor|
+              @countries << ancestor and break if ancestor.place_type_id == 2 && !@countries.include?(ancestor)
+            end
+          end
+        end
+        @countries.sort!{|x,y| x.name <=> y.name}
+      end
+      @countries
     end
     
     def causes

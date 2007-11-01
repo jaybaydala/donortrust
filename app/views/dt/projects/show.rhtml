@@ -1,6 +1,4 @@
 <div id="contentContainer">
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <h1><%= @project.name %></h1>
   <%= project_nav %>
 
@@ -16,7 +14,6 @@
   	<p><%= @project.description %></p>
   	</div>
 
-  	<%= project_actions %>
 
     <% if @project.rss_url && @rss_feed %>
     <h2>Stories from the field</h2>
@@ -36,6 +33,7 @@
   </div>
           
   <div id="rightColN">
+    <%= project_actions %>
     <%= render :partial => 'related_projects' %>
     <div id="factList">
 	  <%= project_quickfacts %>

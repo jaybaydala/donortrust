@@ -2,13 +2,21 @@
 <%= project_nav %>
 
 <div id="contentContainer">
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  <div class="buttonGroupWrapN">
-    <ul class="buttonGroup">
-      <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path(:project_id => @project) %></div></li>
-    </ul>
+  <div class="projectInfo">
+    <div class="leftColW">
+      <p>We change the world together. Here, you can connect with everyone who has chosen to help eradicate extreme poverty by investing in development projects occurring in <%= @project.community.name %>.</p>
+      <% if @fb_group_available %><p>If you have a Facebook account, you can participate in groups discussions at the <community name> facebook page.</p><% end -%>
+    </div>
+    <div id="rightColN">
+      <%= project_actions %>
+      <div class="buttonGroupWrapN">
+        <ul class="buttonGroup">
+          <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path(:project_id => @project) %></div></li>
+        </ul>
+      </div>
+    </div>
   </div>
+
   <%= render(:partial => 'connect_group', :collection => @project.public_groups) if @project.public_groups.size > 0 %>
     		
   <div id="leftColW">
@@ -61,7 +69,6 @@
   </div>
 
   <div id="rightColN">
-    <%= render :partial => 'related_projects' %>
     <%= dt_profile_sidebar %>
   </div>
 </div>

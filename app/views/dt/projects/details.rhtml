@@ -44,11 +44,10 @@
     <div id="projectTimeline"><%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %></div>
     <% end %>
 
-  	<%= project_actions %>
-
   </div>
           
   <div id="rightColN">
+    <%= project_actions %>
     <%= render :partial => 'related_projects' %>
 
     <% if @project.key_measures.size > 0 %>
