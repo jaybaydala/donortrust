@@ -135,3 +135,33 @@ task :status,  :roles => :app do status_mongrel_cluster end
 task :after_status , :roles => :admin do
   send(run_method, "#{mongrel_rails} cluster::status -C #{mongrel_admin_conf}")
 end
+
+
+# THESE ARE TO HELP MOVE THE PRODUCTION DB TO YOUR DEV ENVIRONMENT
+# to use, do this: `rake db:production_data_refresh`
+desc 'Dumps, downloads and then cleans up the production data dump'
+task :remote_db_runner do
+  remote_db_dump
+  remote_db_download
+  remote_db_cleanup
+end
+
+desc 'Dumps the production database to db/production_data.sql on the remote server'
+task :remote_db_dump, :roles => :db, :only => { :primary => true } do
+  run "cd #{deploy_to}/current && " +
+    "rake RAILS_ENV=#{rails_env} db:database_dump --trace" 
+end
+
+desc 'Downloads db/production_data.sql from the remote production environment to your local machine'
+task :remote_db_download, :roles => :db, :only => { :primary => true } do  
+  execute_on_servers(options) do |servers|
+    self.sessions[servers.first].sftp.connect do |tsftp|
+      tsftp.get_file "#{deploy_to}/current/db/production_data.sql", "db/production_data.sql" 
+    end
+  end
+end
+
+desc 'Cleans up data dump file'
+task :remote_db_cleanup, :roles => :db, :only => { :primary => true } do  
+  invoke_command "rm -f #{deploy_to}/current/db/production_data.sql", :via => run_method
+end 
