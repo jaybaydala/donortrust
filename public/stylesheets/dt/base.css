@@ -176,7 +176,7 @@ div.highlight {
 	height: auto;
 	text-align:left;
 	background: #FFF;
-	margin: 0px 0 0px 18px;
+	padding: 0px 0 0px 18px;
 	float:left;
 }
 #contentContainer2 {
@@ -184,12 +184,16 @@ div.highlight {
 	height: auto;
 	text-align:left;
 	background: #FFF url(/images/dt/backgrounds/lightFade.gif) no-repeat bottom center;
-	margin: 0px 0 10px 18px;
+	padding: 0px 0 10px 18px;
 	border: 1px solid #666;
 	float:left;
 }
 #contentContainer2 #rightCol {padding: 9px 7px 5px 0px;}
 
+/* The fullWidthWrap is an IE6 hack for underlined text and divs that can't use padding to 
+replace the float-margin bug that doubles the margin width in IE6 */
+
+div.fullWidthWrap {float:left;width:724px;padding-left:25px;}
 
 /* Left Column Wide(W) with Narrow(N) Right Column */
 
@@ -235,7 +239,7 @@ div.highlight {
 	margin-right: 0px;
 }
 
-.col {float:left;width:221px;height:auto;margin:0 20px 0px 7px;padding:0;}
+.col {float:left;width:221px;height:auto;padding:0 20px 0px 7px;margin:0;}
 .colEnd {float:left;width:228px;height:auto;margin:0;padding:0;}
 
 #leftColW .col ul, #leftColW .colEnd ul {margin:0 0 10px 0;padding:0 0;list-style-type:none;}
@@ -305,13 +309,12 @@ h1.title {
 	margin-left:18px;
 }
 #h1_header {
-	width:717px; height:;
+	width:717px; height:auto;
 	font: 24px Georgia, "Times New Roman", Times, serif;
 	color: #033;
 	font-weight:normal;
-	background:;
 	padding: 0px 0px 8px 0px;
-	margin: 0px 0px 10px 25px;
+	margin: 0px 0px 10px 0px;
 	border-bottom: 2px solid #360;
 	float:left;
 }
@@ -462,11 +465,15 @@ div.textsm {
 
 hr { height:2px; border:0px; border-bottom:2px solid #ff1493;margin:0;padding:0; }
 
-.line1W {height:1px;width:469px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:;}
-.line1N {height:1px;width:228px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; background:;}
-.line2W {height:1px;width:469px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:;}
-.line2N {height:1px;width:228px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; background:;}
-.line2Full {height:1px;width:717px; margin:5px 0 0px 7px; padding:0; float:left; border-bottom:2px solid #360;}
+.line1W {height:1px;width:469px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; }
+.line1N {height:1px;width:228px; margin:5px 0 10px 7px; float:left; border-bottom:1px solid #360; }
+.line2W {height:1px;width:469px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; }
+.line2N {height:1px;width:228px; margin:5px 0 10px 7px; float:left; border-bottom:2px solid #360; }
+.line2Full {
+	width:717px; height:1px;
+	margin:5px 0 0px 0px; 
+	padding:0; float:right; border-bottom:2px solid #360;
+}
 
 
 .endLine {
@@ -483,7 +490,7 @@ hr { height:2px; border:0px; border-bottom:2px solid #ff1493;margin:0;padding:0;
 
 #rightColN img {margin: 0 0 10px 0;}
 #contentContainer2 #rightCol img {width:216px; margin: 3px 0 15px 0;}
-#leftColW img, #leftColW2 img {width:auto; padding:0px; border:0px solid #CCC; margin: 0px 0 15px 7px;}
+#leftColW img, #leftColW2 img {width:auto; padding:0px; border:0px solid #CCC; margin: 0px 0 15px 0px;}
 #leftColW fieldset img {width:auto; padding:0px; border:0px solid #CCC; margin: 0px 0 0px 0px;}
 #factList img, #factList2 img {margin: 0px 0px 10px 0px;}
 
@@ -568,7 +575,7 @@ h2 a:hover, h2 a:active {
 /* Gift this Project, Donate, and Tell a Friend Buttons */
 
 #rightColN #buttonGiftProject {margin-bottom: 10px;}
-#rightColN #buttonDonate {margin-bottom: 10px;}
+#rightColN #buttonInvest {margin-bottom: 10px;}
 #rightColN #buttonTellFriend {margin-bottom: 10px;}
 #rightColN #buttonCreateGroup {margin-bottom: 10px;}
 #rightColN li #buttonCreateGroup {margin-bottom: 0px;}
@@ -615,7 +622,7 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
-#buttonDonate {
+#buttonInvest {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
@@ -624,29 +631,29 @@ h2 a:hover, h2 a:active {
 	margin-bottom: 0px;
 	height: 22px; 
     width: 100px;
-    background: transparent url(/images/dt/nav_elements/buttonsCF/donate_lgrey2.gif) no-repeat center; 
+    background: transparent url(/images/dt/nav_elements/buttonsCF/invest_grey.gif) no-repeat center; 
    	display: block;
 	list-style-type: none;
     text-indent: -9000px;
 	float:left;
 }
-#buttonDonate a:link, #buttonDonate a:visited {
+#buttonInvest a:link, #buttonInvest a:visited {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
 	margin-left: auto;
 	margin-right: auto;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/donate_lgrey2.gif) no-repeat center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/invest_grey.gif) no-repeat center;
 	height: 22px; 
     width: 100px;
     display: block;
 	list-style-type: none;
 }
-#buttonDonate a:hover, #buttonDonate a:active {
+#buttonInvest a:hover, #buttonInvest a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/donate_blue.gif) no-repeat center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/invest_blue.gif) no-repeat center;
 	margin-left: auto;
 	margin-right: auto;
 	height: 22px; 
@@ -732,8 +739,6 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
-
-
 #buttonCreateGroup {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
@@ -851,6 +856,46 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
+#sendWishlistButton {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	height: 16px; 
+    width: 120px;
+    background: transparent url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey.gif) no-repeat center; 
+   	display: block;
+	list-style-type: none;
+    text-indent: -9000px;
+	float:left;
+}
+#sendWishlistButton a:link, #sendWishlistButton a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin-left: auto;
+	margin-right: auto;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey_grey.gif) no-repeat center;
+	height: 16px; 
+    width: 120px;
+    display: block;
+	list-style-type: none;
+}
+#sendWishlistButton a:hover, #sendWishlistButton a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey_blue.gif) no-repeat center;
+	margin-left: auto;
+	margin-right: auto;
+	height: 16px; 
+	width: 120px;
+    display: block;
+	list-style-type: none;
+}
+
 
 
 /* GO and SUBMIT Buttons */
@@ -994,7 +1039,7 @@ h2 a:hover, h2 a:active {
 	text-transform:capitalize;
 	text-decoration: none;
 	height: 20px; 
-    width: 92px;
+	width: 92px;
 	padding: 3px 10px 0 0;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/connectButton_grey.gif) no-repeat 0px 3px;
 	display: block;
@@ -1046,7 +1091,6 @@ h2 a:hover, h2 a:active {
 .buttonGroupWrapN {
 	padding: 0px 0px 1px 0px;
 	margin: 0 0 8px 0px;
-	background: ;
 	height: 24px;
 	width: 228px;
 	text-align:left;
@@ -1058,7 +1102,6 @@ h2 a:hover, h2 a:active {
 .buttonGroup li, #rightColN .buttonGroup li {
 	font: 11px/16px Arial, Helvetica, sans-serif;
 	color: #333;
-	background:;
 	padding: 1px 0px 1px 0px;
 	margin:0 0px 0 0;
 	text-decoration:none;
@@ -1093,7 +1136,8 @@ div.errorExplanation ul {
 form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
 
 #leftColW form {
-	width: 476px; height: auto;
+	width: 469px; height: auto;
+	padding-left:7px;
 	margin: 0px 0 10px 0px;
 	color: #333;
 }
@@ -1104,10 +1148,10 @@ form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
 	color: #333;
 }
 
-#leftColW form fieldset {float:left; width:469px; border-top: 1px solid #95AED0; padding:0px 0px 0 0; margin: 0 0 15px 7px;}
-#leftColW form fieldset ul {padding:0 0;}
+#leftColW form fieldset {float:left; width:469px; border-top: 1px solid #95AED0; padding:0px 0px 15px 0; margin:0;}
+#leftColW form fieldset ul {padding:0 0;margin-bottom:0;}
 
-#leftColW2 form fieldset {float:left; width:95%; border-top: 1px solid #95AED0; padding:0 0 0 0; margin: 0 0 15px 0;}
+#leftColW2 form fieldset {float:left; width:95%; border-top: 1px solid #95AED0; padding:0px 0px 15px 0; margin:0;}
 #leftColW form legend, #leftColW2 form legend {
 	font: x-small/12px Verdana, Arial, Helvetica, sans-serif;
 	font-weight: bold;
@@ -1122,18 +1166,17 @@ legend {
 }
 /* IE Mac legend fix */
 
-#leftColW form p {padding-left:0; padding-right:0;margin-left:7px;}
+#leftColW form p {padding-left:0px; padding-right:0; margin-left:0;}
 #leftColW form .textsm {
 	font: 11px/14px Arial, Helvetica, sans-serif;
 	margin: 5px 0 10px 0;
 	padding: 0;
 	color: #333;
-	background:;
 	width:100%;
 	display:block;
 }
-#leftColW .fieldsetN {float:left;width:225px;margin-right:19px;margin-left:7px;}
-#leftColW .fieldsetN2 {float:left;width:225px;margin-right:0px;margin-left:0;}
+#leftColW .fieldsetN {float:left;width:225px;padding-right:10px;padding-left:0px;margin-right:0px;margin-left:0;}
+#leftColW .fieldsetN2 {float:right;width:225px;margin-right:0px;margin-left:0;}
 #leftColW .fieldsetN input, #leftColW .fieldsetN2 input {width:131px;margin:0;}
 #leftColW .fieldsetN label, #leftColW .fieldsetN2 label {width:72px;}
 #leftColW .userform .fieldsetN ul, #leftColW .userform .fieldsetN2 ul {padding-left:0px;padding-right:0px;}
@@ -1142,16 +1185,16 @@ legend {
 /* SIGN IN, SIGN UP Modules */
 
 .userform {margin:0px 0 5px 0px;}
-#leftColW .userform ul {margin-top:10px; padding-left:40px;padding-right:0;margin-right:0;}
+#leftColW .userform ul {margin:10px 0 0 0; padding:0 0 0 40px;}
 #leftColW .userform ol {margin-top:10px; padding-left:40px;padding-right:0;}
 #leftColW .userform li {float:left; list-style-type: none; display: block; margin-bottom: 0px;}
 .userform p {padding-left:0;}
 .userform input {float:left; width: 146px; margin: 0px 20px 0px 0; background:#FFF;}
 .userform input[type=submit] {display:block;width: auto; height:auto; background:#999; color:#FFF; margin:3px 0 0 157px;}
 
-#leftColW #textInput {float:left; width:469px; height:auto; margin: 0px 0 10px 7px;padding:0 0 5px 0;}
+#leftColW #textInput {float:left; width:469px; height:auto; margin: 0px 0 10px 0px;padding:0 0 5px 0;}
 #leftColW #textInput .row {float:left; width:465px; padding:0 0 5px 4px;background:#D8DEE7;}
-#leftColW #textInput ul {margin:0;padding:0 0 0 0px;}
+#leftColW #textInput ul {margin:0;padding:0s;}
 textarea {float:left; border:1px solid #CCC; width:460px; margin:0 0 0 0px; padding:0;}
 #leftColW #textInput label {
 	float:left;
@@ -1159,7 +1202,6 @@ textarea {float:left; border:1px solid #CCC; width:460px; margin:0 0 0 0px; padd
 	width:11.5em;
 	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
 	font-weight: bold; 
-	color: ; 
 	margin: 5px 0.5em 4px 0px; 
 	text-align: left; 
 	text-transform:capitalize;
@@ -1170,7 +1212,6 @@ form #newMember label, form #groupDescription label {
 	display:inline-block; 
 	width:11.5em;
 	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
-	color: ; 
 	margin: 5px 0.5em 4px 0px; 
 	text-align: left; 
 	text-transform:capitalize;
@@ -1204,7 +1245,7 @@ input {
 form input[type=checkbox] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
 form input[type=radio] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
 input[type=checkbox] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
-input[type=radio] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
+input[type=radio] {border:none; width:20px; height:auto; margin-right: 3px; padding:0;}
 
 .jumpMenu {
 	font-family: Arial, Helvetica, sans-serif;
@@ -1272,7 +1313,7 @@ select {
 #relatedProjects {
 	width:228px; height:25px; 
 	float: right; 
-	background: #FFF /* url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat -496px 0px; */
+	background: #FFF; /* url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat -496px 0px; */
 	padding: 3px 0 10px 0; margin-bottom:5px;
 }
 #relatedProjects select {width: 228px; margin: 0;}
@@ -1301,6 +1342,14 @@ select {
 	color: #033;
 	cursor: pointer;
 }
+/* Don't require US tax receipt link */
+
+p.usTaxLink {
+	font: 11px/14px Arial, Helvetica, sans-serif;
+	padding-top:10px; padding-left: 26px; margin-left:7px;
+	background: transparent url(/images/dt/icons/USflag_icon.png) 7px 9px no-repeat;
+}
+
 
 /* SUBMIT BUTTONS */
 
@@ -1412,8 +1461,7 @@ div.buttonsubmit a.large:hover {
 	margin: 0 0 0 136px;
 	padding: 0;
 }
-#buttonSignUp {
-}
+#buttonSignUp {}
 
 .blueblock a {width:225px;font:11px/18px Arial, Helvetica, sans-serif;text-decoration:none; padding:0 0 0 3px;}
 .blueblock a:link, .blueblock a:visited {text-decoration:none; display:block; color:#FFF; background:#66758B url(/images/dt/nav_elements/buttonsCF/button_blueGrey_228.gif);}
@@ -1432,9 +1480,10 @@ div.buttonsubmit a.large:hover {
 	border-top: 0px solid #360;
 	border-bottom: 0px solid #360;
 	padding: 0 0 10px 0px;
-	margin: 0px 0 8px 18px;
+	margin: 0px 0 8px 0px;
+	background:  url(/images/dt/2pxGrnLine.gif) 7px bottom no-repeat;
 }
-#contentContainer .projectInfo {margin-left:0px;}
+
 #projectInfo h1 {
 	font: 24px/30px Georgia, "Times New Roman", Times, serif;
 	color: #033;
@@ -1482,10 +1531,8 @@ p.projectSMtext {float:left; margin-left:7px;}
 
 .projectRank {
 	float:left;
-	padding: 0;
-	margin: 0 0 5px 7px;
-	background: ;
-	height: ;
+	padding: 0 0 0 7px;
+	margin: 0 0 5px 0px;
 	width: 469px;
 }
 #leftColW ul.specList, .leftColW ul.specList {
@@ -1494,12 +1541,10 @@ p.projectSMtext {float:left; margin-left:7px;}
 	font: 11px/15px Arial, Helvetica, sans-serif;
 	color: #333;
 	padding:0;margin:0;
-	background:;
-	height: ;
 	width: 469px;
 	border-bottom:0px solid #ccc;
 }
-#leftColW .specList li, .leftColW .specList li {float:left;display:inline; margin-right: 15px;padding-bottom:0px;height:18px;}
+#leftColW .specList li, .leftColW .specList li {float:left;display:inline; padding-right:15px; padding-bottom:0px; height:18px;}
 p.specList, span.specList {font: 11px/15px Arial, Helvetica, sans-serif;margin-bottom:5px;}
 p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-bottom:0px;padding-bottom:2px;margin-bottom:15px;}
 
@@ -1512,7 +1557,7 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 }
 .villageRatingOrg {
 	float:right; width:75px; height:17px; 
-	margin-right:10px; margin-top:1px;
+	padding-right:10px; margin-top:1px;
 	background: transparent url(/images/dt/rate_stars/stars.gif) no-repeat -45px 0px
 }
 
@@ -1530,14 +1575,13 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 	padding: 0px 0 3px 0px;
 	margin: 0 0 3px 0;
 	border-bottom: 1px solid #CCC;
-	background: ;
 }
 
 #factList2, .factList2 {
 	float:left;
 	width:221px;
 	padding: 0px 0px 10px 0px;
-	margin-bottom:0 0 10px 0;
+	margin:0 0 10px 0;
 }
 #factList ul, #factList2 ul, .factList ul, .factList2 ul {
 	width: 100%;
@@ -1736,11 +1780,11 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 
 /* TABLE-LESS TABLE STYLES */
 
-.row {height:auto; width:469px; padding:2px 0 4px 0; margin:0px 0 2px 0px; background:; border-bottom:1px solid #CCC;}
+.row {height:auto; width:469px; padding:2px 0 4px 0; margin:0px 0 2px 0px; border-bottom:1px solid #CCC;}
 
 #ecardInputs ul {padding:0;margin:0;}
 .row li {list-style-type: none; display: inline; padding:0px 0 1px 0;}
-.row .tableHead li {float:left; display:block; background:; border-bottom:0px solid #999}
+.row .tableHead li {float:left; display:block;  border-bottom:0px solid #999}
 
 #tableHeader, .tableHeader {
 	width:469px; height:20px;
@@ -1807,7 +1851,7 @@ form #tableList .textsm {padding:0;margin:0;}
 
 /* E-CARD STYLES */
 
-#ecardform {background: ;}
+#ecardform {}
 
 #ecardform p {
 	font: 13px/22px Georgia, "Times New Roman", Times, serif;
@@ -1820,21 +1864,19 @@ form #tableList .textsm {padding:0;margin:0;}
 	margin: 5px 0 5px 0;
 	padding: 0px 0px 0px 0px;
 	color: #333;
-	background:;
 	width:100%;
 	float:left; 
 	display:block;
 }
 #ecardInputs { 
 	width:469px; height:auto; 
-	background:; 
 	padding: 0 0 5px 0; 
 	margin: 10px 0 15px 0px;
 	border-top:0px solid #900; 
 	border-bottom:0px solid #900;
 }
-.name {float:left; height:19px; width:auto; background:;}
-.email {float:left; height:19px; width:auto; background:;}
+.name {float:left; height:19px; width:auto; }
+.email {float:left; height:19px; width:auto; }
 
 #ecardInputs .name input {float:left; width: 110px; margin:0px;}
 #ecardInputs .email input {float:left; width: 124px; margin:0px;}
@@ -1844,8 +1886,6 @@ form #tableList .textsm {padding:0;margin:0;}
 	display:inline-block; 
 	width:11.5em;
 	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
-	font-weight:; 
-	color: ; 
 	margin: 0px 0.5em 0px 0px; 
 	text-align: right; 
 	text-transform:capitalize;
@@ -1900,7 +1940,6 @@ form #groupInfo label {
 	display:inline-block; 
 	width:8.5em;
 	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
-	color: ; 
 	margin: 1px 0.5em 4px 0px; 
 	text-align: right; 
 	text-transform:capitalize;
@@ -1964,8 +2003,8 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 #newMember {width:100%; margin-bottom:0px;}
 #newMember .row {float:left; width:465px; padding:0 0 5px 4px;background:#D8DEE7;}
 #newMember ul {margin-left:0px;margin-bottom:0;}
-#newMember .name {display:block;float:lef; height:auto; width:203px; margin-right:4px;}
-#newMember .email {display:block;float:lef; height:auto; width:203px; margin-right:0px;}
+#newMember .name {display:block;height:auto; width:203px; margin-right:4px;}
+#newMember .email {display:block;height:auto; width:203px; margin-right:0px;}
 #newMember .control {float:left; height:auto; width:50px; margin-left: 0px; padding-top:18px;padding-bottom:4px; font: 11px/15px Arial, Helvetica, sans-serif; text-align:center;}
 #newMember label {display:block;float:none;width:30px; margin-right:5px; text-align:left;}
 #newMember input {float:left; height:14px; width:195px; }
@@ -1977,7 +2016,6 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	float:left;
 	font: 10px/10px Arial, Helvetica, sans-serif;
 	color: #006;
-	font-weight: ;
 	text-decoration:none;
 	letter-spacing: 0px;
 	text-transform:capitalize;
@@ -1993,7 +2031,6 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 }
 #addButton a:link, #addButton a:visited {
 	color: #006;
-	font-weight: ;
 	letter-spacing: 0px;
 	text-decoration: none;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/newMemberOff.gif) 0px center no-repeat;
@@ -2001,7 +2038,6 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	}
 #addButton a:hover, #addButton a:active {
 	color: #F60;
-	font-weight: ;
 	letter-spacing: 0px;
 	text-decoration: none;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/newMemberOver.gif) 0px center;
@@ -2018,22 +2054,14 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 }
 #giftCodeBar input {float:left; margin: 0px 5px 0 0;}
 
-#giftCodeBox {
-	padding: 3px 10px 0px 7px;
-	margin-bottom: 0px;
-	background: #1E2231;
-	height: 25px;
-	width: 215px;
-	color: #666;
-	text-align:left;
-	/* Box-model hack */
-	voice-family: "\"}\"";
-	voice-family: inherit;
-	height: 25px;
-	width: 218px;
-	float:lef;
+.giftCodeBox {
+	width: 213px; height: 25px;
+	padding: 5px 5px 0px 5px;
+	margin: 0 5px 10px 0;
+	background: #AAC698;
+	display:block; float:right;
 }
-#giftCodeBox input {width:140px; background: white;}
+#rightColN .giftCodeBox input {width:136px; background: white;float:left;margin:0;}
 
 #buttonUnwrap {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
@@ -2043,7 +2071,7 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	height: 18px; 
     width: 65px;
 	padding: 0px 0px 0 0;
-    background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_grey.gif) no-repeat 0px 3px; 
+    background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_grey.gif) no-repeat 0px 0px;
    	display: block;
 	list-style-type: none;
     text-indent: 0px;
@@ -2053,10 +2081,7 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
-	height: 18px; 
-    width: 65px;
-	padding: 0;
-    background: transparent; 
+	padding: 0; margin:0;
    	display: block;
 }
 #buttonUnwrap a:link, #buttonUnwrap a:visited {
@@ -2064,8 +2089,8 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	font-weight: normal;
 	text-decoration: none;
 	text-transform:capitalize;
-	padding: 2px 0 0 0;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_grey.gif) no-repeat;
+	padding: 0px 0 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_grey.gif) no-repeat 0px 0px;
 	height: 18px; 
     width: 65px;
     display: block;
@@ -2076,18 +2101,13 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	font-weight: normal;
 	text-decoration:none;
 	text-transform:capitalize;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_blue.gif) no-repeat;
-	padding: 2px 0 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/unwrap_blue.gif) no-repeat 0px 0px;
+	padding: 0px 0 0 0;
 	height: 18px; 
 	width: 65px;
     display: block;
 	list-style-type: none;
 }
-
-
-
-
-
 
 
 

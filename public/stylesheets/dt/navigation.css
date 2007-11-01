@@ -173,14 +173,14 @@ This allows us to validate the project overview page by not repeating
 	height: auto;
 	text-align:left;
 	background: #FFF;
-	margin: 0px 0 8px 18px;
+	padding-left:25px;
+	margin: 0px 0 8px 0px;
 	float:left;
 }
 #subSubNav ul {
 	float:left; display:block;
 	padding: 1px 0px 1px 0px;
-	margin: 0 0 4px 7px;
-	background: ;
+	margin: 0 0 4px 0px;
 	height: 18px;
 	width: 717px;
 	text-align:left;
@@ -189,18 +189,17 @@ This allows us to validate the project overview page by not repeating
 #subSubNav_2col ul.pageNav {
 	float:left; display:block;
 	padding: 1px 0px 1px 0px;
-	margin: 0 0 4px 7px;
-	background: ;
+	margin: 0 0 4px 0px;
 	height: 18px;
 	width: 469px;
 	text-align:left;
 	border-bottom:1px solid #ccc;
 }
-#subSubNav li.currentPg { background-color:; padding: 1px 0 1px 0;}
+#subSubNav li.currentPg {padding: 1px 0 1px 0;}
 #subSubNav li.currentPg a:link, #subSubNav li.currentPg a:visited, 
 #subSubNav li.currentPg a:hover, #subSubNav li.currentPg a:active { color:#FFF; background-color:#66758B;}
 
-#subSubNav_2col li.currentPg { background-color:; padding: 1px 0 1px 0;}
+#subSubNav_2col li.currentPg {padding: 1px 0 1px 0;}
 #subSubNav_2col li.currentPg a:link, #subSubNav_2col li.currentPg a:visited, 
 #subSubNav_2col li.currentPg a:hover, #subSubNav_2col li.currentPg a:active { color:#FFF; background-color:#66758B;}
 
@@ -208,18 +207,16 @@ This allows us to validate the project overview page by not repeating
 /* PAGE NAVIGATION (DATA PAGINATION) */
 
 #pageNav {
-	padding: 0px 0px 1px 0px;
-	margin: 0 0 8px 7px;
-	background: ;
+	padding: 0px 0px 1px 7px;
+	margin: 0 0 8px 0px;
 	height: 18px;
 	width: 717px;
 	text-align:left;
 	border-bottom:1px solid #ccc;
 }
 #pageNav2, #pageNav2b {
-	padding: 0px 0px 1px 0px;
-	margin: 0 0 10px 7px;
-	background: ;
+	padding: 0px 0px 1px 7px;
+	margin: 0 0 10px 0px;
 	height: 18px;
 	width: 469px;
 	text-align:left;
@@ -234,13 +231,11 @@ This allows us to validate the project overview page by not repeating
 .pageNav li, #leftColW .pageNav li {
 	font: 11px/16px Arial, Helvetica, sans-serif;
 	color: #333;
-	background-color:;
-	padding: 1px 0px 1px 0px;
-	margin-right:3px;
+	padding: 1px 3px 1px 0px;
 	text-decoration:none;
 	display: inline;
 	list-style-type: none;
-	width: ; height: 17px;
+	height: 17px;
 	float:left;
 }
 .pageNav a {
@@ -249,7 +244,6 @@ This allows us to validate the project overview page by not repeating
 	font: 11px/16px Arial, Helvetica, sans-serif;
 	font-weight: normal;
 	padding: 1px 6px 1px 6px;
-	background:;
 	border: 1px solid #FFF;
 }
 .pageNav a:link, .pageNav a:visited {
@@ -261,15 +255,15 @@ This allows us to validate the project overview page by not repeating
 	border: 1px solid #F60;
 }
 
-#pageNav li.currentPg { background-color:; padding: 1px 0 1px 0;}
+#pageNav li.currentPg {padding: 1px 0 1px 0;}
 #pageNav li.currentPg a:link, #pageNav li.currentPg a:visited, 
 #pageNav li.currentPg a:hover, #pageNav li.currentPg a:active { color:#FFF; background-color:#66758B;}
 
-#pageNav2 li.currentPg { background-color:; padding: 1px 0 1px 0;}
+#pageNav2 li.currentPg {padding: 1px 0 1px 0;}
 #pageNav2 li.currentPg a:link, #pageNav2 li.currentPg a:visited, 
 #pageNav2 li.currentPg a:hover, #pageNav2 li.currentPg a:active { color:#FFF; background-color:#66758B;}
 
-#pageNav2b li.currentPg { background-color:; padding: 1px 0 1px 0;}
+#pageNav2b li.currentPg {padding: 1px 0 1px 0;}
 #pageNav2b li.currentPg a:link, #pageNav2b li.currentPg a:visited, 
 #pageNav2b li.currentPg a:hover, #pageNav2b li.currentPg a:active { color:#FFF; background-color:#66758B;}
 
@@ -278,7 +272,6 @@ This allows us to validate the project overview page by not repeating
 #galleryNav {
 	padding: 0px 0px 4px 0px;
 	margin: 0 0 8px 0px;
-	background: ;
 	height: 18px;
 	width: 100%;
 	border-bottom:1px solid #ccc;
@@ -293,7 +286,7 @@ This allows us to validate the project overview page by not repeating
 	text-decoration:none;
 	display: inline;
 	list-style-type: none;
-	width: ; height: 17px;
+	height: 17px;
 	float:left;
 }
 .galleryNav a {
@@ -314,6 +307,6 @@ This allows us to validate the project overview page by not repeating
 	border: 1px solid #F60;
 }
 
-#galleryNav li.currentPg { background-color:; padding: 1px 0 1px 0;}
+#galleryNav li.currentPg {padding: 1px 0 1px 0;}
 #galleryNav li.currentPg a:link, #galleryNav li.currentPg a:visited, 
 #galleryNav li.currentPg a:hover, #galleryNav li.currentPg a:active { color:#FFF; background-color:#66758B;}
