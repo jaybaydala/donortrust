@@ -159,14 +159,14 @@ context "Dt::Projects show behaviour" do
     login_as(:quentin)
     project_id = 2
     do_get project_id
-    page.should.select "div#factList ul li[class=blueblock] a[href=#{dt_my_wishlists_path(:account_id => users(:quentin), :project_id => project_id)}]"
+    page.should.select "div.factList ul li[class=blueblock] a[href=#{dt_my_wishlists_path(:account_id => users(:quentin), :project_id => project_id)}]"
   end
 
   specify "if logged_in and group_admin?, should show a Add to Group Wishlist link in div#factList" do
     login_as(:quentin)
     project_id = 2
     do_get project_id
-    page.should.select "div#factList ul li[class=blueblock] a[href=#{dt_new_wishlist_path(:project_id => project_id)}]"
+    page.should.select "div.factList ul li[class=blueblock] a[href=#{dt_new_wishlist_path(:project_id => project_id)}]"
   end
 
   specify "if logged_in and group_admin? is false, should not show a Add to Group Wishlist link in div#factList" do
@@ -197,7 +197,7 @@ context "Dt::Projects show behaviour" do
   specify "should contain \"Invest\" link which goes to dt/investments/new" do
     project_id = 2
     do_get(project_id)
-    assert_select "div#buttonInvest" do
+    assert_select "div#buttonInvestSM" do
       assert_select "a[href=/dt/investments/new?project_id=#{project_id}]"
     end
   end

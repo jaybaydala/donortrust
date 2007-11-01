@@ -195,11 +195,11 @@ class Project < ActiveRecord::Base
   end
   
   def community_id
-    self.place_id
+    self.place_id if self.place && self.place.place_type_id >= 6
   end
   
   def community_id?
-    self.place_id?
+    self.place_id? && self.place && self.place.place_type_id >= 6
   end
 
   def nation_id

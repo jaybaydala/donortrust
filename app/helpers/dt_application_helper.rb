@@ -9,7 +9,7 @@ module DtApplicationHelper
   end
 
   def dt_masthead_image
-    @image = '/images/dt/feature_graphics/feelGreat155.jpg'
+    @image = '/images/dt/feature_graphics/gbannerA155.jpg'
   end
   
   def dt_search_by_place_select

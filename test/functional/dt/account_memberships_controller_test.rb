@@ -47,7 +47,7 @@ end
 context "Dt::AccountMemberships index handling" do
   use_controller Dt::AccountMembershipsController
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships, :group_types
+  fixtures :users, :groups, :memberships, :group_types, :partners
 
   specify "should redirect if not logged_in" do
     get :index, :account_id => 1
