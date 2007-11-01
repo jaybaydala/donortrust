@@ -156,12 +156,13 @@ desc 'Downloads db/#{rails_env}_data.sql from the remote environment to your loc
 task :remote_db_download, :roles => :db, :only => { :primary => true } do  
   execute_on_servers(options) do |servers|
     self.sessions[servers.first].sftp.connect do |tsftp|
-      tsftp.get_file "#{deploy_to}/current/db/#{rails_env}_data.sql", "db/#{rails_env}_data.sql" 
+      tsftp.get_file "#{deploy_to}/current/db/#{rails_env}_data.sql", "db/production_data.sql" 
     end
   end
 end
 
 desc 'Cleans up data dump file'
 task :remote_db_cleanup, :roles => :db, :only => { :primary => true } do  
+  set :use_sude, false
   invoke_command "rm -f #{deploy_to}/current/db/#{rails_env}_data.sql", :via => run_method
 end 
