@@ -5,7 +5,9 @@ class BusAdmin::PlacesController < ApplicationController
     config.columns =[ :name, :place_type, :file,:blog_url, :rss_url , :description ]
     list.columns.exclude [ :blog_url, :rss_url, :description ]
     config.columns[ :place_type ].form_ui = :select
-   
+    
+   config.columns[:children].association.reverse = :parent
+
     config.nested.add_link("Next", [:children]) 
     config.nested.add_link("Quick Fact", [:quick_fact_places]) 
     config.nested.add_link("Sectors", [:place_sectors]) 

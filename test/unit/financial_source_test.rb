@@ -9,13 +9,6 @@ class BusAdmin::FinancialSourceTest < Test::Unit::TestCase
       FinancialSource.should.differ(:count).by(1) {create_financial} 
     end
     
-    specify "amount should be numerical" do
-      lambda {
-        t = create_financial(:amount => 'test')
-        t.errors.on(:amount).should.not.be.nil
-      }.should.not.change(FinancialSource, :count)
-    end
-    
    specify "should require source" do
       lambda {
         t = create_financial(:source => nil)
