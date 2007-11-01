@@ -19,7 +19,7 @@ class Dt::DepositsController < DtApplicationController
     respond_to do |format|
       if @deposit.authorization_result != nil && @saved = @deposit.save
         if @deposit.country == 'Canada'
-          gift_tax_receipt         
+          deposit_tax_receipt         
         end
         flash[:notice] = "Your deposit was successful."
         format.html { redirect_to :controller => '/dt/accounts', :action => 'show', :id => current_user.id }
@@ -56,7 +56,7 @@ class Dt::DepositsController < DtApplicationController
     deposit_params
   end
   
-  def gift_tax_receipt
+  def deposit_tax_receipt
     @deposit_tax_receipt = TaxReceipt.new( params[:tax_receipt] ) 
     if logged_in?
       @deposit_tax_receipt.user = current_user
