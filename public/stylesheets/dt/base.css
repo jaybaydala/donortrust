@@ -149,7 +149,7 @@ div.highlight {
 	background-repeat: no-repeat;
 }
 
- /* PROGRESS BAR STYLES */
+/* PROGRESS BAR STYLES */
 
 #progessbar {
 	width:722px;
@@ -160,7 +160,7 @@ div.highlight {
 	border-left: 1px solid #999;
 }
 
- /* TOOLBAR STYLES */
+/* TOOLBAR STYLES */
 
 #toolbar {
 	width:724px;
@@ -261,7 +261,7 @@ form #leftColW .col ul, form #leftColW .colEnd ul {margin:0 0 10px 0;padding:0 0
 	border-bottom: 1px solid #CCC;
 	background: #FFF;
 	padding: 11px 0px 12px 0px;
-	margin: 0px 18px 0px 18px;
+	margin: 15px 18px 0px 18px;
 	text-align: left;
 	clear: both;
 }
@@ -661,6 +661,60 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
+
+
+#buttonInvestSM {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-transform:capitalize;
+	text-decoration: none;
+	height: 20px; 
+	width: 92px;
+	padding: 3px 10px 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/investButton_smgrey.gif) no-repeat 0px 3px;
+	display: block;
+	list-style-type: none;
+	text-indent: 0px;
+	float:left;
+}
+#buttonInvestSM a span {
+	visibility:hidden;
+}
+#buttonInvestSM a {
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color: black;
+	text-decoration: none;
+	height: 20px; 
+	width: 92px;
+	padding: 0;
+	background: transparent; 
+	display: block;
+}
+#buttonInvestSM a:link, #buttonInvestSM a:visited {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	text-transform:capitalize;
+	padding: 2px 0 0 0;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/investButton_smgrey.gif) no-repeat;
+	height: 20px; 
+	width: 92px;
+	display: block;
+	list-style-type: none;
+}
+#buttonInvestSM a:hover, #buttonInvestSM a:active {
+	color: #000;
+	font-weight: normal;
+	text-decoration:none;
+	text-transform:capitalize;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/investButton_smblue.gif) no-repeat;
+	padding: 2px 0 0 0;
+	height: 20px; 
+	width: 92px;
+    display: block;
+	list-style-type: none;
+}
+
 #buttonTellFriend {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
@@ -856,7 +910,7 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
-#sendWishlistButton {
+#buttonSendWishlist {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
@@ -871,31 +925,30 @@ h2 a:hover, h2 a:active {
     text-indent: -9000px;
 	float:left;
 }
-#sendWishlistButton a:link, #sendWishlistButton a:visited {
+#buttonSendWishlist a:link, #buttonSendWishlist a:visited {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
 	margin-left: auto;
 	margin-right: auto;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey_grey.gif) no-repeat center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey.gif) no-repeat center;
 	height: 16px; 
-	width: 120px;
-	display: block;
+    width: 120px;
+    display: block;
 	list-style-type: none;
 }
-#sendWishlistButton a:hover, #sendWishlistButton a:active {
+#buttonSendWishlist a:hover, #buttonSendWishlist a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
-	background: transparent url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey_blue.gif) no-repeat center;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/sendWishlist_blue.gif) no-repeat center;
 	margin-left: auto;
 	margin-right: auto;
 	height: 16px; 
 	width: 120px;
-	display: block;
+    display: block;
 	list-style-type: none;
 }
-
 
 
 /* GO and SUBMIT Buttons */
