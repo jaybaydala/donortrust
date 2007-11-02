@@ -12,7 +12,9 @@ class Partner < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :description
   validates_length_of   :name, :maximum => 50
- 
+
+  acts_as_textiled :description, :business_model, :funding_sources, :mission_statement, :philosophy_dev 
+  
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned

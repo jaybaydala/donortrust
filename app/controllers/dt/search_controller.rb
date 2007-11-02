@@ -2,7 +2,10 @@ class Dt::SearchController < DtApplicationController
   helper "dt/projects"
   def show
     @projects = Project.find_public(:all, search_options)
-    @projects = place_filter(@projects) if params[:place_id]
+    @projects = place_filter(@projects) if params[:place_id] && Place.exists?(params[:place_id])
+    @place = Place.find(params[:place_id]) if params[:place_id] && Place.exists?(params[:place_id])
+    @partner = Partner.find(params[:partner_id]) if params[:partner_id] && Partner.exists?(params[:partner_id])
+    @cause = Cause.find(params[:cause_id]) if params[:cause_id] && Cause.exists?(params[:cause_id])
     respond_to do |format|
       format.html
     end
@@ -27,6 +30,7 @@ class Dt::SearchController < DtApplicationController
       "organization" => "partners.`name` ASC", 
       "place" => "places.`name` ASC"
     }
+    params[:order] = 'newest' if !params[:order]
     order = order_map[params[:order]] if order_map.has_key?(params[:order])
     
     include_map = {
@@ -46,22 +50,18 @@ class Dt::SearchController < DtApplicationController
   end
   
   def place_filter(projects)
-    projects.each_index do |i|
-      project = projects[i]
-      unless project.place_id? && project.place
-        logger.info "NO PLACE ASSOCIATED WITH PROJECT : #{project.name}"
-        projects.delete_at(i)
-        next
+    projects = projects.delete_if do |project|
+      if !project.place_id? || !project.place
+        true
+      else
+        @ancestors_and_self_ids = []
+        @ancestors_and_self_ids << project.place_id
+        project.place.ancestors.each do |ancestor|
+          @ancestors_and_self_ids << ancestor.id
+        end
+        # delete if it's not included
+        !@ancestors_and_self_ids.include?(params[:place_id].to_i)
       end
-      ancestors_and_self = []
-      ancestors_and_self << project.place_id
-      project.place.ancestors.each do |ancestor|
-        ancestors_and_self << ancestor.id
-      end
-      logger.info "================================="
-      logger.info "PROJECT : #{project.name}"
-      logger.info "ANCESTORS : " + ancestors_and_self.join(',')
-      projects.delete_at(i) unless ancestors_and_self.include?(params[:place_id])
     end
     projects
   end

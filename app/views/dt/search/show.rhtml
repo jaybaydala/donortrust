@@ -7,9 +7,13 @@
       </ul>
     </div>
   </div>
+  <div><strong>You have searched using the following terms:</strong></div>
+    <% if @place %><div class="textsm" style="padding-bottom:0;"><strong>Place:</strong> <%= @place.name %></div><% end %>
+    <% if @cause %><div class="textsm" style="padding-bottom:0;"><strong>Cause:</strong> <%= @cause.name %></div><% end %>
+    <% if @partner %><div class="textsm" style="padding-bottom:0;"><strong>Organization:</strong> <%= @partner.name %></div><% end %>
 </div>
 <% if @projects.size > 0 %>
-<div id="subSubNav">
+<div id="subSubNav" style="margin-top:10px;">
   <ul class="pageNav">
     <li><strong>SORT BY:</strong></li>
     <li>&nbsp;</li>
