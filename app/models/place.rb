@@ -12,11 +12,10 @@ class Place < ActiveRecord::Base
   has_many :groups
   has_many :place_flickr_images
   has_many :place_you_tube_videos
-  
-
 
   validates_presence_of :name
   validates_presence_of :place_type_id
+  validates_numericality_of :facebook_group_id
   
   def Place.getParentString(place)
     parentString = ""
