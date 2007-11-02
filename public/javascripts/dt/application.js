@@ -5,12 +5,17 @@ Event.observe(window, 'load', function() {
 				anchor.target = "_blank"
 		});
 	}
-	if (submits = $$('input.buttonsubmit')) {
-		i = 0;
-		submits.each(function(s) {
-			button = new SubmitButton(s, i)
-			i++;
-		});
+	ua=navigator.userAgent.toLowerCase();
+	ie = document.all && ua.search(/msie/i) != -1 ? true : false;
+	old_ie = ie && ua.search(/msie [0-6]/i) != -1 ? true : false;
+	if (!old_ie) {
+		if (submits = $$('input.buttonsubmit')) {
+			i = 0;
+			submits.each(function(s) {
+				button = new SubmitButton(s, i)
+				i++;
+			});
+		}
 	}
 	if (search = $('searchBox')) {
 		Event.observe(search, 'focus', function(e) {if (search.value == 'Search') search.value = ''})

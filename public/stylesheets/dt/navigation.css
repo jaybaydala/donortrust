@@ -21,6 +21,7 @@
 	width: 714px;
 }
 #topNav ul {float:left; width: 546px; padding-top:10px; padding-bottom:10px;}
+#topNav a {text-decoration:none;}
 
 .topNav li {
 	font: 12px/15px Arial, Helvetica, sans-serif;
@@ -98,6 +99,7 @@
 	width: 714px;
 }
 #subNav ul {float:left; width: 486px; padding-top:5px; padding-bottom:5px;}
+#subNav a {text-decoration:none;}
 
 #subNavBarEnd {
 	width:228px; height:25px; 
@@ -127,6 +129,7 @@ This allows us to validate the project overview page by not repeating
 	width: 714px;
 }
 #subNavWide ul {float:left; width: 714px; padding-top:5px; padding-bottom:5px;}
+#subNavWide a {text-decoration:none;}
 
 .subNav li {
 	font: 12px/15px Arial, Helvetica, sans-serif;
