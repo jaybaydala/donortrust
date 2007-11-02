@@ -1017,6 +1017,9 @@ h2 a:hover, h2 a:active {
    	display: block;
 	list-style-type: none;
 }
+#buttonGo a span {
+	visibility:hidden;
+}
 #buttonGo a:link, #buttonGo a:visited {
 	color: #fff;
 	font-weight: normal;
