@@ -149,6 +149,7 @@ class Project < ActiveRecord::Base
             @causes << cause unless @causes.include?(cause)
           end
         end
+        @causes.sort!{|x,y| x.name <=> y.name}
       end
       @causes
     end
