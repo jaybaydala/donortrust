@@ -19,7 +19,7 @@ class Dt::GroupProjectsController < DtApplicationController
     @group.projects.delete @project
     respond_to do |format|
       format.html {
-        flash[:notice] = "You have removed the &quot;@project.name&quot; from the group"
+        flash[:notice] = "You have removed the &quot;#{@project.name}&quot; from the group"
         redirect_to dt_group_projects_path(@group)
       }
     end

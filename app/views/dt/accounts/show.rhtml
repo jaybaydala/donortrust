@@ -8,8 +8,8 @@
 			<h2>Stay Involved </h2>			
 			<p>Keep supporting the movement! Be sure to visit the <a href="../../get-involved.html">Get Involved</a> section to see how you can do more.</p>
 		</div>
-	<% if @user.user_transactions.length > 0 %><div style="text-align:right;font-weight:bold;">Uninvested Money: <%= number_to_currency(current_user.balance) %></div><% end %>
-	<div class="account-summary">
+	<% if @user.user_transactions.length > 0 %><div style="text-align:right;font-weight:bold;">Uninvested Funds: <%= number_to_currency(current_user.balance) %></div><% end %>
+	<div class="account-summary" style="margin-bottom:18px;">
 		<% if @user.user_transactions.length > 0 -%>
 		<div id="transaction_list">
 			<table style="width:100%;">

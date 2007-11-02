@@ -68,7 +68,8 @@ context "Dt::Wishlists handling GET /dt/wishlists/new" do
     login_as :quentin
     get :new, :project_id => 1
     assert_select "form#wishlistform" do
-      assert_select "select#wishlisttype"
+      assert_select "select#group_id"
+      assert_select "input[type=hidden]#project_id"
     end
   end
 end
@@ -91,24 +92,24 @@ context "Dt::Wishlists handling POST /dt/wishlists" do
   
   specify "should assign @group if watchlisttype != 'personal'" do
     login_as :quentin
-    do_post(:watchlist_type => 'group-1')
+    do_post(:group_id => 1)
     assigns(:group).should.not.be.nil
   end
 
   specify "should redirect to group_projects page if watchlisttype != 'personal'" do
     login_as :quentin
-    do_post(:watchlist_type => 'group-1')
+    do_post(:group_id => 1)
     should.redirect dt_group_projects_path(assigns(:group))
   end
 
   specify "should increase group.projects.size by one if passed a group" do
     login_as :quentin
     old_count = Group.find(1).projects.size
-    do_post(:watchlist_type => 'group-1')
+    do_post(:group_id => 1)
     Group.find(1).projects.size.should.equal old_count+1
   end
 
   def do_post(options={})
-    post :create, {:watchlist_type => 'personal', :project_id => 1}.merge(options)
+    post :create, {:group_id => 1, :project_id => 1}.merge(options)
   end
 end

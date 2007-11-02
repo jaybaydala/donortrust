@@ -9,10 +9,8 @@ class Dt::WishlistsController < DtApplicationController
   def create
     redirect_to dt_projects_path and return if !params[:project_id]
     @project = Project.find(params[:project_id])
-    if matchdata = params[:watchlist_type].match(/^group-(\d*)/)
-      @group = Group.find(matchdata[1])
-      @saved = @group.projects << @project
-    end
+    @group = Group.find(params[:group_id])
+    @saved = @group.projects << @project
     respond_to do |format|
       format.html do
         if @saved
