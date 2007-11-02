@@ -59,7 +59,8 @@ Ecard.prototype = {
 		ecard_link = $("ecard-link-"+id);
 		if (ecard_link.getAttribute("href")) {
 			ecard_link.target = ""
-			ecard_link.href = "javascript:void(0);"
+			ecard_link.rel = ""
+			ecard_link.href = "#previewEcard"
 		}
 	}
 }

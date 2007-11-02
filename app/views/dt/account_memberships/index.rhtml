@@ -8,7 +8,7 @@
   <%= render :partial => 'dt/groups/group', :collection => @groups %>
   <% else %>
   <div id="leftColW">
-    <p>You are not currently a member of any group. <%= link_to "Get involved", dt_groups_path %>.</p>
+    <p>You are not currently a member of any group. <%= link_to "Find a group", dt_groups_path %> or <%= link_to "create a group", dt_new_group_path %>.</p>
   </div>
   <div id="rightColN">
 	  <%= dt_profile_sidebar %>

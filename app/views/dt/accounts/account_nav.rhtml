@@ -3,7 +3,7 @@
 <% if logged_in? %>
 <li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'show' %>><%= link_to "Account Summary ", dt_account_path(current_user) %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'edit' %>><%= link_to "Edit Profile ", dt_edit_account_path(current_user) %></li>
-<li<%= ' class="current"' if params['controller'] == 'dt/groups' %>><%= link_to "Group Memberships ", dt_account_memberships_path(current_user) %></li>
+<li<%= ' class="current"' if params['controller'] == 'dt/account_memberships' %>><%= link_to "Group Memberships ", dt_account_memberships_path(current_user) %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/deposits' %>><%= link_to "Deposit ", dt_new_deposit_path(:account_id => current_user.id) %></li>
 <% else %>
 <li<%= ' class="current"' if params['controller'] == 'dt/sessions' && params['action'] == 'new' %>><%= link_to "Login ", dt_login_path() %></li>

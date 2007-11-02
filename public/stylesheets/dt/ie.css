@@ -43,17 +43,47 @@ input.buttonsubmit {
 	margin-left:0;
 }
 .userform div.textsm, .userform p.textsm {
-	padding-left:200px;
+	width:auto !important;
+	margin:0 !important;
+	padding:0 !important;
+	overflow:visible;
 }
 
+#ccExpiry {
+	position:absolute;
+	top:0;
+	left:110px;
+}
 #ccExpiry select {
-	
+	position:static;
+}
+#gift_send_at_select select {
+	position:static;
 }
 
+fieldset.fieldsetN input, fieldset.fieldsetN2 input {
+	width:120px !important;
+}
 #rememberMe {position:relative;}
 #rememberMe label{
 	position: absolute;
 	top:6px;left:24px;
+}
+
+
+#medImgWrap {
+	background:transparent;
+}
+#medImgWrap, div.medImg {
+	height:140px;
+}
+div.medImg, #miniThumbs li {
+	background:transparent;
+}
+#medImgWrap img {
+	display:block !important;
+	width:140px;
+	height:140px;
 }
 .textsm a:link, .textsm a:visited {
 	cursor: hand;

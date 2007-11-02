@@ -2,6 +2,7 @@
 <div id="contentContainer">
   <div id="leftColW">
     <h1>Create Group</h1>
+    <p>Connect with other people in your own city or from across the world who have chosen to help eradicate extreme poverty. Share your concern for specific projects, developing communities, or implementing organizations. By creating a group, you can invite others to join in the projects and communities that you are interested in.</p>
     <%= error_messages_for :group %>
     <% form_for(:group, :url => dt_groups_path, :html => { :id => 'groupform', :name => 'groupform' }) do |f| %>
       <fieldset id="groupInfo">

@@ -9,7 +9,7 @@
           </ul>
         </div>
         
-        <p><strong>Project Description:</strong> <%= @project.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
+        <p><strong>Project Description:</strong> <% if summarize %><%= @project.description(:plain)[/^([\w\.-;:]+\W){1,40}/] %><% else %><%= @project.description %><% end %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
       </div>
       
     	<div class="factList">

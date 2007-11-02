@@ -8,8 +8,8 @@
     <h1><%= @group.name %></h1>
 
     <div class="tableHeader">
-      <div style="float:left; ">Our Projects</div>
-      <div class="tableHeader_button"><!-- <img src="/images/dt/nav_elements/buttonsCF/button_grey_medium.gif" /> --></div>
+			<div style="float:left; ">Our Projects</div>
+			<div class="tableHeader_button"><div id="addProjButton"><%= link_to "Add New Project", dt_projects_path %></div></div>
     </div>
     <% if @projects_invested.size > 0 %>
     <div id="tableList">
@@ -23,7 +23,6 @@
 
     <div class="tableHeader">
       <div style="float:left; ">Our Wishlist</div>
-      <div class="tableHeader_button"><!-- <img src="/images/dt/nav_elements/buttonsCF/button_grey_medium.gif" /> --></div>
     </div>
     <% if @projects_watched.size > 0 %>
     <div id="tableList">

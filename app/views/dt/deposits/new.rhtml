@@ -14,14 +14,16 @@
       <ul>
         <li><label for="deposit_amount"><%= render :partial => 'dt/shared/form_required' %>Deposit Amount</label><%= f.text_field :amount %></li>
         <li><label for="deposit_credit_card"><%= render :partial => 'dt/shared/form_required' %>Credit Card</label><%= f.text_field :credit_card %></li>
-        <li><div id="ccExpiry"><label for="deposit_expiry_month"><%= render :partial => 'dt/shared/form_required' %>Card Expiry</label>
+        <li><label for="deposit_expiry_month"><%= render :partial => 'dt/shared/form_required' %>Card Expiry</label>
+          <div id="ccExpiry">
   <%= f.select("expiry_month", (1..12).to_a.collect {|m| 
     mo = m.to_s.rjust(2, "0"); 
     [ mo, mo ] }, { :include_blank => true, :selected => @deposit.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) -%>
   <div style="float:left;width:1em;">/</div><%= f.select("expiry_year", (1..7).to_a.collect {|y| 
     d = Date.civil(Date.today.year+y.to_i) 
     [ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
-        </div></li>
+          </div>
+        </li>
       </ul>
     </fieldset>
 

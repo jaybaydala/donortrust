@@ -50,13 +50,13 @@
 
 <% if @projects && @projects.size > 0 %>
 <% for project in @projects %>
-  <h2><%= link_to project.name, dt_project_path(project) %></h2>
+  <h2><%= link_to project.name, dt_project_url(project) %></h2>
 
   <div class="projectRank">
     <% if project.target_start_date? %><span><strong>Target Start Date:</strong> <%= project.target_start_date.to_formatted_s(:long) %></span><% end %>
   </div>
 
-  <p><strong>Project Description:</strong> <%= project.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(project.id) %></p>
+  <p><strong>Project Description:</strong> <%= project.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_url(project.id) %></p>
 
   <hr />
 <% end %><% end %>
