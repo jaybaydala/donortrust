@@ -162,7 +162,6 @@ task :remote_db_download, :roles => :db, :only => { :primary => true } do
 end
 
 desc 'Cleans up data dump file'
-task :remote_db_cleanup, :roles => :db, :only => { :primary => true } do  
-  set :use_sude, false
-  invoke_command "rm -f #{deploy_to}/current/db/#{rails_env}_data.sql", :via => run_method
+task :remote_db_cleanup, :roles => :db, :only => { :primary => true } do
+  run "rm -f #{deploy_to}/current/db/#{rails_env}_data.sql"
 end 
