@@ -43,13 +43,13 @@
 <hr />
 
 <% if @share.project_id? && @share.project %>
-  <h2><%= link_to @share.project.name, dt_project_url(@share.project) %></h2>
+  <h2><%= link_to @share.project.name, dt_project_url(:id => @share.project, :host => @host) %></h2>
 
   <div class="projectRank">
     <% if @share.project.target_start_date? %><span><strong>Target Start Date:</strong> <%= @share.project.target_start_date.to_formatted_s(:long) %></span><% end %>
   </div>
 
-  <p><strong>Project Description:</strong> <%= @share.project.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_url(@share.project.id) %></p>
+  <p><strong>Project Description:</strong> <%= @share.project.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_url(:id => @share.project.id, :host => @host) %></p>
 
   <hr />
 <% end %>
