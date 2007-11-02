@@ -215,7 +215,7 @@ This allows us to validate the project overview page by not repeating
 	border-bottom:1px solid #ccc;
 }
 #pageNav2, #pageNav2b {
-	padding: 0px 0px 1px 7px;
+	padding: 0px 0px 1px 0px;
 	margin: 0 0 10px 0px;
 	height: 18px;
 	width: 469px;

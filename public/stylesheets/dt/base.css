@@ -240,6 +240,7 @@ div.fullWidthWrap {float:left;width:724px;padding-left:25px;}
 }
 
 .col {float:left;width:221px;height:auto;padding:0 20px 0px 7px;margin:0;}
+form .col {float:left;width:221px;height:auto;padding:0 20px 0px 0px;margin:0;}
 .colEnd {float:left;width:228px;height:auto;margin:0;padding:0;}
 
 #leftColW .col ul, #leftColW .colEnd ul {margin:0 0 10px 0;padding:0 0;list-style-type:none;}
@@ -1844,7 +1845,7 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 	font: 16px/20px Georgia, "Times New Roman", Times, serif;
 	color:#360;
 	border-bottom: 1px solid #360;
-	margin:0 0 13px 7px; padding:0 0 5px 0;
+	margin:0 0 13px 0px; padding:0 0 5px 0;
 	clear:both;
 }
 .tableHeader_button {float:right;width:auto; height:20px; margin:2px 0px 0 0;}
@@ -1855,7 +1856,7 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 	color:#333;
 	font-weight:normal;
 	padding: 0 0;
-  	margin:0px 0px 15px 7px;
+  	margin:0px 0px 15px 0px;
 	list-style-type:none;
 }
 #tableList li {
@@ -2031,7 +2032,7 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 
 /* MEMBERSHIP LIST */
 
-#memberList {float:left;width:469px; margin:0 0 15px 7px;}
+#memberList {float:left;width:469px; margin:0 0 15px 0px;}
 #memberList .row {float:left; width:465px; height:20px;background:#D8DEF8;}
 #memberList ul {padding:0 0;}
 #memberList li {
