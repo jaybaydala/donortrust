@@ -126,6 +126,7 @@ context "Dt::InvestmentsController new behaviour" do
       #assert_select "#tax_receipt_country"
       assert_select "#investment_project_id"
       assert_select "#investment_amount"
+      assert_select "#fund_cf"
       assert_select "input[type=submit]"
     end
   end
@@ -159,6 +160,8 @@ context "Dt::InvestmentsController confirm behaviour" do
     do_post
     template.should.be 'dt/investments/confirm'
   end
+  
+  
 
   specify "body should contain a form#investmentform" do
     login_as :quentin
@@ -247,7 +250,14 @@ context "Dt::InvestmentsController create behaviour" do
       do_post
     }.should.change(Investment, :count)
   end
-
+  
+ specify "should create a new Investment and CF Investment" do
+    login_as :quentin
+    lambda {
+      do_post(:amount =>20, :fund_cf => 1)
+    }.should.change(Investment, :count)
+  end
+  
   specify "should create a new UserTransaction" do
     login_as :quentin
     lambda {
@@ -289,7 +299,7 @@ context "Dt::InvestmentsController create behaviour" do
     %w( first_name last_name address city province postal_code country ).each do |field|
       tax_receipt_params[field.to_sym] = users(:quentin).send(field)
     end
-    investment_params = { :project_id => 1, :amount => 1 }
+    investment_params = { :project_id => 1, :amount => 1, :fund_cf => 0 }
     investment_params.merge!(options[:investment]) if options[:investment]
     post :create, { :investment => investment_params, :tax_receipt => tax_receipt_params }
   end

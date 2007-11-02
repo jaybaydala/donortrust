@@ -22,10 +22,14 @@
   		<ul>
   			<li style="clear:left;"><label for="investment_amount">Project</label> <%= @investment.project.name %> <%= f.hidden_field 'project_id' %></li>
   			<li style="clear:left;"><label for="investment_amount">Investment Amount</label> <%= number_to_currency(@investment.amount) %> <%= f.hidden_field :amount %></li>
-  		</ul>
+  			<% if @fundCf != nil %>
+				<li style="clear:left;"><label for="investment_amount">Project</label> <%= @CFinvestment.project.name %> </li>
+  				<li style="clear:left;"><label for="cf_amount">Investment Amount</label> <%= number_to_currency(@CFinvestment.amount) %></li>
+  			<% end %>
+		</ul>
   	</fieldset>
 
-  	<%= submit_tag 'Gift it!', :class => 'buttonsubmit' %>
+  	<%= submit_tag 'Gift it!', :class => 'buttonsubmit', :fund_cf => @fundCf %>
   	<input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
   </div>
   <% end %>

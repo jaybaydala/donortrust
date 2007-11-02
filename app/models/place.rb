@@ -13,12 +13,7 @@ class Place < ActiveRecord::Base
   has_many :place_flickr_images
   has_many :place_you_tube_videos
   
-  belongs_to :parent,
-             :foreign_key => :parent_id,
-             :class_name => "Place"
-  has_many   :children,
-             :foreign_key => :parent_id,
-             :class_name => "Place"
+
 
   validates_presence_of :name
   validates_presence_of :place_type_id

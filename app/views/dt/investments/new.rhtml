@@ -21,7 +21,11 @@
     			&nbsp; &#8250;  <%= link_to "Choose another project", dt_projects_path %>
     			<% end %></div></li>
     		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount %></li>
-    	</ul>	
+			
+			<% if @cfSupportProject != nil %>
+			<li><p class="textsm"><%= check_box_tag "fund_cf"  %> I would like to add 5% to my investment to support Christmas Future</p></li>
+    		<% end %>
+		</ul>	
     </fieldset>
 
     <% if logged_in? && current_user.groups.length > 0 %>
