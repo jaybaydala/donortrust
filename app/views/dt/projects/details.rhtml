@@ -43,7 +43,25 @@
     -%>
     <div id="projectTimeline"><%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %></div>
     <% end %>
-
+    
+    <% if @project.intended_outcome? %>
+    <h2>Intended Outcome</h2>
+    <div>
+      <%= @project.intended_outcome %>
+    </div>
+    <% end %>
+    <% if @project.meas_eval_plan? %>
+    <h2>Measurements and Evaluations</h2>
+    <div>
+      <%= @project.meas_eval_plan %>
+    </div>
+    <% end %>
+    <% if @project.project_in_community? %>
+    <h2>Community Relevance</h2>
+    <div>
+      <%= @project.project_in_community %>
+    </div>
+    <% end %>
   </div>
           
   <div id="rightColN">

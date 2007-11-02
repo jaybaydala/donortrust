@@ -31,6 +31,8 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
   
+  acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
+  
   def startDate
     "#{self.start_date}"
   end
