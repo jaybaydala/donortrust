@@ -201,11 +201,11 @@ class Project < ActiveRecord::Base
   end
   
   def community_id
-    self.place_id if self.place && self.place.place_type_id >= 6
+    community.id if community
   end
   
   def community_id?
-    self.place_id? && self.place && self.place.place_type_id >= 6
+    community.id? if community
   end
 
   def nation_id
@@ -220,7 +220,7 @@ class Project < ActiveRecord::Base
   end
 
   def community
-    @community = self.place if self.place_id?
+    @community = self.place if self.place_id? && self.place && self.place.place_type_id >= 6
   end
   
   def community_project_count
@@ -228,8 +228,9 @@ class Project < ActiveRecord::Base
   end
   
   def nation
-    if @nation.nil? && community_id? && community
-      community.ancestors.reverse.each do |ancestor|
+    if @nation.nil? && place_id? && place
+      return place if place.place_type_id == 2
+      place.ancestors.reverse.each do |ancestor|
         return ancestor if ancestor.place_type_id? && ancestor.place_type_id == 2
       end
     end
