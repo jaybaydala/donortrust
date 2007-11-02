@@ -4,7 +4,6 @@
   <h1>Invest Directly in a Project, and Invest in the Future.</h1>
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  <%= error_messages_for :tax_receipt %>
   <%= error_messages_for :investment %>
   <% form_for(:investment, :url => dt_confirm_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
   <p>Please enter your personal information. The information you provide will appear on your charitable tax receipt, so enter it accurately, as donation tax receipts cannot be altered. We will also update your ChristmasFuture account with the information you provide.</p>
