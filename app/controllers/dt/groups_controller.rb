@@ -46,6 +46,8 @@ class Dt::GroupsController < DtApplicationController
       group_saved = @group.valid? && @group.save!
       membership_saved = @group.memberships.create({ :user_id => current_user.id, :membership_type => Membership.founder })
       @saved = group_saved && membership_saved
+      @project = Project.find_public(params[:project_id]) if params[:project_id]
+      @group.projects << @project if @project && @saved
       begin
       raise Exception if !@saved
       rescue Exception

@@ -95,3 +95,51 @@ context "Dt::GroupProjects index handling" do
     #page.should.select 
   end
 end
+
+context "Dt::GroupProject delete handling" do
+  use_controller Dt::GroupProjectsController
+  include DtAuthenticatedTestHelper
+  fixtures :users, :groups, :memberships, :group_types, :investments, :partners, :projects
+  
+  specify "should redirect if not logged_in" do
+    delete :destroy, :group_id => 1, :id => 1
+    should.redirect
+    flash[:notice].should.be.nil
+  end
+
+  specify "should redirect if not a member" do
+    login_as(:aaron)
+    delete :destroy, :group_id => 1, :id => 1
+    should.redirect :controller => 'dt/group_projects', :group_id => 1
+    flash[:notice].should.be.nil
+  end
+
+  specify "should redirect if not admin?" do
+    login_as(:aaron)
+    delete :destroy, :group_id => 1, :id => 1
+    should.redirect :controller => 'dt/group_projects', :group_id => 1
+    flash[:notice].should.be.nil
+  end
+  
+  specify "should delete if admin?" do
+    login_as(:aaron)
+    @group = Group.find(2)
+    @group.projects << Project.find(3)
+    old_count = @group.projects.size
+    delete :destroy, :group_id => @group.id, :id => 3
+    @group.projects(true).size.should.equal old_count-1
+    should.redirect :controller => 'dt/group_projects', :group_id => 2
+    flash[:notice].should =~ %r(^You have removed the)
+  end
+
+  specify "should delete if founder?" do
+    login_as(:tim)
+    @group = Group.find(2)
+    @group.projects << Project.find(3)
+    old_count = @group.projects.size
+    delete :destroy, :group_id => @group.id, :id => 3
+    @group.projects(true).size.should.equal old_count-1
+    should.redirect :controller => 'dt/group_projects', :group_id => 2
+    flash[:notice].should =~ %r(^You have removed the)
+  end
+end

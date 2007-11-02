@@ -7,7 +7,6 @@ class Group < ActiveRecord::Base
   #has_many :users, :through => :groupwall
   #has_many :users, :through => :group_admin_notes
   has_and_belongs_to_many :projects
-  belongs_to :place
 
   validates_presence_of :name
   validates_inclusion_of :private, :in => [true, false]

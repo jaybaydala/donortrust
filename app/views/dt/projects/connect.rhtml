@@ -4,8 +4,8 @@
 <div id="contentContainer">
   <div class="projectInfo">
     <div class="leftColW">
-      <p>We change the world together. Here, you can connect with everyone who has chosen to help eradicate extreme poverty by investing in development projects occurring in <%= @project.community.name %>.</p>
-      <% if @fb_group_available %><p>If you have a Facebook account, you can participate in groups discussions at the <community name> facebook page.</p><% end -%>
+      <p>We change the world together. Here, you can connect with everyone who has chosen to help eradicate extreme poverty by investing in development projects occurring in <%= @project.community_id? ? @project.community.name : 'this project\'s community' %>.</p>
+      <% if @fb_group_available %><p>If you have a Facebook account, you can participate in groups discussions at the <%= @project.community.name %> facebook page.</p><% end -%>
     </div>
     <div id="rightColN">
       <%= project_actions %>
