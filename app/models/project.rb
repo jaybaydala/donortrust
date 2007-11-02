@@ -36,7 +36,7 @@ class Project < ActiveRecord::Base
   end
  
   validates_presence_of :name
-  validates_presence_of :place, :if => :check_validation?  
+  validates_presence_of :place_id
   
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
@@ -50,6 +50,9 @@ class Project < ActiveRecord::Base
     unless me.project_status( true )
       me.errors.add :project_status_id, 'does not exist'
     end
+    unless me.place( true )
+      me.errors.add :place_id, 'does not exist'
+    end
     
     #need to validate the presence of other featured projects
     #  there cannot be more than 5 featured projects
@@ -61,19 +64,20 @@ class Project < ActiveRecord::Base
     end
   end  
    
-  def check_validation?
-    if place != nil   
-    end
-  end
 
   def validate  
-    if place != nil       
-      @places = Place.find(place)# :all, :conditions => ["places.id = ?", :place]
-      errors.add(:place, "Must be a city/village.") if @places.place_type_id != 6
-    end    
+    errors.add(:place_id, "Must be a city/village.") if place && place.place_type_id != 6
   end    
 
   class << self
+    def cf_unallocated_project
+      @cf_unallocated_project ||= Project.find(11) if Project.exists?(11)
+    end
+
+    def cf_admin_project
+      @cf_admin_project ||= Project.find(10) if Project.exists?(10)
+    end
+
     def find_public(*args)
       options = extract_options_from_args!(args)
       valid_project_status_ids = [2,4]
