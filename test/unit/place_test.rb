@@ -75,6 +75,13 @@ context "BusAdmin::PlacesControllerTest handling GET " do
     }.should.change(Place, :count)
   end
   
+  specify "facebook group should be numerical" do
+    lambda {
+      t = create_place(:facebook_group_id => "test")
+      t.errors.on(:facebook_group_id).should.not.be.nil
+    }.should.not.change(Place, :count)
+  end
+    
   specify "should have a method to test if a file is an image" do
     %w( jpg gif png ).each do |ext|
       t = create_place(:file => uploaded_file("#{RAILS_ROOT}/test/fixtures/places/test.#{ext}", "image/#{ext}", "test.#{ext}"))
