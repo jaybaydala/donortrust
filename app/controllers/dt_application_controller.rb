@@ -29,8 +29,8 @@ class DtApplicationController < ActionController::Base
   protected
   def ssl_filter
     if ['staging', 'production'].include?(ENV['RAILS_ENV'])
-      redirect_to url_for(:protocol => 'https://') and return false if !request.ssl? && ssl_required? 
-      redirect_to url_for(:protocol => 'http://') and return false if request.ssl? && !ssl_required? 
+      redirect_to url_for(params.merge({:protocol => 'https://'})) and return false if !request.ssl? && ssl_required? 
+      redirect_to url_for(params.merge({:protocol => 'http://'})) and return false if request.ssl? && !ssl_required? 
     end
   end
 
