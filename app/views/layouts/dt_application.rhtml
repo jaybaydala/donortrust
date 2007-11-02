@@ -44,6 +44,6 @@
     </div>
   </div>
 </div>
-<% if request.ssl? %><googlestats/><% end %>
+<% if !request.ssl? %><googlestats/><% end %>
 </body>
 </html>
