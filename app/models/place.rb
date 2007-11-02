@@ -15,7 +15,7 @@ class Place < ActiveRecord::Base
 
   validates_presence_of :name
   validates_presence_of :place_type_id
-  validates_numericality_of :facebook_group_id
+  validates_numericality_of :facebook_group_id, :allow_nil => true
   
   def Place.getParentString(place)
     parentString = ""
