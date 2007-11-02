@@ -23,7 +23,7 @@ module DtApplicationHelper
   
   def dt_search_by_cause_select
     @causes = [['Choose a Cause', '']]
-    Project.causes do |cause|
+    Project.causes.each do |cause|
       @causes << [cause.name, cause.id]
     end
     select_tag("cause_id", options_for_select(@causes)) if @causes

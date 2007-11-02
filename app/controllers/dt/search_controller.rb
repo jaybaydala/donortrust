@@ -9,9 +9,16 @@ class Dt::SearchController < DtApplicationController
   end
 
   def search_options
-    conditions = {}
-    conditions[:partner_id] = params[:partner_id] if params[:partner_id]
-    conditions[:cause_id] = params[:cause_id] if params[:cause_id]
+    conditions = ['']
+    if params[:partner_id]
+      conditions[0] += 'projects.partner_id = ?'
+      conditions << params[:partner_id] 
+    end
+    if params[:cause_id]
+      conditions[0] += ' AND ' unless conditions[0].empty?
+      conditions[0] += 'causes_projects.cause_id=?'
+      conditions << params[:cause_id] 
+    end
 
     order_map = {
       "newest" => "created_at DESC", 
@@ -26,25 +33,34 @@ class Dt::SearchController < DtApplicationController
       "organization" => :partner, 
       "place" => :place
     }
-    include_association = include_map[params[:order]] if include_map.has_key?(params[:order])
+    
+    include_associations = []
+    include_associations << include_map[params[:order]] if include_map.has_key?(params[:order])
+    include_associations << :causes if params[:cause_id] 
     
     options = {}
-    options[:conditions] = conditions unless conditions.empty?
+    options[:conditions] = conditions unless conditions[0].empty?
     options[:order] = order if order
-    options[:include] = include_association if include_association
+    options[:include] = include_associations if include_associations
     options.empty? ? nil : options
   end
   
   def place_filter(projects)
     projects.each_index do |i|
       project = projects[i]
-      logger.info "NO PLACE ASSOCIATED WITH PROJECT : #{project.name}" unless project.place_id? && project.place
-      projects.delete_at(i) and break unless project.place_id? && project.place
+      unless project.place_id? && project.place
+        logger.info "NO PLACE ASSOCIATED WITH PROJECT : #{project.name}"
+        projects.delete_at(i)
+        next
+      end
       ancestors_and_self = []
       ancestors_and_self << project.place_id
       project.place.ancestors.each do |ancestor|
         ancestors_and_self << ancestor.id
       end
+      logger.info "================================="
+      logger.info "PROJECT : #{project.name}"
+      logger.info "ANCESTORS : " + ancestors_and_self.join(',')
       projects.delete_at(i) unless ancestors_and_self.include?(params[:place_id])
     end
     projects
