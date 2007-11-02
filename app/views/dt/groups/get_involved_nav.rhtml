@@ -1,8 +1,12 @@
 <div id="subNavWide">
 <ul class="subNav li">
-<li><a href="get_involved.html">Overview </a></li>
+<li><a href="/get-involved">Overview </a></li>
+<li><a href="/get-involved/volunteer">Volunteer </a></li>
+<% if Project.cf_admin_project %><li><%= link_to "Invest ", dt_project_path(10) %></li><% end %>
+<li><a href="/get-involved/events">Events</a></li>
+<li><a href="/get-involved/contests">Contests</a></li>
 <li<%= ' class="current"' if ['dt/groups', 'dt/memberships', 'dt/group_memberships'].include?(params[:controller]) %>><%= link_to "Groups ", dt_groups_path %></li>
-<li><%= link_to "Invest", dt_new_investment_path %></li>
+<li><a href="/get-involved/resources">Resources</a></li>
 </ul>
 <!--
 <div id="subNavSearch">
