@@ -57,20 +57,27 @@ end
 
 context "Project Statuses" do
   specify "Project.find_public should only return projects that are started (2) or completed (4)" do
-    @project = Project.find_public(:all).size.should.equal 3
+    @project = Project.find_public(:all).size.should.equal 2
   end
 
   specify "Project.find_public should return a specific id" do
     @project = Project.find_public(2).id.should.equal 2
   end
 
+  specify "Project.find_public should return nil if it's a non-public project" do
+    begin
+      @project = Project.find_public(1).should.raise ActiveRecord::RecordNotFound
+    rescue
+    end
+  end
+
   specify "Project.find_public should only return a specific id with a conditions hash" do
-    @project = Project.find_public(:all, :conditions => {:partner_id => 1}).size.should.equal 3
+    @project = Project.find_public(:all, :conditions => {:partner_id => 1}).size.should.equal 2
     @project = Project.find_public(:first, :conditions => {:partner_id => 1}, :order => :id).id.should.equal 2
   end
 
   specify "Project.find_public should only return a specific id with a conditions array" do
-    @project = Project.find_public(:all, :conditions => ["partner_id = ?", 1]).size.should.equal 3
+    @project = Project.find_public(:all, :conditions => ["partner_id = ?", 1]).size.should.equal 2
     @project = Project.find_public(:first, :conditions => ["partner_id = ?", 1], :order => :id).id.should.equal 2
   end
 end

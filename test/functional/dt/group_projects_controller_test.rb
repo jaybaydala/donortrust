@@ -59,7 +59,7 @@ end
 context "Dt::GroupProjects index handling" do
   use_controller Dt::GroupProjectsController
   include DtAuthenticatedTestHelper
-  fixtures :users, :groups, :memberships, :group_types
+  fixtures :users, :groups, :memberships, :group_types, :investments, :partners
 
   specify "should not redirect if not logged_in" do
     get :index, :group_id => 1
@@ -79,7 +79,7 @@ context "Dt::GroupProjects index handling" do
 
   specify "should show subnav" do
     get :index, :group_id => 1
-    page.should.select "#subNav"
+    page.should.select "#subNavWide"
   end
 
   specify "should show subSubNav" do

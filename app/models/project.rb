@@ -64,10 +64,9 @@ class Project < ActiveRecord::Base
     end
   end  
    
-
-  def validate  
-    errors.add(:place_id, "Must be a city/village.") if place && place.place_type_id != 6
-  end    
+  def validate
+    errors.add(:place_id, "must be a city/village.") if place && place.place_type_id != 6
+  end
 
   class << self
     def cf_unallocated_project

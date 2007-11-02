@@ -9,7 +9,7 @@ class Dt::GroupProjectsController < DtApplicationController
       @projects_invested << investment.project
       projects_invested_ids << investment.project.id
     end
-    @projects_watched = @group.projects.find(:all, :conditions => ["projects.id NOT IN (?)", projects_invested_ids.split(', ')])
+    @projects_watched = @group.projects.find(:all, :conditions => ["projects.id NOT IN (?)", projects_invested_ids.split(',')])
   end
   
   def destroy

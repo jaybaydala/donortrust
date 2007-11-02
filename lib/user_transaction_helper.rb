@@ -57,6 +57,6 @@ module UserTransactionHelper
   protected
   def validate
     super
-    errors.add("amount", "must be a positive number") if amount != nil && (amount == 0 || amount != amount.abs)
+    errors.add("amount", "must be a positive number") if !errors.on(:amount) && amount != nil && (amount == 0 || amount != amount.abs)
   end
 end

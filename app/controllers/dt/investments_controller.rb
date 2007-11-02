@@ -2,51 +2,31 @@ class Dt::InvestmentsController < DtApplicationController
   before_filter :login_required
   helper 'dt/places'
   
-  def ssl_required?
-    true
-  end
-  
   def new
     @investment = Investment.new( :project_id => params[:project_id] )
-    @projects = Project.find(:all) if !params[:project_id]
     @project = Project.find(params[:project_id]) if params[:project_id]
-     @cfSupportProject = Project.find(:first, :conditions => ['name = ?', "ChristmasFuture Operational Overhead" ])
-    #    @tax_receipt = TaxReceipt.new do |r|
-    #      r[:first_name] = current_user[:first_name]
-    #      r[:last_name] = current_user[:last_name]
-    #      r[:address] = current_user[:address]
-    #      r[:city] = current_user[:city]
-    #      r[:province] = current_user[:province]
-    #      r[:postal_code] = current_user[:postal_code]
-    #      r[:country] = current_user[:country]
-    #    end
   end
   
   def confirm
     @investment = Investment.new( params[:investment] )
     @investment.user = current_user
-    @fundCf = 0
-    @fundCf = params[:fund_cf]
-    @investment_total = @investment.amount
+    @project = @investment.project if @investment.project_id? && @investment.project
    
-    #    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
-    #    @tax_receipt.investment = @investment
-    #    @tax_receipt.user = current_user
-    @projects = Project.find(:all) if !params[:project_id]
-   
-    @cfSupportProject = Project.find(:first, :conditions => ['name = ?', "ChristmasFuture Operational Overhead" ])
-    @user = current_user
-     if @fundCf
-          @cf_amount = @investment_total * 0.05  
-          @CFinvestment = Investment.new(:amount => @cf_amount,  :project_id => @cfSupportProject.id, :user_id => current_user.id  )
-          @CFinvestment.user = current_user
-          @investment.amount = @investment.amount + @cf_amount
-           
-     end
+    if params[:fund_cf] && cf_admin_project = Project.cf_admin_project
+      @cf_amount = @investment.amount * 0.05
+      @cf_investment = Investment.new( @investment.attributes.merge(:amount => @cf_amount,  :project_id => cf_admin_project.id ) )
+      @total_investment_amount = @investment.amount + @cf_investment.amount
+    end
 
+    if @cf_investment
+      @investment.amount += @cf_investment.amount # temporarily add the entire amount to the original investment - this will test the account balance
+      valid = @investment.valid? && @cf_investment.valid?
+      @investment.amount -= @cf_investment.amount # subtract the 5% overhead again
+    else 
+      valid = @investment.valid?
+    end
     respond_to do |format|
-      if @investment.valid?   #&& @tax_receipt.valid? #&& user.save
-        @investment.amount = @investment_total
+      if valid
         format.html
       else 
         format.html { render :action => 'new' }
@@ -58,40 +38,40 @@ class Dt::InvestmentsController < DtApplicationController
     @investment = Investment.new( params[:investment] )
     @investment.user = current_user
     @investment_total = @investment.amount
-    @fundCf = 0
-    @fundCf = params[:fund_cf]
-    @cfSupportProject = Project.find(:first, :conditions => ['name = "ChristmasFuture Operational Overhead"' ])
-    has_cf_investment = false
-    if @fundCf
-      cf_amount = @investment_total * 0.05  
-      @CFinvestment = Investment.new(:amount => cf_amount,  :project_id => @cfSupportProject.id, :user_id => current_user.id  )
-      @CFinvestment.user = current_user
- 
-      @CFinvestment.user_ip_addr = request.remote_ip
-      
-    end
-    #    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
-    #    @tax_receipt.investment = @investment
-    #    @tax_receipt.user = current_user
-    @saved = false
     @investment.user_ip_addr = request.remote_ip
     
-    if @investment.valid? 
+    if params[:fund_cf] && cf_admin_project = Project.cf_admin_project
+      @cf_amount = @investment.amount * 0.05
+      @cf_investment = Investment.new( @investment.attributes.merge(:amount => @cf_amount,  :project_id => cf_admin_project.id ) )
+      @cf_investment.user_ip_addr = request.remote_ip
+      @total_investment_amount = @investment.amount + @cf_investment.amount
+    end
+    
+    if @cf_investment
+      @investment.amount += @cf_investment.amount # temporarily add the entire amount to the original investment - this will test the account balance
+      valid = @investment.valid? && @cf_investment.valid?
+      @investment.amount -= @cf_investment.amount # subtract the 5% overhead again
+    else 
+      valid = @investment.valid?
+    end
+
+    @saved = false
+    
+    if valid
       Investment.transaction do 
-        if @fundCf
-          @saved =  @investment.save! && @CFinvestment.save!
+        if @cf_investment
+          @saved = @investment.save! && @cf_investment.save!
         else
-          @saved =  @investment.save!
+          @saved = @investment.save!
         end
       end
     end
     
     respond_to do |format|
       if @saved
-        #        @tax_receipt.send_tax_receipt
         flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
-        if has_cf_investment
-          flash[:notice] = flash[:notice] + "<br>Thank you for your extra donation to support Christmas Future."
+        if @cf_investment
+          flash[:notice] = flash[:notice] + "<div>Thank you for your extra investment to support Christmas Future.</div>"
         end
         format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
       else
@@ -99,6 +79,11 @@ class Dt::InvestmentsController < DtApplicationController
         format.html { render :action => 'new' }
       end
     end
+  end
+  
+  protected
+  def ssl_required?
+    true
   end
   
   private
