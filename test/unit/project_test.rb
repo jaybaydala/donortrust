@@ -21,6 +21,11 @@ context "Projects" do
     @fixture_project.program_id = nil
     @fixture_project.should.not.validate
   end
+
+  specify "nil place_id should not validate" do
+    @fixture_project.place_id = nil
+    @fixture_project.should.not.validate
+  end
   
   specify "get_percent_raised should return 6 for project 1" do
     @project = Project.find(1)
