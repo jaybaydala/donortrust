@@ -145,7 +145,7 @@ context "Dt::Projects show behaviour" do
       assert_select "div.projectDescription"
     end 
     assert_select "div#rightColN" do
-      assert_select "div#relatedProjects"
+      assert_select "div#relatedProjects" if @project.community.projects.size > 1
       assert_select "div#factList"
     end
   end
@@ -182,8 +182,9 @@ context "Dt::Projects show behaviour" do
   end
   
   specify "should contain #relatedProjects" do
-    do_get
-    assert_select "div#relatedProjects"
+    @project = Project.find(2)
+    do_get(@project.id)
+    assert_select "div#relatedProjects" if @project.community.projects.size > 1
   end
 
   specify "should contain \"Gift It\" link which goes to dt/gifts/new?project_id=x" do

@@ -56,6 +56,8 @@ context "Project" do
 end
 
 context "Project Statuses" do
+  fixtures :projects, :partners
+  
   specify "Project.find_public should only return projects that are started (2) or completed (4)" do
     @project = Project.find_public(:all).size.should.equal 2
   end
@@ -76,8 +78,19 @@ context "Project Statuses" do
     @project = Project.find_public(:first, :conditions => {:partner_id => 1}, :order => :id).id.should.equal 2
   end
 
+  specify "Project.find_public should only return a specific id with a conditions string" do
+    @project = Project.find_public(:all, :conditions => "partner_id = 1").size.should.equal 2
+    @project = Project.find_public(:first, :conditions => "partner_id = 1", :order => :id).id.should.equal 2
+  end
+
   specify "Project.find_public should only return a specific id with a conditions array" do
     @project = Project.find_public(:all, :conditions => ["partner_id = ?", 1]).size.should.equal 2
     @project = Project.find_public(:first, :conditions => ["partner_id = ?", 1], :order => :id).id.should.equal 2
+  end
+
+  specify "Project.find_public should not return a project with a deleted partner_id" do
+    Partner.find(partners(:one).id).destroy
+    @project = Project.find_public(:first, :conditions => ["partner_id = ?", 1], :order => :id)
+    @project.should.be.nil
   end
 end
