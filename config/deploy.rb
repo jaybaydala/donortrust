@@ -38,14 +38,13 @@ namespace :deploy do
   task :after_deploy do start_backgroundrb end
   task :after_symlink, :roles => :app do
     stats = <<-JS
-      <script src="http://www.google-analytics.com/urchin.js"></script>
       <script type="text/javascript">
       _uacct = "UA-832237-2";
       urchinTracker();
       </script>
     JS
     layout = "#{current_path}/app/views/layouts/dt_application.rhtml" 
-    run "sed -i 's?<googlestats/>?#{stats}?' #{layout}" 
+    run "sed -i 's?<!--googlestats-->?#{stats}?' #{layout}" 
   end
   task :after_update do
     asset_folder_fix

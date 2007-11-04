@@ -44,6 +44,7 @@
     </div>
   </div>
 </div>
-<% if !request.ssl? %><googlestats/><% end %>
+<script src="http<%= request.ssl? ? 's://ssl' : '://www' %>.google-analytics.com/urchin.js" type="text/javascript"></script>
+<!--googlestats-->
 </body>
 </html>
