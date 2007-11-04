@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 #class BusAdmin::PartnersTest < Test::Unit::TestCase
 
 context "Partners" do
-  fixtures :partners, :partner_types, :partner_statuses
+  fixtures :partners, :partner_types, :partner_statuses, :projects
   
   def setup    
     @fixture_partner = Partner.find(:first)
@@ -80,7 +80,17 @@ context "Partners" do
     }.should.not.change(Partner, :count)
   end
     
- 
+ #destroy should [mark as] delete any associated project for partner instance, but NOT the history 
+  specify "destroy instance should remove child projects" do
+    old_instance_count = Partner.count
+    old_project_count = Project.count
+    instance = Partner.find(1)
+    old_child_count = instance.projects.count
+    old_child_count.should.be > 0
+    instance.destroy#.should.equal( true )
+    Partner.count.should.equal( old_instance_count - 1 )
+    Project.count.should.equal( old_project_count - old_child_count )
+  end
   
   def create_partner(options = {})
     Partner.create({ :name => 'Test Name', :description => 'My Description', :website => 'www.google.ca', :partner_type_id => 1, :partner_status_id => 1, :business_model => 'Test model', :funding_sources => 'Test Fund', :mission_statement => 'Test Mission Statement', :philosophy_dev => 'Test Philosophy', :note => 'Test Note' }.merge(options))  
