@@ -1,5 +1,11 @@
 class Dt::GroupProjectsController < DtApplicationController
   before_filter :login_required, :only => :destroy
+  helper 'dt/get_involved'
+
+  def initialize
+    @topnav = 'get_involved'
+  end
+
   def index
     @group = Group.find(params[:group_id])
     

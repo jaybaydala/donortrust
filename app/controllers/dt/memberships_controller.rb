@@ -1,5 +1,10 @@
 class Dt::MembershipsController < DtApplicationController
   before_filter :login_required, :except => :index
+  helper 'dt/get_involved'
+
+  def initialize
+    @topnav = 'get_involved'
+  end
 
   def index
     @group = Group.find(params[:group_id])

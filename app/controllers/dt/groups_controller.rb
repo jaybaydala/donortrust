@@ -3,6 +3,7 @@ class Dt::GroupsController < DtApplicationController
   before_filter :load_membership, :except => [ :index, :new, :create ]
   before_filter :store_location
   helper 'dt/places'
+  helper 'dt/get_involved'
   helper_method :current_member
   
   def initialize
