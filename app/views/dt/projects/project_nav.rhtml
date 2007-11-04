@@ -9,5 +9,3 @@
         <div id="buttonInvestSM"><%= link_to "<span>Invest</span>", dt_new_investment_path(:project_id => @project) %></div>
         <div id="buttonConnect"><%= link_to "<span>Connect</span> ", dt_connect_project_path(@project), ( params[:action] == 'connect' && params[:controller] == 'dt/projects' ? { :class => "current"  } : {} ) %></div>
       </div><!-- subNav ends -->
-      <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-      <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>

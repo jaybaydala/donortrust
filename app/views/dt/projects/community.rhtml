@@ -1,6 +1,6 @@
-<h1 class="title"><%= @project.name %></h1>
-<%= project_nav %>
 <div id="contentContainer">
+  <h1><%= h @project.name %></h1>
+  <%= project_nav %>
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <div id="leftColW">

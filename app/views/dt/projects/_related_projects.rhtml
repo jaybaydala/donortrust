@@ -1,9 +1,6 @@
-    <% unless @project.community.nil? || @project.community.projects.nil? %><div id="relatedProjects">
+    <% if !@project.community.nil? && !@project.community.projects.nil? && community_projects(@project).size > 0 %><div id="relatedProjects">
       <% form_tag dt_projects_path, :method => :get do -%>
-        <div><%= select_tag "id", options_for_select(
-            (@project.community.projects.collect do |project|
-              [project.name, project.id]
-            end).unshift(['Projects in this community', ''])
-          ), :onchange => 'id=this.options[this.selectedIndex].value;if(id){document.location.href=this.up(\'form\').action + \'/\' + id}' %></div>
+        <div><%= select_tag "id", options_for_select(community_projects(@project).unshift(['Projects in this community', ''])), 
+          :onchange => 'id=this.options[this.selectedIndex].value;if(id){document.location.href=this.up(\'form\').action + \'/\' + id}' %></div>
       <% end -%>
     </div><% end %>
