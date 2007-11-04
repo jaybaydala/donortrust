@@ -37,7 +37,7 @@ class Dt::ProjectsController < DtApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
-    @action_js = "timeline/api/timeline-api.js"
+    @action_js = "http://simile.mit.edu/timeline/api/timeline-api.js"
     respond_to do |format|
       format.html
     end

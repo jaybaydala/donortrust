@@ -22,7 +22,7 @@
             :width          => '"75%"',
             :intervalUnit   => 'Timeline.DateTime.WEEK',
             :intervalPixels => '50',
-            :date           => '"Jan 02 2008"'
+            :date           => "'" + (@project.target_start_date >> 1).strftime("%b %d %Y") + "'"
           },
         :months => {
           :trackGap       => '0.1',
@@ -31,7 +31,7 @@
           :intervalPixels => '150',
           :trackHeight    => '0.5', 
           :showEventText  => 'false',
-          :date           => '"Jan 02 2008"'
+          :date           =>  "'" + (@project.target_start_date >> 1).strftime("%b %d %Y") + "'"
         } 
       },
       :bands_order => [ :weeks, :months],

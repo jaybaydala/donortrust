@@ -7,6 +7,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="description" content="" />
   <meta name="keywords" content="ChristmasFuture, Change the world for good." />
+	<%= stylesheet_link_tag '/stylesheets/timeline-custom.css' -%>
   <%= javascript_include_tag 'prototype' %>
   <%= javascript_include_tag 'effects' %>
   <%= javascript_include_tag 'dragdrop' %>
@@ -15,6 +16,10 @@
   <%= javascript_include_tag @action_js if @action_js %>
   <%= stylesheet_link_tag 'dt/base.css' %>
   <%= stylesheet_link_tag 'dt/navigation.css' %>
+
+
+
+<%= javascript_include_tag 'theme' -%>
   <!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css' %><![endif]-->
 </head>
 <body>
