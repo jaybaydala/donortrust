@@ -65,23 +65,32 @@ context "Dt::MembershipsController handling GET /dt/groups/1/memberships" do
     template.should.be "dt/memberships/index"
   end 
 
-  xspecify "should display a remove link for a group admin" do
+  specify "should display a remove link for a group admin" do
     login_as :quentin
     do_get(1)
     assigns(:memberships).each do |membership|
     	#assert_select("a[href=/dt/groups/1/memberships/#{membership.id}]#membership-remove-link-#{membership.id}") unless membership.founder?
-    	assert_select("a[href=/dt/groups/1/memberships/#{membership.id}]") unless membership.founder?
+    	assert_select("a[href=/dt/groups/1/memberships/#{membership.id}]#membership-remove-link-#{membership.id}", :text => "Remove") unless membership.admin?
     end
   end  
 
-  xspecify "should display a select to give/take admin status" do
+  specify "should display a Make Admin link for a member" do
     login_as :quentin
     do_get(1)
     assigns(:memberships).each do |membership|
-    	assert_select "select#membership_#{membership.id}_membership_type" if membership.id != users(:quentin).id
+    	assert_select("a[href=/dt/groups/1/memberships/#{membership.id};promote]#membership-make-admin-link-#{membership.id}", :text => "Make Admin") unless membership.admin?
     end
-  end  
+  end
 
+  specify "should display a Remove Admin link for an admin" do
+    login_as :quentin
+    User.find(3).memberships.create(:group_id => 1, :membership_type => 2)
+    Group.find(1).memberships(true)
+    do_get(1)
+    assigns(:memberships).each do |membership|
+    	assert_select("a[href=/dt/groups/1/memberships/#{membership.id};demote]#membership-remove-admin-link-#{membership.id}", :text => "Remove Admin") if membership.admin? && !membership.founder?
+    end
+  end
 end
 
 context "Dt::MembershipsController handling create" do

@@ -14,7 +14,8 @@ class Dt::SessionsController < DtApplicationController
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
         end
         flash[:notice] = "Logged in successfully"
-        cookies[:dt_login] = self.current_user.id.to_s
+        cookies[:dt_login_id] = self.current_user.id.to_s
+        cookies[:dt_login_name] = self.current_user.name
         format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
       else
         u = User.find(:first, :conditions => {:login => params[:login] })
@@ -36,7 +37,8 @@ class Dt::SessionsController < DtApplicationController
   def destroy
     self.current_user.forget_me if logged_in?
     cookies.delete :auth_token
-    cookies.delete :dt_login
+    cookies.delete :dt_login_id
+    cookies.delete :dt_login_name
     reset_session
     flash[:notice] = "You have been logged out."
     redirect_back_or_default(:controller => '/dt/accounts', :action => 'index')

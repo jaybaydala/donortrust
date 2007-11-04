@@ -146,7 +146,8 @@ context "Dt::Sessions handling POST dt/session requests" do
   specify "should set a cookie with current_user.id" do
     do_post
     get :new
-    cookies['dt_login'].should.equal ["1"]
+    cookies['dt_login_id'].should.equal ["1"]
+    cookies['dt_login_name'].should.equal ["Quentin T."]
   end
 
   protected
@@ -184,7 +185,8 @@ context "Dt::Sessions handling logout requests" do
   specify "should delete dt_login cookie on logout" do
     login_as :quentin
     get :destroy
-    @response.cookies["dt_login"].should.equal []
+    @response.cookies["dt_login_id"].should.equal []
+    @response.cookies["dt_login_name"].should.equal []
   end
 
 end

@@ -122,20 +122,12 @@ context "DonortrustMailer gift_mail Test" do
     email.should =~ @gift.email
   end
 
-  xspecify "gift_open should match fixture" do
-    @expected.subject = 'GiftNotifier#open'
-    @expected.body    = read_fixture('gift_open')
-    @expected.date    = Time.now
-
-    assert_equal @expected.encoded, DonortrustMailer.create_gift_open(@gift).encoded
+  xspecify "gift_open shouldn't throw any errors" do
+    DonortrustMailer.create_gift_open(@gift).should.not.throw
   end
 
-  xspecify "gift_remind should match fixture" do
-    @expected.subject = 'GiftNotifier#remind'
-    @expected.body    = read_fixture('gift_remind')
-    @expected.date    = Time.now
-
-    assert_equal @expected.encoded, DonortrustMailer.create_gift_remind(@gift).encoded
+  xspecify "gift_remind shouldn't throw any errors" do
+    DonortrustMailer.create_gift_remind(@gift).should.not.throw
   end
 
   private

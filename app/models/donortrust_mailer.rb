@@ -89,11 +89,7 @@ class DonortrustMailer < ActionMailer::Base
     gift_setup_email(gift)
     recipients "#{gift.email}"
     subject "Your gift to #{gift.to_name} has been opened!"
-    attachment "application/pdf" do |a|
-      proxy = PDFProxy.create_pdf_proxy(gift)
-      a.filename= proxy.filename
-      a.body = proxy.render
-    end
+    headers {}
   end
 
   def gift_remind(gift)

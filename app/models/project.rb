@@ -66,16 +66,6 @@ class Project < ActiveRecord::Base
     end
   end  
 
-  def summarized_description
-    return unless self.description?
-    if @summarized_description.nil?
-      length = self.description(:plain).length >= 60 ? 60 : self.description(:plain).length
-      @summarized_description = description(:plain)[%r(^([a-z0-9\.-;:,\&\s]+\W){1,#{length}})i].strip
-      @summarized_description += (@summarized_description[-1,1] == '.' ? '..' : '...')
-    end
-    @summarized_description
-  end
-
  # def validate
  #   errors.add(:place_id, "must be a city/village.") if place && place.place_type_id != 6
  # end
@@ -177,6 +167,17 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def summarized_description
+    return unless self.description?
+    if @summarized_description.nil?
+      @summarized_description = description(:plain).split($;, 50)
+      @summarized_description.pop
+      @summarized_description = @summarized_description.join(' ')
+      @summarized_description += (@summarized_description[-1,1] == '.' ? '..' : '...')
+    end
+    @summarized_description
+  end
+
   def milestone_count
     return milestones.count
   end

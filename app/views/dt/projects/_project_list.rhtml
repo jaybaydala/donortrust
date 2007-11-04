@@ -1,4 +1,4 @@
-<% @project = project_list -%><% summarize = summarize.nil? ? nil : summarize %>
+<% @project = project_list -%><% summarize = summarize.nil? ? false : summarize %>
     <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
       <div class="leftColW">
         <h2><%= link_to @project.name, dt_project_path(@project) %></h2>

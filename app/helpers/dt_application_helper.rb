@@ -13,7 +13,7 @@ module DtApplicationHelper
   end
   
   def dt_search_by_place_select
-    @places = [['Choose a Place', '']]
+    @places = [['Make a Difference in...', '']]
     Project.continents_and_countries.each do |place|
       name = place.parent_id? ? "- #{place.name}" : place.name
       @places << [name, place.id]
@@ -22,7 +22,7 @@ module DtApplicationHelper
   end
   
   def dt_search_by_cause_select
-    @causes = [['Choose a Cause', '']]
+    @causes = [['I Want To Help With...', '']]
     Project.causes.each do |cause|
       @causes << [cause.name, cause.id]
     end
@@ -30,7 +30,7 @@ module DtApplicationHelper
   end
   
   def dt_search_by_organization_select
-    @partners = [['Choose an Organization', '']]
+    @partners = [['Partner With...', '']]
     Project.partners.each do |partner|
       @partners << [partner.name, partner.id]
     end
