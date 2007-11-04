@@ -81,7 +81,6 @@ class Dt::ProjectsController < DtApplicationController
     end
 
     #facebook stuff
-    #gid = @project.place.facebook_group_id
     if @project.place and @project.place.facebook_group_id?
       @fb_group_available = true
       @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
@@ -129,9 +128,11 @@ class Dt::ProjectsController < DtApplicationController
 
   protected
   def project_id_to_session
-    puts session[:project_id]
+    logger.debug '#####################'
+    logger.debug 'FACEBOOK PROJECT_ID'
+    logger.debug session[:project_id]
     session[:project_id] = params[:id]
-    puts session[:project_id]
+    logger.debug session[:project_id]
   end
 
   def fb_paginate_array(page, array, items_per_page)
@@ -141,6 +142,8 @@ class Dt::ProjectsController < DtApplicationController
     offset = (page - 1) * items_per_page
     pages = Paginator.new(self, array.length, items_per_page, page)
     array = array[offset..(offset + items_per_page - 1)]
+    logger.debug 'FACEBOOK PAGINATION'
+    logger.debug pages.inspect
     [pages, array]
   end
   

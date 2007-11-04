@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :facebook_login => :get, :timeline => :get }
   map.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
-  map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt'
+  map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :bar => :get }
   map.resources :my_wishlists, :controller => 'dt/my_wishlists', :name_prefix => 'dt_'
   map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :activate => :get, :resend => :get } do |account|
     account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }

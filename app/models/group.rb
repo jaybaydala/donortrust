@@ -9,9 +9,10 @@ class Group < ActiveRecord::Base
   has_and_belongs_to_many :projects
 
   validates_presence_of :name
-  validates_inclusion_of :private, :in => [true, false]
-
+  
   validate do |me|
+    me.errors.add(:private, "or Public Group must be specified") unless [true, false].include?(me[:private])
+
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
     unless me.group_type( true )
@@ -21,7 +22,7 @@ class Group < ActiveRecord::Base
     #need to validate the presence of other featured groups
     #  there cannot be more than 5 featured groups
     if me.featured == true
-      if Group.count("featured = 1") >= 5
+      if Group.count(:featured, :conditions => ["featured = ?", :true]) >= 5
         me.errors.add "There are already 5 featured groups."
       end
     end

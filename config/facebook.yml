@@ -22,7 +22,7 @@ test:
 
 staging:
   key: 6bc8f93333e6565ab0421fc62d5bea96
-  secret: 6bc8f93333e6565ab0421fc62d5bea96
+  secret: b2bceec1bd2d325ecd1f42497f8e796c
   canvas_path: /christmasfuture/
   callback_path: /dt/projects
   tunnel:
@@ -33,7 +33,7 @@ staging:
 
 production:
   key: 6bc8f93333e6565ab0421fc62d5bea96
-  secret: 6bc8f93333e6565ab0421fc62d5bea96
+  secret: b2bceec1bd2d325ecd1f42497f8e796c
   canvas_path: /christmasfuture/
   callback_path: /dt/projects
   tunnel:

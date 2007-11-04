@@ -9,7 +9,9 @@
 
     <div class="tableHeader">
 			<div style="float:left; ">Our Projects</div>
+			<% if current_member(@group) && current_member(@group).admin? %>
 			<div class="tableHeader_button"><div id="addProjButton"><%= link_to "Add New Project", dt_projects_path %></div></div>
+			<% end %>
     </div>
     <% if @projects_invested.size > 0 %>
     <div id="tableList">

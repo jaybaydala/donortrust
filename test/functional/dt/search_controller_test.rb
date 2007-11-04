@@ -21,6 +21,10 @@ context "Dt::Search #route_for" do
   specify "should map { :controller => 'dt/search', :action => 'show' } to /dt/search" do
     route_for(:controller => "dt/search", :action => "show").should == "/dt/search"
   end
+
+  specify "should map { :controller => 'dt/search', :action => 'bar' } to /dt/search;bar" do
+    route_for(:controller => "dt/search", :action => "bar").should == "/dt/search;bar"
+  end
   private 
   def route_for(options)
     @rs.generate options
@@ -48,5 +52,26 @@ context "Dt::Search handling GET /dt/search" do
     assigns(:projects).each do |project|
       project.nation.id.should.equal @country_id
     end
+  end
+end
+
+context "Dt::Search handling GET /dt/search;bar" do
+  use_controller Dt::SearchController
+
+  specify "should use bar template" do
+    get :bar
+    template.should.be 'dt/search/bar'
+  end
+
+  specify "should contain a form" do
+    get :bar
+    page.should.select "form", 1
+  end
+
+  specify "form should contain 3 selects" do
+    get :bar
+    page.should.select "select[name=place_id]", 1
+    page.should.select "select[name=cause_id]", 1
+    page.should.select "select[name=partner_id]", 1
   end
 end

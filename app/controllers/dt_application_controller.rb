@@ -1,5 +1,6 @@
 class DtApplicationController < ActionController::Base
   helper :dt_application
+  helper "dt/search"
   include DtAuthenticatedSystem
 
   # "remember me" functionality

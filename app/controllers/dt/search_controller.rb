@@ -11,6 +11,13 @@ class Dt::SearchController < DtApplicationController
     end
   end
 
+  def bar
+    respond_to do |format|
+      format.html { render :layout => false}
+    end
+  end
+
+  protected
   def search_options
     conditions = ['']
     if params[:partner_id]
