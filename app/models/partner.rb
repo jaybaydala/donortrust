@@ -4,10 +4,10 @@ class Partner < ActiveRecord::Base
   acts_as_textiled :description, :business_model, :funding_sources, :mission_statement
   belongs_to    :partner_type
   belongs_to    :partner_status
-  has_many      :projects
+  has_many      :projects , :dependent => :destroy
   has_and_belongs_to_many :contacts #is this the right relationship? 
   has_many      :programs, :through => :projects
-  has_many      :quick_fact_partners
+  has_many      :quick_fact_partners , :dependent => :destroy
 
   validates_presence_of :name
   validates_presence_of :description
