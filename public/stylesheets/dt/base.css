@@ -575,16 +575,16 @@ h2 a:hover, h2 a:active {
 
 /* Gift this Project, Donate, and Tell a Friend Buttons */
 
-#rightColN #buttonGiftProject {margin-bottom: 10px;}
-#rightColN #buttonInvest {margin-bottom: 10px;}
-#rightColN #buttonTellFriend {margin-bottom: 10px;}
+#rightColN #buttonGiftProject, #rightColN .buttonGiftProject {margin-bottom: 10px;}
+#rightColN #buttonInvest, #rightColN .buttonInvest {margin-bottom: 10px;}
+#rightColN #buttonTellFriend, #rightColN .buttonTellFriend {margin-bottom: 10px;}
 #rightColN #buttonCreateGroup {margin-bottom: 10px;}
 #rightColN li #buttonCreateGroup {margin-bottom: 0px;}
 #rightColN #buttonDeleteGroup {margin-bottom: 10px;}
 #rightColN li #buttonDeleteGroup {margin-bottom: 0px;}
 
 
-#buttonGiftProject {
+#buttonGiftProject, .buttonGiftProject {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
@@ -592,14 +592,15 @@ h2 a:hover, h2 a:active {
 	margin-right: 7px;
 	margin-bottom: 0px;
 	height: 22px; 
-    width: 100px;
-    background: transparent url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat center; 
-   	display: block;
+	width: 100px;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat center; 
+	display: block;
 	list-style-type: none;
-    text-indent: -9000px;
+	text-indent: -9000px;
 	float:left;
 }
-#buttonGiftProject a:link, #buttonGiftProject a:visited {
+#buttonGiftProject a:link, #buttonGiftProject a:visited, 
+.buttonGiftProject a:link, .buttonGiftProject a:visited {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
@@ -607,11 +608,12 @@ h2 a:hover, h2 a:active {
 	margin-right: auto;
 	background: transparent url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat center;
 	height: 22px; 
-    width: 100px;
-    display: block;
+	width: 100px;
+	display: block;
 	list-style-type: none;
 }
-#buttonGiftProject a:hover, #buttonGiftProject a:active {
+#buttonGiftProject a:hover, #buttonGiftProject a:active,
+.buttonGiftProject a:hover, .buttonGiftProject a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
@@ -623,7 +625,7 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
-#buttonInvest {
+#buttonInvest, .buttonInvest {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
@@ -638,7 +640,8 @@ h2 a:hover, h2 a:active {
     text-indent: -9000px;
 	float:left;
 }
-#buttonInvest a:link, #buttonInvest a:visited {
+#buttonInvest a:link, #buttonInvest a:visited,
+.buttonInvest a:link, .buttonInvest a:visited {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
@@ -650,7 +653,8 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
-#buttonInvest a:hover, #buttonInvest a:active {
+#buttonInvest a:hover, #buttonInvest a:active,
+.buttonInvest a:hover, .buttonInvest a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
@@ -664,7 +668,7 @@ h2 a:hover, h2 a:active {
 }
 
 
-#buttonInvestSM {
+#buttonInvestSM, .buttonInvestSM {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-transform:capitalize;
@@ -678,10 +682,10 @@ h2 a:hover, h2 a:active {
 	text-indent: 0px;
 	float:left;
 }
-#buttonInvestSM a span {
+#buttonInvestSM a span, .buttonInvestSM a span {
 	visibility:hidden;
 }
-#buttonInvestSM a {
+#buttonInvestSM a, .buttonInvestSM a {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
@@ -691,7 +695,8 @@ h2 a:hover, h2 a:active {
 	background: transparent; 
 	display: block;
 }
-#buttonInvestSM a:link, #buttonInvestSM a:visited {
+#buttonInvestSM a:link, #buttonInvestSM a:visited,
+.buttonInvestSM a:link, .buttonInvestSM a:visited {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
@@ -703,7 +708,8 @@ h2 a:hover, h2 a:active {
 	display: block;
 	list-style-type: none;
 }
-#buttonInvestSM a:hover, #buttonInvestSM a:active {
+#buttonInvestSM a:hover, #buttonInvestSM a:active,
+.buttonInvestSM a:hover, .buttonInvestSM a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
@@ -716,7 +722,7 @@ h2 a:hover, h2 a:active {
 	list-style-type: none;
 }
 
-#buttonTellFriend {
+#buttonTellFriend, .buttonTellFriend {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
@@ -724,14 +730,15 @@ h2 a:hover, h2 a:active {
 	margin-right: 7px;
 	margin-bottom: 0px;
 	height: 22px; 
-    width: 100px;
-    background: transparent url(/images/dt/nav_elements/buttonsCF/tellFriend_lgrey2.gif) no-repeat center; 
-   	display: block;
+	width: 100px;
+	background: transparent url(/images/dt/nav_elements/buttonsCF/tellFriend_lgrey2.gif) no-repeat center; 
+	display: block;
 	list-style-type: none;
-    text-indent: -9000px;
+	text-indent: -9000px;
 	float:left;
 }
-#buttonTellFriend a:link, #buttonTellFriend a:visited {
+#buttonTellFriend a:link, #buttonTellFriend a:visited,
+.buttonTellFriend a:link, .buttonTellFriend a:visited {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
@@ -743,7 +750,8 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
-#buttonTellFriend a:hover, #buttonTellFriend a:active {
+#buttonTellFriend a:hover, #buttonTellFriend a:active,
+.buttonTellFriend a:hover, .buttonTellFriend a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
@@ -755,7 +763,7 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
-#buttonEcard {
+#buttonEcard, .buttonEcard {
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
@@ -770,7 +778,8 @@ h2 a:hover, h2 a:active {
     text-indent: -9000px;
 	float:left;
 }
-#buttonEcard a:link, #buttonEcard a:visited {
+#buttonEcard a:link, #buttonEcard a:visited,
+.buttonEcard a:link, .buttonEcard a:visited {
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
@@ -782,7 +791,8 @@ h2 a:hover, h2 a:active {
     display: block;
 	list-style-type: none;
 }
-#buttonEcard a:hover, #buttonEcard a:active {
+#buttonEcard a:hover, #buttonEcard a:active,
+.buttonEcard a:hover, .buttonEcard a:active {
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;

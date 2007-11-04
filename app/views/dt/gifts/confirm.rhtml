@@ -70,7 +70,7 @@
           <li><label for="gift_province">Province/State</label><%= params[:gift][:province] %> <%= f.hidden_field :province %></li>
           <li><label for="gift_postal_code">Postal/Zip Code</label><%= params[:gift][:postal_code] %> <%= f.hidden_field :postal_code %></li>
           <li><label for="gift_country">Country</label><%= params[:gift][:country] %> <%= f.hidden_field :country %></li>
-          <li><label for="gift_credit_card">Credit Card</label><%= params[:gift][:credit_card] %> <%= f.hidden_field :credit_card %></li>
+          <li><label for="gift_credit_card">Credit Card</label><%= obfuscate_credit_card(@gift.credit_card) %> <%= f.hidden_field :credit_card %></li>
           <li><label for="gift_expiry_month">Card Expiry</label><%= params[:gift][:card_expiry] %> <%= f.hidden_field :card_expiry, :value => params[:gift][:card_expiry] %></li>
         </ul>
       </fieldset>

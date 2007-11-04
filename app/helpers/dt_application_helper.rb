@@ -8,7 +8,7 @@ module DtApplicationHelper
   end
 
   def dt_masthead_image
-    @image = '/images/dt/feature_graphics/gbannerA155.jpg'
+    @image = '/images/dt/feature_graphics/projectsFeature130.jpg'
   end
   
   def dt_account_nav
@@ -25,9 +25,5 @@ module DtApplicationHelper
 
   def dt_profile_sidebar
     render 'dt/accounts/profile_sidebar'
-  end
-
-  def textilize(text)
-    RedCloth.new(text).to_html
   end
 end

@@ -31,7 +31,7 @@
 <div id="contentContainer">
   <% if @projects.size > 0 %>
   <div id="featuredProjectList">
-  <%= render :partial => '/dt/projects/project_list', :collection => @projects , :locals => {:summarize => true}%>
+  <%= render :partial => '/dt/projects/search_result', :collection => @projects %>
   </div>
   <% else %>
   <p>We're sorry, but we couldn't find any projects using your search terms. Try just selecting one of the search options to broaden your search.</p>

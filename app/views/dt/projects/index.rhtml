@@ -12,7 +12,8 @@
     </div>
   </div>
 
-  <div id="featuredProjectList">  
-  <%= render :partial => '/dt/projects/project_list', :collection => @projects if @projects %>
+  <h1>Featured Projects</h1>
+  <div id="featuredProjectList">
+  <%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
   </div>
 </div>

@@ -15,6 +15,10 @@ module Dt::ProjectsHelper
     render 'dt/projects/project_quickfacts'
   end
 
+  def project_search_quickfacts
+    render 'dt/projects/project_search_quickfacts'
+  end
+
   def current_member(group, user = current_user)
     @current_member ||= group.memberships.find_by_user_id(user) if user
   end

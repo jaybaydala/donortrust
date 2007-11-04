@@ -164,10 +164,10 @@ class Project < ActiveRecord::Base
     end
   end
   
-  def summarized_description
+  def summarized_description(length = 50)
     return unless self.description?
     if @summarized_description.nil?
-      @summarized_description = description(:plain).split($;, 50)
+      @summarized_description = description(:plain).split($;, length+1)
       @summarized_description.pop
       @summarized_description = @summarized_description.join(' ')
       @summarized_description += (@summarized_description[-1,1] == '.' ? '..' : '...')

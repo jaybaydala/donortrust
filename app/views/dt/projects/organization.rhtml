@@ -5,6 +5,11 @@
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 
   <div id="leftColW">
+    <h1>
+      <%= h @organization.name if @organization %>
+      <div class="textsm"><%= link_to(h(@organization.website), (@organization.website =~ %r(^http:\/\/) ? '' : "http://") + @organization.website, :rel => 'blank') if @organization.website %></div>
+    </h1>
+    
     <% if @organization && @organization.description? %>
     <h2>Description</h2>
     <div><%= @organization.description %></div>
