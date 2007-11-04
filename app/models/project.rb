@@ -82,22 +82,19 @@ class Project < ActiveRecord::Base
     def find_public(*args)
       options = extract_options_from_args!(args)
       valid_project_status_ids = [2,4]
-      case args.first
-        when :first then Project.find_by_project_status_id(valid_project_status_ids, options)
-        when :all   then Project.find_all_by_project_status_id(valid_project_status_ids, options)
+      if !options[:conditions].nil?
+        if options[:conditions].is_a?(Hash)
+          options[:conditions][:project_status_id] = valid_project_status_ids
+        elsif options[:conditions].is_a?(Array)
+          options[:conditions][0] += " AND (project_status_id IN (?))"
+          options[:conditions] << valid_project_status_ids
         else
-          if options[:conditions]
-            if options[:conditiond].is_a?(Hash)
-              options[:conditions][:project_status_id] = valid_project_status_ids
-            else
-              options[:conditions][0]+=" AND (project_status_id IN (?))"
-              options[:conditions] << valid_project_status_ids
-            end
-          else
-            options[:conditions] = { :project_status_id => valid_project_status_ids }
-          end
-          Project.find(args.first, options)
+          options[:conditions] += " AND (project_status_id IN (#{valid_project_status_ids.join(',')}))"
+        end
+      else
+        options[:conditions] = { :project_status_id => valid_project_status_ids }
       end
+      Project.find(args.first, options)
     end
     
     def continents_and_countries

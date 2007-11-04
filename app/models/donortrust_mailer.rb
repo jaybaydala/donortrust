@@ -104,8 +104,14 @@ class DonortrustMailer < ActionMailer::Base
     recipients  "#{receipt.first_name} #{receipt.last_name} <#{receipt.email}>"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
-    subject "Tax receipt for your gift"
-    body "Thank you for your gift, please find your attached tax receipt"
+    subject "ChristmasFuture Tax Receipt"
+    body = <<-TXT
+Thank you for making an investment on the ChristmasFuture website. 
+The Canadian charitable tax receipt for your investment is attached to this email.
+Warmest regards,
+The ChristmasFuture team
+
+TXT
     attachment "application/pdf" do |a|
       # switched to a proxy pattern (encryption requires a lot of shenanigans)
       proxy = create_pdf_proxy(receipt)
