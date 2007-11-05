@@ -48,7 +48,7 @@ namespace :deploy do
     layout = "#{current_path}/app/views/layouts/dt_application.rhtml" 
     run "sed -i 's?<!--googlestats-->?#{stats}?' #{layout}" 
   end
-  task :after_update_code do
+  task :before_restart do
     asset_folder_fix
     install_backgroundrb
   end
