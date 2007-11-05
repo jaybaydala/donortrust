@@ -1,6 +1,13 @@
-      <li class="wishlist-item">
-        <%= wishlist_project.name %> 
+      <li class="wishlist-item"><strong><%= link_to wishlist_project.name, dt_project_path(wishlist_project) %></strong>
+        <% if wishlist_project.community_id? %><div class="textsm"><strong>Location:</strong> <%= wishlist_project.community.name %>, <%= wishlist_project.nation.name %></div><% end %>
         <div class="textsm">
-          <span class="linkMinor"><%= link_to "REMOVE PROJECT", dt_my_wishlists_path(:account_id => current_user), :method => :delete %></span>
+          <strong>Cause(s):</strong> 
+          <% if wishlist_project.project_status_id? && wishlist_project.project_status %>| <strong>Status:</strong> <%= wishlist_project.project_status.name %> <% end %>
+        </div>
+        <div class="textsm">
+          <span class="linkMinor">
+          <%= link_to "INVEST IN THIS PROJECT", dt_new_investment_path(:project_id => wishlist_project) %>
+          | <%= link_to "REMOVE PROJECT", dt_my_wishlist_path(:account_id => current_user, :id => current_user.my_wishlists.find_by_project_id(wishlist_project.id).id), :method => :delete %>
+          </span>
         </div>
       </li>

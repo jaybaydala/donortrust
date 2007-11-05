@@ -10,13 +10,22 @@ class Dt::ProjectsController < DtApplicationController
   end
   
   def index
-    @projects = Project.find(:all, :conditions => { :featured => 1 })
-    # TODO: Project should be order_by Rating once rating model is done
-    @projects = Project.find(:all, :limit => 3) if @projects.size == 0
+    @projects = Project.find_public(:all, :conditions => { :featured => 1 })
+    @projects = Project.find_public(:all, :limit => 3) if @projects.size == 0
     respond_to do |format|
-      format.html # index.rhtml
+      format.html
     end
   end
+  
+  # for sitemap.xml google sitemap functionality for projects
+  #def sitemap
+  #  @projects = Project.find_public(:all)
+  #  respond_to do |format|
+  #    format.xml {
+  #      render :file => "#{RAILS_ROOT}/app/views/dt/projects/sitemap.rxml"
+  #    }
+  #  end
+  #end
 
   def show
     begin

@@ -25,9 +25,11 @@
 		<% end -%>
 	</div>
 	
-	<h2>My Wishlist</h2>
-	<p class="blueblock"><%= link_to "Find a project for your wishlist" %></p>
-	<div id="wishlist">
+  <div class="tableHeader" id="wishlist">
+    <div style="float:left; ">My Wishlist</div>
+		<div class="tableHeader_button"><div id="addProjButton"><%= link_to "Add New Project", dt_projects_path %></div></div>
+  </div>
+	<div id="tableList">
 	<% if @user.projects.size > 0 %>
     <ul>
       <%= render :partial => 'wishlist_project', :collection => @user.projects %>
