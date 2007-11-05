@@ -1,11 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
-  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :facebook_login => :get, :timeline => :get }
+  map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
   map.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resource :search, :controller => 'dt/search', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :bar => :get }
   map.resources :my_wishlists, :controller => 'dt/my_wishlists', :name_prefix => 'dt_'
-  map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :activate => :get, :resend => :get } do |account|
+  map.resources :accounts, :controller => 'dt/accounts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put } do |account|
     account.resources :deposits, :controller => 'dt/deposits', :name_prefix => 'dt_', :collection => { :confirm => :post }
     account.resources :my_wishlists, :controller => 'dt/my_wishlists', :name_prefix => 'dt_', :collection => {:new_message => :get, :confirm => :post, :preview => :get, :send_message => :post}
     account.resources :tax_receipts, :controller => 'dt/tax_receipts', :name_prefix => 'dt_'
