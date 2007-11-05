@@ -6,8 +6,7 @@ class Task < ActiveRecord::Base
       :start       => :startDate,
       :end         => :endDate,
       :title       => :name,
-      :description => :timeline_details,
-      :isDuration => true
+      :description => :timeline_details
     }
   )
   acts_as_paranoid_versioned
