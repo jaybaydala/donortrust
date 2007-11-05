@@ -34,7 +34,7 @@ class Dt::InvitationsController < DtApplicationController
     respond_to do |format|
       format.html do
         flash[:error] = "Invitations could not be created for the following emails: #{@unsaved.join(', ')}" unless @unsaved.empty?
-        flash[:notice] = "Your invitations have been sent: #{@unsaved.join(', ')}" if @unsaved.empty?
+        flash[:notice] = "Your invitations have been sent" if @unsaved.empty? && !@noemails
         flash[:error] = "You need to include at least one email" if @noemails
         redirect_to dt_memberships_path(:group_id => params[:group_id])
       end

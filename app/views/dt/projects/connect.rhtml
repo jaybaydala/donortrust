@@ -46,9 +46,8 @@
           <li><a href="#">></a></li>-->
         </ul>
       </div>
-      <p class="blueblock">
-        <%= link_to image_tag("/images/dt/icons/fbIcon.gif", :alt => '') + "&nbsp; Go to Facebook Group: #{@fb_group.name}", @facebook_group_link, :rel => 'blank' %>
-      </p>
+      <p class="blueblock"><%= link_to image_tag("/images/dt/icons/fbIcon.gif", :alt => '') + "&nbsp; Go to Facebook Group", @facebook_group_link, :rel => 'blank' %></p>
+      <p><%=h @fb_group.name %></p>
       <!-- <p><%= link_to image_tag(@fb_group.pic_big, :alt => ''), @fb_group.website %></p> -->
       <p>Facebook user: <%= @fb_user.name %></p>
       <% if @fb_user_in_group %>
