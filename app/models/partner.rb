@@ -63,7 +63,7 @@ class Partner < ActiveRecord::Base
   
   def get_total_percent_raised    
     percent_raised = 0
-    if get_total_costs > 0
+    if get_total_costs !=nil  and get_total_raised != nil
       percent_raised = ((get_total_raised / get_total_costs) * 100).floor
     end
     if percent_raised > 100 then percent_raised = 100 end
