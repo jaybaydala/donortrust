@@ -33,7 +33,7 @@ Happy Holidays,
       @gift.last_name = 'none'
       @gift.province = 1
       @gift.address = '1234 5th Ave SW' 
-      @gift.user_id = 2    
+      @gift.user_id = 3 
       
       @gift.save if @gift      
         if @gift.valid?
