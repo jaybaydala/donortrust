@@ -150,8 +150,9 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
     u.projects << Project.find(2)
     do_get
     assert_select "div#wishlist" do
-      assert_select("li[class=wishlist-item]", 2) do
-        assert_select "a[href=/dt/accounts/1/my_wishlists]"
+      assert_select("li[class=wishlist-item]", 2)
+      for wishlist in assigns(:user).my_wishlists do
+        assert_select "a[href=/dt/accounts/1/my_wishlists/#{wishlist.id}]", :text => "REMOVE PROJECT"
       end
     end
   end
@@ -162,7 +163,7 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
     u.projects.clear
     do_get
     assert_select "div#wishlist" do
-      assert_select "a[href=/dt/projects]", {:count => 1, :text => 'Find a project'}
+      assert_select "a[href=/dt/projects]", {:count => 1, :text => 'Add New Project'}
     end
   end
 end
