@@ -24,15 +24,15 @@ Happy Holidays,
 
 ...Jay'
    #   @gift.ecard= '/images/dt/ecards/large/cf-ecard-001.jpg' 
-      @gift.city = 'Canada'
-      @gift.postal_code = 'T2T 4B2'
-      @gift.card_expiry = '04/09'
-      @gift.credit_card = 4111111111111111
-      @gift.country = 'CA'
-      @gift.first_name  = 'firstName'
-      @gift.last_name = 'none'
-      @gift.province = 1
-      @gift.address = '1234 5th Ave SW' 
+   #   @gift.city = 'Canada'
+   #   @gift.postal_code = 'T2T 4B2'
+   #   @gift.card_expiry = '04/09'
+   #  @gift.credit_card = 4111111111111111
+   #   @gift.country = 'CA'
+   #   @gift.first_name  = 'firstName'
+   #   @gift.last_name = 'none'
+   #   @gift.province = 1
+   #   @gift.address = '1234 5th Ave SW' 
       @gift.user_id = 3 
       
       @gift.save if @gift      
