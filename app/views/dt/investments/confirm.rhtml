@@ -17,6 +17,7 @@
 				<li style="clear:left;"><label for="investment_amount">Project</label> <%= @cf_investment.project.name %>  <%= hidden_field_tag :fund_cf, 1 %></li>
   			<li style="clear:left;"><label for="cf_amount">Investment Amount</label> <%= number_to_currency(@cf_investment.amount) %></li>
   			<li style="clear:left;"><label for="cf_amount"><strong>Total Amount</strong></label> <strong><%= number_to_currency(@total_investment_amount) %></strong></li>
+  			<li><p class="textsm">100% of your investment goes towards the project(s) you choose</p></li>
   			<% end %>
 		</ul>
   	</fieldset>
