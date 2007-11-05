@@ -2,6 +2,10 @@ class Dt::InvestmentsController < DtApplicationController
   before_filter :login_required
   helper 'dt/places'
   
+  def initialize
+    @page_title = "Invest"
+  end
+
   def new
     @investment = Investment.new( :project_id => params[:project_id] )
     @project = Project.find(params[:project_id]) if params[:project_id]

@@ -7,6 +7,10 @@ class Dt::GiftsController < DtApplicationController
   include IatsProcess
   before_filter :login_required, :only => :unwrap
   
+  def initialize
+    @page_title = "Gift It!"
+  end
+  
   def index
     respond_to do |format|
       format.html { redirect_to :action => 'new' }

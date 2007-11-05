@@ -1,6 +1,10 @@
 class Dt::TellFriendsController < DtApplicationController
   before_filter :login_required, :only => :show
   
+  def initialize
+    @page_title = "Tell a Friend"
+  end
+
   def index
     redirect_to :action => "new"
   end

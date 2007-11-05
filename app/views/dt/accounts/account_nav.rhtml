@@ -1,10 +1,11 @@
 <div id="subNavWide">
 <ul class="subNav li">
 <% if logged_in? %>
-<li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'show' %>><%= link_to "Account Summary ", dt_account_path(current_user) %></li>
+<li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'show' %>><%= link_to "My Account ", dt_account_path(current_user) %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'edit' %>><%= link_to "Edit Profile ", dt_edit_account_path(current_user) %></li>
-<li<%= ' class="current"' if params['controller'] == 'dt/account_memberships' %>><%= link_to "Group Memberships ", dt_account_memberships_path(current_user) %></li>
+<li<%= ' class="current"' if params['controller'] == 'dt/account_memberships' %>><%= link_to "My Groups ", dt_account_memberships_path(current_user) %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/deposits' %>><%= link_to "Deposit ", dt_new_deposit_path(:account_id => current_user.id) %></li>
+<li<%= ' class="current"' if params['controller'] == 'dt/investments' %>><%= link_to "Invest ", dt_new_investment_path %></li>
 <% else %>
 <li<%= ' class="current"' if params['controller'] == 'dt/sessions' && params['action'] == 'new' %>><%= link_to "Login ", dt_login_path() %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'new' %>><%= link_to "Create Account ", dt_signup_path() %></li>

@@ -2,8 +2,13 @@ class Dt::AccountsController < DtApplicationController
   before_filter :login_required, :only => [ :show, :edit, :update ]
   helper "dt/places"
   
+  def initialize
+    @page_title = "My Account"
+  end
+
   # say something nice, you goof!  something sweet.
   def index
+    @page_title = "Accounts"
     redirect_to(:action => 'new') unless logged_in? || User.count > 0
   end
 
@@ -14,6 +19,7 @@ class Dt::AccountsController < DtApplicationController
 
   # GET /dt/accounts/new
   def new
+    @page_title = "Create My Account"
     redirect_back_or_default(:action => 'index') if logged_in?
     @action_js = "dt/accounts"
     @user = User.new

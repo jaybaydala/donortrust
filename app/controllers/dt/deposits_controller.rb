@@ -6,6 +6,10 @@ class Dt::DepositsController < DtApplicationController
   include IatsProcess
   before_filter :login_required
   
+  def initialize
+    @page_title = "Deposit"
+  end
+
   def new
     @deposit = Deposit.new
   end

@@ -8,6 +8,7 @@ class Dt::GroupsController < DtApplicationController
   
   def initialize
     @topnav = 'get_involved'
+    @page_title = "Groups"
   end
 
   def index
@@ -20,6 +21,7 @@ class Dt::GroupsController < DtApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @page_title = "#{@group.name}"
     if @group.private && !@membership
       flash.now[:notice] = "This is a private group" unless flash[:notice]
       @invitation = Invitation.find(:first, :conditions => {:to_email => current_user.email, :accepted => nil}) if logged_in?
@@ -30,11 +32,13 @@ class Dt::GroupsController < DtApplicationController
   end
 
   def new
+    @page_title = "Create Group"
     @group = Group.new
     @sectors = Sector.find(:all)
   end
 
   def edit
+    @page_title = "Edit Group Details"
     @group = Group.find(params[:id])
     respond_to do |format|
       format.html

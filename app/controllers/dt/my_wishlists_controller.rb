@@ -1,6 +1,11 @@
 class Dt::MyWishlistsController < DtApplicationController
   before_filter :store_location
   before_filter :login_required
+  
+  def initialize
+    @page_title = 'My Wishlist'
+  end
+  
   def index
     redirect_to dt_account_path(current_user.id)
   end

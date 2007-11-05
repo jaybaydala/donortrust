@@ -1,6 +1,10 @@
 class Dt::AccountMembershipsController < DtApplicationController
   before_filter :login_required
   
+  def initialize
+    @page_title = "My Groups"
+  end
+
   def index
     @groups = current_user.groups
   end

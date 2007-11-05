@@ -8,6 +8,7 @@ class Dt::GroupProjectsController < DtApplicationController
 
   def index
     @group = Group.find(params[:group_id])
+    @page_title = "Our Projects | #{@group.name}"
     @projects_invested = []
     projects_invested_ids = []
     investments = Investment.find(:all, :conditions => {:group_id => @group}, :include => :project)

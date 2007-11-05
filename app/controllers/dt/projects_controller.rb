@@ -10,6 +10,7 @@ class Dt::ProjectsController < DtApplicationController
   end
   
   def index
+    @page_title = 'Featured Projects'
     @projects = Project.find_public(:all, :conditions => { :featured => 1 })
     @projects = Project.find_public(:all, :limit => 3) if @projects.size == 0
     respond_to do |format|
@@ -33,6 +34,7 @@ class Dt::ProjectsController < DtApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
+    @page_title = @project.name
     @rss_feed = last_rss_entry(@project.rss_url) if @project && @project.rss_url
     #@rss_feed.clean! if @rss_feed # sanitize the html
     respond_to do |format|
@@ -46,6 +48,7 @@ class Dt::ProjectsController < DtApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
+    @page_title = "Project Details | #{@project.name}"
     @action_js = "http://simile.mit.edu/timeline/api/timeline-api.js"
     respond_to do |format|
       format.html
@@ -62,6 +65,10 @@ class Dt::ProjectsController < DtApplicationController
     @rss_feed = last_rss_entry(@project.community.rss_url) if @project && @project.community.rss_url?
     #@rss_feed.clean! if @rss_feed # sanitize the html
     @community = @project.community
+    @page_title = "#{@community.name} | #{@project.name}"
+    respond_to do |format|
+      format.html
+    end
   end
     
   def nation
@@ -71,6 +78,10 @@ class Dt::ProjectsController < DtApplicationController
       rescue_404 and return
     end
     @nation = @project.nation
+    @page_title = "#{@nation.name} | #{@project.name}"
+    respond_to do |format|
+      format.html
+    end
   end
   
   def organization
@@ -80,6 +91,10 @@ class Dt::ProjectsController < DtApplicationController
       rescue_404 and return
     end
     @organization = @project.partner if @project.partner_id?
+    @page_title = "#{@organization.name} | #{@project.name}"
+    respond_to do |format|
+      format.html
+    end
   end
     
   def connect
@@ -88,6 +103,7 @@ class Dt::ProjectsController < DtApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
+    @page_title = "Connect | #{@project.name}"
 
     #facebook stuff
     if @project.place and @project.place.facebook_group_id?
@@ -109,6 +125,9 @@ class Dt::ProjectsController < DtApplicationController
           @fb_group_available = false
         end
       end
+    end
+    respond_to do |format|
+      format.html
     end
   end
 

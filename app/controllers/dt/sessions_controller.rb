@@ -1,5 +1,6 @@
 class Dt::SessionsController < DtApplicationController
   def new
+    @page_title = "Login"
     redirect_back_or_default(dt_account_path(current_user)) if logged_in?
   end
   
