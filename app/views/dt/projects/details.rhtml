@@ -6,7 +6,7 @@
 
   <div id="leftColW">
 
-    <% if @project.milestones.size > 0 %>
+    <% if @project.milestones.size > 0 and @project.target_start_date != nil %>
     <h2>Project Plan</h2>
     <%
     project_timeline = ::Simile::Timeline::Timeline.new(
