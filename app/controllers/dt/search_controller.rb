@@ -33,7 +33,7 @@ class Dt::SearchController < DtApplicationController
 
     order_map = {
       "newest" => "created_at DESC", 
-      "target_start_date" => "target_start_date DESC", 
+      "date" => "target_start_date ASC", 
       "budget" => "total_cost DESC", 
       "organization" => "partners.`name` ASC", 
       "place" => "places.`name` ASC"

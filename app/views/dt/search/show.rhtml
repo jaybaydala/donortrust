@@ -17,8 +17,8 @@
   <ul class="pageNav">
     <li><strong>SORT BY:</strong></li>
     <li>&nbsp;</li>
-    <li<%= ' class="currentPg"' if params[:order] == 'newest' %>><%= link_to "Newest", dt_search_path(params.merge({:order => 'newest'})) %></li>
-    <li<%= ' class="currentPg"' if params[:order] == 'target_start_date' %>><%= link_to "Target Start Date", dt_search_path(params.merge({:order => 'target_start_date'})) %></li>
+    <!--<li<%= ' class="currentPg"' if params[:order] == 'newest' %>><%= link_to "Newest", dt_search_path(params.merge({:order => 'newest'})) %></li>-->
+    <li<%= ' class="currentPg"' if params[:order] == 'date' %>><%= link_to "Target Start Date", dt_search_path(params.merge({:order => 'date'})) %></li>
     <li<%= ' class="currentPg"' if params[:order] == 'budget' %>><%= link_to "Budget", dt_search_path(params.merge({:order => 'budget'})) %></li>
     <li<%= ' class="currentPg"' if params[:order] == 'organization' %>><%= link_to "Organization", dt_search_path(params.merge({:order => 'organization'})) %></li>
     <li<%= ' class="currentPg"' if params[:order] == 'place' %>><%= link_to "Place", dt_search_path(params.merge({:order => 'place'})) %></li>
