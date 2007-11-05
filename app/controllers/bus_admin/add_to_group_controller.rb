@@ -11,8 +11,8 @@ class BusAdmin::AddToGroupController < ApplicationController
           
       @invitation = Invitation.new(params[:invitation])
       
-      @invitation.user_id = 2
-      @invitation.group_id = 3
+      @invitation.user_id = 3
+      @invitation.group_id = 2
       @invitation.to_name = load.name
       @invitation.to_email = load.email
       @invitation.message = 'Hi! It has been a great afternoon - thank you for sharing it with us.  
