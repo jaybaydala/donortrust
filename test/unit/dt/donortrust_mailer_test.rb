@@ -45,7 +45,7 @@ context "DonortrustMailer on user_signup_notification" do
 
   private
   def create_user(options = {})
-    User.create({ :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirename', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
+    User.create({ :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options))
   end
 
   private
@@ -57,6 +57,34 @@ context "DonortrustMailer on user_signup_notification" do
     quoted_printable(subject, CHARSET)
   end
 end
+
+context "DonortrustMailer on user_password_reset" do
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures'
+  CHARSET = "utf-8"
+  
+  include ActionMailer::Quoting
+  fixtures :users
+  setup do
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    
+    @expected = TMail::Mail.new
+    @expected.set_content_type "text", "plain", { "charset" => CHARSET }
+
+    @user = create_user
+  end
+
+  specify "user_password_reset shouldn't throw any errors" do
+    DonortrustMailer.create_user_password_reset(@user)
+  end
+
+  private
+  def create_user(options = {})
+    User.create({ :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options))
+  end
+end
+
 
 #context "A UserNotifier on activation" do
 #  setup do

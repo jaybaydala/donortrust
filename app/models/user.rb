@@ -228,6 +228,17 @@ class User < ActiveRecord::Base
       hash
     end
 
+    def self.generate_password
+      hash = ""
+      srand()
+      (1..6).each do
+        rnd = (rand(2147483648)%36) # using 2 ** 31
+        rnd = rnd<26 ? rnd+97 : rnd+22
+        hash = hash + rnd.chr
+      end
+      hash
+    end
+
     def login_change
       if User.find_by_id(id).login != login
         @login_changed = true

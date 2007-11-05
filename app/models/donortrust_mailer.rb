@@ -21,6 +21,12 @@ class DonortrustMailer < ActionMailer::Base
     subject  "#{@subject} Your account has been activated!"
     body :user => user, :host => HTTP_HOST, :url => url_for( :host => HTTP_HOST, :controller => 'dt/accounts', :action => 'show', :id => user.id )
   end
+
+  def user_password_reset(user)
+    user_setup_email(user)
+    subject  "Your ChristmasFuture password has been reset"
+    body :user => user, :host => HTTP_HOST, :url => dt_login_url(:host => HTTP_HOST)
+  end
   
   def wishlist_mail(share, project_ids)
     content_type "text/html"
