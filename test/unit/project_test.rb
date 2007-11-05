@@ -21,6 +21,11 @@ context "Projects" do
     @fixture_project.program_id = nil
     @fixture_project.should.not.validate
   end
+  
+  specify "nil target_start_date should not validate" do
+    @fixture_project.target_start_date = nil
+    @fixture_project.should.not.validate
+  end
 
   specify "nil place_id should not validate" do
     @fixture_project.place_id = nil
