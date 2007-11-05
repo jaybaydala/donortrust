@@ -1,6 +1,7 @@
 require 'mongrel_cluster/recipes'
 set :application, "donortrust"
-set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
+set :repository,  "http://#{application}.rubyforge.org/svn/tags/rel_1-0-0/"
+set :deploy_via, :export
 
 set :deploy_to, "/home/dtrust/#{application}"
 set :user, "dtrust"
@@ -72,7 +73,7 @@ namespace :deploy do
   DESC
   task :start_backgroundrb , :roles => :schedule do
     cmd = "#{current_path}/script/backgroundrb start -- -r #{rails_env}"
-    run cmd
+    send(run_method, cmd)
   end
 
   desc <<-DESC
@@ -80,7 +81,7 @@ namespace :deploy do
   DESC
   task :restart_backgroundrb , :roles => :schedule do
     cmd = "#{current_path}/script/backgroundrb restart"
-    run cmd
+    send(run_method, cmd)
   end
 
   desc <<-DESC
