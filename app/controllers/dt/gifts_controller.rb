@@ -58,6 +58,7 @@ class Dt::GiftsController < DtApplicationController
     else
       @saved = @gift.save
     end
+    breakpoint
     respond_to do |format|
       if @saved               
         if params[:gift][:credit_card] && params[:gift][:credit_card] != '' && @gift.country == 'Canada' 

@@ -6,7 +6,7 @@
 	<h1>Account Summary</h1>
 		<div id="intro">
 			<h2>Stay Involved </h2>			
-			<p>Keep supporting the movement! Be sure to visit the <a href="../../get-involved.html">Get Involved</a> section to see how you can do more.</p>
+			<p>Keep supporting the movement! Be sure to visit the <a href="/get-involved">Get Involved</a> section to see how you can do more.</p>
 		</div>
 	<% if @user.user_transactions.length > 0 %><div style="text-align:right;font-weight:bold;">Uninvested Funds: <%= number_to_currency(current_user.balance) %></div><% end %>
 	<div class="account-summary" style="margin-bottom:18px;">

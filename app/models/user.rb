@@ -72,11 +72,11 @@ class User < ActiveRecord::Base
   end
 
   def deposited
-    @deposits ||= calculate_deposits
+    @deposited ||= calculate_deposits
   end
 
   def invested
-    @investment ||= calculate_investments
+    @invested ||= calculate_investments
   end
 
   def gifted(exclude_credit_card = false)
