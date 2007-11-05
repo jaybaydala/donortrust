@@ -39,7 +39,7 @@ class Dt::MembershipsController < DtApplicationController
   end
   
   def destroy
-    @member = Membership.find params[:id]
+    @member = Membership.find(params[:id])
     destroyed = @member.destroy
     respond_to do |format|
       flash[:notice] = 'You have left the group' if destroyed && current_user.id == @member.user_id
@@ -47,19 +47,6 @@ class Dt::MembershipsController < DtApplicationController
       format.html { redirect_to :action => 'index', :group_id => params[:group_id]}
     end
   end
-
-  #def typify
-  # params[:membership].each do |membership_id, membership|
-  #   if member = Membership.find(membership_id)
-  #     member.membership_type = membership[:membership_type]
-  #     member.save
-  #   end
-  # end
-  # respond_to do |format|
-  #   flash[:notice] = 'Your member changes have been saved'
-  #   format.html { redirect_to :action => 'index', :group_id => params[:group_id] }
-  # end    
-  #end
   
   def promote
     @membership = Membership.find(params[:id])     
@@ -91,38 +78,7 @@ class Dt::MembershipsController < DtApplicationController
       format.html { redirect_to :action => 'index', :group_id => @membership.group_id }
     end    
   end
-  
-  #def bestow  
-  #  @membership = Membership.find(params[:id])     
-  #  bestowing_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
-  #  if bestowing_membership.admin?
-  #    @membership.update_attributes(:membership_type => 2) 
-  #    flash[:notice] = 'Membership was successfully upgraded to Admin status.'
-  #  else
-  #    flash[:notice] = 'Must be an admin to bestow admin status on another member.'
-  #  end
-  #  respond_to do |format|
-  #    format.html { redirect_to :action => 'index', :group_id => @membership.group_id }
-  #  end    
-  #end
-  #
-  #def revoke      
-  #  @membership = Membership.find(params[:id])     
-  #  revoking_membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => @membership.group_id}
-  #  revokable = false
-  #  revokable = true if revoking_membership.admin? 
-  #  revokable = false if revoking_membership.membership_type < @membership.membership_type
-  #  if revokable 
-  #    @membership.update_attributes(:membership_type => 1) 
-  #    flash[:notice] = 'Membership was downgraded to User status.'
-  #  else
-  #    flash[:notice] = 'Must be an admin to revoke admin status on another member.'
-  #  end
-  #  respond_to do |format|
-  #    format.html { redirect_to :action => 'index', :group_id => @membership.group_id }
-  #  end        
-  #end
-  
+
   protected
   def current_member
     @current_member ||= Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => params[:group_id]} if logged_in?
@@ -132,8 +88,11 @@ class Dt::MembershipsController < DtApplicationController
     if ['create'].include?(action_name)
        return false unless logged_in?
     end
-    if ['update', 'destroy'].include?(action_name)
+    if ['update'].include?(action_name)
       return false unless logged_in? && current_member && current_member.admin?
+    end
+    if ['destroy'].include?(action_name)
+      return false unless logged_in? && ((current_member && current_member.user_id == current_user.id) || (current_member && current_member.admin?))
     end
     true
   end

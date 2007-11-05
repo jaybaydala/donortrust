@@ -89,7 +89,6 @@ context "Dt::Sessions handling POST dt/session requests" do
   specify "when not activated, should show a 'not activated' message" do
     do_post( :login => 'aaron@example.com' )
     assigns(:activated).should.be false
-    flash[:error].should.equal "A confirmation email has been sent to your login email address"
     page.should.select "div.activation", :text => /An email has been sent to your login email address to make sure it is a valid address./
   end
 
@@ -100,14 +99,12 @@ context "Dt::Sessions handling POST dt/session requests" do
   
   specify "when not activated with correct login and wrong password, should show a 'username or password are incorrect' message" do
     do_post( :login => 'aaron@example.com', :password => "wrongpassword" )
-    flash[:error].should =~ /username or password are incorrect/
     page.should.not.select "div.activation"
   end
 
   specify "when activated with correct login and wrong address, should show a 'username or password are incorrect' message" do
     do_post( :password => "wrongpassword" )
     assigns(:activated).should.be nil
-    flash[:error].should =~ /username or password are incorrect/
     page.should.not.select "div.activation"
   end
 
