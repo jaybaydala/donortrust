@@ -47,7 +47,9 @@ class Partner < ActiveRecord::Base
     projects = Project.find(:all, :conditions => "partner_id = " + id.to_s)    
     total_cost = 0
     projects.each do |project|
-      total_cost += project.total_cost
+      if project.total_cost != nil
+         total_cost += project.total_cost
+      end
     end
     return total_cost
   end
@@ -56,14 +58,16 @@ class Partner < ActiveRecord::Base
     projects = Project.find(:all, :conditions => "partner_id = " + id.to_s)    
     total_raised = 0
     projects.each do |project|
-      total_raised += project.dollars_raised
+      if project.dollars_raised != nil
+        total_raised += project.dollars_raised
+      end
     end
     return total_raised
   end
   
   def get_total_percent_raised    
     percent_raised = 0
-    if get_total_costs !=nil  and get_total_raised != nil
+    if get_total_costs > 0 and get_total_raised > 0
       percent_raised = ((get_total_raised / get_total_costs) * 100).floor
     end
     if percent_raised > 100 then percent_raised = 100 end
