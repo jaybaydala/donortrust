@@ -6,8 +6,7 @@ acts_as_simile_timeline_event(
       :start       => :startDate,
       :title       => :name,
       :end        =>  :endDate,
-      :description => :timeline_details,
-      :isDuration => false
+      :description => :timeline_details
     }
   )
   
