@@ -23,10 +23,6 @@ class DtApplicationController < ActionController::Base
     end
   end
   
-  def local_request?
-    return false
-  end
-
   protected
   def ssl_filter
     if ['staging', 'production'].include?(ENV['RAILS_ENV'])
@@ -39,19 +35,21 @@ class DtApplicationController < ActionController::Base
     return false
   end
 
-  #def log_error(exception) 
-  #  super(exception)
-  #  begin
-  #    ErrorMailer.deliver_snapshot(
-  #      exception, 
-  #      clean_backtrace(exception), 
-  #      @session.instance_variable_get("@data"), 
-  #      @params, 
-  #      @request.env)
-  #  rescue => e
-  #    logger.error(e)
-  #  end
-  #end
+  def log_error(exception) 
+    super(exception)
+    if ENV['RAILS_ENV'] == 'production'
+      begin
+        ErrorMailer.deliver_snapshot(
+          exception, 
+          clean_backtrace(exception), 
+          @session.instance_variable_get("@data"), 
+          @params, 
+          @request.env)
+      rescue => e
+        logger.error(e)
+      end
+    end
+  end
 
  # Error Handling
  class DtNotFoundError < Exception
