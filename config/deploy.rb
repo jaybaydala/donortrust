@@ -36,6 +36,8 @@ namespace :deploy do
   task :after_restart do restart_admin end
   task :before_deploy do stop_backgroundrb end
   task :after_deploy do start_backgroundrb end
+  task :before_migrations do stop_backgroundrb end
+  task :after_migrations do start_backgroundrb end
   task :after_symlink, :roles => :app do
     stats = <<-JS
       <script type="text/javascript">
@@ -46,7 +48,7 @@ namespace :deploy do
     layout = "#{current_path}/app/views/layouts/dt_application.rhtml" 
     run "sed -i 's?<!--googlestats-->?#{stats}?' #{layout}" 
   end
-  task :after_update do
+  task :after_update_code do
     asset_folder_fix
     install_backgroundrb
   end
