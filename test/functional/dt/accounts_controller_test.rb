@@ -61,6 +61,14 @@ context "Dt::Accounts #route_for" do
   specify "should map { :controller => 'dt/accounts', :action => 'resend' } to /dt/accounts;resend" do
     route_for(:controller => "dt/accounts", :action => "resend" ).should == "/dt/accounts;resend"
   end
+
+  specify "should map { :controller => 'dt/accounts', :action => 'reset' } to /dt/accounts;reset" do
+    route_for(:controller => "dt/accounts", :action => "reset" ).should == "/dt/accounts;reset"
+  end
+
+  specify "should map { :controller => 'dt/accounts', :action => 'reset_password' } to /dt/accounts;reset_password" do
+    route_for(:controller => "dt/accounts", :action => "reset_password" ).should == "/dt/accounts;reset_password"
+  end
   private 
   def route_for(options)
     @rs.generate options
@@ -527,6 +535,50 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
   end
 end
 
+context "Dt::Accounts handling PUT /dt/accounts/1;reset_password" do
+  use_controller Dt::AccountsController
+  fixtures :users
+  include DtAuthenticatedTestHelper
+  
+  specify "should contain a form" do
+    get :reset
+    template.should.be 'dt/accounts/reset'
+    assert_select "form[action=/dt/accounts;reset_password]#resetform" do
+      assert_select "input[type=text][name=login]"
+      assert_select "input[type=submit]"
+    end
+  end
+
+end
+
+context "Dt::Accounts handling PUT /dt/accounts/1;reset_password" do
+  use_controller Dt::AccountsController
+  fixtures :users
+  include DtAuthenticatedTestHelper
+
+  setup do
+    # for testing action mailer
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
+  end
+
+  specify "an invalid login should show reset template and have a flash[:error]" do
+    put :reset_password, :login => 'foo@example.com'
+    template.should.be 'dt/accounts/reset'
+    flash[:error].should.not.be.nil
+  end  
+  
+  specify "a valid login should reset the password, send an email, redirect to dt_login_path and contain a flash[:notice]" do
+    put :reset_password, :login => 'quentin@example.com'
+    assigns(:user).password.should.not.be nil
+    @emails.length.should.equal 1
+    should.redirect dt_login_path
+    flash[:notice].should.not.be nil
+  end
+end
 
 #As a user I want to be able to retrieve my password so I won't forget it:
 #  - creates a new password

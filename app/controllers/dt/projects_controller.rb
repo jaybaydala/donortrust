@@ -112,6 +112,18 @@ class Dt::ProjectsController < DtApplicationController
     end
   end
 
+  def cause
+    begin
+      @project = Project.find_public(params[:id])
+      @cause = Cause.find(params[:cause_id]) if params[:cause_id]
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html {render :action => 'cause', :layout => false}
+    end
+  end
+  
   def facebook_login
     # placeholder for the before_filters above: project_id_to_session, facebook_login
     # is there a more elegant way to do this? 

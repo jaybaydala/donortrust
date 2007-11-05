@@ -13,6 +13,7 @@
       <div id="projectsuggest">
         <% if cf_unallocated_project %>
           <% params[:project_id] == cf_unallocated_project.id unless @project %>
+          <p class="textsm">100% of your investment goes towards the project(s) you choose</p>
           <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", cf_unallocated_project.id, :style => 'border:none; padding:0; margin-right:3px;' %><%= cf_unallocated_project.name %></p>
         <% elsif !@project %>
           <p class="textsm"><%= link_to("you must choose a project", dt_projects_path) %></p>

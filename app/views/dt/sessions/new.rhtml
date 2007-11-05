@@ -3,6 +3,7 @@
   <div id="leftColW2">
   	<h1>Sign-in</h1>
   	<p>To sign in, enter your username (your email address) and password below.</p>
+  	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   	<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
     <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
@@ -22,7 +23,7 @@
         <input id="remember_me" name="remember_me" type="checkbox" value="1" /><label for="remember_me">Remember me </label>
       </div>
       <p class="textsm">
-        <!-- <a href="">Forgot your password?</a> <br /> -->
+        <%= link_to "Forgot your password?", dt_reset_accounts_path %><br />
         If you are not a registered member, <%= link_to "click here", dt_signup_path %> to sign up.<br />
         Registration is FREE and takes only a few minutes.
       </p>

@@ -13,10 +13,15 @@ class Dt::SessionsController < DtApplicationController
           self.current_user.remember_me
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
         end
-        flash[:notice] = "Logged in successfully"
         cookies[:dt_login_id] = self.current_user.id.to_s
         cookies[:dt_login_name] = self.current_user.name
-        format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
+        if current_user.change_password?
+          flash[:notice] = "Please change your password to something you'll remember"
+          format.html { redirect_to dt_edit_account_path(current_user) }
+        else
+          flash[:notice] = "Logged in successfully"
+          format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
+        end
       else
         u = User.find(:first, :conditions => {:login => params[:login] })
         if u && u.authenticated?(params[:password])

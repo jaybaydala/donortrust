@@ -64,6 +64,10 @@ context "Dt::Projects #route_for" do
   specify "should map { :controller => 'dt/projects', :action => 'connect', :id => 1} to /dt/projects/1;connect" do
     route_for(:controller => "dt/projects", :action => "connect", :id => 1).should == "/dt/projects/1;connect"
   end
+
+  specify "should map { :controller => 'dt/projects', :action => 'cause', :id => 1, :cause_id => 1} to /dt/projects/1;cause?cause_id=1" do
+    route_for(:controller => "dt/projects", :action => "cause", :id => 1, :cause_id => 1).should == "/dt/projects/1;cause?cause_id=1"
+  end
   
   private 
   def route_for(options)
@@ -376,6 +380,21 @@ context "Dt::Projects connect behaviour" do
     project.save
     do_get
     status.should.be 404
+  end
+end
+
+context "Dt::Projects cause behaviour" do
+  use_controller Dt::ProjectsController
+  fixtures :projects, :places, :programs, :partners, :project_statuses, :causes
+
+  def do_get(id = 2)
+    get :cause, :id => id, :cause_id => 1
+  end
+
+  specify "should assign project and cause" do
+    do_get
+    assigns(:project).should.not.be.nil
+    assigns(:cause).should.not.be.nil
   end
 end
 

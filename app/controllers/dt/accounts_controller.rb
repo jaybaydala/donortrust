@@ -59,6 +59,7 @@ class Dt::AccountsController < DtApplicationController
     end
     params[:user][:password] = nil if !params[:old_password]
     #params[:user][:password_confirmation] = nil if !params[:old_password]
+    @user.change_password = false
     @saved = @user.update_attributes(params[:user])
     
     respond_to do |format|
@@ -102,6 +103,31 @@ class Dt::AccountsController < DtApplicationController
     DonortrustMailer.deliver_user_change_notification(user) if user && user.activation_code
     flash[:notice] = "We have resent the activation email to your login email address"
     redirect_to dt_accounts_url()
+  end
+  
+  def reset
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def reset_password
+    @user = User.find_by_login(params[:login]) if params[:login]
+    if @user
+      @user.password = User.generate_password
+      @user.password_confirmation = @user.password
+      @user.change_password = true
+      saved = @user.save
+      DonortrustMailer.deliver_user_password_reset(@user) if saved
+      flash[:notice] = "We have reset your password and sent it to your login email address" if saved
+    end
+    respond_to do |format|
+      format.html { 
+        redirect_to dt_login_path and return if @user && saved
+        flash[:error] = "We could not find that login. Did you try your email address?"
+        render :action => 'reset'
+      }
+    end
   end
   
   protected

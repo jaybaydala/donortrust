@@ -1,1 +1,1 @@
-<%= ", " unless cause_counter == 0%><%= cause.name %>
+<%= ", " unless cause_counter == 0 %><%= link_to cause.name, dt_cause_project_path(:id => @project, :cause_id => cause), :rel => 'blank', :onclick => "window.open('#{dt_cause_project_path(:id => @project, :cause_id => cause)}','cause','width=776,height=410,scrollbars,resizable');return false;" %>
