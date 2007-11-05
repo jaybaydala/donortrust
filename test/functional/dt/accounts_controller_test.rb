@@ -174,6 +174,21 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
       assert_select "a[href=/dt/projects]", {:count => 1, :text => 'Add New Project'}
     end
   end
+
+  specify "should show my project wishlist" do
+    login_as(:quentin)
+    u = users(:quentin)
+    u.projects << Project.find(1)
+    u.projects << Project.find(2)
+    do_get
+    assert_select "div#project-list" do
+      assert_select("li[class=project-list-item]", 2)
+      for investment in assigns(:user).investments do
+        assert_select "a[href=/dt/investments/new?project_id=#{investment.project_id}]", :text => "INVEST IN THIS PROJECT"
+      end
+    end
+  end
+
 end
 
 context "Dt::Accounts handling GET /dt/accounts;activate" do

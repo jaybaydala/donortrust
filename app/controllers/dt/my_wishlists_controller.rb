@@ -17,6 +17,7 @@ class Dt::MyWishlistsController < DtApplicationController
     saved = current_user.projects << @project if @project
     respond_to do |format|
       format.html do
+        flash[:notice] = "The project has been saved to your wishlist" if saved
         redirect_to dt_project_path(@project) and return if saved
         render :action => "new"
       end
