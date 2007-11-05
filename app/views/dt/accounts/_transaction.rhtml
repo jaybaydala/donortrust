@@ -17,7 +17,7 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 </tr>
 <% when "Gift" -%>
 <tr>
-  <td<%= bg %>><div id="giftTransaction-<%= transaction.tx.id %>" class="giftTransaction"><%= transaction_type %> to <%= link_to transaction.tx.to_name || transaction.tx.to_email, "mailto:#{transaction.tx.to_email}" %></div></td>
+  <td<%= bg %>><div id="giftTransaction-<%= transaction.tx.id %>" class="giftTransaction"><%= transaction_type %> to <%= link_to transaction.tx.to_name || transaction.tx.to_email, "mailto:#{transaction.tx.to_email}" %> (from your <%= transaction.tx.credit_card? ? 'credit card' : 'account' %>)</div></td>
   <td<%= bg %>><%= date %></td>
   <td<%= bg %>><%= amount %></td>
 </tr>
