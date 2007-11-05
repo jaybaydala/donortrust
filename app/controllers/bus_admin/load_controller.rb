@@ -23,7 +23,7 @@ win!
 Happy Holidays,
 
 ...Jay'
-   #   @gift.ecard= '/images/dt/ecards/large/cf-ecard-001.jpg' 
+      @gift.e_card_id = 8
    #   @gift.city = 'Canada'
    #   @gift.postal_code = 'T2T 4B2'
    #   @gift.card_expiry = '04/09'
