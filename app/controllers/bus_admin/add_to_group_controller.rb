@@ -11,11 +11,18 @@ class BusAdmin::AddToGroupController < ApplicationController
           
       @invitation = Invitation.new(params[:invitation])
       
-      @invitation.user_id = 5
-      @invitation.group_id = 5
+      @invitation.user_id = 2
+      @invitation.group_id = 3
       @invitation.to_name = load.name
       @invitation.to_email = load.email
-      @invitation.message = 'message'
+      @invitation.message = 'Hi! It has been a great afternoon - thank you for sharing it with us.  
+What better way to commemorate this day than by creating a 
+ChristmasFuture giving group for us all. Let\'s find some projects and 
+start to change the world together!
+
+Happy Holidays,
+
+...Jay'
       @invitation.ip = request.remote_ip
       
       @invitation.save if @invitation      

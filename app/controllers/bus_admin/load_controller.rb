@@ -14,9 +14,16 @@ class BusAdmin::LoadController < ApplicationController
       @gift.to_name = load.name
       @gift.to_email = load.email
       @gift.email = 'desireemckee@hotmail.com' 
-      @gift.name =  'from me'
-      @gift.message = 'free cash'
-      @gift.ecard= '/images/dt/ecards/large/cf-ecard-001.jpg' 
+      @gift.name =  'Jay Baydala'
+      @gift.message = 'I can\'t imagine a better way to celebrate the launch of ChristmasFuture 
+than to start changing the world! This is our gift to you - invest it 
+in a project or gift it to a loved one...you choose! Either way we ALL 
+win!
+
+Happy Holidays,
+
+...Jay'
+   #   @gift.ecard= '/images/dt/ecards/large/cf-ecard-001.jpg' 
       @gift.city = 'Canada'
       @gift.postal_code = 'T2T 4B2'
       @gift.card_expiry = '04/09'
@@ -26,7 +33,7 @@ class BusAdmin::LoadController < ApplicationController
       @gift.last_name = 'none'
       @gift.province = 1
       @gift.address = '1234 5th Ave SW' 
-      @gift.user_id = 1       
+      @gift.user_id = 2    
       
       @gift.save if @gift      
         if @gift.valid?
