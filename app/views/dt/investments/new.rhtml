@@ -13,7 +13,6 @@
       <div id="projectsuggest">
         <% if cf_unallocated_project %>
           <% params[:project_id] == cf_unallocated_project.id unless @project %>
-          <p class="textsm">100% of your investment goes towards the project(s) you choose</p>
           <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", cf_unallocated_project.id, :style => 'border:none; padding:0; margin-right:3px;' %><%= cf_unallocated_project.name %></p>
         <% elsif !@project %>
           <p class="textsm"><%= link_to("you must choose a project", dt_projects_path) %></p>
@@ -26,6 +25,7 @@
       <legend>Your Investment</legend>
       <ul>
     		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount %></li>
+        <li><p class="textsm">100% of your investment goes towards the project(s) you choose</p></li>
 			  <% if cf_admin_project %><li><p class="textsm"><%= check_box_tag "fund_cf"  %> I would like to add 5% to my investment for Christmas Future Administrative costs</p></li><% end %>
 		  </ul>	
       
