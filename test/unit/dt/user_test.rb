@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 context "User" do
   include DtAuthenticatedTestHelper
-  fixtures :users
+  fixtures :users, :memberships, :groups
   
   setup do
   end
@@ -40,6 +40,17 @@ context "User" do
       u = create_user(:first_name => nil, :last_name => nil, :display_name => nil)
       u.errors.on(:first_name).should.not.be.nil
     }.should.not.change(User, :count)
+  end
+  
+  specify "if terms_of_use is not nil, the value must be '1'" do
+    lambda {
+      u = create_user(:terms_of_use => 0)
+      u.errors.on(:terms_of_use).should.not.be.nil
+    }.should.not.change(User, :count)
+    lambda {
+      u = create_user(:terms_of_use => '1')
+      u.errors.on(:terms_of_use).should.be.nil
+    }.should.change(User, :count)
   end
 
   specify "should require valid email as login" do
@@ -129,7 +140,7 @@ context "User" do
 
   private
   def create_user(options = {})
-    User.create({ :login => 'quire@example.com', :first_name => 'quire', :last_name => 'test', :display_name => 'quirename', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
+    User.create({ :login => 'quire@example.com', :first_name => 'quire', :last_name => 'test', :display_name => 'quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options))
   end
 end
 

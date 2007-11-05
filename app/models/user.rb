@@ -16,12 +16,15 @@ class User < ActiveRecord::Base
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
+  attr_accessor :terms_of_use
 
   validates_presence_of     :login
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
+  validates_acceptance_of   :terms_of_use, :on => :create
+  validates_presence_of     :terms_of_use, :on => :create, :message => 'must be accepted'
   validates_length_of       :login,    :within => 3..100
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
@@ -159,7 +162,7 @@ class User < ActiveRecord::Base
         errors.add("display_name", "cannot be blank if First Name and Last Name are empty") if display_name.blank? && first_name.blank? && last_name.blank?
       end
     end
-    
+        
     def calculate_balance
       balance = deposited - invested - gifted(true) || 0
     end

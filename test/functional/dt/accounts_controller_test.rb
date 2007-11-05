@@ -236,7 +236,7 @@ context "Dt::Accounts handling GET /dt/accounts;resend" do
 
   protected
   def create_user(options = {})
-    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options)
   end
 end
 
@@ -272,7 +272,7 @@ context "Dt::Accounts user activation mailer" do
 
   protected
   def create_user(options = {})
-    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options)
   end
 end
 
@@ -299,6 +299,13 @@ context "Dt::Accounts handling GET /dt/accounts/new" do
   specify "should have a form set to post to /dt/accounts" do
     do_get
     page.should.select "form[action=/dt/accounts][method=post]"
+  end
+
+  specify "should have a form set to post to /dt/accounts" do
+    do_get
+    assert_select "form[action=/dt/accounts][method=post]" do
+      assert_select "input[type=checkbox]#user_terms_of_use"
+    end
   end
 end
 
@@ -338,6 +345,23 @@ context "Dt::Accounts handling POST /dt/accounts/create" do
     }.should.not.change(User, :count)
   end
 
+  specify "should require terms_of_use to be passed" do
+    lambda {
+      create_user(:terms_of_use => nil)
+      assigns(:user).errors.on(:terms_of_use).should.not.be.nil
+    }.should.not.change(User, :count)
+  end
+  specify "should require terms_of_use to be '1'" do
+    lambda {
+      create_user(:terms_of_use => 0)
+      assigns(:user).errors.on(:terms_of_use).should.not.be.nil
+    }.should.not.change(User, :count)
+    lambda {
+      create_user(:terms_of_use => '1')
+      assigns(:user).errors.on(:terms_of_use).should.be.nil
+    }.should.change(User, :count)
+  end
+
   specify "should require valid email as login on signup" do
     lambda {
       create_user(:login => 'timglen')
@@ -365,7 +389,7 @@ context "Dt::Accounts handling POST /dt/accounts/create" do
 
   protected
   def create_user(options = {})
-    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options)
   end
 end
 
