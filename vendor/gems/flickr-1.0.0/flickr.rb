@@ -306,7 +306,7 @@ class Flickr
     # Returns the URL for the photo page (default or any specified size)
     def url(size='Medium')
       if size=='Medium'
-        "http://flickr.com/photos/#{owner.username}/#{@id}"
+        "http://flickr.com/photos/#{owner.id}/#{@id}"
       else
         sizes(size)['url']
       end
