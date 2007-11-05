@@ -5,7 +5,8 @@ acts_as_simile_timeline_event(
     {
       :start       => :startDate,
       :title       => :name,
-      :description => :description,
+      :end        =>  :endDate,
+      :description => :timeline_details,
       :isDuration => false
     }
   )
@@ -41,7 +42,14 @@ acts_as_simile_timeline_event(
   def startDate
     "#{self.target_date}"
   end
- 
+  
+   def endDate
+    ""
+  end
+  
+ def timeline_details
+   "#{self.description}"
+ end
   def tasks_count
     return tasks.count
   end
