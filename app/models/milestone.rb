@@ -3,7 +3,7 @@ class Milestone < ActiveRecord::Base
 acts_as_simile_timeline_event(
     :fields =>
     {
-      :start       => :targetDate,
+      :start       => :startDate,
       :title       => :name,
       :description => :description,
       :isDuration => false
@@ -38,7 +38,7 @@ acts_as_simile_timeline_event(
     end
   end
 
-  def targetDate
+  def startDate
     "#{self.target_date}"
   end
  
