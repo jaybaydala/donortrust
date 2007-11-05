@@ -41,6 +41,14 @@ context "Groups" do
     @group = Group.find(1)
     @group.causes.class.should.equal Array
   end
+
+  specify "destroying should cascade to memberships" do
+    @group = Group.find(1)
+    Membership.find_all_by_group_id(1).size.should.not.be 0
+    @group.destroy
+    Membership.find_all_by_group_id(1).size.should.be 0
+  end
+
   
   protected
   def test_group(options={})

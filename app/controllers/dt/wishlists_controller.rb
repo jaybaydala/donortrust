@@ -4,6 +4,9 @@ class Dt::WishlistsController < DtApplicationController
   def new
     redirect_to dt_projects_path and return if !params[:project_id]
     @project = Project.find(params[:project_id])
+    respond_to do |format|
+      format.html
+    end
   end
   
   def create

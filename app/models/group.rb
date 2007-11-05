@@ -2,7 +2,7 @@ class Group < ActiveRecord::Base
   belongs_to :group_type
   has_many :investments
   has_many :invitations
-  has_many :memberships
+  has_many :memberships, :dependent => :destroy
   has_many :users, :through => :memberships
   #has_many :users, :through => :groupwall
   #has_many :users, :through => :group_admin_notes
