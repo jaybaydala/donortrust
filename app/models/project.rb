@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
  
   validates_presence_of :name
   validates_presence_of :place_id
-  
+  validates_presence_of :target_start_date  
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
