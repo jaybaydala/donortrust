@@ -6,7 +6,8 @@ class Task < ActiveRecord::Base
       :start       => :startDate,
       :end         => :endDate,
       :title       => :name,
-      :description => :timeline_details
+      :description => :timeline_details,
+      :isDuration => false
     }
   )
   acts_as_paranoid_versioned
@@ -24,7 +25,7 @@ class Task < ActiveRecord::Base
     end
  
   end
-  def startDate
+ def startDate
     "#{self.target_start_date}"
   end
   def endDate
