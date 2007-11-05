@@ -2,7 +2,9 @@
 <div id="contentContainer">
   <div id="leftColW">
   	<h1>Edit Profile</h1>
-	
+		<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  
   	<%= error_messages_for :user %>
   	<% form_for(:user, :url => dt_account_path(@user), :html => { :method => 'put', :id => "userform", :name => "userform"}) do |f| -%>
   	<div class="userform">

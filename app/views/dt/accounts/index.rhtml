@@ -10,7 +10,7 @@
   	
     <ul>
       <li>track <%= link_to "projects", dt_projects_path %> that you're interested in or you've given to</li>
-      <li><%= logged_in? ? (link_to "deposit", dt_new_deposit_path) : "deposit" %> into your account to make giving and investing easy</li>
+      <li><%= logged_in? ? (link_to "deposit", dt_new_deposit_path(:account_id => current_user)) : "deposit" %> into your account to make giving and investing easy</li>
       <li><%= link_to "send a gift", dt_new_gift_path %> to your friends and family that will help to change the world</li>
       <li>join <%= link_to "ChristmasFuture groups", dt_groups_path %></li>
       <li>create a wishlist</li>
