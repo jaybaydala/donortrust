@@ -15,7 +15,6 @@ class GiftMailerWorker < BackgrounDRb::Worker::RailsBase
       g.send_gift_mail
     end
     logger.info "[#{Time.now.utc.to_s}] Scheduled Gift Emails Sent: #{num_sent}"
-    exit # This is required when the job is done!
   end
 
   def find_records(send_at_time = Time.now.utc)
