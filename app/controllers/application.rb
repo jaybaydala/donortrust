@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  filter_parameter_logging :password
   include AuthenticatedSystem
   include BusAdmin::UserInfo
   #include BusAdmin::ProjectsHelper

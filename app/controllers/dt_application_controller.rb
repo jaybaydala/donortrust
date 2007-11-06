@@ -1,4 +1,5 @@
 class DtApplicationController < ActionController::Base
+  filter_parameter_logging :password, :credit_card
   helper :dt_application
   helper "dt/search"
   include DtAuthenticatedSystem
