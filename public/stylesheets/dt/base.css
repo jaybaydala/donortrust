@@ -2189,10 +2189,10 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
-	padding-left: 12px; margin-top:9px;
+	margin-top:9px;
 	height: 121px; 
-    width: 225px;
-    background: transparent url(/images/dt/giveDirectConnect/giveOff.jpg) no-repeat 12px; 
+    width: 237px;
+    background: transparent url(/images/dt/giveDirectConnect/giveOff.jpg) no-repeat right; 
    	display: block;
 	list-style-type: none;
     text-indent: -9000px;
@@ -2202,10 +2202,9 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
-	padding-left: 12px; 
-	background: transparent url(/images/dt/giveDirectConnect/giveOff.jpg) no-repeat 0px;
+	background: transparent url(/images/dt/giveDirectConnect/giveOff.jpg) no-repeat right;
 	height: 121px; 
-    width: 225px;
+    width: 237px;
     display: block;
 	list-style-type: none;
 }
@@ -2213,10 +2212,9 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
-	background: transparent url(/images/dt/giveDirectConnect/giveOn.jpg) no-repeat 0px;
-	padding-left: 12px;
+	background: transparent url(/images/dt/giveDirectConnect/giveOn.jpg) no-repeat right;
 	height: 121px; 
-	width: 225px;
+	width: 237px;
     display: block;
 	list-style-type: none;
 }
@@ -2225,10 +2223,10 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
-	padding-left: 11px; margin-top:9px;
+	margin-top:9px;
 	height: 121px; 
-    width: 225px;
-    background: url(/images/dt/giveDirectConnect/directOff.jpg) no-repeat 11px; 
+    width: 236px;
+    background: url(/images/dt/giveDirectConnect/directOff.jpg) no-repeat right; 
    	display: block;
 	list-style-type: none;
     text-indent: -9000px;
@@ -2238,10 +2236,9 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
-	padding-left: 11px; 
-	background: url(/images/dt/giveDirectConnect/directOff.jpg) no-repeat 0px;
+	background: url(/images/dt/giveDirectConnect/directOff.jpg) no-repeat right;
 	height: 121px; 
-    width: 225px;
+    width: 236px;
     display: block;
 	list-style-type: none;
 }
@@ -2249,10 +2246,9 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
-	background: url(/images/dt/giveDirectConnect/directOn.jpg) no-repeat 0px;
-	padding-left: 11px;
+	background: url(/images/dt/giveDirectConnect/directOn.jpg) no-repeat right;
 	height: 121px; 
-	width: 225px;
+	width: 236px;
     display: block;
 	list-style-type: none;
 }
@@ -2261,10 +2257,10 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	font: xx-small/14px Arial, Helvetica, sans-serif;
 	color: black;
 	text-decoration: none;
-	padding-left: 11px; margin-top:9px;
+	margin-top:9px;
 	height: 121px; 
-    width: 225px;
-    background: transparent url(/images/dt/giveDirectConnect/connectOff.jpg) no-repeat 11px; 
+    width: 236px;
+    background: transparent url(/images/dt/giveDirectConnect/connectOff.jpg) no-repeat right; 
    	display: block;
 	list-style-type: none;
     text-indent: -9000px;
@@ -2274,10 +2270,9 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	color: #fff;
 	font-weight: normal;
 	text-decoration: none;
-	padding-left: 11px; 
-	background: transparent url(/images/dt/giveDirectConnect/connectOff.jpg) no-repeat 0px;
+	background: transparent url(/images/dt/giveDirectConnect/connectOff.jpg) no-repeat right;
 	height: 121px; 
-    width: 225px;
+    width: 236px;
     display: block;
 	list-style-type: none;
 }
@@ -2285,10 +2280,9 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	color: #000;
 	font-weight: normal;
 	text-decoration:none;
-	background: transparent url(/images/dt/giveDirectConnect/connectOn.jpg) no-repeat 0px;
-	padding-left: 11px;
+	background: transparent url(/images/dt/giveDirectConnect/connectOn.jpg) no-repeat right;
 	height: 121px; 
-	width: 225px;
+	width: 236px;
     display: block;
 	list-style-type: none;
 }
