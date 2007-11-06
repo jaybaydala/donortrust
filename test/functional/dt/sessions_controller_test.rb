@@ -36,6 +36,23 @@ context "Dt::Accounts #route_for" do
   end
 end
 
+context "Dt::Sessions handling GET dt/session requests" do
+  use_controller Dt::SessionsController
+  include DtAuthenticatedTestHelper
+  fixtures :users
+  
+  specify "should redirect_to dt_accounts_path unless logged_in?" do
+    get :show
+    should.redirect dt_accounts_path
+  end
+
+  specify "should redirect_to dt_accounts_path unless logged_in?" do
+    login_as :quentin
+    get :show
+    should.redirect dt_account_path(users(:quentin))
+  end
+end
+
 context "Dt::Sessions handling GET /dt/session/new" do
   use_controller Dt::SessionsController
   fixtures :users

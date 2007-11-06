@@ -1,7 +1,18 @@
 class Dt::SessionsController < DtApplicationController
+  def show
+    respond_to do |format|
+      format.html {
+        redirect_to(dt_accounts_path) and return unless logged_in?
+        redirect_to(dt_account_path(current_user))
+      }
+    end
+  end
+  
   def new
     @page_title = "Login"
-    redirect_back_or_default(dt_account_path(current_user)) if logged_in?
+    respond_to do |format|
+      format.html { redirect_back_or_default(dt_account_path(current_user)) if logged_in? }
+    end
   end
   
   def create

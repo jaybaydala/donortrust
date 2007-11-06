@@ -9,6 +9,7 @@ class Dt::InvestmentsController < DtApplicationController
   def new
     @investment = Investment.new( :project_id => params[:project_id] )
     @project = Project.find(params[:project_id]) if params[:project_id]
+    @investment.project_id = Project.cf_unallocated_project.id if (Project.cf_unallocated_project && !params[:project_id])
   end
   
   def confirm
