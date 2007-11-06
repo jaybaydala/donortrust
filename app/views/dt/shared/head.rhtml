@@ -2,6 +2,6 @@
         <div id="logo"><a href="/"><img src="/images/dt/brand_elements/cf_headerlogo.gif" width="203" height="50" alt="ChristmasFuture - Change the world&hellip;for good" /></a></div>
         <div id="RSSicon"><a href="http://www.christmasfuture.org/feed/"><img src="/images/dt/icons/feed-icon16x16.png" alt="RSS Feed" width="16" height="16" /></a></div>
         <div id="yourAccountObject"><% if logged_in? -%>
-Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %> | Not <%=h current_user.name %>? <%= link_to 'logout', dt_logout_path %><% else -%>
+Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %> | Not <%=h current_user.name %>? <%= link_to 'logout', dt_logout_url(:protocol => 'http://') %><% else -%>
 <%= link_to 'Login', dt_login_path %> | <%= link_to 'Create Account', dt_signup_path %><% end -%></div>
       </div><!-- header ends -->
