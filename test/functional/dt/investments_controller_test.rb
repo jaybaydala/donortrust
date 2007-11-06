@@ -115,14 +115,44 @@ context "Dt::InvestmentsController new behaviour" do
 
   specify "form#investmentform should contain the proper inputs" do
     login_as :quentin
-    project = Project.find_public(:first)
+    project = Project.new
+    project.stubs(:name).returns('First Project')
+    project.stubs(:id).returns(1)
     get :new, :project_id => project.id
     assert_select "form#investmentform" do
-      assert_select "input[type=radio]#investment_project_id_11"
       assert_select "input[type=radio]#investment_project_id_#{project.id}"
       assert_select "input[type=text]#investment_amount"
       assert_select "input[type=checkbox]#fund_cf"
       assert_select "input[type=submit]"
+    end
+  end
+  
+  specify "if Project.cf_unallocated_project exists, should show a radio button for it" do
+    login_as :quentin
+    unallocated_project = Project.new
+    unallocated_project.stubs(:name).returns('Unallocated Project')
+    unallocated_project.stubs(:id).returns(999999)
+    Project.stubs(:cf_unallocated_project).returns(unallocated_project)
+    project = Project.new
+    project.stubs(:name).returns('First Project')
+    project.stubs(:id).returns(1)
+    get :new, :project_id => project.id
+    assert_select "form#investmentform" do
+      assert_select "input[type=radio]#investment_project_id_#{unallocated_project.id}"
+      assert_select "input[type=radio]#investment_project_id_#{project.id}"
+    end
+  end
+
+  specify "if Project.cf_unallocated_project exists and no project_id is passed the radio button should be selected and we should give the option to find a project" do
+    login_as :quentin
+    unallocated_project = Project.new
+    unallocated_project.stubs(:name).returns('Unallocated Project')
+    unallocated_project.stubs(:id).returns(999999)
+    Project.stubs(:cf_unallocated_project).returns(unallocated_project)
+    get :new
+    assert_select "form#investmentform" do
+      assert_select "input[type=radio][checked=checked]#investment_project_id_#{unallocated_project.id}"
+      assert_select "a[href=/dt/projects]", :text => %r(find a different project)i
     end
   end
 end
