@@ -16,6 +16,18 @@ context "Share" do
       t.errors.on(:to_email).should.not.be.nil
     }.should.not.change(Share, :count)
   end
+  
+  specify "should have a nil project_id if blank or 0 is passed" do
+    t = create_share(:project_id => nil)
+    t.errors.on(:project_id).should.be.nil
+    t.project_id.should.be.nil
+    t = create_share(:project_id => 0)
+    t.errors.on(:project_id).should.be.nil
+    t.project_id.should.be.nil
+    t = create_share(:project_id => "")
+    t.errors.on(:project_id).should.be.nil
+    t.project_id.should.be.nil
+  end
 
   private
   def create_share(options = {})

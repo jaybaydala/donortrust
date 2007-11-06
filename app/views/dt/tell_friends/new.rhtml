@@ -21,8 +21,8 @@
     <fieldset>
       <legend>Is there a project you'd like to share?</legend>
       <div id="projectsuggest">
-        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", nil, :style => 'border:none; padding:0; margin-right:3px;' %>no, I just want to share about ChristmasFuture</p>
-        <p class="textsm"><%= f.radio_button "project_id", ( @share.project_id? ? @share.project_id : 0 ), :style => 'border:none; padding:0; margin-right:3px;' %>a specific project &nbsp;&nbsp; &#8250; <%= @share.project_id? ? link_to(@share.project.name, dt_project_path(@share.project)) : link_to("choose project", dt_projects_path) %></p>
+        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", "", :style => 'border:none; padding:0; margin-right:3px;' %>no, I just want to share about ChristmasFuture</p>
+        <p class="textsm"><%= f.radio_button "project_id", ( @share.project_id? ? @share.project_id : 0 ), :style => 'border:none; padding:0; margin-right:3px;' %>a specific project &nbsp;&nbsp; &#8250; <%= @share.project_id? && @share.project ? link_to(@share.project.name, dt_project_path(@share.project)) : link_to("choose project", dt_projects_path) %></p>
       </div>
     </fieldset>
 
