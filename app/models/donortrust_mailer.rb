@@ -47,7 +47,7 @@ class DonortrustMailer < ActionMailer::Base
     recipients  invitation.to_name ? "#{invitation.to_name}<#{invitation.to_email}>" : "#{invitation.to_email}"
     from        invitation.user.full_name.empty? ? invitation.user.email : "#{invitation.user.full_name}<#{invitation.user.email}>"
     sent_on     Time.now
-    subject     "Your have been invited to join the \"#{invitation.group.name}\" group at ChristmasFuture"
+    subject     "You have been invited to join the \"#{invitation.group.name}\" group at ChristmasFuture"
     url = dt_group_url(:host => HTTP_HOST, :id => invitation.group_id)
     body_data = {:invitation => invitation, :host => HTTP_HOST, :url => url}
     content_type "text/html"
