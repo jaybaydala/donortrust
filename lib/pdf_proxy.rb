@@ -21,7 +21,9 @@ class TaxReceiptPDFProxy
   end
   
   def use_pdftk?
-    File.exists?(PDFTK) && File.executable?(PDFTK)
+    @use_pdftk ||= File.exists?(PDFTK) && File.executable?(PDFTK)
+    RAILS_DEFAULT_LOGGER.warn "PDFTK is unavailable" unless @use_pdftk
+    @use_pdftk
   end
 
   def render(duplicate=true)
@@ -130,8 +132,8 @@ class GiftPDFProxy
       _pdf.compressed=true
       image_path = File.expand_path("#{RAILS_ROOT}/#{gift.e_card.printable}") if gift.e_card_id? && gift.e_card
       i0 = _pdf.image image_path if image_path && File.exists?(image_path)
+      RAILS_DEFAULT_LOGGER.warn "Gift Card Image does not exist: #{image_path}" unless File.exists?(image_path)
       # make sure to add text on top of the image! 
-      #_pdf.add_text_wrap(85, 145, 500, gift[:pickup_code], 12, :justification=>:right)
       _pdf.add_text(138, 151, gift[:pickup_code], 12)
       return _pdf
   end

@@ -60,7 +60,10 @@ Ecard.prototype = {
 		if (ecard_link.getAttribute("href")) {
 			ecard_link.target = ""
 			ecard_link.rel = ""
-			ecard_link.href = "#previewEcard"
+			ua=navigator.userAgent.toLowerCase();
+			ie = document.all && ua.search(/msie/i) != -1 ? true : false;
+			old_ie = ie && ua.search(/msie [0-6]/i) != -1 ? true : false;
+			ecard_link.href = old_ie ? "#previewEcard" : 'javascript:void(0);'
 		}
 	}
 }
