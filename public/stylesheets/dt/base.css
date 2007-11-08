@@ -489,6 +489,7 @@ hr { height:2px; border:0px; border-bottom:2px solid #ff1493;margin:0;padding:0;
 
 /* IMAGE STYLES */
 
+img {display:block;}
 #rightColN img {margin: 0 0 10px 0;}
 #contentContainer2 #rightCol img {width:216px; margin: 3px 0 15px 0;}
 #leftColW img, #leftColW2 img {width:auto; padding:0px; border:0px solid #CCC; margin: 0px 0 15px 0px;}
@@ -1310,7 +1311,7 @@ input {
 	float:left;
 }
 form input[type=checkbox] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
-form input[type=radio] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
+form input[type=radio] {float:left; width:20px; border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
 input[type=checkbox] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
 input[type=radio] {border:none; width:20px; height:auto; margin-right: 3px; padding:0;}
 
