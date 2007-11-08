@@ -83,7 +83,7 @@ class DonortrustMailer < ActionMailer::Base
     sent_on     Time.now
     subject "Your gift has been sent"
     amount = number_to_currency(gift.amount)
-    body "<p>Thanks kind gifter! With your generous gift of #{amount}, we're one gift closer to changing the world...for good. </p><p>Please find your attached gift card</p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
+    body "<p>Thanks kind gifter! With your generous gift of #{amount}, we're one gift closer to changing the world...for good. </p><p>Please find your attached gift card</p><p>You can also download your printable ecard here:<br />#{dt_gift_url(:id => gift.id, :host => HTTP_HOST)}.pdf</p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
     attachment "application/pdf" do |a|
       # switched to a proxy pattern (encryption requires a lot of shenanigans)
       proxy = create_pdf_proxy(gift)
