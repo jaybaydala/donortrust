@@ -21,7 +21,7 @@
       <legend>Choose which projects you'd like to send in your wishlist</legend>
       <div id="projectsuggest">
         <% for project in current_user.projects %>
-        <p class="textsm"><%= check_box_tag "project_ids[]", project.id, false, :style => 'border:none; padding:0; margin-right:3px;' %> <%= project.name %></p>
+        <p class="textsm"><%= check_box_tag "project_ids[]", project.id, false %> <%= project.name %></p>
         <% end %>
       </div>
     </fieldset>

@@ -21,6 +21,14 @@ input {
 	top:0;
 	left:110px;
 }
+.userform #projectsuggest, .userform p, .userform div {
+	position:relative;
+}
+.userform #projectsuggest  input{
+	position:relative;
+	left: 15px;
+	border:none;
+}
 
 input.buttonsubmit {
 	display:block;
@@ -98,7 +106,6 @@ p a:link, p a:visited {
 p a:hover, p a:active {	
 	cursor: hand;
 }
-
 
 .dateStamp a:link, .dateStamp a:visited {
 	cursor: hand;

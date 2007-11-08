@@ -25,8 +25,8 @@
     <fieldset>
       <legend>Please specify how you would like your gift to be allocated:</legend>
       <div id="projectsuggest">
-        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", nil, :style => 'border:none; padding:0; margin-right:3px;' %>let the recipient choose a project</p>
-        <p class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? ? @gift.project_id : 0 ), :style => 'border:none; padding:0; margin-right:3px;' %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></p>
+        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", nil %>let the recipient choose a project</p>
+        <p class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? ? @gift.project_id : 0 ) %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></p>
       </div>
     </fieldset>
 

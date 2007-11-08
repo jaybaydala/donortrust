@@ -12,14 +12,14 @@
       <legend>Please specify how you would like your investment to be allocated:</legend>
       <div id="projectsuggest">
         <% if cf_unallocated_project %>
-          <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", cf_unallocated_project.id, :style => 'border:none; padding:0; margin-right:3px;' %><%= cf_unallocated_project.name %></p>
+          <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", cf_unallocated_project.id %><%= cf_unallocated_project.name %></p>
           <% if !params[:project_id] %><p class="textsm">
             If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.
           </p><% end %>
         <% elsif !@project %>
           <p class="textsm"><%= link_to("you must choose a project", dt_projects_path) %></p>
         <% end %>
-        <% if @project %><p class="textsm"><%= f.radio_button "project_id", ( @project.id? ? @project.id : 0 ), :style => 'border:none; padding:0; margin-right:3px;' %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @project.id? ? link_to(@project.name, dt_project_path(@project)) : link_to("choose another project", dt_projects_path) %></p><% end %>
+        <% if @project %><p class="textsm"><%= f.radio_button "project_id", ( @project.id? ? @project.id : 0 ) %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @project.id? ? link_to(@project.name, dt_project_path(@project)) : link_to("choose another project", dt_projects_path) %></p><% end %>
       </div>
     </fieldset>
 
