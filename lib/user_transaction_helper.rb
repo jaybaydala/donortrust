@@ -54,6 +54,11 @@ module UserTransactionHelper
     self[:card_expiry].year.to_s[-2, 2] if self[:card_expiry]
   end
 
+  def amount=(val)
+    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+    super(val)
+  end
+
   protected
   def validate
     super

@@ -63,6 +63,14 @@ context "Investment" do
     }.should.change(Investment, :count)
   end
 
+  specify "amount should strip a prepended $" do
+    lambda {
+      t = create_investment( :amount => '$5.00' )
+      t.errors.on(:amount).should.be.nil
+      t.amount.should.equal 5.0
+    }.should.change(Investment, :count)
+  end
+
   specify "should require project_id" do
     lambda {
       t = create_investment(:project_id => nil)

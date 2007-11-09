@@ -134,6 +134,14 @@ context "Deposit" do
     t = create_deposit( :credit_card => 4111111111111111 )
     t.credit_card.should.equal "1111"
   end
+  
+  specify "amount should strip a prepended $" do
+    lambda {
+      t = create_deposit( :amount => '$100.00' )
+      t.errors.on(:amount).should.be.nil
+      t.amount.should.equal 100.00
+    }.should.change(Deposit, :count)
+  end
 
   private
   def create_deposit(options = {})
