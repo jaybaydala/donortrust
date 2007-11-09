@@ -1,15 +1,38 @@
-class BusAdmin::GiftsController < ApplicationController
+require 'net/http'
+require 'uri'
 
-  active_scaffold :gift do |config|
-    config.list.columns = [:name,:email,:to_name,:to_email, :message, :pickup_code]
-    config.show.columns = [:name,:email,:date,:comment]
-    config.update.columns.exclude [ :amount, :name, :email, :to_name, :first_name, :last_name, :address, :city, :province, :postal_code, :country, :credit_card, :card_expiry, :project, :authorization_result, :pickup_code, :picked_up_at, :send_at, :sent_at, :user,  :updated_at, :e_card, :user_ip_addr]
+class BusAdmin::GiftsController < ApplicationController
+  
+  def index
+    @gifts = Gift.find(:all, :conditions => ['sent_at < ? and picked_up_at is null', 31.days.ago])
+   # render :partial => "list", :layout => false
   end
   
-  def before_update_save(record)
-    @record.sent_at = nil
-    @record.send_at= Time.now
+ def unwrap
+  @giftId = params[:gift_id]
+  @gift = Gift.find(@giftId)
+  
+   @gift.picked_up_at = Time.now
+  @gift.save! if @gift
+  
+  if not @gift.project_id?
+    @gift.project_id =  params[:projectId]
   end
+  @investment = Investment.new_from_gift(@gift, @gift.user_id)
+  @investment.save! if @investment
+   respond_to do |format|
+  if @investment.valid?
+   flash[:notice] = 'Investment was successfully created.'
+    @gifts = Gift.find(:all, :conditions => ['sent_at < ? and picked_up_at is null', 31.days.ago])
+   format.html {render :partial => 'list', :layout => false }
+   format.xml  { head :ok }
+ else
+    format.html {render :partial => 'list', :layout => false }
+   format.xml  { render :xml => @investment.errors.to_xml }
+  end
+  # render(:update) { |page| page.call 'location.reload' }
+end
+ end
+   
 
 end
-  
