@@ -282,7 +282,9 @@ class Project < ActiveRecord::Base
   def get_total_budget
     total_budget_items_cost = 0.0
     budget_items(force_reload=true).each do |item|
-      total_budget_items_cost += item.cost
+      if item.cost != nil
+        total_budget_items_cost += item.cost
+      end
     end
     total_budget_items_cost
   end
@@ -290,7 +292,9 @@ class Project < ActiveRecord::Base
   def self.total_money_raised
     total = 0
     Project.find(:all).each do |project|
-      total = total + project.dollars_raised
+      if project.dollars_raised != nil
+        total = total + project.dollars_raised
+      end
     end
     total
   end

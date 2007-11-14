@@ -33,7 +33,9 @@ class Program < ActiveRecord::Base
     projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
     total_cost = 0
     projects.each do |project|
-      total_cost += project.total_cost
+      if project.total_cost != nil
+        total_cost += project.total_cost
+      end
     end
     return total_cost
   end
@@ -42,7 +44,10 @@ class Program < ActiveRecord::Base
     projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
     total_raised = 0
     projects.each do |project|
-      total_raised += project.dollars_raised
+       if project.dollars_raised != nil
+        total_raised += project.dollars_raised
+        
+      end
     end
     return total_raised
   end
