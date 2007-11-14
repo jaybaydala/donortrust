@@ -2195,11 +2195,11 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	text-decoration: none;
 	margin-top:9px;
 	height: 121px; 
-    width: 237px;
-    background: transparent url(/images/dt/giveDirectConnect/giveOff.jpg) no-repeat right; 
-   	display: block;
+	width: 237px;
+	background: transparent url(/images/dt/giveDirectConnect/giveOff.jpg) no-repeat right; 
+	display: block;
 	list-style-type: none;
-    text-indent: -9000px;
+	text-indent: -9000px;
 	float:left;
 }
 #bigButGive a:link, #bigButGive a:visited {
@@ -2208,8 +2208,8 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	text-decoration: none;
 	background: transparent url(/images/dt/giveDirectConnect/giveOff.jpg) no-repeat right;
 	height: 121px; 
-    width: 237px;
-    display: block;
+	width: 237px;
+	display: block;
 	list-style-type: none;
 }
 #bigButGive a:hover, #bigButGive a:active {
@@ -2219,7 +2219,7 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	background: transparent url(/images/dt/giveDirectConnect/giveOn.jpg) no-repeat right;
 	height: 121px; 
 	width: 237px;
-    display: block;
+	display: block;
 	list-style-type: none;
 }
 
@@ -2229,11 +2229,11 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	text-decoration: none;
 	margin-top:9px;
 	height: 121px; 
-    width: 236px;
-    background: url(/images/dt/giveDirectConnect/directOff.jpg) no-repeat right; 
-   	display: block;
+	width: 236px;
+	background: url(/images/dt/giveDirectConnect/directOff.jpg) no-repeat right;
+	display: block;
 	list-style-type: none;
-    text-indent: -9000px;
+	text-indent: -9000px;
 	float:left;
 }
 #bigButDirect a:link, #bigButDirect a:visited {
@@ -2242,8 +2242,8 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	text-decoration: none;
 	background: url(/images/dt/giveDirectConnect/directOff.jpg) no-repeat right;
 	height: 121px; 
-    width: 236px;
-    display: block;
+	width: 236px;
+	display: block;
 	list-style-type: none;
 }
 #bigButDirect a:hover, #bigButDirect a:active {
@@ -2253,7 +2253,7 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	background: url(/images/dt/giveDirectConnect/directOn.jpg) no-repeat right;
 	height: 121px; 
 	width: 236px;
-    display: block;
+	display: block;
 	list-style-type: none;
 }
 
@@ -2263,11 +2263,11 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	text-decoration: none;
 	margin-top:9px;
 	height: 121px; 
-    width: 236px;
-    background: transparent url(/images/dt/giveDirectConnect/connectOff.jpg) no-repeat right; 
-   	display: block;
+	width: 236px;
+	background: transparent url(/images/dt/giveDirectConnect/connectOff.jpg) no-repeat right;
+	display: block;
 	list-style-type: none;
-    text-indent: -9000px;
+	text-indent: -9000px;
 	float:left;
 }
 #bigButConnect a:link, #bigButConnect a:visited {
@@ -2276,8 +2276,8 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	text-decoration: none;
 	background: transparent url(/images/dt/giveDirectConnect/connectOff.jpg) no-repeat right;
 	height: 121px; 
-    width: 236px;
-    display: block;
+	width: 236px;
+	display: block;
 	list-style-type: none;
 }
 #bigButConnect a:hover, #bigButConnect a:active {
@@ -2285,13 +2285,9 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 	font-weight: normal;
 	text-decoration:none;
 	background: transparent url(/images/dt/giveDirectConnect/connectOn.jpg) no-repeat right;
+	padding-left: 11px;
 	height: 121px; 
 	width: 236px;
-    display: block;
+	display: block;
 	list-style-type: none;
 }
-
-
-
-
-
