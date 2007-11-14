@@ -59,8 +59,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :load,  :path_prefix => "/bus_admin", :controller => "bus_admin/load", :collection => {:loads => :post}
   map.resources :gifts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/gifts", :collection => {:change_email => :post}
   map.resources :loads,  :path_prefix => "/bus_admin", :controller => "bus_admin/loads", :collection => {:loads => :post}
-  map.resources :sent_items,  :path_prefix => "/bus_admin", :controller => "bus_admin/sent_item", :collection => { :test => :get }
-  map.resources :sent_items,  :path_prefix => "/bus_admin", :controller => "bus_admin/sent_item", :collection => { :change_email => :post }
   map.resources :sent,  :path_prefix => "/bus_admin", :controller => "bus_admin/sent"
   map.resources :add_to_group,  :path_prefix => "/bus_admin", :controller => "bus_admin/add_to_group", :collection => {:add_to_groups => :post}    
   map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
@@ -228,10 +226,13 @@ ActionController::Routing::Routes.draw do |map|
   map.kpi_report 'bus_admin/_kpi_report', :controller => 'bus_admin/projects', :action => 'kpi_report'
   map.report 'bus_admin/individual_report', :controller => 'bus_admin/projects', :action => 'individual_report'
   map.byProject 'bus_admin/_timeline_json', :controller => 'bus_admin/projects', :action => 'byProject'
-  map.byProject 'bus_admin/_showProjectTimeline', :controller => 'bus_admin/projects', :action => 'showProjectTimeline'
+  map.showProjectTimeline 'bus_admin/_showProjectTimeline', :controller => 'bus_admin/projects', :action => 'showProjectTimeline'
+ 
   map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'
   map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
+  map.resend 'bus_admin/resend', :controller => 'bus_admin/gifts', :action => 'resend'
+ 
   map.display_inline_report 'bus_admin/display_inline_report', :controller => 'bus_admin/projects', :action => 'display_inline_report'
   map.report 'bus_admin/individual_report_inline', :controller => 'bus_admin/projects', :action => 'individual_report_inline'
   map.note 'bus_admin/show_note', :controller => 'bus_admin/partners', :action => 'show_note'

@@ -89,8 +89,26 @@ class DonortrustMailer < ActionMailer::Base
       proxy = create_pdf_proxy(gift)
       a.body = proxy.render
       a.filename = proxy.filename
+      
     end
   end
+
+ def gift_resendPDF(gift)
+    content_type "text/html"
+    recipients  "#{gift.first_name} #{gift.last_name} <#{gift.email}>"
+    from        "The ChristmasFuture Team <info@christmasfuture.org>"
+    sent_on     Time.now
+    subject "Resolved Problem viewing Gift Card"
+    body "<p>We have resolved a problem with the ability to view the PDF gift cards that were attached to your gift confirmation.  Please find attached the gift card for your gift to #{ gift.to_name }  </p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
+    attachment "application/pdf" do |a|
+      # switched to a proxy pattern (encryption requires a lot of shenanigans)
+      proxy = create_pdf_proxy(gift)
+      a.body = proxy.render
+      a.filename = proxy.filename
+      
+    end
+  end
+
 
   def gift_open(gift)
     gift_setup_email(gift)

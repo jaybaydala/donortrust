@@ -40,6 +40,7 @@ class Gift < ActiveRecord::Base
   end
   
   def send_gift_mail
+    
     if update_attributes(:sent_at => Time.now.utc)
       DonortrustMailer.deliver_gift_mail(self)
       @sent = true
@@ -48,6 +49,10 @@ class Gift < ActiveRecord::Base
   
   def send_gift_confirm
     DonortrustMailer.deliver_gift_confirm(self)
+  end
+
+ def send_gift_resend
+    DonortrustMailer.deliver_gift_resendPDF(self)
   end
 
   def send_gift_mail?
