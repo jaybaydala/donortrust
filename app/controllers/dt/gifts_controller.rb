@@ -80,7 +80,8 @@ class Dt::GiftsController < DtApplicationController
       end
     end
   end
-
+  
+ 
   def confirm
     @gift = Gift.new( gift_params )
     @ecards = ECard.find(:all, :order => :id)

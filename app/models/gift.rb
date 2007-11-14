@@ -9,7 +9,7 @@ class Gift < ActiveRecord::Base
   belongs_to :e_card
   has_one :deposit
   has_one :user_transaction, :as => :tx
-  has_many :gift_lists
+#  has_many :gift_lists
 
   validates_presence_of :amount
   validates_numericality_of :amount, :if => Proc.new { |gift| gift.amount?}
@@ -40,6 +40,7 @@ class Gift < ActiveRecord::Base
   end
   
   def send_gift_mail
+    
     if update_attributes(:sent_at => Time.now.utc)
       DonortrustMailer.deliver_gift_mail(self)
       @sent = true
@@ -48,6 +49,10 @@ class Gift < ActiveRecord::Base
   
   def send_gift_confirm
     DonortrustMailer.deliver_gift_confirm(self)
+  end
+
+ def send_gift_resend
+    DonortrustMailer.deliver_gift_resendPDF(self)
   end
 
   def send_gift_mail?

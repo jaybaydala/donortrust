@@ -204,6 +204,14 @@ context "Gift" do
     }.should.not.change(Deposit, :count)
   end
 
+  specify "amount should strip a prepended $" do
+    lambda {
+      t = create_gift( credit_card_params.merge(:amount => '$100.00') )
+      t.errors.on(:amount).should.be.nil
+      t.amount.should.equal 100.00
+    }.should.change(Gift, :count)
+  end
+
   specify "after save, credit_card should only contain the last 4 digits of the card number" do
     card_number = 4111111111111111
     t = create_gift(credit_card_params(:credit_card => card_number ))
