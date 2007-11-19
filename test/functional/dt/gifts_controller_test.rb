@@ -212,8 +212,10 @@ context "Dt::Gifts new behaviour"do
   end
 
   specify "if project_id is passed, should show the project" do
-    get :new, :project_id => 1
-    page.should.select "#giftform input[type=radio][value=1]#gift_project_id_1"
+    @project = Project.find_public(:first)
+    @project.update_attributes(:project_status_id => 2)
+    get :new, :project_id => @project.id
+    page.should.select "#giftform input[type=radio]#gift_project_id_#{@project.id}"
   end
 
   specify "if project_id is not passed, should suggest giving a project" do
@@ -226,6 +228,13 @@ context "Dt::Gifts new behaviour"do
     page.should.select "#ecardPreview"
   end
 
+  specify "should redirect if !project.fundable?" do
+    login_as :quentin
+    @project = Project.find_public(:first)
+    @project.update_attributes(:project_status_id => 4) #makes it non-fundable
+    get :new, :project_id => @project
+    should.redirect dt_project_path(@project.id)
+  end
 end
 
 

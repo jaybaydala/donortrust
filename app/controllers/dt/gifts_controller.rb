@@ -43,13 +43,14 @@ class Dt::GiftsController < DtApplicationController
     if params[:project_id]
       @project = Project.find(params[:project_id]) 
       @gift.project_id = @project.id if @project
+      redirect_to dt_project_path(@project) and return if @project && !@project.fundable?
     end
     if logged_in?
       user = User.find(current_user.id)
       %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] }
       @gift[:name] = current_user.full_name if logged_in?
       @gift[:email] = current_user.email
-    end  
+    end
   end
   
   def create

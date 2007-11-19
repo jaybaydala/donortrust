@@ -10,6 +10,11 @@ class Dt::InvestmentsController < DtApplicationController
     @investment = Investment.new( :project_id => params[:project_id] )
     @project = Project.find(params[:project_id]) if params[:project_id]
     @investment.project_id = Project.cf_unallocated_project.id if (Project.cf_unallocated_project && !params[:project_id])
+    respond_to do |format|
+      format.html {
+        redirect_to dt_project_path(@project) and return if @project && !@project.fundable?
+      }
+    end
   end
   
   def confirm

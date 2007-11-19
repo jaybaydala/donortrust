@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + '/gift_test_helper'
 context "Gift" do
   include GiftTestHelper
   include DtAuthenticatedTestHelper
-  fixtures :user_transactions, :gifts, :users
+  fixtures :user_transactions, :gifts, :users, :projects
 
   setup do
   end
@@ -248,6 +248,14 @@ context "Gift" do
     t = create_gift
     t.pickup
     t.picked_up_at.to_formatted_s.should.equal Time.now.utc.to_formatted_s
+  end
+
+  specify "amount cannot be greater than the project.current_need" do
+    @project = Project.find_public(:first)
+    lambda {
+      g = create_gift(:project_id => @project.id, :amount => @project.current_need + 1)
+      g.errors.on(:amount).should.not.be.nil
+    }.should.not.change(Gift, :count)
   end
 end
 
