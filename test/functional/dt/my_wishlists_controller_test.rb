@@ -346,12 +346,22 @@ context "Dt::MyWishlists confirm behaviour" do
     my_wishlist_params = {}
     fields = %w( to_email email ).each {|f| 
       do_post({ :share => {f.to_sym => nil} })
-      template.should.be 'dt/my_wishlists/new'
+      template.should.be 'dt/my_wishlists/new_message'
     }
   end
 
+  specify "should show new_message template if no project_ids are passed" do
+    do_post({}, true, nil)
+    template.should.be "dt/my_wishlists/new_message"
+  end
+
+  specify "should have an error on the project_id field for the @share assign if no project_ids are passed" do
+    do_post({}, true, nil)
+    assigns(:share).errors.on_base.should.not.be.nil
+  end
+
   protected
-  def do_post(options={}, login = true)
+  def do_post(options={}, login = true, project_ids = [1, 2])
     login_as :quentin if login == true
     share_params = { 
       :wishlist => true, 
@@ -362,7 +372,6 @@ context "Dt::MyWishlists confirm behaviour" do
       :message => 'Hello World!',
       }
     share_params[:user_id] = users(:quentin).id if login == true
-    project_ids = [1, 2]
     
     # merge with passed options
     share_params.merge!(options[:share]) if options[:share] != nil
@@ -372,7 +381,7 @@ context "Dt::MyWishlists confirm behaviour" do
   end
 end
 
-context "Dt::MyWishlists create behaviour"do
+context "Dt::MyWishlists create behaviour" do
   use_controller Dt::MyWishlistsController
   fixtures :users, :projects
   include DtAuthenticatedTestHelper
