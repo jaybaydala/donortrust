@@ -93,6 +93,38 @@ context "Dt::Gifts index behaviour"do
   end
 end
 
+context "Dt::Gifts show behaviour"do
+  use_controller Dt::GiftsController
+  fixtures :gifts, :user_transactions, :users, :e_cards
+  include DtAuthenticatedTestHelper
+
+
+  specify "should return a pdf for a valid id" do
+    @gift = create_gift
+    get :show, :id => @gift.id
+    should.not.redirect
+    @response.headers["Content-Type"].should.equal "application/pdf"
+  end
+
+  specify "should redirect for gift that's already been picked up" do
+    @gift = create_gift
+    @gift.pickup
+    get :show, :id => @gift.id
+    should.redirect
+    flash[:notice].should =~ /^The gift has already been picked up/
+  end
+
+  specify "should redirect for an invalid id" do
+    get :show, :id => 9999999999999
+    should.redirect
+    flash[:notice].should == "That gift does not exist"
+  end
+  
+  def create_gift
+    @gift = Gift.create(:e_card_id => 1, :user_id => 1, :amount => 10, :email => 'test@example.com', :to_email => 'test2@example.com')
+  end
+end
+
 context "Dt::Gifts new behaviour"do
   use_controller Dt::GiftsController
   fixtures :gifts, :e_cards, :user_transactions, :users, :projects
@@ -356,6 +388,65 @@ context "Dt::Gifts create behaviour"do
   specify "@gift should contain an authorization_result when a credit_card is used" do
     create_gift(nil, false)
     assigns(:gift).authorization_result.should.not.be nil
+  end
+  
+  specify "a TaxReceipt should be created if credit_card is used with Canada as country" do
+    # not logged in
+    lambda {
+      create_gift({}, false)
+    }.should.change(TaxReceipt, :count)
+    # logged in
+    lambda {
+      create_gift()
+    }.should.change(TaxReceipt, :count)
+  end
+
+  specify "a TaxReceipt should not be created if credit_card is used without a country other than Canada" do
+    # not logged in
+    lambda {
+      create_gift({:country => 'United States of America'}, false)
+    }.should.not.change(TaxReceipt, :count)
+    # logged in
+    lambda {
+      create_gift(:country => 'United States of America')
+    }.should.not.change(TaxReceipt, :count)
+  end
+  
+  specify "3 emails should be sent on gift creation if a credit card is used - tax receipt, gift confirm and gift email" do
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    
+    @emails.clear
+    create_gift({}, false, true)
+    @emails.length.should.equal 3
+    
+    @emails.clear
+    create_gift()
+    @emails.length.should.equal 3
+  end
+
+  specify "2 emails should be sent on gift creation if a credit card is not used - gift confirm and gift email" do
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    
+    @emails.clear
+    create_gift({}, true, false)
+    @emails.length.should.equal 2
+  end
+
+  specify "2 emails should be sent on gift creation if a country is not Canada - gift confirm and gift email" do
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    
+    @emails.clear
+    create_gift({:country => 'United States of America'}, true, false)
+    @emails.length.should.equal 2
   end
 
   protected
