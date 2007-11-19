@@ -193,9 +193,22 @@ context "Dt::Deposits create behaviour"do
     }.should.change(Deposit, :count)
   end
   
+  specify "a tax_receipt email should be created and sent on deposit" do
+    login_as :quentin
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
+    lambda {
+      create_deposit
+      should.redirect :controller => 'dt/accounts', :action => 'show', :id => users(:quentin).id
+    }.should.change(TaxReceipt, :count)
+  end
+
   private
   def create_deposit(options = {})
-    deposit_params = { :amount => 200.00, :first_name => 'Timothy', :last_name => 'Glen', :address => '36 Hill Trail', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'CA', :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
+    deposit_params = { :amount => 200.00, :first_name => 'Timothy', :last_name => 'Glen', :address => '36 Hill Trail', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'Canada', :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
     # merge the options
     deposit_params.merge!(options) if options
     # do the post

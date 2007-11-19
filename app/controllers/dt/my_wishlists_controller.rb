@@ -63,13 +63,18 @@ class Dt::MyWishlistsController < DtApplicationController
   def confirm
     @share = Share.new( params[:share] )
     @ecards = ECard.find(:all, :order => :id)
-    @projects = Project.find(params["project_ids"])
+    @projects = Project.find(params[:project_ids]) if params[:project_ids]
+    valid_share = @share.valid?
+    unless @projects
+      @share.errors.add_to_base("At least one project should be selected") 
+      valid_share = false
+    end
     @action_js = "dt/ecards"
     respond_to do |format|
-      if @share.valid?
+      if valid_share && @projects
         format.html { render :action => "confirm" }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new_message" }
       end
     end
   end
@@ -79,7 +84,7 @@ class Dt::MyWishlistsController < DtApplicationController
     @share.user_id = current_user if logged_in?
     @share.wishlist = true
     @share.ip = request.remote_ip
-    @projects = Project.find(params["project_ids"])
+    @projects = Project.find(params[:project_ids]) if params[:project_ids]
     @saved = @share.save
     respond_to do |format|
       if @saved

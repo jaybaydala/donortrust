@@ -18,10 +18,13 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def show
-    @gift = Gift.find(params[:id])
+    @gift = Gift.find(params[:id]) if Gift.exists?(params[:id])
     respond_to do |format|
       format.pdf {
-        if not @gift[:pickup_code]
+        if !@gift
+          flash[:notice] = "That gift does not exist"
+          redirect_to :action => 'new'
+        elsif not @gift[:pickup_code]
           flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
           redirect_to :action => 'new'
         else
@@ -40,13 +43,14 @@ class Dt::GiftsController < DtApplicationController
     if params[:project_id]
       @project = Project.find(params[:project_id]) 
       @gift.project_id = @project.id if @project
+      redirect_to dt_project_path(@project) and return if @project && !@project.fundable?
     end
     if logged_in?
       user = User.find(current_user.id)
       %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] }
       @gift[:name] = current_user.full_name if logged_in?
       @gift[:email] = current_user.email
-    end  
+    end
   end
   
   def create
@@ -63,13 +67,8 @@ class Dt::GiftsController < DtApplicationController
       @saved = @gift.save
     end
     respond_to do |format|
-      if @saved               
-        if params[:gift][:credit_card] && params[:gift][:credit_card] != '' && @gift.country == 'Canada' 
-          get_receipt
-        end  #could do 1 ugly if
-        if @tax_receipt.country == 'Canada' or @tax_receipt.country == 'Canada' and  !logged_in?
-          get_receipt
-        end
+      if @saved
+        create_tax_receipt if @gift.credit_card?
         # send the email if it's not scheduled for later.
         @gift.send_gift_mail if @gift.send_gift_mail? == true
         # send confirmation to the gifter
@@ -172,7 +171,7 @@ class Dt::GiftsController < DtApplicationController
     gift_params
   end
   
-  def get_receipt
+  def create_tax_receipt
     if logged_in?
       @tax_receipt.user = current_user
     end
@@ -186,7 +185,6 @@ class Dt::GiftsController < DtApplicationController
     @tax_receipt.postal_code = @gift.postal_code
     @tax_receipt.country = @gift.country
     @tax_receipt.save
-    @tax_receipt.send_tax_receipt   
   end
   
   def schedule(gift)

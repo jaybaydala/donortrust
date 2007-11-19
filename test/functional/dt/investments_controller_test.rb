@@ -115,12 +115,11 @@ context "Dt::InvestmentsController new behaviour" do
 
   specify "form#investmentform should contain the proper inputs" do
     login_as :quentin
-    project = Project.new
-    project.stubs(:name).returns('First Project')
-    project.stubs(:id).returns(1)
-    get :new, :project_id => project.id
+    @project = Project.find_public(:first)
+    @project.stubs(:fundable?).returns(true)
+    get :new, :project_id => @project.id
     assert_select "form#investmentform" do
-      assert_select "input[type=radio]#investment_project_id_#{project.id}"
+      assert_select "input[type=radio]#investment_project_id_#{@project.id}"
       assert_select "input[type=text]#investment_amount"
       assert_select "input[type=checkbox]#fund_cf"
       assert_select "input[type=submit]"
@@ -132,10 +131,10 @@ context "Dt::InvestmentsController new behaviour" do
     unallocated_project = Project.new
     unallocated_project.stubs(:name).returns('Unallocated Project')
     unallocated_project.stubs(:id).returns(999999)
+    unallocated_project.stubs(:fundable?).returns(true)
     Project.stubs(:cf_unallocated_project).returns(unallocated_project)
-    project = Project.new
-    project.stubs(:name).returns('First Project')
-    project.stubs(:id).returns(1)
+    project = Project.find_public(:first)
+    project.stubs(:fundable?).returns(true)
     get :new, :project_id => project.id
     assert_select "form#investmentform" do
       assert_select "input[type=radio]#investment_project_id_#{unallocated_project.id}"
@@ -154,6 +153,14 @@ context "Dt::InvestmentsController new behaviour" do
       assert_select "input[type=radio][checked=checked]#investment_project_id_#{unallocated_project.id}"
       assert_select "a[href=/dt/projects]", :text => %r(find a different project)i
     end
+  end
+
+  specify "should redirect if !project.fundable?" do
+    login_as :quentin
+    @project = Project.find_public(:first)
+    @project.update_attributes(:project_status_id => 4) #makes it non-fundable
+    get :new, :project_id => @project
+    should.redirect dt_project_path(@project.id)
   end
 end
 

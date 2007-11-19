@@ -116,7 +116,7 @@ class Project < ActiveRecord::Base
         Project.find_public(:all, :include => :place).each do |project|
           if project.community_id? && project.community
             project.place.ancestors.each do |ancestor|
-              @continents << ancestor and break if ancestor.place_type_id == 1 && !@continents.include?(ancestor)
+              @continents << ancestor and break if ancestor.place_type_id == 1 && !@continents.include?(ancestor) && ancestor.name != 'North America'
             end
           end
         end
@@ -131,7 +131,7 @@ class Project < ActiveRecord::Base
         Project.find_public(:all, :include => :place).each do |project|
           if project.community_id? && project.community
             project.place.ancestors.each do |ancestor|
-              @countries << ancestor and break if ancestor.place_type_id == 2 && !@countries.include?(ancestor)
+              @countries << ancestor and break if ancestor.place_type_id == 2 && !@countries.include?(ancestor) && ancestor.name != 'Canada'
             end
           end
         end
@@ -162,6 +162,12 @@ class Project < ActiveRecord::Base
       end
       @partners
     end
+  end
+  
+  def fundable?
+    return false if self[:project_status_id] != 2
+    return false if current_need <= 0
+    return true
   end
   
   def summarized_description(length = 50)

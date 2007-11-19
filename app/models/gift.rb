@@ -72,6 +72,7 @@ class Gift < ActiveRecord::Base
       errors.add("amount", "cannot be greater than your balance. Please make a deposit first or use your credit card.") if amount? && amount > self.user.balance
     end
     errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
+    errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project_id && project && amount > project.current_need
     super
   end
   

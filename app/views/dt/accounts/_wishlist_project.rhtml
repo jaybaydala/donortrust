@@ -6,7 +6,7 @@
         </div>
         <div class="textsm">
           <span class="linkMinor">
-          <%= link_to "INVEST IN THIS PROJECT", dt_new_investment_path(:project_id => wishlist_project) %>
+          <% if wishlist_project.fundable? %><%= link_to "INVEST IN THIS PROJECT", dt_new_investment_path(:project_id => wishlist_project) %><% end %>
           | <%= link_to "REMOVE PROJECT", dt_my_wishlist_path(:account_id => current_user, :id => current_user.my_wishlists.find_by_project_id(wishlist_project.id).id), :method => :delete %>
           </span>
         </div>

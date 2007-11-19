@@ -1,4 +1,4 @@
-require 'test/unit'
+#require 'test/unit'
 
 # Add the methods +upload+, the <tt>setup_file_fixtures</tt> and
 # <tt>teardown_file_fixtures</tt> to the class Test::Unit::TestCase.

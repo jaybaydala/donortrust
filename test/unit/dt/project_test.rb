@@ -119,4 +119,20 @@ context "Project Statuses" do
     @project = Project.find_public(:first, :conditions => ["partner_id = ?", 1], :order => :id)
     @project.should.be.nil
   end
+  
+  specify "project.fundable? should return false if it's not a public project" do
+    @project = Project.find_public(:first)
+    @project.update_attributes(:project_status_id => 2)
+    @project.fundable?.should.be true
+    @project.update_attributes(:project_status_id => 4)
+    @project.fundable?.should.be false
+  end
+  specify "project.fundable? should return false if current_need is 0" do
+    @project = Project.find_public(:first)
+    @project.update_attributes(:project_status_id => 2)
+    @project.stubs(:current_need).returns(1)
+    @project.fundable?.should.be true
+    @project.stubs(:current_need).returns(0)
+    @project.fundable?.should.be false
+  end
 end
