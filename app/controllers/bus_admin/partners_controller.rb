@@ -1,60 +1,83 @@
 class BusAdmin::PartnersController < ApplicationController
- before_filter :login_required, :check_authorization
-  active_scaffold :partner do |config|
-#    config.theme = :blue
-    config.columns = [ :name, :description, :website, :partner_status, :partner_type, :contacts, :note,
-                       :business_model, :funding_sources, :mission_statement, :philosophy_dev]
-    config.columns[ :partner_status ].form_ui = :select
-    config.columns[ :partner_status ].label = "Status"
-    config.columns[ :partner_type ].form_ui = :select
-    config.columns[ :partner_type ].label = "Category"
-    config.columns[ :philosophy_dev ].label = "Philosophy of Development"    
-    list.columns.exclude [ :description, :contacts,:business_model , :funding_sources, :mission_statement, :philosophy_dev ]
-    config.nested.add_link("Projects", [:projects]) 
+    
+  before_filter :login_required, :check_authorization
 
-    #passing desired partner status in action link to filter list; 1 = Approved, 2 = Pending 
-    config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'partners', :action => 'report_partners'},:page => true
-    config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
-    config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
-    config.nested.add_link("Quick Fact", [:quick_fact_partners])
-   #    config.action_links.add 'list', :label => 'All', redirect_to partners 
-       
-  end
-
-  def conditions_for_collection  
-    @displaystatus = params[:status]
-    if(@displaystatus)  
-      ['partner_status_id IN (?)', @displaystatus]  
+  def index
+    @page_title = 'Partners'
+    @partners = Partner.find(:all)
+    respond_to do |format|
+      format.html
     end
   end
   
-  def report_partners    
-    @all_partners = Partner.find(:all)
-    @total = @all_partners.size
-   render :partial => "bus_admin/partners/report_partners" , :layout => 'application'
-  end
-  
-  def individual_report_partners 
-    @partner = Partner.find(params[:partnerid])
-   render :partial => "bus_admin/partners/individual_report_partners" , :layout => 'application'
-  end
-  
-  def show_note   
-   @note = Partner.find(params[:id]).note
-   render :partial => "layouts/note"   
-  end
+  def new
 
-def get_local_actions(requested_action,permitted_action)
-   if(requested_action == 'show_note')
-      puts 'show note note !!!!!!!!!'
-   end
-      
-   case(requested_action)
-      when('show_note' || "conditions_for_collection" || "report_parnters" || "individual_report_partners")
-        return permitted_action == 'edit' || permitted_action == 'show'
+  end
+  
+  def show
+    begin
+      @partner = Partner.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @page_title = @partner.name
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def destroy
+    @partner = Partner.find(params[:id])
+    @partner.destroy
+    respond_to do |format|
+      format.html { redirect_to partners_url }
+      format.xml  { head :ok }
+    end
+  end
+  
+  def edit     
+    @page_title = "Edit Partner Details"
+    @partner = Partner.find(params[:id])
+    respond_to do |format|
+      format.html
+    end    
+  end
+  
+  def update
+    
+  @partner = Partner.find(params[:id])
+  @saved = @partner.update_attributes(params[:partner])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Partner was successfully updated.'
+        format.html { redirect_to partner_path(@partner) }
+        format.xml  { head :ok }
       else
-        return false
-      end  
- end
-
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @partner.errors.to_xml }
+      end
+    end
+  end
+  
+  def create
+    @partner = Partner.new(params[:partner])
+    Partner.transaction do
+      @saved= @partner.valid? && @partner.save!
+      begin
+      raise Exception if !@saved
+      rescue Exception
+      end
+    end
+    respond_to do |format|
+      if @saved
+        format.html { redirect_to partners_url }
+        flash[:notice] = 'Partner was created.'
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end
+  
 end
+
+
