@@ -1,0 +1,13 @@
+<% @partner = show_partners -%>
+<div class="projectInfo"  id="projectInfo-<%= @partner.id %>">
+  <div class="leftColW">
+    <h2><%= link_to @partner.name, partner_path(@partner) %></h2>
+    <div class="projectRank">
+      <ul class="specList">
+        <% if @partner.website? && @partner.website %><li><span><strong>Website:</strong> <%=  @partner.website %></span></li><% end %>
+      </ul>
+    </div>
+    <p><strong>Partner Description:</strong> <%= @partner.summarized_description(175) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", partner_path(@partner.id) %></p>
+  </div>    	
+</div>
+	

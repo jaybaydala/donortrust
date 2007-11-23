@@ -1,0 +1,45 @@
+
+<div id="contentContainer">
+  
+  <h1>Partner</h1>    
+  <%= partner_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div id="leftColW">
+    <h1>
+      <%= h @partner.name if @partner %>
+      <span class="textsm">(<%= link_to(h(@partner.website), (@partner.website =~ %r(^http:\/\/) ? '' : "http://") + @partner.website, :rel => 'blank') if @partner.website %>)</span>
+    </h1>
+    
+    <% if @partner && @partner.description? %>
+    <h2>Description</h2>
+    <div><%= @partner.description %></div>
+    <% end %>
+
+    <% if @partner && @partner.mission_statement? %>
+    <h2>Mission Statement</h2>
+    <div><%= @partner.mission_statement %></div>
+    <% end %>
+
+    <% if @partner && @partner.philosophy_dev? %>
+    <h2>Philosophy of Development</h2>
+    <div><%= @partner.philosophy_dev %></div>
+    <% end %>
+
+    <% if @partner && @partner.business_model? %>
+    <h2>Business Model</h2>
+    <div><%= @partner.business_model %></div>
+    <% end %>
+  </div>
+
+    <div id="factList">
+      <h2>Quick Facts - <%= link_to( "Edit", quick_fact_partner_path(@partner.id)) %></h2> 
+      <ul>
+        <%= render :partial => 'quickfact_organization', :collection => @partner.quick_fact_partners %>
+      </ul>
+    </div>
+  </div>
+</div>
+

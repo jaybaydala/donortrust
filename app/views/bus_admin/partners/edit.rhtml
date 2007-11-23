@@ -1,0 +1,67 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Edit Partner</h1>
+    <p>Here you can edit an existing partner.</p>
+    <%= error_messages_for :partner %>
+
+    <% form_for(:partner, :url => partner_path(@partner), :html => { :method => :put}) do |f| %> 
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your partner information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+		  <li><label for="website">Website</label><%= f.text_field :website %></li>
+		  <li><label for="group_group_types"><%= render :partial => 'dt/shared/form_required' %>Partner Type</label> <%= collection_select (:partner, :partner_type_id, partner_types, :id, :name) %></li>
+	  	</ul>
+      </fieldset>
+	  
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your partner information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="group_group_type"><%= render :partial => 'dt/shared/form_required' %>Partner Status</label> <%= collection_select (:partner, :partner_status_id, partner_statuses, :id, :name) %></li>
+		</ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+        <legend>Enter partners description</legend>
+        <ul class="row">
+          <li><label for="description"><%= render :partial => 'dt/shared/form_required' %>Description</label><%= f.text_area :description, :rows => 8, :cols => 30 %></li>
+        </ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+        <legend>Enter partners business model</legend>
+        <ul class="row">
+          <li><label for="description">Business Model</label><%= f.text_area :business_model, :rows => 8, :cols => 30 %></li>
+        </ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+        <legend>Enter partners description</legend>
+        <ul class="row">
+          <li><label for="funding_sources">Funding Sources</label><%= f.text_area :funding_sources, :rows => 8, :cols => 30 %></li>
+        </ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+        <legend>Enter mission statement</legend>
+        <ul class="row">
+          <li><label for="mission_statement">Mission Statement</label><%= f.text_area :mission_statement, :rows => 8, :cols => 30 %></li>
+        </ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+        <legend>Enter philosophy dev</legend>
+        <ul class="row">
+          <li><label for="mission_statement">Philosophy Development</label><%= f.text_area :mission_statement, :rows => 8, :cols => 30 %></li>
+        </ul>
+      </fieldset>
+     <div> 							
+        <%= submit_tag "Update Partner", :class => 'button', :action => "edit" %>
+        <%= hidden_field_tag(:partner_id, params[:partner_id]) if params[:partner_id] %>
+	  </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>
