@@ -11,7 +11,7 @@ module BusAdmin::ProgramsHelper
   end
   
   def program_nav
-    render 'bus_admin/programs/project_nav'    
+    render 'bus_admin/programs/program_nav'    
   end  
   
   def get_contacts
