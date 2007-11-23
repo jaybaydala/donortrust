@@ -24,17 +24,17 @@ places = nil
 parentString = ""
 boolShowTop = false
 
-if @record.place.nil?
+if @project.place.nil?
     places = Place.find :all, :conditions => "parent_id is null"
 else
-    if @record.place.parent.nil?
+    if @project.place.parent.nil?
         places = Place.find :all, :conditions => "parent_id is null"
     else
-        places = Place.getPeerPlaces(@record.place)
+        places = Place.getPeerPlaces(@project.place)
     end
     
-    parentString = (@record.place.parent.nil?) ? "" : Place.getParentString(@record.place.parent)
-    boolShowTop = (@record.place.parent.nil?) ? false : true
+    parentString = (@project.place.parent.nil?) ? "" : Place.getParentString(@project.place.parent)
+    boolShowTop = (@project.place.parent.nil?) ? false : true
 end
 
 %>
@@ -45,8 +45,8 @@ end
                           <% end %>
                               <% for place in places %>
                               <option value=<%= place.id.to_s %>
-                              <% unless @record.place.nil? %>
-                                  <%= (place.id == @record.place.id ? "selected=true" : "") %>                        
+                              <% unless @project.place.nil? %>
+                                  <%= (place.id == @project.place.id ? "selected=true" : "") %>                        
                               <% end %>                    
                               ><%= place.name %></option>
                           <% end %>
