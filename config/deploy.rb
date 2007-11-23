@@ -72,7 +72,7 @@ namespace :deploy do
   DESC
   task :start_backgroundrb , :roles => :schedule do
     cmd = "#{current_path}/script/backgroundrb start -- -r #{rails_env}"
-    run cmd
+    send(run_method, cmd)
   end
 
   desc <<-DESC
@@ -80,7 +80,7 @@ namespace :deploy do
   DESC
   task :restart_backgroundrb , :roles => :schedule do
     cmd = "#{current_path}/script/backgroundrb restart"
-    run cmd
+    send(run_method, cmd)
   end
 
   desc <<-DESC
