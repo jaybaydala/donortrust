@@ -1,0 +1,26 @@
+<div id="contentContainer"> 
+    
+  <h1>Create New Quick Fact</h1>
+  <%= quick_fact_nav %>
+	
+	 <div id="leftColW">
+	 	
+	<%= error_messages_for :quick_facts %>
+    <% form_for(:quick_facts, :url => quick_facts_path, :method => :post ) do |f| %>
+	 
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your quick fact information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  																				                                            
+          <li><label for="quick_fact_id"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>	
+          <li><label for="Description"><%= render :partial => 'dt/shared/form_required' %>Description</label><%= f.text_field :description %></li>			
+          <li><label for="quick_fact_type"><%= render :partial => 'dt/shared/form_required' %>Type</label> <%= collection_select :quick_fact, :quick_fact_type_id , quick_fact_all_types , :id, :name  %></li>
+		</ul>
+      </fieldset>	
+	  
+      <div> 							
+        <%= submit_tag "Create Quick Fact", :class => 'buttonsubmit' %>
+         </div>
+
+    <% end -%>	  	
+  </div>
+</div>

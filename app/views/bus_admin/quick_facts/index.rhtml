@@ -1,0 +1,11 @@
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="partnerInfo">
+    <div class="leftColW">
+      <h1>Quick Facts</h1>
+	   <%= quick_fact_new_nav %>   
+  <div id="quick_fact">
+  	<%= render :partial => '/bus_admin/quick_facts/show_quick_facts', :collection => @quickFacts if @quickFacts %>
+  </div>
+</div>
