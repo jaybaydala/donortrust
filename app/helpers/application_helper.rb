@@ -175,27 +175,27 @@ module ApplicationHelper
     
     result = append(result,"</table></div>")
     return result
+  end    
+  
+  def bus_head
+    render 'bus_admin/shared/head'
+  end
+
+  def bus_nav
+    render 'bus_admin/shared/nav'
+  end
+
+  def bus_masthead_image
+    @image = '/images/dt/feature_graphics/projectsFeature130.jpg'
+  end  
+
+  def bus_footer
+    render 'bus_admin/shared/footer'
+  end
+
+  def dt_profile_sidebar
+    render 'dt/accounts/profile_sidebar'
   end
   
-  def append(result, str)
-     result + str;
-  end
-
-  def exclude(str, list)
-    result = false
-    if list != nil
-      for i in 0...list.length
-        if(list[i] == str)
-          result = true;
-          break;
-        end
-      end
-    end
-
-    return result;
-  end
-
-  def textilize(text)
-    RedCloth.new(text).to_html
-  end
+  
 end
