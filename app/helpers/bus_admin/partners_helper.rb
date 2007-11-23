@@ -37,4 +37,24 @@ module BusAdmin::PartnersHelper
 #  def note_column(record)
 #    RedCloth.new(record.note).to_html
 #  end
+  def partner_nav
+    render 'bus_admin/partners/partner_nav'
+  end
+  
+  def new_partner_nav
+    render 'bus_admin/partners/new_partner_nav'
+  end  
+  
+  def project_quickfacts
+    render 'bus_admin/partners/project_quickfacts'
+  end
+    
+  def partner_types
+    PartnerType.find(:all)
+  end
+  
+  def partner_statuses
+    PartnerStatus.find(:all)
+  end
+    
 end
