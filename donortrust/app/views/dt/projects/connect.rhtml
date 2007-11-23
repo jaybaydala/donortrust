@@ -1,0 +1,72 @@
+<div id="contentContainer">
+  <h1><%= h @project.name %></h1>
+  <%= project_nav %>
+  <div class="projectInfo">
+    <div class="leftColW">
+      <p>We change the world together. Here, you can connect with everyone who has chosen to help eradicate extreme poverty by investing in development projects occurring in <%= @project.community_id? ? @project.community.name : 'this project\'s community' %>.</p>
+      <% if @fb_group_available %><p>If you have a Facebook account, you can participate in groups discussions at the <%= @project.community.name %> facebook page.</p><% end -%>
+    </div>
+    <div id="rightColN">
+      <%= project_actions %>
+      <div class="buttonGroupWrapN">
+        <ul class="buttonGroup">
+          <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path(:project_id => @project) %></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <%= render(:partial => 'connect_group', :collection => @project.public_groups) if @project.public_groups.size > 0 %>
+    		
+  <div id="leftColW">
+    <% if @fb_group_available -%>
+    <h2>Facebook Community Group</h2>
+    <% if not @fb_group -%>
+      <p><%= link_to "Login", :action=>"facebook_login", :id=>@project.id %> into facebook, to view the community facebook group.</p>
+      <p>&nbsp;</p>
+    <% else -%>
+      <div id="pageNav2" style="margin-bottom:5px; ">
+        <ul class="pageNav" style="margin:0;">
+          <%= render :partial => "member_paginator", :locals => { :paginator => @fb_member_pages } %>
+          <!--<li>258 Members</li>
+          <li>&nbsp;</li>
+          <li>|</li>
+
+          <li>&nbsp;</li>
+          <li>page 1 of 23</li>
+          <li>&nbsp;</li>
+          <li>| </li>
+          <li><a href="#"><</a></li>
+          <li class="currentPg"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">></a></li>-->
+        </ul>
+      </div>
+      <p class="blueblock"><%= link_to image_tag("/images/dt/icons/fbIcon.gif", :alt => '') + "&nbsp; Go to Facebook Group", @facebook_group_link, :rel => 'blank' %></p>
+      <p><%=h @fb_group.name %></p>
+      <!-- <p><%= link_to image_tag(@fb_group.pic_big, :alt => ''), @fb_group.website %></p> -->
+      <p>Facebook user: <%= @fb_user.name %></p>
+      <% if @fb_user_in_group %>
+        <p>You are a member of this group</p>
+      <% else -%>
+        <p>You are not a member of this group. To join, go to the <%= link_to "#{@fb_group.name} page", @facebook_group_link %> and select "Join this group". </p>
+      <% end %>
+      <div id="gallery">
+        <ul id="thumbs">
+        <% for m in @members %>
+          <li><%= link_to image_tag((m.pic_square.empty? ? "http://static.ak.facebook.com/pics/s_default.jpg" : m.pic_square) , :alt => m.name, :style => "width:50px;height:50px;"), "http://www.facebook.com/profile.php?id=#{m.uid}" %><div class="thumbLabel"><%= m.name %></div></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <% end %>
+  </div>
+
+  <div id="rightColN">
+    <%= dt_profile_sidebar %>
+  </div>
+</div>

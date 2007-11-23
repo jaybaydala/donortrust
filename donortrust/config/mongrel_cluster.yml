@@ -1,0 +1,7 @@
+cwd: /home/dtrust/donortrust/current/
+log_file: /home/dtrust/donortrust/shared/log/mongrel.log
+port: "8000"
+environment: production
+address: 0.0.0.0                
+pid_file: /home/dtrust/donortrust/shared/pids/mongrel.pid
+servers: 3

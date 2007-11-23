@@ -1,0 +1,5 @@
+<h2>DonorTrust Photos | <%= pageinated_links_for_ajax(@flickr_image_pages, "donor_trust_photos", "/bus_admin/flickr_images", "photos", nil) %></h2>
+<% if @msg != nil %>
+    <div id="msg" class="you_tube_msg"><%= @msg %></div>
+<% end %>
+<%= render :partial => 'flickr_image', :collection => @flickr_images %>

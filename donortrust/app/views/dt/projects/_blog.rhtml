@@ -1,0 +1,5 @@
+  <h1><%= @rss_feed.entries.first.title %></h1>
+  <p class="byLine"><%= @rss_feed.entries.first.authors %></p>
+  <p><%= @rss_feed.entries.first.description %>&nbsp; &#8250; <a href="<%= @rss_feed.entries.first.url %>" rel="blank">Read More&hellip;</a></p>
+  <p class="dateStamp"><%= @rss_feed.entries.first.date_published %></p>
+  <p>&nbsp;</p>

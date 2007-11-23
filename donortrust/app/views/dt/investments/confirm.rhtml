@@ -1,0 +1,42 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  <h1>Investment</h1>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
+  <p>Please review your personal information. As the donor of this donation(s), your personal information, as entered below will appear on your charitable tax receipt. Please ensure the information is accurate, as donation tax receipts cannot be altered. Your user account has been updated with the information you provide.</p>
+  <div class="userform">
+
+  	<fieldset>
+  		<legend>How your investment<%= 's' if @cf_investment %> will be allocated:</legend>
+  		<ul>
+  			<li style="clear:left;"><label for="investment_amount">Project</label> <%= @investment.project.name %> <%= f.hidden_field 'project_id' %></li>
+  			<li style="clear:left;"><label for="investment_amount">Investment Amount</label> <%= number_to_currency(@investment.amount) %> <%= f.hidden_field :amount %></li>
+  			<% if @cf_investment %>
+				<li style="clear:left;"><label for="investment_amount">Project</label> <%= @cf_investment.project.name %>  <%= hidden_field_tag :fund_cf, 1 %></li>
+  			<li style="clear:left;"><label for="cf_amount">Investment Amount</label> <%= number_to_currency(@cf_investment.amount) %></li>
+  			<li style="clear:left;"><label for="cf_amount"><strong>Total Amount</strong></label> <strong><%= number_to_currency(@total_investment_amount) %></strong></li>
+  			<li><p class="textsm">100% of your investment goes towards the project(s) you choose</p></li>
+  			<% end %>
+		</ul>
+  	</fieldset>
+
+    <% if @investment.group %>
+    <fieldset>
+      <legend>Group Wishlist</legend>
+      <ul>
+        <li style="clear:left;"><label for="investment_group">Group</label> <%= @investment.group.name %><%= hidden_field 'investment', 'group_id' %></li>
+      </ul>
+    </fieldset>
+    <% end %>
+
+  	<%= submit_tag 'Gift it!', :class => 'buttonsubmit', :fund_cf => @fundCf %>
+  	<input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
+  </div>
+  <% end %>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
+</div>

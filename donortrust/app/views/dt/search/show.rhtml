@@ -1,0 +1,39 @@
+<div class="fullWidthWrap">
+  <div id="h1_header">
+    <span style="float:left; ">Search Projects Results</span>
+    <div class="buttonGroupWrapN">
+      <ul class="buttonGroup">
+        
+      </ul>
+    </div>
+  </div>
+  <div><strong>You have searched using the following terms:</strong></div>
+    <% if @place %><div class="textsm" style="padding-bottom:0;"><strong>Place:</strong> <%= @place.name %></div><% end %>
+    <% if @cause %><div class="textsm" style="padding-bottom:0;"><strong>Cause:</strong> <%= @cause.name %></div><% end %>
+    <% if @partner %><div class="textsm" style="padding-bottom:0;"><strong>Organization:</strong> <%= @partner.name %></div><% end %>
+</div>
+<% if @projects.size > 0 %>
+<div id="subSubNav" style="margin-top:10px;">
+  <ul class="pageNav">
+    <li><strong>SORT BY:</strong></li>
+    <li>&nbsp;</li>
+    <!--<li<%= ' class="currentPg"' if params[:order] == 'newest' %>><%= link_to "Newest", dt_search_path(params.merge({:order => 'newest'})) %></li>-->
+    <li<%= ' class="currentPg"' if params[:order] == 'date' %>><%= link_to "Target Start Date", dt_search_path(params.merge({:order => 'date'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'budget' %>><%= link_to "Budget", dt_search_path(params.merge({:order => 'budget'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'organization' %>><%= link_to "Organization", dt_search_path(params.merge({:order => 'organization'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'place' %>><%= link_to "Place", dt_search_path(params.merge({:order => 'place'})) %></li>
+  </ul>
+  <ul class="pageNav">
+    <li><%= @projects.size %> Projects</li>
+  </ul>
+</div>
+<% end %>
+<div id="contentContainer">
+  <% if @projects.size > 0 %>
+  <div id="featuredProjectList">
+  <%= render :partial => '/dt/projects/search_result', :collection => @projects %>
+  </div>
+  <% else %>
+  <p>We're sorry, but we couldn't find any projects using your search terms. Try just selecting one of the search options to broaden your search.</p>
+  <% end %>
+</div>

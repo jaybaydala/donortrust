@@ -1,0 +1,44 @@
+<div class="active-scaffold-header">
+      <div class="actions">    
+                
+    <img alt="loading indicator" class="loading-indicator" id="bus_admin__users-table-loading-indicator" src="/images/active_scaffold/default/indicator.gif?1192652899" style="visibility:hidden;" />
+  </div>
+<font size=3 face="arial" color="#666" ><b>Unallocated Investments</b></font> 
+<br></br> 
+<div class='tableFactory'>
+	<table cellspacing=0 width="100%" >		
+		<td class='colHeader'>Name</td>
+		<td class='colHeader'>Project</td>
+		<td class='colHeader'>Submit</td>
+	  	<% counter = 0 %>
+		<% for unallocated_investment in @unallocated_investments %>
+			<% if @unallocated_investments != nil? %>
+				<% if counter == 0%>
+					<tr class="even">					
+		      		<td><%=  unallocated_investment.amount %></td>					
+					<%counter = 1 %>
+			  	<%else%>
+					<tr class="odd">
+			      	<td><%=  unallocated_investment.amount %></td>
+		      		
+					<%counter = 0 %>
+				<% end %>
+				<td>
+					<select class="project-input" id="project_record" ><option value="" selected="selected">- select -</option>
+			    		<% for project in Project.find :all %>
+							<option value= <%= project.id.to_s %>> <%=project.name%></option>
+						<% end %>					
+		     		</select>	
+				</td>
+			<% end %>
+			<td>			
+				<%= link_to_remote "Submit",		:update => "gifts",	     
+					:url => { :action => 'unallocate' },
+					:confirm => 'Are you sure?', 
+					:with => "'projectId=' + escape($('project_record').value) + '&investment_id=" + unallocated_investment.id.to_s + "'"      %>
+			</td>					
+		<% end %>		 
+   </table>
+</div>
+
+

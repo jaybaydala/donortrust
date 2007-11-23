@@ -1,0 +1,7 @@
+one:
+  id: 1
+  amount: 9.00
+  user_id: 4
+  project_id: 1
+  created_at: <%= 5.days.ago.to_s :db %>
+  updated_at: <%= 5.days.ago.to_s :db %>

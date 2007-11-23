@@ -1,0 +1,47 @@
+<%= dt_get_involved_nav %>
+<%= dt_group_nav %>
+
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div id="leftColW">
+    <h1><%= @group.name %></h1>
+
+    <div class="tableHeader">
+			<div style="float:left; ">Our Projects</div>
+			<% if current_member(@group) && current_member(@group).admin? %>
+			<div class="tableHeader_button"><div id="addProjButton"><%= link_to "Add New Project", dt_projects_path %></div></div>
+			<% end %>
+    </div>
+    <% if @projects_invested.size > 0 %>
+    <div id="tableList">
+      <ul>
+        <%= render :partial => 'project', :collection => @projects_invested %>
+      </ul>
+    </div>
+    <% else %>
+    <p>The group has no active projects. Invest in a wishlist project to get started!</p>
+  	<% end %>	
+
+    <div class="tableHeader">
+      <div style="float:left; ">Our Wishlist</div>
+    </div>
+    <% if @projects_watched.size > 0 %>
+    <div id="tableList">
+      <ul>
+        <%= render :partial => 'project', :collection => @projects_watched %>
+      </ul>
+    </div>
+    <% else %>
+    <p>The group has no project wishlist. Check back soon!</p>
+  	<% end %>
+  		
+    <!--<p>There are no projects currently added to this group.</p>
+    <% if current_member(@group) && current_member(@group).admin? %>
+    <% end %>
+    <p><%= link_to "Find a project", dt_projects_path %> to add to your group so you can change the world together.</p>-->
+  </div>
+  <div id="rightColN">
+    <%= dt_profile_sidebar %>
+  </div>
+</div>

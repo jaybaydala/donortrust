@@ -1,0 +1,18 @@
+<p>
+  <b>Category:</b>
+  <%=h @measure.measure_category.category %>
+</p>
+
+<p>
+  <b>Quantity:</b>
+  <%=h @measure.quantity %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%=h @measure.measure_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_measure_path(@measure) %> |
+<%= link_to 'Back', measures_path %>

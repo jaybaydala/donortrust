@@ -1,0 +1,86 @@
+#top { position:relative; }
+#container {
+	width:720px;
+	margin:auto;
+}
+#contentcontainer, #contentcontainer-2col, #contentcontainer-1col {
+	margin-top:12px;
+}
+/* 3-column layout */
+#contentcontainer {
+	border-left:240px solid #FFF;
+	border-right:240px solid #FFF;
+	float:left;
+	width:240px;
+}
+#contentcontainer #rail-left {
+	float:left;
+	width:240px;
+	margin-left:-240px;
+	position:relative;
+}
+#contentcontainer #content {
+	float:left;
+	width:240px;
+	margin-right:-240px;
+}
+#contentcontainer #rail-right {
+	float:right;
+	width:240px;
+	margin-right:-240px;
+	position:relative;
+}
+/* 2-column layout */
+#contentcontainer-2col #content {
+	float:left;
+	width:480px;
+	margin-right:-480px;
+	border:1px solid #FFF;
+}
+#contentcontainer-2col #rail-right {
+	float:right;
+	width:240px;
+	position:relative;
+}
+/* 1-column layout */
+#contentcontainer-1col #content {
+}
+/* content margins */
+#content div.contentmargin {
+	margin:0 4px;
+}
+#rail-left div.contentmargin {
+	margin:0 6px 0 0;
+}
+#rail-right div.contentmargin {
+	margin:0 0 0 6px;
+}
+
+#masthead {
+	height:153px;
+	border:1px solid #999;
+	width:720px;
+	margin:auto;
+}
+#masthead div.donate {
+	background:url('/images/dt/masthead_overlay.png') transparent repeat-x;
+	padding:108px 12px 0 12px;
+	height:45px;
+	width:228px;
+	float:right;
+}
+
+#footer {
+	clear:both;
+	border-top:1px solid #666;
+	width:720px;
+	margin:auto;
+	padding-top:12px;
+	margin-top:12px;
+	margin-bottom:12px;
+}
+div.clear {
+	clear:both;
+	height:0;
+	font-size:0px;
+}

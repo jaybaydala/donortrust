@@ -1,0 +1,71 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  	<h1>Sign up</h1>
+	
+  	<p>To sign up, enter your information in the spaces below.</p>
+	
+  	<%= error_messages_for :user %>
+  	<% form_for(:user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform"}) do |f| %>
+  	<div class="userform">
+	    <fieldset>
+        <legend>Age Verification</legend>
+        <p class="textsm">Please select the checkbox if you are under 13 years of age. ChristmasFuture is committed to your privacy and safety. See our Privacy Policy for more information.</p>
+        <p class="textsm"><%= f.check_box :under_thirteen, :onclick => 'Account.toggle_personal_info(this.checked);' %> I am under 13 years old</p>
+      </fieldset>
+
+    	<fieldset>
+    		<legend class="header">Login/Email</legend>
+    		<div class="textsm underThirteen" style="display:none;">Please have your parent sign you up using their valid email address.</div>
+    		<ul>
+      		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
+    		</ul>
+    	</fieldset>
+
+    	<fieldset>
+    	  <legend>Your Identity</legend>
+    	  <div class="textsm personalinfo">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
+    		<div class="textsm underThirteen" style="display:none;">Please enter a display name for your child that is not personally identifiable</div>
+    	  <ul>
+      		<li class="personalinfo"><label for="first_name">First Name</label><%= f.text_field :first_name %></li>
+      		<li class="personalinfo"><label for="last_name">Last Name</label><%= f.text_field :last_name %></li>
+    		  <li><label for="display_name">Display Name</label><%= f.text_field :display_name %></li>
+    	  </ul>
+      </fieldset>
+	
+    	<fieldset>
+    	  <legend>Password</legend>
+    		<div class="textsm">Please provide a password. It must be longer than 4 characters and try to make it something you'll remember.</div>
+    	  <ul>
+    		  <li><label for="password"><%= render :partial => 'dt/shared/form_required' %>Password</label><%= f.password_field :password %></li>
+    		  <li><label for="password_confirmation"><%= render :partial => 'dt/shared/form_required' %>Confirm Password</label><%= f.password_field :password_confirmation %></li>
+    	  </ul>
+      </fieldset>
+	
+    	<fieldset class="personalinfo">
+    	  <legend>Personal Details</legend>
+    		<div class="textsm">The following fields are optional.</div>
+      	<ul>
+      		<li><label for="address">Address</label><%= f.text_field :address %></li>
+      		<li><label for="city">City</label><%= f.text_field :city %></li>
+      		<li style="clear:left;"><label for="province">Province/State</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
+      		<li style="clear:left;"><label for="postal_code">Postal/Zip Code</label><%= f.text_field :postal_code, :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
+      		<li style="clear:left;"><label for="country">Country</label><%= f.select :country, country_select_options, :style => 'width:auto;' %></li>
+      	</ul>
+      </fieldset>
+    	<fieldset class="personalinfo">
+    	  <legend>Terms of Service</legend>
+      	<ul>
+      	  <li><%= f.check_box :terms_of_use %> <span class="textsm">I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</span></li>
+        </ul>
+      </fieldset>
+    	<div id="buttonSignUp"><%= submit_tag 'Create Account', :class => 'buttonsubmit' %></div>
+    	<%= render :partial => 'dt/shared/form_requirednote' %>
+
+  	</div>
+  	<% end -%>
+  </div>
+  <div id="rightColN">
+	
+  </div>
+</div>

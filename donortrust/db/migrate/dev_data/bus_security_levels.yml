@@ -1,0 +1,172 @@
+--- 
+bus_security_levels_055: 
+  id: "70"
+  controller: bus_admin/rank_values
+bus_security_levels_044: 
+  id: "58"
+  controller: bus_admin/causes
+bus_security_levels_033: 
+  id: "43"
+  controller: bus_admin/quick_fact_places
+bus_security_levels_022: 
+  id: "26"
+  controller: bus_admin/sectors
+bus_security_levels_011: 
+  id: "15"
+  controller: bus_admin/partner_types
+bus_security_levels_056: 
+  id: "71"
+  controller: bus_admin/users
+bus_security_levels_045: 
+  id: "59"
+  controller: bus_admin/collaborating_agencies
+bus_security_levels_034: 
+  id: "44"
+  controller: bus_admin/quick_facts
+bus_security_levels_023: 
+  id: "28"
+  controller: bus_admin/country_sectors
+bus_security_levels_012: 
+  id: "16"
+  controller: bus_admin/partners
+bus_security_levels_001: 
+  id: "3"
+  controller: bus_admin/bus_account
+bus_security_levels_057: 
+  id: "72"
+  controller: bus_admin/rank_types
+bus_security_levels_046: 
+  id: "61"
+  controller: bus_admin/comments
+bus_security_levels_035: 
+  id: "45"
+  controller: bus_admin/quick_fact_partners
+bus_security_levels_024: 
+  id: "29"
+  controller: bus_admin/flickr_images
+bus_security_levels_013: 
+  id: "17"
+  controller: bus_admin/programs
+bus_security_levels_002: 
+  id: "4"
+  controller: bus_admin/bus_secure_actions
+bus_security_levels_047: 
+  id: "62"
+  controller: bus_admin/e_cards
+bus_security_levels_036: 
+  id: "46"
+  controller: bus_admin/quick_fact_sectors
+bus_security_levels_025: 
+  id: "31"
+  controller: bus_admin/regions
+bus_security_levels_014: 
+  id: "18"
+  controller: bus_admin/project_categories
+bus_security_levels_003: 
+  id: "5"
+  controller: bus_admin/bus_security_levels
+bus_security_levels_048: 
+  id: "63"
+  controller: bus_admin/financial_sources
+bus_security_levels_037: 
+  id: "47"
+  controller: bus_admin/place_sectors
+bus_security_levels_026: 
+  id: "33"
+  controller: bus_admin/frequency_types
+bus_security_levels_015: 
+  id: "19"
+  controller: bus_admin/project_histories
+bus_security_levels_004: 
+  id: "6"
+  controller: bus_admin/bus_user_types
+bus_security_levels_050: 
+  id: "65"
+  controller: bus_admin/load
+bus_security_levels_049: 
+  id: "64"
+  controller: bus_admin/gifts
+bus_security_levels_038: 
+  id: "48"
+  controller: bus_admin/group_types
+bus_security_levels_027: 
+  id: "34"
+  controller: bus_admin/key_measures
+bus_security_levels_016: 
+  id: "20"
+  controller: bus_admin/partner_statuses
+bus_security_levels_005: 
+  id: "7"
+  controller: bus_admin/measures
+bus_security_levels_051: 
+  id: "66"
+  controller: bus_admin/place_types
+bus_security_levels_040: 
+  id: "52"
+  controller: bus_admin/ranks
+bus_security_levels_039: 
+  id: "51"
+  controller: bus_admin/tasks
+bus_security_levels_028: 
+  id: "37"
+  controller: bus_admin/targets
+bus_security_levels_017: 
+  id: "21"
+  controller: bus_admin/home
+bus_security_levels_006: 
+  id: "8"
+  controller: bus_admin/contacts
+bus_security_levels_052: 
+  id: "67"
+  controller: bus_admin/project_flickr_images
+bus_security_levels_041: 
+  id: "53"
+  controller: bus_admin/budget_items
+bus_security_levels_030: 
+  id: "40"
+  controller: bus_admin/rss_feeds
+bus_security_levels_029: 
+  id: "38"
+  controller: bus_admin/groups
+bus_security_levels_018: 
+  id: "22"
+  controller: bus_admin/you_tube_videos
+bus_security_levels_007: 
+  id: "10"
+  controller: bus_admin/milestone_categories
+bus_security_levels_053: 
+  id: "68"
+  controller: bus_admin/project_you_tube_videos
+bus_security_levels_042: 
+  id: "54"
+  controller: bus_admin/key_measure_datas
+bus_security_levels_031: 
+  id: "41"
+  controller: bus_admin/rss_feed_elements
+bus_security_levels_020: 
+  id: "24"
+  controller: bus_admin/milestones
+bus_security_levels_019: 
+  id: "23"
+  controller: bus_admin/project_statuses
+bus_security_levels_008: 
+  id: "11"
+  controller: bus_admin/milestone_statuses
+bus_security_levels_054: 
+  id: "69"
+  controller: bus_admin/quick_fact_types
+bus_security_levels_043: 
+  id: "57"
+  controller: bus_admin/banner_images
+bus_security_levels_032: 
+  id: "42"
+  controller: bus_admin/places
+bus_security_levels_021: 
+  id: "25"
+  controller: bus_admin/projects
+bus_security_levels_010: 
+  id: "13"
+  controller: bus_admin/partner_histories
+bus_security_levels_009: 
+  id: "12"
+  controller: bus_admin/millennium_goals

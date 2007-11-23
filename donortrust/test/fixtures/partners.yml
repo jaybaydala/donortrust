@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: Library Partners
+  description: Description for partner one
+  website: www.google.ca
+  partner_type_id: 1
+  partner_status_id: 1
+  business_model: test
+  funding_sources: none  
+  mission_statement: mission
+  philosophy_dev: none
+  note: here is a note
+two:
+  id: 2
+  name: partner_two
+  description: Description for partner two
+  website: www.cnn.com
+  partner_type_id: 1
+  partner_status_id: 1
+  business_model: model
+  funding_sources: funding  
+  mission_statement: none
+  philosophy_dev: philosophy
+  note: note

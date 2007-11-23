@@ -1,0 +1,17 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <h1>My Groups</h1>
+  <p>We change the world together. Connect with other people in your own city or from across the world who have chosen to help eradicate extreme poverty. Share your concern for specific projects, developing communities, or implementing organizations. Search <i>Connect</i> to find people who have already given to certain projects, or see who is interested in a specific project.</p>
+  <% if @groups.size > 0 %>
+  <%= render :partial => 'dt/groups/group', :collection => @groups %>
+  <% else %>
+  <div id="leftColW">
+    <p>You are not currently a member of any group. <%= link_to "Find a group", dt_groups_path %> or <%= link_to "create a group", dt_new_group_path %>.</p>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+	</div>
+  <% end %>
+</div>

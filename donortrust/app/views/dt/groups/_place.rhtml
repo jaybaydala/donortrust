@@ -1,0 +1,7 @@
+<%= group.place.name %>
+<% 
+node = group.place
+while node.parent do
+  node = node.parent %>
+  <%= h node.name %>
+<% end %>

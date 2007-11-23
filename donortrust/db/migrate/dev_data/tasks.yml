@@ -1,0 +1,111 @@
+--- 
+tasks_008: 
+  target_end_date: "2008-06-06"
+  name: Teach Women to prepare lunches
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-04-07"
+  id: "8"
+  version: "1"
+  description: Teach local women to use kitchens and prepare lunches
+  actual_start_date: 
+  milestone_id: "5"
+tasks_010: 
+  target_end_date: "2008-04-18"
+  name: Implement a food dontation plan
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-04-07"
+  id: "10"
+  version: "1"
+  description: In collaboration with local farmers develop a plan to collect food for school lunches
+  actual_start_date: 
+  milestone_id: "5"
+tasks_009: 
+  target_end_date: "2008-06-13"
+  name: Collect food donations from farmers
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-05-01"
+  id: "9"
+  version: "1"
+  description: "Gather food from local farmers to support school lunches.  "
+  actual_start_date: 
+  milestone_id: "5"
+tasks_001: 
+  target_end_date: "2007-10-18"
+  name: test1
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2007-10-10"
+  id: "1"
+  version: "1"
+  description: tr
+  actual_start_date: 
+  milestone_id: "1"
+tasks_002: 
+  target_end_date: "2008-01-18"
+  name: Interview village residents
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-01-11"
+  id: "2"
+  version: "1"
+  description: Using a predefined survey interview residents about their childern.
+  actual_start_date: 
+  milestone_id: "2"
+tasks_003: 
+  target_end_date: "2008-01-25"
+  name: Review/document School Records
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-01-21"
+  id: "3"
+  version: "1"
+  description: Assesment of current attendance records and grades
+  actual_start_date: 
+  milestone_id: "2"
+tasks_004: 
+  target_end_date: "2008-02-08"
+  name: Obtain building supplies
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-01-28"
+  id: "4"
+  version: "1"
+  description: purchase paint, desks, etc
+  actual_start_date: 
+  milestone_id: "3"
+tasks_005: 
+  target_end_date: "2008-03-14"
+  name: Complete Renovations
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-02-15"
+  id: "5"
+  version: "1"
+  description: Paint classrooms, replace desks, handout books
+  actual_start_date: 
+  milestone_id: "3"
+tasks_006: 
+  target_end_date: "2008-03-14"
+  name: Obtain Building Supplies
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-03-03"
+  id: "6"
+  version: "1"
+  description: building materials, appliances, etc
+  actual_start_date: 
+  milestone_id: "4"
+tasks_007: 
+  target_end_date: "2008-05-30"
+  name: Construct Kitchens
+  deleted_at: 
+  actual_end_date: 
+  target_start_date: "2008-03-17"
+  id: "7"
+  version: "1"
+  description: Build kitchens for each school
+  actual_start_date: 
+  milestone_id: "4"

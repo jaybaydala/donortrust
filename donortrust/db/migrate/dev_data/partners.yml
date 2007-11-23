@@ -1,0 +1,125 @@
+--- 
+partners_001: 
+  philosophy_dev: 
+  funding_sources: 
+  name: Library Partners
+  deleted_at: 
+  business_model: 
+  website: 
+  id: "1"
+  version: 
+  description: The Library Partners have been involved in educational and information projects for over 20 years. They are cool
+  note: 
+  partner_type_id: "1"
+  mission_statement: 
+  partner_status_id: "1"
+partners_002: 
+  philosophy_dev: 
+  funding_sources: 
+  name: partner_two
+  deleted_at: 
+  business_model: 
+  website: 
+  id: "2"
+  version: 
+  description: Yes, this is another description, this time for partner_two. The quick brown fox jumps over the lazy dog.
+  note: 
+  partner_type_id: "1"
+  mission_statement: 
+  partner_status_id: "2"
+partners_003: 
+  philosophy_dev: |
+    ACCOUNTABILITY 
+
+    
+
+    We are accountable, individually and as a group, for our behavior, actions, and results, first and foremost to the communities that we serve.  
+
+    
+
+    
+
+    
+
+    COMMITMENT TO EXCELLENCE 
+
+    
+
+    We are committed to ending extreme poverty and to undertake programs in support of that goal.  We aim to do our best work each day and take pride in the professional quality of our work.  
+
+    
+
+    
+
+    
+
+    HUMILITY AND RESPECT 
+
+    
+
+    We value individuals and their ability to contribute, and recognize that each new perspective and experience is an opportunity to learn. We do not presume to have all of the answers and strive to create an environment that fosters diverse opinions and viewpoints.  
+
+    
+
+    
+
+    
+
+    INCLUSIVENESS 
+
+    
+
+    We work in an inclusive environment and consider the needs, goals, and desires of our staff, stakeholders, and partners in a balanced and thoughtful way.  We appreciate that we have a diverse range of stakeholders to whom we are accountable, including the communities where we work, donors, board members, partnering NGOs and the general public, and strive to promote cohesion, cooperation, and trust among these varied groups.  
+
+    
+
+    
+
+    
+
+    INTEGRITY 
+
+    
+
+    We maintain high ethical standards in everything we do and are committed to conduct characterized by transparency, honesty and authenticity.   
+
+    
+
+    
+
+    
+
+    TEAMWORK 
+
+    
+
+    We believe that team effort and collaboration produce the best results.  
+
+    
+
+    
+
+    
+
+    PROFESSIONAL GROWTH AND FULFILLMENT 
+
+    
+
+    We have a diverse staff working in multiple locations across the globe. We are committed to the professional development of each of our employees and work to cultivate, promote, and recognize the full potential of each individual.  
+
+
+  funding_sources: Private Investors
+  name: Millennium Promise
+  deleted_at: 
+  business_model: 
+  website: www.milleniumpromise.org
+  id: "3"
+  version: "1"
+  description: |
+    Our flagship initiative, the Millennium Villages, now operating in 79 villages across 10 countries in sub-Saharan Africa, takes a comprehensive approach to addressing extreme poverty. By combining the best scientific and local knowledge, Millennium Villages address all the major problems simultaneously -- hunger, disease, inadequate education, lack of safe drinking water, and absence of essential infrastructure -- to assist communities on their way to self-sustainable development. The project is already producing remarkable results. Read more about the Millennium Villages and how you can help here. 
+
+
+  note: 
+  partner_type_id: "1"
+  mission_statement: "The mission of Millennium Promise is to achieve the Millennium Development Goals (MDGs) - eight globally endorsed objectives that address the many aspects of extreme poverty - in Africa by 2015. To that end, Millennium Promise works with impoverished communities, national and local governments, and partner organizations to implement high-impact programs aimed at transforming lives on the continent and engaging donor nations, corporations, and the general public in the effort. Our work is premised on the belief that, for the first time in history, our generation has the opportunity to end extreme poverty, hunger, and disease. "
+  partner_status_id: "1"

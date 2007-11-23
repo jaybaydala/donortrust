@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: Population
+  description: How many people
+  quick_fact_type_id: 1
+two:
+  id: 2
+  name: School-aged children
+  description: number of childer that are able to go to school
+  quick_fact_type_id: 1
+three:
+  id: 3
+  name: Gender Distibution
+  description: none
+  quick_fact_type_id: 1
+three:
+  id: 4
+  name: % Overhead
+  description: The percentage of overhead for the organization
+  quick_fact_type_id: 2
