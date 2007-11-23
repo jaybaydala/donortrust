@@ -1,0 +1,35 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    
+	<h1>Create New Partner Quick Fact</h1>
+        
+	<%= error_messages_for :quick_fact_partners %>
+    <% form_for(:quick_fact_partners, :url => quick_fact_partners_path(:partner_id => @quickFactPartnerId), :method => :post ) do |f| %>
+	 
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your partner quick fact information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  																				                                            
+          <li><label for="quick_fact_id"><%= render :partial => 'dt/shared/form_required' %>Name</label> <%= collection_select :quick_fact_partners, :quick_fact_id, quick_fact_names , :id, :name, { :include_blank => true }  %></li>
+		</ul>
+      </fieldset>
+	  <!-- 
+	  <fieldset id="groupLocation">
+  	    <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  																				                                            
+		  <li><label for="quick_fact_type_id"><%= render :partial => 'dt/shared/form_required' %>Quick Fact Type</label> <%= collection_select :quick_fact_partners, :partner_id, quick_fact_type_names , :id, :name, { :include_blank => true }  %></li>
+		</ul>
+      </fieldset>	
+	 -->
+	   <fieldset id="groupLocation">
+   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="Description"><%= render :partial => 'dt/shared/form_required' %>Description</label><%= f.text_field :description %></li>			
+		</ul>
+      </fieldset>	
+	  
+      <div> 							
+        <%= submit_tag "Create Partner", :class => 'buttonsubmit', :action => "create" %>
+        <%= hidden_field_tag(:quick_fact_partner_id, params[:quick_fact_partner_id]) if params[:quick_fact_partner_id] %>
+	  </div>
+
+    <% end -%>	  	
+  </div>
+</div>

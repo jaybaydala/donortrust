@@ -1,0 +1,30 @@
+<div id="contentContainer">
+  
+  <h1>Edit <%= h @partner.quick_fact.name %></h1>
+  
+  <%= quick_facts_nav %> 
+  <%= error_messages_for :quick_fact %>
+  <div id="leftColW">
+	<% form_for(:partner, :url => quick_fact_partner_path(@partner), :html => { :method => :put}) do |f| %>   
+	 
+	<!-- GAVE UP ON THIS CAUSE IS IT BETTER TO HAVE TO EDIT QUICK FACT IN THE QUICK FACTS??
+	  <fieldset id="groupLocation">
+  		<legend>Please enter quick fact information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		    
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :quick_fact_id %></li>			
+          	  	</ul>
+	  </fieldset>
+	  -->
+	  	  
+	  <fieldset id="groupLocation">
+  	    <legend>Please update quick fact description </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		    
+          <li><label for="description">Description</label><%= f.text_field :description %></li>
+		</ul>
+	  </fieldset>  
+
+ 	  <%= submit_tag "Update Group", :class => 'buttonsubmit' %>    
+	  
+    <% end %>
+  </div>     
+</div>
