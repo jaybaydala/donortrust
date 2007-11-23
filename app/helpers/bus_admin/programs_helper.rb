@@ -10,7 +10,7 @@ module BusAdmin::ProgramsHelper
     render 'bus_admin/programs/new_nav'    
   end
   
-  def project_nav
+  def program_nav
     render 'bus_admin/programs/project_nav'    
   end  
   
