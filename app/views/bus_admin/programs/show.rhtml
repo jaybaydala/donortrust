@@ -1,0 +1,28 @@
+<div id="contentContainer">
+  
+  <h1>Programs </h1> 
+  <%= program_nav %> 
+
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div id="leftColW">
+    <h1>
+      <%= h @program.name if @program %>
+    </h1>
+	
+	<% if @program && @program.contact_id? %>  
+      <h2>Contact: </h2>
+      <div><%= @program.contact.first_name  %> <%=   @program.contact.last_name %></div>
+    <% end %>
+	    
+    <% if @program && @program.note? %>  
+      <h2>Note: </h2>
+      <div><%= @program.note %></div>
+    <% end %>
+	
+  </div>  
+  <div id="partner">
+  	<%= render :partial => '/bus_admin/quick_fact_partners/show_quick_fact_partners', :collection => @quickFacts if @quickFacts %>
+  </div>  
+</div>

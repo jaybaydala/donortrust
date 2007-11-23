@@ -1,0 +1,39 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    
+	<h1>Add New Program </h1>
+        
+	<%= error_messages_for :program %>
+    <% form_for(:programs, :url => bus_admin_programs_path(:program_id => @program), :method => :post ) do |f| %>
+	 
+	<fieldset id="groupLocation">
+	  <legend>Please enter Name </legend>
+   	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+        <li><label for="f-name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+	  </ul>
+    </fieldset>	
+	
+	<fieldset id="groupLocation">
+	  <legend>Please enter Contact Name </legend>
+   	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+        <li><label for="contact"><%= render :partial => 'dt/shared/form_required' %>Contact</label> <%= collection_select :programs, :contact_id, get_contacts , :id, :first_name, { :include_blank => true }  %></li>
+	  </ul>
+    </fieldset>	
+	
+	<fieldset id="groupDescription">
+	  <legend>Please enter Note </legend>
+   	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+        <li><label for="note">Note </label><%= f.text_area :note %></li>			
+	  </ul>
+    </fieldset>			
+	
+	
+	  
+      <div> 							
+        <%= submit_tag "Create Project", :class => 'buttonsubmit', :action => "create" %>
+        
+	  </div>
+
+    <% end -%>	  	
+  </div>
+</div>
