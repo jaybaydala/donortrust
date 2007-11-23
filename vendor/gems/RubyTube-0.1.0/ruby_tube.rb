@@ -208,9 +208,11 @@ class RubyTube
     
     def populate_comments(comments_hash)
       @comments = Array.new
-      if(comments_hash['comment'].size > 0)
-        for i in 0...comments_hash['comment'].size
-          @comments.push(Comment.new(comments_hash['comment'][i]))
+      if(comments_hash['comment'] != nil)
+        if(comments_hash['comment'].size > 0)
+          for i in 0...comments_hash['comment'].size
+            @comments.push(Comment.new(comments_hash['comment'][i]))
+          end
         end
       end
     end
