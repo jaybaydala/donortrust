@@ -1,6 +1,6 @@
 require 'mongrel_cluster/recipes'
 set :application, "donortrust"
-set :repository,  "http://#{application}.rubyforge.org/svn/tags/rel_1-0-6/"
+set :repository,  "http://#{application}.rubyforge.org/svn/tags/rel_1-0-7/"
 set :deploy_via, :export
 
 set :deploy_to, "/home/dtrust/#{application}"
