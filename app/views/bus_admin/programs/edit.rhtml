@@ -1,0 +1,34 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Edit Program</h1>
+ 
+    <%= error_messages_for :program %>
+
+    <% form_for(:program, :url => bus_admin_program_path(@program), :html => { :method => :put}) do |f| %> 
+	 
+	 <fieldset id="groupLocation">
+	  <legend>Please enter Program Information </legend>
+   	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+        <li><label for="f-name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+		<li><label for="contact"><%= render :partial => 'dt/shared/form_required' %>Contact</label> <%= collection_select :programs, :contact_id, contact_names , :id, :first_name  %></li>	
+	
+	  </ul>
+    </fieldset>	
+	
+	 <fieldset id="groupLocation">
+	  <legend>Please enter Note </legend>
+   	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+        <li><label for="note">Note </label><%= f.text_area :note %></li>		
+	  </ul>
+    </fieldset>		
+		  
+     <div> 							
+        <%= submit_tag "Update Program", :class => 'button', :action => "edit" %>
+        <%= hidden_field_tag(:program_id, params[:program_id]) if params[:program_id] %>
+	  </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>
