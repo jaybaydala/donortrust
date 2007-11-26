@@ -14,8 +14,12 @@ module BusAdmin::ProgramsHelper
     render 'bus_admin/programs/program_nav'    
   end  
   
-  def get_contacts
+  def contact_names
     Contact.find(:all)
   end    
+  
+    def partner_statuses
+    PartnerStatus.find(:all)
+  end
    
 end
