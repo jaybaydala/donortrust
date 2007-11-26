@@ -13,6 +13,8 @@ class BusAdmin::ProgramsController < ApplicationController
 #    config.columns[ :rss_feed ].form_ui = :select
 #    config.nested.add_link("Projects", [:projects])
 #  end
+
+
   
   def show_program_note   
    @note = Program.find(params[:id]).note
@@ -57,6 +59,14 @@ class BusAdmin::ProgramsController < ApplicationController
     end
   end
   
+  def edit     
+    @page_title = "Edit Program Details"
+    @program = Program.find(params[:id])
+    respond_to do |format|
+      format.html
+    end    
+  end
+  
   def create
     @program = Program.new(params[:programs])
     Program.transaction do
@@ -72,6 +82,21 @@ class BusAdmin::ProgramsController < ApplicationController
         flash[:notice] = 'Program was created.'
       else
         format.html { render :action => "new" }
+      end
+    end
+  end
+  
+  def update    
+  @program = Program.find(params[:id])
+  @saved = @program.update_attributes(params[:program])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Program was successfully updated.'
+        format.html { redirect_to bus_admin_program_path(@program) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @program.errors.to_xml }
       end
     end
   end
