@@ -10,7 +10,7 @@
 	  <legend>Please enter Program Information </legend>
    	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
         <li><label for="f-name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
-		<li><label for="contact"><%= render :partial => 'dt/shared/form_required' %>Contact</label> <%= collection_select :programs, :contact_id, contact_names , :id, :first_name  %></li>	
+		<li><label for="contact"><%= render :partial => 'dt/shared/form_required' %>Contact</label> <%= collection_select :program, :contact_id, contact_names , :id, :first_name  %></li>	
 	
 	  </ul>
     </fieldset>	
