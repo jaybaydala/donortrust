@@ -16,7 +16,7 @@
 	<fieldset id="groupLocation">
 	  <legend>Please enter Contact Name </legend>
    	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
-        <li><label for="contact"><%= render :partial => 'dt/shared/form_required' %>Contact</label> <%= collection_select :programs, :contact_id, get_contacts , :id, :first_name, { :include_blank => true }  %></li>
+        <li><label for="contact"><%= render :partial => 'dt/shared/form_required' %>Contact</label> <%= collection_select :program, :contact_id, contact_names , :id, :first_name  %></li>	
 	  </ul>
     </fieldset>	
 	
