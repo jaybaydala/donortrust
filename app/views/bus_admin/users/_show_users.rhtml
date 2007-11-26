@@ -1,0 +1,8 @@
+<% @user = show_users -%>
+<div class="programInfo"  id="userInfo-<%= @user.id %>">
+  <div class="leftColW">
+    <h2><%= link_to @user.name , user_path(@user) %></h2>
+	<p><strong>Name: </strong> <%= @user.first_name %> <%= @user.last_name %></p>
+	<p><strong>Login: </strong> <%= @user.login %></p>
+   </div>    	
+</div>
