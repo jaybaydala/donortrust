@@ -29,6 +29,10 @@ class Program < ActiveRecord::Base
     return self.find(:all)   
   end
   
+  def fullname    
+    "#{first_name} #{last_name}"
+  end  
+  
   def get_total_costs
     projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
     total_cost = 0
