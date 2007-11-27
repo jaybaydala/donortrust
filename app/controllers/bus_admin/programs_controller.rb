@@ -1,21 +1,6 @@
 class BusAdmin::ProgramsController < ApplicationController
   before_filter :login_required, :check_authorization 
   
-#  active_scaffold :programs do |config|
-#    config.columns = [ :name, :contact, :projects_count, :projects, :note ]
-#    list.columns.exclude [ :projects ]
-#    #show.columns.exclude [ ]
-#    update.columns.exclude [ :projects, :projects_count ]
-#    create.columns.exclude [ :projects, :projects_count ]
-#    config.columns[ :name ].label = "Program"
-#    config.columns[ :projects_count ].label = "Projects"
-#    config.columns[ :contact ].form_ui = :select
-#    config.columns[ :rss_feed ].form_ui = :select
-#    config.nested.add_link("Projects", [:projects])
-#  end
-
-
-  
   def show_program_note   
    @note = Program.find(params[:id]).note
    render :partial => "layouts/note"   
@@ -68,7 +53,11 @@ class BusAdmin::ProgramsController < ApplicationController
   end
   
   def create
-    @program = Program.new(params[:programs])
+    @program = Program.new(params[:program])
+    
+    @program.contact_id = params[:contact_id] if params[:contact_id]
+    
+    
     Program.transaction do
       @saved= @program.valid? && @program.save!
       begin
