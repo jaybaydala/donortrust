@@ -1237,7 +1237,7 @@ legend {
 }
 /* IE Mac legend fix */
 
-#leftColW form p {padding-left:0px; padding-right:0; margin-left:0;}
+#leftColW form p {padding-left:0px; padding-right:0; margin-left:0;float:left;}
 #leftColW form .textsm {
 	font: 11px/14px Arial, Helvetica, sans-serif;
 	margin: 5px 0 10px 0;
@@ -1248,15 +1248,15 @@ legend {
 }
 #leftColW .fieldsetN {float:left;width:225px;padding-right:10px;padding-left:0px;margin-right:0px;margin-left:0;}
 #leftColW .fieldsetN2 {float:right;width:225px;margin-right:0px;margin-left:0;}
-#leftColW .fieldsetN input, #leftColW .fieldsetN2 input {width:131px;margin:0;}
-#leftColW .fieldsetN label, #leftColW .fieldsetN2 label {width:72px;}
+#leftColW .fieldsetN input, #leftColW .fieldsetN2 input {width:128px;margin:0;}
+#leftColW .fieldsetN label, #leftColW .fieldsetN2 label {width:76px;}
 #leftColW .userform .fieldsetN ul, #leftColW .userform .fieldsetN2 ul {padding-left:0px;padding-right:0px;}
 #leftColW .fieldsetN li, #leftColW .fieldsetN2 li {padding-left:0px;padding-right:0px;}
 
 /* SIGN IN, SIGN UP Modules */
 
 .userform {margin:0px 0 5px 0px;}
-#leftColW .userform ul {margin:10px 0 0 0; padding:0 0 0 40px;}
+#leftColW .userform ul {margin:10px 0 0 0; padding:0 0 0 35px;}
 #leftColW .userform ol {margin-top:10px; padding-left:40px;padding-right:0;}
 #leftColW .userform li {float:left; list-style-type: none; display: block; margin-bottom: 0px;}
 .userform p {padding-left:0;}
@@ -1291,11 +1291,11 @@ form #newMember label, form #groupDescription label {
 label {
 	float:left; 
 	width:11.5em;
-	font: x-small Arial, Helvetica, sans-serif;
+	font: 10px Arial, Helvetica, sans-serif;
 	font-weight:normal;
 	color: #333;
-	padding-top:2px;
-	margin: 0px 0.75em 2px 0px; 
+	padding:2px 0.5em 0 0;
+	margin: 0px 0 2px 0px;
 	text-align: right; 
 	text-transform:capitalize;
 	display:block;
