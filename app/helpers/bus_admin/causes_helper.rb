@@ -4,4 +4,13 @@ module BusAdmin::CausesHelper
       RedCloth.new(record.description).to_html
     end
   end 
+  
+  def new_cause_nav
+    render 'bus_admin/causes/new_cause_nav'
+  end    
+  
+  def cause_nav
+    render 'bus_admin/causes/cause_nav'
+  end    
+  
 end
