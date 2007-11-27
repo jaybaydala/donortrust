@@ -4,8 +4,9 @@
 	<h1>Add New Program </h1>
         
 	<%= error_messages_for :program %>
-    <% form_for(:programs, :url => bus_admin_programs_path(:program_id => @program), :method => :post ) do |f| %>
-	 
+
+	<% form_for(:program, :url => bus_admin_programs_path, :html => { :id => 'programform', :name => 'programform' }) do |f| %>
+   
 	<fieldset id="groupLocation">
 	  <legend>Please enter Name </legend>
    	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
@@ -16,7 +17,7 @@
 	<fieldset id="groupLocation">
 	  <legend>Please enter Contact Name </legend>
    	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
-        <li><label for="contact"><%= render :partial => 'dt/shared/form_required' %>Contact</label> <%= collection_select :program, :contact_id, contact_names , :id, :first_name  %></li>	
+        <li><label for="contact"><%= render :partial => 'dt/shared/form_required' %>Contact</label> <%= collection_select :program, :contact_id, contact_names , :id, :fullname, { :include_blank => true }  %></li>	
 	  </ul>
     </fieldset>	
 	
@@ -25,12 +26,11 @@
    	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
         <li><label for="note">Note </label><%= f.text_area :note %></li>			
 	  </ul>
-    </fieldset>			
-	
-	
+    </fieldset>		
 	  
       <div> 							
         <%= submit_tag "Create Project", :class => 'buttonsubmit', :action => "create" %>
+		<%= hidden_field_tag(:contact_id, params[:contact_id]) if params[:contact_id] %>
         
 	  </div>
 
