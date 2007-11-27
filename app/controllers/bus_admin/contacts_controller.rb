@@ -1,21 +1,85 @@
 class BusAdmin::ContactsController < ApplicationController
   before_filter :login_required, :check_authorization
     
-  active_scaffold :contact do |config|    
-    config.label = "Contacts"
-    config.list.columns = [:first_name, :last_name, :phone_number, :email_address]
-    config.update.columns = [:first_name, :last_name, :phone_number, :fax_number, :email_address, :web_address, :department, :place, :address_line_1, :address_line_2, :postal_code]
-    #config.nested.columns = [:first_name, :last_name, :phone_number]
-    config.create.columns = [:first_name, :last_name, :phone_number, :fax_number, :email_address, :web_address, :department, :place, :address_line_1, :address_line_2, :postal_code]
-    config.show.columns = [:first_name, :last_name, :place]
+
+
+  def index
+    @page_title = 'Contacts'
+    @contacts = Contact.find(:all)
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+#  def new
+#
+#  end
+#  
+  def show
+    begin
+      @contact = Contact.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @page_title = @contact.fullname
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def destroy
+    @contact = Contact.find(params[:id])
+    @contact.destroy
+    respond_to do |format|
+      format.html { redirect_to contacts_url }
+      format.xml  { head :ok }
+    end
+  end
+  
+  def edit     
+    @page_title = "Edit Contact Details"
+    @contact = Contact.find(params[:id])
+    respond_to do |format|
+      format.html
+    end    
+  end
+  
+  def update
     
-    config.columns[:place].form_ui = :select
-        
-    config.subform.columns.exclude :fax_number,:web_address, :department, :place, :address_line_1, :address_line_2, :postal_code
-    
+  @contact = Contact.find(params[:id])
+  @saved = @contact.update_attributes(params[:contact])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Contact was successfully updated.'
+        format.html { redirect_to contact_path(@contact) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @contact.errors.to_xml }
+      end
+    end
+  end
+  
+  def create
+    @contact = Contact.new(params[:contact])
+    Contact.transaction do
+      @saved= @contact.valid? && @contact.save!
+      begin
+      raise Exception if !@saved
+      rescue Exception
+      end
+    end
+    respond_to do |format|
+      if @saved
+        format.html { redirect_to contacts_url }
+        flash[:notice] = 'Contact was created.'
+      else
+        format.html { render :action => "new" }
+      end
+    end
   end
 
-def populate_contact_places
+  def populate_contact_places
     @filterMessage = ""
     @places = nil
     @selectedPlace = nil
