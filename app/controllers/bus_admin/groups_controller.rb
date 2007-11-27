@@ -1,21 +1,77 @@
 class BusAdmin::GroupsController < ApplicationController
   before_filter :login_required, :check_authorization
-  active_scaffold :groups do |config|
-    config.columns = [:name, :group_type, :private, :featured, :description, :created_at, :updated_at, :project_count, :projects, :user_count, :users ]
-    # unable to select user(s) to add to group by simply adding :users to column.  Even though the relationship is defined as
-    # has_many :users, :through => :memberships
-    # the active scaffold code is generating SQL like:
-    # SELECT * FROM users WHERE (group_id IS NULL)
-    # which fails because there is no group_id field in the users table.  It is in memberships.
-    config.columns[ :group_type ].form_ui = :select
-    config.columns[ :group_type ].label = "Type"
-    config.columns[ :featured ].label = "Is Featured?"
-    config.columns[ :projects ].form_ui = :select
-    config.columns[ :users ].form_ui = :select
-    list.columns.exclude [ :description, :created_at, :updated_at, :project_count, :projects, :user_count, :users ]
-    update.columns.exclude [ :created_at, :updated_at, :project_count, :user_count, :users ]
-    create.columns.exclude [ :created_at, :updated_at, :project_count, :user_count, :users ]
-    #show.columns.exclude [  ]
+
+def index
+    @page_title = 'Groups'
+    @groups = Group.find(:all)
+    respond_to do |format|
+      format.html
+    end
   end
+
+  def show
+    begin
+      @group = Group.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @page_title = @group.name
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def destroy
+    @group = Group.find(params[:id])
+    @group.destroy
+    respond_to do |format|
+      format.html { redirect_to groups_url }
+      format.xml  { head :ok }
+    end
+  end
+  
+  def edit     
+    @page_title = "Edit Frequency Details"
+    @group = Group.find(params[:id])
+    respond_to do |format|
+      format.html
+    end    
+  end
+  
+  def update
+    
+  @group = Group.find(params[:id])
+  @saved = @group.update_attributes(params[:group])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Group was successfully updated.'
+        format.html { redirect_to group_path(@group) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @group.errors.to_xml }
+      end
+    end
+  end
+  
+  def create
+    @group = Group.new(params[:group])
+    Cause.transaction do
+      @saved= @group.valid? && @group.save!
+      begin
+      raise Exception if !@saved
+      rescue Exception
+      end
+    end
+    respond_to do |format|
+      if @saved
+        format.html { redirect_to groups_url }
+        flash[:notice] = 'Group was created.'
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end  
+
 
 end
