@@ -13,4 +13,17 @@ end
       RedCloth.new(record.description).to_html
     end
   end  
+  
+  def new_group_nav
+    render 'bus_admin/groups/new_group_nav'
+  end    
+  
+  def group_nav
+    render 'bus_admin/groups/group_nav'
+  end   
+  
+    
+  def group_types
+    GroupType.find(:all)
+  end
 end
