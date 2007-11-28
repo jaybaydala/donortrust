@@ -1,0 +1,7 @@
+<% @quickFact = show_types -%>
+    <div class="projectInfo"  id="quickFactInfo-<%= @quickFact.id %>">
+      <div class="leftColW">
+      	<h2><%= link_to @quickFact.name, edit_quick_fact_type_path(@quickFact.id), :action => 'new' %></h2>       
+        <p><strong>Quick Fact Description:</strong> <%= @quickFact.description%></p>
+      </div>    	
+    </div>

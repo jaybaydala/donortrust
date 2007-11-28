@@ -1,0 +1,21 @@
+<div id="contentContainer">
+  
+  <h1>Quick Fact Types</h1> 
+  <%= quick_facts_new_nav %>   
+
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div id="leftColW">
+    <h1>
+      <%= h @quickFact.name if @quickFact %>
+    </h1>    
+    <% if @quickFact && @quickFacts.description? %>  
+    <h2>Description</h2>
+    <div><%= @quickFacts.description %></div>
+    <% end %>
+  </div>  
+  <div id="quick_fact_show">
+  	<%= render :partial => '/bus_admin/quick_fact_types/show_types', :collection => @quickFacts if @quickFacts %>
+  </div>  
+</div>

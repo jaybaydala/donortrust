@@ -1,0 +1,7 @@
+<div id="subNavWide">	
+	<ul class="subNav li">
+		<li id="quick-fact-nav"><%= link_to "Create New", new_quick_fact_type_path %></li> 
+  	    <li id="delete" ><%= link_to "Delete", quick_fact_type_path(@type), :method => :delete, :confirm => 'Are you absolutely sure you want to delete this quick fact type?' %></li>
+  	</ul>
+</div><!-- subNav ends -->
+
