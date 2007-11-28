@@ -1,0 +1,43 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Edit Group Type</h1>
+
+    <%= error_messages_for :group %>
+
+    <% form_for(:group, :url => group_path(@group), :html => { :method => :put}) do |f| %> 
+	 <fieldset id="groupLocation">
+  		<legend>Please enter your group information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+		    <li><label for="description">description</label><%= f.text_field :description %></li>			
+			<li><label for="city">City</label><%= f.text_field :city %></li>			
+			<li><label for="province">Province</label><%= f.text_field :province %></li>			
+			<li><label for="country">Country</label><%= f.text_field :country %></li>
+			<li><label for="private"><%= render :partial => 'dt/shared/form_required' %>Private</label><%= f.check_box :private %></li>	
+		</ul>
+      </fieldset>	
+	  
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your group type</legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="group_group_type"><%= render :partial => 'dt/shared/form_required' %>Group Type</label> <%= collection_select (:group, :group_type_id, group_types, :id, :name, { :include_blank => true }) %></li>
+		</ul>
+      </fieldset>	  
+	  
+	  <fieldset id="groupLocation">
+  		<legend>Is this group featured?</legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+		  <li><label for="featured">Featured</label><%= f.check_box :featured %></li>	
+		</ul>
+      </fieldset>		  	  
+	  
+	
+     <div> 							
+        <%= submit_tag "Edit Group", :class => 'button', :action => "edit" %>        
+	  </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>

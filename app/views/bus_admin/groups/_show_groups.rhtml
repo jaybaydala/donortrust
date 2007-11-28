@@ -1,0 +1,11 @@
+<% @group = show_groups -%>
+<div class="projectInfo"  id="groupInfo-<%= @group.id %>">
+  <div class="leftColW">
+    <h2><%= link_to @group.name, group_path(@group) %></h2>
+    <p><strong>Group Description:</strong> <%= @group.description%></p>
+ 
+  </div>    	
+</div>
+	
+  
+	
