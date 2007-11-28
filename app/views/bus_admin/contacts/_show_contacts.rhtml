@@ -1,0 +1,20 @@
+<% @contact = show_contacts -%>
+<div class="projectInfo"  id="contactInfo-<%= @contact.id %>">
+  <div class="leftColW">
+    <h2><%= link_to @contact.fullname, contact_path(@contact) %></h2>
+    <div class="projectRank">
+      <ul class="specList">
+        <% if @contact.web_address? && @contact.web_address %><li><span><strong>Website:</strong> <%=  @contact.web_address %></span></li><% end %>
+      </ul>
+    </div>    
+		 <% if @contact.phone_number? %><p><strong>Phone Number:</strong> <%= @contact.phone_number%></p><% end %>
+		 <% if @contact.fax_number? %><p><strong>Fax Number:</strong> <%= @contact.fax_number%></p><% end %>
+		 <% if @contact.email_address? %><p><strong>Email Address:</strong> <%= @contact.email_address%></p><% end %>
+		 <% if @contact.department? %><p><strong>Department:</strong> <%= @contact.department%></p><% end %>
+		 <% if @contact.place_id? %><p><strong>Place:</strong> <%= @contact.place.name%></p><% end %>
+		 <% if @contact.address_line_1? %><p><strong>Address Line 1:</strong> <%= @contact.address_line_1%></p><% end %>
+		 <% if @contact.address_line_2? %><p><strong>Address Line 2:</strong> <%= @contact.address_line_2%></p><% end %>
+		 <% if @contact.postal_code? %> <p><strong>Postal Code:</strong> <%= @contact.postal_code%></p></div><% end %> 	
+	</div>
+  </div>
+	

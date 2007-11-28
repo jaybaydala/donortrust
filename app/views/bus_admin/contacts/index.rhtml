@@ -1,0 +1,15 @@
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="partnerInfo">
+    <div class="leftColW">
+      <h1>Contacts</h1>
+	  <%= new_contact_nav %>
+   
+    </div>
+   </div>
+
+  <div id="partner">
+  	<%= render :partial => '/bus_admin/contacts/show_contacts', :collection => @contacts if @contacts %>
+  </div>
+</div>

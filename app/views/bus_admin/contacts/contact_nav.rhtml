@@ -1,0 +1,7 @@
+<div id="subNavWide">
+	<ul class="subNav li">
+		<li id="new-nav-overview"><%= link_to "Create New", new_contact_path %></li>  
+  		<li id="edit-nav-overview"><%= link_to "Edit", edit_contact_path %></li>  
+		<li id="delete" ><%= link_to "Delete", contact_path(@contact), :method => :delete, :confirm => 'Are you absolutely sure you want to delete this contact?' %></li>
+  	</ul>
+</div><!-- subNav ends -->

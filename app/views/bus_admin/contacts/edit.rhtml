@@ -1,0 +1,38 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Edit Contact</h1>
+
+    <%= error_messages_for :contact %>
+
+    <% form_for(:contact, :url => contact_path(@contact), :html => { :method => :put}) do |f| %> 
+	 <fieldset id="groupLocation">
+  		<legend>Please enter your contact information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>First Name</label><%= f.text_field :first_name %></li>			
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Last Name</label><%= f.text_field :last_name %></li>			
+          <li><label for="name">Phone Number</label><%= f.text_field :phone_number %></li>		  
+		  <li><label for="name">Fax Number</label><%= f.text_field :fax_number %></li>
+		  <li><label for="name">Email Address</label><%= f.text_field :email_address %></li>
+		  <li><label for="name">Web Address</label><%= f.text_field :web_address %></li>		  
+		  <li><label for="name">Department</label><%= f.text_field :department %></li>
+		  <li><label for="name">Address Line 1</label><%= f.text_field :address_line_1 %></li>
+		  <li><label for="name">Address Line 2</label><%= f.text_field :address_line_2 %></li>
+		  <li><label for="name">Postal Code</label><%= f.text_field :postal_code %></li>
+		</ul>
+      </fieldset>
+	  
+	  <fieldset id="groupLocation">
+	   	 <legend>Please enter location information </legend>
+  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+   	        <%= place_form_column %>             
+          </ul>
+      </fieldset> 	  	
+     <div> 							
+        <%= submit_tag "Update Partner", :class => 'button', :action => "edit" %>        
+	  </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>
