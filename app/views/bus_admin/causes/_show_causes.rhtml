@@ -1,0 +1,10 @@
+<% @cause = show_causes -%>
+<div class="projectInfo"  id="causeInfo-<%= @cause.id %>">
+  <div class="leftColW">
+    <h2><%= link_to @cause.name, cause_path(@cause) %></h2>
+    <div class="projectRank">     
+    </div>    
+		 <% if @cause.description? %><p><strong>Description:</strong> <%= @cause.description%></p><% end %>
+	</div>
+  </div>
+	

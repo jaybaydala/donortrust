@@ -1,0 +1,24 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Create New Cause</h1>
+    
+    <%= error_messages_for :cause %>
+    <% form_for(:cause, :url => causes_path, :html => { :id => 'causeform', :name => 'causeform' }) do |f| %>
+      
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your cause information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+          <li><label for="name">Description</label><%= f.text_area :description %></li>
+		</ul>
+      </fieldset>
+	      
+	 <div> 							
+        <%= submit_tag "New Cause", :class => 'buttonsubmit', :action => "edit" %>
+	 </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>

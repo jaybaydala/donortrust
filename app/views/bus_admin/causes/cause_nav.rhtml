@@ -1,0 +1,7 @@
+<div id="subNavWide">
+	<ul class="subNav li">
+		<li id="new-nav-overview"><%= link_to "Create New", new_cause_path %></li>  
+  		<li id="edit-nav-overview"><%= link_to "Edit", edit_cause_path %></li>  
+		<li id="delete" ><%= link_to "Delete", cause_path(@cause), :method => :delete, :confirm => 'Are you absolutely sure you want to delete this cause?' %></li>
+  	</ul>
+</div><!-- subNav ends -->
