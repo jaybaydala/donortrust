@@ -1,0 +1,23 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Edit Group Type</h1>
+
+    <%= error_messages_for :group %>
+
+    <% form_for(:group, :url => bus_admin_group_type_path(@group), :html => { :method => :put}) do |f| %> 
+	 <fieldset id="groupLocation">
+  		<legend>Please enter your group information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+         </ul>
+      </fieldset>
+	
+     <div> 							
+        <%= submit_tag "Edit Group Type", :class => 'button', :action => "edit" %>        
+	  </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>
