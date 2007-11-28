@@ -1,0 +1,23 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Create New Frequency Type</h1>
+    
+    <%= error_messages_for :frequency %>
+    <% form_for(:frequency, :url => bus_admin_frequency_types_path, :html => { :id => 'frequencyform', :name => 'frequencyform' }) do |f| %>
+      
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your frequency type information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+		</ul>
+      </fieldset>
+	      
+	 <div> 							
+        <%= submit_tag "New Frequency Type", :class => 'buttonsubmit', :action => "edit" %>
+	 </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>
