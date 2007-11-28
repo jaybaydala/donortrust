@@ -1,0 +1,14 @@
+<div id="contentContainer">
+	
+  <h1>Cause</h1>    
+  <%= cause_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div class="leftColW">
+    <h2><%= link_to @cause.name, cause_path(@cause) %></h2>
+   
+    <% if @cause.description? %><p><strong>Description:</strong> <%= @cause.description%></p><% end %>
+	</div>
+</div>
