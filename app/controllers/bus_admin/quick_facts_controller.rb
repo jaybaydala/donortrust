@@ -11,7 +11,7 @@ before_filter :login_required, :check_authorization
   
   def update
    @quickFact = QuickFact.find(params[:id])
-    @saved = @quickFact.update_attributes(params[:type])
+    @saved = @quickFact.update_attributes(params[:quickFact])
     respond_to do |format|
       if @saved
         flash[:notice] = 'Quick Fact was successfully updated.'
