@@ -1,6 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measures"
+
+  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
+
   
-  map.resources :projects, :controller => 'bus_admin/projects', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
+    map.resources :projects, :controller => 'bus_admin/projects', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
+  
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
   map.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
@@ -154,7 +159,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
 
-  map.resources :measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measures"
+#  map.resources :measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measures"
 
   map.resources :millennium_goals, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/millennium_goals"
   map.resources :sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/sectors"
@@ -206,7 +211,7 @@ ActionController::Routing::Routes.draw do |map|
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :tasks,       :controller => "bus_admin/tasks",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :measures
+
   map.resources :accounts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/accounts"
   map.resources :groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/groups"
 
