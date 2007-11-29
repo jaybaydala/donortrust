@@ -1,0 +1,16 @@
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="partnerInfo">
+    <div class="leftColW">
+      <h1>Sectors</h1>
+	  <%= new_sector_nav %>
+   
+    </div>
+   </div>
+
+  <div id="show-group">
+  	<%= render :partial => '/bus_admin/place_sectors/show_sectors', :collection => @sectors if @sectors %>
+  </div>
+</div>
+
