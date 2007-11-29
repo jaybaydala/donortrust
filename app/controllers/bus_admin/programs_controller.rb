@@ -16,8 +16,7 @@ class BusAdmin::ProgramsController < ApplicationController
 
   def index
     @page_title = 'Programs'
-    @programs = Program.find(:all)#, :conditions => { :featured => 1 })
-#    @projects = Project.find_public(:all, :limit => 3) if @projects.size == 0
+    @programs = Program.find(:all)
     respond_to do |format|
       format.html
     end
@@ -27,7 +26,7 @@ class BusAdmin::ProgramsController < ApplicationController
     begin
       @program = Program.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-#      rescue_404 and return
+      rescue_404 and return
     end
     @page_title = @program.name
     respond_to do |format|
@@ -53,11 +52,8 @@ class BusAdmin::ProgramsController < ApplicationController
   end
   
   def create
-    @program = Program.new(params[:program])
-    
-    @program.contact_id = params[:contact_id] if params[:contact_id]
-    
-    
+    @program = Program.new(params[:program])    
+    @program.contact_id = params[:contact_id] if params[:contact_id]  
     Program.transaction do
       @saved= @program.valid? && @program.save!
       begin
