@@ -1,0 +1,16 @@
+<div id="contentContainer">
+	
+  <h1>Partner Status</h1>    
+  <%= partner_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div class="leftColW">
+    <h2><%= @partner.name %></h2>
+    <div class="projectRank">
+    </div>    
+    <% if @partner.description? %><p><strong>Description:</strong> <%= @partner.description%></p><% end %>
+  </div>
+</div>
+
