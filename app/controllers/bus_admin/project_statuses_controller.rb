@@ -3,19 +3,79 @@ class BusAdmin::ProjectStatusesController < ApplicationController
   
   include ApplicationHelper
   
-  active_scaffold :project_statuses do |config|
-    config.columns =[ :name, :description, :projects_count, :projects ]
-    config.columns[ :name ].label = "Status"
-    list.columns.exclude [ :projects_count, :projects ]
-    update.columns.exclude [ :projects_count, :projects ]
-    create.columns.exclude [ :projects_count, :projects ]
-    config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
-#    show.columns.exclude [ ]
-
-  end
- 
-  def get_model
-    return ProjectStatus
+  def index
+    @page_title = 'Project Status'
+    @projects = ProjectStatus.find(:all)
+    respond_to do |format|
+      format.html
+    end
   end
 
-end
+   def show
+    begin
+      @project = ProjectStatus.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @page_title = @project.name
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def destroy
+    @project = ProjectStatus.find(params[:id])
+    @project.destroy
+    respond_to do |format|
+      format.html { redirect_to bus_admin_project_statuses_url }
+      format.xml  { head :ok }
+    end
+  end
+  
+  def edit     
+    @page_title = "Edit Project Status Details"
+    @project = ProjectStatus.find(params[:id])
+    respond_to do |format|
+      format.html
+    end    
+  end
+  
+  def update
+    
+  @project = ProjectStatus.find(params[:id])
+  @saved = @project.update_attributes(params[:project])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Project Status was successfully updated.'
+          
+        format.html { redirect_to bus_admin_project_statuses_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @project.errors.to_xml }
+      end
+    end
+  end
+  
+  def create
+    @project = ProjectStatus.new(params[:project])
+    Cause.transaction do
+      @saved= @project.valid? && @project.save!
+      begin
+      raise Exception if !@saved
+      rescue Exception
+      end
+    end
+    respond_to do |format|
+      if @saved
+        format.html { redirect_to bus_admin_project_statuses_url }
+        flash[:notice] = 'Project Status was created.'
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end     
+  
+  end
+
+
