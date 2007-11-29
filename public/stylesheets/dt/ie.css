@@ -1,4 +1,3 @@
-
 #leftColW .userform li {
 	float:none !important;
 	position:relative;
@@ -24,7 +23,7 @@ input {
 .userform #projectsuggest, .userform p, .userform div {
 	position:relative;
 }
-.userform #projectsuggest  input{
+.userform #projectsuggest  input, .userform p.textsm input {
 	position:relative;
 	left: 15px;
 	border:none;

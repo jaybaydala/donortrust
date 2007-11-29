@@ -202,7 +202,7 @@ context "Dt::Projects show behaviour" do
   specify "should contain \"Invest\" link which goes to dt/investments/new" do
     project_id = 2
     do_get(project_id)
-    assert_select "div#buttonInvestSM" do
+    assert_select "div#buttonInvest" do
       assert_select "a[href=/dt/investments/new?project_id=#{project_id}]"
     end
   end
@@ -210,9 +210,7 @@ context "Dt::Projects show behaviour" do
   specify "should contain \"Tell a Friend\" link which goes to dt/tell_friends/new" do
     project_id = 2
     do_get(project_id)
-    assert_select "div#buttonTellFriend" do
-      assert_select "a[href=/dt/tell_friends/new?project_id=#{project_id}]"
-    end
+    assert_select "a[href=/dt/tell_friends/new?project_id=#{project_id}]", :text => 'Tell-A-Friend'
   end
 
   specify "shouldn't break when there's no place_id associated with the project" do

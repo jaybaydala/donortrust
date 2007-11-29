@@ -88,37 +88,33 @@
     </div>
     <% end %>
 
-    <div id="credit_payment">
-      <fieldset>
-        <legend>Credit Card Details</legend>
-        <ul style="width:305px;">
-          <li><label for="gift_first_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>First Name</label><%= f.text_field 'first_name' %></li>
-          <li><label for="gift_last_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Last Name</label><%= f.text_field 'last_name' %></li>
-          <li><label for="gift_address"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Address</label><%= f.text_field 'address' %></li>
-          <li><label for="gift_city"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>City</label><%= f.text_field 'city' %></li>
-          <li><label for="gift_province"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Province/State</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
-          <li><label for="gift_postal_code"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Postal/Zip Code</label><%= f.text_field 'postal_code', :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
-          <li><label for="gift_country"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Country</label><%= f.select 'country', country_select_options, { :style => 'width:auto;' } %></li>
-          <li><label for="gift_credit_card"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Credit Card</label><%= f.text_field :credit_card %></li>
-          <li><label for="gift_expiry_month"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Card Expiry</label>
-            <div id="ccExpiry">
-              <%= f.select("expiry_month", (1..12).to_a.collect {|m| 
-              mo = m.to_s.rjust(2, "0"); 
-              [ mo, mo ] }, { :include_blank => true, :selected => @gift.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) -%>
-              <div style="width:1em;float:left;">/</div>
-              <%= f.select("expiry_year", (1..7).to_a.collect {|y| 
-              d = Date.civil(Date.today.year+y.to_i) 
-              [ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
-            </div>
-          </li>
-        </ul>
-      </fieldset>
-    </div>
-    <div>
-     Please note, currently ChristmasFuture emails are not being received by Hotmail accounts, due to a due to Hotmail spam filters. 
-	 We are working on this issue right now and will have it resolved soon. Please use alternate emails account for now. 
-	 Thanks for walking with us in our inaugural year!
-    </div>
+    <fieldset>
+      <legend>Credit Card Details</legend>
+      <ul style="width:310px;">
+        <li><label for="gift_first_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>First Name</label><%= f.text_field 'first_name' %></li>
+        <li><label for="gift_last_name"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Last Name</label><%= f.text_field 'last_name' %></li>
+        <li><label for="gift_address"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Address</label><%= f.text_field 'address' %></li>
+        <li><label for="gift_city"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>City</label><%= f.text_field 'city' %></li>
+        <li><label for="gift_province"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Province/State</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
+        <li><label for="gift_postal_code"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Postal/Zip Code</label><%= f.text_field 'postal_code', :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
+        <li><label for="gift_country"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Country</label><%= f.select 'country', country_select_options, { :style => 'width:auto;' } %></li>
+        <li><label for="gift_credit_card"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Credit Card</label><%= f.text_field :credit_card %></li>
+        <li><label for="gift_expiry_month"><%= render :partial => 'dt/shared/form_required' if !logged_in? || params[:payment] == 'credit' %>Card Expiry</label>
+          <div id="ccExpiry">
+            <%= f.select("expiry_month", (1..12).to_a.collect {|m| 
+            mo = m.to_s.rjust(2, "0"); 
+            [ mo, mo ] }, { :include_blank => true, :selected => @gift.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) -%>
+            <div style="width:1em;float:left;">/</div>
+            <%= f.select("expiry_year", (1..7).to_a.collect {|y| 
+            d = Date.civil(Date.today.year+y.to_i) 
+            [ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
+          </div>
+        </li>
+      </ul>
+    </fieldset>
+
+    <%= render 'dt/shared/hotmail' %>
+    
     <%= submit_tag 'Confirm', :class => 'buttonsubmit' %>
     <%= render :partial => 'dt/shared/form_requirednote' %>
   </div>

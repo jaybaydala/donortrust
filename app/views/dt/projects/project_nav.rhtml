@@ -6,6 +6,5 @@
           <% if @project && @project.nation_id? && @project.nation %><li id="project-nav-nation"<%= ' class="current"' if params[:action] == 'nation'       && params[:controller] == 'dt/projects' %>><%= link_to "Nation ",  dt_nation_project_path(@project) %></li><% end %>
           <li id="project-nav-organization"<%= ' class="current"' if params[:action] == 'organization' && params[:controller] == 'dt/projects' %>><%= link_to "Organization ", dt_organization_project_path(@project) %></li>
         </ul>
-        <% if @project.fundable? %><div id="buttonInvestSM"><%= link_to "<span>Invest</span>", dt_new_investment_path(:project_id => @project) %></div><% end %>
         <div id="buttonConnect"><%= link_to "<span>Connect</span> ", dt_connect_project_path(@project), ( params[:action] == 'connect' && params[:controller] == 'dt/projects' ? { :class => "current"  } : {} ) %></div>
       </div><!-- subNav ends -->
