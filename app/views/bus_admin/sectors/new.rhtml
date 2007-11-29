@@ -1,0 +1,25 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Create New Sector</h1>
+    
+    <%= error_messages_for :sector %>
+    <% form_for(:sector, :url => sectors_path, :html => { :id => 'sectorform', :name => 'sectorform' }) do |f| %>
+      
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your sector information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">	
+			 <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>				  		
+		    <li><label for="description">description</label><%= f.text_field :description %></li>					
+			</ul>
+      </fieldset>	
+	  
+	 	      
+	 <div> 							
+        <%= submit_tag "New Sector", :class => 'buttonsubmit', :action => "edit" %>
+	 </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>

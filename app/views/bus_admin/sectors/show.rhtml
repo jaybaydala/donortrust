@@ -1,0 +1,16 @@
+<div id="contentContainer">
+	
+  <h1>Sector</h1>    
+  <%= sector_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div class="leftColW">
+    <h2><%= @sector.name %></h2>
+    <div class="projectRank">
+    </div>    
+    <% if @sector.description? %><p><strong>Description:</strong> <%= @sector.description%></p><% end %>
+  </div>
+</div>
+

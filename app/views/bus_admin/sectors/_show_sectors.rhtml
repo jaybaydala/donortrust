@@ -1,0 +1,11 @@
+<% @sector = show_sectors -%>
+<div class="projectInfo"  id="sectorInfo-<%= @sector.id %>">
+  <div class="leftColW">
+    <h2><%= link_to @sector.name, sector_path(@sector) %></h2>
+    <p><strong>Sector Description:</strong> <%= @sector.description%></p>
+ 
+  </div>    	
+</div>
+	
+  
+	
