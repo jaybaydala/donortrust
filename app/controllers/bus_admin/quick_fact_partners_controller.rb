@@ -35,7 +35,7 @@ class BusAdmin::QuickFactPartnersController < ApplicationController
   end  
   
     def edit     
-    @page_title = "Edit Partner Details"
+    @page_title = "Edit Quick Fact Partner Details"
     @partner = QuickFactPartner.find(params[:id])
     respond_to do |format|
       format.html
@@ -48,7 +48,7 @@ class BusAdmin::QuickFactPartnersController < ApplicationController
     @saved = @quick_fact_partners.update_attributes(params[:partner])
     respond_to do |format|
       if @saved
-        flash[:notice] = 'Partner was successfully updated.'
+        flash[:notice] = 'Quick Fact Partner was successfully updated.'
         format.html { redirect_to quick_fact_partner_path(@quick_fact_partners.partner_id) }
         format.xml  { head :ok }
       else
@@ -71,7 +71,7 @@ class BusAdmin::QuickFactPartnersController < ApplicationController
     end
     respond_to do |format|
       if @saved
-        flash[:notice] = 'Quick Fact was successfully added.'
+        flash[:notice] = 'Quick Fact Partner was successfully added.'
         format.html { redirect_to quick_fact_partner_path(@quick_fact_partners.partner_id) }
        
       else
