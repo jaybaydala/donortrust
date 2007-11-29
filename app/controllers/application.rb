@@ -136,5 +136,8 @@ protected
     BusAdmin::UserInfo.current_user = session[:user]
   end
 
+  def rescue_404
+    rescue_action_in_public DtNotFoundError.new
+  end
 
 end
