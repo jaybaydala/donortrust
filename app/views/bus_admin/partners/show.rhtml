@@ -14,22 +14,22 @@
     </h1>
     
     <% if @partner && @partner.description? %>
-    <h2>Description</h2>
+    <h2>Partner Description: </h2>
     <div><%= @partner.description %></div>
     <% end %>
 
     <% if @partner && @partner.mission_statement? %>
-    <h2>Mission Statement</h2>
+    <h2>Mission Statement: </h2>
     <div><%= @partner.mission_statement %></div>
     <% end %>
 
     <% if @partner && @partner.philosophy_dev? %>
-    <h2>Philosophy of Development</h2>
+    <h2>Philosophy of Development: </h2>
     <div><%= @partner.philosophy_dev %></div>
     <% end %>
 
     <% if @partner && @partner.business_model? %>
-    <h2>Business Model</h2>
+    <h2>Business Model: </h2>
     <div><%= @partner.business_model %></div>
     <% end %>
   </div>
