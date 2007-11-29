@@ -232,6 +232,7 @@ context "Dt::Gifts new behaviour"do
     login_as :quentin
     @project = Project.find_public(:first)
     @project.update_attributes(:project_status_id => 4) #makes it non-fundable
+pp @project.fundable?
     get :new, :project_id => @project
     should.redirect dt_project_path(@project.id)
   end

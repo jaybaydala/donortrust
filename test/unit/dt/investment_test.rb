@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 # see user_transaction_test.rb for amount and user tests
 context "Investment" do
-  fixtures :investments, :deposits, :gifts, :user_transactions, :users
+  fixtures :investments, :deposits, :gifts, :user_transactions, :users, :groups
 
   setup do
   end
