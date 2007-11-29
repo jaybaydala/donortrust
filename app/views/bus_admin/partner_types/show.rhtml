@@ -1,0 +1,18 @@
+<div id="contentContainer">
+	
+  <h1>Partner Type</h1>    
+  <%= partner_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div class="leftColW">
+    <h2><%= @partner.name %></h2>
+  
+    <% if @partner.description? %><p><strong>Description:</strong><br> <%= @partner.description%></p><% end %>
+  </div>
+</div>
+
+
+
+
