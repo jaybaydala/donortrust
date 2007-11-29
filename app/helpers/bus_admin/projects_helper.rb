@@ -53,5 +53,53 @@ module BusAdmin::ProjectsHelper
        RedCloth.new(record.responsibilities).to_html
     end    
   end
-    
+  
+  def project_quickfacts
+    render 'bus_admin/projects/project_quickfacts'
+  end
+  
+   def project_nav
+    render 'bus_admin/projects/project_nav'    
+  end
+
+  def new_project_nav
+    render 'bus_admin/projects/new_project_nav'    
+  end   
+  
+  def place_form_column
+    render 'bus_admin/projects/_place_form_column'    
+  end
+
+  
+  def project_status_types
+    ProjectStatus.find(:all)
+  end
+  
+  def get_partners
+    Partner.find(:all)
+  end
+  
+  def get_contacts
+    Contact.find(:all)
+  end
+  
+  def get_programs
+    Program.find(:all)
+  end  
+  
+  
+  
+  
+  def community_projects(project)
+    if @community_projects.nil?
+      @community_projects = []
+      unless @project.community.nil? || @project.community.projects.nil?
+        projects = Project.find_public(:all, :select => 'projects.name, projects.id', :conditions => ['projects.place_id = ? AND projects.id != ?', project.community_id, project.id])
+        @community_projects = projects.collect do |project|
+          [project.name, project.id]
+        end
+      end
+    end
+    @community_projects
+  end
 end
