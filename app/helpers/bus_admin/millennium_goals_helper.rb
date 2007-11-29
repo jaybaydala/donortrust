@@ -4,4 +4,13 @@ module BusAdmin::MillenniumGoalsHelper
       RedCloth.new(record.description).to_html
     end
   end  
+  
+  def goal_nav
+    render 'bus_admin/millennium_goals/goal_nav'
+  end
+  
+  def new_goal_nav
+    render 'bus_admin/millennium_goals/new_goal_nav'
+  end  
+  
 end
