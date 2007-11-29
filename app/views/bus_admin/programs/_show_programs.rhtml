@@ -1,5 +1,5 @@
 <% @program = show_programs -%>
-<div class="programInfo"  id="programInfo-<%= @program.id %>">
+<div class="projectInfo"  id="programInfo-<%= @program.id %>">
   <div class="leftColW">
     <h2><%= link_to @program.name, bus_admin_program_path(@program) %></h2>
 	<p><strong>Contact:</strong> <%= @program.contact.first_name %> <%= @program.contact.last_name %></p>
