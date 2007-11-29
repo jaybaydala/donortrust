@@ -1,0 +1,16 @@
+<div id="contentContainer">
+	
+  <h1>Project Status</h1>    
+  <%= project_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div class="leftColW">
+    <h2><%= @project.name %></h2>
+    <div class="projectRank">
+    </div>    
+    <% if @project.description? %><p><strong>Description:</strong> <%= @project.description%></p><% end %>
+  </div>
+</div>
+

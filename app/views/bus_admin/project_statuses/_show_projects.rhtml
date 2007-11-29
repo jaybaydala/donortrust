@@ -1,0 +1,11 @@
+<% @project = show_projects -%>
+<div class="projectInfo"  id="projectInfo-<%= @project.id %>">
+  <div class="leftColW">
+    <h2><%= link_to @project.name, bus_admin_project_status_path(@project) %></h2>
+    <p><strong>Rank Description:</strong> <%= @project.description%></p>
+ 
+  </div>    	
+</div>
+	
+  
+	

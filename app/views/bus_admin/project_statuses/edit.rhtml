@@ -1,0 +1,24 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Edit Project Status</h1>
+
+    <%= error_messages_for :project %>
+
+    <% form_for(:project, :url => bus_admin_project_status_path(@project), :html => { :method => :put}) do |f| %> 
+	 <fieldset id="groupLocation">
+  		<legend>Please enter your project status information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+		    <li><label for="description"><%= render :partial => 'dt/shared/form_required' %>description</label><%= f.text_area :description %></li>			
+		</ul>
+      </fieldset>	
+	 
+     <div> 							
+        <%= submit_tag "Edit Status", :class => 'button', :action => "edit" %>        
+	  </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>
