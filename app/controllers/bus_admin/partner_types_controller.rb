@@ -1,19 +1,81 @@
 class BusAdmin::PartnerTypesController < ApplicationController
   before_filter :login_required, :check_authorization
   
-  include ApplicationHelper
+  include ApplicationHelper  
+
+  def index
+    @page_title = 'Partner Types'
+    @partners = PartnerType.find(:all)
+    respond_to do |format|
+      format.html
+    end
+  end
+
+   def show
+    begin
+      @partner = PartnerType.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+    end
+    @page_title = @partner.name
+    respond_to do |format|
+      format.html
+    end
+  end
   
-  active_scaffold :partner_type do |config|   
-    config.label = "Partner Categories"
-    config.columns =[ :name, :description, :partners_count, :partners ]
-    list.columns.exclude [ :partners_count, :partners ]
-    update.columns.exclude [ :partners_count, :partners ]
-    create.columns.exclude [ :partners_count, :partners ]
-    config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
- 
-    config.label = "Partner Types"
+  def destroy
+    @partner = PartnerType.find(params[:id])
+    @partner.destroy
+    respond_to do |format|
+      format.html { redirect_to bus_admin_partner_types_url }
+      format.xml  { head :ok }
+    end
   end
-   def get_model
-    return PartnerType
+  
+  def edit     
+    @page_title = "Edit Partner Type Details"
+    @partner = PartnerType.find(params[:id])
+    respond_to do |format|
+      format.html
+    end    
   end
+  
+  def update
+    
+  @partner = PartnerType.find(params[:id])
+  @saved = @partner.update_attributes(params[:partner])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Partner Type was successfully updated.'
+          
+        format.html { redirect_to bus_admin_partner_types_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @partner.errors.to_xml }
+      end
+    end
+  end
+  
+  def create
+    @partner = PartnerType.new(params[:partner])
+    Cause.transaction do
+      @saved= @partner.valid? && @partner.save!
+      begin
+      raise Exception if !@saved
+      rescue Exception
+      end
+    end
+    respond_to do |format|
+      if @saved
+        format.html { redirect_to bus_admin_partner_types_url }
+        flash[:notice] = 'Partner Type was created.'
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end     
+
 end
+
+
+
