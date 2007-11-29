@@ -1,0 +1,16 @@
+<div id="contentContainer">
+	
+  <h1>Rank Type</h1>    
+  <%= rank_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div class="leftColW">
+    <h2><%= @rank.name %></h2>
+    <div class="projectRank">
+    </div>    
+    <% if @rank.description? %><p><strong>Description:</strong> <%= @rank.description%></p><% end %>
+  </div>
+</div>
+
