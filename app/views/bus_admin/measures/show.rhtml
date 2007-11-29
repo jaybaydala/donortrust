@@ -7,7 +7,7 @@
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
     
   <div class="leftColW">
-    <h2><%= link_to @measure.description, measure_path(@measure) %></h2>
+    <h2><%= @measure.description %></h2>
    
  </div>
 </div>
