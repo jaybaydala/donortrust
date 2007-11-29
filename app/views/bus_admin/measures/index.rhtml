@@ -1,0 +1,17 @@
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="partnerInfo">
+    <div class="leftColW">
+      <h1>Measures</h1>
+	   <%= new_measure_nav %>
+   
+    </div>
+   </div>
+
+  <div id="show-measure">
+  	<%= render :partial => '/bus_admin/measures/show_measures', :collection => @measures if @measures %>
+  </div>
+</div>
+
+

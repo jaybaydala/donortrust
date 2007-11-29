@@ -1,0 +1,23 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Edit Measure</h1>
+
+    <%= error_messages_for :measure %>
+
+    <% form_for(:measure, :url => measure_path(@measure), :html => { :method => :put}) do |f| %> 
+	 <fieldset id="groupLocation">
+  		<legend>Please enter your measure information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="desc"><%= render :partial => 'dt/shared/form_required' %>Description</label><%= f.text_field :description %></li>			
+         </ul>
+      </fieldset>
+	
+     <div> 							
+        <%= submit_tag "Edit Measure", :class => 'button', :action => "edit" %>        
+	  </div>
+
+    <% end -%>	  
+	
+  </div>
+
+</div>
