@@ -4,4 +4,13 @@ module BusAdmin::SectorsHelper
       RedCloth.new(record.description).to_html
     end
   end
+  
+  def sector_nav
+    render 'bus_admin/sectors/sector_nav'
+  end
+  
+  def new_sector_nav
+    render 'bus_admin/sectors/new_sector_nav'
+  end
+  
 end
