@@ -2,6 +2,6 @@
     <div class="projectInfo"  id="projectInfo-<%= @quickFact.id %>">
       <div class="leftColW">
       	<h2><%= link_to @quickFact.quick_fact.name, edit_quick_fact_partner_path(@quickFact.id), :action => 'new' %></h2>       
-        <p><strong>Quick Fact Description:</strong> <%= @quickFact.quick_fact.description%></p>
+        <p><strong>Quick Fact Partner Description: </strong> <%= @quickFact.quick_fact.description%></p>
       </div>    	
     </div>
