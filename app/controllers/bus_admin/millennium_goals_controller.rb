@@ -1,13 +1,77 @@
 class BusAdmin::MillenniumGoalsController < ApplicationController
   before_filter :login_required, :check_authorization
-  active_scaffold :millennium_goal do |config|
-    config.columns =[:name,  :description]
- 
-    config.action_links.add 'inactive_records', :label => 'Show Inactive', :parameters =>{:action => 'inactive_records'}
-    
+
+
+ def index
+    @page_title = 'Millennium Goals'
+    @goals = MillenniumGoal.find(:all)
+    respond_to do |format|
+      format.html
+    end
+  end
+
+   def show
+    begin
+      @goal = MillenniumGoal.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @page_title = @goal.name
+    respond_to do |format|
+      format.html
+    end
   end
   
-   def get_model
-    return MillenniumGoal
+  def destroy
+    @goal = MillenniumGoal.find(params[:id])
+    @goal.destroy
+    respond_to do |format|
+      format.html { redirect_to millennium_goals_url }
+      format.xml  { head :ok }
+    end
   end
+  
+  def edit     
+    @page_title = "Edit Millennium Goal Details"
+    @goal = MillenniumGoal.find(params[:id])
+    respond_to do |format|
+      format.html
+    end    
+  end
+  
+  def update
+    
+  @goal = MillenniumGoal.find(params[:id])
+  @saved = @goal.update_attributes(params[:goal])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Millennium Goal was successfully updated.'          
+        format.html { redirect_to millennium_goals_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @goal.errors.to_xml }
+      end
+    end
+  end
+  
+  def create
+    @goal = MillenniumGoal.new(params[:goal])
+    Cause.transaction do
+      @saved= @goal.valid? && @goal.save!
+      begin
+      raise Exception if !@saved
+      rescue Exception
+      end
+    end
+    respond_to do |format|
+      if @saved
+        format.html { redirect_to millennium_goals_url }
+        flash[:notice] = 'Millennium Goal was created.'
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end     
+  
 end
