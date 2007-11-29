@@ -1,0 +1,16 @@
+<div id="contentContainer">
+	
+  <h1>Millennium Goals</h1>    
+  <%= goal_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div class="leftColW">
+    <h2><%= @goal.name %></h2>
+    <div class="projectRank">
+    </div>    
+    <% if @goal.description? %><p><strong>Description:</strong> <%= @goal.description%></p><% end %>
+  </div>
+</div>
+
