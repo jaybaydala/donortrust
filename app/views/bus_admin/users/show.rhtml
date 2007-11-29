@@ -1,61 +1,22 @@
 <div id="contentContainer">
-  
-  <h1>Donors </h1> 
-  <%= user_nav %> 
-
+	
+  <h1>Donors</h1>    
+  <%= user_nav %>
+ 
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
     
-  <div id="leftColW">
-    <h1>
-      <%= h @user.name if @user %>
-    </h1>
-	
-	<% if @user && @user.first_name? && @user.last_name? %>  
-      <h2>Name: </h2>
-      <div><%= @user.first_name  %> <%=   @user.last_name %></div>
-    <% end %>
-	    
-    <% if @user && @user.login? %>  
-      <h2>Login: </h2>
-      <div><%= @user.login %></div>
-    <% end %>
-	
-    <% if @user && @user.display_name? %>  
-      <h2>Display Name: </h2>
-      <div><%= @user.display_name %></div>
-    <% end %>
-	
-    <% if @user && @user.address? %>  
-      <h2>Address: </h2>
-      <div><%= @user.address %></div>
-    <% end %>
-	
-    <% if @user && @user.city? %>  
-      <h2>City: </h2>
-      <div><%= @user.city %></div>
-    <% end %>
-	
-    <% if @user && @user.province? %>  
-      <h2>Province: </h2>
-      <div><%= @user.province %></div>
-    <% end %>
-	
-    <% if @user && @user.postal_code? %>  
-      <h2>Postal Code: </h2>
-      <div><%= @user.postal_code %></div>
-    <% end %>
-	
-    <% if @user && @user.country? %>  
-      <h2>Country: </h2>
-      <div><%= @user.country %></div>
-    <% end %>
-	
-    <% if @user && @user.under_thirteen? %>  
-      <h2>Under Thirteen: </h2>
-      <div><%= @user.under_thirteen %></div>
-    <% end %>								
-	
-  </div>  
- 
+  <div class="leftColW">
+    <h2><%= @user.name %></h2>
+   
+    <% if @user.first_name? &&  @user.last_name? %><p><strong>Name: </strong> <%= @user.first_name %> <%= @user.last_name %></p><% end %>
+	<% if @user.login? %><p><strong>Login: </strong> <%= @user.login%></p><% end %>
+	<% if @user.display_name? %><p><strong>Display Name: </strong> <%= @user.display_name%></p><% end %>
+	<% if @user.address? %><p><strong>Address: </strong> <%= @user.address%></p><% end %>
+	<% if @user.city? %><p><strong>City: </strong> <%= @user.city%></p><% end %>
+	<% if @user.province? %><p><strong>Province: </strong> <%= @user.province %></p><% end %>
+	<% if @user.postal_code? %><p><strong>Postal Code: </strong> <%= @user.postal_code%></p><% end %>
+	<% if @user.country? %> <p><strong>Country: </strong> <%= @user.country %></p><% end %> 	
+	<% if @user.under_thirteen? %> <p><strong>Under Thirteen: </strong> <%= @user.under_thirteen %></p><% end %> 	
+  </div>
 </div>
