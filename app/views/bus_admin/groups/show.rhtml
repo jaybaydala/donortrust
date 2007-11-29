@@ -10,13 +10,13 @@
     <h2><%= @group.name %></h2>
     <div class="projectRank">
     </div>    
-    <% if @group.description? %><p><strong>Description:</strong> <%= @group.description%></p><% end %>
-	<% if @group.group_type_id? %><p><strong>Group Type:</strong> <%= @group.group_type.name%></p><% end %>
-	<% if @group.private? %><p><strong>Private:</strong> <%= @group.private%></p><% end %>
-	<% if @group.featured? %><p><strong>Featured:</strong> <%= @group.featured%></p><% end %>
-	<% if @group.city? %><p><strong>City:</strong> <%= @group.city%></p><% end %>
-	<% if @group.province? %><p><strong>Province:</strong> <%= @group.province%></p><% end %>
-	<% if @group.country? %><p><strong>Country:</strong> <%= @group.country%></p><% end %>
+    <% if @group.description? %><p><strong>Group Description: </strong> <%= @group.description%></p><% end %>
+	<% if @group.group_type_id? %><p><strong>Group Type: </strong> <%= @group.group_type.name%></p><% end %>
+	<% if @group.private? %><p><strong>Private: </strong> <%= @group.private%></p><% end %>
+	<% if @group.featured? %><p><strong>Featured: </strong> <%= @group.featured%></p><% end %>
+	<% if @group.city? %><p><strong>City: </strong> <%= @group.city%></p><% end %>
+	<% if @group.province? %><p><strong>Province: </strong> <%= @group.province%></p><% end %>
+	<% if @group.country? %><p><strong>Country: </strong> <%= @group.country%></p><% end %>
   </div>
 </div>
 
