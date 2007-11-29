@@ -12,7 +12,7 @@ class BusAdmin::MeasuresController < ApplicationController
     begin
       @measure = Measure.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-#      rescue_404 and return
+      rescue_404 and return
     end
     @page_title = @measure.description
     respond_to do |format|
