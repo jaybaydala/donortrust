@@ -36,6 +36,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # inactive_record resources
   
+  map.activate_record 'bus_admin/causes/activate_record', :controller => 'bus_admin/causes', :action => 'activate_record'
   map.activate_record 'bus_admin/millennium_goals/activate_record', :controller => 'bus_admin/millennium_goals', :action => 'activate_record'
   map.activate_record 'bus_admin/group_types/activate_record', :controller => 'bus_admin/group_types', :action => 'activate_record'
   map.activate_record 'bus_admin/frequency_types/activate_record', :controller => 'bus_admin/frequency_types', :action => 'activate_record'
