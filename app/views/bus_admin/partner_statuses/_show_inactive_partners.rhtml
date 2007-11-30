@@ -1,0 +1,6 @@
+<% @partner = show_inactive_partners -%>
+  <div class="leftColW">
+      <h2><%= link_to @partner.name, {:action => 'activate_record', :id => @partner }, :confirm => 'Recover record?' %> </h2>
+      <p><strong>Partner Description: </strong> <%= @partner.description%></p> 
+
+  </div>
