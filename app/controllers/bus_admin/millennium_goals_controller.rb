@@ -74,4 +74,29 @@ class BusAdmin::MillenniumGoalsController < ApplicationController
     end
   end     
   
+  def inactive_records
+    @page_title = 'Inactive Millennium Goals'       
+    @goals = MillenniumGoal.find_with_deleted(:all, :conditions => ['deleted_at is not null' ])
+    respond_to do |format|
+      format.html
+    end
+  end     
+  
+  def activate_record
+    
+    @goal = MillenniumGoal.find_with_deleted(params[:id])
+    @goal.deleted_at = nil
+    @saved = @goal.update_attributes(params[:goal])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Millennium Goal was successfully recovered.'
+        format.html { redirect_to millennium_goals_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @goal.errors.to_xml }
+      end
+    end
+  end
+  
 end
