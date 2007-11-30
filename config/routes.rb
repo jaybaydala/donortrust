@@ -35,6 +35,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/dt', :controller => 'dt/projects'
 
   # inactive_record resources
+  
+  map.activate_record 'bus_admin/group_types/activate_record', :controller => 'bus_admin/group_types', :action => 'activate_record'
+  map.activate_record 'bus_admin/frequency_types/activate_record', :controller => 'bus_admin/frequency_types', :action => 'activate_record'
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
   map.recover_record 'bus_admin/milestone_statuses/recover_record', :controller => 'bus_admin/milestone_statuses', :action => 'recover_record'
   map.inactive_records 'bus_admin/project_statuses/inactive_records', :controller => 'bus_admin/project_statuses', :action => 'inactive_records'
