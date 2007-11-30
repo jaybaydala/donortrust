@@ -1,7 +1,8 @@
 class BusAdmin::FrequencyTypesController < ApplicationController
  before_filter :login_required, :check_authorization
 
-def index
+
+ def index
     @page_title = 'Frequency'
     @frequencys = FrequencyType.find(:all)
     respond_to do |format|
@@ -72,8 +73,31 @@ def index
       end
     end
   end
-     
-  def get_model
-    return FrequencyType
+  
+  def inactive_records
+    @page_title = 'Inactive Frequency Types'
+       
+    @frequencys = FrequencyType.find_with_deleted(:all, :conditions => ['deleted_at is not null' ])
+    respond_to do |format|
+      format.html
+    end
+  end     
+  
+  def activate_record
+    
+    @frequency = FrequencyType.find_with_deleted(params[:id])
+    @frequency.deleted_at = nil
+    @saved = @frequency.update_attributes(params[:frequency])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Frequency type  was successfully recovered.'
+        format.html { redirect_to bus_admin_frequency_types_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @frequency.errors.to_xml }
+      end
+    end
   end
+  
 end
