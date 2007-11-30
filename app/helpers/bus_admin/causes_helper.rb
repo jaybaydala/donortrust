@@ -11,6 +11,10 @@ module BusAdmin::CausesHelper
   
   def cause_nav
     render 'bus_admin/causes/cause_nav'
-  end    
+  end  
+  
+  def inactive_nav
+    render 'bus_admin/causes/inactive_nav'
+  end     
   
 end
