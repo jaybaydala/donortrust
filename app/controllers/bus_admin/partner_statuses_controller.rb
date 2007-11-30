@@ -76,6 +76,31 @@ class BusAdmin::PartnerStatusesController < ApplicationController
     end
   end     
   
+  def inactive_records
+    @page_title = 'Inactive Partner Status'       
+    @partners = PartnerStatus.find_with_deleted(:all, :conditions => ['deleted_at is not null' ])
+    respond_to do |format|
+      format.html
+    end
+  end     
+  
+  def activate_record
+    
+    @partner = PartnerStatus.find_with_deleted(params[:id])
+    @partner.deleted_at = nil
+    @saved = @partner.update_attributes(params[:partner])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Partner Status was successfully recovered.'
+        format.html { redirect_to bus_admin_partner_statuses_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @partner.errors.to_xml }
+      end
+    end
+  end
+  
 end
 
 
