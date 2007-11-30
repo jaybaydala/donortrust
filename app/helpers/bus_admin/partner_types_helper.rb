@@ -7,5 +7,9 @@ module BusAdmin::PartnerTypesHelper
   def new_partner_nav
     render 'bus_admin/partner_types/new_partner_nav'
   end  
+  
+  def inactive_nav
+    render 'bus_admin/partner_types/inactive_nav'
+  end     
 
 end
