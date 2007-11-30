@@ -8,4 +8,8 @@ module BusAdmin::FrequencyTypesHelper
     render 'bus_admin/frequency_types/frequency_nav'
   end   
 
+  def inactive_nav
+    render 'bus_admin/frequency_types/inactive_nav'
+  end    
+
 end
