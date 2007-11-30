@@ -6,7 +6,11 @@ module BusAdmin::GroupTypesHelper
   
   def group_nav
     render 'bus_admin/group_types/group_nav'
-  end  
+  end 
+  
+  def inactive_nav
+    render 'bus_admin/group_types/inactive_nav'
+  end     
 
   
 end
