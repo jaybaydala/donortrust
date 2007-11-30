@@ -1,0 +1,6 @@
+<% @cause = show_inactive_causes -%>
+  <div class="leftColW">
+      <h2><%= link_to @cause.name, {:action => 'activate_record', :id => @cause }, :confirm => 'Recover record?' %> </h2>
+      <p><strong>Millennium Goal Description: </strong> <%= @cause.description%></p> 
+
+  </div>
