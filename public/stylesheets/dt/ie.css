@@ -48,11 +48,13 @@ input.buttonsubmit {
 }
 #buttonSignIn {
 	float:left;
+}
+#buttonSignUp, #buttonSignIn {
 	clear:left;
-	margin: 6px 0 0 0px;
+	margin: 6px 0;
 	padding: 0;
 }
-#buttonSignIn input.buttonsubmit {
+#buttonSignIn input.buttonsubmit, #buttonSignUp input.buttonsubmit {
 	margin-left:0;
 }
 .userform div.textsm, .userform p.textsm {

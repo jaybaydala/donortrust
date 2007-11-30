@@ -55,9 +55,7 @@
       </fieldset>
     	<fieldset class="personalinfo">
     	  <legend>Terms of Service</legend>
-      	<ul>
-      	  <li><%= f.check_box :terms_of_use %> <span class="textsm">I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</span></li>
-        </ul>
+    	  <p class="textsm"><%= f.check_box :terms_of_use %> I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</p>
       </fieldset>
       
       <%= render 'dt/shared/hotmail' %>
