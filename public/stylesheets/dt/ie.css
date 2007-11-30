@@ -5,28 +5,34 @@
 
 label {
 	float:none !important; 
-	width:100px;
 	display:block;
 }	
 
 input {
-	padding: 0 0 0 0 !important;
-	width: auto !important; 
-	height: auto !important; 
+	padding: 2px 4px 2px 4px !important;
+	width: auto !important;
+	height: auto !important;
 	float:none !important;
 }
 .userform select, .userform input {
 	position:absolute;
 	top:0;
-	left:110px;
+	left:120px;
 }
-.userform #projectsuggest, .userform p, .userform div {
-	position:relative;
-}
+
+.userform #projectsuggest, .userform #selectedImage, .userform p, .userform div {position:relative;}
+
+.userform #selectedImage ul, .userform #projectsuggest ul { padding-left:0px;}
+.userform #selectedImage p.textsm { position:relative; top:25px; left:75px;}
+.userform #selectedImage img { position: relative; top:5px;left:85px;}
+.userform #projectsuggest li { display:inline; padding: 5px 10px 0 0;}
+
 .userform #projectsuggest  input, .userform p.textsm input {
 	position:relative;
-	left: 15px;
+	left: 0px;
 	border:none;
+	margin:1px 5px 0 0px;
+	padding: 0 0 0 0 !important;
 }
 
 input.buttonsubmit {
@@ -59,7 +65,7 @@ input.buttonsubmit {
 #ccExpiry {
 	position:absolute;
 	top:0;
-	left:110px;
+	left:120px;
 }
 #ccExpiry select {
 	position:static;
@@ -69,7 +75,10 @@ input.buttonsubmit {
 }
 
 fieldset.fieldsetN input, fieldset.fieldsetN2 input {
-	width:120px !important;
+	width: 132px !important;
+	position:absolute;
+	top:0;
+	left:82px;
 }
 #rememberMe {position:relative;}
 #rememberMe label{
