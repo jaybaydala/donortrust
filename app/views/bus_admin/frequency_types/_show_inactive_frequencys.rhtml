@@ -1,0 +1,4 @@
+<% @frequency = show_inactive_frequencys -%>
+  <div class="leftColW">
+      <h2><%= link_to @frequency.name, {:action => 'activate_record', :id => @frequency }, :confirm => 'Recover record?' %> </h2>
+  </div>
