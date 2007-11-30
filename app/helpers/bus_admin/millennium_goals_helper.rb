@@ -13,4 +13,8 @@ module BusAdmin::MillenniumGoalsHelper
     render 'bus_admin/millennium_goals/new_goal_nav'
   end  
   
+  def inactive_nav
+    render 'bus_admin/millennium_goals/inactive_nav'
+  end    
+  
 end
