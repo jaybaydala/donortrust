@@ -74,4 +74,29 @@ class BusAdmin::CausesController < ApplicationController
   end
   
 
+  def inactive_records
+    @page_title = 'Inactive Causes'
+       
+    @causes = Cause.find_with_deleted(:all, :conditions => ['deleted_at is not null' ])
+    respond_to do |format|
+      format.html
+    end
+  end     
+  
+  def activate_record    
+    @cause = Cause.find_with_deleted(params[:id])
+    @cause.deleted_at = nil
+    @saved = @cause.update_attributes(params[:cause])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Cause was successfully recovered.'
+        format.html { redirect_to causes_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => cause.errors.to_xml }
+      end
+    end
+  end
+    
 end
