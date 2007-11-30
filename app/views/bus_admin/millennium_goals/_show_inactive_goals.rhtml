@@ -1,0 +1,5 @@
+<% @goal = show_inactive_goals -%>
+  <div class="leftColW">
+      <h2><%= link_to @goal.name, {:action => 'activate_record', :id => @goal }, :confirm => 'Recover record?' %> </h2>
+      <p><strong>Millennium Goal Description: </strong> <%= @goal.description%></p> 
+  </div>
