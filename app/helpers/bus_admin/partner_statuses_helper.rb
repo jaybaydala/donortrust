@@ -14,5 +14,7 @@ module BusAdmin::PartnerStatusesHelper
     render 'bus_admin/partner_statuses/new_partner_nav'
   end  
   
-  
+   def inactive_nav
+    render 'bus_admin/partner_statuses/inactive_nav'
+   end   
 end
