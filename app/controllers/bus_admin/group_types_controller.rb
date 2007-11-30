@@ -72,8 +72,34 @@ def index
       end
     end
   end  
+  
+  
    
-    def get_model
-    return GroupType
+  def inactive_records
+    @page_title = 'Inactive Frequency Types'
+       
+    @groups = GroupType.find_with_deleted(:all, :conditions => ['deleted_at is not null' ])
+    respond_to do |format|
+      format.html
+    end
+  end     
+  
+  def activate_record
+    
+    @group = GroupType.find_with_deleted(params[:id])
+    @group.deleted_at = nil
+    @saved = @group.update_attributes(params[:group])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Group type was successfully recovered.'
+        format.html { redirect_to bus_admin_group_types_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @frequency.errors.to_xml }
+      end
+    end
   end
+  
 end
+
