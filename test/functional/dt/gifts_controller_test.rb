@@ -207,7 +207,7 @@ context "Dt::Gifts new behaviour"do
     get :new
     page.should.select "#giftform input[type=radio][name=payment][value=account]"
     page.should.select "#giftform input[type=radio][name=payment][value=credit]"
-    page.should.select "#giftform #credit_payment"
+    #page.should.select "#giftform #credit_payment"
     page.should.select "#giftform #account_payment"
   end
 

@@ -162,6 +162,14 @@ class Project < ActiveRecord::Base
       end
       @partners
     end
+    
+  end
+
+  def group_project?(user)
+    user.groups.each do |user_group|
+      return true if group_ids.include?(user_group.id)
+    end
+    false
   end
   
   def fundable?

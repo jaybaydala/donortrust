@@ -38,7 +38,7 @@
       </ul>
     </fieldset>
 
-    <% if logged_in? && current_user.groups.length > 0 %>
+    <% if logged_in? && @project && @project.group_project?(current_user) %>
     <fieldset>
       <legend>Group Wishlist</legend>
       <p class="textsm"><%= render :partial => 'dt/shared/form_required' %>You have the option to invest on behalf of one of your groups, would you like to do this now?</p>

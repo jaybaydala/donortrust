@@ -136,3 +136,36 @@ context "Project Statuses" do
     @project.fundable?.should.be false
   end
 end
+
+context "Project Groups" do
+  fixtures :projects, :users, :groups
+  
+  specify "project.group_project? should return true if a user is a member of a group which is also in the project's group list" do
+    @user = users(:quentin)
+    @user.memberships.clear
+    @project = Project.find_public(:first)
+    @project.groups.clear
+    
+    @group = Group.find(:first)
+    @project.groups << @group
+    @user.groups << @group
+    
+    @project.group_project?(@user).should.be true
+  end
+
+  specify "project.group_project? should return false if a user not is a member of a group which is also in the project's group list" do
+    @user = users(:quentin)
+    @user.memberships.clear
+    @project = Project.find_public(:first)
+    @project.groups.clear
+
+    @group = Group.find(:first)
+    @project.groups << @group
+
+    @project.group_project?(@user).should.be false
+    
+    @user.groups << @group
+    @project.group_project?(@user).should.be true
+    
+  end
+end
