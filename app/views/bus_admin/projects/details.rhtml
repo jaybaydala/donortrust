@@ -1,0 +1,78 @@
+<div id="contentContainer">
+  <h1><%= h @project.name %></h1>
+  <%= project_nav %>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+
+  <div id="leftColW">
+
+    <% if @project.milestones.size > 0 and @project.target_start_date != nil %>
+    <h2>Project Plan</h2>
+    <%
+    project_timeline = ::Simile::Timeline::Timeline.new(
+      :name        => "ProjectsTimeline",
+      :event_source => {
+        :controller => 'dt/projects',
+        :action     => 'timeline',
+        :id         => params[:id]
+      },
+      :event_band   => :weeks,
+      :bands       => {
+        :weeks => {
+            :trackGap       => '0.1',
+            :showEventText  => 'true',
+            :width          => '"75%"',
+            :intervalUnit   => 'Timeline.DateTime.WEEK',
+            :intervalPixels => '50',
+            :date           => "'" + (@project.target_start_date >> 1).strftime("%b %d %Y") + "'"
+          },
+        :months => {
+          :trackGap       => '0.1',
+          :width          => '"25%"',
+          :intervalUnit   => 'Timeline.DateTime.MONTH',
+          :intervalPixels => '150',
+          :trackHeight    => '0.5', 
+          :showEventText  => 'false',
+          :date           =>  "'" + (@project.target_start_date >> 1).strftime("%b %d %Y") + "'"
+        } 
+      },
+      :bands_order => [ :weeks, :months],
+      :highlight => [:weeks, :months],
+      :synchronize => {
+        :months => :weeks
+      }
+    )
+    -%>
+    <div id="projectTimeline"><%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %></div>
+    <% end %>
+    
+    <% if @project.intended_outcome? %>
+    <h2>Intended Outcome</h2>
+    <div>
+      <%= @project.intended_outcome %>
+    </div>
+    <% end %>
+    <% if @project.meas_eval_plan? %>
+    <h2>Measurements and Evaluations</h2>
+    <div>
+      <%= @project.meas_eval_plan %>
+    </div>
+    <% end %>
+    <% if @project.project_in_community? %>
+    <h2>Community Relevance</h2>
+    <div>
+      <%= @project.project_in_community %>
+    </div>
+    <% end %>
+  </div>
+          
+  <div id="rightColN">
+ 
+
+    <% if @project.key_measures.size > 0 %>
+    <div id="factList">
+      <%= render :partial => 'key_measure', :collection => @project.key_measures %>
+    </div>
+    <% end %>
+  </div>
+</div>

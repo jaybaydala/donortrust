@@ -1,0 +1,45 @@
+<div id="contentContainer">
+  <h1><%= h @project.name %></h1>
+  <%= project_nav %>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+
+  <div id="leftColW">
+
+    <div class="projectRank">
+      <ul class="specList">
+        <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
+        <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, partner_path(@project) %></span></li><% end %>
+      </ul>
+    </div>
+
+  	<div class="projectDescription">
+  	<p><%= @project.description %></p>
+  	</div>
+
+
+    <% if @project.rss_url && @rss_feed %>
+    <h2>Stories from the field</h2>
+    <%= render :partial => 'blog' %>
+    <% end %>
+
+    <% if @project.project_flickr_images.size > 0 %>
+    <h2>Project Photos</h2>
+    <%= render :partial => 'flickr_photo', :collection => @project.project_flickr_images %>
+    <% end %>
+    
+    <% if @project.project_you_tube_videos.size > 0 %>
+    <h2>Project Video</h2>
+    <%= render :partial => 'youtube_video', :collection => @project.project_you_tube_videos %>
+    <% end %>
+
+  </div>
+  
+  <div id="rightColN">  
+ 
+    <div id="factList">
+	  <%= project_quickfacts %>
+	</div>	  
+	
+  </div>
+</div>

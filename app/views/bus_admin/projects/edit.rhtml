@@ -1,0 +1,184 @@
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Edit Projects</h1>
+    <%= error_messages_for :project %>
+
+    <% form_for(:project, :url => bus_admin_project_path(@project), :html => { :method => :put}) do |f| %> 
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your project information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
+		  <li><label for="status">Status</label> <%= collection_select (:project, :project_status_id, project_status_types, :id, :name) %></li>
+	  	</ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">	  
+	  <legend>Please enter your description information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="description">Description</label><%= f.text_area :description, :rows => 8, :cols => 30 %></li>
+		</ul>
+      </fieldset>
+	  
+	  <fieldset id="groupLocation">
+	    <legend>Please enter your project date information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="Actual-start">Actual Start</label><%= f.text_field :actual_start_date %></li>
+		  <li><label for="Actual-end">Actual End</label><%= f.text_field :actual_end_date %></li>
+		  <li><label for="target-start">Target Start</label><%= f.text_field :target_start_date %></li>
+		  <li><label for="target-end">Target End</label><%= f.text_field :target_end_date %></li>
+		</ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+	    <legend>need to figure this out </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <table border="1" cellspacing="2" cellpadding="2" width="30%">
+		  <tr><th width="20%"></th><th align="left" width="79%"></th></tr>
+		 <% i = 0
+		    for cause in Cause.find(:all) do 
+		      i = i + 1 %>
+		      <tr>
+		       <td><%= check_box('cause_'+i.to_s, 'checked', {}, cause.name, '') %></td>
+		       <td><%= cause.name %></td>
+		      </tr>
+		 <% end %>
+		 </table>
+        </ul>
+      </fieldset>
+	  
+	  <fieldset id="groupLocation">
+	  	 <legend>Please enter your dollar information </legend>
+  		 <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+  		  <li><label for="spent">Spent</label><%= f.text_field :target_start_date %></li>
+		  <li><label for="total-cost">Total Cost</label><%= f.text_field :target_end_date %></li>
+		</ul>
+      </fieldset> 
+	 
+	 
+	  <fieldset id="groupLocation">
+	  	  <legend>Please enter partner information </legend>
+  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="partner">Partner</label> <%= collection_select (:project, :partner_id, get_partners, :id, :name) %></li>
+		</ul>
+      </fieldset> 
+	  
+	  <fieldset id="groupLocation">
+	  	  <legend>Please enter contact information </legend>
+  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="contact">Contact(need f_name)</label> <%= collection_select (:contact, :contact_id, get_contacts, :id, :fullname) %></li>
+		</ul>
+      </fieldset> 	 
+	  
+  
+	  <fieldset id="groupDescription">
+	    <legend>Please enter Sector information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <table border="1" cellspacing="2" cellpadding="2" width="30%">
+		  <tr><th width="20%"></th><th align="left" width="79%"></th></tr>
+		 <% i = 0
+		    for sector in Sector.find(:all) do 
+		      i = i + 1 %>
+		      <tr>
+		       <td><%= check_box('sector'+i.to_s, 'checked', {}, sector.name, '') %></td>
+		       <td><%= sector.name %></td>
+		      </tr>
+		 <% end %>
+		 </table>
+        </ul>
+      </fieldset> 	
+	  
+	  <fieldset id="groupDescription">
+	    <legend>Please enter Public information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+           <p class="textsm">Public<%= f.check_box :public%>       
+        </ul>
+      </fieldset> 	
+	  
+	  <fieldset id="groupDescription">
+  	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="note">Note</label><%= f.text_area :note, :rows => 8, :cols => 30 %></li>
+		</ul>
+      </fieldset> 	  
+	  
+	  <fieldset id="groupDescription">
+	    <legend>Please enter Feature information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+           <p class="textsm">Featured <%= f.check_box :featured %>       
+        </ul>
+      </fieldset> 	
+	  
+	  <fieldset id="groupLocation">
+	  	<legend>Please enter url information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="blog">Blog url</label><%= f.text_field :blog_url %></li>			
+		  <li><label for="rss">Rss url</label><%= f.text_field :rss_url %></li>			
+	  	</ul>
+      </fieldset>	
+	  
+	  <fieldset id="groupLocation">
+  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="frequency-feedback">Need Frequency of Feedback</li>
+		</ul>
+      </fieldset>   	  
+	  
+	  <fieldset id="groupDescription">
+  		<legend>Please enter the Intended Outcome </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="intended-outcome">Intended Outcome</label><%= f.text_area :intended_outcome, :rows => 8, :cols => 30 %></li>
+          	</ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+  		<legend>Please enter your measure evaluation plan</legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+           <li><label for="meas-eval-plan">Measure Evaluation Plan</label><%= f.text_area :meas_eval_plan, :rows => 8, :cols => 30 %></li>
+         </ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+  		<legend>Please enter other projects in the community</legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+         <li><label for="project-in-community">Projects in the Community</label><%= f.text_area :project_in_community, :rows => 8, :cols => 30 %></li>
+         </ul>
+      </fieldset>
+	  
+	  <fieldset id="groupDescription">
+  		<legend>Please enter your other project information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+         <li><label for="other-projects">Other Projects</label><%= f.text_area :other_projects, :rows => 8, :cols => 30 %></li>		  		  
+	  	</ul>
+      </fieldset>
+	  
+	  <fieldset id="groupLocation">
+  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li><label for="collaborating">Need Collaborating Agencies</li>
+		</ul>
+      </fieldset>   
+	  
+	  <fieldset id="groupLocation">
+  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+    	  <li><label for="status">not sure what to display here</label></li>
+		</ul>
+      </fieldset> 	  
+	  
+	  
+	  <fieldset id="groupLocation">
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+          <li><label for="lives-affected">Lives Affected</label><%= f.text_field :lives_affected %></li>				
+	  	</ul>
+      </fieldset>	
+	  
+	  <fieldset id="groupLocation">
+	   	 <legend>Please enter location information </legend>
+  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+   	      <%= place_form_column %>             
+          		</ul>
+      </fieldset> 	
+	  
+      <%= submit_tag "Update Group", :class => 'buttonsubmit' %>   	
+	  
+    <% end -%>	  
+	
+  </div>
+
+</div>

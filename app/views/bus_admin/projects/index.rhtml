@@ -1,0 +1,16 @@
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="projectInfo">
+    <div class="leftColW">
+       <h1>Projects</h1>
+	   <%= new_project_nav %> 
+	</div>
+    
+  </div>
+
+ 
+  <div id="featuredProjectList">
+  <%= render :partial => '/bus_admin/projects/show_project', :collection => @projects if @projects %>
+  </div>
+</div>
