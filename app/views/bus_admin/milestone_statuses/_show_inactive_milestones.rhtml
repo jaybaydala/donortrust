@@ -1,0 +1,5 @@
+<% @milestone = show_inactive_milestones -%>
+  <div class="leftColW">
+    <h2><%= link_to @milestone.name, {:action => 'activate_record', :id => @milestone }, :confirm => 'Recover record?' %> </h2>
+    <% if @milestone.description? %><p><strong>Milestone Status Description: </strong> <%= @milestone.description%></p><% end %>
+ </div>
