@@ -8,7 +8,7 @@
   		<legend>Please enter your project information </legend>
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
           <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
-		  <li><label for="status">Status</label> <%= collection_select (:project, :project_status_id, project_status_types, :id, :name) %></li>
+		  <li><label for="status"><%= render :partial => 'dt/shared/form_required' %>Status</label> <%= collection_select (:project, :project_status_id, project_status_types, :id, :name) %></li>
 	  	</ul>
       </fieldset>
 	  
@@ -17,17 +17,28 @@
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
           <li><label for="description">Description</label><%= f.text_area :description, :rows => 8, :cols => 30 %></li>
 		</ul>
-      </fieldset>
+      </fieldset>  
 	  
-	  <fieldset id="groupLocation">
-	    <legend>Please enter your project date information </legend>
-  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="Actual-start">Actual Start</label><%= f.text_field :actual_start_date %></li>
-		  <li><label for="Actual-end">Actual End</label><%= f.text_field :actual_end_date %></li>
-		  <li><label for="target-start">Target Start</label><%= f.text_field :target_start_date %></li>
-		  <li><label for="target-end">Target End</label><%= f.text_field :target_end_date %></li>
-		</ul>
-      </fieldset>
+	  <fieldset id="groupDescription">
+	    <legend>Please enter your project date information</legend>
+		<ul class="row" style="padding-top:10px; padding-bottom:10px; padding-right:0px;">
+  		<fieldset>  			
+          <legend>Actual Start Date</legend>  	      
+            <%= f.date_select :actual_start_date, :order => [:month, :day, :year], :include_blank => true %>
+        </fieldset>
+	    <fieldset>
+          <legend>Actual End Date</legend>
+	      <%= f.date_select :actual_end_date, :order => [:month, :day, :year], :include_blank => true %>
+        </fieldset>	  
+	    <fieldset>
+          <legend><%= render :partial => 'dt/shared/form_required' %>Target Start Date</legend>
+	      <%= f.date_select :target_start_date, :order => [:month, :day, :year], :include_blank => true %>
+        </fieldset>		  
+	    <fieldset>
+          <legend>Target End Date</legend>
+	      <%= f.date_select :target_end_date, :order => [:month, :day, :year], :include_blank => true %>
+        </fieldset>	 	   	  	  
+	  </fieldset>
 	  
 	  <fieldset id="groupDescription">
 	    <legend>need to figure this out </legend>
@@ -49,8 +60,8 @@
 	  <fieldset id="groupLocation">
 	  	 <legend>Please enter your dollar information </legend>
   		 <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-  		  <li><label for="spent">Spent</label><%= f.text_field :target_start_date %></li>
-		  <li><label for="total-cost">Total Cost</label><%= f.text_field :target_end_date %></li>
+  		  <li><label for="spent">Spent $</label><%= f.text_field :dollars_spent %></li>
+		  <li><label for="total-cost">Total Cost $</label><%= f.text_field :total_cost %></li>
 		</ul>
       </fieldset> 
 	 
@@ -58,14 +69,14 @@
 	  <fieldset id="groupLocation">
 	  	  <legend>Please enter partner information </legend>
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="partner">Partner</label> <%= collection_select (:project, :partner_id, get_partners, :id, :name) %></li>
+          <li><label for="partner"><%= render :partial => 'dt/shared/form_required' %>Partner</label> <%= collection_select (:project, :partner_id, get_partners, :id, :name) %></li>
 		</ul>
       </fieldset> 
 	  
 	  <fieldset id="groupLocation">
 	  	  <legend>Please enter contact information </legend>
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="contact">Contact(need f_name)</label> <%= collection_select (:contact, :contact_id, get_contacts, :id, :fullname) %></li>
+          <li><label for="contact">Contact</label> <%= collection_select (:contact, :contact_id, get_contacts, :id, :fullname) %></li>
 		</ul>
       </fieldset> 	 
 	  
@@ -171,7 +182,7 @@
 	  <fieldset id="groupLocation">
 	   	 <legend>Please enter location information </legend>
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-   	      <%= place_form_column %>             
+		  <%= render :partial => 'dt/shared/form_required' %><%= place_form_column %>             
           		</ul>
       </fieldset> 	
 	  
