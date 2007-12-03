@@ -13,4 +13,8 @@ module BusAdmin::MilestoneStatusesHelper
     render 'bus_admin/milestone_statuses/milestone_nav'
   end  
   
+  def inactive_nav
+    render 'bus_admin/milestone_statuses/inactive_nav'
+  end      
+  
 end
