@@ -94,7 +94,7 @@ class BusAdmin::CausesController < ApplicationController
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => cause.errors.to_xml }
+        format.xml  { render :xml => @cause.errors.to_xml }
       end
     end
   end
