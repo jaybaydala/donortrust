@@ -13,4 +13,8 @@ module BusAdmin::SectorsHelper
     render 'bus_admin/sectors/new_sector_nav'
   end
   
+  def inactive_nav
+    render 'bus_admin/sectors/inactive_nav'
+  end  
+  
 end
