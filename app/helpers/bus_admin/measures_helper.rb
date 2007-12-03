@@ -8,4 +8,8 @@ module BusAdmin::MeasuresHelper
     render 'bus_admin/measures/measure_nav'
   end  
   
+  def inactive_nav
+    render 'bus_admin/measures/inactive_nav'
+  end     
+  
 end
