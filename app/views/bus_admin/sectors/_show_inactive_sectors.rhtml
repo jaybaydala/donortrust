@@ -1,0 +1,5 @@
+<% @sector = show_inactive_sectors -%>
+  <div class="leftColW">
+      <h2><%= link_to @sector.name, {:action => 'activate_record', :id => @sector }, :confirm => 'Recover record?' %> </h2>
+      <p><strong>Sector Description: </strong> <%= @sector.description%></p> 
+  </div>
