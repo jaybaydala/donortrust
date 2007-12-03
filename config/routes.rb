@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measures"
+  map.resources :measures, :path_prefix => "/bus_admin", :controller => "bus_admin/measures"
 
   map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
 
@@ -36,6 +36,10 @@ ActionController::Routing::Routes.draw do |map|
 
   # inactive_record resources
   
+
+  map.activate_record 'bus_admin/measures/activate_record', :controller => 'bus_admin/measures', :action => 'activate_record'
+  map.activate_record 'bus_admin/project_statuses/activate_record', :controller => 'bus_admin/project_statuses', :action => 'activate_record'
+  map.activate_record 'bus_admin/sectors/activate_record', :controller => 'bus_admin/sectors', :action => 'activate_record'  
   map.activate_record 'bus_admin/milestone_statuses/activate_record', :controller => 'bus_admin/milestone_statuses', :action => 'activate_record'  
   map.activate_record 'bus_admin/partner_statuses/activate_record', :controller => 'bus_admin/partner_statuses', :action => 'activate_record'
   map.activate_record 'bus_admin/causes/activate_record', :controller => 'bus_admin/causes', :action => 'activate_record'
@@ -44,6 +48,17 @@ ActionController::Routing::Routes.draw do |map|
   map.activate_record 'bus_admin/frequency_types/activate_record', :controller => 'bus_admin/frequency_types', :action => 'activate_record'
   map.activate_record 'bus_admin/partner_types/activate_record', :controller => 'bus_admin/partner_types', :action => 'activate_record'
 
+#  map.activate_record 'bus_admin/causes/activate_record', :controller => 'bus_admin/causes', :action => 'activate_record'
+#  map.activate_record 'bus_admin/groups/activate_record', :controller => 'bus_admin/groups', :action => 'activate_record'
+#  map.activate_record 'bus_admin/millennium_goals/activate_record', :controller => 'bus_admin/millennium_goals', :action => 'activate_record'
+#  map.activate_record 'bus_admin/partner_types/activate_record', :controller => 'bus_admin/partner_types', :action => 'activate_record'
+#  map.activate_record 'bus_admin/partner_statuses/activate_record', :controller => 'bus_admin/partner_statuses', :action => 'activate_record'
+#  map.activate_record 'bus_admin/project_statuses/activate_record', :controller => 'bus_admin/project_statuses', :action => 'activate_record'
+#  map.activate_record 'bus_admin/sectors/activate_record', :controller => 'bus_admin/sectors', :action => 'activate_record'
+  
+  
+  
+  
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
   map.recover_record 'bus_admin/milestone_statuses/recover_record', :controller => 'bus_admin/milestone_statuses', :action => 'recover_record'
   map.inactive_records 'bus_admin/project_statuses/inactive_records', :controller => 'bus_admin/project_statuses', :action => 'inactive_records'
@@ -62,7 +77,7 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/millennium_goals/recover_record', :controller => 'bus_admin/millennium_goals', :action => 'recover_record'
   map.recover_record 'bus_admin/measures/recover_record', :controller => 'bus_admin/measures', :action => 'recover_record'
   map.inactive_records 'bus_admin/measures/inactive_records', :controller => 'bus_admin/measures', :action => 'inactive_records'
-   map.inactive_records 'bus_admin/causes/inactive_records', :controller => 'bus_admin/causes', :action => 'inactive_records'
+  map.inactive_records 'bus_admin/causes/inactive_records', :controller => 'bus_admin/causes', :action => 'inactive_records'
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
  
   # bus_admin resources
