@@ -1,13 +1,80 @@
 class BusAdmin::PlaceSectorsController < ApplicationController
   before_filter :login_required, :check_authorization
   
-  active_scaffold :place_sectors do |config|
-      config.columns =[ :sector, :place]
-      config.columns[ :place ].form_ui = :select
-      config.columns[ :sector ].form_ui = :select
+  def index
+    @page_title = 'Place Sectors'
+    @sectors = PlaceSector.find(:all)
+    respond_to do |format|
+      format.html
+    end 
   end
 
- def populate_place_sector_places
+   def show
+    begin
+      @sector = PlaceSector.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @page_title = 'Place Sectors'
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def destroy
+    @sector = PlaceSector.find(params[:id])
+    @sector.destroy
+    respond_to do |format|
+      format.html { redirect_to place_sectors_url }
+      format.xml  { head :ok }
+    end
+  end
+  
+#  def edit     
+#    @page_title = "Edit Project Status Details"
+#    @project = ProjectStatus.find(params[:id])
+#    respond_to do |format|
+#      format.html
+#    end    
+#  end
+  
+  def update
+    
+  @sector = @sector.find(params[:id])
+  @saved = @project.update_attributes(params[:sector])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Place Sector was successfully updated.'
+          
+        format.html { redirect_to place_sectors_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @sector.errors.to_xml }
+      end
+    end
+  end
+  
+  def create
+    @sector = PlaceSector.new(params[:sector])
+    Contact.transaction do
+      @saved= @sector.valid? && @sector.save!
+      begin
+      raise Exception if !@saved
+      rescue Exception
+      end
+    end
+    respond_to do |format|
+      if @saved
+        format.html { redirect_to place_sectors_url }
+        flash[:notice] = 'Place Sector was created.'
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end
+  
+  def populate_place_sector_places
     @filterMessage = ""
     @places = nil
     @selectedPlace = nil
