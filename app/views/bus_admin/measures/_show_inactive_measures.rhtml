@@ -1,0 +1,4 @@
+<% @measure = show_inactive_measures -%>
+  <div class="leftColW">
+      <h2><%= link_to @measure.description, {:action => 'activate_record', :id => 1 }, :confirm => 'Recover record?' %> </h2>
+  </div>
