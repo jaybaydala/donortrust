@@ -72,4 +72,30 @@ class BusAdmin::SectorsController < ApplicationController
     end
   end     
   
+  def inactive_records
+    @page_title = 'Inactive Sectors'
+       
+    @sectors = Sector.find_with_deleted(:all, :conditions => ['deleted_at is not null' ])
+    respond_to do |format|
+      format.html
+    end
+  end     
+  
+  def activate_record
+    
+    @sector = Sector.find_with_deleted(params[:id])
+    @sector.deleted_at = nil
+    @saved = @sector.update_attributes(params[:sector])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Sector was successfully recovered.'
+        format.html { redirect_to sectors_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @sector.errors.to_xml }
+      end
+    end
+  end
+  
 end
