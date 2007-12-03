@@ -7,6 +7,10 @@ module BusAdmin::ProjectStatusesHelper
   def new_project_nav
     render 'bus_admin/project_statuses/new_project_nav'
   end  
+  
+  def inactive_nav
+    render 'bus_admin/project_statuses/inactive_nav'
+  end  
 
 end
 
