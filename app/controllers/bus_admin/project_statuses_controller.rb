@@ -76,6 +76,33 @@ class BusAdmin::ProjectStatusesController < ApplicationController
     end
   end     
   
+  def inactive_records
+    @page_title = 'Inactive Project Status'
+       
+    @projects = ProjectStatus.find_with_deleted(:all, :conditions => ['deleted_at is not null' ])
+    respond_to do |format|
+      format.html
+    end
+  end     
+  
+  def activate_record
+    
+    @project = ProjectStatus.find_with_deleted(params[:id])
+    @project.deleted_at = nil
+    @saved = @project.update_attributes(params[:project])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Project Status was successfully recovered.'
+        format.html { redirect_to bus_admin_project_statuses_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @project.errors.to_xml }
+      end
+    end
   end
+  
+end
+
 
 
