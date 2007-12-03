@@ -1,0 +1,16 @@
+<div id="contentContainer">
+	
+  <h1>Place Sectors</h1>    
+  <%= sector_nav %>
+ 
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+    
+  <div class="leftColW">
+    <h2><%= @sector.sector.name %></h2>
+    <div class="projectRank">
+    </div>    
+    <% if @sector.place.name? %><p><strong>Place Sector Description: </strong> <%= @sector.place.name%></p><% end %>
+  </div>
+</div>
+
