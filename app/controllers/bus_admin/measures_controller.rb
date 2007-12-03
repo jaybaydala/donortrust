@@ -6,19 +6,20 @@ class BusAdmin::MeasuresController < ApplicationController
     respond_to do |format|
       format.html
     end
-  end
+  end  
   
   def show
     begin
       @measure = Measure.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
+#    rescue ActiveRecord::RecordNotFound
+#      rescue_404 and return
     end
     @page_title = @measure.description
     respond_to do |format|
       format.html
     end
   end
+
   
   def destroy
     @measure = Measure.find(params[:id])
@@ -71,6 +72,30 @@ class BusAdmin::MeasuresController < ApplicationController
         format.html { render :action => "new" }
       end
     end
-  end       
+  end  
+  
+  def inactive_records
+    @page_title = 'Inactive Measures'       
+    @measures = Measure.find_with_deleted(:all, :conditions => ['deleted_at is not null' ])
+    respond_to do |format|
+      format.html
+    end
+  end     
+  
+  def activate_record    
+    @measure = Measure.find_with_deleted(params[:id])
+    @measure.deleted_at = nil
+    @saved = @measure.update_attributes(params[:measure])
+    respond_to do |format|
+      if @saved
+        flash[:notice] = 'Measure was successfully recovered.'
+        format.html { redirect_to measures_path }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @measure.errors.to_xml }
+      end
+    end
+  end
   
 end
