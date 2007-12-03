@@ -1,0 +1,8 @@
+<% @project = show_inactive_projects -%>
+  <div class="leftColW">
+      <h2><%= link_to @project.name, {:action => 'activate_record', :id => @project }, :confirm => 'Recover record?' %> </h2>
+   <div class="projectRank">     
+      
+		 <% if @project.description? %><p><strong>Project Status Description: </strong> <%= @project.description%></p><% end %>
+	</div>
+  </div>
