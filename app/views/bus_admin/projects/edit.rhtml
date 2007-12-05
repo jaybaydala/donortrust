@@ -8,9 +8,16 @@
   		<legend>Please enter your project information </legend>
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
           <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>			
-		  <li><label for="status"><%= render :partial => 'dt/shared/form_required' %>Status</label> <%= collection_select (:project, :project_status_id, project_status_types, :id, :name) %></li>
+		  <li><label for="status"><%= render :partial => 'dt/shared/form_required' %>Status</label> <%= collection_select (:project, :project_status_id, project_status_types, :id, :name, :include_blank => true) %></li>
 	  	</ul>
       </fieldset>
+	  
+	  <fieldset id="groupLocation">
+  		<legend>Please enter your program information </legend>
+  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+           <li><label for="program"><%= render :partial => 'dt/shared/form_required' %>Program</label> <%= collection_select (:project, :program_id, get_programs, :id, :name, :include_blank => true) %></li>
+	  	</ul>
+      </fieldset>	  
 	  
 	  <fieldset id="groupDescription">	  
 	  <legend>Please enter your description information </legend>
@@ -22,14 +29,6 @@
 	  <fieldset id="groupDescription">
 	    <legend>Please enter your project date information</legend>
 		<ul class="row" style="padding-top:10px; padding-bottom:10px; padding-right:0px;">
-  		<fieldset>  			
-          <legend>Actual Start Date</legend>  	      
-            <%= f.date_select :actual_start_date, :order => [:month, :day, :year], :include_blank => true %>
-        </fieldset>
-	    <fieldset>
-          <legend>Actual End Date</legend>
-	      <%= f.date_select :actual_end_date, :order => [:month, :day, :year], :include_blank => true %>
-        </fieldset>	  
 	    <fieldset>
           <legend><%= render :partial => 'dt/shared/form_required' %>Target Start Date</legend>
 	      <%= f.date_select :target_start_date, :order => [:month, :day, :year], :include_blank => true %>
@@ -37,7 +36,15 @@
 	    <fieldset>
           <legend>Target End Date</legend>
 	      <%= f.date_select :target_end_date, :order => [:month, :day, :year], :include_blank => true %>
-        </fieldset>	 	   	  	  
+        </fieldset>	 	  		
+		<fieldset>  			
+          <legend>Actual Start Date</legend>  	      
+            <%= f.date_select :actual_start_date, :order => [:month, :day, :year], :include_blank => true %>
+        </fieldset>
+	    <fieldset>
+          <legend>Actual End Date</legend>
+	      <%= f.date_select :actual_end_date, :order => [:month, :day, :year], :include_blank => true %>
+        </fieldset>	     	  	  
 	  </fieldset>
 	  
 	  <fieldset id="groupDescription">
@@ -69,14 +76,14 @@
 	  <fieldset id="groupLocation">
 	  	  <legend>Please enter partner information </legend>
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="partner"><%= render :partial => 'dt/shared/form_required' %>Partner</label> <%= collection_select (:project, :partner_id, get_partners, :id, :name) %></li>
+          <li><label for="partner"><%= render :partial => 'dt/shared/form_required' %>Partner</label> <%= collection_select (:project, :partner_id, get_partners, :id, :name, :include_blank => true) %></li>
 		</ul>
       </fieldset> 
 	  
 	  <fieldset id="groupLocation">
 	  	  <legend>Please enter contact information </legend>
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="contact">Contact</label> <%= collection_select (:contact, :contact_id, get_contacts, :id, :fullname) %></li>
+          <li><label for="contact">Contact</label> <%= collection_select (:contact, :contact_id, get_contacts, :id, :fullname, :include_blank => true) %></li>
 		</ul>
       </fieldset> 	 
 	  
