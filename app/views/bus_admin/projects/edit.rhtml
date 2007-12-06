@@ -47,23 +47,16 @@
         </fieldset>	     	  	  
 	  </fieldset>
 	  
-	  <fieldset id="groupDescription">
-	    <legend>need to figure this out </legend>
-  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <table border="1" cellspacing="2" cellpadding="2" width="30%">
-		  <tr><th width="20%"></th><th align="left" width="79%"></th></tr>
-		 <% i = 0
-		    for cause in Cause.find(:all) do 
-		      i = i + 1 %>
-		      <tr>
-		       <td><%= check_box('cause_'+i.to_s, 'checked', {}, cause.name, '') %></td>
-		       <td><%= cause.name %></td>
-		      </tr>
-		 <% end %>
-		 </table>
-        </ul>
-      </fieldset>
-	  
+	  <fieldset id="sector-checkbox">
+	  	  <legend>Please enter cause information </legend>
+		    <% for cause in Cause.find(:all) %>
+			  <div>
+				<%= check_box_tag "project[cause_ids][]", cause.id, @project.causes.include?(cause) %>
+				<%= cause.name %>
+			  </div>
+		   <% end %>	
+      </fieldset> 	 	  
+	 
 	  <fieldset id="groupLocation">
 	  	 <legend>Please enter your dollar information </legend>
   		 <ul class="row" style="padding-top:10px; padding-bottom:10px;">
@@ -87,23 +80,15 @@
 		</ul>
       </fieldset> 	 
 	  
-  
-	  <fieldset id="groupDescription">
-	    <legend>Please enter Sector information </legend>
-  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <table border="1" cellspacing="2" cellpadding="2" width="30%">
-		  <tr><th width="20%"></th><th align="left" width="79%"></th></tr>
-		 <% i = 0
-		    for sector in Sector.find(:all) do 
-		      i = i + 1 %>
-		      <tr>
-		       <td><%= check_box('sector'+i.to_s, 'checked', {}, sector.name, '') %></td>
-		       <td><%= sector.name %></td>
-		      </tr>
-		 <% end %>
-		 </table>
-        </ul>
-      </fieldset> 	
+	  <fieldset id="sector-checkbox">
+	  	  <legend>Please enter sector information </legend>
+		    <% for sector in Sector.find(:all) %>
+			 <div>
+				<%= check_box_tag "project[sector_ids][]", sector.id, @project.sectors.include?(sector)  %> <!-- , :class => 'textsm'  %>  -->
+				<%= sector.name %>
+			 </div>
+		   <% end %>		
+      </fieldset> 	 
 	  
 	  <fieldset id="groupDescription">
 	    <legend>Please enter Public information </legend>
