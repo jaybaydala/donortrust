@@ -5,6 +5,9 @@ require 'mocha'
 require 'pp'
 
 class Test::Unit::TestCase
+  # RoleRequirementTestHelper must be included to test RoleRequirement
+  include RoleRequirementTestHelper
+
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
   # test database remains unchanged so your fixtures don't have to be reloaded
@@ -167,4 +170,3 @@ Test::Spec::Should.send(:include, Test::Unit::AssertDifference)
 Test::Spec::Should.send(:include, Test::Spec::Rails::ShouldDiffer)
 Test::Spec::ShouldNot.send(:include, Test::Unit::AssertDifference)
 Test::Spec::ShouldNot.send(:include, Test::Spec::Rails::ShouldNotDiffer)
-

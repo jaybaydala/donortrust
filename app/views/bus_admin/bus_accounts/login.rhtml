@@ -1,0 +1,23 @@
+
+
+<div id="contentContainer">
+  <div id="leftColW">
+  	<h1>Login</h1>
+	
+	<% form_tag do -%>
+  		<div class="userform">	
+    	  <fieldset class="personalinfo">
+    	  <legend>Personal Details</legend>    		
+      	    <ul>
+      	      <li><label for="login">Login</label><%= text_field_tag 'login' %></li>
+		      <li><label for="password">Password</label><%= password_field_tag 'password' %></li>
+			</ul>
+          </fieldset>
+       </div>
+	   <p><%= submit_tag 'Log in' %></p>
+    <% end -%>
+			
+        <p><a href="/bus_admin/signup">Sign-Up!</a></p>	
+  </div>
+
+

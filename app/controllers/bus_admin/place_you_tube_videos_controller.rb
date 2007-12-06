@@ -1,5 +1,5 @@
 class BusAdmin::PlaceYouTubeVideosController < ApplicationController
-  before_filter :login_required, :check_authorization
+ # before_filter :login_required, :check_authorization
   # GET /bus_admin_project_you_tube_videos
   # GET /bus_admin_project_you_tube_videos.xml
   def index

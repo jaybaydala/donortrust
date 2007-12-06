@@ -37,24 +37,24 @@ class Project < ActiveRecord::Base
     "#{self.start_date}"
   end
  
-  validates_presence_of :name
-  validates_presence_of :place_id
-  validates_presence_of :target_start_date  
+ # validates_presence_of :name
+ #validates_presence_of :place_id
+ # validates_presence_of :target_start_date  
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
-    unless me.program( true )
-      me.errors.add :program_id, 'does not exist'
-    end
-    unless me.partner( true )
-      me.errors.add :partner_id, 'does not exist'
-    end
-    unless me.project_status( true )
-      me.errors.add :project_status_id, 'does not exist'
-    end
-    unless me.place( true )
-      me.errors.add :place_id, 'does not exist'
-    end
+ #   unless me.program( true )
+ #     me.errors.add :program_id, 'does not exist'
+ #   end
+#    unless me.partner( true )
+ #     me.errors.add :partner_id, 'does not exist'
+ #   end
+ #   unless me.project_status( true )
+ #     me.errors.add :project_status_id, 'does not exist'
+ #   end
+ #   unless me.place( true )
+ #     me.errors.add :place_id, 'does not exist'
+ #   end
     
     #need to validate the presence of other featured projects
     #  there cannot be more than 5 featured projects

@@ -1,5 +1,5 @@
 class BusAdmin::PartnerStatusesController < ApplicationController
-  before_filter :login_required, :check_authorization
+ # before_filter :login_required, :check_authorization
 
   include ApplicationHelper
   

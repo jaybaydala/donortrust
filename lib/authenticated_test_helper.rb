@@ -1,7 +1,7 @@
 module AuthenticatedTestHelper
-  # Sets the current bus_user in the session from the bus_user fixtures.
-  def login_as(bus_user)
-    @request.session[:bus_user] = bus_user ? bus_accounts(bus_user).id : nil
+  # Sets the current bus_account in the session from the bus_account fixtures.
+  def login_as(bus_account)
+    @request.session[:bus_account] = bus_account ? bus_accounts(bus_account).id : nil
   end
 
   def content_type(type)
@@ -14,7 +14,7 @@ module AuthenticatedTestHelper
 
   def authorize_as(user)
     if user
-      @request.env["HTTP_AUTHORIZATION"] = "Basic #{Base64.encode64("#{bus_accounts(user).login}:test")}"
+      @request.env["HTTP_AUTHORIZATION"] = "Basic #{Base64.encode64("#{users(user).login}:test")}"
       accept       'application/xml'
       content_type 'application/xml'
     else
@@ -96,7 +96,7 @@ class HttpLoginProxy < BaseLoginProxy
     end
     
     def check
-      @controller.assert_redirected_to :controller => 'bus_account', :action => 'login'
+      @controller.assert_redirected_to :controller => 'account', :action => 'login'
     end
 end
 

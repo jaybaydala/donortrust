@@ -1,6 +1,6 @@
 class BusAdmin::RankValuesController < ApplicationController
 
-   before_filter :login_required, :check_authorization
+ # before_filter :login_required, :check_authorization
   
   active_scaffold :rank_values do |config|
    # config.actions.exclude :create

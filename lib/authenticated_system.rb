@@ -1,33 +1,33 @@
 module AuthenticatedSystem
   protected
     # Returns true or false if the user is logged in.
-    # Preloads @current_bus_user with the user model if they're logged in.
+    # Preloads @current_bus_account with the user model if they're logged in.
     def logged_in?
-      current_bus_user != :false
+      current_bus_account != :false
     end
     
-    # Accesses the current bus_user from the session.
-    def current_bus_user
-      @current_bus_user ||= (session[:bus_user] && BusUser.find_by_id(session[:bus_user])) || :false
+    # Accesses the current bus_account from the session.
+    def current_bus_account
+      @current_bus_account ||= (session[:bus_account] && BusAccount.find_by_id(session[:bus_account])) || :false
     end
     
-    # Store the given bus_user in the session.
-    def current_bus_user=(new_bus_user)
-      session[:bus_user] = (new_bus_user.nil? || new_bus_user.is_a?(Symbol)) ? nil : new_bus_user.id
-      @current_bus_user = new_bus_user
+    # Store the given bus_account in the session.
+    def current_bus_account=(new_bus_account)
+      session[:bus_account] = (new_bus_account.nil? || new_bus_account.is_a?(Symbol)) ? nil : new_bus_account.id
+      @current_bus_account = new_bus_account
     end
     
-    # Check if the bus_user is authorized.
+    # Check if the bus_account is authorized.
     #
     # Override this method in your controllers if you want to restrict access
-    # to only a few actions or if you want to check if the bus_user
+    # to only a few actions or if you want to check if the bus_account
     # has the correct rights.
     #
     # Example:
     #
     #  # only allow nonbobs
     #  def authorize?
-    #    current_bus_user.login != "bob"
+    #    current_bus_account.login != "bob"
     #  end
     def authorized?
       true
@@ -49,7 +49,7 @@ module AuthenticatedSystem
     #
     def login_required
       username, passwd = get_auth_data
-      self.current_bus_user ||= BusUser.authenticate(username, passwd) || :false if username && passwd
+      self.current_bus_account ||= BusAccount.authenticate(username, passwd) || :false if username && passwd
       logged_in? && authorized? ? true : access_denied
     end
     
@@ -58,14 +58,14 @@ module AuthenticatedSystem
     # The default action is to redirect to the login screen.
     #
     # Override this method in your controllers if you want to have special
-    # behavior in case the bus_user is not authorized
+    # behavior in case the bus_account is not authorized
     # to access the requested action.  For example, a popup window might
     # simply close itself.
     def access_denied
       respond_to do |accepts|
         accepts.html do
           store_location
-          redirect_to :controller => '/bus_account', :action => 'login'
+          redirect_to :controller => '/bus_accounts', :action => 'login'
         end
         accepts.xml do
           headers["Status"]           = "Unauthorized"
@@ -90,21 +90,21 @@ module AuthenticatedSystem
       session[:return_to] = nil
     end
     
-    # Inclusion hook to make #current_bus_user and #logged_in?
+    # Inclusion hook to make #current_bus_account and #logged_in?
     # available as ActionView helper methods.
     def self.included(base)
-      base.send :helper_method, :current_bus_user, :logged_in?
+      base.send :helper_method, :current_bus_account, :logged_in?
     end
 
     # When called with before_filter :login_from_cookie will check for an :auth_token
     # cookie and log the user back in if apropriate
     def login_from_cookie
       return unless cookies[:auth_token] && !logged_in?
-      user = BusUser.find_by_remember_token(cookies[:auth_token])
+      user = BusAccount.find_by_remember_token(cookies[:auth_token])
       if user && user.remember_token?
         user.remember_me
-        self.current_bus_user = user
-        cookies[:auth_token] = { :value => self.current_bus_user.remember_token , :expires => self.current_bus_user.remember_token_expires_at }
+        self.current_bus_account = user
+        cookies[:auth_token] = { :value => self.current_bus_account.remember_token , :expires => self.current_bus_account.remember_token_expires_at }
         flash[:notice] = "Logged in successfully"
       end
     end

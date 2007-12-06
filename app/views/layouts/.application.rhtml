@@ -93,7 +93,7 @@
             <!--<a href="#"><img src="/images/bus_admin/logout.gif" alt="Menu"
             width="12" height="12" border="0" /></a>-->
            <% end %>
-          <% if session[:user_id] %><span style="color: #666;"><br />[<a href="logout">Logout</a> | <%= link_to_remote_redbox "Change Password", :url => {:controller => 'bus_admin/bus_account', :action => 'change_password'} %>]</span></td><% end %>
+          <% if session[:user_id] %><span style="color: #666;"><br />[<a href="logout">Logout</a> | <%= link_to_remote_redbox "Change Password", :url => {:controller => 'bus_admin/bus_accounts', :action => 'change_password'} %>]</span></td><% end %>
       </tr>
 
       <tr>

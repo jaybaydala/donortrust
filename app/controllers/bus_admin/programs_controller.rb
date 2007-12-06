@@ -1,5 +1,5 @@
 class BusAdmin::ProgramsController < ApplicationController
-  before_filter :login_required, :check_authorization 
+ # before_filter :login_required, :check_authorization 
   
   def show_program_note   
    @note = Program.find(params[:id]).note

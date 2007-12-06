@@ -1,6 +1,6 @@
 class BusAdmin::BannerImagesController < ApplicationController
  
-  before_filter :login_required, :check_authorization
+  # before_filter :login_required, :check_authorization
   
   active_scaffold :banner_images do |config|
     config.columns =[ :model_id, :controller, :action, :file ]

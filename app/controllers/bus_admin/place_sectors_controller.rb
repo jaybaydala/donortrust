@@ -1,5 +1,5 @@
 class BusAdmin::PlaceSectorsController < ApplicationController
-  before_filter :login_required, :check_authorization
+  # before_filter :login_required, :check_authorization
   
   def index
     @page_title = 'Place Sectors'

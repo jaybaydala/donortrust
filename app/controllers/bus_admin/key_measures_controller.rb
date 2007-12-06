@@ -1,5 +1,5 @@
 class BusAdmin::KeyMeasuresController < ApplicationController
-  before_filter :login_required, :check_authorization  
+ # before_filter :login_required, :check_authorization  
 
   active_scaffold :key_measures do |config|
     config.columns =[ :measure, :project, :target,  :key_measure_datas, :millennium_goals, :decrease_target]   

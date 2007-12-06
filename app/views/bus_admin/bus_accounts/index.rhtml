@@ -1,0 +1,14 @@
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="partnerInfo">
+    <div class="leftColW">
+      <h1>Users</h1>
+	 
+    </div>
+   </div>
+
+  <div id="busAccount">
+  	<%= render :partial => '/bus_admin/bus_accounts/show_bus_account', :collection => @busAccounts if @busAccounts %>
+  </div>
+</div>

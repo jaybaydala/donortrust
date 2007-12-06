@@ -1,0 +1,11 @@
+<% @busAccount = show_bus_account -%>
+<div class="projectInfo"  id="projectInfo-<%= @busAccount.id %>">
+  <div class="leftColW">
+  	<h2></h2>
+    <div class="projectRank">
+      <ul class="specList">
+        <li><span><strong>Login:</strong> <%=  @busAccount.login %></span></li><span><strong>Email:</strong> <%=  @busAccount.email %></span></li><li><span><%= link_to 'Edit', bus_account_path(@busAccount) %></span></li>
+	  </ul>
+    	
+</div>
+	

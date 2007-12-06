@@ -1,5 +1,5 @@
 class BusAdmin::QuickFactSectorsController < ApplicationController
-  before_filter :login_required, :check_authorization
+ # before_filter :login_required, :check_authorization
   
   active_scaffold :quick_fact_sectors do |config|
     config.label = "Quick Facts"

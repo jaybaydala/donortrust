@@ -1,6 +1,6 @@
 class BusAdmin::CollaboratingAgenciesController < ApplicationController
 
-  before_filter :login_required, :check_authorization
+ # before_filter :login_required, :check_authorization
   
   active_scaffold :collaborating_agencies do |config|
     config.columns =[ :agency_name, :responsibilities, :project ]

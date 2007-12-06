@@ -1,5 +1,5 @@
 class BusAdmin::KeyMeasureDatasController < ApplicationController
-  before_filter :login_required, :check_authorization
+ # before_filter :login_required, :check_authorization
 
   active_scaffold :key_measure_datas do |config|
     config.label = "Data Captured for: "

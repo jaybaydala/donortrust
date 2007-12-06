@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
   filter_parameter_logging :password
   include AuthenticatedSystem
+  # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
+  include RoleRequirementSystem
+
   include BusAdmin::UserInfo
   #include BusAdmin::ProjectsHelper
     
@@ -13,7 +16,7 @@ class ApplicationController < ActionController::Base
     unless session[:user_id]
     flash[:notice] = "Please log in" 
     session[:jumpto] = request.parameters
-    redirect_to(:controller => "/bus_admin/bus_account", :action => "login")
+    redirect_to(:controller => "/bus_admin/bus_accounts", :action => "login")
     end 
   end
   
@@ -106,30 +109,30 @@ class ApplicationController < ActionController::Base
     [pages, array]
   end
   
-#def recover_record
-#    puts self.class.controller_path + " THIS IS HTE CLASS"
-#    record = self.get_model.find_with_deleted(params[:id])
-#    record.deleted_at = nil
-#    record.update
-#    puts "Redirecting to: " + self.class.controller_path
-#    redirect_to("/" + self.class.controller_path)
-#  end
+def recover_record
+    puts self.class.controller_path + " THIS IS HTE CLASS"
+    record = self.get_model.find_with_deleted(params[:id])
+    record.deleted_at = nil
+    record.update
+    puts "Redirecting to: " + self.class.controller_path
+    redirect_to("/" + self.class.controller_path)
+  end
   
-#  def inactive_records
-#    @inactive_records = Array.new(self.get_model.count_with_deleted("deleted_at = !null"))
-#    @record = self.get_model
-#     for record in self.get_model.find_with_deleted(:all)
-#        if record.deleted_at != nil
-#           @inactive_records.push(record)
-#        end
-#     end
-#    if !@inactive_records.empty?
-#      render :partial => 'bus_admin/deleted_records/inactive_records'
-#    else
-#      render :text => "There are no deleted records"
-#    end
-#    
-#  end
+  def inactive_records
+    @inactive_records = Array.new(self.get_model.count_with_deleted("deleted_at = !null"))
+    @record = self.get_model
+     for record in self.get_model.find_with_deleted(:all)
+        if record.deleted_at != nil
+           @inactive_records.push(record)
+        end
+     end
+    if !@inactive_records.empty?
+      render :partial => 'bus_admin/deleted_records/inactive_records'
+    else
+      render :text => "There are no deleted records"
+    end
+    
+  end
   
 protected
   def set_user
@@ -141,3 +144,4 @@ protected
   end
 
 end
+

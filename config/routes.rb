@@ -241,15 +241,14 @@ ActionController::Routing::Routes.draw do |map|
 
   #easier routes for restful_authentication
   map.bob '/bus_admin/bob', :controller => 'bus_admin/project_statuses', :action => 'bob'
-  map.signup '/bus_admin/signup', :controller => 'bus_admin/bus_account', :action => 'signup'
-  map.login '/bus_admin/login', :controller => 'bus_admin/bus_account', :action => 'login'
-  map.logout '/bus_admin/logout', :controller => 'bus_admin/bus_account', :action => 'logout'
-  map.index '/bus_admin/index', :controller => 'bus_admin/bus_account', :action => 'index'
-  map.get_actions '/bus_admin/bus_user_types/get_actions', :controller => 'bus_admin/bus_user_types', :action =>'get_actions'
-  map.resources :bus_account, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_account"
-  map.change_password '/bus_admin/change_password', :controller => 'bus_admin/bus_account', :action =>'change_password'
-  map.show_encryption '/bus_admin/bus_account/show_encryption', :controller =>'bus_admin/bus_account',:action =>'show_encryption'
-  map.change_password_now '/bus_admin/bus_account/change_password_now', :controller => 'bus_admin/bus_account', :action =>'change_password_now'
+  map.signup '/bus_admin/signup', :controller => 'bus_admin/bus_accounts', :action => 'signup'
+  map.login '/bus_admin/login', :controller => 'bus_admin/bus_accounts', :action => 'login'
+  map.logout '/bus_admin/logout', :controller => 'bus_admin/bus_accounts', :action => 'logout'
+  map.index '/bus_admin/index', :controller => 'bus_admin/bus_accounts', :action => 'index'
+  map.resources :bus_accounts,  :path_prefix => "/bus_admin", :controller => "bus_admin/bus_accounts"
+# map.change_password '/bus_admin/change_password', :controller => 'bus_admin/bus_account', :action =>'change_password'
+#  map.show_encryption '/bus_admin/bus_account/show_encryption', :controller =>'bus_admin/bus_account',:action =>'show_encryption'
+ # map.change_password_now '/bus_admin/bus_account/change_password_now', :controller => 'bus_admin/bus_account', :action =>'change_password_now'
   #map.display_pending '/bus_admin/display_pending', :controller => 'bus_admin/partners', :action =>'display_pending'
   map.home '/bus_admin/index', :controller => 'bus_admin/home', :action=> 'index'
   map.report 'bus_admin/report', :controller => 'bus_admin/projects', :action => 'report'
@@ -268,9 +267,9 @@ ActionController::Routing::Routes.draw do |map|
   map.note 'bus_admin/show_note', :controller => 'bus_admin/partners', :action => 'show_note'
   map.note_project 'bus_admin/show_project_note', :controller => 'bus_admin/projects', :action => 'show_project_note'
   map.note_program 'bus_admin/show_program_note', :controller => 'bus_admin/programs', :action => 'show_program_note'
-  map.reset_password 'bus_admin/reset_password', :controller => 'bus_admin/bus_account', :action => 'reset_password'
-  map.reset_password_now 'bus_admin/reset_password_now', :controller => 'bus_admin/bus_account', :action => 'reset_password_now'
-  map.request_temporary_password 'bus_admin/request_temporary_password', :controller => 'bus_admin/bus_account', :action => 'request_temporary_password'
+  map.reset_password 'bus_admin/reset_password', :controller => 'bus_admin/bus_accounts', :action => 'reset_password'
+  map.reset_password_now 'bus_admin/reset_password_now', :controller => 'bus_admin/bus_accounts', :action => 'reset_password_now'
+  map.request_temporary_password 'bus_admin/request_temporary_password', :controller => 'bus_admin/bus_accounts', :action => 'request_temporary_password'
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   map.connect '/bus_admin', :controller => 'bus_admin/home'
