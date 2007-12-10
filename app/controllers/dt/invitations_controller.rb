@@ -1,8 +1,8 @@
 class Dt::InvitationsController < DtApplicationController
   before_filter :login_required
+  include EmailParser
 
   def new
-    
   end
 
   def create
@@ -15,22 +15,22 @@ class Dt::InvitationsController < DtApplicationController
       end
     end
     @unsaved = []
+    @invitations = []
     if params[:invitation] && params[:invitation][:to_email]
       saved = @invitation.save
-      @unsaved << params[:invitation][:to_email] unless saved
-    elsif (params[:to_emails]) 
-      to_emails = params[:to_emails].class == String ? params[:to_emails].split(%r{,\s*}) : params[:to_emails]
-      to_emails.collect! { |email| email.strip }
-      to_emails.each do |email|
-        @i = Invitation.new(params[:invitation])
-        @i.to_email = email
-        @i.ip = request.remote_ip
-        saved = @i.save
-        @unsaved << email unless saved
-      end
-    else
-      @noemails = true
+      @invitations << @invitation
+      @unsaved << @invitation.to_email unless saved
     end
+    if (params[:to_emails]) 
+      emails(params[:to_emails]).each do |email|
+        @i = Invitation.new(@invitation.attributes)
+        @i.to_email = email
+        saved = @i.save
+        @invitations << @i
+        @unsaved << @i.to_email unless saved
+      end
+    end
+    @noemails = true if !params[:invitation][:to_email] && !params[:to_emails]
     respond_to do |format|
       format.html do
         flash[:error] = "Invitations could not be created for the following emails: #{@unsaved.join(', ')}" unless @unsaved.empty?

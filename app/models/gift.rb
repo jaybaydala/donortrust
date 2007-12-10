@@ -20,6 +20,8 @@ class Gift < ActiveRecord::Base
   validates_uniqueness_of :pickup_code, :allow_nil => :true
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id?}
   
+  before_validation :trim_mailtos
+  
   def sum
     return credit_card ? 0 : super * -1
   end
@@ -108,6 +110,11 @@ class Gift < ActiveRecord::Base
       hash = hash + rnd.chr
     end
     hash
+  end
+
+  def trim_mailtos
+    self[:to_email].sub!(/^ *mailto: */, '') if self[:to_email]
+    self[:email].sub!(/^ *mailto: */, '') if self[:email]
   end
   
   def self.dollars_gifted

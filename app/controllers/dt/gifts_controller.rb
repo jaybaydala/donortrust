@@ -6,7 +6,6 @@ class Dt::GiftsController < DtApplicationController
   helper "dt/places"
   include IatsProcess
   before_filter :login_required, :only => :unwrap
-  before_filter :trim_emails, :only => [:confirm, :create]
   
   def initialize
     @page_title = "Gift It!"
@@ -19,19 +18,16 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def show
-    @gift = Gift.find(params[:id]) if Gift.exists?(params[:id])
+    @gift = Gift.find(:first, :conditions => ["id=? AND pickup_code=?", params[:id], params[:code]]) if params[:code]
     respond_to do |format|
+      if !@gift
+        flash[:notice] = "That gift does not exist or has already been opened"
+        redirect_to :action => 'new' and return
+      end
+      format.html
       format.pdf {
-        if !@gift
-          flash[:notice] = "That gift does not exist"
-          redirect_to :action => 'new'
-        elsif not @gift[:pickup_code]
-          flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
-          redirect_to :action => 'new'
-        else
-          proxy = create_pdf_proxy(@gift)
-          send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
-        end
+        proxy = create_pdf_proxy(@gift)
+        send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
       }
     end
   end
@@ -54,6 +50,21 @@ class Dt::GiftsController < DtApplicationController
     end
   end
   
+  def confirm
+    @gift = Gift.new( gift_params )
+    @ecards = ECard.find(:all, :order => :id)
+    @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
+    @action_js = "dt/ecards"
+    schedule(@gift)
+    respond_to do |format|
+      if @gift.valid?
+        format.html { render :action => "confirm" }
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end
+
   def create
     @gift = Gift.new( gift_params )    
     @gift.user_ip_addr = request.remote_ip
@@ -74,29 +85,18 @@ class Dt::GiftsController < DtApplicationController
         @gift.send_gift_mail if @gift.send_gift_mail? == true
         # send confirmation to the gifter
         @gift.send_gift_confirm
-        format.html
+        format.html { redirect_to :action => 'show', :id => @gift.id, :code => @gift.pickup_code }
       else
         format.html { render :action => "new" }
       end
     end
   end
   
- 
-  def confirm
-    @gift = Gift.new( gift_params )
-    @ecards = ECard.find(:all, :order => :id)
-    @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
-    @action_js = "dt/ecards"
-    schedule(@gift)
-    respond_to do |format|
-      if @gift.valid?
-        format.html { render :action => "confirm" }
-      else
-        format.html { render :action => "new" }
-      end
-    end
+  def complete
+    @gift = Gift.find(params[:id]) if Gift.exists?(params[:id])
+    
   end
-
+  
   def open
     store_location
     @gift = Gift.validate_pickup(params[:code]) if params[:code]
@@ -211,9 +211,4 @@ class Dt::GiftsController < DtApplicationController
       end
     end
   end     
-
-  def trim_emails
-    params[:gift][:to_email].sub!(/^ *mailto: */, '') if params[:gift][:to_email]
-    params[:gift][:email].sub!(/^ *mailto: */, '') if params[:gift][:email]
-  end
 end

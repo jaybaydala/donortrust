@@ -104,11 +104,10 @@ context "Dt::TellFriends new behaviour"do
     end
   end
 
-  specify "form output should always contain to_name, to_email, credit_card, card_expiry fields, comments" do
+  specify "form output should always contain to_name, credit_card, card_expiry fields, comments" do
     # !logged_in?
     get :new
-    inputs = %w( input#share_name input#share_email input#share_email_confirmation input#share_to_name 
-                 input#share_to_email input#share_to_email_confirmation textarea#share_message )
+    inputs = %w( input#share_name input#share_email input#share_email_confirmation textarea#share_message )
     assert_select "#tellfriendform" do
       inputs.each do |selector|
         assert_select selector
@@ -134,6 +133,11 @@ context "Dt::TellFriends new behaviour"do
     page.should.select "#tellfriendform input#share_email"
   end
 
+  specify "output should contain to_emails" do
+    get :new
+    page.should.select "#tellfriendform textarea#to_emails"
+  end
+  
   specify "if project_id is passed, should show the project" do
     get :new, :project_id => 1
     page.should.select "#tellfriendform input[type=radio][value=1]#share_project_id_1"
@@ -207,8 +211,8 @@ context "Dt::TellFriends confirm behaviour"do
     assert_select "form[method=post][action=/dt/tell_friends]#tellfriendform"
   end
 
-  specify "form output should always contain name, email, to_name, to_email, message fields" do
-    inputs = %w( input#share_name input#share_email input#share_to_name input#share_to_email input#share_message )
+  specify "form output should always contain name, email, to_emails, message fields" do
+    inputs = %w( input#share_name input#share_email input#to_emails input#share_message )
     # !logged_in?
     do_post
     assert_select "#tellfriendform" do
@@ -245,6 +249,24 @@ context "Dt::TellFriends confirm behaviour"do
     share[:email].should == 'tim@example.com'
   end
   
+  specify "should take a comma-delimited string of to_emails and create a Share for each" do
+    do_post( {:to_emails => 'curtis@example.com,jay@example.com', :share => {:to_email => nil, :email => 'tim@example.com'}} )
+    assigns(:shares).size.should == 2
+  end
+
+  specify "should render the new template if there are invalid emails" do
+    do_post( {:to_emails => 'tim@examplecom,jayexample.com,desexamplecom', :share => {:to_email => nil, :email => 'tim@example.com'}} )
+    template.should.be 'dt/tell_friends/new'
+  end
+
+  specify "should return bogus to_emails in an error" do
+    do_post( {:to_emails => 'tim@examplecom,jayexample.com,desexamplecom', :share => {:to_email => nil, :email => 'tim@example.com'}} )
+    should.select "div.error", :text => /could not be created for/
+    should.select "div.error", :text => /tim\@examplecom/
+    should.select "div.error", :text => /jayexample\.com/
+    should.select "div.error", :text => /desexamplecom/
+  end
+
   protected
   def do_post(options={}, login = true)
     login_as :quentin if login == true
@@ -259,10 +281,11 @@ context "Dt::TellFriends confirm behaviour"do
     share_params[:user_id] = users(:quentin).id if login == true
     
     # merge with passed options
-    share_params.merge!(options[:share]) if options[:share] != nil
-    options.delete(:share) if options[:share] != nil
+    share_params.merge!(options[:share]) if options[:share]
+    options.delete(:share) if options[:share]
     
-    post :confirm, { :share => share_params}.merge(options)
+    params = {:share => share_params}
+    post :confirm, params.merge(options)
   end
 end
 
@@ -274,7 +297,7 @@ context "Dt::TellFriends create behaviour"do
   specify "should create a share and render the create template" do
     # !logged_in?
     lambda {
-      create_tell_friend(nil, false)
+      create_tell_friend({}, false)
       template.should.be "dt/tell_friends/create"
     }.should.change(Share, :count)
     # logged_in?
@@ -289,6 +312,33 @@ context "Dt::TellFriends create behaviour"do
     assigns(:share).should.not.be.nil
   end
   
+  specify "should take a comma-delimited string of to_emails and create a Share for each" do
+    create_tell_friend( {:to_emails => 'curtis@example.com,jay@example.com', :share => {:to_email => nil, :email => 'tim@example.com'}} )
+    assigns(:shares).size.should == 2
+  end
+
+  specify "should return bogus to_emails in an error" do
+    Share.should.differ(:count).by(0) {
+      create_tell_friend( {:to_emails => 'tim@examplecom,jayexample.com,desexamplecom', :share => {:to_email => nil, :email => 'tim@example.com'}} )
+      should.select "div.error", :text => /could not be created for/
+      should.select "div.error", :text => /tim\@examplecom/
+      should.select "div.error", :text => /jayexample\.com/
+      should.select "div.error", :text => /desexamplecom/
+    }
+  end
+
+  specify "should send an email for each valid to_email" do
+    # for testing action mailer
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
+    @emails.should.differ(:length).by(3) {
+      create_tell_friend( :to_emails => 'curtis@example.com,jay@example.com,tim@example.com', :share => {:to_email => nil, :email => 'tim@example.com'} )
+    }
+  end
+
   protected
   def create_tell_friend(options={}, login = true)
     login_as :quentin if login == true
@@ -303,9 +353,10 @@ context "Dt::TellFriends create behaviour"do
     share_params[:user_id] = users(:quentin).id if login == true
     
     # merge with passed options
-    share_params.merge!(options) if options != nil
+    share_params.merge!(options[:share]) if options && options[:share]
+    options.delete(:share) if options && options[:share]
     
-    post :create, { :share => share_params }
+    post :create, { :share => share_params }.merge(options)
   end
 end
 

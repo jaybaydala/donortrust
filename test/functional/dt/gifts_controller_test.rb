@@ -101,7 +101,7 @@ context "Dt::Gifts show behaviour"do
 
   specify "should return a pdf for a valid id" do
     @gift = create_gift
-    get :show, :id => @gift.id
+    get :show, :id => @gift.id, :code => @gift.pickup_code, :format => 'pdf'
     should.not.redirect
     @response.headers["Content-Type"].should.equal "application/pdf"
   end
@@ -109,15 +109,22 @@ context "Dt::Gifts show behaviour"do
   specify "should redirect for gift that's already been picked up" do
     @gift = create_gift
     @gift.pickup
-    get :show, :id => @gift.id
+    get :show, :id => @gift.id, :code => @gift.pickup_code
     should.redirect
-    flash[:notice].should =~ /^The gift has already been picked up/
+    flash[:notice].should == "That gift does not exist or has already been opened"
   end
 
   specify "should redirect for an invalid id" do
     get :show, :id => 9999999999999
     should.redirect
-    flash[:notice].should == "That gift does not exist"
+    flash[:notice].should == "That gift does not exist or has already been opened"
+  end
+  
+  specify "should redirect unless a valid pickup_code is included" do
+    @gift = create_gift
+    get :show, :id => @gift.id, :code => "1234"
+    should.redirect
+    flash[:notice].should == "That gift does not exist or has already been opened"
   end
   
   def create_gift
@@ -383,16 +390,16 @@ context "Dt::Gifts create behaviour"do
   fixtures :gifts, :user_transactions, :users, :projects
   include DtAuthenticatedTestHelper
   
-  specify "should create a gift and render the create template" do
+  specify "should create a gift and redirect to the complete action" do
     # !logged_in?
     lambda {
       create_gift(nil, false)
-      template.should.be "dt/gifts/create"
+      should.redirect :action => 'show', :id => assigns(:gift).id, :code => assigns(:gift).pickup_code
     }.should.change(Gift, :count)
     # logged_in?
     lambda {
       create_gift()
-      template.should.be "dt/gifts/create"
+      should.redirect :action => 'show', :id => assigns(:gift).id, :code => assigns(:gift).pickup_code
     }.should.change(Gift, :count)
   end
 

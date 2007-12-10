@@ -1265,7 +1265,7 @@ legend {
 
 #leftColW #textInput {float:left; width:469px; height:auto; margin: 0px 0 10px 0px;padding:0 0 5px 0;}
 #leftColW #textInput .row {float:left; width:465px; padding:0 0 5px 4px;background:#D8DEE7;}
-#leftColW #textInput ul {margin:0;padding:0s;}
+#leftColW #textInput ul {margin:0;padding:0;}
 textarea {float:left; border:1px solid #CCC; width:460px; margin:0 0 0 0px; padding:0;}
 #leftColW #textInput label {
 	float:left;
@@ -1278,6 +1278,21 @@ textarea {float:left; border:1px solid #CCC; width:460px; margin:0 0 0 0px; padd
 	text-transform:capitalize;
 	text-display:block;
 }
+#leftColW #multiSender {float:left; width:469px; height:auto; margin: 0px 0 10px 0px;padding:0 0 5px 0;}
+#leftColW #multiSender .row {float:left; width:465px; padding:0 0 5px 4px;background:#D8DEE7;}
+#leftColW #multiSender ul {margin:0;padding:0;}
+#leftColW #multiSender label {
+	float:left;
+	display:inline-block; 
+	width:11.5em;
+	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold; 
+	margin: 5px 0.5em 4px 0px; 
+	text-align: left; 
+	text-transform:capitalize;
+	text-display:block;
+}
+
 form #newMember label, form #groupDescription label {
 	float:left;
 	display:inline-block; 
