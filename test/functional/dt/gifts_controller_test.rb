@@ -313,6 +313,13 @@ context "Dt::Gifts confirm behaviour"do
       end
     end
   end
+  
+  specify "should trim mailto: from the start of to_email and email fields" do
+    do_post( :gift => {:to_email => 'mailto: curtis@example.com', :email => 'mailto:  tim@example.com'} )
+    gift = assigns(:gift)
+    gift[:to_email].should == 'curtis@example.com'
+    gift[:email].should == 'tim@example.com'
+  end
 
   specify "form output should include project_id field when params[:project_id] is passed" do
     do_post( :project_id => 1 )

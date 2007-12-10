@@ -1,5 +1,6 @@
 class Dt::TellFriendsController < DtApplicationController
   before_filter :login_required, :only => :show
+  before_filter :trim_emails, :only => [:confirm, :create]
   
   def initialize
     @page_title = "Tell a Friend"
@@ -86,5 +87,11 @@ class Dt::TellFriendsController < DtApplicationController
       flash.now[:error] = 'To preview your ecard, please provide your email and the recipient\'s email' if !valid
       format.html { render :layout => false }
     end
+  end
+
+  protected
+  def trim_emails
+    params[:share][:to_email].sub!(/^ *mailto: */, '') if params[:share][:to_email]
+    params[:share][:email].sub!(/^ *mailto: */, '') if params[:share][:email]
   end
 end
