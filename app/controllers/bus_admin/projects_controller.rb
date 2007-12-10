@@ -1,6 +1,14 @@
 class BusAdmin::ProjectsController < ApplicationController
 #      helper "dt/groups"
 
+
+  def new
+    @project = Project.new     
+    1.times { @project.collaborating_agencies.build }
+    1.times { @project.financial_sources.build } 
+#    1.times { @project.ranks.build }     
+  end
+  
   def index
     @page_title = 'Projects'
     @projects = Project.find(:all)#, :conditions => { :featured => 1 })
@@ -22,11 +30,13 @@ class BusAdmin::ProjectsController < ApplicationController
   end
   
   def create
+#    params[:project][:cause_ids] ||= []
     @project = Project.new(params[:project])
-#    @project.place_id =  (params[:place][:id]).to_i
+    @project.place_id =   1234
+#    @project.place_id =   Place.find(params[:record][:id])
 #    @project.place_ = (params[:place][:id]).to_i
-    Contact.transaction do
-      @saved= @project.valid? && @project.save!
+    Contact.transaction do      
+      @saved= @project.valid? && @project.save!     
       begin
       raise Exception if !@saved
       rescue Exception
@@ -63,21 +73,20 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
   
-  def update    
+    def update    
+#     params[:project][:cause_ids] ||= []
+#     params[:project][:sector_ids] ||= []
     @project = Project.find(params[:id])
-    @saved = @project.update_attributes(params[:project])
-    respond_to do |format|
-      if @saved
+#    @project.place_id =   1234
+    if @project.update_attributes(params[:project])
+    
         flash[:notice] = 'Project was successfully updated.'
-        format.html { redirect_to bus_admin_project_path(@project) }
-        format.xml  { head :ok }
+      redirect_to bus_admin_project_path(@project) 
+       
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @project.errors.to_xml }
-      end
-    end
-  end
-
+        render :action => "edit" 
+      end    
+  end  
     
 #  def details
 #    begin 
@@ -214,122 +223,136 @@ class BusAdmin::ProjectsController < ApplicationController
       end  
     end
     
-#  def nation
-#    begin
-#      @project = Project.find(params[:id])
-#    rescue ActiveRecord::RecordNotFound
-#      rescue_404 and return
-#    end
-#    @nation = @project.nation
-#    @page_title = "#{@nation.name} | #{@project.name}"
-#    respond_to do |format|
-#      format.html
-#    end
-#  end
+  def nation
+    begin
+      @project = Project.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @nation = @project.nation
+    @page_title = "#{@nation.name} | #{@project.name}"
+    respond_to do |format|
+      format.html
+    end
+  end
   
-#  def organization
-#    begin
-#      @project = Project.find(params[:id])
-#    rescue ActiveRecord::RecordNotFound
-#      rescue_404 and return
-#    end
-#    @organization = @project.partner if @project.partner_id?
-#    @page_title = "#{@organization.name} | #{@project.name}"
-#    respond_to do |format|
-#      format.html
-#    end
-#  end
+  def organization
+    begin
+      @project = Project.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @organization = @project.partner if @project.partner_id?
+    @page_title = "#{@organization.name} | #{@project.name}"
+    respond_to do |format|
+      format.html
+    end
+  end
     
-#  def connect
-#    begin
-#      @project = Project.find_public(params[:id])
-#    rescue ActiveRecord::RecordNotFound
-#      rescue_404 and return
-#    end
-#    @page_title = "Connect | #{@project.name}"
-#
-#    #facebook stuff
-#    if @project.place and @project.place.facebook_group_id?
-#      @fb_group_available = true
-#      @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
-#      if fbsession and fbsession.is_valid?:
-#        gid = @project.place.facebook_group_id
-#        @fbid = fbsession.users_getLoggedInUser()
-#        begin
-#          @fb_group = fbsession.groups_get(:gids=>gid)
-#          @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
-#          members_results = fbsession.groups_getMembers(:gid=>gid)
-#          # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
-#          member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
-#          @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
-#          @fb_member_pages, @members = fb_paginate_array(params[:page], @fb_members , 30)
-#          @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
-#        rescue
-#          @fb_group_available = false
-#        end
-#      end
-#    end
-#    respond_to do |format|
-#      format.html
-#    end
-#  end
+  def connect
+    begin
+      @project = Project.find_public(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @page_title = "Connect | #{@project.name}"
 
-#  def cause
-#    begin
-#      @project = Project.find_public(params[:id])
-#      @cause = Cause.find(params[:cause_id]) if params[:cause_id]
-#    rescue ActiveRecord::RecordNotFound
-#      rescue_404 and return
-#    end
-#    respond_to do |format|
-#      format.html {render :action => 'cause', :layout => false}
-#    end
-#  end
+    #facebook stuff
+    if @project.place and @project.place.facebook_group_id?
+      @fb_group_available = true
+      @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
+      if fbsession and fbsession.is_valid?:
+        gid = @project.place.facebook_group_id
+        @fbid = fbsession.users_getLoggedInUser()
+        begin
+          @fb_group = fbsession.groups_get(:gids=>gid)
+          @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
+          members_results = fbsession.groups_getMembers(:gid=>gid)
+          # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
+          member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
+          @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
+          @fb_member_pages, @members = fb_paginate_array(params[:page], @fb_members , 30)
+          @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
+        rescue
+          @fb_group_available = false
+        end
+      end
+    end
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def cause
+    begin
+      @project = Project.find_public(params[:id])
+      @cause = Cause.find(params[:cause_id]) if params[:cause_id]
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html {render :action => 'cause', :layout => false}
+    end
+  end
   
-#  def facebook_login
-#    # placeholder for the before_filters above: project_id_to_session, facebook_login
-#    # is there a more elegant way to do this? 
-#    # project_id_to_session: stores the project id in the (surprise) session, 
-#    # require_facebook_login is a rfacebook thing that bounces the user to facebook, gets a session id, and stores it in the rails session, makes the fbsession object available to controllers
-#  end
-#  def finish_facebook_login
-#    project_id = session[:project_id]
-#    session[:project_id] = nil
-#    respond_to do |format|
-#      # TODO: translate to the hash format
-#      # :action => 'connect', :id=>session[:project_id] 
-#      format.html { redirect_to dt_connect_project_path(project_id) }
-#    end
-#  end
+  def facebook_login
+    # placeholder for the before_filters above: project_id_to_session, facebook_login
+    # is there a more elegant way to do this? 
+    # project_id_to_session: stores the project id in the (surprise) session, 
+    # require_facebook_login is a rfacebook thing that bounces the user to facebook, gets a session id, and stores it in the rails session, makes the fbsession object available to controllers
+  end
+  def finish_facebook_login
+    project_id = session[:project_id]
+    session[:project_id] = nil
+    respond_to do |format|
+      # TODO: translate to the hash format
+      # :action => 'connect', :id=>session[:project_id] 
+      format.html { redirect_to dt_connect_project_path(project_id) }
+    end
+  end
 
-#  def timeline
-#    @project = Project.find(params[:id])
-#    @milestones = @project.milestones(:include => :tasks)
-#    @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
-#    render :partial => 'timeline'
-#  end
+  def timeline
+    @project = Project.find(params[:id])
+    @milestones = @project.milestones(:include => :tasks)
+    @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
+    render :partial => 'timeline'
+  end
 
-#  protected
-#  def project_id_to_session
-#    logger.debug '#####################'
-#    logger.debug 'FACEBOOK PROJECT_ID'
-#    logger.debug session[:project_id]
-#    session[:project_id] = params[:id]
-#    logger.debug session[:project_id]
-#  end
+  protected
+  def project_id_to_session
+    logger.debug '#####################'
+    logger.debug 'FACEBOOK PROJECT_ID'
+    logger.debug session[:project_id]
+    session[:project_id] = params[:id]
+    logger.debug session[:project_id]
+  end
 
-#  def fb_paginate_array(page, array, items_per_page)
-#    @size = array.length
-#    page ||= 1
-#    page = page.to_i
-#    offset = (page - 1) * items_per_page
-#    pages = Paginator.new(self, array.length, items_per_page, page)
-#    array = array[offset..(offset + items_per_page - 1)]
-#    logger.debug 'FACEBOOK PAGINATION'
-#    logger.debug pages.inspect
-#    [pages, array]
-#  end
+  def fb_paginate_array(page, array, items_per_page)
+    @size = array.length
+    page ||= 1
+    page = page.to_i
+    offset = (page - 1) * items_per_page
+    pages = Paginator.new(self, array.length, items_per_page, page)
+    array = array[offset..(offset + items_per_page - 1)]
+    logger.debug 'FACEBOOK PAGINATION'
+    logger.debug pages.inspect
+    [pages, array]
+  end
 
+  @@project_ids = nil
+  def before_validation_on_create
+    unless self.projects.empty?
+      @@project_ids = self.projects.collect { |project| project.id }
+      self.projects.clear
+    end 
+  end
+  
+  def after_validation_on_create
+    unless @@project_ids == nil
+      self.project_ids = @@project_ids
+      @@project_ids = nil
+    end 
+  end
 
     
 end
