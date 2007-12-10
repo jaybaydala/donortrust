@@ -227,7 +227,8 @@ ActionController::Routing::Routes.draw do |map|
   map.report 'bus_admin/individual_report', :controller => 'bus_admin/projects', :action => 'individual_report'
   map.byProject 'bus_admin/_timeline_json', :controller => 'bus_admin/projects', :action => 'byProject'
   map.showProjectTimeline 'bus_admin/_showProjectTimeline', :controller => 'bus_admin/projects', :action => 'showProjectTimeline'
- 
+  map.stats 'bus_admin/stats', :controller => 'bus_admin/stats', :action => 'index'
+  
   map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'
   map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'

@@ -109,4 +109,20 @@ class Gift < ActiveRecord::Base
     end
     hash
   end
+  
+  def self.dollars_gifted
+    raised = 0
+    self.find(:all).each do |gift|
+      raised = raised + gift.amount
+    end
+    raised
+  end
+  
+   def self.dollars_redeemed
+    raised = 0
+    self.find(:all, :conditions => ["pickup_code is null"] ).each do |gift|
+      raised = raised + gift.amount
+    end
+    raised
+  end
 end

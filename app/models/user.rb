@@ -195,6 +195,12 @@ class User < ActiveRecord::Base
       end
       balance
     end
+    
+    def self.total_users_in_group
+      total = 0
+      users = self.find_by_sql("Select * from users where id in (select user_id from memberships)")
+      total = users.size
+    end
 
     # before filter 
     def encrypt_password
