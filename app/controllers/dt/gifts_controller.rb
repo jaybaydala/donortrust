@@ -6,6 +6,7 @@ class Dt::GiftsController < DtApplicationController
   helper "dt/places"
   include IatsProcess
   before_filter :login_required, :only => :unwrap
+  before_filter :trim_emails, :only => [:confirm, :create]
   
   def initialize
     @page_title = "Gift It!"
@@ -210,4 +211,9 @@ class Dt::GiftsController < DtApplicationController
       end
     end
   end     
+
+  def trim_emails
+    params[:gift][:to_email].sub!(/^ *mailto: */, '') if params[:gift][:to_email]
+    params[:gift][:email].sub!(/^ *mailto: */, '') if params[:gift][:email]
+  end
 end

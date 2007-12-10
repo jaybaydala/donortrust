@@ -17,7 +17,13 @@ class Deposit < ActiveRecord::Base
     #return 0 if self[:gift_id] && self.gift[:project_id]
     super
   end
-  
+   def self.dollars_deposited
+    raised = 0
+    self.find(:all).each do |desposit|
+      raised = raised + desposit.amount
+    end
+    raised
+  end
   protected
   def validate
     require 'iats/credit_card'
@@ -36,4 +42,6 @@ class Deposit < ActiveRecord::Base
       errors.add_on_empty %w( authorization_result )
     end
   end
+  
+  
 end
