@@ -14,23 +14,12 @@
     </div>
 
   	<div class="projectDescription">
-  	<p><%= @project.description %></p>
+  	 <p><%= @project.description %></p>
   	</div>
 
-
     <% if @project.rss_url && @rss_feed %>
-    <h2>Stories from the field</h2>
-    <%= render :partial => 'blog' %>
-    <% end %>
-
-    <% if @project.project_flickr_images.size > 0 %>
-    <h2>Project Photos</h2>
-    <%= render :partial => 'flickr_photo', :collection => @project.project_flickr_images %>
-    <% end %>
-    
-    <% if @project.project_you_tube_videos.size > 0 %>
-    <h2>Project Video</h2>
-    <%= render :partial => 'youtube_video', :collection => @project.project_you_tube_videos %>
+      <h2>Stories from the field</h2>
+      <%= render :partial => 'blog' %>
     <% end %>
 
   </div>
