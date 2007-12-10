@@ -69,8 +69,8 @@ module BusAdmin::ProjectsHelper
   def place_form_column
     render 'bus_admin/projects/_place_form_column'    
   end
-
   
+ 
   def project_status_types
     ProjectStatus.find(:all)
   end
@@ -87,8 +87,9 @@ module BusAdmin::ProjectsHelper
     Program.find(:all)
   end  
   
-  
-  
+  def get_frequency
+     FrequencyType.find(:all)
+  end
   
   def community_projects(project)
     if @community_projects.nil?
