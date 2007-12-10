@@ -151,18 +151,38 @@
          <li><label for="other-projects">Other Projects</label><%= f.text_area :other_projects, :rows => 8, :cols => 30 %></li>		  		  
 	  	</ul>
       </fieldset>
+
+
+
+
+
+	  <div id= "agencies" font size="xx-small" >
+	    <%= render :partial => 'collaborating_agency', :collection => @project.collaborating_agencies %>
+	  </div>
+	  <%= link_to_function "Add Agency" do |page|
+			page.insert_html :bottom, :agencies, :partial => 'collaborating_agency', :object => CollaboratingAgency.new
+	   end %>
+	  <br /><br />  
 	  
-	  <fieldset id="groupLocation">
-  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="collaborating">Need Collaborating Agencies</li>
-		</ul>
-      </fieldset>   
-	  
-	  <fieldset id="groupLocation">
-  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-    	  <li><label for="status">not sure what to display here</label></li>
-		</ul>
-      </fieldset> 	  
+	  <div id= "financials" font size="xx-small" >
+	    <%= render :partial => 'financial_source', :collection => @project.financial_sources %>
+	  </div>
+	  <%= link_to_function "Add Source" do |page|
+			page.insert_html :bottom, :financials, :partial => 'financial_source', :object => FinancialSource.new
+	   end %>
+	  <br /><br />	 
+
+
+
+
+
+
+
+
+
+
+
+
 	  
 	  
 	  <fieldset id="groupLocation">
