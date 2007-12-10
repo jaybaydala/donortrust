@@ -1,0 +1,13 @@
+<% error_message_for 'project' %>
+
+<p>
+	<% for cause in Cause.find(:all) %>
+	<div>
+		<% check_box_tag "project[cause_ids][]",cause.id, @project.causes.include?(cause) %>
+		<% cause.name %>
+	</div>
+	<% end %>
+</p>
+
+
+

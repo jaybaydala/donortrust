@@ -1,0 +1,18 @@
+<div class = "agency" >
+  <fieldset id="groupDescription" >
+    <legend>Please enter your collaborating agency information </legend>
+  	<ul class="row" style="padding-top:10px; padding-bottom:10px;">		
+	  <% fields_for "project[collaborating_agency_attributes][]", collaborating_agency do |f| %>
+	    <li><font size="2" face="Times New Roman">Collaborating Agency: <%= f.text_field :agency_name %><br /></li><br />
+	    <li>Responsibilities: <%= f.text_field :responsibilities, :index => nil %></li><br /><br />
+	  
+	    <% if collaborating_agency.new_record? %>
+          <%= link_to_function "Remove", "$(this).up('.agency').remove()" %>
+        <% else %>
+          <%= link_to_function "Remove", "mark_for_destroy(this)" %>
+          <%= f.hidden_field :id, :index => nil %>
+        <% end %>
+	  <% end %>          
+    </ul>
+  </fieldset>	
+</div>	
