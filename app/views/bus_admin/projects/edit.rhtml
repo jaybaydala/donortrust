@@ -152,38 +152,17 @@
 	  	</ul>
       </fieldset>
 
-
-
-
-
 	  <div id= "agencies" font size="xx-small" >
 	    <%= render :partial => 'collaborating_agency', :collection => @project.collaborating_agencies %>
 	  </div>
-	  <%= link_to_function "Add Agency" do |page|
-			page.insert_html :bottom, :agencies, :partial => 'collaborating_agency', :object => CollaboratingAgency.new
-	   end %>
+	  <%= add_agency_link "Add Agency" %>
 	  <br /><br />  
 	  
 	  <div id= "financials" font size="xx-small" >
 	    <%= render :partial => 'financial_source', :collection => @project.financial_sources %>
 	  </div>
-	  <%= link_to_function "Add Source" do |page|
-			page.insert_html :bottom, :financials, :partial => 'financial_source', :object => FinancialSource.new
-	   end %>
-	  <br /><br />	 
-
-
-
-
-
-
-
-
-
-
-
-
-	  
+	  <%= add_source_link "Add Source" %>
+	  <br /><br />	   	  
 	  
 	  <fieldset id="groupLocation">
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
