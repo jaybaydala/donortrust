@@ -3,8 +3,8 @@
     <h1>Create New Project</h1>
     
     <%= error_messages_for :project %>
-	 <% form_for(:project, :url => bus_admin_projects_path, :html => { :id => 'projectform', :name => 'projectform' }) do |f| %>
-
+	<% form_for(:project, :url => bus_admin_projects_path, :html => { :id => 'projectform', :name => 'projectform' }) do |f| %>
+ 
 	  <fieldset id="groupLocation">
   		<legend>Please enter your project information </legend>
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
@@ -48,28 +48,21 @@
         </fieldset>	     	  	  
 	  </fieldset>
 	  
-	  <fieldset id="groupDescription">
-	    <legend>need to figure this out </legend>
-  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <table border="1" cellspacing="2" cellpadding="2" width="30%">
-		  <tr><th width="20%"></th><th align="left" width="79%"></th></tr>
-		 <% i = 0
-		    for cause in Cause.find(:all) do 
-		      i = i + 1 %>
-		      <tr>
-		       <td><%= check_box('cause_'+i.to_s, 'checked', {}, cause.name, '') %></td>
-		       <td><%= cause.name %></td>
-		      </tr>
-		 <% end %>
-		 </table>
-        </ul>
-      </fieldset>
+	  <fieldset id="cause-checkbox">
+	  	  <legend>Please enter cause information </legend>
+		    <% for cause in Cause.find(:all) %>
+			  <div>
+				<%= check_box_tag "project[cause_ids][]", cause.id, false %>
+				<%= cause.name %>
+			  </div>
+		   <% end %>	
+      </fieldset> 	  	  
 	  
 	  <fieldset id="groupLocation">
 	  	 <legend>Please enter your dollar information </legend>
   		 <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-  		  <li><label for="spent">Spent $</label><%= f.text_field :dollars_spent %></li>
-		  <li><label for="total-cost">Total Cost $</label><%= f.text_field :total_cost %></li>
+  		  <li><label for="spent"><%= render :partial => 'dt/shared/form_required' %>Spent $</label><%= f.text_field :dollars_spent %></li>
+		  <li><label for="total-cost"><%= render :partial => 'dt/shared/form_required' %>Total Cost $</label><%= f.text_field :total_cost %></li>
 		</ul>
       </fieldset> 
 	 
@@ -80,31 +73,24 @@
           <li><label for="partner"><%= render :partial => 'dt/shared/form_required' %>Partner</label> <%= collection_select (:project, :partner_id, get_partners, :id, :name, :include_blank => true) %></li>
 		</ul>
       </fieldset> 
+
 	  
 	  <fieldset id="groupLocation">
 	  	  <legend>Please enter contact information </legend>
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="contact">Contact</label> <%= collection_select (:contact, :contact_id, get_contacts, :id, :fullname, :include_blank => true) %></li>
+          <li><label for="contact">Contact</label> <%= collection_select (:project, :contact_id, get_contacts, :id, :fullname, :include_blank => true) %></li>
 		</ul>
       </fieldset> 	 
 	  
-  
-	  <fieldset id="groupDescription">
-	    <legend>Please enter Sector information </legend>
-  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <table border="1" cellspacing="2" cellpadding="2" width="30%">
-		  <tr><th width="20%"></th><th align="left" width="79%"></th></tr>
-		 <% i = 0
-		    for sector in Sector.find(:all) do 
-		      i = i + 1 %>
-		      <tr>
-		       <td><%= check_box('sector'+i.to_s, 'checked', {}, sector.name, '') %></td>
-		       <td><%= sector.name %></td>
-		      </tr>
-		 <% end %>
-		 </table>
-        </ul>
-      </fieldset> 	
+	  <fieldset id="sector-checkbox">
+	  	  <legend>Please enter sector information </legend>
+		    <% for sector in Sector.find(:all) %>
+			 <div>
+				<%= check_box_tag "project[sector_ids][]", sector.id, false  %> 
+				<%= sector.name %>
+			 </div>
+		   <% end %>		
+      </fieldset>
 	  
 	  <fieldset id="groupDescription">
 	    <legend>Please enter Public information </legend>
@@ -135,8 +121,9 @@
       </fieldset>	
 	  
 	  <fieldset id="groupLocation">
+	  	  <legend>Please enter frequency type information </legend>
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="frequency-feedback">Need Frequency of Feedback</li>
+          <li><label for="frequency-feedback">Frequency of Feedback</label><%= collection_select (:project, :frequency_type_id, get_frequency, :id, :name, :include_blank => true) %></li>
 		</ul>
       </fieldset>   	  
 	  
@@ -167,19 +154,23 @@
          <li><label for="other-projects">Other Projects</label><%= f.text_area :other_projects, :rows => 8, :cols => 30 %></li>		  		  
 	  	</ul>
       </fieldset>
+	  	  	  	  
+	  <div id= "agencies" font size="xx-small" >
+	    <%= render :partial => 'collaborating_agency', :collection => @project.collaborating_agencies %>
+	  </div>
+	  <%= link_to_function "Add Agency" do |page|
+			page.insert_html :bottom, :agencies, :partial => 'collaborating_agency', :object => CollaboratingAgency.new
+	   end %>
+	  <br /><br />  
 	  
-	  <fieldset id="groupLocation">
-  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="collaborating">Need Collaborating Agencies</li>
-		</ul>
-      </fieldset>   
-	  
-	  <fieldset id="groupLocation">
-  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-    	  <li><label for="status">not sure what to display here</label></li>
-		</ul>
-      </fieldset> 	  
-	  
+	  <div id= "financials" font size="xx-small" >
+	    <%= render :partial => 'financial_source', :collection => @project.financial_sources %>
+	  </div>
+	  <%= link_to_function "Add Source" do |page|
+			page.insert_html :bottom, :financials, :partial => 'financial_source', :object => FinancialSource.new
+	   end %>
+	  <br /><br />	   
+  
 	  <fieldset id="groupLocation">
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
           <li><label for="lives-affected">Lives Affected</label><%= f.text_field :lives_affected %></li>				
@@ -192,8 +183,6 @@
 		    <%= render :partial => 'dt/shared/form_required' %><%= place_form_column %>             
           </ul>
       </fieldset> 	
-	  
-	
 	  
  	  <div> 							
         <%= submit_tag "New Project", :class => 'buttonsubmit', :action => "edit" %>
