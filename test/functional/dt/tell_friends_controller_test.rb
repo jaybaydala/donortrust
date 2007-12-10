@@ -238,6 +238,13 @@ context "Dt::TellFriends confirm behaviour"do
     }
   end
 
+  specify "should trim mailto: from the start of to_email and email fields" do
+    do_post( :share => {:to_email => 'mailto: curtis@example.com', :email => 'mailto:  tim@example.com'} )
+    share = assigns(:share)
+    share[:to_email].should == 'curtis@example.com'
+    share[:email].should == 'tim@example.com'
+  end
+  
   protected
   def do_post(options={}, login = true)
     login_as :quentin if login == true

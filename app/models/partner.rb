@@ -44,7 +44,8 @@ class Partner < ActiveRecord::Base
   end
   
   def get_total_costs
-    projects = Project.find(:all, :conditions => "partner_id = " + id.to_s)    
+    projects = Project.find(:all, :conditions => ['partner_id = ? AND project_status_id in (?)', id.to_s, [2,4]])  
+    
     total_cost = 0
     projects.each do |project|
       if project.total_cost != nil
@@ -55,7 +56,7 @@ class Partner < ActiveRecord::Base
   end
   
   def get_total_raised    
-    projects = Project.find(:all, :conditions => "partner_id = " + id.to_s)    
+    projects = Project.find(:all, :conditions => ['partner_id = ? AND project_status_id in (?)', id.to_s, [2,4]]) 
     total_raised = 0
     projects.each do |project|
       if project.dollars_raised != nil

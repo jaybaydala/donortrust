@@ -24,7 +24,11 @@ class Investment < ActiveRecord::Base
       i = Investment.new( :amount => gift.amount, :user_id => user_id, :project_id => gift.project_id, :gift_id => gift.id )
     end
   end
-
+  
+ 
+  
+  
+  
   def validate
     super
     errors.add("project_id", "is not a valid project") if project_id && project_id <= 0
