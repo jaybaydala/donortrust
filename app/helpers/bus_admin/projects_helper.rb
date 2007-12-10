@@ -91,6 +91,26 @@ module BusAdmin::ProjectsHelper
      FrequencyType.find(:all)
   end
   
+#    def interest(i)
+#      if @project
+#         @project.causes.include?(i)
+#      else
+#        false
+#      end
+#   end 
+
+  def add_agency_link(name) 
+      link_to_function name do |page|
+        page.insert_html :bottom, :agencies, :partial => 'collaborating_agency', :object => CollaboratingAgency.new
+     end
+   end
+   
+  def add_source_link(name)
+    link_to_function name do |page|
+      page.insert_html :bottom, :financials, :partial => 'financial_source', :object => FinancialSource.new
+     end
+   end 
+  
   def community_projects(project)
     if @community_projects.nil?
       @community_projects = []
