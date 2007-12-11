@@ -5,11 +5,15 @@
 	  <% fields_for "project[collaborating_agency_attributes][]", collaborating_agency do |f| %>
 	    <li><font size="2" face="Times New Roman">Collaborating Agency: <%= f.text_field :agency_name, :index => nil %><br /></li><br />
 	    <li>Responsibilities: <%= f.text_field :responsibilities, :index => nil %></li><br /><br />
-	    <%= link_to_function "Remove", "$(this).up('.agency').remove()" %>
-        <% unless collaborating_agency.new_record? %>
+	    
+	    <% if collaborating_agency.new_record? %>
+          <%= link_to_function "Remove", "$(this).up('.agency').remove()" %>
+        <% else %>
+          <%= link_to_function "Remove", "mark_agency_for_destroy(this)" %>
           <%= f.hidden_field :id, :index => nil %>
+		  <%= f.hidden_field :should_destroy, :index => nil, :class => 'should_destroy' %>
         <% end %>
 	  <% end %>          
     </ul>
-  </fieldset>
+  </fieldset>	
 </div>	
