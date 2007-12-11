@@ -11,9 +11,10 @@
         <% else %>
           <%= link_to_function "Remove", "mark_agency_for_destroy(this)" %>
           <%= f.hidden_field :id, :index => nil %>
-		  <%= f.hidden_field :should_destroy, :index => nil, :class => 'should_destroy' %>
+		  <%= f.hidden_field :should_destroy_agency, :index => nil, :class => 'should_destroy_agency' %>
         <% end %>
 	  <% end %>          
     </ul>
   </fieldset>	
 </div>	
+
