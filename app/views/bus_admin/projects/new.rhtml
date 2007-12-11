@@ -154,18 +154,18 @@
          <li><label for="other-projects">Other Projects</label><%= f.text_area :other_projects, :rows => 8, :cols => 30 %></li>		  		  
 	  	</ul>
       </fieldset>	  	
-				  
-	  <div id= "agencies" font size="xx-small" >
-	    <%= render :partial => 'collaborating_agency', :collection => @project.collaborating_agencies %>
-	  </div>
-	  <%= add_agency_link "Add Agency" %>
-	  <br /><br />  
 	  
-	  <div id= "financials" font size="xx-small" >
-	    <%= render :partial => 'financial_source', :collection => @project.financial_sources %>
-	  </div>
-	  <%= add_source_link "Add Source" %>
-	  <br /><br />	   
+	  
+	  
+	  
+	  
+	    <%= render :partial => 'collaborating_fields', :locals => { :f => f } %>
+		<%= render :partial => 'financial_fields', :locals => { :f => f } %>
+		
+		
+		
+				  
+   
 	  
 	  <fieldset id="groupLocation">
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
