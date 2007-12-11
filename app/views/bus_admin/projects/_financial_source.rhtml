@@ -4,12 +4,15 @@
   	<ul class="row" style="padding-top:10px; padding-bottom:10px;">		
 	  <% fields_for "project[financial_source_attributes][]", financial_source do |f| %>
 	    <li><font size="2" face="Times New Roman">Source: <%= f.text_field :source, :index => nil %><br /></li><br />
-	    <li>Amount: <%= f.text_field :amount, :index => nil %></li><br /><br />
-	    <%= link_to_function "Remove", "this.up('.source').remove()" %>
-	    <% unless financial_source.new_record? %>
+	    <li>Amount: <%= f.text_field :amount, :index => nil %></li><br /><br />	    
+		<% if financial_source.new_record? %>		
+		  <%= link_to_function "Remove", "this.up('.source').remove()" %>
+		<% else %>
+		  <%= link_to_function "Remove", "mark_source_for_destroy(this)" %>
 	      <%= f.hidden_field :id, :index => nil %>
+		  <%= f.hidden_field :should_destroy, :index => nil, :class => 'should_destroy' %>
 	    <% end %> 
 	  <% end %>          
     </ul>
   </fieldset>	
-</div>	
+</div>
