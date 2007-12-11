@@ -74,19 +74,14 @@ class BusAdmin::ProjectsController < ApplicationController
   end
   
     def update    
-#     params[:project][:cause_ids] ||= []
-#     params[:project][:sector_ids] ||= []
     @project = Project.find(params[:id])
     @project.place_id = params[:record][:place][:id]
-#    @project.place_id =   1234
-    if @project.update_attributes(params[:project])
-    
-        flash[:notice] = 'Project was successfully updated.'
+    if @project.update_attributes(params[:project])    
+      flash[:notice] = 'Project was successfully updated.'
       redirect_to bus_admin_project_path(@project) 
-       
-      else
-        render :action => "edit" 
-      end    
+    else
+      render :action => "edit" 
+    end    
   end  
     
 #  def details
