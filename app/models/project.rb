@@ -319,7 +319,7 @@ class Project < ActiveRecord::Base
 
   def save_collaborating_agencies
     collaborating_agencies.each do |c|
-      if c.should_destroy?
+      if c.should_destroy_agency?
         c.destroy
       else
         c.save(false)
@@ -340,7 +340,7 @@ class Project < ActiveRecord::Base
   
   def save_financial_sources
     financial_sources.each do |f|
-      if f.should_destroy?
+      if f.should_destroy_source?
         f.destroy
       else
         f.save(false)
