@@ -32,7 +32,7 @@ class BusAdmin::ProjectsController < ApplicationController
   def create
 #    params[:project][:cause_ids] ||= []
     @project = Project.new(params[:project])
-    @project.place_id =   1234
+    @project.place_id = params[:record][:place][:id]
 #    @project.place_id =   Place.find(params[:record][:id])
 #    @project.place_ = (params[:place][:id]).to_i
     Contact.transaction do      
@@ -77,6 +77,7 @@ class BusAdmin::ProjectsController < ApplicationController
 #     params[:project][:cause_ids] ||= []
 #     params[:project][:sector_ids] ||= []
     @project = Project.find(params[:id])
+    @project.place_id = params[:record][:place][:id]
 #    @project.place_id =   1234
     if @project.update_attributes(params[:project])
     
