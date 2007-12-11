@@ -2,13 +2,13 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 function mark_agency_for_destroy(element){
-   $(element).next('.should_destroy').value = 1;
-   $(element).up('.collaborating_agency').hide();
+   $(element).next('.should_destroy_agency').value = 1;
+   $(element).up('.agency').hide();
 }
 
 function mark_source_for_destroy(element){
-   $(element).next('.should_destroy').value = 1;
-   $(element).up('.collaborating_agency').hide();
+   $(element).next('.should_destroy_source').value = 1;
+   $(element).up('.source').hide();
 }
 
 function textLinkRedirector(text){
