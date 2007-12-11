@@ -10,7 +10,7 @@
 		<% else %>
 		  <%= link_to_function "Remove", "mark_source_for_destroy(this)" %>
 	      <%= f.hidden_field :id, :index => nil %>
-		  <%= f.hidden_field :should_destroy, :index => nil, :class => 'should_destroy' %>
+		  <%= f.hidden_field :should_destroy_source, :index => nil, :class => 'should_destroy_source' %>
 	    <% end %> 
 	  <% end %>          
     </ul>
