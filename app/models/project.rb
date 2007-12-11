@@ -31,9 +31,9 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
   
-  acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
+  after_update :save_collaborating_agencies, :save_financial_sources
   
-#  after_update :save_collaborating_agencies
+  acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
   
   def startDate
     "#{self.start_date}"
@@ -317,15 +317,32 @@ class Project < ActiveRecord::Base
     return self.sum(:dollars_spent)
   end
   
+
+
+
+
+
+# works for create
+#  def collaborating_agency_attributes=(collaborating_agency_attributes)
+#    collaborating_agency_attributes.each do |attributes|
+#      collaborating_agencies.build(attributes)
+#      end    
+#  end 
+  
   def save_collaborating_agencies
     collaborating_agencies.each do |c|
       c.save(false)
     end
-  end
+  end   
   
   def collaborating_agency_attributes=(collaborating_agency_attributes)
     collaborating_agency_attributes.each do |attributes|
-    collaborating_agencies.build(attributes)
+      if attributes[:id].blank?
+        collaborating_agencies.build(attributes)
+      else
+        collaborating_agency = collaborating_agencies.detect { |c| c.id == attributes[:id].to_i }
+        collaborating_agency.attributes = attributes
+      end    
     end
   end
   
@@ -337,8 +354,20 @@ class Project < ActiveRecord::Base
   
   def financial_source_attributes=(financial_source_attributes)
     financial_source_attributes.each do |attributes|
-    financial_sources.build(attributes)
+      if attributes[:id].blank?
+        financial_sources.build(attributes)
+      else
+        financial_source = financial_sources.detect { |f| f.id == attributes[:id].to_i }
+        financial_source.attributes = attributes
+      end    
     end
-  end    
-   
+  end  
+  
+#  def financial_source_attributes=(financial_source_attributes)
+#    financial_source_attributes.each do |attributes|
+#    financial_sources.build(attributes)
+#    end
+#  end   
+  
+  
 end
