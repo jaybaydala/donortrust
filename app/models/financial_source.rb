@@ -5,4 +5,10 @@ class FinancialSource < ActiveRecord::Base
   validates_presence_of :amount
 #  validates_presence_of :project
   
+  attr_accessor :should_destroy_source
+  
+  def should_destroy_source?
+    should_destroy_source.to_i == 1
+  end
+  
 end
