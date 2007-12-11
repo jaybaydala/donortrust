@@ -18,8 +18,12 @@ module BusAdmin::ProgramsHelper
     Contact.find(:all)
   end    
   
-    def partner_statuses
+  def partner_statuses
     PartnerStatus.find(:all)
+  end
+  
+  def get_programs
+    Program.find(:all)
   end
   
 end
