@@ -10,13 +10,13 @@
 
 <% if @boolShowTop == true %>
     <%= link_to_remote "Top",
-      :update => "nested_project_place",
+      :update => "nested_place_div",
       :url => { :action => 'populate_project_places' },
       :with => "'posttype=top'"
     %>
 <% end %>
 <%= link_to_remote "Down",
-    :update => "nested_project_place",
+    :update => "nested_place_div",
     :url => { :action => 'populate_project_places' },
     :with => "'record_place=' + escape($('record_place').value) + '&posttype=down'"
 %>

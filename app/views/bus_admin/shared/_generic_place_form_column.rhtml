@@ -1,0 +1,80 @@
+<% if (item && item.respond_to?(:place)) && named_route %>
+	<dl>
+	  <dt>
+	    <label for="@record[:place]">Place</label>
+	  </dt>
+	    <dd>
+	      <div id="place_div" style="width: 400px;">
+	        <table cellspacing="0" cellpadding="0">
+	          <tr height="16px">
+	            <td>
+	              <div id="nested_place_div">
+	                  <% if params[:action] == "new" %>
+	                    <select id="record_place" class="place-input" name="record[place][id]">
+	                      <option value='' selected=true>-- Select Place --</option>
+	                      <% for place in Place.find :all, :conditions => "parent_id is null" %>
+	                          <option value=<%= place.id.to_s %>><%= place.name %></option>
+	                      <% end %>
+	                    </select>
+	                  <% else %>
+	                    <% if params[:action] == "edit" %>
+	                    
+	<%
+	
+	places = nil
+	parentString = ""
+	boolShowTop = false
+	
+	if item.place.nil?
+	    places = Place.find :all, :conditions => "parent_id is null"
+	else
+	    if item.place.parent.nil?
+	        places = Place.find :all, :conditions => "parent_id is null"
+	    else
+	        places = Place.getPeerPlaces(item.place)
+	    end
+	    
+	    parentString = (item.place.parent.nil?) ? "" : Place.getParentString(item.place.parent)
+	    boolShowTop = (item.place.parent.nil?) ? false : true
+	end
+	
+	%>
+	                        <%= parentString %><br/>
+	                        <select id="record_place" class="place-input" name="record[place][id]">
+	                          <% if parentString == "" %>
+	                            <option value='' selected=true>-- Select Place --</option>
+	                          <% end %>
+	                              <% for place in places %>
+	                              <option value=<%= place.id.to_s %>
+	                              <% unless item.place.nil? %>
+	                                  <%= (place.id == item.place.id ? "selected=true" : "") %>                        
+	                              <% end %>                    
+	                              ><%= place.name %></option>
+	                          <% end %>
+	                        </select>
+	
+	<!-- Only consider it if we are editing -->               
+	<% if boolShowTop == true %>
+	    <%= link_to_remote "Top",
+	      :update => "nested_place_div",
+	      :url => { :action => named_route },
+	      :with => "'posttype=top'"
+	    %>
+	<% end %>                        
+	                        
+	                        <% end %>
+	                  <% end %>
+	<%= link_to_remote "Down",
+	    :update => "nested_place_div",
+	    :url => { :action => named_route },
+	    :with => "'record_place=' + escape($('record_place').value) + '&posttype=down'"
+	%>
+	              </div>
+	            </td>
+	            <td><%= show_spinner %></td>
+	          </tr>
+	        </table>
+	      </div>               
+	      </dd>
+	</dl>
+<% end %>

@@ -14,7 +14,7 @@ module BusAdmin::ContactsHelper
   end    
   
   def place_form_column
-    render 'bus_admin/contacts/_place_form_column'    
+    render :partial => 'bus_admin/shared/generic_place_form_column', :locals => {:item => @contact, :named_route => 'populate_contact_places' }    
   end  
 
 end

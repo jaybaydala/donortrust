@@ -67,7 +67,7 @@ module BusAdmin::ProjectsHelper
   end   
   
   def place_form_column
-    render 'bus_admin/projects/_place_form_column'    
+    render :partial => 'bus_admin/shared/generic_place_form_column', :locals => { :item => @project, :named_route => 'populate_project_places' }    
   end
   
  

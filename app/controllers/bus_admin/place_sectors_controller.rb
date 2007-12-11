@@ -8,6 +8,11 @@ class BusAdmin::PlaceSectorsController < ApplicationController
       format.html
     end 
   end
+  
+  def new
+    @page_title = "Place Sectors"
+    @sector = PlaceSector.new
+  end
 
    def show
     begin
@@ -39,8 +44,8 @@ class BusAdmin::PlaceSectorsController < ApplicationController
 #  end
   
   def update
-    
   @sector = @sector.find(params[:id])
+  @sector.place_id = params[:record][:place][:id]
   @saved = @project.update_attributes(params[:sector])
     respond_to do |format|
       if @saved
@@ -56,7 +61,8 @@ class BusAdmin::PlaceSectorsController < ApplicationController
   end
   
   def create
-    @sector = PlaceSector.new(params[:sector])
+    @sector = PlaceSector.new(params[:place_sector])
+    @sector.place_id = params[:record][:place][:id]
     Contact.transaction do
       @saved= @sector.valid? && @sector.save!
       begin

@@ -47,6 +47,7 @@ class BusAdmin::ContactsController < ApplicationController
   def update
     
   @contact = Contact.find(params[:id])
+  @contact.place_id = params[:record][:place][:id]
   @saved = @contact.update_attributes(params[:contact])
     respond_to do |format|
       if @saved
@@ -62,6 +63,7 @@ class BusAdmin::ContactsController < ApplicationController
   
   def create
     @contact = Contact.new(params[:contact])
+    @contact.place_id = params[:record][:place][:id]
     Contact.transaction do
       @saved= @contact.valid? && @contact.save!
       begin

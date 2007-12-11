@@ -12,6 +12,6 @@ def file_form_column(record, input_name)
     if record.description != nil 
       RedCloth.new(record.description).to_html
     end
-  end 
+  end
   
 end

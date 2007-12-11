@@ -5,26 +5,21 @@
     <%= error_messages_for :sector %>
     <% form_for(:sector, :url => place_sectors_path, :html => { :id => 'sectorform', :name => 'sectorform' }) do |f| %>
 
-
-
-	  
-
-	  
     <fieldset id="groupLocation">
   	  <legend>Please enter your sector information </legend>
   	  <ul class="row" style="padding-top:10px; padding-bottom:10px;">	
           <li><label for="place_sector_place_sector"><%= render :partial => 'dt/shared/form_required' %>Sector</label> <%= collection_select (:place_sector, :sector_id, get_sectors , :id, :name, { :include_blank => true })  %></li>
 	  </ul>
-      </fieldset>	
-	  	  
-	   	
-     
+      </fieldset>
+	  <fieldset id="groupLocation">
+	   	 <legend>Please enter location information </legend>
+  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+		  <%= render :partial => 'dt/shared/form_required' %><%= place_form_column %>            
+          </ul>
+      </fieldset> 	
 	 <div> 							
         <%= submit_tag "New Sector", :class => 'buttonsubmit', :action => "edit" %>
 	 </div>
-
     <% end -%>	  
-	
   </div>
-
 </div>
