@@ -39,40 +39,40 @@ class Project < ActiveRecord::Base
     "#{self.start_date}"
   end
   
-#  validates_presence_of :total_cost
-#  validates_presence_of :dollars_spent
-#  validates_presence_of :name
-#  validates_presence_of :place_id
-#  validates_presence_of :target_start_date  
-#  validate do |me|
-#    # In each of the 'unless' conditions, true means that the association is reloaded,
-#    # if it does not exist, nil is returned
-#    unless me.program( true )
-#      me.errors.add :program_id, 'does not exist'
-#    end
-#    unless me.partner( true )
-#      me.errors.add :partner_id, 'does not exist'
-#    end
-#    unless me.project_status( true )
-#      me.errors.add :project_status_id, 'does not exist'
-#    end
-#    unless me.place( true )
-#      me.errors.add :place_id, 'does not exist'
-#    end
-#    
-#    #need to validate the presence of other featured projects
-#    #  there cannot be more than 5 featured projects
-#    if me.featured == true
-#      projects = Project.find :all, :conditions => ["deleted_at is null and featured = 1"]
-#      if projects.length >= 5
-#        me.errors.add "There are already 5 featured projects. This project "
-#      end
-#    end
-#  end  
+  validates_presence_of :total_cost
+  validates_presence_of :dollars_spent
+  validates_presence_of :name
+  validates_presence_of :place_id
+  validates_presence_of :target_start_date  
+  validate do |me|
+    # In each of the 'unless' conditions, true means that the association is reloaded,
+    # if it does not exist, nil is returned
+    unless me.program( true )
+      me.errors.add :program_id, 'does not exist'
+    end
+    unless me.partner( true )
+      me.errors.add :partner_id, 'does not exist'
+    end
+    unless me.project_status( true )
+      me.errors.add :project_status_id, 'does not exist'
+    end
+    unless me.place( true )
+      me.errors.add :place_id, 'does not exist'
+    end
+    
+    #need to validate the presence of other featured projects
+    #  there cannot be more than 5 featured projects
+    if me.featured == true
+      projects = Project.find :all, :conditions => ["deleted_at is null and featured = 1"]
+      if projects.length >= 5
+        me.errors.add "There are already 5 featured projects. This project "
+      end
+    end
+  end  
 
- # def validate
- #   errors.add(:place_id, "must be a city/village.") if place && place.place_type_id != 6
- # end
+#  def validate
+#    errors.add(:place_id, "must be a city/village.") if place && place.place_type_id != 6
+#  end
 
   class << self
     def cf_unallocated_project
@@ -316,22 +316,14 @@ class Project < ActiveRecord::Base
   def self.total_money_spent
     return self.sum(:dollars_spent)
   end
-  
 
-
-
-
-
-# works for create
-#  def collaborating_agency_attributes=(collaborating_agency_attributes)
-#    collaborating_agency_attributes.each do |attributes|
-#      collaborating_agencies.build(attributes)
-#      end    
-#  end 
-  
   def save_collaborating_agencies
     collaborating_agencies.each do |c|
-      c.save(false)
+      if c.should_destroy?
+        c.destroy
+      else
+        c.save(false)
+      end
     end
   end   
   
@@ -348,7 +340,11 @@ class Project < ActiveRecord::Base
   
   def save_financial_sources
     financial_sources.each do |f|
-      f.save(false)
+      if f.should_destroy?
+        f.destroy
+      else
+        f.save(false)
+      end
     end
   end
   
@@ -362,12 +358,5 @@ class Project < ActiveRecord::Base
       end    
     end
   end  
-  
-#  def financial_source_attributes=(financial_source_attributes)
-#    financial_source_attributes.each do |attributes|
-#    financial_sources.build(attributes)
-#    end
-#  end   
-  
-  
+    
 end
