@@ -3,7 +3,7 @@
     <legend>Please enter your financial source information </legend>
   	<ul class="row" style="padding-top:10px; padding-bottom:10px;">		
 	  <% fields_for "project[financial_source_attributes][]", financial_source do |f| %>
-	    <li><font size="2" face="Times New Roman">Source: <%= f.text_field :source, :default => nil %><br /></li><br />
+	    <li><font size="2" face="Times New Roman">Source: <%= f.text_field :source, :index => nil %><br /></li><br />
 	    <li>Amount: <%= f.text_field :amount, :index => nil %></li><br /><br />
 	    <%= link_to_function "Remove", "this.up('.source').remove()" %>
 	    <% unless financial_source.new_record? %>
