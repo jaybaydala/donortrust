@@ -35,6 +35,8 @@ class Project < ActiveRecord::Base
   
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
   
+  extend FromXmlBuilder
+  
   def startDate
     "#{self.start_date}"
   end
@@ -357,6 +359,13 @@ class Project < ActiveRecord::Base
         financial_source.attributes = attributes
       end    
     end
-  end  
+  end 
+  
+  def to_complete_xml
+    self.to_xml :include => [:milestones, :tasks, :project_you_tube_videos, 
+                              :project_flickr_images, :financial_sources, :budget_items,
+                              :collaborating_agencies, :ranks, :investments, :key_measures,
+                              :my_wishlists, :users, :groups, :sectors, :causes]
+  end 
     
 end

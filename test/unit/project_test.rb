@@ -147,5 +147,11 @@ context "Projects" do
     total_budget.should.equal expected_value
     #total_budget.should.equal 3000.00
   end    
+  
+  specify "project can be converted to xml successfully" do
+    @project = Project.find(1)
+    xml_string = @project.to_complete_xml
+    xml_string.should.not.be.nil
+  end
 
 end
