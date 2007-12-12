@@ -42,7 +42,6 @@ class Gift < ActiveRecord::Base
   end
   
   def send_gift_mail
-    
     if update_attributes(:sent_at => Time.now.utc)
       DonortrustMailer.deliver_gift_mail(self)
       @sent = true
@@ -58,7 +57,7 @@ class Gift < ActiveRecord::Base
   end
 
   def send_gift_mail?
-    return new_record? == false && self[:send_at] == nil ? true : false
+    return new_record? == false && self[:send_at] == nil && self[:sent_at] == nil ? true : false
   end
   
   protected

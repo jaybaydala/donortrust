@@ -85,12 +85,12 @@ class Dt::GiftsController < DtApplicationController
     @total_amount = @gift.amount + @cf_investment.amount if @cf_investment
 
     Gift.transaction do
-      if @cf_investment && @cf_deposit
-        @saved = @gift.save! && @cf_deposit.save! && @cf_investment.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?)
-      else
-        @saved = @gift.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?) 
-      end
-      flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
+        if @cf_investment && @cf_deposit
+          @saved = @gift.save! && @cf_deposit.save! && @cf_investment.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?)
+        else
+          @saved = @gift.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?) 
+        end
+        flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
     end
 
     respond_to do |format|
@@ -105,11 +105,6 @@ class Dt::GiftsController < DtApplicationController
         format.html { render :action => "new" }
       end
     end
-  end
-  
-  def complete
-    @gift = Gift.find(params[:id]) if Gift.exists?(params[:id])
-    
   end
   
   def open
@@ -183,6 +178,7 @@ class Dt::GiftsController < DtApplicationController
     gift_params.delete :expiry_year
     gift_params[:card_expiry] = card_exp if gift_params[:card_expiry] == nil
     gift_params[:user_id] = current_user.id if logged_in?
+    gift_params[:sent_at] = Time.now if params[:do_not_email] && params[:do_not_email].to_i == 1
     normalize_send_at!(gift_params)
     gift_params
   end

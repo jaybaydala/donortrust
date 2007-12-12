@@ -81,7 +81,7 @@ class DonortrustMailer < ActionMailer::Base
     recipients  "#{gift.first_name} #{gift.last_name} <#{gift.email}>"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now
-    subject "Your gift has been sent"
+    subject "Your gift has been created and is ready for opening"
     amount = number_to_currency(gift.amount)
     body "<p>Thanks kind gifter! With your generous gift of #{amount}, we're one gift closer to changing the world...for good. </p><p>Please find your attached gift card</p><p>You can also download your printable ecard here:<br />#{dt_gift_url(:id => gift.id, :host => HTTP_HOST)}.pdf?code=#{gift.pickup_code}</p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
     attachment "application/pdf" do |a|
@@ -89,7 +89,6 @@ class DonortrustMailer < ActionMailer::Base
       proxy = create_pdf_proxy(gift)
       a.body = proxy.render
       a.filename = proxy.filename
-      
     end
   end
 

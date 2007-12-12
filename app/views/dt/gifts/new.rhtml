@@ -69,7 +69,10 @@
     </fieldset>
 
     <fieldset>
-      <legend>Gift Schedule</legend>
+      <legend>Gift Email</legend>
+        <p class="textsm">Regardless of whether your gift is emailed or not, you will be provided with a printable gift card after submitting your gift. The card will contain all necessary instructions to open your gift.</p>
+        <div class="textsm"><%= radio_button_tag :do_not_email, 1 %> Do not email my gift - I'd prefer to give it in person</div>
+        <div class="textsm"><%= radio_button_tag :do_not_email, 0, true %> Email my gift, please</div>
         <div class="textsm" style="padding-bottom:0;">Select a date &amp; time to send your gift email or leave this area blank to send it right away.</div>
         <div id="gift_send_at_select">
           <%= f.datetime_select :send_at, 

@@ -185,6 +185,14 @@ context "Dt::Gifts new behaviour"do
       end
     end
   end
+  
+  specify "should have a field to \"not send a gift email\"" do
+    get :new
+    assert_select "#giftform" do
+      assert_select "input[type=radio]#do_not_email_0"
+      assert_select "input[type=radio]#do_not_email_1"
+    end
+  end
 
   specify "first_name last_name address city province postal_code country email and name fields should match the current_user model values" do
     login_as :quentin
@@ -349,7 +357,7 @@ context "Dt::Gifts confirm behaviour"do
       template.should.be 'dt/gifts/new'
     }
   end
-
+  
   protected
   def do_post(options={}, login = true, credit = true)
     login_as :quentin if login == true
@@ -389,29 +397,29 @@ end
 
 context "Dt::Gifts create behaviour"do
   use_controller Dt::GiftsController
-  fixtures :gifts, :user_transactions, :users, :projects
+  fixtures :gifts, :e_cards, :user_transactions, :investments, :users, :projects, :project_statuses
   include DtAuthenticatedTestHelper
   
   specify "should create a gift and redirect to the complete action" do
     # !logged_in?
     lambda {
-      create_gift(nil, false)
+      create_gift({}, false)
       should.redirect :action => 'show', :id => assigns(:gift).id, :code => assigns(:gift).pickup_code
     }.should.change(Gift, :count)
     # logged_in?
     lambda {
-      create_gift()
+      create_gift
       should.redirect :action => 'show', :id => assigns(:gift).id, :code => assigns(:gift).pickup_code
     }.should.change(Gift, :count)
   end
 
   specify "@gift should be assigned on create" do
-    create_gift()
+    create_gift
     assigns(:gift).should.not.be.nil
   end
   
   specify "@gift should contain an authorization_result when a credit_card is used" do
-    create_gift(nil, false)
+    create_gift({}, false)
     assigns(:gift).authorization_result.should.not.be nil
   end
   
@@ -422,18 +430,18 @@ context "Dt::Gifts create behaviour"do
     }.should.change(TaxReceipt, :count)
     # logged in
     lambda {
-      create_gift()
+      create_gift
     }.should.change(TaxReceipt, :count)
   end
 
   specify "a TaxReceipt should not be created if credit_card is used without a country other than Canada" do
     # not logged in
     lambda {
-      create_gift({:country => 'United States of America'}, false)
+      create_gift({:gift => {:country => 'United States of America'}}, false)
     }.should.not.change(TaxReceipt, :count)
     # logged in
     lambda {
-      create_gift(:country => 'United States of America')
+      create_gift({:gift => {:country => 'United States of America'}})
     }.should.not.change(TaxReceipt, :count)
   end
   
@@ -448,7 +456,7 @@ context "Dt::Gifts create behaviour"do
     @emails.length.should.equal 3
     
     @emails.clear
-    create_gift()
+    create_gift
     @emails.length.should.equal 3
   end
 
@@ -468,26 +476,41 @@ context "Dt::Gifts create behaviour"do
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
     @emails = ActionMailer::Base.deliveries 
-    
     @emails.clear
-    create_gift({:country => 'United States of America'}, true, false)
+    create_gift({:gift => {:country => 'United States of America'}}, true, false)
     @emails.length.should.equal 2
+  end
+  
+  specify "should not send a gift email if do_not_email is 0" do
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+    @emails = ActionMailer::Base.deliveries 
+    @emails.clear
+    create_gift({:do_not_email => "1"}, false, true)
+    @emails.length.should.equal 2
+    @emails.clear
+    create_gift({:do_not_email => "0"}, false, true)
+    @emails.length.should.equal 3
+    @emails.clear
+    create_gift({}, false, true)
+    @emails.length.should.equal 3
   end
   
   specify "should create an deposit when fund_cf and fund_cf_percentage are passed" do
     lambda {
-      create_gift({:amount => 100.00}, true, true, true, 5)
+      create_gift({:gift => {:amount => 100.00}}, true, true, true, 5)
     }.should.change(Deposit, :count)
   end
 
   specify "should create an investment when fund_cf and fund_cf_percentage are passed" do
     lambda {
-      create_gift({:amount => 100.00}, true, true, true, 5)
+      create_gift({:gift => {:amount => 100.00}}, true, true, true, 5)
     }.should.change(Investment, :count)
   end
 
   specify "should create an investment and deposit with the same amount when fund_cf and fund_cf_percentage are passed" do
-    create_gift({:amount => 100.00}, true, true, true, 5)
+    create_gift({:gift => {:amount => 100.00}}, true, true, true, 5)
     assigns(:cf_deposit).amount.should == 5
     assigns(:cf_investment).amount.should == 5
   end
@@ -522,11 +545,13 @@ context "Dt::Gifts create behaviour"do
     gift_params[:user_id] = users(:quentin).id if login == true
     
     # merge with passed options
-    gift_params.merge!(options) if options != nil
+    gift_params.merge!(options[:gift]) if options && options[:gift]
+    options.delete(:gift) if options && options[:gift]
     
     params = {:gift => gift_params}
     params[:fund_cf] = true if fund_cf
     params[:fund_cf_percentage] = fund_cf_percentage if fund_cf
+    params.merge!(options) if options
     post :create, params
   end
 end
