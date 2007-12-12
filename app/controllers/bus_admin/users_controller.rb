@@ -1,29 +1,6 @@
 class BusAdmin::UsersController < ApplicationController
-  before_filter :login_required , :check_authorization
+#  before_filter :login_required , :check_authorization
    
-#  active_scaffold do |config|
-#    
-#    config.label = "Donors"
-#    config.actions.exclude :create
-#    config.columns = [ :first_name, :last_name, :login ]
-#    config.list.columns = [:first_name, :last_name, :login]
-#    config.update.columns = [:first_name, :last_name, :login, :display_name, :address,  :city, :province, :country, :postal_code] 
-#
-#  end
- 
-# def show_program_note   
-#   @note = Program.find(params[:id]).note
-#   render :partial => "layouts/note"   
-#  end
-#  def get_local_actions(requested_action,permitted_action)
-#    case(requested_action)
-#      when("show_program_note")
-#        return permitted_action == 'show'
-#      else
-#        return false
-#      end  
-#  end
-#
   def index
     @page_title = 'Donors'
     @users = User.find(:all)#, :conditions => { :featured => 1 })
