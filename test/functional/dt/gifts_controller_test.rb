@@ -134,7 +134,7 @@ end
 
 context "Dt::Gifts new behaviour"do
   use_controller Dt::GiftsController
-  fixtures :gifts, :e_cards, :user_transactions, :users, :projects
+  fixtures :gifts, :e_cards, :user_transactions, :investments, :users, :projects, :project_statuses
   include DtAuthenticatedTestHelper
   
   specify "should not redirect whether you're logged_in? or not" do
@@ -147,7 +147,7 @@ context "Dt::Gifts new behaviour"do
 
   specify "should assign the dt/gifts javascript to @action_js" do
     get :new
-    assigns(:action_js).should.equal 'dt/ecards'
+    assigns(:action_js).should.equal ['dt/ecards', 'dt/giving']
   end
 
   specify "should show form#giftform with the appropriate attributes" do
@@ -238,7 +238,9 @@ context "Dt::Gifts new behaviour"do
   specify "should redirect if !project.fundable?" do
     login_as :quentin
     @project = Project.find_public(:first)
-    @project.update_attributes(:project_status_id => 4) #makes it non-fundable
+    @project = Project.find_public(:first)
+    @project.stubs(:fundable?).returns(false)
+    Project.stubs(:find).returns(@project)
     get :new, :project_id => @project
     should.redirect dt_project_path(@project.id)
   end
@@ -471,9 +473,27 @@ context "Dt::Gifts create behaviour"do
     create_gift({:country => 'United States of America'}, true, false)
     @emails.length.should.equal 2
   end
+  
+  specify "should create an deposit when fund_cf and fund_cf_percentage are passed" do
+    lambda {
+      create_gift({:amount => 100.00}, true, true, true, 5)
+    }.should.change(Deposit, :count)
+  end
+
+  specify "should create an investment when fund_cf and fund_cf_percentage are passed" do
+    lambda {
+      create_gift({:amount => 100.00}, true, true, true, 5)
+    }.should.change(Investment, :count)
+  end
+
+  specify "should create an investment and deposit with the same amount when fund_cf and fund_cf_percentage are passed" do
+    create_gift({:amount => 100.00}, true, true, true, 5)
+    assigns(:cf_deposit).amount.should == 5
+    assigns(:cf_investment).amount.should == 5
+  end
 
   protected
-  def create_gift(options={}, login = true, credit = true)
+  def create_gift(options={}, login = true, credit = true, fund_cf = false, fund_cf_percentage = 5)
     login_as :quentin if login == true
     credit = true if login == false
     gift_params = { 
@@ -504,7 +524,10 @@ context "Dt::Gifts create behaviour"do
     # merge with passed options
     gift_params.merge!(options) if options != nil
     
-    post :create, { :gift => gift_params }
+    params = {:gift => gift_params}
+    params[:fund_cf] = true if fund_cf
+    params[:fund_cf_percentage] = fund_cf_percentage if fund_cf
+    post :create, params
   end
 end
 

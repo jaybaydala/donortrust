@@ -63,6 +63,15 @@ context "Investment" do
     }.should.change(Investment, :count)
   end
 
+  specify "amount can be more than the associated user.balance it's in a credit_card transaction" do
+    # we know that User(1) has a balance
+    balance = User.find(1).balance
+    lambda {
+      t = create_investment(:amount => balance+0.01, :credit_card_tx => true)
+      t.errors.on(:amount).should.be.nil
+    }.should.change(Investment, :count)
+  end
+
   specify "amount should strip a prepended $" do
     lambda {
       t = create_investment( :amount => '$5.00' )

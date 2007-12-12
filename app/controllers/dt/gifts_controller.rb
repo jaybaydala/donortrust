@@ -5,6 +5,7 @@ include PDFProxy
 class Dt::GiftsController < DtApplicationController
   helper "dt/places"
   include IatsProcess
+  include FundCf
   before_filter :login_required, :only => :unwrap
   
   def initialize
@@ -36,7 +37,7 @@ class Dt::GiftsController < DtApplicationController
     store_location
     @gift = Gift.new
     @ecards = ECard.find(:all, :order => :id)
-    @action_js = "dt/ecards"
+    @action_js = ["dt/ecards", "dt/giving"]
     if params[:project_id]
       @project = Project.find(params[:project_id]) 
       @gift.project_id = @project.id if @project
@@ -54,10 +55,15 @@ class Dt::GiftsController < DtApplicationController
     @gift = Gift.new( gift_params )
     @ecards = ECard.find(:all, :order => :id)
     @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
-    @action_js = "dt/ecards"
+    @action_js = ["dt/ecards", "dt/giving"]
+    
+    @cf_investment = build_fund_cf_investment(@gift)
+    valid = cf_fund_investment_valid?(@gift, @cf_investment)
+    @total_amount = @gift.amount + @cf_investment.amount if @cf_investment
+    
     schedule(@gift)
     respond_to do |format|
-      if @gift.valid?
+      if valid
         format.html { render :action => "confirm" }
       else
         format.html { render :action => "new" }
@@ -70,14 +76,23 @@ class Dt::GiftsController < DtApplicationController
     @gift.user_ip_addr = request.remote_ip
     @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
     
-    if params[:gift][:credit_card] && params[:gift][:credit_card] != ''
+    if @gift.credit_card?
       iats = iats_payment(@gift)
       @gift.authorization_result = iats.authorization_result if iats.status == 1
-      @saved = @gift.save if @gift.authorization_result != nil
-      flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
-    else
-      @saved = @gift.save
     end
+    @cf_investment = build_fund_cf_investment(@gift)
+    @cf_deposit = build_fund_cf_deposit(@gift)
+    @total_amount = @gift.amount + @cf_investment.amount if @cf_investment
+
+    Gift.transaction do
+      if @cf_investment && @cf_deposit
+        @saved = @gift.save! && @cf_deposit.save! && @cf_investment.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?)
+      else
+        @saved = @gift.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?) 
+      end
+      flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
+    end
+
     respond_to do |format|
       if @saved
         create_tax_receipt if @gift.credit_card?

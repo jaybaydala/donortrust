@@ -76,6 +76,12 @@ context "Dt::Deposits new behaviour"do
     response.should.not.redirect
   end
 
+  specify "should assign deposit" do
+    login_as :quentin
+    get :new, :account_id => users(:quentin).id
+    assigns(:deposit).should.not.be.nil
+  end
+
   specify "should use 'new' template" do
     login_as :quentin
     get :new, :account_id => users(:quentin).id
@@ -161,13 +167,46 @@ context "Dt::Deposits confirm behaviour"do
     end
   end
   
+  specify "should assign deposit" do
+    login_as :quentin
+    do_post
+    assigns(:deposit).should.not.be.nil
+  end
+
+  specify "should assign cf_investment if fund_cf is true" do
+    login_as :quentin
+    do_post({:deposit => {:amount => 100}}, true, 5)
+    assigns(:cf_investment).should.not.be.nil
+  end
+
+  specify "should assign cf_investment with the proper amount if fund_cf is true" do
+    login_as :quentin
+    do_post({:deposit => {:amount => 100}}, true, 5)
+    assigns(:cf_investment).amount.should == 5
+  end
+
+  specify "should assign total_amount with the proper amount if fund_cf is true" do
+    login_as :quentin
+    do_post({:deposit => {:amount => 100}}, true, 5)
+    assigns(:total_amount).should == 105
+  end
+
+  specify "deposit amount should be amount + percentage if fund_cf is true" do
+    login_as :quentin
+    do_post({:deposit => {:amount => 100}}, true, 5)
+    assigns(:deposit).amount.should.equal 105
+  end
+  
   private
-  def do_post(options = {})
+  def do_post(options = {}, fund_cf = false, fund_cf_percentage = 5)
     deposit_params = { :amount => 200.00, :first_name => 'Tim', :last_name => 'Glen', :address => '36 Example St.', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'CA', :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
     # merge the options
     deposit_params.merge!(options[:deposit]) if options[:deposit]
     # do the post
-    post :confirm, :account_id => users(:quentin).id, :deposit => deposit_params
+    params = {:account_id => users(:quentin).id, :deposit => deposit_params}
+    params[:fund_cf] = 1 if fund_cf
+    params[:fund_cf_percentage] = fund_cf_percentage if fund_cf
+    post :confirm, params
   end
 end
 
@@ -193,26 +232,59 @@ context "Dt::Deposits create behaviour"do
     }.should.change(Deposit, :count)
   end
   
-  specify "a tax_receipt email should be created and sent on deposit" do
+  specify "a tax_receipt record should be created on deposit" do
+    login_as :quentin
+    lambda {
+      create_deposit
+    }.should.change(TaxReceipt, :count)
+  end
+
+  specify "a tax_receipt record should be created on deposit" do
     login_as :quentin
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
     @emails = ActionMailer::Base.deliveries 
     @emails.clear
+    create_deposit
+    @emails.size.should == 1
+  end
+
+  specify "should create an investment if fund_cf is true" do
+    login_as :quentin
     lambda {
-      create_deposit
-      should.redirect :controller => 'dt/accounts', :action => 'show', :id => users(:quentin).id
-    }.should.change(TaxReceipt, :count)
+      create_deposit({:amount => 100}, true, 5)
+    }.should.change(Investment, :count)
+  end
+
+  specify "should assign cf_investment if fund_cf is true" do
+    login_as :quentin
+    create_deposit({:amount => 100}, true, 5)
+    assigns(:cf_investment).should.not.be nil
+  end
+
+  specify "should create cf_investment with an amount of 5.0 if fund_cf is true" do
+    login_as :quentin
+    create_deposit({:amount => 100}, true, 5)
+    assigns(:cf_investment).amount.should.equal 5
+  end
+
+  specify "deposit amount should be amount + percentage if fund_cf is true" do
+    login_as :quentin
+    create_deposit({:amount => 100}, true, 5)
+    assigns(:deposit).amount.should.equal 105
   end
 
   private
-  def create_deposit(options = {})
+  def create_deposit(options = {}, fund_cf = false, fund_cf_percentage = 5)
     deposit_params = { :amount => 200.00, :first_name => 'Timothy', :last_name => 'Glen', :address => '36 Hill Trail', :city => 'Guelph', :province => 'ON', :postal_code => 'N1E 7C5', :country => 'Canada', :credit_card => 4111111111111111,  :expiry_month => "04", :expiry_year => "09" }
     # merge the options
     deposit_params.merge!(options) if options
     # do the post
-    post :create, :account_id => users(:quentin).id, :deposit => deposit_params
+    params = {:account_id => users(:quentin).id, :deposit => deposit_params}
+    params[:fund_cf] = 1 if fund_cf
+    params[:fund_cf_percentage] = fund_cf_percentage if fund_cf
+    post :create, params
   end
 end
 

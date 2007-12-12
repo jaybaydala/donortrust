@@ -4,6 +4,7 @@ include PDFProxy
 class Dt::DepositsController < DtApplicationController
   helper 'dt/places'
   include IatsProcess
+  include FundCf
   before_filter :login_required
   
   def initialize
@@ -12,16 +13,48 @@ class Dt::DepositsController < DtApplicationController
 
   def new
     @deposit = Deposit.new
+    @action_js = 'dt/giving'
+  end
+  
+  def confirm
+    @deposit = Deposit.new( deposit_params )
+    @action_js = 'dt/giving'
+
+    @cf_investment = build_fund_cf_investment(@deposit)
+    @total_amount = @deposit.amount + @cf_investment.amount if @cf_investment
+    valid = cf_fund_investment_valid?(@deposit, @cf_investment)
+    @deposit.amount += @cf_investment.amount if @cf_investment
+
+    respond_to do |format|
+      if valid
+        format.html { render :action => "confirm" }
+      else
+        format.html { render :action => "new" }
+      end
+    end
   end
   
   def create
     @deposit = Deposit.new( deposit_params )
+    @action_js = 'dt/giving'
     iats = iats_payment(@deposit)
     @deposit.authorization_result = iats.authorization_result if iats.status == 1
     @deposit.user_ip_addr = request.remote_ip
     
+    @cf_investment = build_fund_cf_investment(@deposit)
+    @deposit.amount += @cf_investment.amount if @cf_investment
+    
+    Deposit.transaction do
+      if @cf_investment
+        @saved = @deposit.save! && @cf_investment.save! if @deposit.authorization_result?
+      else
+        @saved = @deposit.save! if @deposit.authorization_result?
+      end
+      flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
+    end
+    
     respond_to do |format|
-      if @deposit.authorization_result != nil && @saved = @deposit.save
+      if @saved
         if @deposit.country == 'Canada'
           create_tax_receipt         
         end
@@ -34,17 +67,6 @@ class Dt::DepositsController < DtApplicationController
     end
   end
    
-  def confirm
-    @deposit = Deposit.new( deposit_params )
-    respond_to do |format|
-      if @deposit.valid?
-        format.html { render :action => "confirm" }
-      else
-        format.html { render :action => "new" }
-      end
-    end
-  end
-  
   protected
   def ssl_required?
     true

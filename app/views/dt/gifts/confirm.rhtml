@@ -10,7 +10,7 @@
     <fieldset>
       <legend>Gift amount:</legend>
       <ul>
-        <li style="padding-bottom:0px;">Gift Amount <%= number_to_currency(params[:gift][:amount]) %><%= f.hidden_field :amount %></li>
+        <li style="padding-bottom:0px;">Gift Amount <%= number_to_currency(@gift.amount) %><%= f.hidden_field :amount %></li>
       </ul>
     </fieldset>
 
@@ -23,6 +23,8 @@
       <% end %></p>
       <%= f.hidden_field :project_id %>
     </fieldset>
+
+		<%= render 'dt/shared/fund_cf_confirm' %>
 
     <fieldset>
       <legend>Gift Details</legend>

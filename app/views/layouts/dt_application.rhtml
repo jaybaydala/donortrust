@@ -13,7 +13,7 @@
   <%= javascript_include_tag 'dragdrop' %>
   <%= javascript_include_tag 'controls' %>
   <%= javascript_include_tag 'dt/application' %>
-  <%= javascript_include_tag @action_js if @action_js %>
+  <%= dt_action_js %>
   <%= stylesheet_link_tag 'dt/base.css' %>
   <%= stylesheet_link_tag 'dt/navigation.css' %>
   <%= javascript_include_tag 'theme' if @action_js =~ /timeline-api\.js/ %>

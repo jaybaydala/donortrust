@@ -80,7 +80,7 @@ end
 
 context "Dt::InvestmentsController new behaviour" do
   use_controller Dt::InvestmentsController
-  fixtures :investments, :users, :projects, :groups, :partners
+  fixtures :user_transactions, :investments, :users, :projects, :project_statuses, :groups, :partners
   include DtAuthenticatedTestHelper
   
   specify "should redirect if !logged_in?" do
@@ -158,7 +158,8 @@ context "Dt::InvestmentsController new behaviour" do
   specify "should redirect if !project.fundable?" do
     login_as :quentin
     @project = Project.find_public(:first)
-    @project.update_attributes(:project_status_id => 4) #makes it non-fundable
+    @project.stubs(:fundable?).returns(false)
+    Project.stubs(:find).returns(@project)
     get :new, :project_id => @project
     should.redirect dt_project_path(@project.id)
   end
@@ -272,11 +273,18 @@ context "Dt::InvestmentsController create behaviour" do
     }.should.change(Investment, :count)
   end
   
- specify "should create a new Investment and CF Investment" do
+  specify "should create a new Investment and CF Investment" do
     login_as :quentin
     old_count = Investment.count
-    do_post({:amount =>20}, fund_cf = true)
+    do_post({:investment => {:amount =>20}}, true)
     Investment.count.should.equal old_count+2
+  end
+
+  specify "should create CF Investment with the passed percentage as the amount" do
+    login_as :quentin
+    old_count = Investment.count
+    do_post({:investment => {:amount =>20}}, true, 5)
+    assigns(:cf_investment).amount.should == 20*0.05
   end
   
   specify "should create a new UserTransaction" do
@@ -315,13 +323,13 @@ context "Dt::InvestmentsController create behaviour" do
   end
 
   private
-  def do_post(options = {}, fund_cf = false)
+  def do_post(options = {}, fund_cf = false, fund_cf_percentage = 5)
     tax_receipt_params = {}
     %w( first_name last_name address city province postal_code country ).each do |field|
       tax_receipt_params[field.to_sym] = users(:quentin).send(field)
     end
     investment_params = { :project_id => 1, :amount => 1 }
     investment_params.merge!(options[:investment]) if options[:investment]
-    post :create, { :investment => investment_params, :fund_cf => fund_cf }
+    post :create, { :investment => investment_params, :fund_cf => fund_cf, :fund_cf_percentage => fund_cf_percentage }
   end
 end

@@ -26,13 +26,17 @@
     <fieldset>
       <legend>Your Investment</legend>
       <ul>
-    		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount %></li>
-        <li><p class="textsm">100% of your investment goes towards the project(s) you choose</p></li>
-			  <% if cf_admin_project %><li><label for="fund_cf">I would like to add 5% to my investment for <%= link_to "Christmas Future Administrative costs", dt_project_path(cf_admin_project) %></label> <%= check_box_tag "fund_cf"  %></li><% end %>
-		  </ul>	
-      
+    		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount, :value => (@investment.amount? ? number_to_currency(@investment.amount) : "$") %></li>
+      </ul>
+    </fieldset>
+    
+    <%= render "dt/shared/fund_cf" %>
+    
+    <fieldset>
+      <legend>Total Investment Amount</legend>
       <ul>
-        <li><div class="textsm">Your investment amount cannot be more than your current balance.
+        <li><label for="amount_total">Amount Total:</label><%= text_field_tag :amount_total, number_to_currency(0), :style => 'border:0;', :onfocus => "blur();" %></li>
+        <li><div class="textsm">Your total investment amount cannot be more than your current balance.
           <div>Current Balance: <%= number_to_currency( current_user.balance ) %>
           (<%= link_to("Make a deposit", dt_new_deposit_path( :account_id => current_user.id )) %>)</div></div></li>
       </ul>

@@ -20,7 +20,7 @@
     <fieldset>
       <legend>Please enter your gift amount:</legend>
       <ul>
-        <li><label for="gift_amount"><%= render :partial => 'dt/shared/form_required' %>Gift Amount</label><%= f.text_field :amount %></li>
+    		<li><label for="gift_amount"><%= render :partial => 'dt/shared/form_required' %>Gift Amount</label><%= f.text_field :amount, :value => (@gift.amount? ? number_to_currency(@gift.amount) : "$") %></li>
       </ul>
     </fieldset>
 
@@ -32,6 +32,15 @@
           <li class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? ? @gift.project_id : 0 ) %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></li>
         </ul>
       </div>
+    </fieldset>
+
+    <%= render "dt/shared/fund_cf" %>
+
+    <fieldset>
+      <legend>Total Amount</legend>
+      <ul>
+        <li><label for="amount_total">Amount Total:</label><%= text_field_tag :amount_total, number_to_currency(0), :style => 'border:0;', :onfocus => "blur();" %></li>
+      </ul>
     </fieldset>
 
     <fieldset class="fieldsetN">
