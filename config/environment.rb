@@ -96,3 +96,34 @@ class RubyTube
     old_initialize(you_tube_key)
   end
 end
+
+#This supports the need to create an ActiveRecord object from XML
+#Basically, we are just re-opening the module definition. This
+#This functionality will now be available as a class method for 
+#any ActiveRecord object
+require "rexml/document"
+module ActiveRecord
+  class Base
+    def self.rehydrate_from_xml(xml)
+      xml = REXML::Document.new(xml) if xml.class == String
+
+      ar = self.new
+      xml.elements[1].elements.each do | ele |
+        sym = ele.name.underscore.to_sym
+
+        # An association
+        if ele.has_elements?
+          if self.reflect_on_association(sym)
+            klass = self.reflect_on_association(sym).klass
+            ar.send sym, klass.rehydrate_from_xml(ele)
+          end
+        # An attribute
+        else
+          ar[sym] = ele.text
+        end
+      end
+
+      return ar
+    end
+  end
+end

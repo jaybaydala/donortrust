@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
     })
   acts_as_paranoid_versioned
  
+  has_one :pending_project
   belongs_to :project_status
   belongs_to :program
   belongs_to :partner
@@ -34,8 +35,6 @@ class Project < ActiveRecord::Base
   after_update :save_collaborating_agencies, :save_financial_sources
   
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
-  
-  extend FromXmlBuilder
   
   def startDate
     "#{self.start_date}"
@@ -365,7 +364,8 @@ class Project < ActiveRecord::Base
     self.to_xml :include => [:milestones, :tasks, :project_you_tube_videos, 
                               :project_flickr_images, :financial_sources, :budget_items,
                               :collaborating_agencies, :ranks, :investments, :key_measures,
-                              :my_wishlists, :users, :groups, :sectors, :causes]
+                              :my_wishlists, :users, :groups, :sectors, :causes, :place, 
+                              :contact, :frequency_type, :partner, :program, :project_status]
   end 
-    
+  
 end

@@ -11,7 +11,8 @@ class BusAdmin::ProjectsController < ApplicationController
   
   def index
     @page_title = 'Projects'
-    @projects = Project.find(:all)#, :conditions => { :featured => 1 })
+    #@projects = Project.find(:all)#, :conditions => { :featured => 1 })
+    @projects = Project.find_by_sql("SELECT * FROM projects WHERE id NOT IN (SELECT project_id from pending_projects)")
     respond_to do |format|
       format.html
     end
@@ -29,14 +30,61 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
   
+  def pending_projects
+    pp = PendingProject.find(:all, :conditions => ["rejected = false and rejection_reason is null"])
+    @pending_projects = []
+    pp.each do |p|
+      @pending_projects << Project.rehydrate_from_xml(p.project_xml)
+    end
+  end
+  
+  def rejected_projects
+    pp = PendingProject.find(:all, :conditions => ["rejected = true and rejection_reason is not null"])
+    @rejected_projects = []
+    pp.each do |p|
+      @rejected_projects << Project.rehydrate_from_xml(p.project_xml)
+    end
+  end
+  
+  def approve_project
+    @project = Project.find(params[:id])
+    #This project is approved, so we need to load up the real project,
+    #change its status and delete the pending project
+    if @project
+      #what should this status be set to?
+      @project.project_status_id = 2
+      @project.save
+      @pending = PendingProject.find(:first, :conditions => ["project_id = ?", @project.id])
+      if @pending
+        @pending.destroy
+      end
+    else
+      #error?
+    end
+  end
+  
+  def reject_project
+    @project = Project.find(params[:id])
+    if @project
+      @pending = PendingProject.find(:first, :conditions => ["project_id = ?", @project.id])
+      @pending.rejected = true
+      @pending.rejection_reason = "Cause I said so!!"
+      @pending.save
+    else
+      #error
+    end
+  end
+  
   def create
-#    params[:project][:cause_ids] ||= []
     @project = Project.new(params[:project])
     @project.place_id = params[:record][:place][:id]
-#    @project.place_id =   Place.find(params[:record][:id])
-#    @project.place_ = (params[:place][:id]).to_i
     Contact.transaction do      
-      @saved= @project.valid? && @project.save!     
+      @saved= @project.valid? && @project.save!
+      if @saved
+        @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_complete_xml,
+                                      :date_created => Date.today)
+        @pending.save
+      end
       begin
       raise Exception if !@saved
       rescue Exception

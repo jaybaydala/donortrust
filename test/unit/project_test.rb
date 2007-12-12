@@ -153,5 +153,17 @@ context "Projects" do
     xml_string = @project.to_complete_xml
     xml_string.should.not.be.nil
   end
+  
+  specify "project can be converted to xml and rebuild successfully" do
+    @project = Project.find(1)
+    xml_string = @project.to_complete_xml
+    @project2 = Project.rehydrate_from_xml(xml_string)
+    @project2.id.should.equal @project.id
+  end
+  
+  specify "project should respond_to? rehydrate_from_xml" do
+    responds = Project.respond_to?(:rehydrate_from_xml)
+    responds.should.equal true
+  end
 
 end
