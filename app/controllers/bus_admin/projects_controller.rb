@@ -55,13 +55,26 @@ class BusAdmin::ProjectsController < ApplicationController
       if @pending
         #If the project is not new, we need to apply the pending changes to the project and save it.
         #If the project IS new, all we need to do is delete the PendingProject
+        @sucess = true
         unless @pending.is_new
           @project = Project.rehydrate_from_xml(@pending.project_xml)
           @project.date_updated = Date.today
-          @project.update
+          @sucess = @project.update
         end
-        @pending.destroy
-        redirect_to :action => :pending_projects
+        if @sucess
+          if @pending.destroy
+            if @pending.is_new
+              flash[:notice] = "Successfully approved the new project."
+            else
+              flash[:notice] = "Successfully approved and applied changes to the project."
+            end
+            redirect_to :action => :pending_projects
+          else
+            raise Exception.new("Could not delete PendingProject for the project.")
+          end
+        else
+          raise Exception.new("Could not update the project.")
+        end
       else
         raise Exception.new("Could not find a PendingProject for the project.")
       end
@@ -84,6 +97,11 @@ class BusAdmin::ProjectsController < ApplicationController
         @pending.rejected_by = self.current_bus_account.id
         @pending.date_rejected = Date.today
         if @pending.save
+          if @pending.is_new
+            flash[:notice] = "Successfully rejected the new project."
+          else
+            flash[:notice] = "Successfully rejected the changes to the project."
+          end
           redirect_to :action => :pending_projects
         else
           raise Exception.new("Could not save the PendingProject.")
