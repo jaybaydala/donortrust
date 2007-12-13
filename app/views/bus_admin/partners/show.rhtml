@@ -10,7 +10,10 @@
   <div id="leftColW">
     <h1>
       <%= h @partner.name if @partner %>
-      <span class="textsm">(<%= link_to(h(@partner.website), (@partner.website =~ %r(^http:\/\/) ? '' : "http://") + @partner.website, :rel => 'blank') if @partner.website %>)</span>
+	  <% if @partner.website %>
+	  	<span class="textsm">
+		(<%= link_to(h(@partner.website), (@partner.website =~ %r(^http:\/\/) ? '' : "http://") + @partner.website, :rel => 'blank') %>)</span>
+	  <% end %>
     </h1>
     
     <% if @partner && @partner.description? %>
