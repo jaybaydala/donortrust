@@ -62,11 +62,12 @@ class Dt::ProjectsController < DtApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
-    
-    @rss_feed = last_rss_entry(@project.community.rss_url) if @project && @project.community.rss_url?
-    #@rss_feed.clean! if @rss_feed # sanitize the html
     @community = @project.community
     @page_title = "#{@community.name} | #{@project.name}"
+    
+    @mdgs = MillenniumGoal.find(:all)
+    @rss_feed = last_rss_entry(@project.community.rss_url) if @project && @project.community.rss_url?
+    #@rss_feed.clean! if @rss_feed # sanitize the html
     respond_to do |format|
       format.html
     end
@@ -80,6 +81,7 @@ class Dt::ProjectsController < DtApplicationController
     end
     @nation = @project.nation
     @page_title = "#{@nation.name} | #{@project.name}"
+    @mdgs = MillenniumGoal.find(:all)
     respond_to do |format|
       format.html
     end
@@ -121,7 +123,7 @@ class Dt::ProjectsController < DtApplicationController
       rescue_404 and return
     end
     respond_to do |format|
-      format.html {render :action => 'cause', :layout => false}
+      format.html {render :action => 'cause', :layout => 'dt/plain'}
     end
   end
   

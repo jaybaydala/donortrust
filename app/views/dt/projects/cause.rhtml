@@ -1,22 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<head>
-<title>ChristmasFuture Causes</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<%= stylesheet_link_tag 'dt/base.css' %>
-<%= stylesheet_link_tag 'dt/navigation.css' %>
-<!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css' %><![endif]-->
-</head>
-<body>
-<div id="container">
-  <div id="main"> 
-    <div id="content">
-      <div id="header">
-        <div id="logo" style="left:15px;"><a href="/"><img src="/images/dt/brand_elements/cf_headerlogo.gif" width="203" height="50" alt="ChristmasFuture - Change the world&hellip;for good" /></a></div>
-      </div>
-      <div id="contentContainer">
         <div class="projectInfo" style="margin-top:10px;">
           <div class="leftColW">
             <% if @cause.nil? %>
@@ -31,9 +12,3 @@
             <% unless @project.nil? %><%= project_quickfacts %><% end %>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-</html>

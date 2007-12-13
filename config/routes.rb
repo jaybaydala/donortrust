@@ -26,6 +26,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :wishlists, :controller=> 'dt/wishlists', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :tell_friends, :controller=> 'dt/tell_friends', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :preview => :get }
+  map.resources :mdgs, :controller=> 'dt/mdgs', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.connect '/dt', :controller => 'dt/projects'
 
   # inactive_record resources
