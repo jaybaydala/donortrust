@@ -4,7 +4,7 @@
 -%>
     <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
       <div class="leftColW">
-        <h2><%= link_to @project.name, bus_admin_project_path(@project) %></h2>
+        <h2><%= link_to @project.name, bus_admin_show_pending_project_project_path(@project) %></h2>
         <div class="projectRank">
           <ul class="specList">
             <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
@@ -20,9 +20,9 @@
     	</div>
 
 		<div style="clear:both;">
-  			<p><strong>Approval Details:</strong></p>
-			This is a<%= @pending.is_new ? " new project." : "n existing project that has been modified." %>
-			<p>
+  			<p><strong>Approval Details </strong>(To view all project details, click the project title above)</p>
+			<p>This is a<%= @pending.is_new ? " new project." : "n existing project that has been modified." %>
+			<br />
 				<% if @pending.is_new %>
 					The project was created on <%= @pending.date_created %> by <%= @pending.creator.nil? ? "unknown" : @pending.creator.login %>
 				<% else %>

@@ -35,6 +35,26 @@ class Place < ActiveRecord::Base
     return parentString    
   end
   
+  def self.full_location_string(place)
+    full_name = ""
+    #if place has no parents, return the name of the place.
+    if place.parent_id.nil?
+      full_name = place.name
+    else
+      parent = Place.find_by_id(place.parent_id)
+      until parent.nil?
+        full_name << "#{parent.name} > "
+        unless parent.parent_id.nil?
+          parent = Place.find_by_id(parent.parent_id)
+        else
+          parent = nil
+        end
+      end
+      full_name << "#{place.name}"
+    end
+    full_name
+  end
+  
   # This method is here because I'm sure it's cheaper to query for a count
   #  than to populate the tree and count items.
   def Place.getChildCount(place)

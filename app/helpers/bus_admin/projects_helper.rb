@@ -1,5 +1,9 @@
 module BusAdmin::ProjectsHelper
  
+  def financial_source_amount_column(record)
+    number_to_currency(record.amount)
+  end
+  
   def dollars_raised_column(record)
     number_to_currency(record.dollars_raised)
   end
@@ -48,7 +52,7 @@ module BusAdmin::ProjectsHelper
     end   
   end
   
-  def   responsibilities_column(record)
+  def responsibilities_column(record)
      if record.responsibilities != nil 
        RedCloth.new(record.responsibilities).to_html
     end    

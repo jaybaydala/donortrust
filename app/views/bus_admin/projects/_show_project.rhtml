@@ -1,7 +1,7 @@
 <% @project = show_project -%>
     <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
       <div class="leftColW">
-        <h2><%= link_to @project.name, bus_admin_project_path(@project) %></h2>
+        <h2><%= link_to @project.name, bus_admin_edit_project_path(@project) %></h2>
         
         <div class="projectRank">
           <ul class="specList">
