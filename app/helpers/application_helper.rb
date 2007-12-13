@@ -197,5 +197,17 @@ module ApplicationHelper
     render 'dt/accounts/profile_sidebar'
   end
   
+  def collection_select_with_current(object, method, collection, value_method, text_method, current_value)
+  result = "<select name='#{object}[#{method}]'>\n" 
+  for element in collection
+    if current_value == element.send(value_method)
+      result << "<option value='#{element.send(value_method)}' selected='selected'>#{element.send(text_method)}</option>\n" 
+    else
+      result << "<option value='#{element.send(value_method)}'>#{element.send(text_method)}</option>\n" 
+    end
+  end
+  result << "</select>\n" 
+  return result
+end
   
 end

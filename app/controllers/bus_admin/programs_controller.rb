@@ -46,6 +46,7 @@ class BusAdmin::ProgramsController < ApplicationController
   def edit     
     @page_title = "Edit Program Details"
     @program = Program.find(params[:id])
+    @contacts = Contact.find(:all)
     respond_to do |format|
       format.html
     end    
