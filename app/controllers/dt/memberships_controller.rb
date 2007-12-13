@@ -9,7 +9,7 @@ class Dt::MembershipsController < DtApplicationController
   def index
     @group = Group.find(params[:group_id])
     @page_title = "Members | #{@group.name}"
-    @memberships = @group.memberships
+    @memberships = @group.memberships.paginate({:page => params[:page], :per_page => 10})
     @membership = Membership.find(:first, :conditions => {:user_id => current_user.id, :group_id => params[:group_id]}) if logged_in?
     @invitation = Invitation.new(:group_id => @group.id, :user_id => current_user.id) if @membership && (!@group.private? || (@group.private? && @membership.admin?))
     respond_to do |format|

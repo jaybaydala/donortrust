@@ -5,9 +5,13 @@ class Dt::SearchController < DtApplicationController
     @page_title = "Project Search"
     @projects = Project.find_public(:all, search_options)
     @projects = place_filter(@projects) if params[:place_id] && Place.exists?(params[:place_id])
+    @projects = @projects.paginate({:page => params[:page], :per_page => 5})
     @place = Place.find(params[:place_id]) if params[:place_id] && Place.exists?(params[:place_id])
     @partner = Partner.find(params[:partner_id]) if params[:partner_id] && Partner.exists?(params[:partner_id])
     @cause = Cause.find(params[:cause_id]) if params[:cause_id] && Cause.exists?(params[:cause_id])
+    if @projects.size == 0
+      @featured_projects = Project.featured_projects
+    end
     respond_to do |format|
       format.html
     end

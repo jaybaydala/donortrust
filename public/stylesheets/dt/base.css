@@ -2064,9 +2064,9 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 
 /* MEMBERSHIP LIST */
 
-#memberList {float:left;width:469px; margin:0 0 15px 0px;}
+#memberList {float:left;width:469px; margin:0 0 15px 8px;}
 #memberList .row {float:left; width:465px; height:20px;background:#D8DEF8;}
-#memberList ul {padding:0 0;}
+#memberList ul {padding:0;}
 #memberList li {
 	font: 11px/18px Arial, Helvetica, sans-serif;
 	padding: 0px 0px 1px 0px; margin-bottom:1px; 

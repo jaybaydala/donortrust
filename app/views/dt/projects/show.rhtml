@@ -23,14 +23,16 @@
     <%= render :partial => 'blog' %>
     <% end %>
 
-    <% if @project.project_flickr_images.size > 0 %>
+    <% if @flickr_images.size > 0 %>
     <h2>Project Photos</h2>
-    <%= render :partial => 'flickr_photo', :collection => @project.project_flickr_images %>
+    <%= will_paginate @flickr_images, :param_name => 'flickr_page' %>
+    <%= render :partial => 'flickr_photo', :collection => @flickr_images %>
     <% end %>
     
-    <% if @project.project_you_tube_videos.size > 0 %>
+    <% if @youtube_videos.size > 0 %>
     <h2>Project Video</h2>
-    <%= render :partial => 'youtube_video', :collection => @project.project_you_tube_videos %>
+    <%= will_paginate @youtube_videos, :param_name => 'youtube_page' %>
+    <%= render :partial => 'youtube_video', :collection => @youtube_videos %>
     <% end %>
 
   </div>

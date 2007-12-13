@@ -270,6 +270,39 @@ This allows us to validate the project overview page by not repeating
 #pageNav2b li.currentPg a:link, #pageNav2b li.currentPg a:visited, 
 #pageNav2b li.currentPg a:hover, #pageNav2b li.currentPg a:active { color:#FFF; background-color:#66758B;}
 
+/* NEW SIMPLIFIED PAGINATION */
+div.pagination {
+	padding:1px 0;
+	margin:0 0 5px 0;
+	font: 11px/16px Arial, Helvetica, sans-serif;
+	color:#999;
+}
+div.pagination span.disabled {
+	color:#999;
+}
+
+div.pagination a, div.pagination span {
+	background-color:#FFF;
+	color: #333;
+	padding: 1px 3px 1px 0px;
+	text-decoration:none;
+	display: inline;
+	height: 17px;
+	font-weight: normal;
+	padding: 1px 6px;
+	border: 1px solid #FFF;
+}
+
+div.pagination .current {
+	background:#EEE;
+}
+
+div.pagination a:link, div.pagination a:visited, div.pagination a:hover, div.pagination a:active {
+	color: #333;
+}
+div.pagination a:hover, div.pagination a:active {
+	border: 1px solid #F60;
+}
 /* GALLERY NAVIGATION */
 
 #galleryNav {

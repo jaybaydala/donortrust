@@ -28,6 +28,8 @@
   
     <% if @memberships.size > 0 %>
     <div id="memberList">
+      <p class="textsm"><%= @memberships.total_entries %> Members Total</p>
+      <%= will_paginate @memberships %>
       <ul>
     		<li>
     			<div class="name"><strong>Member</strong></div>
