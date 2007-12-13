@@ -1,6 +1,6 @@
 class BusAdmin::ProjectsController < ApplicationController
 #      helper "dt/groups"
-      # require_role :cfsuperadmin
+        require_role 'cfsuperadmin'
 
   def new
     @project = Project.new     
@@ -113,7 +113,7 @@ class BusAdmin::ProjectsController < ApplicationController
         #mark the pending version as rejected, with the reason, the date rejected, and who rejected it. 
         @pending.rejected = true
         @pending.rejection_reason = "Cause I said so!!"
-        @pending.rejected_by = self.current_bus_account.id
+        @pending.rejected_by = self.current_busaccount.id
         @pending.date_rejected = Date.today
         if @pending.save
           if @pending.is_new
@@ -144,7 +144,7 @@ class BusAdmin::ProjectsController < ApplicationController
         @pending = PendingProject.new(:project_id => @project.id, 
                                       :project_xml => @project.to_complete_xml,
                                       :date_created => Date.today, 
-                                      :created_by => self.current_bus_account.id,
+                                      :created_by => self.current_busaccount.id,
                                       :is_new => true)
         @saved = @pending.save
       end
@@ -201,7 +201,7 @@ class BusAdmin::ProjectsController < ApplicationController
         @pending = PendingProject.new(:project_id => @project.id, 
                                       :project_xml => @project.to_complete_xml,
                                       :date_created => Date.today, 
-                                      :created_by => self.current_bus_account.id,
+                                      :created_by => self.current_busaccount.id,
                                       :is_new => false)
         if @pending.save                            
           flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'

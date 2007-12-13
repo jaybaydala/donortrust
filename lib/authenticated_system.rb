@@ -3,16 +3,16 @@ module AuthenticatedSystem
     # Returns true or false if the user is logged in.
     # Preloads @current_bus_account with the user model if they're logged in.
     def logged_in?
-      current_bus_account != :false
+      current_busaccount != :false
     end
     
     # Accesses the current bus_account from the session.
-    def current_bus_account
+    def current_busaccount
       @current_bus_account ||= (session[:bus_account] && BusAccount.find_by_id(session[:bus_account])) || :false
     end
     
     # Store the given bus_account in the session.
-    def current_bus_account=(new_bus_account)
+    def current_busaccount=(new_bus_account)
       session[:bus_account] = (new_bus_account.nil? || new_bus_account.is_a?(Symbol)) ? nil : new_bus_account.id
       @current_bus_account = new_bus_account
     end

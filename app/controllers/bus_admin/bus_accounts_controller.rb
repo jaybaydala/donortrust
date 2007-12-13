@@ -27,11 +27,11 @@ class BusAdmin::BusAccountsController < ApplicationController
 
   def login
     return unless request.post?
-    self.current_bus_account = BusAccount.authenticate(params[:login], params[:password])
+    self.current_busaccount = BusAccount.authenticate(params[:login], params[:password])
     if logged_in?
       if params[:remember_me] == "1"
-        self.current_bus_account.remember_me
-        cookies[:auth_token] = { :value => self.current_bus_account.remember_token , :expires => self.current_bus_account.remember_token_expires_at }
+        self.current_busaccount.remember_me
+        cookies[:auth_token] = { :value => self.current_busaccount.remember_token , :expires => self.current_busaccount.remember_token_expires_at }
       end
       redirect_back_or_default(:controller => '/bus_admin/bus_accounts', :action => 'index')
       flash[:notice] = "Logged in successfully"
@@ -42,7 +42,7 @@ class BusAdmin::BusAccountsController < ApplicationController
     @bus_account = BusAccount.new(params[:bus_account])
     return unless request.post?
     @bus_account.save!
-    self.current_bus_account = @bus_account
+    self.current_busaccount = @bus_account
     redirect_back_or_default(:controller => '/bus_admin/bus_accounts', :action => 'index')
     flash[:notice] = "Thanks for signing up!"
   rescue ActiveRecord::RecordInvalid
@@ -50,7 +50,7 @@ class BusAdmin::BusAccountsController < ApplicationController
   end
   
   def logout
-    self.current_bus_account.forget_me if logged_in?
+    self.current_busaccount.forget_me if logged_in?
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
