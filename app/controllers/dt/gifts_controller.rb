@@ -35,7 +35,8 @@ class Dt::GiftsController < DtApplicationController
   
   def new
     store_location
-    @gift = Gift.new
+    params[:gift] = session[:gift_params] if session[:gift_params]
+    @gift = Gift.new( gift_params )
     @ecards = ECard.find(:all, :order => :id)
     @action_js = ["dt/ecards", "dt/giving"]
     if params[:project_id]
@@ -45,13 +46,14 @@ class Dt::GiftsController < DtApplicationController
     end
     if logged_in?
       user = User.find(current_user.id)
-      %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] }
-      @gift[:name] = current_user.full_name if logged_in?
-      @gift[:email] = current_user.email
+      %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] unless @gift.send("#{f}?") }
+      @gift[:name] = current_user.full_name if logged_in? && !@gift.name?
+      @gift[:email] = current_user.email unless @gift.email?
     end
   end
   
   def confirm
+    session[:gift_params] = params[:gift] if params[:gift]
     @gift = Gift.new( gift_params )
     @ecards = ECard.find(:all, :order => :id)
     @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
@@ -95,6 +97,7 @@ class Dt::GiftsController < DtApplicationController
 
     respond_to do |format|
       if @saved
+        session[:gift_params] = nil
         create_tax_receipt if @gift.credit_card?
         # send the email if it's not scheduled for later.
         @gift.send_gift_mail if @gift.send_gift_mail? == true
@@ -172,10 +175,13 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def gift_params
-    card_exp = "#{params[:gift][:expiry_month]}/#{params[:gift][:expiry_year]}" if params[:gift][:expiry_month] != nil && params[:gift][:expiry_year] != nil
-    gift_params = params[:gift]
-    gift_params.delete :expiry_month
-    gift_params.delete :expiry_year
+    card_exp = "#{params[:gift][:expiry_month]}/#{params[:gift][:expiry_year]}" if params[:gift] && params[:gift][:expiry_month] && params[:gift][:expiry_year]
+    gift_params = {}
+    gift_params = gift_params.merge(params[:gift]) if params[:gift]
+    gift_params.delete :expiry_month if gift_params.key? :expiry_month
+    gift_params.delete :expiry_year if gift_params.key? :expiry_year
+    gift_params.delete "expiry_month" if gift_params.key? "expiry_month"
+    gift_params.delete "expiry_year" if gift_params.key? "expiry_year"
     gift_params[:card_expiry] = card_exp if gift_params[:card_expiry] == nil
     gift_params[:user_id] = current_user.id if logged_in?
     gift_params[:sent_at] = Time.now if params[:do_not_email] && params[:do_not_email].to_i == 1

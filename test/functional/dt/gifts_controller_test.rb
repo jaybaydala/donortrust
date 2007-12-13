@@ -86,7 +86,7 @@ context "Dt::Gifts index behaviour"do
     should.redirect :action => 'new'
   end
 
- specify "index should redirect to new when logged_in?" do
+  specify "index should redirect to new when logged_in?" do
     login_as :quentin
     get :index
     should.redirect :action => 'new'
@@ -252,6 +252,15 @@ context "Dt::Gifts new behaviour"do
     get :new, :project_id => @project
     should.redirect dt_project_path(@project.id)
   end
+
+  specify "should use session[:gift_params] if they're available" do
+    login_as :quentin
+    @request.session[:gift_params] = {:amount => 25, :first_name => 'Tester'}
+    get :new
+    session[:gift_params].should == @request.session[:gift_params]
+    assigns(:gift).amount.should == 25
+    assigns(:gift).first_name.should == "Tester"
+  end
 end
 
 
@@ -356,6 +365,11 @@ context "Dt::Gifts confirm behaviour"do
       do_post({ :gift => { :credit_card => '4111111111111111', f.to_sym => nil }}, true, true )
       template.should.be 'dt/gifts/new'
     }
+  end
+
+  specify "should put params into session" do
+    do_post
+    session[:gift_params].should == @controller.params[:gift]
   end
   
   protected
@@ -513,6 +527,13 @@ context "Dt::Gifts create behaviour"do
     create_gift({:gift => {:amount => 100.00}}, true, true, true, 5)
     assigns(:cf_deposit).amount.should == 5
     assigns(:cf_investment).amount.should == 5
+  end
+
+  specify "should remove gift_params from session" do
+    login_as :quentin
+    @request.session[:gift_params] = "test"
+    create_gift
+    session[:gift_params].should.be.nil
   end
 
   protected

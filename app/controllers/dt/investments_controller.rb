@@ -9,9 +9,12 @@ class Dt::InvestmentsController < DtApplicationController
 
   def new
     @action_js = "dt/giving"
-    @investment = Investment.new( :project_id => params[:project_id] )
-    @project = Project.find(params[:project_id]) if params[:project_id]
-    @investment.project_id = Project.cf_unallocated_project.id if (Project.cf_unallocated_project && !params[:project_id])
+    params[:investment] = {}
+    params[:investment] = session[:investment_params] if session[:investment_params]
+    params[:investment][:project_id] = params[:project_id] if params[:project_id]
+    @investment = Investment.new( params[:investment] )
+    @project = @investment.project if @investment.project_id? && @investment.project
+    @investment.project_id = Project.cf_unallocated_project.id if (Project.cf_unallocated_project && !@investment.project_id?)
     respond_to do |format|
       format.html {
         redirect_to dt_project_path(@project) and return if @project && !@project.fundable?
@@ -20,6 +23,7 @@ class Dt::InvestmentsController < DtApplicationController
   end
   
   def confirm
+    session[:investment_params] = params[:investment] if params[:investment]
     @action_js = "dt/giving"
     @investment = Investment.new( params[:investment] )
     @investment.user = current_user
@@ -61,6 +65,7 @@ class Dt::InvestmentsController < DtApplicationController
     
     respond_to do |format|
       if @saved
+        session[:investment_params] = nil
         flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
         if @cf_investment
           flash[:notice] = flash[:notice] + "<div>Thank you for your extra investment to support Christmas Future.</div>"

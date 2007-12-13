@@ -83,6 +83,7 @@ context "Dt::InvestmentsController new behaviour" do
   fixtures :user_transactions, :investments, :users, :projects, :project_statuses, :groups, :partners
   include DtAuthenticatedTestHelper
   
+
   specify "should redirect if !logged_in?" do
     get :new, :project_id => Project.find_public(:first)
     status.should.be :redirect
@@ -90,26 +91,34 @@ context "Dt::InvestmentsController new behaviour" do
 
   specify "should respond" do
     login_as :quentin
-    get :new, :project_id => Project.find_public(:first)
+    @project = Project.find_public(:first)
+    @project.stubs(:fundable?).returns(true)
+    get :new, :project_id => @project.id
     status.should.be :success
   end
 
   specify "should assign @investment" do
     login_as :quentin
-    get :new, :project_id => Project.find_public(:first)
+    @project = Project.find_public(:first)
+    @project.stubs(:fundable?).returns(true)
+    get :new, :project_id => @project.id
     #assigns(:tax_receipt).should.not.be.nil
     assigns(:investment).should.not.be.nil
   end
 
   specify "body should contain a form#investmentform" do
     login_as :quentin
-    get :new, :project_id => Project.find_public(:first)
+    @project = Project.find_public(:first)
+    @project.stubs(:fundable?).returns(true)
+    get :new, :project_id => @project.id
     assert_select "form#investmentform"
   end
 
   specify "form should :post to /dt/investments;confirm" do
     login_as :quentin
-    get :new, :project_id => Project.find_public(:first)
+    @project = Project.find_public(:first)
+    @project.stubs(:fundable?).returns(true)
+    get :new, :project_id => @project.id
     assert_select "form#investmentform[method=post][action=/dt/investments;confirm]"
   end
 
@@ -162,6 +171,28 @@ context "Dt::InvestmentsController new behaviour" do
     Project.stubs(:find).returns(@project)
     get :new, :project_id => @project
     should.redirect dt_project_path(@project.id)
+  end
+
+  specify "should use session[:investment_params] if they're available" do
+    login_as :quentin
+    @project = Project.find_public(:first)
+    @project.stubs(:fundable?).returns(true)
+    @request.session[:investment_params] = {:amount => 1000, :project_id => @project.id}
+    get :new
+    session[:investment_params].should == @request.session[:investment_params]
+    assigns(:investment).amount.should == 1000
+    assigns(:investment).project_id.should == @project.id
+  end
+
+  specify "params[:project_id] should override session[:investment_params][:project_id]" do
+    login_as :quentin
+    @project = Project.find_public(:first)
+    @project.stubs(:fundable?).returns(true)
+    @request.session[:investment_params] = {:amount => 1000, :project_id => @project.id}
+    get :new, :project_id => @project.id + 1
+    session[:investment_params].should == @request.session[:investment_params]
+    assigns(:investment).amount.should == 1000
+    assigns(:investment).project_id.should == @project.id + 1
   end
 end
 
@@ -242,6 +273,12 @@ context "Dt::InvestmentsController confirm behaviour" do
     template.should.be 'dt/investments/confirm'
   end
 
+  specify "should put params into session" do
+    login_as :quentin
+    do_post
+    session[:investment_params].should == @controller.params[:investment]
+  end
+
   private
   def do_post(options = {})
     investment_params = { :project_id => 1, :amount => 1 }
@@ -320,6 +357,13 @@ context "Dt::InvestmentsController create behaviour" do
     template.should.be 'dt/investments/new'
     do_post :investment => { :project_id => 0 }
     template.should.be 'dt/investments/new'
+  end
+
+  specify "should remove investment_params from session" do
+    login_as :quentin
+    @request.session[:investment_params] = "test"
+    do_post
+    session[:investment_params].should.be.nil
   end
 
   private

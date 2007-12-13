@@ -43,6 +43,7 @@ var GivingTotal = {
 	},
 	filter_amount: function(amount) {
 		amount = amount.replace(/^\$/, '')
+		amount = amount.replace(/,/g, '')
 		amount -= 0
 		return amount
 	},

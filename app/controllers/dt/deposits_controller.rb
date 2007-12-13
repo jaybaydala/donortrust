@@ -12,11 +12,13 @@ class Dt::DepositsController < DtApplicationController
   end
 
   def new
-    @deposit = Deposit.new
+    params[:deposit] = session[:deposit_params] if session[:deposit_params]
+    @deposit = Deposit.new(deposit_params)
     @action_js = 'dt/giving'
   end
   
   def confirm
+    session[:deposit_params] = params[:deposit] if params[:deposit]
     @deposit = Deposit.new( deposit_params )
     @action_js = 'dt/giving'
 
@@ -58,6 +60,7 @@ class Dt::DepositsController < DtApplicationController
         if @deposit.country == 'Canada'
           create_tax_receipt         
         end
+        session[:deposit_params] = nil
         flash[:notice] = "Your deposit was successful."
         format.html { redirect_to :controller => '/dt/accounts', :action => 'show', :id => current_user.id }
       else
@@ -73,11 +76,14 @@ class Dt::DepositsController < DtApplicationController
   end
 
   def deposit_params
-    card_exp = "#{params[:deposit][:expiry_month]}/#{params[:deposit][:expiry_year]}" if params[:deposit][:expiry_month] != nil && params[:deposit][:expiry_year] != nil
-    deposit_params = params[:deposit]
-    deposit_params.delete :expiry_month
-    deposit_params.delete :expiry_year
-    deposit_params[:card_expiry] = card_exp if deposit_params[:card_expiry] == nil
+    card_exp = "#{params[:deposit][:expiry_month]}/#{params[:deposit][:expiry_year]}" if params[:deposit] && params[:deposit][:expiry_month] && params[:deposit][:expiry_year]
+    deposit_params = {}
+    deposit_params = deposit_params.merge(params[:deposit]) if params[:deposit]
+    deposit_params.delete(:expiry_month) if deposit_params.key?(:expiry_month)
+    deposit_params.delete(:expiry_year) if deposit_params.key?(:expiry_year)
+    deposit_params.delete("expiry_month") if deposit_params.key?("expiry_month")
+    deposit_params.delete("expiry_year") if deposit_params.key?("expiry_year")
+    deposit_params[:card_expiry] = card_exp if deposit_params[:card_expiry].nil?
     deposit_params[:user_id] = current_user.id
     deposit_params
   end

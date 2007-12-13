@@ -116,6 +116,15 @@ context "Dt::Deposits new behaviour"do
       assert_select "[id=deposit_expiry_year]"
     end
   end
+
+  specify "should use session[:deposit_params] if they're available" do
+    login_as :quentin
+    @request.session[:deposit_params] = {:amount => 25, :first_name => 'Tester'}
+    get :new, :account_id => users(:quentin).id
+    session[:deposit_params].should == @request.session[:deposit_params]
+    assigns(:deposit).amount.should == 25
+    assigns(:deposit).first_name.should == "Tester"
+  end
 end
 
 context "Dt::Deposits confirm behaviour"do
@@ -196,6 +205,12 @@ context "Dt::Deposits confirm behaviour"do
     do_post({:deposit => {:amount => 100}}, true, 5)
     assigns(:deposit).amount.should.equal 105
   end
+
+  specify "should put params into session" do
+    login_as :quentin
+    do_post
+    session[:deposit_params].should == @controller.params[:deposit]
+  end
   
   private
   def do_post(options = {}, fund_cf = false, fund_cf_percentage = 5)
@@ -273,6 +288,13 @@ context "Dt::Deposits create behaviour"do
     login_as :quentin
     create_deposit({:amount => 100}, true, 5)
     assigns(:deposit).amount.should.equal 105
+  end
+
+  specify "should remove deposit_params into session" do
+    login_as :quentin
+    @request.session[:deposit_params] = "test"
+    create_deposit
+    session[:deposit_params].should.be.nil
   end
 
   private
