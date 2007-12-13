@@ -201,6 +201,26 @@ class Project < ActiveRecord::Base
     end
     visible
   end
+  
+  def modified_and_unapproved?
+    pending_project && !pending_project.is_new && !pending_project.rejected && pending_project.rejector.nil? && pending_project.date_rejected.nil? && pending_project.rejection_reason.nil?
+  end
+  
+  def has_pending?
+    pending_project  
+  end
+  
+  def new_and_unapproved?
+    pending_project && pending_project.is_new && !pending_project.rejected && pending_project.rejector.nil? && pending_project.date_rejected.nil? && pending_project.rejection_reason.nil?
+  end
+  
+  def modified_and_rejected?
+    pending_project && !pending_project.is_new && pending_project.rejected && !pending_project.rejector.nil? && !pending_project.date_rejected.nil? && !pending_project.rejection_reason.nil?
+  end
+  
+  def new_and_rejected?
+    pending_project && pending_project.is_new && pending_project.rejected && !pending_project.rejector.nil? && !pending_project.date_rejected.nil? && !pending_project.rejection_reason.nil?
+  end
 
   def milestone_count
     return milestones.count

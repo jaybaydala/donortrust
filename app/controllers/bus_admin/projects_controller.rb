@@ -11,8 +11,8 @@ class BusAdmin::ProjectsController < ApplicationController
   
   def index
     @page_title = 'Projects'
-    #@projects = Project.find(:all)#, :conditions => { :featured => 1 })
-    @projects = Project.find_by_sql("SELECT * FROM projects WHERE id NOT IN (SELECT project_id from pending_projects WHERE is_new = true)")
+    @projects = Project.find(:all)#, :conditions => { :featured => 1 })
+    #@projects = Project.find_by_sql("SELECT * FROM projects WHERE id NOT IN (SELECT project_id from pending_projects WHERE is_new = true)")
     respond_to do |format|
       format.html
     end
