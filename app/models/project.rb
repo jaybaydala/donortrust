@@ -185,6 +185,22 @@ class Project < ActiveRecord::Base
     end
     @summarized_description
   end
+  
+  def publicly_visible?
+    #publicly visible by default
+    visible = true
+    #if there is a pending project, that means that
+    #this project is either new and awaiting approval
+    #or has been updated and is awaiting approval
+    #if it's new and hasn't been approved, don't allow
+    #it to be seen on the public site
+    #if it's been updated and not yet approved, we're ok
+    #to show it because it'll be the old version
+    if pending_project && pending_project.is_new
+      visible = false
+    end
+    visible
+  end
 
   def milestone_count
     return milestones.count
@@ -276,7 +292,6 @@ class Project < ActiveRecord::Base
     end
     return percent_raised
   end
-  
   
   def self.projects_nearing_end(days_until_end)
     @projects = Project.find(:all, :conditions => ["(target_end_date BETWEEN ? AND ?)", Time.now, days_until_end.days.from_now])

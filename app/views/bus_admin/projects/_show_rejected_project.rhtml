@@ -1,4 +1,4 @@
-<% @project = show_pending_project
+<% @project = show_rejected_project 
    @pending = @project.pending_object
    @project = @project.real_object
 -%>
@@ -18,20 +18,19 @@
     	<div class="factList">
     	  <%= project_quickfacts %>
     	</div>
-
+		
 		<div style="clear:both;">
-  			<p><strong>Approval Details:</strong></p>
-			This is a<%= @pending.is_new ? " new project." : "n existing project that has been modified." %>
+  			<p><strong>Rejection Details:</strong></p>
 			<p>
-				<% if @pending.is_new %>
-					The project was created on <%= @pending.date_created %> by <%= @pending.creator.nil? ? "unknown" : @pending.creator.login %>
-				<% else %>
-					The project was modified on <%= @pending.date_created %> by <%= @pending.creator.nil? ? "unknown" : @pending.creator.login %>
-				<% end %>
+				This is a<%= @pending.is_new ? " new project." : "n existing project that has been modified." %>
 				<br />
-				<%= link_to "Approve", bus_admin_approve_project_project_path(@project), :method => :put %>
-				&nbsp;&nbsp;
-				<%= link_to "Reject", bus_admin_reject_project_project_path(@project), :method => :put %>
-  			</p>
-		</div>
+				The project was rejected on <%= @pending.date_rejected.to_s %> by <%= @pending.rejector.nil? ? "unknown" : @pending.rejector.login %><br />
+			</p>
+			<p><strong>Rejection Reasons:</strong></p>
+			<p>
+				<%= @pending.rejection_reason %>
+				<br />
+				Click <%= link_to "here", bus_admin_edit_project_path(@project)%> to edit the project and rectify these problems.
+			</p>
+  		</div>
     </div>

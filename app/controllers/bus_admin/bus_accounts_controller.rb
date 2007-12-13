@@ -19,7 +19,7 @@ class BusAdmin::BusAccountsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
-    @page_title = @busAccount.name
+    @page_title = @busAccount.login
     respond_to do |format|
       format.html
     end

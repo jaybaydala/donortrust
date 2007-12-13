@@ -12,7 +12,7 @@ class BusAdmin::ProjectsController < ApplicationController
   def index
     @page_title = 'Projects'
     #@projects = Project.find(:all)#, :conditions => { :featured => 1 })
-    @projects = Project.find_by_sql("SELECT * FROM projects WHERE id NOT IN (SELECT project_id from pending_projects)")
+    @projects = Project.find_by_sql("SELECT * FROM projects WHERE id NOT IN (SELECT project_id from pending_projects WHERE is_new = true)")
     respond_to do |format|
       format.html
     end
@@ -30,48 +30,69 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
   
+  #get any pending projects that have not been rejected
   def pending_projects
-    pp = PendingProject.find(:all, :conditions => ["rejected = false and rejection_reason is null"])
+    pp = PendingProject.find(:all, :conditions => ["rejected = false and rejection_reason is null and date_rejected is null"])
     @pending_projects = []
-    pp.each do |p|
-      @pending_projects << Project.rehydrate_from_xml(p.project_xml)
-    end
+    pp.each {|p| @pending_projects << PendingWrapper.new(p, Project.rehydrate_from_xml(p.project_xml))}
   end
   
+  #get any projects created by the logged in user that have been rejected
   def rejected_projects
-    pp = PendingProject.find(:all, :conditions => ["rejected = true and rejection_reason is not null"])
+    pp = PendingProject.find(:all, :conditions => ["rejected = true and rejection_reason is not null and date_rejected is not null and created_by = ?", self.current_bus_account.id])
     @rejected_projects = []
-    pp.each do |p|
-      @rejected_projects << Project.rehydrate_from_xml(p.project_xml)
-    end
+    pp.each {|p| @rejected_projects << PendingWrapper.new(p, Project.rehydrate_from_xml(p.project_xml))}
   end
   
+   #This method should return us to the list of project requiring approval
   def approve_project
+    #find the project
     @project = Project.find(params[:id])
-    #This project is approved, so we need to load up the real project,
-    #change its status and delete the pending project
+    #This project is approved, so we need to delete the pending project
     if @project
-      #what should this status be set to?
-      @project.project_status_id = 2
-      @project.save
+      #Find the pending version of the project
       @pending = PendingProject.find(:first, :conditions => ["project_id = ?", @project.id])
       if @pending
+        #If the project is not new, we need to apply the pending changes to the project and save it.
+        #If the project IS new, all we need to do is delete the PendingProject
+        unless @pending.is_new
+          @project = Project.rehydrate_from_xml(@pending.project_xml)
+          @project.date_updated = Date.today
+          @project.update
+        end
         @pending.destroy
+        redirect_to :action => :pending_projects
+      else
+        raise Exception.new("Could not find a PendingProject for the project.")
       end
     else
-      #error?
+      raise Exception.new("Could not locate the project.")
     end
   end
   
+  #This method should return us to the list of project requiring approval
   def reject_project
+    #find the project
     @project = Project.find(params[:id])
     if @project
+      #find the pending version of the project
       @pending = PendingProject.find(:first, :conditions => ["project_id = ?", @project.id])
-      @pending.rejected = true
-      @pending.rejection_reason = "Cause I said so!!"
-      @pending.save
+      if @pending
+        #mark the pending version as rejected, with the reason, the date rejected, and who rejected it. 
+        @pending.rejected = true
+        @pending.rejection_reason = "Cause I said so!!"
+        @pending.rejected_by = self.current_bus_account.id
+        @pending.date_rejected = Date.today
+        if @pending.save
+          redirect_to :action => :pending_projects
+        else
+          raise Exception.new("Could not save the PendingProject.")
+        end
+      else
+        raise Exception.new("Could not find a PendingProject for the project.")
+      end
     else
-      #error
+      raise Exception.new("Could not locate the project.")
     end
   end
   
@@ -79,11 +100,16 @@ class BusAdmin::ProjectsController < ApplicationController
     @project = Project.new(params[:project])
     @project.place_id = params[:record][:place][:id]
     Contact.transaction do      
-      @saved= @project.valid? && @project.save!
+      @saved = @project.valid? && @project.save!
+      #could do this using after_create() on the Project object,
+      #but I wanted this to be in the same transaction
       if @saved
-        @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_complete_xml,
-                                      :date_created => Date.today)
-        @pending.save
+        @pending = PendingProject.new(:project_id => @project.id, 
+                                      :project_xml => @project.to_complete_xml,
+                                      :date_created => Date.today, 
+                                      :created_by => self.current_bus_account.id,
+                                      :is_new => true)
+        @saved = @pending.save
       end
       begin
       raise Exception if !@saved
@@ -121,15 +147,33 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
   
-    def update    
+  def update
+    #get the original project
     @project = Project.find(params[:id])
-    @project.place_id = params[:record][:place][:id]
-    if @project.update_attributes(params[:project])    
-      flash[:notice] = 'Project was successfully updated.'
-      redirect_to bus_admin_project_path(@project) 
-    else
-      render :action => "edit" 
-    end    
+    if @project
+      @project.place_id = params[:record][:place][:id]
+      #there may be an old approval pending that we should get rid of
+      @old_pending = PendingProject.find_by_project_id(@project.id)
+      ActiveRecord::Base.transaction do
+        if @old_pending
+          @old_pending.destroy
+        end
+        #only update the project attributes !!DO NOT SAVE THE PROJECT HERE!!
+        @project.attributes = params[:project]
+            #create a new PendingProject to hold the requested changes
+          @pending = PendingProject.new(:project_id => @project.id, 
+                                        :project_xml => @project.to_complete_xml,
+                                        :date_created => Date.today, 
+                                        :created_by => self.current_bus_account.id,
+                                        :is_new => false)
+           if @pending.save                            
+             flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
+             redirect_to bus_admin_project_path(@project)
+          else
+            render :action => "edit"
+          end
+        end
+    end   
   end  
     
 #  def details

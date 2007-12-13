@@ -12,7 +12,7 @@ class CreatePendingProjects < ActiveRecord::Migration
     end
       say "Adding indexes to the pending_projects table"
       execute('alter table pending_projects add foreign key (project_id) references projects (id)')
-      execute('alter table pending_projects add foreign key (rejected_by) references bus_users (id)')
+      execute('alter table pending_projects add foreign key (rejected_by) references bus_accounts (id)')
     end
   end
 
