@@ -56,14 +56,15 @@ class BusAdmin::ProjectsController < ApplicationController
         #If the project is not new, we need to apply the pending changes to the project and save it.
         #If the project IS new, all we need to do is delete the PendingProject
         @sucess = true
-        unless @pending.is_new
+        @new = @pending.is_new
+        unless @new
           @project = Project.rehydrate_from_xml(@pending.project_xml)
           @project.date_updated = Date.today
           @sucess = @project.update
         end
         if @sucess
           if @pending.destroy
-            if @pending.is_new
+            if @new
               flash[:notice] = "Successfully approved the new project."
             else
               flash[:notice] = "Successfully approved and applied changes to the project."
