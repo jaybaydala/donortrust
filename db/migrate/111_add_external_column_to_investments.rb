@@ -4,6 +4,6 @@ class  AddExternalColumnToInvestments < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :investments, :external, :boolean
+    remove_column :investments, :external
   end
 end
