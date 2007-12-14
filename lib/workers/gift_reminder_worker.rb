@@ -25,4 +25,4 @@ class GiftReminderWorker < BackgrounDRb::Worker::RailsBase
     gifts
   end
 end
-GiftMailerWorker.register
+GiftReminderWorker.register
