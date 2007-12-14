@@ -27,10 +27,8 @@
     <fieldset>
       <legend>Please specify how you would like your gift to be allocated:</legend>
       <div id="projectsuggest">
-        <ul>
-          <li class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", nil %>let the recipient choose a project</li>
-          <li class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? ? @gift.project_id : 0 ) %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></li>
-        </ul>
+        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", nil %>let the recipient choose a project</p>
+        <p class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? ? @gift.project_id : 0 ) %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></p>
       </div>
     </fieldset>
 
@@ -71,9 +69,12 @@
     <fieldset>
       <legend>Gift Email</legend>
         <p class="textsm">Regardless of whether your gift is emailed or not, you will be provided with a printable gift card after submitting your gift. The card will contain all necessary instructions to open your gift.</p>
-        <div class="textsm"><%= radio_button_tag :do_not_email, 1 %> Do not email my gift - I'd prefer to give it in person</div>
-        <div class="textsm"><%= radio_button_tag :do_not_email, 0, true %> Email my gift, please</div>
-        <div class="textsm" style="padding-bottom:0;">Select a date &amp; time to send your gift email or leave this area blank to send it right away.</div>
+        <p class="textsm" style="margin-bottom:0;"><%= f.radio_button :send_email, false %> Do not email my gift - I'd prefer to give it in person</p>
+        <p class="textsm"><%= f.radio_button :send_email, true %> Email my gift, please</p>
+        <div class="textsm" style="padding-bottom:0;">
+          Select a date &amp; time to send your gift email or leave this area blank to send it right away.<br />
+          <strong>Please note:</strong> gifts expire 30 days after they are sent, at which point ChristmasFuture will choose a project for your gift.
+        </div>
         <div id="gift_send_at_select">
           <%= f.datetime_select :send_at, 
             :order => [:month, :day, :year, :hour, :minute], 

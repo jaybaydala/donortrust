@@ -57,7 +57,24 @@ class Gift < ActiveRecord::Base
   end
 
   def send_gift_mail?
-    return new_record? == false && self[:send_at] == nil && self[:sent_at] == nil ? true : false
+    return new_record? == false && !send_at? && !sent_at? && send_email? ? true : false
+  end
+  
+  def expiry_date
+    if !@expiry_date && sent_at
+      @expiry_date = sent_at + 30.days
+      beginning_of_2008 = '2008-01-01'.to_time
+      @expiry_date = beginning_of_2008 if @expiry_date < beginning_of_2008
+    end
+    @expiry_date
+  end
+  
+  def expiry_in_days
+    ((expiry_date - Time.now) / (3600*24)).floor if expiry_date
+  end
+  
+  def self.find_unopened_gifts
+    find_all_by_pickup_code(nil, :conditions => 'sent_at IS NOT NULL')
   end
   
   protected

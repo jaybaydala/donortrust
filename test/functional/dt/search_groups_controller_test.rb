@@ -41,9 +41,11 @@ context "Dt::SearchGroupsController show behaviour" do
   end
 
   specify "should paginate" do
-    Group.stubs(:paginate).returns([Group.new, Group.new, Group.new])
+    Group.any_instance.stubs(:id).returns(1)
+    Group.any_instance.stubs(:raised).returns(100)
+    Group.stubs(:paginate).returns([Group.new, Group.new, Group.new].paginate(:page => nil))
     get :show, :q => 'test'
-    assigns(:groups).should.not.be.nil
+    assigns(:groups).size.should == 3
   end
 
   specify "should return 1 result" do

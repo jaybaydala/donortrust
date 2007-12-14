@@ -101,6 +101,14 @@ class User < ActiveRecord::Base
     self.last_logged_in_at.to_i < Time.now.last_year.to_i
   end
 
+  def expiry_date
+    @expiry_date ||= last_logged_in_at + 1.year
+  end
+  
+  def expiry_in_days
+    ((expiry_date - Time.now) / (3600*24)).floor
+  end
+
   def remember_token?
     remember_token_expires_at && Time.now.utc < remember_token_expires_at 
   end

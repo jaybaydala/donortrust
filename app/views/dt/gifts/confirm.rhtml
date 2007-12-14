@@ -40,16 +40,16 @@
     <fieldset>
       <legend>Gift Email</legend>
       <ul>
-        <% if @gift.sent_at? %>
-        <li>I would <strong>not</strong> like my gift to be emailed.<%= f.hidden_field :sent_at %></li>
-        <% else %>
+      <% if @gift.send_email? %>
         <li><label for="gift_send_at_2i">Schedule</label>
           I would like my gift to be emailed
           <%= "#{@send_at.to_formatted_s(:long)} #{params[:time_zone]}" if @send_at %>
           <%= "Send now" if !@send_at %>
           <%= f.hidden_field :send_at %>
         </li>
-        <% end %>
+      <% else %>
+        <li>I would <strong>not</strong> like my gift to be emailed.<%= f.hidden_field :sent_at %></li>
+      <% end %>
       </ul>
     </fieldset>
 

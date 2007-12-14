@@ -306,6 +306,7 @@ h1 {
 	margin: 0px 0px 0px 0px;
 	border-bottom: 0px solid #fff;
 }
+form h1 {padding-left:0;}
 h1.title {
 	margin-left:18px;
 }
@@ -1215,7 +1216,7 @@ form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
 #leftColW2 form {
 	width: 476px; height: auto;
 	margin: 0px 0 10px 7px;
-	font: xx-small/12px Verdana, Arial, Helvetica, sans-serif;
+	font: 9px/12px Verdana, Arial, Helvetica, sans-serif;
 	color: #333;
 }
 
@@ -1224,7 +1225,7 @@ form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
 
 #leftColW2 form fieldset {float:left; width:95%; border-top: 1px solid #95AED0; padding:0px 0px 15px 0; margin:0;}
 #leftColW form legend, #leftColW2 form legend {
-	font: x-small/12px Verdana, Arial, Helvetica, sans-serif;
+	font: 10px/12px Verdana, Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	background: transparent; 
 	border-bottom: 0px solid #95AED0; 
@@ -1248,8 +1249,8 @@ legend {
 }
 #leftColW .fieldsetN {float:left;width:225px;padding-right:10px;padding-left:0px;margin-right:0px;margin-left:0;}
 #leftColW .fieldsetN2 {float:right;width:225px;margin-right:0px;margin-left:0;}
-#leftColW .fieldsetN input, #leftColW .fieldsetN2 input {width:128px;margin:0;}
-#leftColW .fieldsetN label, #leftColW .fieldsetN2 label {width:76px;}
+#leftColW .fieldsetN input, #leftColW .fieldsetN2 input {width:132px;margin:0;}
+#leftColW .fieldsetN label, #leftColW .fieldsetN2 label {width:74px;}
 #leftColW .userform .fieldsetN ul, #leftColW .userform .fieldsetN2 ul {padding-left:0px;padding-right:0px;}
 #leftColW .fieldsetN li, #leftColW .fieldsetN2 li {padding-left:0px;padding-right:0px;}
 
@@ -1262,6 +1263,22 @@ legend {
 .userform p {padding-left:0;}
 .userform input {float:left; width: 146px; margin: 0px 20px 0px 0; background:#FFF;}
 .userform input[type=submit] {display:block;width: auto; height:auto; background:#999; color:#FFF; margin:3px 0 0 157px;}
+
+.userform #selectedImage ul, .userform #projectsuggest ul { padding-left:0px;}
+
+.userform #selectedImage p.textsm { float:left; padding-top:20px; text-align:right; width:202px;}
+.userform #selectedImage img { float:right;padding:5px 210px 0 0; width:50px;}
+.userform #projectsuggest li { float:none; position:relative; display:inline; padding: 5px 10px 0 0;}
+.userform #projectsuggest input {
+	position:relative;
+	left: 0px; float:none;
+	border:none;
+	margin:1px 5px 0 0px;
+	padding: 0 0 0 0 !important;
+}
+#ccExpiry {float:left;}
+#ccExpiry select {position:static;}
+#gift_send_at_select select {position:static;}
 
 #leftColW #textInput {float:left; width:469px; height:auto; margin: 0px 0 10px 0px;padding:0 0 5px 0;}
 #leftColW #textInput .row {float:left; width:465px; padding:0 0 5px 4px;background:#D8DEE7;}
@@ -1329,9 +1346,9 @@ input {
 	float:left;
 }
 form input[type=checkbox] {border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
-form input[type=radio] { border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
+form input[type=radio] {float:left; width:auto; border:none; font-size: 14px; margin: -1px 3px 0px 0; padding:0;}
 input[type=checkbox] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
-input[type=radio] {border:none; width:20px; height:auto; margin-right: 3px; padding:0;}
+input[type=radio] {border:none; width:auto; height:auto; margin-right: 3px; padding:0;}
 
 .jumpMenu {
 	font-family: Arial, Helvetica, sans-serif;

@@ -134,13 +134,12 @@ context "DonortrustMailer gift_mail Test" do
     @expected = TMail::Mail.new
     @expected.set_content_type "text", "plain", { "charset" => CHARSET }
     @expected.mime_version = '1.0'
-    @gift = create_gift(credit_card_params)
   end
 
 
-  specify "gift_mail should match fixture" do
+  specify "gift_mail should match the @gift" do
+    @gift = create_gift(credit_card_params)
     @expected.subject = 'You have received a ChristmasFuture Gift from ' + ( @gift.name != nil ? @gift.name : @gift.email )
-    @expected.body    = read_fixture('gift_mail')
     @expected.date    = Time.now
 
     email = DonortrustMailer.create_gift_mail(@gift).encoded
@@ -150,20 +149,20 @@ context "DonortrustMailer gift_mail Test" do
     email.should =~ @gift.email
   end
 
-  xspecify "gift_open shouldn't throw any errors" do
-    DonortrustMailer.create_gift_open(@gift).should.not.throw
-  end
-
-  xspecify "gift_remind shouldn't throw any errors" do
-    DonortrustMailer.create_gift_remind(@gift).should.not.throw
+  specify "gift_remind should contain an expiry note" do
+    @gift = create_gift(credit_card_params)
+    @gift.update_attribute('sent_at', 23.days.ago)
+    @gift.stubs(:expiry_date).returns(Time.now + 7.days + 1.minute)
+    email = DonortrustMailer.create_gift_remind(@gift).encoded
+    email.should =~ @gift.to_name
+    email.should =~ @gift.to_email
+    email.should =~ @gift.name
+    email.should =~ @gift.email
+    email.should =~ "Your gift will expire in #{@gift.expiry_in_days} day(s)!"
   end
 
   private
-    def read_fixture(action)
-      IO.readlines("#{FIXTURES_PATH}/donortrust_mailer/#{action}")
-    end
-
-    def encode(subject)
-      quoted_printable(subject, CHARSET)
-    end
+  def encode(subject)
+    quoted_printable(subject, CHARSET)
+  end
 end

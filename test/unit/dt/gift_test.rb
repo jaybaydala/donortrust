@@ -257,6 +257,19 @@ context "Gift" do
       g.errors.on(:amount).should.not.be.nil
     }.should.not.change(Gift, :count)
   end
+  
+  specify "find_unopened_gifts should return array of gifts, none of which have been picked up" do
+    Gift.find_unopened_gifts.each do |gift|
+      gift.pickup_code.should.be.nil
+      gift.picked_up_at.should.not.be.nil
+    end
+  end
+
+  specify "expiry_date should return array of gifts, none of which have been picked up" do
+    gifts = Gift.find_unopened_gifts.each do |gift|
+      pp gift.expiry_date.to_s
+    end
+  end
 end
 
 context "Gift Notification" do

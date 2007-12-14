@@ -8,3 +8,8 @@ session_cleaner:
   :job_key: :session_cleaner
   :worker_method: :do_work
   :trigger_args: 0 0,20,40 * * * *
+gift_reminder: 
+  :class: :gift_reminder_worker
+  :job_key: :gift_reminder
+  :worker_method: :do_work
+  :trigger_args: 0 10 * * *

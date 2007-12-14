@@ -104,27 +104,20 @@ class DonortrustMailer < ActionMailer::Base
       proxy = create_pdf_proxy(gift)
       a.body = proxy.render
       a.filename = proxy.filename
-      
     end
-  end
-
-
-  def gift_open(gift)
-    gift_setup_email(gift)
-    recipients "#{gift.email}"
-    subject "Your gift to #{gift.to_name} has been opened!"
-    headers {}
   end
 
   def gift_remind(gift)
     gift_setup_email(gift)
-    subject 'GiftNotifier#gift'
-    content_type 'text/plain'
-    headers {}
+    subject 'You have been gifted! This is a reminder'
+    headers "Reply-To" => gift.name? ? "#{gift.name} <#{gift.email}>" : gift.email
+    body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}
+    content_type "text/html"
+    body render_message('gift_remind.text.html.rhtml', body_data)
   end
 
   def tax_receipt(receipt)
-    content_type "text/html"
+    content_type "text/plain"
     recipients  "#{receipt.first_name} #{receipt.last_name} <#{receipt.email}>"
     from        "The ChristmasFuture Team <info@christmasfuture.org>"
     sent_on     Time.now

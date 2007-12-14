@@ -186,11 +186,11 @@ context "Dt::Gifts new behaviour"do
     end
   end
   
-  specify "should have a field to \"not send a gift email\"" do
+  specify "should have a field to not send a gift email" do
     get :new
     assert_select "#giftform" do
-      assert_select "input[type=radio]#do_not_email_0"
-      assert_select "input[type=radio]#do_not_email_1"
+      assert_select "input[type=radio]#gift_send_email_false"
+      assert_select "input[type=radio]#gift_send_email_true"
     end
   end
 
@@ -384,6 +384,7 @@ context "Dt::Gifts confirm behaviour"do
       :to_name => 'Curtis', 
       :to_email => 'curtis@pivotib.com', 
       :message => 'Hello World!',
+      :send_email => true
       }
     if credit == true
       gift_params.merge!( {
@@ -495,16 +496,16 @@ context "Dt::Gifts create behaviour"do
     @emails.length.should.equal 2
   end
   
-  specify "should not send a gift email if do_not_email is 0" do
+  specify "should not send a gift email if send_email is 0" do
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
     @emails = ActionMailer::Base.deliveries 
     @emails.clear
-    create_gift({:do_not_email => "1"}, false, true)
+    create_gift({:gift => {:send_email => "0"}}, false, true)
     @emails.length.should.equal 2
     @emails.clear
-    create_gift({:do_not_email => "0"}, false, true)
+    create_gift({:gift => {:send_email => "1"}}, false, true)
     @emails.length.should.equal 3
     @emails.clear
     create_gift({}, false, true)
