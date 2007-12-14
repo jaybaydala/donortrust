@@ -26,4 +26,26 @@ module DtApplicationHelper
   def dt_profile_sidebar
     render 'dt/accounts/profile_sidebar'
   end
+  
+  def dt_action_js
+    js = ''
+    if @action_js
+      if @action_js.class == Array
+        @action_js.each do |action_js|
+          js += javascript_include_tag action_js
+        end
+      else
+        js = javascript_include_tag @action_js
+      end
+    end
+    js
+  end
+
+  def cf_unallocated_project
+    Project.cf_unallocated_project
+  end
+
+  def cf_admin_project
+    Project.cf_admin_project
+  end
 end

@@ -4,7 +4,9 @@ module Dt::ProjectsHelper
   end
 
   def mdg_goals
-    render 'dt/shared/mdg_goals'
+    if @mdgs
+      render 'dt/shared/mdg_goals'
+    end
   end
   
   def project_actions

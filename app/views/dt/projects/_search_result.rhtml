@@ -15,8 +15,8 @@
       
     	<div class="factList">
     	  <div class="projectSMtext">
-          <% if @project.fundable? %><div class="buttonGiftProject" style="margin-bottom:10px;"><%= link_to "Gift this Project", dt_new_gift_path(:project_id => @project) %></div><% end %>
-          <div class="buttonTellFriend" style="margin-bottom:10px;"><%= link_to "Tell-A-Friend", dt_new_tell_friend_path(:project_id => @project) %></div>
+          <% if @project.fundable? %><div class="buttonGiftProject" style="margin-bottom:10px;"><%= link_to "<span>Gift this Project</span>", dt_new_gift_path(:project_id => @project) %></div><% end %>
+          <% if @project.fundable? %><div class="buttonInvest" style="margin-bottom:10px;"><%= link_to "<span>Invest</span>", dt_new_investment_path(:project_id => @project) %></div><% end %>
         </div>
     	<%= project_search_quickfacts %>
     	</div>

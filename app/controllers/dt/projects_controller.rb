@@ -11,8 +11,7 @@ class Dt::ProjectsController < DtApplicationController
   
   def index
     @page_title = 'Featured Projects'
-    @projects = Project.find_public(:all, :conditions => { :featured => 1 })
-    @projects = Project.find_public(:all, :limit => 3) if @projects.size == 0
+    @projects = Project.featured_projects
     respond_to do |format|
       format.html
     end
@@ -36,6 +35,8 @@ class Dt::ProjectsController < DtApplicationController
     end
     @page_title = @project.name
     @rss_feed = last_rss_entry(@project.rss_url) if @project && @project.rss_url
+    @flickr_images = @project.project_flickr_images.paginate({:page => params[:flickr_page], :per_page => 12})
+    @youtube_videos = @project.project_you_tube_videos.paginate({:page => params[:youtube_page], :per_page => 6})
     #@rss_feed.clean! if @rss_feed # sanitize the html
     respond_to do |format|
       format.html
@@ -61,11 +62,12 @@ class Dt::ProjectsController < DtApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
-    
-    @rss_feed = last_rss_entry(@project.community.rss_url) if @project && @project.community.rss_url?
-    #@rss_feed.clean! if @rss_feed # sanitize the html
     @community = @project.community
     @page_title = "#{@community.name} | #{@project.name}"
+    
+    @mdgs = MillenniumGoal.find(:all)
+    @rss_feed = last_rss_entry(@project.community.rss_url) if @project && @project.community.rss_url?
+    #@rss_feed.clean! if @rss_feed # sanitize the html
     respond_to do |format|
       format.html
     end
@@ -79,6 +81,7 @@ class Dt::ProjectsController < DtApplicationController
     end
     @nation = @project.nation
     @page_title = "#{@nation.name} | #{@project.name}"
+    @mdgs = MillenniumGoal.find(:all)
     respond_to do |format|
       format.html
     end
@@ -103,29 +106,10 @@ class Dt::ProjectsController < DtApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
+    @public_groups = @project.public_groups.paginate({:page => params[:page], :per_page => 10})
     @page_title = "Connect | #{@project.name}"
 
-    #facebook stuff
-    if @project.place and @project.place.facebook_group_id?
-      @fb_group_available = true
-      @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
-      if fbsession and fbsession.is_valid?:
-        gid = @project.place.facebook_group_id
-        @fbid = fbsession.users_getLoggedInUser()
-        begin
-          @fb_group = fbsession.groups_get(:gids=>gid)
-          @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
-          members_results = fbsession.groups_getMembers(:gid=>gid)
-          # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
-          member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
-          @fb_members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
-          @fb_member_pages, @members = fb_paginate_array(params[:page], @fb_members , 30)
-          @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
-        rescue
-          @fb_group_available = false
-        end
-      end
-    end
+    integrate_facebook
     respond_to do |format|
       format.html
     end
@@ -139,7 +123,7 @@ class Dt::ProjectsController < DtApplicationController
       rescue_404 and return
     end
     respond_to do |format|
-      format.html {render :action => 'cause', :layout => false}
+      format.html {render :action => 'cause', :layout => 'dt/plain'}
     end
   end
   
@@ -175,16 +159,26 @@ class Dt::ProjectsController < DtApplicationController
     logger.debug session[:project_id]
   end
 
-  def fb_paginate_array(page, array, items_per_page)
-    @size = array.length
-    page ||= 1
-    page = page.to_i
-    offset = (page - 1) * items_per_page
-    pages = Paginator.new(self, array.length, items_per_page, page)
-    array = array[offset..(offset + items_per_page - 1)]
-    logger.debug 'FACEBOOK PAGINATION'
-    logger.debug pages.inspect
-    [pages, array]
+  def integrate_facebook
+    if @project.place and @project.place.facebook_group_id?
+      @fb_group_available = true
+      @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
+      if fbsession and fbsession.is_valid?:
+        gid = @project.place.facebook_group_id
+        @fbid = fbsession.users_getLoggedInUser()
+        begin
+          @fb_group = fbsession.groups_get(:gids=>gid)
+          @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
+          members_results = fbsession.groups_getMembers(:gid=>gid)
+          # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
+          member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
+          members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
+          @fb_members = members.paginate({:page => params[:fb_page], :per_page => 24})
+          @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
+        rescue
+          @fb_group_available = false
+        end
+      end
+    end
   end
-  
 end

@@ -25,15 +25,21 @@ class Investment < ActiveRecord::Base
     end
   end
   
- 
-  
-  
+  def credit_card_tx?
+    @credit_card_tx
+  end
+  def credit_card_tx
+    credit_card_tx?
+  end
+  def credit_card_tx=(val)
+    @credit_card_tx ||= val ? true : false
+  end
   
   def validate
     super
     errors.add("project_id", "is not a valid project") if project_id && project_id <= 0
     errors.add("user_id", "is not a valid project") if user_id && user_id <= 0
-    errors.add("amount", "cannot be more than your balance") if user_id && user && !gift_id && amount && amount > user.balance
+    errors.add("amount", "cannot be more than your balance") if !credit_card_tx? && user_id && user && !gift_id && amount && amount > user.balance
     errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project && amount > project.current_need
   end
 end

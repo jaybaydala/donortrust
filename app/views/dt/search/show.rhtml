@@ -1,16 +1,13 @@
 <div class="fullWidthWrap">
   <div id="h1_header">
-    <span style="float:left; ">Search Projects Results</span>
-    <div class="buttonGroupWrapN">
-      <ul class="buttonGroup">
-        
-      </ul>
-    </div>
+    <h1 style="float:left;padding-left:0;">Search Projects Results</h1>
   </div>
-  <div><strong>You have searched using the following terms:</strong></div>
-    <% if @place %><div class="textsm" style="padding-bottom:0;"><strong>Place:</strong> <%= @place.name %></div><% end %>
-    <% if @cause %><div class="textsm" style="padding-bottom:0;"><strong>Cause:</strong> <%= @cause.name %></div><% end %>
-    <% if @partner %><div class="textsm" style="padding-bottom:0;"><strong>Organization:</strong> <%= @partner.name %></div><% end %>
+  <div style="margin-bottom:5px;">
+    <strong>You have searched using the following terms:</strong>
+    <% if @place %><div class="textsm" style="padding-bottom:0;"><strong>Place:</strong>          <%= link_to @place.name,   dt_search_path(:place_id => @place.id) %></div><% end %>
+    <% if @cause %><div class="textsm" style="padding-bottom:0;"><strong>Cause:</strong>          <%= link_to @cause.name,   dt_search_path(:cause_id => @cause.id) %></div><% end %>
+    <% if @partner %><div class="textsm" style="padding-bottom:0;"><strong>Organization:</strong> <%= link_to @partner.name, dt_search_path(:partner_id => @partner.id) %></div><% end %>
+  </div>
 </div>
 <% if @projects.size > 0 %>
 <div id="subSubNav" style="margin-top:10px;">
@@ -24,16 +21,21 @@
     <li<%= ' class="currentPg"' if params[:order] == 'place' %>><%= link_to "Place", dt_search_path(params.merge({:order => 'place'})) %></li>
   </ul>
   <ul class="pageNav">
-    <li><%= @projects.size %> Projects</li>
+    <li><%= @projects.total_entries %> Projects Found</li>
   </ul>
 </div>
 <% end %>
 <div id="contentContainer">
+  <%= will_paginate @projects %>
   <% if @projects.size > 0 %>
   <div id="featuredProjectList">
   <%= render :partial => '/dt/projects/search_result', :collection => @projects %>
   </div>
   <% else %>
-  <p>We're sorry, but we couldn't find any projects using your search terms. Try just selecting one of the search options to broaden your search.</p>
+  <p style="margin-top:10px;">We're sorry, but <strong>we couldn't find any projects</strong> using your search terms. Try just selecting one of the search options to broaden your search.</p>
+  <h1>Featured Projects</h1>
+  <div id="featuredProjectList">
+  <%= render :partial => '/dt/projects/featured_project', :collection => @featured_projects if @featured_projects %>
+  </div>
   <% end %>
 </div>

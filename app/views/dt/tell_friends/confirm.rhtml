@@ -23,8 +23,7 @@
       <ul style="width:302px;">
         <li><label for="share_name">From (Name)</label><%= params[:share][:name] %> <%= f.hidden_field :name %></li>
         <li><label for="share_email">From (Email)</label><%= params[:share][:email] %> <%= f.hidden_field :email %></li>
-        <li><label for="share_to_name">To (Name)</label><%= params[:share][:to_name] %> <%= f.hidden_field :to_name %></li>
-        <li><label for="share_to_email">To (Email)</label><%= params[:share][:to_email] %> <%= f.hidden_field :to_email %></li>
+        <li><label for="to_emails">To Email(s)</label><div><%= @shares.collect{|s|s.to_email}.join(", ") %></div> <%= hidden_field_tag :to_emails, @shares.collect{|s|s.to_email}.join(",") %></li>
         <li><label for="share_message">Gift Message</label><%= params[:share][:message] %> <%= f.hidden_field :message %></li>
       </ul>
     </fieldset>

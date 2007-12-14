@@ -6,13 +6,12 @@
 <li><a href="/get-involved/events">Events</a></li>
 <li<%= ' class="current"' if ['dt/groups', 'dt/memberships', 'dt/group_projects'].include?(params[:controller]) %>><%= link_to "Groups ", dt_groups_path %></li>
 <!--<li><a href="/get-involved/resources">Resources</a></li>-->
+<li><a href="/get-involved/partner-with-us">Partner With Us</a></li>
 </ul>
-<!--
 <div id="subNavSearch">
-  <% form_for(:group, :url => dt_groups_path, :html => { :method => :get, :id => 'groupform', :name => 'groupform' }) do |f| %>
-    <input name="search_groups" type="text" id="searchBox" title="Search Groups" value="Search Groups" size="15" maxlength="30" onblur="if(!this.value)this.value='Search';" onfocus="if(this.value=='Search')this.value='';"/>
+  <% form_for(:group_search, :url => dt_search_groups_path, :html => { :method => :get, :id => 'groupsearchform', :name => 'groupsearchform' }) do |f| %>
+    <input name="q" type="text" id="searchBox" title="Search Groups" value="Search Groups" size="15" maxlength="30" onblur="if(!this.value)this.value='Search Groups';" onfocus="if(this.value=='Search Groups')this.value='';"/>
     <div id="buttonGo"><a href="#"></a></div>
   <% end %>
 </div>
--->
 </div>

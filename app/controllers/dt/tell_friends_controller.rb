@@ -1,6 +1,6 @@
 class Dt::TellFriendsController < DtApplicationController
   before_filter :login_required, :only => :show
-  before_filter :trim_emails, :only => [:confirm, :create]
+  include EmailParser
   
   def initialize
     @page_title = "Tell a Friend"
@@ -43,30 +43,75 @@ class Dt::TellFriendsController < DtApplicationController
   end
 
   def create
+    @shares = []
     @share = Share.new( params[:share] )
     @share.user_id = current_user if logged_in?
     @share.ip = request.remote_ip
-    @saved = @share.save
+    @unsaved = []
+    if params[:share] && params[:share][:to_email]
+      saved = @share.save
+      @shares << @share
+      @unsaved << @share.to_email unless saved
+    end
+    if params[:to_emails]
+      emails(params[:to_emails]).each do |email|
+        @s = Share.new(@share.attributes)
+        @s.to_email = email
+        saved = @s.save
+        @shares << @s
+        @unsaved << @s.to_email unless saved
+      end
+    end
+    @noemails = true if @shares.empty?
+    
     respond_to do |format|
-      if @saved
-        # send the email if it's not scheduled for later.
-        @share.send_share_mail
+      if @unsaved.empty? && !@noemails
+        flash.now[:notice] = "Your invitations have been sent"
         format.html
       else
+        @ecards = ECard.find(:all, :order => :id)
+        @project = Project.find(@share.project_id) if @share.project_id? && @share.project_id != 0
+        @action_js = "dt/ecards"
+        flash.now[:error] = "Emails could not be created for the following email addresses: #{@unsaved.join(', ')}" unless @unsaved.empty?
+        flash.now[:error] = "You need to include at least one email" if @noemails
         format.html { render :action => "new" }
       end
     end
   end
 
   def confirm
+    @shares = []
     @share = Share.new( params[:share] )
     @ecards = ECard.find(:all, :order => :id)
     @project = Project.find(@share.project_id) if @share.project_id? && @share.project_id != 0
     @action_js = "dt/ecards"
+
+    @invalid_emails = []
+    if params[:share] && params[:share][:to_email]
+      @shares << @share
+      @invalid_emails << @share.to_email unless @share.valid?
+    end
+    if params[:to_emails]
+      emails(params[:to_emails]).each do |email|
+        @s = Share.new(@share.attributes)
+        @s.to_email = email
+        valid = @s.valid?
+        @shares << @s
+        @invalid_emails << @s.to_email unless @s.valid?
+      end
+    end
+    if (!params[:share] || !params[:share][:to_email]) && params[:to_emails]
+      @share = @shares.first if @shares.first
+      valid = @share.valid?
+    end
+    @noemails = true if @shares.empty?
+
     respond_to do |format|
-      if @share.valid?
+      if @invalid_emails.empty? && !@noemails
         format.html { render :action => "confirm" }
       else
+        flash.now[:error] = "Emails could not be created for the following email addresses: #{@invalid_emails.join(', ')}" unless @invalid_emails.empty?
+        flash.now[:error] = "You need to include at least one email" if @noemails
         format.html { render :action => "new" }
       end
     end
@@ -87,11 +132,5 @@ class Dt::TellFriendsController < DtApplicationController
       flash.now[:error] = 'To preview your ecard, please provide your email and the recipient\'s email' if !valid
       format.html { render :layout => false }
     end
-  end
-
-  protected
-  def trim_emails
-    params[:share][:to_email].sub!(/^ *mailto: */, '') if params[:share][:to_email]
-    params[:share][:email].sub!(/^ *mailto: */, '') if params[:share][:email]
   end
 end

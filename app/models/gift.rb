@@ -20,6 +20,8 @@ class Gift < ActiveRecord::Base
   validates_uniqueness_of :pickup_code, :allow_nil => :true
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id?}
   
+  before_validation :trim_mailtos
+  
   def sum
     return credit_card ? 0 : super * -1
   end
@@ -40,7 +42,6 @@ class Gift < ActiveRecord::Base
   end
   
   def send_gift_mail
-    
     if update_attributes(:sent_at => Time.now.utc)
       DonortrustMailer.deliver_gift_mail(self)
       @sent = true
@@ -56,7 +57,24 @@ class Gift < ActiveRecord::Base
   end
 
   def send_gift_mail?
-    return new_record? == false && self[:send_at] == nil ? true : false
+    return new_record? == false && !send_at? && !sent_at? && send_email? ? true : false
+  end
+  
+  def expiry_date
+    if !@expiry_date && sent_at
+      @expiry_date = sent_at + 30.days
+      beginning_of_2008 = '2008-01-01'.to_time
+      @expiry_date = beginning_of_2008 if @expiry_date < beginning_of_2008
+    end
+    @expiry_date
+  end
+  
+  def expiry_in_days
+    ((expiry_date - Time.now) / (3600*24)).floor if expiry_date
+  end
+  
+  def self.find_unopened_gifts
+    find_all_by_pickup_code(nil, :conditions => 'sent_at IS NOT NULL')
   end
   
   protected
@@ -108,6 +126,11 @@ class Gift < ActiveRecord::Base
       hash = hash + rnd.chr
     end
     hash
+  end
+
+  def trim_mailtos
+    self[:to_email].sub!(/^ *mailto: */, '') if self[:to_email]
+    self[:email].sub!(/^ *mailto: */, '') if self[:email]
   end
   
   def self.dollars_gifted

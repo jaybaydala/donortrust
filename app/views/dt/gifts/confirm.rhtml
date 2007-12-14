@@ -10,7 +10,7 @@
     <fieldset>
       <legend>Gift amount:</legend>
       <ul>
-        <li style="padding-bottom:0px;">Gift Amount <%= number_to_currency(params[:gift][:amount]) %><%= f.hidden_field :amount %></li>
+        <li style="padding-bottom:0px;">Gift Amount <%= number_to_currency(@gift.amount) %><%= f.hidden_field :amount %></li>
       </ul>
     </fieldset>
 
@@ -24,6 +24,8 @@
       <%= f.hidden_field :project_id %>
     </fieldset>
 
+		<%= render 'dt/shared/fund_cf_confirm' %>
+
     <fieldset>
       <legend>Gift Details</legend>
       <ul style="width:302px;">
@@ -36,13 +38,18 @@
     </fieldset>
 
     <fieldset>
-      <legend>Gift Schedule</legend>
+      <legend>Gift Email</legend>
       <ul>
+      <% if @gift.send_email? %>
         <li><label for="gift_send_at_2i">Schedule</label>
+          I would like my gift to be emailed
           <%= "#{@send_at.to_formatted_s(:long)} #{params[:time_zone]}" if @send_at %>
           <%= "Send now" if !@send_at %>
           <%= f.hidden_field :send_at %>
         </li>
+      <% else %>
+        <li>I would <strong>not</strong> like my gift to be emailed.<%= f.hidden_field :sent_at %></li>
+      <% end %>
       </ul>
     </fieldset>
 

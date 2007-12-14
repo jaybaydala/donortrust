@@ -5,8 +5,8 @@ include PDFProxy
 class Dt::GiftsController < DtApplicationController
   helper "dt/places"
   include IatsProcess
+  include FundCf
   before_filter :login_required, :only => :unwrap
-  before_filter :trim_emails, :only => [:confirm, :create]
   
   def initialize
     @page_title = "Gift It!"
@@ -19,28 +19,26 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def show
-    @gift = Gift.find(params[:id]) if Gift.exists?(params[:id])
+    @gift = Gift.find(:first, :conditions => ["id=? AND pickup_code=?", params[:id], params[:code]]) if params[:code]
     respond_to do |format|
+      if !@gift
+        flash[:notice] = "That gift does not exist or has already been opened"
+        redirect_to :action => 'new' and return
+      end
+      format.html
       format.pdf {
-        if !@gift
-          flash[:notice] = "That gift does not exist"
-          redirect_to :action => 'new'
-        elsif not @gift[:pickup_code]
-          flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
-          redirect_to :action => 'new'
-        else
-          proxy = create_pdf_proxy(@gift)
-          send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
-        end
+        proxy = create_pdf_proxy(@gift)
+        send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
       }
     end
   end
   
   def new
     store_location
-    @gift = Gift.new
+    params[:gift] = session[:gift_params] if session[:gift_params]
+    @gift = Gift.new( gift_params )
     @ecards = ECard.find(:all, :order => :id)
-    @action_js = "dt/ecards"
+    @action_js = ["dt/ecards", "dt/giving"]
     if params[:project_id]
       @project = Project.find(params[:project_id]) 
       @gift.project_id = @project.id if @project
@@ -48,48 +46,26 @@ class Dt::GiftsController < DtApplicationController
     end
     if logged_in?
       user = User.find(current_user.id)
-      %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] }
-      @gift[:name] = current_user.full_name if logged_in?
-      @gift[:email] = current_user.email
+      %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] unless @gift.send("#{f}?") }
+      @gift[:name] = current_user.full_name if logged_in? && !@gift.name?
+      @gift[:email] = current_user.email unless @gift.email?
     end
   end
   
-  def create
-    @gift = Gift.new( gift_params )    
-    @gift.user_ip_addr = request.remote_ip
-    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
-    
-    if params[:gift][:credit_card] && params[:gift][:credit_card] != ''
-      iats = iats_payment(@gift)
-      @gift.authorization_result = iats.authorization_result if iats.status == 1
-      @saved = @gift.save if @gift.authorization_result != nil
-      flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
-    else
-      @saved = @gift.save
-    end
-    respond_to do |format|
-      if @saved
-        create_tax_receipt if @gift.credit_card?
-        # send the email if it's not scheduled for later.
-        @gift.send_gift_mail if @gift.send_gift_mail? == true
-        # send confirmation to the gifter
-        @gift.send_gift_confirm
-        format.html
-      else
-        format.html { render :action => "new" }
-      end
-    end
-  end
-  
- 
   def confirm
+    session[:gift_params] = params[:gift] if params[:gift]
     @gift = Gift.new( gift_params )
     @ecards = ECard.find(:all, :order => :id)
     @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
-    @action_js = "dt/ecards"
+    @action_js = ["dt/ecards", "dt/giving"]
+    
+    @cf_investment = build_fund_cf_investment(@gift)
+    valid = cf_fund_investment_valid?(@gift, @cf_investment)
+    @total_amount = @gift.amount + @cf_investment.amount if @cf_investment
+    
     schedule(@gift)
     respond_to do |format|
-      if @gift.valid?
+      if valid
         format.html { render :action => "confirm" }
       else
         format.html { render :action => "new" }
@@ -97,6 +73,43 @@ class Dt::GiftsController < DtApplicationController
     end
   end
 
+  def create
+    @gift = Gift.new( gift_params )    
+    @gift.user_ip_addr = request.remote_ip
+    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
+    
+    if @gift.credit_card?
+      iats = iats_payment(@gift)
+      @gift.authorization_result = iats.authorization_result if iats.status == 1
+    end
+    @cf_investment = build_fund_cf_investment(@gift)
+    @cf_deposit = build_fund_cf_deposit(@gift)
+    @total_amount = @gift.amount + @cf_investment.amount if @cf_investment
+
+    Gift.transaction do
+        if @cf_investment && @cf_deposit
+          @saved = @gift.save! && @cf_deposit.save! && @cf_investment.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?)
+        else
+          @saved = @gift.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?) 
+        end
+        flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
+    end
+
+    respond_to do |format|
+      if @saved
+        session[:gift_params] = nil
+        create_tax_receipt if @gift.credit_card?
+        # send the email if it's not scheduled for later.
+        @gift.send_gift_mail if @gift.send_gift_mail? == true
+        # send confirmation to the gifter
+        @gift.send_gift_confirm
+        format.html { redirect_to :action => 'show', :id => @gift.id, :code => @gift.pickup_code }
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end
+  
   def open
     store_location
     @gift = Gift.validate_pickup(params[:code]) if params[:code]
@@ -162,10 +175,13 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def gift_params
-    card_exp = "#{params[:gift][:expiry_month]}/#{params[:gift][:expiry_year]}" if params[:gift][:expiry_month] != nil && params[:gift][:expiry_year] != nil
-    gift_params = params[:gift]
-    gift_params.delete :expiry_month
-    gift_params.delete :expiry_year
+    card_exp = "#{params[:gift][:expiry_month]}/#{params[:gift][:expiry_year]}" if params[:gift] && params[:gift][:expiry_month] && params[:gift][:expiry_year]
+    gift_params = {}
+    gift_params = gift_params.merge(params[:gift]) if params[:gift]
+    gift_params.delete :expiry_month if gift_params.key? :expiry_month
+    gift_params.delete :expiry_year if gift_params.key? :expiry_year
+    gift_params.delete "expiry_month" if gift_params.key? "expiry_month"
+    gift_params.delete "expiry_year" if gift_params.key? "expiry_year"
     gift_params[:card_expiry] = card_exp if gift_params[:card_expiry] == nil
     gift_params[:user_id] = current_user.id if logged_in?
     normalize_send_at!(gift_params)
@@ -211,9 +227,4 @@ class Dt::GiftsController < DtApplicationController
       end
     end
   end     
-
-  def trim_emails
-    params[:gift][:to_email].sub!(/^ *mailto: */, '') if params[:gift][:to_email]
-    params[:gift][:email].sub!(/^ *mailto: */, '') if params[:gift][:email]
-  end
 end

@@ -27,7 +27,12 @@ class Group < ActiveRecord::Base
       end
     end
   end
-
+  
+  def self.searchable_columns
+    # TODO - add group_types.name 
+    %w(name description city province country)
+  end
+  
   def project_count
     return projects.count
   end

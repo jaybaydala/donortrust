@@ -163,6 +163,11 @@ class Project < ActiveRecord::Base
       @partners
     end
     
+    def featured_projects
+      projects = Project.find_public(:all, :conditions => { :featured => 1 })
+      projects = Project.find_public(:all, :limit => 3) if projects.size == 0
+      projects
+    end
   end
 
   def group_project?(user)

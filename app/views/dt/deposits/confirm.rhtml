@@ -10,13 +10,16 @@
   <p>Please confirm your deposit details</p>
   <div class="userform">
     <fieldset>
-      <legend>Payment Details</legend>
+      <legend>Deposit Details</legend>
       <ul>
-        <li style="clear:left;"><label for="deposit_amount">Deposit Amount</label> <%= number_to_currency(params[:deposit][:amount]) %> <%= f.hidden_field :amount, :value => number_with_precision(params[:deposit][:amount], 2) %></li>
+        <li style="clear:left;"><label for="deposit_amount">Deposit Amount</label> <%= number_to_currency(@deposit.amount) %> <%= f.hidden_field :amount, :value => number_with_precision(@deposit.amount, 2) %></li>
         <li style="clear:left;"><label for="deposit_credit_card">Credit Card</label> <%= obfuscate_credit_card(@deposit.credit_card) %> <%= f.hidden_field :credit_card %></li>
         <li style="clear:left;"><label for="deposit_card_expiry">Card Expiry</label> <%= params[:deposit][:card_expiry] %> <%= f.hidden_field :card_expiry, :value => params[:deposit][:card_expiry] %></li>
       </ul>
     </fieldset>
+
+		<%= render 'dt/shared/fund_cf_confirm' %>
+
     <fieldset>
       <legend>Credit Card Information</legend>
       <ul>
