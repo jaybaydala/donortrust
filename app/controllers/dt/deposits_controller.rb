@@ -83,6 +83,14 @@ class Dt::DepositsController < DtApplicationController
     deposit_params.delete(:expiry_year) if deposit_params.key?(:expiry_year)
     deposit_params.delete("expiry_month") if deposit_params.key?("expiry_month")
     deposit_params.delete("expiry_year") if deposit_params.key?("expiry_year")
+    
+    if deposit_params.key?("card_expiry")
+      if card_exp.nil? || card_exp.blank?
+        card_exp = deposit_params["card_expiry"]
+        deposit_params.delete("card_expiry")
+      end
+    end
+    
     deposit_params[:card_expiry] = card_exp if deposit_params[:card_expiry].nil?
     deposit_params[:user_id] = current_user.id
     deposit_params
