@@ -1,0 +1,18 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+    <h1>Thanks!</h1>
+    <p>Thanks kind gifter! With your generous gift of <%= number_to_currency(@gift.amount) %> we're one gift closer to changing the world...for good. </p>
+    <p>The email notification about your gift has been <%= @gift.sent_at? ? 'sent' : 'scheduled' %>. If the gift isn't unwrapped within 30 days of delivery, we will notify you. Thanks again, The ChristmasFuture team</p>
+    <p>We have sent you an email with a printable card if that's how you prefer to give your gift. You can also 
+      <%= link_to "download a printable card here", :action => 'show', :format => 'pdf', :id => @gift.id, :code => @gift.pickup_code %></p>
+    <p>All the best to you this holiday season.</p>
+    <p>
+    	Thanks again,<br />
+    	The ChristmasFuture team
+    </p>
+  </div>
+  <div id="rightColN">
+    <%= dt_profile_sidebar %>
+  </div>
+</div>

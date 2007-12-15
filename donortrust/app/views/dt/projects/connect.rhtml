@@ -1,0 +1,29 @@
+<div id="contentContainer">
+  <h1><%= h @project.name %></h1>
+  <%= project_nav %>
+  <div class="projectInfo">
+    <div class="leftColW">
+      <p>We change the world together. Here, you can connect with everyone who has chosen to help eradicate extreme poverty by investing in development projects occurring in <%= @project.community_id? ? @project.community.name : 'this project\'s community' %>.</p>
+      <% if @fb_group_available %><p>If you have a Facebook account, you can participate in groups discussions at the <%= @project.community.name %> facebook page.</p><% end -%>
+    </div>
+    <div id="rightColN">
+      <%= project_actions %>
+      <div class="buttonGroupWrapN">
+        <ul class="buttonGroup">
+          <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path(:project_id => @project) %></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <%= will_paginate @public_groups %>
+  <%= render(:partial => 'connect_group', :collection => @public_groups) if @public_groups.size > 0 %>
+    		
+  <div id="leftColW">
+    <%= render "dt/projects/facebook" %>
+  </div>
+
+  <div id="rightColN">
+    <%= dt_profile_sidebar %>
+  </div>
+</div>

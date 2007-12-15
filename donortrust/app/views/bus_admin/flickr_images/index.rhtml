@@ -1,0 +1,25 @@
+<div id="flickr_search" class="media_search">
+    <h2>Search Flickr Photos</h2>
+    <%= form_remote_tag :url => {:action => 'search'}, :update => 'flickr_photos' %>
+    
+        <%= text_field_tag "tags" %>
+        <%= submit_tag "Find" %>
+        <%= show_spinner%>
+    
+    <% end_form_tag %>
+</div>
+<div id="trash_bin" class="trash_bin">
+    <%= image_tag("/images/bus_admin/icons/delete_icon.gif")%> Drag any images you wish to remove from the a project into the trash bin.
+</div>
+<%= drop_receiving_element "trash_bin", :update => "donor_trust_photos", :accept => :donor_trust_flickr_photo, :url => {:action => "remove"}, :hoverclass => "trash_bin_active"%>
+    
+<div class="media_cart" id="flickr_photos">
+    <h2>Flickr Photos</h2>
+</div>
+
+<div class="media_cart" id="donor_trust_photos">
+    <h2>DonorTrust Photos | <%= pageinated_links_for_ajax(@flickr_image_pages, "donor_trust_photos", "/bus_admin/flickr_images", "photos", nil) %></h2>
+    <%= render :partial => 'flickr_image', :collection => @flickr_images %>
+</div>
+<%= drop_receiving_element "donor_trust_photos", :update => "donor_trust_photos", :accept => "flickr_photo", :url => {:action => "add"}, :hoverclass => "media_cart_active"%>
+    

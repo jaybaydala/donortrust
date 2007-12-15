@@ -1,0 +1,3 @@
+<% if membership.group_id? && membership.group %>
+<%= ', ' if membership_counter > 0 %><%= link_to membership.group.name, dt_group_path(membership.group) %>
+<% end %>

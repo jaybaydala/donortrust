@@ -1,0 +1,13 @@
+<h1>Editing measure</h1>
+
+<%= error_messages_for :measure %>
+
+<% form_for(:measure, :url => measure_path(@measure), :html => { :method => :put }) do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', measure_path(@measure) %> |
+<%= link_to 'Back', measures_path %>

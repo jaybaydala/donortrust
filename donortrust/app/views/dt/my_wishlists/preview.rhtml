@@ -1,0 +1,8 @@
+<%= "<div class=\"error\">#{flash[:error]}</div>" if flash[:error] %>
+<% if @share_mail %>
+<div><strong>From:</strong> <%= @share_mail.from %></div>
+<div><strong>Subject:</strong> <%= @share_mail.subject %></div>
+<div><strong>To:</strong> <%= @share_mail.to %></div>
+<hr style="border-bottom:1px solid #999;" />
+<%= @share_mail.body %>
+<% end %>

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>::: ChristmasFuture Email :::</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <style type="text/css">
+  <!--
+  html, body {
+    margin:10px;
+  }
+  body {
+    background: #FFF;
+    font: 12px/16px Arial, Helvetica, sans-serif;
+    color: #333;
+    text-align: left; /* this is asking IE to centre the container ;) */
+  }
+  h2 a {
+    text-decoration:none;
+    color: #360;
+  }
+  strong {
+    color:#360;
+  }
+  -->
+  </style>
+</head>
+<body>
+<div style="text-align:left;width:496px;margin:auto;">
+<%= image_tag "http://#{@host}/images/dt/brand_elements/cf_headerlogo.gif", :alt => 'ChristmasFuture - Change the world &helip; for good' %>
+
+
+<p>Hello <%=h @invitation.to_name? ? @invitation.to_name : @invitation.to_email %>,</p>
+
+<p>Your friend, <a href="mailto:<%= @invitation.user.email %>"><%=h @invitation.user.name ? @invitation.user.name : @invitation.user.email %></a> has invited you to join the &quot;<%= link_to @invitation.group.name, @url %>&quot; group at ChristmasFuture. Click the link below to check it out.</p>
+ 
+<% if @invitation.message? %>
+<p>Their message to you:</p>
+<p><%=h @invitation.message %></p>
+<% end %>
+
+<hr />
+
+
+<p>
+  Your friend is sharing a way that you can help change the world...for good.  <br />
+  <%= link_to @invitation.group.name, @url %>
+</p>
+
+<p>Thanks,<br />
+<strong>The ChristmasFuture Team</strong></p>
+
+</div>
+</body>
+</html>

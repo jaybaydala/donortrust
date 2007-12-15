@@ -1,0 +1,68 @@
+one:
+  id: 1
+  amount: 50.00
+  name: Quentin
+  email: quentin@example.com
+  to_name: timg
+  to_email: tim@example.com
+  message: picked up gift
+  pickup_code: 
+  picked_up_at: <%= 5.days.ago.to_s :db %>
+  user_id: 1
+two:
+  id: 2
+  amount: 100.00
+  name: timg
+  email: tim@example.com
+  to_name: Rachel
+  to_email: rachel@example.com
+  message: unscheduled gift
+  first_name: Timothy
+  last_name: Glen
+  address: 36 Example St.
+  city: Guelph
+  province: ON
+  postal_code: N1E 7C5
+  country: CA
+  credit_card: 1111
+  card_expiry: 2009-04-30
+  authorization_result: 1234
+  pickup_code: r4tyfgo0xt7v
+  picked_up_at: 
+  user_id: 3
+three:
+  id: 3
+  amount: 100.00
+  name: timg
+  email: tim@example.com
+  to_name: Test Name
+  to_email: test@example.com
+  message: scheduled gift
+  first_name: Timothy
+  last_name: Glen
+  address: 36 Example St.
+  city: Guelph
+  province: ON
+  postal_code: N1E 7C5
+  country: CA
+  credit_card: 1111
+  card_expiry: 2009-04-30
+  authorization_result: 1234
+  pickup_code: nqlut05m74jp
+  project_id: 1
+  send_at: <%= 5.days.from_now.to_s :db %>
+  picked_up_at: 
+  user_id: 3
+# a gift that has been picked up
+four:
+  id: 4
+  project_id: 1
+  amount: 225.00
+  name: Tim
+  email: tim@example.com
+  to_name: Quentin
+  to_email: quentin@example.com
+  message: picked up gift with a project
+  pickup_code: 
+  picked_up_at: <%= 5.days.ago.to_s :db %>
+  user_id: 2

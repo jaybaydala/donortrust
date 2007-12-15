@@ -1,0 +1,10 @@
+<% if logged_in? %>
+<h3 class="title">Your Groups</h3>
+<% if current_user.groups.length > 0 -%>
+<ul id="group-list">  
+<% private_groups = current_user.groups.find :all, :conditions => {:private, 0} %>
+<%= render :partial => 'dt/groups/group', :collection => private_groups if current_user.groups.size > 0 %>
+</ul>
+<% end -%>
+<p><small><%= link_to "create group", dt_new_group_path %></small></p>
+<% end %>

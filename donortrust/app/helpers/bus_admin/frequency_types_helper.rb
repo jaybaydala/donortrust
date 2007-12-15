@@ -1,0 +1,2 @@
+module BusAdmin::FrequencyTypesHelper
+end

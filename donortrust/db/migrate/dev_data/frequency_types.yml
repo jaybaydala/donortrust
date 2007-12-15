@@ -1,0 +1,13 @@
+--- 
+frequency_types_001: 
+  name: Quarterly
+  deleted_at: 
+  id: "1"
+frequency_types_002: 
+  name: Monthly
+  deleted_at: 
+  id: "2"
+frequency_types_003: 
+  name: Yearly
+  deleted_at: 
+  id: "3"

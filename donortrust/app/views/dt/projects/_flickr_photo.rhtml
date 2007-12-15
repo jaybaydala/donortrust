@@ -1,0 +1,1 @@
+    <% photo = Flickr::Photo.new(flickr_photo.photo_id.to_s) -%><%= link_to image_tag(photo.sizes[0]['source'], :alt => photo.to_s), photo.url, :rel => 'blank' %>

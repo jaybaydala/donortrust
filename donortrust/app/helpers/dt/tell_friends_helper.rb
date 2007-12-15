@@ -1,0 +1,2 @@
+module Dt::TellFriendsHelper
+end

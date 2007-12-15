@@ -1,0 +1,19 @@
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="projectInfo">
+    <div class="leftColW">
+      <h1>Lasting, Sustainable Results</h1>
+      <p>Help change the world by finding projects that will help lift others out of extreme poverty. You can share what you find with friends or give them a gift to support whichever project they choose.</p>
+      <p>Search the database to discover how to get involved with places, actions, or organizations that interest you. ChristmasFuture supports organizations involved in holistic approaches to walking the poorest communities out of poverty in a sustainable way.</p>
+    </div>
+    <div id="rightColN">
+      <div><%= link_to image_tag("/images/dt/promos/guarantee_promo.jpg", :alt => '100% Investment Guarantee - 100% of your investments go to the projects you choose.'), "http://www.christmasfuture.org/about-us/faqs/" %></div>
+    </div>
+  </div>
+
+  <h1>Featured Projects</h1>
+  <div id="featuredProjectList">
+  <%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
+  </div>
+</div>

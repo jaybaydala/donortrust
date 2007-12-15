@@ -1,0 +1,41 @@
+<div class="fullWidthWrap">
+  <div id="h1_header">
+    <h1 style="float:left;padding-left:0;">Search Projects Results</h1>
+  </div>
+  <div style="margin-bottom:5px;">
+    <strong>You have searched using the following terms:</strong>
+    <% if @place %><div class="textsm" style="padding-bottom:0;"><strong>Place:</strong>          <%= link_to @place.name,   dt_search_path(:place_id => @place.id) %></div><% end %>
+    <% if @cause %><div class="textsm" style="padding-bottom:0;"><strong>Cause:</strong>          <%= link_to @cause.name,   dt_search_path(:cause_id => @cause.id) %></div><% end %>
+    <% if @partner %><div class="textsm" style="padding-bottom:0;"><strong>Organization:</strong> <%= link_to @partner.name, dt_search_path(:partner_id => @partner.id) %></div><% end %>
+  </div>
+</div>
+<% if @projects.size > 0 %>
+<div id="subSubNav" style="margin-top:10px;">
+  <ul class="pageNav">
+    <li><strong>SORT BY:</strong></li>
+    <li>&nbsp;</li>
+    <!--<li<%= ' class="currentPg"' if params[:order] == 'newest' %>><%= link_to "Newest", dt_search_path(params.merge({:order => 'newest'})) %></li>-->
+    <li<%= ' class="currentPg"' if params[:order] == 'date' %>><%= link_to "Target Start Date", dt_search_path(params.merge({:order => 'date'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'budget' %>><%= link_to "Budget", dt_search_path(params.merge({:order => 'budget'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'organization' %>><%= link_to "Organization", dt_search_path(params.merge({:order => 'organization'})) %></li>
+    <li<%= ' class="currentPg"' if params[:order] == 'place' %>><%= link_to "Place", dt_search_path(params.merge({:order => 'place'})) %></li>
+  </ul>
+  <ul class="pageNav">
+    <li><%= @projects.total_entries %> Projects Found</li>
+  </ul>
+</div>
+<% end %>
+<div id="contentContainer">
+  <%= will_paginate @projects %>
+  <% if @projects.size > 0 %>
+  <div id="featuredProjectList">
+  <%= render :partial => '/dt/projects/search_result', :collection => @projects %>
+  </div>
+  <% else %>
+  <p style="margin-top:10px;">We're sorry, but <strong>we couldn't find any projects</strong> using your search terms. Try just selecting one of the search options to broaden your search.</p>
+  <h1>Featured Projects</h1>
+  <div id="featuredProjectList">
+  <%= render :partial => '/dt/projects/featured_project', :collection => @featured_projects if @featured_projects %>
+  </div>
+  <% end %>
+</div>

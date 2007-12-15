@@ -1,0 +1,36 @@
+<h2>My Profile</h2>
+<% if logged_in? %>
+  <p><strong><%= current_user.full_name %></strong> <% unless current_user.under_thirteen? %>(<%= current_user.name %>)<% end %></p>
+	<div class="factList">
+    <ul>
+      <li class="blueblock"><%= link_to "My Account Summary", dt_account_path(current_user) %></li>
+      <li class="blueblock"><%= link_to "Edit My Account", dt_edit_account_path(current_user) %></li>
+      <li class="blueblock"><%= link_to "Make a Deposit", dt_new_deposit_path(:account_id => current_user) %></li>
+      <li class="blueblock"><%= link_to "Logout", dt_logout_path %></li>
+      <% if @group && !@group.new_record? %>
+      <% if !current_member(@group) || !current_member(@group).founder? %><li class="blueblock"><% if current_member(@group) %><%= link_to "&nbsp;Leave Group", dt_membership_path(:id => current_member(@group).id, :group_id => @group.id), :method => 'delete', :confirm => "Do you want to leave #{@group.name}?" %><% else %><%= link_to "&nbsp;Join This Group", dt_memberships_path(@group), :method => :post, :confirm => "Do you want to join #{@group.name}?" %><% end %></li><% end %>
+      <% if current_member(@group) && current_member(@group).founder? %><li class="blueblock"><%= link_to "&nbsp;Delete this Group", dt_group_path(@group), :method => :delete, :confirm => "Do you want to delete #{@group.name}?" %></li><% end %>
+      <% end %>
+  	</ul>
+  </div>
+
+  <h5>My Portfolio</h5>
+  <ul id="factList"> 
+	  <li><strong>Groups:</strong> <%= render :partial => 'dt/accounts/membership', :collection => current_user.memberships(:include => :group) %><% if current_user.memberships.size == 0 %><%= link_to "Find a group to join", dt_groups_path %> or <%= link_to "Create a group", dt_new_group_path %><% end %></li>
+	  <li><strong>Invested:</strong> <%= number_to_currency(current_user.invested) %></li>
+	  <li><strong>Account Balance:</strong> <%= number_to_currency(current_user.balance) %></li>
+  </ul>
+  <% if current_user.projects.size > 0 %>
+  <h5>My Projects</h5>
+  <ul>
+    <%= render :partial => 'dt/projects/project_list_item', :collection => current_user.projects %>
+  </ul>
+  <% end %>
+<% else %>
+  <p><strong><%= link_to "Login", dt_login_path %> to see your profile and get involved!</strong></p>
+  <div class="factList">
+    <ul>
+      <li class="blueblock"><%= link_to "Make a Deposit", dt_new_deposit_path(:account_id => current_user) %></li>
+    </ul>
+  </div>
+<% end %>

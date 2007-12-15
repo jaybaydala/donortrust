@@ -1,0 +1,3 @@
+<%= render(:partial => "place", :collection=>@places)%>
+<%= pageinated_links_for_ajax(@place_pages, "places", "/bus_admin/place_you_tube_videos", "places", nil) %>
+    

@@ -1,0 +1,44 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  <h1>Deposit Confirmation</h1>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+
+  <%= error_messages_for :deposit %>
+  <% form_for(:deposit, :url => dt_deposits_path, :html => {:id => "depositform", :name => "depositform"}) do |f| %>
+  <p>Please confirm your deposit details</p>
+  <div class="userform">
+    <fieldset>
+      <legend>Deposit Details</legend>
+      <ul>
+        <li style="clear:left;"><label for="deposit_amount">Deposit Amount</label> <%= number_to_currency(@total_amount) %> <%= f.hidden_field :amount, :value => number_with_precision(@total_amount, 2) %></li>
+        <li style="clear:left;"><label for="deposit_credit_card">Credit Card</label> <%= obfuscate_credit_card(@deposit.credit_card) %> <%= f.hidden_field :credit_card %></li>
+        <li style="clear:left;"><label for="deposit_card_expiry">Card Expiry</label> <%= params[:deposit][:card_expiry] %> <%= f.hidden_field :card_expiry, :value => params[:deposit][:card_expiry] %></li>
+      </ul>
+    </fieldset>
+
+		<%= render 'dt/shared/fund_cf_confirm' %>
+
+    <fieldset>
+      <legend>Credit Card Information</legend>
+      <ul>
+        <li style="clear:left;"><label for="deposit_first_name">First Name</label> <%= params[:deposit][:first_name] %> <%= f.hidden_field :first_name %></li>
+        <li style="clear:left;"><label for="deposit_last_name">Last Name</label> <%= params[:deposit][:last_name] %> <%= f.hidden_field :last_name %></li>
+        <li style="clear:left;"><label for="deposit_address">Address</label> <%= params[:deposit][:address] %> <%= f.hidden_field :address %></li>
+        <li style="clear:left;"><label for="deposit_city">City</label> <%= params[:deposit][:city] %> <%= f.hidden_field :city %></li>
+        <li style="clear:left;"><label for="deposit_province">Province/State</label> <%= params[:deposit][:province] %> <%= f.hidden_field :province %></li>
+        <li style="clear:left;"><label for="deposit_postal_code">Postal/Zip Code</label> <%= params[:deposit][:postal_code] %> <%= f.hidden_field :postal_code %></li>
+        <li style="clear:left;"><label for="deposit_country">Country</label> <%= params[:deposit][:country] %> <%= f.hidden_field :country %></li>
+      </ul>
+    </fieldset>
+
+    <%= submit_tag 'Complete Deposit', :class => 'buttonsubmit' %>
+    <input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
+  </div>
+  <% end %>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
+</div>

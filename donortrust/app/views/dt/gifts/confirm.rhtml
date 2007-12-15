@@ -1,0 +1,104 @@
+<%= dt_account_nav if logged_in? %>
+<div id="contentContainer">
+  <div id="leftColW">
+  <h1>Confirm Gift</h1>
+  <%= error_messages_for :gift %>
+  <% form_for(:gift, :url => dt_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
+  <p>Please review your information.</p>
+  <div class="userform">
+
+    <fieldset>
+      <legend>Gift amount:</legend>
+      <ul>
+        <li style="padding-bottom:0px;">Gift Amount <%= number_to_currency(@gift.amount) %><%= f.hidden_field :amount %></li>
+      </ul>
+    </fieldset>
+
+    <fieldset>
+      <legend>How your gift will be allocated:</legend>
+      <p><% if @gift.project_id? %>
+      To a specific project&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_search_path) %>
+      <% else %>
+      To any project the recipient specifies upon receiving your gift
+      <% end %></p>
+      <%= f.hidden_field :project_id %>
+    </fieldset>
+
+		<%= render 'dt/shared/fund_cf_confirm' %>
+
+    <fieldset>
+      <legend>Gift Details</legend>
+      <ul style="width:302px;">
+        <li><label for="gift_name">From (Name)</label><%= params[:gift][:name] %> <%= f.hidden_field :name %></li>
+        <li><label for="gift_email">From (Email)</label><%= params[:gift][:email] %> <%= f.hidden_field :email %></li>
+        <li><label for="gift_to_name">To (Name)</label><%= params[:gift][:to_name] %> <%= f.hidden_field :to_name %></li>
+        <li><label for="gift_to_email">To (Email)</label><%= params[:gift][:to_email] %> <%= f.hidden_field :to_email %></li>
+        <li><label for="gift_message">Gift Message</label><%= params[:gift][:message] %> <%= f.hidden_field :message %></li>
+      </ul>
+    </fieldset>
+
+    <fieldset>
+      <legend>Gift Email</legend>
+      <ul>
+      <% if @gift.send_email? %>
+        <li><label for="gift_send_at_2i">Schedule</label>
+          I would like my gift to be emailed
+          <%= "#{@send_at.to_formatted_s(:long)} #{params[:time_zone]}" if @send_at %>
+          <%= "Send now" if !@send_at %>
+          <%= f.hidden_field :send_at %>
+        </li>
+      <% else %>
+        <li>I would <strong>not</strong> like my gift to be emailed.<%= f.hidden_field :sent_at %></li>
+      <% end %>
+      </ul>
+    </fieldset>
+
+    <% if logged_in? %>
+    <fieldset>
+      <legend>Payment Method</legend>
+      <ul>
+        <li><table><tr valign="top">
+          <td><label for="payment">Payment</label> </td>
+          <td><div><%= params[:payment].capitalize if params[:payment] %> <%= hidden_field 'payment', :payment, :value => params[:payment] %></div></td>
+          </tr></table>
+          </li>
+      </ul>
+    </fieldset>
+    <% end %>
+    <div id="credit_payment"<%= ' style="display:none;"' if logged_in? && params[:payment] != 'credit' %>>
+      <%= error_messages_for :user %>
+      <fieldset>
+        <legend>Credit Card Details</legend>
+        <ul style="width:302px;">
+          <li><label for="gift_first_name">First Name</label><%= params[:gift][:first_name] %> <%= f.hidden_field :first_name %></li>
+          <li><label for="gift_last_name">Last Name</label><%= params[:gift][:last_name] %> <%= f.hidden_field :last_name %></li>
+          <li><label for="gift_address">Address</label><%= params[:gift][:address] %> <%= f.hidden_field :address %></li>
+          <li><label for="gift_city">City</label><%= params[:gift][:city] %> <%= f.hidden_field :city %></li>
+          <li><label for="gift_province">Province/State</label><%= params[:gift][:province] %> <%= f.hidden_field :province %></li>
+          <li><label for="gift_postal_code">Postal/Zip Code</label><%= params[:gift][:postal_code] %> <%= f.hidden_field :postal_code %></li>
+          <li><label for="gift_country">Country</label><%= params[:gift][:country] %> <%= f.hidden_field :country %></li>
+          <li><label for="gift_credit_card">Credit Card</label><%= obfuscate_credit_card(@gift.credit_card) %> <%= f.hidden_field :credit_card %></li>
+          <li><label for="gift_expiry_month">Card Expiry</label><%= params[:gift][:card_expiry] %> <%= f.hidden_field :card_expiry, :value => params[:gift][:card_expiry] %></li>
+        </ul>
+      </fieldset>
+    </div>
+
+    <%= f.hidden_field 'e_card_id', :id => 'e_card_id' %>
+    <!--<input type="image" value="Gift It" src="/images/dt/nav_elements/buttonsCF/giftProject_blue.gif" style="width:104px;height:24px;margin-left:100px;border:0;" />-->
+    <%= submit_tag 'Gift It', :class => 'buttonsubmit' %>
+    <input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
+  </div>
+  <% end %>
+  </div>
+
+  <div id="rightColN">
+    <h2>Gift Card</h2>
+    <div id="miniGallery">
+        <p>This is the e-card you have selected to send with your gift.</p>
+        <div id="medImgWrap">
+          <div class="medImg"><%= image_tag(url_for_file_column(@gift.e_card, "medium"), :alt => '') if @gift.e_card_id? && @gift.e_card %></div>
+        </div>
+        <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your gift email" id="gift_preview" onclick="var params=Form.serialize($('giftform'));window.open('<%= dt_preview_gifts_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
+      </div>  
+  </div>
+</div>
