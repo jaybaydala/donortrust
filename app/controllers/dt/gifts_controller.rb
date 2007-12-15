@@ -182,6 +182,14 @@ class Dt::GiftsController < DtApplicationController
     gift_params.delete :expiry_year if gift_params.key? :expiry_year
     gift_params.delete "expiry_month" if gift_params.key? "expiry_month"
     gift_params.delete "expiry_year" if gift_params.key? "expiry_year"
+    
+    if gift_params.key?("card_expiry")
+      if card_exp.nil? || card_exp.blank?
+        card_exp = gift_params["card_expiry"]
+        gift_params.delete("card_expiry")
+      end
+    end
+    
     gift_params[:card_expiry] = card_exp if gift_params[:card_expiry] == nil
     gift_params[:user_id] = current_user.id if logged_in?
     normalize_send_at!(gift_params)

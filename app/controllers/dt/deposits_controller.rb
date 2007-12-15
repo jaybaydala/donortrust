@@ -25,7 +25,7 @@ class Dt::DepositsController < DtApplicationController
     @cf_investment = build_fund_cf_investment(@deposit)
     @total_amount = @deposit.amount + @cf_investment.amount if @cf_investment
     valid = cf_fund_investment_valid?(@deposit, @cf_investment)
-    @deposit.amount += @cf_investment.amount if @cf_investment
+  #  @deposit.amount += @cf_investment.amount if @cf_investment
 
     respond_to do |format|
       if valid
@@ -44,7 +44,7 @@ class Dt::DepositsController < DtApplicationController
     @deposit.user_ip_addr = request.remote_ip
     
     @cf_investment = build_fund_cf_investment(@deposit)
-    @deposit.amount += @cf_investment.amount if @cf_investment
+   # @deposit.amount += @cf_investment.amount if @cf_investment
     
     Deposit.transaction do
       if @cf_investment
