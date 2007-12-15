@@ -28,6 +28,10 @@ module BusAdmin::ProjectsHelper
     end    
   end
   
+  def reject_pending_project(record)
+    link_to_remote_redbox 'Reject', :url => bus_admin_show_pending_project_rejection_project_path(record), :method => :get
+  end
+  
   def intended_outcome_column(record)
      if record.intended_outcome != nil 
         RedCloth.new(record.intended_outcome).to_html
@@ -114,6 +118,10 @@ module BusAdmin::ProjectsHelper
       page.insert_html :bottom, :financials, :partial => 'financial_source', :object => FinancialSource.new
      end
    end 
+  
+  def add_reject_pending_project_link(project)
+    
+  end
   
   def community_projects(project)
     if @community_projects.nil?

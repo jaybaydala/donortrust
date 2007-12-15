@@ -1,7 +1,11 @@
 <div id="subNavWide">
 	<ul class="subNav li">
 		<li id="rank-nav"><%= link_to "Create New", bus_admin_new_project_path %></li>
-		<li id="rank-nav"><%= link_to "Awaiting Approval", bus_admin_pending_projects_projects_path %></li>
-		<li id="rank-nav"><%= link_to "Rejected Projects", bus_admin_rejected_projects_projects_path %></li>
+		<% if current_busaccount.in_any_role?(:admin, :cfadmin) %>
+			<li id="rank-nav"><%= link_to "Awaiting Approval", bus_admin_pending_projects_projects_path %></li>
+		<% end %>
+		<% if current_busaccount.has_pending_rejected_projects? %>
+			<li id="rank-nav"><%= link_to "Rejected Projects", bus_admin_rejected_projects_projects_path %></li>
+		<% end %>
 	</ul>
 </div><!-- subNav ends -->

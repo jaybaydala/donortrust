@@ -4,8 +4,12 @@
 	<% project = @wrapper.real_object
 	   pending = @wrapper.pending_object
 	%>
-			<% form_for :project, :url => bus_admin_approve_reject_pending_project_project_path(@project), :html => {:method => :put} do |f| %> 
+			<% form_for :project, :url => bus_admin_approve_project_project_path(@project), :html => {:method => :put, :id => :form_approve} do |f| %> 
 			<h1>Preview <%= pending.is_new ? "New" : "Modified" %> Project</h1>
+			<div style="padding-bottom:20px;">
+				<a href="#" onclick="document.forms['form_approve'].submit();">Approve</a>&nbsp;&nbsp;
+				<%= reject_pending_project(@project) %>
+			</div>
 			 <fieldset id="groupLocation">
 		  		<legend>Project information</legend>
 			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
@@ -208,8 +212,6 @@
 						</li>
 				  	</ul>
 		      </fieldset>
-			 	<%= submit_tag "Approve", {:name => :approve} %>
-				<%= submit_tag "Reject", {:name => :reject} %>
 			  <% end %>
 		<% end %>
 	</div>

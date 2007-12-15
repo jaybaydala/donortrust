@@ -8,13 +8,13 @@ module AuthenticatedSystem
     
     # Accesses the current bus_account from the session.
     def current_busaccount
-      @current_bus_account ||= (session[:bus_account] && BusAccount.find_by_id(session[:bus_account])) || :false
+      @current_busaccount ||= (session[:bus_account] && BusAccount.find_by_id(session[:bus_account])) || :false
     end
     
     # Store the given bus_account in the session.
     def current_busaccount=(new_bus_account)
       session[:bus_account] = (new_bus_account.nil? || new_bus_account.is_a?(Symbol)) ? nil : new_bus_account.id
-      @current_bus_account = new_bus_account
+      @current_busaccount = new_bus_account
     end
     
     # Check if the bus_account is authorized.
@@ -27,7 +27,7 @@ module AuthenticatedSystem
     #
     #  # only allow nonbobs
     #  def authorize?
-    #    current_bus_account.login != "bob"
+    #    current_busaccount.login != "bob"
     #  end
     def authorized?
       true
@@ -49,7 +49,7 @@ module AuthenticatedSystem
     #
     def login_required
       username, passwd = get_auth_data
-      self.current_bus_account ||= BusAccount.authenticate(username, passwd) || :false if username && passwd
+      self.current_busaccount ||= BusAccount.authenticate(username, passwd) || :false if username && passwd
       logged_in? && authorized? ? true : access_denied
     end
     
@@ -65,7 +65,7 @@ module AuthenticatedSystem
       respond_to do |accepts|
         accepts.html do
           store_location
-          redirect_to :controller => '/bus_accounts', :action => 'login'
+          redirect_to login_url #:controller => '/bus_accounts', :action => 'login'
         end
         accepts.xml do
           headers["Status"]           = "Unauthorized"
@@ -90,10 +90,10 @@ module AuthenticatedSystem
       session[:return_to] = nil
     end
     
-    # Inclusion hook to make #current_bus_account and #logged_in?
+    # Inclusion hook to make #current_busaccount and #logged_in?
     # available as ActionView helper methods.
     def self.included(base)
-      base.send :helper_method, :current_bus_account, :logged_in?
+      base.send :helper_method, :current_busaccount, :logged_in?
     end
 
     # When called with before_filter :login_from_cookie will check for an :auth_token
@@ -103,8 +103,8 @@ module AuthenticatedSystem
       user = BusAccount.find_by_remember_token(cookies[:auth_token])
       if user && user.remember_token?
         user.remember_me
-        self.current_bus_account = user
-        cookies[:auth_token] = { :value => self.current_bus_account.remember_token , :expires => self.current_bus_account.remember_token_expires_at }
+        self.current_busaccount = user
+        cookies[:auth_token] = { :value => self.current_busaccount.remember_token , :expires => self.current_busaccount.remember_token_expires_at }
         flash[:notice] = "Logged in successfully"
       end
     end

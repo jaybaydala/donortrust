@@ -17,17 +17,17 @@
     	  <%= project_quickfacts %>
     	</div>
 		
-		<% if @project.has_pending? %>
+		<% if @project.has_pending? && current_busaccount.in_any_role?(:admin, :cfadmin) %>
 			<div style="clear:both">
 				<p>
 					<% if @project.new_and_unapproved? %>
 						<strong>New and Unapproved</strong>
 					<% elsif @project.new_and_rejected? %>
-						<strong>New and Rejected!!</strong>
+						<strong>New and Rejected</strong>
 					<% elsif @project.modified_and_unapproved? %>
 						<strong>Modified and Unapproved</strong>
 					<% elsif @project.modified_and_rejected? %>
-						<strong>Modified and Rejected!!</strong>
+						<strong>Modified and Rejected</strong>
 					<% end %>	
 				</p>
 			</div>

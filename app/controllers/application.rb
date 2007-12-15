@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
   include RoleRequirementSystem
-
   include BusAdmin::UserInfo
   #include BusAdmin::ProjectsHelper
     
@@ -140,8 +139,10 @@ protected
   end
 
   def rescue_404
-    rescue_action_in_public DtNotFoundError.new
+    rescue_action_in_public NotFoundError.new
   end
-
+  
+  class NotFoundError < Exception
+  end
 end
 

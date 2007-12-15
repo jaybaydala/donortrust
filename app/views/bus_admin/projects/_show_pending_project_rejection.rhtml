@@ -1,0 +1,26 @@
+<div style="height:220px;width:450px;padding:10px;">
+	<div style="height:20px;width:440px;background-color:#DCDCDC;border:1px solid Silver">
+		<%= link_to_close_redbox 'Cancel'%>
+	</div>
+	<% if current_busaccount.in_any_role?(:admin, :cfadmin) %>
+		<% form_tag bus_admin_reject_project_project_path(@project), :method => :put do %>
+			<table>
+				<tr>
+					<td><strong>Please enter the reason for rejecting this project</strong></td>
+				</tr>
+				<tr>
+					<td>
+						<%= text_area :reason, :reason, :rows => 8, :cols => 5, :style => 'width:440px' %>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<%= submit_tag 'Reject' %>
+					</td>
+				</tr>
+			</table>
+		<% end %>
+		<% else %>
+			<p>You should never have been able to get here ...</p>
+	<% end %>
+</div>

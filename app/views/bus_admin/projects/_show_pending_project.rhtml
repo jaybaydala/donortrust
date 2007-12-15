@@ -29,9 +29,11 @@
 					The project was modified on <%= @pending.date_created %> by <%= @pending.creator.nil? ? "unknown" : @pending.creator.login %>
 				<% end %>
 				<br />
-				<%= link_to "Approve", bus_admin_approve_project_project_path(@project), :method => :put %>
-				&nbsp;&nbsp;
-				<%= link_to "Reject", bus_admin_reject_project_project_path(@project), :method => :put %>
-  			</p>
+				<div style="clear:both">
+					<%= link_to "Approve", bus_admin_approve_project_project_path(@project), :method => :put %>
+					&nbsp;&nbsp;
+					<%= reject_pending_project(@project) %>
+  				</div>
+			</p>
 		</div>
     </div>
