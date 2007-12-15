@@ -11,7 +11,7 @@ class BusAdmin::PartnersController < ApplicationController
       @partners = Partner.find(:all)
     else
       unless current_busaccount.partner.nil?
-        @partners = Partner.find_by_id(current_busaccount.partner)
+        @partners = Partner.find(:all, :conditions => ["id = ?", current_busaccount.partner.id])
       else
         @partners = []
       end
