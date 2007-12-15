@@ -8,6 +8,18 @@
 	</div>
   </div>
   <div id="featuredProjectList">
-  <%= render :partial => '/bus_admin/projects/show_project', :collection => @projects if @projects %>
+  	<% if @projects && @projects.length > 0 %>
+  		<%= render :partial => '/bus_admin/projects/show_project', :collection => @projects if @projects %>
+  	<% else %>
+		<div class="projectInfo"  id="projectInfo-<%= @project.id %>">
+      		<div class="leftColW">
+				<% if current_busaccount.role_one_of?(:admin, :cfadmin) %>
+					There are no projects to view.
+				<% else %>
+					You have no projects.
+				<% end %>
+			</div>
+		</div>
+	<% end %>
   </div>
 </div>

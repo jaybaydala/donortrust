@@ -2,7 +2,7 @@
 	<div style="height:20px;width:440px;background-color:#DCDCDC;border:1px solid Silver">
 		<%= link_to_close_redbox 'Cancel'%>
 	</div>
-	<% if current_busaccount.in_any_role?(:admin, :cfadmin) %>
+	<% if current_busaccount.role_one_of?(:admin, :cfadmin) %>
 		<% form_tag bus_admin_reject_project_project_path(@project), :method => :put do %>
 			<table>
 				<tr>

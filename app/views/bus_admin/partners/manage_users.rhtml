@@ -1,0 +1,29 @@
+<div id="contentContainer">
+  <div id="leftColW">
+  	<% form_tag add_remove_users_partner_url(@project), :method => :put do %>
+		<h1>Manage Users for: <%= @partner.name %></h1>
+			<% unless current_busaccount.partner.nil? || current_busaccount.partner.id != @partner.id %>
+				<% if current_busaccount.has_role?(:superpartner)%>
+					<div>
+						<p>Users currently belonging to this partner<br />(excluding you):</p>
+						<p>
+							<%= simple_multi_select_tag('users[]', @partner_users, :id, :login, {:multiple => true, :size => 5}) %>
+							<%= submit_tag "Remove User(s)", {:name => :remove} %>
+						</p>
+					</div>
+					<div style="clear:both;padding-top:20px;">
+						<p>Users not currently belonging to this partner:</p>
+						<p>
+							<%= simple_multi_select_tag('nonusers[]', @non_partner_users, :id, :login, {:multiple => true, :size => 5}) %>
+							<%= submit_tag "Add User(s)", {:name => :add} %>
+						</p>
+					</div>
+				<% else %>
+					<p>You do not have the permissions to perform this action.</p>
+				<% end %>
+			<% else %>
+				<p>You do not have the permissions to perform this action.</p>
+			<% end %>
+		<% end %>
+	</div>
+</div>

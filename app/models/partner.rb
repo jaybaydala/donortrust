@@ -8,6 +8,7 @@ class Partner < ActiveRecord::Base
   has_and_belongs_to_many :contacts #is this the right relationship? 
   has_many      :programs, :through => :projects
   has_many      :quick_fact_partners , :dependent => :destroy
+  has_many      :bus_accounts
 
   validates_presence_of :name
   validates_presence_of :description

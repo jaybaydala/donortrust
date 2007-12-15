@@ -17,7 +17,7 @@
     	  <%= project_quickfacts %>
     	</div>
 		
-		<% if @project.has_pending? && current_busaccount.in_any_role?(:admin, :cfadmin) %>
+		<% if @project.has_pending? && current_busaccount.role_one_of?(:admin, :cfadmin) %>
 			<div style="clear:both">
 				<p>
 					<% if @project.new_and_unapproved? %>

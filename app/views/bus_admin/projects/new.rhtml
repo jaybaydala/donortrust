@@ -9,7 +9,7 @@
   		<legend>Please enter your project information </legend>
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
           <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>
-		  <% if current_busaccount.in_any_role?(:admin, :cfadmin) %>	
+		  <% if current_busaccount.role_one_of?(:admin, :cfadmin) %>	
 		  		<li><label for="status"><%= render :partial => 'dt/shared/form_required' %>Status</label> <%= collection_select (:project, :project_status_id, project_status_types, :id, :name, :include_blank => true) %></li>
 	  	  <% end %>
 		</ul>

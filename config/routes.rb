@@ -3,8 +3,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
 
-  
-    map.resources :projects, :controller => 'bus_admin/projects', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :collection => {:pending_projects => :get, :rejected_projects => :get }, :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get, :approve_project => :put, :reject_project => :put, :show_pending_project => :get, :show_pending_project_rejection => :get }
+  map.resources :partners, :path_prefix => '/bus_admin', :controller => 'bus_admin/partners', :member => {:manage_users => :get, :add_remove_users => :put }
+  map.resources :projects, :controller => 'bus_admin/projects', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :collection => {:pending_projects => :get, :rejected_projects => :get }, :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get, :approve_project => :put, :reject_project => :put, :show_pending_project => :get, :show_pending_project_rejection => :get }
   
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
@@ -199,7 +199,7 @@ ActionController::Routing::Routes.draw do |map|
   # 
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
   map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
-  map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners'
+  #map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners'
 
   #
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting

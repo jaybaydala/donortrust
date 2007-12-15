@@ -1,5 +1,8 @@
 class BusAdmin::ProjectsController < ApplicationController
-        require_role [:admin, :cfadmin], :only => [:pending_projects, :rejected_projects, :approve_project, :reject_project, :approve_reject_pending_project, :show_pending_project]
+  
+  require_role [:admin, :cfadmin], :only => [:pending_projects, :rejected_projects, 
+                :approve_project, :reject_project, :approve_reject_pending_project, 
+                :show_pending_project, :show_pending_project_rejection]
 
   def new
     @project = Project.new     
@@ -12,10 +15,14 @@ class BusAdmin::ProjectsController < ApplicationController
     @page_title = 'Projects'
     #admins and cfadmins can see all projects
     #partners and superpartners can see only theirs
-    if current_busaccount.in_any_role(:admin, :cfadmin)
+    if current_busaccount.role_one_of?(:admin, :cfadmin)
       @projects = Project.find(:all)
     else
-      @project = Project.find()
+      unless current_busaccount.partner.nil?
+        @projects = Project.find(:all, :conditions => ["partner_id = ?", current_busaccount.partner.id])
+      else
+        @project = []
+      end
     end
     respond_to do |format|
       format.html
@@ -24,7 +31,18 @@ class BusAdmin::ProjectsController < ApplicationController
   
    def show
     begin
-      @project = Project.find(params[:id])
+      if current_busaccount.role_one_of?(:admin, :cfadmin)
+        @project = Project.find_by_id(params[:id])
+      else
+        unless current_busaccount.partner.nil?
+          @project = Project.find(:first, :conditions => ["id = ? AND partner_id = ?", params[:id], current_busaccount.partner.id])
+          if @project.nil?
+            raise Exception.new("Unauthorized attempt to view a project by #{current_busaccount.login}")
+          end
+        else
+          raise Exception.new("Unauthorized attempt to view a project by #{current_busaccount.login}")
+        end
+      end
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
@@ -72,7 +90,7 @@ class BusAdmin::ProjectsController < ApplicationController
   def approve_project
     #find the project
     begin
-      @project = Project.find_by_id(params[:id]) if params[:id]
+      @project = Project.find_by_id(params[:id])
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
@@ -114,7 +132,7 @@ class BusAdmin::ProjectsController < ApplicationController
   def reject_project
     #find the project
     begin
-      @project = Project.find_by_id(params[:id]) if params[:id]
+      @project = Project.find_by_id(params[:id])
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
@@ -129,7 +147,7 @@ class BusAdmin::ProjectsController < ApplicationController
     #mark the pending version as rejected, with the reason, the date rejected, and who rejected it. 
     @pending.rejected = true
     @pending.rejection_reason = params[:reason][:reason]
-    @pending.rejected_by = self.current_busaccount.id
+    @pending.rejected_by = self.current_busaccount
     @pending.date_rejected = Date.today
     if @pending.save
       if @pending.is_new
@@ -171,20 +189,48 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end  
   
-  def edit     
+  def edit
     @page_title = "Edit Project"
-    @project = Project.find(params[:id])
+    begin
+      if current_busaccount.role_one_of?(:admin, :cfadmin)
+        @project = Project.find_by_id(params[:id])
+      else
+        unless current_busaccount.partner.nil?
+          @project = Project.find(:first, :conditions => ["id = ? AND partner_id = ?", params[:id], current_busaccount.partner.id])
+          if @project.nil?
+            raise Exception.new("Unauthorized attempt to edit a project by #{current_busaccount.login}")
+          end
+        else
+          raise Exception.new("Unauthorized attempt to edit a project by #{current_busaccount.login}")
+        end
+      end
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+  
     respond_to do |format|
       format.html
     end    
   end
   
+  #TODO - Don't know about the security on this
   def community
     begin
-      @project = Project.find(params[:id])
+      if current_busaccount.role_one_of?(:admin, :cfadmin)
+        @project = Project.find_by_id(params[:id])
+      else
+        unless current_busaccount.partner.nil?
+          @project = Project.find(:first, :conditions => ["id = ? AND partner_id = ?", params[:id], current_busaccount.partner.id])
+          if @project.nil?
+            raise Exception.new("Unauthorized attempt to edit a project by #{current_busaccount.login}")
+          end
+        else
+          raise Exception.new("Unauthorized attempt to call community() by #{current_busaccount.login}")
+        end
+      end
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
-    end    
+    end
     @community = @project.community
     @page_title = "#{@community.name} | #{@project.name}"
     respond_to do |format|
@@ -195,7 +241,18 @@ class BusAdmin::ProjectsController < ApplicationController
   def update
     #get the original project
     begin
-      @project = Project.find(params[:id])
+      if current_busaccount.role_one_of?(:admin, :cfadmin)
+        @project = Project.find_by_id(params[:id])
+      else
+        unless current_busaccount.partner.nil?
+          @project = Project.find(:first, :conditions => ["id = ? AND partner_id = ?", params[:id], current_busaccount.partner.id])
+          if @project.nil?
+            raise Exception.new("Unauthorized attempt to edit a project by #{current_busaccount.login}")
+          end
+        else
+          raise Exception.new("Unauthorized attempt to update a project by #{current_busaccount.login}")
+        end
+      end
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
@@ -242,6 +299,7 @@ class BusAdmin::ProjectsController < ApplicationController
 #    end
 #  end
   
+  #TODO - Don't know about the security on this
   def report    
     @all_projects = []
     program_id = params[:program_id]
@@ -254,6 +312,7 @@ class BusAdmin::ProjectsController < ApplicationController
     render :partial => "bus_admin/projects/report" , :layout => 'application'
   end
   
+  #TODO - Don't know about the security on this
   def individual_report    
     @id = params[:projectid]
     @project = Project.find(@id)
@@ -262,6 +321,7 @@ class BusAdmin::ProjectsController < ApplicationController
     render :partial => "bus_admin/projects/individual_report", :layout => 'application'
   end
   
+  #TODO - Don't know about the security on this
   def kpi_report    
     @id = params[:id]
     @project = Project.find(@id)
@@ -269,6 +329,7 @@ class BusAdmin::ProjectsController < ApplicationController
     render :partial => "bus_admin/projects/kpi_report", :layout => 'application'
   end
   
+  #TODO - Don't know about the security on this
   def byProject
     @id  = params[:projectId]
     @projects = Project.find(@id)
@@ -278,6 +339,7 @@ class BusAdmin::ProjectsController < ApplicationController
     render :partial => 'timeline_json'
   end
   
+  #TODO - Don't know about the security on this
   def showProjectTimeline
     @id  = params[:id]
     @projects = Project.find(@id)
@@ -286,6 +348,7 @@ class BusAdmin::ProjectsController < ApplicationController
     render :partial => 'bus_admin/projects/showProjectTimeline'
   end
   
+  #TODO - Don't know about the security on this
   def export_to_csv
     @projects = Project.find(:all)  
     csv_string = FasterCSV.generate do |csv|
@@ -302,6 +365,7 @@ class BusAdmin::ProjectsController < ApplicationController
               :disposition => "attachment; filename=project.csv"
   end
   
+  #TODO - Don't know about the security on this
   def show_project_note   
    @note = Project.find(params[:id]).note
    render :partial => "layouts/note"   
@@ -315,7 +379,8 @@ class BusAdmin::ProjectsController < ApplicationController
         return false
       end  
     end   
-    
+  
+  #TODO - Don't know about the security on this
   def populate_project_places
       @filterMessage = ""
       @places = nil
@@ -355,6 +420,7 @@ class BusAdmin::ProjectsController < ApplicationController
     render :partial => "bus_admin/projects/place_form"
   end
   
+  #TODO - Don't know about the security on this
   def get_local_actions(requested_action,permitted_action)
    case(requested_action)
       when("populate_places")
@@ -364,6 +430,7 @@ class BusAdmin::ProjectsController < ApplicationController
       end  
     end
     
+  #TODO - Don't know about the security on this
   def nation
     begin
       @project = Project.find(params[:id])
@@ -377,6 +444,7 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
   
+  #TODO - Don't know about the security on this
   def organization
     begin
       @project = Project.find(params[:id])
@@ -389,7 +457,8 @@ class BusAdmin::ProjectsController < ApplicationController
       format.html
     end
   end
-    
+  
+  #TODO - Don't know about the security on this
   def connect
     begin
       @project = Project.find_public(params[:id])
@@ -424,6 +493,7 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
 
+  #TODO - Don't know about the security on this
   def cause
     begin
       @project = Project.find_public(params[:id])
@@ -436,6 +506,7 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
   
+  #TODO - Don't know about the security on this
   def facebook_login
     # placeholder for the before_filters above: project_id_to_session, facebook_login
     # is there a more elegant way to do this? 
@@ -452,6 +523,7 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
 
+  #TODO - Don't know about the security on this
   def timeline
     @project = Project.find(params[:id])
     @milestones = @project.milestones(:include => :tasks)

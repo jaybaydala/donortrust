@@ -1,13 +1,43 @@
 class BusAdmin::PartnersController < ApplicationController
-    
- # before_filter :login_required, :check_authorization
+  
+  require_role [:partner, :admin, :cfadmin, :superpartner]
+  require_role [:admin, :cfadmin, :superpartner], :for => [:manage_users, :add_remove_users, :add_users, :remove_users]
+ 
+  #before_filter :login_required, :check_authorization
 
   def index
     @page_title = 'Partners'
-    @partners = Partner.find(:all)
+    if current_busaccount.role_one_of?(:admin, :cfadmin)
+      @partners = Partner.find(:all)
+    else
+      unless current_busaccount.partner.nil?
+        @partners = Partner.find_by_id(current_busaccount.partner)
+      else
+        @partners = []
+      end
+    end
     respond_to do |format|
       format.html
     end
+  end
+  
+  def manage_users
+    @partner = Partner.find(params[:id])
+    #get all users excluding the currently logged in user
+    @partner_users = BusAccount.find(:all, :conditions => ["partner_id = ? AND id <> ?", params[:id], current_busaccount.id])
+    @non_partner_users = BusAccount.find(:all, :conditions => ["partner_id IS NULL"])
+  end
+  
+  #Add or remove one or more users - uses the name set for the button 
+  #to determine which action to take
+  def add_remove_users
+    @partner = Partner.find(params[:id])
+    unless params[:add].nil?
+      add_users
+    else
+      remove_users
+    end
+    redirect_to manage_users_partner_url
   end
   
   def new
@@ -76,6 +106,28 @@ class BusAdmin::PartnersController < ApplicationController
         format.html { render :action => "new" }
       end
     end
+  end
+  
+  private
+  
+  def add_users
+    ActiveRecord::Base.transaction do
+        params[:nonusers].each do |nu|
+          user = BusAccount.find(nu)
+          user.partner = @partner
+          user.update
+        end
+     end
+  end
+  
+  def remove_users
+    ActiveRecord::Base.transaction do
+        params[:users].each do |u|
+          user = BusAccount.find(u)
+          user.partner_id = nil
+          user.update
+        end
+     end
   end
   
 end

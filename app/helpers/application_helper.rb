@@ -42,6 +42,21 @@ module ApplicationHelper
     return result
   end
   
+  def simple_multi_select_tag(tagName, collection, idValue = "id", textValue = "name", options = {})
+    retVal = ""
+    retVal << "<select id = '#{tagName.to_s}' name='#{tagName.to_s}'"
+    
+    options.each do |key, value|
+      retVal << " #{key.to_s} = '#{value.to_s}'"
+    end
+    
+    retVal << ">"
+    
+    collection.each do |u|
+        retVal << "<option value='#{u.send(idValue.to_s)}'>#{u.send(textValue.to_s)}</option>"
+    end
+    retVal << "</select>"
+  end
   
   #
   # Shows a spinner when any active AJAX requests are running - Joe
