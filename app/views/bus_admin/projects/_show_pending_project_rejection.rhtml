@@ -3,7 +3,7 @@
 		<%= link_to_close_redbox 'Cancel'%>
 	</div>
 	<div>
-		<% if current_busaccount.role_one_of?(:admin, :cfadmin) %>
+		<% if user_can_reject_projects %>
 			<% form_tag bus_admin_reject_project_project_path(@project), :method => :put, :id => :rejection_form do %>
 				<table>
 					<tr>

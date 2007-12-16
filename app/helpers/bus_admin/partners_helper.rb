@@ -9,7 +9,29 @@ module BusAdmin::PartnersHelper
     if record.description != nil 
       RedCloth.new(record.description).to_html
     end
-  end      
+  end
+  
+  def user_can_manage_partner(record)
+    if current_busaccount.role_one_of?(:admin, :cfadmin)
+      return true
+    elsif current_busaccount.role_one_of?(:superpartner, :partner) &&
+      current_busaccount.partner != nil && 
+      current_busaccount.partner.id == record.id
+      return true
+    end
+    return false
+  end
+  
+  def user_can_manage_partner_users(record)
+    if current_busaccount.role_one_of?(:admin, :cfadmin)
+      return true
+    elsif current_busaccount.has_role?(:superpartner) &&
+      current_busaccount.partner != nil && 
+      current_busaccount.partner.id == record.id
+      return true
+    end
+    return false
+  end
   
   def business_model_column(record)
     if record.business_model != nil 

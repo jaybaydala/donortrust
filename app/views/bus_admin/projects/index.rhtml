@@ -11,7 +11,7 @@
   	<% if @projects && @projects.length > 0 %>
   		<%= render :partial => '/bus_admin/projects/show_project', :collection => @projects if @projects %>
   	<% else %>
-		<div class="projectInfo"  id="projectInfo-<%= @project.id %>">
+		<div class="projectInfo">
       		<div class="leftColW">
 				<% if current_busaccount.role_one_of?(:admin, :cfadmin) %>
 					There are no projects to view.

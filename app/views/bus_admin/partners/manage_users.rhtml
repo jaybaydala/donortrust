@@ -2,8 +2,7 @@
   <div id="leftColW">
   	<% form_tag add_remove_users_partner_url(@project), :method => :put do %>
 		<h1>Manage Users for: <%= @partner.name %></h1>
-			<% if current_busaccount.role_one_of?(:admin, :cfadmin) || (current_busaccount.has_role?(:superpartner) &&
-				 (!current_busaccount.partner.nil? && current_busaccount.partner.id == @partner.id)) %>
+			<% if user_can_manage_partner_users(@partner) %>
 					<div>
 						<p>Users currently belonging to this partner<br />(excluding you):</p>
 						<p>

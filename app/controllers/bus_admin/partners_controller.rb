@@ -58,8 +58,16 @@ class BusAdmin::PartnersController < ApplicationController
   end
   
   def destroy
-    @partner = Partner.find(params[:id])
-    @partner.destroy
+    #Need to ensure that if we delete a partner, that we also
+    #set all its users to having a null partner_id
+    ActiveRecord::Base.transaction do
+      @partner = Partner.find(params[:id])
+      @partner.bus_accounts.each do |ba|
+        ba.partner_id = nil
+        ba.update
+      end
+      @partner.destroy
+    end
     respond_to do |format|
       format.html { redirect_to partners_url }
       format.xml  { head :ok }

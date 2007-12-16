@@ -1,5 +1,13 @@
 module BusAdmin::ProjectsHelper
  
+  def user_can_approved_projects
+    current_busaccount.role_one_of?(:admin, :cfadmin)
+  end
+  
+  def user_can_reject_projects
+    current_busaccount.role_one_of?(:admin, :cfadmin)
+  end
+  
   def financial_source_amount_column(record)
     number_to_currency(record.amount)
   end
