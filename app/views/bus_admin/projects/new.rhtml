@@ -9,9 +9,7 @@
   		<legend>Please enter your project information </legend>
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
           <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Name</label><%= f.text_field :name %></li>
-		  <% if current_busaccount.role_one_of?(:admin, :cfadmin) %>	
-		  		<li><label for="status"><%= render :partial => 'dt/shared/form_required' %>Status</label> <%= collection_select (:project, :project_status_id, project_status_types, :id, :name, :include_blank => true) %></li>
-	  	  <% end %>
+		  <li><label for="status"><%= render :partial => 'dt/shared/form_required' %>Status</label> <%= collection_select (:project, :project_status_id, project_status_types, :id, :name, :include_blank => true) %></li>
 		</ul>
       </fieldset>
 	  
@@ -68,14 +66,16 @@
 		</ul>
       </fieldset> 
 	 
-	 
-	  <fieldset id="groupLocation">
-	  	  <legend>Please enter partner information </legend>
-  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="partner"><%= render :partial => 'dt/shared/form_required' %>Partner</label> <%= collection_select (:project, :partner_id, get_partners, :id, :name, :include_blank => true) %></li>
-		</ul>
-      </fieldset> 
-
+	 <% if current_busaccount.role_one_of?(:admin, :cfadmin)%>
+		  <fieldset id="groupLocation">
+		  	  <legend>Please enter partner information </legend>
+	  		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+	          	<li><label for="partner"><%= render :partial => 'dt/shared/form_required' %>Partner</label> <%= collection_select (:project, :partner_id, get_partners, :id, :name, :include_blank => true) %></li>
+			</ul>
+	      </fieldset> 
+		 <% else %>
+		 	<%= hidden_field :project, :partner_id, :value => current_busaccount.partner.id %>
+	 <% end %>
 	  
 	  <fieldset id="groupLocation">
 	  	  <legend>Please enter contact information </legend>
@@ -107,12 +107,16 @@
 		</ul>
       </fieldset> 	  
 	  
+	  <% if current_busaccount.role_one_of?(:admin, :cfadmin)%>
 	  <fieldset id="groupDescription">
 	    <legend>Please enter Feature information </legend>
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">
            <p class="textsm">Featured <%= f.check_box :featured %>       
         </ul>
-      </fieldset> 	
+      </fieldset>
+	  <% else %>
+	  	<%= hidden_field :project, :featured, :value => "false" %>
+	  <% end %>
 	  
 	  <fieldset id="groupLocation">
 	  	<legend>Please enter url information </legend>
