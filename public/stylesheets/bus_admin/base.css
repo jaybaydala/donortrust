@@ -1219,6 +1219,34 @@ form em {padding: 0 2px 0 0;color:red;font: 12px Arial, Helvetica, sans-serif;}
 	color: #333;
 }
 
+#previewPending
+{
+	width: 469px; height: auto;
+	padding-left:7px;
+	margin: 0px 0 10px 0px;
+	color: #333;
+}
+
+#previewPending fieldset
+{
+	float:left; width:469px; border-top: 1px solid #95AED0; padding:0px 0px 15px 0; margin:0;
+}
+
+#previewPending fieldset ul
+{
+	padding:0 0;margin-bottom:0;
+}
+
+#previewPending legend
+{
+	font: x-small/12px Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	background: transparent; 
+	border-bottom: 0px solid #95AED0; 
+	padding: 0px 5px 5px 0px;
+	margin: 0 0px; /* IE Win */
+}
+
 #leftColW form fieldset {float:left; width:469px; border-top: 1px solid #95AED0; padding:0px 0px 15px 0; margin:0;}
 #leftColW form fieldset ul {padding:0 0;margin-bottom:0;}
 

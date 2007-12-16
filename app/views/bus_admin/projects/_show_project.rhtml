@@ -1,12 +1,18 @@
 <% @project = show_project -%>
     <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
       <div class="leftColW">
-        <h2><%= link_to @project.name, bus_admin_edit_project_path(@project) %></h2>
+        <h2>
+        	<% unless @project.new_and_unapproved? || @project.modified_and_unapproved? %>
+        		<%= link_to @project.name, bus_admin_edit_project_path(@project) %>
+			<% else %>
+				<%= @project.name %>
+			<% end %>
+		</h2>
         
         <div class="projectRank">
           <ul class="specList">
             <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
-            <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, partner_path(@project) %></span></li><% end %>
+            <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, partner_path(@project.partner) %></span></li><% end %>
           </ul>
         </div>
         
@@ -18,18 +24,16 @@
     	</div>
 		
 		<% if @project.has_pending? && current_busaccount.role_one_of?(:admin, :cfadmin) %>
-			<div style="clear:both">
-				<p>
+			<div style="clear:both;" class="notice">
 					<% if @project.new_and_unapproved? %>
-						<strong>New and Unapproved</strong>
+						<strong>This project is new and unapproved.</strong>
 					<% elsif @project.new_and_rejected? %>
-						<strong>New and Rejected</strong>
+						<strong>This project is new and has been rejected.</strong>
 					<% elsif @project.modified_and_unapproved? %>
-						<strong>Modified and Unapproved</strong>
+						<strong>This project has been modified and is unapproved.</strong>
 					<% elsif @project.modified_and_rejected? %>
-						<strong>Modified and Rejected</strong>
+						<strong>This project has been modified and rejected.</strong>
 					<% end %>	
-				</p>
 			</div>
 		<% end %>
     </div>

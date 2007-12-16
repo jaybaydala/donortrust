@@ -10,7 +10,9 @@
 		<div id="project-nav-overview">
         	<ul class="subNav li">
         	  <li id="new-nav"><%= link_to "Create New", bus_admin_new_project_path %></li>
-        	  <li id="edit-nav"><%= link_to "Edit", bus_admin_edit_project_path %></li>			  
+			  <% unless @project.new_and_unapproved? || @project.modified_and_unapproved? %>
+        	  	<li id="edit-nav"><%= link_to "Edit", bus_admin_edit_project_path %></li>
+			  <% end %>			  
 		</ul>
 		</div>
 		

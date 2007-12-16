@@ -41,3 +41,18 @@ function ClearOptions(dropDownNameId) {
             drp.remove(0);
     }
 }
+
+function submitRejection()
+{
+	var textArea = $('reason_reason');
+	
+	if(textArea && textArea.value != null && textArea.value != 'undefined'
+		&& textArea.value != '')
+		{
+			document.forms['rejection_form'].submit();
+		}
+	else
+	{
+		alert('Please enter the rejection reason.');
+	}
+}

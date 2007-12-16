@@ -1,15 +1,37 @@
 <div id="contentContainer">
-  <div id="leftColW">
+  <div id="previewPending">
 	<% if @wrapper %>
 	<% project = @wrapper.real_object
 	   pending = @wrapper.pending_object
 	%>
-			<% form_for :project, :url => bus_admin_approve_project_project_path(@project), :html => {:method => :put, :id => :form_approve} do |f| %> 
 			<h1>Preview <%= pending.is_new ? "New" : "Modified" %> Project</h1>
 			<div style="padding-bottom:20px;">
-				<a href="#" onclick="document.forms['form_approve'].submit();">Approve</a>&nbsp;&nbsp;
+				<%= link_to "Approve", bus_admin_approve_project_project_path(@project), :method => :put %>
 				<%= reject_pending_project(@project) %>
 			</div>
+			<% if @differences && @differences.differences.length > 0 %>
+				<fieldset id="groupLocation">
+					<legend>Differences between original and changed project</legend>
+					<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+						<li>
+							<table style="width:100%;background-color:red;">
+								<tr>
+									<th>Property</th>
+									<th>Old Value</th>
+									<th>New Value</th>
+								</tr>
+							<% @differences.differences.each do | property, value | %>
+									<tr>
+										<td><%= property.capitalize%></td>
+										<td><%= value.old_value.to_s%></td>
+										<td><%= value.new_value.to_s%></td>
+									</tr>
+							<% end %>
+							</table>
+						</li>
+					</ul>
+				</fieldset>
+			<% end %>
 			 <fieldset id="groupLocation">
 		  		<legend>Project information</legend>
 			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
@@ -212,7 +234,6 @@
 						</li>
 				  	</ul>
 		      </fieldset>
-			  <% end %>
 		<% end %>
 	</div>
 </div>

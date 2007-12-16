@@ -3,7 +3,7 @@ class BusAdmin::PartnersController < ApplicationController
   require_role [:partner, :admin, :cfadmin, :superpartner]
   require_role [:admin, :cfadmin, :superpartner], :for => [:manage_users, :add_remove_users, :add_users, :remove_users]
  
-  #before_filter :login_required, :check_authorization
+  before_filter :login_required
 
   def index
     @page_title = 'Partners'

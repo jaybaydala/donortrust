@@ -3,6 +3,8 @@ class BusAdmin::ProjectsController < ApplicationController
   require_role [:admin, :cfadmin], :only => [:pending_projects, :rejected_projects, 
                 :approve_project, :reject_project, :approve_reject_pending_project, 
                 :show_pending_project, :show_pending_project_rejection]
+  
+  before_filter :login_required
 
   def new
     @project = Project.new     
@@ -66,7 +68,14 @@ class BusAdmin::ProjectsController < ApplicationController
   def show_pending_project
     begin
       @pending = PendingProject.find_by_project_id(params[:id])
-      @wrapper = PendingWrapper.new(@pending, Project.rehydrate_from_xml(@pending.project_xml))
+      @rehydrated = Project.rehydrate_from_xml(@pending.project_xml)
+      
+      unless @pending.is_new
+        @original = Project.find_by_id(params[:id])
+        @differences = Differ.new(@original, @rehydrated)
+      end
+      
+      @wrapper = PendingWrapper.new(@pending, @rehydrated)
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
