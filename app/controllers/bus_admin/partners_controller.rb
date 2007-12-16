@@ -25,6 +25,7 @@ class BusAdmin::PartnersController < ApplicationController
     @partner = Partner.find(params[:id])
     #get all users excluding the currently logged in user
     @partner_users = BusAccount.find(:all, :conditions => ["partner_id = ? AND id <> ?", params[:id], current_busaccount.id])
+    #assuming we can only add users who are not members of other partners
     @non_partner_users = BusAccount.find(:all, :conditions => ["partner_id IS NULL"])
   end
   
