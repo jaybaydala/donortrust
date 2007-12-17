@@ -10,9 +10,9 @@
 	  <fieldset id="groupLocation">
   		<legend>Sender information </legend>
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
-          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Amount </label><%= f.text_field :amount %></li>			
+          <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Amount </label><%= f.text_field number_to_currency(:amount) %></li>			
 		  <br />
-		  <li><label for="user"><%= render :partial => 'dt/shared/form_required' %>From </label> <%= collection_select (:user, :user_id, User.find(:all, :order => "first_name, last_name"), :id, :full_name, { :include_blank => true}) %></li>
+		  <li><label for="user"><%= render :partial => 'dt/shared/form_required' %>Sent By </label> <%= collection_select (:user, :user_id, User.find(:all, :order => "first_name, last_name"), :id, :full_name, { :include_blank => true}) %></li>
 		</ul>
       </fieldset>  
 	  
