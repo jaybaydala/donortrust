@@ -98,20 +98,6 @@ context "Gift" do
     }.should.change(Gift, :count)
   end
 
-  specify "should not allow commas in name" do
-    lambda {
-      t = create_gift(credit_card_params(:name => 'tim,jay'))
-      t.errors.on(:name).should.not.be.nil
-    }.should.not.change(Gift, :count)
-  end
-  
-  specify "should not allow commas in to_name" do
-    lambda {
-      t = create_gift(credit_card_params(:to_name => 'tim,jay'))
-      t.errors.on(:to_name).should.not.be.nil
-    }.should.not.change(Gift, :count)
-  end
-  
   specify "should require email" do
     lambda {
       t = create_gift(:email => nil)
