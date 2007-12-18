@@ -28,7 +28,7 @@
       <legend>Please specify how you would like your gift to be allocated:</legend>
       <div id="projectsuggest">
         <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", nil %>let the recipient choose a project</p>
-        <p class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? ? @gift.project_id : 0 ) %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @gift.project_id? ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></p>
+        <p class="textsm"><%= f.radio_button "project_id", ( @gift.project_id? && @gift.project ? @gift.project_id : 0 ) %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @gift.project_id? && @gift.project ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></p>
       </div>
     </fieldset>
 
@@ -123,7 +123,7 @@
             mo = m.to_s.rjust(2, "0"); 
             [ mo, mo ] }, { :include_blank => true, :selected => @gift.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) -%>
             <div style="width:1em;float:left;">/</div>
-            <%= f.select("expiry_year", (1..7).to_a.collect {|y| 
+            <%= f.select("expiry_year", (0..7).to_a.collect {|y| 
             d = Date.civil(Date.today.year+y.to_i) 
             [ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
           </div>

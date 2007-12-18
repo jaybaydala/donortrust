@@ -12,6 +12,8 @@ class Investment < ActiveRecord::Base
   validates_presence_of :user_id
   validates_numericality_of :project_id, :only_integer => true
   validates_presence_of :project_id
+
+  after_create :user_transaction_create
   
   def sum
     #return 0 if self[:gift_id] && self.gift[:project_id]
@@ -35,6 +37,7 @@ class Investment < ActiveRecord::Base
     @credit_card_tx ||= val ? true : false
   end
   
+  protected
   def validate
     super
     errors.add("project_id", "is not a valid project") if project_id && project_id <= 0
@@ -42,4 +45,6 @@ class Investment < ActiveRecord::Base
     errors.add("amount", "cannot be more than your balance") if !credit_card_tx? && user_id && user && !gift_id && amount && amount > user.balance
     errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project && amount > project.current_need
   end
+  
+  
 end

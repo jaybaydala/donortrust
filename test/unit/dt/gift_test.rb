@@ -15,7 +15,7 @@ context "Gift" do
   end
 
   specify "should create a gift" do
-    Gift.should.differ(:count).by(1) { create_gift } 
+    Gift.should.differ(:count).by(1) { create_gift }
   end
 
   specify "if there's no user_id, the credit_card parameters are required" do
@@ -265,7 +265,7 @@ context "Gift" do
     end
   end
 
-  specify "expiry_date should return array of gifts, none of which have been picked up" do
+  specify "find_unopened_gifts should return array of gifts, none of which have been picked up" do
     gifts = Gift.find_unopened_gifts.each do |gift|
       pp gift.expiry_date.to_s
     end

@@ -149,11 +149,23 @@ context "DonortrustMailer gift_mail Test" do
     email.should =~ @gift.email
   end
 
-  specify "gift_remind should contain an expiry note" do
+  specify "gift_expiry_reminder should contain an expiry note" do
     @gift = create_gift(credit_card_params)
     @gift.update_attribute('sent_at', 23.days.ago)
     @gift.stubs(:expiry_date).returns(Time.now + 7.days + 1.minute)
-    email = DonortrustMailer.create_gift_remind(@gift).encoded
+    email = DonortrustMailer.create_gift_expiry_reminder(@gift).encoded
+    email.should =~ @gift.to_name
+    email.should =~ @gift.to_email
+    email.should =~ @gift.name
+    email.should =~ @gift.email
+    email.should =~ "Your gift will expire in #{@gift.expiry_in_days} day(s)!"
+  end
+
+  specify "gift_expiry_notifier should contain an expiry note" do
+    @gift = create_gift(credit_card_params)
+    @gift.update_attribute('sent_at', 23.days.ago)
+    @gift.stubs(:expiry_date).returns(Time.now + 7.days + 1.minute)
+    email = DonortrustMailer.create_gift_expiry_notifier(@gift).encoded
     email.should =~ @gift.to_name
     email.should =~ @gift.to_email
     email.should =~ @gift.name

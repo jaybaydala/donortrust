@@ -21,6 +21,8 @@ class Gift < ActiveRecord::Base
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id?}
   
   before_validation :trim_mailtos
+  after_create :user_transaction_create, :tax_receipt_create
+  
   
   def sum
     return credit_card ? 0 : super * -1
@@ -52,9 +54,15 @@ class Gift < ActiveRecord::Base
     DonortrustMailer.deliver_gift_confirm(self)
   end
 
- def send_gift_resend
+  def send_gift_resend
     DonortrustMailer.deliver_gift_resendPDF(self)
   end
+
+  def send_gift_reminder
+    DonortrustMailer.deliver_gift_expiry_notifier(self)
+    DonortrustMailer.deliver_gift_expiry_reminder(self)
+  end
+
 
   def send_gift_mail?
     return new_record? == false && !send_at? && !sent_at? && send_email? ? true : false
@@ -96,6 +104,7 @@ class Gift < ActiveRecord::Base
   
   def before_validation
     self[:project_id] = nil if project_id == 0
+    super
   end
   
   def validate
@@ -147,5 +156,23 @@ class Gift < ActiveRecord::Base
       raised = raised + gift.amount
     end
     raised
+  end
+
+  private
+  def tax_receipt_create
+    if credit_card? && country? && country.downcase == 'canada'
+      @tax_receipt = TaxReceipt.new
+      @tax_receipt.user = self.user if self.user
+      @tax_receipt.gift_id = self.id
+      @tax_receipt.email = self.email
+      @tax_receipt.first_name = self.first_name
+      @tax_receipt.last_name = self.last_name
+      @tax_receipt.address = self.address
+      @tax_receipt.city = self.city
+      @tax_receipt.province = self.province
+      @tax_receipt.postal_code = self.postal_code
+      @tax_receipt.country = self.country
+      @tax_receipt.save
+    end
   end
 end

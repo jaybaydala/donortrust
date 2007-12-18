@@ -8,10 +8,6 @@ context "Deposit" do
   setup do
   end
 
-  specify "Deposit should extend UserTransactionType" do
-    #Deposit.base_class.should.be UserTransactionType
-  end
-
   specify "Deposit table should be 'deposits'" do
     Deposit.table_name.should.equal 'deposits'
   end
