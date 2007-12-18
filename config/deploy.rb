@@ -77,14 +77,6 @@ namespace :deploy do
   end
 
   desc <<-DESC
-  Restart the Backgroundrb daemon on the schedule server.
-  DESC
-  task :restart_backgroundrb , :roles => :schedule do
-    cmd = "#{current_path}/script/backgroundrb restart"
-    send(run_method, cmd)
-  end
-
-  desc <<-DESC
   Stop the Backgroundrb daemon on the schedule server.
   DESC
   task :stop_backgroundrb , :roles => :schedule do
