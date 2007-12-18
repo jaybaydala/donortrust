@@ -16,9 +16,7 @@ class BusAdmin::GroupGiftsController < ApplicationController
   def csv_import
     delete_sent
     error = check_fields
-    @user = User.find( params[:user][:user_id] )   
-    @parsed_file=CSV::Reader.parse(params[:dump][:file]) 
-    
+    @parsed_file=CSV::Reader.parse(params[:dump][:file])     
     n=0    
     @parsed_file.each do |row|
       if row[0] == nil or row[1] == nil or row[2] == nil
@@ -39,26 +37,31 @@ class BusAdmin::GroupGiftsController < ApplicationController
     if error != "" 
       flash[:error] = error
       redirect_to('/bus_admin/group_gifts/new')
-    else if (n * (params[:dump][:amount]).to_i) > @user.balance
-      flash[:error] = "<div id='errorExplanation'>User has insufficient funds to send all gifts. No gifts sent. <br /></div>"
-      redirect_to('/bus_admin/group_gifts/new')
-    else
-      save_gift
-      redirect_to('/bus_admin/group_gifts/show')
-      flash[:notice] = "#{n} Gifts created."
-    end       
-  end
+      else if (n * (params[:dump][:amount]).to_i) > @user.balance
+        flash[:error] = "<div id='errorExplanation'>User has insufficient funds to send all gifts. No gifts sent. <br /></div>"
+        redirect_to('/bus_admin/group_gifts/new')
+      else
+        save_gift
+        redirect_to('/bus_admin/group_gifts/show')
+        flash[:notice] = "#{n} Gifts created."
+      end       
+    end
   end
   
   def check_fields
+    error =""
+    if   params[:user][:user_id].nil? or  params[:user][:user_id]  == ""
+       error = "Sent By must be selected"
+     else
+       @user = User.find( params[:user][:user_id] )       
+    end
     if params[:dump][:amount].nil? or params[:dump][:amount] == ""       
-      check_fields = "Amount is empty"
+      error = "Amount is empty"
       else if params[:dump][:file].nil? or params[:dump][:file] == ""       
-        check_fields = "File is empty or does not exist"    
-      else    
-      check_fields = ""
+        error = "File is empty or does not exist"    
       end
     end 
+    error = error
   end  
 
   def delete_sent
