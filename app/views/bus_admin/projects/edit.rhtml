@@ -76,7 +76,7 @@
 	  <fieldset id="groupLocation">
 	  	  <legend>Please enter contact information </legend>
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="contact">Contact</label> <%= collection_select (:contact, :contact_id, get_contacts, :id, :fullname, :include_blank => true) %></li>
+          <li><label for="contact">Contact</label><%= collection_select (:project, :contact_id, get_contacts, :id, :fullname, :include_blank => true) %></li>
 		</ul>
       </fieldset> 	 
 	  
@@ -120,7 +120,7 @@
 	  
 	  <fieldset id="groupLocation">
   		  <ul class="row" style="padding-top:10px; padding-bottom:10px;">
-          <li><label for="frequency-feedback">Need Frequency of Feedback</li>
+          <li><label for="frequency-feedback">Need Frequency of Feedback</label><%= collection_select (:project, :frequency_type_id, get_frequency, :id, :name, :include_blank => true) %></li>
 		</ul>
       </fieldset>   	  
 	  

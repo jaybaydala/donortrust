@@ -283,6 +283,8 @@ class BusAdmin::ProjectsController < ApplicationController
       
       #only update the project attributes !!DO NOT SAVE THE PROJECT HERE!!
       @project.attributes = params[:project]
+      #Hack - if we don't do this, the textiled properties are added with tags to the xml
+      @project.textiled = false
       #create a new PendingProject to hold the requested changes
       @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_complete_xml, :date_created => Date.today, :created_by => self.current_busaccount.id, :is_new => false)
       if @pending.save                            
