@@ -109,8 +109,6 @@ class Gift < ActiveRecord::Base
   
   def validate
     errors.add("project_id", "is not a valid project") if project_id? && project_id <= 0
-    errors.add("to_name", "cannot contain commas") if to_name? && to_name.match(/,/)
-    errors.add("name", "cannot contain commas") if name? && name.match(/,/)
     super
   end
 
