@@ -25,7 +25,6 @@ class Dt::DepositsController < DtApplicationController
     @cf_investment = build_fund_cf_investment(@deposit)
     @total_amount = @deposit.amount + @cf_investment.amount if @cf_investment
     valid = cf_fund_investment_valid?(@deposit, @cf_investment)
-  #  @deposit.amount += @cf_investment.amount if @cf_investment
 
     respond_to do |format|
       if valid
@@ -44,11 +43,12 @@ class Dt::DepositsController < DtApplicationController
     @deposit.user_ip_addr = request.remote_ip
     
     @cf_investment = build_fund_cf_investment(@deposit)
-   # @deposit.amount += @cf_investment.amount if @cf_investment
     
     Deposit.transaction do
       if @cf_investment
+        @deposit.amount += @cf_investment.amount if @cf_investment # add to the total deposit amount
         @saved = @deposit.save! && @cf_investment.save! if @deposit.authorization_result?
+        @deposit.amount -= @cf_investment.amount unless @saved # remove it if we're unsuccessful so we don't double-charge when they go back to confirm
       else
         @saved = @deposit.save! if @deposit.authorization_result?
       end
@@ -57,9 +57,6 @@ class Dt::DepositsController < DtApplicationController
     
     respond_to do |format|
       if @saved
-        if @deposit.country == 'Canada'
-          create_tax_receipt         
-        end
         session[:deposit_params] = nil
         flash[:notice] = "Your deposit was successful."
         format.html { redirect_to :controller => '/dt/accounts', :action => 'show', :id => current_user.id }
@@ -76,40 +73,9 @@ class Dt::DepositsController < DtApplicationController
   end
 
   def deposit_params
-    card_exp = "#{params[:deposit][:expiry_month]}/#{params[:deposit][:expiry_year]}" if params[:deposit] && params[:deposit][:expiry_month] && params[:deposit][:expiry_year]
     deposit_params = {}
     deposit_params = deposit_params.merge(params[:deposit]) if params[:deposit]
-    deposit_params.delete(:expiry_month) if deposit_params.key?(:expiry_month)
-    deposit_params.delete(:expiry_year) if deposit_params.key?(:expiry_year)
-    deposit_params.delete("expiry_month") if deposit_params.key?("expiry_month")
-    deposit_params.delete("expiry_year") if deposit_params.key?("expiry_year")
-    
-    if deposit_params.key?("card_expiry")
-      if card_exp.nil? || card_exp.blank?
-        card_exp = deposit_params["card_expiry"]
-        deposit_params.delete("card_expiry")
-      end
-    end
-    
-    deposit_params[:card_expiry] = card_exp if deposit_params[:card_expiry].nil?
     deposit_params[:user_id] = current_user.id
     deposit_params
-  end
-  
-  def create_tax_receipt
-    @tax_receipt = TaxReceipt.new( params[:tax_receipt] ) 
-    if logged_in?
-      @tax_receipt.user = current_user
-    end
-    @tax_receipt.first_name = @deposit.first_name
-    @tax_receipt.last_name = @deposit.last_name
-    @tax_receipt.address = @deposit.address
-    @tax_receipt.city = @deposit.city    
-    @tax_receipt.province = @deposit.province
-    @tax_receipt.postal_code = @deposit.postal_code
-    @tax_receipt.country = @deposit.country    
-    @tax_receipt.email = current_user[:login]
-    @tax_receipt.deposit_id = @deposit.id    
-    @tax_receipt.save
   end
 end

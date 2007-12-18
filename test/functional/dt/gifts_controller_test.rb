@@ -415,7 +415,7 @@ context "Dt::Gifts create behaviour"do
   fixtures :gifts, :e_cards, :user_transactions, :investments, :users, :projects, :project_statuses
   include DtAuthenticatedTestHelper
   
-  specify "should create a gift and redirect to the complete action" do
+  specify "should create a gift and redirect to the show action" do
     # !logged_in?
     lambda {
       create_gift({}, false)
@@ -512,10 +512,16 @@ context "Dt::Gifts create behaviour"do
     @emails.length.should.equal 3
   end
   
-  specify "should create an deposit when fund_cf and fund_cf_percentage are passed" do
+  specify "should create a deposit when fund_cf and fund_cf_percentage are passed and payment is via credit card" do
     lambda {
       create_gift({:gift => {:amount => 100.00}}, true, true, true, 5)
     }.should.change(Deposit, :count)
+  end
+
+  specify "should not create a deposit when fund_cf and fund_cf_percentage are passed but payment is NOT via credit card" do
+    lambda {
+      create_gift({:gift => {:amount => 100.00}}, true, false, true, 5)
+    }.should.not.change(Deposit, :count)
   end
 
   specify "should create an investment when fund_cf and fund_cf_percentage are passed" do
@@ -524,10 +530,23 @@ context "Dt::Gifts create behaviour"do
     }.should.change(Investment, :count)
   end
 
-  specify "should create an investment and deposit with the same amount when fund_cf and fund_cf_percentage are passed" do
+  specify "should create an gift, investment and deposit with the same amount when fund_cf and fund_cf_percentage are passed" do
     create_gift({:gift => {:amount => 100.00}}, true, true, true, 5)
+    assigns(:gift).amount.should == 100
     assigns(:cf_deposit).amount.should == 5
     assigns(:cf_investment).amount.should == 5
+    assigns(:gift).new_record?.should == false
+    assigns(:cf_deposit).new_record?.should == false
+    assigns(:cf_investment).new_record?.should == false
+  end
+
+  specify "should create a gift and investment when fund_cf and fund_cf_percentage are passed and payment is NOT via credit card" do
+    create_gift({:gift => {:amount => 100.00}}, true, false, true, 5)
+    assigns(:cf_deposit).should.be nil
+    assigns(:gift).amount.should == 100
+    assigns(:cf_investment).amount.should == 5
+    assigns(:gift).new_record?.should == false
+    assigns(:cf_investment).new_record?.should == false
   end
 
   specify "should remove gift_params from session" do

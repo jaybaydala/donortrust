@@ -53,7 +53,9 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
  
   # bus_admin resources
-
+  
+  map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'
+  map.resources :group_gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/group_gifts"
   map.resources :expired_gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/expired_gifts", :collection => {:unwrap => :post}
   map.resources :unallocated_investments,  :path_prefix => "/bus_admin", :controller => "bus_admin/unallocated_investments", :collection => {:unallocate => :post}
   map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"

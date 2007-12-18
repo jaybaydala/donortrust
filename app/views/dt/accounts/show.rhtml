@@ -8,15 +8,17 @@
 			<h2>Stay Involved </h2>			
 			<p>Keep supporting the movement! Be sure to visit the <a href="/get-involved">Get Involved</a> section to see how you can do more.</p>
 		</div>
-	<% if @user.user_transactions.length > 0 %><div style="text-align:right;font-weight:bold;">Uninvested Funds: <%= number_to_currency(current_user.balance) %></div><% end %>
+	<% if @transactions.total_entries > 0 %><p style="font-weight:bold;" class="textsm">Uninvested Funds: <%= number_to_currency(current_user.balance) %></p><% end %>
 	<div class="account-summary" style="margin-bottom:18px;">
-		<% if @user.user_transactions.length > 0 -%>
+  	<%= will_paginate @transactions, :param_name => 'tx_page' %>
+		<% if @transactions.length > 0 -%>
 		<div id="transaction_list" style="padding-left:10px;">
 			<table style="width:100%;">
 			<tr><th>Transaction Description</th><th>Date</th><th>Amount</th></tr>
-			<%= render :partial => "transaction", :collection => @user.user_transactions %>
+			<%= render :partial => "transaction", :collection => @transactions %>
 			</table>
 		</div>
+		<%= will_paginate @transactions, :param_name => 'tx_page' %>
 		<% else -%>
 		<div class="highlight">
 			<p>You have not made any transactions in your account yet.</p>

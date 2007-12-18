@@ -7,7 +7,7 @@ module IatsProcess
 	  # When taking US$, you must remove cardholder_name and add the following before calling process_credit_card:
 	  attributes = { 
 	    :card_number => record[:credit_card], 
-	    :card_expiry => "#{record[:card_expiry].month.to_s.rjust(2,'0')}/#{record[:card_expiry].year.to_s[-2,2]}", 
+	    :card_expiry => "#{record.expiry_month.to_s.rjust(2,'0')}/#{record.expiry_year.to_s[-2,2]}", 
 	    :dollar_amount => record[:amount].to_s, 
 	    :first_name => record[:first_name], 
 	    :last_name => record[:last_name], 

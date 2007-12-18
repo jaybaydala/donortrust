@@ -76,7 +76,6 @@ class Dt::GiftsController < DtApplicationController
   def create
     @gift = Gift.new( gift_params )    
     @gift.user_ip_addr = request.remote_ip
-    @tax_receipt = TaxReceipt.new( params[:tax_receipt] )
     
     if @gift.credit_card?
       iats = iats_payment(@gift)
@@ -87,18 +86,19 @@ class Dt::GiftsController < DtApplicationController
     @total_amount = @gift.amount + @cf_investment.amount if @cf_investment
 
     Gift.transaction do
-        if @cf_investment && @cf_deposit
-          @saved = @gift.save! && @cf_deposit.save! && @cf_investment.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?)
-        else
-          @saved = @gift.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?) 
-        end
-        flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact.htm\">contact us</a>." if !@saved
+      if @gift.credit_card? && @cf_investment && @cf_deposit
+        @saved = @gift.save! && @cf_deposit.save! && @cf_investment.save! if @gift.authorization_result?
+      elsif !@gift.credit_card? && @cf_investment
+        @saved = @gift.save! && @cf_investment.save!
+      else
+        @saved = @gift.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?) 
+      end
+      flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact-us\">contact us</a>." if !@saved
     end
 
     respond_to do |format|
       if @saved
         session[:gift_params] = nil
-        create_tax_receipt if @gift.credit_card?
         # send the email if it's not scheduled for later.
         @gift.send_gift_mail if @gift.send_gift_mail? == true
         # send confirmation to the gifter
@@ -175,41 +175,11 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def gift_params
-    card_exp = "#{params[:gift][:expiry_month]}/#{params[:gift][:expiry_year]}" if params[:gift] && params[:gift][:expiry_month] && params[:gift][:expiry_year]
     gift_params = {}
     gift_params = gift_params.merge(params[:gift]) if params[:gift]
-    gift_params.delete :expiry_month if gift_params.key? :expiry_month
-    gift_params.delete :expiry_year if gift_params.key? :expiry_year
-    gift_params.delete "expiry_month" if gift_params.key? "expiry_month"
-    gift_params.delete "expiry_year" if gift_params.key? "expiry_year"
-    
-    if gift_params.key?("card_expiry")
-      if card_exp.nil? || card_exp.blank?
-        card_exp = gift_params["card_expiry"]
-        gift_params.delete("card_expiry")
-      end
-    end
-    
-    gift_params[:card_expiry] = card_exp if gift_params[:card_expiry] == nil
     gift_params[:user_id] = current_user.id if logged_in?
     normalize_send_at!(gift_params)
     gift_params
-  end
-  
-  def create_tax_receipt
-    if logged_in?
-      @tax_receipt.user = current_user
-    end
-    @tax_receipt.gift_id = @gift.id
-    @tax_receipt.email = @gift.email
-    @tax_receipt.first_name = @gift.first_name
-    @tax_receipt.last_name = @gift.last_name
-    @tax_receipt.address = @gift.address
-    @tax_receipt.city = @gift.city
-    @tax_receipt.province = @gift.province
-    @tax_receipt.postal_code = @gift.postal_code
-    @tax_receipt.country = @gift.country
-    @tax_receipt.save
   end
   
   def schedule(gift)

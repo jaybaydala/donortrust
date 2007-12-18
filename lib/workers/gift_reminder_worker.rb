@@ -12,9 +12,9 @@ class GiftReminderWorker < BackgrounDRb::Worker::RailsBase
     gifts = find_reminder_gifts
     gifts.each do |g|
       num_sent+=1
-      g.send_gift_mail
+      g.send_gift_reminder
     end
-    logger.info "[#{Time.now.utc.to_s}] Scheduled Gift Emails Sent: #{num_sent}"
+    logger.info "[#{Time.now.utc.to_s}] Reminder Gift Emails Sent: #{num_sent}"
   end
 
   def find_reminder_gifts
@@ -25,4 +25,4 @@ class GiftReminderWorker < BackgrounDRb::Worker::RailsBase
     gifts
   end
 end
-GiftMailerWorker.register
+GiftReminderWorker.register

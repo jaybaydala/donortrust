@@ -200,10 +200,10 @@ context "Dt::Deposits confirm behaviour"do
     assigns(:total_amount).should == 105
   end
 
-  specify "deposit amount should be amount + percentage if fund_cf is true" do
+  specify "deposit amount should be amount (without added percentage) if fund_cf is true" do
     login_as :quentin
     do_post({:deposit => {:amount => 100}}, true, 5)
-    assigns(:deposit).amount.should.equal 105
+    assigns(:deposit).amount.should.equal 100
   end
 
   specify "should put params into session" do

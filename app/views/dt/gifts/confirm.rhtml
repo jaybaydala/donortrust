@@ -44,13 +44,14 @@
         <li><label for="gift_send_at_2i">Schedule</label>
           I would like my gift to be emailed
           <%= "#{@send_at.to_formatted_s(:long)} #{params[:time_zone]}" if @send_at %>
-          <%= "Send now" if !@send_at %>
+          <%= "Send my gift right now, please" if !@send_at %>
           <%= f.hidden_field :send_at %>
         </li>
       <% else %>
-        <li>I would <strong>not</strong> like my gift to be emailed.<%= f.hidden_field :sent_at %></li>
+        <li>I would <strong>not</strong> like my gift to be emailed.</li>
       <% end %>
       </ul>
+      <%= f.hidden_field :send_email %>
     </fieldset>
 
     <% if logged_in? %>
@@ -61,7 +62,7 @@
           <td><label for="payment">Payment</label> </td>
           <td><div><%= params[:payment].capitalize if params[:payment] %> <%= hidden_field 'payment', :payment, :value => params[:payment] %></div></td>
           </tr></table>
-          </li>
+        </li>
       </ul>
     </fieldset>
     <% end %>
@@ -78,7 +79,7 @@
           <li><label for="gift_postal_code">Postal/Zip Code</label><%= params[:gift][:postal_code] %> <%= f.hidden_field :postal_code %></li>
           <li><label for="gift_country">Country</label><%= params[:gift][:country] %> <%= f.hidden_field :country %></li>
           <li><label for="gift_credit_card">Credit Card</label><%= obfuscate_credit_card(@gift.credit_card) %> <%= f.hidden_field :credit_card %></li>
-          <li><label for="gift_expiry_month">Card Expiry</label><%= params[:gift][:card_expiry] %> <%= f.hidden_field :card_expiry, :value => params[:gift][:card_expiry] %></li>
+          <li><label for="gift_expiry_month">Card Expiry</label><%= "#{@gift.expiry_month}/#{@gift.expiry_year}" %> <%= f.hidden_field :card_expiry %></li>
         </ul>
       </fieldset>
     </div>
