@@ -12,4 +12,4 @@ gift_reminder:
   :class: :gift_reminder_worker
   :job_key: :gift_reminder
   :worker_method: :do_work
-  :trigger_args: * 0 10 * * *
+  :trigger_args: 0 0 8 * * *
