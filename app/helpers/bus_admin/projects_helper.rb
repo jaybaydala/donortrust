@@ -70,6 +70,10 @@ module BusAdmin::ProjectsHelper
     end    
   end
   
+  def project_menu
+    render :partial => "project_menu"
+  end
+  
   def project_quickfacts
     render 'bus_admin/projects/project_quickfacts'
   end

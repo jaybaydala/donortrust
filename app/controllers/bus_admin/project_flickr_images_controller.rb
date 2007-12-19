@@ -2,8 +2,9 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
  # before_filter :login_required, :check_authorization
   # GET /bus_admin_project_flickr_images
   # GET /bus_admin_project_flickr_images.xml
-  def index
-    @flickr_images = ProjectFlickrImage.find(:all, :conditions => "project_id = " + params[:id].to_s)
+  
+  def list_by_project
+     @flickr_images = ProjectFlickrImage.find(:all, :conditions => "project_id = " + params[:id].to_s)
     @flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20)
     
     if(params[:id])
@@ -13,6 +14,21 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
     @project ||= Project.find(:first)
     
     [@project, @flickr_image_pages, @flickr_images]
+    
+    render :action => :index
+  end
+  
+  def index
+#    @flickr_images = ProjectFlickrImage.find(:all, :conditions => "project_id = " + params[:id].to_s)
+#    @flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20)
+#    
+#    if(params[:id])
+#      @project = Project.find(params[:id])
+#    end
+#    
+#    @project ||= Project.find(:first)
+#    
+#    [@project, @flickr_image_pages, @flickr_images]
   end
 
   # GET /bus_admin_project_flickr_images/1

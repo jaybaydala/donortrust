@@ -8,8 +8,12 @@
 				<%= @project.name %>
 			<% end %>
 		</h2>
-        
-        <div class="projectRank">
+		
+		<div>
+			<%= project_menu %>  
+		</div>
+		
+		<div class="projectRank">
           <ul class="specList">
             <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
             <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, partner_path(@project.partner) %></span></li><% end %>

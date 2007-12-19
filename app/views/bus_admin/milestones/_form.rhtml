@@ -1,0 +1,28 @@
+<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<%= error_messages_for 'milestone' %>
+<%= hidden_field :milestone, :project_id %>
+<p>
+	<strong>Name </strong><br />
+	<%= text_field :milestone, :name %>
+</p>
+<br />
+<p>
+	<strong>Description </strong><br />
+	<%= text_area :milestone, :description, :rows => 5, :cols => 20 %>
+</p>
+<br />
+<p>
+	<strong>Status </strong><br />
+	<%= collection_select(:milestone, :milestone_status_id, @statuses, :id, :name) %>
+</p>
+<br />
+<p>
+	<strong>Target Date </strong><br />
+	<%= calendar_date_select(:milestone, :target_date) %>
+</p>
+<p>
+	<strong>Actual Date </strong><br />
+	<%= calendar_date_select(:milestone, :actual_date) %>
+</p>
+<br />

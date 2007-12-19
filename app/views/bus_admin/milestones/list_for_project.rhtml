@@ -1,0 +1,56 @@
+<div id="contentContainer">
+	<div class="leftColW">
+	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+	<% if @project %>
+		<h1>Milestones for <%= @project.name %></h1>
+		<% if @project.milestones && @project.milestones.length > 0 %>
+			<table>
+				<tr>
+					<th>Milestone</th>
+					<th>Target Date</th>
+					<th>Status</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+				<% for milestone in @project.milestones %>
+					<tr>
+						<td>
+							<%= milestone.name %>
+						</td>
+						<td>
+							<%= milestone.target_date.to_s %>
+						</td>
+						<td>
+							<%= milestone.milestone_status.name %>
+						</td>
+						<td>
+							<%= link_to "Tasks", bus_admin_list_for_milestone_task_url(milestone) %>
+						</td>
+						<td>
+							<%= link_to "Edit", bus_admin_edit_milestone_url(milestone) %>
+						</td>
+						<td>
+							<%= link_to "Delete", bus_admin_milestone_url(milestone), :method => :delete, :confirm => "Are you sure you want to delete this milestone?" %>
+						</td>
+						<td>
+							<%= link_to "Show", bus_admin_milestone_url(milestone) %>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+		<% else %>
+			<p>There are no milestones for this project.</p>	
+		<% end %>
+	<% end %>
+	<br />
+	<p>
+		<%= link_to "Add New Milestone", bus_admin_new_milestone_url(@project) %>
+		&nbsp;
+		<%= link_to "Back", bus_admin_projects_url %>
+	</p>
+	
+	</div>
+</div>

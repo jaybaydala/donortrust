@@ -5,7 +5,11 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :partners, :path_prefix => '/bus_admin', :controller => 'bus_admin/partners', :member => {:manage_users => :get, :add_remove_users => :put }
   map.resources :projects, :controller => 'bus_admin/projects', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :collection => {:pending_projects => :get, :rejected_projects => :get }, :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get, :approve_project => :put, :reject_project => :put, :show_pending_project => :get, :show_pending_project_rejection => :get }
-  
+  map.resources :milestones, :controller => 'bus_admin/milestones', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :member => { :list_for_project => :get, :update => :put, :new => :get, :create => :post }
+  map.resources :ranks, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks", :name_prefix => 'bus_admin_', :member => {:list_for_project => :get}
+  map.resources :budget_items, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/budget_items", :member => { :list_for_project => :get }
+  map.resources :key_measures, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/key_measures", :member => {:list_for_project => :get }
+  map.resources :tasks, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/tasks", :member => { :list_for_milestone => :get }
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
   map.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
@@ -91,14 +95,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :loads,  :path_prefix => "/bus_admin", :controller => "bus_admin/loads", :collection => {:loads => :post}
   map.resources :sent,  :path_prefix => "/bus_admin", :controller => "bus_admin/sent"
   map.resources :add_to_group,  :path_prefix => "/bus_admin", :controller => "bus_admin/add_to_group", :collection => {:add_to_groups => :post}    
-  map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
+  #map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
   map.resources :financial_sources, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/financial_sources"
   map.resources :collaborating_agencies, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborating_agencies"
   map.resources :e_cards, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/e_cards"
   map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
   map.resources :place_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_sectors"
   map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
-  map.resources :ranks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks"
+  #map.resources :ranks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks"
   map.resources :quick_fact_partners, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_partners"
   map.resources :quick_fact_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_groups"
   map.resources :quick_fact_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_sectors"
@@ -107,7 +111,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :comments, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/comments"
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
   
-  map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
+  #map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
   map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
@@ -149,19 +153,19 @@ ActionController::Routing::Routes.draw do |map|
                                                                                                                                             }
 
   
-   map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos", :collection => {  :add => :post, 
-                                                                                                                                              :remove => :post, 
-                                                                                                                                              :search => :post, 
-                                                                                                                                              :projects => :post, 
-                                                                                                                                              :videos => :post,
-                                                                                                                                              :preview => :post, 
-                                                                                                                                              :search_by_tag => :post, 
-                                                                                                                                              :search_by_user => :post, 
-                                                                                                                                              :search_by_category_and_tag => :post, 
-                                                                                                                                              :list_by_featured => :post, 
-                                                                                                                                              :list_by_popular => :post,
-                                                                                                                                              :show_video => :post
-                                                                                                                                            }
+   map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos", :member => {:list_by_project => :get }, :collection => {  :add => :post, 
+                                                                                                                                                :remove => :post, 
+                                                                                                                                                :search => :post, 
+                                                                                                                                                :projects => :post, 
+                                                                                                                                                :videos => :post,
+                                                                                                                                                :preview => :post, 
+                                                                                                                                                :search_by_tag => :post, 
+                                                                                                                                                :search_by_user => :post, 
+                                                                                                                                                :search_by_category_and_tag => :post, 
+                                                                                                                                                :list_by_featured => :post, 
+                                                                                                                                                :list_by_popular => :post,
+                                                                                                                                                :show_video => :post
+                                                                                                                                              }
 
   
     map.resources :place_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/place_flickr_images", :collection => {      :add => :post, 
@@ -172,7 +176,7 @@ ActionController::Routing::Routes.draw do |map|
                                                                                                                                               :show_db_flickr => :post,
                                                                                                                                               :photos=>:post }
   
-  map.resources :project_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/project_flickr_images", :collection => {      :add => :post, 
+  map.resources :project_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/project_flickr_images", :member => {:list_by_project => :get}, :collection => {      :add => :post, 
                                                                                                                                               :remove => :post, 
                                                                                                                                               :search => :post, 
                                                                                                                                               :projects => :post, 
@@ -231,10 +235,10 @@ ActionController::Routing::Routes.draw do |map|
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :projects,    :controller => 'bus_admin/projects',
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :milestones,  :controller => "bus_admin/milestones",
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :tasks,       :controller => "bus_admin/tasks",
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+  #map.resources :milestones,  :controller => "bus_admin/milestones",
+  #  :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+  #map.resources :tasks,       :controller => "bus_admin/tasks",
+  #  :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
 
   map.resources :accounts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/accounts"
   map.resources :groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/groups"

@@ -1,0 +1,9 @@
+<div id="contentContainer">
+	<div class="leftColW">
+		<h1>Edit Milestone</h1>
+		<% form_for :milestone, :url => bus_admin_milestone_path(@milestone), :html => {:method => :put} do %> 
+			<%= render :partial => 'form' %>
+			<%= submit_tag "Save Changes" %>
+		<% end %>
+	</div>
+</div>

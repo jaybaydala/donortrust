@@ -1,23 +1,64 @@
 class BusAdmin::MilestonesController < ApplicationController
- # before_filter :login_required, :check_authorization
+  before_filter :login_required
 
-  active_scaffold :milestones do |config|
-    config.columns =[ :project, :name, :target_date, :target_date,
-                           :actual_date, :description, :milestone_status,
-      :tasks_count, :tasks ]#:parent_program,
-    list.columns.exclude [ :description, :tasks, :tasks_count, :version_count,  :actual_date ]
-    #show.columns.exclude [ ]
-    update.columns.exclude [ :project, :tasks_count, :tasks, :version_count ]#:parent_program,
-    create.columns.exclude [ :parent_program, :project, :tasks, :tasks_count, :version_count ]#:parent_program,
-    config.columns[ :name ].label = "Milestone"
-    config.columns[ :tasks_count ].label = "Tasks"
-    config.columns[ :milestone_status ].form_ui = :select
-    config.columns[ :milestone_status ].label = "Status"
-#   config.columns[ :parent_program ].label = "Program"
-    config.nested.add_link("Tasks", [:tasks])
-    
+  def list_for_project
+    @project = Project.find(params[:id])
+  end
+  
+  def edit
+    @milestone = Milestone.find(params[:id])
+    @statuses = MilestoneStatus.find(:all)
   end
 
- 
-
+  def destroy
+    begin
+      @milestone = Milestone.find(params[:id])
+      @success = @milestone.destroy
+      if @success
+        flash[:notice] = "Successfully deleted the milestone."
+      else
+        flash[:error] = "An error occurred while attempting to delete the milestone."
+      end
+      redirect_to bus_admin_list_for_project_milestone_url(@milestone.project)
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+  end
+  
+  def new
+    @milestone = Milestone.new
+    @milestone.project_id = params[:id]
+    @statuses = MilestoneStatus.find(:all)
+  end
+  
+  def create
+    @milestone = Milestone.new(params[:milestone])
+    @success = @milestone.save
+    if @success
+      flash[:notice] = "Successfully saved the milestone."
+    else
+      flash[:error] = "An error ocurred while saving the milestone."
+    end
+    redirect_to bus_admin_list_for_project_milestone_url(@milestone.project)
+  end
+  
+  def show
+    @milestone = Milestone.find(params[:id])
+    @statuses = MilestoneStatus.find(:all)
+  end
+  
+  def update
+    begin
+      @milestone = Milestone.find(params[:id])
+      @success = @milestone.update_attributes(params[:milestone])
+      if @success
+        flash[:notice] = "Successfully updated the milestone."
+      else
+        flash[:error] = "An error occurred while attempting to update the milestone."
+      end
+      redirect_to bus_admin_list_for_project_milestone_url(@milestone.project)
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+  end
 end
