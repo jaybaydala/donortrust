@@ -10,11 +10,13 @@ class GiftReminderWorker < BackgrounDRb::Worker::RailsBase
     num_sent = 0
     logger.info "[#{Time.now.utc.to_s}] Checking for Gifts to send reminders for"
     gifts = find_reminder_gifts
+    gift_ids = []
     gifts.each do |g|
       num_sent+=1
       g.send_gift_reminder
+      gift_ids << g.id
     end
-    logger.info "[#{Time.now.utc.to_s}] Reminder Gift Emails Sent: #{num_sent}"
+    logger.info "[#{Time.now.utc.to_s}] Reminder Gift Emails Sent: #{num_sent} [#{gift_ids.join(', ')}]"
   end
 
   def find_reminder_gifts
