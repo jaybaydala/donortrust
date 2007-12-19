@@ -1,39 +1,94 @@
 class BusAdmin::TasksController < ApplicationController
- # before_filter :login_required, :check_authorization
+ 
+  before_filter :login_required
 
-#  active_scaffold :tasks do |config|
-#    config.columns =[ :milestone, :name, :target_start_date, :target_end_date,
-#                           :actual_start_date, :actual_end_date, :description, :percent_complete ]
-#    list.columns.exclude [ :description, :actual_start_date, :actual_end_date, :percent_complete ]
-#    #show.columns.exclude [ ]
-#    update.columns.exclude [ :milestone, :version_count ]
-#    create.columns.exclude [ :version_count ]
-#    config.columns[ :milestone ].form_ui = :select
-#    config.columns[ :name ].label = "Task"
-#    config.columns[ :target_start_date ].label = "Target Start"
-#    config.columns[ :target_end_date ].label = "Target End"
-#    config.columns[ :actual_start_date ].label = "Actual Start"
-#    config.columns[ :actual_end_date ].label = "Actual End"
-#  end
-
-  def list_for_milestone
-    @milestone = Milestone.find(params[:id])
+  def index
+    begin
+      @milestone = Milestone.find(params[:milestone_id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def new
+    @task = Task.new
+    @task.milestone_id = params[:milestone_id]
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def create
+    @task = Task.new(params[:task])
+    @task.milestone_id = params[:milestone_id]
+    @success = @task.save
+    if @success
+      flash[:notice] = "Successfully save the task."
+    else
+      flash[:error] = "An error occurred while attempting to save the task."
+    end
+    respond_to do |format|
+      format.html { redirect_to( bus_admin_project_milestone_tasks_url(@task.milestone.project, @task.milestone)) }
+    end
   end
   
   def edit
-    @task = Task.find(params[:id])
+    begin
+      @task = Task.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html
+    end
   end
   
-  def delete
-    @task = Task.find(params[:id])
+  def destroy
+    begin
+      @task = Task.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @success = @task.destroy
+    if @success
+      flash[:notice] = "Successfully deleted the task."
+    else
+      flash[:error] = "An error occurred while attempting to delete the task."
+    end
+    respond_to do |format|
+      format.html { redirect_to( bus_admin_project_milestone_tasks_url(@task.milestone.project, @task.milestone)) }
+    end
   end
 
   def show
-    @task = Task.find(params[:id])
+    begin
+      @task = Task.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html
+    end
   end
   
   def update
-    @task = Task.find(params[:id])
+    begin
+      @task = Task.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @success = @task.update_attributes(params[:task])
+    if @success
+      flash[:notice] = "Successfully updated the task."
+    else
+      flash[:error] = "An error occurred while attempting to update the task."
+    end
+    respond_to do |format|
+      format.html { redirect_to(bus_admin_project_milestone_tasks_url(@task.milestone.project, @task.milestone)) }
+    end
   end
   
 end

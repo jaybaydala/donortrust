@@ -23,6 +23,17 @@ table caption {
 	text-align:left;
 }
 
+#list-table
+{
+	border-collapse:collapse;
+}
+
+#list-table tr th, td
+{
+	padding:5px;
+	border-bottom:1px solid black;
+}
+
 /* basic divs used to centre the layout */
 
 #container {

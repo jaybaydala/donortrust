@@ -1,0 +1,32 @@
+<div id="contentContainer">
+	<div class="leftColW">
+		<h1><%= @task.name %></h1>
+		<p>
+			<strong>Name </strong><br />
+			<%= @task.name %>
+		</p>
+		<p>
+			<strong>Description </strong><br />
+			<%= @task.description %>
+		</p>
+		<p>
+			<strong>Target Start Date </strong><br />
+			<%= @task.target_start_date.nil? ? "N/A" : @task.target_start_date.to_s %>
+		</p>
+		<p>
+			<strong>Actual Start Date </strong><br />
+			<%= @task.actual_start_date.nil? ? "N/A" : @task.actual_start_date.to_s %>
+		</p>
+		<p>
+			<strong>Target End Date </strong><br />
+			<%= @task.target_end_date.nil? ? "N/A" : @task.target_end_date.to_s %>
+		</p>
+		<p>
+			<strong>Actual End Date </strong><br />
+			<%= @task.actual_end_date.nil? ? "N/A" : @task.actual_end_date.to_s %>
+		</p>
+		<p>
+			<%= link_to "Back", bus_admin_project_milestone_tasks_url(@task.milestone.project_id, @task.milestone) %>
+		</p>
+	</div>
+</div>

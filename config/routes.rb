@@ -1,16 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :measures, :path_prefix => "/bus_admin", :controller => "bus_admin/measures"
-
-  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
-
-  map.resources :partners, :path_prefix => '/bus_admin', :controller => 'bus_admin/partners', :member => {:manage_users => :get, :add_remove_users => :put }
-  map.resources :projects, :controller => 'bus_admin/projects', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :collection => {:pending_projects => :get, :rejected_projects => :get }, :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get, :approve_project => :put, :reject_project => :put, :show_pending_project => :get, :show_pending_project_rejection => :get }
-  map.resources :milestones, :controller => 'bus_admin/milestones', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :member => { :list_for_project => :get, :update => :put, :new => :get, :create => :post }
-  map.resources :ranks, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks", :name_prefix => 'bus_admin_', :member => {:list_for_project => :get}
-  map.resources :budget_items, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/budget_items", :member => { :list_for_project => :get }
-  map.resources :key_measures, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/key_measures", :member => {:list_for_project => :get }
-  map.resources :tasks, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/tasks", :member => { :list_for_milestone => :get }
-  map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
+  
+  # dt Resources
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
   map.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
   map.resources :place_searches, :controller => 'dt/place_searches', :name_prefix => 'dt_', :path_prefix => '/dt'
@@ -39,8 +29,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/dt', :controller => 'dt/projects'
 
   # inactive_record resources
-  
-
   map.activate_record 'bus_admin/measures/activate_record', :controller => 'bus_admin/measures', :action => 'activate_record'
   map.activate_record 'bus_admin/project_statuses/activate_record', :controller => 'bus_admin/project_statuses', :action => 'activate_record'
   map.activate_record 'bus_admin/sectors/activate_record', :controller => 'bus_admin/sectors', :action => 'activate_record'  
@@ -59,9 +47,6 @@ ActionController::Routing::Routes.draw do |map|
 #  map.activate_record 'bus_admin/partner_statuses/activate_record', :controller => 'bus_admin/partner_statuses', :action => 'activate_record'
 #  map.activate_record 'bus_admin/project_statuses/activate_record', :controller => 'bus_admin/project_statuses', :action => 'activate_record'
 #  map.activate_record 'bus_admin/sectors/activate_record', :controller => 'bus_admin/sectors', :action => 'activate_record'
-  
-  
-  
   
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
   map.recover_record 'bus_admin/milestone_statuses/recover_record', :controller => 'bus_admin/milestone_statuses', :action => 'recover_record'
@@ -85,7 +70,22 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
  
   # bus_admin resources
-
+  map.resources :measures, :path_prefix => "/bus_admin", :controller => "bus_admin/measures"
+  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
+  map.resources :partners, :path_prefix => '/bus_admin', :controller => 'bus_admin/partners', :member => {:manage_users => :get, :add_remove_users => :put }
+  
+  map.resources :projects, :controller => 'bus_admin/projects', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :collection => {:pending_projects => :get, :rejected_projects => :get }, :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get, :approve_project => :put, :reject_project => :put, :show_pending_project => :get, :show_pending_project_rejection => :get } do |project|
+    project.resources :milestones, :controller => 'bus_admin/milestones', :name_prefix => 'bus_admin_project_' do |milestone|
+      milestone.resources :tasks, :controller => 'bus_admin/tasks', :name_prefix => 'bus_admin_project_milestone_'
+    end
+  end
+  
+  #map.resources :milestones, :controller => 'bus_admin/milestones', :name_prefix => 'bus_admin_', :path_prefix => '/bus_admin', :member => { :index => :get, :update => :put, :new => :get, :create => :post }
+  map.resources :ranks, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks", :name_prefix => 'bus_admin_', :member => {:list_for_project => :get}
+  map.resources :budget_items, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/budget_items", :member => { :list_for_project => :get }
+  map.resources :key_measures, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/key_measures", :member => {:list_for_project => :get }
+  map.resources :tasks, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/tasks", :member => { :list_for_milestone => :get }
+  map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.resources :expired_gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/expired_gifts", :collection => {:unwrap => :post}
   map.resources :unallocated_investments,  :path_prefix => "/bus_admin", :controller => "bus_admin/unallocated_investments", :collection => {:unallocate => :post}
   map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
@@ -110,13 +110,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :quick_facts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_facts"
   map.resources :comments, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/comments"
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
-  
   #map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
   map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
   map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
-  
   map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :bus_user_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_user_types"

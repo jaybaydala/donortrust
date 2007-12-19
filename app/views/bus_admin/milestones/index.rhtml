@@ -3,9 +3,10 @@
 	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 	<% if @project %>
-		<h1>Milestones for <%= @project.name %></h1>
+		<h1>Milestones</h1>
+		<h2>(Project: <%= @project.name %>)</h2>
 		<% if @project.milestones && @project.milestones.length > 0 %>
-			<table>
+			<table id="list-table">
 				<tr>
 					<th>Milestone</th>
 					<th>Target Date</th>
@@ -27,16 +28,16 @@
 							<%= milestone.milestone_status.name %>
 						</td>
 						<td>
-							<%= link_to "Tasks", bus_admin_list_for_milestone_task_url(milestone) %>
+							<%= link_to "Tasks", bus_admin_project_milestone_tasks_url(@project, milestone) %>
 						</td>
 						<td>
-							<%= link_to "Edit", bus_admin_edit_milestone_url(milestone) %>
+							<%= link_to "Edit", bus_admin_project_edit_milestone_url(@project, milestone) %>
 						</td>
 						<td>
-							<%= link_to "Delete", bus_admin_milestone_url(milestone), :method => :delete, :confirm => "Are you sure you want to delete this milestone?" %>
+							<%= link_to "Delete", bus_admin_project_milestone_url(@project, milestone), :method => :delete, :confirm => "Are you sure you want to delete this milestone?" %>
 						</td>
 						<td>
-							<%= link_to "Show", bus_admin_milestone_url(milestone) %>
+							<%= link_to "Show", bus_admin_project_milestone_url(@project, milestone) %>
 						</td>
 					</tr>
 				<% end %>
@@ -47,9 +48,9 @@
 	<% end %>
 	<br />
 	<p>
-		<%= link_to "Add New Milestone", bus_admin_new_milestone_url(@project) %>
+		<%= link_to "Add New Milestone", bus_admin_project_new_milestone_url(@project) %>
 		&nbsp;
-		<%= link_to "Back", bus_admin_projects_url %>
+		<%= link_to "Back To Project List", bus_admin_projects_url %>
 	</p>
 	
 	</div>

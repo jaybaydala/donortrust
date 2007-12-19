@@ -1,0 +1,34 @@
+<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<%= error_messages_for 'task' %>
+<p>
+	<strong>Name </strong><br />
+	<%= text_field :task, :name %>
+</p>
+<br />
+<p>
+	<strong>Description </strong><br />
+	<%= text_area :task, :description, :rows => 5, :cols => 20 %>
+</p>
+<br />
+<p>
+	<strong>Target Start Date </strong><br />
+	<%= calendar_date_select(:task, :target_start_date) %>
+</p>
+<p>
+	<strong>Actual Start Date </strong><br />
+	<%= calendar_date_select(:task, :actual_start_date) %>
+</p>
+<p>
+	<strong>Target End Date </strong><br />
+	<%= calendar_date_select(:task, :target_end_date) %>
+</p>
+<p>
+	<strong>Actual End Date </strong><br />
+	<%= calendar_date_select(:task, :actual_end_date) %>
+</p>
+<p>
+	<strong>Percent Complete </strong><br />
+	<%= text_field :task, :percent_complete %>
+</p>
+<br />

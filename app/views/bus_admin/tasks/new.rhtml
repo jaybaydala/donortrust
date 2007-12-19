@@ -1,0 +1,12 @@
+<div id="contentContainer">
+	<div class="leftColW">
+		<h1>New Task</h1>
+		<h2>
+			(Milestone: <%= @task.milestone.name %>, Project: <%= @task.milestone.project.name %>)
+		</h2>
+		<% form_for :task, :url =>  bus_admin_project_milestone_tasks_path(@task.milestone.project_id, @task.milestone), :html => {:method => :post} do %> 
+			<%= render :partial => 'form' %>
+			<%= submit_tag "Save" %>
+		<% end %>
+	</div>
+</div>
