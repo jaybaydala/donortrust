@@ -1,7 +1,7 @@
 <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 <%= error_messages_for 'milestone' %>
-<%= hidden_field :milestone, :project_id %>
+
 <p>
 	<strong>Name </strong><br />
 	<%= text_field :milestone, :name %>

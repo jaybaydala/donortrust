@@ -7,6 +7,8 @@ class KeyMeasure < ActiveRecord::Base
 
   validates_presence_of :project_id
   validates_presence_of :measure_id
+  validates_presence_of :target
+  
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -22,7 +24,7 @@ class KeyMeasure < ActiveRecord::Base
   
   def destroy
     result = false
-    if key_measure_data.count > 0
+    if key_measure_datas.count > 0
 #      errors.add_to_base( "Can not destroy a #{self.class.to_s} that has Measurements" )
       raise( "Can not destroy a #{self.class.to_s} that has Measurements" )
     else

@@ -1,0 +1,30 @@
+<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<%= error_messages_for 'key_measure' %>
+<p>
+	<strong>Measure</strong><br />
+	<%= collection_select(:key_measure, :measure_id, @measures, :id, :description) %>
+</p>
+<br />
+<p>
+	<strong>Target</strong><br />
+	<%= text_field :key_measure, :target, {:onkeydown => "return onlyCurrency(event);"} %>
+</p>
+<br />
+<p>
+	<strong>Millennium Goals</strong><br />
+	<ul style="list-style-type:none;">
+		<% for goal in @millennium_goals %>
+			<li>
+				<%= check_box_tag("millennium_goals[]", goal.id, @key_measure.millennium_goals.include?(goal)) %>
+				<%= goal.name %>
+			</li>
+		<% end %>
+	</ul>
+</p>
+<br />
+<p>
+	<strong>Decrease Target</strong><br />
+	<%= collection_select(:key_measure, :decrease_target, @decrease_options, :value, :display) %>
+</p>
+<br />

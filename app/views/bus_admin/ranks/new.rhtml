@@ -1,0 +1,12 @@
+<div id="contentContainer">
+	<div class="leftColW">
+		<h1>New Rank</h1>
+		<h2>
+			(Project: <%= @rank.project.name %>)
+		</h2>
+		<% form_for :rank, :url =>  bus_admin_project_ranks_path(@rank.project_id), :html => {:method => :post} do %> 
+			<%= render :partial => 'form' %>
+			<%= submit_tag "Save" %>
+		<% end %>
+	</div>
+</div>

@@ -1,6 +1,41 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+function onlyCurrency(e)
+{
+	var keyCode;
+	if(!e.keyCode)
+	{
+		keyCode = e.which;
+	}
+	else
+	{
+		keyCode = e.keyCode;
+	}
+	
+	//8 =  Backspace
+	//39 = Right arrow
+	//37 = Left arrow
+	//13 = Enter
+	//46 = Delete
+	//190 = Decimal point (.)
+	//9 = Tab
+	
+	if((keyCode == 189 || keyCode == 109) ||
+		(keyCode >= 48 && keyCode <= 57) ||
+		(keyCode >= 96 && keyCode <= 105) ||
+			keyCode == 8 || keyCode == 39 || 
+			keyCode == 37 || keyCode == 13 ||
+			keyCode == 46 || keyCode == 190 ||
+			keyCode == 9)
+		{
+			return true;
+		}
+	else
+	{
+		return false;
+	}
+}
 function mark_agency_for_destroy(element){
    $(element).next('.should_destroy_agency').value = 1;
    $(element).up('.agency').hide();

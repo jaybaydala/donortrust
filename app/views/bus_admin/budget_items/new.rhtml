@@ -1,0 +1,12 @@
+<div id="contentContainer">
+	<div class="leftColW">
+		<h1>New Budget Item</h1>
+		<h2>
+			(Project: <%= @budget_item.project.name %>)
+		</h2>
+		<% form_for :milestone, :url =>  bus_admin_project_budget_items_path(@budget_item.project_id), :html => {:method => :post} do %> 
+			<%= render :partial => 'form' %>
+			<%= submit_tag "Save" %>
+		<% end %>
+	</div>
+</div>

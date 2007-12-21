@@ -1,0 +1,13 @@
+<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<%= error_messages_for 'rank' %>
+<p>
+	<strong>Rank Type </strong><br />
+	<%= collection_select(:rank, :rank_type_id, @rank_types, :id, :name) %>
+</p>
+<br />
+<p>
+	<strong>Rank Value </strong><br />
+	<%= collection_select(:rank, :rank_value_id, @rank_values, :id, :rank_value) %>
+</p>
+<br />

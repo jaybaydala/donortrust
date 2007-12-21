@@ -1,0 +1,53 @@
+<div id="contentContainer">
+	<div class="leftColW">
+	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+	<% if @project %>
+		<h1>Key Measures</h1>
+		<h2>(Project: <%= @project.name %>)</h2>
+		<% if @project.key_measures && @project.key_measures.length > 0 %>
+			<table id="list-table">
+				<tr>
+					<th>Measure</th>
+					<th>Target</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+				<% for km in @project.key_measures %>
+					<tr>
+						<td>
+							<%= km.measure.description %>
+						</td>
+						<td>
+							<%= km.target.to_s %>
+						</td>
+						<td>
+							<%= link_to "Measurements Data", bus_admin_project_key_measures_key_measure_datas_url(@project, km) %>
+						</td>
+						<td>
+							<%= link_to "Edit", bus_admin_project_edit_key_measure_url(@project, km) %>
+						</td>
+						<td>
+							<%= link_to "Delete", bus_admin_project_key_measure_url(@project, km), :method => :delete, :confirm => "Are you sure you want to delete this key measure?" %>
+						</td>
+						<td>
+							<%= link_to "Show", bus_admin_project_key_measure_url(@project, km) %>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+		<% else %>
+			<p>There are no key measures for this project.</p>	
+		<% end %>
+	<% end %>
+	<br />
+	<p>
+		<%= link_to "Add New Key Measure", bus_admin_project_new_key_measure_url(@project) %>
+		&nbsp;
+		<%= link_to "Back To Project List", bus_admin_projects_url %>
+	</p>
+	
+	</div>
+</div>

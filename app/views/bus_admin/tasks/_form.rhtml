@@ -29,6 +29,6 @@
 </p>
 <p>
 	<strong>Percent Complete </strong><br />
-	<%= text_field :task, :percent_complete %>
+	<%= text_field :task, :percent_complete, {:onkeydown => "return onlyCurrency(event);"} %>
 </p>
 <br />

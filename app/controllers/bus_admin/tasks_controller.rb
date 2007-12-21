@@ -27,12 +27,16 @@ class BusAdmin::TasksController < ApplicationController
     @success = @task.save
     if @success
       flash[:notice] = "Successfully save the task."
+      respond_to do |format|
+        format.html { redirect_to( bus_admin_project_milestone_tasks_url(@task.milestone.project, @task.milestone)) }
+      end
     else
       flash[:error] = "An error occurred while attempting to save the task."
+      respond_to do |format|
+        format.html { redirect_to( bus_admin_project_milestone_new_task_url(@task.milestone.project, @task.milestone)) }
+      end
     end
-    respond_to do |format|
-      format.html { redirect_to( bus_admin_project_milestone_tasks_url(@task.milestone.project, @task.milestone)) }
-    end
+    
   end
   
   def edit
@@ -83,11 +87,14 @@ class BusAdmin::TasksController < ApplicationController
     @success = @task.update_attributes(params[:task])
     if @success
       flash[:notice] = "Successfully updated the task."
+      respond_to do |format|
+        format.html { redirect_to(bus_admin_project_milestone_tasks_url(@task.milestone.project, @task.milestone)) }
+      end
     else
       flash[:error] = "An error occurred while attempting to update the task."
-    end
-    respond_to do |format|
-      format.html { redirect_to(bus_admin_project_milestone_tasks_url(@task.milestone.project, @task.milestone)) }
+      respond_to do |format|
+        format.html { redirect_to( bus_admin_project_milestone_edit_task_url(@task.milestone.project, @task.milestone, @task)) }
+      end
     end
   end
   

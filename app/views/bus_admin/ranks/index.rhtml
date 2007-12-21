@@ -1,0 +1,51 @@
+<div id="contentContainer">
+	<div class="leftColW">
+	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+	<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+	<% if @project %>
+		<h1>At a Glance</h1>
+		<h2>(Project: <%= @project.name %>)</h2>
+		<% if @project.ranks && @project.ranks.length > 0 %>
+			<table id="list-table">
+				<tr>
+					<th>Rank Type</th>
+					<th>Value</th>
+					<% if user_can_alter_ranks %>
+						<th>&nbsp;</th>
+						<th>&nbsp;</th>
+					<% end %>
+				</tr>
+				<% for rank in @project.ranks %>
+					<tr>
+						<td>
+							<%= rank.rank_type.name %>
+						</td>
+						<td>
+							<%= rank.rank_value.rank_value %>
+						</td>
+						<% if user_can_alter_ranks %>
+							<td>
+								<%= link_to "Edit", bus_admin_project_edit_rank_url(@project, rank) %>
+							</td>
+							<td>
+								<%= link_to "Delete", bus_admin_project_rank_url(@project, rank), :method => :delete, :confirm => "Are you sure you want to delete this rank?" %>
+							</td>
+						<% end %>
+					</tr>
+				<% end %>
+			</table>
+		<% else %>
+			<p>There are no ranks for this project.</p>	
+		<% end %>
+	<% end %>
+	<br />
+	<p>
+		<% if user_can_alter_ranks %>
+			<%= link_to "Add New Rank", bus_admin_project_new_rank_url(@project) %>
+			&nbsp;
+		<% end %>
+		<%= link_to "Back To Project List", bus_admin_projects_url %>
+	</p>
+	
+	</div>
+</div>

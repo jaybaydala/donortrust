@@ -1,13 +1,13 @@
 <div style="padding:7px;font-size:7pt">
 	<%= link_to "Milestones", bus_admin_project_milestones_url(@project) %>
 	&nbsp;
-	<%= link_to "At A Glance", bus_admin_list_for_project_rank_url(@project) %>
+	<%= link_to "At A Glance", bus_admin_project_ranks_url(@project) %>
 	&nbsp;
-	<%= link_to "Budgets", bus_admin_list_for_project_budget_item_url(@project) %>
+	<%= link_to "Budgets", bus_admin_project_budget_items_url(@project) %>
 	&nbsp;
-	<%= link_to "Key Measures", bus_admin_list_for_project_key_measure_url(@project) %>
+	<%= link_to "Key Measures", bus_admin_project_key_measures_url(@project) %>
 	&nbsp;
-	<%= link_to image_tag("bus_admin/icons/you_tube.png", :border => 0), list_by_project_project_you_tube_video_url(@project) %>
+	<%= link_to image_tag("bus_admin/icons/you_tube.png", :border => 0), project_you_tube_videos_url %>
 	&nbsp;
-	<%= link_to image_tag("bus_admin/icons/flickr.png", :border => 0), list_by_project_project_flickr_image_url(@project) %>
+	<%= link_to image_tag("bus_admin/icons/flickr.png", :border => 0), project_flickr_images_url %>
 </div>

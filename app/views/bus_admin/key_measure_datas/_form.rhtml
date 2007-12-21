@@ -1,0 +1,17 @@
+<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<%= error_messages_for 'key_measure_data' %>
+<p>
+	<strong>Value</strong><br />
+	<%= text_field :key_measure_data, :value, {:onkeydown => "return onlyCurrency(event);"} %>
+</p>
+<br />
+<p>
+	<strong>Measured</strong><br />
+	<%= calendar_date_select(:key_measure_data, :date) %>
+</p>
+<p>
+	<strong>Comment</strong><br />
+	<%= text_area :key_measure_data, :comment, :rows => 5, :cols => 20 %>
+</p>
+<br />

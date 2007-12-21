@@ -3,7 +3,7 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
   # GET /bus_admin_project_you_tube_videos
   # GET /bus_admin_project_you_tube_videos.xml
   
-  def list_by_project
+  def index   
     @project_id = params[:id]
     if params[:id]
       @project = Project.find_by_id(params[:id])
@@ -17,9 +17,6 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
     [@project, @you_tube_videos, @you_tube_video_pages, @project_id]
     
     render :action => :index
-  end
-  
-  def index   
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @you_tube_videos.to_xml }

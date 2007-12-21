@@ -1,0 +1,10 @@
+<div id="contentContainer">
+	<div class="leftColW">
+		<h1>Edit Budget Item <%= @budget_item.description %></h1>
+		<h2>(Project: <%= @budget_item.project.name %>)</h2>
+		<% form_for :milestone, :url => bus_admin_project_budget_item_path(@budget_item.project, @budget_item), :html => {:method => :put} do %> 
+			<%= render :partial => 'form' %>
+			<%= submit_tag "Save Changes" %>
+		<% end %>
+	</div>
+</div>

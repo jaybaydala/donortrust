@@ -1,0 +1,12 @@
+<div id="contentContainer">
+	<div class="leftColW">
+		<h1>New Key Measure</h1>
+		<h2>
+			(Project: <%= @key_measure.project.name %>)
+		</h2>
+		<% form_for :key_measure, :url =>  bus_admin_project_key_measures_path(@key_measure.project_id), :html => {:method => :post} do %> 
+			<%= render :partial => 'form' %>
+			<%= submit_tag "Save" %>
+		<% end %>
+	</div>
+</div>

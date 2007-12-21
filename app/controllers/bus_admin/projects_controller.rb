@@ -58,9 +58,11 @@ class BusAdmin::ProjectsController < ApplicationController
   def show_pending_project_rejection
     begin
       @project = Project.find_by_id(params[:id])
-      render :partial => "show_pending_project_rejection"
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
+    end
+    respond_to do |format|
+      format.html {render :partial => "show_pending_project_rejection"}
     end
   end
   
@@ -79,6 +81,9 @@ class BusAdmin::ProjectsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       rescue_404 and return
     end
+    respond_to do |format|
+      format.html
+    end
   end
   
   #get any pending projects that have not been rejected
@@ -86,6 +91,9 @@ class BusAdmin::ProjectsController < ApplicationController
     pp = PendingProject.find(:all, :conditions => ["rejected = false and rejection_reason is null and date_rejected is null"])
     @pending_projects = []
     pp.each {|p| @pending_projects << PendingWrapper.new(p, Project.rehydrate_from_xml(p.project_xml))}
+    respond_to do |format|
+      format.html
+    end
   end
   
   #get any projects created by the logged in user that have been rejected
@@ -93,6 +101,9 @@ class BusAdmin::ProjectsController < ApplicationController
     pp = PendingProject.find(:all, :conditions => ["rejected = true and rejection_reason is not null and date_rejected is not null and created_by = ?", self.current_busaccount.id])
     @rejected_projects = []
     pp.each {|p| @rejected_projects << PendingWrapper.new(p, Project.rehydrate_from_xml(p.project_xml))}
+    respond_to do |format|
+      format.html
+    end
   end
   
    #This method should return us to the list of project requiring approval
@@ -127,14 +138,15 @@ class BusAdmin::ProjectsController < ApplicationController
           else
             flash[:notice] = "Successfully approved and applied changes to the project."
           end
-        redirect_to :action => :pending_projects
+          respond_to do |format|
+            format.html { redirect_to :action => :pending_projects }
+          end
       else
         raise Exception.new("Could not delete PendingProject for the project.")
       end
     else
       raise Exception.new("Could not update the project.")
     end
-    
   end
   
   #This method should return us to the list of project requiring approval
@@ -164,7 +176,9 @@ class BusAdmin::ProjectsController < ApplicationController
       else
         flash[:notice] = "Successfully rejected the changes to the project."
       end
-      redirect_to :action => :pending_projects
+      respond_to do |format|
+            format.html { redirect_to :action => :pending_projects }
+      end
     else
       raise Exception.new("Could not save the PendingProject.")
     end

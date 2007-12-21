@@ -1,0 +1,13 @@
+<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<%= error_messages_for 'budget_item' %>
+<p>
+	<strong>Description </strong><br />
+	<%= text_field :budget_item, :description %>
+</p>
+<br />
+<p>
+	<strong>Cost </strong><br />
+	<%= text_field :budget_item, :cost, {:onkeydown => "return onlyCurrency(event);"} %>
+</p>
+<br />

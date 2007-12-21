@@ -1,0 +1,68 @@
+<div id="contentContainer">
+	<div class="leftColW">
+		<h1>Key Measure</h1>
+		<h2>(Project: <%= @key_measure.project.name %></h2>
+		<p>
+			<strong>Measure</strong><br />
+			<%= @key_measure.measure.description %>
+		</p>
+		<p>
+			<strong>Target</strong><br />
+			<%= @key_measure.target %>
+		</p>
+		<p>
+			<strong>Millennium Goals</strong><br />
+			<% if @key_measure.millennium_goals && @key_measure.millennium_goals.length > 0 %>
+				<% for mg in @key_measure.millennium_goals %>
+					<%= mg.name %><br />
+				<% end %>
+			<% else %>
+					There are no millennium goals for this key measure.
+			<% end %>
+		</p>
+		<p>
+			<strong>Decrease Target</strong><br />
+			<%= @key_measure.decrease_target ? "Yes" : "No" %>
+		</p>
+		<p>
+			<strong>Key Measure Datas</strong>
+			<br />
+			<% if @key_measure.key_measure_datas && @key_measure.key_measure_datas.length >0 %>
+				<table id="list-table">
+					<tr>
+						<th>Value</th>
+						<th>Measured</th>
+						<th>Comment</th>
+						<th>&nbsp;</th>
+						<th>&nbsp;</th>
+					</tr>
+					<% for kmd in @key_measure.key_measure_datas %>
+						<tr>
+							<td>
+								<%= kmd.value %>
+							</td>
+							<td><%= kmd.date.to_s %></td>
+							<td>
+								<%= kmd.comment %>
+							</td>
+							<td>
+								<%= link_to "Edit", bus_admin_project_key_measures_edit_key_measure_data_url(@key_measure.project, @key_measure, kmd) %>
+							</td>
+							<td>
+								<%= link_to "Delete", bus_admin_project_key_measures_key_measure_data_url(@key_measure.project, @key_measure, kmd), :method => :delete, :confirm => "Are you sure you want to delete this key measure data?" %>
+							</td>
+						</tr>
+					<% end %>
+				</table>
+			<% else %>
+				This key measure has no key measure datas.
+			<% end %>
+			<br />
+			<p>
+				<%= link_to "Add Key Measure Datas", bus_admin_project_key_measures_new_key_measure_data_url(@key_measure.project_id, @key_measure) %>
+				&nbsp;
+				<%= link_to "Back To Key Measures List", bus_admin_project_key_measures_url(@key_measure.project_id) %>
+			</p>
+		</p>
+	</div>
+</div>
