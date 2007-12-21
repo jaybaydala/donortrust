@@ -32,7 +32,7 @@ class BusAdmin::GiftsController < ApplicationController
    @gift = Gift.find(params[:id])
    if @gift.valid?
      @gift.send_gift_mail
-     flash[:notice] = "Gift Email."
+     flash[:notice] = "Gift was emailed successfully."
    else        
      flash[:notice] = "Problems with resend, gift not sent" 
    end      
