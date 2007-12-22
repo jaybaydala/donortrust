@@ -1,7 +1,7 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-function onlyCurrency(e)
+function onlyNumeric(e)
 {
 	var keyCode;
 	if(!e.keyCode)
