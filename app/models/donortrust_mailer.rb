@@ -109,6 +109,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def gift_expiry_notifier(gift)
     gift_setup_email(gift)
+    recipients  gift.name? ? "\"#{gift.name}\" <#{gift.email}>" : "#{gift.email}"
     subject 'You gave ChristmasFuture gift that hasn\'t been opened!'
     headers "Reply-To" => gift.to_name? ? "\"#{gift.to_name}\" <#{gift.to_email}>" : gift.to_email
     body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}

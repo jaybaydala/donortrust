@@ -39,6 +39,7 @@ class Dt::GiftsController < DtApplicationController
     @gift = Gift.new( gift_params )
     @ecards = ECard.find(:all, :order => :id)
     @action_js = ["dt/ecards", "dt/giving"]
+    
     if params[:project_id]
       @project = Project.find(params[:project_id]) 
       @gift.project_id = @project.id if @project
@@ -76,6 +77,9 @@ class Dt::GiftsController < DtApplicationController
   def create
     @gift = Gift.new( gift_params )    
     @gift.user_ip_addr = request.remote_ip
+    @ecards = ECard.find(:all, :order => :id)
+    @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
+    @action_js = ["dt/ecards", "dt/giving"]
     
     if @gift.credit_card?
       iats = iats_payment(@gift)
