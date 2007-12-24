@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
   validates_uniqueness_of   :activation_code, :allow_nil => :true
+
   before_save :encrypt_password
   before_create :make_activation_code
   before_update :login_change
@@ -69,6 +70,20 @@ class User < ActiveRecord::Base
   
   def full_name
     under_thirteen? ? self.display_name : "#{self.first_name} #{self.last_name}" 
+  end
+  
+  #MP Dec 14, 2007 - Added to support the need to determine whether the user is in a
+  #specified country. This supports the US tax receipt functionality
+  #If the user's country is nil, or the specified country is nil, or the
+  #user's country doesn't match the specified country, this method returns
+  #false. Otherwise, it returns true.
+  def in_country?(country)
+    if self.country.nil? || country.nil? || 
+      (self.country.downcase != country.downcase)
+          return false
+    else
+      return true
+    end
   end
 
   def balance
@@ -172,6 +187,9 @@ class User < ActiveRecord::Base
         errors.add("first_name", "cannot be blank if Display name is empty") if first_name.blank? && display_name.blank?
         errors.add("last_name", "cannot be blank if Display name is empty") if last_name.blank? && display_name.blank?
         errors.add("display_name", "cannot be blank if First Name and Last Name are empty") if display_name.blank? && first_name.blank? && last_name.blank?
+        #MP Dec. 14, 2007 - Added to support the US tax receipt functionality
+        #Going forward, it would be good to ensure that users have a country.
+        errors.add("country", "cannot be blank") if country.nil? || country.blank?
       end
     end
         

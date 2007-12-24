@@ -1,4 +1,5 @@
 class Dt::SessionsController < DtApplicationController
+ 
   def show
     respond_to do |format|
       format.html {
@@ -12,6 +13,25 @@ class Dt::SessionsController < DtApplicationController
     @page_title = "Login"
     respond_to do |format|
       format.html { redirect_back_or_default(dt_account_path(current_user)) if logged_in? }
+    end
+  end
+  
+  #MP - Dec 14, 2007
+  #if the user is logged in, direct them to the GroundSpring site,
+  #if not, force them to log in or create an account and then log in.
+  def request_us_tax_receipt
+    if logged_in?
+      respond_to do |format|
+        format.html {redirect_to GROUNDSPRING_URL}
+      end
+    else
+      #if the user is NOT logged in, capture their desire to
+      #request a US tax receipt as a session variable and
+      #redirect them to the login page.
+      requires_us_tax_receipt(true)
+      respond_to do |format|
+        format.html {redirect_to dt_login_url}
+      end
     end
   end
   
@@ -31,8 +51,21 @@ class Dt::SessionsController < DtApplicationController
           flash[:notice] = "Please change your password to something you'll remember"
           format.html { redirect_to dt_edit_account_path(current_user) }
         else
-          flash[:notice] = "Logged in successfully"
-          format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
+          #MP - Dec 14, 2007
+          #Added to support the us tax receipt functionality
+          #If the user has indicated that they want a US tax 
+          #receipt, the session variable should be set to false,
+          #and the user redirected to the GroundSpring page
+          unless requires_us_tax_receipt?
+            flash[:notice] = "Logged in successfully"
+            format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
+          else
+            #The user has indicated that they want a US tax receipt,
+            #so clear out the session variable and
+            #redirect them to SessionsController#request_us_tax_receipt
+            requires_us_tax_receipt(false)
+            format.html {redirect_to dt_request_us_tax_receipt_url}
+          end
         end
       else
         u = User.find(:first, :conditions => {:login => params[:login] })

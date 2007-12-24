@@ -7,14 +7,32 @@ class Dt::DepositsController < DtApplicationController
   include FundCf
   before_filter :login_required
   
+  #helper for testing purposes since I couldn't figure out
+  #how to determine in the tests whether a certain layout was being used
+  attr_accessor :using_us_layout
+  
+  CANADA = 'canada'
+  
   def initialize
+    super
     @page_title = "Deposit"
   end
 
   def new
+    self.using_us_layout = false
     params[:deposit] = session[:deposit_params] if session[:deposit_params]
     @deposit = Deposit.new(deposit_params)
     @action_js = 'dt/giving'
+    
+    #MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
+    #layout of the Gift page. If the user's country is nil or not Canada,
+    #use the layout that allows for US donations.
+    if logged_in?
+      unless current_user.in_country?(CANADA)
+        self.using_us_layout = true
+        render :layout => 'us_receipt_layout'
+      end
+    end
   end
   
   def confirm

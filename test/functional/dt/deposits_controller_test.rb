@@ -61,6 +61,24 @@ context "Dt::Deposits new behaviour"do
   fixtures :deposits, :user_transactions, :users
   include DtAuthenticatedTestHelper
   
+  specify "should use US tax layout if user has unknown country" do
+    login_as :quentin
+    get :new, :account_id => users(:quentin).id
+    @controller.using_us_layout.should.be true
+  end
+  
+  specify "should use US tax layout if user not Canadian" do
+    login_as :noncanadian
+    get :new, :account_id => users(:noncanadian).id
+    @controller.using_us_layout.should.be true
+  end
+  
+  specify "should NOT use US tax layout if user is Canadian" do
+    login_as :canadian
+    get :new, :account_id => users(:canadian).id
+    @controller.using_us_layout.should.be false
+  end
+  
   specify "method should exist" do
     @controller.methods.should.include 'new'
   end

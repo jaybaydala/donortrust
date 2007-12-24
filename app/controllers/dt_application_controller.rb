@@ -31,6 +31,34 @@ class DtApplicationController < ActionController::Base
       redirect_to url_for(params.merge({:protocol => 'http://'})) and return false if request.ssl? && !ssl_required? 
     end
   end
+  
+  #MP - Dec 14, 2007
+  #Added to support the us tax receipt functionality
+  #allows us to set a value indicating that the user has requested
+  #a US tax receipt. If the value is false, the session variable is
+  #cleared, otherwise it is set to true
+  def requires_us_tax_receipt(value)
+    if value
+      session[:requires_us_tax_receipt] = value
+    else
+      unless session[:requires_us_tax_receipt].nil?
+        session[:requires_us_tax_receipt] = nil
+      end
+    end
+  end
+  
+  #MP - Dec 14, 2007
+  #Added to support the us tax receipt functionality
+  #If the user has indicated that they want a US tax 
+  #receipt, the session variable will be true,
+  #otherwise it should be nil.
+  def requires_us_tax_receipt?
+    unless session[:requires_us_tax_receipt].nil?
+      return session[:requires_us_tax_receipt]
+    else
+      return false
+    end
+  end
 
   def ssl_required?
     return false

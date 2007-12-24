@@ -8,7 +8,14 @@ class Dt::GiftsController < DtApplicationController
   include FundCf
   before_filter :login_required, :only => :unwrap
   
+  #helper for testing purposes since I couldn't figure out
+  #how to determine in the tests whether a certain layout was being used
+  attr_accessor :using_us_layout
+  
+  CANADA = 'canada'
+  
   def initialize
+    super
     @page_title = "Gift It!"
   end
   
@@ -34,6 +41,7 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def new
+    self.using_us_layout = false
     store_location
     params[:gift] = session[:gift_params] if session[:gift_params]
     @gift = Gift.new( gift_params )
@@ -45,11 +53,25 @@ class Dt::GiftsController < DtApplicationController
       @gift.project_id = @project.id if @project
       redirect_to dt_project_path(@project) and return if @project && !@project.fundable?
     end
+    
     if logged_in?
-      user = User.find(current_user.id)
       %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] unless @gift.send("#{f}?") }
       @gift[:name] = current_user.full_name if logged_in? && !@gift.name?
       @gift[:email] = current_user.email unless @gift.email?
+      
+      #MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
+      #layout of the Gift page. If the user's country is nil or not Canada,
+      #use the layout that allows for US donations.
+      unless current_user.in_country?(CANADA)
+        self.using_us_layout = true
+        render :layout => 'us_receipt_layout'
+      end
+    else
+      #MP Dec 14, 2007 - If there is no logged in user, we should give them the option
+      #of being able to request a US tax receipt as there is no reliable way to determine
+      #what country they are in.
+      self.using_us_layout = true
+      render :layout => 'us_receipt_layout'
     end
   end
   

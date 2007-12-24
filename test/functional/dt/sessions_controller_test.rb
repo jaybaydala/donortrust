@@ -11,6 +11,35 @@ context "Dt::Sessions inheritance" do
   end
 end
 
+context "Dt::Sessions US tax requests" do
+  use_controller Dt::SessionsController
+  include DtAuthenticatedTestHelper
+  fixtures :users
+  
+  specify "should set requires_us_tax_receipt to true if user not logged in" do
+    get :request_us_tax_receipt
+    session[:requires_us_tax_receipt].should.be true
+  end
+  
+  specify "should set requires_us_tax_receipt to true if user not logged in and redirect to login page" do
+    get :request_us_tax_receipt
+    should.redirect dt_login_url
+  end
+  
+  specify "should redirect to us tax page if user logged in" do
+    login_as :quentin
+    get :request_us_tax_receipt
+    should.redirect GROUNDSPRING_URL
+  end
+  
+  specify "should set requires_us_tax_receipt to nil if logging out user" do
+    login_as :quentin
+    get :request_us_tax_receipt
+    get :destroy
+    session[:requires_us_tax_receipt].should.be nil
+  end
+end
+
 context "Dt::Accounts #route_for" do
   use_controller Dt::AccountsController
 
@@ -84,7 +113,7 @@ context "Dt::Sessions handling POST dt/session requests" do
   use_controller Dt::SessionsController
   include DtAuthenticatedTestHelper
   fixtures :users
-
+  
   specify "should login and redirect" do
     do_post
     session[:user].should.not.be.nil

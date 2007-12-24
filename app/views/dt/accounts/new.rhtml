@@ -44,13 +44,13 @@
 	
     	<fieldset class="personalinfo">
     	  <legend>Personal Details</legend>
-    		<div class="textsm">The following fields are optional.</div>
+    		<div class="textsm">The following fields (except Country) are optional.</div>
       	<ul>
       		<li><label for="address">Address</label><%= f.text_field :address %></li>
       		<li><label for="city">City</label><%= f.text_field :city %></li>
       		<li style="clear:left;"><label for="province">Province/State</label><%= f.text_field 'province', :size => 2, :maxlength => 2, :style => 'width:auto;' %></li>
       		<li style="clear:left;"><label for="postal_code">Postal/Zip Code</label><%= f.text_field :postal_code, :size => 10, :maxlength => 10, :style => 'width:auto;' %></li>
-      		<li style="clear:left;"><label for="country">Country</label><%= f.select :country, country_select_options, :style => 'width:auto;' %></li>
+      		<li style="clear:left;"><label for="country"><%= render :partial => 'dt/shared/form_required' %>Country</label><%= f.select :country, country_select_options, :style => 'width:auto;' %></li>
       	</ul>
       </fieldset>
     	<fieldset class="personalinfo">

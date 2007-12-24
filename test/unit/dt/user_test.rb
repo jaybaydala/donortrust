@@ -140,7 +140,7 @@ context "User" do
 
   private
   def create_user(options = {})
-    User.create({ :login => 'quire@example.com', :first_name => 'quire', :last_name => 'test', :display_name => 'quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options))
+    User.create({ :login => 'quire@example.com', :first_name => 'quire', :last_name => 'test', :display_name => 'quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1', :country => "Canada" }.merge(options))
   end
 end
 
@@ -252,7 +252,7 @@ context "UserActivation" do
     @user = User.find_by_login('aaron@example.com')
     @user.activation_code.should.not.be nil
     @user.activated_at.should.be nil
-    @user.activate.should.be true
+    @user.activate
     @user.activation_code.should.be nil
     @user.activated_at.should.not.be nil
   end
