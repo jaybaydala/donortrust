@@ -29,4 +29,10 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
   <td<%= bg %>><%= date %></td>
   <td<%= bg %>>(<%= amount %>)</td>
 </tr>
+<% when "AdminDeposit" -%>
+<tr>
+  <td<%= bg %>><div id="investmentTransaction-<%= transaction.tx.id %>" class="investmentTransaction">Deposit (from U.S.)</div> 
+  <td<%= bg %>><%= date %></td>
+  <td<%= bg %>><%= amount %></td>
+</tr>
 <% end %>

@@ -94,7 +94,22 @@ class Dt::AccountsController < DtApplicationController
     if @user and @user.activate
       self.current_user = @user
       session[:tmp_user] = nil
-      flash[:notice] = "Your email address has been confirmed and your account is activated!"
+      #MP - Dec 14, 2007
+      #Added to support the us tax receipt functionality
+      #If the user has indicated that they want a US tax 
+      #receipt, the session variable should be set to false,
+      #and the user notified that they can now follow the link
+      #**Thought about an automatic redirect here, but decided
+      #against it as it might be kinda weird to be redirected
+      #when activating the account**. Also, the message below may
+      #never be seen if the session expires before the user 
+      #activates the account.
+      if requires_us_tax_receipt?
+        requires_us_tax_receipt(false)
+        flash[:notice] = "Your email address has been confirmed and your account is activated!<br />You indicated that you require a US tax receipt.\nIf that is still the case, please follow the link and you will be taken to the correct location."
+      else
+       flash[:notice] = "Your email address has been confirmed and your account is activated!"
+      end
     else
       flash[:notice] = "Account activation has failed. You may have followed an expired confirmation link, or have copied a link incorrectly. Please review your email and try again."
     end

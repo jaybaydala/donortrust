@@ -144,6 +144,29 @@ context "Dt::Gifts new behaviour"do
     get :new
     should.not.redirect
   end
+  
+  specify "should use US tax layout if user is not logged in" do
+    get :new
+    @controller.using_us_layout.should.equal true
+  end
+  
+  specify "should use US tax layout if user is logged in but Country is unknown" do
+    login_as :quentin
+    get :new
+    @controller.using_us_layout.should.equal true
+  end
+  
+   specify "should use US tax layout if user is logged in but not Canadian" do
+    login_as :noncanadian
+    get :new
+    @controller.using_us_layout.should.equal true
+  end
+  
+  specify "should NOT use US tax layout if user is logged in and IS Canadian" do
+    login_as :canadian
+    get :new
+    @controller.using_us_layout.should.equal false
+  end
 
   specify "should assign the dt/gifts javascript to @action_js" do
     get :new

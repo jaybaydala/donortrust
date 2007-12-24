@@ -36,4 +36,30 @@ tim:
   first_name: Tim
   last_name: Glen
   display_name: sterrym
-  
+canadian:
+  id: 4
+  login: canadian@example.com
+  first_name: Hoser
+  last_name: Beer
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  activation_code: timscode # only if you're activating new signups
+  created_at: <%= 1.hour.ago.to_s :db %>
+  first_name: Hoser
+  last_name: Beer
+  display_name: hoserbeer
+  country: Canada
+
+noncanadian:
+  id: 5
+  login: noncanadian@example.com
+  first_name: NonHoser
+  last_name: CrappyBeer
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  activation_code: timscode # only if you're activating new signups
+  created_at: <%= 1.hour.ago.to_s :db %>
+  first_name: NonHoser
+  last_name: CrappyBeer
+  display_name: nonhosercrappybeer
+  country: SomeOtherPlace 

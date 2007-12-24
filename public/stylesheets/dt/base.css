@@ -169,6 +169,13 @@ div.highlight {
 	margin: 0 0 10px 18px;
 }
 
+#toolbar2 {
+	width:724px;
+	height:35px;
+	background: #CCC url(/images/dt/toolbars/ToolBackground2.jpg) no-repeat bottom;
+	margin: 0 0 10px 18px;
+}
+
 /* COLUMN STYLES */
 
 #contentContainer {

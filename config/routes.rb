@@ -17,6 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
+  map.dt_request_us_tax_receipt '/dt/request_us_tax_receipt', :controller => 'dt/sessions', :action => 'request_us_tax_receipt'
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :open => :get, :preview => :get }, :member => { :unwrap => :put }
 
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt' do |group|
@@ -53,7 +54,7 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
  
   # bus_admin resources
-  
+  map.resources :deposits, :path_prefix => "/bus_admin", :controller => "bus_admin/deposits"
   map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'
   map.resources :group_gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/group_gifts"
   map.resources :expired_gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/expired_gifts", :collection => {:unwrap => :post}

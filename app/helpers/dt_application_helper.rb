@@ -6,9 +6,13 @@ module DtApplicationHelper
   def dt_nav
     render 'dt/shared/nav'
   end
-
+  
   def dt_masthead_image
     @image = '/images/dt/feature_graphics/projectsFeature130.jpg'
+  end
+  
+  def dt_american_masthead_image
+    @image = '/images/dt/feature_graphics/giftUSTax130.jpg'
   end
   
   def dt_account_nav

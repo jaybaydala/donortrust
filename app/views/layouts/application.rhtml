@@ -15,6 +15,7 @@
 <%= javascript_include_tag 'tabbed_pane' %>
 <%= javascript_include_tag 'effects' %>
 <%= stylesheet_link_tag 'tabbed_pane' %>
+<%= calendar_date_select_includes "silver" %>
 
 <% if @title %>
     <title><%=@title %></title>
@@ -190,6 +191,7 @@
                 <option value="/bus_admin/sectors">Sectors</option>
 				<option value="/bus_admin/group_gifts">Upload Gift List</option>
                 <option value="/bus_admin/index">Users</option>
+				<option value="/bus_admin/deposits/new">US Deposits</option>
             </select>
         </td>
       </tr>

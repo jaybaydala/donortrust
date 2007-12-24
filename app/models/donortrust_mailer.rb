@@ -4,6 +4,18 @@ class DonortrustMailer < ActionMailer::Base
   include PDFProxy
   HTTP_HOST = (['staging', 'production'].include?(ENV['RAILS_ENV']) ? 'www.christmasfuture.org' : 'localhost:3000') if !const_defined?('HTTP_HOST')
 
+  #MP - Dec. 14, 2007
+  #Added to support US donations
+  #When an administrator inputs a deposit on behalf of a user
+  #whose original deposit went through GroundSpring, this email
+  #is sent so that the user is aware that their deposit has been
+  #put into their Christmas Future account.
+  def us_deposit_notification(user)
+    user_setup_email(user)
+    subject "Your donation has been processed."
+    body :user => user, :host => HTTP_HOST, :url => dt_login_url(:host => HTTP_HOST)
+  end
+  
   def user_signup_notification(user)
     user_setup_email(user)
     subject  "The future is here."
