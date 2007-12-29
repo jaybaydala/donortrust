@@ -1,3 +1,4 @@
+require 'config/environment'
 require 'mongrel_cluster/recipes'
 set :application, "donortrust"
 set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
