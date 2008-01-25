@@ -137,6 +137,13 @@ context "Gift" do
     t = create_gift(credit_card_params(:send_at => 1.second.from_now))
     t.update_attributes(:send_at => 1.second.ago).should.equal true
   end
+
+  specify "find_unopened_gifts should only find gifts with a pickup_code and that hasn't been sent" do
+    Gift.find_unopened_gifts.each do |gift|
+      gift.pickup_code.should.not.be.nil
+      gift.sent_at.should.not.be.nil
+    end
+  end
   
   specify "creating a Gift should create a UserTransaction if user_id is present" do
     lambda {

@@ -1,5 +1,5 @@
 class BusAdmin::AddToGroupController < ApplicationController
-  
+ before_filter :login_required, :check_authorization
   
  def index
     @members = Load.find(:all, :conditions => ['invitation = 0' ])

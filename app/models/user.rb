@@ -64,6 +64,10 @@ class User < ActiveRecord::Base
     self.display_name
   end
   
+   def fullname_login
+    "#{self.first_name} #{self.last_name}          (#{self.login})"
+  end   
+  
   def full_name
     under_thirteen? ? self.display_name : "#{self.first_name} #{self.last_name}" 
   end

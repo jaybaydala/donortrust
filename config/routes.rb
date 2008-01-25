@@ -238,6 +238,7 @@ ActionController::Routing::Routes.draw do |map|
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'
   map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
   map.resend 'bus_admin/resend', :controller => 'bus_admin/gifts', :action => 'resend'
+  map.resend_gift 'bus_admin/resend_gift', :controller => 'bus_admin/gifts', :action => 'resend_gift'
  
   map.display_inline_report 'bus_admin/display_inline_report', :controller => 'bus_admin/projects', :action => 'display_inline_report'
   map.report 'bus_admin/individual_report_inline', :controller => 'bus_admin/projects', :action => 'individual_report_inline'

@@ -1,5 +1,5 @@
 class BusAdmin::CommentsController < ApplicationController
-
+  before_filter :login_required, :check_authorization
   active_scaffold :comment do |config|
     config.actions.exclude :create,:delete,:update
     config.list.columns = [:name,:email,:comment,:date]

@@ -1,6 +1,7 @@
 require 'net/http'
 require 'uri'
 class BusAdmin::ExpiredGiftsController < ApplicationController
+  before_filter :login_required, :check_authorization
   def index
     @gifts = Gift.find(:all, :conditions => ['sent_at < ? and picked_up_at is null', 31.days.ago])
    # render :partial => "list", :layout => false

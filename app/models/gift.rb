@@ -82,7 +82,7 @@ class Gift < ActiveRecord::Base
   end
   
   def self.find_unopened_gifts
-    find_all_by_pickup_code(nil, :conditions => 'sent_at IS NOT NULL')
+    find(:all, :conditions => 'sent_at IS NOT NULL AND picked_up_at IS NULL')
   end
   
   protected

@@ -12,14 +12,16 @@
   		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
           <li><label for="name"><%= render :partial => 'dt/shared/form_required' %>Amount </label><%= f.text_field number_to_currency(:amount) %></li>			
 		  <br />
-		  <li><label for="user"><%= render :partial => 'dt/shared/form_required' %>Sent By </label> <%= collection_select (:user, :user_id, User.find(:all, :order => "first_name, last_name"), :id, :full_name, { :include_blank => true}) %></li>
+		  <li><label for="user"><%= render :partial => 'dt/shared/form_required' %>Sent By </label> <%= collection_select (:user, :user_id, User.find(:all, :order => "first_name, last_name"), :id, :fullname_login, { :include_blank => true}) %></li>
 		</ul>
       </fieldset>  
 	  
 	  <fieldset>
-	    <legend>Gift Schedule</legend>
-	    <div class="textsm" style="padding-bottom:0;">Select a date &amp; time to send your gift email or leave this area blank to send it right away.</div>
-	      <div id="gift_send_at_select">
+	    <legend>Gift Schedule</legend>	      
+		  <div id="gift_send_at_select">
+		  	<ul class="row" style="padding-top:10px; padding-bottom:10px;">		
+		      <li>Select a date &amp; time to send your gift email or leave this area blank to send it right away.</li>
+		    </ul>
 	         <%= f.datetime_select :send_at, 
 	           :order => [:month, :day, :year, :hour, :minute], 
 	           :start_year => Time.now.year, 

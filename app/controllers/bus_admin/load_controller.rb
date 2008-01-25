@@ -1,5 +1,5 @@
 class BusAdmin::LoadController < ApplicationController
-
+  before_filter :login_required, :check_authorization  
   def index
     @loads = Load.find(:all , :conditions => ['sent = 0' ])
   end
