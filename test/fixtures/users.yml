@@ -21,6 +21,7 @@ aaron:
   first_name: Aaron
   last_name: Tester
   salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  country: Canada
   crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
   activation_code: aaronscode # only if you're activating new signups
   created_at: <%= 1.days.ago.to_s :db %>
@@ -36,6 +37,7 @@ tim:
   first_name: Tim
   last_name: Glen
   display_name: sterrym
+  country: USA
 canadian:
   id: 4
   login: canadian@example.com
@@ -49,7 +51,6 @@ canadian:
   last_name: Beer
   display_name: hoserbeer
   country: Canada
-
 noncanadian:
   id: 5
   login: noncanadian@example.com

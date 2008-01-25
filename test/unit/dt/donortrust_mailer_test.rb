@@ -40,12 +40,12 @@ context "DonortrustMailer on user_signup_notification" do
   end
   
   specify "should contain user activation url /dt/accounts;activate?id=[A-Za-z0-9]+) in mail body" do
-    @user_notifier.body.should =~ ( %r{/dt/accounts;activate\?id=[A-Za-z0-9]+} )
+    @user_notifier.body.should =~ ( %r{/dt/accounts;activate\?id=[a-z0-9]+}i )
   end
 
   private
   def create_user(options = {})
-    User.create({ :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options))
+    User.create({ :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1', :country => 'Canada' }.merge(options))
   end
 
   private
@@ -81,7 +81,7 @@ context "DonortrustMailer on user_password_reset" do
 
   private
   def create_user(options = {})
-    User.create({ :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options))
+    User.create({ :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirename', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1', :country => "Canada" }.merge(options))
   end
 end
 
