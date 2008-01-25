@@ -54,6 +54,8 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
  
   # bus_admin resources
+  map.resources :reports, :path_prefix => "/bus_admin", :controller => "bus_admin/reports"
+  map.process_report 'bus_admin/reports/process_report', :controller => 'bus_admin/reports', :action => 'process_report'
   map.resources :deposits, :path_prefix => "/bus_admin", :controller => "bus_admin/deposits"
   map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'
   map.resources :group_gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/group_gifts"
