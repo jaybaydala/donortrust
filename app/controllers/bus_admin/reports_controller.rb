@@ -13,11 +13,11 @@ class BusAdmin::ReportsController < ApplicationController
     end    
 
     if (params[:report][:gift]).to_i == 1 
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM donortrust_development.gifts WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM donortrust_production.gifts WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
        @results = Gift.find_by_sql(sqlString)
        export(@results)
     else 
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM donortrust_development.deposits WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM donortrust_production.deposits WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
        @results = Deposit.find_by_sql(sqlString)
         export(@results)
     end
