@@ -152,7 +152,8 @@ class User < ActiveRecord::Base
   # Activates the user in the database.
   def activate
     @activated = true
-    update_attributes(:activated_at => Time.now.utc, :activation_code => nil)
+    @activated = update_attributes(:activated_at => Time.now.utc, :activation_code => nil) ? true : false
+    @activated
   end
   
   # Returns true if the user has just been activated.

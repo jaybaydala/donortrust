@@ -259,7 +259,7 @@ context "Dt::Accounts handling GET /dt/accounts;resend" do
 
   protected
   def create_user(options = {})
-    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options)
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1', :country => 'Canada' }.merge(options)
   end
 end
 
@@ -295,7 +295,7 @@ context "Dt::Accounts user activation mailer" do
 
   protected
   def create_user(options = {})
-    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options)
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1', :country => 'Canada' }.merge(options)
   end
 end
 
@@ -412,7 +412,7 @@ context "Dt::Accounts handling POST /dt/accounts/create" do
 
   protected
   def create_user(options = {})
-    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1' }.merge(options)
+    post :create, :user => { :login => 'quire@example.com', :first_name => 'Quire', :last_name => 'Tester', :display_name => 'Quirey', :password => 'quire', :password_confirmation => 'quire', :terms_of_use => '1', :country => 'Canada' }.merge(options)
   end
 end
 
