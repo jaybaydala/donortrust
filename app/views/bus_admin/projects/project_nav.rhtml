@@ -3,7 +3,7 @@
           <li id="quick-overview-nav"><%= link_to "Overview ", bus_admin_project_path %></li> 
           <li id="quick-project-nav"><%= link_to "Project Details ", bus_admin_details_project_path(@project) %></li>
 		  <li id="project-nav-community"><%= link_to "Community ", bus_admin_community_project_path(@project) %></li>
-		  <li id="project-nav-community"><%= link_to "Nation ", bus_admin_community_project_path(@project) %></li>
+		  <li id="project-nav-community"><%= link_to "Nation ", bus_admin_nation_project_path(@project) %></li>
 		  <li id="quick-organization-nav"><%= link_to "Organization  ", bus_admin_organization_project_path(@project.partner_id) %></li> 
 		</ul>
 		<li id="project-nav-edit"> 
@@ -18,4 +18,3 @@
 		
       </div><!-- subNav ends -->
 
-	  
