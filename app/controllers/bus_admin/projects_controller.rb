@@ -311,18 +311,18 @@ class BusAdmin::ProjectsController < ApplicationController
       
   end  
     
-#  def details
-#    begin 
-#      @project = Project.find(params[:id])
-#    rescue ActiveRecord::RecordNotFound
-#      rescue_404 and return
-#    end
-#    @page_title = "Project Details | #{@project.name}"
-#    @action_js = "http://simile.mit.edu/timeline/api/timeline-api.js"
-#    respond_to do |format|
-#      format.html
-#    end
-#  end
+  def details
+    begin 
+      @project = Project.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    @page_title = "Project Details | #{@project.name}"
+    @action_js = "http://simile.mit.edu/timeline/api/timeline-api.js"
+    respond_to do |format|
+      format.html
+    end
+  end
   
   #TODO - Don't know about the security on this
   def report    
