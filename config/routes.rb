@@ -25,7 +25,7 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :group_projects, :controller => 'dt/group_projects', :name_prefix => 'dt_'
     group.resources :invitations, :controller => 'dt/invitations', :name_prefix => 'dt_'
     group.resources :messages, :controller => 'dt/groups/news', :name_prefix => 'dt_'
-    group.resources :walls, :controller => 'dt/groups/walls', :name_prefix => 'dt_'
+    group.resources :wall_messages, :controller => 'dt/groups/wall_messages', :name_prefix => 'dt_'
   end
   map.resources :wishlists, :controller=> 'dt/wishlists', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :tell_friends, :controller=> 'dt/tell_friends', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :preview => :get }
