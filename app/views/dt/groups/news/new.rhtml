@@ -1,4 +1,7 @@
 <%= dt_account_nav %>
+
+<%= dt_group_nav unless @group.private && !@membership %>
+
 <div id="contentContainer">
   <div id="leftColW">
   	<h1>Create an Admin Message</h1>

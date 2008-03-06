@@ -1,6 +1,6 @@
-class CreateGroupWalls < ActiveRecord::Migration
+class CreateGroupWallMessages < ActiveRecord::Migration
   def self.up
-    create_table "group_walls" do |t|
+    create_table "group_wall_messages" do |t|
       t.column :message, :text
       t.column :group_id, :integer
       t.column :user_id, :integer
@@ -8,6 +8,6 @@ class CreateGroupWalls < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table "group_walls"
+    drop_table "group_wall_messages"
   end
 end

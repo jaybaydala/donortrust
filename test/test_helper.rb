@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require 'mocha'
 require 'pp'
+require 'redgreen'
 
 class Test::Unit::TestCase
   fixtures :projects, :places, :causes, :partners

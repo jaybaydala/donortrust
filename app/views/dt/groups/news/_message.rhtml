@@ -1,7 +1,12 @@
 <div class="group_news">
-<p><%= message.message.gsub(/\n/, "<br />\n") if message.message %></p>
+<p><%= message.message.gsub(/\n/, "<br />\n") if message.message? %></p>
 <div class="group_news-attribution">
-  <%= message.user.name if message.user %> @ <%= message.created_at.to_formatted_s(:dt_default) if message.created_at %>
-  <div class="textsm"><%= link_to("Edit Message", dt_edit_message_path(@group, message)) if current_member(@group) && (current_member(@group).founder? || current_member(@group).admin? && message.user_id == current_user.id) %></div>
+  <%= message.user.name if message.user %> @ <%= message.created_at.to_formatted_s(:long) if message.created_at? %>
+  <div class="textsm">
+    <% if current_member(@group) && (current_member(@group).founder? || current_member(@group).admin? && message.user_id == current_user.id) %>
+      <%= link_to("Edit Message", dt_edit_message_path(@group, message)) %> | 
+      <%= link_to("Delete", dt_message_path(@group, message), :method => :delete, :confirm => "Are you sure you want to delete this message?") %>
+    <% end %>
+  </div>
 </div>
 </div>

@@ -300,16 +300,6 @@ end
 
 #GROUP STORIES
 #=============
-#As a user, I should be able to:
-#  x see a list of "public" groups
-#  x not see "non-public" groups
-#  - see a public groups' name & description
-#  x create a group
-#these will all allow a user to connect with people who share their interests
-#
-#When looking at a list of groups:
-#  -  the group should show name, description, type, geographic location and interests
-#
 #As a group member, I should be able to:
 #  - write on the group wall
 #  - view other member's wall messages
@@ -321,19 +311,6 @@ end
 #  - see the total amount of money the group has allocated
 #these will all allow a community to form through the group model
 #
-#As a group-admin, I should be able to:
-#  - edit the group name & description
-#  - invite new existing DT account holders
-#  - invite non-account holders via email
-#  - post group admin messages to the group
-#  - add Projects to the "interested in" list
-#  - remove Projects from the "interested in" list
-#these will all allow a community to form through the group model
-#
-#As a group creator, I should:
-#  x automatically be added as a member of the group
-#  x should become an owner of the group you just added
-#  
 #Low priority stories:
 #Group Accounts
 #  - Corporate Accounts (an Encana account where Encana will match employee giving)

@@ -7,6 +7,10 @@
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   <div id="leftColW">
   	<h1><%= h @group.name %></h1>
+  	<% if current_member(@group) && current_member(@group).admin? %>
+    <p class="textsm"><%= link_to "Edit Group Details", dt_edit_group_path(@group) %></p>
+    <% end %>
+    
   	<% if !@group.private || (@group.private && @membership) || @invitation %>
   	  <% if !@membership && @invitation %>
   	    <p>You have been invited to join this group. Would you like to accept?</p>
@@ -45,9 +49,10 @@
       <% end %>
   		
   		<% if @recent_news %>
-  		<h2>Recent News</h2>
+  		<h2>Recent Group News</h2>
   		<p class="textsm"><%= link_to("Add Group News", dt_new_message_path(@group)) if current_member && current_member.admin? %></p>
   		<%= render :partial => "dt/groups/news/message", :locals => {:message => @recent_news} %>
+  		<p class="textsm"><%= link_to "View all Group News...", dt_messages_path(@group) %></p>
   		<% end %>
 
   	<% else %>

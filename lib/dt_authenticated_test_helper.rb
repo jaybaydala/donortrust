@@ -8,6 +8,8 @@ module DtAuthenticatedTestHelper
       @current_user.stubs(:to_param).returns("1")
       @current_user.stubs(:activated?).returns(true)
       @current_user.stubs(:name).returns("Mocked User")
+      @current_user.stubs(:memberships).returns([])
+      @current_user.stubs(:projects).returns([])
       if defined?(@controller)
         @controller.stubs(:current_user).returns(@current_user)
       end

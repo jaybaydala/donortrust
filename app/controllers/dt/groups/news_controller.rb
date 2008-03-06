@@ -68,6 +68,22 @@ class Dt::Groups::NewsController < DtApplicationController
     end
   end
   
+  def destroy
+    @group = Group.find(params[:group_id])
+    @group_news = @group.news.find(params[:id])
+    @member = @group.memberships.find_by_user_id(current_user.id)
+    respond_to do |format|
+      unless news_allowed?
+        format.html{redirect_to dt_group_path(@group)}
+      else
+        flash[:notice] = @group_news.destroy ? 
+          "Your Group News message has been destroyed" : 
+          "Your Group News message could not be deleted"
+        format.html{redirect_to dt_messages_path(@group)}
+      end
+    end
+  end
+  
   protected
   def news_allowed?(group_news_id=nil)
     return false unless logged_in?
