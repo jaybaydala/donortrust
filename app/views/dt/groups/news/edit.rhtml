@@ -1,0 +1,24 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  	<h1>Edit Admin Message</h1>
+		<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  
+    <%= error_messages_for :group_news %>
+    <% form_for(:group_news, :url => dt_message_path(@group, @group_news), :html => { :method => 'put', :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
+    <div class="userform">
+      <fieldset id="textInput">
+        <ul class="row">
+          <li><label for="group_news_message">Your message</label><%= f.text_area :message, :rows => 6, :cols => 35 %></li>
+        </ul>
+      </fieldset>
+
+    	<%= submit_tag 'Update Admin Message', :class => 'buttonsubmit' %>
+  	</div>
+  	<% end -%>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
+</div>

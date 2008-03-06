@@ -1,6 +1,7 @@
 class Dt::GroupProjectsController < DtApplicationController
   before_filter :login_required, :only => :destroy
   helper 'dt/get_involved'
+  helper 'dt/groups'
 
   def initialize
     @topnav = 'get_involved'

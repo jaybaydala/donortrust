@@ -1,7 +1,21 @@
 module DtAuthenticatedTestHelper
   # Sets the current user in the session from the user fixtures.
-  def login_as(user)
-    @request.session[:user] = user ? users(user).id : nil
+  def login_as(user=nil)
+    if (user.nil?)
+      @current_user = User.new
+      @current_user.stubs(:new_record?).returns(false)
+      @current_user.stubs(:id).returns(1)
+      @current_user.stubs(:to_param).returns("1")
+      @current_user.stubs(:activated?).returns(true)
+      @current_user.stubs(:name).returns("Mocked User")
+      if defined?(@controller)
+        @controller.stubs(:current_user).returns(@current_user)
+      end
+      @request.session[:user] = @current_user.id
+    else
+      @request.session[:user] = user ? users(user).id : nil
+    end
+    @request.session[:user]
   end
 
   def content_type(type)

@@ -3,7 +3,10 @@
     <li<%= ' class="currentPg"' if params[:controller] == 'dt/groups' && params[:action] == 'show' %>><%= link_to "Group Overview", dt_group_path(@group) %></li>
     <li<%= ' class="currentPg"' if params[:controller] == 'dt/group_projects' && params[:action] == 'index' %>><%= link_to "Group Projects", dt_group_projects_path(@group) %></li>
     <li<%= ' class="currentPg"' if params[:controller] == 'dt/memberships' && params[:action] == 'index' %>><%= link_to "Members", dt_memberships_path(@group) %></li>
-    <% if current_member(@group) && current_member(@group).admin? %><li<%= ' class="currentPg"' if params[:controller] == 'dt/groups' && params[:action] == 'edit' %>><%= link_to "Edit Group Details", dt_edit_group_path(@group) %></li><% end %>
+    <li<%= ' class="currentPg"' if params[:controller] == 'dt/groups/news' %>><%= link_to "Group News", dt_messages_path(@group) %></li>
+    <% if current_member(@group) && current_member(@group).admin? %>
+    <li<%= ' class="currentPg"' if params[:controller] == 'dt/groups' && params[:action] == 'edit' %>><%= link_to "Edit Group Details", dt_edit_group_path(@group) %></li>
+    <% end %>
   </ul>
   <div class="buttonGroupWrapN">
     <ul class="buttonGroup">

@@ -12,10 +12,8 @@ context "Dt::Groups inheritance" do
 end
 
 context "Dt::Groups #route_for" do
+  use_controller Dt::GroupsController
   setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
     @rs         = ActionController::Routing::Routes
   end
 
@@ -54,14 +52,9 @@ context "Dt::Groups #route_for" do
 end
 
 context "Dt::GroupsController handling GET /dt/groups" do
+  use_controller Dt::GroupsController
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
-  
-  setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   def do_get
     get :index
@@ -103,15 +96,10 @@ context "Dt::GroupsController handling GET /dt/groups" do
 end
 
 context "Dt::GroupsController handling GET /dt/groups;new" do
+  use_controller Dt::GroupsController
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
   
-  setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
-
   def do_get(options=nil)
     get :new, options
   end
@@ -142,22 +130,10 @@ context "Dt::GroupsController handling GET /dt/groups;new" do
 end
 
 context "Dt::GroupsController handling POST /dt/groups;create" do
-#When creating a group, I should:
-#  x be required to enter a group name
-#  x Group name does not have to be unique
-#  x choose what type of group I'm creating - Corporate, School, Family, General, Special Interest
-#  x set group to Public/Private
-#  - choose geographic location of group
-#    - Country and Province/state are pre-populated select boxes, city/town should be text box autocomplete (non-constrained)
-#  x choose the sector/cause interest of the group
+  use_controller Dt::GroupsController
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types, :sectors
   
-  setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   specify "should redirect to /login when not logged in" do
     create_group({}, false)
@@ -207,14 +183,9 @@ context "Dt::GroupsController handling POST /dt/groups;create" do
 end
 
 context "Dt::GroupsController handling GET /dt/groups/1" do
+  use_controller Dt::GroupsController
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
-  
-  setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
   
   def do_get(id=1)
     get :show, :id => id
@@ -268,14 +239,9 @@ context "Dt::GroupsController handling GET /dt/groups/1" do
 end
 
 context "Dt::GroupsController handling GET /dt/groups/1;edit" do
+  use_controller Dt::GroupsController
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
-  
-  setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
   
   def do_get 
     get :edit, :id => 1
@@ -295,14 +261,9 @@ context "Dt::GroupsController handling GET /dt/groups/1;edit" do
 end
 
 context "Dt::GroupsController handling PUT /dt/groups/1" do
+  use_controller Dt::GroupsController
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types, :sectors
-  
-  setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
   
   specify "should redirect to /login when not logged in" do
     put :update, :id => 1, :group => { :name => 'new name' }
@@ -317,14 +278,9 @@ context "Dt::GroupsController handling PUT /dt/groups/1" do
 end
 
 context "Dt::GroupsController handling DELETE /dt/groups/1" do
+  use_controller Dt::GroupsController
   include DtAuthenticatedTestHelper
   fixtures :users, :groups, :memberships, :group_types
-  
-  setup do
-    @controller = Dt::GroupsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
   
   specify "should redirect to /login when not logged in" do
     delete :destroy, :id => 1

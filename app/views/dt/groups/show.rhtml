@@ -43,14 +43,13 @@
       </p>
       <div class="line2W"></div>
       <% end %>
-  		<!--
-  		<h2>Group News</h2>
-  		<p class="byLine">By-Line</p>
-  		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Fusce tempor tempus quam. Morbi tempor, mauris quis tristique ultricies, purus dui venenatis ligula, malesuada consectetuer neque velit sit amet tellus. Donec ut tortor. Proin nisl. Morbi laoreet, dolor vel molestie volutpat, est ligula vestibulum eros, non facilisis velit pede egestas mi. Vestibulum sollicitudin dignissim pede. Donec mattis justo non lectus. Sed nec est facilisis tellus ultrices blandit. Aliquam viverra nisi eu purus. Nullam quam lectus, pellentesque in, dignissim varius, sagittis sit amet, odio. Nullam viverra ligula aliquam sem.</p>
-  		<p>Ut a tellus vel justo elementum euismod. Duis vulputate, neque nec accum-<br />
-  san tincidunt, risus quam varius eros, eu gravida nunc neque ut tortor. Cras con-dismentum justo sit amet quam.</p>
-  		<p class="dateStamp">date stamp </p>
-		  -->
+  		
+  		<% if @recent_news %>
+  		<h2>Recent News</h2>
+  		<p class="textsm"><%= link_to("Add Group News", dt_new_message_path(@group)) if current_member && current_member.admin? %></p>
+  		<%= render :partial => "dt/groups/news/message", :locals => {:message => @recent_news} %>
+  		<% end %>
+
   	<% else %>
   	  <p>
   	    <%= logged_in? ? "We cannot find an invitation to your login email." : "If you believe you've been invited to this group, please login using the email address that you were invited with." %>

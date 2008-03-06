@@ -47,8 +47,12 @@ context "Membership class" do
     m = create_membership(:user_id => users(:tim).id, :group_id => 1, :membership_type => 99)
     m.membership_type.should.equal Membership.member
     m.destroy
-    m = create_membership(:user_id => users(:tim).id, :group_id => 1, :membership_type => -1)
+    m = create_membership(:user_id => users(:tim).id, :group_id => 1, :membership_type => "superduperadmin")
     m.membership_type.should.equal Membership.member
+    m.destroy
+    m = create_membership(:user_id => users(:tim).id, :group_id => 1, :membership_type => "superduperadmin")
+    m.membership_type.should.equal Membership.member
+    m.destroy
   end
   
   def create_membership(options={})

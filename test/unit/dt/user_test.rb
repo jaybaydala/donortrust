@@ -218,9 +218,11 @@ context "UserAuthentication" do
 
   specify "expired? should only return true if they haven't logged in for more than a year" do
     u = User.find(users(:quentin).id)
+    u.update_attributes( :last_logged_in_at => nil )
+    u.expired?.should.be false
     u.update_attributes( :last_logged_in_at => Time.now + 1.second )
     u.expired?.should.be false
-    u.update_attributes( :last_logged_in_at => Time.now - 1.second - 1.year ) # 1 year plus 1 second ago
+    u.update_attributes( :last_logged_in_at => Time.now.last_year - 2.seconds ) # 1 year plus 2 seconds ago
     u.expired?.should.be true
   end
 
@@ -228,7 +230,7 @@ context "UserAuthentication" do
     u = User.find(users(:quentin).id)
     u.update_attributes( :last_logged_in_at => Time.now + 1.second )
     User.authenticate('quentin@example.com', 'test').should.not.be.nil
-    u.update_attributes( :last_logged_in_at => Time.now - 1.second - 1.year ) # 1 year plus 1 second ago
+    u.update_attributes( :last_logged_in_at => Time.now.last_year - 2.seconds ) # 1 year plus 2 seconds ago
     User.authenticate('quentin@example.com', 'test').should.be.nil
   end
 

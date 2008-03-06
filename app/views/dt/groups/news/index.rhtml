@@ -1,0 +1,18 @@
+<%= dt_account_nav %>
+
+<%= dt_group_nav unless @group.private && !@membership %>
+
+<div id="contentContainer">
+  <div id="leftColW">
+
+    <h2>Group News</h2>
+    <p class="textsm"><%= link_to("Add Group News", dt_new_message_path) if current_member(@group) && current_member(@group).admin? %></p>
+    
+    <%= will_paginate @group_news %>
+
+    <%= render :partial => 'dt/groups/news/message', :collection => @group_news %>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
+</div>

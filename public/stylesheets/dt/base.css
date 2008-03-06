@@ -2108,6 +2108,18 @@ form #groupLocation .textsm {margin: 0px 0px 4px 0;}
 #memberList .textsm {padding:0 0 0 0px;}
 .control {float:left; height:auto; width:50px; font: 11px/16px Arial, Helvetica, sans-serif; text-align:center;}
 
+/* GROUP ADMIN MESSAGES */
+div.group_news {
+	margin:0 0 12px 7px;
+	padding: .5em 0;
+	border-bottom: 1px solid #95AED0;
+}
+div.group_news-attribution {
+	font-size:90%;
+	font-style:italic;
+	margin:0 0 0 12px;
+}
+
 /* NEW MEMBER MODULE */
 
 #newMember {width:100%; margin-bottom:0px;}

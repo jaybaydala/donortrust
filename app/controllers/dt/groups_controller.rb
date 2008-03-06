@@ -1,4 +1,5 @@
 class Dt::GroupsController < DtApplicationController
+  include GroupPermissions
   before_filter :login_required, :except => [ :index, :show ]
   before_filter :load_membership, :except => [ :index, :new, :create ]
   before_filter :store_location
@@ -21,8 +22,9 @@ class Dt::GroupsController < DtApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @recent_news = @group.news.find(:first, :order => "created_at DESC")
     @page_title = "#{@group.name}"
-    if @group.private && !@membership
+    if @group.private? && !@membership
       flash.now[:notice] = "This is a private group" unless flash[:notice]
       @invitation = Invitation.find(:first, :conditions => {:to_email => current_user.email, :accepted => nil}) if logged_in?
     end

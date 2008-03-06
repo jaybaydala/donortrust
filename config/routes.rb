@@ -1,5 +1,5 @@
+
 ActionController::Routing::Routes.draw do |map|
-  
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.resources :projects, :controller => 'dt/projects', :name_prefix => 'dt_', :path_prefix => '/dt', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
   map.resources :investments, :controller => 'dt/investments', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post }
@@ -21,10 +21,11 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :gifts, :controller => 'dt/gifts', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :open => :get, :preview => :get }, :member => { :unwrap => :put }
 
   map.resources :groups, :controller=> 'dt/groups', :name_prefix => 'dt_', :path_prefix => '/dt' do |group|
-    group.resources :memberships, :controller => 'dt/memberships', :name_prefix => 'dt_', :member => { :promote => :put, :demote => :put }
+    group.resources :memberships, :controller => 'dt/groups/memberships', :name_prefix => 'dt_', :member => { :promote => :put, :demote => :put }
     group.resources :group_projects, :controller => 'dt/group_projects', :name_prefix => 'dt_'
-    group.resources :group_news, :controller => 'dt/group_news', :name_prefix => 'dt_'
     group.resources :invitations, :controller => 'dt/invitations', :name_prefix => 'dt_'
+    group.resources :messages, :controller => 'dt/groups/news', :name_prefix => 'dt_'
+    group.resources :walls, :controller => 'dt/groups/walls', :name_prefix => 'dt_'
   end
   map.resources :wishlists, :controller=> 'dt/wishlists', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.resources :tell_friends, :controller=> 'dt/tell_friends', :name_prefix => 'dt_', :path_prefix => '/dt', :collection => { :confirm => :post, :preview => :get }

@@ -13,8 +13,8 @@ class Membership < ActiveRecord::Base
   
   def before_save
     self[:membership_type] = Membership.member unless [Membership.founder, Membership.admin, Membership.member].include?(self[:membership_type])
-    if ![Membership.founder, Membership.admin, Membership.member].include?(self[:membership_type])
-      pp "hithere"
+    if !self.class.valid_roles.include?(self[:membership_type])
+      
     end
   end
   
@@ -32,6 +32,9 @@ class Membership < ActiveRecord::Base
     def find_group_founder(group_id)
       member = find_by_membership_type(Membership.founder, :conditions => {:group_id => group_id})
       founder = member.user if member && member.user_id? && !member.user.nil?
+    end
+    def valid_roles
+      [Membership.founder, Membership.admin, Membership.member]
     end
   end
 end

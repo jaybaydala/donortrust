@@ -2,10 +2,12 @@ class Group < ActiveRecord::Base
   belongs_to :group_type
   has_many :investments
   has_many :invitations
+  has_many :news, :class_name => "GroupNews", :dependent => :destroy
+  has_many :users, :through => :news
+  # has_many :walls, :class_name => "GroupWall", :dependent => :destroy
+  # has_many :users, :through => :wall
   has_many :memberships, :dependent => :destroy
   has_many :users, :through => :memberships
-  #has_many :users, :through => :groupwall
-  #has_many :users, :through => :group_admin_notes
   has_and_belongs_to_many :projects
 
   validates_presence_of :name

@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
+  has_many :group_news
+  has_many :group_walls
   has_many :user_transactions
   has_many :deposits
   has_many :investments
