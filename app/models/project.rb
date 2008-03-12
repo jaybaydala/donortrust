@@ -203,7 +203,7 @@ class Project < ActiveRecord::Base
   end
   
   def public_groups
-    @public_groups ||= groups.find(:all, :conditions => { :private => :false })
+    @public_groups ||= groups.find_all_by_private(false)
   end
   
   def self.total_percent_raised
