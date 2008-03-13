@@ -7,12 +7,13 @@ class Dt::Groups::NewsController < DtApplicationController
   
   def initialize
     @topnav = 'get_involved'
-    @page_title = "Group Admin Messages"
+    @page_title = "Group News"
   end
 
   def index
     @group = Group.find(params[:group_id])
-    @group_news = @group.news.paginate({:page => params[:page], :per_page => 5, :order => "created_at DESC"})
+    @group_message = @group.news.build
+    @group_messages = @group.news.paginate({:page => params[:page], :per_page => 5, :order => "created_at DESC"})
     respond_to do |format|
       format.html
     end

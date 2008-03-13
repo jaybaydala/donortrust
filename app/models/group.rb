@@ -3,9 +3,7 @@ class Group < ActiveRecord::Base
   has_many :investments
   has_many :invitations
   has_many :news, :class_name => "GroupNews", :dependent => :destroy
-  has_many :users, :through => :news
-  # has_many :walls, :class_name => "GroupWall", :dependent => :destroy
-  # has_many :users, :through => :wall
+  has_many :wall_messages, :class_name => "GroupWallMessage", :dependent => :destroy
   has_many :memberships, :dependent => :destroy
   has_many :users, :through => :memberships
   has_and_belongs_to_many :projects

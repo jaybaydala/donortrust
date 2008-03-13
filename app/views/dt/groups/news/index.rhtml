@@ -6,11 +6,19 @@
   <div id="leftColW">
 
     <h2>Group News</h2>
-    <p class="textsm"><%= link_to("Add Group News", dt_new_message_path) if current_member(@group) && current_member(@group).admin? %></p>
+    <% if current_member(@group) && current_member(@group).admin? -%>
+    <%= error_messages_for :group_message %>
+    <% form_for(:group_message, :url => dt_messages_path(@group), :html => { :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
+    <div class="userform">
+      <%= render :partial => "form", :locals => {:f => f} %>
+  	  <%= submit_tag 'Add Admin Message', :class => 'buttonsubmit' %>
+  	</div>
+  	<% end %>
+  	<% end -%>
     
-    <%= will_paginate @group_news %>
+    <%= will_paginate @group_messages %>
 
-    <%= render :partial => 'dt/groups/news/message', :collection => @group_news %>
+    <%= render :partial => 'dt/groups/news/message', :collection => @group_messages %>
   </div>
   <div id="rightColN">
 	  <%= dt_profile_sidebar %>
