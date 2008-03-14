@@ -37,6 +37,10 @@ class Dt::MyWishlistsController < DtApplicationController
   end
   
   def new_message
+    if params[:project_id] && Project.exists?(params[:project_id])
+      @project = Project.find(params[:project_id])
+      current_user.projects << @project unless current_user.projects.include?(@project)
+    end
     @share = Share.new
     @ecards = ECard.find(:all, :order => :id)
     @action_js = 'dt/ecards'
