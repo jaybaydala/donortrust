@@ -148,6 +148,16 @@ context "test/spec" do
     lambda { lambda { raise "Error" }.should.raise(Interrupt) }.should fail
   end
 
+  specify "has should.raise with a block" do
+    lambda { should.raise { raise "Error" } }.should succeed
+    lambda { should.raise(RuntimeError) { raise "Error" } }.should succeed
+    lambda { should.not.raise { raise "Error" } }.should fail
+    lambda { should.not.raise(RuntimeError) { raise "Error" } }.should fail
+
+    lambda { should.raise { 1 + 1 } }.should fail
+    lambda { should.raise(Interrupt) { raise "Error" } }.should fail
+  end
+
   specify "should.raise should return the exception" do
     ex = lambda { raise "foo!" }.should.raise
     ex.should.be.kind_of RuntimeError
@@ -373,6 +383,12 @@ context "test/spec" do
       $contextscope.specify "foo"
     }.should.raise(ArgumentError)
     lambda {
+      $contextscope.xspecify
+    }.should.raise(ArgumentError)
+    lambda {
+      $contextscope.xspecify "foo"
+    }.should.not.raise(ArgumentError)    # allow empty xspecifys
+    lambda {
       Kernel.send(:context, "foo")
     }.should.raise(ArgumentError)
     lambda {
@@ -465,9 +481,25 @@ context "test/spec" do
     # just trying
   end
 
+  xspecify "empty specification"
+
   context "more disabled" do
     xspecify "this is intentional" do
       # ...
+    end
+
+    specify "an empty specification" do
+      # ...
+    end
+
+    xcontext "even more disabled" do
+      specify "we can cut out" do
+        # ...
+      end
+
+      specify "entire contexts, now" do
+        # ...
+      end
     end
   end
 end
@@ -518,5 +550,23 @@ context "contexts" do
   specify "can include modules" do
     lambda { foo }.should.not.raise(NameError)
     foo.should.equal 42
+  end
+end
+
+class CustomTestUnitSubclass < Test::Unit::TestCase
+  def test_truth
+    assert true
+  end
+end
+
+context "contexts with subclasses", CustomTestUnitSubclass do
+  specify "use the supplied class as the superclass" do
+    self.should.be.a.kind_of CustomTestUnitSubclass
+  end
+end
+
+xcontext "xcontexts with subclasses", CustomTestUnitSubclass do
+  specify "work great!" do
+    self.should.be.a.kind_of CustomTestUnitSubclass
   end
 end

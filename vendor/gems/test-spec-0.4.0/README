@@ -29,6 +29,16 @@ In test/spec, it looks like this:
       end
     end
 
+Since test/spec 0.4, you can also use the new RSpec 1.0 style:
+    
+    require 'test/spec'
+    
+    describe "Foo" do
+      it "should bar" do
+        (2 + 3).should.equal 5
+      end
+    end
+
 test/spec does not include a mocking/stubbing-framework; use whichever
 you like to.  test/spec has been tested successfully with FlexMock and
 Mocha.
@@ -48,7 +58,8 @@ monkey-patching Test::Unit::TestSuite to order the test cases before
 running them.  (This should not do any harm, but if you know a way
 around it, please tell me.)
 
-test/spec adds two global methods, Object#should and Kernel.context.
+test/spec adds three global methods, Object#should, Kernel.context,
+and Kernel.describe.
 
 You can use <tt>assert_*</tt> freely in specify-blocks; Object#should
 works in plain Test::Unit test cases, too, but they will not be counted.
@@ -179,12 +190,42 @@ SpecDox and RDox work for Test::Unit too:
     
     3 specifications (30 requirements), 0 failures
 
+Since version 0.4, SpecDox and RDox also notice and count empty
+specifications.
+
 
 == Disabled specifications
 
 Akin to the usual Test::Unit practice, tests quickly can be disabled
-by replacing +specify+ with +xspecify+.  test/spec will count the
-disabled tests when you run it with SpecDox or RDox.
+by replacing +specify+ with +xspecify+ (or +it+ with +xit+).
+test/spec will count the disabled tests when you run it with SpecDox
+or RDox.
+
+When you use xspecify/xit, you also can drop the block.  This is
+useful for writing specifications that you haven't yet started
+implementing.
+
+Complete contexts can be disabled by using +xcontext+/+xdescribe+.
+
+
+== Setup/Teardown
+
+Setup/Teardown methods are run in this order:
+
+  * before(:all) in order of definition
+  * before(:each)/setup in order of definition
+  * specify
+  * after(:each)/setup in order of definition
+  * before(:each)/setup in order of definition
+  * specify
+  * after(:each)/setup in order of definition
+  * ...
+  * after(:all) in order of definition
+
+Please note that before(:all) and after(:all) are run in their own
+instance, so all instance variables they set are lost(!) and not
+visible to other specifications.  They are e.g. useful for setting up
+database connections or starting servers.
 
 
 == specrb
@@ -206,6 +247,17 @@ plain Test::Unit suites, too.
     3 specifications (6 requirements), 0 failures
 
 Run <tt>specrb --help</tt> for the usage.
+
+
+== test/spec on Rails
+
+If you want to specify your Rails applications, you can use the third-party
+plugin "test/spec on Rails", which can be found at:
+
+  http://svn.techno-weenie.net/projects/plugins/test_spec_on_rails/
+
+It features testing of model validation, redirection, output, HTTP
+status, template rendering and URL generation.
 
 
 == Installing with RubyGems
@@ -244,6 +296,20 @@ at my site:
   * Small bug fixes.
   * Gem available.
 
+* June 29th, 2007: Fourth public release 0.4.
+  * Support for Ruby 1.8.6.
+  * Support describe/it/before/after RSpec 1.0 syntax.
+  * Allow should.raise { code_that_raises }
+  * Add xcontext to disable complete contexts.
+  * Backtraces are cleaner now.
+  * Mention test/spec on Rails.
+  * Fix small Gem bugs.
+  * Fix bug related to counting negated assertions.
+  * Fix bug in specrb.
+  * Allow empty xspecifys.
+  * Make SpecDox and RDox count empty specifications.
+  * Allow Kernel#context to take a superclass.
+
 
 == Contact
 
@@ -257,8 +323,13 @@ http://chneukirchen.org/repos/testspec
 == Thanks to
 
 * Eero Saynatkari for writing <tt>should.output</tt>.
+* Tuxie for writing test/spec on Rails.
+* Brian Donovan for allowing alternative superclasses.
+* Chris Wanstrath for <tt>should.raise</tt> with a block and <tt>xcontext</tt>.
 * Jean-Michel Garnier for packaging the first gem.
-* Mikko Lehtonen for testing the gem.
+* Mikko Lehtonen, Jan Wikholm, Matt Mower and Michael Fellinger for
+  testing the gem.
+* Chris McGrath for reporting a bug.
 * Thomas Fuchs for script.aculo.us BDD testing which convinced me.
 * Dave Astels for BDD.
 * The RSpec team for API inspiration.

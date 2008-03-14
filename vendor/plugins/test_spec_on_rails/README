@@ -56,11 +56,46 @@ Which template was rendered?
   template.should.be "foo/show.rhtml"
 
 
+Which layout used?
+------------------
+  Wrapper for asserting that a certain layout is used:
+  
+  layout.should.be "foo"
+
+
 URL testing
 -----------
   get :show, :user_id => 1
   url.should.be "/users/1"
   url.should.be :controller => "users", :action => "show", :user_id => 1
+      
+
+Difference
+----------
+  Wrapper for assert_difference:
+  
+  Article.should.differ(:count).by(2) { blah }
+
+
+Routing to set of url options from a given path (i.e., #assert_generates)
+-------------------------------------------------------------------------
+
+  assert_generates "/users/1", :controller => "users", :action => "show", :id  => "1"
+    
+    becomes 
+
+  {:controller => "users", :action => "show", :id  => "1"}.should.route_to "/users/1"
+
+
+Routing from a set of url options to an expected path (i.e., #assert_recognizes)
+--------------------------------------------------------------------------------
+
+  assert_recognizes({:controller => "users", :action => "show", :id => "1"}, {:path => "/users/1", :method => :get})
+
+    becomes
+
+  {:path => "/users/1", :method => :get}.should.route_from :controller => "users", :action => "show", :id =>"1"
+
 
 
 Setup controller for testing + example usage

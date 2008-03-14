@@ -1,7 +1,7 @@
 module Test::Spec::Rails
   class DummyResponse < TestDummy
 
-    attr_reader :body, :headers
+    attr_reader :body, :headers, :content_type
 
     def initialize(body, headers=nil)
       if headers.nil?
@@ -10,7 +10,7 @@ module Test::Spec::Rails
       else
         @body, @headers = body, headers
       end
-      @response = response
+      @response = self
     end
     
     def html_document

@@ -9,6 +9,7 @@ class TestTestUnit < Test::Unit::TestCase
   def test_supports_should_good_enough
     (2 + 3).should.be 5
     lambda { raise "Error" }.should.raise
+    assert true
   end
 end
 

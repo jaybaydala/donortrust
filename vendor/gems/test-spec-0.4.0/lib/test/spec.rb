@@ -24,9 +24,9 @@ module Test                     # :nodoc:
 end
 
 module Test::Spec
-  VERSION = "0.3" unless const_defined?('VERSION')
-  
-  CONTEXTS = {} unless const_defined?('CONTEXTS')                 # :nodoc:
+  require 'test/spec/version'
+
+  CONTEXTS = {}                 # :nodoc:
 
   class DefinitionError < StandardError
   end
@@ -127,9 +127,10 @@ module Test::Spec
       assert_respond_to @object, method, @message
     end
 
-    def _raise(*args)
+    def _raise(*args, &block)
       args = [RuntimeError]  if args.empty?
-      assert_raise(*(args + [@message]), &@object)
+      block ||= @object
+      assert_raise(*(args + [@message]), &block)
     end
 
     def throw(*args)
@@ -177,9 +178,9 @@ module Test::Spec
       }
     end
 
-    def method_missing(name, *args)
+    def method_missing(name, *args, &block)
       # This will make raise call Kernel.raise, and self.raise call _raise.
-      return _raise(*args)  if name == :raise
+      return _raise(*args, &block)  if name == :raise
       
       if @object.respond_to?("#{name}?")
         assert @object.__send__("#{name}?", *args),
@@ -197,6 +198,11 @@ module Test::Spec
       @object = object
       @message = message
     end
+
+    def add_assertion
+      $TEST_SPEC_TESTCASE && $TEST_SPEC_TESTCASE.__send__(:add_assertion)
+    end
+
 
     def satisfy(&block)
       assert_block(@message || "not.satisfy block succeded.") {
@@ -230,8 +236,9 @@ module Test::Spec
     end
     alias =~ match
 
-    def _raise(*args)
-      assert_nothing_raised(*(args+[@message]), &@object)
+    def _raise(*args, &block)
+      block ||= @object
+      assert_nothing_raised(*(args+[@message]), &block)
     end
 
     def throw
@@ -266,9 +273,9 @@ module Test::Spec
       }
     end
 
-    def method_missing(name, *args)
+    def method_missing(name, *args, &block)
       # This will make raise call Kernel.raise, and self.raise call _raise.
-      return _raise(*args)  if name == :raise
+      return _raise(*args, &block)  if name == :raise
 
       if @object.respond_to?("#{name}?")
         assert_block("#{name}? expected to be false. #{@message}") {
@@ -319,13 +326,21 @@ class Test::Spec::TestCase
       super
       self.class.teardowns.each { |t| instance_eval(&t) }
     end
+    
+    def before_all
+      self.class.before_all.each { |t| instance_eval(&t) }
+    end
+
+    def after_all
+      self.class.after_all.each { |t| instance_eval(&t) }
+    end
 
     def initialize(name)
       super name
 
       # Don't let the default_test clutter up the results and don't
       # flunk if no tests given, either.
-      throw :invalid_test  if name == :default_test
+      throw :invalid_test  if name.to_s == "default_test"
     end
 
     def position
@@ -336,6 +351,8 @@ class Test::Spec::TestCase
       raise Test::Spec::DefinitionError,
         "context definition is not allowed inside a specify-block"
     end
+
+    alias :describe :context
   end
 
   module ClassMethods
@@ -347,9 +364,17 @@ class Test::Spec::TestCase
     attr_accessor :setups
     attr_accessor :teardowns
 
-    def context(name, &block)
-      (Test::Spec::CONTEXTS[self.name + "\t" + name] ||=
-       Test::Spec::TestCase.new(name, self)).add(&block)
+    attr_accessor :before_all
+    attr_accessor :after_all
+
+    # old-style (RSpec <1.0):
+
+    def context(name, superclass=Test::Unit::TestCase, klass=Test::Spec::TestCase, &block)
+      (Test::Spec::CONTEXTS[self.name + "\t" + name] ||= klass.new(name, self, superclass)).add(&block)
+    end
+
+    def xcontext(name, superclass=Test::Unit::TestCase, &block)
+      context(name, superclass, Test::Spec::DisabledTestCase, &block)
     end
     
     def specify(specname, &block)
@@ -361,8 +386,6 @@ class Test::Spec::TestCase
     end
 
     def xspecify(specname, &block)
-      raise ArgumentError, "xspecify needs a block"  if block.nil?
-
       specify specname do
         @_result.add_disabled(specname)
       end
@@ -375,6 +398,35 @@ class Test::Spec::TestCase
     def teardown(&block)
       teardowns << block
     end
+
+    # new-style (RSpec 1.0+):
+
+    alias :describe :context
+    alias :it :specify
+    alias :xit :xspecify
+
+    def before(kind=:each, &block)
+      case kind
+      when :each
+        setup(&block)
+      when :all
+        before_all << block
+      else
+        raise ArgumentError, "invalid argument: before(#{kind.inspect})"
+      end
+    end
+
+    def after(kind=:each, &block)
+      case kind
+      when :each
+        teardown(&block)
+      when :all
+        after_all << block
+      else
+        raise ArgumentError, "invalid argument: after(#{kind.inspect})"
+      end
+    end
+
 
     def init(name, position, parent)
       self.position = position
@@ -389,13 +441,16 @@ class Test::Spec::TestCase
       self.count = 0
       self.setups = []
       self.teardowns = []
+
+      self.before_all = []
+      self.after_all = []
     end
   end
 
   @@POSITION = 0
 
-  def initialize(name, parent=nil)
-    @testcase = Class.new(Test::Unit::TestCase) {
+  def initialize(name, parent=nil, superclass=Test::Unit::TestCase)
+    @testcase = Class.new(superclass) {
       include InstanceMethods
       extend ClassMethods
     }
@@ -409,6 +464,22 @@ class Test::Spec::TestCase
 
     @testcase.class_eval(&block)
     self
+  end
+end
+
+(Test::Spec::DisabledTestCase = Test::Spec::TestCase.dup).class_eval do
+  alias :test_case_initialize :initialize
+
+  def initialize(*args, &block)
+    test_case_initialize(*args, &block)
+    @testcase.instance_eval do
+      alias :test_case_specify :specify
+
+      def specify(specname, &block)
+        test_case_specify(specname) { @_result.add_disabled(specname) }
+      end
+      alias :it :specify
+    end
   end
 end
 
@@ -430,6 +501,24 @@ class Test::Spec::Disabled < Test::Unit::Failure    # :nodoc:
   end
 end
 
+class Test::Spec::Empty < Test::Unit::Failure    # :nodoc:
+  def initialize(name)
+    @name = name
+  end
+
+  def single_character_display
+    ""
+  end
+
+  def short_display
+    @name
+  end
+
+  def long_display
+    @name + " is empty"
+  end
+end
+
 
 # Monkey-patch test/unit to run tests in an optionally specified order.
 module Test::Unit               # :nodoc:
@@ -438,9 +527,11 @@ module Test::Unit               # :nodoc:
     def run(result, &progress_block)
       sort!
       yield(STARTED, name)
+      @tests.first.before_all  if @tests.first.respond_to? :before_all
       @tests.each do |test|
         test.run(result, &progress_block)
       end
+      @tests.last.after_all  if @tests.last.respond_to? :after_all
       yield(FINISHED, name)
     end
     
@@ -465,6 +556,21 @@ module Test::Unit               # :nodoc:
 end
 
 
+# Hide Test::Spec interna in backtraces.
+module Test::Unit::Util::BacktraceFilter # :nodoc:
+  TESTSPEC_PREFIX = __FILE__.gsub(/spec\.rb\Z/, '')
+
+  alias testspec_filter_backtrace filter_backtrace
+  def filter_backtrace(backtrace, prefix=nil)
+    if prefix.nil?
+      testspec_filter_backtrace(testspec_filter_backtrace(backtrace),
+                                TESTSPEC_PREFIX)
+    else
+      testspec_filter_backtrace(backtrace, prefix)
+    end
+  end
+end
+
 
 #-- Global helpers
 
@@ -482,9 +588,16 @@ class Object
 end
 
 module Kernel
-  def context(name, &block)     # :doc:
-    (Test::Spec::CONTEXTS[name] ||= Test::Spec::TestCase.new(name)).add(&block)
+  def context(name, superclass=Test::Unit::TestCase, klass=Test::Spec::TestCase, &block)     # :doc:
+    (Test::Spec::CONTEXTS[name] ||= klass.new(name, nil, superclass)).add(&block)
   end
 
-  private :context
+  def xcontext(name, superclass=Test::Unit::TestCase, &block)     # :doc:
+    context(name, superclass, Test::Spec::DisabledTestCase, &block)
+  end
+
+  private :context, :xcontext
+
+  alias :describe :context
+  alias :xdescribe :xcontext
 end

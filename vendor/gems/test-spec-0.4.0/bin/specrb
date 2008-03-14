@@ -27,7 +27,7 @@ opts = OptionParser.new("", 24, '  ') { |opts|
 
   opts.on("-I", "--include PATH",
           "specify $LOAD_PATH (may be used more than once)") { |path|
-    $LOAD_PATH.unshift *path.split(":")
+    $LOAD_PATH.unshift(*path.split(":"))
   }
 
   opts.on("-r", "--require LIBRARY",
@@ -93,7 +93,10 @@ if files.empty?
   exit 1
 end
 
-argv = testrbargv + ["--"] + files
+argv = testrbargv + files 
+# Should use -- to separate them *but* there's a bug in
+# Test::Unit::AutoRunner#process_args: arguments after -- are ignored.
+# (You could also argue that it's a bug in optparse.rb).
 
 require 'test/spec'
 

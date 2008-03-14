@@ -12,6 +12,9 @@ module Test::Unit::UI           # :nodoc:
         if fault.kind_of? Test::Spec::Disabled
           @disabled += 1
           output_no_nl " (disabled)"
+        elsif fault.kind_of? Test::Spec::Empty
+          @empty += 1
+          output_no_nl " (empty)"
         else
           @faults << fault
           word = fault.class.name[/(.*::)?(.*)/, 2].upcase
@@ -24,6 +27,7 @@ module Test::Unit::UI           # :nodoc:
         @context = nil
         @contexts = []
         @disabled = 0
+        @empty = 0
         indent 0
       end
       
@@ -45,15 +49,24 @@ module Test::Unit::UI           # :nodoc:
           disabled = ""
         end
 
-        r = "%d specifications#{disabled} (%d requirements), %d failures" % [
-          @result.run_count, @result.assertion_count, @result.failure_count]
+        if @empty > 0
+          empty = ", #{@empty} empty"
+        else
+          empty = ""
+        end
+
+        r = ("%d specifications#{disabled}#{empty} " +
+             "(%d requirements), %d failures") % [
+               @result.run_count, @result.assertion_count, @result.failure_count]
         r << ", #{@result.error_count} errors"  if @result.error_count > 0
         output r
       end
       
       def test_started(name)
-        contextname, specname = unmangle name
-        return  if contextname.nil? || specname.nil?
+        return  if special_test? name
+
+        contextname, @specname = unmangle name
+        return  if contextname.nil? || @specname.nil?
 
         if @context != contextname
           @context = contextname
@@ -75,10 +88,19 @@ module Test::Unit::UI           # :nodoc:
           }
         end
         
-        output_item specname
+        @assertions = @result.assertion_count
+        @prevdisabled = @disabled
+        output_item @specname
       end
       
       def test_finished(name)
+        return  if special_test? name
+
+        # Did any assertion run?
+        if @assertions == @result.assertion_count && @prevdisabled == @disabled
+          add_fault Test::Spec::Empty.new(@specname)
+        end
+
         # Don't let empty contexts clutter up the output.
         nl  unless name =~ /\Adefault_test\(/
       end
@@ -116,6 +138,10 @@ module Test::Unit::UI           # :nodoc:
       def indent(depth)
         @indent = depth
         @prefix = "  " * depth
+      end
+
+      def special_test?(name)
+        name =~ /\Atest_spec \{.*?\} (-1 BEFORE|AFTER) ALL\(/
       end
     end
   end

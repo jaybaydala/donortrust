@@ -6,14 +6,9 @@ class Test::Unit::TestCase
   alias :request  :page
   alias :view     :page
   
-  def headers
-    @response.headers
-  end
-
   def output
     @response.body
   end
-
   alias :to_s  :output
   alias :body  :output
   alias :html  :output
@@ -29,6 +24,10 @@ class Test::Unit::TestCase
   
   def template
     Test::Spec::Rails::TestTemplate.new(self)
+  end
+  
+  def layout
+    Test::Spec::Rails::TestLayout.new(self)
   end
   
 end

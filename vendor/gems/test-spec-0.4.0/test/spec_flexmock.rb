@@ -20,6 +20,8 @@ rescue LoadError
 else
 
 context "flexmock" do
+  include FlexMock::TestCase
+    
   setup do
     @mock = FlexMock.new
   end
@@ -69,7 +71,7 @@ context "flexmock" do
     @mock.blip
     @mock.blip
     @mock.blip
-    @mock.mock_verify
+    lambda { @mock.mock_verify }.should.not.raise Test::Unit::AssertionFailedError
   end
 
   specify "should raise on bad counts" do
@@ -80,12 +82,14 @@ context "flexmock" do
   end
 
   specify "should handle undetermined counts" do
-    FlexMock.use('fs') { |m|
-      m.mock_handle(:blip)
-      m.blip
-      m.blip
-      m.blip
-    }
+    lambda {
+      FlexMock.use('fs') { |m|
+        m.mock_handle(:blip)
+        m.blip
+        m.blip
+        m.blip
+      }
+    }.should.not.raise Test::Unit::AssertionFailedError
   end
 
   specify "should handle zero counts" do
