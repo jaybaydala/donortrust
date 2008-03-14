@@ -1,4 +1,5 @@
 class Dt::SearchGroupsController < DtApplicationController
+  helper 'dt/groups'
   helper_method :current_member
   
   def show
@@ -11,11 +12,16 @@ class Dt::SearchGroupsController < DtApplicationController
         search_conditions += "#{Group.table_name}.#{k} LIKE ?"
       end
     end
+    # add group_types
+    search_conditions += " OR " unless search_conditions.empty?
+    search_conditions += "#{GroupType.table_name}.name LIKE ?"
     unless search_conditions.empty? && params[:q] && !params[:q].empty?
       conditions = ["private=? AND (#{search_conditions})", false]
       Group.searchable_columns.each do |k|
         conditions << "%#{params[:q]}%"
       end
+      # add group_types
+      conditions << "%#{params[:q]}%"
     else
       conditions = ["private=?", false]
     end
