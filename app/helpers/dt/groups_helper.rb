@@ -14,7 +14,7 @@ module Dt::GroupsHelper
   end
   
   def group_causes(group)
-    render :partial => 'cause', :collection => group.causes
+    render :partial => 'dt/groups/cause', :collection => group.causes
   end
   
   def dt_group_nav
