@@ -11,7 +11,7 @@
 <div id="subNavSearch">
   <% form_for(:group_search, :url => dt_search_groups_path, :html => { :method => :get, :id => 'groupsearchform', :name => 'groupsearchform' }) do |f| %>
     <input name="q" type="text" id="searchBox" title="Search Groups" value="Search Groups" size="15" maxlength="30" onblur="if(!this.value)this.value='Search Groups';" onfocus="if(this.value=='Search Groups')this.value='';"/>
-    <div id="buttonGo"><a href="#"></a></div>
+    <div id="buttonGo"><a href="javascript:document.groupsearchform.submit()"></a></div>
   <% end %>
 </div>
 </div>
