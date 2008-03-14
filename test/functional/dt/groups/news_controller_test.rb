@@ -30,6 +30,7 @@ module GroupNewsTestHelper
     @group_news.stubs(:new_record?).returns(false)
     @news = mock("group-news-collection")
     @news.stubs(:find).returns(@group_news)
+    @news.stubs(:build).returns(GroupNews.new)
     setup_group_news
   end
 
@@ -44,6 +45,7 @@ module GroupNewsTestHelper
     end
     @news = mock("group-news-collection")
     @news.stubs(:find).returns(@group_messages)
+    @news.stubs(:build).returns(GroupNews.new)
     setup_group_news
   end
 end
@@ -123,11 +125,10 @@ context "Dt::Groups::NewsController handling GET /dt/groups/1/messages" do
   specify "should assign @group_news" do
     login_as
     do_get
-    assigns(:group_news).should.not.be.nil
+    assigns(:group_messages).should.not.be.nil
   end
   
   specify "should paginate @group_news" do
-    @news = mock("news")
     @news.expects(:paginate).with({:page => nil, :per_page => 5, :order => "created_at DESC"}).returns(@group_messages.paginate(:per_page => 5))
     @group.expects(:news).returns(@news)
     login_as
@@ -237,7 +238,7 @@ context "Dt::Groups::NewsController handling POST /dt/groups/1/messages" do
     do_post
   end
   def do_post
-    post :create, :group_id => @group.to_param, :group_news => {}
+    post :create, :group_id => @group.to_param, :group_message => {}
   end
   
   specify "should redirect before save unless admin?" do

@@ -5,6 +5,7 @@ module GroupPermissionsTestHelper
     @founder = stub_everything("founder", :id => 3, :to_param => "3", :member? => true, :admin? => true, :founder? => true)
 
     @memberships = stub_everything("memberships")
+    @memberships.stubs(:find_by_user_id).returns(@member)
     
     @group = stub_everything("Group", :id => 1, :to_param => "1", :private? => false, :memberships => @memberships, :name => "Sample Group")
     Group.stubs(:find).returns(@group)

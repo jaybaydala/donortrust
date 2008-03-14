@@ -2,7 +2,7 @@ module GroupPermissions
   protected
   def membership_required_if_private_group
     group = find_group
-    redirect_to_group and return false unless group
+    return redirect_to_group unless group
     return true unless group.private?
     return login_required unless logged_in?
     member = group.memberships.find_by_user_id(current_user.id)
@@ -11,7 +11,7 @@ module GroupPermissions
   
   def membership_required
     group = find_group
-    redirect_to_group and return false unless group
+    return redirect_to_group unless group
     return login_required unless logged_in?
     member = group.memberships.find_by_user_id(current_user.id)
     redirect_to_group and return false unless member
@@ -19,7 +19,7 @@ module GroupPermissions
   
   def admin_required
     group = find_group
-    redirect_to_group and return false unless group
+    return redirect_to_group unless group
     return login_required unless logged_in?
     member = group.memberships.find_by_user_id(current_user.id)
     redirect_to_group and return false unless member && member.admin?
@@ -27,7 +27,7 @@ module GroupPermissions
   
   def founder_required
     group = find_group
-    redirect_to_group and return false unless group
+    return redirect_to_group unless group
     return login_required unless logged_in?
     member = group.memberships.find_by_user_id(current_user.id)
     redirect_to_group and return false unless member && member.founder?
@@ -35,8 +35,8 @@ module GroupPermissions
   
   def redirect_to_group
     flash[:notice] = "You do not have permissions to access that page"
-    redirect_to dt_group_path(find_group) and return if find_group
-    redirect_to dt_groups_path
+    redirect_to dt_group_path(find_group) and return false if find_group
+    redirect_to dt_groups_path and return false
   end
   
   private 

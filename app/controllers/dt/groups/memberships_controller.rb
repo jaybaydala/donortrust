@@ -23,7 +23,7 @@ class Dt::Groups::MembershipsController < DtApplicationController
     
   def create
     @group = Group.find(params[:group_id])
-    @member = @group.memberships.build(:user_id => current_user, :membership_type => Membership.member)
+    @member = @group.memberships.build(:user => current_user, :membership_type => Membership.member)
     membership_saved = @group.private? ? false : @member.save
     respond_to do |format|
       if membership_saved

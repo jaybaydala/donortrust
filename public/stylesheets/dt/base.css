@@ -1432,6 +1432,14 @@ select {
 #location input, #cause input, #project input {width: 220px; margin: 0;}
 #location select, #cause select, #organization select {width: 190px; margin: 0px;}
 
+/* NEW USERS */
+div.activation {
+    padding:5px;
+    background:#FFE;
+    border:#DDC solid 1px;
+    margin:0 21px 1em 21px;
+}
+
 /* SPECIAL STYLES */
 
 .dateStamp {
@@ -1466,6 +1474,9 @@ p.usTaxLink {
 div.buttonsubmit {
 	clear:left;
 	padding:3px 0 0 11.5em;
+}
+div.simpleform div.buttonsubmit {
+    padding-left:0;
 }
 div.buttonsubmit a:link, div.buttonsubmit a:visited, div.buttonsubmit a:hover, div.buttonsubmit a:active {
 	display:block;
@@ -2113,13 +2124,38 @@ div.group_news {
 	margin:0 0 12px 7px;
 	padding: 0 0 .5em 0;
 	border-bottom: 1px solid #95AED0;
+	border-top: 1px solid #95AED0;
 }
 div.group_news p {
 	padding-left:0;
 }
 div.group_news-attribution {
-	font-size:90%;
-	font-style:italic;
+    line-height:1.1em;
+    padding: 5px;
+    background-color:#F7F7F7;
+    border-bottom:#D8DFEA 1px solid;
+}
+div.group_news-attribution .datestamp {
+    font-size:90%;
+}
+
+/* GROUP WALL MESSAGES */
+div.group_wall {
+	margin:0 0 12px 7px;
+	padding: 0 0 .5em 0;
+	border-bottom: 1px solid #95AED0;
+	border-top: 1px solid #95AED0;
+}
+div.group_wall p {
+	padding-left:0;
+}
+div.group_wall-attribution {
+    padding: 5px;
+    background-color:#F7F7F7;
+    border-bottom:#D8DFEA 1px solid;
+}
+div.group_wall-attribution .datestamp {
+    font-size:90%;
 }
 
 /* NEW MEMBER MODULE */

@@ -41,9 +41,7 @@ class DtApplicationController < ActionController::Base
     if value
       session[:requires_us_tax_receipt] = value
     else
-      unless session[:requires_us_tax_receipt].nil?
-        session[:requires_us_tax_receipt] = nil
-      end
+      session[:requires_us_tax_receipt] = nil unless session[:requires_us_tax_receipt].nil?
     end
   end
   
@@ -53,15 +51,12 @@ class DtApplicationController < ActionController::Base
   #receipt, the session variable will be true,
   #otherwise it should be nil.
   def requires_us_tax_receipt?
-    unless session[:requires_us_tax_receipt].nil?
-      return session[:requires_us_tax_receipt]
-    else
-      return false
-    end
+    return session[:requires_us_tax_receipt] unless session[:requires_us_tax_receipt].nil?
+    false
   end
 
   def ssl_required?
-    return false
+    false
   end
 
   def log_error(exception) 

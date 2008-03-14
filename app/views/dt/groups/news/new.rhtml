@@ -10,7 +10,7 @@
   
     <%= error_messages_for :group_news %>
     <% form_for(:group_news, :url => dt_messages_path(@group), :html => { :method => 'post', :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
-    <div class="userform">
+    <div class="userform simpleform">
       <%= render :partial => "form", :locals => {:f => f} %>
     	<%= submit_tag 'Add Admin Message', :class => 'buttonsubmit' %>
   	</div>

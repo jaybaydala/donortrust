@@ -26,7 +26,7 @@ class Dt::Groups::NewsController < DtApplicationController
   
   def create
     @group = Group.find(params[:group_id])
-    @group_news = @group.news.build(params[:group_news].merge({:user => current_user}))
+    @group_news = @group.news.build(params[:group_message].merge({:user => current_user}))
     @saved = @group_news.save
     respond_to do |format|
       if @saved

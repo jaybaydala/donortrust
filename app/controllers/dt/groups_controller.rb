@@ -23,6 +23,8 @@ class Dt::GroupsController < DtApplicationController
   def show
     @group = Group.find(params[:id])
     @recent_news = @group.news.find(:first, :order => "created_at DESC")
+    @wall_messages = @group.wall_messages.paginate(:page => params[:wall_page], :per_page => 10, :order => "created_at DESC")
+    @wall_message = GroupWallMessage.new
     @page_title = "#{@group.name}"
     if @group.private? && !@membership
       flash.now[:notice] = "This is a private group" unless flash[:notice]

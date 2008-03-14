@@ -6,20 +6,20 @@
   <div id="leftColW">
 
     <h1><%= @group.name %></h1>
-    <h2>Group News</h2>
+    <h2>Wall Posts</h2>
     <% if current_member && current_member.admin? -%>
-    <%= error_messages_for :group_message %>
-    <% form_for(:group_message, :url => dt_messages_path(@group), :html => { :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
+    <%= error_messages_for :wall_message %>
+    <% form_for(:wall_message, :url => dt_wall_messages_path(@group), :html => { :id => "groupwallmessageform", :name => "groupwallmessageform"}) do |f| -%>
     <div class="userform simpleform">
       <%= render :partial => "form", :locals => {:f => f} %>
-  	  <%= submit_tag 'Add Admin Message', :class => 'buttonsubmit' %>
+  	  <%= submit_tag 'Create Wall Post', :class => 'buttonsubmit' %>
   	</div>
   	<% end %>
   	<% end -%>
     
-    <%= will_paginate @group_messages %>
+    <%= will_paginate @wall_messages %>
 
-    <%= render :partial => 'dt/groups/news/message', :collection => @group_messages %>
+    <%= render :partial => 'dt/groups/wall_messages/message', :collection => @wall_messages %>
   </div>
   <div id="rightColN">
 	  <%= dt_profile_sidebar %>
