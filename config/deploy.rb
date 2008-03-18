@@ -31,10 +31,18 @@ namespace :deploy do
     stop_admin
     stop_backgroundrb
   end
+  task :before_restart do
+    asset_folder_fix
+    install_backgroundrb
+  end
   task :after_restart do
     restart_admin
     stop_backgroundrb
     start_backgroundrb
+  end
+
+  task :asset_folder_fix , :roles => :web do
+    # to be defined by multistage deployment files
   end
 
   task :setup_mongrel_cluster do
