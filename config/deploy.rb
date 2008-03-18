@@ -23,13 +23,19 @@ namespace :deploy do
   task :restart,  :roles => :app do restart_mongrel_cluster end
   
   # donortrust hooks
-  task :after_start do start_admin end
-  task :after_stop do stop_admin end
-  task :after_restart do restart_admin end
-  task :before_deploy do stop_backgroundrb end
-  task :after_deploy do start_backgroundrb end
-  task :before_migrations do stop_backgroundrb end
-  task :after_migrations do start_backgroundrb end
+  task :after_start do
+    start_admin
+    start_backgroundrb
+  end
+  task :after_stop do
+    stop_admin
+    stop_backgroundrb
+  end
+  task :after_restart do
+    restart_admin
+    stop_backgroundrb
+    start_backgroundrb
+  end
 
   task :setup_mongrel_cluster do
     sudo "cp #{current_path}/config/mongrel_cluster.yml #{mongrel_conf}"

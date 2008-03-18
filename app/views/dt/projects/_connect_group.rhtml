@@ -1,6 +1,6 @@
   <div class="projectInfo">
     <div class="leftColW">
-      <h2><%= connect_group.name %></h2>
+      <h2><%= link_to connect_group.name, dt_group_path(connect_group) %></h2>
       <p>Group Description: <%= connect_group.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_group_path(connect_group) %></p>
     </div>
     <div class="factList">
