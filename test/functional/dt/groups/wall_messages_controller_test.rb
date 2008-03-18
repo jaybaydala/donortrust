@@ -8,6 +8,22 @@ module GroupWallMessagesTestHelper
     @wall_message = GroupWallMessage.new
     @wall_messages = stub_everything("wall_messages_collection")
     @wall_messages.stubs(:find).returns(@wall_message)
+    messages = (1000..1002).map do |i|
+      message = GroupWallMessage.new
+      message.stubs(:id).returns(i)
+    end
+    messages = messages.paginate
+    messages.map! do |message| 
+      message.stubs(:message?).returns(true)
+      message.stubs(:message).returns("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+      message.stubs(:created_at?).returns(true)
+      message.stubs(:created_at).returns(5.minutes.ago)
+      user = stub_everything("user", :id => 2000, :name => 'Mocked User')
+      message.stubs(:user).returns(user)
+      message.stubs(:user_id).returns(user.id)
+      message
+    end
+    @wall_messages.stubs(:paginate).returns(messages)
     @wall_messages.stubs(:build).returns(@wall_message)
     @group.stubs(:wall_messages).returns(@wall_messages)
   end
@@ -84,6 +100,7 @@ context "WallMessagesController handling GET /1" do
   setup do
     setup_group_permissions
     setup_group_wall_messages
+    @wall_message.stubs(:id).returns(1000)
     @wall_message.stubs(:user_id).returns(1)
   end
   
@@ -203,6 +220,7 @@ context "WallMessagesController handling GET /1/edit" do
     setup_group_permissions
     setup_group_wall_messages
     @wall_message.stubs(:user_id).returns(1)
+    @wall_message.stubs(:id).returns(1000)
   end
 
   def do_request
@@ -246,6 +264,7 @@ context "WallMessagesController handling PUT /1" do
     setup_group_permissions
     setup_group_wall_messages
     @wall_message.stubs(:user_id).returns(1)
+    @wall_message.stubs(:id).returns(1000)
   end
   
   def do_request
