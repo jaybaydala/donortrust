@@ -175,6 +175,14 @@ class User < ActiveRecord::Base
   def group_admin?
     @group_admin ||= ( memberships.find(:first, :conditions => ['membership_type >= ?', Membership.admin]) ? true : false)
   end
+  
+  def self.find_old_accounts
+    User.find(:all, :conditions => ["last_logged_in_at IS NOT NULL AND last_logged_in_at <= ?", 6.months.ago])
+  end
+  
+  def send_account_reminder
+    DonortrustMailer.deliver_account_expiry_reminder(self)
+  end
 
   protected
     def validate

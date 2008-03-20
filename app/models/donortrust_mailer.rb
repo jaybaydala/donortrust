@@ -39,6 +39,12 @@ class DonortrustMailer < ActionMailer::Base
     subject  "Your ChristmasFuture password has been reset"
     body :user => user, :host => HTTP_HOST, :url => dt_login_url(:host => HTTP_HOST)
   end
+
+  def account_expiry_reminder(user)
+    user_setup_email(user)
+    subject  "Your ChristmasFuture account"
+    body :user => user, :host => HTTP_HOST, :url => dt_projects_url(:host => HTTP_HOST)
+  end
   
   def wishlist_mail(share, project_ids)
     content_type "text/html"

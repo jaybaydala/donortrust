@@ -40,6 +40,7 @@ class Dt::SessionsController < DtApplicationController
     self.current_user = User.authenticate(params[:login], params[:password])
     respond_to do |format|
       if logged_in?
+        current_user.update_attributes(:last_logged_in_at => Time.now)
         session[:tmp_user] = nil
         if params[:remember_me] == "1"
           self.current_user.remember_me

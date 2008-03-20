@@ -1,0 +1,17 @@
+Hi <%= @user.name %>,
+
+You have not logged into your ChristmasFuture account since <%= @user.last_logged_in_at.to_formatted_s(:long) %>
+
+You currently have a balance of <%= number_to_currency(@user.balance) %>
+
+Once your account has been dormant for a year, we will choose how to allocate your balance for you. If you would like the opportunity to choose for yourself, login to our website and choose one of our many projects.
+
+Thank you for having an account on the ChristmasFuture website. We appreciate your involvement in this exciting and rewarding effort to make extreme poverty a thing of the past. 
+
+<%= @url %>
+(If clicking on the link doesn't work, try copying and pasting it into your browser.)
+
+Please contact info@christmasfuture.org with any questions.
+
+Thanks,
+The ChristmasFuture Team
