@@ -78,6 +78,8 @@ GROUNDSPRING_URL = 'https://secure.groundspring.org/dn/index.php?aid=21488'
 # add in a readable date format
 ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:dt_default => "%b %e, %Y")
 
+require 'deliver_to_admins_only'
+
 require 'rubygems'
 require 'flickr'
 require 'ruby_tube'
