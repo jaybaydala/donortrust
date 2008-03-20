@@ -19,6 +19,14 @@ role :db,  "slice.christmasfuture.org", :primary => true
 role :schedule,  "slice2.christmasfuture.org"
 
 namespace :deploy do
+  task :after_update_code, :rols => :app do
+    run <<-CMD
+      mv #{release_path}/config/backgroundrb.yml.production #{release_path}/config/backgroundrb.yml
+    CMD
+    run <<-CMD
+      cd #{release_path} && rake deploy_edge REVISION=#{rails_version} 
+    CMD
+  end
 
   task :after_symlink, :roles => :app do
     stats = <<-JS

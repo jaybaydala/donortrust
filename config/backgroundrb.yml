@@ -1,5 +1,0 @@
---- 
-:host: localhost
-:port: 2000
-# should inherit from ENV['RAILS_ENV']
-#:rails_env: development

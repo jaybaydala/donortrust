@@ -20,7 +20,15 @@ set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin-staging.yml"
 set :mongrel_clean, true
 
 namespace :deploy do
-
+  task :after_update_code, :rols => :app do
+    run <<-CMD
+      mv #{release_path}/config/backgroundrb.yml.staging #{release_path}/config/backgroundrb.yml
+    CMD
+    run <<-CMD
+      cd #{release_path} && rake deploy_edge REVISION=#{rails_version} 
+    CMD
+  end
+  
   desc <<-DESC
   symlink the images, stylesheets and javascripts to current_path
   DESC

@@ -59,8 +59,8 @@ context "DonortrustMailer on user_signup_notification" do
 end
 
 context "DonortrustMailer on user_password_reset" do
-  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures'
-  CHARSET = "utf-8"
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures' if FIXTURES_PATH.nil?
+  CHARSET = "utf-8" if CHARSET.nil?
   
   include ActionMailer::Quoting
   fixtures :users
@@ -171,6 +171,47 @@ context "DonortrustMailer gift_mail Test" do
     email.should =~ @gift.name
     email.should =~ @gift.email
     email.should =~ "Your gift will expire in #{@gift.expiry_in_days} day(s)!"
+  end
+
+  private
+  def encode(subject)
+    quoted_printable(subject, CHARSET)
+  end
+end
+
+context "DonortrustMailer account_expiry_mailer Tests" do
+  FIXTURES_PATH = File.dirname(__FILE__) + '/../../fixtures' if FIXTURES_PATH == nil
+  CHARSET = "utf-8" if CHARSET == nil
+
+  include ActionMailer::Quoting
+
+  setup do
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+
+    @expected = TMail::Mail.new
+    @expected.set_content_type "text", "plain", { "charset" => CHARSET }
+    @expected.mime_version = '1.0'
+    
+    @user = User.new
+    @user.stubs(:id).returns(1)
+    @user.stubs(:name).returns("Mocked User")
+    @user.stubs(:balance).returns(25)
+    @user.stubs(:last_logged_in_at).returns(7.months.ago)
+    User.stubs(:find).returns(@user)
+  end
+
+  specify "send_account_reminder should have the necessary content" do
+    @user.send_account_reminder
+    
+    @expected.subject = 'Your ChristmasFuture Account'
+    @expected.date    = Time.now
+  
+    email = DonortrustMailer.create_account_expiry_reminder(@user).encoded
+    email.should =~ @user.name
+    email.should =~ "You have not logged into your ChristmasFuture account since #{@user.last_logged_in_at.to_formatted_s(:long)}"
+    email.should =~ "balance of #{number_to_currency(@user.balance)}"
   end
 
   private

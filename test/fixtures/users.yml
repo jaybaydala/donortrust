@@ -64,3 +64,15 @@ noncanadian:
   last_name: CrappyBeer
   display_name: nonhosercrappybeer
   country: SomeOtherPlace 
+old:
+  id: 6
+  login: old_account@example.com
+  first_name: Old
+  last_name: Tester
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  last_logged_in_at: <%= (6.months + 1.second).ago.to_s :db %>
+  created_at: <%= 1.year.ago.to_s :db %>
+  first_name: Old
+  last_name: User
+  country: Canada

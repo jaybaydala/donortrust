@@ -1,12 +1,10 @@
-# Put your code that runs your task inside the do_work method it will be
-# run automatically in a thread. You have access to all of your rails
-# models.  You also get logger and results method inside of this class
-# by default.
-class GiftReminderWorker < BackgrounDRb::Worker::RailsBase
-  
-  def do_work(args)
-    # This method is called in it's own new thread when you
-    # call new worker. args is set to :args
+class GiftReminderWorker < BackgrounDRb::MetaWorker
+  set_worker_name :gift_reminder_worker
+  def create(args = nil)
+    # this method is called, when worker is loaded for the first time
+  end
+
+  def do_work(args = nil)
     num_sent = 0
     logger.info "[#{Time.now.utc.to_s}] Checking for Gifts to send reminders for"
     gifts = find_reminder_gifts
@@ -27,4 +25,3 @@ class GiftReminderWorker < BackgrounDRb::Worker::RailsBase
     gifts
   end
 end
-GiftReminderWorker.register

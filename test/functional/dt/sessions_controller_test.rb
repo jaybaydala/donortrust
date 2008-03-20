@@ -120,6 +120,11 @@ context "Dt::Sessions handling POST dt/session requests" do
     should.redirect
   end
 
+  specify "should set last_logged_in_at to Time.now" do
+    do_post
+    User.find(session[:user]).last_logged_in_at.to_s.should.equal Time.now.to_s
+  end
+
   specify "should fail login and not redirect" do
     do_post(:password => 'bad password')
     session[:user].should.be.nil

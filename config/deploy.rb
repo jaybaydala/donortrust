@@ -8,6 +8,8 @@ set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
 set :mongrel_clean, true
 
+set :rails_version, 6419 unless variables[:rails_version]
+
 namespace :deploy do
 
   task :cold do
@@ -55,7 +57,7 @@ namespace :deploy do
   Install backgrounDRB since it's incompatible with windows boxes
   DESC
   task :install_backgroundrb, :roles => :schedule do
-    cmd = "svn co -q http://svn.devjavu.com/backgroundrb/tags/release-0.2.1 #{current_path}/vendor/plugins/backgroundrb;"
+    cmd = "svn co -q http://svn.devjavu.com/backgroundrb/trunk #{current_path}/vendor/plugins/backgroundrb"
     run cmd
   end
   

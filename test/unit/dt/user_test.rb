@@ -226,6 +226,10 @@ context "UserAuthentication" do
     u.expired?.should.be true
   end
 
+  specify "find_old_accounts should return users who haven't logged in for more than 6 months" do
+    User.find_old_accounts.should == [users(:old)]
+  end
+
   specify "should not authenticate user who hasn't logged in for more than a year" do
     u = User.find(users(:quentin).id)
     u.update_attributes( :last_logged_in_at => Time.now + 1.second )
