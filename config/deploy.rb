@@ -39,8 +39,7 @@ namespace :deploy do
   end
   task :after_restart do
     restart_admin
-    stop_backgroundrb
-    start_backgroundrb
+    restart_backgroundrb
   end
 
   task :asset_folder_fix , :roles => :web do
@@ -75,6 +74,14 @@ namespace :deploy do
   task :stop_backgroundrb , :roles => :schedule do
     cmd = "#{current_path}/script/backgroundrb stop"
     send(run_method, cmd)
+  end
+
+  desc <<-DESC
+  Restart the Backgroundrb daemon on the app server.
+  DESC
+  task :restart_backgroundrb , :roles => :app do
+    begin stop_backgroundrb; rescue; end #this catches the bdrb error where a PID file doesn't exist
+    start_backgroundrb
   end
 
   task :start_admin , :roles => :admin do
