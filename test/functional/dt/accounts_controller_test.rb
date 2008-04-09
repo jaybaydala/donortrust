@@ -409,6 +409,11 @@ context "Dt::Accounts handling POST /dt/accounts/create" do
     create_user
     session[:tmp_user].should.not.be nil
   end
+  
+  specify "should not log in automatically" do
+    create_user
+    @controller.send('logged_in?').should.be false
+  end
 
   protected
   def create_user(options = {})
