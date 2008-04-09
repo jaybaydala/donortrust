@@ -40,8 +40,7 @@ class Dt::AccountsController < DtApplicationController
     respond_to do |format|
       if @saved = @user.save
         session[:tmp_user] = @user.id
-        self.current_user = @user
-        flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address. You are signed in for this session but will be unable to login again until your account is activated.'
+        flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address.'
         format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
         #format.js
         format.xml  { head :created, :location => dt_accounts_url }
