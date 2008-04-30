@@ -43,6 +43,15 @@ background-color: #ff8;
 clear: both;
 }
 
+noscript.active-scaffold {
+border-left: solid 5px #f66;
+background-color: #fbb;
+font-size: 11px;
+font-weight: bold;
+padding: 5px 20px 5px 5px;
+color: #333;
+}
+
 /* Header
    ======================== */
 
@@ -634,8 +643,7 @@ background-color: #ffc;
 }
 
 .active-scaffold textarea {
-height: 200px;
-width: 440px;
+height: 65px;
 font-family: Arial, sans-serif;
 font-size: 12px;
 padding: 1px;
@@ -756,4 +764,8 @@ padding: 0;
 
 .active-scaffold a.visibility-toggle {
 font-size: 100%;
+}
+
+.active-scaffold-found {
+  float:left;
 }

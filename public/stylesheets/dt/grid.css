@@ -1,86 +1,100 @@
-#top { position:relative; }
 #container {
-	width:720px;
+	width:724px;
 	margin:auto;
 }
-#contentcontainer, #contentcontainer-2col, #contentcontainer-1col {
-	margin-top:12px;
-}
-/* 3-column layout */
-#contentcontainer {
-	border-left:240px solid #FFF;
-	border-right:240px solid #FFF;
-	float:left;
-	width:240px;
-}
-#contentcontainer #rail-left {
-	float:left;
-	width:240px;
-	margin-left:-240px;
-	position:relative;
-}
-#contentcontainer #content {
-	float:left;
-	width:240px;
-	margin-right:-240px;
-}
-#contentcontainer #rail-right {
-	float:right;
-	width:240px;
-	margin-right:-240px;
-	position:relative;
-}
-/* 2-column layout */
-#contentcontainer-2col #content {
-	float:left;
-	width:480px;
-	margin-right:-480px;
-	border:1px solid #FFF;
-}
-#contentcontainer-2col #rail-right {
-	float:right;
-	width:240px;
-	position:relative;
-}
-/* 1-column layout */
-#contentcontainer-1col #content {
-}
-/* content margins */
-#content div.contentmargin {
-	margin:0 4px;
-}
-#rail-left div.contentmargin {
-	margin:0 6px 0 0;
-}
-#rail-right div.contentmargin {
-	margin:0 0 0 6px;
+
+#header {
+    padding:10px 0;
 }
 
 #masthead {
-	height:153px;
-	border:1px solid #999;
-	width:720px;
-	margin:auto;
-}
-#masthead div.donate {
-	background:url('/images/dt/masthead_overlay.png') transparent repeat-x;
-	padding:108px 12px 0 12px;
-	height:45px;
-	width:228px;
-	float:right;
+    border-top:1px solid #999;
+    border-right:1px solid #999;
+    border-left:1px solid #999;
 }
 
-#footer {
-	clear:both;
-	border-top:1px solid #666;
-	width:720px;
-	margin:auto;
-	padding-top:12px;
-	margin-top:12px;
-	margin-bottom:12px;
+#contentcontainer {
+    overflow:hidden;
+	width:100%;
 }
-div.clear {
-	clear:both;
-	height:0;
-	font-size:0px;
+
+#content-wrapper {
+    width:492px;
+    border-right:232px solid transparent; /* The width and color of the rail */
+    margin-right:-232px; /* Hat tip to Ryan Brill */
+    float:left;
 }
+#content {
+    margin-right:18px;
+}
+
+/* no sidebar */
+#contentwide-wrapper {
+    width:auto;
+}
+#contentwide-wrapper #content {
+    margin-right:0;
+}
+
+#sidebar-wrapper {
+    width:232px;
+    float:left;
+}
+
+#globalnav-wrapper {
+    width:724px;
+    background:url(/images/dt/nav_elements/topNavBar.jpg) no-repeat top left #C4C4C4;
+    height:2.1875em; /* 35 pixels */
+}
+#nav {
+    width:724px;
+    height:1.5625em; /* 25 pixels */
+    background:url(/images/dt/nav_elements/subNavBar.jpg) no-repeat top left #C4C4C4;
+}
+#navproject {
+    background:url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat top left #C4C4C4;
+}
+
+#toolbar-wrapper {
+    width:724px;
+    height:2.1875em; /* 35 pixels */
+    background:url(/images/dt/toolbars/ToolBackground.jpg) no-repeat bottom left #C4C4C4;
+}
+
+#toolbar2-wrapper {
+    background:#CCC url(/images/dt/toolbars/ToolBackground2.jpg) no-repeat;
+    height:35px;
+    width:724px;
+    margin:10px 0 0 0;
+}
+
+/*
+2-COLUMN LAYOUT IN BODY
+=======================*/
+.columns {}
+.columns .content {
+    width:492px;
+    border-right:232px solid transparent; /* The width and color of the rail */
+    margin-right:-232px; /* Hat tip to Ryan Brill */
+    float:left;
+}
+.columns .content .contentmargin {
+    margin-right:1em;
+}
+.columns .sidebar {
+    width:232px;
+    float:left;
+}
+
+/* Add clearfix directly to columns */
+.columns:after {
+  content: ".";
+  clear: both;
+  height: 0;
+  visibility: hidden;
+  display: block;
+}
+.columns {display:inline-block;}
+/* Hide from IE Mac \*/
+.columns {display:block;}
+/* End hide from IE Mac */

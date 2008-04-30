@@ -159,7 +159,7 @@ window.dhtmlHistory = {
    /** Gets the current hash value that is in the browser's
        location bar, removing leading # symbols if they are present. */
    /** public */ getCurrentLocation: function() {
-      var currentLocation = this.removeHash(window.location.hash);
+      var currentLocation = escape(this.removeHash(window.location.hash));
 
       return currentLocation;
    },
@@ -936,15 +936,6 @@ function handleHistoryChange(pageId, pageData) {
   var id = info[0];
   pageData += '&_method=get';
   new Ajax.Updater(id+'-content', pageData, {asynchronous:true, evalScripts:true, onLoading:function(request){Element.show(id+'-pagination-loading-indicator');}});
-}
-
-function addActiveScaffoldPageToHistory(url, active_scaffold_id) {
-	var array = url.split('?');
-	var qs = new Querystring(array[1]);
-	var sort = qs.get('sort')
-	var dir = qs.get('sort_direction')
-  var page = qs.get('page')
-	dhtmlHistory.add(active_scaffold_id+":"+page+":"+sort+":"+dir, url);
 }
 
 /** set onload handler */

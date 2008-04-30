@@ -14,40 +14,44 @@ if (Prototype.Version.substring(0, 8) == '1.5.0_rc')
  */
 
 var ActiveScaffold = {
-  stripe: function(tableBody) {
+  records_for: function(tbody_id) {
+    var rows = [];
+    var child = $(tbody_id).down('.record');
+    while (child) {
+      rows.push(child);
+      child = child.next('.record');
+    }
+    return rows;
+  },
+  stripe: function(tbody_id) {
     var even = false;
-    var tableBody = $(tableBody);
-    var tableRows = tableBody.down("tr");
-    var length = tableBody.rows.length;
-
-    for (var i = 0; i < length; i++) {
-      var tableRow = tableBody.rows[i];
+    var rows = this.records_for(tbody_id);
+    for (var i = 0; i < rows.length; i++) {
+      var child = rows[i];
       //Make sure to skip rows that are create or edit rows or messages
-      if (!tableRow.hasClassName("create")
-        && !tableRow.hasClassName("update")
-        && !tableRow.hasClassName("inline-adapter")
-        && !tableRow.hasClassName("active-scaffold-calculations")) {
+      if (child.tagName != 'SCRIPT'
+        && !child.hasClassName("create")
+        && !child.hasClassName("update")
+        && !child.hasClassName("inline-adapter")
+        && !child.hasClassName("active-scaffold-calculations")) {
 
-        if (even) {
-          tableRow.addClassName("even-record");
-        } else {
-          tableRow.removeClassName("even-record");
-        }
+        if (even) child.addClassName("even-record");
+        else child.removeClassName("even-record");
+
         even = !even;
       }
     }
   },
   hide_empty_message: function(tbody, empty_message_id) {
-    tbody = $(tbody);
-    if (tbody.rows.length != 0) {
+    if (this.records_for(tbody).length != 0) {
       $(empty_message_id).hide();
     }
   },
   reload_if_empty: function(tbody, url) {
     var content_container_id = tbody.replace('tbody', 'content');
-    tbody = $(tbody);
-    if (tbody.rows.length == 0) {
+    if (this.records_for(tbody).length == 0) {
       new Ajax.Updater($(content_container_id), url, {
+        method: 'get',
         asynchronous: true,
         evalScripts: true
       });
@@ -77,6 +81,20 @@ var ActiveScaffold = {
     messages_container = $(active_scaffold_id).down('td.messages-container');
     new Insertion.Top(messages_container, this.server_error_response);
   }
+}
+
+/*
+ * DHTML history tie-in
+ */
+function addActiveScaffoldPageToHistory(url, active_scaffold_id) {
+  if (typeof dhtmlHistory == 'undefined') return; // it may not be loaded
+
+  var array = url.split('?');
+  var qs = new Querystring(array[1]);
+  var sort = qs.get('sort')
+  var dir = qs.get('sort_direction')
+  var page = qs.get('page')
+  if (sort || dir || page) dhtmlHistory.add(active_scaffold_id+":"+page+":"+sort+":"+dir, url);
 }
 
 /*
@@ -132,7 +150,7 @@ Object.extend(String.prototype, {
 Element.Methods.Simulated = {
   hasAttribute: function(element, attribute) {
     var t = Element._attributeTranslations;
-    attribute = t.names[attribute] || attribute;
+    attribute = (t.names && t.names[attribute]) || attribute;
     // Return false if we get an error here
     try {
       return $(element).getAttributeNode(attribute).specified;
@@ -206,7 +224,7 @@ ActiveScaffold.ActionLink.Abstract.prototype = {
 		if (this.page_link) {
 			window.location = this.url;
 		} else {
-			this.loading_indicator.style.visibility = 'visible';
+			if (this.loading_indicator) this.loading_indicator.style.visibility = 'visible';
 	    new Ajax.Request(this.url, {
 	      asynchronous: true,
 	      evalScripts: true,
@@ -226,7 +244,7 @@ ActiveScaffold.ActionLink.Abstract.prototype = {
 	      }.bind(this),
 
 	      onComplete: function(request) {
-	        this.loading_indicator.style.visibility = 'hidden';
+	        if (this.loading_indicator) this.loading_indicator.style.visibility = 'hidden';
 	      }.bind(this)
 			});
 		}

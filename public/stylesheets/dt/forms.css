@@ -1,0 +1,76 @@
+fieldset ol {
+    margin:0;
+}
+fieldset ol li {
+    list-style-type:none;
+}
+.userform label {
+    display:inline-block;
+}
+
+input, select {
+    background-color:#FFFFFF;
+    border:0.0625em solid #999999;
+    color:#333333;
+    padding:0.0625em;
+}
+select {
+    padding:0 0 0.0625em 0;
+}
+input.submitreplace {
+    border:0;
+    font-size:0;
+}
+
+/*
+GLOBALNAV SEARCH FORM
+---------------------*/
+form#search
+form#search input[type="text"]	 {
+	border: 1px solid #ccc;
+	width: 110px;
+	padding: 2px;
+	font-family: Arial, sans-serif;
+	vertical-align: middle;
+}
+
+/* attribute selector */
+form#search input.submitreplace {
+    width:35px;
+    height:20px;
+	vertical-align: middle;
+	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
+}
+form#search input.submitreplace:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
+}
+
+/*
+TOOLBAR SEARCH FORM
+-------------------*/
+form#projectsearchform {
+    padding:10px 0 0 10px;
+}
+form#projectsearchform select {
+    margin-right:12px;
+    width:190px;
+    float:left;
+	vertical-align: middle;
+}
+form#projectsearchform input.submitreplace {
+    width:92px;
+    height:20px;
+    background: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_grey.gif) no-repeat top left;
+	vertical-align: middle;
+}
+form#projectsearchform input.submitreplace:hover {
+    background-image: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_blue.gif);
+}
+
+/*
+SIDEBAR FORM ELEMENTS
+=====================*/
+#sidebar input, #sidebar select,
+.sidebar input, .sidebar select {
+    width:228px;
+}

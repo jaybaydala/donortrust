@@ -1,0 +1,133 @@
+/*
+Project Body
+============*/
+div.projectRank {
+    margin:.625em 0 .5em 0;
+}
+div.projectRank strong {
+    color:#360;
+}
+div.projectRank li {
+    display:inline;
+    list-style:none;
+    padding-right:.75em;
+}
+
+/*
+Featured and Search Project List
+================================*/
+div.projectlist {}
+div.projectlist .project {
+    border-bottom:0.125em solid #360;
+    padding-bottom:1em;
+}
+
+/*
+Project Highlight List
+======================*/
+.projecthighlight {}
+.projecthighlight li {
+    background:url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat transparent 0px 0.5em;
+    list-style-display:none;
+    font-size:0.6875em; /* 11px */
+    margin:0.125em 0;
+    padding:0.1875em 0 0.25em 14px;
+    border-bottom:solid 0.0625em #DDD;
+}
+.projecthighlight strong {
+    color:#360;
+}
+
+/*
+Project Actions
+===============*/
+.projectactions {}
+.projectactions li {
+    list-style-display:none;
+    font-size:0.6875em; /* 11px */
+    margin:0.125em 0;
+    padding:0.1875em 0 0.25em 0;
+    border-bottom:solid 0.0625em #DDD;
+}
+.projectactions strong {
+    color:#360;
+}
+
+/*
+Quick Facts
+===========*/
+.quickfacts {}
+.quickfacts li {
+    list-style-display:none;
+    font-size:0.6875em; /* 11px */
+    margin:0.1875em 0;
+    padding:0.25em 0 0.5em 0;
+    border-bottom:solid 0.0625em #DDD;
+}
+.quickfacts strong {
+    color:#360;
+}
+.quickfacts ol {
+    margin-left:1.5em;
+}
+
+/*
+Project Buttons
+===============*/
+div.projectbuttons {
+    margin:0.5em 0;
+    margin-top:1em;
+}
+
+a.button-connect, a.button-connect span {
+    display:block;float:left;
+    margin-top:3px;
+    width:92px;
+    height:20px;
+}
+a.button-connect {background:url(/images/dt/nav_elements/buttonsCF/connectButton_grey.gif) no-repeat transparent;}
+a.button-connect:hover {background:url(/images/dt/nav_elements/buttonsCF/connectButton_blue.gif) no-repeat transparent;}
+
+a.button-gift, a.button-gift span, 
+a.button-invest, a.button-invest span,
+a.button-creategroup, a.button-creategroup span {
+    display:block;float:left;
+    width:104px;
+    height:24px;
+    margin-bottom:.5em;
+}
+a.button-gift span,
+a.button-invest span, 
+a.button-creategroup span, 
+a.button-connect span {
+    text-indent:-9999px;
+}
+a.button-gift {background:url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat transparent;}
+a.button-gift:hover {background:url(/images/dt/nav_elements/buttonsCF/giftProject_blue.gif) no-repeat transparent;}
+a.button-invest {background:url(/images/dt/nav_elements/buttonsCF/invest_grey.gif) no-repeat transparent;}
+a.button-invest:hover {background:url(/images/dt/nav_elements/buttonsCF/invest_blue.gif) no-repeat transparent;}
+a.button-creategroup {background:url(/images/dt/nav_elements/buttonsCF/createGroup_lgrey2.gif) no-repeat transparent;}
+a.button-creategroup:hover {background:url(/images/dt/nav_elements/buttonsCF/createGroup_blue.gif) no-repeat transparent;}
+
+.blueblock {}
+.blueblock a {
+    text-decoration:none;
+    display:block;
+    color:#FFF;
+    padding:0 0 0 3px;
+}
+.blueblock a:link, .blueblock a:visited {background:transparent url(/images/dt/nav_elements/buttonsCF/button_blueGrey_228.gif) no-repeat;}
+.blueblock a:hover, .blueblock a:active {background:transparent url(/images/dt/nav_elements/buttonsCF/button_orange_228.gif) no-repeat;}
+
+/* 
+US TAXES
+========*/
+.usTaxLink {
+    background:transparent url(/images/dt/icons/USflag_icon.png) no-repeat scroll 7px 9px;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:11px;
+    line-height:14px;
+    margin-left:7px;
+    padding-left:26px;
+    padding-top:10px;
+}
