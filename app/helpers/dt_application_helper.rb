@@ -52,4 +52,8 @@ module DtApplicationHelper
   def cf_admin_project
     Project.cf_admin_project
   end
+  
+  def form_required
+    render :partial => 'dt/shared/form_required'
+  end
 end

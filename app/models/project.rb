@@ -80,21 +80,10 @@ class Project < ActiveRecord::Base
     end
 
     def find_public(*args)
-      options = extract_options_from_args!(args)
       valid_project_status_ids = [2,4]
-      if !options[:conditions].nil?
-        if options[:conditions].is_a?(Hash)
-          options[:conditions][:project_status_id] = valid_project_status_ids
-        elsif options[:conditions].is_a?(Array)
-          options[:conditions][0] += " AND (project_status_id IN (?))"
-          options[:conditions] << valid_project_status_ids
-        else
-          options[:conditions] += " AND (project_status_id IN (#{valid_project_status_ids.join(',')}))"
-        end
-      else
-        options[:conditions] = { :project_status_id => valid_project_status_ids }
+      with_scope :find => { :conditions => { :project_status_id => valid_project_status_ids }} do
+        find *args
       end
-      Project.find(args.first, options)
     end
     
     def continents_and_countries
@@ -247,11 +236,11 @@ class Project < ActiveRecord::Base
   end
 
   def community
-    @community = self.place if self.place_id? && self.place && self.place.place_type_id >= 6
+    @community ||= self.place if self.place_id? && self.place && self.place.place_type_id >= 6
   end
   
   def community_project_count
-    self.community.projects.size
+    @community_project_count ||= community.projects.size if community
   end
   
   def nation

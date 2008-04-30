@@ -1,23 +1,29 @@
 <% @project = featured_project -%>
-    <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
-      <div class="leftColW">
-        <h2><%= link_to @project.name, dt_project_path(@project) %></h2>
-        
-        <div class="projectRank">
-          <ul class="specList">
-            <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
-            <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, dt_organization_project_path(@project) %></span></li><% end %>
-          </ul>
+  <div class="project">
+    <div class="columns"  id="projectInfo-<%= @project.id %>">
+      <div class="content">
+        <div style="margin-right:1em;">
+          <h2><%= link_to @project.name, dt_project_path(@project) %></h2>
+
+          <div class="projectRank">
+            <ul class="specList">
+              <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
+              <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, organization_dt_project_path(@project) %></span></li><% end %>
+            </ul>
+          </div>
+
+          <p><strong>Project Description:</strong> <%= @project.summarized_description(175) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
         </div>
-        
-        <p><strong>Project Description:</strong> <%= @project.summarized_description(175) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
       </div>
       
-    	<div class="factList">
-    	  <div class="projectSMtext">
-          <% if @project.fundable? %><div class="buttonGiftProject" style="margin-bottom:10px;"><%= link_to "Gift this Project", dt_new_gift_path(:project_id => @project) %></div><% end %>
-          <% if @project.fundable? %><div class="buttonInvest" style="margin-bottom:10px;"><%= link_to "<span>Invest</span>", dt_new_investment_path(:project_id => @project) %></div><% end %>
+    	<div class="sidebar">
+    	  <div class="projectbuttons clearfix">
+          <% if @project.fundable? %><%= link_to "<span>Gift this Project</span>", new_dt_gift_path(:project_id => @project), :class => "button-gift" %><% end %>
+          <% if @project.fundable? %><%= link_to "<span>Invest</span>", new_dt_investment_path(:project_id => @project), :class => "button-invest" %><% end %>
         </div>
-    	  <%= project_quickfacts %>
+    	  <div class="quickfacts">
+      	  <%= project_quickfacts %>
+    	  </div>
     	</div>
     </div>
+  </div>

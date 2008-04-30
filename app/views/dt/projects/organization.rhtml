@@ -1,44 +1,40 @@
-<div id="contentContainer">
-  <h1><%= h @project.name %></h1>
-  <%= project_nav %>
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<%- content_for :html_title do -%><%= h @organization.name %> | <%=h @project.name %><%- end -%>
+<%- content_for :page_title do -%><%=h @project.name %><%- end -%>
+<%- content_for :nav do -%><%= project_nav %><%- end -%>
 
-  <div id="leftColW">
-    <h1>
-      <%= h @organization.name if @organization %>
-      <span class="textsm">(<%= link_to(h(@organization.website), (@organization.website =~ %r(^http:\/\/) ? '' : "http://") + @organization.website, :rel => 'blank') if @organization.website %>)</span>
-    </h1>
-    
-    <% if @organization && @organization.description? %>
-    <h2>Description</h2>
-    <div><%= @organization.description %></div>
-    <% end %>
+<h1>
+  <%= h @organization.name if @organization %>
+  <span class="textsm">(<%= link_to(h(@organization.website), (@organization.website =~ %r(^http:\/\/) ? '' : "http://") + @organization.website, :rel => 'blank') if @organization.website %>)</span>
+</h1>
 
-    <% if @organization && @organization.mission_statement? %>
-    <h2>Mission Statement</h2>
-    <div><%= @organization.mission_statement %></div>
-    <% end %>
+<% if @organization && @organization.description? %>
+<h2>Description</h2>
+<div><%= @organization.description %></div>
+<% end %>
 
-    <% if @organization && @organization.philosophy_dev? %>
-    <h2>Philosophy of Development</h2>
-    <div><%= @organization.philosophy_dev %></div>
-    <% end %>
+<% if @organization && @organization.mission_statement? %>
+<h2>Mission Statement</h2>
+<div><%= @organization.mission_statement %></div>
+<% end %>
 
-    <% if @organization && @organization.business_model? %>
-    <h2>Business Model</h2>
-    <div><%= @organization.business_model %></div>
-    <% end %>
-  </div>
+<% if @organization && @organization.philosophy_dev? %>
+<h2>Philosophy of Development</h2>
+<div><%= @organization.philosophy_dev %></div>
+<% end %>
+
+<% if @organization && @organization.business_model? %>
+<h2>Business Model</h2>
+<div><%= @organization.business_model %></div>
+<% end %>
+
           
-  <div id="rightColN">
-    <%= render :partial => 'related_projects' %>
+<% content_for :sidebar do %>
+  <%= render :partial => 'related_projects' %>
 
-    <div id="factList">
-      <h2>Quick Facts</h2>
-      <ul>
-        <%= render :partial => 'quickfact_organization', :collection => @organization.quick_fact_partners %>
-      </ul>
-    </div>
+  <div class="quickfacts">
+    <h2>Quick Facts</h2>
+    <ul>
+      <%= render :partial => 'quickfact_organization', :collection => @organization.quick_fact_partners %>
+    </ul>
   </div>
-</div>
+<% end %>

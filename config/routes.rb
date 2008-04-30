@@ -32,6 +32,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :mdgs, :controller=> 'dt/mdgs', :name_prefix => 'dt_', :path_prefix => '/dt'
   map.connect '/dt', :controller => 'dt/projects'
 
+  map.resources :templates
+
   # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
   map.recover_record 'bus_admin/milestone_statuses/recover_record', :controller => 'bus_admin/milestone_statuses', :action => 'recover_record'

@@ -1,33 +1,31 @@
-<div id="contentContainer">
-  <h1><%= h @project.name %></h1>
-  <%= project_nav %>
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  <div id="leftColW">
-    <h1><%= @nation.name %></h1>
-    <p><%= @nation.description %></p>
-  </div>
+<% content_for :html_title do %><%= h @nation.name %> | <%=h @project.name %><% end %>
+<% content_for :page_title do %><%=h @project.name %><% end %>
+<% content_for :nav do %><%= project_nav %><% end %>
 
-  <div id="rightColN">
-    <%= project_actions %>
-    <% if @nation.file_image? %><%= image_tag @nation.file_image, :alt => "#{@nation.name} Image" %><% end %>
-    <% if @nation.quick_fact_places.size > 0 -%>
-    <div id="factList">
-      <h2>Quick Facts</h2>
-      <ul>
-        <%= render :partial => 'quickfact_place', :collection => @nation.quick_fact_places %>
-        <li class="blueblock"><%= link_to "Find other projects in this country", dt_search_path(:place_id => @nation.id) %></li>
-      </ul>
-    </div>
-    <% end -%>
-    
-    <% if @project.nation.rss_url? && @news_feed %>
-    <h5>NEWS FEEDS</h5>
+<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<h1><%= @nation.name %></h1>
+<p><%= @nation.description %></p>
+
+<% content_for :sidebar do %>
+  <%= project_actions %>
+  <% if @nation.file_image? %><%= image_tag @nation.file_image, :alt => "#{@nation.name} Image" %><% end %>
+  <% if @nation.quick_fact_places.size > 0 -%>
+  <div class="quickfacts">
+    <h2>Quick Facts</h2>
     <ul>
-      <%= render :partial => 'news_feed_entry', :collection => @news_feed.entries %>
-      <li><%= link_to "Read More&hellips;", @news_feed.url %></li>
-    </ul><% end %>
-
-    <%= mdg_goals %>
+      <%= render :partial => 'quickfact_place', :collection => @nation.quick_fact_places %>
+      <li class="blueblock"><%= link_to "Find other projects in this country", dt_search_path(:place_id => @nation.id) %></li>
+    </ul>
   </div>
-</div>
+  <% end -%>
+
+  <% if @project.nation.rss_url? && @news_feed %>
+  <h5>NEWS FEEDS</h5>
+  <ul>
+    <%= render :partial => 'news_feed_entry', :collection => @news_feed.entries %>
+    <li><%= link_to "Read More&hellips;", @news_feed.url %></li>
+  </ul><% end %>
+
+  <%= mdg_goals %>
+<% end %>

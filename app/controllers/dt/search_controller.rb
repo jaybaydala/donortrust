@@ -2,7 +2,6 @@ class Dt::SearchController < DtApplicationController
   helper "dt/projects"
   before_filter :store_location, :except=>[:bar]
   def show
-    @page_title = "Project Search"
     @projects = Project.find_public(:all, search_options)
     @projects = place_filter(@projects) if params[:place_id] && Place.exists?(params[:place_id])
     @projects = @projects.paginate({:page => params[:page], :per_page => 5})
@@ -26,11 +25,11 @@ class Dt::SearchController < DtApplicationController
   protected
   def search_options
     conditions = ['']
-    if params[:partner_id]
+    if params[:partner_id] && !params[:partner_id].empty?
       conditions[0] += 'projects.partner_id = ?'
       conditions << params[:partner_id] 
     end
-    if params[:cause_id]
+    if params[:cause_id] && !params[:cause_id].empty?
       conditions[0] += ' AND ' unless conditions[0].empty?
       conditions[0] += 'causes_projects.cause_id=?'
       conditions << params[:cause_id] 

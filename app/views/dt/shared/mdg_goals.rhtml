@@ -1,6 +1,8 @@
 <h5>Millennium Development Goals <span style="text-transform:none; ">(MGDs)</span></h5>
-<ol>
-<%= render :partial => 'dt/mdgs/goal_item', :collection => @mdgs %>
-</ol>
+<div class="quickfacts">
+  <ol>
+  <%= render :partial => 'dt/mdgs/goal_item', :collection => @mdgs %>
+  </ol>
+</div>
 
-<p class="linkMinor"><%= link_to "Learn more about MGDs", dt_mdgs_path %></p>
+<p><%= link_to "Learn more about MGDs", dt_mdgs_path, :class => "linkminor" %></p>

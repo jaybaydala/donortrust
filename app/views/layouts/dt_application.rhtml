@@ -3,44 +3,91 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title><%=h @page_title + ' | ' if @page_title %>ChristmasFuture</title>
+  
+  <title><%= (html_title = yield :html_title) ? html_title + " | " : '' %>ChristmasFuture</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <meta name="description" content="" />
-  <meta name="keywords" content="ChristmasFuture, Change the world for good." />
-	
-  <%= javascript_include_tag 'prototype' %>
-  <%= javascript_include_tag 'effects' %>
-  <%= javascript_include_tag 'dragdrop' %>
-  <%= javascript_include_tag 'controls' %>
-  <%= javascript_include_tag 'dt/application' %>
-  <%= dt_action_js %>
-  <%= stylesheet_link_tag 'dt/base.css' %>
-  <%= stylesheet_link_tag 'dt/navigation.css' %>
-  <%= javascript_include_tag 'theme' if @action_js =~ /timeline-api\.js/ %>
-  <%= stylesheet_link_tag 'timeline-custom.css' if @action_js =~ /timeline-api\.js/ %>
-  <!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css' %><![endif]-->
+  <meta name="description" content="ChristmasFuture, Change the world for good." />
+  <meta name="keywords" content="" />
+<%= javascript_include_tag "prototype", "effects", "dragdrop", "controls", "dt/application", :cache => "donortrust" %>
+<%= stylesheet_link_tag 'dt/master.css', :media => 'screen, projection' %>
+<!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css', :media => 'screen, projection' %><![endif]-->
+<%= yield :head %>
 </head>
 <body>
 <div id="container">
-  <div id="main">
-    <div id="content">
-<%= dt_head %>
+  <div id="header" class="clearfix">
+    <div id="logo" class="clearfix">
+      <%= link_to image_tag('/images/dt/brand_elements/cf_headerlogo.gif', :alt => "ChristmasFuture &ndash; Change the world&hellip;for good"), "/" %>
+    </div>
+    <div id="loginbug">
+      <%- if logged_in? -%>
+        Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %> | Not <%=h current_user.name %>? <%= link_to 'Logout', dt_logout_url(:protocol => 'http://') %>
+      <%- else -%>
+        <%= link_to 'Login', dt_login_path %> | <%= link_to 'Create Account', dt_signup_path %>
+      <%- end -%>
+    </div>
+    <div id="rss"><a href="http://www.christmasfuture.org/feed/"><span>RSS Feed</span></a></div>
+  </div>
+  <%= render "dt/shared/globalnav" %>
+  <div id="masthead">
+    <%= image_tag "/images/dt/feature_graphics/projectsFeature130.jpg", :alt => "" %>
+  </div>
+  <div id="toolbar-wrapper" class="clearfix">
+    <%= dt_search_bar %>
+  </div>
+  
+<%- nav = yield :nav -%>
+<%- page_title = yield :page_title -%>
+<%- page_title = html_title if page_title.nil? || page_title.empty? -%>
+<%- top_content = yield :top_content -%>
+<%- content = yield :content -%>
+<%- sidebar = yield :sidebar -%>
+<%- bottom_content = yield :bottom_content -%>
 
-<%= dt_nav %>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 
-<div id="featurePhoto" style="height:130px;">
-  <%= image_tag dt_masthead_image, :alt => '' %>
-</div>
-<div id="toolbar">
-<%= dt_search_bar %>
-</div>
-
-<%= yield %>
-
-<%= dt_footer %>
-
+  <h1><%= page_title %></h1>
+  
+  <%- if nav -%>
+  <div id="nav">
+    <%= nav %>
+  </div>
+  <%- end -%>
+  
+  <%- if top_content -%>
+  <div id="topcontentcontainer" class="clearfix">
+    <div id="topcontent">
+      <%= top_content %>
     </div>
   </div>
+  <%- end -%>
+
+  <div id="contentcontainer">
+    <div id="content<%= "wide" unless sidebar %>-wrapper">
+      <div id="content">
+        <%= yield %>
+      </div>
+    </div>
+  
+    <%- if sidebar -%>
+    <div id="sidebar-wrapper">
+      <div id="sidebar">
+        <%= sidebar %>
+      </div>
+    </div>
+    <%- end -%>
+  </div>
+
+  <%- if bottom_content -%>
+  <div id="bottomcontentcontainer" class="clearfix">
+    <div id="bottomcontent">
+      <%= bottom_content %>
+    </div>
+  </div>
+  <%- end -%>
+
+  <%= dt_footer %>
 </div>
 <script src="http<%= request.ssl? ? 's://ssl' : '://www' %>.google-analytics.com/urchin.js" type="text/javascript"></script>
 <!--googlestats-->

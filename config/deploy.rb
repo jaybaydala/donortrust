@@ -8,7 +8,7 @@ set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
 set :mongrel_clean, true
 
-set :rails_version, 6419 unless variables[:rails_version]
+set :rails_version, 8441 unless variables[:rails_version]
 
 namespace :deploy do
 

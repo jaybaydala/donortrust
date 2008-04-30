@@ -1,0 +1,19 @@
+<div id="globalnav-wrapper" class="clearfix">
+  <div id="globalnav" class="clearfix">
+    <ul>
+      <li><a href="/about-us">About Us </a></li>
+      <li<%= ' class="current"' if @topnav == 'projects' %>><a href="/dt/projects">Projects </a></li>
+      <li<%= ' class="current"' if @topnav == 'get_involved' %>><a href="/get-involved">Get Involved </a></li>
+      <li><a href="/school-program">School Program </a></li>
+      <li><a href="/blog">Blog </a></li>
+      <li><a href="/contact-us">Contact </a></li>
+    </ul>
+    <form method="get" name="search" id="search" action="http://www.google.com/cse">
+      <div>
+      <input name="q" type="text" id="searchBox" title="Search" value="Search" size="15" maxlength="30" onBlur="if(!this.value)this.value='Search';" onFocus="if(this.value=='Search')this.value='';"/>
+      <span id="searchsubmit"><input type="submit" value="Go" class="submitreplace" /></span>
+      <input type="hidden" name="cx" value="018295523257149889047:dzgd_gpevyo" />
+      </div>
+    </form>
+  </div>
+</div>

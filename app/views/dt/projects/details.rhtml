@@ -1,12 +1,8 @@
-<div id="contentContainer">
-  <h1><%= h @project.name %></h1>
-  <%= project_nav %>
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+<%- content_for :html_title do -%>Project Details | <%= h @project.name %><%- end -%>
+<%- content_for :page_title do -%><%= h @project.name %><%- end -%>
+<%- content_for :nav do -%><%= project_nav %><%- end -%>
 
-  <div id="leftColW">
-
-    <% if @project.milestones.size > 0 and @project.target_start_date != nil %>
+    <% unless @project.milestones.empty? and @project.target_start_date != nil %>
     <h2>Project Plan</h2>
     <%
     project_timeline = ::Simile::Timeline::Timeline.new(
@@ -64,16 +60,14 @@
       <%= @project.project_in_community %>
     </div>
     <% end %>
-  </div>
           
-  <div id="rightColN">
-    <%= project_actions %>
-    <%= render :partial => 'related_projects' %>
+<%- content_for :sidebar do -%>
+  <%= project_actions %>
+  <%= render :partial => 'related_projects' %>
 
-    <% if @project.key_measures.size > 0 %>
-    <div id="factList">
-      <%= render :partial => 'key_measure', :collection => @project.key_measures %>
-    </div>
-    <% end %>
+  <% if @project.key_measures.size > 0 %>
+  <div id="factList">
+    <%= render :partial => 'key_measure', :collection => @project.key_measures %>
   </div>
-</div>
+  <% end %>
+<%- end -%>

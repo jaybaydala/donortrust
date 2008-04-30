@@ -1,13 +1,14 @@
-    <div class="projectSMtext">
-      <% if @project.fundable? %><div id="buttonGiftProject"><%= link_to "Gift this Project", dt_new_gift_path( :project_id => @project.id ) %></div><% end %>
-      <% if @project.fundable? %><div id="buttonInvest"><%= link_to "<span>Invest</span>", dt_new_investment_path(:project_id => @project) %></div><% end %>
+
+    <div class="projectbuttons clearfix">
+      <% if @project.fundable? %><%= link_to "<span>Gift this Project</span>", new_dt_gift_path(:project_id => @project), :class => "button-gift" %><% end %>
+      <% if @project.fundable? %><%= link_to "<span>Invest</span>", new_dt_investment_path(:project_id => @project), :class => "button-invest" %><% end %>
     </div>
-    <div class="factList">
+    <div class="projectactions">
       <ul>
-        <li class="blueblock"><%= link_to "Tell-A-Friend", dt_new_tell_friend_path( :project_id => @project.id ) %></li>
-        <li class="blueblock"><%= link_to "Send My Wishlist", dt_new_message_my_wishlists_path( :account_id => current_user, :project_id => @project.id ) %></li>
+        <li class="blueblock"><%= link_to "Tell-A-Friend", new_dt_tell_friend_path( :project_id => @project.id ) %></li>
+        <li class="blueblock"><%= link_to "Send My Wishlist", new_message_dt_my_wishlists_path( :account_id => current_user, :project_id => @project.id ) %></li>
         <% if !logged_in? || (logged_in? && !current_user.my_wishlists.find(:first, :conditions => {:project_id => @project.id})) %><li class="blueblock"><%= link_to "&nbsp;Add to My Wishlst", dt_my_wishlists_path(:account_id => current_user, :project_id => @project), :method => :post %></li><% end %>
-        <% if logged_in? && current_user.group_admin? %><li class="blueblock"><%= link_to "&nbsp;Add to Group Wishlst", dt_new_wishlist_path(:project_id => @project) %></li><% end %>
-        <% if @project.fundable? %><li class="blueblock"><%= link_to "&nbsp;Invest in this Project", dt_new_investment_path(:project_id => @project.id) %></li><% end %>
+        <% if logged_in? && current_user.group_admin? %><li class="blueblock"><%= link_to "&nbsp;Add to Group Wishlst", new_dt_wishlist_path(:project_id => @project) %></li><% end %>
+        <% if @project.fundable? %><li class="blueblock"><%= link_to "&nbsp;Invest in this Project", new_dt_investment_path(:project_id => @project.id) %></li><% end %>
       </ul>
     </div>

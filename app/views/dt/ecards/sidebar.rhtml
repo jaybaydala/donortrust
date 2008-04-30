@@ -1,18 +1,9 @@
-      <% if @ecards && @ecards.size > 1 %><div id="medImgWrap">
+      <% if @ecards and !@ecards.empty? %>
+      <div id="medImgWrap">
         <div class="medImg"><%= image_tag url_for_file_column(@ecards[0], "medium"), :id => 'mediumEcard', :alt => '' %></div>
-        <!--
-        <div id="selectWrap">
-          <div class="selectButton"><img src="/images/dt/nav_elements/buttonsCF/buttonSelect.gif" id="ecardSelect" /></div>
-        </div>
-        <div class="medImgNav">
-          <div class="prev"><a href="#">&lt; prev</a></div>
-          <div class="next"><a href="#">next &gt;</a></div>
-        </div>
-        -->
       </div>
       <div class="textsm">Choose a card below to preview the image.</div>
-      <div id="miniThumbs">
-        <ul>
-          <%= render :partial => 'dt/ecards/thumbnail', :collection => @ecards %>
-        </ul>
-      </div><% end %>
+      <ul id="ecardthumbs">
+        <%= render :partial => 'dt/ecards/thumbnail', :collection => @ecards %>
+      </ul>
+      <% end %>
