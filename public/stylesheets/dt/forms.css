@@ -1,18 +1,42 @@
+/*
+ALL FORMS
+=========*/
+fieldset {
+    border-top:3px solid #95AED0;
+    margin-bottom:1.125em;
+}
+fieldset fieldset {
+}
+legend {
+    font-size:.75em;
+    font-weight:bold;
+}
+fieldset fieldset legend, fieldset fieldset ol li {
+    font-size:1em;
+    font-weight:normal;
+}
+    
 fieldset ol {
-    margin:0;
+    margin-left:0;
+    padding:0;
 }
 fieldset ol li {
     list-style-type:none;
 }
-.userform label {
-    display:inline-block;
-}
-
 input, select {
-    background-color:#FFFFFF;
-    border:0.0625em solid #999999;
-    color:#333333;
+    background-color:#FFF;
+    border:0.0625em solid #999;
+    color:#333;
     padding:0.0625em;
+}
+input[type="submit"] {
+    background-color:#DDD;
+    border:0.0625em solid #999999;
+    padding:auto;
+}
+input[type="image"] {
+    border:0;
+    padding:0;
 }
 select {
     padding:0 0 0.0625em 0;
@@ -20,6 +44,205 @@ select {
 input.submitreplace {
     border:0;
     font-size:0;
+}
+textarea {
+    border:0.0625em solid #999999;
+}
+
+/*
+DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
+=====================*/
+.userform {}
+.userform div.notes {
+    float:right;
+    width:160px;
+    padding:5px;
+    margin:0 0 10px 10px;
+    background-color:#FFE;
+    border:1px solid #EED;
+}
+.userform div.notes h5 {
+    font-weight:bold;
+    color:#555;
+    text-align:center;
+    text-transform:none;
+    margin:0 0 4px 0;
+    padding:0;
+    border-bottom:1px #555 solid;
+}
+.userform div.notes p {
+    margin:0;
+    font-size:0.75em;
+    color:#555;
+}
+.userform select, .userform input[type='text'] {
+    width:150px;
+}
+.userform ol li {
+    clear:left;
+    padding:.25em;
+    font-size:0.6875em;
+}
+.userform fieldset fieldset ol li {
+    font-size:1em;
+}
+.userform fieldset {}
+.userform label {
+    display:block;
+    float:left;
+    width:100px;
+    vertical-align: top;
+    text-align:right;
+    padding:0 5px 0 0;
+}
+.userform .left label, .userform .right label {
+    width:70px;
+}
+.userform .left select, .userform .right select,
+.userform .left input[type='text'], .userform .right input[type='text'] {
+    width:100px;
+}
+.userform ol li div.note {
+    margin-left:105px;
+    font-size:0.9375em;
+    color:#666;
+}
+.userform .left div.note {
+    margin-left:75px;
+    font-size:0.9375em;
+    color:#666;
+}
+
+.userform fieldset fieldset {
+    font-size:1em;
+    border:0;
+}
+.userform fieldset fieldset label {
+    font-size:1em;
+    display:block;
+    margin-left:100px;
+    width:auto;
+}
+.userform label.left {
+    width:auto;
+    float:none;
+    display:block;
+    text-align:inherit;
+}
+
+/*
+SUBMIT BUTTONS
+==============*/
+
+div.buttonsubmit {
+	clear:left;
+	padding:3px 0 0 0;
+}
+div.simpleform div.buttonsubmit {
+    padding-left:0;
+}
+div.buttonsubmit a:link, div.buttonsubmit a:visited, div.buttonsubmit a:hover, div.buttonsubmit a:active {
+	display:block;
+	height: 18px;
+	padding-top: 2px;
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color:#FFF;
+	text-align:center;
+	text-decoration:none;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+div.buttonsubmit a.small {
+	width:52px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif);
+}
+div.buttonsubmit a.small:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif);
+}
+div.buttonsubmit a.medium {
+	width:78px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif);
+}
+div.buttonsubmit a.medium:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_medium.gif);
+}
+div.buttonsubmit a.large {
+	width:110px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_large.gif);
+}
+div.buttonsubmit a.large:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_large.gif);
+}
+
+/*
+LOGIN FORM
+==========*/
+#loginform fieldset {
+    background-color:#D8DEE7;
+    border:0;
+    padding:1em;
+}
+#loginform fieldset legend {
+    padding-top:2em;
+}
+#loginform fieldset label {
+    display:block;
+    float:none;
+    text-align:left;
+}
+#loginform fieldset input[type="text"], #loginform fieldset input[type="password"] {
+    width:100%;
+}
+#loginform fieldset li {
+    display:block;
+    width:140px;
+    float:left;
+    clear:none;
+}
+#loginform fieldset li.clear {
+    clear:left;
+}
+/*
+GIFT FORM
+=========*/
+#gift_send_at_select select {
+    width:auto;
+}
+select#gift_send_at_1i { /* Year */
+    width:58px;
+}
+select#gift_send_at_2i { /* Month */
+    width:60px;
+}
+select#gift_send_at_3i, 
+select#gift_send_at_4i, 
+select#gift_send_at_5i { /* Day, Hour, Minute */
+    width:40px;
+}
+select#time_zone {
+    width:270px;
+}
+#gift_message {
+    clear:both;
+    width:100%;
+}
+label#gift_message_label {
+    float:none;
+    width:auto;
+    text-align:left;
+}
+img#previewEcard {
+    display:block;
+    width:50px;
+    float:right;
+    padding:0 0 10px 10px;
+}
+
+/*
+CART
+====*/
+.button-checkout {
+    
 }
 
 /*
@@ -70,7 +293,7 @@ form#projectsearchform input.submitreplace:hover {
 /*
 SIDEBAR FORM ELEMENTS
 =====================*/
-#sidebar input, #sidebar select,
-.sidebar input, .sidebar select {
+#sidebar input[type="text"], #sidebar input[type="password"], #sidebar select,
+.sidebar input[type="text"], .sidebar input[type="password"], .sidebar select {
     width:228px;
 }

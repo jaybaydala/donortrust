@@ -65,8 +65,16 @@ h5 {
 	color:#360;
 }
 
+ul {
+    margin:0 0 1.125em 1em;
+    list-style:disc outside;
+}
+ul li {list-style-type:outside;}
 li, blockquote {
     font-size:.75em; /* 16x.75=12px */
+}
+li li {
+    font-size:1em; /* maintain font size for nested lists */
 }
 p {
     font-size:0.8125em; /* 13px */
@@ -120,4 +128,8 @@ a.linkminor:link, a.linkminor:visited {
 a.linkminor:hover, a.linkminor:active {
     background:transparent url(/images/dt/nav_elements/arrows/orange_arrowSM.gif) no-repeat scroll 0px 2px;
     color:#F60;
+}
+
+.highlight {
+    background-color:#FFE;
 }

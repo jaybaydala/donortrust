@@ -145,11 +145,16 @@ form#search {
     text-indent:-9999px;
     background:url(/images/dt/icons/feed-icon16x16.png) no-repeat;
 }
-#rss, #loginbug {
+#rss, #loginbug, #cartlink {
     padding-top:2em;
 }
 #loginbug {
     float:right;
     width:10.5em;
+    text-align:right;
+}
+#cartlink {
+    float:right;
+    width:3em;
     text-align:right;
 }
