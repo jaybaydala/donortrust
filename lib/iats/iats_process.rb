@@ -19,8 +19,12 @@ module IatsProcess
 	  require 'iats/iats_link'
 	  iats = IatsLink.new(attributes)
 	  iats.test_mode = ENV["RAILS_ENV"] == 'production' ? false : true
-	  iats.agent_code = ''
-	  iats.password = ''
+	  
+	  if File.exists?("#{RAILS_ROOT}/config/iats.yml")
+	    config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
+	    iats.agent_code = config["username"]
+	    iats.password = config["password"]
+    end
   
 	  if iats.test_mode == false
 	    iats.process_credit_card
