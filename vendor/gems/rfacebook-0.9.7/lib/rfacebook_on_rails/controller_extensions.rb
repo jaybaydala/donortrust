@@ -460,7 +460,10 @@ module RFacebook
         
         # regular Rails rewriting
         else
-          path = url_for__ALIASED(options, *parameters)
+          puts path.inspect
+          puts parameters.inspect
+          # path = url_for__ALIASED(options, *parameters)
+          path = options
         end
 
         return path
@@ -478,7 +481,7 @@ module RFacebook
           render :text => "<fb:redirect url=\"#{redirectUrl}\" />"
         
         # iframe redirect
-        elsif redirectUrl.match(/^https?:\/\/([^\/]*\.)?facebook\.com(:\d+)?/i)
+        elsif redirectUrl.is_a?(String) && redirectUrl.match(/^https?:\/\/([^\/]*\.)?facebook\.com(:\d+)?/i)
           RAILS_DEFAULT_LOGGER.debug "** RFACEBOOK INFO: iframe redirect to #{redirectUrl}"
           render :text => %Q(<script type="text/javascript">\ntop.location.href='#{redirectUrl}';\n</script>)
           
