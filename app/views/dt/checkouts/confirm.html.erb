@@ -1,0 +1,50 @@
+<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
+<%- content_for :html_title do -%>Confirm Checkout - Step 2 of 2<%- end -%>
+
+<%= render "dt/cart/sidebar" %>  
+
+<%= error_messages_for :order %>
+<% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform"}) do |f| %>
+<div class="userform">
+
+  <fieldset>
+    <legend>Billing and Receipt Information</legend>
+    <div class="notes clearfix">
+      <h5>Billing and Receipt Information</h5>
+      <p>Please enter the information associated with your credit card. This information will also be associated with your tax receipt, if applicable.</p>
+    </div>
+    <ol>
+      <li><label>Donor Type</label> <%=h @order.donor_type %> <%= f.hidden_field :donor_type %></li>
+      <li><label>Title</label> <%=h @order.title %> <%= f.hidden_field :title %></li>
+      <li><label>First Name</label> <%=h @order.first_name %> <%= f.hidden_field :first_name %></li>
+      <li><label>Last Name</label> <%=h @order.last_name %> <%= f.hidden_field :last_name %></li>
+      <li><label>Company</label> <%=h @order.company %> <%= f.hidden_field :company %></li>
+      <li><label>Street Address</label> <%=h @order.address %> <%= f.hidden_field :address %></li>
+      <li><label>Street Address 2</label> <%=h @order.address2 %> <%= f.hidden_field :address2 %></li>
+      <li><label>City</label> <%=h @order.city %> <%= f.hidden_field :city %></li>
+      <li><label>Province</label> <%=h @order.province %> <%= f.hidden_field :province %></li>
+      <li><label>Postal/Zip Code</label> <%=h @order.postal_code %> <%= f.hidden_field :postal_code %></li>
+      <li><label>Country</label> <%=h @order.country %> <%= f.hidden_field :country %></li>
+      <li><label>Province</label> <%=h @order.province %> <%= f.hidden_field :province %></li>
+      <li><label>Email</label> <%=h @order.email %> <%= f.hidden_field :email %></li>
+    </ol>
+  </fieldset>
+  
+  
+  <fieldset>
+    <legend>Credit Card Information</legend>
+    <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+    <ol>
+      <li><label>Credit Card</label><%=h @order.credit_card %> <%= f.hidden_field :credit_card %></li>
+      <li><label>Card Security Number</label> <%=h @order.csc %> <%= f.hidden_field :csc %></li>
+      <li><label>Card Expiry</label> <%=h @order.expiry_month %> / <%=h @order.expiry_year %></li>
+      <li><label>Cardholder Name</label> <%=h @order.cardholder_name %> <%= f.hidden_field :cardholder_name %></li>
+    </ol>
+  </fieldset>
+</div>
+<%= submit_tag 'Complete Checkout', :class => 'buttonsubmit' %>
+<% end %>
+
+<%- content_for :sidebar do -%>
+  <%= render "dt/accounts/profile_sidebar" %>  
+<%- end -%>

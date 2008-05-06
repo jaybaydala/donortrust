@@ -56,4 +56,8 @@ module DtApplicationHelper
   def form_required
     render :partial => 'dt/shared/form_required'
   end
+  
+  def store_location
+    @controller.send!("store_location")
+  end
 end

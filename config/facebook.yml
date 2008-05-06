@@ -2,7 +2,7 @@ development:
   key: 0dfde0fbecf5c23f9298274fb6194298
   secret: 3f0772b0547499c63aee7f695a6e6aa9
   canvas_path: /christmasfuture_dev/
-  callback_path: /dt/projects
+  callback_path: http://localhost:3000/dt/projects
   tunnel:
     username: yourLoginName
     host: www.yourexternaldomain.com

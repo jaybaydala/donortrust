@@ -8,26 +8,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="description" content="ChristmasFuture, Change the world for good." />
   <meta name="keywords" content="" />
-<%= javascript_include_tag "prototype", "effects", "dragdrop", "controls", "dt/application", :cache => "donortrust" %>
+<%= javascript_include_tag "prototype", "builder", "effects", "controls", "dt/application" %>
 <%= stylesheet_link_tag 'dt/master.css', :media => 'screen, projection' %>
 <!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css', :media => 'screen, projection' %><![endif]-->
 <%= yield :head %>
 </head>
 <body>
 <div id="container">
-  <div id="header" class="clearfix">
-    <div id="logo" class="clearfix">
-      <%= link_to image_tag('/images/dt/brand_elements/cf_headerlogo.gif', :alt => "ChristmasFuture &ndash; Change the world&hellip;for good"), "/" %>
-    </div>
-    <div id="loginbug">
-      <%- if logged_in? -%>
-        Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %> | Not <%=h current_user.name %>? <%= link_to 'Logout', dt_logout_url(:protocol => 'http://') %>
-      <%- else -%>
-        <%= link_to 'Login', dt_login_path %> | <%= link_to 'Create Account', dt_signup_path %>
-      <%- end -%>
-    </div>
-    <div id="rss"><a href="http://www.christmasfuture.org/feed/"><span>RSS Feed</span></a></div>
-  </div>
+  <%= render "dt/shared/head" %>
   <%= render "dt/shared/globalnav" %>
   <div id="masthead">
     <%= image_tag "/images/dt/feature_graphics/projectsFeature130.jpg", :alt => "" %>
@@ -47,7 +35,7 @@
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 
-  <h1><%= page_title %></h1>
+  <% if nav %><h1><%= page_title %></h1><% end %>
   
   <%- if nav -%>
   <div id="nav">
@@ -66,6 +54,7 @@
   <div id="contentcontainer">
     <div id="content<%= "wide" unless sidebar %>-wrapper">
       <div id="content">
+        <% unless nav %><h1><%= page_title %></h1><% end %>
         <%= yield %>
       </div>
     </div>

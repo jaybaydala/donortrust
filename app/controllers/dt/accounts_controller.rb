@@ -22,14 +22,12 @@ class Dt::AccountsController < DtApplicationController
   def new
     @page_title = "Create My Account"
     redirect_back_or_default(:action => 'index') if logged_in?
-    @action_js = "dt/accounts"
     @user = User.new
   end
 
   # GET /dt/accounts/1;edit
   def edit
     redirect_to(:action => 'index') unless authorized?
-    @action_js = "dt/accounts"
     @user = User.find(params[:id])
   end
 
@@ -45,7 +43,6 @@ class Dt::AccountsController < DtApplicationController
         #format.js
         format.xml  { head :created, :location => dt_accounts_url }
       else
-        @action_js = "dt/accounts"
         format.html { render :action => "new" }
         #format.js
         format.xml  { render :xml => @user.errors.to_xml }
@@ -81,7 +78,6 @@ class Dt::AccountsController < DtApplicationController
         format.xml  { head :ok }
       else
         flash[:error] = "Couldn't change your password" 
-        @action_js = "dt/accounts"
         format.html { render :action => "edit" }
         #format.js
         format.xml  { render :xml => @user.errors.to_xml }

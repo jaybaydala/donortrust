@@ -1,0 +1,91 @@
+<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
+<%- content_for :html_title do -%>Checkout &ndash; Step 1 of 2<%- end -%>
+
+<%= error_messages_for :order %>
+<% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform"}) do |f| %>
+<div class="userform">
+
+  <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+  <fieldset>
+    <legend>Billing and Receipt Information</legend>
+    <div class="notes clearfix">
+      <h5>Billing and Receipt Information</h5>
+      <p>Please enter the information associated with your credit card. This information will also be associated with your tax receipt, if applicable.</p>
+    </div>
+    <ol>
+      <li>
+        <fieldset>
+          <legend>What kind of Donor are you?</legend>
+          <ol>
+            <li><label for="order_donor_type_personal"><%= f.radio_button :donor_type, "personal", :onchange => "$$('li.personal').each(function(e){e.show()});" %> Personal</label></li>
+            <li><label for="order_donor_type_corporate"><%= f.radio_button :donor_type, "corporate", :onchange => "$$('li.personal').each(function(e){e.hide()});" %> Corporate</label></li>
+          </ol>
+        </fieldset>
+      </li>
+      <li class="personal"><label for="order_title">Title</label> <%= f.text_field :title %></li>
+      <li class="personal"><label for="order_first_name"><%= form_required %>First Name</label> <%= f.text_field :first_name %></li>
+      <li class="personal"><label for="order_last_name"><%= form_required %>Last Name</label> <%= f.text_field :last_name %></li>
+      <li><label for="order_name">Company</label> <%= f.text_field :company %></li>
+      <li><label for="order_address"><%= form_required %>Street Address</label> <%= f.text_field :address %></li>
+      <li><label for="order_address2">Street Address 2</label> <%= f.text_field :address2 %></li>
+      <li><label for="order_city"><%= form_required %>City</label> <%= f.text_field :city %></li>
+      <li><label for="order_province"><%= form_required %>Province</label> <%= f.text_field :province %></li>
+      <li><label for="order_postal_code"><%= form_required %>Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
+      <li><label for="order_country"><%= form_required %>Country</label> <%= f.text_field :country %></li>
+      <li><label for="order_province"><%= form_required %>Province</label> <%= f.text_field :province %></li>
+      <li><label for="order_email"><%= form_required %>Email</label> <%= f.text_field :email %></li>
+    </ol>
+  </fieldset>
+  
+  <fieldset class="clearfix">
+    <legend>My ChristmasFuture Account</legend>
+    <p>ChristmasFuture can store your information in a ChristmasFuture account. Your email address will become your username. You will choose your password below. Creating an account with CanadaHelps allows you to:</p>
+    <ul>
+      <li>store your donation receipts and giving history online</li>
+      <li>store your personal, and contact preferences (so next time, no need to re-enter!)</li>
+      <li>join a group to connect with people who are interested in the same projects and causes that you are </li>
+      <li>create a &ldquo;projects wishlist&rdquo; and more! </li>
+    </ul>
+    <ol>
+      <li><label class="left"><%= check_box_tag :create_account, "1", false, :onchange => ";if(this.checked){$('password_entry').show();}else{$('password_entry').hide();}" %> Yes, I would like to create an account with ChristmasFuture</label></li>
+    </ol>
+    <div id="password_entry" style="display:none;">
+      <ol>
+        <li><label for="password">Password</label> <%= password_field_tag :password, nil, :id => 'password' %></li>
+        <li><label for="password_confirmation">Confirm Password</label> <%= password_field_tag :password_confirmation, nil, :id => 'password_confirmation' %></li>
+      </ol>
+    </div>
+  </fieldset>
+  
+  <fieldset>
+    <legend>Credit Card Information</legend>
+    <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+    <ol>
+      <li><label for="order_credit_card"><%= form_required %>Credit Card</label> <%= f.text_field :credit_card %></li>
+      <li>
+        <label for="order_csc"><%= form_required %>Card Security Number</label> <%= f.text_field :csc %>
+        <div class="note">This is final 3 digits on the back of your card. For AMEX: 4 digits on the front of the card.</div>
+      </li>
+      <li><label for="order_expiry_month"><%= form_required %>Card Expiry</label> 
+        <div id="ccExpiry">
+          <%= f.select("expiry_month", (1..12).to_a.collect {|m| 
+            mo = m.to_s.rjust(2, "0"); 
+            [ mo, mo ] }, { :include_blank => true, :selected => @order.expiry_month.to_s.rjust(2, "0") }, { :style => 'width:auto;' }) -%>
+          / <%= f.select("expiry_year", (0..7).to_a.collect {|y| 
+            d = Date.civil(Date.today.year+y.to_i) 
+            [ d.year.to_s, d.year.to_s[2, 2] ] }, { :include_blank => true }, { :style => 'width:auto;' }) %> 
+        </div>
+        </li>
+      <li><label for="order_cardholder_name"><%= form_required %>Cardholder Name</label> <%= f.text_field :cardholder_name %></li>
+    </ol>
+  </fieldset>
+</div>
+<%= hidden_field_tag "confirm", "1" %>
+<%= submit_tag 'Confirm Checkout', :class => 'buttonsubmit' %>
+<% end %>
+
+<%- content_for :sidebar do -%>
+  <h2>Your Cart</h2>
+  <%= render "dt/cart/sidebar" %>  
+  <%= render "dt/accounts/profile_sidebar" %>  
+<%- end -%>

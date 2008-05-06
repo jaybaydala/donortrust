@@ -75,27 +75,6 @@ class Dt::GiftsController < DtApplicationController
     end
   end
   
-  def confirm
-    session[:gift_params] = params[:gift] if params[:gift]
-    @gift = Gift.new( gift_params )
-    @ecards = ECard.find(:all, :order => :id)
-    @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
-    @action_js = ["dt/ecards", "dt/giving"]
-    
-    @cf_investment = build_fund_cf_investment(@gift)
-    valid = cf_fund_investment_valid?(@gift, @cf_investment)
-    @total_amount = @gift.amount + @cf_investment.amount if @cf_investment
-    
-    schedule(@gift)
-    respond_to do |format|
-      if valid
-        format.html { render :action => "confirm" }
-      else
-        format.html { render :action => "new" }
-      end
-    end
-  end
-
   def create
     @gift = Gift.new( gift_params )    
     @gift.user_ip_addr = request.remote_ip
@@ -173,20 +152,13 @@ class Dt::GiftsController < DtApplicationController
 
   def preview
     @gift = Gift.new( gift_params )
-    
-    # there are a couple of necessary field just for previewing
-    valid = true
+    # there are a couple of necessary field just for previewing - prefill them
     %w( email to_email ).each do |field|
-      valid = false if !@gift.send(field + '?')
+      @gift.send("#{field}=", "#{field}@example.com") unless @gift.send(field + '?')
     end
-    logger.info "valid? #{valid}"
-    if valid
-      @gift.pickup_code = '[pickup code]'
-      @gift_mail = DonortrustMailer.create_gift_mail(@gift)
-      logger.info "gift mail: #{@gift_mail.class}"
-    end
+    @gift.pickup_code = '[pickup code]'
+    @gift_mail = DonortrustMailer.create_gift_mail(@gift)
     respond_to do |format|
-      flash.now[:error] = 'To preview your ecard, please provide your email and the recipient\'s email' if !valid
       format.html { render :layout => false }
     end
   end
