@@ -35,6 +35,7 @@ namespace :deploy do
   end
   task :before_restart do
     asset_folder_fix
+    copy_iats_config
     install_backgroundrb
   end
   task :after_restart do
@@ -51,6 +52,12 @@ namespace :deploy do
     sudo "chown mongrel:www-data #{mongrel_conf}"
     sudo "chmod g+w #{mongrel_conf}"
   end 
+  
+  task :copy_iats_config do
+    set :iats_conf, "#{current_path}/config/iats.yml"
+    sudo "cp #{shared_path}/system/iats.yml #{iats_conf}"
+    sudo "chmod a+r #{iats_conf}"
+  end
   
   desc <<-DESC
   Install backgrounDRB since it's incompatible with windows boxes
