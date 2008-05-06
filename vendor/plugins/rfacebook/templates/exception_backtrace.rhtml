@@ -58,6 +58,12 @@
 		padding-left: 5px;
 	}
 
+.RFacebook .backtrace div.message
+	{
+		font-size: 1.6em;
+		color: #6D84B4;
+	}
+
 .RFacebook ul
 	{
 		margin: 0px;
@@ -78,7 +84,9 @@
 <div class="RFacebook">
 	<div class="backtrace">
 		
-		<h1>exception backtrace</h1>
+		<div class="message">
+			<strong><%= exception.message %></strong>
+		</div>
 		<ul>
 			<% rfacebookBacktraceLines.each do |line| %>		
 				<li>

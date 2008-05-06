@@ -1,6 +1,7 @@
-# Copyright (c) 2007, Matt Pizzimenti (www.livelearncode.com)
-# All rights reserved.
-# 
+# AUTHORS:
+# - Matt Pizzimenti (www.livelearncode.com)
+
+# LICENSE:
 # Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
 # 
@@ -25,45 +26,61 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
 
 module RFacebook
   module Rails
     module ViewExtensions
       
+      # returns true if the user is viewing the canvas
       def in_facebook_canvas?
         @controller.in_facebook_canvas?
       end
       
+      # returns true if the user is in an iframe
       def in_facebook_frame?
         @controller.in_facebook_frame?
       end
       
+      # returns true if the render is using mock ajax
       def in_mock_ajax?
         @controller.in_mock_ajax?
       end
       
+      # returns true if the render is using mock ajax
+      def in_ajax?
+        @controller.in_ajax?
+      end
+      
+      # returns the current fb_sig_params (only if they validated properly)
       def fbparams
         @controller.fbparams
       end
       
+      # returns the current user's Facebook session (an instance of FacebookWebSession)
       def fbsession
         @controller.fbsession
       end
       
-      def image_path(*params)
+      # overrides the path_to_image method to ensure that all images are written
+      # with absolute paths
+      def path_to_image(*params)
         path = super(*params)
-        if ((in_facebook_canvas? or in_mock_ajax?) and !(/(\w+)(\:\/\/)([\w0-9\.]+)([\:0-9]*)(.*)/.match(path)))
+        if ((in_facebook_canvas? or in_mock_ajax? or in_ajax?) and !(/(\w+)(\:\/\/)([\w0-9\.]+)([\:0-9]*)(.*)/.match(path)))
           path = "#{request.protocol}#{request.host_with_port}#{path}"
         end
         return path
       end
-
-      def facebook_debug_panel(options={})
-        return @controller.facebook_debug_panel(options)
+      
+      # Aliases to path_to_image for Rails 1.0 backwards compatibility
+      def image_path(*params)
+        path_to_image(*params)
       end
       
-      # TODO: override form_for to do <fb:editor> for Canvas pages, perhaps with an option to suppress such behavior
+      # renders the RFacebook debug panel
+      def facebook_debug_panel(options={}) # :nodoc:
+        RAILS_DEFAULT_LOGGER.info "** RFACEBOOK DEPRECATION WARNING: 'facebook_debug_panel' is deprecated in ActionViews"
+        return @controller.facebook_debug_panel(options)
+      end
       
     end
   end

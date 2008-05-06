@@ -1,6 +1,7 @@
-# Copyright (c) 2007, Matt Pizzimenti (www.livelearncode.com)
-# All rights reserved.
-# 
+# AUTHORS:
+# - Matt Pizzimenti (www.livelearncode.com)
+
+# LICENSE:
 # Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
 # 
@@ -25,7 +26,6 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
 
 require "digest/md5"
 require "cgi"
@@ -43,18 +43,18 @@ module RFacebook::Rails::SessionExtensions # :nodoc:
     
   # :section: Base Overrides
   
-  def new_session__RFACEBOOK # :nodoc:
+  def new_session_with_rfacebook # :nodoc:
     if @force_to_be_new
       return true
     else
-      return new_session__ALIASED
+      return new_session_without_rfacebook
     end
   end
 
-  def initialize__RFACEBOOK(request, options = {}) # :nodoc:
+  def initialize_with_rfacebook(request, options = {}) # :nodoc:
     
     # only try to use the sig when we don't have a cookie (i.e., in the canvas)
-    if in_facebook_canvas?(request)
+    if session_id_available?(request)
       
       # try a few different ways
       RAILS_DEFAULT_LOGGER.debug "** RFACEBOOK INFO: Attempting to use fb_sig_session_key as a session key, since we are inside the canvas"
@@ -68,19 +68,16 @@ module RFacebook::Rails::SessionExtensions # :nodoc:
     end
     
     # now call the default Rails session initialization
-    initialize__ALIASED(request, options)
+    initialize_without_rfacebook(request, options)
   end
   
   # :section: Extension Helpers
   
   def self.included(base) # :nodoc:
-    base.class_eval'
-      alias :initialize__ALIASED :initialize
-      alias :initialize :initialize__RFACEBOOK
-      
-      alias :new_session__ALIASED :new_session
-      alias :new_session :new_session__RFACEBOOK
-    '
+    base.class_eval do
+      alias_method_chain :initialize,   :rfacebook
+      alias_method_chain :new_session,  :rfacebook
+    end
   end
   
   # :section: Private Helpers
@@ -98,7 +95,7 @@ module RFacebook::Rails::SessionExtensions # :nodoc:
     begin
       
       # this should work on most Rails installations
-      return request.parameters[key]
+      return request[key]
       
     rescue
       
@@ -145,10 +142,10 @@ module RFacebook::Rails::SessionExtensions # :nodoc:
     end
   end
   
-  def in_facebook_canvas?(request) # :nodoc:
+  def session_id_available?(request) # :nodoc:
     # TODO: we should probably be checking the fb_sig for validity here (template method needed)
     #       ...we can only do this if we can grab the equivalent of a params hash
-    return lookup_request_parameter(request, "fb_sig_in_canvas")
+    return (!lookup_request_parameter(request, "fb_sig_in_canvas").blank? or !lookup_request_parameter(request, "fb_sig_is_ajax").blank?)
   end
     
 end
@@ -160,21 +157,21 @@ module RFacebook::Rails::SessionStoreExtensions # :nodoc:all
   
   # :section: Base Overrides
   
-  def initialize__RFACEBOOK(session, options, *extraParams) # :nodoc:
+  def initialize_with_rfacebook(session, options, *extraParams) # :nodoc:
     
     if session.using_facebook_session_id?
       
       # we got the fb_sig_session_key, so alter Rails' behavior to use that key to make a session
       begin
         RAILS_DEFAULT_LOGGER.debug "** RFACEBOOK INFO: using fb_sig_session_key for the #{self.class.to_s} session (session_id=#{session.session_id})"
-        initialize__ALIASED(session, options, *extraParams)
+        initialize_without_rfacebook(session, options, *extraParams)
       rescue Exception => e 
         begin
           RAILS_DEFAULT_LOGGER.debug "** RFACEBOOK INFO: failed to initialize session (session_id=#{session.session_id}), trying to force a new session"
           if session.session_id
             session.force_to_be_new!
           end
-          initialize__ALIASED(session, options, *extraParams)
+          initialize_without_rfacebook(session, options, *extraParams)
         rescue Exception => e
           RAILS_DEFAULT_LOGGER.debug "** RFACEBOOK INFO: failed to force a new session, falling back to default Rails behavior"
           raise e
@@ -185,7 +182,7 @@ module RFacebook::Rails::SessionStoreExtensions # :nodoc:all
       
       # we didn't get the fb_sig_session_key, do not alter Rails' behavior
       RAILS_DEFAULT_LOGGER.debug "** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)"
-      initialize__ALIASED(session, options, *extraParams)
+      initialize_without_rfacebook(session, options, *extraParams)
       
     end
   end
@@ -193,10 +190,9 @@ module RFacebook::Rails::SessionStoreExtensions # :nodoc:all
   # :section: Extension Helpers
   
   def self.included(base) # :nodoc:
-    base.class_eval'
-      alias :initialize__ALIASED :initialize
-      alias :initialize :initialize__RFACEBOOK
-    '
+    base.class_eval do
+      alias_method_chain :initialize, :rfacebook
+    end
   end
   
 end

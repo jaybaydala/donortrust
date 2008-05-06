@@ -1,6 +1,7 @@
-# Copyright (c) 2007, Matt Pizzimenti (www.livelearncode.com)
-# All rights reserved.
-# 
+# AUTHORS:
+# - Matt Pizzimenti (www.livelearncode.com)
+
+# LICENSE:
 # Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
 # 
@@ -25,35 +26,29 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
 
 
 module RFacebook
   module Rails
     module ModelExtensions
-      
-      ##################################################################
-      ##################################################################
-      # :section: Errors
-      ##################################################################
-    
-      class APIKeyNeededStandardError < StandardError; end # :nodoc:
-      class APISecretNeededStandardError < StandardError; end # :nodoc:
-      
-      ##################################################################
-      ##################################################################
-      # :section: Template Methods (must be implemented by concrete subclass)
-      ##################################################################
+
+      ################################################################################################
+      ################################################################################################
+      # :section: Core API variables
+      ################################################################################################
 
       def facebook_api_key
-        raise APIKeyNeededStandardError, "RFACEBOOK ERROR: when using the RFacebook on Rails plugin, please be sure that you have a facebook.yml file with 'key' defined"
-      end
-    
-      def facebook_api_secret
-        raise APISecretNeededStandardError, "RFACEBOOK ERROR: when using the RFacebook on Rails plugin, please be sure that you have a facebook.yml file with 'secret' defined"
+        FACEBOOK["key"] || super
       end
       
-      # :section: ActsAs method mixing
+      def facebook_api_secret
+        FACEBOOK["secret"] || super
+      end
+      
+      ################################################################################################
+      ################################################################################################
+      # :section: Method mixing
+      ################################################################################################
       
       def self.included(base) # :nodoc:
         base.extend ActsAsMethods
@@ -61,6 +56,7 @@ module RFacebook
 
       module ActsAsMethods # :nodoc:all
         def acts_as_facebook_user
+          RAILS_DEFAULT_LOGGER.info "** RFACEBOOK DEPRECATION WARNING: acts_as_facebook_user will probably be deprecated in a future version of the RFacebook plugin"
           include RFacebook::Rails::ModelExtensions::ActsAsFacebookUser::InstanceMethods
           extend RFacebook::Rails::ModelExtensions::ActsAsFacebookUser::ClassMethods
         end
@@ -116,17 +112,31 @@ module RFacebook
         ######################
         module ClassMethods
                     
-          def find_or_create_by_facebook_session(sess)
-            if sess.is_ready?
+          def find_or_create_by_facebook_session(options={})
+            RAILS_DEFAULT_LOGGER.info "** RFACEBOOK DEPRECATION WARNING: acts_as_facebook_user will probably be deprecated in a future version of the RFacebook plugin"
+            
+            # parse the options (for backwards compatibility, options MIGHT be a FacebookWebSession)
+            if options.is_a?(RFacebook::FacebookWebSession)
+              fbsession = options
+              options = {}
+            else
+              fbsession = options[:facebook_session]
+            end
+            
+            # check that we have an fbsession
+            unless fbsession.is_a?(RFacebook::FacebookWebSession)
+              RAILS_DEFAULT_LOGGER.debug "** RFACEBOOK INFO: find_or_create_by_facebook_session needs a :facebook_session specified"
+              return nil
+            end
+            
+            # if the session is ready to use...
+            if fbsession.ready?
               
-              # try to find, else create
-              instance = find_by_facebook_uid(sess.session_user_id)
-              if !instance
-                instance = self.new
-              end
+              # find or create a user
+              instance = find_by_facebook_uid(fbsession.session_user_id) || self.new(options)
               
               # update session info
-              instance.facebook_session = sess
+              instance.facebook_session = fbsession
               
               # update (or create) the object and return it
               if !instance.save
@@ -135,7 +145,8 @@ module RFacebook
               end
               return instance
 
-            else              
+            # session was not ready
+            else
               RAILS_DEFAULT_LOGGER.info "** RFACEBOOK WARNING: tried to use an inactive session for acts_as_facebook_user (in find_or_create_by_facebook_session)"
               return nil
             end
@@ -175,11 +186,12 @@ module RFacebook
           def self.included(base) # :nodoc:
             ActsAsFacebookUser::ACTORS << base
             ActsAsFacebookUser::FIELDS.each do |fieldname|
+              # TODO: do getInfo caching
               base.class_eval <<-EOF
                 
                 def #{fieldname}
-                  if facebook_session.is_ready?
-                    return facebook_session.cached_users_getInfo(
+                  if facebook_session.ready?
+                    return facebook_session.users_getInfo(
                       :uids => [facebook_uid],
                       :fields => ActsAsFacebookUser::FIELDS).user.send(:#{fieldname})
                   else

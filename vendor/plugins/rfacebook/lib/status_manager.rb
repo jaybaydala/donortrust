@@ -1,6 +1,7 @@
-# Copyright (c) 2007, Matt Pizzimenti (www.livelearncode.com)
-# All rights reserved.
-# 
+# AUTHORS:
+# - Matt Pizzimenti (www.livelearncode.com)
+
+# LICENSE:
 # Redistribution and use in source and binary forms, with or without modification,
 # are permitted provided that the following conditions are met:
 # 
@@ -25,7 +26,6 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
 
 module RFacebook
   module Rails
@@ -72,7 +72,7 @@ module RFacebook
         @controller = controller
         @valid = false
         begin
-          if controller.fbsession.is_valid?
+          if controller.fbsession.ready?
             @valid = true
           end
         rescue
@@ -234,7 +234,7 @@ module RFacebook
       end
       
       def valid_message
-        @controller.facebook_api_key
+        "XXXXXXXXXXXXXXXXXX#{@controller.facebook_api_key[-4,4]}"
       end
       
       def invalid_message
@@ -265,7 +265,7 @@ module RFacebook
       end
       
       def valid_message
-        @controller.facebook_api_secret
+        "XXXXXXXXXXXXXXXXXX#{@controller.facebook_api_secret[-4,4]}"
       end
       
       def invalid_message
@@ -278,6 +278,7 @@ module RFacebook
       end
       
     end
+    
     ###########################################
     class FinishFacebookLoginStatusCheck < StatusCheck
       def initialize(controller)
