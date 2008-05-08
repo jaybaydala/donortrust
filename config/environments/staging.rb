@@ -17,7 +17,7 @@ config.action_controller.perform_caching             = true
 
 config.log_level = :debug
 
-ActionMailer::Base.delivery_method = :smtp
+ActionMailer::Base.delivery_method = :test
 ActionMailer::Base.smtp_settings = {
   :address => '127.0.0.1',
   :domain  => '192.168.1.1'
