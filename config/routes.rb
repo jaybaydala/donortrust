@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :projects, :controller => 'projects', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
     dt.resources :investments, :controller => 'investments', :collection => { :confirm => :post }
     dt.resources :place_searches, :controller => 'place_searches'
-    dt.resources :my_wishlists, :controller => 'my_wishlists'
+    #dt.resources :my_wishlists, :controller => 'my_wishlists'
     dt.resources :accounts, :controller => 'accounts', :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put } do |account|
       account.resources :deposits, :controller => 'deposits', :collection => { :confirm => :post }
       account.resources :my_wishlists, :controller => 'my_wishlists', :collection => {:new_message => :get, :confirm => :post, :preview => :get, :send_message => :post}
@@ -25,9 +25,9 @@ ActionController::Routing::Routes.draw do |map|
       group.resources :messages, :controller => 'groups/news'
       group.resources :wall_messages, :controller => 'groups/wall_messages'
     end
-    dt.resources :wishlists, :controller=> 'dt/wishlists'
-    dt.resources :tell_friends, :controller=> 'dt/tell_friends', :collection => { :confirm => :post, :preview => :get }
-    dt.resources :mdgs, :controller=> 'dt/mdgs'
+    dt.resources :wishlists, :controller=> 'wishlists'
+    dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :confirm => :post, :preview => :get }
+    dt.resources :mdgs, :controller=> 'mdgs'
   end
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'

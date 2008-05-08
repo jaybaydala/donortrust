@@ -5,7 +5,7 @@ set :application, "donortrust"
 set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
 
 set :stage, "staging"
-set :deploy_to, "/home/dtrust/staging/#{application}"
+set :deploy_to, "/home/dtrust/#{application}_staging"
 set :user, "dtrust"
 set :rails_env, "staging"
 

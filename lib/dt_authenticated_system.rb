@@ -90,10 +90,10 @@ module DtAuthenticatedSystem
       session[:return_to] = nil
     end
     
-    # Inclusion hook to make #current_user and #logged_in?
+    # Inclusion hook to make #current_user, #logged_in? and #store_location
     # available as ActionView helper methods.
     def self.included(base)
-      base.send :helper_method, :current_user, :logged_in?
+      base.send :helper_method, :current_user, :logged_in?, :store_location
     end
 
     # When called with before_filter :login_from_cookie will check for an :auth_token
