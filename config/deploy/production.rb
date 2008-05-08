@@ -21,6 +21,9 @@ role :schedule,  "slice2.christmasfuture.org"
 namespace :deploy do
   task :after_update_code, :rols => :app do
     run <<-CMD
+      cd #{release_path} && rake deploy_edge REVISION=#{rails_version} 
+    CMD
+    run <<-CMD
       mv #{release_path}/config/backgroundrb.yml.production #{release_path}/config/backgroundrb.yml
     CMD
     run <<-CMD

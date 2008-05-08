@@ -4,23 +4,25 @@ require 'mongrel_cluster/recipes'
 set :application, "donortrust"
 set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
 
+set :mongrel_conf, "/etc/mongrel_cluster/#{application}-staging.yml"
+set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}-staging_admin.yml"
+set :mongrel_clean, true
+
 set :stage, "staging"
 set :deploy_to, "/home/dtrust/#{application}_staging"
 set :user, "dtrust"
 set :rails_env, "staging"
-
-role :app, "slice3.christmasfuture.org"
-role :admin, "slice3.christmasfuture.org"
+role :app, "slice2.christmasfuture.org"
+role :admin, "slice2.christmasfuture.org"
 role :web, "slice.christmasfuture.org"
 role :db,  "slice.christmasfuture.org", :primary => true
-role :schedule,  "slice3.christmasfuture.org"
-
-set :mongrel_conf, "/etc/mongrel_cluster/#{application}-staging.yml"
-set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin-staging.yml"
-set :mongrel_clean, true
+role :schedule,  "slice2.christmasfuture.org"
 
 namespace :deploy do
   task :after_update_code, :rols => :app do
+    run <<-CMD
+      cd #{release_path} && rake deploy_edge REVISION=#{rails_version} 
+    CMD
     run <<-CMD
       mv #{release_path}/config/backgroundrb.yml.staging #{release_path}/config/backgroundrb.yml
     CMD
@@ -43,7 +45,7 @@ namespace :deploy do
     image_paths = ["active_scaffold", "bus_admin", "calendar.gif", "dt", "rails.png", "redbox_spinner.gif"]
     image_paths.each do |image|
       asset_path = "#{latest_release}/public/images/#{image}"
-      server_path = "/var/www/wp.christmasfuture.org/images/#{image}"
+      server_path = "/var/www/staging.christmasfuture.org/images/#{image}"
       cmd += " && " unless cmd.empty?
       cmd += "rm -f #{server_path} && ln -s #{asset_path} #{server_path}"
     end
