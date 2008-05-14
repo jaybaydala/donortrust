@@ -39,12 +39,12 @@
 <p>
   This year <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.<br />
   Just click on the link below to open it - and a whole new world. All the best to you this holiday season. <br />
-  <%= link_to @url + "?code=#{@gift.pickup_code}", @url + "?code=#{@gift.pickup_code}" %>
+  <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
 </p>
 
 <p>
   If that does not work for you, copy and paste the following link into your web browser and enter your pickup code:<br />
-  <%= link_to @url, @url %>
+  <%= link_to open_dt_gifts_url(:host => @host), open_dt_gifts_url(:host => @host) %>
 </p>
 
 <p>Pickup Code: <%=h @gift.pickup_code %></p>

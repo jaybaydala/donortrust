@@ -1,15 +1,23 @@
 class Cart
   attr_reader :items, :total
   
+  def initialize(add_cf=false)
+    @add_cf = add_cf
+  end
+  
   def items
-    [
+    @items = [
       Gift.new({"name"=>"Jay Baydala", "message"=>"This is cool", "project_id"=>5, "to_name"=>"Tim Glen", "pickup_code"=>"123456", "to_email"=>"timglen@pivotib.com", "amount"=>50, "send_email"=>true, "e_card_id"=>8, "email"=>"tim@pivotib.com"}), 
-      Investment.new(:project_id => 5, :amount => 25)
+      Investment.new(:project_id => 5, :amount => 25),
+      Deposit.new(:amount => 25)
     ]
+    @items << Investment.new(:project_id => 10, :amount => 25) if @add_cf
+    @items
   end
   
   def total
-    75
+    return 125 if @add_cf
+    100
   end
   
 

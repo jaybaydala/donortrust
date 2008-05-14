@@ -12,11 +12,10 @@
       <tr class="odd">
         <td>
           <% if line_item.e_card %><div class="thumbnail"><%= image_tag url_for_file_column(line_item.e_card, "small"), :alt => "" %></div><% end %>
+          <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes)}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
           <h5><strong>Gift</strong></h5>
           <p>
             To: <%= link_to line_item.to_name, "mailto:" + line_item.email %><br />
-            <%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes)}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
-            <%= button_to_function "Edit", "document.location='#{new_dt_gift_path(:gift => line_item.attributes)}';", :class => "buttonsubmit" %>
           </p>
         </td>
         <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
@@ -27,9 +26,16 @@
         <td>
           <h5><strong>Investment</strong></h5>
           <p>
-            <%= link_to line_item.project.name, dt_project_path(line_item.project_id) %><br />
-            <%= button_to_function "Edit", "document.location='#{new_dt_investment_path(:investment => line_item.attributes)}';", :class => "buttonsubmit" %>
+            <%=h line_item.project.name %><br />
           </p>
+        </td>
+        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
+      </tr>
+    <% end %>
+    <% if line_item.class == Deposit %>
+      <tr class="odd">
+        <td>
+          <h5><strong>Deposit</strong></h5>
         </td>
         <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
       </tr>

@@ -48,7 +48,7 @@ module RFacebook
       
       # returns true if the render is using mock ajax
       def in_ajax?
-        @controller.in_ajax?
+        @controller.in_ajax? if @controller.is_a?(ActionController)
       end
       
       # returns the current fb_sig_params (only if they validated properly)

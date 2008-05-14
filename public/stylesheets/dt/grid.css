@@ -12,6 +12,9 @@
     border-right:1px solid #999;
     border-left:1px solid #999;
 }
+#masthead img {
+    /*display:block;*/ /* this got rid of the top margin but pushes it way over to the right!?!? */
+}
 
 #contentcontainer {
     overflow:hidden;
@@ -86,7 +89,7 @@
     width:232px;
     float:left;
 }
-/* 2 equal columns */
+/* 2 equal width columns */
 .columns .left {
     float:left;
     width:48%;

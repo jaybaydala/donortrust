@@ -1,5 +1,6 @@
 <%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
 <%- content_for :html_title do -%>Confirm Checkout - Step 2 of 2<%- end -%>
+<%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
 <%= render "dt/cart/sidebar" %>  
 
@@ -7,7 +8,7 @@
 <% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform"}) do |f| %>
 <div class="userform">
 
-  <fieldset>
+  <fieldset style="margin-top:1em;">
     <legend>Billing and Receipt Information</legend>
     <div class="notes clearfix">
       <h5>Billing and Receipt Information</h5>
@@ -30,9 +31,23 @@
     </ol>
   </fieldset>
   
+  <fieldset>
+    <legend>100% of your funds go to the project(s) you select</legend>
+    <p>You have chosen to give <strong>$25.00</strong> to ChristmasFuture directly. Thank You!</p>
+  </fieldset>
+  
+  <fieldset>
+    <legend>Pay from My Account Balance</legend>
+    <p>You have chosen to pay <strong>$50.00</strong> of the total balance from your account.</p>
+  </fieldset>
   
   <fieldset>
     <legend>Credit Card Information</legend>
+    <div class="notes">
+      <h5>Credit Card Information</h5>
+      <p>We do <strong>not</strong> store your credit card number.</p>
+    </div>
+    <p>The remaining balance of <strong>$50.00</strong> will be charged to your credit card</p>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
     <ol>
       <li><label>Credit Card</label><%=h @order.credit_card %> <%= f.hidden_field :credit_card %></li>
@@ -42,6 +57,7 @@
     </ol>
   </fieldset>
 </div>
+<%= hidden_field_tag "complete", "1" %>
 <%= submit_tag 'Complete Checkout', :class => 'buttonsubmit' %>
 <% end %>
 

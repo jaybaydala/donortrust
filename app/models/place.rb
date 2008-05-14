@@ -1,6 +1,6 @@
 class Place < ActiveRecord::Base
 
-  acts_as_tree :order=>"name" , :forgien_key => "parent_id"
+  acts_as_tree :order => "name" , :foreign_key => "parent_id"
 
   file_column :file, :web_root => "images/bus_admin/uploads/", :root_path => File.join(RAILS_ROOT, "public/images/bus_admin/uploads")
   

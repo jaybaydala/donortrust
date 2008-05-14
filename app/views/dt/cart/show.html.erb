@@ -19,15 +19,16 @@
         <td>
           <div class="textsm">
             <%= link_to_function image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), "alert('Are you sure?')" %>
-            <%= link_to "Edit", new_dt_gift_path(:gift => line_item.attributes) %>
+            <%= link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), new_dt_gift_path(:gift => line_item.attributes) %>
           </div>
         </td>
         <td>
           <% if line_item.e_card %><div class="thumbnail"><%= image_tag url_for_file_column(line_item.e_card, "small"), :alt => "" %></div><% end %>
-          <h5><strong>Gift</strong></h5>
+          <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes)}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
+          <h5><strong>Gift</strong> </h5>
           <p>
-            To: <%= link_to line_item.to_name, "mailto:" + line_item.email %>
-            <%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes)}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
+            <strong>To:</strong> <%= link_to line_item.to_name, "mailto:" + line_item.email %><br />
+            <% if line_item.message? %><strong>Message:</strong> <%= line_item.message_summary %><% end %>
           </p>
         </td>
         <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
@@ -38,7 +39,7 @@
         <td>
           <div class="textsm">
             <%= link_to_function image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), "alert('Are you sure?')" %>
-            <%= link_to "Edit", new_dt_investment_path(:investment => line_item.attributes) %>
+            <%= link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), new_dt_investment_path(:investment => line_item.attributes) %>
           </div>
         </td>
         <td>
@@ -48,11 +49,25 @@
         <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
       </tr>
     <% end %>
+    <% if line_item.class == Deposit %>
+      <tr class="odd">
+        <td>
+          <div class="textsm">
+            <%= link_to_function image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), "alert('Are you sure?')" %>
+            <%= link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), new_dt_account_deposit_path(current_user, :deposit => line_item.attributes) %>
+          </div>
+        </td>
+        <td>
+          <h5><strong>Deposit</strong></h5>
+        </td>
+        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
+      </tr>
+    <% end %>
   <% end %>
   <tr class="footer">
     <td><%= link_to_function image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), "alert('Empty your entire cart?')" %></td>
     <td class="numeric money">Cart Total</td>
-    <td class="numeric money">$75.00</td>
+    <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
   </tr>
 </table>
 
@@ -62,5 +77,6 @@
 </div>
 
 <%- content_for :sidebar do -%>
-<%= render 'dt/accounts/profile_sidebar' %>  
+<%= render 'dt/accounts/profile_sidebar' %>
+<%= render :partial => 'dt/checkouts/verisign' %>
 <%- end -%>

@@ -84,6 +84,17 @@ class Gift < ActiveRecord::Base
     find(:all, :conditions => 'sent_at IS NOT NULL AND picked_up_at IS NULL')
   end
   
+  def message_summary(length = 60) # default to 60 characters
+    return unless self.message?
+    unless @message_summary
+      @message_summary = message.split($;, length+1)
+      @message_summary.pop
+      @message_summary = @message_summary.join(' ')
+      @message_summary += (@message_summary[-1,1] == '.' ? '..' : '...')
+    end
+    @message_summary
+  end
+  
   protected
   def validate_on_create
     require 'iats/credit_card'

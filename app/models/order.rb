@@ -1,5 +1,17 @@
 class Order < ActiveRecord::Base
   
+
+  def self.personal_donor
+    "personal"
+  end
+  def self.corporate_donor
+    "corporate"
+  end
+  
+  def complete?
+    # authorization_result?
+    true
+  end
   
   def card_expiry
     load_card_expiry_from_month_and_year

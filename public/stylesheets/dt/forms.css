@@ -10,10 +10,14 @@ fieldset fieldset {
 legend {
     font-size:.75em;
     font-weight:bold;
+    padding-right:2px;
 }
 fieldset fieldset legend, fieldset fieldset ol li {
     font-size:1em;
     font-weight:normal;
+}
+label em {
+    color:#C00;
 }
     
 fieldset ol {
@@ -25,28 +29,28 @@ fieldset ol li {
 }
 input, select {
     background-color:#FFF;
-    border:0.0625em solid #999;
+    border:1px solid #999;
     color:#333;
-    padding:0.0625em;
+    padding:1px;
 }
-input[type="submit"] {
+input[type=submit] {
     background-color:#DDD;
-    border:0.0625em solid #999999;
+    border:1px solid #999999;
     padding:auto;
 }
-input[type="image"] {
+input[type=image] {
     border:0;
     padding:0;
 }
 select {
-    padding:0 0 0.0625em 0;
+    padding:0 0 1px 0;
 }
 input.submitreplace {
     border:0;
     font-size:0;
 }
 textarea {
-    border:0.0625em solid #999999;
+    border:1px solid #999999;
 }
 
 /*
@@ -75,7 +79,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     font-size:0.75em;
     color:#555;
 }
-.userform select, .userform input[type='text'] {
+.userform select, .userform input[type=text] {
     width:150px;
 }
 .userform ol li {
@@ -99,7 +103,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     width:70px;
 }
 .userform .left select, .userform .right select,
-.userform .left input[type='text'], .userform .right input[type='text'] {
+.userform .left input[type=text], .userform .right input[type=text] {
     width:100px;
 }
 .userform ol li div.note {
@@ -190,7 +194,7 @@ LOGIN FORM
     float:none;
     text-align:left;
 }
-#loginform fieldset input[type="text"], #loginform fieldset input[type="password"] {
+#loginform fieldset input[type=text], #loginform fieldset input[type=password] {
     width:100%;
 }
 #loginform fieldset li {
@@ -248,12 +252,11 @@ CART
 /*
 GLOBALNAV SEARCH FORM
 ---------------------*/
-form#search
-form#search input[type="text"]	 {
-	border: 1px solid #ccc;
-	width: 110px;
-	padding: 2px;
-	font-family: Arial, sans-serif;
+form#search {}
+form#search #searchBox {
+	border:1px solid #ccc;
+	width: 100px;
+	padding: 1px 2px;
 	vertical-align: middle;
 }
 
@@ -293,7 +296,7 @@ form#projectsearchform input.submitreplace:hover {
 /*
 SIDEBAR FORM ELEMENTS
 =====================*/
-#sidebar input[type="text"], #sidebar input[type="password"], #sidebar select,
-.sidebar input[type="text"], .sidebar input[type="password"], .sidebar select {
+#sidebar input[type=text], #sidebar input[type=password], #sidebar select,
+.sidebar input[type=text], .sidebar input[type=password], .sidebar select {
     width:228px;
 }
