@@ -50,7 +50,7 @@
       <li><label>Cart Total</label><strong><%= number_to_currency(@cart.total) %></strong></li>
       <li><label>Account Balance</label><strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong><%= hidden_field_tag :account_balance, (logged_in? ? current_user.balance : 50), :id => 'account_balance' %></li>
       <li><label>Account Payment</label> <%= number_to_currency(@order.account_balance_total) %></li>
-      <li><label>Remaining Balance</label> <%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></li>
+      <li><label>Remaining Subtotal</label> <%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></li>
     </ol>
     <%# end %>
     <h5>Credit Card Payment Information</h5>
