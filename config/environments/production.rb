@@ -15,6 +15,8 @@ config.action_controller.perform_caching             = true
 # Disable delivery errors, bad email addresses will be ignored
 # config.action_mailer.raise_delivery_errors = false
 
+ActionController::Base.fragment_cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache/fragments"
+
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
   :address => '127.0.0.1',

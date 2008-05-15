@@ -13,10 +13,9 @@ class CreateOrders < ActiveRecord::Migration
       t.string  :province
       t.string  :postal_code
       t.string  :email
-      t.string  :amount
-      
-      t.string  :account_balance_total
-      t.string  :credit_card_total
+      t.decimal  :amount, :precision => 12, :scale => 2
+      t.decimal  :account_balance_total, :precision => 12, :scale => 2
+      t.decimal  :credit_card_total, :precision => 12, :scale => 2
       t.string  :credit_card
       t.string  :csc
       t.string  :card_expiry

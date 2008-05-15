@@ -1,6 +1,12 @@
-<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
-<%- content_for :html_title do -%>Confirm Checkout - Step 2 of 2<%- end -%>
+<%- content_for :head do -%>
+<%= stylesheet_link_tag 'dt/cart' %>
+<%= javascript_include_tag "dt/checkout" %>
+<%- end -%>
+<%- content_for :html_title do -%>Confirm Checkout - Step 3 of 3<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
+
+
+<h2>Step 3 of 3 - Confirmation</h2>
 
 <%= render "dt/cart/sidebar" %>  
 
@@ -9,9 +15,9 @@
 <div class="userform">
 
   <fieldset style="margin-top:1em;">
-    <legend>Billing and Receipt Information</legend>
+    <legend>Billing and Tax Receipt Information</legend>
     <div class="notes clearfix">
-      <h5>Billing and Receipt Information</h5>
+      <h5>Billing and Tax Receipt Information</h5>
       <p>Please enter the information associated with your credit card. This information will also be associated with your tax receipt, if applicable.</p>
     </div>
     <ol>
@@ -37,29 +43,35 @@
   </fieldset>
   
   <fieldset>
-    <legend>Pay from My Account Balance</legend>
-    <p>You have chosen to pay <strong>$50.00</strong> of the total balance from your account.</p>
-  </fieldset>
-  
-  <fieldset>
-    <legend>Credit Card Information</legend>
+    <legend>Payment Summary</legend>
+    <%# if @order.account_balance_total? %>
+    <h5>Account Payment Information</h5>
+    <ol class="clearfix" style="border:1px solid #CCC;padding:4px;">
+      <li><label>Cart Total</label><strong><%= number_to_currency(@cart.total) %></strong></li>
+      <li><label>Account Balance</label><strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong><%= hidden_field_tag :account_balance, (logged_in? ? current_user.balance : 50), :id => 'account_balance' %></li>
+      <li><label>Account Payment</label> <%= number_to_currency(@order.account_balance_total) %></li>
+      <li><label>Remaining Balance</label> <%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></li>
+    </ol>
+    <%# end %>
+    <h5>Credit Card Payment Information</h5>
     <div class="notes">
       <h5>Credit Card Information</h5>
       <p>We do <strong>not</strong> store your credit card number.</p>
     </div>
-    <p>The remaining balance of <strong>$50.00</strong> will be charged to your credit card</p>
+    <p>The remaining balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></strong> will be charged to your credit card</p>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
-    <ol>
-      <li><label>Credit Card</label><%=h @order.credit_card %> <%= f.hidden_field :credit_card %></li>
-      <li><label>Card Security Number</label> <%=h @order.csc %> <%= f.hidden_field :csc %></li>
+    <ol class="clearfix" style="border:1px solid #CCC;padding:4px;">
+      <li><label>Credit Card</label><%=h @order.credit_card_concealed %></li>
+      <li><label>Card Security Number</label> <%=h @order.csc.gsub(/./, "*") %></li>
       <li><label>Card Expiry</label> <%=h @order.expiry_month %> / <%=h @order.expiry_year %></li>
       <li><label>Cardholder Name</label> <%=h @order.cardholder_name %> <%= f.hidden_field :cardholder_name %></li>
     </ol>
   </fieldset>
 </div>
-<%= hidden_field_tag "complete", "1" %>
+<%= hidden_field_tag "step", "complete" %>
 <%= submit_tag 'Complete Checkout', :class => 'buttonsubmit' %>
 <% end %>
+<%= button_to "&laquo; Go Back a Step", new_dt_checkout_path(:step => 'payment'), :method => :get, :class => "buttonsubmit" %>
 
 <%- content_for :sidebar do -%>
   <%= render "dt/accounts/profile_sidebar" %>  

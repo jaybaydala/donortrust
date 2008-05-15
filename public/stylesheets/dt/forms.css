@@ -32,6 +32,7 @@ input, select {
     border:1px solid #999;
     color:#333;
     padding:1px;
+    font-size:.6875em;
 }
 input[type=submit] {
     background-color:#DDD;
@@ -74,6 +75,9 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     padding:0;
     border-bottom:1px #555 solid;
 }
+#content-wrapper .userform li {
+    font-family:Arial, Helvetica, sans-serif;
+}
 .userform div.notes p {
     margin:0;
     font-size:0.75em;
@@ -86,6 +90,9 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     clear:left;
     padding:.25em;
     font-size:0.6875em;
+}
+.userform ol li input, .userform ol li select {
+    font-size:1em;
 }
 .userform fieldset fieldset ol li {
     font-size:1em;

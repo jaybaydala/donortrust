@@ -8,6 +8,23 @@ class Order < ActiveRecord::Base
     "corporate"
   end
   
+  def credit_card_concealed
+    "**** **** **** #{credit_card.to_s[-4, 4]}"
+  end
+  
+  def account_balance_total=(val)
+    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+    super(val)
+  end
+  def credit_card_total=(val)
+    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+    super(val)
+  end
+  def amount=(val)
+    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+    super(val)
+  end
+  
   def complete?
     # authorization_result?
     true

@@ -76,10 +76,13 @@ li, blockquote {
 li li {
     font-size:1em; /* maintain font size for nested lists */
 }
-p {
+p, #content-wrapper li {
     font-size:0.8125em; /* 13px */
     font-family:Georgia,"Times New Roman",Times,serif;
     margin:0 0 1.125em 0;
+}
+#content-wrapper li {
+    margin-bottom:0;
 }
 .textsm {
     font-size:0.6875em; /* 11px */

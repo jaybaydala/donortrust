@@ -1,9 +1,14 @@
-<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
+<%- content_for :head do -%>
+<%= stylesheet_link_tag 'dt/cart' %>
+<%= javascript_include_tag "dt/checkout" %>
+<%- end -%>
 <%- content_for :html_title do -%>Checkout &ndash; Step 2 of 3<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
+<h2>Step 2 of 3 - Payment Details</h2>
+
 <%= error_messages_for :order %>
-<% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform"}) do |f| %>
+<% form_for(:order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform"}) do |f| %>
 <div class="userform">
 
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
@@ -23,35 +28,43 @@
           </ol>
         </fieldset>
       </li>
-      <li id="fund_cf_amount"><label>Amount <span id="fund_cf_percent_symbol" style="display:none;">%</span><span id="fund_cf_dollars_symbol" style="display:none;">$</span></label> <%= text_field_tag "fund_cf_amount" %></li>
+      <li id="fund_cf_amount"><label><%= form_required %>Amount <span id="fund_cf_percent_symbol" style="display:none;">%</span><span id="fund_cf_dollars_symbol" style="display:none;">$</span></label> <%= text_field_tag "fund_cf_amount" %></li>
     </ol>
   </fieldset>
   
   <fieldset>
-    <legend>Pay from My Account Balance</legend>
-    <p class="textsm" style="color:#C00;"><strong>Note: This is faked for now - let's pretend you're a logged in user.</strong></p>
-    <div class="notes">
-      <h5>Account Balance</h5>
-      <p>You can pay any non-deposit items out of your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong>.</p>
-    </div>
-    <p>Current Balance: <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong></p>
-    <p>Up to $75.00 of your cart total can be paid for with your account balance, if you so choose.</p>
-    <ol>
-      <li><label>Amount</label> <%= f.text_field :account_balance_total %></li>
-    </ol>
-  </fieldset>
-
-  <fieldset>
-    <legend>Credit Card Information</legend>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+    <legend>Payment Details</legend>
     <div class="notes">
-      <h5>Credit Card Information</h5>
+      <h5>Payment Details</h5>
+      <%# if logged_in? and current_user.balance %>
+      <p>You can pay any non-deposit items out of your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong>.</p>
+      <%# end %>
       <p>We do <strong>not</strong> store your credit card number.</p>
     </div>
-    <ol>
-      <li><label for="order_credit_card"><%= form_required %>Credit Card</label> <%= f.text_field :credit_card %></li>
+    
+    <%# if logged_in? and current_user.balance %>
+    <p class="clearfix">Since you have an account with Christmas Future, you have the option of paying non-deposit items out of your account. Any remaining amount will be charged to your credit card. Please enter the amount you'd like to pay from your account below.</p>
+    
+    <h5>Account Payment</h5>
+    <ol class="clearfix" style="border:1px solid #CCC;padding:4px;">
+      <li><label>Cart Total</label><strong><%= number_to_currency(@cart.total) %></strong><%= hidden_field_tag :total, @cart.total, :id => 'cart_total' %></li>
+      <li><label>Account Balance</label><strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong><%= hidden_field_tag :account_balance, (logged_in? ? current_user.balance : 50), :id => 'account_balance' %></li>
       <li>
-        <label for="order_csc"><%= form_required %>Card Security Number</label> <%= f.text_field :csc %>
+        <label>Account Payment</label> <%= f.text_field :account_balance_total %>
+      </li>
+      <li style="display:none;" id="remainder_amount_item"><label>Remaining Balance</label> <%= text_field_tag :remainder, number_to_currency(@cart.total), :style => 'border:0;', :onfocus => "blur();" %></li>
+    </ol>
+    <%# end %>
+
+    <h5>Credit Card Payment</h5>
+    <%# if logged_in? and current_user.balance %>
+    <p>You must pay for deposits to your personal account from a credit card and not from your balance.</p>
+    <%# end %>
+    <ol class="clearfix" style="border:1px solid #CCC;padding:4px;">
+      <li><label for="order_credit_card"><%= form_required %>Credit Card</label> <%= f.text_field :credit_card, :maxlength => 16 %></li>
+      <li>
+        <label for="order_csc"><%= form_required %>Card Security Number</label> <%= f.text_field :csc, :maxlength => 16 %>
         <div class="note">This is final 3 digits on the back of your card. For AMEX: 4 digits on the front of the card.</div>
       </li>
       <li><label for="order_expiry_month"><%= form_required %>Card Expiry</label> 
@@ -68,9 +81,10 @@
     </ol>
   </fieldset>
 </div>
-<%= hidden_field_tag "confirm", "1" %>
+<%= hidden_field_tag "step", "confirm" %>
 <%= submit_tag 'Proceed to Step 3 &raquo;', :class => 'buttonsubmit' %>
 <% end %>
+<%= button_to "&laquo; Go Back a Step", new_dt_checkout_path, :method => :get, :class => 'buttonsubmit' %>
 
 <%- content_for :sidebar do -%>
   <h2>Your Cart</h2>

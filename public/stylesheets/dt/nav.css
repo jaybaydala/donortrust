@@ -17,6 +17,9 @@ GLOBAL NAV and PAGE NAV
     padding:.5em 0 0 8px;
     margin-top:-2px;
 }
+#nav ul.wide {
+    width:716px
+}
 #globalnav a, #nav a {text-decoration:none;}
 #globalnav li, #nav li {
     padding:0;

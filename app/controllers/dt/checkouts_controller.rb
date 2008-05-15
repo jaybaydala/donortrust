@@ -9,14 +9,18 @@ class Dt::CheckoutsController < DtApplicationController
     @cart = Cart.new
     # find an existing order and either load it or create one
     locate_order
+    respond_to do |format|
+      format.html {
+        render :action => (params[:step] ? params[:step] : "new")
+      }
+    end
   end
 
   def create
     @cart = Cart.new( (params[:confirm] ? true : false) )
     locate_order
     respond_to do |format|
-      
-      if params[:complete]
+      if params[:step] == "complete"
         # check for account creation
         # ...
         # process credit card
@@ -24,11 +28,11 @@ class Dt::CheckoutsController < DtApplicationController
         flash[:notice] = "Your checkout is complete!"
       end
       format.html {
-        if params[:credit_card]
-          render :action => "credit_card"
-        elsif params[:confirm]
+        if params[:step] == "payment"
+          render :action => "payment"
+        elsif params[:step] == "confirm"
           render :action => "confirm"
-        elsif params[:complete]
+        elsif params[:step] == "complete"
           redirect_to dt_checkout_path
         else
           render :action => "new"
@@ -41,7 +45,6 @@ class Dt::CheckoutsController < DtApplicationController
     @cart = Cart.new #this will need to get removed
     locate_order
     redirect_to :action => 'new' unless @order.complete?
-    
   end
 
   protected

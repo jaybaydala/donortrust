@@ -1,6 +1,18 @@
-<ul>
-  <li<%= ' class="current"' unless params['credit_card'] || params['confirm'] || params['complete'] %>><%= link_to "Billing Info &raquo; ", new_dt_checkout_path, :title => 'Billing and Tax Receipt Information' %></li>
-  <li<%= ' class="current"' if params['credit_card'] %>><%= link_to "Credit Card &raquo; ", new_dt_checkout_path(:credit_card => "1"), :title => 'Credit Card Information' %></li>
-  <li<%= ' class="current"' if params['confirm'] %>><%= link_to "Confirmation ", new_dt_checkout_path(:confirm => "1"), :title => 'Confirmation' %></li>
-  
+<ul class="wide">
+  <%-
+    link_item = true
+    nav_info = {
+      "" => ["Step 1. Billing Info ", new_dt_checkout_path], 
+      "credit_card" => ["Step 2. Payment ", new_dt_checkout_path(:step => "payment")], 
+      "confirm" => ["Step 3. Confirmation ", new_dt_checkout_path(:step => "confirm")]
+      }
+    ["", "credit_card", "confirm"].each do |key|
+      current = (params[:step] ? false : true) if key.empty?
+      current = (params[:step] == key ? true : false) unless key.empty?
+      link_item = false if current
+      title = nav_info[key][0]
+      link = nav_info[key][1]
+  -%>
+  <li<%= ' class="current"' if current %>><%= link_to(title, link_item ? link : "javascript:void(0);" ) %></li>
+  <%- end -%>
 </ul>
