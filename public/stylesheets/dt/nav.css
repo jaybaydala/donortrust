@@ -2,20 +2,20 @@
 GLOBAL NAV and PAGE NAV
 =======================*/
 #globalnav {
-    height:2.25em;
-    padding:0 10px;
+	 padding:0px 10px 0 10px;
 }
 #globalnav ul {
     float:left;
     width: 500px;
-    padding:.5em 0 0 8px;
-    margin-top:2px;
+	padding:0em 0 0 8px;
+	margin:0;    
+	height:2.1875em;
 }
 #nav ul {
     float:left;
     width: 485px;
-    padding:.5em 0 0 8px;
-    margin-top:-2px;
+	padding:0em 0 0 8px;
+	margin:0px;
 }
 #nav ul.wide {
     width:716px
@@ -23,20 +23,22 @@ GLOBAL NAV and PAGE NAV
 #globalnav a, #nav a {text-decoration:none;}
 #globalnav li, #nav li {
     padding:0;
-    margin:0;
+	margin:1px 0 0 0;
     font-size:0.8125em; /* 13px */
     list-style-type:none;
-    display:inline;
-    color:#FFF;
-    line-height:1;
+    color:#FFF;	
+	float:left;
+	line-height:1.2;
 }
 #globalnav li a {
     text-decoration:none;
+	display:block;
     padding: 0.6875em 0.875em 0.875em 0.875em;
 }
 #nav li a {
     text-decoration:none;
-    padding: 0.375em 0.875em;
+	display:block;
+	padding: 0.31em 0.875em;
 }
 #globalnav li a:link, #globalnav li a:visited, 
 #nav li a:link, #nav li a:visited {
@@ -53,7 +55,7 @@ GLOBAL NAV and PAGE NAV
     background-color:#360;
 }
 #globalnav li.current {padding: 0.625em 0.875em 0.75em 0.875em}
-#nav li.current {padding:0.375em 0.875em;}
+#nav li.current {padding:0.31em 0.875em;}
 
 #globalnav li.current a:link, #globalnav li.current a:visited, #globalnav li.current a:hover, #globalnav li.current a:active,
 #nav li.current a:link, #nav li.current a:visited, #nav li.current a:hover, #nav li.current a:active { 
@@ -153,7 +155,6 @@ form#search {
 }
 #loginbug {
     float:right;
-    width:10.5em;
     text-align:right;
 }
 #cartlink {

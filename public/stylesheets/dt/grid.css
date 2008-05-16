@@ -13,7 +13,7 @@
     border-left:1px solid #999;
 }
 #masthead img {
-    /*display:block;*/ /* this got rid of the top margin but pushes it way over to the right!?!? */
+    display:block; /* this got rid of the top margin but pushes it way over to the right!?!? */
 }
 
 #contentcontainer {

@@ -46,6 +46,9 @@ input[type=image] {
     border:0;
     padding:0;
 }
+input[type=radio], input[type=checkbox] {
+	border:0;
+}
 select {
     padding:0 0 1px 0;
 }
@@ -141,7 +144,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     width:auto;
     float:none;
     display:block;
-    text-align:inherit;
+	text-align:left;
 }
 
 /*
