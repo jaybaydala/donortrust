@@ -45,22 +45,24 @@
   <fieldset>
     <legend>Payment Summary</legend>
     <%# if @order.account_balance_total? %>
-    <h5>Account Payment Information</h5>
-    <ol class="clearfix" style="border:1px solid #CCC;padding:4px;">
-      <li><label>Cart Total</label><strong><%= number_to_currency(@cart.total) %></strong></li>
-      <li><label>Account Balance</label><strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong><%= hidden_field_tag :account_balance, (logged_in? ? current_user.balance : 50), :id => 'account_balance' %></li>
-      <li><label>Account Payment</label> <%= number_to_currency(@order.account_balance_total) %></li>
-      <li><label>Remaining Subtotal</label> <%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></li>
+    <ol>
+      <li><label class="left"><em>Your Current Account Balance:</em> <%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %><%= hidden_field_tag :account_balance, (logged_in? ? current_user.balance : 50), :id => 'account_balance' %></label></li>
+    </ol>
+    <ol class="clearfix" id="payment">
+      <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :total, @cart.total, :id => 'cart_total' %></li>
+      <li><label>Take From my Account:</label> <%= number_to_currency(@order.account_balance_total) %></li>
+      <li class="odd"><label>Put on My Credit Card:</label> <%= number_to_currency(@order.credit_card_total) %></li>
+      <li id="totalfield"><label>Total Paid:</label> <%= number_to_currency(@order.amount) %></li>
     </ol>
     <%# end %>
-    <h5>Credit Card Payment Information</h5>
+    <h5>Credit Card Information</h5>
     <div class="notes">
       <h5>Credit Card Information</h5>
       <p>We do <strong>not</strong> store your credit card number.</p>
     </div>
     <p>The remaining balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></strong> will be charged to your credit card</p>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
-    <ol class="clearfix" style="border:1px solid #CCC;padding:4px;">
+    <ol class="clearfix">
       <li><label>Credit Card</label><%=h @order.credit_card_concealed %></li>
       <li><label>Card Security Number</label> <%=h @order.csc.gsub(/./, "*") %></li>
       <li><label>Card Expiry</label> <%=h @order.expiry_month %> / <%=h @order.expiry_year %></li>
@@ -69,10 +71,11 @@
   </fieldset>
 </div>
 <%= hidden_field_tag "step", "complete" %>
+<div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", new_dt_checkout_path(:step => 'payment'), :class => "large" %></div>
 <%= submit_tag 'Complete Checkout', :class => 'buttonsubmit' %>
 <% end %>
-<%= button_to "&laquo; Go Back a Step", new_dt_checkout_path(:step => 'payment'), :method => :get, :class => "buttonsubmit" %>
 
 <%- content_for :sidebar do -%>
   <%= render "dt/accounts/profile_sidebar" %>  
+  <%= render :partial => 'dt/checkouts/verisign' %>
 <%- end -%>

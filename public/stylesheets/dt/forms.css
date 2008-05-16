@@ -32,7 +32,10 @@ input, select {
     border:1px solid #999;
     color:#333;
     padding:1px;
-    font-size:.6875em;
+    font-size:0.6875em;
+}
+.textsm input, .textsm select {
+    font-size:1em;
 }
 input[type=submit] {
     background-color:#DDD;
@@ -146,8 +149,8 @@ SUBMIT BUTTONS
 ==============*/
 
 div.buttonsubmit {
-	clear:left;
 	padding:3px 0 0 0;
+	float:left;
 }
 div.simpleform div.buttonsubmit {
     padding-left:0;
@@ -213,6 +216,38 @@ LOGIN FORM
 #loginform fieldset li.clear {
     clear:left;
 }
+
+/*
+PAYMENT FORM
+============*/
+#payment {
+    width:72%;
+    border:1px solid #999;
+    padding:0;
+}
+#payment label {
+    width:48%;
+    font-weight:bold;
+}
+#payment input {
+    width:48%;
+}
+#payment li.odd {
+    background-color:#EEE;
+}
+#payment li.even {
+    background-color:transparent;
+}
+#payment li#totalfield {
+    border-top:2px solid #999;
+    border-bottom:2px solid #999;
+}
+#payment li#totalfield, #payment li#totalfield input {
+    background-color:#CCC;
+    font-style:italic;
+    font-weight:bold;
+}
+
 /*
 GIFT FORM
 =========*/
