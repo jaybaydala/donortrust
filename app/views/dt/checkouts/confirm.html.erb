@@ -71,8 +71,10 @@
   </fieldset>
 </div>
 <%= hidden_field_tag "step", "complete" %>
-<div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", new_dt_checkout_path(:step => 'payment'), :class => "large" %></div>
-<%= submit_tag 'Complete Checkout', :class => 'buttonsubmit' %>
+<div class="checkoutbuttons clearfix">
+  <div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", new_dt_checkout_path(:step => 'payment'), :class => "large" %></div>
+  <%= submit_tag 'Complete Checkout', :class => 'buttonsubmit' %>
+</div>
 <% end %>
 
 <%- content_for :sidebar do -%>
