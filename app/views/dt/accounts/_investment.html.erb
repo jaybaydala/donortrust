@@ -8,7 +8,7 @@
         <div class="textsm"><strong>Invested:</strong> <%= number_to_currency(investment.amount) %></div>
         <div class="textsm">
           <span class="linkMinor">
-          <%= link_to "INVEST IN THIS PROJECT", dt_new_investment_path(:project_id => project) %>
+          <%= link_to "INVEST IN THIS PROJECT", new_dt_investment_path(:project_id => project) %>
           </span>
         </div>
       </li>

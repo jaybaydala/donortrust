@@ -30,7 +30,7 @@
   <div id="wishlist">
     <div class="tableHeader" style="margin-left:7px;">
       <div style="float:left;">My Wishlist</div>
-  		<div class="tableHeader_button" style="padding-left:8px;"><div id="buttonSendWishlist"><%= link_to "Send My Wishlist", dt_new_message_my_wishlists_path( :account_id => current_user ) %></div></div>
+  		<div class="tableHeader_button" style="padding-left:8px;"><div id="buttonSendWishlist"><%= link_to "Send My Wishlist", new_message_dt_account_my_wishlists_path( current_user ) %></div></div>
   		<div class="tableHeader_button"><div id="addProjButton"><%= link_to "Add New Project", dt_projects_path %></div></div>
     </div>
   	<div id="tableList" style="margin-left:7px;">

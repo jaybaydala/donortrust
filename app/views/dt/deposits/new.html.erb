@@ -6,7 +6,7 @@
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 
   <%= error_messages_for :deposit %>
-  <% form_for(:deposit, :url => dt_confirm_deposits_path, :html => {:id => "depositform", :name => "depositform"}) do |f| %>
+  <% form_for(:deposit, :url => confirm_dt_account_deposits_path, :html => {:id => "depositform", :name => "depositform"}) do |f| %>
   <p>Please enter your personal information. Your personal information, as entered below will be used to authorize your credit card. Please enter the information accurately.</p>
   <div class="userform">
     <fieldset>
