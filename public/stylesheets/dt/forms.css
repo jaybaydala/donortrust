@@ -218,8 +218,8 @@ LOGIN FORM
 }
 
 /*
-PAYMENT FORM
-============*/
+CHECKOUT FORMS
+==============*/
 #payment {
     width:72%;
     border:1px solid #999;
@@ -247,6 +247,10 @@ PAYMENT FORM
     font-style:italic;
     font-weight:bold;
 }
+div.checkoutbuttons {
+    float:right;
+}
+div.checkoutbuttons div.buttonsubmit {}
 
 /*
 GIFT FORM

@@ -56,4 +56,8 @@ module DtApplicationHelper
   def form_required
     render :partial => 'dt/shared/form_required'
   end
+  
+  def cart_empty?
+    false
+  end
 end

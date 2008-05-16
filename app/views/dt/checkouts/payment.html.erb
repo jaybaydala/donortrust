@@ -35,13 +35,6 @@
   <fieldset>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
     <legend>Payment Details</legend>
-    <div class="notes">
-      <h5>Payment</h5>
-      <%# if logged_in? and current_user.balance %>
-      <p>You can pay any non-deposit items out of your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong>.</p>
-      <%# end %>
-    </div>
-    
     <%# if logged_in? and current_user.balance %>
     <p class="clearfix">Please enter your payment details below. Since you have an account with ChristmasFuture you have the option of paying from your ChristmasFuture account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %></strong>. Any deposits to your account must be paid on your credit card</p>
     
@@ -88,8 +81,10 @@
   </fieldset>
 </div>
 <%= hidden_field_tag "step", "confirm" %>
-<div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", new_dt_checkout_path, :class => "large" %></div>
-<%= submit_tag 'Proceed to Step 3 &raquo;', :class => 'buttonsubmit' %>
+<div class="checkoutbuttons clearfix">
+  <div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", new_dt_checkout_path, :class => "large" %></div>
+  <%= submit_tag 'Proceed to Step 3 &raquo;', :class => 'buttonsubmit' %>
+</div>
 <% end %>
 
 <%- content_for :sidebar do -%>

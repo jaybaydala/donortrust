@@ -95,17 +95,28 @@ a.button-connect:hover {background:url(/images/dt/nav_elements/buttonsCF/connect
 a.button-gift, a.button-gift span, 
 a.button-invest, a.button-invest span,
 a.button-creategroup, a.button-creategroup span,
-a.button-checkout, a.button-checkout span {
+a.button-checkout, a.button-checkout span,
+a.button-return_to_cart, a.button-return_to_cart span,
+a.button-add_gift_card, a.button-add_gift_card span,
+a.button-add_project_gift, a.button-add_project_gift span {
     display:block;float:left;
     width:104px;
     height:24px;
     margin-bottom:.5em;
 }
+a.button-return_to_cart, a.button-return_to_cart span,
+a.button-add_gift_card, a.button-add_gift_card span,
+a.button-add_project_gift, a.button-add_project_gift span {
+    width:170px;
+}
 a.button-gift span,
 a.button-invest span, 
 a.button-creategroup span, 
 a.button-connect span,
-a.button-checkout span {
+a.button-checkout span,
+a.button-return_to_cart span,
+a.button-add_gift_card span,
+a.button-add_project_gift span {
     text-indent:-9999px;
 }
 a.button-gift {background:url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat transparent;}
@@ -116,6 +127,14 @@ a.button-creategroup {background:url(/images/dt/nav_elements/buttonsCF/createGro
 a.button-creategroup:hover {background:url(/images/dt/nav_elements/buttonsCF/createGroup_blue.gif) no-repeat transparent;}
 a.button-checkout {background:url(/images/dt/nav_elements/checkout_grey.gif) no-repeat transparent;}
 a.button-checkout:hover {background:url(/images/dt/nav_elements/checkout_blue.gif) no-repeat transparent;}
+a.button-return_to_cart {background:url(/images/dt/nav_elements/return_to_cart_grey.gif) no-repeat transparent;}
+a.button-return_to_cart:hover {background:url(/images/dt/nav_elements/return_to_cart_blue.gif) no-repeat transparent;}
+a.button-add_gift_card {background:url(/images/dt/nav_elements/add_gift_card_grey.gif) no-repeat transparent;}
+a.button-add_gift_card:hover {background:url(/images/dt/nav_elements/add_gift_card_blue.gif) no-repeat transparent;}
+a.button-add_project_gift {background:url(/images/dt/nav_elements/add_project_gift_grey.gif) no-repeat transparent;}
+a.button-add_project_gift:hover {background:url(/images/dt/nav_elements/add_project_gift_blue.gif) no-repeat transparent;}
+a.button-add_gift_card, a.button-add_gift_card span,
+a.button-add_project_gift, a.button-add_project_gift span,
 a.button-checkout, a.button-checkout span {
     float:right;
 }

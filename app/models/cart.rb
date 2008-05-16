@@ -20,6 +20,10 @@ class Cart
     100
   end
   
+  def empty?
+    false
+  end
+  
 
   # Initializes the shopping cart
   # def initialize

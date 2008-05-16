@@ -16,8 +16,8 @@
 </ul>  
 <p>Click <%= logged_in? ? link_to("Account Summary ", dt_account_path(current_user)) : (link_to "Login", dt_login_path) %> to get started.</p>
 
-<DIV>IF THERE'S AN EXISTING CART IN THE SESSION:</DIV>
-<%= button_to "Return to your Cart", dt_cart_path, :class => "buttonsubmit" %>
+
+<% unless cart_empty? %><%= link_to "<span>Return To Your Cart</span>", dt_cart_path, :class => "button-return_to_cart" %><% end %>
 
 <%- content_for :sidebar do -%>
   <%= dt_profile_sidebar %>
