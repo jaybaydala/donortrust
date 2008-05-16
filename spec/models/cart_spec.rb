@@ -13,6 +13,15 @@ describe Cart do
     @cart.total.should == 0.0
   end
   
+  describe "total" do
+    it "should return the total of all the items" do
+      @cart.add_item Gift.new(:amount => 100)
+      @cart.add_item Investment.new(:amount => 25)
+      @cart.add_item Deposit.new(:amount => 15)
+      @cart.total.should == 140.0
+    end
+  end
+  
   describe "items" do
     it "should allow Gift items" do
       @cart.add_item Gift.new

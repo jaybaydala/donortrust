@@ -13,14 +13,14 @@ class Cart
   def add_item(item)
     @items << item if [Gift, Investment, Deposit].include?(item.class)
   end
-  def empty?
-    false
-  end
-  
 
 	def empty?
     @items.length == 0
 	end
+	
+	def total
+	  @total = @items.inject(0.0){|sum, item| sum + item.amount}
+  end
 
   # Returns the total price of our cart
   # def total

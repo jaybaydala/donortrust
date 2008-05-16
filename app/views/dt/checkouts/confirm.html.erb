@@ -62,7 +62,7 @@
     </div>
     <p>The remaining balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></strong> will be charged to your credit card</p>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
-    <ol class="clearfix">
+    <ol class="clearfix" style="margin:6px 0 0 0;">
       <li><label>Credit Card</label><%=h @order.credit_card_concealed %></li>
       <li><label>Card Security Number</label> <%=h @order.csc.gsub(/./, "*") %></li>
       <li><label>Card Expiry</label> <%=h @order.expiry_month %> / <%=h @order.expiry_year %></li>

@@ -7,17 +7,17 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :cart, :controller => 'cart'
     dt.resource :checkout
     dt.resources :projects, :controller => 'projects', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
-    dt.resources :investments, :controller => 'investments', :collection => { :confirm => :post }
+    dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
     #dt.resources :my_wishlists, :controller => 'my_wishlists'
     dt.resources :accounts, :controller => 'accounts', :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put } do |account|
-      account.resources :deposits, :controller => 'deposits', :collection => { :confirm => :post }
+      account.resources :deposits, :controller => 'deposits'
       account.resources :my_wishlists, :controller => 'my_wishlists', :collection => {:new_message => :get, :confirm => :post, :preview => :get, :send_message => :post}
       account.resources :tax_receipts, :controller => 'tax_receipts'
       account.resources :account_memberships, :controller => 'account_memberships'
     end
     dt.resource :session, :controller => 'sessions'
-    dt.resources :gifts, :controller => 'gifts', :collection => { :confirm => :post, :open => :get, :preview => :get }, :member => { :unwrap => :put }
+    dt.resources :gifts, :controller => 'gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :put }
     dt.resources :groups, :controller=> 'groups' do |group|
       group.resources :memberships, :controller => 'groups/memberships', :member => { :promote => :put, :demote => :put }
       group.resources :group_projects, :controller => 'group_projects'
