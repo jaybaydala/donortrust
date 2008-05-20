@@ -7,6 +7,11 @@ div.projectRank {
 div.projectRank strong {
     color:#360;
 }
+
+div.projectRank ul {
+	margin:0 0 1.125em 0;
+}
+
 div.projectRank li {
     display:inline;
     list-style:none;
@@ -20,7 +25,40 @@ div.projectlist {}
 div.projectlist .project {
     border-bottom:0.125em solid #360;
     padding-bottom:1em;
+	background:none;
 }
+
+div.projectlist .project li {
+	background:none;
+	border:none;
+}
+
+.projectlist ul, .projectlist .project ul {
+	margin:0 0 0 0;
+}
+
+.projectlist li  {
+	list-style-type:none;
+	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat scroll 0px 4px;
+	padding:0 0 0.1875em 0.875em;
+	font-family:Arial, Helvetica, sans-serif;
+    border-bottom:0.0625em solid #DDDDDD;
+}
+.projectlist li p {
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+.projectlist li p a:active, .projectlist li p a:link, .projectlist li p a:visited  {
+	background:transparent url(/images/dt/nav_elements/arrows/blue_arrowSM.gif) no-repeat scroll 0px 2px;
+	padding:0px 0px 0px 1.2em;
+}
+
+#content-wrapper .projectlist a:active,#content-wrapper .projectlist a:link,#content-wrapper .projectlist a:visited {
+	font-weight:bold;
+	color:#360;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
 
 /*
 Project Highlight List
@@ -61,11 +99,16 @@ Project Actions
 Quick Facts
 ===========*/
 .quickfacts {}
+
+.quickfacts ul {
+	margin:0 0 1.125em 0;
+}
+
 .quickfacts li {
-    list-style-display:none;
+    list-style-type:none;
     font-size:0.6875em; /* 11px */
-    margin:0.1875em 0;
-    padding:0.25em 0 0.5em 0;
+    margin:0em 0;
+    padding:0.25em 0 0.25em 0;
     border-bottom:solid 0.0625em #DDD;
 }
 .quickfacts strong {
@@ -98,11 +141,18 @@ a.button-creategroup, a.button-creategroup span,
 a.button-checkout, a.button-checkout span,
 a.button-return_to_cart, a.button-return_to_cart span,
 a.button-add_gift_card, a.button-add_gift_card span,
-a.button-add_project_gift, a.button-add_project_gift span {
-    display:block;float:left;
+a.button-add_project_gift, a.button-add_project_gift span,
+a.button-send_wishlist, a.button-send_wishlist span,
+a.button-add_project, a.button-add_project span {
+    display:block;
+	float:left;
     width:104px;
     height:24px;
     margin-bottom:.5em;
+}
+a.button-send_wishlist, a.button-send_wishlist span,
+a.button-add_project, a.button-add_project span {
+	width:120px;
 }
 a.button-return_to_cart, a.button-return_to_cart span,
 a.button-add_gift_card, a.button-add_gift_card span,
@@ -116,7 +166,9 @@ a.button-connect span,
 a.button-checkout span,
 a.button-return_to_cart span,
 a.button-add_gift_card span,
-a.button-add_project_gift span {
+a.button-add_project_gift span,
+a.button-add_project span,
+a.button-send_wishlist span {
     text-indent:-9999px;
 }
 a.button-gift {background:url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat transparent;}
@@ -133,6 +185,10 @@ a.button-add_gift_card {background:url(/images/dt/nav_elements/add_gift_card_gre
 a.button-add_gift_card:hover {background:url(/images/dt/nav_elements/add_gift_card_blue.gif) no-repeat transparent;}
 a.button-add_project_gift {background:url(/images/dt/nav_elements/add_project_gift_grey.gif) no-repeat transparent;}
 a.button-add_project_gift:hover {background:url(/images/dt/nav_elements/add_project_gift_blue.gif) no-repeat transparent;}
+a.button-send_wishlist {background:url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey.gif) no-repeat transparent;}
+a.button-send_wishlist:hover {background:url(/images/dt/nav_elements/buttonsCF/sendWishlist_blue.gif) no-repeat transparent;}
+a.button-add_project {background:url(/images/dt/nav_elements/buttonsCF/addProjButton_grey.gif) no-repeat transparent;}
+a.button-add_project:hover {background:url(/images/dt/nav_elements/buttonsCF/addProjButton_blue.gif) no-repeat transparent;}
 a.button-add_gift_card, a.button-add_gift_card span,
 a.button-add_project_gift, a.button-add_project_gift span,
 a.button-checkout, a.button-checkout span {

@@ -1,2 +1,2 @@
-module Dt::WishlistsHelper
+module Dt::MyWishlistsHelper
 end
