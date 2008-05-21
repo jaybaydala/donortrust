@@ -4,69 +4,6 @@ require 'dt/gifts_controller'
 # Re-raise errors caught by the controller.
 class Dt::GiftsController; def rescue_action(e) raise e end; end
 
-context "Dt::Gifts inheritance" do
-  specify "should inherit from DtApplicationController" do
-    @controller = Dt::GiftsController.new
-    @controller.kind_of?(DtApplicationController).should == true
-  end
-end
-
-context "Dt::Gifts #route_for" do
-  use_controller Dt::GiftsController
-  setup do
-    @rs = ActionController::Routing::Routes
-  end
-  
-  specify "should map { :controller => 'dt/gifts', :action => 'index' } to /dt/gifts" do
-    route_for(:controller => "dt/gifts", :action => "index").should == "/dt/gifts"
-  end
-  
-  specify "should map { :controller => 'dt/gifts', :action => 'show', :id => 1 } to /dt/gifts/1" do
-    route_for(:controller => "dt/gifts", :action => "show", :id => 1).should == "/dt/gifts/1"
-  end
-  
-  specify "should map { :controller => 'dt/gifts', :action => 'new' } to /dt/gifts/new" do
-    route_for(:controller => "dt/gifts", :action => "new").should == "/dt/gifts/new"
-  end
-  
-  specify "should map { :controller => 'dt/gifts', :action => 'create' } to /dt/gifts" do
-    route_for(:controller => "dt/gifts", :action => "create").should == "/dt/gifts"
-  end
-    
-  specify "should map { :controller => 'dt/gifts', :action => 'edit', :id => 1 } to /dt/gifts/1;edit" do
-    route_for(:controller => "dt/gifts", :action => "edit", :id => 1).should == "/dt/gifts/1;edit"
-  end
-  
-  specify "should map { :controller => 'dt/gifts', :action => 'update', :id => 1} to /dt/gifts/1" do
-    route_for(:controller => "dt/gifts", :action => "update", :id => 1).should == "/dt/gifts/1"
-  end
-  
-  specify "should map { :controller => 'dt/gifts', :action => 'destroy', :id => 1} to /dt/gifts/1" do
-    route_for(:controller => "dt/gifts", :action => "destroy", :id => 1).should == "/dt/gifts/1"
-  end
-
-  specify "should map { :controller => 'dt/gifts', :action => 'confirm'} to /dt/gifts/1" do
-    route_for(:controller => "dt/gifts", :action => "confirm").should == "/dt/gifts;confirm"
-  end
-
-  specify "should map { :controller => 'dt/gifts', :action => 'open'} to /dt/gifts;open" do
-    route_for(:controller => "dt/gifts", :action => "open").should == "/dt/gifts;open"
-  end
-  
-  specify "should map { :controller => 'dt/gifts', :action => 'unwrap', :id => 1} to /dt/gifts/1;unwrap" do
-    route_for(:controller => "dt/gifts", :action => "unwrap", :id => 1).should == "/dt/gifts/1;unwrap"
-  end
-
-  specify "should map { :controller => 'dt/gifts', :action => 'preview'} to /dt/gifts;preview" do
-    route_for(:controller => "dt/gifts", :action => "preview").should == "/dt/gifts;preview"
-  end
-  
-  private 
-  def route_for(options)
-    @rs.generate options
-  end
-end
-
 context "Dt::Gifts new, create, confirm, open, unwrap and preview should exist "do
   use_controller Dt::GiftsController
   specify "methods should exist" do
