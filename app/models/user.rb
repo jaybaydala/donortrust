@@ -107,6 +107,10 @@ class User < ActiveRecord::Base
       @gifted_with_credit_card ||= calculate_gifts(exclude_credit_card)
     end
   end
+  
+  def ordered
+    @ordered ||= calculate_orders
+  end
 
   # Encrypts the password with the user salt
   def encrypt(password)
@@ -205,7 +209,7 @@ class User < ActiveRecord::Base
     end
         
     def calculate_balance
-      balance = deposited - invested - gifted(true) || 0
+      balance = deposited - ordered - invested - gifted(true) || 0
     end
 
     def calculate_deposits
@@ -222,6 +226,15 @@ class User < ActiveRecord::Base
       balance = 0
       investments.each do |trans|
         balance = balance + trans.amount
+      end
+      balance
+    end
+
+    def calculate_orders
+      orders = Order.find(:all, :conditions => { :user_id => self[:id] })
+      balance = 0
+      orders.each do |trans|
+        balance = balance + trans.account_balance_total
       end
       balance
     end

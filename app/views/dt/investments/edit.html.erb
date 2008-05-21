@@ -3,7 +3,7 @@
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
 
 <%= error_messages_for :investment %>
-<% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
+<% form_for(:investment, :url => dt_investment_path(:id => params[:id]), :html => {:id => "investmentform", :name => "investmentform", :method => :put}) do |f| %>
 <p>Please enter your personal information.</p>
 <div class="userform">
   <fieldset>
@@ -47,7 +47,7 @@
   </fieldset>
   <% end %>
 
-	<%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %>
+	<%= submit_tag 'Update Investment', :class => 'buttonsubmit' %>
 </div>
 <% end %>
 

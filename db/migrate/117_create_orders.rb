@@ -13,7 +13,7 @@ class CreateOrders < ActiveRecord::Migration
       t.string  :province
       t.string  :postal_code
       t.string  :email
-      t.decimal  :amount, :precision => 12, :scale => 2
+      t.decimal  :total, :precision => 12, :scale => 2
       t.decimal  :account_balance_total, :precision => 12, :scale => 2
       t.decimal  :credit_card_total, :precision => 12, :scale => 2
       t.string  :credit_card
@@ -21,7 +21,11 @@ class CreateOrders < ActiveRecord::Migration
       t.string  :card_expiry
       t.string  :cardholder_name
       t.string  :authorization_result
+      t.integer :order_number
+      t.integer :user_id
     end
+    add_index "orders", ["order_number"], :name => "order_number"
+    add_index "orders", ["user_id"], :name => "user_id"
   end
 
   def self.down

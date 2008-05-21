@@ -1,14 +1,15 @@
+require 'cart_helper'
 class Dt::CheckoutsController < DtApplicationController
   helper "dt/places"
+  include CartHelper
   
   def index
     redirect_to :action => "new"
   end
   
   def new 
-    @cart = Cart.new
-    # find an existing order and either load it or create one
-    locate_order
+    @cart = find_cart
+    @order = find_order
     respond_to do |format|
       format.html {
         render :action => (params[:step] ? params[:step] : "new")
@@ -18,7 +19,7 @@ class Dt::CheckoutsController < DtApplicationController
 
   def create
     @cart = Cart.new( (params[:confirm] ? true : false) )
-    locate_order
+    @order = find_order
     respond_to do |format|
       if params[:step] == "complete"
         # check for account creation
@@ -43,19 +44,12 @@ class Dt::CheckoutsController < DtApplicationController
   
   def show
     @cart = Cart.new #this will need to get removed
-    locate_order
+    @order = find_order
     redirect_to :action => 'new' unless @order.complete?
   end
 
   protected
   def ssl_required?
     true
-  end
-  
-  def locate_order
-    # need to check if there's an existing order for the session. If so, grab it and load it
-    @order = Order.new({:donor_type => Order.personal_donor, :email => 'info@christmasfuture.org', :amount => @cart.total})
-    @order.attributes = params[:order] if params[:order]
-    @order
   end
 end

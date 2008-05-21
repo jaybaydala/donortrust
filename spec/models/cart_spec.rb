@@ -38,7 +38,7 @@ describe Cart do
       @cart.items.should be_empty
     end
     
-    it "should not allow a invalid item" do
+    it "should allow a valid item" do
       @gift.should_receive(:valid?).and_return(true)
       @cart.add_item @gift
       @cart.items.should_not be_empty
@@ -61,6 +61,43 @@ describe Cart do
       @project.stub!(:valid?).and_return(true)
       @cart.add_item @project
       @cart.items.should be_empty
+    end
+  end
+  
+  describe "update_item" do
+    before do
+      @cart.stub!(:items).and_return([@gift, @investment, @deposit])
+    end
+    it "should not allow an invalid item" do
+      @gift.should_receive(:valid?).and_return(false)
+      before_items = @cart.items.clone
+      @cart.update_item(0, @gift)
+      @cart.items.should == before_items
+    end
+    
+    it "should allow a valid item" do
+      @gift.should_receive(:valid?).and_return(true)
+      @cart.update_item(0, @gift)
+      @cart.items[0].should == @gift
+    end
+    
+    it "should allow Gift items" do
+      @cart.update_item(0, @gift)
+      @cart.items[0].should == @gift
+    end
+    it "should allow Investment items" do
+      @cart.update_item(1, @investment)
+      @cart.items[1].should == @investment
+    end
+    it "should allow Deposit items" do
+      @cart.update_item(2, @deposit)
+      @cart.items[2].should == @deposit
+    end
+    it "should not allow Project items" do
+      @project = mock_model(Project)
+      @project.stub!(:valid?).and_return(true)
+      @cart.update_item(0, @project)
+      @cart.items[0].should == @gift
     end
   end
   

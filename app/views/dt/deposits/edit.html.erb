@@ -2,7 +2,7 @@
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
 
 <%= error_messages_for :deposit %>
-<% form_for(:deposit, :url => dt_account_deposits_path(:account_id => current_user), :html => {:id => "depositform", :name => "depositform"}) do |f| %>
+<% form_for(:deposit, :url => dt_account_deposit_path(:account_id => current_user, :id => params[:id]), :html => {:id => "depositform", :name => "depositform", :method => :put}) do |f| %>
 <div class="userform">
   <%= render :partial => 'dt/shared/form_requirednote' %>
   <fieldset>
@@ -12,7 +12,7 @@
     </ol>
   </fieldset>
 
-  <%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %>
+  <%= submit_tag 'Update Deposit', :class => 'buttonsubmit' %>
 </div>
 <% end %>
 

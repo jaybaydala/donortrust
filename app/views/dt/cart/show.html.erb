@@ -2,6 +2,9 @@
 <%- content_for :nav do -%> <%= render "dt/accounts/account_nav" %> <%- end -%>
 <%- content_for :html_title do -%>Your Cart<%- end -%>
 
+<% if @cart.empty? %>
+<p>Your cart is empty.</p>
+<% else %>
 <table cellpadding="0" cellspacing="0" id="cart">
   <colgroup>
     <col style="width:5%;" />
@@ -13,71 +16,18 @@
     <th>Item</th>
     <th class="numeric">Amount</th>
   </tr>
-  <% for line_item in @cart.items %>
-    <% if line_item.class == Gift %>
-      <tr class="odd">
-        <td>
-          <div class="textsm">
-            <%= link_to_function image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), "alert('Are you sure?')" %>
-            <%= link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), new_dt_gift_path(:gift => line_item.attributes) %>
-          </div>
-        </td>
-        <td>
-          <% if line_item.e_card %><div class="thumbnail"><%= image_tag url_for_file_column(line_item.e_card, "small"), :alt => "" %></div><% end %>
-          <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes)}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
-          <h5><strong>Gift</strong> </h5>
-          <p>
-            <strong>To:</strong> <%= link_to line_item.to_name, "mailto:" + line_item.email %><br />
-            <% if line_item.message? %><strong>Message:</strong> <%= line_item.message_summary %><% end %>
-          </p>
-        </td>
-        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
-      </tr>
-    <% end %>
-    <% if line_item.class == Investment %>
-      <tr class="even">
-        <td>
-          <div class="textsm">
-            <%= link_to_function image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), "alert('Are you sure?')" %>
-            <%= link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), new_dt_investment_path(:investment => line_item.attributes) %>
-          </div>
-        </td>
-        <td>
-          <h5><strong>Investment</strong></h5>
-          <p><%= link_to line_item.project.name, dt_project_path(line_item.project_id) %></p>
-        </td>
-        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
-      </tr>
-    <% end %>
-    <% if line_item.class == Deposit %>
-      <tr class="odd">
-        <td>
-          <div class="textsm">
-            <%= link_to_function image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), "alert('Are you sure?')" %>
-            <%= link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), new_dt_account_deposit_path(current_user, :deposit => line_item.attributes) %>
-          </div>
-        </td>
-        <td>
-          <h5><strong>Deposit</strong></h5>
-          <p>Deposit into my Christmas Future Account</p>
-        </td>
-        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
-      </tr>
-    <% end %>
-  <% end %>
+  <%= render :partial => "line_item", :collection => @cart.items %>
   <tr class="footer">
-    <td><%= link_to_function image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), "alert('Empty your entire cart?')" %></td>
+    <td><%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove all items from cart"), dt_cart_path, :confirm => "Empty your entire cart?", :method => :delete %></td>
     <td class="numeric money">Cart Total</td>
     <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
   </tr>
 </table>
-
+<% end %>
 <div style="margin-top:1em;">
-  <%= link_to "<span>Checkout</span>", new_dt_checkout_path, :class => "button-checkout" %>
+  <% unless @cart.empty? %><%= link_to "<span>Checkout</span>", new_dt_checkout_path, :class => "button-checkout" %><% end %>
   <%= link_to "<span>Add a Gift Card</span>", new_dt_gift_path, :class => "button-add_gift_card" %>
   <%= link_to "<span>Add a Project Gift</span>", dt_search_path, :class => "button-add_project_gift" %>
-  
-  <%#= image_submit_tag("dt/nav_elements/checkout_grey.gif", :alt => 'Checkout', :class => "button-checkout", :onmouseover => "this.src='/images/dt/nav_elements/checkout_blue.gif';return true;", :onmouseout => "this.src='/images/dt/nav_elements/checkout_grey.gif';return true;", :style => "border:0;") %>
 </div>
 
 <%- content_for :sidebar do -%>

@@ -11,7 +11,11 @@ class Cart
   end
   
   def add_item(item)
-    @items << item if [Gift, Investment, Deposit].include?(item.class) && item.valid?
+    @items << item if valid_item?(item)
+  end
+
+  def update_item(index, item)
+    @items[index.to_i] = item if valid_item?(item)
   end
 
 	def empty?
@@ -23,6 +27,11 @@ class Cart
   end
 
   def remove_item(index)
-    @items.delete_at(index) if @items[index]
+    @items.delete_at(index.to_i) if @items[index.to_i]
+  end
+  
+  private
+  def valid_item?(item)
+    [Gift, Investment, Deposit].include?(item.class) && item.valid?
   end
 end

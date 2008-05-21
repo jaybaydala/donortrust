@@ -8,22 +8,23 @@ describe Dt::InvestmentsController do
     @project.stub!(:name).and_return("Spec Project")
     @project.stub!(:fundable?).and_return(true)
     
-    @investment = mock_model(Investment)
+    @investment = Investment.new
     Investment.stub!(:new).and_return(@investment)
     @investment.stub!(:project).and_return(@project)
+    @investment.stub!(:project_id?).and_return(true)
   end
   
   it "should use DtApplicationController" do
     controller.should be_kind_of(DtApplicationController)
   end
   
-  %w( index show edit update destroy ).each do |m|
+  %w( index show destroy ).each do |m|
     it "should not respond_to the #{m} method" do
       controller.should_not respond_to(m)
     end
   end
   
-  %w( new create ).each do |m|
+  %w( new create edit update ).each do |m|
     it "should respond_to the #{m} method" do
       controller.should respond_to(m)
     end
@@ -61,7 +62,6 @@ describe Dt::InvestmentsController do
     before do 
       @investment.stub!(:user_ip_addr=).and_return("127.0.0.1")
       request.stub!(:remote_ip).and_return("127.0.0.1")
-      controller.stub!(:request).and_return(request)
       controller.stub!(:request).and_return(request)
       @cart = Cart.new
       controller.stub!(:find_cart).and_return(@cart)
@@ -119,6 +119,111 @@ describe Dt::InvestmentsController do
         post 'create'
         response.should redirect_to(dt_cart_path)
       end
+    end
+  end
+  
+  describe "edit action" do
+    before do
+      @investment.stub!(:kind_of?).and_return(true)
+      @cart = Cart.new
+      @cart.stub!(:items).and_return([@investment])
+      controller.stub!(:find_cart).and_return(@cart)
+    end
+    
+    it "should render the edit template" do
+      do_request
+      response.should render_template("edit")
+    end
+    
+    it "should load the cart" do
+      controller.should_receive(:find_cart).and_return(@cart)
+      do_request
+    end
+    
+    it "should load the item from the cart" do
+      @cart.should_receive(:items).twice.and_return([@investment])
+      do_request
+      assigns[:investment].should == @investment
+    end
+    
+    it "should load the project" do
+      @investment.should_receive(:project_id?).and_return(true)
+      @investment.should_receive(:project).and_return(@project)
+      do_request
+      assigns[:project].should == @project
+    end
+    
+    it "should redirect if the item at id/index isn't the right type of object" do
+      @cart.should_receive(:items).and_return([@gift])
+      do_request
+      response.should redirect_to(dt_cart_path)
+    end
+    
+    def do_request
+      get 'edit', :id => 0
+    end
+  end
+
+  describe "update action" do
+    before do
+      @investment.stub!(:kind_of?).and_return(true)
+      @investment.stub!(:attributes=).and_return(true)
+      @investment.stub!(:user_ip_addr=).and_return(true)
+      @investment.stub!(:valid?).and_return(true)
+      @cart = Cart.new
+      @cart.stub!(:items).and_return([@investment])
+      controller.stub!(:find_cart).and_return(@cart)
+    end
+    
+    it "should redirect to dt_cart_path" do
+      do_request
+      response.should redirect_to(dt_cart_path)
+    end
+    
+    it "should load the cart" do
+      controller.should_receive(:find_cart).and_return(@cart)
+      do_request
+    end
+    
+    it "should load the item from the cart" do
+      @cart.should_receive(:items).twice.and_return([@investment])
+      do_request
+      assigns[:investment].should == @investment
+    end
+    
+    it "should update cart" do
+      @cart.should_receive(:update_item).with("0", @investment)
+      do_request
+    end
+
+    it "should add a \"successful\" notice" do
+      do_request
+      flash[:notice].should_not be_blank
+    end
+    
+    it "should redirect and not update cart if the item at id/index isn't the right type of object" do
+      @cart.should_receive(:items).and_return([@gift])
+      @cart.should_not_receive(:update_item)
+      do_request
+      response.should redirect_to(dt_cart_path)
+    end
+    
+    it "should render the edit template if !valid?" do
+      @investment.should_receive(:valid?).and_return(false)
+      do_request
+      response.should render_template("edit")
+    end
+
+    it "should load @project if !valid?" do
+      @investment.should_receive(:valid?).and_return(false)
+      @investment.should_receive(:project_id?).and_return(true)
+      @investment.should_receive(:project).and_return(@project)
+      do_request
+      assigns[:project].should == @project
+    end
+    
+    def do_request
+      put 'update', :id => 0, :investment => {:amount => 50}
     end
   end
 end

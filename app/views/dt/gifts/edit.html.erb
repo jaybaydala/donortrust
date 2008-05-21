@@ -7,7 +7,7 @@
 
 <%= error_messages_for :gift %>
 
-<% form_for(:gift, :url => dt_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
+<% form_for(:gift, :url => dt_gift_path(:id => params[:id]), :html => {:id => "giftform", :name => "giftform", :method => :put}) do |f| %>
 <p>Refocus your holiday spending. Select an image from the Gift Card Gallery in the right column, then enter your personal information and the gift amount in the form below. Be sure to enter your information correctly.</p>
 <div class="userform">
 
@@ -97,7 +97,7 @@
     </ol>
   </fieldset>
 
-  <%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %>
+  <%= submit_tag 'Update Gift', :class => 'buttonsubmit' %>
   
 </div>
 <% end %>

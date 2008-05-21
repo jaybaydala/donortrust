@@ -1,3 +1,5 @@
+require 'cart_helper'
+
 class Dt::InvestmentsController < DtApplicationController
   helper 'dt/places'
   include CartHelper
@@ -11,7 +13,7 @@ class Dt::InvestmentsController < DtApplicationController
     respond_to do |format|
       format.html {
         if @project && !@project.fundable?
-          flash.now[:error] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
+          flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
           redirect_to dt_project_path(@project) and return
         end
       }
@@ -39,9 +41,44 @@ class Dt::InvestmentsController < DtApplicationController
     end
   end
   
-  protected
-  def ssl_required?
-    true
+  def edit
+    @cart = find_cart
+    if @cart.items[params[:id].to_i].kind_of?(Investment)
+      @investment = @cart.items[params[:id].to_i]
+      @project = @investment.project if @investment.project_id?
+    end
+    
+    respond_to do |format|
+      format.html {
+        redirect_to dt_cart_path and return unless @investment
+        render :action => "edit"
+      }
+    end
+  end
+  
+  def update
+    @cart = find_cart
+    if @cart.items[params[:id].to_i].kind_of?(Investment)
+      @investment = @cart.items[params[:id].to_i] 
+      @investment.attributes = params[:investment]
+      @investment.user_ip_addr = request.remote_ip
+      @valid = @investment.valid?
+    end
+    
+    respond_to do |format|
+      if !@investment
+        format.html { redirect_to dt_cart_path }
+      elsif @valid
+        @cart.update_item(params[:id], @investment)
+        format.html {
+          flash[:notice] = "Your Investment has been updated."
+          redirect_to dt_cart_path
+        }
+      else
+        @project = @investment.project if @investment.project_id?
+        format.html { render :action => "edit" }
+      end
+    end
   end
   
   private
