@@ -1,7 +1,6 @@
-<%= dt_account_nav %>
-<div id="contentContainer">
-  <div id="leftColW">
-    <h1>Thanks!</h1>
+<%- content_for :html_title do %>Thanks!<% end -%>
+<%- content_for :nav do %><%= dt_account_nav %><% end -%>
+
 
   	<%= "<p>Your e-card has been emailed.</p>" if @share.sent_at != nil %> 
     
@@ -13,8 +12,6 @@
     	Thanks again,<br />
     	The ChristmasFuture team
     </p>
-  </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
     <%= dt_profile_sidebar %>
-  </div>
-</div>
+  <% end -%>

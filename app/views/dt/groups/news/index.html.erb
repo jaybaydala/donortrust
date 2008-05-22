@@ -1,11 +1,8 @@
-<%= dt_account_nav %>
+<%- content_for :html_title do %><%= @group.name %><% end -%>
+<%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
 <%= dt_group_nav unless @group.private && !@membership %>
 
-<div id="contentContainer">
-  <div id="leftColW">
-
-    <h1><%= @group.name %></h1>
     <h2>Group News</h2>
     <% if current_member && current_member.admin? -%>
     <%= error_messages_for :group_message %>
@@ -20,8 +17,6 @@
     <%= will_paginate @group_messages %>
 
     <%= render :partial => 'dt/groups/news/message', :collection => @group_messages %>
-  </div>
-  <div id="rightColN">
-	  <%= dt_profile_sidebar %>
-  </div>
-</div>
+    <% content_for :sidebar do %>
+	    <%= dt_profile_sidebar %>
+    <% end -%>

@@ -1,4 +1,5 @@
-<%= dt_get_involved_nav %>
+<%- content_for :html_title do -%>My Account<%- end -%>
+<%- content_for :nav do -%><%= dt_get_involved_nav %><%- end -%>
 
 <div id="contentContainer">
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
@@ -12,12 +13,10 @@
     <%= render :partial => 'dt/groups/group', :collection => @groups %>
     <% end %>
 
-  </div>
-  <div id="rightColN">
+<%- content_for :sidebar do -%>
     <div class="buttonGroupWrapN">
       <ul class="buttonGroup">
         <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path %></div></li>
       </ul>
     </div>
-  </div>
-</div>
+<% end %>

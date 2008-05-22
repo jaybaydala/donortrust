@@ -1,12 +1,7 @@
-<%= dt_account_nav %>
+<%- content_for :html_title do %>Post to the Wall<% end -%>
+<%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
 <%= dt_group_nav unless @group.private && !@membership %>
-
-<div id="contentContainer">
-  <div id="leftColW">
-  	<h1>Post to the Wall</h1>
-		<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   
     <%= error_messages_for :wall_message %>
     <% form_for(:wall_message, :url => dt_wall_message_path(@group, @wall_message), :html => { :method => :put, :id => "groupwallmessagesform", :name => "groupwallmessagesform"}) do |f| -%>
@@ -16,7 +11,6 @@
   	</div>
   	<% end %>
   </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
 	  <%= dt_profile_sidebar %>
-  </div>
-</div>
+  <% end %>

@@ -86,8 +86,10 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     padding:0;
     border-bottom:1px #555 solid;
 }
+
 #content-wrapper .userform li {
     font-family:Arial, Helvetica, sans-serif;
+	list-style-type:none;
 }
 .userform div.notes p {
     margin:0;
@@ -311,21 +313,25 @@ CART
 GLOBALNAV SEARCH FORM
 ---------------------*/
 form#search {}
-form#search #searchBox {
+form#search #searchBox, #sidebar #searchBox {
 	border:1px solid #ccc;
 	width: 100px;
 	padding: 1px 2px;
 	vertical-align: middle;
 }
 
+#sidebar #searchBox {
+	width:171px;
+}
+
 /* attribute selector */
-form#search input.submitreplace {
+form#search input.submitreplace, form#groupsearchform input.submitreplace {
     width:35px;
     height:20px;
 	vertical-align: middle;
 	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
 }
-form#search input.submitreplace:hover {
+form#search input.submitreplace:hover, form#groupsearchform input.submitreplace:hover {
 	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
 }
 

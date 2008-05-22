@@ -1,6 +1,4 @@
-<div id="contentContainer">
-  <div id="leftColW">
-  	<h1>Open your gift!</h1>
+<%- content_for :html_title do -%>Open your gift!<%- end -%>
     <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
     <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   	<% if @gift -%>
@@ -27,9 +25,7 @@
   		</div>
   		<%= submit_tag 'open your gift', :class => 'buttonsubmit' %>
   		<% end -%>
+
+    <%- content_for :sidebar do -%>
+      <%= dt_profile_sidebar %>
   	<% end -%>
-  </div>
-  <div id="rightColN">
-    <%= dt_profile_sidebar %>
-  </div>
-</div>

@@ -18,12 +18,12 @@ ActionController::Routing::Routes.draw do |map|
     end
     dt.resource :session, :controller => 'sessions'
     dt.resources :gifts, :controller => 'gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :put }
-    dt.resources :groups, :controller=> 'groups' do |group|
-      group.resources :memberships, :controller => 'groups/memberships', :member => { :promote => :put, :demote => :put }
-      group.resources :group_projects, :controller => 'group_projects'
-      group.resources :invitations, :controller => 'invitations'
-      group.resources :messages, :controller => 'groups/news'
-      group.resources :wall_messages, :controller => 'groups/wall_messages'
+    dt.resources :groups, :controller=> 'groups' do |groups|
+      groups.resources :memberships, :controller => 'groups/memberships', :member => { :promote => :put, :demote => :put }
+      groups.resources :group_projects, :controller => 'group_projects'
+      groups.resources :invitations, :controller => 'invitations'
+      groups.resources :messages, :controller => 'groups/news'
+      groups.resources :wall_messages, :controller => 'groups/wall_messages'
     end
     dt.resources :wishlists, :controller=> 'wishlists'
     dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :confirm => :post, :preview => :get }

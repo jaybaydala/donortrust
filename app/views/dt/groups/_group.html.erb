@@ -6,7 +6,7 @@
       <%= group.description %>&nbsp; &#8250; <%= link_to "Read more...", dt_group_path(group) %>
       </p>
   </div>
-  <div id="factList">
+  <div class="content-quickfacts">
     <h2>Quick Facts</h2>
     <ul>
       <% if group.place? %><li><strong>Location:</strong> <%= group.place %></li><% end %>
@@ -15,7 +15,7 @@
       <li><strong>Number of Members:</strong> <%= group.memberships.size %></li>
       <li><strong>Lives Affected:</strong> <%= group.lives_affected %></li>
       <li><strong>Raised:</strong> <%= number_to_currency(group.raised) %></li>
-      <li class="blueblock">&nbsp;<% if current_member(group) %><%= link_to "Leave Group", dt_memberships_path(:group_id => group.id, :id => current_member(group).id), :method => 'delete', :confirm => "Do you want to leave #{group.name}?" %><% else %><%= link_to "Join Group", dt_memberships_path(group), :method => :post, :confirm => "Do you want to join #{group.name}?" %><% end %></li>
+      <li class="blueblock">&nbsp;<% if current_member(group) %><%= link_to "Leave Group", dt_group_membership_path(group, current_member(group)), :method => 'delete', :confirm => "Do you want to leave #{group.name}?" %><% else %><%= link_to "Join Group", dt_group_memberships_path(group), :method => :post, :confirm => "Do you want to join #{group.name}?" %><% end %></li>
     </ul>
   </div>
 </div>

@@ -1,7 +1,6 @@
-<%= dt_account_nav if logged_in? %>
-<div id="contentContainer">
-  <div id="leftColW">
-  <h1>Tell a Friend Confirmation</h1>
+<%- content_for :html_title do %>Tell a Friend Confirmation<% end -%>
+<%- content_for :nav do %><%= dt_account_nav if logged_in? %><% end -%>
+
   <%= error_messages_for :share %>
   <% form_for(:share, :url => dt_send_message_my_wishlists_path(:account_id => current_user), :html => {:id => "wishlistform", :name => "wishlistform"}) do |f| %>
   <p>Please review your information.</p>
@@ -36,9 +35,7 @@
     <input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
   </div>
   <% end %>
-  </div>
-
-  <div id="rightColN">
+  <% content_for :sidebar do %>
     <h2>E-Card</h2>
     <div id="miniGallery">
         <p>This is the e-card you have selected to send.</p>
@@ -47,5 +44,4 @@
         </div>
         <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('wishlistform'));window.open('<%= dt_preview_my_wishlists_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
       </div>  
-  </div>
-</div>
+  <% end %>

@@ -1,14 +1,10 @@
-<%= dt_account_nav %>
-<div id="contentContainer">
-  <div id="leftColW">
-  	<h2>Group Members</h2>
+<%- content_for :html_title do %>Group Members<% end -%>
+<%- content_for :nav do %><%= dt_get_involved_nav %><% end -%>
 	
   	<ul id="membership-list">
   	<%= render_partial_collection 'dt/memberships/membership', @memberships if @memberships %>
   	</ul>
 
-  </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
 	  <%= dt_profile_sidebar %>
-  </div>
-</div>
+  <% end %>

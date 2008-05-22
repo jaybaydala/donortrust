@@ -10,7 +10,7 @@
       <li class="blueblock"><%= link_to "Make a Deposit", new_dt_account_deposit_path(:account_id => current_user) %></li>
       <li class="blueblock"><%= link_to "Logout", dt_logout_path %></li>
       <% if @group && !@group.new_record? %>
-      <% if !current_member(@group) || !current_member(@group).founder? %><li class="blueblock"><% if current_member(@group) %><%= link_to "&nbsp;Leave Group", dt_group_membership_path(:id => current_member(@group).id, :group_id => @group.id), :method => 'delete', :confirm => "Do you want to leave #{@group.name}?" %><% else %><%= link_to "&nbsp;Join This Group", dt_memberships_path(@group), :method => :post, :confirm => "Do you want to join #{@group.name}?" %><% end %></li><% end %>
+      <% if !current_member(@group) || !current_member(@group).founder? %><li class="blueblock"><% if current_member(@group) %><%= link_to "&nbsp;Leave Group", dt_group_membership_path(:id => current_member(@group).id, :group_id => @group.id), :method => 'delete', :confirm => "Do you want to leave #{@group.name}?" %><% else %><%= link_to "&nbsp;Join This Group", dt_group_memberships_path(@group), :method => :post, :confirm => "Do you want to join #{@group.name}?" %><% end %></li><% end %>
       <% if current_member(@group) && current_member(@group).founder? %><li class="blueblock"><%= link_to "&nbsp;Delete this Group", dt_group_path(@group), :method => :delete, :confirm => "Do you want to delete #{@group.name}?" %></li><% end %>
       <% end %>
   	</ul>

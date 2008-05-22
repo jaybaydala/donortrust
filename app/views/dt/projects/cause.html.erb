@@ -1,14 +1,13 @@
-        <div class="projectInfo" style="margin-top:10px;">
-          <div class="leftColW">
+
             <% if @cause.nil? %>
             <p>We could not locate the cause</p>
             <% else %>
-            <h2><%=h @cause.name %></h2>
+            <%- content_for :html_title do %><%=h @cause.name %><% end -%>
             <p><%= @cause.description %></p>
             <% end %>
             <p style="text-align:center;"><a href="javascript:window.close();">Close Window</a></p>
-          </div>
-          <div class="factList">
+          <% content_for :sidebar do %>
+          <div class="quickfacts">
             <% unless @project.nil? %><%= project_quickfacts %><% end %>
           </div>
-        </div>
+          <% end %>

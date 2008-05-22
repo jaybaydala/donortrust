@@ -1,14 +1,9 @@
-<div id="subSubNav_2col">
-  <ul class="pageNav">
-    <li<%= ' class="currentPg"' if params[:controller] == 'dt/groups' && params[:action] == 'show' %>><%= link_to "Group Overview", dt_group_path(@group) %></li>
-    <li<%= ' class="currentPg"' if params[:controller] == 'dt/group_projects' && params[:action] == 'index' %>><%= link_to "Group Projects", dt_group_group_projects_path(@group) %></li>
-    <li<%= ' class="currentPg"' if params[:controller] == 'dt/groups/memberships' %>><%= link_to "Members", dt_group_memberships_path(@group) %></li>
-    <li<%= ' class="currentPg"' if params[:controller] == 'dt/groups/news' %>><%= link_to "Group News", dt_group_messages_path(@group) %></li>
+<div id="subnav">
+  <ul>
+    <li<%= ' class="current"' if params[:controller] == 'dt/groups' && params[:action] == 'show' %>><%= link_to "Group Overview", dt_group_path(@group) %></li>
+    <li<%= ' class="current"' if params[:controller] == 'dt/group_projects' && params[:action] == 'index' %>><%= link_to "Group Projects", dt_group_group_projects_path(@group) %></li>
+    <li<%= ' class="current"' if params[:controller] == 'dt/groups/memberships' %>><%= link_to "Members", dt_group_memberships_path(@group) %></li>
+    <li<%= ' class="current"' if params[:controller] == 'dt/groups/news' %>><%= link_to "Group News", dt_group_messages_path(@group) %></li>
   </ul>
-  <div class="buttonGroupWrapN">
-    <ul class="buttonGroup">
-      <li><div id="buttonCreateGroup"><%= link_to "Create Group", new_dt_group_path %></div></li>
-      <% if current_member(@group) && current_member(@group).admin? %><li><div id="buttonDeleteGroup"><%= link_to "Delete Group", dt_group_path(@group), :method => :delete, :confirm => 'Are you absolutely sure you want to delete this group?' %></div></li><% end %>
-    </ul>
-  </div>
-</div>
+</div>  
+

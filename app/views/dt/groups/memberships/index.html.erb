@@ -1,12 +1,7 @@
-<%= dt_get_involved_nav %>
+<%- content_for :html_title do %><%=h @group.name %> Members<% end -%>
+<%- content_for :nav do %><%= dt_get_involved_nav %><% end -%>
 
 <%= dt_group_nav %>
-<div id="contentContainer">
-  <div id="leftColW">
-    <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-    <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  
-    <h1><%=h @group.name %> Members</h1>
 
     <% if @invitation %>
     <% form_for :invitation, @invitation, :url => dt_invitations_path(:group_id => @group), :html => {:id => 'invitationform'} do |f| %>
@@ -27,7 +22,7 @@
 		<% end %>
   
     <% if @memberships.size > 0 %>
-    <div id="memberList">
+    <div id="memberlist">
       <p class="textsm"><%= @memberships.total_entries %> Members Total</p>
       <%= will_paginate @memberships %>
       <ul>
@@ -43,8 +38,6 @@
     <% else %>
       <p>There are currently no members in this group.</p>
     <% end %>
-  </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
 	  <%= dt_profile_sidebar %>
-	</div>
-</div>
+    <% end %>

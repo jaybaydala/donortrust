@@ -1,14 +1,10 @@
-<%= dt_get_involved_nav %>
+<%- content_for :html_title do %><%= @group.name %> Project Wishlist<% end -%>
+<%- content_for :nav do %><%= dt_get_involved_nav %><% end -%>
+
 <%= dt_group_nav %>
 
-<div id="contentContainer">
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  <div id="leftColW">
-    <h1><%= @group.name %> Project Wishlist</h1>
-
     <div class="tableHeader">
-			<div style="float:left; ">Our Projects</div>
+			<h2>Our Projects</h2>
 			<% if current_member(@group) && current_member(@group).admin? %>
 			<div class="tableHeader_button"><div id="addProjButton"><%= link_to "Add New Project", dt_projects_path %></div></div>
 			<% end %>
@@ -23,11 +19,9 @@
     <p>The group has no active projects. Invest in a wishlist project to get started!</p>
   	<% end %>	
 
-    <div class="tableHeader">
-      <div style="float:left; ">Our Wishlist</div>
-    </div>
+    <h2>Our Wishlist</h2>
     <% if @projects_watched.size > 0 %>
-    <div id="tableList">
+    <div id="projectlist">
       <ul>
         <%= render :partial => 'project', :collection => @projects_watched %>
       </ul>
@@ -40,8 +34,8 @@
     <% if current_member(@group) && current_member(@group).admin? %>
     <% end %>
     <p><%= link_to "Find a project", dt_projects_path %> to add to your group so you can change the world together.</p>-->
-  </div>
-  <div id="rightColN">
+
+  
+  <% content_for :sidebar do %>
     <%= dt_profile_sidebar %>
-  </div>
-</div>
+    <% end %>

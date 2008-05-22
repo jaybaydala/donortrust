@@ -1,4 +1,4 @@
-<li id="membership-<%= membership.id %>">
+<li id="membership-<%= membership.id %>" class="clearfix">
 	<div class="name"><%= membership.user.name %></div>
 	<div class="date"><%= membership.created_at? ? membership.created_at.to_date.to_formatted_s(:dt_default) : '&nbsp;' %></div>
 	<div class="mtype">

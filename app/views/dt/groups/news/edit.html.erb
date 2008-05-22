@@ -1,12 +1,7 @@
-<%= dt_account_nav %>
+<%- content_for :html_title do %>Edit Admin Message<% end -%>
+<%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
 <%= dt_group_nav unless @group.private && !@membership %>
-
-<div id="contentContainer">
-  <div id="leftColW">
-  	<h1>Edit Admin Message</h1>
-		<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   
     <%= error_messages_for :group_news %>
     <% form_for(:group_news, :url => dt_message_path(@group, @group_news), :html => { :method => 'put', :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
@@ -15,8 +10,6 @@
     	<%= submit_tag 'Update Admin Message', :class => 'buttonsubmit' %>
   	</div>
   	<% end %>
-  </div>
-  <div id="rightColN">
-	  <%= dt_profile_sidebar %>
-  </div>
-</div>
+    <% content_for :sidebar do %>
+	    <%= dt_profile_sidebar %>
+    <% end %>

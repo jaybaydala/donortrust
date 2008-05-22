@@ -1,7 +1,5 @@
-<%= dt_account_nav %>
-<div id="contentContainer">
-  <div id="leftColW">
-    <h1>Thanks!</h1>
+<%- content_for :html_title do -%>Thanks!<%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
     <p>Thanks kind gifter! With your generous gift of <%= number_to_currency(@gift.amount) %> we're one gift closer to changing the world...for good. </p>
     <% if @cf_investment %><p>We also thank you for supporting the ChristmasFuture Foundation directly!</p><% end %>
     <p>The email notification about your gift has been <%= @gift.sent_at? ? 'sent' : 'scheduled' %>. If the gift isn't unwrapped within 30 days of delivery, we will notify you.</p>
@@ -13,7 +11,6 @@
     	The ChristmasFuture team
     </p>
   </div>
-  <div id="rightColN">
+<%- content_for :sidebar do -%>
     <%= dt_profile_sidebar %>
-  </div>
-</div>
+<%- end -%>

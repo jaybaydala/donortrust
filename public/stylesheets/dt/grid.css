@@ -21,12 +21,17 @@
 	width:100%;
 }
 
-#content-wrapper {
+#content-wrapper, #content-plain-wrapper {
     width:492px;
     border-right:232px solid transparent; /* The width and color of the rail */
     margin-right:-232px; /* Hat tip to Ryan Brill */
     float:left;
 }
+
+#content-plain-wrapper {
+    width:472px;
+}
+
 #content {
     margin-right:18px;
 }
@@ -41,6 +46,11 @@
 
 #sidebar-wrapper {
     width:232px;
+    float:left;
+}
+
+#sidebar-plain-wrapper {
+    width:222px;
     float:left;
 }
 

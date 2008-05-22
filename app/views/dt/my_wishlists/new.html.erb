@@ -1,6 +1,5 @@
-<div id="contentContainer">
-  <div id="leftColW">
-    <h1>My Wishlist</h1>
+<%- content_for :html_title do %>My Wishlist<% end -%>
+
     <% if params[:project_id] && @project %>
     <% form_tag dt_my_wishlists_path(:account_id => current_user), :id => 'wishlistform' do %>
       <div class="userform">
@@ -14,8 +13,6 @@
     <% else %>
     <p>You need to <%= link_to "choose a project", dt_projects_path %> to add to your wishlist</p>
     <% end %>
-  </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
     <%= dt_profile_sidebar %>
-  </div>
-</div>
+  <% end %>

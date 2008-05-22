@@ -7,8 +7,8 @@
         </div>
         <div class="textsm">
           <span class="linkMinor">
-          <% if project.fundable? %><%= link_to "INVEST IN THIS PROJECT", dt_new_investment_path(:account_id => current_user, :project_id => project) %><% end %>
-          <% if current_member(@group) && current_member(@group).admin? %> | <%= link_to "REMOVE PROJECT", dt_group_project_path(@group, project.id), :method => :delete %><% end %>
+          <% if project.fundable? %><%= link_to "INVEST IN THIS PROJECT", new_dt_investment_path(:account_id => current_user, :project_id => project) %><% end %>
+          <% if current_member(@group) && current_member(@group).admin? %> | <%= link_to "REMOVE PROJECT", dt_group_group_project_path(@group, project.id), :method => :delete %><% end %>
           </span>
         </div>
       </li>

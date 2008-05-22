@@ -68,7 +68,7 @@ SUBNAV
 ======*/
 #subnav {}
 #subnav ul {
-    border-bottom:0.0625em solid #CCC;
+    border-bottom:1px solid #CCC;
     padding:0.5625em 0;
 }
 #subnav li {
@@ -86,7 +86,7 @@ SUBNAV
 #subnav li a:hover, #subnav li a:active {
     border:0.0625em solid #F60;
 }
-#subnav a.current, #subnav a.current:link, #subnav a.current:visited, #subnav a.current:hover, #subnav a.current:active {
+#subnav li.current a, #subnav li.current a:link, #subnav li.current a:visited, #subnav li.current a:hover, #subnav li.current a:active {
     background-color:#66758B;
     color:#FFF;
 }
