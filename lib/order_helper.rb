@@ -30,6 +30,7 @@ module OrderHelper
   def initialize_existing_order
     @order.attributes = params[:order]
     @order.total = @cart.total
+    @order.credit_card_total = @order.total unless logged_in? && current_user.balance > 0
     @order.user_id = current_user.id if logged_in?
     @order
   end

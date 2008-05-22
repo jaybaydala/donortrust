@@ -47,7 +47,7 @@ class Order < ActiveRecord::Base
       errors.add(:account_balance_total, "cannot be more than your current balance") if self[:account_balance_total].to_f > current_balance
     end
     errors.add_to_base("Please ensure you're paying the full amount.") if self[:total].to_f > (self[:credit_card_total].to_f + self[:account_balance_total].to_f)
-    errors.add_on_blank(%w(credit_card csc expiry_month expiry_year cardholder_name )) if minimum_credit_card_payment > 0 || account_balance_total < total
+    errors.add_on_blank(%w(credit_card csc expiry_month expiry_year cardholder_name )) if minimum_credit_card_payment.to_f > 0 || account_balance_total.to_f < total
     errors.empty?
   end
   

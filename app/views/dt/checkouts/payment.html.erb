@@ -52,6 +52,8 @@
       <li class="odd"><label>Put on My Credit Card:</label> <%= f.text_field :credit_card_total %></li>
       <li style="display:none;" id="totalfield"><label>Total Paid:</label> <%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :onfocus => "blur();" %></li>
     </ol>
+    <% else %>
+    <%= f.hidden_field :credit_card_total %>
     <% end %>
 
     <div id="credit_card_details">

@@ -72,7 +72,7 @@
     <ol class="clearfix" style="margin:6px 0 0 0;">
       <li><label>Credit Card</label><%=h @order.credit_card_concealed %></li>
       <li><label>Card Security Number</label> <%=h @order.csc.gsub(/./, "*") if @order.csc? %></li>
-      <li><label>Card Expiry</label> <%=h @order.expiry_month %> / <%=h @order.expiry_year %></li>
+      <li><label>Card Expiry</label> <%=h @order.expiry_month.to_s.rjust(2, "0") %>/<%=h @order.expiry_year %></li>
       <li><label>Cardholder Name</label> <%=h @order.cardholder_name %></li>
     </ol>
   </fieldset>
