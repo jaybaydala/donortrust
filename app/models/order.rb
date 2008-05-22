@@ -1,6 +1,14 @@
 class Order < ActiveRecord::Base
-  
+  has_many :investments
+  has_many :gifts
+  has_many :deposits
+  before_save :truncate_credit_card
 
+  def initialize(params = nil)
+    super
+    self.donor_type ||= self.class.personal_donor
+  end
+  
   def self.personal_donor
     "personal"
   end
@@ -13,77 +21,48 @@ class Order < ActiveRecord::Base
   end
   
   def account_balance_total=(val)
-    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+    val = strip_dollar_sign(val)
     super(val)
   end
   def credit_card_total=(val)
-    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+    val = strip_dollar_sign(val)
     super(val)
   end
-  def amount=(val)
-    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+  def total=(val)
+    val = strip_dollar_sign(val)
     super(val)
-  end
-  
-  def complete?
-    # authorization_result?
-    true
   end
   
   def card_expiry
-    load_card_expiry_from_month_and_year
-    super
-  end
-  def card_expiry=(value)
-    if value.kind_of?(String)
-      if value.match(/^\d\d\d\d$/)
-        value = Array[ value[0,2], value[2,2] ]
-      elsif value.match(/^\d{1,2}\/(\d\d)|(\d\d\d\d)$/)
-        value = value.split('/')
-      elsif value.match(/^\d\d \d\d$/)
-        value = value.split(' ')
-      end
-    end
-    if value && value.kind_of?(String)
-      begin
-        tmp = Date.parse(value)
-        date = Date.civil(tmp.year, tmp.month, -1)
-      rescue ArgumentError
-        date = nil
-      end
-    elsif value && value.kind_of?(Array)
-      year = value[1]
-      year = (Date.today.year.to_s[0,2] + value[1]) if value[1].length == 2
-      date = Date.civil(year.to_i, value[0].to_i, -1)
-    elsif value && value.kind_of?(Date)
-      tmp = value
-      date = Date.civil(tmp.year, tmp.month, -1)
-    end
-    write_attribute(:card_expiry, date) if date
-    return false if !date
+    "#{expiry_month.to_s.rjust(2, "0")}/#{expiry_year}"
   end
   
-  attr_accessor :expiry_month, :expiry_year
-  def expiry_month
-    @expiry_month = card_expiry.month if !@expiry_month && card_expiry?
-    @expiry_month
-  end
-  def expiry_month=(month)
-    @expiry_month = month.to_i unless month.nil?
-  end
-  def expiry_year=(year)
-    year = year.to_s
-    @expiry_year = (Date.today.year.to_s[0,2] + year) if year && year.length == 2
-    @expiry_year = (Date.today.year.to_s[0,3] + year) if year && year.length == 1
-    @expiry_year = @expiry_year.to_i unless @expiry_year.nil?
-  end
-  def expiry_year
-    @expiry_year = card_expiry.year if !@expiry_year && card_expiry?
-    @expiry_year
+  def validate_billing
+    errors.add_on_blank(%w(donor_type title first_name last_name address city postal_code province country email))
+    errors.add(:email, :message => "isn't a valid email address") unless self[:email].to_s =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+    errors.empty?
   end
   
-  protected
-  def load_card_expiry_from_month_and_year
-    self[:card_expiry] = Date.civil(expiry_year, expiry_month) if attribute_names.include?('card_expiry') && !card_expiry? && expiry_year && expiry_month
+  def validate_payment(minimum_credit_card_payment, current_balance = nil)
+    errors.add(:credit_card_total, "must be at least the value of the deposits") if self[:credit_card_total].to_f < minimum_credit_card_payment.to_f
+    unless current_balance.nil?
+      errors.add(:account_balance_total, "cannot be more than your current balance") if self[:account_balance_total].to_f > current_balance
+    end
+    errors.add_to_base("Please ensure you're paying the full amount.") if self[:total].to_f > (self[:credit_card_total].to_f + self[:account_balance_total].to_f)
+    errors.add_on_blank(%w(credit_card csc expiry_month expiry_year cardholder_name )) if minimum_credit_card_payment > 0 || account_balance_total < total
+    errors.empty?
+  end
+  
+  def validate_confirmation
+    errors.empty?
+  end
+  
+  private
+  def strip_dollar_sign(val)
+    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+  end
+
+  def truncate_credit_card
+    self.credit_card = credit_card.to_s[-4, 4] if self.credit_card?
   end
 end

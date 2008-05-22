@@ -3,6 +3,7 @@ class Deposit < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :gift
+  belongs_to :order
   has_one :user_transaction, :as => :tx
 
   validates_presence_of :amount

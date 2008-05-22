@@ -7,6 +7,7 @@ class Gift < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
   belongs_to :e_card
+  belongs_to :order
   has_one :deposit
   has_one :user_transaction, :as => :tx
 #  has_many :gift_lists

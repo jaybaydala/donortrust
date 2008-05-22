@@ -1,8 +1,8 @@
-require 'cart_helper'
+require 'order_helper'
 
 class Dt::InvestmentsController < DtApplicationController
   helper 'dt/places'
-  include CartHelper
+  include OrderHelper
   
   def new
     @investment = Investment.new( params[:investment] )

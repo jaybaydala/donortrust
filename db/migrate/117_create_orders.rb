@@ -13,22 +13,34 @@ class CreateOrders < ActiveRecord::Migration
       t.string  :province
       t.string  :postal_code
       t.string  :email
-      t.decimal  :total, :precision => 12, :scale => 2
-      t.decimal  :account_balance_total, :precision => 12, :scale => 2
-      t.decimal  :credit_card_total, :precision => 12, :scale => 2
-      t.string  :credit_card
-      t.string  :csc
-      t.string  :card_expiry
+      t.decimal :total, :precision => 12, :scale => 2
+      t.decimal :account_balance_total, :precision => 12, :scale => 2
+      t.decimal :credit_card_total, :precision => 12, :scale => 2
+      t.string  :credit_card,   :limit => 4
+      t.string  :csc,           :limit => 5
+      t.integer :expiry_month, :limit => 2
+      t.integer :expiry_year,  :limit => 4
       t.string  :cardholder_name
       t.string  :authorization_result
       t.integer :order_number
       t.integer :user_id
+      t.boolean :complete
     end
     add_index "orders", ["order_number"], :name => "order_number"
     add_index "orders", ["user_id"], :name => "user_id"
+
+    add_column :gifts, :order_id, :integer
+    add_column :investments, :order_id, :integer
+    add_column :deposits, :order_id, :integer
+    add_index "gifts",       ["order_id"], :name => "order_id"
+    add_index "investments", ["order_id"], :name => "order_id"
+    add_index "deposits",    ["order_id"], :name => "order_id"
   end
 
   def self.down
     drop_table :orders
+    remove_column :gifts, :order_id
+    remove_column :investments, :order_id
+    remove_column :deposits, :order_id
   end
 end

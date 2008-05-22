@@ -117,6 +117,21 @@ describe Cart do
     end
   end
   
+  describe "minimum_credit_card_payment" do
+    before do
+      @deposit1 = mock_model(Deposit, :amount => 50.0, :valid? => true)
+      @deposit2 = mock_model(Deposit, :amount => 60.0, :valid? => true)
+      @cart.add_item(@deposit1)
+      @cart.add_item(@deposit2)
+      @cart.add_item(@gift)
+      @cart.add_item(@investment)
+    end
+    
+    it "should return the sum of all deposits" do
+      @cart.minimum_credit_card_payment.should == @deposit1.amount + @deposit2.amount
+    end
+  end
+  
   it "should be empty?" do
     @cart.empty?.should == true
   end

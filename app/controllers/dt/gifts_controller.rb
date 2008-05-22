@@ -1,9 +1,9 @@
-require 'cart_helper'
+require 'order_helper'
 
 class Dt::GiftsController < DtApplicationController
   helper "dt/places"
   before_filter :login_required, :only => :unwrap
-  include CartHelper
+  include OrderHelper
   
   CANADA = 'canada'
   

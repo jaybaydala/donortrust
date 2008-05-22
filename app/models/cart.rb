@@ -23,11 +23,31 @@ class Cart
 	end
 	
 	def total
-	  @total = @items.inject(0.0){|sum, item| sum + item.amount}
+	  @total = @items.inject(0.0){|sum, item| sum + item.amount.to_f}
   end
 
   def remove_item(index)
     @items.delete_at(index.to_i) if @items[index.to_i]
+  end
+  
+  def minimum_credit_card_payment
+    minimum = 0
+    @items.each do |item|
+      minimum += item.amount if item.class == Deposit
+    end
+    minimum
+  end
+
+  def cf_investment
+    cf_investment = nil
+    if Project.cf_admin_project
+      cf_investment = @items.detect{|item| item.is_a?(Investment) and item.project_id? and item.project_id == Project.cf_admin_project.id }
+    end
+    cf_investment
+  end
+  
+  def cf_investment_index
+    @items.index(cf_investment) if cf_investment
   end
   
   private

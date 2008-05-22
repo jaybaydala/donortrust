@@ -1,8 +1,8 @@
-require 'cart_helper'
+require 'order_helper'
 class Dt::DepositsController < DtApplicationController
   helper 'dt/places'
   before_filter :login_required
-  include CartHelper
+  include OrderHelper
   
   CANADA = 'canada'
   

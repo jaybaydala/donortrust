@@ -1,6 +1,6 @@
-require 'cart_helper'
+require 'order_helper'
 class Dt::CartController < DtApplicationController
-  include CartHelper
+  include OrderHelper
   def show
     @cart = find_cart
   end

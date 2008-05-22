@@ -1,5 +1,8 @@
 Event.observe(window, 'load', function() {
-	if (form = $('paymentform')) {
+	if (form = $('orderform') && $('create_account') && $('create_account').checked) {
+	    $('password_entry').show();
+	}
+	if (form = $('paymentform') && $('totalfield')) {
 	    $('totalfield').show();
 	    new AccountTotal.initialize(form)
 	}
@@ -19,7 +22,6 @@ var AccountTotal = {
 		AccountTotal.update()
 	},
 	update: function() {
-	    
 	    account_amount_field = $(AccountTotal.account_amount_field)
 	    cc_amount_field = $(AccountTotal.cc_amount_field)
 	    cart_total_field = $(AccountTotal.cart_total_field)
@@ -54,7 +56,23 @@ var AccountTotal = {
 		    account_amount_field.value = AccountTotal.to_currency(account_amount)
 		    cc_amount_field.value = AccountTotal.to_currency(cc_amount)
 			total_field.value = AccountTotal.to_currency(total)
-		}
+		} else if (!account_amount_field && !balance_field && cc_amount_field && cart_total_field && total_field) {
+		    // gather the values
+			cc_amount = AccountTotal.filter_amount(cc_amount_field.value)
+			cart_total = AccountTotal.filter_amount(cart_total_field.value)
+			// add up the total
+			total = AccountTotal.filter_amount(cc_amount)
+			// total payment can't be bigger than the cart_total
+			if (total > cart_total) {
+			    cc_amount -= total - cart_total;
+			    cc_amount_field.value = AccountTotal.to_currency(cc_amount);
+			    AccountTotal.update();
+			    return;
+			}
+			// update all the visible fields
+		    cc_amount_field.value = AccountTotal.to_currency(cc_amount)
+			total_field.value = AccountTotal.to_currency(total)
+        }
 	},
 	filter_amount: function(amount) {
 	    if (typeof(amount) == 'string') {

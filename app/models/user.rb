@@ -231,10 +231,10 @@ class User < ActiveRecord::Base
     end
 
     def calculate_orders
-      orders = Order.find(:all, :conditions => { :user_id => self[:id] })
+      orders = Order.find(:all, :conditions => { :user_id => self[:id], :complete => true })
       balance = 0
       orders.each do |trans|
-        balance = balance + trans.account_balance_total
+        balance = balance + trans.account_balance_total.to_f
       end
       balance
     end

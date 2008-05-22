@@ -60,6 +60,11 @@ textarea {
     border:1px solid #999999;
 }
 
+div.fieldWithErrors {
+    display:inline;
+    padding:5px 2px;
+    background:#C99;
+}
 /*
 DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 =====================*/
@@ -254,6 +259,10 @@ div.checkoutbuttons {
     float:right;
 }
 div.checkoutbuttons div.buttonsubmit {}
+
+#card_expiry div.fieldWithErrors {
+    display:inline;
+}
 
 /*
 GIFT FORM
