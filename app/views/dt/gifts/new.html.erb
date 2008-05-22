@@ -90,7 +90,8 @@
             :start_year => Time.now.year, 
             :end_year => Time.now.year+1, 
             :discard_second => true, 
-            :minute_step=> 30 %>
+            :minute_step=> 30,
+            :default => 1.hour.from_now %>
             <%= select_tag :time_zone, time_zone_options_for_select('Mountain Time (US & Canada)')%>
         </div>
       </li>

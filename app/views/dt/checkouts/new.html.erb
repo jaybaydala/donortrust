@@ -6,10 +6,9 @@
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
 <h2>Step 1 of 3 - Billing Information</h2>
-<%= @order.order_number %>
 <%= error_messages_for "order" %>
 <% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform"}) do |f| %>
-<%= render 'dt/checkouts/billing', :locals => {:f => f} %>
+<%= render :partial => 'billing', :locals => {:f => f} %>
 <% end %>
 
 <%- content_for :sidebar do -%>

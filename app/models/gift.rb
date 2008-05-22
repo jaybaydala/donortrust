@@ -24,7 +24,6 @@ class Gift < ActiveRecord::Base
   before_validation :trim_mailtos
   after_create :user_transaction_create, :tax_receipt_create
   
-  
   def sum
     return credit_card ? 0 : super * -1
   end

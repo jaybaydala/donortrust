@@ -3,12 +3,24 @@ require 'pdf_proxy'
 include PDFProxy
 
 class Dt::TaxReceiptsController < DtApplicationController
-  before_filter :login_required, :only => [ :show ]
+  # before_filter :login_required, :only => [ :show ]
 
   def show
-    @receipt = TaxReceipt.find(id=params[:id])
+    if params[:code]
+      @receipt = TaxReceipt.find_by_id_and_view_code(params[:id], params[:code])
+    else params[:id]
+      @receipt = TaxReceipt.find(params[:id])
+      @receipt = nil unless authorized?
+    end
     respond_to do |format|
-      format.pdf{
+      format.html {
+        unless @receipt
+          flash[:notice] = "We are sorry, but you can only download your own receipts."
+          redirect_to(:controller => 'dt/accounts', :action => 'show', :id => current_user.id) and return if logged_in?
+          redirect_to(dt_projects_path) and return
+        end
+      }
+      format.pdf {
         proxy = create_pdf_proxy(@receipt)
         send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
         proxy.post_render
@@ -17,16 +29,8 @@ class Dt::TaxReceiptsController < DtApplicationController
   end
 
   def authorized?
-    receipt = TaxReceipt.find(id=params[:id])
+    return false unless logged_in?
+    receipt = TaxReceipt.find(params[:id])
     current_user.id == receipt.user.id ? true : false
   end
-
-  def access_denied
-    respond_to do |format|
-      #(dt_account_path(current_user.id))
-      flash[:notice] = "We are sorry, but you can only download your own receipts."
-      format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
-    end
-  end
-
 end

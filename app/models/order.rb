@@ -2,6 +2,7 @@ class Order < ActiveRecord::Base
   has_many :investments
   has_many :gifts
   has_many :deposits
+  has_one :tax_receipt
   before_save :truncate_credit_card
 
   def initialize(params = nil)
@@ -21,16 +22,13 @@ class Order < ActiveRecord::Base
   end
   
   def account_balance_total=(val)
-    val = strip_dollar_sign(val)
-    super(val)
+    write_attribute(:account_balance_total, strip_dollar_sign(val))
   end
   def credit_card_total=(val)
-    val = strip_dollar_sign(val)
-    super(val)
+    write_attribute(:credit_card_total, strip_dollar_sign(val))
   end
   def total=(val)
-    val = strip_dollar_sign(val)
-    super(val)
+    write_attribute(:total, strip_dollar_sign(val))
   end
   
   def card_expiry
@@ -38,7 +36,7 @@ class Order < ActiveRecord::Base
   end
   
   def validate_billing
-    errors.add_on_blank(%w(donor_type title first_name last_name address city postal_code province country email))
+    errors.add_on_blank(%w(donor_type first_name last_name address city postal_code province country email))
     errors.add(:email, :message => "isn't a valid email address") unless self[:email].to_s =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
     errors.empty?
   end
@@ -57,9 +55,35 @@ class Order < ActiveRecord::Base
     errors.empty?
   end
   
+  def create_tax_receipt_from_order
+    if self.credit_card_total?
+      self.tax_receipt = TaxReceipt.new do |t|
+        t.first_name   = self.first_name
+        t.last_name    = self.last_name
+        t.email        = self.email
+        t.address      = self.address
+        t.city         = self.city
+        t.province     = self.province
+        t.postal_code  = self.postal_code
+        t.country      = self.country
+        t.user_id      = self.user_id
+      end
+    end
+  end
+  
+  def self.generate_order_number
+    record = Object.new
+    while record
+      random = rand(9999999999)
+      record = find(:first, :conditions => ["order_number = ?", random])
+    end
+    return random
+  end
+  
   private
   def strip_dollar_sign(val)
     val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+    val.to_f
   end
 
   def truncate_credit_card

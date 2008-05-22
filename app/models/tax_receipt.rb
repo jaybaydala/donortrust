@@ -5,6 +5,9 @@ class TaxReceipt < ActiveRecord::Base
   belongs_to :investment
   belongs_to :gift
   belongs_to :deposit
+  belongs_to :order
+
+  before_create :make_view_code
 
   # make all fields required
   validates_presence_of :email
@@ -22,5 +25,26 @@ class TaxReceipt < ActiveRecord::Base
 
   def id_display
     return id.to_s.rjust(10,'0') if id
+  end
+  
+  def make_view_code
+    code = TaxReceipt.generate_view_code
+    # ensure it's not currently being used
+    if !TaxReceipt.find_by_view_code(code)
+      self.view_code = code and return
+    end
+    # if we get here, it's being used, so try again
+    make_view_code
+  end
+  
+  def self.generate_view_code
+    hash = ""
+    srand()
+    (1..12).each do
+      rnd = (rand(2147483648)%36) # using 2 ** 31
+      rnd = rnd<26 ? rnd+97 : rnd+22
+      hash = hash + rnd.chr
+    end
+    hash
   end
 end

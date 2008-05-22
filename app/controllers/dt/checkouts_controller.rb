@@ -30,7 +30,7 @@ class Dt::CheckoutsController < DtApplicationController
     session[:order_id] = @order.id if @saved
     respond_to do |format|
       format.html { 
-        redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[0]) and return if @saved
+        redirect_to edit_dt_checkout_path(:step => next_step) and return if @saved
         render :action => "new"
       }
     end
@@ -70,8 +70,6 @@ class Dt::CheckoutsController < DtApplicationController
       do_payment
     elsif current_step == "confirm"
       do_confirm
-    elsif current_step == "complete"
-      do_complete
     end
 
     @saved = @order.save if @valid
@@ -80,7 +78,7 @@ class Dt::CheckoutsController < DtApplicationController
       format.html{
         if @saved 
           if @order.complete?
-            redirect_to dt_checkout_path and return
+            redirect_to dt_checkout_path(:order_number => @order.order_number) and return
           else
             redirect_to(edit_dt_checkout_path(:step => next_step))
           end
@@ -92,8 +90,22 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def show
+    # need to add an authorization check here.
+    # either user_id (if it exists and they're logged_in?)
+    # or session[:order_number].include?(params[:order_number])
+    @order = Order.find_by_order_number(params[:order_number]) if params[:order_number]
+    redirect_to dt_cart_path unless @order && @order.complete?
+  end
+  
+  def destroy
+    @cart = find_cart
     @order = find_order
-    redirect_to :action => 'new' unless @order.complete?
+    @cart.empty! if params[:clear_cart]
+    @order.destroy if @order
+    session[:order_id] = nil
+    session[:credit_card] = nil
+    flash[:notice] = "Your order has been cleared! Please add items to your cart to checkout." if params[:clear_cart]
+    redirect_to dt_cart_path
   end
 
   protected
@@ -157,7 +169,6 @@ class Dt::CheckoutsController < DtApplicationController
         end
       end
     end
-    @order.total = @order.account_balance_total.to_f + @order.credit_card_total.to_f
     # save the credit card until payment is complete
     session[:credit_card] = params[:credit_card] if @saved &&  @order.credit_card?
   end
@@ -166,19 +177,28 @@ class Dt::CheckoutsController < DtApplicationController
     Order.transaction do
       # process the credit card
       
-      # save the cart items
-      @cart.items.each do |item|
-        item.order_id = @order
-        item.save
-      end
+      
+      # save the cart items into the db via the association
+      @cart.gifts.each{|gift| @order.gifts << gift }
+      @cart.investments.each{|investment| @order.investments << investment }
+      @cart.deposits.each{|deposit| @order.deposits << deposit }
+      
+      # create the tax receipt
+      @order.create_tax_receipt_from_order
+      
       # mark the order as complete
       @order.update_attributes(:complete => true)
     end
     if @order.complete?
       # empty the cart
       @cart.empty!
-      # empty the credit card
+      # empty the credit card from the session - we won't need it anymore
       session[:credit_card] = nil 
+      # empty the order_id from the session
+      session[:order_id] = nil
+      # add the order number into the session so they can view their completed order(s) for the session
+      session[:order_number] = [] unless session[:order_number]
+      session[:order_number] << @order.order_number
     end
   end
   

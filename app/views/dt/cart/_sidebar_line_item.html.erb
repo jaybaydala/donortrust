@@ -6,7 +6,7 @@
     <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => sidebar_line_item.attributes)}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
     <h5><strong>Gift</strong> </h5>
     <p>
-      <strong>To:</strong> <%= link_to sidebar_line_item.to_name, "mailto:" + sidebar_line_item.email %><br />
+      <strong>To:</strong> <%= link_to((sidebar_line_item.to_name? ? sidebar_line_item.to_name : sidebar_line_item.to_email), "mailto:" + sidebar_line_item.email) %><br />
       <% if sidebar_line_item.message? %><strong>Message:</strong> <%= sidebar_line_item.message_summary %><% end %>
     </p>
   </td>

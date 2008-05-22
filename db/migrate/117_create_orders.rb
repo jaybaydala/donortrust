@@ -25,6 +25,7 @@ class CreateOrders < ActiveRecord::Migration
       t.integer :order_number
       t.integer :user_id
       t.boolean :complete
+      t.timestamps
     end
     add_index "orders", ["order_number"], :name => "order_number"
     add_index "orders", ["user_id"], :name => "user_id"
@@ -32,9 +33,12 @@ class CreateOrders < ActiveRecord::Migration
     add_column :gifts, :order_id, :integer
     add_column :investments, :order_id, :integer
     add_column :deposits, :order_id, :integer
-    add_index "gifts",       ["order_id"], :name => "order_id"
-    add_index "investments", ["order_id"], :name => "order_id"
-    add_index "deposits",    ["order_id"], :name => "order_id"
+    add_column :tax_receipts, :order_id, :integer
+    add_column :tax_receipts, :view_code, :integer
+    add_index "gifts",        ["order_id"], :name => "order_id"
+    add_index "investments",  ["order_id"], :name => "order_id"
+    add_index "deposits",     ["order_id"], :name => "order_id"
+    add_index "tax_receipts", ["order_id"], :name => "order_id"
   end
 
   def self.down

@@ -10,21 +10,23 @@
 <% if @order.tax_receipt %>
 <h2>Tax Receipt</h2>
 
-<p>A Tax Receipt has been emailed to you. You can also download a duplicate Tax Receipt right here.</p>
-
-<div class="clearfix"><%= button_to "Download Tax Receipt", formatted_dt_tax_receipt_path(@order.tax_receipt.view_code, @order.tax_receipt, :pdf), :class => "buttonsubmit", :method => :get %></div>
+<div class="clearfix">
+  <p>A Tax Receipt has been emailed to you. You can also download a duplicate Tax Receipt right here.</p>
+  <div class="buttonsubmit"><%= link_to "Download Tax Receipt", dt_tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf), :class => "large" %></div>
+</div>
 <% end %>
 
 <% unless @order.gifts.empty? %>
-<h2>Gift(s)</h2>
-<p>Your gift emails have are scheduled to be sent. The printable cards have been sent to you via email, but you can also download them here.</p>
+  <h2>Gift(s)</h2>
+  <p>Your gift emails have are scheduled to be sent. The printable cards have been sent to you via email, but you can also download them here.</p>
 
-<% for gift in @order.gifts %>
-
-<h3>Your gift to <%= link_to (gift.to_name? ? gift.to_name : gift.to_email), "mailto:#{gift.to_email}" %></h3>
-<blockquote>
-  <%= h gift.message %>
-</blockquote>
-<div><%= button_to "Download Printable Card", formatted_gift_path(:pdf, gift), :class => "buttonsubmit" %></div>
-<% end %>
+  <% for gift in @order.gifts %>
+    <div class="clearfix">
+      <h3>Your gift to <%= link_to (gift.to_name? ? gift.to_name : gift.to_email), "mailto:#{gift.to_email}" %></h3>
+      <blockquote>
+        <strong>Your message:</strong> <%= h gift.message %>
+      </blockquote>
+      <div class="buttonsubmit"><%= link_to "Download Printable Card", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
+    </div>
+  <% end %>
 <% end %>

@@ -37,6 +37,18 @@ class Cart
     end
     minimum
   end
+  
+  def gifts
+    @items.select{|item| item.is_a?(Gift) }
+  end
+  
+  def investments
+    @items.select{|item| item.is_a?(Investment) }
+  end
+  
+  def deposits
+    @items.select{|item| item.is_a?(Deposit) }
+  end
 
   def cf_investment
     cf_investment = nil
