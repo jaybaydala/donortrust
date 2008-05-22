@@ -6,7 +6,7 @@
     <div class="tableHeader">
 			<h2>Our Projects</h2>
 			<% if current_member(@group) && current_member(@group).admin? %>
-			<div class="tableHeader_button"><div id="addProjButton"><%= link_to "Add New Project", dt_projects_path %></div></div>
+			<div id="addProjButton" class="clearfix"><%= link_to "<span>Add New Project</span>", dt_projects_path, :class => 'button-add_project' %></div>
 			<% end %>
     </div>
     <% if @projects_invested.size > 0 %>

@@ -104,7 +104,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     padding:.25em;
     font-size:0.6875em;
 }
-.userform ol li input, .userform ol li select {
+.userform ol li input, .userform ol li select, .userform ul li input, .userform ul li select {
     font-size:1em;
 }
 .userform fieldset fieldset ol li {

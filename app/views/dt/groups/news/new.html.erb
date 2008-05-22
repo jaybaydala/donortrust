@@ -4,8 +4,8 @@
 <%= dt_group_nav unless @group.private && !@membership %>
   
     <%= error_messages_for :group_news %>
-    <% form_for(:group_news, :url => dt_messages_path(@group), :html => { :method => 'post', :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
-    <div class="userform simpleform">
+    <% form_for(:group_news, :url => dt_group_messages_path(@group), :html => { :method => 'post', :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
+    <div class="userform simpleform clearfix">
       <%= render :partial => "form", :locals => {:f => f} %>
     	<%= submit_tag 'Add Admin Message', :class => 'buttonsubmit' %>
   	</div>

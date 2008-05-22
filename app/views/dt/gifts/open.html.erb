@@ -17,7 +17,7 @@
   		<% end %>
   	<% else -%>
   		<%= error_messages_for :pickup %>
-  		<% form_for(:pickup, :url => dt_open_gifts_path, :html => {:method => :get, :id => "giftform", :name => "giftform"}) do |f| %>
+  		<% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "giftform", :name => "giftform"}) do |f| %>
   		<div class="userform">
   			<ul>
   				<li><label for="code">Pickup Code</label><%= text_field_tag :code %></li>
@@ -25,6 +25,7 @@
   		</div>
   		<%= submit_tag 'open your gift', :class => 'buttonsubmit' %>
   		<% end -%>
+  	<% end -%>
 
     <%- content_for :sidebar do -%>
       <%= dt_profile_sidebar %>

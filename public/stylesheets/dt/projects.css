@@ -203,7 +203,8 @@ a.button-add_gift_card, a.button-add_gift_card span,
 a.button-add_project_gift, a.button-add_project_gift span,
 a.button-send_wishlist, a.button-send_wishlist span,
 a.button-add_project, a.button-add_project span,
-a.button-deletegroup, a.button-deletegroup span {
+a.button-deletegroup, a.button-deletegroup span,
+a.button-invitemembers, a.button-invitemembers span {
     display:block;
 	float:left;
     width:104px;
@@ -219,6 +220,11 @@ a.button-add_gift_card, a.button-add_gift_card span,
 a.button-add_project_gift, a.button-add_project_gift span {
     width:170px;
 }
+
+a.button-invitemembers, a.button-invitemembers span{
+	width:102px;
+	height:16px;
+}
 a.button-gift span,
 a.button-invest span, 
 a.button-creategroup span, 
@@ -230,7 +236,8 @@ a.button-add_project_gift span,
 a.button-add_project span,
 a.button-send_wishlist span,
 a.button-go span,
-a.button-deletegroup span {
+a.button-deletegroup span,
+a.button-invitemembers span {
     text-indent:-9999px;
 }
 a.button-gift {background:url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat transparent;}
@@ -255,6 +262,8 @@ a.button-add_project {background:url(/images/dt/nav_elements/buttonsCF/addProjBu
 a.button-add_project:hover {background:url(/images/dt/nav_elements/buttonsCF/addProjButton_blue.gif) no-repeat transparent;}
 a.button-go {background:url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat transparent;}
 a.button-go:hover {background:url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif) no-repeat transparent;}
+a.button-invitemembers {background:url(/images/dt/nav_elements/buttonsCF/newMemberOff.gif) no-repeat transparent;}
+a.button-invitemembers:hover {background:url(/images/dt/nav_elements/buttonsCF/newMemberOver.gif) no-repeat transparent;}
 
 
 a.button-add_gift_card, a.button-add_gift_card span,

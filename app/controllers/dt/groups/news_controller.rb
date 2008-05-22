@@ -80,7 +80,7 @@ class Dt::Groups::NewsController < DtApplicationController
         flash[:notice] = @group_news.destroy ? 
           "Your Group News message has been destroyed" : 
           "Your Group News message could not be deleted"
-        format.html{redirect_to dt_messages_path(@group)}
+        format.html{redirect_to dt_group_messages_path(@group)}
       end
     end
   end
