@@ -1,1 +1,0 @@
-require "active_scaffold_calendar_date_select_bridge" 
