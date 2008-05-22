@@ -7,12 +7,12 @@
 <p>We also thank you for supporting the ChristmasFuture Foundation directly!</p>
 <% end %>
 
-<% if @user %>
+<% if @order.tax_receipt %>
 <h2>Tax Receipt</h2>
 
-<p>A Tax Receipt has been emailed to you. You can also download your Tax Receipt right here.</p>
+<p>A Tax Receipt has been emailed to you. You can also download a duplicate Tax Receipt right here.</p>
 
-<div class="clearfix"><%= button_to "Download Tax Receipt", dt_account_tax_receipt_path(@user, @tax_receipt), :class => "buttonsubmit" %></div>
+<div class="clearfix"><%= button_to "Download Tax Receipt", formatted_dt_tax_receipt_path(@order.tax_receipt.view_code, @order.tax_receipt, :pdf), :class => "buttonsubmit", :method => :get %></div>
 <% end %>
 
 <% unless @order.gifts.empty? %>

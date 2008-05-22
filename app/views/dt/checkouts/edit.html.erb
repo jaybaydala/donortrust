@@ -8,7 +8,7 @@
 <h2>Step 1 of 3 - Billing Information</h2>
 <%= error_messages_for :order %>
 <% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform", :method => :put}) do |f| %>
-<%= render :partial => 'form', :locals => {:f => f} %>
+<%= render 'dt/checkouts/billing', :locals => {:f => f} %>
 <% end %>
 
 <%- content_for :sidebar do -%>

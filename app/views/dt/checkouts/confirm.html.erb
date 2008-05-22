@@ -55,7 +55,7 @@
       <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :total, @cart.total, :id => 'cart_total' %></li>
       <li><label>Take From my Account:</label> <%= number_to_currency(@order.account_balance_total) %></li>
       <li class="odd"><label>Put on My Credit Card:</label> <%= number_to_currency(@order.credit_card_total) %></li>
-      <li id="totalfield"><label>Total Paid:</label> <%= number_to_currency(@order.total) %></li>
+      <li id="totalfield"><label>Total Paid:</label> <%= number_to_currency(@order.total) %>&nbsp;</li>
     </ol>
     <% end %>
 
