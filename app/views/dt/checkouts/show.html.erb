@@ -1,7 +1,7 @@
 <%- content_for :html_title do -%>Checkout Complete!<%- end -%>
 <%- content_for :page_title do -%>Thank You!<%- end -%>
 
-<p>Thanks! With your generous gift(s) of <strong><%= number_to_currency(@order.total) %></strong> we're one step closer to changing the world...for good. </p>
+<p>Thanks! With your generous gift(s) of <strong><%= number_to_currency(@order.total) %></strong>, we're one step closer to changing the world...for good. </p>
 
 <% if @order.investments.find(:first, :conditions => {:project_id => Project.cf_admin_project.id}) %>
 <p>We also thank you for supporting the ChristmasFuture Foundation directly!</p>

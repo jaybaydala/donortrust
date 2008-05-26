@@ -76,15 +76,16 @@ li, blockquote {
 li li {
     font-size:1em; /* maintain font size for nested lists */
 }
-p, #content-wrapper li {
+p, li {
     font-size:0.8125em; /* 13px */
     font-family:Georgia,"Times New Roman",Times,serif;
     margin:0 0 1.125em 0;
 }
-#content-wrapper li {
+li {
     margin-bottom:0;
 }
 .textsm {
+    font-family:Arial, Helvetica, sans-serif;
     font-size:0.6875em; /* 11px */
 }
 h1 .textsm {
@@ -96,13 +97,16 @@ h1 .textsm {
     font-size:0.6875em; /* 16x0.6875=11px */
 }
 #footer {
+    font-family:Arial, Helvetica, sans-serif;
     font-size:0.6875em; /* 16x0.6875=11px */
     margin:1em 0;
     padding:1em 0;
     border-top:1px solid #CCC;
     border-bottom:1px solid #CCC;
 }
+#footer ul {margin:0;padding:0;}
 #footer li {
+    font-family:Arial, Helvetica, sans-serif;
     font-size:1em;
     margin-bottom:0;
 }

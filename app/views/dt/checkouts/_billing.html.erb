@@ -4,12 +4,12 @@
     <legend>Billing and Tax Receipt Information</legend>
     <div class="notes clearfix">
       <h5>Billing and Receipt Information</h5>
-      <p>Please enter the information associated with your credit card. This information will also be associated with your tax receipt, if applicable.</p>
+      <p>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create and send your tax receipt.</p>
     </div>
     <ol>
       <li>
         <fieldset>
-          <legend>What kind of Donor are you?</legend>
+          <legend>What kind of donor are you?</legend>
           <ol>
             <li><label for="order_donor_type_personal"><%= f.radio_button :donor_type, "personal", :onchange => "$$('li.personal').each(function(e){e.show()});" %> Personal</label></li>
             <li><label for="order_donor_type_corporate"><%= f.radio_button :donor_type, "corporate", :onchange => "$$('li.personal').each(function(e){e.hide()});" %> Corporate</label></li>
@@ -32,21 +32,25 @@
   
   <% unless logged_in? %>
   <fieldset class="clearfix">
-    <legend>My ChristmasFuture Account</legend>
-    <p>ChristmasFuture can store your information in a ChristmasFuture account. Your email address will become your username. You will choose your password below. Creating an account with CanadaHelps allows you to:</p>
+    <legend>Create an Account?</legend>
+    <p>A ChristmasFuture account allows you to:</p>
     <ul>
-      <li>store your donation receipts and giving history online</li>
-      <li>store your personal, and contact preferences (so next time, no need to re-enter!)</li>
-      <li>join a group to connect with people who are interested in the same projects and causes that you are </li>
-      <li>create a &ldquo;projects wishlist&rdquo; and more! </li>
+      <li>track your giving history over time and your impact in the world</li>
+      <li>access your tax receipts and printable gift cards online</li>
+      <li>resend gifts to alternate email addresses</li>
+      <li>save information preferences, so you don&rsquo;t have to re-enter it next time!</li>
+      <li>join a group with people who are interested in the same projects and causes that you are</li>
+      <li>conveniently track projects you have supported in one place </li>
+      <li>create a &ldquo;projects wishlist&rdquo; and more!</li>
     </ul>
+
     <ol>
-      <li><label class="left"><%= check_box_tag :create_account, "1", (params[:create_account] ? true : false), :onchange => "if(this.checked){$('password_entry').show();}else{$('password_entry').hide();}" %> Yes, I would like to create an account with ChristmasFuture</label></li>
+      <li><label class="left"><%= check_box_tag :create_account, "1", (params[:create_account] ? true : false), :onchange => "if(this.checked){$('password_entry').show();}else{$('password_entry').hide();}" %> Yes, I want to create an account on ChristmasFuture&rsquo;s website</label></li>
     </ol>
     <div id="password_entry" style="display:none;">
       <ol>
-        <li><label for="password">Password</label> <%= password_field_tag :password, nil, :id => 'password' %></li>
-        <li><label for="password_confirmation">Confirm Password</label> <%= password_field_tag :password_confirmation, nil, :id => 'password_confirmation' %></li>
+        <li><label for="password" style="width:120px;">Password</label> <%= password_field_tag :password, nil, :id => 'password' %></li>
+        <li><label for="password_confirmation" style="width:120px;">Confirm Password</label> <%= password_field_tag :password_confirmation, nil, :id => 'password_confirmation' %></li>
     	  <li>
         	<fieldset>
         	  <legend>Terms of Service</legend>

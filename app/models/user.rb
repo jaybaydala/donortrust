@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :deposits
   has_many :investments
   has_many :gifts
+  has_many :orders
   has_many :tax_receipts
   has_many :my_wishlists
   has_many :projects, :through => :my_wishlists

@@ -9,7 +9,9 @@ describe OrderHelper do
     Cart.stub!(:new).and_return(@cart)
     @order = Order.new
     Order.stub!(:new).and_return(@order)
+    @session = { :order_id => 1 }
     @order_helper.stub!(:session).and_return(@session)
+    Order.stub!(:find).with(@session[:order_id]).and_return(@order)
   end
   
   describe "find_cart" do
@@ -29,13 +31,6 @@ describe OrderHelper do
   end
   
   describe "find_order" do
-    before do
-      @session = { :order_id => 1 }
-      @order_helper.stub!(:session).and_return(@session)
-      Order.stub!(:find).and_return(@order)
-      @order = Order.new
-    end
-    
     it "should return an order if the session[:order_id] is a valid record" do
       Order.should_receive(:find).with(@session[:order_id]).and_return(@order)
       @order_helper.find_order
@@ -56,11 +51,29 @@ describe OrderHelper do
     end
     
     it "should load attributes from user into order" do
-      count = %w(first_name last_name email address city province postal_code country).size
+      count = %w(first_name last_name address city province postal_code country).size
       @order.should_receive(:attribute_present?).exactly(count).times.and_return(false)
-      @order.should_receive(:write_attribute).exactly(count).times
+      @order.should_receive(:write_attribute).exactly(count + 2).times # for user= and email=
       @user.should_receive(:read_attribute).exactly(count).times
       @order_helper.initialize_new_order
     end
+  end
+  
+  describe "initialize_existing_order" do
+    #before do
+    #  @user = User.new(:first_name => 'mock', :last_name => 'user', :login => "user@example.com", :address => '36 Example St.', :city => "Guelph", :country => "Canada", :province => "ON", :postal_code => "H0H 0H0")
+    #  @order_helper.stub!(:logged_in?).and_return(true)
+    #  @order_helper.stub!(:current_user).and_return(@user)
+    #  @order_helper.stub!(:params).and_return({:order => {}})
+    #end
+
+    #it "should load params[:order] into @order.attributes" do
+    #  @order.should_receive(:attributes=).with(@order_helper.params[:order])
+    #  @order_helper.initialize_existing_order
+    #end
+    #it "should set the total to the cart total" do
+    #  @order.should_receive(:total=).with(@cart.total)
+    #  @order_helper.initialize_existing_order
+    #end
   end
 end

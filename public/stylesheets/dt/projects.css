@@ -69,6 +69,7 @@ Project Highlight List
 	margin:0pt 0pt 1.125em 0em;
 }
 .projecthighlight li {
+    font-family:Arial, Helvetica, sans-serif;
     background:url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat transparent 0px 0.5em;
     list-style-type:none;
     font-size:0.6875em; /* 11px */
@@ -89,6 +90,7 @@ Project Actions
     margin:0;
 }
 .projectactions li {
+    font-family:Arial, Helvetica, sans-serif;
     list-style-display:none;
     font-size:0.6875em; /* 11px */
     margin:0.125em 0;
@@ -109,11 +111,16 @@ Quick Facts
     list-style-type:none;
 }
 
-.quickfacts li, .content-quickfacts li {
+div.projectlist .project .quickfacts ul li, div.projectlist .project .content-quickfacts ul li,
+.quickfacts ul li, .content-quickfacts ul li, .quickfacts ol li {
+    font-family:Arial, Helvetica, sans-serif;
     font-size:0.6875em; /* 11px */
     margin:0em 0;
     padding:0.25em 0 0.25em 0;
-    border-bottom:solid 1px #DDD;
+    border-bottom:1px solid #DDD;
+}
+.quickfacts ol li {
+    border:0;
 }
 
 .content-quickfacts li {
@@ -201,12 +208,13 @@ a.button-checkout, a.button-checkout span,
 a.button-return_to_cart, a.button-return_to_cart span,
 a.button-add_gift_card, a.button-add_gift_card span,
 a.button-add_project_gift, a.button-add_project_gift span,
+a.button-add_deposit, a.button-add_deposit span,
 a.button-send_wishlist, a.button-send_wishlist span,
 a.button-add_project, a.button-add_project span,
 a.button-deletegroup, a.button-deletegroup span,
 a.button-invitemembers, a.button-invitemembers span {
     display:block;
-	float:left;
+    float:left;
     width:104px;
     height:24px;
     margin-bottom:.5em;
@@ -215,15 +223,14 @@ a.button-send_wishlist, a.button-send_wishlist span,
 a.button-add_project, a.button-add_project span {
 	width:120px;
 }
-a.button-return_to_cart, a.button-return_to_cart span,
-a.button-add_gift_card, a.button-add_gift_card span,
-a.button-add_project_gift, a.button-add_project_gift span {
-    width:170px;
-}
+a.button-return_to_cart, a.button-return_to_cart span {width:170px;}
+a.button-add_project_gift, a.button-add_project_gift span {width:150px;}
+a.button-add_gift_card, a.button-add_gift_card span {width:140px;}
+a.button-add_deposit, a.button-add_deposit span {width:130px;}
 
 a.button-invitemembers, a.button-invitemembers span{
-	width:102px;
-	height:16px;
+    width:102px;
+    height:16px;
 }
 a.button-gift span,
 a.button-invest span, 
@@ -233,6 +240,7 @@ a.button-checkout span,
 a.button-return_to_cart span,
 a.button-add_gift_card span,
 a.button-add_project_gift span,
+a.button-add_deposit span,
 a.button-add_project span,
 a.button-send_wishlist span,
 a.button-go span,
@@ -256,6 +264,8 @@ a.button-add_gift_card {background:url(/images/dt/nav_elements/add_gift_card_gre
 a.button-add_gift_card:hover {background:url(/images/dt/nav_elements/add_gift_card_blue.gif) no-repeat transparent;}
 a.button-add_project_gift {background:url(/images/dt/nav_elements/add_project_gift_grey.gif) no-repeat transparent;}
 a.button-add_project_gift:hover {background:url(/images/dt/nav_elements/add_project_gift_blue.gif) no-repeat transparent;}
+a.button-add_deposit {background:url(/images/dt/nav_elements/add_deposit_grey.gif) no-repeat transparent;}
+a.button-add_deposit:hover {background:url(/images/dt/nav_elements/add_deposit_blue.gif) no-repeat transparent;}
 a.button-send_wishlist {background:url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey.gif) no-repeat transparent;}
 a.button-send_wishlist:hover {background:url(/images/dt/nav_elements/buttonsCF/sendWishlist_blue.gif) no-repeat transparent;}
 a.button-add_project {background:url(/images/dt/nav_elements/buttonsCF/addProjButton_grey.gif) no-repeat transparent;}
@@ -268,6 +278,7 @@ a.button-invitemembers:hover {background:url(/images/dt/nav_elements/buttonsCF/n
 
 a.button-add_gift_card, a.button-add_gift_card span,
 a.button-add_project_gift, a.button-add_project_gift span,
+a.button-add_deposit, a.button-add_deposit span,
 a.button-checkout, a.button-checkout span,
 a.button-go, a.button-go span {
     float:right;

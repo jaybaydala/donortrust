@@ -17,7 +17,7 @@
     <legend>Billing and Tax Receipt Information</legend>
     <div class="notes clearfix">
       <h5>Billing and Tax Receipt Information</h5>
-      <p>Please enter the information associated with your credit card. This information will also be associated with your tax receipt, if applicable.</p>
+      <p>Please ensure this information is correct for your credit card transaction and tax receipt.</p>
     </div>
     <ol>
       <li><label>Donor Type</label> <%=h @order.donor_type %></li>
@@ -38,7 +38,8 @@
   
   <% if @cart.cf_investment %>
   <fieldset>
-    <legend>100% of your funds go to the project(s) you select</legend>
+    <legend>Support ChristmasFuture</legend>
+    <p>100% of your funds go to the project(s) you select.</p>
     <p>You have chosen to give <strong><%= number_to_currency(@cart.cf_investment.amount) %></strong> to ChristmasFuture directly. Thank You!</p>
   </fieldset>
   <% end %>
@@ -58,10 +59,10 @@
     <% end %>
     
     <% if @order.credit_card_total && @order.credit_card_total > 0 %>
-    <h5>Credit Card Information</h5>
+    <div class="textsm" style="font-size:0.75em;"><strong>Credit Card Information</strong></div>
     <div class="notes">
       <h5>Credit Card Information</h5>
-      <p>We do <strong>not</strong> store your credit card number.</p>
+      <p>Your credit card is processed on a secure server. We <strong>do not</strong> store any credit card information or details.</p>
     </div>
     <% if logged_in? and current_user.balance > 0 %>
     <p>The remaining balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></strong> will be charged to your credit card</p>

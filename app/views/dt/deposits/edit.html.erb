@@ -8,7 +8,10 @@
   <fieldset>
     <legend>Deposit</legend>
     <ol>
-  		<li><label for="deposit_amount"><%= form_required %>Deposit Amount</label><%= f.text_field :amount, :value => (@deposit.amount? ? number_to_currency(@deposit.amount) : "$") %></li>
+  		<li>
+  		  <label for="deposit_amount" class="wide"><%= form_required %>Deposit Amount</label> $<%= f.text_field :amount %>
+  		  <div class="note" style="margin-left:135px;">Example: $100</div>
+  		</li>
     </ol>
   </fieldset>
 

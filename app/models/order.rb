@@ -3,6 +3,7 @@ class Order < ActiveRecord::Base
   has_many :gifts
   has_many :deposits
   has_one :tax_receipt
+  belongs_to :user
   before_save :truncate_credit_card
 
   def initialize(params = nil)

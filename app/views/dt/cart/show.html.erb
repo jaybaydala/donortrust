@@ -3,7 +3,14 @@
 <%- content_for :html_title do -%>Your Cart<%- end -%>
 
 <% if @cart.empty? %>
-<p>Your cart is empty.</p>
+<table cellpadding="0" cellspacing="0" id="cart">
+  <tr>
+    <th>Empty Cart</th>
+  </tr>
+  <tr>
+    <td><p>Your cart is currently empty. Use one of the buttons below to get started</p></td>
+  </tr>
+</table>
 <% else %>
 <table cellpadding="0" cellspacing="0" id="cart">
   <colgroup>
@@ -24,10 +31,13 @@
   </tr>
 </table>
 <% end %>
-<div style="margin-top:1em;">
-  <% unless @cart.empty? %><%= link_to "<span>Checkout</span>", new_dt_checkout_path, :class => "button-checkout" %><% end %>
+<div style="margin-top:1em;" class="clearfix">
   <%= link_to "<span>Add a Gift Card</span>", new_dt_gift_path, :class => "button-add_gift_card" %>
   <%= link_to "<span>Add a Project Gift</span>", dt_search_path, :class => "button-add_project_gift" %>
+  <% if logged_in? %><%= link_to "<span>Add a Deposit</span>", new_dt_account_deposit_path(current_user), :class => "button-add_deposit" %><% end %>
+</div>
+<div class="clearfix">
+  <% unless @cart.empty? %><%= link_to "<span>Checkout</span>", new_dt_checkout_path, :class => "button-checkout" %><% end %>
 </div>
 
 <%- content_for :sidebar do -%>

@@ -18,16 +18,18 @@ module OrderHelper
     @order = Order.new(params[:order])
     @order.order_number = Order.generate_order_number
     if logged_in?
-      %w(first_name last_name email address city province postal_code country).each do |c|
+      %w(first_name last_name address city province postal_code country).each do |c|
         @order.write_attribute(c, current_user.read_attribute(c)) unless @order.attribute_present?(c)
       end
       @order.email = current_user.login
-      @order.user_id = current_user.id
+      @order.user = current_user
     end
     @order
   end
   
   def initialize_existing_order
+    @order = find_order
+    return nil unless @order
     @order.attributes = params[:order]
     @order.total = @cart.total
     @order.credit_card_total = @order.total unless logged_in? && current_user.balance > 0

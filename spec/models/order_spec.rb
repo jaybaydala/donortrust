@@ -18,6 +18,9 @@ describe Order do
   it "should have_many deposits" do
     @order.should have_many(:deposits)
   end
+  it "should belong_to user" do
+    @order.should belong_to(:user)
+  end
   
   %w(account_balance_total credit_card_total total).each do |c|
     it "should strip a '$' from #{c}" do

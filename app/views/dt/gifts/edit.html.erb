@@ -14,10 +14,6 @@
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
   <fieldset>
     <legend>Your Information</legend>
-    <div class="notes clearfix">
-      <h5>Your Information</h5>
-      <p>Please enter your personal information.</p>
-    </div>
     <ol>
       <li><label for="gift_name">Name</label> <%= f.text_field :name %></li>
       <li><label for="gift_email"><em>*</em> Email</label> <%= f.text_field :email %></li>

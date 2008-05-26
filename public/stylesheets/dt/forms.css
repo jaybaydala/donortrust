@@ -87,7 +87,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     border-bottom:1px #555 solid;
 }
 
-#content-wrapper .userform li {
+.userform ol li {
     font-family:Arial, Helvetica, sans-serif;
 	list-style-type:none;
 }
@@ -118,6 +118,9 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     vertical-align: top;
     text-align:right;
     padding:0 5px 0 0;
+}
+.userform label.wide {
+    width:120px;
 }
 .userform .left label, .userform .right label {
     width:70px;

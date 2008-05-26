@@ -25,16 +25,13 @@
 
 <p>Hello <%=h @gift.to_name? ? @gift.to_name : @gift.to_email %>,</p>
 
-<p>Happy holidays!</a></p>
-
-<% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
-
 <% if @gift.message? %>
 <p>Their message to you:</p>
 <p><%=h @gift.message %></p>
+<hr />
 <% end %>
 
-<hr />
+<% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
 
 <p>
   This year <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.<br />

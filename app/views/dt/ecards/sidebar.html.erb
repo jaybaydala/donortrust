@@ -1,8 +1,10 @@
       <% if @ecards and !@ecards.empty? %>
       <div id="medImgWrap">
         <div class="medImg"><%= image_tag url_for_file_column(@ecards[0], "medium"), :id => 'mediumEcard', :alt => '' %></div>
+        <p class="textsm" style="color:#333;">Selected Image</p>
       </div>
-      <div class="textsm">Choose an image below to preview <br /> the image &amp; select it for your card.</div>
+      <div class="textsm">Select the image you want to <br />send with your gift.</div>
+      
       <ul id="ecardthumbs">
         <%= render :partial => 'dt/ecards/thumbnail', :collection => @ecards %>
       </ul>
