@@ -39,6 +39,7 @@ class CreateOrders < ActiveRecord::Migration
     add_index "investments",  ["order_id"], :name => "order_id"
     add_index "deposits",     ["order_id"], :name => "order_id"
     add_index "tax_receipts", ["order_id"], :name => "order_id"
+    add_index "tax_receipts", ["view_code"], :name => "view_code"
   end
 
   def self.down
@@ -46,5 +47,7 @@ class CreateOrders < ActiveRecord::Migration
     remove_column :gifts, :order_id
     remove_column :investments, :order_id
     remove_column :deposits, :order_id
+    remove_column :tax_receipts, :order_id
+    remove_column :tax_receipts, :view_code
   end
 end
