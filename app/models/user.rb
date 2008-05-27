@@ -214,7 +214,7 @@ class User < ActiveRecord::Base
     end
 
     def calculate_deposits
-      deposits = Deposit.find(:all, :conditions => { :user_id => self[:id], :order_id => nil })
+      deposits = Deposit.find(:all, :conditions => { :user_id => self[:id] })
       balance = 0
       deposits.each do |trans|
         balance = balance + trans.amount
@@ -231,16 +231,6 @@ class User < ActiveRecord::Base
       balance
     end
 
-    def calculate_orders
-      orders = Order.find(:all, :conditions => ["user_id=? AND complete=? AND account_balance_total IS NOT NULL", self[:id], true ])
-      @calculate_orders = 0
-      orders.each do |order|
-        @calculate_orders = @calculate_orders + order.account_balance_total.to_f
-      end
-pp @calculate_orders
-      @calculate_orders
-    end
-
     def calculate_gifts(exclude_credit_card = false)
       conditions = { :user_id => self[:id], :order_id => nil }
       conditions[:credit_card] = nil if exclude_credit_card == true
@@ -250,6 +240,15 @@ pp @calculate_orders
         balance = balance + trans.amount
       end
       balance
+    end
+
+    def calculate_orders
+      orders = Order.find(:all, :conditions => ["user_id=? AND complete=? AND account_balance_total IS NOT NULL", self[:id], true ])
+      order_balance = 0
+      orders.each do |order|
+        order_balance = order_balance + order.account_balance_total.to_f
+      end
+      order_balance
     end
     
     def self.total_users_in_group
