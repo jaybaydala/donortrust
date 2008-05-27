@@ -1,14 +1,14 @@
 <%- content_for :html_title do -%>Group Wishlist<%- end -%>
+<div class="userform">
 <% form_tag dt_wishlists_path, :id => 'wishlistform' do %>
-  <div class="userform">
     <fieldset>
-      <legend>Choose the Group Wishlist for &quot;<%= @project.name %>&quot;</legend>
+      <h2>Choose the Group Wishlist for &quot;<%= @project.name %>&quot;</h2>
       <p class="textsm"><label for="group_id">Groups:</label> <%= select_tag 'group_id', options_for_wishlist_select, :id => 'group_id' %></p>
     </fieldset>
       <%= submit_tag "Add to Group Wishlist", :class => 'buttonsubmit' %>
       <%= hidden_field_tag :project_id, params[:project_id] %>
-  </div>
 <% end %>
+  </div>
 <% content_for :sidebar do %>
   <%= dt_profile_sidebar %>
 <% end %>

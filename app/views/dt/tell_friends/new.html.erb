@@ -1,3 +1,6 @@
+<%- content_for :head do -%>
+<%= javascript_include_tag "dt/ecards" %>
+<%- end -%>
 <%- content_for :html_title do %>Tell a Friend<% end -%>
 <%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
@@ -69,7 +72,9 @@
       <p><strong>Select an E-Card</strong></p>
       <p>Select the e-card you wish to send. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
       <%= render 'dt/ecards/sidebar' %>
-      <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('tellfriendform'));window.open('<%= preview_dt_tell_friends_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
+      <div id="ecardPreview" style="display:none;">
+       <%= button_to_function "<span>Preview your email &raquo;</span>", "window.open('#{preview_dt_tell_friends_path}?' + Form.serialize($('tellfriendform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1');", :class => "buttonsubmit" %>
+        </div>
     </div>  
   
     <% end %>

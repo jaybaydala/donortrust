@@ -12,7 +12,7 @@ class Dt::InvestmentsController < DtApplicationController
     @project = @investment.project if @investment.project
     respond_to do |format|
       format.html {
-        if @project && !@project.fundable?
+        if @project && @project != Project.cf_unallocated_project && !@project.fundable?
           flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
           redirect_to dt_project_path(@project) and return
         end

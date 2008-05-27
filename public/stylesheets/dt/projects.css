@@ -102,6 +102,15 @@ Project Actions
 }
 
 /*
+Project Info
+===============*/
+
+.projectinfo {
+	background:url(/images/dt/2pxGrnLine.gif) repeat-x 0 bottom;
+	margin:0;
+}
+
+/*
 Quick Facts
 ===========*/
 .quickfacts {}
@@ -132,6 +141,22 @@ div.projectlist .project .quickfacts ul li, div.projectlist .project .content-qu
 }
 .quickfacts ol, .content-quickfacts ol {
     margin-left:1.5em;
+}
+
+/*
+Group Messages
+===============*/
+.group_wall {
+	background:url(/images/dt/2pxGrnLine.gif) repeat-x 0 bottom;
+	font-family:Georgia,"Times New Roman",Times,serif;
+	font-size:.9em;
+	margin:0.375em 0 0 0;
+	padding:0 0 1px 0;
+}
+
+.group_wall-attribution strong {
+	color:#360;
+	font-size:1em;
 }
 
 /*
@@ -221,7 +246,7 @@ a.button-invitemembers, a.button-invitemembers span {
 }
 a.button-send_wishlist, a.button-send_wishlist span,
 a.button-add_project, a.button-add_project span {
-	width:120px;
+	width:124px;
 }
 a.button-return_to_cart, a.button-return_to_cart span {width:170px;}
 a.button-add_project_gift, a.button-add_project_gift span {width:150px;}

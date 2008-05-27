@@ -3,14 +3,14 @@
 
 <%= dt_group_nav %>
 
-    <div class="tableHeader">
+    <div class="projectlist">
 			<h2>Our Projects</h2>
 			<% if current_member(@group) && current_member(@group).admin? %>
 			<div id="addProjButton" class="clearfix"><%= link_to "<span>Add New Project</span>", dt_projects_path, :class => 'button-add_project' %></div>
 			<% end %>
     </div>
     <% if @projects_invested.size > 0 %>
-    <div id="tableList">
+    <div class="projectlist">
       <ul>
         <%= render :partial => 'project', :collection => @projects_invested %>
       </ul>
@@ -21,7 +21,7 @@
 
     <h2>Our Wishlist</h2>
     <% if @projects_watched.size > 0 %>
-    <div id="projectlist">
+    <div class="projectlist">
       <ul>
         <%= render :partial => 'project', :collection => @projects_watched %>
       </ul>

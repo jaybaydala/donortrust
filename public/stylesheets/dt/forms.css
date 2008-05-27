@@ -11,6 +11,7 @@ legend {
     font-size:.75em;
     font-weight:bold;
     padding-right:2px;
+    display:block;
 }
 fieldset fieldset legend, fieldset fieldset ol li {
     font-size:1em;
@@ -87,7 +88,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     border-bottom:1px #555 solid;
 }
 
-.userform ol li {
+.userform ol li, .userform ul li {
     font-family:Arial, Helvetica, sans-serif;
 	list-style-type:none;
 }

@@ -2,7 +2,7 @@
 <%- content_for :nav do %><%= dt_account_nav if logged_in? %><% end -%>
 
   <%= error_messages_for :share %>
-  <% form_for(:share, :url => dt_send_message_my_wishlists_path(:account_id => current_user), :html => {:id => "wishlistform", :name => "wishlistform"}) do |f| %>
+  <% form_for(:share, :url => send_message_dt_account_my_wishlists_path(:account_id => current_user), :html => {:id => "wishlistform", :name => "wishlistform"}) do |f| %>
   <p>Please review your information.</p>
   <div class="userform">
     <%= f.hidden_field 'e_card_id', :id => 'e_card_id' %>
@@ -19,15 +19,15 @@
       <% end %></p>
       
     </fieldset>
-
+    
     <fieldset>
       <legend>E-card Details</legend>
       <ul style="width:302px;">
-        <li><label for="share_name">From (Name)</label><%= params[:share][:name] %> <%= f.hidden_field :name %></li>
-        <li><label for="share_email">From (Email)</label><%= params[:share][:email] %> <%= f.hidden_field :email %></li>
-        <li><label for="share_to_name">To (Name)</label><%= params[:share][:to_name] %> <%= f.hidden_field :to_name %></li>
-        <li><label for="share_to_email">To (Email)</label><%= params[:share][:to_email] %> <%= f.hidden_field :to_email %></li>
-        <li><label for="share_message">Gift Message</label><%= params[:share][:message] %> <%= f.hidden_field :message %></li>
+        <% if @share.name? %><li><strong>From (Name):</strong> <%= params[:share][:name] %> <%= f.hidden_field :name %></li><% end %>
+        <li><strong>From (Email):</strong> <%= params[:share][:email] %> <%= f.hidden_field :email %></li>
+        <% if @share.to_name? %><li><strong>To (Name):</strong> <%= params[:share][:to_name] %> <%= f.hidden_field :to_name %></li><% end %>
+        <li><strong>To (Email):</strong> <%= params[:share][:to_email] %> <%= f.hidden_field :to_email %></li>
+        <% if @share.message? %><li><strong>Gift Message:</strong><br /> <%= params[:share][:message] %> <%= f.hidden_field :message %></li><% end %>
       </ul>
     </fieldset>
 
@@ -42,6 +42,6 @@
         <div id="medImgWrap">
           <div class="medImg"><%= image_tag(url_for_file_column(@share.e_card, "medium"), :alt => '') if @share.e_card_id? && @share.e_card %></div>
         </div>
-        <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('wishlistform'));window.open('<%= dt_preview_my_wishlists_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
+        <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('wishlistform'));window.open('<%= preview_dt_account_my_wishlists_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
       </div>  
   <% end %>

@@ -28,7 +28,7 @@
 
     <%= error_messages_for :group %>
     <div class="userform">
-    <% form_for(:group, :url => dt_groups_path, :html => { :id => 'groupform', :name => 'groupform' }) do |f| %>
+    <% form_for(:group, :url => dt_group_path(@group), :html => { :method => :put, :id => 'groupform', :name => 'groupform' }) do |f| %>
       <fieldset id="groupInfo">
   			<legend>Update your group information </legend>
   			<ul class="row" style="padding-top:10px; padding-bottom:10px;">

@@ -3,11 +3,20 @@
 <%- content_for :nav do -%><%= project_nav %><%- end -%>
 <%- content_for :top_content do -%>
 
-  <div class="columns">
+  <div class="columns projectinfo">
     <div class="content">
       <h1>Connect</h1>
       <p>We change the world together. Here, you can connect with everyone who has chosen to help eradicate extreme poverty by investing in development projects occurring in <%= @project.community_id? ? @project.community.name : 'this project\'s community' %>.</p>
       <% if @fb_group_available %><p>If you have a Facebook account, you can participate in groups discussions at the <%= @project.community.name %> facebook page.</p><% end -%>
+      
+
+      <h1>ChristmasFuture Groups</h1>
+      <%= will_paginate @public_groups %>
+      <%= render(:partial => 'connect_group', :collection => @public_groups) if @public_groups.size > 0 %>
+      <% if @public_groups.empty? %>
+        <p>There are no ChristmasFuture groups currently created for this projects. <%= link_to "Create one now", new_dt_group_path(:project_id => @project.id) %>.</p>
+      <% end %>
+      
     </div>
     <div class="sidebar">
       <%= project_actions %>
@@ -16,15 +25,7 @@
       </div>
     </div>
   </div>
-
-  <h1>ChristmasFuture Groups</h1>
-  <%= will_paginate @public_groups %>
-  <%= render(:partial => 'connect_group', :collection => @public_groups) if @public_groups.size > 0 %>
-  <% if @public_groups.empty? %>
-    <p>There are no ChristmasFuture groups currently created for this projects. <%= link_to "Create one now", new_dt_group_path(:project_id => @project.id) %>.</p>
-  <% end %>
 <%- end -%>
-
 <%= render "dt/projects/facebook" %>
 
 <%- content_for :sidebar do -%>
