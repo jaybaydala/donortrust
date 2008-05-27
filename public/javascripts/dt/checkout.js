@@ -6,6 +6,10 @@ Event.observe(window, 'load', function() {
 	    $('totalfield').show();
 	    new AccountTotal.initialize(form)
 	}
+	if (form = $('paymentform') && $('create_account') && $('create_account').checked) {
+	    $('password_entry').show();
+    }
+	
 });
 var AccountTotal = {
 	form: null,

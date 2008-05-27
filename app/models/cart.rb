@@ -9,6 +9,10 @@ class Cart
     @items = []
     @total = 0.0
   end
+
+  def empty?
+    @items.empty?
+  end
   
   def add_item(item)
     @items << item if valid_item?(item)
@@ -50,18 +54,6 @@ class Cart
     @items.select{|item| item.is_a?(Deposit) }
   end
 
-  def cf_investment
-    cf_investment = nil
-    if Project.cf_admin_project
-      cf_investment = @items.detect{|item| item.is_a?(Investment) and item.project_id? and item.project_id == Project.cf_admin_project.id }
-    end
-    cf_investment
-  end
-  
-  def cf_investment_index
-    @items.index(cf_investment) if cf_investment
-  end
-  
   private
   def valid_item?(item)
     [Gift, Investment, Deposit].include?(item.class) && item.valid?

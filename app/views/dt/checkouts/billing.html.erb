@@ -1,3 +1,15 @@
+<%- content_for :head do -%>
+<%= stylesheet_link_tag 'dt/cart' %>
+<%= javascript_include_tag "dt/checkout" %>
+<%- end -%>
+<%- content_for :html_title do -%>Checkout &ndash; Step 2 of 4<%- end -%>
+<%- content_for :nav do -%><%= checkout_nav %><%- end -%>
+
+<h2>Step 2 of 4 - Billing Information</h2>
+
+<%= error_messages_for :order %>
+<% form_for(:order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform", :method => :put}) do |f| %>
+<%= hidden_field_tag "step", "billing" %>
 <div class="userform">
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
   <fieldset>
@@ -30,7 +42,7 @@
     </ol>
   </fieldset>
   
-  <% unless logged_in? %>
+  <% if !@order.user_id && !logged_in %>
   <fieldset class="clearfix">
     <legend>Create an Account?</legend>
     <p>A ChristmasFuture account allows you to:</p>
@@ -44,6 +56,8 @@
       <li>create a &ldquo;projects wishlist&rdquo; and more!</li>
     </ul>
 
+    <%= error_messages_for :user %>
+    
     <ol>
       <li><label class="left"><%= check_box_tag :create_account, "1", (params[:create_account] ? true : false), :onchange => "if(this.checked){$('password_entry').show();}else{$('password_entry').hide();}" %> Yes, I want to create an account on ChristmasFuture&rsquo;s website</label></li>
     </ol>
@@ -66,5 +80,14 @@
 </div>
 
 <div class="checkoutbuttons clearfix">
-  <%= submit_tag 'Proceed to Step 2 &raquo;', :class => 'buttonsubmit' %>
+  <div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", edit_dt_checkout_path(:step => "support"), :class => "large" %></div>
+  <%= submit_tag 'Proceed to Step 3 &raquo;', :class => 'buttonsubmit' %>
 </div>
+<% end %>
+
+<%- content_for :sidebar do -%>
+  <h2>Your Cart</h2>
+  <%= render "dt/cart/sidebar" %>  
+  <%= render "dt/accounts/profile_sidebar" %>  
+  <%= render :partial => 'dt/checkouts/verisign' %>
+<%- end -%>

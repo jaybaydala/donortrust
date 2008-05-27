@@ -41,8 +41,8 @@
     <legend>Gift Information</legend>
     <ol class="clearfix">
       <li>
-        <label for="gift_amount">Gift Amount</label> <%= f.text_field :amount, :value => (@gift.amount || "$") %>
-        <div class="note">Please enter your gift amount</div>
+        <label for="gift_amount">Gift Amount</label> $<%= f.text_field :amount %>
+        <div class="note" style="padding-left:.5em;">Example: $100</div>
       </li>
       <li>
         <label class="left">How will your gift be used?</label>

@@ -71,6 +71,7 @@ SUBNAV
 #subnav ul {
     border-bottom:1px solid #CCC;
     padding:0.5625em 0;
+    margin:0 0 0.5625em 0;
 }
 #subnav li {
     font-size:0.6875em;
@@ -79,14 +80,14 @@ SUBNAV
 }
 #subnav li a {
     padding:0.125em .375em;
-    border:0.0625em solid transparent;
+    border:1px solid transparent;
     text-decoration:none;
 }
 #subnav li a:link, #subnav li a:visited {
     color: #333;
 }
 #subnav li a:hover, #subnav li a:active {
-    border:0.0625em solid #F60;
+    border:1px solid #F60;
 }
 #subnav li.current a, #subnav li.current a:link, #subnav li.current a:visited, #subnav li.current a:hover, #subnav li.current a:active {
     background-color:#66758B;

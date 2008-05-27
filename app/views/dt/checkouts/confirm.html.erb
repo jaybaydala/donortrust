@@ -2,11 +2,10 @@
 <%= stylesheet_link_tag 'dt/cart' %>
 <%= javascript_include_tag "dt/checkout" %>
 <%- end -%>
-<%- content_for :html_title do -%>Confirm Checkout - Step 3 of 3<%- end -%>
+<%- content_for :html_title do -%>Confirm Checkout - Step 4 of 4<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
-
-<h2>Step 3 of 3 - Confirmation</h2>
+<h2>Step 4 of 4 - Confirmation</h2>
 
 <%= error_messages_for :order %>
 <% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform", :method => :put}) do |f| %>
@@ -36,11 +35,11 @@
     </ol>
   </fieldset>
   
-  <% if @cart.cf_investment %>
+  <% if cart_cf_investment %>
   <fieldset>
     <legend>Support ChristmasFuture</legend>
     <p>100% of your funds go to the project(s) you select.</p>
-    <p>You have chosen to give <strong><%= number_to_currency(@cart.cf_investment.amount) %></strong> to ChristmasFuture directly. Thank You!</p>
+    <p>You have chosen to give <strong><%= number_to_currency(cart_cf_investment.amount) %></strong> to ChristmasFuture directly. Thank You!</p>
   </fieldset>
   <% end %>
   
@@ -71,7 +70,7 @@
     <% end %>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
     <ol class="clearfix" style="margin:6px 0 0 0;">
-      <li><label>Credit Card</label><%=h @order.credit_card_concealed %></li>
+      <li><label>Credit Card</label><%=h @order.credit_card_concealed %> <%= hidden_field_tag "credit_card", params[:order][:credit_card] %></li>
       <li><label>Card Security Number</label> <%=h @order.csc.gsub(/./, "*") if @order.csc? %></li>
       <li><label>Card Expiry</label> <%=h @order.expiry_month.to_s.rjust(2, "0") %>/<%=h @order.expiry_year %></li>
       <li><label>Cardholder Name</label> <%=h @order.cardholder_name %></li>
