@@ -32,6 +32,7 @@ class Dt::GiftsController < DtApplicationController
     store_location
     params[:gift] = session[:gift_params] if session[:gift_params]
     @gift = Gift.new( gift_params )
+    @gift.email = current_user.email if !@gift.email? && logged_in?
     @ecards = ECard.find(:all, :order => :id)
     
     if params[:project_id] && @project = Project.find(params[:project_id]) 

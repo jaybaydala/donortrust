@@ -23,7 +23,7 @@
     <ol>
       <li><label for="gift_name">Name</label> <%= f.text_field :name %></li>
       <li><label for="gift_email"><em>*</em> Email</label> <%= f.text_field :email %></li>
-      <li><label for="gift_email_confirmation"><em>*</em>Retype Email</label> <%= f.text_field :email_confirmation %></li>
+      <li><label for="gift_email_confirmation"><em>*</em>Retype Email</label> <%= f.text_field :email_confirmation, :value => (logged_in? && @gift.email? ? @gift.email : nil) %></li>
     </ol>
   </fieldset>
 
