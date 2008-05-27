@@ -25,6 +25,7 @@
         <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :total, @cart.total, :id => 'cart_total' %></li>
         <li><label>Take From my Account:</label> <%= f.text_field :account_balance_total %></li>
         <li class="odd"><label>Put on My Credit Card:</label> <%= f.text_field :credit_card_total %></li>
+        <li style="display:none;" id="paymentrequiredfield"><label>Payment still required:</label> <%= text_field_tag :payment_required, number_to_currency(@order.total), :style => 'border:0;', :onfocus => "blur();" %></li>
         <li style="display:none;" id="totalfield"><label>Total Paid:</label> <%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :onfocus => "blur();" %></li>
       </ol>
     <% else %>

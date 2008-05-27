@@ -160,6 +160,7 @@ class Dt::CheckoutsController < DtApplicationController
         u.login = params[:order][:email]
         u.first_name = params[:order][:first_name]
         u.last_name = params[:order][:last_name]
+        u.display_name = params[:order][:company]
         u.address = params[:order][:address]
         u.city = params[:order][:city]
         u.province = params[:order][:province]

@@ -252,6 +252,15 @@ CHECKOUT FORMS
 #payment li.even {
     background-color:transparent;
 }
+#payment li#paymentrequiredfield {
+    border-top:1px solid #999;
+    color:#C00;
+    font-style:italic;
+}
+#payment li#paymentrequiredfield input {
+    color:#C00;
+    font-style:italic;
+}
 #payment li#totalfield {
     border-top:2px solid #999;
     border-bottom:2px solid #999;

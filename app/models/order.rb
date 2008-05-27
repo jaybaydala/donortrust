@@ -39,6 +39,7 @@ class Order < ActiveRecord::Base
   
   def validate_billing
     errors.add_on_blank(%w(donor_type first_name last_name address city postal_code province country email))
+    errors.add_on_blank(:company) if self.donor_type? && self.donor_type == self.class.corporate_donor
     errors.add(:email, "isn't a valid email address") unless self.email? && self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
     errors.empty?
   end
@@ -55,7 +56,7 @@ class Order < ActiveRecord::Base
   def minimum_credit_card_payment(cart_items, current_balance = nil)
     @minimum_credit_card_payment = 0
     cart_items.each{|item| @minimum_credit_card_payment += item.amount if item.class == Deposit}
-    @minimum_credit_card_payment += self[:total].to_f - self[:account_balance_total].to_f if current_balance
+    @minimum_credit_card_payment += self[:total].to_f - self[:account_balance_total].to_f if current_balance && current_balance > 0
     @minimum_credit_card_payment
   end
   

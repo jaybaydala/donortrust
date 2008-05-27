@@ -214,7 +214,7 @@ class User < ActiveRecord::Base
     end
 
     def calculate_deposits
-      deposits = Deposit.find(:all, :conditions => { :user_id => self[:id] })
+      deposits = Deposit.find(:all, :conditions => { :user_id => self[:id], :order_id => nil })
       balance = 0
       deposits.each do |trans|
         balance = balance + trans.amount
@@ -223,7 +223,7 @@ class User < ActiveRecord::Base
     end
 
     def calculate_investments
-      investments = Investment.find(:all, :conditions => { :user_id => self[:id] })
+      investments = Investment.find(:all, :conditions => { :user_id => self[:id], :order_id => nil })
       balance = 0
       investments.each do |trans|
         balance = balance + trans.amount
@@ -232,16 +232,17 @@ class User < ActiveRecord::Base
     end
 
     def calculate_orders
-      orders = Order.find(:all, :conditions => { :user_id => self[:id], :complete => true })
-      balance = 0
-      orders.each do |trans|
-        balance = balance + trans.account_balance_total.to_f
+      orders = Order.find(:all, :conditions => ["user_id=? AND complete=? AND account_balance_total IS NOT NULL", self[:id], true ])
+      @calculate_orders = 0
+      orders.each do |order|
+        @calculate_orders = @calculate_orders + order.account_balance_total.to_f
       end
-      balance
+pp @calculate_orders
+      @calculate_orders
     end
 
     def calculate_gifts(exclude_credit_card = false)
-      conditions = { :user_id => self[:id] }
+      conditions = { :user_id => self[:id], :order_id => nil }
       conditions[:credit_card] = nil if exclude_credit_card == true
       gifts = Gift.find(:all, :conditions => conditions)
       balance = 0

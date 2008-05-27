@@ -4,27 +4,115 @@ Event.observe(window, 'load', function() {
 	}
 	if (form = $('paymentform') && $('totalfield')) {
 	    $('totalfield').show();
-	    new AccountTotal.initialize(form)
+	    $('paymentrequiredfield').show();
+	    account_total = new AccountTotal(form)
+		if ($(account_total.account_amount_field)) {
+		    Event.observe(account_total.account_amount_field, 'change', account_total.update_from_account_amount.bindAsEventListener(account_total))
+		}
+		if ($(account_total.cc_amount_field)) {
+		    Event.observe(account_total.cc_amount_field, 'change', account_total.update_from_cc.bindAsEventListener(account_total))
+		}
 	}
 	if (form = $('paymentform') && $('create_account') && $('create_account').checked) {
 	    $('password_entry').show();
     }
-	
 });
-var AccountTotal = {
+var AccountTotal = Class.create();
+AccountTotal.prototype = {
 	form: null,
 	balance_field: 'account_balance', 
 	cart_total_field: 'cart_total', 
 	account_amount_field: 'order_account_balance_total', 
 	cc_amount_field: 'order_credit_card_total', 
+	payment_required_field: 'payment_required', 
 	total_field: 'total', 
 
 	initialize: function(form, type) {
-		AccountTotal.form = form
-		if ($(AccountTotal.account_amount_field)) {Event.observe($(AccountTotal.account_amount_field), 'change', AccountTotal.update)}
-		if ($(AccountTotal.cc_amount_field)) {Event.observe($(AccountTotal.cc_amount_field), 'change', AccountTotal.update)}
-		AccountTotal.update()
+		this.form = form
+		this.update_totals()
 	},
+	update_totals: function() {
+	    cart_total = this.get_cart_total()
+	    total = this.get_account_amount() + this.get_cc_amount()
+	    remaining = cart_total - total
+	    this.set_cc_amount(this.get_cc_amount())
+	    this.set_account_amount(this.get_account_amount())
+	    this.set_total(total)
+	    this.set_payment_required(remaining)
+	    if (remaining == 0) {
+	        if ($("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindUp({ duration: 0.8 })}
+	    } else {
+	        if (!$("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindDown({ duration: 0.8 })}
+	    }
+	    if (this.get_account_amount() == cart_total) {
+		    $('credit_card_details').hide();
+		} else {
+		    $('credit_card_details').show();
+		}
+	},
+	update_from_cc: function() {
+	    cart_total = this.get_cart_total()
+	    account_balance = this.get_account_balance()
+	    cc_amount = this.get_cc_amount()
+	    if (cc_amount > cart_total) {
+	        cc_amount = cart_total
+	    }
+	    account_amount = cart_total - cc_amount
+	    if (account_balance < account_amount) {
+	        account_amount = account_balance
+	    }
+	    this.set_cc_amount(cc_amount)
+	    this.set_account_amount(account_amount)
+	    this.update_totals()
+	},
+	update_from_account_amount: function() {
+	    cart_total = this.get_cart_total()
+	    account_balance = this.get_account_balance()
+	    account_amount = this.get_account_amount()
+	    if (account_amount > cart_total) {
+	        account_amount = cart_total
+	    }
+	    if (account_balance < account_amount) {
+	        account_amount = account_balance
+	    }
+	    cc_amount = cart_total - account_amount
+	    if (cc_amount > cart_total) {
+	        cc_amount = cart_total
+	    }
+	    this.set_cc_amount(cc_amount)
+	    this.set_account_amount(account_amount)
+	    this.update_totals()
+	},
+	
+	set_cc_amount: function(value) {
+	    $(this.cc_amount_field).value = this.to_currency(value)
+	},
+	set_account_amount: function(value) {
+	    $(this.account_amount_field).value = this.to_currency(value)
+	},
+	set_total: function(value) {
+	    $(this.total_field).value = this.to_currency(value)
+	},
+	set_payment_required: function(value) {
+	    $(this.payment_required_field).value = this.to_currency(value)
+	},
+	
+	get_account_balance: function() {
+	    return this.filter_amount($(this.balance_field).value)
+	},
+	get_cart_total: function() {
+	    return this.filter_amount($(this.cart_total_field).value)
+    },
+	get_cc_amount: function() {
+	    return this.filter_amount($(this.cc_amount_field).value)
+	},
+	get_account_amount: function() {
+	    return this.filter_amount($(this.account_amount_field).value)
+    },
+	get_total: function() {
+	    return this.filter_amount($(this.total_field).value)
+	},
+	/*
 	update: function() {
 	    account_amount_field = $(AccountTotal.account_amount_field)
 	    cc_amount_field = $(AccountTotal.cc_amount_field)
@@ -62,10 +150,11 @@ var AccountTotal = {
 			total_field.value = AccountTotal.to_currency(total)
         }
 	},
+	*/
 	filter_amount: function(amount) {
 	    if (typeof(amount) == 'string') {
-    		amount = amount.replace(/^\$/, '')
-    		amount = amount.replace(/,/g, '')
+	        // amount = amount.replace(/$/, '')
+	        amount = amount.replace(/[^0-9\.]+/g, '')
 	    }
 		if (isNaN(amount)) {
 		    amount = 0
