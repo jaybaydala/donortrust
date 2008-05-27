@@ -42,7 +42,7 @@
     </ol>
   </fieldset>
   
-  <% if !@order.user_id && !logged_in %>
+  <% if !@order.user_id && !logged_in? %>
   <fieldset class="clearfix">
     <legend>Create an Account?</legend>
     <p>A ChristmasFuture account allows you to:</p>
