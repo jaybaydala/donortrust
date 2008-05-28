@@ -17,7 +17,7 @@ class Dt::AccountsController < DtApplicationController
     @user = User.find(params[:id], :include => [:projects])
     # @transactions = @user.user_transactions.find(:all, :order => 'created_at DESC').paginate(:page => params[:tx_page], :per_page => 10)
     @transactions = []
-    @transactions << @user.orders.find(:all)
+    @transactions << @user.orders
     @transactions << @user.gifts.find(:all, :conditions => {:order_id => nil})
     @transactions << @user.investments.find(:all, :conditions => {:order_id => nil})
     @transactions << @user.deposits.find(:all, :conditions => {:order_id => nil})
