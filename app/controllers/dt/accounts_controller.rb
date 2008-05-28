@@ -14,8 +14,16 @@ class Dt::AccountsController < DtApplicationController
 
   # GET /dt/accounts/1
   def show
-    @user = User.find(params[:id], :include => [:user_transactions, :projects])
-    @transactions = @user.user_transactions.find(:all, , :order => 'created_at DESC').paginate(:page => params[:tx_page], :per_page => 10)
+    @user = User.find(params[:id], :include => [:projects])
+    # @transactions = @user.user_transactions.find(:all, :order => 'created_at DESC').paginate(:page => params[:tx_page], :per_page => 10)
+    @transactions = []
+    @transactions << @user.orders.find(:all)
+    @transactions << @user.gifts.find(:all, :conditions => {:order_id => nil})
+    @transactions << @user.investments.find(:all, :conditions => {:order_id => nil})
+    @transactions << @user.deposits.find(:all, :conditions => {:order_id => nil})
+    @transactions.flatten!
+    @transactions = @transactions.sort_by{|tx| tx.created_at }.reverse
+    @transactions = @transactions.paginate(:page => params[:tx_page], :per_page => 10)
   end
 
   # GET /dt/accounts/new
