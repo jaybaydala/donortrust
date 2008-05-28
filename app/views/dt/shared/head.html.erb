@@ -5,14 +5,14 @@
         
         <div id="loginbug">
           <ul>
-            <li id="rss"><a href="http://www.christmasfuture.org/feed/"><img src="/images/dt/icons/feed-icon16x16.png" width="16" height="16" alt="RSS Feed" /></a> | </li>
-            <li><%= link_to " <span>Cart</span>", dt_cart_path %> | </li>
             <%- if logged_in? -%>
               <li>Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %> | </li>
+              <li><%= link_to "Cart", dt_cart_path %> | </li>
               <li><%= link_to 'Logout', dt_logout_url(:protocol => 'http://') %></li>
             <%- else -%>
               <li><%= link_to 'Login', dt_login_path %> | </li>
-              <li><%= link_to 'Create Account', dt_signup_path %></li>
+              <li><%= link_to 'Create Account', dt_signup_path %> | </li>
+              <li><%= link_to "Cart", dt_cart_path %> </li>
             <%- end -%>
           </ul>
         </div>

@@ -25,8 +25,8 @@
           <span id="fund_cf_dollars_symbol" style="display:none;">$</span><%= text_field_tag "fund_cf_amount", (cart_cf_investment ? cart_cf_investment.amount : params[:fund_cf_amount]), :style => "width:75px;" %><span id="fund_cf_percent_symbol" style="display:none;">%</span>
           <div>
             <label>&nbsp; &nbsp;</label>
-            <%= text_field_tag "fund_cf_amount_calculated", number_to_currency(0) << " will be added to your cart", :disabled => "disabled" %>
-            <%= hidden_field_tag "cart_total", @cart.total %>
+            <%= text_field_tag "fund_cf_amount_calculated", nil, :disabled => "disabled" %>
+            <%= hidden_field_tag "cart_total", (cart_cf_investment ? @cart.total - cart_cf_investment.amount : @cart.total) %>
           </div>
         </div>
       </li>

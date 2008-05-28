@@ -175,6 +175,8 @@ Event.observe(window, 'load', function() {
 	    Event.observe("fund_cf_dollars", 'change', supportCF.toggler)
 	    Event.observe("fund_cf_no", 'change', supportCF.toggler)
 	    Event.observe("fund_cf_amount", 'change', supportCF.calculate)
+	    Event.observe("fund_cf_percent", 'change', supportCF.calculate)
+	    Event.observe("fund_cf_dollars", 'change', supportCF.calculate)
     }
 });
 supportCF = {
@@ -194,10 +196,12 @@ supportCF = {
         }
     },
     calculate: function() {
+        amount = supportCF.filter_amount($('fund_cf_amount').value)
         if ($('fund_cf_dollars').checked) {
-            amount = supportCF.filter_amount($('fund_cf_amount').value)
-        } else if ($('fund_cf_percent').checked) {
             
+        } else if ($('fund_cf_percent').checked) {
+            total = supportCF.filter_amount($('cart_total').value)
+            amount = total * (amount/100)
         } else {
             $('fund_cf_amount_calculated').value = ""
             return
@@ -222,6 +226,7 @@ supportCF = {
         $("fund_cf_amount_field").show();
     },
     hideAmount: function() {
+        $('fund_cf_amount_calculated').value = ""
         $("fund_cf_amount").value = "";
         $("fund_cf_amount_field").hide();
     },
