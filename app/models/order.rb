@@ -54,9 +54,18 @@ class Order < ActiveRecord::Base
   end
   
   def minimum_credit_card_payment(cart_items, current_balance = nil)
-    @minimum_credit_card_payment = 0
-    cart_items.each{|item| @minimum_credit_card_payment += item.amount if item.class == Deposit}
-    @minimum_credit_card_payment += self[:total].to_f - self[:account_balance_total].to_f if current_balance && current_balance > 0
+    total = self[:total].to_f
+    current_balance = current_balance.to_f
+    if !current_balance
+      @minimum_credit_card_payment = total
+    else
+      deposit_balance = 0
+      cart_items.each{|item| deposit_balance += item.amount if item.class == Deposit}
+      @minimum_credit_card_payment = deposit_balance
+      if current_balance < (total - deposit_balance)
+         @minimum_credit_card_payment += total - deposit_balance - current_balance
+      end
+    end
     @minimum_credit_card_payment
   end
   
