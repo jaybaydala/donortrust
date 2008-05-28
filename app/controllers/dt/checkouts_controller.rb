@@ -12,7 +12,10 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(edit_dt_checkout_path) and return if find_order
     @order = initialize_new_order
     respond_to do |format|
-      format.html { render :action => "new" }
+      format.html {
+        @current_step = 'support'
+        render :action => "new" 
+      }
     end
   end
   

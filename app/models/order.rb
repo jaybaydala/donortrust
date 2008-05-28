@@ -38,10 +38,13 @@ class Order < ActiveRecord::Base
   end
   
   def validate_billing
-    errors.add_on_blank(%w(donor_type first_name last_name address city postal_code province country email))
+    errors.add_on_blank(:email)
+    if errors.empty?
+    errors.add_on_blank(%w(donor_type first_name last_name address city postal_code province country))
     errors.add_on_blank(:company) if self.donor_type? && self.donor_type == self.class.corporate_donor
     errors.add(:email, "isn't a valid email address") unless self.email? && self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
     errors.empty?
+    end
   end
   
   def validate_payment(cart_items, current_balance = nil)

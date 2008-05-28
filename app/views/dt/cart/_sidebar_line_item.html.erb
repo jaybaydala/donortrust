@@ -9,6 +9,8 @@
       <strong>To:</strong> <%= link_to((sidebar_line_item.to_name? ? sidebar_line_item.to_name : sidebar_line_item.to_email), "mailto:" + sidebar_line_item.email) %><br />
       <% if sidebar_line_item.message? %><strong>Message:</strong> <%= sidebar_line_item.message_summary %><% end %>
     </p>
+    
+    <% if sidebar_line_item.project_id? && sidebar_line_item.project %><p><%= link_to sidebar_line_item.project.name, dt_project_path(sidebar_line_item.project_id) %></p><% end %>
   </td>
   <td class="numeric money"><%= number_to_currency(sidebar_line_item.amount) %></td>
 <% end -%>
