@@ -197,6 +197,7 @@ supportCF = {
     },
     calculate: function() {
         amount = supportCF.filter_amount($('fund_cf_amount').value)
+        $('fund_cf_amount').value = amount
         if ($('fund_cf_dollars').checked) {
             
         } else if ($('fund_cf_percent').checked) {
@@ -209,6 +210,7 @@ supportCF = {
         amount = supportCF.to_currency(amount)
         amount += " will be added to your cart"
         $('fund_cf_amount_calculated').value = amount
+        
     },
     showPercent: function() {
         $("fund_cf_percent_symbol").show();
