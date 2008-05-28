@@ -166,3 +166,77 @@ AccountTotal.prototype = {
         return "$" + amount.toFixed(2)
     }
 }
+
+Event.observe(window, 'load', function() {
+    if ($('supportform')) {
+        supportCF.toggler();
+        supportCF.calculate();
+	    Event.observe("fund_cf_percent", 'change', supportCF.toggler)
+	    Event.observe("fund_cf_dollars", 'change', supportCF.toggler)
+	    Event.observe("fund_cf_no", 'change', supportCF.toggler)
+	    Event.observe("fund_cf_amount", 'change', supportCF.calculate)
+    }
+});
+supportCF = {
+    toggler: function() {
+        if ($('fund_cf_no').checked) {
+            supportCF.hidePercent();
+            supportCF.hideDollars();
+            supportCF.hideAmount();
+        } else if ($('fund_cf_percent').checked) {
+            supportCF.showAmount();
+            supportCF.showPercent();
+            supportCF.hideDollars();
+        } else if ($('fund_cf_dollars').checked) {
+            supportCF.showAmount();
+            supportCF.showDollars();
+            supportCF.hidePercent();
+        }
+    },
+    calculate: function() {
+        if ($('fund_cf_dollars').checked) {
+            amount = supportCF.filter_amount($('fund_cf_amount').value)
+        } else if ($('fund_cf_percent').checked) {
+            
+        } else {
+            $('fund_cf_amount_calculated').value = ""
+            return
+        }
+        amount = supportCF.to_currency(amount)
+        amount += " will be added to your cart"
+        $('fund_cf_amount_calculated').value = amount
+    },
+    showPercent: function() {
+        $("fund_cf_percent_symbol").show();
+    },
+    hidePercent: function() {
+        $("fund_cf_percent_symbol").hide();
+    },
+    showDollars: function() {
+        $("fund_cf_dollars_symbol").show();
+    },
+    hideDollars: function() {
+        $("fund_cf_dollars_symbol").hide();
+    },
+    showAmount: function() {
+        $("fund_cf_amount_field").show();
+    },
+    hideAmount: function() {
+        $("fund_cf_amount").value = "";
+        $("fund_cf_amount_field").hide();
+    },
+	filter_amount: function(amount) {
+	    if (typeof(amount) == 'string') {
+	        // amount = amount.replace(/$/, '')
+	        amount = amount.replace(/[^0-9\.]+/g, '')
+	    }
+		if (isNaN(amount)) {
+		    amount = 0
+		}
+		amount -= 0
+		return amount
+	},
+    to_currency: function(amount) {
+        return "$" + amount.toFixed(2)
+    }
+}

@@ -80,12 +80,17 @@ describe Order do
       @order.validate_payment(@items, 74.0)
       @order.errors.on(:account_balance_total).should_not be_nil
     end
-    it "should calculate the minimum_credit_card_payment to the deposits if no balance is passed" do
-      @order.minimum_credit_card_payment(@items).should == 75
+    it "should calculate the minimum_credit_card_payment to the total if no balance is passed" do
+      @order.minimum_credit_card_payment(@items).should == 100
     end
-    it "should add the (total - account_balance_total) the minimum_credit_card_payment to the deposits if ad balance is passed" do
+    it "should calculate the minimum_credit_card_payment to just the deposits for if the balance is greater than or equal to (total - deposits)" do
+      subtotal = @order.total - 75 # total - deposits
+      balance = subtotal
+      @order.minimum_credit_card_payment(@items, balance).should == 75 # the deposit amount
+    end
+    it "should calculate the minimum_credit_card_payment deposits - (total - deposits - account_balance_total) if the balance is lower than (total - deposits)" do
       @order.account_balance_total = 10
-      @order.minimum_credit_card_payment(@items, 15).should == 75 + (@order.total - @order.account_balance_total)
+      @order.minimum_credit_card_payment(@items, 15).should == 85 # 75 + (100 - 75 - 15)
     end
     it "should add an error to base it account_balance_total + credit_card_total are less than the @order total" do
       @order.total = 100

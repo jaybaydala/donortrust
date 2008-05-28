@@ -1,6 +1,7 @@
 #container {
 	width:724px;
 	margin:auto;
+	position:relative;
 }
 
 #header {
@@ -130,7 +131,7 @@ div.notice, div.error, div.errorExplanation {
     font-family:Arial, Helvetica, sans-serif;
 }
 div.notice {
-	background-color:rgb(255, 255, 204);
+    background-color:#FFE;
 	border:1px solid #360;
 }
 div.error, div.errorExplanation {

@@ -37,7 +37,7 @@ class Dt::GiftsController < DtApplicationController
     
     if params[:project_id] && @project = Project.find(params[:project_id]) 
       if @project.fundable?
-        @gift.project_id = @project
+        @gift.project = @project
       else
         flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
         redirect_to dt_project_path(@project) and return
@@ -45,7 +45,7 @@ class Dt::GiftsController < DtApplicationController
     end
     
     if logged_in?
-      %w(email first_name last_name address city province postal_code country).each do |c| 
+      %w( email first_name last_name address city province postal_code country).each do |c| 
         @gift.write_attribute(c, current_user.read_attribute(c)) unless @gift.attribute_present?(c)
       end
       @gift.write_attribute("name", current_user.full_name) unless @gift.name?

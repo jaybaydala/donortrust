@@ -41,8 +41,12 @@ describe Dt::GiftsController do
       @gift.stub!(:write_attribute).and_return(true)
       @gift.stub!(:attribute_present?).and_return(false)
       @gift.stub!(:name?).and_return(false)
+      @gift.stub!(:email?).and_return(false)
+      @gift.stub!(:email=).and_return(true)
       @user.stub!(:read_attribute).and_return(nil)
       @user.stub!(:full_name).and_return(nil)
+      @user.stub!(:login).and_return("email@example.com")
+      @user.stub!(:email).and_return(@user.login)
     end
     
     it "should store_location for login" do
@@ -66,7 +70,7 @@ describe Dt::GiftsController do
 
     it "should load the project into the gift if it's fundable?" do
       @project.should_receive(:fundable?).and_return(true)
-      @gift.should_receive(:project_id=).with(@project)
+      @gift.should_receive(:project=).with(@project)
       get 'new', :project_id => @project.id
     end
     
@@ -89,8 +93,8 @@ describe Dt::GiftsController do
       end
       
       it "should load the user attributes into the gift" do
-        %w(email first_name last_name address city province postal_code country).each do |c|
-          @user.should_receive(:read_attribute).any_number_of_times.with(c)
+        %w(first_name last_name address city province postal_code country).each do |c|
+          @user.should_receive(:read_attribute).twice.with(c)
           @gift.should_receive(:attribute_present?).with(c).and_return(false)
           @gift.should_receive(:write_attribute).with(c, @user.read_attribute(c)).and_return(true)
         end

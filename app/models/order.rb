@@ -62,8 +62,9 @@ class Order < ActiveRecord::Base
       deposit_balance = 0
       cart_items.each{|item| deposit_balance += item.amount if item.class == Deposit}
       @minimum_credit_card_payment = deposit_balance
-      if current_balance < (total - deposit_balance)
-         @minimum_credit_card_payment += total - deposit_balance - current_balance
+      subtotal = total - deposit_balance # this is what's left
+      if current_balance < subtotal
+         @minimum_credit_card_payment += subtotal - current_balance
       end
     end
     @minimum_credit_card_payment
@@ -77,7 +78,7 @@ class Order < ActiveRecord::Base
   end
   
   def run_transaction
-    create_tax_receipt_from_order
+    create_tax_receipt_from_order if @order.country.to_s.downcase == "canada"
     # use ActiveMerchant to process credit card
     # if successful
     #   set the authorization_result value

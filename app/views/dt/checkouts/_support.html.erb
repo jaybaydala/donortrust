@@ -5,7 +5,7 @@
   <% if Project.cf_admin_project %>
   <fieldset>
     <legend>Support ChristmasFuture</legend>
-
+    
     <p>100% of your funds go to the project(s) you select. We spend over 3% on each transaction.</p>
   
     <ol>
@@ -14,13 +14,21 @@
         <fieldset>
           <ol>
             <li>
-              <label class="left"><%= radio_button_tag "fund_cf", "no", false, :onchange => "if(this.checked){$('fund_cf_amount_field').hide();$('fund_cf_amount').value='';}" %> Not this time</label>
-              <label class="left"><%= radio_button_tag "fund_cf", "percent", false, :onchange => "if(this.checked){$('fund_cf_amount_field').show();$('fund_cf_dollars_symbol').hide();$('fund_cf_percent_symbol').show();}" %> Add a percentage to my investment</label>
-              <label class="left"><%= radio_button_tag "fund_cf", "dollars", (cart_cf_investment ? true : false), :onchange => "if(this.checked){$('fund_cf_amount_field').show();$('fund_cf_percent_symbol').hide();$('fund_cf_dollars_symbol').show();}" %> Add a specific a dollar amount</label>
+              <label class="left"><%= radio_button_tag "fund_cf", "percent", false %> Add a percentage to my investment</label>
+              <label class="left"><%= radio_button_tag "fund_cf", "dollars", (cart_cf_investment ? true : false) %> Add a specific dollar amount</label>
+              <label class="left"><%= radio_button_tag "fund_cf", "no", false %> Not this time</label>
             </li>
           </ol>
         </fieldset>
-        <div id="fund_cf_amount_field"><label><%= form_required %>Amount <span id="fund_cf_percent_symbol" style="display:none;">%</span><span id="fund_cf_dollars_symbol" style="display:none;">$</span></label> <%= text_field_tag "fund_cf_amount", (cart_cf_investment ? cart_cf_investment.amount : nil) %></div>
+        <div id="fund_cf_amount_field">
+          <label><%= form_required %>Amount</label>
+          <span id="fund_cf_dollars_symbol" style="display:none;">$</span><%= text_field_tag "fund_cf_amount", (cart_cf_investment ? cart_cf_investment.amount : params[:fund_cf_amount]), :style => "width:75px;" %><span id="fund_cf_percent_symbol" style="display:none;">%</span>
+          <div>
+            <label>&nbsp; &nbsp;</label>
+            <%= text_field_tag "fund_cf_amount_calculated", number_to_currency(0) << " will be added to your cart", :disabled => "disabled" %>
+            <%= hidden_field_tag "cart_total", @cart.total %>
+          </div>
+        </div>
       </li>
     </ol>
   </fieldset>

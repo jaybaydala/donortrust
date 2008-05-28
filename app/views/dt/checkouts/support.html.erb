@@ -2,17 +2,17 @@
 <%= stylesheet_link_tag 'dt/cart' %>
 <%= javascript_include_tag "dt/checkout" %>
 <%- end -%>
-<%- content_for :html_title do -%>Checkout &ndash; Step 1 of 4<%- end -%>
+<%- content_for :html_title do -%>Checkout &ndash;<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
 <h2>Step 1 of 4 - Support</h2>
 <%= error_messages_for "order" %>
-<% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform", :method => :put}) do |f| %>
+<% form_for(:order, :url => dt_checkout_path, :html => {:id => "supportform", :name => "supportform", :method => :put}) do |f| %>
 <%= render :partial => 'support', :locals => {:f => f} %>
 <% end %>
 
 <%- content_for :sidebar do -%>
-  <h2>Your Cart</h2>
+  <h2><%= link_to "My Cart", dt_checkout_path, :method => :delete %></h2>
   <%= render "dt/cart/sidebar" %>
   <%= render "dt/accounts/profile_sidebar" %>
   <%= render :partial => 'dt/checkouts/verisign' %>

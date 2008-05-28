@@ -90,7 +90,9 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 
 .userform ol li, .userform ul li {
     font-family:Arial, Helvetica, sans-serif;
-	list-style-type:none;
+}
+.userform ol li {
+    list-style-type:none;
 }
 .userform div.notes p {
     margin:0;
@@ -270,6 +272,10 @@ CHECKOUT FORMS
     font-style:italic;
     font-weight:bold;
 }
+#payment #card_expiry {
+    float:left;
+    width:145px;
+}
 div.checkoutbuttons {
     float:right;
 }
@@ -277,6 +283,12 @@ div.checkoutbuttons div.buttonsubmit {}
 
 #card_expiry div.fieldWithErrors {
     display:inline;
+}
+#fund_cf_amount_calculated {
+    width:200px;
+    border:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background-color:transparent;
 }
 
 /*

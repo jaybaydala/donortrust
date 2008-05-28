@@ -280,6 +280,16 @@ describe Dt::CheckoutsController do
       end
     end
 
+    describe "on the billing step" do
+      before do
+        @step = "billing"
+      end
+      it "should receive before_billing" do
+        controller.should_receive(:before_billing)
+        do_request
+      end
+    end
+
     describe "on the payment step" do
       before do
         @step = "payment"
@@ -322,6 +332,10 @@ describe Dt::CheckoutsController do
         end
         it "should validate_order" do
           controller.should_receive(:validate_order).and_return(true)
+          do_request
+        end
+        it "should call do_action" do
+          controller.should_receive(:do_action).and_return(true)
           do_request
         end
         it "should save the order if it's valid" do
@@ -369,6 +383,35 @@ describe Dt::CheckoutsController do
       it "should call do_support" do
         controller.should_receive(:do_support)
         do_request
+      end
+      
+      it "should render the billing step if order is valid" do
+        controller.stub!(:validate_order).and_return(true)
+        controller.stub!(:do_action).and_return(true)
+        do_request
+        response.should render_template("billing")
+      end
+      
+      describe "before_billing method" do
+        before do
+          controller.stub!(:validate_order).and_return(true)
+          controller.stub!(:do_action).and_return(true)
+          @gifts = [mock_model(Gift, :email => "email@example.com", :name => "Test Name")] 
+          @cart.stub!(:gifts).and_return(@gifts)
+        end
+        it "should call before_billing if the order is valid" do
+          controller.should_receive(:before_billing)
+          do_request
+        end
+        it "should grab the first gift and prepopulate the email address" do
+          @order.should_receive(:email?).and_return(false)
+          @order.should_receive(:email=).with(@gifts[0].email).and_return(true)
+          @order.should_receive(:first_name?).and_return(false)
+          @order.should_receive(:first_name=).with("Test").and_return(true)
+          @order.should_receive(:last_name?).and_return(false)
+          @order.should_receive(:last_name=).with("Name").and_return(true)
+          do_request
+        end
       end
       
       describe "in the do_support method" do
@@ -497,7 +540,7 @@ describe Dt::CheckoutsController do
         @order.should_receive(:save)
         do_request
       end
-      it "should redirect to payment step" do
+      it "should render the payment step" do
         do_request
         response.should render_template("payment")
       end

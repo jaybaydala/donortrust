@@ -141,27 +141,17 @@ form#search {
 	padding: .5em 0px;
 }
 
-#rss a, #rss a span {
-    width:16px;
-    height:16px;
-    display:block;
-}
-#rss a {
-    float:right;
-}
-#rss a span {
-    text-indent:-9999px;
-    background:url(/images/dt/icons/feed-icon16x16.png) no-repeat;
-}
-#rss, #loginbug, #cartlink {
-    padding-top:2em;
-}
 #loginbug {
     float:right;
     text-align:right;
 }
-#cartlink {
-    float:right;
-    width:3em;
-    text-align:right;
+#loginbug ul {
+    margin:0;
+    list-style:none;
+}
+#loginbug li {
+    display:inline;
+}
+#loginbug #rss img {
+    vertical-align:middle;
 }

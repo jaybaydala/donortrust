@@ -37,14 +37,12 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(new_dt_checkout_path) and return unless @order
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order
-    if params[:step] == "payment"
-      @order.credit_card = nil
-      @order.csc = nil
-    end
+    before_payment if current_step == "payment"
+    before_billing if current_step == "billing"
     respond_to do |format|
       format.html {
         @current_step = current_step
-        render :action => (current_step)
+        render :action => current_step
       }
     end
   end
@@ -62,10 +60,12 @@ class Dt::CheckoutsController < DtApplicationController
         if @saved 
           redirect_to dt_checkout_path(:order_number => @order.order_number) and return if @order.complete?
           @current_step = next_step
-          render :action => (next_step)
+          before_billing if @current_step == "billing"
+          before_payment if @current_step == "payment"
+          render :action => next_step
         else
           @current_step = current_step
-          render :action => (current_step)
+          render :action => current_step
         end
       }
     end
@@ -134,6 +134,21 @@ class Dt::CheckoutsController < DtApplicationController
       when "confirm"
         do_confirm
     end
+  end
+  
+  def before_billing
+    gift = @cart.gifts.first if @cart.gifts.size > 0
+    if gift
+      @order.email = gift.email unless @order.email?
+      first_name, last_name = gift.name.to_s.split(/ /, 2)
+      @order.first_name = first_name unless @order.first_name?
+      @order.last_name = last_name unless @order.last_name?
+    end
+  end
+  
+  def before_payment
+    @order.credit_card = nil
+    @order.csc = nil
   end
   
   def do_support

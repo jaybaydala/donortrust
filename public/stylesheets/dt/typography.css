@@ -96,6 +96,10 @@ h1 .textsm {
 #header {
     font-size:0.6875em; /* 16x0.6875=11px */
 }
+#header li {
+    font-size:1em;
+    font-family:Arial, Helvetica, sans-serif;
+}
 #footer {
     font-family:Arial, Helvetica, sans-serif;
     font-size:0.6875em; /* 16x0.6875=11px */
