@@ -511,6 +511,8 @@ describe Dt::CheckoutsController do
         @step = "billing"
         @user = mock_model(User, :valid? => true)
         User.stub!(:new).and_return(@user)
+        @order.stub!(:email?).and_return(true)
+        @order.stub!(:email).and_return("email@example.com")
       end
       
       it "next_step should be 'payment'" do
@@ -522,18 +524,32 @@ describe Dt::CheckoutsController do
         do_request
       end
       describe "do_billing method" do
-        it "should create a new User" do
+        it "should not create a new User" do
+          User.should_receive(:new).never
+          do_request
+        end
+        it "should create a new User when create_account is passed" do
           User.should_receive(:new).and_return(@user)
           do_request(:create_account => "1")
         end
-        it "should save a valid user" do
+        it "should save a valid user when create_account is passed" do
           @user.should_receive(:valid?).at_least(:once).and_return(true)
           @user.should_receive(:save)
           do_request(:create_account => "1")
         end
-        it "should not save an invalid user" do
+        it "should not save an invalid user when create_account is passed" do
           @user.should_receive(:valid?).and_return(false)
           do_request(:create_account => "1")
+        end
+        it "should not check if the email is a user login when create_account is passed" do
+          User.should_receive(:find_by_login).never
+          do_request(:create_account => "1")
+        end
+        it "should check if the email is a user login and add a flash.now[:notice] if it is" do
+          User.should_receive(:find_by_login).with(@order.email).and_return(@user)
+          do_request
+          # there's no way to spec a flash.now[:notice] yet...
+          # flash.now[:notice].should_not be_nil
         end
       end
       it "should save the order" do
