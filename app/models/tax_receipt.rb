@@ -30,7 +30,7 @@ class TaxReceipt < ActiveRecord::Base
   def make_view_code
     code = TaxReceipt.generate_view_code
     # ensure it's not currently being used
-    if !TaxReceipt.find_by_view_code(code)
+    unless TaxReceipt.find_by_view_code(code)
       self.view_code = code and return
     end
     # if we get here, it's being used, so try again

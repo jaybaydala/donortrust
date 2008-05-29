@@ -174,17 +174,22 @@ supportCF = {
         amount = number_helper.filter_amount($('fund_cf_amount').value)
         $('fund_cf_amount').value = amount
         if ($('fund_cf_dollars').checked) {
-            
+            // do nothing
         } else if ($('fund_cf_percent').checked) {
             total = number_helper.filter_amount($('cart_total').value)
             amount = total * (amount/100)
         } else {
+            $('fund_cf_amount').value = ""
             $('fund_cf_amount_calculated').value = ""
             return
         }
-        amount = number_helper.to_currency(amount)
-        amount += " will be added to your cart"
-        $('fund_cf_amount_calculated').value = amount
+        if (amount) {
+            amount = number_helper.to_currency(amount)
+            amount += " will be added to your cart"
+            $('fund_cf_amount_calculated').value = amount
+        } else {
+            $('fund_cf_amount_calculated').value = ""
+        }    
         
     },
     showPercent: function() {

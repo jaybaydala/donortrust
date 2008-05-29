@@ -100,7 +100,7 @@ class Order < ActiveRecord::Base
   end
   
   def run_transaction
-    create_tax_receipt_from_order if @order.country.to_s.downcase == "canada"
+    create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
     # use ActiveMerchant to process credit card
     # if successful
     #   set the authorization_result value
@@ -129,7 +129,7 @@ class Order < ActiveRecord::Base
 
   def create_tax_receipt_from_order
     if self.credit_card_total?
-      self.tax_receipt.create do |t|
+      self.tax_receipt = TaxReceipt.new do |t|
         t.first_name   = self.first_name
         t.last_name    = self.last_name
         t.email        = self.email
@@ -139,6 +139,7 @@ class Order < ActiveRecord::Base
         t.postal_code  = self.postal_code
         t.country      = self.country
         t.user_id      = self.user_id
+        t.order_id     = self.id
       end
     end
   end

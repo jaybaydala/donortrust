@@ -34,7 +34,7 @@ class CreateOrders < ActiveRecord::Migration
     add_column :investments, :order_id, :integer
     add_column :deposits, :order_id, :integer
     add_column :tax_receipts, :order_id, :integer
-    add_column :tax_receipts, :view_code, :integer
+    add_column :tax_receipts, :view_code, :string
     add_index "gifts",        ["order_id"], :name => "order_id"
     add_index "investments",  ["order_id"], :name => "order_id"
     add_index "deposits",     ["order_id"], :name => "order_id"
