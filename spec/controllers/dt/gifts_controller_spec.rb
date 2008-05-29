@@ -124,6 +124,8 @@ describe Dt::GiftsController do
       controller.stub!(:request).and_return(request)
       @cart = Cart.new
       controller.stub!(:find_cart).and_return(@cart)
+      now = Time.now
+      Time.stub!(:now).and_return(now)
     end
     
     it "should load the gift_params" do
@@ -139,6 +141,12 @@ describe Dt::GiftsController do
     it "should check if the gift is valid" do
       @gift.should_receive(:valid?).twice.and_return(true)
       post "create"
+    end
+    
+    it "should set the gift.send_at to now if send_gift is 'now'" do
+      @gift.should_receive(:send_email=).with(true)
+      @gift.should_receive(:send_at=).with(Time.now)
+      post "create", :gift => {:send_email => "now"}
     end
     
     describe "valid gift" do

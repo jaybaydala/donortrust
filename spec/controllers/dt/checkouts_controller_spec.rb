@@ -293,16 +293,28 @@ describe Dt::CheckoutsController do
     describe "on the payment step" do
       before do
         @step = "payment"
-        @order.stub!(:credit_card=).and_return(true)
-        @order.stub!(:csc=).and_return(true)
+        @order.stub!(:card_number=).and_return(true)
+        @order.stub!(:cvv=).and_return(true)
       end
       
-      it "should set the credit_card field to nil so they user has to re-enter it" do
-        @order.should_receive(:credit_card=).with(nil)
+      it "should set the card_number field to nil so they user has to re-enter it" do
+        @order.should_receive(:card_number=).with(nil)
         do_request
       end
-      it "should set the csc field to nil so the user has to re-enter it" do
-        @order.should_receive(:csc=).with(nil)
+      it "should set the cvv field to nil so the user has to re-enter it" do
+        @order.should_receive(:cvv=).with(nil)
+        do_request
+      end
+      it "should set the expiry_month field to nil so the user has to re-enter it" do
+        @order.should_receive(:expiry_month=).with(nil)
+        do_request
+      end
+      it "should set the expiry_year field to nil so the user has to re-enter it" do
+        @order.should_receive(:expiry_year=).with(nil)
+        do_request
+      end
+      it "should set the cardholder_name field to nil so the user has to re-enter it" do
+        @order.should_receive(:cardholder_name=).with(nil)
         do_request
       end
     end
@@ -580,18 +592,18 @@ describe Dt::CheckoutsController do
         controller.send!(:next_step).should == "confirm"
       end
       describe "do_payment method" do
-        it "should not save the credit_card in the session" do
-          do_request(:order => {:credit_card => 1234123412341234})
-          session[:credit_card].should be_nil
+        it "should not save the card_number in the session" do
+          do_request(:order => {:card_number => 1234123412341234})
+          session[:card_number].should be_nil
         end
-        it "should not save the credit_card if the order is invalid" do
+        it "should not save the card_number if the order is invalid" do
           controller.should_receive(:validate_order).and_return(false)
-          do_request(:order => {:credit_card => 1234123412341234})
-          session[:credit_card].should be_nil
+          do_request(:order => {:card_number => 1234123412341234})
+          session[:card_number].should be_nil
         end
-        it "should not save the credit_card if no credit_card is passed" do
-          do_request(:order => {:credit_card => nil})
-          session[:credit_card].should be_nil
+        it "should not save the card_number if no card_number is passed" do
+          do_request(:order => {:card_number => nil})
+          session[:card_number].should be_nil
         end
       end
       it "should save the order" do
@@ -613,6 +625,7 @@ describe Dt::CheckoutsController do
       before do
         @step = "confirm"
         @order.stub!(:run_transaction).and_return(true)
+        @gift.stub!(:send_at).and_return(false)
       end
       
       it "should call do_confirm" do
@@ -637,10 +650,22 @@ describe Dt::CheckoutsController do
           @order.should_receive(:run_transaction).and_return(true)
           do_request
         end
+        it "should update the send_now on any stale gifts (with send_at values in the past)" do
+          now = Time.now
+          Time.stub!(:now).and_return(now)
+          @gift1 = mock_model(Gift, :send_at? => true, :send_at => 15.minutes.ago)
+          @gift2 = mock_model(Gift, :send_at? => true, :send_at => 3.seconds.from_now)
+          @gift3 = mock_model(Gift, :send_at? => false)
+          @cart.stub!(:gifts).and_return([@gift1, @gift2, @gift3])
+          @gift1.should_receive(:send_at=).with(Time.now + 1.minute)
+          @gift2.should_receive(:send_at=).never
+          @gift3.should_receive(:send_at=).never
+          do_request
+        end
         it "should save the gifts from the cart into the db" do
-          @gift1 = mock_model(Gift)
-          @gift2 = mock_model(Gift)
-          @cart.should_receive(:gifts).and_return([@gift1, @gift2])
+          @gift1 = mock_model(Gift, :send_at? => false)
+          @gift2 = mock_model(Gift, :send_at? => false)
+          @cart.should_receive(:gifts).twice.and_return([@gift1, @gift2])
           @order.should_receive(:gifts=).with([@gift1, @gift2])
           do_request
         end

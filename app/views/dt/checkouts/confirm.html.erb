@@ -19,19 +19,19 @@
       <p>Please ensure this information is correct for your credit card transaction and tax receipt.</p>
     </div>
     <ol>
-      <li><label>Donor Type</label> <%=h @order.donor_type %></li>
-      <li><label>Title</label> <%=h @order.title %></li>
-      <li><label>First Name</label> <%=h @order.first_name %></li>
-      <li><label>Last Name</label> <%=h @order.last_name %></li>
-      <li><label>Company</label> <%=h @order.company %></li>
-      <li><label>Street Address</label> <%=h @order.address %></li>
-      <li><label>Street Address 2</label> <%=h @order.address2 %></li>
-      <li><label>City</label> <%=h @order.city %></li>
-      <li><label>Province</label> <%=h @order.province %></li>
-      <li><label>Postal/Zip Code</label> <%=h @order.postal_code %></li>
-      <li><label>Country</label> <%=h @order.country %></li>
-      <li><label>Province</label> <%=h @order.province %></li>
-      <li><label>Email</label> <%=h @order.email %></li>
+      <li><label><strong>Donor Type</strong></label> <%=h @order.donor_type %></li>
+      <li><label><strong>Title</strong></label> <%=h @order.title %></li>
+      <li><label><strong>First Name</strong></label> <%=h @order.first_name %></li>
+      <li><label><strong>Last Name</strong></label> <%=h @order.last_name %></li>
+      <li><label><strong>Company</strong></label> <%=h @order.company %></li>
+      <li><label><strong>Street Address</strong></label> <%=h @order.address %></li>
+      <li><label><strong>Street Address 2</strong></label> <%=h @order.address2 %></li>
+      <li><label><strong>City</strong></label> <%=h @order.city %></li>
+      <li><label><strong>Province/State</strong></label> <%=h @order.province %></li>
+      <li><label><strong>Postal/Zip Code</strong></label> <%=h @order.postal_code %></li>
+      <li><label><strong>Country</strong></label> <%=h @order.country %></li>
+      <li><label><strong>Province</strong></label> <%=h @order.province %></li>
+      <li><label><strong>Email</strong></label> <%=h @order.email %></li>
     </ol>
   </fieldset>
   
@@ -58,7 +58,7 @@
     <% end %>
     
     <% if @order.credit_card_total && @order.credit_card_total > 0 %>
-    <div class="textsm" style="font-size:0.75em;"><strong>Credit Card Information</strong></div>
+    <div class="textsm" style="font-size:0.75em;margin-top:1em;"><strong>Credit Card Information</strong></div>
     <div class="notes">
       <h5>Credit Card Information</h5>
       <p>Your credit card is processed on a secure server. We <strong>do not</strong> store any credit card information or details.</p>
@@ -70,10 +70,10 @@
     <% end %>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
     <ol class="clearfix" style="margin:6px 0 0 0;">
-      <li><label>Credit Card</label><%=h @order.credit_card_concealed %> <%= hidden_field_tag "credit_card", params[:order][:credit_card] %></li>
-      <li><label>Card Security Number</label> <%=h @order.csc.gsub(/./, "*") if @order.csc? %></li>
-      <li><label>Card Expiry</label> <%=h @order.expiry_month.to_s.rjust(2, "0") %>/<%=h @order.expiry_year %></li>
-      <li><label>Cardholder Name</label> <%=h @order.cardholder_name %></li>
+      <li><label class="wide"><strong>Credit Card</strong></label><%=h @order.card_number_concealed %> <%= f.hidden_field :card_number, :value => @order.credit_card.number %><%# this sets the card_number temporarily back to the full value for processing %></li>
+      <li><label class="wide"><strong>Card Security Number (CVV)</strong></label> <%=h @order.cvv.gsub(/./, "*") if @order.cvv? %></li>
+      <li><label class="wide"><strong>Card Expiry</strong></label> <%=h @order.card_expiry %></li>
+      <li><label class="wide"><strong>Cardholder Name</strong></label> <%=h @order.cardholder_name %></li>
     </ol>
   </fieldset>
   <% end %>

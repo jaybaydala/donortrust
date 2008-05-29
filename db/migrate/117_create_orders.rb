@@ -16,8 +16,8 @@ class CreateOrders < ActiveRecord::Migration
       t.decimal :total, :precision => 12, :scale => 2
       t.decimal :account_balance_total, :precision => 12, :scale => 2
       t.decimal :credit_card_total, :precision => 12, :scale => 2
-      t.string  :credit_card,   :limit => 4
-      t.string  :csc,           :limit => 5
+      t.string  :card_number,   :limit => 4
+      t.string  :cvv,           :limit => 5
       t.integer :expiry_month, :limit => 2
       t.integer :expiry_year,  :limit => 4
       t.string  :cardholder_name

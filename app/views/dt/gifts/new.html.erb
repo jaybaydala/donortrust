@@ -83,7 +83,8 @@
         <div>We always email you a printable gift card for the gift you give. The card gives the recipient all the necessary instructions to open your gift.</div>
         <label class="left"><%= f.radio_button :send_email, false, :onchange => "$('gift_send_at').hide();" %> Do not email my gift card &ndash; I will print it and give it myself</label>
       </li>
-      <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Email my gift card</label></li>
+      <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "$('gift_send_at').hide();" %> Email my gift card now</label></li>
+      <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Schedule my gift card delivery</label></li>
       <li id="gift_send_at"<%= " style=\"display:none;\"" unless @gift.send_email? %>>
         <label class="left" for="gift_send_at_2i">Select a date &amp; time to email your gift card</label>
         <div id="gift_send_at_select">

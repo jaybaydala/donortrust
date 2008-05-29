@@ -90,7 +90,6 @@ class Dt::CheckoutsController < DtApplicationController
     @cart.empty! if params[:clear_cart]
     @order.destroy if @order
     session[:order_id] = nil
-    session[:credit_card] = nil
     flash[:notice] = "Your order has been cleared! Please add items to your cart to checkout." if params[:clear_cart]
     redirect_to dt_cart_path
   end
@@ -150,10 +149,13 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def before_payment
-    @order.credit_card = nil
-    @order.csc = nil
+    @order.card_number = nil
+    @order.cvv = nil
+    @order.expiry_month = nil
+    @order.expiry_year = nil
+    @order.cardholder_name = nil
   end
-  
+
   def do_support
     if !params[:fund_cf].nil? && %w(dollars percent no).include?(params[:fund_cf]) && Project.cf_admin_project
       @cf_project = Project.cf_admin_project
@@ -196,22 +198,24 @@ class Dt::CheckoutsController < DtApplicationController
         # and add the new user_id to the @order
         @order.user = @user
       end
-    else
+    elsif !logged_in?
       flash.now[:notice] = "A user with your email address (#{@order.email}) already exists. To have this order appear in your account, login below and continue your checkout." if User.find_by_login(@order.email)
     end
   end
   
   def do_payment
-    # save the credit card until payment is complete
-    # session[:credit_card] = params[:order][:credit_card] if @valid && @order.credit_card?
+    # nothing to do other than the validation that's already happened...
   end
   
   def do_confirm
     if @valid
       Order.transaction do
-        # process the credit card
-        transaction_successful  = @order.run_transaction
+        # process the credit card - should handle an exception here
+        # if no exception, we're all good.
+        # if there is, we should render the payment template and show the errors...
+        transaction_successful = @order.run_transaction
         if transaction_successful
+          @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_at? && gift.send_at < Time.now}
           # save the cart items into the db via the association
           @order.gifts = @cart.gifts
           @order.investments = @cart.investments

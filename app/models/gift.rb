@@ -97,7 +97,7 @@ class Gift < ActiveRecord::Base
   
   protected
   def validate_on_create
-    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= 30.minutes.ago.to_i
+    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
     errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project_id && project && amount > project.current_need
     super
   end

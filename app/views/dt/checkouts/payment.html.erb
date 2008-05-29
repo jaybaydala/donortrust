@@ -19,7 +19,10 @@
       <p>Please enter your payment details below. Since you have an account with ChristmasFuture you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>. Deposits to your account must be paid on your credit card.</p>
       <div class="textsm" style="font-size:0.75em;"><strong>Payment</strong></div>
       <ol>
-        <li><label class="left" style="font-style:italic;">Your Current Account Balance: <%= current_user.balance ? number_to_currency(current_user.balance) : number_to_currency(0) %><%= hidden_field_tag :account_balance, (current_user.balance ? current_user.balance : 0), :id => 'account_balance' %></label></li>
+        <li><label class="left" style="font-style:italic;">Your Current Account Balance: <%= current_user.balance ? number_to_currency(current_user.balance) : number_to_currency(0) %><%= hidden_field_tag :account_balance, (current_user.balance ? current_user.balance : 0) %></label></li>
+        <% if minimum_credit_card_payment = @order.minimum_credit_card_payment(@cart.items, (current_user.balance if logged_in?)) %><li><label class="left" style="font-style:italic;">Your Minimum Credit Card Payment: <%= number_to_currency(minimum_credit_card_payment) %><%= hidden_field_tag :minimum_credit_card_payment, minimum_credit_card_payment %></label>
+          <div class="note" style="margin-left:0;">You must pay at least this amount from your credit card due to Deposits and/or remaining amount after your account balance.</div>
+        </li><% end %>
       </ol>
       <ol class="clearfix" id="payment">
         <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :cart_total, @cart.total, :id => 'cart_total' %></li>
@@ -43,9 +46,9 @@
       <p>A total of <strong><%= number_to_currency(@cart.total) %></strong> will be charged to your credit card.</p>
       <% end %>
       <ol class="clearfix">
-        <li><label for="order_credit_card" class="wide"><%= form_required %>Credit Card Number</label> <%= f.text_field :credit_card, :maxlength => 16 %></li>
+        <li><label for="order_credit_card" class="wide"><%= form_required %>Credit Card Number</label> <%= f.text_field :card_number, :maxlength => 16 %></li>
         <li>
-          <label for="order_csc" class="wide"><%= form_required %>Card Security Number (CVV)</label> <%= f.text_field :csc, :maxlength => 5, :size => 5, :style => "width:auto;" %>
+          <label for="order_cvv" class="wide"><%= form_required %>Card Security Number (CVV)</label> <%= f.text_field :cvv, :maxlength => 5, :size => 5, :style => "width:auto;" %>
           <div class="note" style="margin-left:125px;">This is final 3 digits on the back of your card. For AMEX: 4 digits on the front of the card.</div>
         </li>
         <li><label for="order_expiry_month" class="wide"><%= form_required %>Card Expiry</label> 

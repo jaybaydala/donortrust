@@ -1,11 +1,15 @@
+require 'active_merchant'
+ActiveMerchant::Billing::Base.mode = RAILS_ENV == "production" ? :production : :test
 class Order < ActiveRecord::Base
   has_many :investments
   has_many :gifts
   has_many :deposits
   has_one :tax_receipt
   belongs_to :user
-  before_save :truncate_credit_card
   validates_uniqueness_of :order_number
+  
+  # virtual attribute for the entire card number
+  attr_accessor :full_card_number
   
   def initialize(params = nil)
     super
@@ -19,8 +23,19 @@ class Order < ActiveRecord::Base
     "corporate"
   end
   
-  def credit_card_concealed
-    "**** **** **** #{credit_card.to_s[-4, 4]}"
+  def card_number_concealed
+    "**** **** **** #{card_number.to_s[-4, 4]}"
+  end
+  
+  def card_number=(number)
+    @full_card_number = number if !number.nil?
+    write_attribute(:card_number, number)
+    write_attribute(:card_number, number.to_s[-4, 4]) if number
+  end
+  
+  def card_number
+    return @full_card_number if @full_card_number
+    read_attribute(:card_number)
   end
   
   def account_balance_total=(val)
@@ -51,7 +66,12 @@ class Order < ActiveRecord::Base
     errors.add(:credit_card_total, "must be at least #{number_to_currency(minimum_credit_payment)}") if self[:credit_card_total].to_f < minimum_credit_payment
     errors.add(:account_balance_total, "cannot be more than your current balance") if self[:account_balance_total].to_f > current_balance.to_f
     errors.add_to_base("Please ensure you're paying the full amount.") if (self[:credit_card_total].to_f + self[:account_balance_total].to_f) < self[:total].to_f
-    errors.add_on_blank(%w(credit_card csc expiry_month expiry_year cardholder_name )) unless minimum_credit_payment == 0 # && account_balance_total.to_f == total.to_f
+    if minimum_credit_payment > 0 || credit_card_total?
+      unless credit_card.valid?
+        credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
+        errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:<ul>#{credit_card_messages.join}</ul>") 
+      end
+    end
     errors.empty?
   end
   
@@ -86,14 +106,30 @@ class Order < ActiveRecord::Base
     #   set the authorization_result value
     #   create_tax_receipt_from_order
     # else
-    #   handle the error
+    #   handle the error and raise the message exception?
     # end
     true
   end
   
+  def credit_card
+    unless @credit_card
+      first_name, last_name = self.cardholder_name.split(/ /, 2)
+      # Create a new credit card object
+      @credit_card = ActiveMerchant::Billing::CreditCard.new(
+        :number     => self.card_number,
+        :month      => self.expiry_month,
+        :year       => self.expiry_year,
+        :first_name => first_name,
+        :last_name  => last_name,
+        :verification_value  => self.cvv
+      )
+    end
+    @credit_card
+  end
+
   def create_tax_receipt_from_order
     if self.credit_card_total?
-      self.tax_receipt = TaxReceipt.new do |t|
+      self.tax_receipt.create do |t|
         t.first_name   = self.first_name
         t.last_name    = self.last_name
         t.email        = self.email
@@ -121,9 +157,5 @@ class Order < ActiveRecord::Base
   def strip_dollar_sign(val)
     val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
     val.to_f
-  end
-
-  def truncate_credit_card
-    self.credit_card = credit_card.to_s[-4, 4] if self.credit_card?
   end
 end

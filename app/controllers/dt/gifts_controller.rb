@@ -67,6 +67,7 @@ class Dt::GiftsController < DtApplicationController
   def create
     @gift = Gift.new( gift_params )    
     @gift.user_ip_addr = request.remote_ip
+    set_send_now_delivery!
     
     @valid = @gift.valid?
 
@@ -105,6 +106,7 @@ class Dt::GiftsController < DtApplicationController
       @gift = @cart.items[params[:id].to_i]
       @gift.attributes = params[:gift]
       @gift.user_ip_addr = request.remote_ip
+      set_send_now_delivery!
       @valid = @gift.valid?
     end
     
@@ -172,6 +174,13 @@ class Dt::GiftsController < DtApplicationController
   end
 
   protected
+  def set_send_now_delivery!
+    if params[:gift] && params[:gift][:send_email] && params[:gift][:send_email] == "now"
+      @gift.send_email = true
+      @gift.send_at = Time.now
+    end
+  end
+  
   def gift_params
     gift_params = {}
     gift_params = gift_params.merge(params[:gift]) if params[:gift]
