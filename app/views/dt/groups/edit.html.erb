@@ -1,36 +1,34 @@
-<%= dt_get_involved_nav %>
+<%- content_for :html_title do %><%= h @group.name %><% end -%>
+<%- content_for :nav do %><%= dt_get_involved_nav %><% end -%>
+
 
 <%= dt_group_nav %>
 
 
-<div id="contentContainer">
-  <div id="leftColW">
-	  <h1><%= h @group.name %></h1>
-
-    <div class="tableHeader">
-		  <div style="float:left; ">Group Description</div>
-		  <div class="tableHeader_button"></div>
-	  </div>
-	  <div class="col" style="height:90px;">
-      <ul id="factList2">
-        <% if !@group.founder.nil? %><li><strong>Founder:</strong> <%= @group.founder.name %></li><% end %>
-        <% if !@group.created_at.nil? %><li><strong>Start Date:</strong> <%= @group.created_at.to_date.to_s :long %></li><% end %>
-        <li>&nbsp;</li>
-        <li><strong>Group Status:</strong> <%= @group.private? ? 'Private' : 'Public' %></li>
-        <li><strong>Total Invested:</strong> <%= number_to_currency(@group.raised) %></li>
-      </ul>
-    </div>
-    <div class="colEnd">
-      <ul id="factList2" style="height:90px;">
-        <li><strong>Number of Members:</strong> <%= @group.memberships.size %></li>
-        <% if @group.place? %><li><strong>Location:</strong> <%= @group.place %></li><% end %>
-        <li><strong>Total Group Projects:</strong> <%= @group.projects.size %></li>
-        <li><strong><span style="text-transform:none;">Cause(s):</span></strong> <%= group_causes(@group) %></li>
-      </ul>
+    <h2>Group Description</h2>
+	  <div class="columns content-quickfacts">
+	    <div class="left">
+        <ul>
+          <% if !@group.founder.nil? %><li><strong>Founder:</strong> <%= @group.founder.name %></li><% end %>
+          <% if !@group.created_at.nil? %><li><strong>Start Date:</strong> <%= @group.created_at.to_date.to_s :long %></li><% end %>
+          <li>&nbsp;</li>
+          <li><strong>Group Status:</strong> <%= @group.private? ? 'Private' : 'Public' %></li>
+          <li><strong>Total Invested:</strong> <%= number_to_currency(@group.raised) %></li>
+        </ul>
+      </div>
+      <div class="left">
+        <ul>
+          <li><strong>Number of Members:</strong> <%= @group.memberships.size %></li>
+          <% if @group.place? %><li><strong>Location:</strong> <%= @group.place %></li><% end %>
+          <li><strong>Total Group Projects:</strong> <%= @group.projects.size %></li>
+          <li><strong><span style="text-transform:none;">Cause(s):</span></strong> <%= group_causes(@group) %></li>
+        </ul>
+      </div>
     </div>
 
     <%= error_messages_for :group %>
-    <% form_for(:group, :url => dt_groups_path, :html => { :id => 'groupform', :name => 'groupform' }) do |f| %>
+    <div class="userform">
+    <% form_for(:group, :url => dt_group_path(@group), :html => { :method => :put, :id => 'groupform', :name => 'groupform' }) do |f| %>
       <fieldset id="groupInfo">
   			<legend>Update your group information </legend>
   			<ul class="row" style="padding-top:10px; padding-bottom:10px;">
@@ -60,8 +58,7 @@
       
       <%= submit_tag "Update Group", :class => 'buttonsubmit' %>
     <% end %>
-  </div>
-  <div id="rightColN">
+    </div>
+  <% content_for :sidebar do %>
 	  <%= dt_profile_sidebar %>
-  </div>
-</div>
+  <% end %>

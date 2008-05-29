@@ -9,7 +9,7 @@
 <li<%= ' class="current"' if params['controller'] == 'dt/sessions' && params['action'] == 'new' %>><%= link_to "Login ", dt_login_path %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'new' %>><%= link_to "Create Account ", dt_signup_path %></li>
 <% end %>
-<li<%= ' class="current"' if params['controller'] == 'dt/cart' %>><%= link_to "Your Cart ", dt_cart_path %></li>
+<li<%= ' class="current"' if params['controller'] == 'dt/cart' %>><%= link_to "My Cart ", dt_cart_path %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/gifts' %>><%= link_to "Give a Gift ", new_dt_gift_path %></li>
 </ul>
 

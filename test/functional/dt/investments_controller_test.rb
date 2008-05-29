@@ -4,98 +4,12 @@ require 'dt/investments_controller'
 # Re-raise errors caught by the controller.
 class Dt::InvestmentsController; def rescue_action(e) raise e end; end
 
-context "Dt::Investments inheritance" do
-  specify "should inherit from DtApplicationController" do
-    @controller = Dt::InvestmentsController.new
-    @controller.kind_of?(DtApplicationController).should == true
-  end
-end
-
-context "Dt::Investments #route_for" do
-  use_controller Dt::InvestmentsController
-  setup do
-    @rs = ActionController::Routing::Routes
-  end
-  
-  specify "should recognize the routes" do
-    @rs.generate(:controller => "dt/investments", :action => "index").should.equal "/dt/investments"
-  end
-  
-  specify "should map { :controller => 'dt/investments', :action => 'index' } to /dt/investments" do
-    route_for(:controller => "dt/investments", :action => "index").should == "/dt/investments"
-  end
-  
-  specify "should map { :controller => 'dt/investments', :action => 'show', :id => 1 } to /dt/investments/1" do
-    route_for(:controller => "dt/investments", :action => "show", :id => 1).should == "/dt/investments/1"
-  end
-  
-  specify "should map { :controller => 'dt/investments', :action => 'new' } to /dt/investments/new" do
-    route_for(:controller => "dt/investments", :action => "new").should == "/dt/investments/new"
-  end
-  
-  specify "should map { :controller => 'dt/investments', :action => 'create' } to /dt/investments/new" do
-    route_for(:controller => "dt/investments", :action => "new").should == "/dt/investments/new"
-  end
-    
-  specify "should map { :controller => 'dt/investments', :action => 'edit', :id => 1 } to /dt/investments/1;edit" do
-    route_for(:controller => "dt/investments", :action => "edit", :id => 1).should == "/dt/investments/1;edit"
-    #dt_edit_deposit_path(1).should.not.throw
-  end
-  
-  specify "should map { :controller => 'dt/investments', :action => 'update', :id => 1} to /dt/investments/1" do
-    route_for(:controller => "dt/investments", :action => "update", :id => 1).should == "/dt/investments/1"
-  end
-  
-  specify "should map { :controller => 'dt/investments', :action => 'destroy', :id => 1} to /dt/investments/1" do
-    route_for(:controller => "dt/investments", :action => "destroy", :id => 1).should == "/dt/investments/1"
-  end
-
-  specify "should map { :controller => 'dt/investments', :action => 'confirm'} to /dt/investments/1" do
-    route_for(:controller => "dt/investments", :action => "confirm").should == "/dt/investments;confirm"
-  end
-  
-  private 
-  def route_for(options)
-    @rs.generate options
-  end
-end
-
-context "Dt::InvestmentsController index, show, edit, update and destroy should not exist" do
-  use_controller Dt::InvestmentsController
-  specify "method should not exist" do
-    %w( index show edit update destroy ).each do |m|
-      @controller.methods.should.not.include m
-    end
-  end
-end
-
-context "Dt::InvestmentsController new, confirm and create should exist" do
-  use_controller Dt::InvestmentsController
-  specify "method should exist" do
-    %w( new confirm create ).each do |m|
-      @controller.methods.should.include m
-    end
-  end
-end
-
 context "Dt::InvestmentsController new behaviour" do
   use_controller Dt::InvestmentsController
   fixtures :user_transactions, :investments, :users, :projects, :project_statuses, :groups, :partners
   include DtAuthenticatedTestHelper
   
 
-  specify "should redirect if !logged_in?" do
-    get :new, :project_id => Project.find_public(:first)
-    status.should.be :redirect
-  end
-
-  specify "should respond" do
-    login_as :quentin
-    @project = Project.find_public(:first)
-    @project.stubs(:fundable?).returns(true)
-    get :new, :project_id => @project.id
-    status.should.be :success
-  end
 
   specify "should assign @investment" do
     login_as :quentin

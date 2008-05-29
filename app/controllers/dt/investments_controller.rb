@@ -1,86 +1,84 @@
-class Dt::InvestmentsController < DtApplicationController
-  before_filter :login_required
-  helper 'dt/places'
-  include FundCf
-  
-  def initialize
-    @page_title = "Invest"
-  end
+require 'order_helper'
 
+class Dt::InvestmentsController < DtApplicationController
+  helper 'dt/places'
+  include OrderHelper
+  
   def new
-    @action_js = "dt/giving"
-    params[:investment] = {}
-    params[:investment] = session[:investment_params] if session[:investment_params]
-    params[:investment][:project_id] = params[:project_id] if params[:project_id]
     @investment = Investment.new( params[:investment] )
-    @project = @investment.project if @investment.project_id? && @investment.project
-    @investment.project_id = Project.cf_unallocated_project.id if (Project.cf_unallocated_project && !@investment.project_id?)
+    @investment.project_id = params[:project_id] if params[:project_id]
+    # load the cf_unallocated_project if no other project is loaded
+    @investment.project = Project.cf_unallocated_project if (Project.cf_unallocated_project && !@investment.project)
+    @project = @investment.project if @investment.project
     respond_to do |format|
       format.html {
-        redirect_to dt_project_path(@project) and return if @project && !@project.fundable?
+        if @project && @project != Project.cf_unallocated_project && !@project.fundable?
+          flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
+          redirect_to dt_project_path(@project) and return
+        end
       }
-    end
-  end
-  
-  def confirm
-    session[:investment_params] = params[:investment] if params[:investment]
-    @action_js = "dt/giving"
-    @investment = Investment.new( params[:investment] )
-    @investment.user = current_user
-    @investment.user_ip_addr = request.remote_ip
-    @project = @investment.project if @investment.project_id? && @investment.project
-   
-    @cf_investment = build_fund_cf_investment(@investment)
-    valid = cf_fund_investment_valid?(@investment, @cf_investment)
-    @total_amount = @investment.amount + @cf_investment.amount if @cf_investment
-    
-    respond_to do |format|
-      if valid
-        format.html
-      else 
-        format.html { render :action => 'new' }
-      end
     end
   end
   
   def create
     @investment = Investment.new( params[:investment] )
-    @investment.user = current_user
+    @investment.user = current_user if logged_in?
     @investment.user_ip_addr = request.remote_ip
-    @investment_total = @investment.amount
     
-    @cf_investment = build_fund_cf_investment(@investment)
-    valid = cf_fund_investment_valid?(@investment, @cf_investment)
-
-    @saved = false
-    if valid
-      Investment.transaction do 
-        if @cf_investment
-          @saved = @investment.save! && @cf_investment.save!
-        else
-          @saved = @investment.save!
-        end
-      end
-    end
+    @valid = @investment.valid?
     
     respond_to do |format|
-      if @saved
+      if @valid
         session[:investment_params] = nil
-        flash[:notice] = "The following project has received your investment: <strong>#{@investment.project.name}</strong>"
-        if @cf_investment
-          flash[:notice] = flash[:notice] + "<div>Thank you for your extra investment to support Christmas Future.</div>"
-        end
-        format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
+        @cart = find_cart
+        @cart.add_item(@investment)
+        flash[:notice] = "Your Investment has been added to your cart."
+        format.html { redirect_to dt_cart_path }
       else
-        flash.now[:error] = "There was a problem saving your Investment. Please review your information and try again."
+        flash.now[:error] = "There was a problem adding the Investment to your cart. Please review your information and try again."
         format.html { render :action => 'new' }
       end
     end
   end
   
-  protected
-  def ssl_required?
-    true
+  def edit
+    @cart = find_cart
+    if @cart.items[params[:id].to_i].kind_of?(Investment)
+      @investment = @cart.items[params[:id].to_i]
+      @project = @investment.project if @investment.project_id?
+    end
+    
+    respond_to do |format|
+      format.html {
+        redirect_to dt_cart_path and return unless @investment
+        render :action => "edit"
+      }
+    end
+  end
+  
+  def update
+    @cart = find_cart
+    if @cart.items[params[:id].to_i].kind_of?(Investment)
+      @investment = @cart.items[params[:id].to_i] 
+      @investment.attributes = params[:investment]
+      @investment.user_ip_addr = request.remote_ip
+      @valid = @investment.valid?
+    end
+    
+    respond_to do |format|
+      if !@investment
+        format.html { redirect_to dt_cart_path }
+      elsif @valid
+        @cart.update_item(params[:id], @investment)
+        format.html {
+          flash[:notice] = "Your Investment has been updated."
+          redirect_to dt_cart_path
+        }
+      else
+        @project = @investment.project if @investment.project_id?
+        format.html { render :action => "edit" }
+      end
+    end
   end
   
   private

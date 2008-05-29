@@ -40,7 +40,7 @@
   <% if nav %><h1><%= page_title %></h1><% end %>
   
   <%- if nav -%>
-  <div id="nav">
+  <div id="nav" class="clearfix">
     <%= nav %>
   </div>
   <%- end -%>
@@ -53,7 +53,7 @@
   </div>
   <%- end -%>
 
-  <div id="contentcontainer">
+  <div id="contentcontainer" class="clearfix">
     <div id="content<%= "wide" unless sidebar %>-wrapper">
       <div id="content">
         <% unless nav %><h1><%= page_title %></h1><% end %>

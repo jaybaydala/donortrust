@@ -1,3 +1,17 @@
+<% unless logged_in? %>
+  <h2>Login</h2>
+  <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
+    <% store_location %>
+    <div class="textsm">
+    <label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %><br />
+    <label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %><br />
+    <label><%= check_box_tag "remember_me" %> Remember Me</label><br />
+    <%= submit_tag "Login", :class => "buttonsubmit" %><br />
+    <span><%= link_to "Forgot your password?", reset_dt_accounts_path %></span>
+    </div>
+  <% end %>
+<% end %>
+
 <h2>My Profile</h2>
 <% if logged_in? %>
   <p><strong><%= current_user.full_name %></strong> 
@@ -10,7 +24,7 @@
       <li class="blueblock"><%= link_to "Make a Deposit", new_dt_account_deposit_path(:account_id => current_user) %></li>
       <li class="blueblock"><%= link_to "Logout", dt_logout_path %></li>
       <% if @group && !@group.new_record? %>
-      <% if !current_member(@group) || !current_member(@group).founder? %><li class="blueblock"><% if current_member(@group) %><%= link_to "&nbsp;Leave Group", dt_membership_path(:id => current_member(@group).id, :group_id => @group.id), :method => 'delete', :confirm => "Do you want to leave #{@group.name}?" %><% else %><%= link_to "&nbsp;Join This Group", dt_memberships_path(@group), :method => :post, :confirm => "Do you want to join #{@group.name}?" %><% end %></li><% end %>
+      <% if !current_member(@group) || !current_member(@group).founder? %><li class="blueblock"><% if current_member(@group) %><%= link_to "&nbsp;Leave Group", dt_group_membership_path(:id => current_member(@group).id, :group_id => @group.id), :method => 'delete', :confirm => "Do you want to leave #{@group.name}?" %><% else %><%= link_to "&nbsp;Join This Group", dt_group_memberships_path(@group), :method => :post, :confirm => "Do you want to join #{@group.name}?" %><% end %></li><% end %>
       <% if current_member(@group) && current_member(@group).founder? %><li class="blueblock"><%= link_to "&nbsp;Delete this Group", dt_group_path(@group), :method => :delete, :confirm => "Do you want to delete #{@group.name}?" %></li><% end %>
       <% end %>
   	</ul>
@@ -33,14 +47,21 @@
   </div>
   <% end %>
 <% else %>
-  <p><strong><%= link_to "Sign up", dt_signup_path %> or login below to see your profile and get involved!</strong></p>
-  <p>ChristmasFuture can store your information in a ChristmasFuture account. Your email address will become your username. You will choose your password below. Creating an account with CanadaHelps allows you to:</p>
+  <p>Have a ChristmasFuture account? Login below or <strong><%= link_to "Sign up", dt_signup_path %>!</strong></p>
+  
+  <p style="margin-bottom:0;">A ChristmasFuture account allows you to:</p>
+
   <ul>
-    <li>store your donation receipts and giving history online</li>
-    <li>store your personal, and contact preferences (so next time, no need to re-enter!)</li>
-    <li>join a group to connect with people who are interested in the same projects and causes that you are </li>
-    <li>create a &ldquo;projects wishlist&rdquo; and more! </li>
+    <li>track your giving history over time and your impact in the world</li>
+    <li>access your tax receipts and printable gift cards online</li>
+    <li>resend gifts to alternate email addresses</li>
+    <li>save information preferences, so you don&rsquo;t have to re-enter it next time!</li>
+    <li>join a group with people who are interested in the same projects and causes that you are</li>
+    <li>conveniently track projects you have supported in one place </li>
+    <li>create a &ldquo;projects wishlist&rdquo; and more!</li>
   </ul>
+  
+  <% unless @controller.class == Dt::CheckoutsController %>
   <div class="projectactions">
     <ul>
       <li class="blueblock"><%= link_to "Make a Deposit", new_dt_account_deposit_path(:account_id => current_user) %></li>
@@ -48,16 +69,6 @@
       <li class="blueblock"><%= link_to "Give a Gift", new_dt_gift_path %></li>
     </ul>
   </div>
-  <h2>Login</h2>
-  <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
-    <% store_location %>
-    <div class="textsm">
-    <label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %><br />
-    <label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %><br />
-    <label><%= check_box_tag "remember_me" %> Remember Me</label><br />
-    <%= submit_tag "Login", :class => "buttonsubmit" %><br />
-    <span><%= link_to "Forgot your password?", reset_dt_accounts_path %></span>
-    </div>
   <% end %>
 <% end %>
 

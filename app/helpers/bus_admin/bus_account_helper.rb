@@ -1,4 +1,4 @@
-module BusAccountHelper
+module BusAdmin::BusAccountHelper
 
 
 

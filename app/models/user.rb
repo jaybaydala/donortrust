@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :deposits
   has_many :investments
   has_many :gifts
+  has_many :orders
   has_many :tax_receipts
   has_many :my_wishlists
   has_many :projects, :through => :my_wishlists
@@ -106,6 +107,10 @@ class User < ActiveRecord::Base
     else
       @gifted_with_credit_card ||= calculate_gifts(exclude_credit_card)
     end
+  end
+  
+  def ordered
+    @ordered ||= calculate_orders
   end
 
   # Encrypts the password with the user salt
@@ -205,7 +210,7 @@ class User < ActiveRecord::Base
     end
         
     def calculate_balance
-      balance = deposited - invested - gifted(true) || 0
+      balance = deposited - ordered - invested - gifted(true) || 0
     end
 
     def calculate_deposits
@@ -218,7 +223,7 @@ class User < ActiveRecord::Base
     end
 
     def calculate_investments
-      investments = Investment.find(:all, :conditions => { :user_id => self[:id] })
+      investments = Investment.find(:all, :conditions => { :user_id => self[:id], :order_id => nil })
       balance = 0
       investments.each do |trans|
         balance = balance + trans.amount
@@ -227,7 +232,7 @@ class User < ActiveRecord::Base
     end
 
     def calculate_gifts(exclude_credit_card = false)
-      conditions = { :user_id => self[:id] }
+      conditions = { :user_id => self[:id], :order_id => nil }
       conditions[:credit_card] = nil if exclude_credit_card == true
       gifts = Gift.find(:all, :conditions => conditions)
       balance = 0
@@ -235,6 +240,15 @@ class User < ActiveRecord::Base
         balance = balance + trans.amount
       end
       balance
+    end
+
+    def calculate_orders
+      orders = Order.find(:all, :conditions => ["user_id=? AND complete=? AND account_balance_total IS NOT NULL", self[:id], true ])
+      order_balance = 0
+      orders.each do |order|
+        order_balance = order_balance + order.account_balance_total.to_f
+      end
+      order_balance
     end
     
     def self.total_users_in_group

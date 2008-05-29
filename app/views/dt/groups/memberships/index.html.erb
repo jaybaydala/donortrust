@@ -1,33 +1,30 @@
-<%= dt_get_involved_nav %>
+<%- content_for :html_title do %><%=h @group.name %> Members<% end -%>
+<%- content_for :nav do %><%= dt_get_involved_nav %><% end -%>
 
 <%= dt_group_nav %>
-<div id="contentContainer">
-  <div id="leftColW">
-    <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-    <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  
-    <h1><%=h @group.name %> Members</h1>
 
     <% if @invitation %>
-    <% form_for :invitation, @invitation, :url => dt_invitations_path(:group_id => @group), :html => {:id => 'invitationform'} do |f| %>
-  		<fieldset id="newMember">
-  			<legend>Invite New Member(s) to this Group</legend>
-  			<p class="textsm">Please, separate multiple emails using a comma when inviting multiple new members</p>
-  			<ul class="row">
-  				<li>
-  					<label for="to_emails">New Member Email(s)</label>
-  					<%= text_area_tag :to_emails, nil, :id => 'to_emails', :cols => 35, :rows => 3 %>
-  					<div id="addButton"><a href="javascript:if($('invitationform')){$('invitationform').submit()}"><span>Invite Member(s)</span></a></div>
-  				</li>
-  			</ul>
-  		</fieldset>
-  		<%= f.hidden_field :user_id %>
-  		<%= f.hidden_field :group_id %>
-		<% end %>
+      <div class="userform">
+      <% form_for :invitation, @invitation, :url => dt_group_invitations_path(:group_id => @group), :html => {:id => 'invitationform'} do |f| %>
+    		<fieldset id="newMember">
+    			<legend>Invite New Member(s) to this Group</legend>
+    			<p class="textsm">Please, separate multiple emails using a comma when inviting multiple new members</p>
+    			<ul class="row">
+    				<li>
+    					<label for="to_emails">New Member Email(s)</label>
+    					<%= text_area_tag :to_emails, nil, :id => 'to_emails', :cols => 35, :rows => 3 %>
+    					<div id="addButton"><a href="javascript:if($('invitationform')){$('invitationform').submit()}" class="button-invitemembers"><span>Invite Member(s)</span></a></div>
+    				</li>
+    			</ul>
+    		</fieldset>
+    		<%= f.hidden_field :user_id %>
+    		<%= f.hidden_field :group_id %>
+  		<% end %>
+  		</div>
 		<% end %>
   
     <% if @memberships.size > 0 %>
-    <div id="memberList">
+    <div id="memberlist">
       <p class="textsm"><%= @memberships.total_entries %> Members Total</p>
       <%= will_paginate @memberships %>
       <ul>
@@ -43,8 +40,6 @@
     <% else %>
       <p>There are currently no members in this group.</p>
     <% end %>
-  </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
 	  <%= dt_profile_sidebar %>
-	</div>
-</div>
+    <% end %>

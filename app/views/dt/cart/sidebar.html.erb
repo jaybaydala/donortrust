@@ -7,43 +7,20 @@
     <th>Item</th>
     <th class="numeric">Amount</th>
   </tr>
-  <% for line_item in @cart.items %>
-    <% if line_item.class == Gift %>
-      <tr class="odd">
-        <td>
-          <% if line_item.e_card %><div class="thumbnail"><%= image_tag url_for_file_column(line_item.e_card, "small"), :alt => "" %></div><% end %>
-          <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes)}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
-          <h5><strong>Gift</strong></h5>
-          <p>
-            To: <%= link_to line_item.to_name, "mailto:" + line_item.email %><br />
-          </p>
-        </td>
-        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
-      </tr>
-    <% end %>
-    <% if line_item.class == Investment %>
-      <tr class="even">
-        <td>
-          <h5><strong>Investment</strong></h5>
-          <p>
-            <%=h line_item.project.name %><br />
-          </p>
-        </td>
-        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
-      </tr>
-    <% end %>
-    <% if line_item.class == Deposit %>
-      <tr class="odd">
-        <td>
-          <h5><strong>Deposit</strong></h5>
-          <p>Deposit into my Christmas Future Account</p>
-        </td>
-        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
-      </tr>
-    <% end %>
-  <% end %>
+  <%= render :partial => "dt/cart/sidebar_line_item", :collection => @cart.items %>
   <tr class="footer">
     <td class="numeric money">Cart Total</td>
     <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
   </tr>
 </table>
+<% if @order %>
+  <div class="textsm" style="text-align:right;line-height:1.25;margin-bottom:.5em;">
+    <em><strong>Not the items you want?</strong><br />
+    <%= link_to "Clear your order and start over.", dt_checkout_path(:clear_cart => 1), :method => :delete, :confirm => "Are you sure you want to clear your order?" %></em>
+  </div>
+  
+  <div class="textsm" style="text-align:right;line-height:1.25;">
+    <em><strong>Want to add more to your cart?</strong><br />
+    <%= link_to "Go back to this page.", dt_checkout_path, :method => :delete %></em>
+  </div>
+<% end %>

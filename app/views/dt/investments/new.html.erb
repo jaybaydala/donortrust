@@ -1,66 +1,59 @@
-<%= dt_account_nav %>
-<div id="contentContainer">
-  <div id="leftColW">
-  <h1>Invest Directly in a Project, and Invest in the Future.</h1>
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  <%= error_messages_for :investment %>
-  <% form_for(:investment, :url => confirm_dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
-  <p>Please enter your personal information. The information you provide will appear on your charitable tax receipt, so enter it accurately, as donation tax receipts cannot be altered. We will also update your ChristmasFuture account with the information you provide.</p>
-  <div class="userform">
-    <fieldset>
-      <legend>Please specify how you would like your investment to be allocated:</legend>
-      <div id="projectsuggest">
+<%- content_for :html_title do -%>Invest<%- end -%>
+<%- content_for :page_title do -%>Invest Directly in a Project, and Invest in the Future.<%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+
+<%= error_messages_for :investment %>
+<% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
+<p>Please enter your personal information.</p>
+<div class="userform">
+  <fieldset>
+    <legend>Please specify how you would like your investment to be allocated:</legend>
+    <ol>
+      <li>
         <% if cf_unallocated_project %>
-          <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", cf_unallocated_project.id %><%= cf_unallocated_project.name %></p>
-          <% if @investment.project_id == cf_unallocated_project.id %><p class="textsm">
-            If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.
-          </p><% end %>
+        <label class="left"><%= f.radio_button "project_id", cf_unallocated_project.id %><%= cf_unallocated_project.name %></label>
+        <% if @investment.project_id == cf_unallocated_project.id %><div class="note">
+          If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.
+        </div><% end %>
         <% elsif !@project %>
-          <p class="textsm"><%= link_to("you must choose a project", dt_projects_path) %></p>
+        <div class="note"><%= link_to("you must choose a project", dt_projects_path) %></div>
         <% end %>
-        <% if @project %><p class="textsm"><%= f.radio_button "project_id", ( @project.id? ? @project.id : 0 ) %>to a project I've chosen&nbsp;&nbsp; &#8250; <%= @project.id? ? link_to(@project.name, dt_project_path(@project)) : link_to("choose another project", dt_projects_path) %></p><% end %>
-      </div>
-    </fieldset>
+      </li>
+      <% if @project %><li>
+        <label class="left"><%= f.radio_button "project_id", ( @project.id? ? @project.id : 0 ) %>to a project I've chosen</label>
+        <div class="note" style="margin-left:1.6em;">&#8250; <%= @project.id? ? link_to(@project.name, dt_project_path(@project)) : link_to("choose another project", dt_projects_path) %></div>
+        <%= hidden_field_tag :project_id, @project.id %>
+      </li><% end %>
+    </ol>
+  </fieldset>
 
-    <fieldset>
-      <legend>Your Investment</legend>
-      <ul>
-    		<li><label for="investment_amount"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label><%= f.text_field :amount, :value => (@investment.amount? ? number_to_currency(@investment.amount) : "$") %></li>
-      </ul>
-    </fieldset>
-    
-    <%= render "dt/shared/fund_cf" %>
-    
-    <fieldset>
-      <legend>Total Investment Amount</legend>
-      <ul>
-        <li><label for="amount_total">Amount Total:</label><%= text_field_tag :amount_total, number_to_currency(0), :style => 'border:0;', :onfocus => "blur();" %></li>
-        <li><div class="textsm">Your total investment amount cannot be more than your current balance.
-          <div>Current Balance: <%= number_to_currency( current_user.balance ) %>
-          (<%= link_to("Make a deposit", new_dt_account_deposit_path( :account_id => current_user.id )) %>)</div></div></li>
-      </ul>
-    </fieldset>
-
-    <% if logged_in? && @project && @project.group_project?(current_user) %>
-    <fieldset>
-      <legend>Group Wishlist</legend>
-      <p class="textsm"><%= render :partial => 'dt/shared/form_required' %>You have the option to invest on behalf of one of your groups, would you like to do this now?</p>
-      <div id="projectsuggest" style="clear:left;">
-        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button :group_id, '' %>Not at this time.</p>
-        <% for g in current_user.groups %>
-        <p class="textsm" style="margin-bottom:0px;"><%= f.radio_button :group_id, g.id %><%= g.name %></p>
-        <% end %>
-      </div>
-      <div style="height:10px;"></div>
-    </fieldset>
-    <% end %>
-
-  	<%= submit_tag 'continue', :class => 'buttonsubmit' %>
-  </div>
+  <fieldset>
+    <legend>Your Investment</legend>
+    <ol>
+  		<li>
+  		  <label for="investment_amount" style="width:135px;"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label> $<%= f.text_field :amount %>
+  		  <div class="note" style="margin-left:150px;">Example: $100</div>
+  		</li>
+    </ol>
+  </fieldset>
+  
+  <% if logged_in? && @project && @project.group_project?(current_user) %>
+  <fieldset>
+    <legend>Group Wishlist</legend>
+    <p><%= render :partial => 'dt/shared/form_required' %>You have the option to invest on behalf of one of your groups, would you like to do this now?</p>
+    <ol>
+      <li><label class="left"><%= f.radio_button :group_id, '' %>Not at this time.</label></li>
+      <% for g in current_user.groups %>
+      <li><label class="left"><%= f.radio_button :group_id, g.id %><%= g.name %></label></li>
+      <% end %>
+    </ol>
+  </fieldset>
   <% end %>
-  </div>
-  <div id="rightColN">
-	  <%= dt_profile_sidebar %>
-  </div>
+
+	<%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %>
 </div>
+<% end %>
+
+<%- content_for :sidebar do -%>
+	<%= dt_profile_sidebar %>
+<%- end -%>

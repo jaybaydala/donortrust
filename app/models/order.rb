@@ -1,6 +1,21 @@
+require 'active_merchant'
+ActiveMerchant::Billing::Base.mode = RAILS_ENV == "production" ? :production : :test
 class Order < ActiveRecord::Base
+  has_many :investments
+  has_many :gifts
+  has_many :deposits
+  has_one :tax_receipt
+  belongs_to :user
+  validates_uniqueness_of :order_number
   
-
+  # virtual attribute for the entire card number
+  attr_accessor :full_card_number
+  
+  def initialize(params = nil)
+    super
+    self.donor_type ||= self.class.personal_donor
+  end
+  
   def self.personal_donor
     "personal"
   end
@@ -8,82 +23,140 @@ class Order < ActiveRecord::Base
     "corporate"
   end
   
-  def credit_card_concealed
-    "**** **** **** #{credit_card.to_s[-4, 4]}"
+  def card_number_concealed
+    "**** **** **** #{card_number.to_s[-4, 4]}"
+  end
+  
+  def card_number=(number)
+    @full_card_number = number if !number.nil?
+    write_attribute(:card_number, number)
+    write_attribute(:card_number, number.to_s[-4, 4]) if number
+  end
+  
+  def card_number
+    return @full_card_number if @full_card_number
+    read_attribute(:card_number)
   end
   
   def account_balance_total=(val)
-    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
-    super(val)
+    write_attribute(:account_balance_total, strip_dollar_sign(val))
   end
   def credit_card_total=(val)
-    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
-    super(val)
+    write_attribute(:credit_card_total, strip_dollar_sign(val))
   end
-  def amount=(val)
-    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
-    super(val)
-  end
-  
-  def complete?
-    # authorization_result?
-    true
+  def total=(val)
+    write_attribute(:total, strip_dollar_sign(val))
   end
   
   def card_expiry
-    load_card_expiry_from_month_and_year
-    super
-  end
-  def card_expiry=(value)
-    if value.kind_of?(String)
-      if value.match(/^\d\d\d\d$/)
-        value = Array[ value[0,2], value[2,2] ]
-      elsif value.match(/^\d{1,2}\/(\d\d)|(\d\d\d\d)$/)
-        value = value.split('/')
-      elsif value.match(/^\d\d \d\d$/)
-        value = value.split(' ')
-      end
-    end
-    if value && value.kind_of?(String)
-      begin
-        tmp = Date.parse(value)
-        date = Date.civil(tmp.year, tmp.month, -1)
-      rescue ArgumentError
-        date = nil
-      end
-    elsif value && value.kind_of?(Array)
-      year = value[1]
-      year = (Date.today.year.to_s[0,2] + value[1]) if value[1].length == 2
-      date = Date.civil(year.to_i, value[0].to_i, -1)
-    elsif value && value.kind_of?(Date)
-      tmp = value
-      date = Date.civil(tmp.year, tmp.month, -1)
-    end
-    write_attribute(:card_expiry, date) if date
-    return false if !date
+    "#{expiry_month.to_s.rjust(2, "0")}/#{expiry_year}"
   end
   
-  attr_accessor :expiry_month, :expiry_year
-  def expiry_month
-    @expiry_month = card_expiry.month if !@expiry_month && card_expiry?
-    @expiry_month
+  def validate_billing
+    errors.add_on_blank(%w(donor_type first_name last_name address city postal_code province country email))
+    errors.add_on_blank(:company) if self.donor_type? && self.donor_type == self.class.corporate_donor
+    if self.email? && !errors.on(:email)
+      errors.add(:email, "isn't a valid email address") unless self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+    end
+    errors.empty?
   end
-  def expiry_month=(month)
-    @expiry_month = month.to_i unless month.nil?
+  
+  def validate_payment(cart_items, current_balance = nil)
+    minimum_credit_payment = minimum_credit_card_payment(cart_items, current_balance)
+    errors.add(:credit_card_total, "must be at least #{number_to_currency(minimum_credit_payment)}") if self[:credit_card_total].to_f < minimum_credit_payment
+    errors.add(:account_balance_total, "cannot be more than your current balance") if self[:account_balance_total].to_f > current_balance.to_f
+    errors.add_to_base("Please ensure you're paying the full amount.") if (self[:credit_card_total].to_f + self[:account_balance_total].to_f) < self[:total].to_f
+    if minimum_credit_payment > 0 || credit_card_total?
+      unless credit_card.valid?
+        credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
+        errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:<ul>#{credit_card_messages.join}</ul>") 
+      end
+    end
+    errors.empty?
   end
-  def expiry_year=(year)
-    year = year.to_s
-    @expiry_year = (Date.today.year.to_s[0,2] + year) if year && year.length == 2
-    @expiry_year = (Date.today.year.to_s[0,3] + year) if year && year.length == 1
-    @expiry_year = @expiry_year.to_i unless @expiry_year.nil?
+  
+  def minimum_credit_card_payment(cart_items, current_balance = nil)
+    total = self[:total].to_f
+    current_balance = current_balance.to_f
+    if !current_balance
+      @minimum_credit_card_payment = total
+    else
+      deposit_balance = 0
+      cart_items.each{|item| deposit_balance += item.amount if item.class == Deposit}
+      @minimum_credit_card_payment = deposit_balance
+      subtotal = total - deposit_balance # this is what's left
+      if current_balance < subtotal
+         @minimum_credit_card_payment += subtotal - current_balance
+      end
+    end
+    @minimum_credit_card_payment
   end
-  def expiry_year
-    @expiry_year = card_expiry.year if !@expiry_year && card_expiry?
-    @expiry_year
+  
+  def validate_confirmation(cart_items, current_balance = nil)
+    # run through everything just to make sure...
+    validate_billing
+    validate_payment(cart_items, current_balance)
+    errors.empty?
+  end
+  
+  def run_transaction
+    create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
+    # use ActiveMerchant to process credit card
+    # if successful
+    #   set the authorization_result value
+    #   create_tax_receipt_from_order
+    # else
+    #   handle the error and raise the message exception?
+    # end
+    true
+  end
+  
+  def credit_card
+    unless @credit_card
+      first_name, last_name = self.cardholder_name.split(/ /, 2)
+      # Create a new credit card object
+      @credit_card = ActiveMerchant::Billing::CreditCard.new(
+        :number     => self.card_number,
+        :month      => self.expiry_month,
+        :year       => self.expiry_year,
+        :first_name => first_name,
+        :last_name  => last_name,
+        :verification_value  => self.cvv
+      )
+    end
+    @credit_card
+  end
+
+  def create_tax_receipt_from_order
+    if self.credit_card_total?
+      self.tax_receipt = TaxReceipt.new do |t|
+        t.first_name   = self.first_name
+        t.last_name    = self.last_name
+        t.email        = self.email
+        t.address      = self.address
+        t.city         = self.city
+        t.province     = self.province
+        t.postal_code  = self.postal_code
+        t.country      = self.country
+        t.user_id      = self.user_id
+        t.order_id     = self.id
+      end
+    end
+  end
+  
+  def self.generate_order_number
+    record = Object.new
+    while record
+      random = rand(999999999)
+      record = find(:first, :conditions => ["order_number = ?", random])
+    end
+    return random
   end
   
   protected
-  def load_card_expiry_from_month_and_year
-    self[:card_expiry] = Date.civil(expiry_year, expiry_month) if attribute_names.include?('card_expiry') && !card_expiry? && expiry_year && expiry_month
+  private
+  def strip_dollar_sign(val)
+    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+    val.to_f
   end
 end

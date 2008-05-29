@@ -1,14 +1,11 @@
-<%= dt_get_involved_nav %>
+<%- content_for :html_title do %><%= h @group.name %><% end -%>
+<%- content_for :nav do %><%= dt_get_involved_nav %><% end -%>
 
 <%= dt_group_nav unless @group.private && !@membership %>
 
-<div id="contentContainer">
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  <div id="leftColW">
-  	<h1><%= h @group.name %></h1>
+
   	<% if current_member(@group) && current_member(@group).admin? %>
-    <p class="textsm"><%= link_to "Edit Group Details", dt_edit_group_path(@group) %></p>
+    <p class="textsm"><%= link_to "Edit Group Details", edit_dt_group_path(@group) %></p>
     <% end %>
     
   	<% if !@group.private || (@group.private && @membership) || @invitation %>
@@ -22,44 +19,48 @@
     	    <%= hidden_field_tag "accepted", 0 %><%= submit_tag "Decline", :class => 'buttonsubmit', :id => 'invitationdecline' %>
     	  <% end %>
   	  <% end %>
-      <div class="col" style="height:90px;">
-        <ul id="factList2">
-          <% if !@group.founder.nil? %><li><strong>Founder:</strong> <%= @group.founder.name %></li><% end %>
-          <% if !@group.created_at.nil? %><li><strong>Start Date:</strong> <%= @group.created_at.to_date.to_s :long %></li><% end %>
-          <li>&nbsp;</li>
-          <li><strong>Group Status:</strong> <%= @group.private? ? 'Private' : 'Public' %></li>
-          <li><strong>Total Invested:</strong> <%= number_to_currency(@group.raised) %></li>
-        </ul>
+      <div class="columns">
+        <div class="left">
+          <div class="content-quickfacts">
+            <ul>
+              <% if !@group.founder.nil? %><li><strong>Founder:</strong> <%= @group.founder.name %></li><% end %>
+              <% if !@group.created_at.nil? %><li><strong>Start Date:</strong> <%= @group.created_at.to_date.to_s :long %></li><% end %>
+              <li>&nbsp;</li>
+              <li><strong>Group Status:</strong> <%= @group.private? ? 'Private' : 'Public' %></li>
+              <li><strong>Total Invested:</strong> <%= number_to_currency(@group.raised) %></li>
+            </ul>
+          </div>
+        </div>
+        <div class="right">
+          <div class="content-quickfacts">
+            <ul>
+              <li><strong>Number of Members:</strong> <%= @group.memberships.size %></li>
+              <% if @group.place? %><li><strong>Location:</strong> <%= @group.place %></li><% end %>
+              <li><strong>Total Group Projects:</strong> <%= @group.projects.size %></li>
+              <li><strong><span style="text-transform:none;">Cause(s):</span></strong> <%= @group.causes.size > 0 ? group_causes(@group) : 'n/a' %></li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="colEnd">
-        <ul id="factList2" style="height:90px;">
-          <li><strong>Number of Members:</strong> <%= @group.memberships.size %></li>
-          <% if @group.place? %><li><strong>Location:</strong> <%= @group.place %></li><% end %>
-          <li><strong>Total Group Projects:</strong> <%= @group.projects.size %></li>
-          <li><strong><span style="text-transform:none;">Cause(s):</span></strong> <%= @group.causes.size > 0 ? group_causes(@group) : 'n/a' %></li>
-        </ul>
-      </div>
-      <div class="line2W"></div>
       <% if @group.description? %>
       <h2>Group Description</h2>
       <p>
         <%= h @group.description %>
       </p>
-      <div class="line2W"></div>
       <% end %>
   		
   		<% if @recent_news %>
   		<h2>Recent Group News</h2>
-  		<p class="textsm"><%= link_to("Add Group News", dt_new_message_path(@group)) if current_member && current_member.admin? %></p>
+  		<p class="textsm"><%= link_to("Add Group News", new_dt_group_message_path(@group)) if current_member && current_member.admin? %></p>
   		<%= render :partial => "dt/groups/news/message", :locals => {:message => @recent_news} %>
-  		<p class="textsm"><%= link_to "View all Group News...", dt_messages_path(@group) %></p>
+  		<p class="textsm"><%= link_to "View all Group News...", dt_group_messages_path(@group) %></p>
   		<% end %>
 
       <% if @wall_messages %>
   		<h2>Group Wall</h2>
         <% if @wall_message && current_member %>
-          <% form_for(:wall_message, :url => dt_wall_messages_path(@group), :html => { :method => :post, :id => "groupwallmessagesform", :name => "groupwallmessagesform"}) do |f| -%>
-          <div class="userform simpleform">
+          <% form_for(:wall_message, :url => dt_group_wall_messages_path(@group), :html => { :method => :post, :id => "groupwallmessagesform", :name => "groupwallmessagesform"}) do |f| -%>
+          <div class="userform simpleform clearfix">
             <%= render :partial => "dt/groups/wall_messages/form", :locals => {:f => f} %>
           	<%= submit_tag 'Create Wall Post', :class => 'buttonsubmit' %>
         	</div>
@@ -75,8 +76,14 @@
   	    You cannot access this group without an invitation from a group administrator.
   	  </p>
   	<% end %>
-  	</div>
-  	<div id="rightColN">
-  	  <%= dt_profile_sidebar %>
+    <% content_for :sidebar do %>
+    <div id="navsearch">
+      <% form_for(:group_search, :url => dt_search_groups_path, :html => { :method => :get, :id => 'groupsearchform', :name => 'groupsearchform' }) do |f| %>
+        <input name="q" type="text" id="searchBox" title="Search Groups" value="Search Groups" size="15" maxlength="30" onblur="if(!this.value)this.value='Search Groups';" onfocus="if(this.value=='Search Groups')this.value='';"/>
+        <span id="searchsubmit"><input type="submit" value="Go" class="submitreplace" /></span>
+      <% end %>
     </div>
-  </div>
+    <div id="button-creategroup" class="clearfix"><%= link_to "<span>Create Group</span>", new_dt_group_path, :class => 'button-creategroup' %></div>
+        <% if current_member(@group) && current_member(@group).admin? %><div id="button-deletegroup" class="clearfix"><%= link_to "<span>Delete Group</span>", dt_group_path(@group), :method => :delete, :class=>'button-deletegroup', :confirm => 'Are you absolutely sure you want to delete this group?' %></div><% end %>
+  	  <%= dt_profile_sidebar %>
+  	<% end %>
