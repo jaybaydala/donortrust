@@ -36,10 +36,6 @@ module Spec
         "#<#{self.class}:#{sprintf '0x%x', self.object_id} @name=#{@name.inspect}>"
       end
       
-      def to_s
-        inspect.gsub('<','[').gsub('>',']')
-      end
-      
       private
       
         def parse_options(options)
