@@ -1,6 +1,7 @@
 #container {
 	width:724px;
 	margin:auto;
+	position:relative;
 }
 
 #header {
@@ -21,14 +22,23 @@
 	width:100%;
 }
 
-#content-wrapper {
+#content-wrapper, #content-plain-wrapper {
     width:492px;
     border-right:232px solid transparent; /* The width and color of the rail */
     margin-right:-232px; /* Hat tip to Ryan Brill */
     float:left;
 }
+
+#content-plain-wrapper {
+    width:472px;
+}
+
 #content {
     margin-right:18px;
+}
+
+.content-padding {
+	padding:0 0.875em 0 0;
 }
 
 /* no sidebar */
@@ -41,6 +51,11 @@
 
 #sidebar-wrapper {
     width:232px;
+    float:left;
+}
+
+#sidebar-plain-wrapper {
+    width:222px;
     float:left;
 }
 
@@ -107,12 +122,16 @@ NOTICES and ERRORS - General program flow helpers
 ==================*/
 
 div.notice, div.error, div.errorExplanation {
-    font-size:0.8125em;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:0.9375em;
 	margin:1em 0;
 	padding:4px;
 }
+#errorExplanation p, #errorExplanation li {
+    font-family:Arial, Helvetica, sans-serif;
+}
 div.notice {
-	background-color:rgb(255, 255, 204);
+    background-color:#FFE;
 	border:1px solid #360;
 }
 div.error, div.errorExplanation {

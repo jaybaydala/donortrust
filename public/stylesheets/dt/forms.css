@@ -11,6 +11,7 @@ legend {
     font-size:.75em;
     font-weight:bold;
     padding-right:2px;
+    display:block;
 }
 fieldset fieldset legend, fieldset fieldset ol li {
     font-size:1em;
@@ -60,6 +61,11 @@ textarea {
     border:1px solid #999999;
 }
 
+div.fieldWithErrors {
+    display:inline;
+    padding:5px 2px;
+    background:#C99;
+}
 /*
 DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 =====================*/
@@ -81,8 +87,12 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     padding:0;
     border-bottom:1px #555 solid;
 }
-#content-wrapper .userform li {
+
+.userform ol li, .userform ul li {
     font-family:Arial, Helvetica, sans-serif;
+}
+.userform ol li {
+    list-style-type:none;
 }
 .userform div.notes p {
     margin:0;
@@ -97,7 +107,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     padding:.25em;
     font-size:0.6875em;
 }
-.userform ol li input, .userform ol li select {
+.userform ol li input, .userform ol li select, .userform ul li input, .userform ul li select {
     font-size:1em;
 }
 .userform fieldset fieldset ol li {
@@ -111,6 +121,9 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     vertical-align: top;
     text-align:right;
     padding:0 5px 0 0;
+}
+.userform label.wide {
+    width:120px;
 }
 .userform .left label, .userform .right label {
     width:70px;
@@ -241,6 +254,15 @@ CHECKOUT FORMS
 #payment li.even {
     background-color:transparent;
 }
+#payment li#paymentrequiredfield {
+    border-top:1px solid #999;
+    color:#C00;
+    font-style:italic;
+}
+#payment li#paymentrequiredfield input {
+    color:#C00;
+    font-style:italic;
+}
 #payment li#totalfield {
     border-top:2px solid #999;
     border-bottom:2px solid #999;
@@ -250,10 +272,24 @@ CHECKOUT FORMS
     font-style:italic;
     font-weight:bold;
 }
+#payment #card_expiry {
+    float:left;
+    width:145px;
+}
 div.checkoutbuttons {
     float:right;
 }
 div.checkoutbuttons div.buttonsubmit {}
+
+#card_expiry div.fieldWithErrors {
+    display:inline;
+}
+#fund_cf_amount_calculated {
+    width:200px;
+    border:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background-color:transparent;
+}
 
 /*
 GIFT FORM
@@ -302,21 +338,25 @@ CART
 GLOBALNAV SEARCH FORM
 ---------------------*/
 form#search {}
-form#search #searchBox {
+form#search #searchBox, #sidebar #searchBox {
 	border:1px solid #ccc;
 	width: 100px;
 	padding: 1px 2px;
 	vertical-align: middle;
 }
 
+#sidebar #searchBox {
+	width:171px;
+}
+
 /* attribute selector */
-form#search input.submitreplace {
+form#search input.submitreplace, form#groupsearchform input.submitreplace {
     width:35px;
     height:20px;
 	vertical-align: middle;
 	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
 }
-form#search input.submitreplace:hover {
+form#search input.submitreplace:hover, form#groupsearchform input.submitreplace:hover {
 	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
 }
 

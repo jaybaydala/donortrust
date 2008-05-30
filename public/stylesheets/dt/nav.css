@@ -25,6 +25,7 @@ GLOBAL NAV and PAGE NAV
     padding:0;
 	margin:1px 0 0 0;
     font-size:0.8125em; /* 13px */
+    font-family:Arial, Helvetica, sans-serif;
     list-style-type:none;
     color:#FFF;	
 	float:left;
@@ -68,25 +69,27 @@ SUBNAV
 ======*/
 #subnav {}
 #subnav ul {
-    border-bottom:0.0625em solid #CCC;
+    border-bottom:1px solid #CCC;
     padding:0.5625em 0;
+    margin:0 0 0.5625em 0;
 }
 #subnav li {
     font-size:0.6875em;
     display:inline;
+    font-family:Arial, Helvetica, sans-serif;
 }
 #subnav li a {
     padding:0.125em .375em;
-    border:0.0625em solid transparent;
+    border:1px solid transparent;
     text-decoration:none;
 }
 #subnav li a:link, #subnav li a:visited {
     color: #333;
 }
 #subnav li a:hover, #subnav li a:active {
-    border:0.0625em solid #F60;
+    border:1px solid #F60;
 }
-#subnav a.current, #subnav a.current:link, #subnav a.current:visited, #subnav a.current:hover, #subnav a.current:active {
+#subnav li.current a, #subnav li.current a:link, #subnav li.current a:visited, #subnav li.current a:hover, #subnav li.current a:active {
     background-color:#66758B;
     color:#FFF;
 }
@@ -138,27 +141,17 @@ form#search {
 	padding: .5em 0px;
 }
 
-#rss a, #rss a span {
-    width:16px;
-    height:16px;
-    display:block;
-}
-#rss a {
-    float:right;
-}
-#rss a span {
-    text-indent:-9999px;
-    background:url(/images/dt/icons/feed-icon16x16.png) no-repeat;
-}
-#rss, #loginbug, #cartlink {
-    padding-top:2em;
-}
 #loginbug {
     float:right;
     text-align:right;
 }
-#cartlink {
-    float:right;
-    width:3em;
-    text-align:right;
+#loginbug ul {
+    margin:0;
+    list-style:none;
+}
+#loginbug li {
+    display:inline;
+}
+#loginbug #rss img {
+    vertical-align:middle;
 }
