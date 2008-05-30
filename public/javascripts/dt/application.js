@@ -3,7 +3,6 @@ Event.observe(window, 'load', function() {
 		anchors.each(function(anchor) {
 			if (anchor.getAttribute("href") && anchor.getAttribute("rel") == "blank" && !anchor.getAttribute("target"))
 				anchor.target = "_blank"
-
 		});
 	}
 	ua=navigator.userAgent.toLowerCase();

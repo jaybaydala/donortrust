@@ -64,7 +64,7 @@ class Gift < ActiveRecord::Base
   end
 
   def send_gift_mail?
-    return new_record? == false && !send_at? && !sent_at? && send_email? ? true : false
+    return !new_record? && !send_at? && !sent_at? && send_email? ? true : false
   end
   
   def expiry_date
