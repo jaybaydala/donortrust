@@ -17,7 +17,7 @@ class CreditCard
     return "UNKNOWN" 
   end
   
-  def self.is_valid(cc)
+  def self.valid?(cc)
     sum, digits = 0, 0
     cc = CreditCard.clean_num(cc).reverse
     # VALIDATION ALGORITHM 
@@ -39,5 +39,9 @@ class CreditCard
 
     # Valid card numbers will be transformed into a multiple of 10 
     return sum%10 == 0 ? true : false
+  end
+  
+  def self.is_valid(cc)
+    CreditCard.valid?
   end
 end

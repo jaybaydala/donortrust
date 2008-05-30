@@ -6,29 +6,30 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart'
     dt.resource :checkout
-    dt.resources :projects, :controller => 'projects', :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
-    dt.resources :investments, :controller => 'investments', :collection => { :confirm => :post }
+    dt.resources :projects, :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
+    dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
     #dt.resources :my_wishlists, :controller => 'my_wishlists'
     dt.resources :accounts, :controller => 'accounts', :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put } do |account|
-      account.resources :deposits, :controller => 'deposits', :collection => { :confirm => :post }
+      account.resources :deposits, :controller => 'deposits'
       account.resources :my_wishlists, :controller => 'my_wishlists', :collection => {:new_message => :get, :confirm => :post, :preview => :get, :send_message => :post}
       account.resources :tax_receipts, :controller => 'tax_receipts'
       account.resources :account_memberships, :controller => 'account_memberships'
     end
     dt.resource :session, :controller => 'sessions'
-    dt.resources :gifts, :controller => 'gifts', :collection => { :confirm => :post, :open => :get, :preview => :get }, :member => { :unwrap => :put }
-    dt.resources :groups, :controller=> 'groups' do |group|
-      group.resources :memberships, :controller => 'groups/memberships', :member => { :promote => :put, :demote => :put }
-      group.resources :group_projects, :controller => 'group_projects'
-      group.resources :invitations, :controller => 'invitations'
-      group.resources :messages, :controller => 'groups/news'
-      group.resources :wall_messages, :controller => 'groups/wall_messages'
+    dt.resources :gifts, :controller => 'gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :put }
+    dt.resources :groups, :controller=> 'groups' do |groups|
+      groups.resources :memberships, :controller => 'groups/memberships', :member => { :promote => :put, :demote => :put }
+      groups.resources :group_projects, :controller => 'group_projects'
+      groups.resources :invitations, :controller => 'invitations'
+      groups.resources :messages, :controller => 'groups/news'
+      groups.resources :wall_messages, :controller => 'groups/wall_messages'
     end
     dt.resources :wishlists, :controller=> 'wishlists'
     dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :confirm => :post, :preview => :get }
     dt.resources :mdgs, :controller=> 'mdgs'
   end
+  map.dt_tax_receipt '/dt/tax_receipts/:id/:code', :controller => 'dt/tax_receipts', :action => "show"
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'

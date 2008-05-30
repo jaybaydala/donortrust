@@ -17,13 +17,9 @@ Event.observe(window, 'load', function() {
 			});
 		}
 	}
-	if (search = $('searchBox')) {
-		Event.observe(search, 'focus', function(e) {if (search.value == 'Search') search.value = ''})
-		Event.observe(search, 'blur', function(e) {if (search.value == '') search.value = 'Search'})
-	}
 	if (notices = $$('div.notice')) {
 		notices.each(function(s) {
-			new Effect.Highlight(s,{delay:2,duration:1,startcolor:'#FFFFCC',endcolor:'#FFFFFF',restorecolor:'#FFFFFF'})
+			new Effect.Highlight(s,{delay:2,duration:1,startcolor:'#FFFFEE',endcolor:'#FFFFFF',restorecolor:'#FFFFFF'})
 		});
 	}
 });

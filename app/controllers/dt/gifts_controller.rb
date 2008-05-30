@@ -177,7 +177,7 @@ class Dt::GiftsController < DtApplicationController
   def set_send_now_delivery!
     if params[:gift] && params[:gift][:send_email] && params[:gift][:send_email] == "now"
       @gift.send_email = true
-      @gift.send_at = Time.now
+      @gift.send_at = Time.now + 5.minutes
     end
   end
   
