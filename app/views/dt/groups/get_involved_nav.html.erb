@@ -1,9 +1,0 @@
-<ul>
-  <li><a href="/get-involved">Overview </a></li>
-  <li><a href="/get-involved/volunteer">Volunteer </a></li>
-  <% if Project.cf_admin_project %><li><%= link_to "Invest ", dt_project_path(10) %></li><% end %>
-  <li><a href="/get-involved/events">Events</a></li>
-  <li<%= ' class="current"' if ['dt/groups', 'dt/memberships', 'dt/group_projects'].include?(params[:controller]) %>><%= link_to "Groups ", dt_groups_path %></li>
-  <li><a href="/get-involved/partner-with-us">Partner With Us</a></li>
-</ul>
-

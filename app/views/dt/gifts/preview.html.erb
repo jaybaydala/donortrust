@@ -1,8 +1,0 @@
-<%= "<div class=\"error\">#{flash[:error]}</div>" if flash[:error] %>
-<% if @gift_mail %>
-<div><strong>From:</strong> <%= @gift_mail.from %></div>
-<div><strong>Subject:</strong> <%= @gift_mail.subject %></div>
-<div><strong>To:</strong> <%= @gift_mail.to %></div>
-<hr style="border-bottom:1px solid #999;" />
-<%= @gift_mail.body %>
-<% end %>

@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-testone:
-  id: 1
-  millennium_goal_id: 1
-  description: test1
-testtwo:
-  id: 2
-  millennium_goal_id: 2
-  description: test2

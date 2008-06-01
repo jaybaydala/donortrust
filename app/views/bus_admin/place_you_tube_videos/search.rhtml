@@ -1,5 +1,0 @@
-    <div id="search_places">
-        Your search for <%= @searchstring %> returned <%= @size %> video(s)
-        <%= render( :partial => "place", :collection => @places )%>
-        <%= pageinated_links_for_ajax(@place_pages, "search_places", "/bus_admin/place_you_tube_videos", "search", :place_search_keywords => @searchstring) %>
-    </div>

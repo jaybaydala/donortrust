@@ -1,7 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-default_measure_one:
-  id: 1
-  description: % of people living below a $/day
-default_measure_two:
-  id: 2
-  description: % of childern attending school

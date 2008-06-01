@@ -1,9 +1,0 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-default_partner_type_one:
-  id: 1
-  name: Gold
-  description: Type1 description
-default_partner_type_two:
-  id: 2
-  name: Silver
-  description: Type 2 description

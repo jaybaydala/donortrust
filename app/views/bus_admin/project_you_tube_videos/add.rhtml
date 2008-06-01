@@ -1,8 +1,0 @@
-<div class="you_tube_msg"><%= @msg %></div>
-
-<% @you_tube_videos = @project.project_you_tube_videos %>
-<% prefix = "project_#{@project.id}_" %>   
-<%= render(:partial => '/bus_admin/project_you_tube_videos/you_tube_video', 
-            :locals => {:prefix => prefix}, 
-            :collection => @you_tube_videos)
- %> 

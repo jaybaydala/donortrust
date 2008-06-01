@@ -1,5 +1,0 @@
-<div id="list_videos">
-	Drag any video you whish to add into this box<br/>
-	Page: <%= pageinated_links_for_ajax(@you_tube_video_pages, "list_videos", "you_tube_videos", "list_videos", nil)%>
-	<%= render :partial=>'you_tube_video', :collection => @you_tube_videos, :locals => { :draggable => true }%>
-</div>

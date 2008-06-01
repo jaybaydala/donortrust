@@ -1,7 +1,0 @@
-<% place ||= @place%>
-<h2><%= place.name %> - Photos: <%= place.place_flickr_images.size%></h2>
-<% place_id ||= 0%>
-
-<%= @msg -%>
-<% @flickr_images = place.place_flickr_images %>
-<%= render(:partial => '/bus_admin/place_flickr_images/flickr_image', :locals => {:prefix => "#{place.id}", :class_name => :place_flickr_photo}, :collection => @flickr_images) %> 

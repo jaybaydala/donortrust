@@ -1,2 +1,0 @@
-module BusAdmin::YouTubeVideosHelper
-end
