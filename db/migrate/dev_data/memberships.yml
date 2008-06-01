@@ -1,0 +1,14 @@
+one:
+  user_id: 1
+  group_id: 1
+  membership_type: 3
+two:
+  user_id: 1
+  group_id: 2
+  membership_type: 3
+three:
+  user_id: 4
+  group_id: 1
+  membership_type: 3
+  created_at: <%= 1.hour.ago.to_s :db %>
+  updated_at: <%= 1.hour.ago.to_s :db %>

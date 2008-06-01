@@ -1,0 +1,11 @@
+<% if logged_in? && @cf_investment %>
+    <fieldset>
+    	<legend>Thank you for supporting the ChristmasFuture Foundation</legend>
+      <p class="textsm">100% of your investment goes towards the project(s) you choose</p>
+    	<ul>
+        <li style="clear:left;"><label for="fund_cf">Project</label> <%= @cf_investment.project.name %>  <%= hidden_field_tag :fund_cf, 1 %></li>
+        <li style="clear:left;"><label for="fund_cf_percentage">Investment Amount</label> <%= number_to_currency(@cf_investment.amount) %><%= hidden_field_tag :fund_cf_percentage, params[:fund_cf_percentage] %></li>
+        <li style="clear:left;"><label for="cf_total_amount"><strong>Total Amount</strong></label> <strong><%= number_to_currency(@total_amount) %></strong><%= hidden_field_tag :cf_total_amount, @total_amount %></li>
+      </ul>
+    </fieldset>
+<% end %>

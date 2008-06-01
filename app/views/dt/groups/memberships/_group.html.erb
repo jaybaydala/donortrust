@@ -1,0 +1,9 @@
+<% membership = Membership.find :first, :conditions => {:user_id => current_user.id, :group_id => group.id }    
+ %>
+<li id="group-<%= group.id %>" class="list-item">
+<div class="group-title"><%= link_to group.name, dt_group_path(group) %>
+<p><%= group.description %></p>
+<p><%= group.group_type.name %></p>   
+<p><%= link_to "Leave group", { :controller => "dt/memberships", :action => "destroy", :id => membership.id }, :method => :delete -%>  </p>
+</div>
+</li>

@@ -1,0 +1,2 @@
+module BusAdmin::BusSecureActionsHelper
+end

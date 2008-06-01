@@ -1,0 +1,7 @@
+<% project ||= @project %>
+<h2><%= project.name %> - Photos: <%= project.project_flickr_images.size%></h2>
+<% project_id ||= 0%>
+
+<%= @msg -%>
+<% @flickr_images = project.project_flickr_images %>
+<%= render(:partial => '/bus_admin/project_flickr_images/flickr_image', :locals => {:prefix => "#{project.id}", :class_name => :project_flickr_photo}, :collection => @flickr_images) %> 

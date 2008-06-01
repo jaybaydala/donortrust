@@ -1,0 +1,3 @@
+<%= render(:partial => "project", :collection=>@projects)%>
+<%= pageinated_links_for_ajax(@project_pages, "projects", "/bus_admin/project_you_tube_videos", "projects", nil) %>
+    

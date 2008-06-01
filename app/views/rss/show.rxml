@@ -1,0 +1,24 @@
+xml.instruct! :xml, :version => "1.0" 
+xml.rss(:version => "2.0"){
+  xml.channel{
+    xml.title(@feed.title)
+    xml.link(@feed.link)
+    xml.description(@feed.description)
+    
+    
+    xml.pubDate(@feed.pub_date)
+    xml.language(@feed.language)
+    xml.copyright(@feed.copyright)
+    xml.pubDate(@feed.managing_editor)
+    
+    for element in @feed.rss_feed_elements
+      xml.item do
+        xml.title(element.title)
+        xml.description(element.description) 
+        xml.link(element.link) 
+        xml.pubDate(element.pubDate)
+        xml.comments(element.comments)
+       end
+    end
+  }
+}

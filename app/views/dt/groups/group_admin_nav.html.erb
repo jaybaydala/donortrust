@@ -1,0 +1,8 @@
+<div id="pageNav2" style="margin-bottom:15px; ">
+<ul class="pageNav">
+<li<%= ' class="currentPg"' if params[:controller] == 'dt/groups' && params[:action] == 'edit' %>><%= link_to "Description", dt_group_path(@group) %></li>
+<li<%= ' class="currentPg"' if params[:controller] == 'dt/membership' && params[:action] == 'index' %>><a href="/groupMembership.html">Membership</a></li>
+<li<%= ' class="currentPg"' if params[:controller] == 'dt/group_projects' && params[:action] == 'index' && params[:active] == 1 %>><a href="/groupProjects.html">Projects</a></li>
+<li<%= ' class="currentPg"' if params[:controller] == 'dt/group_projects' && params[:action] == 'index' && params[:active] == 0 %>><a href="/groupWatchlist.html">Watchlist</a></li>
+</ul>
+</div>

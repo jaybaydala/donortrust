@@ -1,0 +1,77 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  <h1>Tell a Friend</h1>
+  <h2>Spread the word. And the good.</h2>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <%= error_messages_for :share %>
+  <% form_for(:share, :url => dt_confirm_tell_friends_path, :html => {:id => "tellfriendform", :name => "tellfriendform"}) do |f| %>
+  <p>You recently got involved in helping change the world with ChristmasFuture. The world has a lot of people - six billion plus - all of which need to be involved if we're going to eradicate extreme poverty. It is with this goal in mind that we humbly ask you to pass your story (and ChristmasFuture's) on to a friend. Or two. Or six billion.</p>
+  <p>Thanks again for getting involved.</p>
+  <p>After selecting an image from the E-card Gallery in the right column, please enter your personal information in the form below.</p>
+  <div class="userform">
+
+
+    <fieldset>
+      <legend>Please select an image from the E-Card Gallery on the right:</legend>
+      <div id="selectedImage">
+        <p class="textsm">Selected E-Card Image&nbsp; &#8250; </p>
+        <%= render :partial => 'dt/ecards/ecard_preview', :locals => {:ecard => @ecards[0], :form => f} %>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Is there a project you'd like to share?</legend>
+      <div id="projectsuggest">
+        <ul>
+          <li class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", "" %>no, I just want to share about ChristmasFuture</li>
+          <li class="textsm"><%= f.radio_button "project_id", ( @share.project_id? ? @share.project_id : 0 ) %>a specific project &nbsp;&nbsp; &#8250; <%= @share.project_id? && @share.project ? link_to(@share.project.name, dt_project_path(@share.project)) : link_to("choose project", dt_projects_path) %></li>
+        </ul>
+      </div>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend>Sender Information</legend>
+      <ul>
+        <li><label for="share_name">From (Name)</label><%= f.text_field :name %></li>
+        <li><label for="share_email"><em>*</em>From (Email)</label><%= f.text_field :email %></li>
+        <li><label for="share_email_confirmation"><em>*</em>Retype Email</label><%= f.text_field :email_confirmation %></li>
+      </ul>
+    <%= render :partial => 'dt/shared/form_requirednote' %>
+    </fieldset>
+
+		<fieldset id="multiSender">
+			<legend>Email Recipient(s)</legend>
+			<p class="textsm">Please, separate multiple emails using a comma when sending to multiple people</p>
+			<ul class="row">
+				<li>
+					<label for="to_emails">Email(s)</label>
+					<%= text_area_tag :to_emails, nil, :id => 'to_emails', :cols => 35, :rows => 3 %>
+				</li>
+			</ul>
+		</fieldset>
+      
+    <fieldset id="textInput">
+      <ul class="row">
+        <li><label for="share_message">Your message</label><%= f.text_area :message, :rows => 6, :cols => 35 %></li>
+      </ul>
+    </fieldset>
+
+    <%= submit_tag 'Confirm', :class => 'buttonsubmit' %>
+    <%= render :partial => 'dt/shared/form_requirednote' %>
+  </div>
+  <% end %>
+  </div>
+
+  <div id="rightColN">
+    <h2>E-Card Gallery</h2>
+
+    <div id="miniGallery">
+      <p><strong>Select an E-Card</strong></p>
+      <p>Select the e-card you wish to send. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
+      <%= render 'dt/ecards/sidebar' %>
+      <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('tellfriendform'));window.open('<%= dt_preview_tell_friends_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
+    </div>  
+  </div>
+</div>

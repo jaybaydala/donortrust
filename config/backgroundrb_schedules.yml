@@ -1,0 +1,15 @@
+gift_mailer: 
+  :class: :gift_mailer_worker
+  :job_key: :gift_mailer
+  :worker_method: :do_work
+  :trigger_args: 0 0,15,30,45 * * * *
+session_cleaner: 
+  :class: :session_cleaner_worker
+  :job_key: :session_cleaner
+  :worker_method: :do_work
+  :trigger_args: 0 0,20,40 * * * *
+gift_reminder: 
+  :class: :gift_reminder_worker
+  :job_key: :gift_reminder
+  :worker_method: :do_work
+  :trigger_args: 0 0 8 * * * *

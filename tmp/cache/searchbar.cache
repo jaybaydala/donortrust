@@ -1,0 +1,9 @@
+    <form action="/dt/search" id="projectsearchform" method="get">
+  <select id="place_id" name="place_id"><option value="">Make a Difference in...</option></select>
+  <select id="cause_id" name="cause_id"><option value="">I Want To Help With...</option></select>
+  <select id="partner_id" name="partner_id"><option value="">Partner With...</option>
+<option value="1">Library Partners</option>
+<option value="3">Millennium Promise</option></select>
+  <input type="submit" value="Find a Project" class="submitreplace" />
+</form>
+

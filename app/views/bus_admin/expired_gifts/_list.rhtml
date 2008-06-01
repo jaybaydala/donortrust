@@ -1,0 +1,55 @@
+	<div id="gifts">
+	<table cellspacing=0 width="100%" >		
+		<td class='colHeader'>Sent On</td>
+	  	<td class='colHeader'>Gift Amount</td>
+		<td class='colHeader'>Project</td>
+		<td class='colHeader'></td>		
+	  	<% counter = 0 %>
+		<% for gift in @gifts  %>
+			<% if counter == 0%>
+				<tr class="even">
+	      		<td><%=  gift.send_at %></td>
+	      		<td><%=  gift.amount %>	 </td>
+				<%counter = 1 %>
+		  	<%else%>
+				<tr class="odd">
+		      	<td><%=  gift.send_at %></td>
+		      	<td><%=  gift.amount %>	 </td>
+				<%counter = 0 %>
+			<% end %>
+			
+				<% if gift.project_id.nil? %>
+	        		<td>
+						<select class="project-input" id="project_record" ><option value="" selected="selected">- select -</option>
+		    				<% for project in Project.find :all %>
+								<option value= <%= project.id.to_s %>> <%=project.name%></option>
+							<% end %>					
+	     					</select>	
+					</td>
+					<td>			
+						<%= link_to_remote "Submit",		:update => "gifts",	     
+						    :url => { :action => 'unwrap' },
+							:confirm => 'Are you sure?', 
+							:with => "'projectId=' + escape($('project_record').value) + '&gift_id=" + gift.id.to_s + "'"      %>
+							
+							
+			 		</td>	   	
+				<%else%>
+					<td>
+						<%=  gift.project.name %>
+					</td>
+					<td>
+						<%= link_to_remote "Submit",		:update => "gifts",	     
+						    :url => { :action => 'unwrap' },
+							:confirm => 'Are you sure?', 
+							:with => "'projectId=" +gift.project_id+ "&gift_id=" + gift.id.to_s + "'"      %>
+							
+							
+								
+			 		</td>	   	
+				<%end%>
+			
+			
+		<% end %>		 
+   </table>
+  </div>

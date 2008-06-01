@@ -1,0 +1,49 @@
+<table cellpadding="0" cellspacing="0" id="cart">
+  <colgroup>
+    <col style="width:75%;" />
+    <col style="width:20%;" />
+  </colgroup>
+  <tr>
+    <th>Item</th>
+    <th class="numeric">Amount</th>
+  </tr>
+  <% for line_item in @cart.items %>
+    <% if line_item.class == Gift %>
+      <tr class="odd">
+        <td>
+          <% if line_item.e_card %><div class="thumbnail"><%= image_tag url_for_file_column(line_item.e_card, "small"), :alt => "" %></div><% end %>
+          <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes)}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
+          <h5><strong>Gift</strong></h5>
+          <p>
+            To: <%= link_to line_item.to_name, "mailto:" + line_item.email %><br />
+          </p>
+        </td>
+        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
+      </tr>
+    <% end %>
+    <% if line_item.class == Investment %>
+      <tr class="even">
+        <td>
+          <h5><strong>Investment</strong></h5>
+          <p>
+            <%=h line_item.project.name %><br />
+          </p>
+        </td>
+        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
+      </tr>
+    <% end %>
+    <% if line_item.class == Deposit %>
+      <tr class="odd">
+        <td>
+          <h5><strong>Deposit</strong></h5>
+          <p>Deposit into my Christmas Future Account</p>
+        </td>
+        <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
+      </tr>
+    <% end %>
+  <% end %>
+  <tr class="footer">
+    <td class="numeric money">Cart Total</td>
+    <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
+  </tr>
+</table>

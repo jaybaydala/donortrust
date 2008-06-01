@@ -1,0 +1,50 @@
+<%- content_for :html_title do -%><%= h @community.name %> | <%= h @project.name %><%- end -%>
+<%- content_for :page_title do -%><%= h @project.name %><%- end -%>
+<%- content_for :nav do -%><%= project_nav %><%- end -%>
+
+<h1><%= @community.name %></h1>
+
+<% if @community.description? || @community.file_image? %>
+<h2>Community Plan</h2>
+<div>
+  <% if @community.file_image? %><%= image_tag @community.file_image, :alt => "#{@community.name} Plan" %><% end %>
+  <%= @community.description %>
+</div>
+<% end %>
+
+<% if @project.community.rss_url && @rss_feed %>
+<h2>Stories from the community</h2>
+<%= render :partial => 'blog' %>
+<% end %>
+
+<% if @project.community.place_flickr_images.size > 0 %>
+<h2>Community Photos</h2>
+<%= render :partial => 'flickr_photo', :collection => @project.community.place_flickr_images %>
+<% end %>
+
+<% if @project.community.place_you_tube_videos.size > 0 %>
+<h2>Community Video</h2>
+<%= render :partial => 'youtube_video', :collection => @project.community.place_you_tube_videos %>
+<% end %>
+
+<%- content_for :sidebar do -%>
+  <%= project_actions %>
+  <%= render :partial => 'related_projects' %>
+  <% if @community.quick_fact_places.size > 0 -%>
+  <div class="quickfacts">
+    <h2>Quick Facts</h2>
+    <ul>
+      <%= render :partial => 'quickfact_place', :collection => @community.quick_fact_places %>
+    </ul>
+  </div>
+  <% end -%>
+
+  <div class="projecthighlight">
+    <h5>PROJECTS IN THIS COMMUNITY</h5>
+    <ul>
+      <%= render :partial => 'project_list_item', :collection => @project.community.projects %>
+    </ul>
+  </div>
+
+  <%= mdg_goals %>
+<%- end -%>

@@ -1,0 +1,22 @@
+<%= dt_account_nav %>
+
+<%= dt_group_nav unless @group.private && !@membership %>
+
+<div id="contentContainer">
+  <div id="leftColW">
+  	<h1>Post to the Wall</h1>
+		<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  
+    <%= error_messages_for :wall_message %>
+    <% form_for(:wall_message, :url => dt_wall_messages_path(@group), :html => { :method => :post, :id => "groupwallmessagesform", :name => "groupwallmessagesform"}) do |f| -%>
+    <div class="userform simpleform">
+      <%= render :partial => "form", :locals => {:f => f} %>
+    	<%= submit_tag 'Create Wall Post', :class => 'buttonsubmit' %>
+  	</div>
+  	<% end %>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
+</div>

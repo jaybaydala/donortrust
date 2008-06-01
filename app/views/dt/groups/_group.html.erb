@@ -1,0 +1,21 @@
+<div class="projectInfo" id="group-<%= group.id %>">
+  <div class="leftColW">
+    <h2><%= link_to group.name, dt_group_path(group) %></h2>
+    <% if !group.created_at.nil? %><p class="specList"><strong>Start Date:</strong> <%= group.created_at.to_date.to_s :long %></p><% end %>
+    <p>Group Description: 
+      <%= group.description %>&nbsp; &#8250; <%= link_to "Read more...", dt_group_path(group) %>
+      </p>
+  </div>
+  <div id="factList">
+    <h2>Quick Facts</h2>
+    <ul>
+      <% if group.place? %><li><strong>Location:</strong> <%= group.place %></li><% end %>
+      <% if group.causes.size > 0 %><li><strong>Cause(s):</strong> <%= group_causes(group) %></li><% end %>
+      <li><strong>Group Projects:</strong> <a href="#"><%= link_to group.projects.size, "#" %><!--dt_group_projects_path(group)--></a></li>
+      <li><strong>Number of Members:</strong> <%= group.memberships.size %></li>
+      <li><strong>Lives Affected:</strong> <%= group.lives_affected %></li>
+      <li><strong>Raised:</strong> <%= number_to_currency(group.raised) %></li>
+      <li class="blueblock">&nbsp;<% if current_member(group) %><%= link_to "Leave Group", dt_group_memberships_path(:group_id => group.id, :id => current_member(group).id), :method => 'delete', :confirm => "Do you want to leave #{group.name}?" %><% else %><%= link_to "Join Group", dt_memberships_path(group), :method => :post, :confirm => "Do you want to join #{group.name}?" %><% end %></li>
+    </ul>
+  </div>
+</div>

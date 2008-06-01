@@ -1,0 +1,10 @@
+one:
+    id: 1
+    rss_feed_id: 1
+    title:           "Test Title"
+    link:             "http://www.validateMe.com" 
+    description:     "This is a description"
+    author:          "Joe"
+    comments:        "My comment"
+    pubDate:         "2007-08-01"
+    source:          "Source"

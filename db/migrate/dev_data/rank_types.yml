@@ -1,0 +1,25 @@
+--- 
+rank_types_001: 
+  name: Life saving impact
+  deleted_at: 
+  id: "3"
+  version: 
+  description: Life saving impact of the project
+rank_types_002: 
+  name: Development Expert Rating
+  deleted_at: 
+  id: "4"
+  version: 
+  description: Rating from a development expert
+rank_types_003: 
+  name: Villager Rating
+  deleted_at: 
+  id: "5"
+  version: 
+  description: Rating from a villager
+rank_types_004: 
+  name: Time sensitivity/ Urgency
+  deleted_at: 
+  id: "6"
+  version: 
+  description: Time sensitivity of the project

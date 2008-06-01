@@ -1,0 +1,36 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW">
+  <h1>Investment</h1>
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
+  <div class="userform">
+  	<fieldset>
+  		<legend>How your investment will be allocated:</legend>
+  		<ul>
+  			<li style="clear:left;"><label for="investment_amount">Project</label> <%= @investment.project.name %> <%= f.hidden_field 'project_id' %></li>
+  			<li style="clear:left;"><label for="investment_amount">Investment Amount</label> <%= number_to_currency(@investment.amount) %> <%= f.hidden_field :amount %></li>
+		</ul>
+  	</fieldset>
+
+		<%= render 'dt/shared/fund_cf_confirm' %>
+
+    <% if @investment.group %>
+    <fieldset>
+      <legend>Group Wishlist</legend>
+      <ul>
+        <li style="clear:left;"><label for="investment_group">Group</label> <%= @investment.group.name %><%= hidden_field 'investment', 'group_id' %></li>
+      </ul>
+    </fieldset>
+    <% end %>
+
+  	<%= submit_tag 'Gift it!', :class => 'buttonsubmit', :fund_cf => @fundCf %>
+  	<input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
+  </div>
+  <% end %>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
+</div>

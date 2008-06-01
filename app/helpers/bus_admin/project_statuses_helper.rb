@@ -1,0 +1,3 @@
+module BusAdmin::ProjectStatusesHelper
+
+end

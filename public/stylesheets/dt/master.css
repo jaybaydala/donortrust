@@ -1,0 +1,25 @@
+@import url("/stylesheets/dt/reset.css");
+@import url("/stylesheets/dt/grid.css");
+@import url("/stylesheets/dt/typography.css");
+@import url("/stylesheets/dt/nav.css");
+@import url("/stylesheets/dt/forms.css");
+@import url("/stylesheets/dt/projects.css");
+
+/* 
+P.I.E. FLOAT CLEARING ----------------------------
+See http://www.positioniseverything.net/easyclearing.html
+and http://www.456bereastreet.com/archive/200603/new_clearing_method_needed_for_ie7/
+*/
+
+.clearfix:after {
+  content: ".";
+  clear: both;
+  height: 0;
+  visibility: hidden;
+  display: block;
+}
+
+.clearfix {display:inline-block;}
+/* Hide from IE Mac \*/
+.clearfix {display:block;}
+/* End hide from IE Mac */

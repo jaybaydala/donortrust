@@ -1,0 +1,43 @@
+development:
+  key: 0dfde0fbecf5c23f9298274fb6194298
+  secret: 3f0772b0547499c63aee7f695a6e6aa9
+  canvas_path: /christmasfuture_dev/
+  callback_path: http://localhost:3000/dt/projects
+  tunnel:
+    username: yourLoginName
+    host: www.yourexternaldomain.com
+    port: 1234
+    local_port: 5678
+
+test:
+  key: YOUR_API_KEY_HERE
+  secret: YOUR_API_SECRET_HERE
+  canvas_path: /yourAppName/
+  callback_path: /path/to/your/callback/
+  tunnel:
+    username: yourLoginName
+    host: www.yourexternaldomain.com
+    port: 1234
+    local_port: 5678
+
+staging:
+  key: 6bc8f93333e6565ab0421fc62d5bea96
+  secret: b2bceec1bd2d325ecd1f42497f8e796c
+  canvas_path: /christmasfuture/
+  callback_path: /dt/projects
+  tunnel:
+    username: yourLoginName
+    host: www.christmasfuture.org
+    port: 1234
+    local_port: 5678
+
+production:
+  key: 6bc8f93333e6565ab0421fc62d5bea96
+  secret: b2bceec1bd2d325ecd1f42497f8e796c
+  canvas_path: /christmasfuture/
+  callback_path: /dt/projects
+  tunnel:
+    username: yourLoginName
+    host: www.christmasfuture.org
+    port: 1234
+    local_port: 5678

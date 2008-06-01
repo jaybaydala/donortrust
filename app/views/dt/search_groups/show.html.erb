@@ -1,0 +1,23 @@
+<%= dt_get_involved_nav %>
+
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div class="leftColW">
+    <div style="margin-bottom:5px;"><strong>You have searched using the following term(s): <%= params[:q] %></strong></div>
+    <p class="textsm"><%= @groups.total_entries %> Groups Found</p>
+    <%= will_paginate @groups %>
+
+    <% if @groups.size > 0 %>
+    <%= render :partial => 'dt/groups/group', :collection => @groups %>
+    <% end %>
+
+  </div>
+  <div id="rightColN">
+    <div class="buttonGroupWrapN">
+      <ul class="buttonGroup">
+        <li><div id="buttonCreateGroup"><%= link_to "Create Group", dt_new_group_path %></div></li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+--- 
+bus_user_types_001: 
+  name: administrator
+  id: "1"
+bus_user_types_002: 
+  name: reader
+  id: "2"
+bus_user_types_003: 
+  name: collaborator
+  id: "3"

@@ -1,0 +1,82 @@
+<%= dt_get_involved_nav %>
+
+<%= dt_group_nav unless @group.private && !@membership %>
+
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div id="leftColW">
+  	<h1><%= h @group.name %></h1>
+  	<% if current_member(@group) && current_member(@group).admin? %>
+    <p class="textsm"><%= link_to "Edit Group Details", dt_edit_group_path(@group) %></p>
+    <% end %>
+    
+  	<% if !@group.private || (@group.private && @membership) || @invitation %>
+  	  <% if !@membership && @invitation %>
+  	    <p>You have been invited to join this group. Would you like to accept?</p>
+    	  <% form_tag dt_invitation_path(:group_id => @group, :id => @invitation), :method => 'put' do %>
+    	    <%= hidden_field_tag "accepted", 1 %><%= submit_tag "Accept", :class => 'buttonsubmit', :id => 'invitationaccept' %>
+    	  <% end %>
+    	  
+    	  <% form_tag dt_invitation_path(:group_id => @group, :id => @invitation), :method => 'put' do %>
+    	    <%= hidden_field_tag "accepted", 0 %><%= submit_tag "Decline", :class => 'buttonsubmit', :id => 'invitationdecline' %>
+    	  <% end %>
+  	  <% end %>
+      <div class="col" style="height:90px;">
+        <ul id="factList2">
+          <% if !@group.founder.nil? %><li><strong>Founder:</strong> <%= @group.founder.name %></li><% end %>
+          <% if !@group.created_at.nil? %><li><strong>Start Date:</strong> <%= @group.created_at.to_date.to_s :long %></li><% end %>
+          <li>&nbsp;</li>
+          <li><strong>Group Status:</strong> <%= @group.private? ? 'Private' : 'Public' %></li>
+          <li><strong>Total Invested:</strong> <%= number_to_currency(@group.raised) %></li>
+        </ul>
+      </div>
+      <div class="colEnd">
+        <ul id="factList2" style="height:90px;">
+          <li><strong>Number of Members:</strong> <%= @group.memberships.size %></li>
+          <% if @group.place? %><li><strong>Location:</strong> <%= @group.place %></li><% end %>
+          <li><strong>Total Group Projects:</strong> <%= @group.projects.size %></li>
+          <li><strong><span style="text-transform:none;">Cause(s):</span></strong> <%= @group.causes.size > 0 ? group_causes(@group) : 'n/a' %></li>
+        </ul>
+      </div>
+      <div class="line2W"></div>
+      <% if @group.description? %>
+      <h2>Group Description</h2>
+      <p>
+        <%= h @group.description %>
+      </p>
+      <div class="line2W"></div>
+      <% end %>
+  		
+  		<% if @recent_news %>
+  		<h2>Recent Group News</h2>
+  		<p class="textsm"><%= link_to("Add Group News", dt_new_message_path(@group)) if current_member && current_member.admin? %></p>
+  		<%= render :partial => "dt/groups/news/message", :locals => {:message => @recent_news} %>
+  		<p class="textsm"><%= link_to "View all Group News...", dt_messages_path(@group) %></p>
+  		<% end %>
+
+      <% if @wall_messages %>
+  		<h2>Group Wall</h2>
+        <% if @wall_message && current_member %>
+          <% form_for(:wall_message, :url => dt_wall_messages_path(@group), :html => { :method => :post, :id => "groupwallmessagesform", :name => "groupwallmessagesform"}) do |f| -%>
+          <div class="userform simpleform">
+            <%= render :partial => "dt/groups/wall_messages/form", :locals => {:f => f} %>
+          	<%= submit_tag 'Create Wall Post', :class => 'buttonsubmit' %>
+        	</div>
+        	<% end %>
+    	  <% end %>
+    	  <%= will_paginate @wall_messages, :param_name => "wall_page" %>
+    	  <%= render :partial => "dt/groups/wall_messages/message", :collection => @wall_messages %>
+    	<% end %>
+
+  	<% else %>
+  	  <p>
+  	    <%= logged_in? ? "We cannot find an invitation to your login email." : "If you believe you've been invited to this group, please login using the email address that you were invited with." %>
+  	    You cannot access this group without an invitation from a group administrator.
+  	  </p>
+  	<% end %>
+  	</div>
+  	<div id="rightColN">
+  	  <%= dt_profile_sidebar %>
+    </div>
+  </div>

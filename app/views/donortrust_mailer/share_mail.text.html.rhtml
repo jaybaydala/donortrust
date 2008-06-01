@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>::: ChristmasFuture Email :::</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <style type="text/css">
+  <!--
+  html, body {
+    margin:10px;
+  }
+  body {
+    background: #FFF;
+    font: 12px/16px Arial, Helvetica, sans-serif;
+    color: #333;
+    text-align: left; /* this is asking IE to centre the container ;) */
+  }
+  h2 a {
+    text-decoration:none;
+    color: #360;
+  }
+  strong {
+    color:#360;
+  }
+  -->
+  </style>
+</head>
+<body>
+<div style="text-align:left;width:496px;margin:auto;">
+
+<p>Hello <%=h @share.to_name? ? @share.to_name : @share.to_email %>,</p>
+
+<p>Your friend, <a href="mailto:<%= @share.email %>"><%=h @share.name? ? @share.name : @share.email %></a> found something on the ChristmasFuture website that you might like. Click the link below to check it out.</p>
+ 
+<% if @share.e_card_id? && @share.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@share.e_card, "large")}", :alt => "" %><% end %>
+
+<% if @share.message? %>
+<p>Their message to you:</p>
+<p><%=h @share.message %></p>
+<% end %>
+
+<hr />
+
+<% if @share.project_id? && @share.project %>
+  <h2><%= link_to @share.project.name, dt_project_url(:id => @share.project, :host => @host) %></h2>
+
+  <div class="projectRank">
+    <% if @share.project.target_start_date? %><span><strong>Target Start Date:</strong> <%= @share.project.target_start_date.to_formatted_s(:long) %></span><% end %>
+  </div>
+
+  <p><strong>Project Description:</strong> <%= @share.project.description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_url(:id => @share.project.id, :host => @host) %></p>
+
+  <hr />
+<% end %>
+
+<p>Your friend is sharing a way that you can help change the world...for good.  <br />
+<%= link_to (@share.project_id? && @share.project ? @share.project.name : 'ChristmasFuture Projects'), "http://" + @host + @url %></p>
+
+<p>Thanks,<br />
+<strong>The ChristmasFuture Team</strong></p>
+
+</div>
+</body>
+</html>

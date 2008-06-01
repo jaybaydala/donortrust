@@ -1,0 +1,24 @@
+<%- content_for :html_title do -%>Accounts<%- end -%>
+<%- content_for :page_title do -%>Welcome<% if logged_in? %> <%= @current_user.name %><% end %>! The future is here.<%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+
+<p>Welcome to ChristmasFuture. Thank you for joining this growing movement, which will help to make extreme poverty a thing of the past</p>
+
+<p>Using your account you can:</p>
+
+<ul>
+  <li>track <%= link_to "projects", dt_projects_path %> that you're interested in or you've given to</li>
+  <li><%= logged_in? ? link_to("deposit", new_dt_account_deposit_path(current_user)) : "deposit" %> into your account to make giving and investing easy</li>
+  <li><%= link_to "send a gift", new_dt_gift_path %> to your friends and family that will help to change the world</li>
+  <li>join <%= link_to "ChristmasFuture groups", dt_groups_path %></li>
+  <li>create a wishlist</li>
+  <li>more. . .</li>
+</ul>  
+<p>Click <%= logged_in? ? link_to("Account Summary ", dt_account_path(current_user)) : (link_to "Login", dt_login_path) %> to get started.</p>
+
+
+<% unless cart_empty? %><%= link_to "<span>Return To Your Cart</span>", dt_cart_path, :class => "button-return_to_cart" %><% end %>
+
+<%- content_for :sidebar do -%>
+  <%= dt_profile_sidebar %>
+<%- end -%>

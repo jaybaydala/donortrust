@@ -1,0 +1,8 @@
+<div class="you_tube_msg"><%= @msg %></div>
+
+<% @you_tube_videos = @place.place_you_tube_videos %>
+<% prefix = "place_#{@place.id}_" %>   
+<%= render(:partial => '/bus_admin/place_you_tube_videos/you_tube_video', 
+            :locals => {:prefix => prefix}, 
+            :collection => @you_tube_videos)
+ %> 

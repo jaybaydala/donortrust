@@ -1,0 +1,106 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+--- 
+bus_secure_actions_024: 
+  bus_security_level_id: "5"
+  permitted_actions: show
+  id: "24"
+bus_secure_actions_013: 
+  bus_security_level_id: "6"
+  permitted_actions: list
+  id: "13"
+bus_secure_actions_002: 
+  bus_security_level_id: "1"
+  permitted_actions: show
+  id: "2"
+bus_secure_actions_025: 
+  bus_security_level_id: "5"
+  permitted_actions: index
+  id: "25"
+bus_secure_actions_014: 
+  bus_security_level_id: "3"
+  permitted_actions: index
+  id: "14"
+bus_secure_actions_003: 
+  bus_security_level_id: "1"
+  permitted_actions: list
+  id: "3"
+bus_secure_actions_026: 
+  bus_security_level_id: "1"
+  permitted_actions: 
+  id: "27"
+bus_secure_actions_015: 
+  bus_security_level_id: "4"
+  permitted_actions: new
+  id: "15"
+bus_secure_actions_004: 
+  bus_security_level_id: "1"
+  permitted_actions: index
+  id: "4"
+bus_secure_actions_016: 
+  bus_security_level_id: "4"
+  permitted_actions: edit
+  id: "16"
+bus_secure_actions_005: 
+  bus_security_level_id: "1"
+  permitted_actions: new
+  id: "5"
+bus_secure_actions_017: 
+  bus_security_level_id: "3"
+  permitted_actions: edit
+  id: "17"
+bus_secure_actions_006: 
+  bus_security_level_id: "4"
+  permitted_actions: list
+  id: "6"
+bus_secure_actions_018: 
+  bus_security_level_id: "6"
+  permitted_actions: edit
+  id: "18"
+bus_secure_actions_007: 
+  bus_security_level_id: "3"
+  permitted_actions: new
+  id: "7"
+bus_secure_actions_019: 
+  bus_security_level_id: "4"
+  permitted_actions: show
+  id: "19"
+bus_secure_actions_008: 
+  bus_security_level_id: "6"
+  permitted_actions: new
+  id: "8"
+bus_secure_actions_020: 
+  bus_security_level_id: "4"
+  permitted_actions: index
+  id: "20"
+bus_secure_actions_009: 
+  bus_security_level_id: "6"
+  permitted_actions: index
+  id: "9"
+bus_secure_actions_021: 
+  bus_security_level_id: "5"
+  permitted_actions: list
+  id: "21"
+bus_secure_actions_010: 
+  bus_security_level_id: "3"
+  permitted_actions: list
+  id: "10"
+bus_secure_actions_022: 
+  bus_security_level_id: "5"
+  permitted_actions: new
+  id: "22"
+bus_secure_actions_011: 
+  bus_security_level_id: "6"
+  permitted_actions: show
+  id: "11"
+bus_secure_actions_023: 
+  bus_security_level_id: "5"
+  permitted_actions: edit
+  id: "23"
+bus_secure_actions_012: 
+  bus_security_level_id: "3"
+  permitted_actions: show
+  id: "12"
+bus_secure_actions_001: 
+  bus_security_level_id: "1"
+  permitted_actions: edit
+  id: "1"

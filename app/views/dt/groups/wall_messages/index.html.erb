@@ -1,0 +1,27 @@
+<%= dt_account_nav %>
+
+<%= dt_group_nav unless @group.private && !@membership %>
+
+<div id="contentContainer">
+  <div id="leftColW">
+
+    <h1><%= @group.name %></h1>
+    <h2>Wall Posts</h2>
+    <% if current_member && current_member.admin? -%>
+    <%= error_messages_for :wall_message %>
+    <% form_for(:wall_message, :url => dt_wall_messages_path(@group), :html => { :id => "groupwallmessageform", :name => "groupwallmessageform"}) do |f| -%>
+    <div class="userform simpleform">
+      <%= render :partial => "form", :locals => {:f => f} %>
+  	  <%= submit_tag 'Create Wall Post', :class => 'buttonsubmit' %>
+  	</div>
+  	<% end %>
+  	<% end -%>
+    
+    <%= will_paginate @wall_messages %>
+
+    <%= render :partial => 'dt/groups/wall_messages/message', :collection => @wall_messages %>
+  </div>
+  <div id="rightColN">
+	  <%= dt_profile_sidebar %>
+  </div>
+</div>

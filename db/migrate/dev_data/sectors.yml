@@ -1,0 +1,36 @@
+--- 
+sectors_002: 
+  name: Education
+  deleted_at: 
+  id: "2"
+  description: Projects to support Education
+sectors_003: 
+  name: Agriculture
+  deleted_at: 
+  id: "3"
+  description: Projects to support Agriculture
+sectors_004: 
+  name: Economy
+  deleted_at: 
+  id: "4"
+  description: 
+sectors_005: 
+  name: Water & Sanitation
+  deleted_at: 
+  id: "5"
+  description: 
+sectors_006: 
+  name: Gender
+  deleted_at: 
+  id: "6"
+  description: 
+sectors_008: 
+  name: Community Development
+  deleted_at: 
+  id: "9"
+  description: 
+sectors_001: 
+  name: Health
+  deleted_at: 
+  id: "1"
+  description: Projects to support Health

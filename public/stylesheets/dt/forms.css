@@ -1,0 +1,352 @@
+/*
+ALL FORMS
+=========*/
+fieldset {
+    border-top:3px solid #95AED0;
+    margin-bottom:1.125em;
+}
+fieldset fieldset {
+}
+legend {
+    font-size:.75em;
+    font-weight:bold;
+    padding-right:2px;
+}
+fieldset fieldset legend, fieldset fieldset ol li {
+    font-size:1em;
+    font-weight:normal;
+}
+label em {
+    color:#C00;
+}
+    
+fieldset ol {
+    margin-left:0;
+    padding:0;
+}
+fieldset ol li {
+    list-style-type:none;
+}
+input, select {
+    background-color:#FFF;
+    border:1px solid #999;
+    color:#333;
+    padding:1px;
+    font-size:0.6875em;
+}
+.textsm input, .textsm select {
+    font-size:1em;
+}
+input[type=submit] {
+    background-color:#DDD;
+    border:1px solid #999999;
+    padding:auto;
+}
+input[type=image] {
+    border:0;
+    padding:0;
+}
+input[type=radio], input[type=checkbox] {
+	border:0;
+}
+select {
+    padding:0 0 1px 0;
+}
+input.submitreplace {
+    border:0;
+    font-size:0;
+}
+textarea {
+    border:1px solid #999999;
+}
+
+/*
+DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
+=====================*/
+.userform {}
+.userform div.notes {
+    float:right;
+    width:160px;
+    padding:5px;
+    margin:0 0 10px 10px;
+    background-color:#FFE;
+    border:1px solid #EED;
+}
+.userform div.notes h5 {
+    font-weight:bold;
+    color:#555;
+    text-align:center;
+    text-transform:none;
+    margin:0 0 4px 0;
+    padding:0;
+    border-bottom:1px #555 solid;
+}
+#content-wrapper .userform li {
+    font-family:Arial, Helvetica, sans-serif;
+}
+.userform div.notes p {
+    margin:0;
+    font-size:0.75em;
+    color:#555;
+}
+.userform select, .userform input[type=text] {
+    width:150px;
+}
+.userform ol li {
+    clear:left;
+    padding:.25em;
+    font-size:0.6875em;
+}
+.userform ol li input, .userform ol li select {
+    font-size:1em;
+}
+.userform fieldset fieldset ol li {
+    font-size:1em;
+}
+.userform fieldset {}
+.userform label {
+    display:block;
+    float:left;
+    width:100px;
+    vertical-align: top;
+    text-align:right;
+    padding:0 5px 0 0;
+}
+.userform .left label, .userform .right label {
+    width:70px;
+}
+.userform .left select, .userform .right select,
+.userform .left input[type=text], .userform .right input[type=text] {
+    width:100px;
+}
+.userform ol li div.note {
+    margin-left:105px;
+    font-size:0.9375em;
+    color:#666;
+}
+.userform .left div.note {
+    margin-left:75px;
+    font-size:0.9375em;
+    color:#666;
+}
+
+.userform fieldset fieldset {
+    font-size:1em;
+    border:0;
+}
+.userform fieldset fieldset label {
+    font-size:1em;
+    display:block;
+    margin-left:100px;
+    width:auto;
+}
+.userform label.left {
+    width:auto;
+    float:none;
+    display:block;
+	text-align:left;
+}
+
+/*
+SUBMIT BUTTONS
+==============*/
+
+div.buttonsubmit {
+	padding:3px 0 0 0;
+	float:left;
+}
+div.simpleform div.buttonsubmit {
+    padding-left:0;
+}
+div.buttonsubmit a:link, div.buttonsubmit a:visited, div.buttonsubmit a:hover, div.buttonsubmit a:active {
+	display:block;
+	height: 18px;
+	padding-top: 2px;
+	font: xx-small/14px Arial, Helvetica, sans-serif;
+	color:#FFF;
+	text-align:center;
+	text-decoration:none;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+div.buttonsubmit a.small {
+	width:52px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_small.gif);
+}
+div.buttonsubmit a.small:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_small.gif);
+}
+div.buttonsubmit a.medium {
+	width:78px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_medium.gif);
+}
+div.buttonsubmit a.medium:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_medium.gif);
+}
+div.buttonsubmit a.large {
+	width:110px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_grey_large.gif);
+}
+div.buttonsubmit a.large:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_large.gif);
+}
+
+/*
+LOGIN FORM
+==========*/
+#loginform fieldset {
+    background-color:#D8DEE7;
+    border:0;
+    padding:1em;
+}
+#loginform fieldset legend {
+    padding-top:2em;
+}
+#loginform fieldset label {
+    display:block;
+    float:none;
+    text-align:left;
+}
+#loginform fieldset input[type=text], #loginform fieldset input[type=password] {
+    width:100%;
+}
+#loginform fieldset li {
+    display:block;
+    width:140px;
+    float:left;
+    clear:none;
+}
+#loginform fieldset li.clear {
+    clear:left;
+}
+
+/*
+CHECKOUT FORMS
+==============*/
+#payment {
+    width:72%;
+    border:1px solid #999;
+    padding:0;
+}
+#payment label {
+    width:48%;
+    font-weight:bold;
+}
+#payment input {
+    width:48%;
+}
+#payment li.odd {
+    background-color:#EEE;
+}
+#payment li.even {
+    background-color:transparent;
+}
+#payment li#totalfield {
+    border-top:2px solid #999;
+    border-bottom:2px solid #999;
+}
+#payment li#totalfield, #payment li#totalfield input {
+    background-color:#CCC;
+    font-style:italic;
+    font-weight:bold;
+}
+div.checkoutbuttons {
+    float:right;
+}
+div.checkoutbuttons div.buttonsubmit {}
+
+/*
+GIFT FORM
+=========*/
+#gift_send_at_select select {
+    width:auto;
+}
+select#gift_send_at_1i { /* Year */
+    width:58px;
+}
+select#gift_send_at_2i { /* Month */
+    width:60px;
+}
+select#gift_send_at_3i, 
+select#gift_send_at_4i, 
+select#gift_send_at_5i { /* Day, Hour, Minute */
+    width:40px;
+}
+select#time_zone {
+    width:270px;
+}
+#gift_message {
+    clear:both;
+    width:100%;
+}
+label#gift_message_label {
+    float:none;
+    width:auto;
+    text-align:left;
+}
+img#previewEcard {
+    display:block;
+    width:50px;
+    float:right;
+    padding:0 0 10px 10px;
+}
+
+/*
+CART
+====*/
+.button-checkout {
+    
+}
+
+/*
+GLOBALNAV SEARCH FORM
+---------------------*/
+form#search {}
+form#search #searchBox {
+	border:1px solid #ccc;
+	width: 100px;
+	padding: 1px 2px;
+	vertical-align: middle;
+}
+
+/* attribute selector */
+form#search input.submitreplace {
+    width:35px;
+    height:20px;
+	vertical-align: middle;
+	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
+}
+form#search input.submitreplace:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
+}
+
+/*
+TOOLBAR SEARCH FORM
+-------------------*/
+form#projectsearchform {
+    padding:10px 0 0 10px;
+}
+form#projectsearchform select {
+    margin-right:12px;
+    width:190px;
+    float:left;
+	vertical-align: middle;
+}
+form#projectsearchform input.submitreplace {
+    width:92px;
+    height:20px;
+    background: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_grey.gif) no-repeat top left;
+	vertical-align: middle;
+}
+form#projectsearchform input.submitreplace:hover {
+    background-image: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_blue.gif);
+}
+
+/*
+SIDEBAR FORM ELEMENTS
+=====================*/
+#sidebar input[type=text], #sidebar input[type=password], #sidebar select,
+.sidebar input[type=text], .sidebar input[type=password], .sidebar select {
+    width:228px;
+}
+

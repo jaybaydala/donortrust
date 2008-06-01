@@ -1,0 +1,76 @@
+<%- content_for :html_title do -%>My Account<%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+
+<div id="intro">
+	<h2>Stay Involved </h2>			
+	<p>Keep supporting the movement! Be sure to visit the <a href="/get-involved">Get Involved</a> section to see how you can do more.</p>
+</div>
+<% if @transactions.total_entries > 0 %><p style="font-weight:bold;" class="textsm">Uninvested Funds: <%= number_to_currency(current_user.balance) %></p><% end %>
+<div class="account-summary" style="margin-bottom:18px;">
+	<%= will_paginate @transactions, :param_name => 'tx_page' %>
+	<% if @transactions.length > 0 -%>
+	<div id="transaction_list" style="padding-left:10px;">
+		<table style="width:100%;">
+		<tr><th>Transaction Description</th><th>Date</th><th>Amount</th></tr>
+		<%= render :partial => "transaction", :collection => @transactions %>
+		</table>
+	</div>
+	<%= will_paginate @transactions, :param_name => 'tx_page' %>
+	<% else -%>
+	<div class="highlight">
+		<p>You have not made any transactions in your account yet.</p>
+		<p>Get started by <%= link_to "depositing money", new_dt_account_deposit_path(:account_id => current_user.id) %> into your account. You can use this money to Invest in projects and give Gifts to your friends and family.</p>
+	</div>
+	<% end -%>
+</div>
+
+<div id="wishlist">
+  <h2>My Wishlist</h2>
+	<div class="clearfix">
+	  <%= link_to "<span>Send My Wishlist</span>", new_message_dt_account_my_wishlists_path( current_user ), :class => "button-send_wishlist" %>
+	  <%= link_to "<span>Add New Project</span>", dt_projects_path, :class => "button-add_project" %>
+	</div>
+	<% if @user.projects.size > 0 %>
+	  <div class="projectlist">
+      <ul>
+        <%= render :partial => 'wishlist_project', :collection => @user.projects %>
+      </ul>
+    </div>
+	<% else %>
+	  <div class="highlight">
+	    <p>You have not added any projects to your wishlist</p>
+	    <p><%= link_to "Find a project", dt_projects_path %> and click the &quot;Add to My Wishlist&quot; button beside it.</p>
+	  </div>
+	<% end %>
+</div>
+
+<div id="projectlist">
+  <h2>My Projects</h2>
+  <p>These are the investments you have made</p>
+	<% if @user.investments.size > 0 %>
+    <ul>
+      <%= render :partial => 'investment', :collection => @user.investments(:all, :order => 'created_at ASC') %>
+    </ul>
+	<% else %>
+	  <div class="highlight">
+	    <p>You have not invested in any projects.</p>
+	    <p><%= link_to "Find a project", dt_projects_path %> that you're interested in and click the &quot;Invest&quot; button beside it.</p>
+	  </div>
+	<% end %>
+</div>
+
+<% if @user.tax_receipts.length > 0 -%>
+<h2 style="margin-top:10px;">Tax Receipts</h2>
+<div class="account-summary">
+	<div id="transaction_list" style="padding-left:10px;">
+		<table style="width:100%;">
+		<tr><th>Investment</th><th>Date</th><th>Amount</th></tr>
+		<%= render :partial => "tax_receipt", :collection => @user.tax_receipts %>
+		</table>
+	</div>
+</div>
+<% end -%>
+
+<%- content_for :sidebar do -%>
+  <%= dt_profile_sidebar %>
+<%- end -%>

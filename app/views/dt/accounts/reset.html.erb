@@ -1,0 +1,19 @@
+<%= dt_account_nav %>
+<div id="contentContainer">
+  <div id="leftColW2">
+  	<h1>Password Reset</h1>
+  	<p>To reset your password, enter your username (your email address) below.</p>
+  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  	<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
+    <% form_tag(dt_reset_password_accounts_path, :method => :put, :name => 'resetform', :id => 'resetform' ) do %>
+      <div id="signInWrapper">
+          <label for="login">Username/Email</label>
+          <%= text_field_tag 'login', nil, :tabindex => 1, :style => 'width:200px;' %>
+        <div id="buttonSignIn"><%= submit_tag 'Reset Password', :class => 'buttonsubmit' %></div>
+      </div>
+    <% end %>
+  </div>
+  <div id="rightColN">
+	
+  </div>
+</div>

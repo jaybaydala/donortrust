@@ -1,0 +1,23 @@
+<%- content_for :html_title do -%>Sign-in<%- end -%>
+<%- content_for :head do -%><%= javascript_include_tag "dt/accounts" %><%- end -%>
+
+<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
+<% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform', :id => 'loginform' }) do |f| %>
+  <div class="userform">
+    <fieldset>
+      <p>To sign in, enter your username (your email address) and password below.</p>
+      <ol class="clearfix">
+        <li><label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %></li>
+        <li><label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %></li>
+        <li><br /><%= submit_tag 'Login', :class => 'buttonsubmit' %></li>
+        <li class="clear"><label for="remember_me"><%= check_box_tag "remember_me", "1", false, :id => "remember_me" %> Remember Me</label></li>
+      </ol>
+      
+      <p class="textsm">
+        <%= link_to "Forgot your password?", reset_dt_accounts_path %><br />
+        If you are not a registered member, <%= link_to "click here", dt_signup_path %> to sign up.<br />
+        Registration is FREE and takes only a few minutes.
+      </p>
+    </fieldset>
+  </div>
+<% end %>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>::: ChristmasFuture Email :::</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <style type="text/css">
+  <!--
+  html, body {
+    margin:10px;
+  }
+  body {
+    background: #FFF;
+    font: 12px/16px Arial, Helvetica, sans-serif;
+    color: #333;
+    text-align: left; /* this is asking IE to centre the container ;) */
+  }
+  
+  -->
+  </style>
+</head>
+<body>
+<div style="text-align:left;width:496px;margin:auto;">
+
+<p>Hello <%=h @gift.to_name? ? @gift.to_name : @gift.to_email %>,</p>
+
+<p>Happy holidays!</a></p>
+
+<% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
+
+<% if @gift.message? %>
+<p>Their message to you:</p>
+<p><%=h @gift.message %></p>
+<% end %>
+
+<hr />
+
+<p>
+  This year <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.<br />
+  Just click on the link below to open it - and a whole new world. All the best to you this holiday season. <br />
+  <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
+</p>
+
+<p>
+  If that does not work for you, copy and paste the following link into your web browser and enter your pickup code:<br />
+  <%= link_to open_dt_gifts_url(:host => @host), open_dt_gifts_url(:host => @host) %>
+</p>
+
+<p>Pickup Code: <%=h @gift.pickup_code %></p>
+
+<p>Thanks,<br />
+<strong>The ChristmasFuture Team</strong></p>
+
+</div>
+</body>
+</html>

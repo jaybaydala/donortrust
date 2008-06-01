@@ -1,0 +1,57 @@
+--- 
+contacts_003: 
+  department: 
+  fax_number: 
+  postal_code: 
+  place_id: 
+  deleted_at: 
+  phone_number: (321) 555-1212
+  id: "3"
+  address_line_1: 
+  address_line_2: 
+  first_name: Bob
+  web_address: 
+  last_name: Robertson
+  email_address: bob@bob.com
+contacts_004: 
+  department: 
+  fax_number: 
+  postal_code: T3Y 2D4
+  place_id: 
+  deleted_at: 
+  phone_number: 403-123-4353
+  id: "4"
+  address_line_1: 123 Elbow Drive
+  address_line_2: 
+  first_name: Jay
+  web_address: 
+  last_name: Baydala
+  email_address: jay.baydala@christmasfuture.org
+contacts_001: 
+  department: 
+  fax_number: 
+  postal_code: 
+  place_id: 
+  deleted_at: 
+  phone_number: (403) 555-7890
+  id: "1"
+  address_line_1: 
+  address_line_2: 
+  first_name: Bob
+  web_address: 
+  last_name: Frapples
+  email_address: bob@example.com
+contacts_002: 
+  department: 
+  fax_number: 
+  postal_code: 
+  place_id: 
+  deleted_at: 
+  phone_number: (321) 555-1212
+  id: "2"
+  address_line_1: 
+  address_line_2: 
+  first_name: Steve
+  web_address: 
+  last_name: McWhoozits
+  email_address: bob@bob.com

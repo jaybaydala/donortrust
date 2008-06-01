@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta http-equiv="Content-Type"
+    content="text/html; charset=iso-8859-1" />
+<%= stylesheet_link_tag 'redbox' %>
+<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'prototype' %>
+<%= active_scaffold_includes %>
+<%= stylesheet_link_tag 'redbox' %> 
+<%= javascript_include_tag 'redbox' %>
+<%= javascript_include_tag 'tabbed_pane' %>
+<%= javascript_include_tag 'effects' %>
+<%= stylesheet_link_tag 'tabbed_pane' %>
+<%= calendar_date_select_includes "silver" %>
+
+<% if @title %>
+    <title><%=@title %></title>
+<% else %>
+    <title>Christmas Future : <%=(controller.controller_name).titleize %> : <%= (controller.action_name).titleize %></title>
+<% end %>
+    <%= stylesheet_link_tag 'cf_base2' %>
+  </head>
+
+  <body>
+  <div align="center" id="wrap">
+  <div style="width: 700px; height: 55px;">
+           <img src="/images/bus_admin/CF_logoHtag_1csml.gif" alt="" width="237"
+                height="55" style="float: right;" />
+          <div class="style1" style="text-align: left; padding: 40px 0 5px 5px;" >
+            <a href="/bus_admin/home">Christmas Future Business Admin</a>
+          </div>
+  </div>
+  
+  
+    <table width="700"  border="0" cellpadding="0"
+    cellspacing="0" style="background: url('/images/bus_admin/menuBar.png');">
+      <tr>
+        <td width="60" rowspan="2">
+          <div style="text-align: center">
+            <a href="/bus_admin/partners"><img
+            src="/images/bus_admin/Users2.png" alt="Partners" width="32"
+            height="32" border="0" /></a>
+          </div>
+        </td>
+
+        <td width="60" rowspan="2">
+          <div style="text-align: center">
+            <a href="/bus_admin/programs"><img src="/images/bus_admin/Globe-4.png"
+            alt="Programs" width="32" height="32" border="0" /></a>
+          </div>
+        </td>
+
+        <td width="60" rowspan="2">
+          <div style="text-align: center">
+            <a href="/bus_admin/projects"><img src="/images/bus_admin/Hard Hat.png"
+            alt="Projects" width="32" height="32" border="0" /></a>
+          </div>
+        </td>
+
+        <td width="60" rowspan="2">
+          <div style="text-align: center">
+            <a href="/bus_admin/users"><img src="/images/bus_admin/Donors.png" alt="Donors"
+            width="26" height="32" border="0" /></a>
+          </div>
+        </td>
+
+        <td width="60" rowspan="2">
+          <div style="text-align: center">
+            <a href="#5"><img src="/images/bus_admin/Email-3.png" alt="Mail"
+            width="32" height="32" border="0" /></a>
+          </div>
+        </td>
+		
+		<td width="60" rowspan="2">
+          <div style="text-align: center">
+            <a href="/bus_admin/feedback"><img src="/images/bus_admin/feedback.png" alt="Feedback"
+            width="32" height="32" border="0" /></a>
+          </div>
+        </td>
+
+
+        <td width="60" rowspan="2">
+        	&nbsp;
+          <!--<div style="text-align: center">
+            <a href="/bus_admin/partners/?status=2"><img src="/images/bus_admin/PartnerUpdates.png"
+            alt="Partners" width="32" height="32" border="0" /></a>
+          </div>-->
+        </td>
+
+        <td width="60" rowspan="2">&nbsp;</td>
+
+        <td width="60" rowspan="2">&nbsp;</td>
+
+        <td  colspan="2" align="right">
+          <%= link_to "Back to CF", :controller => 'dt/accounts', :action => 'index'%>
+          <% if session[:user_id] and session[:user_d] != :false %>
+            <span style="color: #666; font-weight: bold; text-align: right;">Logged in as: <%= User.find(session[:user_id]).login + " " %>
+            </span>
+            
+            <!--<a href="#"><img src="/images/bus_admin/logout.gif" alt="Menu"
+            width="12" height="12" border="0" /></a>-->
+           <% end %>
+          <% if session[:user_id] %><span style="color: #666;"><br />[<a href="logout">Logout</a> | <%= link_to_remote_redbox "Change Password", :url => {:controller => 'bus_admin/bus_account', :action => 'change_password'} %>]</span></td><% end %>
+      </tr>
+
+      <tr>
+        <td>
+          <div style="text-align: right">
+            <a href="/bus_admin/home"><img src="/images/bus_admin/home.gif" alt="Home"
+            width="12" height="12" border="0" /></a>
+          </div>
+        </td>
+
+        <td width="57" style="font-weight: bold; color: #666;"><a href="/bus_admin/home">Home</a></td>
+      </tr>
+    </table>
+
+    <table width="700" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="66">
+          <div style="text-align: center">
+            <a href="/bus_admin/partners">Partners</a>
+          </div>
+        </td>
+
+        <td width="66">
+          <div style="text-align: center">
+            <a href="/bus_admin/programs">Programs</a>
+          </div>
+        </td>
+
+        <td width="69">
+          <div style="text-align: center">
+            <a href="/bus_admin/projects">Projects</a>
+          </div>
+        </td>
+
+        <td width="69">
+          <div style="text-align: center">
+            <a href="/dt/accounts">Donors</a>
+          </div>
+        </td>
+
+        <td width="77">
+          <div style="text-align: center">
+            <a href="#">Mail</a>
+          </div>
+        </td>
+		
+		<td width="70">
+          <div style="text-align: center">
+            <a href="/bus_admin/feedback">Feedback</a>
+          </div>
+        </td>
+		
+        <td width="60">
+        	&nbsp;
+          <!--<div style="text-align: center">
+            <a href="/bus_admin/partners/?status=2">Updates</a>
+          </div>-->
+        </td>
+
+
+        <td width="60">&nbsp;</td>
+
+        <td width="60">&nbsp;</td>
+
+        <td width="163">&nbsp;</td>
+
+        <td width="57">
+            <select name="site" size="-1" onchange ="textLinkRedirector(this.value)">
+                <option value="">Manage...</option>
+				<option value="/bus_admin/contacts">Contacts</option>
+				<option value="/bus_admin/causes">Causes</option>
+                <option value="/bus_admin/frequency_types">Frequency Types</option>
+                <option value="/bus_admin/group_types">Group Types</option>
+                <option value="/bus_admin/groups">Groups</option>
+                <option value="/bus_admin/measures">Measures</option>
+                <option value="/bus_admin/milestone_statuses">Milestone Statuses</option>
+                <option value="/bus_admin/millennium_goals">Millennium Goals</option>
+                <option value="/bus_admin/partner_types">Partner Categories</option>
+                <option value="/bus_admin/partner_statuses">Partner Statuses</option>
+				<option value="/bus_admin/places">Places</option>                
+                <option value="/bus_admin/place_sectors">Place Sectors</option>
+                <option value="/bus_admin/project_statuses">Project Statuses</option>
+				<option value="/bus_admin/quick_facts">Quick Facts</option>
+				<option value="/bus_admin/rank_types">Rank Categories</option>
+                <option value="/bus_admin/sectors">Sectors</option>
+				<option value="/bus_admin/group_gifts">Upload Gift List</option>
+                <option value="/bus_admin/index">Users</option>
+				<option value="/bus_admin/deposits/new">US Deposits</option>
+            </select>
+        </td>
+      </tr>
+	  
+	  
+    </table>
+
+    <table width="700" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="584" height="25" >
+          <div style="text-align: left">
+            <!-- CONTENT STARTS HERE -->
+            <p style="color: green;"><%= flash[:notice] %></p>
+			<div id="message_div" style="color: red;"></div> <!-- this is here for our errors; activescaffold does not play nice with flash[:error, :info...] etc -->
+            <%= yield  %>
+
+            <!-- CONTENT ENDS HERE -->
+          </div>
+        </td>
+      </tr>
+    </table>
+	</div>
+  </body>
+</html>
+<%= textile_editor_initialize -%>
