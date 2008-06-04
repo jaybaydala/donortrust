@@ -90,4 +90,4 @@
   <%= render :partial => 'dt/checkouts/verisign' %>
 <%- end -%>
 
-<%= render :partial => 'dt/shared/google_analytics', :locals => {:google_analytics_path => '/checkout/confirmation.html'} %> 
+<% content_for :google_analytics_path do %>/checkout/confirmation.html<% end %>
