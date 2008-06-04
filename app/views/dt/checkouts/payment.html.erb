@@ -75,3 +75,5 @@
   <%= render "dt/accounts/profile_sidebar" %>  
   <%= render :partial => 'dt/checkouts/verisign' %>
 <%- end -%>
+
+<%= render :partial => 'dt/shared/google_analytics', :locals => {:google_analytics_path => '/checkout/payment.html'} %> 
