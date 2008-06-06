@@ -1,4 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+require 'active_merchant'
+ActiveMerchant::Billing::Base.mode = :test
 
 describe Order do
   before do
@@ -168,8 +170,7 @@ describe Order do
       it "should add errors to the order if the cardholder_name is blank" do
         @order.cardholder_name = ""
         @order.validate_payment(@items, 100)
-        @order.credit_card.errors.on(:first_name).should_not be_blank
-        @order.credit_card.errors.on(:first_name).should_not be_blank
+        @order.credit_card.errors.on(:cardholder_name).should_not be_blank
       end
       it "should add errors to the order if the card_number is blank" do
         @order.card_number = ""
@@ -207,12 +208,146 @@ describe Order do
     end
   end
   
+  describe "credit_card method" do
+    before do
+      @order.card_number = "4111111111111111"
+      @order.cvv = "989"
+      @order.expiry_month = "04"
+      @order.expiry_year = 1.year.from_now.year.to_s
+      @order.cardholder_name = "Cardholder Name"
+    end
+    it "should set ActiveMerchant::Billing::CreditCard.canadian_currency to true" do
+      @order.credit_card
+      ActiveMerchant::Billing::CreditCard.canadian_currency?.should be_true
+    end
+    it "should return a CreditCard object" do
+      @order.credit_card.should be_instance_of(ActiveMerchant::Billing::CreditCard)
+    end
+    it "should be valid" do
+      @order.credit_card.valid?.should be_true
+    end
+    {"card_number"=>"number", "cvv"=>"verification_value", "expiry_month"=>"month", "expiry_year"=>"year", "cardholder_name"=>"cardholder_name"}.each do |column, cc_column|
+      it "should not be valid without a #{column}" do
+        @order.send!("#{column}=", nil)
+        @order.credit_card.valid?.should be_false
+        @order.credit_card.errors[cc_column].should_not be_nil
+      end
+    end
+  end
+  
   describe "run_transaction method" do
-    it "should run the credit_card"
-    it "should return true if the credit card_processing is successful"
-    it "should set the authorization_result column if the credit card_processing is successful"
-    it "should return false if the credit card_processing is unsuccessful"
-    it "should create a tax receipt if the credit card_processing is successful"
-    it "should not create a tax receipt if the credit card_processing is unsuccessful"
+    before do
+      @credit_card = ActiveMerchant::Billing::CreditCard.new(
+        :number          => "4111111111111111",
+        :month           => "05",
+        :year            => "2028",
+        :cardholder_name => "Joe Smith",
+        :verification_value  => "989"
+      )
+      @credit_card.stub!(:valid?).and_return(true)
+      @order.stub!(:credit_card).and_return(@credit_card)
+      
+      @order.country = "Canada"
+      @order.order_number = 8118118118
+      @order.total = 1.0
+    end
+
+    # *	Dollar Amount $1.00 OK: 678594;
+    # *	Dollar Amount $2.00 REJ: 15;
+    # *	Dollar Amount $3.00 OK: 678594;
+    # *	Dollar Amount $4.00 REJ: 15;
+    # *	Dollar Amount $5.00 REJ: 15;
+    # *	Dollar Amount $6.00 OK: 678594:X;
+    # *	Dollar Amount $7.00 OK: 678594:y;
+    # *	Dollar Amount $8.00 OK: 678594:A;
+    # *	Dollar Amount $9.00 OK: 678594:Z;
+    # *	Dollar Amount $10.00 OK: 678594:N;
+    # *	Dollar Amount $15.00, if CVV2=1234 OK: 678594:Y; if there is no CVV2: REJ: 19
+    # *	Dollar Amount $16.00 REJ: 2;
+    # *	Other Amount REJ: 15.
+    
+    it "should get a credit_card object" do
+      @order.should_receive(:credit_card).any_number_of_times.and_return(@credit_card)
+      @order.run_transaction
+    end
+    it "should set the authorization_result column if the credit card_processing is successful" do
+      @order.total = 1
+      @order.should_receive(:update_attributes).with({:authorization_result => "678594:"}).and_return(true)
+      @order.run_transaction
+    end
+    it "should create a tax receipt if the credit card_processing is successful" do
+      @order.total = 1
+      @order.country = "Canada"
+      @order.should_receive(:create_tax_receipt_from_order)
+      @order.run_transaction
+    end
+    it "should create a tax receipt if the credit card_processing is successful and country isn't Canada" do
+      @order.total = 1
+      @order.country = "Somewhere Else"
+      @order.should_receive(:create_tax_receipt_from_order).never
+      @order.run_transaction
+    end
+    it "should not set the authorization_result column if the credit card_processing is unsuccessful" do
+      @order.should_receive(:update_attributes).never
+      lambda {
+        @order.total = 2
+        @order.run_transaction
+      }
+    end
+    it "should not create a tax receipt if the credit card_processing is unsuccessful" do
+      @order.should_receive(:create_tax_receipt_from_order).never
+      lambda {
+        @order.total = 2
+        @order.country = "Canada"
+        @order.run_transaction
+      }
+    end
+    
+    it "should return true when successful" do
+      @order.total = 1
+      @order.run_transaction.should be_true
+    end
+    it "should raise a ActiveMerchant::Billing::Error when passed an invalid credit_card" do
+      @credit_card.should_receive(:valid?).and_return(false)
+      lambda { 
+        @order.run_transaction 
+      }.should raise_error(ActiveMerchant::Billing::Error)
+    end
+    %w(2 4 5 16 100).each do |amount|
+      it "should raise a ActiveMerchant::Billing::Error when not successful ($#{amount.to_i}.00)" do
+        @order.total = amount.to_i
+        lambda { 
+          @order.run_transaction
+        }.should raise_error(ActiveMerchant::Billing::Error)
+      end
+    end
+    {"1" => "678594:", "3" => "678594:", "6" => "678594:X", "7" => "678594:Y", "8" => "678594:A", "9" => "678594:Z", "10" => "678594:N"}.each do |amount, auth_result|
+      it "should set the correct authorization_result for successful amounts ($#{amount}.00)" do
+        @order.total = amount.to_i
+        @order.run_transaction
+        @order.authorization_result.should == auth_result
+      end
+    end
+    # 15.00, if CVV2=1234 OK: 678594:Y; if there is no CVV2: REJ: 19
+    it "should set the correct authorization_result with a correct cvv" do
+      @order.total = 15
+      @credit_card.verification_value = "1234"
+      @order.run_transaction
+      @order.authorization_result.should == "678594:Y"
+    end
+    it "should raise an error with an incorrect cvv" do
+      @order.total = 15
+      @credit_card.verification_value = "9876"
+      lambda { 
+        @order.run_transaction
+      }.should raise_error(ActiveMerchant::Billing::Error)
+    end
+    it "should raise an error with a blank cvv" do
+      @order.total = 15
+      @credit_card.verification_value = nil
+      lambda { 
+        @order.run_transaction
+      }.should raise_error(ActiveMerchant::Billing::Error)
+    end
   end
 end

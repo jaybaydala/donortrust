@@ -56,7 +56,13 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order
     @valid = validate_order
-    do_action
+    begin
+      do_action
+    rescue ActiveMerchant::Billing::Error => err
+      @payment_error = true
+      @valid = false
+      flash.now[:error] = "<strong>There was an error processing your credit card:</strong><br />#{err.message}"
+    end
     @saved = @order.save if @valid
     respond_to do |format|
       format.html{
@@ -66,6 +72,10 @@ class Dt::CheckoutsController < DtApplicationController
           before_billing if @current_step == "billing"
           before_payment if @current_step == "payment"
           render :action => next_step
+        elsif @payment_error
+          @current_step = 'payment'
+          before_payment
+          render :action => 'payment'
         else
           @current_step = current_step
           render :action => current_step
