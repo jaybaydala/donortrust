@@ -1,0 +1,40 @@
+<h1>Listing campaigns</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>User</th>
+    <th>Campaign type</th>
+    <th>Start date</th>
+    <th>Start end</th>
+    <th>Province</th>
+    <th>Address</th>
+    <th>Postalcode</th>
+    <th>Place type</th>
+    <th>Fundraising goal</th>
+  </tr>
+
+<% for campaign in @campaigns %>
+  <tr>
+    <td><%=h campaign.name %></td>
+    <td><%=h campaign.description %></td>
+    <td><%=h campaign.user_id %></td>
+    <td><%=h campaign.campaign_type_id %></td>
+    <td><%=h campaign.start_date %></td>
+    <td><%=h campaign.start_end %></td>
+    <td><%=h campaign.province %></td>
+    <td><%=h campaign.address %></td>
+    <td><%=h campaign.postalcode %></td>
+    <td><%=h campaign.place_type_id %></td>
+    <td><%=h campaign.fundraising_goal %></td>
+    <td><%= link_to 'Show', campaign %></td>
+    <td><%= link_to 'Edit', edit_campaign_path(campaign) %></td>
+    <td><%= link_to 'Destroy', campaign, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New campaign', new_dt_campaign_path %>

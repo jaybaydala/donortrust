@@ -1,0 +1,27 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  user_id: 1
+  campaign_type_id: 1
+  start_date: 2008-06-05 19:59:44
+  start_end: 2008-06-05 19:59:44
+  province: MyString
+  address: MyString
+  postalcode: MyString
+  place_type_id: 1
+  fundraising_goal: 
+
+two:
+  name: MyString
+  description: MyText
+  user_id: 1
+  campaign_type_id: 1
+  start_date: 2008-06-05 19:59:44
+  start_end: 2008-06-05 19:59:44
+  province: MyString
+  address: MyString
+  postalcode: MyString
+  place_type_id: 1
+  fundraising_goal: 
