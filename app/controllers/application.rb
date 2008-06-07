@@ -27,6 +27,17 @@ class ApplicationController < ActionController::Base
   def check_authorization
     if logged_in?
       user = current_user
+      requested_controller = self.class.controller_path
+      re = /bus_admin\/*/
+      if re.match(requested_controller)
+        if current_user.is_bus_admin?
+          return true
+        else
+           flash[:notice] = "You are not authorized to view the requested page." 
+           redirect_to('/dt')
+        end   
+      end
+
       return true
       #FIXME USER ROLES AUTHENTICATION BYPASSED!
     end

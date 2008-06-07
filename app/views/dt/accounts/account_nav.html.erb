@@ -5,7 +5,7 @@
 <li<%= ' class="current"' if params['controller'] == 'dt/account_memberships' %>><%= link_to "My Groups ", dt_account_account_memberships_path(current_user) %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/deposits' %>><%= link_to "Deposit ", new_dt_account_deposit_path(current_user) %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/investments' %>><%= link_to "Invest ", new_dt_investment_path %></li>
-<li><%= link_to "Bus Admin ", :controller => 'bus_admin/home', :action => 'index' %></li>
+
 <% else %>
 <li<%= ' class="current"' if params['controller'] == 'dt/sessions' && params['action'] == 'new' %>><%= link_to "Login ", dt_login_path %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'new' %>><%= link_to "Create Account ", dt_signup_path %></li>
@@ -13,5 +13,7 @@
 <li<%= ' class="current"' if params['controller'] == 'dt/cart' %>><%= link_to "Your Cart ", dt_cart_path %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/gifts' %>><%= link_to "Give a Gift ", new_dt_gift_path %></li>
 </ul>
-
+<% if bus_admin?%>
+<li><%= link_to "Bus Admin ", :controller => 'bus_admin/home', :action => 'index' %></li>
+<% end %>
 <%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %>

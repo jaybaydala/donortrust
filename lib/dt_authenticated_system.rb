@@ -5,6 +5,13 @@ module DtAuthenticatedSystem
     def logged_in?
       current_user != :false
     end
+
+    def bus_admin?
+      if (current_user != :false)
+        return current_user.is_bus_admin?
+      end
+      return false
+    end
     
     # Accesses the current user from the session.
     def current_user
@@ -93,7 +100,7 @@ module DtAuthenticatedSystem
     # Inclusion hook to make #current_user, #logged_in? and #store_location
     # available as ActionView helper methods.
     def self.included(base)
-      base.send :helper_method, :current_user, :logged_in?, :store_location
+      base.send :helper_method, :current_user, :logged_in?, :bus_admin?, :store_location
     end
 
     # When called with before_filter :login_from_cookie will check for an :auth_token

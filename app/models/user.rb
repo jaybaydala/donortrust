@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :tax_receipts
   has_many :my_wishlists
   has_many :projects, :through => :my_wishlists
+  has_many :user_roles
 
   # Virtual attribute for the unencrypted password
   attr_accessor :password
@@ -182,6 +183,15 @@ class User < ActiveRecord::Base
   
   def send_account_reminder
     DonortrustMailer.deliver_account_expiry_reminder(self)
+  end
+
+  def is_bus_admin?
+    self.user_roles.each do |role|
+      if role.role_type == "busAdmin"
+        return true
+      end
+    end
+    return false
   end
 
   protected
