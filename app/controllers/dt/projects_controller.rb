@@ -150,6 +150,24 @@ class Dt::ProjectsController < DtApplicationController
     render :partial => 'timeline'
   end
 
+  def search
+    @query = params[:keywords]
+
+    @search = Ultrasphinx::Search.new(:query => @query, :per_page => 3)
+    Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
+      :before_match => '<strong style="background-color:yellow;">',
+      :after_match => '</strong>',
+      :chunk_separator => "...",
+      :limit => 256,
+      :around => 3,
+      :sort_mode => 'relevance' ,
+      :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+      :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
+      })
+      @search.excerpt
+
+  end
+
   protected
   def project_id_to_session
     logger.debug '#####################'

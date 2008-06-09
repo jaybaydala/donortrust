@@ -1,0 +1,15 @@
+
+<% if params[:controller] == 'dt/projects'%>
+	<% form_tag (search_dt_projects_path,{:id => 'search', :method => :get} ) do %>
+		<%= text_field_tag 'keywords','Search', :title => 'Search', :size => 15 , :onblur =>"if(!this.value) this.value='Search';", :onfocus => "if(this.value=='Search') this.value='';"%>
+		<span id="searchsubmit">
+			<%= submit_tag 'go', :class => 'submitreplace' %>
+		</span>
+	<% end -%>
+<% else %>
+	<form method="get" name="search" id="search" action="http://www.google.com/cse">
+		<input name="q" type="text" id="searchBox" title="Search" value="Search" size="15" maxlength="30" onblur="if(!this.value)this.value='Search';" onfocus="if(this.value=='Search')this.value='';"/>
+		<span id="searchsubmit"><input type="submit" value="Go" class="submitreplace" /></span>
+		<input type="hidden" name="cx" value="018295523257149889047:dzgd_gpevyo" />
+	</form>
+<% end %>
