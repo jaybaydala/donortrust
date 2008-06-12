@@ -20,15 +20,15 @@
 
 <% unless @order.gifts.empty? %>
   <h2>Gift(s)</h2>
-  <p>Your gift emails have are scheduled to be sent. The printable cards have been sent to you via email, but you can also download them here.</p>
+  <p>Your gift emails have been scheduled to be sent. The printable ecard(s) have been sent to you via email, but you can also download your printable ecard(s) here.</p>
 
   <% for gift in @order.gifts %>
     <div class="clearfix">
-      <h3>Your gift to <%= link_to (gift.to_name? ? gift.to_name : gift.to_email), "mailto:#{gift.to_email}" %></h3>
+      <h3>Your gift to <%=h gift.to_name %> <%=h gift.to_email %></h3>
       <blockquote>
-        <strong>Your message:</strong> <%= h gift.message %>
+        <strong>Your message:</strong> <%=h gift.message %>
       </blockquote>
-      <div class="buttonsubmit"><%= link_to "Download Printable Card", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
+      <div class="buttonsubmit"><%= link_to "Download Printable Ecard", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
     </div>
   <% end %>
 <% end %>

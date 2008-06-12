@@ -24,6 +24,8 @@ class Gift < ActiveRecord::Base
   before_validation :trim_mailtos
   after_create :user_transaction_create, :tax_receipt_create
   
+  attr_accessor :preview
+  
   def sum
     return credit_card ? 0 : super * -1
   end
@@ -84,9 +86,11 @@ class Gift < ActiveRecord::Base
     find(:all, :conditions => 'sent_at IS NOT NULL AND picked_up_at IS NULL')
   end
   
-  def message_summary(length = 60) # default to 60 characters
+  def message_summary(length = 30) # default to 30 characters
     return unless self.message?
-    unless @message_summary
+    if message.length <= length
+      @message_summary = message
+    else
       @message_summary = message.split($;, length+1)
       @message_summary.pop
       @message_summary = @message_summary.join(' ')

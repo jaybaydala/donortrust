@@ -80,4 +80,11 @@ class Dt::DepositsController < DtApplicationController
     deposit_params[:user_id] = current_user.id
     deposit_params
   end
+  
+  def access_denied_with_deposit
+    flash[:notice] = "You must be logged in to make a deposit to your account."
+    access_denied_without_deposit
+  end
+  alias_method_chain :access_denied, :deposit
+  
 end

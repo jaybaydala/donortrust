@@ -23,7 +23,8 @@
 <body>
 <div style="text-align:left;width:496px;margin:auto;">
 
-<p>Hello <%=h @gift.to_name? ? @gift.to_name : @gift.to_email %>,</p>
+<% if @gift.preview %><div style="text-align:center;"><a href="javascript:window.close();">Close Window</a></div><% end %>
+
 <% if @gift.message? %><p><%=h @gift.message %></p><% end %>
 <p>From: <%=h @gift.name? ? @gift.name : @gift.email %></p>
 <hr />
@@ -45,6 +46,8 @@
 
 <p>Thanks,<br />
 <strong>The ChristmasFuture Team</strong></p>
+
+<% if @gift.preview %><div style="text-align:center;"><a href="javascript:window.close();">Close Window</a></div><% end %>
 
 </div>
 </body>

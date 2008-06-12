@@ -25,13 +25,12 @@
   </tr>
   <%= render :partial => "line_item", :collection => @cart.items %>
   <tr class="footer">
-    <td><%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove all items from cart"), dt_cart_path, :confirm => "Empty your entire cart?", :method => :delete %></td>
-    <td class="numeric money">Cart Total</td>
+    <td class="numeric money" colspan="2"><div style="float:left;text-align:left;width:100px;font-weight:normal;font-style:normal;"><%= link_to "Clear Cart", dt_cart_path, :confirm => "Are you sure you want to empty your entire cart?", :method => :delete %></div>
+      <div>Cart Total</div></td>
     <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
   </tr>
 </table>
 <% end %>
-<% unless logged_in? %><div class="textsm" style="font-style:italic;">You must be logged in to make a deposit</div><% end %>
 <div style="margin-top:1em;" class="clearfix">
   <%= link_to "<span>Add a Gift Card</span>", new_dt_gift_path, :class => "button-add_gift_card" %>
   <%= link_to "<span>Add a Project Gift</span>", dt_search_path, :class => "button-add_project_gift" %>

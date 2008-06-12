@@ -22,6 +22,13 @@ Event.observe(window, 'load', function() {
 			new Effect.Highlight(s,{delay:2,duration:1,startcolor:'#FFFFEE',endcolor:'#FFFFFF',restorecolor:'#FFFFFF'})
 		});
 	}
+	if (giftform = $('giftform')) {
+	  if ($('gift_send_email_now').checked || $('gift_send_email_false').checked) {
+	    $('gift_send_at').hide();
+	  } else {
+	    $('gift_send_at').show();
+	  }
+	}
 });
 
 var SubmitButton = Class.create();
