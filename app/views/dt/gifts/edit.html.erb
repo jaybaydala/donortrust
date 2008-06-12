@@ -9,14 +9,6 @@
 
 <% form_for(:gift, :url => dt_gift_path(:id => params[:id]), :html => {:id => "giftform", :name => "giftform", :method => :put}) do |f| %>
 
-<p>Give a gift that changes the world. Here's how:</p>
-<ul>
-  <li>Select an ecard image from the gallery in the right column</li>
-  <li>Enter your information, the recipient&rsquo;s information, and the gift amount</li>
-  <li>Write a personal message to include in the ecard</li>
-  <li>Choose when you&rsquo;d like to send the gift</li>
-</ul>
-
 <div class="userform">
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
 
@@ -24,7 +16,7 @@
     <legend>1. Gift Type</legend>
     <ol class="clearfix">
       <li>
-        <label class="left">Thanks for giving a gift using ChristmasFuture. You've chosen to:</label>
+        <label class="left"><strong>Thanks for giving a gift using ChristmasFuture. You've chosen to:</strong></label>
         <% if @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give <%= link_to(@gift.project.name, dt_project_path(@gift.project)) %> as a gift</label><% end %>
         <label class="left"><%= f.radio_button "project_id", nil %> Give a gift card (let the recipient a choose a project)</label>
         <% unless @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give a project as a gift &nbsp; &#8250; <%= link_to("choose a project", dt_projects_path) %></label><% end %>
