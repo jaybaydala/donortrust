@@ -1,29 +1,29 @@
-<% form_for :report, :url=>{:controller=>'reports', :action=>'process_report'}, :html => { :multipart => true } do |f| -%>
-  	<fieldset>
-		<legend>Report</legend>	      
-		<div id="report_start_date">
-			<ul class="row" style="padding-top:10px; padding-bottom:10px;">		
-		     	<li>Select a Start Date</li>
-		    </ul>
-			<%= f.date_select :start_date,
-			   :order => [:month, :day, :year], 
-	           :start_year => 2005, 
-	           :end_year => Time.now.year, 
-	           :include_blank => true 
-			%>    		      
-		 	<ul>
-		    	<li>Select a Report End Date</li>
-		    </ul>
-	        <%= f.date_select :end_date, 
-	           :order => [:month, :day, :year], 
-	           :start_year => Time.now.year, 
-	           :end_year => Time.now.year+1
-			%> 
-			
-		    <ul>
-		      Gift Report <%= f.radio_button :gift, 1 %> | Deposit Report <%= f.radio_button :gift, 0 %>
-			</ul>
-	  </div>
-	</fieldset>
+<%= render :partial => '/bus_admin/shared/nav' %>
+<div id="bus_admin-content-body" style="clear:left;">
+  <% form_for :report, :url=>{:controller=>'reports', :action=>'process_report'}, :html => { :multipart => true } do |f| -%>
+    <div id="report_start_date">
+      <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+          <li>Select a Start Date</li>
+        </ul>
+      <%= f.date_select :start_date,
+         :order => [:month, :day, :year],
+             :start_year => 2005,
+             :end_year => Time.now.year,
+             :include_blank => true
+      %>
+      <ul>
+          <li>Select a Report End Date</li>
+        </ul>
+          <%= f.date_select :end_date,
+             :order => [:month, :day, :year],
+             :start_year => Time.now.year,
+             :end_year => Time.now.year+1
+      %>
+
+        <ul>
+          Gift Report <%= f.radio_button :gift, 1 %> | Deposit Report <%= f.radio_button :gift, 0 %>
+      </ul>
+    </div>
     <%= submit_tag 'Submit' %>
-<% end %>
+  <% end %>
+</div><!-- bus_admin-content-body -->
