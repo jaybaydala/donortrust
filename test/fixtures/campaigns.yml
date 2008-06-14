@@ -1,0 +1,14 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: Test Project One
+  description: Description of project One
+  user_id: 1
+  campaign_type_id: 1
+  start_date: 2008-06-05 19:59:44
+  end_date: 2008-06-05 19:59:44
+  province: New Brunswick
+  address: 519 York
+  postalcode: E3B3R1
+  country: Canada
+  fundraising_goal: 10000

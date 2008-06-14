@@ -1,7 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: Test Campaign Type One
+  team: 
+  user: 
 
 two:
-  name: Test Campaign Type Two
+  team: 
+  user: 

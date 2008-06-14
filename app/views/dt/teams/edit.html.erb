@@ -1,0 +1,27 @@
+<h1>Editing team</h1>
+
+<%= error_messages_for :team %>
+
+<% form_for(@team) do |f| %>
+  <p>
+    <b>Campaign</b><br />
+    <%= f.text_field :campaign %>
+  </p>
+
+  <p>
+    <b>Name</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @team %> |
+<%= link_to 'Back', teams_path %>

@@ -1,5 +1,7 @@
 
 ActionController::Routing::Routes.draw do |map|
+  map.resources :teams
+
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.namespace(:dt) do |dt|
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
@@ -29,7 +31,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :confirm => :post, :preview => :get }
     dt.resources :mdgs, :controller=> 'mdgs'
     
-    dt.resources :campaigns
+    dt.resources :campaigns, :controller => 'campaigns', :collection => {:update_address_details_for_country => :post, :update_team_config_options => :post}
     
   end
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code', :controller => 'dt/tax_receipts', :action => "show"

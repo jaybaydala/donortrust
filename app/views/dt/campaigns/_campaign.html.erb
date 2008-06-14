@@ -1,0 +1,24 @@
+<div class="campaign" id="campaign_<%= campaign.id%>">
+	<h2><%= campaign.name%> | Create A Team | Join A Team </h2>
+	<ul class="details_list">
+		<li><span class="detail"><strong>Fundraising Goal:</strong><%= campaign.fundraising_goal%></span></li>
+		<li><span class="detail"><strong>Start Date:</strong><%= campaign.start_date %></span></li>
+		<li><span class="detail"><strong>End Date:</strong><%= campaign.end_date%></span></li>
+	</ul>
+	<p>
+		<%= campaign.description %>
+	</p>
+	
+	<ul class="details_list">
+		<li><span class="detail"><strong>Creator:</strong><%= campaign.creator.name%></span></li>
+		<li><span class="detail"><strong>Email:</strong><%= campaign.email%></span></li>
+	</ul>
+	<h2>Address</h2>
+	<div id="<%= "contact_#{campaign.id}"%>">
+		<p class="address">
+			<%= campaign.address %> <br />
+			<%= campaign.province %>, <%= campaign.postalcode %> <br />
+			<%= campaign.country %>
+		</p>
+	</div>
+</div>

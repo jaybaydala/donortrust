@@ -1,0 +1,45 @@
+/** Campaign Stuff */
+
+.campaign {
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid gray;
+}
+
+.campaign h1{
+	border-bottom: 1px solid gray;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+.campaign span.detail {
+	font-family: Arial, Sans-serif;
+	font-size: 10px;
+}
+
+.campaign span.detail strong {
+	color: #360;
+}
+
+.campaign p.address{
+	font-size: 10px;
+}
+
+.campaign ul.details_list {
+	display: inline;
+	list-style-type: none;
+	margin: 0px 0px 0px 0px;
+}
+
+.campaign li {
+	display: inline;
+}
+
+#new_campaign label {
+	display: block;
+	font-size: 10px;
+}
+
+span.small_text{
+	font-size: 10px;
+}

@@ -1,0 +1,24 @@
+<h1>Listing teams</h1>
+
+<table>
+  <tr>
+    <th>Campaign</th>
+    <th>Name</th>
+    <th>User</th>
+  </tr>
+
+<% for team in @teams %>
+  <tr>
+    <td><%=h team.campaign %></td>
+    <td><%=h team.name %></td>
+    <td><%=h team.user %></td>
+    <td><%= link_to 'Show', team %></td>
+    <td><%= link_to 'Edit', edit_team_path(team) %></td>
+    <td><%= link_to 'Destroy', team, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New team', new_team_path %>

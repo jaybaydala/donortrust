@@ -1,57 +1,5 @@
-<p>
-  <b>Name:</b>
-  <%=h @campaign.name %>
-</p>
 
-<p>
-  <b>Description:</b>
-  <%=h @campaign.description %>
-</p>
-
-<p>
-  <b>User:</b>
-  <%=h @campaign.user_id %>
-</p>
-
-<p>
-  <b>Campaign type:</b>
-  <%=h @campaign.campaign_type_id %>
-</p>
-
-<p>
-  <b>Start date:</b>
-  <%=h @campaign.start_date %>
-</p>
-
-<p>
-  <b>Start end:</b>
-  <%=h @campaign.start_end %>
-</p>
-
-<p>
-  <b>Province:</b>
-  <%=h @campaign.province %>
-</p>
-
-<p>
-  <b>Address:</b>
-  <%=h @campaign.address %>
-</p>
-
-<p>
-  <b>Postalcode:</b>
-  <%=h @campaign.postalcode %>
-</p>
-
-<p>
-  <b>Place type:</b>
-  <%=h @campaign.place_type_id %>
-</p>
-
-<p>
-  <b>Fundraising goal:</b>
-  <%=h @campaign.fundraising_goal %>
-</p>
+<%= render :partial => 'campaign'%>
 
 
 <%= link_to 'Edit', edit_dt_campaign_path(@campaign) %> |

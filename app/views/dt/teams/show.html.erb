@@ -1,0 +1,18 @@
+<p>
+  <b>Campaign:</b>
+  <%=h @team.campaign %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @team.name %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @team.user %>
+</p>
+
+
+<%= link_to 'Edit', edit_team_path(@team) %> |
+<%= link_to 'Back', teams_path %>
