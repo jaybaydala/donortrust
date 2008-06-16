@@ -2,10 +2,11 @@
 
 <div>
   <strong>You have searched using the following terms:</strong>
-  <% if @place %><div class="textsm" style="padding-bottom:0;"><strong>Place:</strong>          <%= link_to @place.name,   dt_search_path(:place_id => @place.id) %></div><% end %>
-  <% if @cause %><div class="textsm" style="padding-bottom:0;"><strong>Cause:</strong>          <%= link_to @cause.name,   dt_search_path(:cause_id => @cause.id) %></div><% end %>
-  <% if @partner %><div class="textsm" style="padding-bottom:0;"><strong>Organization:</strong> <%= link_to @partner.name, dt_search_path(:partner_id => @partner.id) %></div><% end %>
-  <% if !@place && !@cause && !@partner %><div class="textsm" style="padding-bottom:0;">You didn't specify any terms. Below is the list of all projects.</div><% end %>
+	<% if @search  %>
+		<div class="textsm" style="padding-bottom:0;">
+			<%= @search.query  %>
+		</div>
+	<% end %>
 </div>
 
 <% if @search.size > 0 %>
@@ -15,14 +16,14 @@
     <li><%= @search.total_entries %> Projects Found</li>
   </ul>
 	
-  <!-- <ul style="margin-bottom:0;">
+<ul style="margin-bottom:0;">
     <li><strong>SORT BY:</strong></li>
     <li>&nbsp;</li>
-    <% [["date", "Target Start Date"], ["budget", "Budget"], ["organization", "Organization"], ["place", "Place"]].each do |term| %>
+    <% [["target_start_date", "Target Start Date"],["total_cost","Budget"],["partner_name", "Organization"], ["place_name", "Place"]].each do |term| %>
       <% current = params[:order] == term[0] ? "current" : "" %>
       <li ><%= link_to term[1], search_dt_projects_path(params.merge({:order => term[0]})) %></li>
     <% end %>
-  </ul> -->
+  </ul>
 </div>
 <% end %>
 <%= will_paginate @search %>
@@ -57,6 +58,6 @@
   </div>
 <%end%>
 <% if @search.empty? %>
-	<div> No results were found for "<%= @search.query%>"</div>
+	<div> and no results were found for "<%= @search.query%>"</div>
 <%end%>
 
