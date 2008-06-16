@@ -1,0 +1,30 @@
+<% form_tag (search_dt_projects_path,{:id => 'advanced_search', :method => :get} ) do %>
+	<!-- <%= text_field_tag 'keywords','Search', 
+		:title => 'Search', 
+		:size => 40 , 
+		:onblur =>"if(!this.value) this.value='Search';", 
+		:onfocus => "if(this.value=='Search') this.value='';"
+	%>-->
+	<div>
+		<h2>Advanced Search</h2>
+		Continent: <%= select_tag("continent[place_id]", options_for_select(@continents))  %> Country: 
+		<span id='country_id_container'>
+			<%= select_tag("country[place_id]","country[place_id]", :disabled => true)%>	
+		</span>
+	</div>
+	<%= select_tag("partner_name", options_for_select(@partners)) %>
+	<%= select_tag("cause_name", options_for_select(@causes)) %>
+	
+	<%=
+		observe_field("continent[place_id]",
+				:on => "change",
+				:url => {:action => "add_countries"},
+				:method => :get,
+				:with => "continent_id"
+		)
+	%>
+	
+	<span id="searchsubmit">
+		<%= submit_tag 'go'%>
+	</span>
+<% end -%>
