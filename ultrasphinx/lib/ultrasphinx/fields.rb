@@ -19,7 +19,8 @@ This is a special singleton configuration class that stores the index field conf
       'datetime' => 'date',
       'timestamp' => 'date',
       'float' => 'float',
-      'boolean' => 'bool'
+      'boolean' => 'bool',
+      'decimal' => 'float'
     }
         
     attr_accessor :classes, :types
