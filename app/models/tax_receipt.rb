@@ -2,7 +2,6 @@ require 'donortrust_mailer'
 
 class TaxReceipt < ActiveRecord::Base
   belongs_to :user
-  belongs_to :investment
   belongs_to :gift
   belongs_to :deposit
   belongs_to :order
