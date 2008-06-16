@@ -347,3 +347,15 @@ US TAXES
     padding-left:26px;
     padding-top:10px;
 }
+
+/*
+SEARCH 
+=====*/
+form#advanced_search {
+	
+	padding: .5em 0px;
+}
+input.adv_submitreplace {
+    border:0;
+    font-size:0;
+}
