@@ -37,4 +37,24 @@ module Dt::ProjectsHelper
     end
     @community_projects
   end
+  
+  def dt_advanced_search
+    @continents = [['Location', '']]
+		Project.continents.each do |place|
+  			name = place.parent_id? ? "#{place.name}" : place.name
+  			@continents << [name, place.id]
+		end
+		@partners = [['Organization', '']]
+    Project.partners.each do |partner|
+      @partners << [partner.name, partner.name]
+    end
+    @causes = [['Cause', '']]
+    Project.causes.each do |cause|
+      @causes << [cause.name, cause.name]
+    end
+    
+     
+    render 'dt/projects/advanced_search_bar'
+  end
+    
 end

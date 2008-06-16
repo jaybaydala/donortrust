@@ -152,23 +152,49 @@ class Dt::ProjectsController < DtApplicationController
 
   def search
     @query = params[:keywords]
-
-    @search = Ultrasphinx::Search.new(:query => @query, :per_page => 3)
-    Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
-      :before_match => '<strong style="background-color:yellow;">',
-      :after_match => '</strong>',
-      :chunk_separator => "...",
-      :limit => 256,
-      :around => 3,
-      :sort_mode => 'relevance' ,
-      :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
-      :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
-      })
+  
+    
+    if params[:order].nil?
+      @search = Ultrasphinx::Search.new(:query => @query, :per_page => 3, :page => (params[:page].nil? ? '1': params[:page]  ) )
+      Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
+        :before_match => '<strong style="background-color:yellow;">',
+        :after_match => '</strong>',
+        :chunk_separator => "...",
+        :limit => 256,
+        :around => 3,
+        :sort_mode => 'relevance' ,
+        :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+        :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
+        })
       @search.excerpt
-
+    else
+      @search = Ultrasphinx::Search.new(:query => @query, :sort_by => params[:order], :sort_mode => 'ascending', :per_page => 3,  :page => (params[:page].nil? ? '1': params[:page]  ) )
+      Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
+        :before_match => '<strong style="background-color:yellow;">',
+        :after_match => '</strong>',
+        :chunk_separator => "...",
+        :limit => 256,
+        :around => 3,
+        :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+        :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
+        })
+      @search.excerpt      
+    end
+  end
+  
+  #populates an select using the continent_id
+  def add_countries
+    @countries = Place.find(:all, :conditions => [ "parent_id = ?", params[:continent_id]] )
+    respond_to do |format|
+      format.js {
+        render :update do |page|
+          page.replace_html "country_id_container", :partial => "select_countries"
+        end
+      }
+    end
   end
 
-  protected
+  protected  
   def project_id_to_session
     logger.debug '#####################'
     logger.debug 'FACEBOOK PROJECT_ID'
