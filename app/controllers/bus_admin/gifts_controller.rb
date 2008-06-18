@@ -3,7 +3,8 @@ include PDFProxy
 
 class BusAdmin::GiftsController < ApplicationController
   layout 'admin'
-  before_filter :login_required, :check_authorization
+  access_control :DEFAULT => 'cf_admin'
+
   active_scaffold :gift do |config|
     config.list.columns = [:name,:email,:to_name,:to_email, :message, :pickup_code]
     config.show.columns = [:name,:email,:date,:comment]

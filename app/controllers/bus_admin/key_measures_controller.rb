@@ -1,6 +1,6 @@
 class BusAdmin::KeyMeasuresController < ApplicationController
   layout 'admin'
-  before_filter :login_required, :check_authorization  
+  access_control :DEFAULT => 'cf_admin' 
 
   active_scaffold :key_measures do |config|
     config.columns =[ :measure, :project, :target,  :key_measure_datas, :millennium_goals, :decrease_target]   

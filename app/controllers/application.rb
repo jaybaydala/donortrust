@@ -30,12 +30,12 @@ class ApplicationController < ActionController::Base
       requested_controller = self.class.controller_path
       re = /bus_admin\/*/
       if re.match(requested_controller)
-        if current_user.is_bus_admin?
+        #if current_user.is_bus_admin?
           return true
-        else
+        #else
            flash[:notice] = "You are not authorized to view the requested page." 
            redirect_to('/dt')
-        end   
+       # end   
       end
 
       return true
@@ -44,6 +44,16 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+ def permission_denied
+    flash[:notice] = "You don't have privileges to access this action" 
+    return redirect_to ('/dt')
+  end
+
+  def permission_granted
+    flash[:notice] = "Welcome to the business administration area!" 
+  end
+
   def ssl_filter
     if ['production'].include?(ENV['RAILS_ENV'])
       redirect_to url_for(params.merge({:protocol => 'https://'})) and return false if !request.ssl? && ssl_required? 

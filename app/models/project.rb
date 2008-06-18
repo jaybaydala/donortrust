@@ -15,6 +15,7 @@ class Project < ActiveRecord::Base
   belongs_to :place
   belongs_to :contact
   belongs_to :frequency_type
+  has_many :administrations, :as => :administrable
   has_many :milestones, :dependent => :destroy
   has_many :tasks, :through => :milestones
   has_many :project_you_tube_videos, :dependent => :destroy

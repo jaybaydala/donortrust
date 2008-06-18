@@ -1,5 +1,6 @@
 class BusAdmin::CollaboratingAgenciesController < ApplicationController
   layout 'admin'
+  access_control :DEFAULT => 'cf_admin' 
 
   before_filter :login_required, :check_authorization
   

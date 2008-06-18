@@ -1,6 +1,7 @@
 class BusAdmin::AddToGroupController < ApplicationController
- before_filter :login_required, :check_authorization
+ 
  layout 'admin'
+ access_control :DEFAULT => 'cf_admin' 
  
  def index
     @members = Load.find(:all, :conditions => ['invitation = 0' ])

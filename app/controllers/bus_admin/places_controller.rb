@@ -1,6 +1,6 @@
 class BusAdmin::PlacesController < ApplicationController
   layout 'admin'
- before_filter :login_required, :check_authorization
+  access_control :DEFAULT => 'cf_admin' 
   
   active_scaffold :places do |config|
     config.columns =[ :name, :place_type, :file,:blog_url, :rss_url , :facebook_group_id, :description ]

@@ -1,6 +1,7 @@
 class BusAdmin::ProjectFlickrImagesController < ApplicationController
   layout 'admin'
-  before_filter :login_required, :check_authorization
+  access_control :DEFAULT => 'cf_admin' 
+
   # GET /bus_admin_project_flickr_images
   # GET /bus_admin_project_flickr_images.xml
   def index

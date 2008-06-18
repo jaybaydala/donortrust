@@ -13,7 +13,7 @@
 <li<%= ' class="current"' if params['controller'] == 'dt/cart' %>><%= link_to "Your Cart ", dt_cart_path %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/gifts' %>><%= link_to "Give a Gift ", new_dt_gift_path %></li>
 </ul>
-<% if bus_admin?%>
+<% #if bus_admin?%>
 <li><%= link_to "Bus Admin ", :controller => 'bus_admin/home', :action => 'index' %></li>
-<% end %>
+<%# end %>
 <%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %>

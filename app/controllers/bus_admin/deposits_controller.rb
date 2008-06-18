@@ -1,7 +1,7 @@
 class BusAdmin::DepositsController < ApplicationController
+ 
   layout 'admin'
-  
-  before_filter :login_required, :check_authorization
+  access_control :DEFAULT => 'cf_admin' 
   
   def new
     @users = User.find(:all)

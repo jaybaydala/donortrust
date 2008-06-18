@@ -1,6 +1,6 @@
 class BusAdmin::MilestonesController < ApplicationController
   layout 'admin'
-  before_filter :login_required, :check_authorization
+  access_control :DEFAULT => 'cf_admin' 
 
   active_scaffold :milestones do |config|
     config.columns =[ :project, :name, :target_date, :target_date,

@@ -1,7 +1,8 @@
 class BusAdmin::RssFeedElementsController < ApplicationController
   layout 'admin'
+  access_control :DEFAULT => 'cf_admin' 
 
-before_filter :login_required, :check_authorization
+
   active_scaffold
 
 end

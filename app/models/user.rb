@@ -1,6 +1,8 @@
 require 'digest/sha1'
 require 'acts_as_paranoid_versioned' 
 class User < ActiveRecord::Base
+
+  extend HasAdministrables
   #acts_as_versioned
   acts_as_paranoid_versioned
   has_many :invitations
@@ -15,9 +17,12 @@ class User < ActiveRecord::Base
   has_many :tax_receipts
   has_many :my_wishlists
   has_many :projects, :through => :my_wishlists
-  has_many :user_roles
+ # has_many :administrated_projects, :source => :administrable, :through => :administrations
+  has_many :roles, :through => :administrations
+  has_many :administrations
+  has_administrables :model => "Project"
 
-  # Virtual attribute for the unencrypted password
+  # Virtual attribute for the unencrypted password"
   attr_accessor :password
   attr_accessor :terms_of_use
 
