@@ -647,6 +647,7 @@ describe Dt::CheckoutsController do
       
       describe "do_confirm method" do
         it "should process the credit card" do
+          @order.total = 10
           @order.should_receive(:run_transaction).and_return(true)
           do_request
         end
@@ -700,6 +701,13 @@ describe Dt::CheckoutsController do
           session[:order_number].should be_nil
           do_request
           session[:order_number].should == [@order.order_number]
+        end
+        it "should not process a credit card when paying from your account" do
+          @order.stub!(:total).and_return(55)
+          @order.stub!(:credit_card_total).and_return(0)
+          @order.should_receive(:account_balance_total).and_return(@order.total)
+          @order.should_receive(:run_transaction).never
+          do_request
         end
       end
       describe "do_confirm method with invalid transaction" do

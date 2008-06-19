@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include BusAdmin::UserInfo
   #include BusAdmin::ProjectsHelper
-    
+  
   before_filter :set_user
   
   # Pick a unique cookie name to distinguish our session data from others'

@@ -19,7 +19,7 @@ Event.observe(window, 'load', function() {
 	}
 	if (notices = $$('div.notice')) {
 		notices.each(function(s) {
-			new Effect.Highlight(s,{delay:2,duration:1,startcolor:'#FFFFEE',endcolor:'#FFFFFF',restorecolor:'#FFFFFF'})
+			new Effect.Highlight(s,{delay:2,duration:1,startcolor:'#FFFFDD',endcolor:'#FFFFFF',restorecolor:'#FFFFFF'})
 		});
 	}
 	if (giftform = $('giftform')) {

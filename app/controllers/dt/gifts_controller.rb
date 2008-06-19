@@ -1,9 +1,11 @@
 require 'order_helper'
+require 'pdf_proxy'
 
 class Dt::GiftsController < DtApplicationController
   helper "dt/places"
   before_filter :login_required, :only => :unwrap
   include OrderHelper
+  include PDFProxy
   
   CANADA = 'canada'
   

@@ -131,7 +131,7 @@ div.notice, div.error, div.errorExplanation {
     font-family:Arial, Helvetica, sans-serif;
 }
 div.notice {
-    background-color:#FFE;
+  background-color:#FFD;
 	border:1px solid #360;
 }
 div.error, div.errorExplanation {
