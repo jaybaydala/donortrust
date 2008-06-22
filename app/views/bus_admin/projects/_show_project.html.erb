@@ -1,0 +1,20 @@
+<% @project = show_project -%>
+<div class="projectInfo"  id="projectInfo-<%= @project.id %>">
+  <div class="leftColW">
+    <h2><%= link_to @project.name, edit_bus_admin_project_url(@project) %></h2>
+  <div>
+  </div>
+
+  <div class="projectRank">
+    <ul class="specList">
+    <% if @project.target_start_date? -%>
+      <li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li>
+    <% end -%>
+    <% if @project.partner_id? && @project.partner -%>
+      <li><span><strong>Organization:</strong> <%= link_to @project.partner.name, partner_path(@project.partner) %></span></li>
+    <% end -%>
+    </ul>
+  </div>
+
+  <p><strong>Project Description:</strong> <%= @project.summarized_description(175) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", bus_admin_project_path(@project.id) %></p>  
+</div>

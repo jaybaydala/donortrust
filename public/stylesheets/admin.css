@@ -1,0 +1,156 @@
+/* @override 
+	http://localhost:3000/stylesheets/admin.css?1213420415
+*/
+
+body {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+p, h1, form, button {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.spacer {
+	clear: both;
+	height: 1px;
+}
+
+/* form tabs */
+
+ul.tabnav {
+	float: right;
+	margin: 10px 15px -6px;
+}
+
+ul.tabnav li {
+	float: left;
+	list-style: none;
+	margin-left: 2px;
+}
+
+ul.tabnav li a {
+	background: #333;
+	padding: 3px 10px;
+}
+
+ul.tabnav li .selected {
+	font-weight: bold;
+	background: #aaa;
+	color: black;
+}
+
+/* overall form layout */
+
+#stylized .sheet {
+	margin: 0 auto;
+	width: 95%;
+	padding: 14px;
+}
+
+#stylized fieldset {
+	border: 2px solid #aaa;
+	clear: right;
+}
+
+#stylized fieldset legend {
+	font-size: 125%;
+}
+
+#stylized p {
+	font-size: 11px;
+	color: #555;
+	margin-bottom: 20px;
+	border-bottom: solid 1px #ccc;
+	padding-bottom: 10px;
+}
+
+/* form fields */
+
+fieldset ul, fieldset li {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+fieldset li {
+	clear: both;
+	list-style: none;
+	padding-bottom: 10px;
+}
+
+fieldset input {
+	float: left;
+}
+
+fieldset label.title {
+	width: 30%;
+	float: left;
+}
+
+#stylized label.title {
+	clear: left;
+	display: block;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 5px;
+}
+
+#stylized small {
+	color: #666666;
+	display: block;
+	font-size: 10px;
+	font-weight: normal;
+}
+
+#stylized input, textarea, select {
+	font-size: 12px;
+	padding: 4px 2px;
+	border: solid 1px #aacfe4;
+	width: 65%;
+	margin: 4px 0 20px 0;
+}
+
+#stylized .group {
+	display: inline-block;
+	width: 60%;
+}
+
+#stylized .group input {
+	float: none;
+	margin: 0;
+	padding: 0;
+	width: 5%;
+}
+
+
+#stylized .group span {
+	display: block;
+}
+
+#stylized .short {
+	width: 15%;
+	margin-right: 45%;
+}
+
+#stylized hr {
+	clear: left;
+}
+
+#stylized .buttonsubmit {
+	clear: both;
+	float: right;
+	width: 125px;
+	height: 31px;
+	background: #666666 url(/images/bus_admin/button.png) no-repeat;
+	text-align: center;
+	line-height: 31px;
+	color: #FFFFFF;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 0;
+	border: 0;
+}

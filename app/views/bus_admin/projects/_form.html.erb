@@ -1,0 +1,328 @@
+<%= error_messages_for :project %>
+<% form_for :project, :url => bus_admin_project_path(@project), :html => {:method => :put} do |f| %> 
+
+
+<div id="stylized">
+	<ul class="tabnav top">
+	  <li><a href="#basic" id="tab_basic" class="tab">Basics</a></li>
+	  <li><a href="#details" id="tab_details" class="tab">Details</a></li>
+	  <li><a href="#plan" id="tab_plan" class="tab">Plan</a></li>
+	  <li><a href="#eval" id="tab_eval" class="tab">Evaluation</a></li>
+	  <li><a href="#internal" id="tab_internal" class="tab">Internal</a></li>
+	  <li><a href="#cfadmin" id="tab_cfadmin" class="tab">CF Admin</a></li>
+	</ul>
+	
+	<fieldset class="sheet" id="panel_basic">
+		<legend class="sheet_heading">x of x: General Project Information</legend>
+		<p>At first please provide the basic information about your planned project.</p> 
+	
+		<p><strong>Important</strong>: Be aware of that all projects <strong>must</strong> be presented on a community or municipality basis. Furthermore, always break projects up into manageable pieces that are attainable for donors to understand and support. Large scale projects <strong>must</strong> always be broken up into smaller pieces.</p>
+	
+		<ul>
+			<li>
+				<label for="project_name" class="title">
+					<%= render :partial => 'dt/shared/form_required' %>Project name
+					<small>Include specific type of project, location and length if over 1 year</small>
+				</label>
+				<%= f.text_field :name %>
+			</li>
+		
+			<li>
+				<label for="project_project_status_id" class="title">
+					<%= render :partial => 'dt/shared/form_required' %>Project status
+					<small>Select current status of the project</small>
+				</label>
+				<%= collection_select :project, :project_status_id, project_status_types, :id, :name, :include_blank => true %>
+			</li>
+
+			<li>
+				<label for="record_place" class="title">
+					<%= render :partial => 'dt/shared/form_required' %>Project location
+					<small>Select the location of the project</small>
+				</label>
+				<%= render :partial => 'bus_admin/shared/generic_place_form_column', :locals => { :item => @project, :named_route => 'populate_project_places' }  %>
+			</li>
+		</ul>
+
+		<ul>
+			<li>
+				<label for="project_description" class="title">
+					Project description
+					<small>Projects description should be comprehensive overview of the project, including project duration, why there is a need for the project, a few specifics about the impact the project will have on people directly and indirectly. Make sure you have strong and clear first sentences, then communicate further details. Anticipated length of this should be: 300+ words.</small>
+				</label>
+				<%= f.text_area :description, :rows => 20, :cols => 72 %>
+			</li>
+
+			<li>	
+				<label class="title">
+					Project sector
+					<small>Select causes or sectors this projects relates to</small>
+				</label>
+				<div class="group">
+				<% for sector in Sector.find(:all) %>
+					<span>
+						<input name="project[sector_ids][]" id="project_sector_ids_<%=sector.id%>" type="checkbox" value="<%=sector.id %>" <%= 'checked="checked"' if @project.sectors.include?(sector) %>/>
+						<label for="project_sector_ids_<%=sector.id %>"><%= sector.name %></label>
+					</span>
+				<% end %>
+				</div>
+			</li>
+		</ul>
+
+		<ul>
+			<li>
+				<label for="project_lives_affected" class="title">
+					Lives affected
+					<small>Number of lives this project will affects</small>
+				</label>
+				<%= f.text_field :lives_affected, :class => 'short' %>
+			</li>
+
+			<li>
+				<label for="project_total_cost" class="title">
+					Total cost
+					<small>Estimated total cost in CAN$</small>
+				</label>
+				<%= f.text_field :total_cost, :class => 'short' %>
+			</li>
+
+			<li>
+				<label for="project_target_start_date" class="title">
+					<%= render :partial => 'dt/shared/form_required' %>Date of initiation
+					<small>Pick projected start date as</small>
+				</label>
+				<%= f.text_field :target_start_date, :class => 'short' %>
+			</li>
+
+			<li>
+				<label for="project_target_end_date" class="title">
+					Date of completion
+					<small>Pick projected end date</small>
+				</label>
+				<%= f.text_field :target_end_date, :class => 'short' %>
+			</li>
+		</ul>		
+		<script type="text/javascript">
+		/*<[CDATA[*/
+		var dpck = new DatePicker({
+		      		  				relative : 'project_target_start_date',
+									language : 'en',
+									disableFutureDate: false,
+									dateFormat : [[ "yyyy", "mm","dd" ], "-" ]
+		});
+		var dpck = new DatePicker({
+		      		  				relative : 'project_target_end_date',
+									language : 'en',
+									disableFutureDate: false,
+									disablePastDate: true,
+									dateFormat : [[ "yyyy", "mm","dd" ], "-" ]
+		});
+		/*]]>*/
+		</script>
+
+		<ul>
+			<li>
+				<label for="project_program_id" class="title">
+					<%= render :partial => 'dt/shared/form_required' %>Program
+					<small>Select associated program</small>
+				</label>
+				<%= collection_select (:project, :program_id, get_programs, :id, :name, :include_blank => true) %>
+			</li>
+
+			<li>
+				<label for="project_partner_id" class="title">
+					<%= render :partial => 'dt/shared/form_required' %>Partner
+					<small>Select partner who is responsible</small>
+				</label>
+				<%= collection_select (:project, :partner_id, get_partners, :id, :name, :include_blank => true) %>
+			</li>
+
+			<li>
+				<label for="project_contact_id" class="title">
+					Contact
+					<small>Select contact for this project</small>
+				</label>
+				<%= collection_select (:project, :contact_id, get_contacts, :id, :fullname, :include_blank => true) %>
+			</li>
+
+			<li>
+				<label for="project_blog_url" class="title">
+					Blog URL
+					<small>Blog address for this project</small>
+				</label>
+				<%= f.text_field :blog_url %>
+			</li>
+
+			<li>
+				<label for="project_rss_url" class="title">
+					RSS URL
+					<small>Address of RSS feed</small>
+				</label>
+				<%= f.text_field :rss_url %>
+			</li>
+
+			<li>
+				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+			</li>
+		</ul>
+	</fieldset>
+
+	<fieldset class="sheet" id="panel_details">
+		<legend class="sheet_heading">x of x: Project Details</legend>
+	
+		<p>In this section, ...</p>
+	
+		<ul>
+			<li>			
+				<label class="title">
+					Project outcome
+					<small>List or write all intended outcomes of this project, including indirect impacts.  Be sure to express details about who will be directly impacted for the project. If a project is part of a three year plan, first express who will be impacted by the project in the year you are speaking about, and then about the impacts of the three-year project as a whole. Feel free to add headers if you need to break up content.</small>
+				</label>
+				<%= f.text_area :intended_outcome, :rows => 24, :cols => 72 %>
+			</li>
+			
+			<li>
+				<label class="title">
+					Projects in the community
+					<small>List other projects in the community done by your organization, done by other organizations, as well as any projects that will begin in the village in the next year.</small>
+				</label>
+				<%= f.text_area :project_in_community, :rows => 12, :cols => 72 %>
+			</li>
+			
+			<li>
+				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+			</li>
+		</ul>
+
+	
+		<p>
+			+ associated financial sources<br/>
+			+ associated agencies<br/>
+			+ budget items
+		</p>
+		<% # TODO render :partial => 'collaborating_fields', :locals => { :f => f } %>
+		<% # TODO render :partial => 'financial_fields', :locals => { :f => f } %>
+	</fieldset>
+
+	<fieldset class="sheet" id="panel_plan">
+		<legend class="sheet_heading">x of x: Project Plan</legend>
+		
+		<p>In this section, ...</p>
+
+		<p>
+			+ associated mile stones
+		</p>
+		<% # TODO render :partial => 'collaborating_fields', :locals => { :f => f } %>
+		<% # TODO render :partial => 'financial_fields', :locals => { :f => f } %>
+
+		<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+	</fieldset>
+
+	<fieldset class="sheet" id="panel_eval">
+		<legend class="sheet_heading">x of x: Project Evaluation</legend>
+
+		<p>In this section, ...</p>
+	
+		<ul>
+			<li>
+				<label class="title">
+					Measure &amp; evaluation plan
+					<small>Provide an overview on your M&amp;E plan that you can report back to donors at a later date. 200+ words. This can be text or bullet points.</small>
+				</label>
+				<%= f.text_area :meas_eval_plan, :rows => 12, :cols => 72 %>
+			</li>
+		</ul>
+	
+		<p>
+			+ key performance indicators
+		</p>
+	
+		<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+
+	</fieldset>
+
+	<fieldset class="sheet" id="panel_internal">
+		<legend class="sheet_heading">x of x: Internal</legend>
+
+		<p>In this section, ...</p>
+		
+		<ul>
+			<li>	
+				<label for="project_frequency_type_id" class="title">
+					Frequency of feedback
+					<small>Select how often you require feedback</small>
+				</label>
+				<%= collection_select (:project, :frequency_type_id, get_frequency, :id, :name, :include_blank => true) %>
+			</li>
+
+			<li>
+				<label class="title">
+					Note
+					<small>Use this for any internal notes or comments</small>
+				</label>
+				<%= f.text_area :note, :rows => 12, :cols => 72 %>
+			</li>
+			
+			<li>
+				<%= submit_tag "Save", :class => 'buttonsubmit' %>
+			</li>
+		</ul>
+	</fieldset>
+
+	<fieldset class="sheet" id="panel_cfadmin">
+		<legend class="sheet_heading">x of x: CF Admin</legend>
+
+		<p>These fields can only be modified by CF Admins.</p>
+		 	  
+		<ul>
+			<li>	
+				<label for="project_public" class="title">
+					Public flag
+					<small>Check if project is visible publicly</small>
+				</label>
+				<%= f.check_box :public %>
+			</li>
+
+			<li>	
+				<label for="project_featured" class="title">
+					Featured flag
+					<small>Check if project is featured</small>
+				</label>
+				<%= f.check_box :featured %>
+			</li>
+			
+			<li>
+				<%= submit_tag "Save", :class => 'buttonsubmit' %>
+			</li>
+		</ul>
+	</fieldset>
+<% end -%>
+</div>
+
+<script language="javascript" type="text/javascript">
+//<![CDATA[
+	// rich text editor
+	tinyMCE.init({
+		mode : "textareas",
+		theme : "simple"
+	});
+
+	Event.observe(window, 'load', loadEdit, false);
+	function loadEdit() {
+		// tabs for editing
+		var tabs = new tabset('stylized', {
+			classNames: { 
+				tab: 'tab', 
+				panel: 'sheet',
+				tabActive: "selected", 
+			},
+			effects: {
+				duration: 0.2
+			}
+		});
+		tabs.autoActivate($('tab_basic')); 	// name of tab to auto-select if none exists in the url
+		
+		
+	}
+//]]>
+</script>

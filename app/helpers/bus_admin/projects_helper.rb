@@ -11,6 +11,22 @@ module BusAdmin::ProjectsHelper
   def dollars_spent_column(record)
     number_to_currency(record.dollars_spent)
   end
+
+  def get_partners
+    Partner.find(:all)
+  end
+  
+  def get_contacts
+    Contact.find(:all)
+  end
+  
+  def get_programs
+    Program.find(:all)
+  end  
+  
+  def get_frequency
+     FrequencyType.find(:all)
+  end
   
   def note_column(record)
      if record.note?
@@ -42,13 +58,17 @@ module BusAdmin::ProjectsHelper
     end    
   end
   
+  def project_status_types
+    ProjectStatus.find(:all)
+  end
+  
   def other_projects_column(record)
      if record.other_projects != nil 
         RedCloth.new(record.other_projects).to_html
     end   
   end
   
-  def   responsibilities_column(record)
+  def responsibilities_column(record)
      if record.responsibilities != nil 
        RedCloth.new(record.responsibilities).to_html
     end    

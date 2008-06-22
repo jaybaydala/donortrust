@@ -102,6 +102,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :users, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/users"
 
+  # bus_admin project resources and routes
+  map.resources :projects,
+                :path_prefix => "/bus_admin",
+                :name_prefix => "bus_admin_",
+                :controller => "bus_admin/projects",
+                :active_scaffold => true
+  
+  
   # The priority is based upon order of creation: first created -> highest priority.
   
   #
@@ -161,6 +169,7 @@ ActionController::Routing::Routes.draw do |map|
                                                                                                                                               :show_flickr => :post, 
                                                                                                                                               :show_db_flickr => :post,
                                                                                                                                               :photos=>:post }
+                                                                                                                                              
                                                                                                                                             
   map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
@@ -211,8 +220,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :programs,    :controller => "bus_admin/programs",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :projects,    :controller => 'bus_admin/projects',
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+#  map.resources :projects,    :controller => 'bus_admin/projects',
+#    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :milestones,  :controller => "bus_admin/milestones",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :tasks,       :controller => "bus_admin/tasks",
