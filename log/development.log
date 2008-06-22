@@ -16920,3 +16920,531 @@ ActionController::RoutingError (No route matches "/" with {:method=>:get}):
     script/server:3
 
 Rendering /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/templates/rescues/layout.erb (not_found)
+** RFACEBOOK INFO: It looks like you used a full URL 'http://localhost:3000/dt/projects' in facebook.yml.  RFacebook expected a relative path and has automatically converted this URL to '/dt/projects'.
+WARNING: You're using the Ruby-based MySQL library that ships with Rails. This library is not suited for production. Please install the C-based MySQL library instead (gem install mysql).
+  [4;36;1mSQL (0.000239)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.003004)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (0.004701)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+ActiveScaffold: extending RESTful routes for loads
+ActiveScaffold: extending RESTful routes for banner_images
+ActiveScaffold: extending RESTful routes for rank_values
+ActiveScaffold: extending RESTful routes for gifts
+ActiveScaffold: extending RESTful routes for budget_items
+ActiveScaffold: extending RESTful routes for financial_sources
+ActiveScaffold: extending RESTful routes for collaborating_agencies
+ActiveScaffold: extending RESTful routes for e_cards
+ActiveScaffold: extending RESTful routes for places
+ActiveScaffold: extending RESTful routes for place_sectors
+ActiveScaffold: extending RESTful routes for ranks
+ActiveScaffold: extending RESTful routes for quick_fact_partners
+ActiveScaffold: extending RESTful routes for quick_fact_groups
+ActiveScaffold: extending RESTful routes for quick_fact_sectors
+ActiveScaffold: extending RESTful routes for quick_fact_places
+ActiveScaffold: extending RESTful routes for quick_facts
+ActiveScaffold: extending RESTful routes for comments
+ActiveScaffold: extending RESTful routes for key_measures
+ActiveScaffold: extending RESTful routes for key_measures
+ActiveScaffold: extending RESTful routes for key_measure_datas
+ActiveScaffold: extending RESTful routes for key_measure_datas
+ActiveScaffold: extending RESTful routes for key_measure_datas
+ActiveScaffold: extending RESTful routes for key_measures
+ActiveScaffold: extending RESTful routes for bus_security_levels
+ActiveScaffold: extending RESTful routes for bus_user_types
+ActiveScaffold: extending RESTful routes for bus_secure_actions
+ActiveScaffold: extending RESTful routes for bus_security_levels
+ActiveScaffold: extending RESTful routes for users
+ActiveScaffold: extending RESTful routes for rss_feed_elements
+ActiveScaffold: extending RESTful routes for rss_feeds
+ActiveScaffold: extending RESTful routes for measures
+ActiveScaffold: extending RESTful routes for millennium_goals
+ActiveScaffold: extending RESTful routes for sectors
+ActiveScaffold: extending RESTful routes for causes
+ActiveScaffold: extending RESTful routes for places
+ActiveScaffold: extending RESTful routes for contacts
+ActiveScaffold: extending RESTful routes for partners
+ActiveScaffold: extending RESTful routes for project_statuses
+ActiveScaffold: extending RESTful routes for milestone_statuses
+ActiveScaffold: extending RESTful routes for frequency_types
+ActiveScaffold: extending RESTful routes for partner_statuses
+ActiveScaffold: extending RESTful routes for partner_types
+ActiveScaffold: extending RESTful routes for group_types
+ActiveScaffold: extending RESTful routes for place_types
+ActiveScaffold: extending RESTful routes for rank_types
+ActiveScaffold: extending RESTful routes for quick_fact_types
+ActiveScaffold: extending RESTful routes for banner_images
+ActiveScaffold: extending RESTful routes for rank_values
+ActiveScaffold: extending RESTful routes for programs
+ActiveScaffold: extending RESTful routes for projects
+ActiveScaffold: extending RESTful routes for milestones
+ActiveScaffold: extending RESTful routes for tasks
+ActiveScaffold: extending RESTful routes for accounts
+ActiveScaffold: extending RESTful routes for groups
+ActiveScaffold: extending RESTful routes for bus_account
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2008-06-21 20:47:27) [GET]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {}
+
+
+ActionController::RoutingError (No route matches "/" with {:method=>:get}):
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/routing.rb:1441:in `recognize_path'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/routing.rb:1424:in `recognize'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:170:in `handle_request'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:115:in `dispatch'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:126:in `dispatch_cgi'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:9:in `dispatch'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:78:in `process'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:76:in `synchronize'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:76:in `process'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:618:in `process_client'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:617:in `each'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:617:in `process_client'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `initialize'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `new'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `initialize'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `new'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:271:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:270:in `each'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:270:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/bin/mongrel_rails:127:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/command.rb:211:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/bin/mongrel_rails:243
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+    /usr/local/lib/ruby/gems/1.8/gems/rails-2.0.2/lib/commands/servers/mongrel.rb:64
+    /usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+    /usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `require'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
+    /usr/local/lib/ruby/gems/1.8/gems/rails-2.0.2/lib/commands/server.rb:39
+    /usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+    /usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `require'
+    script/server:3
+
+Rendering /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/templates/rescues/layout.erb (not_found)
+** RFACEBOOK INFO: It looks like you used a full URL 'http://localhost:3000/dt/projects' in facebook.yml.  RFacebook expected a relative path and has automatically converted this URL to '/dt/projects'.
+WARNING: You're using the Ruby-based MySQL library that ships with Rails. This library is not suited for production. Please install the C-based MySQL library instead (gem install mysql).
+  [4;36;1mSQL (0.000200)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1mSQL (0.003045)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (0.005261)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+ActiveScaffold: extending RESTful routes for loads
+ActiveScaffold: extending RESTful routes for banner_images
+ActiveScaffold: extending RESTful routes for rank_values
+ActiveScaffold: extending RESTful routes for gifts
+ActiveScaffold: extending RESTful routes for budget_items
+ActiveScaffold: extending RESTful routes for financial_sources
+ActiveScaffold: extending RESTful routes for collaborating_agencies
+ActiveScaffold: extending RESTful routes for e_cards
+ActiveScaffold: extending RESTful routes for places
+ActiveScaffold: extending RESTful routes for place_sectors
+ActiveScaffold: extending RESTful routes for ranks
+ActiveScaffold: extending RESTful routes for quick_fact_partners
+ActiveScaffold: extending RESTful routes for quick_fact_groups
+ActiveScaffold: extending RESTful routes for quick_fact_sectors
+ActiveScaffold: extending RESTful routes for quick_fact_places
+ActiveScaffold: extending RESTful routes for quick_facts
+ActiveScaffold: extending RESTful routes for comments
+ActiveScaffold: extending RESTful routes for key_measures
+ActiveScaffold: extending RESTful routes for key_measures
+ActiveScaffold: extending RESTful routes for key_measure_datas
+ActiveScaffold: extending RESTful routes for key_measure_datas
+ActiveScaffold: extending RESTful routes for key_measure_datas
+ActiveScaffold: extending RESTful routes for key_measures
+ActiveScaffold: extending RESTful routes for bus_security_levels
+ActiveScaffold: extending RESTful routes for bus_user_types
+ActiveScaffold: extending RESTful routes for bus_secure_actions
+ActiveScaffold: extending RESTful routes for bus_security_levels
+ActiveScaffold: extending RESTful routes for users
+ActiveScaffold: extending RESTful routes for rss_feed_elements
+ActiveScaffold: extending RESTful routes for rss_feeds
+ActiveScaffold: extending RESTful routes for measures
+ActiveScaffold: extending RESTful routes for millennium_goals
+ActiveScaffold: extending RESTful routes for sectors
+ActiveScaffold: extending RESTful routes for causes
+ActiveScaffold: extending RESTful routes for places
+ActiveScaffold: extending RESTful routes for contacts
+ActiveScaffold: extending RESTful routes for partners
+ActiveScaffold: extending RESTful routes for project_statuses
+ActiveScaffold: extending RESTful routes for milestone_statuses
+ActiveScaffold: extending RESTful routes for frequency_types
+ActiveScaffold: extending RESTful routes for partner_statuses
+ActiveScaffold: extending RESTful routes for partner_types
+ActiveScaffold: extending RESTful routes for group_types
+ActiveScaffold: extending RESTful routes for place_types
+ActiveScaffold: extending RESTful routes for rank_types
+ActiveScaffold: extending RESTful routes for quick_fact_types
+ActiveScaffold: extending RESTful routes for banner_images
+ActiveScaffold: extending RESTful routes for rank_values
+ActiveScaffold: extending RESTful routes for programs
+ActiveScaffold: extending RESTful routes for projects
+ActiveScaffold: extending RESTful routes for milestones
+ActiveScaffold: extending RESTful routes for tasks
+ActiveScaffold: extending RESTful routes for accounts
+ActiveScaffold: extending RESTful routes for groups
+ActiveScaffold: extending RESTful routes for bus_account
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing ProjectsController#index (for 127.0.0.1 at 2008-06-22 01:17:38) [GET]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {"action"=>"index", "controller"=>"dt/projects"}
+  [4;35;1mUser Load (0.002954)[0m   [0mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:38') AND (`users`.`remember_token` = 'dc828efe0845ea63f45a64f98b70aa9f49bb9a9c') LIMIT 1[0m
+  [4;36;1mProject Load (0.021535)[0m   [0;1mSELECT * FROM `projects` WHERE (( `projects`.`project_status_id` IN (2,4) ) AND ( projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:17:38' )) AND (`projects`.`featured` = 1) [0m
+Rendering template within layouts/application
+Rendering dt/projects/index
+  [4;35;1mProject Columns (0.010411)[0m   [0mSHOW FIELDS FROM `projects`[0m
+  [4;36;1mPartner Columns (0.005628)[0m   [0;1mSHOW FIELDS FROM `partners`[0m
+  [4;35;1mPartner Load (0.002474)[0m   [0mSELECT * FROM `partners` WHERE (partners.deleted_at IS NULL OR partners.deleted_at > '2008-06-22 01:17:38') AND (`partners`.`id` = 1) [0m
+  [4;36;1mSQL (0.003157)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mSQL (0.002963)[0m   [0mSHOW TABLES[0m
+  [4;36;1mInvestment Columns (0.075316)[0m   [0;1mSHOW FIELDS FROM `investments`[0m
+  [4;35;1mInvestment Load (0.002327)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mPlace Columns (0.006864)[0m   [0mSHOW FIELDS FROM `places`[0m
+  [4;36;1mPlace Load (0.002879)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;35;1mJoin Table Columns (0.016205)[0m   [0mSHOW FIELDS FROM `causes_projects`[0m
+  [4;36;1mCause Load (0.005965)[0m   [0;1mSELECT * FROM `causes` INNER JOIN causes_projects ON causes.id = causes_projects.cause_id WHERE (causes.deleted_at IS NULL OR causes.deleted_at > '2008-06-22 01:17:38') AND (causes_projects.project_id = 1 ) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+Rendered /dt/projects/_featured_project (0.22402)
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `partners` WHERE (partners.deleted_at IS NULL OR partners.deleted_at > '2008-06-22 01:17:38') AND (`partners`.`id` = 1) [0m
+  [4;35;1mInvestment Load (0.001616)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;36;1mJoin Table Columns (0.002450)[0m   [0;1mSHOW FIELDS FROM `causes_projects`[0m
+  [4;35;1mCause Load (0.001640)[0m   [0mSELECT * FROM `causes` INNER JOIN causes_projects ON causes.id = causes_projects.cause_id WHERE (causes.deleted_at IS NULL OR causes.deleted_at > '2008-06-22 01:17:38') AND (causes_projects.project_id = 3 ) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+Rendered /dt/projects/_featured_project (0.01562)
+  [4;35;1mPartner Load (0.002043)[0m   [0mSELECT * FROM `partners` WHERE (partners.deleted_at IS NULL OR partners.deleted_at > '2008-06-22 01:17:38') AND (`partners`.`id` = 3) [0m
+  [4;36;1mInvestment Load (0.001468)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;36;1mPlace Load (0.001603)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180192) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180192) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180192) [0m
+  [4;35;1mJoin Table Columns (0.001973)[0m   [0mSHOW FIELDS FROM `causes_projects`[0m
+  [4;36;1mCause Load (0.002478)[0m   [0;1mSELECT * FROM `causes` INNER JOIN causes_projects ON causes.id = causes_projects.cause_id WHERE (causes.deleted_at IS NULL OR causes.deleted_at > '2008-06-22 01:17:38') AND (causes_projects.project_id = 6 ) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180192) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+Rendered /dt/projects/_featured_project (0.01979)
+Fragment read: searchbar (0.01002)
+Completed in 0.62055 (1 reqs/sec) | Rendering: 0.42486 (68%) | DB: 0.18246 (29%) | 200 OK [http://localhost/dt]
+  [4;36;1mSQL (0.003898)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mUser Columns (0.003767)[0m   [0mSHOW FIELDS FROM `users`[0m
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2008-06-22 01:17:44) [GET]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {"action"=>"new", "controller"=>"dt/sessions"}
+  [4;36;1mUser Load (0.002126)[0m   [0;1mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:44') AND (`users`.`remember_token` = 'dc828efe0845ea63f45a64f98b70aa9f49bb9a9c') LIMIT 1[0m
+Rendering template within layouts/application
+Rendering dt/sessions/new
+Fragment read: searchbar (0.00020)
+Completed in 0.10690 (9 reqs/sec) | Rendering: 0.07212 (67%) | DB: 0.00979 (9%) | 200 OK [http://localhost/dt/login]
+  [4;35;1mSQL (0.003759)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (0.004656)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2008-06-22 01:17:47) [POST]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {"commit"=>"Login", "action"=>"create", "controller"=>"dt/sessions", "login"=>"lgomes", "password"=>"[FILTERED]"}
+  [4;35;1mUser Load (0.002326)[0m   [0mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:47') AND (`users`.`remember_token` = 'dc828efe0845ea63f45a64f98b70aa9f49bb9a9c') LIMIT 1[0m
+  [4;36;1mUser Load (0.002344)[0m   [0;1mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:47') AND (login = 'lgomes' and activated_at IS NOT NULL) LIMIT 1[0m
+  [4;35;1mUser Load (0.002385)[0m   [0mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:47') AND (`users`.`login` = 'lgomes') LIMIT 1[0m
+Rendering template within layouts/application
+Rendering dt/sessions/new
+Fragment read: searchbar (0.00020)
+Completed in 0.04053 (24 reqs/sec) | Rendering: 0.00630 (15%) | DB: 0.01547 (38%) | 200 OK [http://localhost/dt/session]
+  [4;36;1mSQL (0.002956)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mUser Columns (0.004710)[0m   [0mSHOW FIELDS FROM `users`[0m
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2008-06-22 01:17:56) [POST]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {"action"=>"create", "controller"=>"dt/sessions", "login"=>"lgomes09@gmail.com", "password"=>"[FILTERED]"}
+  [4;36;1mUser Load (0.002235)[0m   [0;1mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:56') AND (`users`.`remember_token` = 'dc828efe0845ea63f45a64f98b70aa9f49bb9a9c') LIMIT 1[0m
+  [4;35;1mUser Load (0.002017)[0m   [0mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:56') AND (login = 'lgomes09@gmail.com' and activated_at IS NOT NULL) LIMIT 1[0m
+  [4;36;1mSQL (0.000274)[0m   [0;1mBEGIN[0m
+  [4;35;1mUser Load (0.002504)[0m   [0mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:56') AND (LOWER(users.login) = 'lgomes09@gmail.com' AND users.id <> 5) LIMIT 1[0m
+  [4;36;1mUser Load (0.002410)[0m   [0;1mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:56') AND (users.activation_code = '(null)' AND users.id <> 5) LIMIT 1[0m
+  [4;35;1mSQL (0.000448)[0m   [0mCOMMIT[0m
+Cookie set: dt_login_id=5; path=/
+Cookie set: dt_login_name=LUCAS; path=/
+** RFACEBOOK INFO: Regular redirect_to
+** RFACEBOOK INFO: Regular redirect_to
+Redirected to http://localhost:3000/dt
+Completed in 0.04428 (22 reqs/sec) | DB: 0.01755 (39%) | 302 Found [http://localhost/dt/session]
+  [4;36;1mSQL (0.002840)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mUser Columns (0.005060)[0m   [0mSHOW FIELDS FROM `users`[0m
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing ProjectsController#index (for 127.0.0.1 at 2008-06-22 01:17:57) [GET]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {"action"=>"index", "controller"=>"dt/projects"}
+  [4;36;1mUser Load (0.001975)[0m   [0;1mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:17:57') AND (`users`.`id` = 5) LIMIT 1[0m
+  [4;35;1mProject Load (0.003253)[0m   [0mSELECT * FROM `projects` WHERE (( `projects`.`project_status_id` IN (2,4) ) AND ( projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:17:57' )) AND (`projects`.`featured` = 1) [0m
+Rendering template within layouts/application
+Rendering dt/projects/index
+  [4;36;1mProject Columns (0.005072)[0m   [0;1mSHOW FIELDS FROM `projects`[0m
+  [4;35;1mPartner Columns (0.006754)[0m   [0mSHOW FIELDS FROM `partners`[0m
+  [4;36;1mPartner Load (0.001816)[0m   [0;1mSELECT * FROM `partners` WHERE (partners.deleted_at IS NULL OR partners.deleted_at > '2008-06-22 01:17:57') AND (`partners`.`id` = 1) [0m
+  [4;35;1mSQL (0.003897)[0m   [0mSHOW TABLES[0m
+  [4;36;1mSQL (0.004185)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mInvestment Columns (0.004898)[0m   [0mSHOW FIELDS FROM `investments`[0m
+  [4;36;1mInvestment Load (0.001266)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;36;1mPlace Columns (0.004271)[0m   [0;1mSHOW FIELDS FROM `places`[0m
+  [4;35;1mPlace Load (0.002229)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;36;1mJoin Table Columns (0.002188)[0m   [0;1mSHOW FIELDS FROM `causes_projects`[0m
+  [4;35;1mCause Load (0.001558)[0m   [0mSELECT * FROM `causes` INNER JOIN causes_projects ON causes.id = causes_projects.cause_id WHERE (causes.deleted_at IS NULL OR causes.deleted_at > '2008-06-22 01:17:58') AND (causes_projects.project_id = 1 ) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+Rendered /dt/projects/_featured_project (0.54378)
+  [4;35;1mPartner Load (0.003420)[0m   [0mSELECT * FROM `partners` WHERE (partners.deleted_at IS NULL OR partners.deleted_at > '2008-06-22 01:17:58') AND (`partners`.`id` = 1) [0m
+  [4;36;1mInvestment Load (0.001192)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;35;1mJoin Table Columns (0.001972)[0m   [0mSHOW FIELDS FROM `causes_projects`[0m
+  [4;36;1mCause Load (0.001736)[0m   [0;1mSELECT * FROM `causes` INNER JOIN causes_projects ON causes.id = causes_projects.cause_id WHERE (causes.deleted_at IS NULL OR causes.deleted_at > '2008-06-22 01:17:58') AND (causes_projects.project_id = 3 ) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180184) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+Rendered /dt/projects/_featured_project (0.02138)
+  [4;36;1mPartner Load (0.001659)[0m   [0;1mSELECT * FROM `partners` WHERE (partners.deleted_at IS NULL OR partners.deleted_at > '2008-06-22 01:17:58') AND (`partners`.`id` = 3) [0m
+  [4;35;1mInvestment Load (0.001760)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;35;1mPlace Load (0.001161)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180192) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180192) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `places` WHERE (`places`.`id` = 180192) [0m
+  [4;36;1mJoin Table Columns (0.002064)[0m   [0;1mSHOW FIELDS FROM `causes_projects`[0m
+  [4;35;1mCause Load (0.001444)[0m   [0mSELECT * FROM `causes` INNER JOIN causes_projects ON causes.id = causes_projects.cause_id WHERE (causes.deleted_at IS NULL OR causes.deleted_at > '2008-06-22 01:17:58') AND (causes_projects.project_id = 6 ) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `places` WHERE (`places`.`id` = 180192) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+Rendered /dt/projects/_featured_project (0.01716)
+Fragment read: searchbar (0.00019)
+Completed in 0.62321 (1 reqs/sec) | Rendering: 0.53932 (86%) | DB: 0.06767 (10%) | 200 OK [http://localhost/dt]
+  [4;35;1mSQL (0.003313)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (0.006504)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing AccountsController#show (for 127.0.0.1 at 2008-06-22 01:18:02) [GET]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {"action"=>"show", "id"=>"5", "controller"=>"dt/accounts"}
+  [4;35;1mUser Load (0.001848)[0m   [0mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:18:02') AND (`users`.`id` = 5) LIMIT 1[0m
+  [4;36;1mUserTransaction Columns (0.002653)[0m   [0;1mSHOW FIELDS FROM `user_transactions`[0m
+  [4;35;1mProject Columns (0.005387)[0m   [0mSHOW FIELDS FROM `projects`[0m
+  [4;36;1mUser Load Including Associations (0.007520)[0m   [0;1mSELECT `users`.`id` AS t0_r0, `users`.`login` AS t0_r1, `users`.`first_name` AS t0_r2, `users`.`last_name` AS t0_r3, `users`.`display_name` AS t0_r4, `users`.`address` AS t0_r5, `users`.`city` AS t0_r6, `users`.`province` AS t0_r7, `users`.`postal_code` AS t0_r8, `users`.`country` AS t0_r9, `users`.`under_thirteen` AS t0_r10, `users`.`crypted_password` AS t0_r11, `users`.`salt` AS t0_r12, `users`.`created_at` AS t0_r13, `users`.`updated_at` AS t0_r14, `users`.`remember_token` AS t0_r15, `users`.`remember_token_expires_at` AS t0_r16, `users`.`activation_code` AS t0_r17, `users`.`activated_at` AS t0_r18, `users`.`last_logged_in_at` AS t0_r19, `users`.`deleted_at` AS t0_r20, `users`.`version` AS t0_r21, `users`.`change_password` AS t0_r22, `user_transactions`.`id` AS t1_r0, `user_transactions`.`user_id` AS t1_r1, `user_transactions`.`tx_id` AS t1_r2, `user_transactions`.`tx_type` AS t1_r3, `user_transactions`.`created_at` AS t1_r4, `user_transactions`.`updated_at` AS t1_r5, `projects`.`id` AS t2_r0, `projects`.`program_id` AS t2_r1, `projects`.`name` AS t2_r2, `projects`.`description` AS t2_r3, `projects`.`total_cost` AS t2_r4, `projects`.`dollars_spent` AS t2_r5, `projects`.`expected_completion_date` AS t2_r6, `projects`.`blog_url` AS t2_r7, `projects`.`rss_url` AS t2_r8, `projects`.`actual_start_date` AS t2_r9, `projects`.`actual_end_date` AS t2_r10, `projects`.`target_start_date` AS t2_r11, `projects`.`target_end_date` AS t2_r12, `projects`.`project_status_id` AS t2_r13, `projects`.`contact_id` AS t2_r14, `projects`.`place_id` AS t2_r15, `projects`.`partner_id` AS t2_r16, `projects`.`frequency_type_id` AS t2_r17, `projects`.`lives_affected` AS t2_r18, `projects`.`featured` AS t2_r19, `projects`.`public` AS t2_r20, `projects`.`note` AS t2_r21, `projects`.`intended_outcome` AS t2_r22, `projects`.`meas_eval_plan` AS t2_r23, `projects`.`project_in_community` AS t2_r24, `projects`.`other_projects` AS t2_r25, `projects`.`deleted_at` AS t2_r26, `projects`.`version` AS t2_r27, `projects`.`created_at` AS t2_r28, `projects`.`updated_at` AS t2_r29 FROM `users` LEFT OUTER JOIN `user_transactions` ON user_transactions.user_id = users.id LEFT OUTER JOIN `my_wishlists` ON (`users`.`id` = `my_wishlists`.`user_id`) LEFT OUTER JOIN `projects` ON (`projects`.`id` = `my_wishlists`.`project_id`) WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:18:02') AND (`users`.`id` = 5) [0m
+  [4;35;1mUserTransaction Load (0.000969)[0m   [0mSELECT * FROM `user_transactions` WHERE (user_transactions.user_id = 5) ORDER BY created_at DESC[0m
+Rendering template within layouts/application
+Rendering dt/accounts/show
+Rendered dt/accounts/_inactive (0.00204)
+  [4;36;1mSQL (0.003164)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mInvestment Columns (0.003771)[0m   [0mSHOW FIELDS FROM `investments`[0m
+  [4;36;1mSQL (0.027024)[0m   [0;1mSELECT count(*) AS count_all FROM `investments` WHERE (investments.user_id = 5) [0m
+  [4;35;1mTaxReceipt Load (0.001581)[0m   [0mSELECT * FROM `tax_receipts` WHERE (tax_receipts.user_id = 5) [0m
+  [4;36;1mMembership Load (0.020068)[0m   [0;1mSELECT * FROM `memberships` WHERE (memberships.user_id = 5) [0m
+  [4;35;1mInvestment Load (0.001340)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`user_id` = 5) [0m
+  [4;36;1mSQL (0.004149)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mDeposit Load (0.008799)[0m   [0mSELECT * FROM `deposits` WHERE (`deposits`.`user_id` = 5) [0m
+  [4;36;1mSQL (0.003160)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mGift Load (0.004082)[0m   [0mSELECT * FROM `gifts` WHERE (`gifts`.`user_id` = 5 AND `gifts`.`credit_card` IS NULL) [0m
+  [4;36;1mSQL (0.000692)[0m   [0;1mSELECT count(*) AS count_all FROM `projects` INNER JOIN my_wishlists ON projects.id = my_wishlists.project_id WHERE (( (my_wishlists.user_id = 5) ) AND ( projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:18:02' )) [0m
+Fragment read: searchbar (0.00019)
+Completed in 0.31038 (3 reqs/sec) | Rendering: 0.14678 (47%) | DB: 0.10602 (34%) | 200 OK [http://localhost/dt/accounts/5]
+  [4;35;1mSQL (0.003771)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (0.005772)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing HomeController#index (for 127.0.0.1 at 2008-06-22 01:18:06) [GET]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {"action"=>"index", "controller"=>"bus_admin/home"}
+  [4;35;1mUser Load (0.001626)[0m   [0mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:18:06') AND (`users`.`id` = 5) LIMIT 1[0m
+  [4;36;1mSQL (0.002444)[0m   [0;1mSHOW TABLES[0m
+
+
+NameError (uninitialized constant User::Administration):
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:478:in `const_missing'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/base.rb:1750:in `compute_type'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/reflection.rb:125:in `send'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/reflection.rb:125:in `klass'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/reflection.rb:169:in `source_reflection'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/reflection.rb:169:in `collect'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/reflection.rb:169:in `source_reflection'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/reflection.rb:178:in `check_validity!'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/associations/has_many_through_association.rb:6:in `initialize'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/associations.rb:1032:in `new'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/associations.rb:1032:in `roles'
+    /vendor/plugins/acl_system2/lib/caboose/role_handler.rb:15:in `check'
+    /vendor/plugins/acl_system2/lib/caboose/logic_parser.rb:43:in `process'
+    /vendor/plugins/acl_system2/lib/caboose/access_control.rb:98:in `allowed?'
+    /vendor/plugins/acl_system2/lib/caboose/access_control.rb:29:in `access_control'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/filters.rb:475:in `call'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/filters.rb:475:in `call'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/filters.rb:441:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/filters.rb:716:in `run_before_filters'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/filters.rb:695:in `call_filters'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/filters.rb:689:in `perform_action_without_benchmark'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+    /usr/local/lib/ruby/1.8/benchmark.rb:293:in `measure'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/rescue.rb:199:in `perform_action_without_caching'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/caching.rb:678:in `perform_action'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/connection_adapters/abstract/query_cache.rb:33:in `cache'
+    /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.0.2/lib/active_record/query_cache.rb:8:in `cache'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/caching.rb:677:in `perform_action'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/base.rb:524:in `send'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/base.rb:524:in `process_without_filters'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/filters.rb:685:in `process_without_session_management_support'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/session_management.rb:123:in `process'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/base.rb:388:in `process'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:171:in `handle_request'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:115:in `dispatch'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:126:in `dispatch_cgi'
+    /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/dispatcher.rb:9:in `dispatch'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:78:in `process'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:76:in `synchronize'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/rails.rb:76:in `process'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:618:in `process_client'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:617:in `each'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:617:in `process_client'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `initialize'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `new'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:736:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `initialize'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `new'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel.rb:720:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:271:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:270:in `each'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/configurator.rb:270:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/bin/mongrel_rails:127:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/lib/mongrel/command.rb:211:in `run'
+    /usr/local/lib/ruby/gems/1.8/gems/mongrel-1.0.1/bin/mongrel_rails:243
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:489:in `load'
+    /usr/local/lib/ruby/gems/1.8/gems/rails-2.0.2/lib/commands/servers/mongrel.rb:64
+    /usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+    /usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `require'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+    /usr/local/lib/ruby/gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
+    /usr/local/lib/ruby/gems/1.8/gems/rails-2.0.2/lib/commands/server.rb:39
+    /usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+    /usr/local/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `require'
+    script/server:3
+
+Rendering /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.0.2/lib/action_controller/templates/rescues/layout.erb (internal_server_error)
+  [4;35;1mSQL (0.002439)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (0.004033)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+** RFACEBOOK INFO: using default Rails sessions (since we didn't find an fb_sig_session_key in the environment)
+
+
+Processing HomeController#index (for 127.0.0.1 at 2008-06-22 01:19:37) [GET]
+  Session ID: 6c2deae6f4e4fbbf44ed58fe00827b9f
+  Parameters: {"action"=>"index", "controller"=>"bus_admin/home"}
+  [4;35;1mUser Load (0.001868)[0m   [0mSELECT * FROM `users` WHERE (users.deleted_at IS NULL OR users.deleted_at > '2008-06-22 01:19:37') AND (`users`.`id` = 5) LIMIT 1[0m
+  [4;36;1mRole Load (0.011824)[0m   [0;1mSELECT roles.* FROM roles INNER JOIN administrations ON roles.id = administrations.role_id WHERE ((administrations.user_id = 5)) [0m
+  [4;35;1mRole Columns (0.002611)[0m   [0mSHOW FIELDS FROM `roles`[0m
+  [4;36;1mPartner Load (0.001387)[0m   [0;1mSELECT * FROM `partners` WHERE (partners.deleted_at IS NULL OR partners.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;35;1mProject Load (0.002800)[0m   [0mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;36;1mProgram Load (0.000845)[0m   [0;1mSELECT * FROM `programs` WHERE (programs.deleted_at IS NULL OR programs.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;36;1mSQL (0.002447)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mProject Columns (0.005756)[0m   [0mSHOW FIELDS FROM `projects`[0m
+  [4;36;1mSQL (0.003078)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1mInvestment Columns (0.003274)[0m   [0mSHOW FIELDS FROM `investments`[0m
+  [4;36;1mInvestment Load (0.001110)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;36;1mInvestment Load (0.000920)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mInvestment Load (0.000876)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;36;1mSQL (0.000482)[0m   [0;1mSELECT sum(total_cost) AS sum_total_cost FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;35;1mSQL (0.000346)[0m   [0mSELECT sum(dollars_spent) AS sum_dollars_spent FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT sum(total_cost) AS sum_total_cost FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT sum(total_cost) AS sum_total_cost FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT sum(total_cost) AS sum_total_cost FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') [0m
+Rendering template within layouts/admin
+Rendering bus_admin/home/index
+  [4;36;1mPartner Columns (0.003033)[0m   [0;1mSHOW FIELDS FROM `partners`[0m
+  [4;35;1mProject Load (0.004045)[0m   [0mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (partner_id = '1' AND project_status_id in (2,4)) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (partner_id = '1' AND project_status_id in (2,4)) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (partner_id = '1' AND project_status_id in (2,4)) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (partner_id = '1' AND project_status_id in (2,4)) [0m
+  [4;35;1mProject Load (0.002206)[0m   [0mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (partner_id = '2' AND project_status_id in (2,4)) [0m
+  [4;36;1mProject Load (0.002209)[0m   [0;1mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (partner_id = '3' AND project_status_id in (2,4)) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (partner_id = '3' AND project_status_id in (2,4)) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;36;1mProgram Columns (0.003906)[0m   [0;1mSHOW FIELDS FROM `programs`[0m
+  [4;35;1mProject Load (0.002939)[0m   [0mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (program_id = 5) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (program_id = 5) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (program_id = 5) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `projects` WHERE (projects.deleted_at IS NULL OR projects.deleted_at > '2008-06-22 01:19:37') AND (program_id = 5) [0m
+  [4;35;1mContact Columns (0.015099)[0m   [0mSHOW FIELDS FROM `contacts`[0m
+  [4;36;1mContact Load (0.002008)[0m   [0;1mSELECT * FROM `contacts` WHERE (contacts.deleted_at IS NULL OR contacts.deleted_at > '2008-06-22 01:19:37') AND (`contacts`.`id` = 4) [0m
+  [4;35;1mProjectStatus Columns (0.002178)[0m   [0mSHOW FIELDS FROM `project_statuses`[0m
+  [4;36;1mProjectStatus Load (0.001609)[0m   [0;1mSELECT * FROM `project_statuses` WHERE (project_statuses.deleted_at IS NULL OR project_statuses.deleted_at > '2008-06-22 01:19:37') AND (`project_statuses`.`id` = 2) [0m
+  [4;35;1mProgram Load (0.000812)[0m   [0mSELECT * FROM `programs` WHERE (programs.deleted_at IS NULL OR programs.deleted_at > '2008-06-22 01:19:37') AND (`programs`.`id` = 5) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 1) [0m
+  [4;35;1mSQL (0.002455)[0m   [0mSHOW TABLES[0m
+  [4;36;1mMilestone Load (0.018709)[0m   [0;1mSELECT * FROM `milestones` WHERE (milestones.deleted_at IS NULL OR milestones.deleted_at > '2008-06-22 01:19:38') [0m
+  [4;35;1mProjectStatus Load (0.000864)[0m   [0mSELECT * FROM `project_statuses` WHERE (project_statuses.deleted_at IS NULL OR project_statuses.deleted_at > '2008-06-22 01:19:38') AND (`project_statuses`.`id` = 2) [0m
+  [4;36;1mProgram Load (0.000844)[0m   [0;1mSELECT * FROM `programs` WHERE (programs.deleted_at IS NULL OR programs.deleted_at > '2008-06-22 01:19:38') AND (`programs`.`id` = 5) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 3) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `milestones` WHERE (milestones.deleted_at IS NULL OR milestones.deleted_at > '2008-06-22 01:19:38') [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `project_statuses` WHERE (project_statuses.deleted_at IS NULL OR project_statuses.deleted_at > '2008-06-22 01:19:38') AND (`project_statuses`.`id` = 2) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `programs` WHERE (programs.deleted_at IS NULL OR programs.deleted_at > '2008-06-22 01:19:38') AND (`programs`.`id` = 5) [0m
+  [4;35;1mCACHE (0.000000)[0m   [0mSELECT * FROM `investments` WHERE (`investments`.`project_id` = 6) [0m
+  [4;36;1mCACHE (0.000000)[0m   [0;1mSELECT * FROM `milestones` WHERE (milestones.deleted_at IS NULL OR milestones.deleted_at > '2008-06-22 01:19:38') [0m
+Completed in 0.64575 (1 reqs/sec) | Rendering: 0.46013 (71%) | DB: 0.12262 (18%) | 200 OK [http://localhost/bus_admin/home]
