@@ -7,20 +7,14 @@
     <meta http-equiv="Content-Type"
     content="text/html; charset=iso-8859-1" />
 <%= javascript_include_tag :defaults %>
-<%= javascript_include_tag 'prototype' %>
 <%= active_scaffold_includes %>
 <%= stylesheet_link_tag 'redbox' %> 
-<%= javascript_include_tag 'redbox' %>
 <%= javascript_include_tag 'tabbed_pane' %>
-<%= javascript_include_tag 'effects' %>
 <%= stylesheet_link_tag 'tabbed_pane' %>
-<%= calendar_date_select_includes "silver" %>
 
 <%= stylesheet_link_tag 'admin' %> 
 <%= stylesheet_link_tag 'datepicker' %> 
-<%= javascript_include_tag 'datepicker' %>
 <%= javascript_include_tag 'stereotabs' %>
-<%= javascript_include_tag 'tiny_mce/tiny_mce' %>
 
 <% if @title %>
     <title><%=@title %></title>
@@ -220,6 +214,10 @@
       </tr>
     </table>
 	</div>
+	
+	<%= javascript_include_tag 'redbox' %>
+	<%= javascript_include_tag 'datepicker' %>
+	<%= javascript_include_tag 'tiny_mce/tiny_mce' %>
   </body>
 </html>
 <%= textile_editor_initialize -%>

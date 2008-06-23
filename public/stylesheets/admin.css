@@ -1,5 +1,5 @@
 /* @override 
-	http://localhost:3000/stylesheets/admin.css?1213420415
+	http://localhost:3000/stylesheets/admin.css?1213766065
 */
 
 body {
@@ -62,36 +62,34 @@ ul.tabnav li .selected {
 #stylized p {
 	font-size: 11px;
 	color: #555;
-	margin-bottom: 20px;
-	border-bottom: solid 1px #ccc;
-	padding-bottom: 10px;
+}
+
+#stylized ul.form {
+	padding: 0;
+}
+
+#stylized ul.form,
+#stylized .embedded {
+	border-top: solid 1px #ccc;
+	padding-top: 10px;
+	margin-top: 40px;
 }
 
 /* form fields */
 
-fieldset ul, fieldset li {
-	border: 0;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-fieldset li {
+#stylized ul.form li {
 	clear: both;
 	list-style: none;
 	padding-bottom: 10px;
 }
 
-fieldset input {
+#stylized ul.form input {
 	float: left;
 }
 
-fieldset label.title {
+#stylized ul.form label.title {
 	width: 30%;
 	float: left;
-}
-
-#stylized label.title {
 	clear: left;
 	display: block;
 	font-weight: bold;
@@ -99,14 +97,16 @@ fieldset label.title {
 	padding-right: 5px;
 }
 
-#stylized small {
-	color: #666666;
+#stylized ul.form small {
+	color: #666;
 	display: block;
 	font-size: 10px;
 	font-weight: normal;
 }
 
-#stylized input, textarea, select {
+#stylized ul.form input, 
+#stylized ul.form textarea, 
+#stylized ul.form select {
 	font-size: 12px;
 	padding: 4px 2px;
 	border: solid 1px #aacfe4;
@@ -114,12 +114,12 @@ fieldset label.title {
 	margin: 4px 0 20px 0;
 }
 
-#stylized .group {
+#stylized ul.form .group {
 	display: inline-block;
 	width: 60%;
 }
 
-#stylized .group input {
+#stylized ul.form .group input {
 	float: none;
 	margin: 0;
 	padding: 0;
@@ -127,20 +127,20 @@ fieldset label.title {
 }
 
 
-#stylized .group span {
+#stylized ul.form .group span {
 	display: block;
 }
 
-#stylized .short {
+#stylized ul.form .short {
 	width: 15%;
 	margin-right: 45%;
 }
 
-#stylized hr {
+#stylized ul.form hr {
 	clear: left;
 }
 
-#stylized .buttonsubmit {
+#stylized ul.form .buttonsubmit {
 	clear: both;
 	float: right;
 	width: 125px;
@@ -153,4 +153,45 @@ fieldset label.title {
 	font-weight: bold;
 	padding: 0;
 	border: 0;
+}
+
+/* embedded scaffold */
+#stylized .embedded ol li {
+	list-style: none;
+}
+
+#stylized .embedded input,
+#stylized .embedded select {
+	font-size: 12px;
+	font-weight: normal;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* My Comment */
+
+#stylized .embedded h2 {
+	
+}
+
+#stylized .embedded .textile-toolbar {
+	display: none;
+}
+
+#stylized .embedded ol ul {
+	padding: 0;
+}
+
+#stylized .embedded ol .checkbox-list li {
+	display: block;
+}
+
+#stylized .embedded .messages-container p {
+	margin: 0;
+	padding: 3px;
+}
+
+#stylized .embedded .active-scaffold-footer {
+	color: #888;
+	font-size: 10px;
+	font-weight: normal;
 }

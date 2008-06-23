@@ -4,11 +4,11 @@ module ApplicationHelper
     message_div = 'message_div'
     @color = "black"
     case type
-      when "error" 
+      when :error
         @color = "red"
-      when warning
+      when :warning
         @color = "yellow"
-      when info
+      when :info
         @color = "green"
     end
     render :update do |page|

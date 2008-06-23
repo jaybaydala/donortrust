@@ -22,6 +22,10 @@ module BusAdmin::ProjectsHelper
   
   def get_programs
     Program.find(:all)
+  end
+  
+  def get_places
+    Place.find(:all)
   end  
   
   def get_frequency

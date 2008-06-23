@@ -18,7 +18,7 @@
 	
 		<p><strong>Important</strong>: Be aware of that all projects <strong>must</strong> be presented on a community or municipality basis. Furthermore, always break projects up into manageable pieces that are attainable for donors to understand and support. Large scale projects <strong>must</strong> always be broken up into smaller pieces.</p>
 	
-		<ul>
+		<ul class="form">
 			<li>
 				<label for="project_name" class="title">
 					<%= render :partial => 'dt/shared/form_required' %>Project name
@@ -40,11 +40,12 @@
 					<%= render :partial => 'dt/shared/form_required' %>Project location
 					<small>Select the location of the project</small>
 				</label>
-				<%= render :partial => 'bus_admin/shared/generic_place_form_column', :locals => { :item => @project, :named_route => 'populate_project_places' }  %>
+				<%# render :partial => 'bus_admin/shared/generic_place_form_column', :locals => { :item => @project, :named_route => 'populate_project_places' }  %>
+				<%= collection_select (:project, :place_id, get_places, :id, :long_name, :include_blank => true) %>
 			</li>
 		</ul>
 
-		<ul>
+		<ul class="form">
 			<li>
 				<label for="project_description" class="title">
 					Project description
@@ -69,7 +70,7 @@
 			</li>
 		</ul>
 
-		<ul>
+		<ul class="form">
 			<li>
 				<label for="project_lives_affected" class="title">
 					Lives affected
@@ -120,7 +121,7 @@
 		/*]]>*/
 		</script>
 
-		<ul>
+		<ul class="form">
 			<li>
 				<label for="project_program_id" class="title">
 					<%= render :partial => 'dt/shared/form_required' %>Program
@@ -172,7 +173,7 @@
 	
 		<p>In this section, ...</p>
 	
-		<ul>
+		<ul class="form">
 			<li>			
 				<label class="title">
 					Project outcome
@@ -188,20 +189,25 @@
 				</label>
 				<%= f.text_area :project_in_community, :rows => 12, :cols => 72 %>
 			</li>
-			
+		</ul>
+		
+		<div class="embedded scaffold">
+			<%= render :active_scaffold => 'bus_admin/financial_sources', :constraints => { :project_id => @project.id } %>
+		</div>
+
+		<div class="embedded scaffold">
+			<%= render :active_scaffold => 'bus_admin/collaborating_agencies', :constraints => { :project_id => @project.id } %>
+		</div>
+
+		<div class="embedded scaffold">
+			<%= render :active_scaffold => 'bus_admin/budget_items', :constraints => { :project_id => @project.id } %>
+		</div>
+
+		<ul class="form">
 			<li>
 				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
 			</li>
 		</ul>
-
-	
-		<p>
-			+ associated financial sources<br/>
-			+ associated agencies<br/>
-			+ budget items
-		</p>
-		<% # TODO render :partial => 'collaborating_fields', :locals => { :f => f } %>
-		<% # TODO render :partial => 'financial_fields', :locals => { :f => f } %>
 	</fieldset>
 
 	<fieldset class="sheet" id="panel_plan">
@@ -209,13 +215,15 @@
 		
 		<p>In this section, ...</p>
 
-		<p>
-			+ associated mile stones
-		</p>
-		<% # TODO render :partial => 'collaborating_fields', :locals => { :f => f } %>
-		<% # TODO render :partial => 'financial_fields', :locals => { :f => f } %>
-
-		<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+		<div class="embedded scaffold">
+			<%= render :active_scaffold => 'bus_admin/milestones', :constraints => { :project_id => @project.id } %>
+		</div>
+		
+		<ul class="form">
+			<li>
+				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+			</li>
+		</ul>
 	</fieldset>
 
 	<fieldset class="sheet" id="panel_eval">
@@ -223,7 +231,7 @@
 
 		<p>In this section, ...</p>
 	
-		<ul>
+		<ul class="form">
 			<li>
 				<label class="title">
 					Measure &amp; evaluation plan
@@ -233,11 +241,15 @@
 			</li>
 		</ul>
 	
-		<p>
-			+ key performance indicators
-		</p>
-	
-		<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+		<div class="embedded scaffold">
+			<%= render :active_scaffold => 'bus_admin/key_measures', :constraints => { :project_id => @project.id } %>
+		</div>
+		
+		<ul class="form">
+			<li>
+				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+			</li>
+		</ul>
 
 	</fieldset>
 
@@ -246,7 +258,7 @@
 
 		<p>In this section, ...</p>
 		
-		<ul>
+		<ul class="form">
 			<li>	
 				<label for="project_frequency_type_id" class="title">
 					Frequency of feedback
@@ -274,7 +286,7 @@
 
 		<p>These fields can only be modified by CF Admins.</p>
 		 	  
-		<ul>
+		<ul class="form">
 			<li>	
 				<label for="project_public" class="title">
 					Public flag

@@ -3,7 +3,7 @@ class BusAdmin::ProjectsController < ApplicationController
   access_control :DEFAULT => 'cf_admin' 
   
   active_scaffold :project do |config|
-    config.actions = [:show, :list, :nested]
+    config.actions = [ :list, :nested, :search ]
   
     config.columns =  [ :name, :description, :program, :project_status,  :target_start_date,
                         :target_end_date, :causes, :actual_start_date, :actual_end_date,
@@ -115,9 +115,10 @@ class BusAdmin::ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @project.attributes = params[:project]
     
-    if @project.save                            
+    if @project.save
+      # TODO: notice not displayed successfully
       flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
-      redirect_to bus_admin_project_path(@project)
+      redirect_to edit_bus_admin_project_path(@project)
     else
       render :action => "edit"
     end
