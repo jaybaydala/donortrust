@@ -46,15 +46,18 @@ module Dt::ProjectsHelper
 		end
 		@partners = [['Organization', '']]
     Project.partners.each do |partner|
-      @partners << [partner.name, partner.name]
+      @partners << [partner.name, partner.id]
     end
     @causes = [['Cause', '']]
     Project.causes.each do |cause|
-      @causes << [cause.name, cause.name]
-    end
-    
+      @causes << [cause.name, cause.id]
+    end   
      
     render 'dt/projects/advanced_search_bar'
+  end
+  
+  def dt_simple_project_search
+    render :partial => 'dt/projects/search', :layout => false
   end
     
 end

@@ -4,7 +4,7 @@
   <strong>You have searched using the following terms:</strong>
 	<% if @search  %>
 		<div class="textsm" style="padding-bottom:0;">
-			<%= @search.query  %>
+			<%= params[:keywords]  %>
 		</div>
 	<% end %>
 </div>
@@ -13,17 +13,25 @@
 
 <div id="subnav" style="padding-left:0;">
   <ul style="margin-bottom:0;">
-    <li><%= @search.total_entries %> Projects Found</li>
+    <li><%= @search.nil? ? @projects.size : @search.total_entries %> Projects Found</li>
   </ul>
-	
+<% if !params[:advanced]  %> 
 <ul style="margin-bottom:0;">
     <li><strong>SORT BY:</strong></li>
     <li>&nbsp;</li>
+
+<%
+	params[:order_mode] = params[:order_mode]=="DESC" ? "ASC" : "DESC"
+	params.merge!({:order_mode => params[:order_mode]}) 
+%>
+
+
     <% [["target_start_date", "Target Start Date"],["total_cost","Budget"],["partner_name", "Organization"], ["place_name", "Place"]].each do |term| %>
       <% current = params[:order] == term[0] ? "current" : "" %>
       <li ><%= link_to term[1], search_dt_projects_path(params.merge({:order => term[0]})) %></li>
     <% end %>
   </ul>
+<% end %>
 </div>
 <% end %>
 <%= will_paginate @search %>
@@ -56,8 +64,5 @@
     	</div>
     </div>
   </div>
-<%end%>
-<% if @search.empty? %>
-	<div> and no results were found for "<%= @search.query%>"</div>
 <%end%>
 

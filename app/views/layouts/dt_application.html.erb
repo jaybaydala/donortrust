@@ -21,11 +21,13 @@
     <%= image_tag "/images/dt/feature_graphics/projectsFeature130.jpg", :alt => "A new way to give. Direct your investment in a project to a loved one." %>
   </div>
   <div id="toolbar-wrapper" class="clearfix">
-	
-	<%- cache 'searchbar' do -%>
-		<%= dt_search_bar %>		
-	<%- end -%>
+	<%= dt_simple_project_search%>
   </div>
+<% if params[:controller] == 'dt/projects'%>
+	<div id='search-bar-wrapper' style="display:<%= params[:advanced] ? "block" : "none" %>;">
+		<%= dt_advanced_search %>
+	</div>
+<% end%>
 
 <%- nav = yield :nav -%>
 <%- page_title = yield :page_title -%>

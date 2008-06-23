@@ -152,33 +152,92 @@ class Dt::ProjectsController < DtApplicationController
 
   def search
     @query = params[:keywords]
-  
     
-    if params[:order].nil?
-      @search = Ultrasphinx::Search.new(:query => @query, :per_page => 3, :page => (params[:page].nil? ? '1': params[:page]  ) )
-      Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
-        :before_match => '<strong style="background-color:yellow;">',
-        :after_match => '</strong>',
-        :chunk_separator => "...",
-        :limit => 256,
-        :around => 3,
-        :sort_mode => 'relevance' ,
-        :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
-        :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
-        })
-      @search.excerpt
+    # when in advanced search, we can't use sphinx because it doesn't accepts conditions in queries
+    if params[:advanced]
+      conditions = ['1=1']
+      if !params[:partner_id].empty?
+        conditions << "projects.partner_id = #{params[:partner_id]}"
+      end
+      if !params[:cause_id].empty?
+        conditions << "causes_projects.cause_id = #{params[:cause_id]}"
+      end
+      if !params[:funding_req_min].empty? || !params[:funding_req_max].empty? 
+        if !params[:funding_req_max].empty?
+          conditions << "projects.total_cost <= #{params[:funding_req_max]}"
+        end
+        if !params[:funding_req_min].empty?
+          conditions << "projects.total_cost >= #{params[:funding_req_min]}"
+        end
+      end
+      #if !params[:country][:place_id].empty?
+      #    conditions << "places.id = #{params[:country][:place_id]}"
+      #else
+      #  if !params[:continent][:place_id].empty?
+      #    conditions << "places.id = #{params[:continent][:place_id]}"
+      #  end
+      #end
+      
+      if !params[:start_date].empty?
+        if params[:start_date]=='bigger'
+          conditions << "projects.target_start_date >= '#{params[:start_date_year]}-#{params[:start_date_month]}-#{params[:start_date_day]}'"
+        end
+        if params[:start_date]=='lower'
+          conditions << "projects.target_start_date <= '#{params[:start_date_year]}-#{params[:start_date_month]}-#{params[:start_date_day]}'"
+        end
+      end
+      
+      
+      
+       order_map = {
+          "newest" => "created_at", 
+          "target_start_date" => "target_start_date", 
+          "total_cost" => "total_cost", 
+          "partner_name" => "partners.`name`", 
+          "place_name" => "places.`name`"
+        }
+        params[:order] = 'newest' if !params[:order]
+        order = order_map[params[:order]] if order_map.has_key?(params[:order])
+   
+        
+      @projects = Project.find_public(:all, 
+        :joins => 'LEFT JOIN causes_projects on causes_projects.project_id = projects.id LEFT JOIN places ON places.id = projects.place_id LEFT JOIN partners ON partners.id = projects.partner_id' , 
+        :conditions=> [conditions.join(" AND ")] ,
+        :group =>'projects.id',
+        :select => "projects.*, partners.name, places.name")
+      
+
+      @search = Project.paginate ( @projects, :page => (params[:page].nil? ? '1': params[:page]  ), :per_page => 3)
     else
-      @search = Ultrasphinx::Search.new(:query => @query, :sort_by => params[:order], :sort_mode => 'ascending', :per_page => 3,  :page => (params[:page].nil? ? '1': params[:page]  ) )
-      Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
-        :before_match => '<strong style="background-color:yellow;">',
-        :after_match => '</strong>',
-        :chunk_separator => "...",
-        :limit => 256,
-        :around => 3,
-        :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
-        :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
-        })
-      @search.excerpt      
+      #########################
+      # ultrasphinx search   #
+      ########################
+      if params[:order].nil?
+        @search = Ultrasphinx::Search.new(:query => @query, :per_page => 3, :page => (params[:page].nil? ? '1': params[:page]  ) )
+        Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
+          :before_match => '<strong style="background-color:yellow;">',
+          :after_match => '</strong>',
+          :chunk_separator => "...",
+          :limit => 256,
+          :around => 3,
+          :sort_mode => 'relevance' ,
+          :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+          :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
+          })
+          @search.excerpt
+        else
+          @search = Ultrasphinx::Search.new(:query => @query, :sort_by => params[:order], :sort_mode => 'ascending', :per_page => 3,  :page => (params[:page].nil? ? '1': params[:page]  ) )
+          Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
+            :before_match => '<strong style="background-color:yellow;">',
+            :after_match => '</strong>',
+            :chunk_separator => "...",
+            :limit => 256,
+            :around => 3,
+            :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+            :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
+            })
+            @search.excerpt      
+        end
     end
   end
   
@@ -195,6 +254,8 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   protected  
+
+  
   def project_id_to_session
     logger.debug '#####################'
     logger.debug 'FACEBOOK PROJECT_ID'
