@@ -349,13 +349,36 @@ US TAXES
 }
 
 /*
-SEARCH 
+SEARCH, layout and forms
 =====*/
+#project_search_toolbar{
+
+}
+
 form#advanced_search {
-	
 	padding: .5em 0px;
 }
 input.adv_submitreplace {
     border:0;
     font-size:0;
+}
+#adv_search_msg{
+	font: 55% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+	display:inline;
+}
+
+form#project_search{
+	display:inline;
+	margin: 0 20px;
+}
+
+/* attribute selector */
+form#project_search input.submitreplace {
+    width:35px;
+    height:20px;
+	vertical-align: middle;
+	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
+}
+form#project_search input.submitreplace:hover{
+	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
 }
