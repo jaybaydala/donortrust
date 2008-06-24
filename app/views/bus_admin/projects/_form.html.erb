@@ -1,6 +1,6 @@
 <%= error_messages_for :project %>
-<% form_for :project, :url => bus_admin_project_path(@project), :html => {:method => :put} do |f| %> 
 
+<% form_for :project, :url => bus_admin_project_path(@project), :html => {:method => :put, :id => 'project-form'} do |f| %> 
 
 <div id="stylized">
 	<ul class="tabnav top">
@@ -92,7 +92,7 @@
 					<%= render :partial => 'dt/shared/form_required' %>Date of initiation
 					<small>Pick projected start date as</small>
 				</label>
-				<%= f.text_field :target_start_date, :class => 'short' %>
+				<%= calendar_date_select :project, :target_start_date %>
 			</li>
 
 			<li>
@@ -100,27 +100,10 @@
 					Date of completion
 					<small>Pick projected end date</small>
 				</label>
-				<%= f.text_field :target_end_date, :class => 'short' %>
+				<%= calendar_date_select :project, :target_end_date %>
 			</li>
-		</ul>		
-		<script type="text/javascript">
-		/*<[CDATA[*/
-		var dpck = new DatePicker({
-		      		  				relative : 'project_target_start_date',
-									language : 'en',
-									disableFutureDate: false,
-									dateFormat : [[ "yyyy", "mm","dd" ], "-" ]
-		});
-		var dpck = new DatePicker({
-		      		  				relative : 'project_target_end_date',
-									language : 'en',
-									disableFutureDate: false,
-									disablePastDate: true,
-									dateFormat : [[ "yyyy", "mm","dd" ], "-" ]
-		});
-		/*]]>*/
-		</script>
-
+		</ul>
+		
 		<ul class="form">
 			<li>
 				<label for="project_program_id" class="title">
@@ -308,19 +291,22 @@
 			</li>
 		</ul>
 	</fieldset>
+
+	<%= periodically_save_form('project-form', "/bus_admin/projects/#{@project.id}", 30) %>
 <% end -%>
 </div>
 
+
 <script language="javascript" type="text/javascript">
 //<![CDATA[
-	// rich text editor
-	tinyMCE.init({
-		mode : "textareas",
-		theme : "simple"
-	});
-
 	Event.observe(window, 'load', loadEdit, false);
 	function loadEdit() {
+		// rich text editor
+		tinyMCE.init({
+			mode : "textareas",
+			theme : "simple"
+		});
+
 		// tabs for editing
 		var tabs = new tabset('stylized', {
 			classNames: { 

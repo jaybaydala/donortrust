@@ -56,6 +56,23 @@ module BusAdmin::ProjectsHelper
     end    
   end
   
+  def periodically_save_form(id, target, seconds)
+    %Q{
+      <script language="javascript" type="text/javascript">
+      //<![CDATA[
+      new PeriodicalExecuter(
+        function() {
+          new Ajax.Request(
+            '#{target}',
+            { asynchronous:true, evalScripts:true, method:'put', parameters:$('#{id}').serialize() }
+          )
+        }, 
+        #{seconds})
+      //]]>
+      </script>
+    }
+  end
+  
   def project_in_community_column(record)
      if record.project_in_community != nil 
        RedCloth.new(record.project_in_community).to_html

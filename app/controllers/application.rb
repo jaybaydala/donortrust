@@ -51,7 +51,8 @@ class ApplicationController < ActionController::Base
   end
 
   def permission_granted
-    flash[:notice] = "Welcome to the business administration area!" 
+    # CHANGED: commented the following line as it overrode all the normal flash notices!
+    # flash[:notice] = "Welcome to the business administration area!" 
   end
 
   def ssl_filter

@@ -1,0 +1,28 @@
+<div style="padding:10px;">
+	<div style="padding-bottom:10px;">
+		<%= link_to_close_redbox 'Cancel'%>
+	</div>
+	<div>
+		<% if user_can_reject_projects %>
+			<% form_tag bus_admin_reject_project_project_path(@project), :method => :put, :id => :rejection_form do %>
+				<table>
+					<tr>
+						<td><strong>Please enter the reason for rejecting this project</strong></td>
+					</tr>
+					<tr>
+						<td>
+							<%= text_area :reason, :reason, :rows => 8, :cols => 5 %>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="button" onclick="submitRejection();" value="Reject" style="height:20px;" />
+						</td>
+					</tr>
+				</table>
+			<% end %>
+			<% else %>
+				<p>You should never have been able to get here ...</p>
+		<% end %>
+	</div>
+</div>

@@ -1,0 +1,39 @@
+<% @project = show_pending_project
+   @pending = @project.pending_object
+   @project = @project.real_object
+-%>
+    <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
+      <div class="leftColW">
+        <h2><%= link_to @project.name, bus_admin_show_pending_project_project_path(@project) %></h2>
+        <div class="projectRank">
+          <ul class="specList">
+            <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
+            <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, partner_path(@project) %></span></li><% end %>
+          </ul>
+        </div>
+        
+        <p><strong>Project Description:</strong> <%= @project.summarized_description(175) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", bus_admin_project_path(@project.id) %></p>
+	  </div>
+      	
+    	<div class="factList">
+    	  <%= project_quickfacts %>
+    	</div>
+
+		<div style="clear:both;">
+  			<p><strong>Approval Details </strong>(To view all project details, click the project title above)</p>
+			<p>This is a<%= @pending.is_new ? " new project." : "n existing project that has been modified." %>
+			<br />
+				<% if @pending.is_new %>
+					The project was created on <%= @pending.date_created %> by <%= @pending.creator.nil? ? "unknown" : @pending.creator.login %>
+				<% else %>
+					The project was modified on <%= @pending.date_created %> by <%= @pending.creator.nil? ? "unknown" : @pending.creator.login %>
+				<% end %>
+				<br />
+				<div style="clear:both">
+					<%= link_to "Approve", bus_admin_approve_project_project_path(@project), :method => :put %>
+					&nbsp;&nbsp;
+					<%= reject_pending_project(@project) %>
+  				</div>
+			</p>
+		</div>
+    </div>

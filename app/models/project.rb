@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
     })
   acts_as_paranoid_versioned
  
+  has_one :pending_project
   belongs_to :project_status
   belongs_to :program
   belongs_to :partner
@@ -37,7 +38,9 @@ class Project < ActiveRecord::Base
   def startDate
     "#{self.start_date}"
   end
- 
+  
+  validates_presence_of :total_cost
+  validates_presence_of :dollars_spent
   validates_presence_of :name
   validates_presence_of :place_id
   validates_presence_of :target_start_date  
@@ -183,6 +186,42 @@ class Project < ActiveRecord::Base
     end
     @summarized_description
   end
+  
+  def publicly_visible?
+    #publicly visible by default
+    visible = true
+    #if there is a pending project, that means that
+    #this project is either new and awaiting approval
+    #or has been updated and is awaiting approval
+    #if it's new and hasn't been approved, don't allow
+    #it to be seen on the public site
+    #if it's been updated and not yet approved, we're ok
+    #to show it because it'll be the old version
+    if pending_project && pending_project.is_new
+      visible = false
+    end
+    visible
+  end
+  
+  def modified_and_unapproved?
+    pending_project && !pending_project.is_new && !pending_project.rejected && pending_project.rejector.nil? && pending_project.date_rejected.nil? && pending_project.rejection_reason.nil?
+  end
+  
+  def has_pending?
+    pending_project  
+  end
+  
+  def new_and_unapproved?
+    pending_project && pending_project.is_new && !pending_project.rejected && pending_project.rejector.nil? && pending_project.date_rejected.nil? && pending_project.rejection_reason.nil?
+  end
+  
+  def modified_and_rejected?
+    pending_project && !pending_project.is_new && pending_project.rejected && !pending_project.rejector.nil? && !pending_project.date_rejected.nil? && !pending_project.rejection_reason.nil?
+  end
+  
+  def new_and_rejected?
+    pending_project && pending_project.is_new && pending_project.rejected && !pending_project.rejector.nil? && !pending_project.date_rejected.nil? && !pending_project.rejection_reason.nil?
+  end
 
   def milestone_count
     return milestones.count
@@ -275,7 +314,6 @@ class Project < ActiveRecord::Base
     return percent_raised
   end
   
-  
   def self.projects_nearing_end(days_until_end)
     @projects = Project.find(:all, :conditions => ["(target_end_date BETWEEN ? AND ?)", Time.now, days_until_end.days.from_now])
   end
@@ -315,4 +353,55 @@ class Project < ActiveRecord::Base
   def self.total_money_spent
     return self.sum(:dollars_spent)
   end
+
+  def save_collaborating_agencies
+    collaborating_agencies.each do |c|
+      if c.should_destroy_agency?
+        c.destroy
+      else
+        c.save(false)
+      end
+    end
+  end   
+  
+  def collaborating_agency_attributes=(collaborating_agency_attributes)
+    collaborating_agency_attributes.each do |attributes|
+      if attributes[:id].blank?
+        collaborating_agencies.build(attributes)
+      else
+        collaborating_agency = collaborating_agencies.detect { |c| c.id == attributes[:id].to_i }
+        collaborating_agency.attributes = attributes
+      end    
+    end
+  end
+  
+  def save_financial_sources
+    financial_sources.each do |f|
+      if f.should_destroy_source?
+        f.destroy
+      else
+        f.save(false)
+      end
+    end
+  end
+  
+  def financial_source_attributes=(financial_source_attributes)
+    financial_source_attributes.each do |attributes|
+      if attributes[:id].blank?
+        financial_sources.build(attributes)
+      else
+        financial_source = financial_sources.detect { |f| f.id == attributes[:id].to_i }
+        financial_source.attributes = attributes
+      end    
+    end
+  end
+  
+  def to_complete_xml
+    self.to_xml :include => [:milestones, :tasks, :project_you_tube_videos, 
+                              :project_flickr_images, :financial_sources, :budget_items,
+                              :collaborating_agencies, :ranks, :investments, :key_measures,
+                              :my_wishlists, :users, :groups, :sectors, :causes, :place, 
+                              :contact, :frequency_type, :partner, :program, :project_status]
+  end 
+  
 end

@@ -112,17 +112,173 @@ class BusAdmin::ProjectsController < ApplicationController
   
   # called for PUT on bus_admin/projects/:id
   def update
-    @project = Project.find(params[:id])
-    @project.attributes = params[:project]
+    # TODO: check if access is authorized
     
-    if @project.save
-      # TODO: notice not displayed successfully
-      flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
-      redirect_to edit_bus_admin_project_path(@project)
-    else
-      render :action => "edit"
+    @project = Project.find(params[:id])
+    
+    #there may be an old approval pending that we should get rid of
+    begin
+      @old_pending = PendingProject.find_by_project_id(@project.id)
+    rescue ActiveRecord::RecordNotFound
+      #swallow - just means there was no old pending record
+    end
+    
+    ActiveRecord::Base.transaction do
+      #if there was an old pending record, dump it.
+      if @old_pending
+        @old_pending.destroy
+      end
+      
+      #only update the project attributes !!DO NOT SAVE THE PROJECT HERE!!
+      @project.attributes = params[:project]
+      #Hack - if we don't do this, the textiled properties are added with tags to the xml
+      @project.textiled = false
+      #create a new PendingProject to hold the requested changes
+      @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_complete_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => false)
+      if @pending.save                            
+        flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
+        redirect_to edit_bus_admin_project_path(@project)
+      else
+        render :action => "edit"
+      end
+    end    
+  end
+
+  #############################################################################
+  # management of pending projects
+  # TODO for Adrian: integrate properly
+  #############################################################################
+  
+  def show_pending_project_rejection
+    begin
+      @project = Project.find_by_id(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html {render :partial => "show_pending_project_rejection"}
     end
   end
+  
+  #Shows a pending project in read-only mode
+  def show_pending_project
+    begin
+      @pending = PendingProject.find_by_project_id(params[:id])
+      @rehydrated = Project.rehydrate_from_xml(@pending.project_xml)
+      
+      unless @pending.is_new
+        @original = Project.find_by_id(params[:id])
+        @differences = Differ.new(@original, @rehydrated)
+      end
+      
+      @wrapper = PendingWrapper.new(@pending, @rehydrated)
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  #get any pending projects that have not been rejected
+  def pending_projects
+    pp = PendingProject.find(:all, :conditions => ["rejected = false and rejection_reason is null and date_rejected is null"])
+    @pending_projects = []
+    pp.each {|p| @pending_projects << PendingWrapper.new(p, Project.rehydrate_from_xml(p.project_xml))}
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  #get any projects created by the logged in user that have been rejected
+  def rejected_projects
+    pp = PendingProject.find(:all, :conditions => ["rejected = true and rejection_reason is not null and date_rejected is not null and created_by = ?", self.current_busaccount.id])
+    @rejected_projects = []
+    pp.each {|p| @rejected_projects << PendingWrapper.new(p, Project.rehydrate_from_xml(p.project_xml))}
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+   #This method should return us to the list of project requiring approval
+  def approve_project
+    #find the project
+    begin
+      @project = Project.find_by_id(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    
+    #Find the pending version of the project
+    begin
+      @pending = PendingProject.find_by_project_id(@project.id)
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    
+    #If the project is not new, we need to apply the pending changes to the project and save it.
+    #If the project IS new, all we need to do is delete the PendingProject
+    @success = true
+    @new = @pending.is_new
+      unless @new
+        @project = Project.rehydrate_from_xml(@pending.project_xml)
+        @project.updated_at = Date.today
+        @success = @project.update
+      end
+      if @success
+        if @pending.destroy
+          if @new
+            flash[:notice] = "Successfully approved the new project."
+          else
+            flash[:notice] = "Successfully approved and applied changes to the project."
+          end
+          respond_to do |format|
+            format.html { redirect_to :action => :pending_projects }
+          end
+      else
+        raise Exception.new("Could not delete PendingProject for the project.")
+      end
+    else
+      raise Exception.new("Could not update the project.")
+    end
+  end
+  
+  #This method should return us to the list of project requiring approval
+  def reject_project
+    #find the project
+    begin
+      @project = Project.find_by_id(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    
+    #find the pending version of the project
+    begin
+      @pending = PendingProject.find_by_project_id(@project.id)
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    
+    #mark the pending version as rejected, with the reason, the date rejected, and who rejected it. 
+    @pending.rejected = true
+    @pending.rejection_reason = params[:reason][:reason]
+    @pending.rejected_by = self.current_busaccount
+    @pending.date_rejected = Date.today
+    if @pending.save
+      if @pending.is_new
+        flash[:notice] = "Successfully rejected the new project."
+      else
+        flash[:notice] = "Successfully rejected the changes to the project."
+      end
+      respond_to do |format|
+            format.html { redirect_to :action => :pending_projects }
+      end
+    else
+      raise Exception.new("Could not save the PendingProject.")
+    end
+ 
+  end
+
 
   #############################################################################
   # additional project methods
