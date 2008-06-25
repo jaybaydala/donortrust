@@ -9,10 +9,12 @@
 
 <% form_for(:gift, :url => dt_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
 
-<p>Refocus your holiday spending.</p>
+<p>Give a gift that changes the world. Here's how:</p>
 <ul>
-  <li>Select a Gift Card image from the gallery in the right column</li>
+  <li>Select an ecard image from the gallery in the right column</li>
   <li>Enter your information, the recipient&rsquo;s information, and the gift amount</li>
+  <li>Write a personal message to include in the ecard</li>
+  <li>Choose when you&rsquo;d like to send the gift</li>
 </ul>
 
 <div class="userform">
@@ -64,7 +66,7 @@
           <li>
             <label class="left">Card Image:</label>
             <%= render :partial => 'dt/ecards/ecard_preview', :locals => {:ecard => @ecards[0], :form => f} %>
-      		  <div>Please select an image from the Gift Card Gallery on the right &raquo;</div>
+      		  <div>Please select an image from the Ecard Gallery on the right &raquo;</div>
             <div id="ecardPreview" style="display:none;">
               <%= button_to_function "<span>Preview your gift email &raquo;</span>", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
       		</li>
@@ -80,11 +82,11 @@
     </div>
     <ol>
       <li>
-        <div>We always email you a printable gift card for the gift you give. The card gives the recipient all the necessary instructions to open your gift.</div>
-        <label class="left"><%= f.radio_button :send_email, false, :onchange => "$('gift_send_at').hide();" %> Do not email my gift card &ndash; I will print it and give it myself</label>
+        <div>We always email you a printable ecard for the gift you give. The card gives the recipient all the necessary instructions to open your gift.</div>
+        <label class="left"><%= f.radio_button :send_email, false, :onchange => "$('gift_send_at').hide();" %> Do not email my gift &ndash; I will print the ecard and give it myself</label>
       </li>
-      <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "$('gift_send_at').hide();" %> Email my gift card now</label></li>
-      <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Schedule my gift card delivery</label></li>
+      <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "$('gift_send_at').hide();" %> Email my gift now</label></li>
+      <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Schedule my gift delivery</label></li>
       <li id="gift_send_at"<%= " style=\"display:none;\"" unless @gift.send_email? %>>
         <label class="left" for="gift_send_at_2i">Select a date &amp; time to email your gift card</label>
         <div id="gift_send_at_select">
@@ -108,9 +110,8 @@
 <% end %>
 
 <%- content_for :sidebar do -%>
-  <h2>Gift Card Gallery</h2>
+  <h2>Ecard Gallery</h2>
 
-  <p><strong>Select an E-Card</strong></p>
-  <p>Select the e-card you wish to send with your gift. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
+  <p><strong>Select an ecard</strong> from the gallery to send with your gift. The larger image below is your current selection.</p>
   <%= render 'dt/ecards/sidebar' %>
 <%- end -%>
