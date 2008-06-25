@@ -14,6 +14,7 @@ class Order < ActiveRecord::Base
   def initialize(params = nil)
     super
     self.donor_type ||= self.class.personal_donor
+    self.country ||= "Canada"
   end
   
   def self.personal_donor

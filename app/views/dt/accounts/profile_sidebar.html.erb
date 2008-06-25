@@ -5,9 +5,9 @@
     <div class="textsm">
     <label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %><br />
     <label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %><br />
-    <label><%= check_box_tag "remember_me" %> Remember Me</label><br />
+    <label><%= check_box_tag "remember_me" %> Remember Me</label> | <%= link_to "Create Account", new_dt_account_path %><br />
     <%= submit_tag "Login", :class => "buttonsubmit" %><br />
-    <span><%= link_to "Forgot your password?", reset_dt_accounts_path %></span>
+    <div style="clear:left;"><%= link_to "Forgot your password?", reset_dt_accounts_path %></div>
     </div>
   <% end %>
 <% end %>
@@ -55,7 +55,7 @@
     <li>track your giving history over time and your impact in the world</li>
     <li>access your tax receipts and printable gift cards online</li>
     <li>resend gifts to alternate email addresses</li>
-    <li>save information preferences, so you don&rsquo;t have to re-enter it next time!</li>
+    <li>save information preferences, so you don&rsquo;t have to re-enter it next time</li>
     <li>join a group with people who are interested in the same projects and causes that you are</li>
     <li>conveniently track projects you have supported in one place </li>
     <li>create a &ldquo;projects wishlist&rdquo; and more!</li>

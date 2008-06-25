@@ -9,18 +9,28 @@
 
 <% form_for(:gift, :url => dt_gift_path(:id => params[:id]), :html => {:id => "giftform", :name => "giftform", :method => :put}) do |f| %>
 
-<p>Give a gift that changes the world. Here's how:</p>
-<ul>
-  <li>Select an ecard image from the gallery in the right column</li>
-  <li>Enter your information, the recipient&rsquo;s information, and the gift amount</li>
-  <li>Write a personal message to include in the ecard</li>
-  <li>Choose when you&rsquo;d like to send the gift</li>
-</ul>
-
 <div class="userform">
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+
   <fieldset>
-    <legend>Your Information</legend>
+    <legend>1. Gift Type</legend>
+    <ol class="clearfix">
+      <li>
+        <label class="left"><strong>Thanks for giving a gift using ChristmasFuture. You've chosen to:</strong></label>
+        <% if @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give <%= link_to(@gift.project.name, dt_project_path(@gift.project)) %> as a gift</label><% end %>
+        <label class="left"><%= f.radio_button "project_id", nil %> Give a gift card (let the recipient a choose a project)</label>
+        <% unless @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give a project as a gift &nbsp; &#8250; <%= link_to("choose a project", dt_projects_path) %></label><% end %>
+        <%= hidden_field_tag("project_id", @gift.project_id) if @gift.project_id %>
+      </li>
+    </ol>
+  </fieldset>
+  
+  <fieldset>
+    <legend>2. Your Information</legend>
+    <div class="notes clearfix">
+      <h5>Your Information</h5>
+      <p>Your info, as you would like it to appear on the ecard (eg. Mom).</p>
+    </div>
     <ol>
       <li><label for="gift_name">Name</label> <%= f.text_field :name %></li>
       <li><label for="gift_email"><em>*</em> Email</label> <%= f.text_field :email %></li>
@@ -29,11 +39,11 @@
   </fieldset>
 
   <fieldset>
+    <legend>3. Recipient Information</legend>
     <div class="notes clearfix">
       <h5>Recipient Information</h5>
-      <p>Please add his/her name and email.</p>
+      <p>His/her name, as you would like it to appear on the ecard.</p>
     </div>
-    <legend>Recipient Information</legend>
     <ol>
       <li><label for="gift_to_name">Name</label> <%= f.text_field :to_name %></li>
       <li><label for="gift_to_email"><em>*</em> Email</label> <%= f.text_field :to_email %></li>
@@ -41,17 +51,11 @@
     </ol>
   </fieldset>
   <fieldset>
-    <legend>Gift Information</legend>
+    <legend>4. Gift Details</legend>
     <ol class="clearfix">
       <li>
         <label for="gift_amount">Gift Amount</label> $<%= f.text_field :amount %>
         <div class="note" style="padding-left:.5em;">Example: $100</div>
-      </li>
-      <li>
-        <label class="left">How will your gift be used?</label>
-        <label class="left"><%= f.radio_button "project_id", nil %> Let the recipient choose</label>
-        <label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> I've selected a project for the recipient&nbsp;&nbsp; <br /><div style="margin-left:2em;">&#8250; <%= @gift.project_id? && @gift.project ? link_to(@gift.project.name, dt_project_path(@gift.project)) : link_to("choose project", dt_projects_path) %></div></label>
-        <%= hidden_field_tag("project_id", @gift.project_id) if @gift.project_id %>
       </li>
     </ol>
     <div class="columns" style="border-top:1px solid #DDD;">
@@ -63,45 +67,48 @@
       <div class="right" style="width:40%;">
         <ol>
           <li>
-            <label class="left">Card Image:</label>
+            <label class="left">Ecard Image:</label>
             <%= render :partial => 'dt/ecards/ecard_preview', :locals => {:ecard => @ecards[0], :form => f} %>
       		  <div>Please select an image from the Ecard Gallery on the right &raquo;</div>
             <div id="ecardPreview" style="display:none;">
-              <%= button_to_function "<span>Preview your gift email &raquo;</span>", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
+              <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
+              <%= button_to_function "<span>Preview your ecard &raquo;</span>", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
       		</li>
         </ol>
       </div>
     </div>
   </fieldset>
   <fieldset>
-    <legend>Gift Delivery</legend>
+    <legend>5. Gift Delivery</legend>
     <div class="notes">
       <h5>Gift Delivery</h5>
       <p>Gifts that remain unopened or unclaimed for 30 days will automatically be invested in one of our projects. We&rsquo;ll send both you and the recipient multiple email reminders before unclaimed gifts are invested.</p>
     </div>
     <ol>
-      <li>
-        <div>We always email you a printable ecard for the gift you give. The card gives the recipient all the necessary instructions to open your gift.</div>
-        <label class="left"><%= f.radio_button :send_email, false, :onchange => "$('gift_send_at').hide();" %> Do not email my gift &ndash; I will print the ecard and give it myself</label>
-      </li>
       <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "$('gift_send_at').hide();" %> Email my gift now</label></li>
       <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Schedule my gift delivery</label></li>
+      <li>
+        <!--<div>We always email you a printable ecard for the gift you give. The card gives the recipient all the necessary instructions to open your gift.</div>-->
+        <label class="left"><%= f.radio_button :send_email, false, :onchange => "$('gift_send_at').hide();" %> Don't email my gift <div style="margin-left:2em;">(I&rsquo;ll print the ecard and deliver it myself)</div></label>
+      </li>
       <li id="gift_send_at"<%= " style=\"display:none;\"" unless @gift.send_email? %>>
-        <label class="left" for="gift_send_at_2i">Select a date &amp; time to email your gift card</label>
+        <label class="left" for="gift_send_at_2i">Select a date &amp; time to email your gift ecard</label>
         <div id="gift_send_at_select">
           <%= f.datetime_select :send_at, 
-            :order => [:month, :day, :year, :hour, :minute], 
-            :start_year => Time.now.year, 
-            :end_year => Time.now.year+1, 
+            :order          => [:month, :day, :year, :hour, :minute], 
+            :start_year     => Time.now.year, 
+            :end_year       => Time.now.year+1, 
             :discard_second => true, 
-            :minute_step=> 30 %>
+            :minute_step    => 30,
+            :default        => 1.hour.from_now,
+            :include_blank  => true %>
             <%= select_tag :time_zone, time_zone_options_for_select('Mountain Time (US & Canada)')%>
         </div>
       </li>
     </ol>
   </fieldset>
 
-  <%= submit_tag 'Update Gift', :class => 'buttonsubmit' %>
+  <div style="float:right;" class="clearfix"><%= submit_tag 'Update Gift', :class => 'buttonsubmit' %></div>
   
 </div>
 <% end %>
