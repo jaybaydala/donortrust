@@ -1,7 +1,7 @@
 require 'active_record/fixtures'
 class UsersRel001 < ActiveRecord::Migration
   def self.up
-      create_table "users", :force => true do |t|
+    create_table "users", :force => true do |t|
       t.column :login,                     :string
       t.column :first_name,                :string
       t.column :last_name,                 :string
