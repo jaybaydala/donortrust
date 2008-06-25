@@ -28,7 +28,7 @@ namespace :deploy do
       urchinTracker();
       </script>
     JS
-    layout = "#{current_path}/app/views/layouts/dt_application.rhtml" 
+    layout = "#{current_path}/app/views/layouts/dt_application.html.erb" 
     run "sed -i 's?<!--googlestats-->?#{stats}?' #{layout}" 
   end
 
