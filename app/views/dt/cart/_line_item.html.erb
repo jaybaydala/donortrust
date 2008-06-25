@@ -12,7 +12,7 @@
     <% if line_item.e_card %><div class="thumbnail"><%= image_tag url_for_file_column(line_item.e_card, "small"), :alt => "" %></div><% end %>
     <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes.merge({:preview => 1}))}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
     <p>
-      <strong>To:</strong> <%=h line_item.to_name %> <%=h line_item.to_email %><br />
+      <strong>To:</strong> <%=h line_item.to_name %> &lt;<%=h line_item.to_email %>&gt;<br />
       <% if line_item.message? %><strong>Message:</strong> <%=h line_item.message_summary %><% end %>
     </p>
     

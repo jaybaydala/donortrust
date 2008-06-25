@@ -39,8 +39,8 @@ class TaxReceiptPDFProxy
     if use_pdftk?
       # cleans up temp files needed for encryption
       begin
-        File.delete("/tmp/#{filename}")
-        File.delete("/tmp/#{filename}.orig")
+        File.delete("#{tmpdir}/#{filename}")
+        File.delete("#{tmpdir}/#{filename}.orig")
       rescue
         puts 'unable to delete temp files'
       end
@@ -89,7 +89,6 @@ class TaxReceiptPDFProxy
   end
 
   def encrypt(pdf)
-    tmpdir = Dir.tmpdir
     forig = File.open("#{tmpdir}/#{filename}.orig", 'w')
     forig.write(pdf.render)
     forig.close()
@@ -110,6 +109,10 @@ class TaxReceiptPDFProxy
     end
     hash
   end
+  
+  def tmpdir
+    @tmpdir ||= Dir.tmpdir
+  end
 end
 class GiftPDFProxy
 
@@ -120,10 +123,12 @@ class GiftPDFProxy
   def render
     create_gift_pdf(@gift).render
   end
+  
   def post_render
   end
+  
   def filename
-    return "ChristmasFuture gift card.pdf" 
+    return "ChristmasFuture printable ecard.pdf" 
   end
 
   protected

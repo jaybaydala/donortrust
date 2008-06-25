@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include BusAdmin::UserInfo
   #include BusAdmin::ProjectsHelper
-    
+  
   before_filter :set_user
   
   # Pick a unique cookie name to distinguish our session data from others'
@@ -101,7 +101,10 @@ class ApplicationController < ActionController::Base
     page ||= 1
     page = page.to_i
     offset = (page - 1) * items_per_page
-    pages = Paginator.new(self, array.length, items_per_page, page)
+    # pages = Paginator.new(self, array.length, items_per_page, page)
+    pages = Paginator.new(array.size, items_per_page) do |offset, per_page|
+      array[offset,per_page]
+    end
     array = array[offset..(offset + items_per_page - 1)]
     [pages, array]
   end

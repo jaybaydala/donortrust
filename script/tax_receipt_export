@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+
+require 'optparse'
+options = { 
+  :target => nil, 
+  :environment => (ENV['RAILS_ENV'] || "development").dup,
+  :date_range => nil 
+  }
+OptionParser.new do |opt|
+  opt.banner = "Usage: tax_receipt_export [id(s)] --target=full_path [options]"
+  opt.on("-e environment", 'Rails environment (eg. production). Defaults to development') { |v| options[:target] = v }
+  opt.on("--target=full_path", 'Folder to save tax receipts to.') { |v| options[:target] = v }
+  opt.on("--daterange=date1:date2", 'Limit Tax Receipts to a date range.') { |v| options[:date_range] = v }
+  opt.on("-e", "--environment=name", String,
+          "Specifies the environment to run this export under (test/development/production).",
+          "Default: development") { |v| options[:environment] = v }
+  opt.parse!(ARGV)
+end
+
+unless options[:target] && File.exists?(options[:target]) && File.directory?(options[:target]) && File.writable?(options[:target])
+  puts "You must include a writable target folder using --target=full_path"
+  exit
+end
+
+case ARGV.first
+  when /[\d,]+/
+    ids = ARGV.first.split(/,/).map{|id| id.to_i }
+end
+
+# load up Rails
+ENV["RAILS_ENV"] = options[:environment]
+RAILS_ENV.replace(options[:environment]) if defined?(RAILS_ENV)
+require RAILS_ROOT + '/config/environment'
+
+args = {}
+if options[:date_range]
+  require 'date'
+  dates = options[:date_range].split(/:/)
+  begin
+    dates.map!{|d| d.to_date }
+  rescue
+    puts "Hi. You must pass two valid dates when passing a date range - eg. 2007-01-01:2007-12-31"
+    exit
+  end
+  unless dates.size == 2
+    puts "You must pass two valid dates when passing a date range - eg. 2007-01-01:2007-12-31"
+    exit
+  end
+  args[:conditions] = ["created_at BETWEEN ? AND ?", dates[0], dates[1]]
+end
+
+tax_receipts = TaxReceipt.find(ids || :all, args)
+puts "Found #{tax_receipts.size} tax receipts. Rendering - this may take minute..."
+
+require 'pdf_proxy'
+tax_receipts.each do |tax_receipt|
+  pdf = TaxReceiptPDFProxy.new(tax_receipt);
+  File.open("#{options[:target]}/#{pdf.filename}", 'w') do |file|
+    file.write(pdf.render)
+  end
+  pdf.post_render
+end
+puts "done"
