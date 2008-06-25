@@ -101,9 +101,17 @@ class Order < ActiveRecord::Base
   
   def run_transaction
     if credit_card.valid?
+      if File.exists?("#{RAILS_ROOT}/config/iats.yml")
+        config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
+        gateway_login    = config["username"]
+        gateway_password = config["password"]
+      else
+        gateway_login, gateway_password = nil
+      end
+      
       gateway = ActiveMerchant::Billing::IatsGateway.new(
-        :login    => 'TestMerchant',	
-        :password => 'password'
+        :login    => gateway_login,	
+        :password => gateway_password
       )
       
       # purchase the amount
