@@ -79,16 +79,16 @@ namespace :deploy do
   Stop the Backgroundrb daemon on the schedule server.
   DESC
   task :stop_backgroundrb , :roles => :schedule do
-    cmd = "#{current_path}/script/backgroundrb stop"
-    send(run_method, cmd)
+    # cmd = "#{current_path}/script/backgroundrb stop"
+    # send(run_method, cmd)
   end
 
   desc <<-DESC
   Restart the Backgroundrb daemon on the app server.
   DESC
   task :restart_backgroundrb , :roles => :app do
-    begin stop_backgroundrb; rescue; end #this catches the bdrb error where a PID file doesn't exist
-    start_backgroundrb
+    # begin stop_backgroundrb; rescue; end #this catches the bdrb error where a PID file doesn't exist
+    # start_backgroundrb
   end
 
   task :start_admin , :roles => :admin do
