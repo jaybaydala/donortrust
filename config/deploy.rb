@@ -63,7 +63,7 @@ namespace :deploy do
   Install backgrounDRB since it's incompatible with windows boxes
   DESC
   task :install_backgroundrb, :roles => :schedule do
-    cmd = "svn co -q http://svn.devjavu.com/backgroundrb/trunk #{current_path}/vendor/plugins/backgroundrb"
+    cmd = "svn co -q http://svn.devjavu.com/backgroundrb/trunk #{current_path}/vendor/plugins/backgroundrb;rm #{current_path}/script/backgroundrb && rake backgroundrb:setup"
     run cmd
   end
   
@@ -71,24 +71,24 @@ namespace :deploy do
   Start the Backgroundrb daemon on the schedule server.
   DESC
   task :start_backgroundrb , :roles => :schedule do
-    # cmd = "#{current_path}/script/backgroundrb start -- -r #{rails_env}"
-    # send(run_method, cmd)
+    cmd = "#{current_path}/script/backgroundrb start -e #{rails_env}"
+    send(run_method, cmd)
   end
 
   desc <<-DESC
   Stop the Backgroundrb daemon on the schedule server.
   DESC
   task :stop_backgroundrb , :roles => :schedule do
-    # cmd = "#{current_path}/script/backgroundrb stop"
-    # send(run_method, cmd)
+    cmd = "#{current_path}/script/backgroundrb stop"
+    send(run_method, cmd)
   end
 
   desc <<-DESC
   Restart the Backgroundrb daemon on the app server.
   DESC
   task :restart_backgroundrb , :roles => :app do
-    # begin stop_backgroundrb; rescue; end #this catches the bdrb error where a PID file doesn't exist
-    # start_backgroundrb
+    begin stop_backgroundrb; rescue; end #this catches the bdrb error where a PID file doesn't exist
+    start_backgroundrb
   end
 
   task :start_admin , :roles => :admin do
