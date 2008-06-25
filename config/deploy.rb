@@ -71,8 +71,8 @@ namespace :deploy do
   Start the Backgroundrb daemon on the schedule server.
   DESC
   task :start_backgroundrb , :roles => :schedule do
-    cmd = "#{current_path}/script/backgroundrb start -- -r #{rails_env}"
-    send(run_method, cmd)
+    # cmd = "#{current_path}/script/backgroundrb start -- -r #{rails_env}"
+    # send(run_method, cmd)
   end
 
   desc <<-DESC
