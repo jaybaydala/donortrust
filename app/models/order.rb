@@ -28,9 +28,9 @@ class Order < ActiveRecord::Base
   end
   
   def card_number=(number)
-    @full_card_number = number if !number.nil?
-    write_attribute(:card_number, number)
-    write_attribute(:card_number, number.to_s[-4, 4]) if number
+    @full_card_number = number# if !number.nil?
+    write_attribute(:card_number, number) # clears it if it's nil
+    write_attribute(:card_number, number.to_s[-4, 4]) if number # loads it back up if it's not
   end
   
   def card_number
@@ -100,31 +100,55 @@ class Order < ActiveRecord::Base
   end
   
   def run_transaction
-    create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
-    # use ActiveMerchant to process credit card
-    # if successful
-    #   set the authorization_result value
-    #   create_tax_receipt_from_order
-    # else
-    #   handle the error and raise the message exception?
-    # end
-    true
+    if credit_card.valid?
+      gateway = ActiveMerchant::Billing::IatsGateway.new(
+        :login    => 'TestMerchant',	
+        :password => 'password'
+      )
+      
+      # purchase the amount
+      purchase_options = {:billing_address => billing_address, :invoice_id => self.order_number}
+      response = gateway.purchase(total*100, credit_card, purchase_options)
+      if response.success?
+        self.update_attributes({:authorization_result => response.authorization})
+        create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
+      else
+        raise ActiveMerchant::Billing::Error.new(response.message)
+      end
+      true
+    else
+      raise ActiveMerchant::Billing::Error.new
+    end
   end
   
-  def credit_card
+  def credit_card(use_iats=true)
     unless @credit_card
-      first_name, last_name = self.cardholder_name.split(/ /, 2)
+      # if we're using IATS gateway, set the currency to CAD
+      # this requires cardholder_name and "un-requires" first name, last name
+      if use_iats
+        ActiveMerchant::Billing::CreditCard.canadian_currency = true
+      end
       # Create a new credit card object
       @credit_card = ActiveMerchant::Billing::CreditCard.new(
-        :number     => self.card_number,
-        :month      => self.expiry_month,
-        :year       => self.expiry_year,
-        :first_name => first_name,
-        :last_name  => last_name,
+        :number          => self.card_number,
+        :month           => self.expiry_month,
+        :year            => self.expiry_year,
+        :cardholder_name => self.cardholder_name,
         :verification_value  => self.cvv
       )
     end
     @credit_card
+  end
+  def billing_address
+    {
+    :first_name   => self.first_name,
+    :last_name    => self.last_name,
+    :address      => self.address,
+    :city         => self.city,
+    :state        => self.province,
+    :zip          => self.postal_code,
+    :country      => self.country
+    }
   end
 
   def create_tax_receipt_from_order
