@@ -73,7 +73,7 @@ module Caboose
     #   link_to "foo"
     # end   
     def restrict_to(logicstring, context = {})
-      return false if current_user.nil?
+      return false if current_user == :false
       result = ''    
       if permit?(logicstring, context) 
         result = yield if block_given?

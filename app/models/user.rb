@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :groups, :through => :memberships
   has_many :group_news
-  has_many :group_walls
+  #FIXME This association bugs active scaffolding. Probably because there's no group_wall model.
+  #has_many :group_walls
   has_many :user_transactions
   has_many :deposits
   has_many :investments
@@ -17,7 +18,6 @@ class User < ActiveRecord::Base
   has_many :tax_receipts
   has_many :my_wishlists
   has_many :projects, :through => :my_wishlists
- # has_many :administrated_projects, :source => :administrable, :through => :administrations
   has_many :roles, :through => :administrations
   has_many :administrations
   has_administrables :model => "Project"
