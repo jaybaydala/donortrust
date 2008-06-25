@@ -1,13 +1,3 @@
-require 'config/environment'
-require 'capistrano/ext/multistage'
-require 'mongrel_cluster/recipes'
-set :application, "donortrust"
-set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
-
-set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
-set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
-set :mongrel_clean, true
-
 set :stage, "production"
 set :deploy_to, "/home/dtrust/#{application}"
 set :user, "dtrust"
