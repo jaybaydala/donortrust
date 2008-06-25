@@ -43,6 +43,7 @@ describe Dt::GiftsController do
       @gift.stub!(:name?).and_return(false)
       @gift.stub!(:email?).and_return(false)
       @gift.stub!(:email=).and_return(true)
+      @gift.stub!(:send_email=).and_return(true)
       @user.stub!(:read_attribute).and_return(nil)
       @user.stub!(:full_name).and_return(nil)
       @user.stub!(:login).and_return("email@example.com")
