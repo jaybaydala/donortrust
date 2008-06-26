@@ -63,7 +63,7 @@ namespace :deploy do
   Install backgrounDRB since it's incompatible with windows boxes
   DESC
   task :install_backgroundrb, :roles => :schedule do
-    cmd = "svn co -q http://svn.devjavu.com/backgroundrb/trunk #{current_path}/vendor/plugins/backgroundrb;rm #{current_path}/script/backgroundrb && rake backgroundrb:setup"
+    cmd = "svn co -q http://svn.devjavu.com/backgroundrb/trunk #{current_path}/vendor/plugins/backgroundrb;rm #{current_path}/script/backgroundrb && cd #{current_path} && rake backgroundrb:setup"
     run cmd
   end
   
