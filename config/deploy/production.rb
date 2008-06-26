@@ -38,7 +38,7 @@ namespace :deploy do
       urchinTracker();
       </script>
     JS
-    layout = "#{current_path}/app/views/layouts/dt_application.rhtml" 
+    layout = "#{current_path}/app/views/layouts/dt_application.html.erb" 
     run "sed -i 's?<!--googlestats-->?#{stats}?' #{layout}" 
   end
 
@@ -49,14 +49,14 @@ namespace :deploy do
     cmd = ""
     %w( stylesheets javascripts ).each do |dir|
       asset_path = "#{latest_release}/public/#{dir}"
-      server_path = "/var/www/wp.christmasfuture.org/#{dir}"
+      server_path = "/var/www/blog.christmasfuture.org/wordpress/#{dir}"
       cmd += " && " unless cmd.empty?
       cmd += "rm -f #{server_path} && ln -s #{asset_path} #{server_path}"
     end
     image_paths = ["active_scaffold", "bus_admin", "calendar.gif", "dt", "rails.png", "redbox_spinner.gif"]
     image_paths.each do |image|
       asset_path = "#{latest_release}/public/images/#{image}"
-      server_path = "/var/www/wp.christmasfuture.org/images/#{image}"
+      server_path = "/var/www/blog.christmasfuture.org/wordpress/images/#{image}"
       cmd += " && " unless cmd.empty?
       cmd += "rm -f #{server_path} && ln -s #{asset_path} #{server_path}"
     end
