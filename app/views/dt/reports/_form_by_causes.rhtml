@@ -1,0 +1,18 @@
+
+<h1>Generate Report by Causes</h1>
+
+<% form_remote_tag \
+    :url => {:controller => "dt/reports",:action => :report_by_causes}, 
+    :update => "reports-result",
+    :position => :top,
+    :method => "get" \
+    do
+    %>
+<%= calendar_date_select_tag "time_from", 1.year.ago %>
+<%= calendar_date_select_tag "time_to", Time.now %>
+<%= select_tag "time_interval",
+  "<option>Monthly</option><option>Quarterly</option><option>Annual</option>" 
+%>
+
+<%= submit_tag 'add' %>
+<% end %>

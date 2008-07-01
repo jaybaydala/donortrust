@@ -1,0 +1,44 @@
+
+<h1> <%= @interval %> Reports by Countries </h1>
+
+<% for from,to,report in @reports do %>
+
+<%= format_interval from, to %>
+
+<table>
+ <%= render :partial => "tabulate_hashes", :object => report %> 
+</table>
+
+<% end %>
+
+
+
+
+<h1>Summary</h1>
+<%= format_interval @from, @to %>
+<table>
+ <%= render :partial => "tabulate_hashes", :object => @summary %> 
+</table>
+
+<h3>Breakdown by Countries: </h3>
+<%=
+pie_chart(@summary.map { |h| [h["country"],h["amount"].to_f.round]}) 
+%>
+
+<h3>Funding by Time: </h3>
+<%=
+cumulation, separate  = @reports.inject([[0],[0]]) do |acc,report|
+ pp acc, report[2]	       
+ cumulation,separate= acc
+ sum = report[2].map { |h| h["amount"].to_f.round }.inject(0) {|sum, n| sum+n }
+ cumulation << cumulation.last + sum
+ separate << sum
+ [cumulation,separate]
+end
+
+line_chart [["cumulative",cumulation,'0000ff'], ["separate",separate,'00ff00']],
+ :y => {:range => [0,cumulation.max]},
+ :x => {:range => [0,cumulation.length]}
+
+%>
+

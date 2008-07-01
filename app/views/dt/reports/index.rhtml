@@ -1,0 +1,30 @@
+
+<% content_for :head do %>
+<%= calendar_date_select_includes %>
+<% end %>
+
+
+
+<%= link_to_remote "By Countries", 
+  :url => {:action => :show_report_form, :report => "by_countries"},
+  :update => "report-form"
+%>
+
+<%= link_to_remote "By Partners", 
+  :url => {:action => :show_report_form, :report => "by_partners"},
+  :update => "report-form"
+%>
+
+<%= link_to_remote "By Causes", 
+  :url => {:action => :show_report_form, :report => "by_causes"},
+  :update => "report-form"
+%>
+
+<div id="report-form"> </div>
+
+<div id="reports-result"> </div>
+
+<br>
+<!--
+Don't worry about generating downloadable PDF yet. Just provide the ajax interface.
+-->

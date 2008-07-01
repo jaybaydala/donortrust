@@ -1,0 +1,17 @@
+
+<tr>
+ <% if !tabulate_hashes.empty? %>
+  <% tabulate_hashes.first.each_key do |k| %>
+   <th><%= k %></th>
+  <% end %>
+ <% end %>
+</tr>
+
+<% for h in tabulate_hashes do %>
+ <tr>
+  <% h.each_value do |v| %> 
+   <td><%= v %></td>
+  <% end %>
+ </tr> 
+<% end %>
+
