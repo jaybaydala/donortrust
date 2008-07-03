@@ -1,0 +1,17 @@
+<h1>Editing news_comment</h1>
+
+<%= error_messages_for :news_comment %>
+
+<% form_for(@news_comment) do |f| %>
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @news_comment %> |
+<%= link_to 'Back', news_comments_path %>

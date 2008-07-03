@@ -12,6 +12,11 @@
 	margin: 0px 0px 0px 0px;
 }
 
+.campaign h2.admin {
+	border-bottom: none;
+	border-top: 1px solid gray;
+}
+
 .campaign span.detail {
 	font-family: Arial, Sans-serif;
 	font-size: 10px;
@@ -35,11 +40,23 @@
 	display: inline;
 }
 
-#new_campaign label {
+.campaign_form label {
 	display: block;
 	font-size: 10px;
+	margin-top: 5px;
+}
+
+.campaign_form #submit {
+	margin-top: 10px;
 }
 
 span.small_text{
 	font-size: 10px;
+}
+
+.what_is_this_box {
+	width: 400px;
+	font-size: 10px;
+	border: 1px solid gray;
+	padding: 5px;
 }

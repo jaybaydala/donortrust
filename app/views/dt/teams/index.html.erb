@@ -9,9 +9,7 @@
 
 <% for team in @teams %>
   <tr>
-    <td><%=h team.campaign %></td>
     <td><%=h team.name %></td>
-    <td><%=h team.user %></td>
     <td><%= link_to 'Show', team %></td>
     <td><%= link_to 'Edit', edit_team_path(team) %></td>
     <td><%= link_to 'Destroy', team, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -21,4 +19,3 @@
 
 <br />
 
-<%= link_to 'New team', new_team_path %>

@@ -1,0 +1,28 @@
+.wall_post h5 {
+	border-bottom: none;
+	border-top: 1px solid gray;
+	font-size: 9px;
+}
+
+.wall_post {
+	border: 1px solid gray;
+	margin-top: 10px;
+	padding: 5px;
+}
+
+#news label {
+	display: block;
+	font-size: 10px;
+}
+
+.news_item {
+	border: 1px solid gray;
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.news_item h5 {
+	border-bottom: none;
+	border-top: 1px solid gray;
+	font-size: 9px;
+}

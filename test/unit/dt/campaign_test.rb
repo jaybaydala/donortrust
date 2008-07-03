@@ -103,5 +103,6 @@ context "Campaign" do
     @campaign.should.not.validate
   end
   
+  
   # TODO Add Tests related to teams
 end

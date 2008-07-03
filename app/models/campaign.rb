@@ -2,8 +2,18 @@ class Campaign < ActiveRecord::Base
   belongs_to :campaign_type
   belongs_to :creator, :class_name => 'User', :foreign_key => 'user_id'
   
+  # wall posts
+  has_many :wall_posts, :as =>:postable, :dependent => :destroy
+  
+  # news items
+  has_many :news_items, :as =>:postable, :dependent => :destroy
+  
+  has_many :teams
+    
   attr_accessor :use_user_email
   
+  
+  #validations
   validates_presence_of :name, :campaign_type, :description, :country, :province, :postalcode, :fundraising_goal, :creator, :short_name
   validates_uniqueness_of :short_name
   
@@ -25,11 +35,10 @@ class Campaign < ActiveRecord::Base
       self.email = current_user.email
     end
   
-    #hard coding currency
-    
-    self.fee_currency = "CAD $"
-    self.goal_currency = "CAD $"
-    
+    #hard coding currency  
+    self.fee_currency = "$ CDN"
+    self.goal_currency = "$ CDN"
+  
     self.pending = true
   
     
@@ -51,12 +60,29 @@ class Campaign < ActiveRecord::Base
   
   end
   
+  def fundraising_goal_with_currency
+    "#{self.fundraising_goal} #{self.goal_currency}"
+  end
+  
+  def is_active?
+    self.active == true
+  end
+  
   def in_canada? 
     country == 'Canada'
   end
   
   def in_usa?
     country == 'United States'
+  end
+  
+  #check if the current user is the owner of this campaign
+  def owned?
+    current_user != nil ? self.creator == current_user : false;
+  end
+  
+  def activate!
+    self.update_attribute(:pending,false) ? true : false;
   end
   
   private
@@ -80,7 +106,7 @@ class Campaign < ActiveRecord::Base
   end
   
   #check that the zip code follows the american standard, see http://en.wikipedia.org/wiki/Zip_code
-def zipcode_matches_state?
+  def zipcode_matches_state?
     zipArray = Array.new
     zipArray[0] = /Connecticut|Massachusetts|Maine|New Hampshire|New Jersey|Puerto Rico|Rhode Island|Vermont|Virgin Islands|Army Post Office Europe|Fleet Post Office Europe/
     zipArray[1] = /Delaware|New York|Pennsylvania/

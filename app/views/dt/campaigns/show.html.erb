@@ -1,6 +1,47 @@
-
-<%= render :partial => 'campaign'%>
-
-
-<%= link_to 'Edit', edit_dt_campaign_path(@campaign) %> |
-<%= link_to 'Back', dt_campaigns_path %>
+<% content_for :rss do %>
+	<link href="<%= formatted_dt_campaign_path(@campaign,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
+<% end %>
+<div id="campaign_page">
+	<div id="campaign_details">
+		<h1><%= @campaign.name %></h1>
+		<h5 style="margin-top:-10px;">http://www.christmasfutrue.org/<%= @campaign.short_name %></h5>
+		<p>
+			<%= @campaign.description %>
+		</p>
+	</div>
+	<div id="metrics">
+		<h2>Campaign Metrics</h2>
+		<h4>Goal: </h4>
+		<p>
+			<%= @campaign.fundraising_goal_with_currency%>
+		</p>
+		<h4>Pledged: </h4>
+		<p>
+			Some Value $CDN
+		</p>
+		<h4>Participants</h4>
+		<p>
+			Participant List
+		</p>
+	</div>
+	<div id="news">
+		<h2>Recent News <%= link_to image_tag('dt/icons/rss_icon.gif'),formatted_dt_campaign_path(@campaign,:rss), :format => :rss %></h2>
+		<%= render :partial => 'dt/news_items/news_item', :collection => @campaign.news_items.reverse %>
+	</div>
+	
+	<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @campaign} %>
+	
+	<% if @campaign.allow_multiple_teams%>
+		<div id="Teams">
+			<h2>Teams | <%= link_to 'Create a Team', new_dt_campaign_team_path(@campaign)%></h2>
+			<% for team in @campaign.teams %>
+				Team!
+			<% end %>
+		</div>
+	<% else %>
+		<div id="Participants">
+			<h2>Participants | <%= link_to 'Join this Campaign', ''%></h2>
+		</div>
+	<% end %>	
+	
+</div>

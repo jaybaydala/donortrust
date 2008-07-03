@@ -5,7 +5,7 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns
   # GET /campaigns.xml
   def index
-    @campaigns = Campaign.find(:all)
+    @campaigns = Campaign.find_all_by_pending(false)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @campaigns }
@@ -15,14 +15,16 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns/1
   # GET /campaigns/1.xml
   def show
-    @campaign = Campaign.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @campaign }
+    @campaign = Campaign.find(params[:id]) unless params[:id].blank?
+    @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
+    [@campaign, @wall_post = @campaign.wall_posts.new]
+    if @campaign != nil
+      return @campaign
+    else
+      redirect_to :controller => 'campaigns', :action => 'index'
     end
   end
-
+  
   # GET /campaigns/new
   # GET /campaigns/new.xml
   def new
@@ -43,7 +45,6 @@ class Dt::CampaignsController < DtApplicationController
   # POST /campaigns.xml
   def create
     @campaign = Campaign.new(params[:campaign])
-    @campaign.country = params[:country][:name]
     @campaign.campaign_type_id = params[:campaign_type][:id]
     @campaign.creator = current_user
     
@@ -62,7 +63,7 @@ class Dt::CampaignsController < DtApplicationController
   # PUT /campaigns/1
   # PUT /campaigns/1.xml
   def update
-    @campaign = 	Campaign.find(params[:id])
+    @campaign = Campaign.find(params[:id])
 
     respond_to do |format|
       if @campaign.update_attributes(params[:campaign])
@@ -88,7 +89,32 @@ class Dt::CampaignsController < DtApplicationController
     end
   end
   
-  # controller function for handling the addres box update
-  def update_address_details_for_country
+  
+  def admin
+    @pending_campaigns = Campaign.find_all_by_pending(true)
+    @active_campaigns = Campaign.find_all_by_pending(false)
+    [@pending_campaigns, @active_camapaigns]
   end
+  
+  def main_page
+    @campaign = Campaign.find_by_short_name(params[:short_name])
+  end
+
+  def activate
+    @campaign = Campaign.find(params[:id])
+    
+    if @campaign.activate!
+      flash[:notice] = "Campaign Sucessfully Activated"
+    else
+      flash[:error] = "Campaign Not Activated"
+    end
+   
+    [@pending_campaigns = Campaign.find_all_by_pending(true), @active_campaigns = Campaign.find_all_by_pending(false)]
+    render :layout => false
+  end
+
+  def manage
+    @campaign = Campaign.find(params[:id])
+  end
+    
 end

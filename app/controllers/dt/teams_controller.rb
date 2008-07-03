@@ -1,8 +1,11 @@
-class Dt::TeamsController < ApplicationController
+class Dt::TeamsController < DtApplicationController
+  
+  before_filter :find_campaign
+  
   # GET /dt_teams
   # GET /dt_teams.xml
   def index
-    @dt_teams = Dt::Team.find(:all)
+    @teams = Team.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +16,7 @@ class Dt::TeamsController < ApplicationController
   # GET /dt_teams/1
   # GET /dt_teams/1.xml
   def show
-    @team = Dt::Team.find(params[:id])
+    @team = Team.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,13 +37,13 @@ class Dt::TeamsController < ApplicationController
 
   # GET /dt_teams/1/edit
   def edit
-    @team = Dt::Team.find(params[:id])
+    @team = Team.find(params[:id])
   end
 
   # POST /dt_teams
   # POST /dt_teams.xml
   def create
-    @team = Dt::Team.new(params[:team])
+    @team = Team.new(params[:team])
 
     respond_to do |format|
       if @team.save
@@ -57,7 +60,7 @@ class Dt::TeamsController < ApplicationController
   # PUT /dt_teams/1
   # PUT /dt_teams/1.xml
   def update
-    @team = Dt::Team.find(params[:id])
+    @team = Team.find(params[:id])
 
     respond_to do |format|
       if @team.update_attributes(params[:team])
@@ -74,12 +77,17 @@ class Dt::TeamsController < ApplicationController
   # DELETE /dt_teams/1
   # DELETE /dt_teams/1.xml
   def destroy
-    @team = Dt::Team.find(params[:id])
+    @team = Team.find(params[:id])
     @team.destroy
 
     respond_to do |format|
       format.html { redirect_to(dt_teams_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  private
+  def find_campaign
+    @campaign = Campaign.find(params[:campaign_id])
   end
 end

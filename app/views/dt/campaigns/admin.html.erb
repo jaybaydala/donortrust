@@ -1,0 +1,11 @@
+<div id="campaigns">
+	<div id="pending_campaigns">
+		<h2>Pending Campaigns</h2>
+		<%= render :partial => 'campaign', :collection => @pending_campaigns, :locals => {:show_admin => true}%>
+	</div>
+
+	<div id="active_campaings">
+		<h2>Active Campaigns</h2>
+		<%= render :partial => 'campaign', :collection => @active_campaigns, :locals => {:show_admin => true}%>
+	</div>
+</div>

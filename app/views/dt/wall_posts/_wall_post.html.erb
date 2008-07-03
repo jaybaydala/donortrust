@@ -1,0 +1,9 @@
+<div id="wall_post_<%= wall_post.id %>" class="wall_post">
+	<h2><%= wall_post.author.full_name %>
+	</h2>
+	<p>
+		<%= wall_post.wall_text %>
+	</p>
+	<h5><%= wall_post.created_at %>
+		<%= (' - ' + (link_to 'Remove this wall post', url_for([:dt, wall_post.postable, wall_post]), :confirm => 'Are you sure?', :method => :delete )) unless (not wall_post.owned? and not wall_post.postable.owned?)%></h5>
+</div>

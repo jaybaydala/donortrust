@@ -2,25 +2,26 @@
 
 <%= error_messages_for :team %>
 
-<% form_for(@team) do |f| %>
-  <p>
-    <b>Campaign</b><br />
-    <%= f.text_field :campaign %>
-  </p>
-
-  <p>
-    <b>Name</b><br />
-    <%= f.text_field :name %>
-  </p>
-
-  <p>
-    <b>User</b><br />
-    <%= f.text_field :user %>
-  </p>
-
-  <p>
-    <%= f.submit "Create" %>
-  </p>
+<% form_for([:dt, @campaign, @team]) do |f| %>
+	<fieldset class="campaign_form">
+		<legend>Team Details</legend>
+  		
+		<label>Team Name</label>
+	    <%= f.text_field :name %>
+	
+		<label>Short Name</label>
+		<span class="small_text">
+			http://www.christmasfuture.org/<%= @campaign.short_name %>/team/
+		</span>
+		<%= f.text_field :short_name%><%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your team. It should not contain any spaces. Also this name will be used to provide your team with a Christmas Future URL. http://www.christmasfuture.org/yourCampaignShortName/team/youTeamShortName'%>
+		
+		<label>Contact Email</label>
+		<%= f.text_field :contact_email %> <span class="small_text">Use My Email </span>
+		<%= f.check_box :use_user_email, :onclick => "Element.toggle('team_contact_email');"%><br />
+		<%= f.check_box :ok_to_contact %><span class="small_text">It is ok for participants to contact me</span><br />
+		<%= f.check_box :require_authorization%><span class="small_text">Require Authorization to Join Team</span><br />
+    	<%= f.submit "Create" %>
+  	<fieldset>
 <% end %>
 
-<%= link_to 'Back', teams_path %>
+<%= content_tag :span, link_to(@campaign.name, dt_campaign_path(@campaign)), :class => 'small_text' %>

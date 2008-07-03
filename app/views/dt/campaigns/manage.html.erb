@@ -1,0 +1,58 @@
+<div id="manage_campaign">
+	<h1> Manage - <%= @campaign.name %></h1>
+	<%= link_to 'Edit Campaign Details', edit_dt_campaign_path(@campaign)%>
+	<p>
+	<%= @campaign.description %>
+	</p>
+	<% if @campaign.allow_multiple_teams? %>
+		<div id="team_management">
+			<h2>Teams</h2>
+			<p>
+			This section provides you, the campaign creator, with the ability to manage team settings.
+			</p>
+			<% if @campaign.require_team_authorization? %>
+				<div id="pending_teams">
+					<h4>Pending Teams</h3>
+				
+				</div>
+				<div id="authorized_teams">
+					<h4>Authorized Teams</h3>
+					
+				</div>
+			<% else %>
+				<div id="pending_teams">
+					<h3>Teams</h3>
+				</div>
+			<% end %>
+		</div>
+	<% else %>
+		<div id="participants">
+			<h2>Participants</h2>
+			
+		</div>
+	<% end %>
+	
+	<div id="news">
+		<fieldset>
+			<legend>Add News Item</legend>
+				<% form_for([:dt,@campaign,@campaign.news_items.new]) do |f|%>
+					<label for="Subject">Subject</label>
+					<%= f.text_field :subject %>
+					
+					<label for="Content">News</label>
+					<%= f.text_area :content, :rows => 10, :cols => 80  %>
+					<p>
+				    	<%= f.submit "Post" %>
+				  	</p>
+				<% end %>
+		</fieldset>
+		<h2>News Items</h2>
+		<%= render :partial => 'dt/news_items/news_item', :collection => @campaign.news_items %>
+	</div>
+	
+	<div id="wall_management">
+		<h2>Wall Posts</h2>
+		<%= render :partial => 'dt/wall_posts/wall_post', :collection => @campaign.wall_posts, :locals => {:show_admin => true} %>
+	</div>
+	
+</div>

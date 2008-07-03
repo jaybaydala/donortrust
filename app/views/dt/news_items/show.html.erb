@@ -1,0 +1,16 @@
+<div id="news">
+	<h1><%= @news_item.subject %></h1>
+	<h5><%= @news_item.author.full_name %> - <%= @news_item.created_at%></h5>
+	<p><%= @news_item.content %></p>
+	<div id="comments">
+		<fieldset>
+			<legend>Add A Comment</legend>
+			<% form_for([:dt,@news_item,NewsComment.new]) do |f| %>
+				<label>Comment</label>
+				<%= f.text_area :comment, :cols => 80, :rows => 8 %><br />
+				<%= f.submit 'Post'%>
+			<% end %>
+		</fieldset>
+		<%= render :partial => 'dt/news_comments/news_comment', :collection => @news_item.news_comments %>
+	</div>
+</div>

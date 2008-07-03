@@ -1,7 +1,14 @@
+<% 
+	show_address ||= false 
+	show_admin ||= false
+%>
 <div class="campaign" id="campaign_<%= campaign.id%>">
-	<h2><%= campaign.name%> | Create A Team | Join A Team </h2>
+	<h2><%= campaign.name%> | 
+			<%= (link_to('Manage Campaign',manage_dt_campaign_path(campaign)) + " | ") unless not campaign.owned? -%>
+			Create A Team | 
+			Join A Team </h2>
 	<ul class="details_list">
-		<li><span class="detail"><strong>Fundraising Goal:</strong><%= campaign.fundraising_goal%></span></li>
+		<li><span class="detail"><strong>Fundraising Goal:</strong><%= campaign.fundraising_goal_with_currency%></span></li>
 		<li><span class="detail"><strong>Start Date:</strong><%= campaign.start_date %></span></li>
 		<li><span class="detail"><strong>End Date:</strong><%= campaign.end_date%></span></li>
 	</ul>
@@ -13,6 +20,7 @@
 		<li><span class="detail"><strong>Creator:</strong><%= campaign.creator.name%></span></li>
 		<li><span class="detail"><strong>Email:</strong><%= campaign.email%></span></li>
 	</ul>
+	<% if show_address == true %>
 	<h2>Address</h2>
 	<div id="<%= "contact_#{campaign.id}"%>">
 		<p class="address">
@@ -21,4 +29,17 @@
 			<%= campaign.country %>
 		</p>
 	</div>
+	<% end %>
+	<% if show_admin == true%>
+	<div class="campaign_admin">
+		<h2 class='admin'><span style="color:#000">Admin</span> |
+			<%= ( link_to_remote('Activate', :update => :campaigns,
+											:url => activate_dt_campaign_path(campaign), 
+										   	:complete => "Element.show('flash');") + " | " ) unless not campaign.pending?
+											 %>
+			<%= link_to('Destroy Campaign',dt_campaign_path(campaign), :confirm => 'Are you sure?', :method => :delete )%> | 
+			<%= link_to('Archive Campaign',dt_campaign_path(campaign), :confirm => 'Are you sure?', :method => :delete )%>
+		</h2>
+	</div>
+	<% end %>
 </div>

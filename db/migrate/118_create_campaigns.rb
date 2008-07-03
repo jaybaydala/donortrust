@@ -14,7 +14,7 @@ class CreateCampaigns < ActiveRecord::Migration
       
       #money stuff
       t.integer :fundraising_goal
-      t.integer :goal_currency
+      t.string :goal_currency
       
       t.integer :fee_amount
       t.string  :fee_currency
@@ -22,6 +22,12 @@ class CreateCampaigns < ActiveRecord::Migration
       # dates
       t.datetime :start_date
       t.datetime :end_date
+      
+      #wall
+      t.references :wall
+      
+      #news
+      t.references :news
       
       # address
       t.string :address

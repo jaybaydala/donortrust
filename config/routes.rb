@@ -1,7 +1,8 @@
 
 ActionController::Routing::Routes.draw do |map|
-  map.resources :teams
+  map.resources :news_comments
 
+  
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.namespace(:dt) do |dt|
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
@@ -31,16 +32,34 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :confirm => :post, :preview => :get }
     dt.resources :mdgs, :controller=> 'mdgs'
     
-    dt.resources :campaigns, :controller => 'campaigns', :collection => {:update_address_details_for_country => :post, :update_team_config_options => :post}
+    dt.resources :wall_posts
+    dt.resources :news_items
+    dt.resources :campaigns,  :collection => {  :update_address_details_for_country => :post, 
+                                                        :update_team_config_options => :post, 
+                                                        :admin => :get}, 
+                                      :member => {      :activate => :post,
+                                                        :manage => :get
+                                      }
     
+    dt.resources :campaigns do |campaigns|
+     campaigns.resources :wall_posts
+     campaigns.resources :news_items
+     campaigns.resources :teams
+    end
+    
+    dt.resources :news_items do |news_items|
+      news_items.resources :news_comments
+    end
   end
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code', :controller => 'dt/tax_receipts', :action => "show"
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.dt_request_us_tax_receipt '/dt/request_us_tax_receipt', :controller => 'dt/sessions', :action => 'request_us_tax_receipt'
-
+  
+  
   map.connect '/dt', :controller => 'dt/projects'
+
 
   # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
@@ -264,6 +283,11 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   map.connect '/bus_admin', :controller => 'bus_admin/home'
+  
+  map.show_campaign '/dt/:short_name', :controller => 'dt/campaigns', :action => 'show'
+  map.show_campaign_team '/dt/:short_campaign_name/team/:team_name', :controller => 'dt/teams', :action => 'show'
+  map.show_campaign_team '/dt/:short_campaign_name/group/:team_name', :controller => 'dt/teams', :action => 'show'
+  map.show_campaign_team '/dt/:short_campaign_name/classroom/:team_name', :controller => 'dt/teams', :action => 'show'
   # Install the default route as the lowest priority.
   #map.connect "*anything",
   #            :controller => 'dt/projects'
