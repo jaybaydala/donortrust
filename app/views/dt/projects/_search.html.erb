@@ -1,12 +1,23 @@
 <div id="project_search_toolbar" >
 <% form_tag (search_dt_projects_path,{:id => 'project_search', :method => :get} ) do %>
-<%= text_field_tag 'keywords','Search', :title => 'Search', :size => 55 , :onblur =>"if(!this.value) this.value='Search';", :onfocus => "if(this.value=='Search') this.value='';"%>
-<span id="searchsubmit">
-	<%= submit_tag 'go',:id => 'simple_search_submit', :class => 'submitreplace' %>
-</span>
-<div id="adv_search_msg">
-<a href="#" onclick="Element.toggle('search-bar-wrapper'); Effect.SlideDown('search-bar-wrapper',{ duration: 1.0})">(Need specific results? Try our advanced search)</a>
-
-</div>
+	<%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
+		:title => 'Search', 
+		:size => 55 ,
+		:onblur =>"if(!this.value) this.value='Search';", 
+		:onfocus => "if(this.value=='Search') this.value='';"
+	%>
+	<span id="searchsubmit">
+		<%= submit_tag 'go',
+			:id => 'simple_search_submit', 
+			:class => 'submitreplace'
+		%>
+	</span>
+	<div id="adv_search_msg">
+		<a href="#" onclick="Element.toggle('search-bar-wrapper'); 
+							Effect.SlideDown('search-bar-wrapper',{ duration: 0.5}); 
+							">
+			( Try searching with filters )
+		</a>
+	</div>
 <% end -%>
 </div>

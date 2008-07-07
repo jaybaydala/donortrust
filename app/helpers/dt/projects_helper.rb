@@ -53,7 +53,7 @@ module Dt::ProjectsHelper
       @causes << [cause.name, cause.id]
     end   
      
-    render 'dt/projects/advanced_search_bar'
+    render :partial => 'dt/projects/advanced_search_bar', :layout => false
   end
   
   def dt_simple_project_search

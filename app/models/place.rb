@@ -18,6 +18,7 @@ class Place < ActiveRecord::Base
   validates_numericality_of :facebook_group_id, :allow_nil => true
 
   acts_as_textiled :description
+
   
   def Place.getParentString(place)
     parentString = ""

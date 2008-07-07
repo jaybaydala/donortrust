@@ -11,6 +11,13 @@ class Sector < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  
+  #ultrasphinx indexer
+  #is_indexed :fields => [
+   # {:field => 'name', :sortable => true},
+  #  {:field => 'description', :sortable => true}
+    #],
+   #:conditions => "sectors.deleted_at IS NULL"
 #  def project_count
 #    return projects.count
 #  end

@@ -57,9 +57,21 @@ class Project < ActiveRecord::Base
             :as => 'partner_name', 
             :association_sql => "LEFT JOIN (partners) ON (partners.id=projects.partner_id)",
             :sortable => true
+          },
+          {
+            :association_name => 'sectors', 
+            :field => 'id', 
+            :as => 'sector_id',
+            :association_sql => "LEFT JOIN (projects_sectors) ON (projects_sectors.project_id=projects.id) LEFT JOIN (sectors) ON (sectors.id=projects_sectors.sector_id)"
+          },
+          {
+            :association_name => 'causes', 
+            :field => 'id', 
+            :as => 'cause_id',
+            :association_sql => "LEFT JOIN (causes_projects) ON (causes_projects.project_id=projects.id) LEFT JOIN (causes) ON (causes.id=causes_projects.cause_id)"
           }
           ],
-     :conditions => "project_status_id = 2 AND projects.deleted_at IS NULL"
+    :conditions => "project_status_id IN (2,4) AND projects.deleted_at IS NULL"
   
   def startDate
     "#{self.start_date}"
