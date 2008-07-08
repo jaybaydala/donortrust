@@ -40,6 +40,7 @@
 					<%= render :partial => 'dt/shared/form_required' %>Project location
 					<small>Select the location of the project</small>
 				</label>
+				<%= text_field_with_auto_complete :place, :name, {:value => @project.place.name}, :url => auto_complete_for_place_name_path, :method => :get %>
 				<%# render :partial => 'bus_admin/shared/generic_place_form_column', :locals => { :item => @project, :named_route => 'populate_project_places' }  %>
 				<%# collection_select (:project, :place_id, get_places, :id, :long_name, :include_blank => true) %>
 			</li>

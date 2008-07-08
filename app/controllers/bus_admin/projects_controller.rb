@@ -1,6 +1,6 @@
 class BusAdmin::ProjectsController < ApplicationController
   layout 'admin'
-  access_control :DEFAULT => 'cf_admin' 
+  access_control :DEFAULT => 'cf_admin'
   
   active_scaffold :project do |config|
     config.actions = [ :list, :nested, :search ]
@@ -62,6 +62,8 @@ class BusAdmin::ProjectsController < ApplicationController
                                      :page => true, :type => :record,
                                      :parameters => { :action => 'edit'}
   end
+
+  auto_complete_for :place, :name
 
   #############################################################################
   # CRUD
@@ -128,9 +130,10 @@ class BusAdmin::ProjectsController < ApplicationController
       if @old_pending
         @old_pending.destroy
       end
-      
+            
       #only update the project attributes !!DO NOT SAVE THE PROJECT HERE!!
       @project.attributes = params[:project]
+      @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id if params[:place]
       #Hack - if we don't do this, the textiled properties are added with tags to the xml
       @project.textiled = false
       #create a new PendingProject to hold the requested changes
@@ -141,8 +144,9 @@ class BusAdmin::ProjectsController < ApplicationController
       else
         render :action => "edit"
       end
-    end    
+    end
   end
+  
 
   #############################################################################
   # management of pending projects

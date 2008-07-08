@@ -13,6 +13,5 @@ class BusAdmin::KeyMeasuresController < ApplicationController
     config.columns[ :measure ].form_ui = :select
     config.columns[ :project ].form_ui = :select
     config.columns[ :millennium_goals ].form_ui = :select
-  end
-  
+  end  
 end
