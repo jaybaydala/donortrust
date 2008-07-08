@@ -1,5 +1,6 @@
 /* @override 
 	http://localhost:3000/stylesheets/admin.css?1213766065
+	http://localhost:3000/stylesheets/admin.css?1214188894
 */
 
 body {
@@ -167,10 +168,8 @@ ul.tabnav li .selected {
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
 }
 
-/* My Comment */
-
-#stylized .embedded h2 {
-	
+#stylized .embedded a.cancel {
+	display: none;
 }
 
 #stylized .embedded .textile-toolbar {

@@ -91,12 +91,8 @@ ActionController::Routing::Routes.draw do |map|
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'
 
   map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
-  map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
-  map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
-  map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
   map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
 
-  map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :bus_user_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_user_types"
   map.resources :bus_secure_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_secure_actions"

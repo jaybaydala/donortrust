@@ -13,7 +13,7 @@ class BusAdmin::ProjectsController < ApplicationController
                         :intended_outcome, :meas_eval_plan, :project_in_community,
                         :other_projects, :causes, :collaborating_agencies, :financial_sources,
                         :lives_affected ]      
-    list.columns =    [ :name, :program, :project_status, :target_start_date, :featured ]
+    list.columns =    [ :name, :program, :project_status, :target_start_date ]
 
     #update.columns.exclude [ :program, :milestones, :milestone_count, :key_measures ]
     #create.columns.exclude [ :milestones, :milestone_count, :key_measures  ]
@@ -31,10 +31,10 @@ class BusAdmin::ProjectsController < ApplicationController
     config.columns[ :meas_eval_plan ].label = "Measurement&nbsp;and Evaluation Plan"
     config.columns[ :frequency_type ].label = "Frequency&nbsp;of&nbsp;Feedback"   
     #config.nested.add_link( "History", [:project_histories])
-    config.nested.add_link( "Milestones", [:milestones])
-    config.nested.add_link( "At a glance", [:ranks])
-    config.nested.add_link( "Budget", [:budget_items])
-    config.nested.add_link( "Key Measures", [:key_measures])
+    #config.nested.add_link( "Milestones", [:milestones])
+    #config.nested.add_link( "At a glance", [:ranks])
+    #config.nested.add_link( "Budget", [:budget_items])
+    #config.nested.add_link( "Key Measures", [:key_measures])
     
     config.action_links.add 'list',  :label => 'Create',
                                      :page => true,
@@ -46,12 +46,12 @@ class BusAdmin::ProjectsController < ApplicationController
                                      :page => true, 
                                      :parameters => { :action => 'export_to_csv'}
                                      
-    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/you_tube.png" border="0"/>',
-                                     :page => true, :type => :record,
-                                     :parameters => { :controller => "bus_admin/project_you_tube_videos" }
-    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/flickr.png" border="0"/>',
-                                     :page => true, :type => :record,
-                                     :parameters => { :controller =>"bus_admin/project_flickr_images" }    
+#    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/you_tube.png" border="0"/>',
+#                                     :page => true, :type => :record,
+#                                     :parameters => { :controller => "bus_admin/project_you_tube_videos" }
+#    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/flickr.png" border="0"/>',
+#                                     :page => true, :type => :record,
+#                                     :parameters => { :controller =>"bus_admin/project_flickr_images" }    
     config.action_links.add 'list',  :label => 'KPI Reports', 
                                      :page => true, :type => :record,
                                      :parameters => { :action => 'kpi_report'}

@@ -2,6 +2,7 @@ class KeyMeasure < ActiveRecord::Base
   has_many    :key_measure_datas
   belongs_to  :project
   belongs_to  :measure
+  belongs_to  :partner
   has_and_belongs_to_many :millennium_goals
 
 
