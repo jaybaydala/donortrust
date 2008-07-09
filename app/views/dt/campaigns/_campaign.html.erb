@@ -3,7 +3,7 @@
 	show_admin ||= false
 %>
 <div class="campaign" id="campaign_<%= campaign.id%>">
-	<h2><%= campaign.name%> | 
+	<h2><%= link_to campaign.name, dt_campaign_path(campaign) %> | 
 			<%= (link_to('Manage Campaign',manage_dt_campaign_path(campaign)) + " | ") unless not campaign.owned? -%>
 			Create A Team | 
 			Join A Team </h2>

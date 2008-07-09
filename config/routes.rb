@@ -33,7 +33,13 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :mdgs, :controller=> 'mdgs'
     
     dt.resources :wall_posts
+    
     dt.resources :news_items
+    dt.resources :news_items do |news_items|
+       news_items.resources :news_comments
+     end
+    
+    # Campaign System
     dt.resources :campaigns,  :collection => {  :update_address_details_for_country => :post, 
                                                         :update_team_config_options => :post, 
                                                         :admin => :get}, 
@@ -47,9 +53,13 @@ ActionController::Routing::Routes.draw do |map|
      campaigns.resources :teams
     end
     
-    dt.resources :news_items do |news_items|
-      news_items.resources :news_comments
+    dt.resources :teams, :collection => { :manage => :get }
+    dt.resources :teams do |teams|
+        teams.resources :wall_posts
+        teams.resources :news_items
     end
+    
+ 
   end
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code', :controller => 'dt/tax_receipts', :action => "show"
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
@@ -285,9 +295,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/bus_admin', :controller => 'bus_admin/home'
   
   map.show_campaign '/dt/:short_name', :controller => 'dt/campaigns', :action => 'show'
-  map.show_campaign_team '/dt/:short_campaign_name/team/:team_name', :controller => 'dt/teams', :action => 'show'
-  map.show_campaign_team '/dt/:short_campaign_name/group/:team_name', :controller => 'dt/teams', :action => 'show'
-  map.show_campaign_team '/dt/:short_campaign_name/classroom/:team_name', :controller => 'dt/teams', :action => 'show'
+  map.show_campaign_team '/dt/:short_campaign_name/team/:short_name', :controller => 'dt/teams', :action => 'show'
+  map.show_campaign_group '/dt/:short_campaign_name/group/:short_name', :controller => 'dt/teams', :action => 'show'
+  map.show_campaign_classroom '/dt/:short_campaign_name/classroom/:short_name', :controller => 'dt/teams', :action => 'show'
+  
+  
   # Install the default route as the lowest priority.
   #map.connect "*anything",
   #            :controller => 'dt/projects'

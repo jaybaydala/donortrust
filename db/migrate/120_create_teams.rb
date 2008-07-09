@@ -1,8 +1,12 @@
 class CreateTeams < ActiveRecord::Migration
   def self.up
     create_table :teams do |t|
+      
+      
       t.references :campaign
       t.references :user
+      
+      t.boolean :pending
       
       t.string :name
       t.boolean :ok_to_contact

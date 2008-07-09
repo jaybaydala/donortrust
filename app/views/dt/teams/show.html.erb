@@ -1,18 +1,21 @@
-<p>
-  <b>Campaign:</b>
-  <%=h @team.campaign %>
-</p>
+<% content_for :rss do %>
+	<link href="<%= formatted_dt_team_path(@team,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
+<% end %>
+<div id="team">
+	<h1><%= @team.name %></h1>
+	<h5 style="margin-top:-10px;">
+		<%= link_to "http://www.christmasfutrue.org/#{@team.campaign.short_name}/team/ #{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
+	</h5>
+	
+	<div id="news">
+		<h2>Recent News <%= link_to image_tag('dt/icons/rss_icon.gif'),formatted_dt_team_path(@team,:rss), :format => :rss %></h2>
+		<%= render :partial => 'dt/news_items/news_item', :collection => @team.news_items.reverse %>
+	</div>
+	
+	<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @team} %>
 
-<p>
-  <b>Name:</b>
-  <%=h @team.name %>
-</p>
-
-<p>
-  <b>User:</b>
-  <%=h @team.user %>
-</p>
-
-
-<%= link_to 'Edit', edit_team_path(@team) %> |
-<%= link_to 'Back', teams_path %>
+	
+	<div id="team_members">
+		<h2>Team Members</h2>
+	</div>
+</div>
