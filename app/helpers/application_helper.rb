@@ -83,7 +83,7 @@ module ApplicationHelper
                    end
   end
   
-    def slide_up_link(text, id, div)
+  def slide_up_link(text, id, div)
       link_to_function(text, nil, :id =>id) do |page|
                             page.visual_effect :slide_up, div, :duration => 0.5
                    end

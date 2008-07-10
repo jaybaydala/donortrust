@@ -150,6 +150,8 @@ class Dt::ProjectsController < ApplicationController
     render :partial => 'timeline'
   end
 
+
+
   protected
   def project_id_to_session
     logger.debug '#####################'

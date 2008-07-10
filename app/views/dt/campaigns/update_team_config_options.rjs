@@ -1,0 +1,7 @@
+if CampaignType.find(params[:campaign_type_id]).has_teams
+  page[:participant_settings].hide
+  page[:team_settings].show
+else
+  page[:participant_settings].show
+  page[:team_settings].hide
+end

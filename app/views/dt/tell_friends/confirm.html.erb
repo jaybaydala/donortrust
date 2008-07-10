@@ -1,7 +1,6 @@
-<%= dt_account_nav if logged_in? %>
-<div id="contentContainer">
-  <div id="leftColW">
-  <h1>Tell a Friend Confirmation</h1>
+<%- content_for :html_title do %>Tell a Friend Confirmation<% end -%>
+<%- content_for :nav do %><%= dt_account_nav if logged_in? %><% end -%>
+
   <%= error_messages_for :share %>
   <% form_for(:share, :url => dt_tell_friends_path, :html => {:id => "tellfriendform", :name => "tellfriendform"}) do |f| %>
   <p>Please review your information.</p>
@@ -32,16 +31,13 @@
     <input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
   </div>
   <% end %>
-  </div>
-
-  <div id="rightColN">
+  <% content_for :sidebar do %>
     <h2>E-Card</h2>
     <div id="miniGallery">
         <p>This is the e-card you have selected to send.</p>
         <div id="medImgWrap">
           <div class="medImg"><%= image_tag(url_for_file_column(@share.e_card, "medium"), :alt => '') if @share.e_card_id? && @share.e_card %></div>
         </div>
-        <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('tellfriendform'));window.open('<%= dt_preview_tell_friends_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
+        <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('tellfriendform'));window.open('<%= preview_dt_tell_friends_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
       </div>  
-  </div>
-</div>
+  <% end %>

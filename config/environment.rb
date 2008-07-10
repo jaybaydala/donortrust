@@ -43,7 +43,7 @@ Rails::Initializer.run do |config|
   # install user_observer for authenticated_mailer 
   # install gift_observer for gift_notifier
   config.active_record.observers = :user_observer, :tax_receipt_observer, :searchbar_sweeper
-
+  config.plugins = [ :active_scaffold, :all ] 
   # Add vendor/gems into the load path so we can unpack gems and keep them local
   config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
     File.directory?(lib = "#{dir}/lib") ? lib : dir

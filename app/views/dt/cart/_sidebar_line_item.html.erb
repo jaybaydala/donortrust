@@ -1,0 +1,36 @@
+<% odd_or_even = sidebar_line_item_counter % 2 == 0 ? 'even' : 'odd' %>
+<tr class="<%= odd_or_even %>">
+<%- if sidebar_line_item.class == Gift %>
+  <td>
+    <h5><strong>Gift: <%= sidebar_line_item.project_id? ? "Project" : "Gift Card" %></strong></h5>
+    <% if sidebar_line_item.e_card %><div class="thumbnail"><%= image_tag url_for_file_column(sidebar_line_item.e_card, "small"), :alt => "" %></div><% end %>
+    <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => sidebar_line_item.attributes.merge({:preview => 1}))}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
+    <p>
+      <strong>To:</strong> <%=h sidebar_line_item.to_name %> &lt;<%=h sidebar_line_item.to_email %>&gt;<br />
+    </p>
+    
+    <% if sidebar_line_item.project_id? && sidebar_line_item.project %>
+    <p><%= link_to sidebar_line_item.project.name, dt_project_path(sidebar_line_item.project_id) %></p>
+    <% else %>
+    <p>Your recipient will choose a project</p>
+    <% end %>
+  </td>
+  <td class="numeric money"><%= number_to_currency(sidebar_line_item.amount) %></td>
+<% end -%>
+
+<%- if sidebar_line_item.class == Investment %>
+  <td>
+    <h5><strong>Investment</strong></h5>
+    <p><%= sidebar_line_item.project.name %></p>
+  </td>
+  <td class="numeric money"><%= number_to_currency(sidebar_line_item.amount) %></td>
+<% end -%>
+
+<%- if sidebar_line_item.class == Deposit %>
+  <td>
+    <h5><strong>Deposit</strong></h5>
+    <p>Deposit into my Christmas Future Account</p>
+  </td>
+  <td class="numeric money"><%= number_to_currency(sidebar_line_item.amount) %></td>
+<% end -%>
+</tr>

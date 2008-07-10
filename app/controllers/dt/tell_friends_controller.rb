@@ -122,14 +122,12 @@ class Dt::TellFriendsController < ApplicationController
     
     # there are a couple of necessary field just for previewing
     valid = true
+    
     %w( email to_email ).each do |field|
-      valid = false if !@share.send(field + '?')
+      @share.send("#{field}=", "#{field}@example.com") unless @share.send(field + '?')
     end
-    if valid
-      @share_mail = DonortrustMailer.create_share_mail(@share)
-    end
+    @share_mail = DonortrustMailer.create_share_mail(@share)
     respond_to do |format|
-      flash.now[:error] = 'To preview your ecard, please provide your email and the recipient\'s email' if !valid
       format.html { render :layout => false }
     end
   end

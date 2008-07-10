@@ -1,16 +1,10 @@
-<%= dt_account_nav %>
+<%- content_for :html_title do %>Wall Post<% end -%>
+<%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
 <%= dt_group_nav unless @group.private && !@membership %>
 
-<div id="contentContainer">
-  <div id="leftColW">
-  	<h1>Wall Post</h1>
-		<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   
     <%= render :partial => "message", :locals => {:message => @wall_message} %>
-  </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
 	  <%= dt_profile_sidebar %>
-  </div>
-</div>
+  <% end %>

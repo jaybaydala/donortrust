@@ -1,11 +1,8 @@
-<%= dt_account_nav %>
+<%- content_for :html_title do %><%= @group.name %><% end -%>
+<%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
 <%= dt_group_nav unless @group.private && !@membership %>
 
-<div id="contentContainer">
-  <div id="leftColW">
-
-    <h1><%= @group.name %></h1>
     <h2>Wall Posts</h2>
     <% if current_member && current_member.admin? -%>
     <%= error_messages_for :wall_message %>
@@ -20,8 +17,6 @@
     <%= will_paginate @wall_messages %>
 
     <%= render :partial => 'dt/groups/wall_messages/message', :collection => @wall_messages %>
-  </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
 	  <%= dt_profile_sidebar %>
-  </div>
-</div>
+  <% end %>

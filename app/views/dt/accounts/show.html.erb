@@ -9,7 +9,7 @@
 <div class="account-summary" style="margin-bottom:18px;">
 	<%= will_paginate @transactions, :param_name => 'tx_page' %>
 	<% if @transactions.length > 0 -%>
-	<div id="transaction_list" style="padding-left:10px;">
+	<div id="transaction-list">
 		<table style="width:100%;">
 		<tr><th>Transaction Description</th><th>Date</th><th>Amount</th></tr>
 		<%= render :partial => "transaction", :collection => @transactions %>
@@ -44,7 +44,7 @@
 	<% end %>
 </div>
 
-<div id="projectlist">
+<div class="projectlist">
   <h2>My Projects</h2>
   <p>These are the investments you have made</p>
 	<% if @user.investments.size > 0 %>
@@ -62,7 +62,7 @@
 <% if @user.tax_receipts.length > 0 -%>
 <h2 style="margin-top:10px;">Tax Receipts</h2>
 <div class="account-summary">
-	<div id="transaction_list" style="padding-left:10px;">
+	<div id="transaction-list">
 		<table style="width:100%;">
 		<tr><th>Investment</th><th>Date</th><th>Amount</th></tr>
 		<%= render :partial => "tax_receipt", :collection => @user.tax_receipts %>

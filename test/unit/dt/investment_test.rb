@@ -15,11 +15,11 @@ context "Investment" do
     Investment.should.differ(:count).by(1) { create_investment } 
   end
 
-  specify "should require user_id" do
+  specify "should not require user_id" do
     lambda {
       t = create_investment(:user_id => nil)
-      t.errors.on(:user_id).should.not.be.nil
-    }.should.not.change(Investment, :count)
+      t.errors.on(:user_id).should.be.nil
+    }.should.change(Investment, :count)
   end
 
   specify "should require amount" do

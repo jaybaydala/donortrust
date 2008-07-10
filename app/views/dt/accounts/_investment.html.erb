@@ -1,14 +1,14 @@
       <% project = investment.project %>
       <li class="project-list-item"><strong><%= link_to project.name, dt_project_path(project) %></strong>
-        <% if project.community_id? %><div class="textsm"><strong>Location:</strong> <%= project.community.name %>, <%= project.nation.name %></div><% end %>
-        <div class="textsm">
+        <% if project.community_id? %><p><strong>Location:</strong> <%= project.community.name %>, <%= project.nation.name %></p><% end %>
+        <p>
           <strong>Cause(s):</strong> 
           <% if project.project_status_id? && project.project_status %>| <strong>Status:</strong> <%= project.project_status.name %> <% end %>
-        </div>
-        <div class="textsm"><strong>Invested:</strong> <%= number_to_currency(investment.amount) %></div>
-        <div class="textsm">
+        </p>
+        <p><strong>Invested:</strong> <%= number_to_currency(investment.amount) %></p>
+        <p>
           <span class="linkMinor">
           <%= link_to "INVEST IN THIS PROJECT", new_dt_investment_path(:project_id => project) %>
           </span>
-        </div>
+        </p>
       </li>

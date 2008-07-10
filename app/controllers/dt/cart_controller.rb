@@ -1,4 +1,5 @@
-class Dt::CartController < ApplicationController
+require 'order_helper'
+class Dt::CartController < DtApplicationController
   def new
   end
   

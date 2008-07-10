@@ -1,24 +1,36 @@
 <%- content_for :html_title do -%>Checkout Complete!<%- end -%>
 <%- content_for :page_title do -%>Thank You!<%- end -%>
 
-<p>Thanks! With your generous gift(s) of <%= number_to_currency(@order.amount) %> we're one step closer to changing the world...for good. </p>
+<p>Thanks! With your generous gift(s) of <strong><%= number_to_currency(@order.total) %></strong>, we're one step closer to changing the world...for good. </p>
 
+<% if @order.investments.find(:first, :conditions => {:project_id => Project.cf_admin_project.id}) %>
 <p>We also thank you for supporting the ChristmasFuture Foundation directly!</p>
+<% end %>
 
-<h2>Your Account</h2>
-<p>Your account has been created and an activation email has been sent to your email address. Please check your email for further instructions.</p>
+<p>You can now return to the <%= link_to "homepage", "/" %> or download your item(s) below.</p>
 
+<% if @order.tax_receipt %>
 <h2>Tax Receipt</h2>
 
-<p>A Tax Receipt has been emailed to you. You can also download your Tax Receipt right here.</p>
+<div class="clearfix">
+  <p>A tax receipt has been emailed to you. You can also download a duplicate tax receipt right here.</p>
+  <div class="buttonsubmit"><%= link_to "Download Tax Receipt", dt_tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf), :class => "large" %></div>
+</div>
+<% end %>
 
-<div><%= button_to "Download Tax Receipt", {}, :class => "buttonsubmit" %></div>
+<% unless @order.gifts.empty? %>
+  <h2>Gift(s)</h2>
+  <p>Your gift emails have been scheduled to be sent. The printable ecard(s) have been sent to you via email, but you can also download your printable ecard(s) here.</p>
 
-<h2>Gift(s)</h2>
-<p>Your gift emails have are scheduled to be sent. The printable cards have been sent to you via email, but you can also download them here.</p>
+  <% for gift in @order.gifts %>
+    <div class="clearfix">
+      <h3>Your gift to <%=h gift.to_name %> <%=h gift.to_email %></h3>
+      <blockquote>
+        <strong>Your message:</strong> <%=h gift.message %>
+      </blockquote>
+      <div class="buttonsubmit"><%= link_to "Download Printable Ecard", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
+    </div>
+  <% end %>
+<% end %>
 
-<h3>Your gift to <a href="mailto:tim@pivotib.com">Tim Glen</a></h3>
-<blockquote>
-  Your message here...
-</blockquote>
-<div><%= button_to "Download Printable Card", {}, :class => "buttonsubmit" %></div>
+<% content_for :google_analytics_path do %>/checkout/complete.html<% end %>

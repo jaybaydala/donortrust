@@ -1,0 +1,20 @@
+<h1>Listing news_comments</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+  </tr>
+
+<% for news_comment in @news_comments %>
+  <tr>
+    <td><%=h news_comment.user %></td>
+    <td><%= link_to 'Show', news_comment %></td>
+    <td><%= link_to 'Edit', edit_news_comment_path(news_comment) %></td>
+    <td><%= link_to 'Destroy', news_comment, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New news_comment', new_news_comment_path %>

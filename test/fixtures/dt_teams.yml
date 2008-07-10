@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  campaign: 
+  name: MyString
+  user: 
+
+two:
+  campaign: 
+  name: MyString
+  user: 

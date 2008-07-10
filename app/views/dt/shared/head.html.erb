@@ -2,13 +2,18 @@
         <div id="logo" class="clearfix">
           <%= link_to image_tag('/images/dt/brand_elements/cf_headerlogo.gif', :alt => "ChristmasFuture &ndash; Change the world&hellip;for good"), "/" %>
         </div>
+        
         <div id="loginbug">
-          <%- if logged_in? -%>
-            Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %> | Not <%=h current_user.name %>? <%= link_to 'Logout', dt_logout_url(:protocol => 'http://') %>
-          <%- else -%>
-            <%= link_to 'Login', dt_login_path %> | <%= link_to 'Create Account', dt_signup_path %>
-          <%- end -%>
+          <ul>
+            <%- if logged_in? -%>
+              <li>Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %> | </li>
+              <li><%= link_to "Cart", dt_cart_path %> | </li>
+              <li><%= link_to 'Logout', dt_logout_url(:protocol => 'http://') %></li>
+            <%- else -%>
+              <li><%= link_to 'Login', dt_login_path %> | </li>
+              <li><%= link_to 'Create Account', dt_signup_path %> | </li>
+              <li><%= link_to "Cart", dt_cart_path %> </li>
+            <%- end -%>
+          </ul>
         </div>
-        <div id="cartlink"><%= link_to " <span>Cart</span>", dt_cart_path %> | </div>
-        <div id="rss"><a href="http://www.christmasfuture.org/feed/"><span>RSS Feed</span></a></div>
       </div>

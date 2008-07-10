@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
-  filter_parameter_logging :password, :credit_card
+  filter_parameter_logging :password
+  include DtAuthenticatedSystem
   helper :dt_application
   helper "dt/search"
-  include DtAuthenticatedSystem
 
-  # "remember me" functionality
+  #before_filter :set_user
   before_filter :login_from_cookie, :ssl_filter
   
   # Pick a unique cookie name to distinguish our session data from others'

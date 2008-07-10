@@ -1,22 +1,15 @@
-<%= dt_account_nav %>
+<%- content_for :html_title do %>Create an Admin Message<% end -%>
+<%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
 <%= dt_group_nav unless @group.private && !@membership %>
-
-<div id="contentContainer">
-  <div id="leftColW">
-  	<h1>Create an Admin Message</h1>
-		<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   
     <%= error_messages_for :group_news %>
-    <% form_for(:group_news, :url => dt_messages_path(@group), :html => { :method => 'post', :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
-    <div class="userform simpleform">
+    <% form_for(:group_news, :url => dt_group_messages_path(@group), :html => { :method => 'post', :id => "groupnewsform", :name => "groupnewsform"}) do |f| -%>
+    <div class="userform simpleform clearfix">
       <%= render :partial => "form", :locals => {:f => f} %>
     	<%= submit_tag 'Add Admin Message', :class => 'buttonsubmit' %>
   	</div>
   	<% end %>
-  </div>
-  <div id="rightColN">
+  <% content_for :sidebar do %>
 	  <%= dt_profile_sidebar %>
-  </div>
-</div>
+  <% end %>

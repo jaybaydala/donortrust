@@ -1,0 +1,7 @@
+if params[:country] == 'United States'
+  page[:postal_code].replace_html "Zip Code"
+  page[:province].replace_html "State"
+else
+  page[:postal_code].replace_html "Postal Code"
+  page[:province].replace_html "Province"
+end

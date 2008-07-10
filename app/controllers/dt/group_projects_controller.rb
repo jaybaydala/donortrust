@@ -27,7 +27,7 @@ class Dt::GroupProjectsController < ApplicationController
     respond_to do |format|
       format.html {
         flash[:notice] = "You have removed the &quot;#{@project.name}&quot; from the group"
-        redirect_to dt_group_projects_path(@group)
+        redirect_to dt_group_group_projects_path(@group)
       }
     end
   end
@@ -46,7 +46,7 @@ class Dt::GroupProjectsController < ApplicationController
   def access_denied
     if ['destroy'].include?(params[:action])
       @group = Group.find(params[:group_id])
-      redirect_to dt_group_projects_path(@group) and return false
+      redirect_to dt_group_group_projects_path(@group) and return false
     end
     super
   end

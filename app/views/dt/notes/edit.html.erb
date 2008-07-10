@@ -1,0 +1,17 @@
+<h1>Editing note</h1>
+
+<%= error_messages_for :note %>
+
+<% form_for(@note) do |f| %>
+  <p>
+    <b>User</b><br />
+    <%= f.text_field :user %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @note %> |
+<%= link_to 'Back', notes_path %>

@@ -1,13 +1,11 @@
-<div id="contentContainer">
-  <div id="leftColW">
-  	<h1>Open your gift!</h1>
+<%- content_for :html_title do -%>Open your gift!<%- end -%>
     <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
     <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   	<% if @gift -%>
   		<p><%= @gift.name %> has sent you a gift of <%= number_to_currency( @gift.amount ) %>!</p>
   		<p>Just deposit the gift into your ChristmasFuture account to start changing the world.</p>
   		<% if logged_in? %>
-  		<% form_for(:gift, :url => dt_unwrap_gift_path(@gift), :html => {:method => :put, :id => "giftform", :name => "giftform"}) do |f| %>
+  		<% form_for(:gift, :url => unwrap_dt_gift_path(@gift), :html => {:method => :put, :id => "giftform", :name => "giftform"}) do |f| %>
   		<div class="userform">
   			Click &quot;Deposit Gift&quot; below to deposit the gift into your account.
   			<%= f.hidden_field :pickup_code %>
@@ -19,7 +17,7 @@
   		<% end %>
   	<% else -%>
   		<%= error_messages_for :pickup %>
-  		<% form_for(:pickup, :url => dt_open_gifts_path, :html => {:method => :get, :id => "giftform", :name => "giftform"}) do |f| %>
+  		<% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "giftform", :name => "giftform"}) do |f| %>
   		<div class="userform">
   			<ul>
   				<li><label for="code">Pickup Code</label><%= text_field_tag :code %></li>
@@ -28,8 +26,7 @@
   		<%= submit_tag 'open your gift', :class => 'buttonsubmit' %>
   		<% end -%>
   	<% end -%>
-  </div>
-  <div id="rightColN">
-    <%= dt_profile_sidebar %>
-  </div>
-</div>
+
+    <%- content_for :sidebar do -%>
+      <%= dt_profile_sidebar %>
+  	<% end -%>

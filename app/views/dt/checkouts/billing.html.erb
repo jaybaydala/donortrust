@@ -1,0 +1,94 @@
+<%- content_for :head do -%>
+<%= stylesheet_link_tag 'dt/cart' %>
+<%= javascript_include_tag "dt/checkout" %>
+<%- end -%>
+<%- content_for :html_title do -%>Checkout<%- end -%>
+<%- content_for :nav do -%><%= checkout_nav %><%- end -%>
+
+<h2>Step 2 of 4 - Billing Information</h2>
+
+<%= error_messages_for :order %>
+<%= error_messages_for :user %>
+<% form_for(:order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform", :method => :put}) do |f| %>
+<%= hidden_field_tag "step", "billing" %>
+<div class="userform">
+  <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+  <fieldset>
+    <legend>Billing and Tax Receipt Information</legend>
+    <div class="notes clearfix">
+      <h5>Billing and Receipt Information</h5>
+      <p>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.</p>
+    </div>
+    <ol>
+      <li>
+        <fieldset>
+          <legend>What kind of donor are you?</legend>
+          <ol>
+            <li><label for="order_donor_type_personal"><%= f.radio_button :donor_type, "personal", :onchange => "$$('li.personal').each(function(e){e.show()});$('companyrequired').hide();" %> Personal</label></li>
+            <li><label for="order_donor_type_corporate"><%= f.radio_button :donor_type, "corporate", :onchange => "$$('li.personal').each(function(e){e.hide()});$('companyrequired').show();" %> Corporate</label></li>
+          </ol>
+        </fieldset>
+      </li>
+      <li class="personal"><label for="order_title">Title</label> <%= f.select :title, titles.unshift("") %></li>
+      <li class="personal"><label for="order_first_name"><%= form_required %>First Name</label> <%= f.text_field :first_name %></li>
+      <li class="personal"><label for="order_last_name"><%= form_required %>Last Name</label> <%= f.text_field :last_name %></li>
+      <li><label for="order_company"><span id="companyrequired"<% unless @order.donor_type == "company" %> style="display:none;"<% end %>><%= form_required %></span>Company</label> <%= f.text_field :company %></li>
+      <li><label for="order_address"><%= form_required %>Street Address</label> <%= f.text_field :address %></li>
+      <li><label for="order_address2">Street Address 2</label> <%= f.text_field :address2 %></li>
+      <li><label for="order_city"><%= form_required %>City</label> <%= f.text_field :city %></li>
+      <li><label for="order_province"><%= form_required %>Province/State</label> <%= f.text_field :province %></li>
+      <li><label for="order_postal_code"><%= form_required %>Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
+      <li><label for="order_country"><%= form_required %>Country</label> <%= f.select :country, country_select_options %></li>
+      <li><label for="order_email"><%= form_required %>Email</label> <%= f.text_field :email %></li>
+    </ol>
+  </fieldset>
+  
+  <% if !@order.user_id && !logged_in? %>
+  <fieldset class="clearfix">
+    <legend>Create an Account?</legend>
+    <p>A ChristmasFuture account allows you to:</p>
+    <ul>
+      <li>track your giving history over time and your impact in the world</li>
+      <li>access your tax receipts and printable gift cards online</li>
+      <li>resend gifts to alternate email addresses</li>
+      <li>save information preferences, so you don&rsquo;t have to re-enter it next time!</li>
+      <li>join a group with people who are interested in the same projects and causes that you are</li>
+      <li>conveniently track projects you have supported in one place </li>
+      <li>create a &ldquo;projects wishlist&rdquo; and more!</li>
+    </ul>
+
+    <ol>
+      <li><label class="left"><%= check_box_tag :create_account, "1", (params[:create_account] ? true : false), :onchange => "if(this.checked){$('password_entry').show();}else{$('password_entry').hide();}" %> Yes, I want to create an account on ChristmasFuture&rsquo;s website</label></li>
+    </ol>
+    <div id="password_entry" style="display:none;">
+      <ol>
+        <li><label for="password" style="width:120px;">Password</label> <%= password_field_tag :password, nil, :id => 'password' %></li>
+        <li><label for="password_confirmation" style="width:120px;">Confirm Password</label> <%= password_field_tag :password_confirmation, nil, :id => 'password_confirmation' %></li>
+    	  <li>
+        	<fieldset>
+        	  <legend>Terms of Service</legend>
+        	  <ol>
+          	  <li class="left"><%= check_box_tag :terms_of_use %> I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</li>
+        	  </ol>
+          </fieldset>
+    	  </li>
+    </ol>
+    </div>
+  </fieldset>
+  <% end %>
+</div>
+
+<div class="checkoutbuttons clearfix">
+  <div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", edit_dt_checkout_path(:step => "support"), :class => "large" %></div>
+  <%= submit_tag 'Proceed to Step 3 &raquo;', :class => 'buttonsubmit' %>
+</div>
+<% end %>
+
+<%- content_for :sidebar do -%>
+  <h2><%= link_to "My Cart", dt_checkout_path, :method => :delete %></h2>
+  <%= render "dt/cart/sidebar" %>  
+  <%= render "dt/accounts/profile_sidebar" %>  
+  <%= render :partial => 'dt/checkouts/verisign' %>
+<%- end -%>
+
+<% content_for :google_analytics_path do %>/checkout/billing.html<% end %>

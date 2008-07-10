@@ -55,7 +55,7 @@ class Dt::Groups::MembershipsController < ApplicationController
         flash[:notice] = 'You have left the group' if current_user.id == @membership.user.id
         flash[:notice] = "You have removed #{@membership.user.name} from the group" if @destroyed && current_user.id != @membership.user.id
       end
-      format.html { redirect_to dt_memberships_path(@group) }
+      format.html { redirect_to dt_group_memberships_path(@group) }
     end
   end
   

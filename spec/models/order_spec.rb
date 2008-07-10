@@ -1,0 +1,353 @@
+require File.dirname(__FILE__) + '/../spec_helper'
+require 'active_merchant'
+ActiveMerchant::Billing::Base.mode = :test
+
+describe Order do
+  before do
+    @order = Order.new(:email => "user@example.com")
+  end
+  
+  it "should initialize with donor_type == 'personal'" do
+    @order.donor_type.should == Order.personal_donor
+  end
+
+  it "should have_many gifts" do
+    @order.should have_many(:gifts)
+  end
+  it "should have_many investments" do
+    @order.should have_many(:investments)
+  end
+  it "should have_many deposits" do
+    @order.should have_many(:deposits)
+  end
+  it "should belong_to user" do
+    @order.should belong_to(:user)
+  end
+  
+  %w(account_balance_total credit_card_total total).each do |c|
+    it "should strip a '$' from #{c}" do
+      @order = Order.new(c.to_sym => "$50")
+      @order[c].should == 50.0
+    end
+  end
+  
+  it "should set card_expiry to expiry_month/expiry_year" do
+    @order.expiry_month = "04"
+    @order.expiry_year = "2008"
+    @order.card_expiry.should == '04/2008'
+    @order.expiry_month.should == 4
+    @order.expiry_year.should == 2008
+  end
+  
+  it "should strip a credit card to the last 4 digits" do
+    @order.card_number = '4111111111111234'
+    @order.read_attribute(:card_number).should == "1234"
+  end
+  
+  it "should return '**** **** **** 1234' when card_number_concealed" do
+    @order.card_number = '4111111111111234'
+    @order.card_number_concealed.should == '**** **** **** 1234'
+  end
+  
+  describe "validate_billing method" do
+    it "should validate blank fields" do
+      @order.errors.should_receive(:add_on_blank).with(%w(donor_type first_name last_name address city postal_code province country email))
+      @order.validate_billing
+    end
+    it "should refuse a bad email address" do
+      @order.email = "bademail.example.com"
+      @order.should_receive(:email?).and_return(true)
+      @order.validate_billing
+      @order.errors.on(:email).should_not be_nil
+    end
+    it "should validate a good email address" do
+      @order.email = "goodemail@example.com"
+      @order.should_receive(:email?).and_return(true)
+      @order.validate_billing
+      @order.errors.on(:email).should be_nil
+    end
+  end
+
+  describe "validate_payment method" do
+    before do
+      @order.total = 100
+      @items = [mock_model(Gift, :amount => 25.0), mock_model(Deposit, :amount => 25.0), mock_model(Deposit, :amount => 50.0)]
+      @order.card_number = "4111111111111111"
+      @order.cardholder_name = "Spec Name"
+      @order.expiry_month = 5
+      @order.expiry_year = 1.year.from_now.year.to_s
+    end
+    describe "with a credit card payment" do
+      before do
+        @credit_card = mock("CreditCard", :valid? => true)
+        @order.stub!(:credit_card).and_return(@credit_card)
+        @order.stub!(:minimum_credit_payment).and_return(10)
+        @order.credit_card_total = 0
+      end
+    end
+    
+    describe "without a credit card_payment" do
+      before do
+        @credit_card = mock("CreditCard", :valid? => true)
+        @order.stub!(:credit_card).and_return(@credit_card)
+        @order.stub!(:minimum_credit_payment).and_return(0)
+        @order.credit_card_total = 0
+      end
+    end
+    it "should add an error to credit_card_total if it's less than the amount of the deposits" do
+      @order.credit_card_total = 74.0
+      @order.validate_payment(@items)
+      @order.errors.on(:credit_card_total).should_not be_nil
+    end
+    it "should add an error to account_balance_total if it's more than the balance" do
+      @order.account_balance_total = 75.0
+      @order.validate_payment(@items, 74.0)
+      @order.errors.on(:account_balance_total).should_not be_nil
+    end
+    it "should calculate the minimum_credit_card_payment to the total if no balance is passed" do
+      @order.minimum_credit_card_payment(@items).should == 100
+    end
+    it "should calculate the minimum_credit_card_payment to just the deposits for if the balance is greater than or equal to (total - deposits)" do
+      subtotal = @order.total - 75 # total - deposits
+      balance = subtotal
+      @order.minimum_credit_card_payment(@items, balance).should == 75 # the deposit amount
+    end
+    it "should calculate the minimum_credit_card_payment deposits - (total - deposits - account_balance_total) if the balance is lower than (total - deposits)" do
+      @order.account_balance_total = 10
+      @order.minimum_credit_card_payment(@items, 15).should == 85 # 75 + (100 - 75 - 15)
+    end
+    it "should add an error to base it account_balance_total + credit_card_total are less than the @order total" do
+      @order.total = 100
+      @order.account_balance_total = 25.0
+      @order.credit_card_total = 74.0
+      @order.validate_payment(@items, 25.0)
+      @order.errors.on_base.should_not be_nil
+    end
+    describe "checking credit card validity" do
+      before do
+        @order.stub!(:credit_card).and_return(@credit_card)
+      end
+      it "should check the credit card for validity if there's a minimum credit card payment" do
+        @order.stub!(:minimum_credit_card_payment).and_return(1)
+        @credit_card.should_receive(:valid?).and_return(true)
+        @order.validate_payment(@items)
+      end
+      it "should check the credit card for validity if account_balance_total is less than the total" do
+        @order.total = 76
+        @order.account_balance_total = 75
+        @credit_card.should_receive(:valid?).and_return(true)
+        @order.validate_payment(@items, 100)
+      end
+      it "should check the credit card for validity if there's a credit_card_total" do
+        @order.credit_card_total = 1
+        @credit_card.should_receive(:valid?).and_return(true)
+        @order.validate_payment(@items, 100)
+      end
+    end
+    describe "invalid credit card" do
+      before do
+        @errors = mock("Errors", :full_messages => ["error1", "error2"])
+        @order.stub!(:minimum_credit_card_payment).and_return(1)
+        @order.card_number = "4111111111111111"
+        @order.cvv = "035"
+        @order.expiry_month = "04"
+        @order.expiry_year = 1.year.from_now.year.to_s
+        @order.cardholder_name = "Spec User"
+      end
+      it "should add errors to the order if the credit card is invalid" do
+        @order.stub!(:credit_card).and_return(@credit_card)
+        @credit_card.stub!(:errors).and_return(@errors)
+        @credit_card.should_receive(:valid?).and_return(false)
+        @credit_card.should_receive(:errors).and_return(@errors)
+        @order.errors.should_receive(:add_to_base).twice
+        @order.validate_payment(@items, 100)
+      end
+      it "should add errors to the order if the cvv is blank" do
+        @order.cvv = ""
+        @order.validate_payment(@items, 100)
+        @order.credit_card.errors.on(:verification_value).should_not be_blank
+      end
+      it "should add errors to the order if the cardholder_name is blank" do
+        @order.cardholder_name = ""
+        @order.validate_payment(@items, 100)
+        @order.credit_card.errors.on(:cardholder_name).should_not be_blank
+      end
+      it "should add errors to the order if the card_number is blank" do
+        @order.card_number = ""
+        @order.validate_payment(@items, 100)
+        @order.credit_card.errors.on(:number).should_not be_blank
+      end
+    end
+    it "should not check the credit card for validity if the account_balance_total is equal to the total" do
+      @order.account_balance_total = 100
+      @order.validate_payment(@items, 100)
+      @order.should_receive(:generate_credit_card).never
+      @order.errors.should_receive(:add_on_blank).never
+    end
+  end
+    
+  describe "validate_confirmation method" do
+    before do
+      @order.card_number = "4111111111111111"
+      @order.cardholder_name = "Spec Name"
+      @order.expiry_month = 5
+      @order.expiry_year = 1.year.from_now.year
+      @items = [mock_model(Investment), mock_model(Gift), mock_model(Deposit, :amount => 25.0)]
+    end
+    it "should call validate_billing" do
+      @order.should_receive(:validate_billing)
+      @order.validate_confirmation(@items)
+    end
+    it "should call validate_payment" do
+      @order.should_receive(:validate_payment).with(@items, nil)
+      @order.validate_confirmation(@items)
+    end
+    it "should call validate_payment with balance, when passed" do
+      @order.should_receive(:validate_payment).with(@items, 50.0)
+      @order.validate_confirmation(@items, 50.0)
+    end
+  end
+  
+  describe "credit_card method" do
+    before do
+      @order.card_number = "4111111111111111"
+      @order.cvv = "989"
+      @order.expiry_month = "04"
+      @order.expiry_year = 1.year.from_now.year.to_s
+      @order.cardholder_name = "Cardholder Name"
+    end
+    it "should set ActiveMerchant::Billing::CreditCard.canadian_currency to true" do
+      @order.credit_card
+      ActiveMerchant::Billing::CreditCard.canadian_currency?.should be_true
+    end
+    it "should return a CreditCard object" do
+      @order.credit_card.should be_instance_of(ActiveMerchant::Billing::CreditCard)
+    end
+    it "should be valid" do
+      @order.credit_card.valid?.should be_true
+    end
+    {"card_number"=>"number", "cvv"=>"verification_value", "expiry_month"=>"month", "expiry_year"=>"year", "cardholder_name"=>"cardholder_name"}.each do |column, cc_column|
+      it "should not be valid without a #{column}" do
+        @order.send!("#{column}=", nil)
+        @order.credit_card.valid?.should be_false
+        @order.credit_card.errors[cc_column].should_not be_nil
+      end
+    end
+  end
+  
+  describe "run_transaction method" do
+    before do
+      @credit_card = ActiveMerchant::Billing::CreditCard.new(
+        :number          => "4111111111111111",
+        :month           => "05",
+        :year            => "2028",
+        :cardholder_name => "Joe Smith",
+        :verification_value  => "989"
+      )
+      @credit_card.stub!(:valid?).and_return(true)
+      @order.stub!(:credit_card).and_return(@credit_card)
+      
+      @order.country = "Canada"
+      @order.order_number = 8118118118
+      @order.total = 1.0
+    end
+
+    # *	Dollar Amount $1.00 OK: 678594;
+    # *	Dollar Amount $2.00 REJ: 15;
+    # *	Dollar Amount $3.00 OK: 678594;
+    # *	Dollar Amount $4.00 REJ: 15;
+    # *	Dollar Amount $5.00 REJ: 15;
+    # *	Dollar Amount $6.00 OK: 678594:X;
+    # *	Dollar Amount $7.00 OK: 678594:y;
+    # *	Dollar Amount $8.00 OK: 678594:A;
+    # *	Dollar Amount $9.00 OK: 678594:Z;
+    # *	Dollar Amount $10.00 OK: 678594:N;
+    # *	Dollar Amount $15.00, if CVV2=1234 OK: 678594:Y; if there is no CVV2: REJ: 19
+    # *	Dollar Amount $16.00 REJ: 2;
+    # *	Other Amount REJ: 15.
+    
+    it "should get a credit_card object" do
+      @order.should_receive(:credit_card).any_number_of_times.and_return(@credit_card)
+      @order.run_transaction
+    end
+    it "should set the authorization_result column if the credit card_processing is successful" do
+      @order.total = 1
+      @order.should_receive(:update_attributes).with({:authorization_result => "678594:"}).and_return(true)
+      @order.run_transaction
+    end
+    it "should create a tax receipt if the credit card_processing is successful" do
+      @order.total = 1
+      @order.country = "Canada"
+      @order.should_receive(:create_tax_receipt_from_order)
+      @order.run_transaction
+    end
+    it "should create a tax receipt if the credit card_processing is successful and country isn't Canada" do
+      @order.total = 1
+      @order.country = "Somewhere Else"
+      @order.should_receive(:create_tax_receipt_from_order).never
+      @order.run_transaction
+    end
+    it "should not set the authorization_result column if the credit card_processing is unsuccessful" do
+      @order.should_receive(:update_attributes).never
+      lambda {
+        @order.total = 2
+        @order.run_transaction
+      }
+    end
+    it "should not create a tax receipt if the credit card_processing is unsuccessful" do
+      @order.should_receive(:create_tax_receipt_from_order).never
+      lambda {
+        @order.total = 2
+        @order.country = "Canada"
+        @order.run_transaction
+      }
+    end
+    
+    it "should return true when successful" do
+      @order.total = 1
+      @order.run_transaction.should be_true
+    end
+    it "should raise a ActiveMerchant::Billing::Error when passed an invalid credit_card" do
+      @credit_card.should_receive(:valid?).and_return(false)
+      lambda { 
+        @order.run_transaction 
+      }.should raise_error(ActiveMerchant::Billing::Error)
+    end
+    %w(2 4 5 16 100).each do |amount|
+      it "should raise a ActiveMerchant::Billing::Error when not successful ($#{amount.to_i}.00)" do
+        @order.total = amount.to_i
+        lambda { 
+          @order.run_transaction
+        }.should raise_error(ActiveMerchant::Billing::Error)
+      end
+    end
+    {"1" => "678594:", "3" => "678594:", "6" => "678594:X", "7" => "678594:Y", "8" => "678594:A", "9" => "678594:Z", "10" => "678594:N"}.each do |amount, auth_result|
+      it "should set the correct authorization_result for successful amounts ($#{amount}.00)" do
+        @order.total = amount.to_i
+        @order.run_transaction
+        @order.authorization_result.should == auth_result
+      end
+    end
+    # 15.00, if CVV2=1234 OK: 678594:Y; if there is no CVV2: REJ: 19
+    it "should set the correct authorization_result with a correct cvv" do
+      @order.total = 15
+      @credit_card.verification_value = "1234"
+      @order.run_transaction
+      @order.authorization_result.should == "678594:Y"
+    end
+    it "should raise an error with an incorrect cvv" do
+      @order.total = 15
+      @credit_card.verification_value = "9876"
+      lambda { 
+        @order.run_transaction
+      }.should raise_error(ActiveMerchant::Billing::Error)
+    end
+    it "should raise an error with a blank cvv" do
+      @order.total = 15
+      @credit_card.verification_value = nil
+      lambda { 
+        @order.run_transaction
+      }.should raise_error(ActiveMerchant::Billing::Error)
+    end
+  end
+end

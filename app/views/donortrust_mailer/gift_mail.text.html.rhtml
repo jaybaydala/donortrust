@@ -23,22 +23,17 @@
 <body>
 <div style="text-align:left;width:496px;margin:auto;">
 
-<p>Hello <%=h @gift.to_name? ? @gift.to_name : @gift.to_email %>,</p>
+<% if @gift.preview %><div style="text-align:center;"><a href="javascript:window.close();">Close Window</a></div><% end %>
 
-<p>Happy holidays!</a></p>
+<% if @gift.message? %><p><%=h @gift.message %></p><% end %>
+<p>From: <%=h @gift.name? ? @gift.name : @gift.email %></p>
+<hr />
 
 <% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
 
-<% if @gift.message? %>
-<p>Their message to you:</p>
-<p><%=h @gift.message %></p>
-<% end %>
-
-<hr />
-
 <p>
-  This year <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.<br />
-  Just click on the link below to open it - and a whole new world. All the best to you this holiday season. <br />
+  <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.<br />
+  Just click on the link below to open it - and a whole new world. <br />
   <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
 </p>
 
@@ -51,6 +46,8 @@
 
 <p>Thanks,<br />
 <strong>The ChristmasFuture Team</strong></p>
+
+<% if @gift.preview %><div style="text-align:center;"><a href="javascript:window.close();">Close Window</a></div><% end %>
 
 </div>
 </body>

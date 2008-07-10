@@ -1,14 +1,16 @@
 <ul class="wide">
+  <li><strong><%= link_to "Checkout: ", "javascript:void(0);" %></strong></li>
   <%-
     link_item = true
     nav_info = {
-      "" => ["Step 1. Billing Info ", new_dt_checkout_path], 
-      "payment" => ["Step 2. Payment ", new_dt_checkout_path(:step => "payment")], 
-      "confirm" => ["Step 3. Confirmation ", new_dt_checkout_path(:step => "confirm")]
+      "support" => ["Step 1. Support CF ", edit_dt_checkout_path(:step => "support")], 
+      "billing" => ["Step 2. Billing Info ", edit_dt_checkout_path(:step => "billing")], 
+      "payment" => ["Step 3. Payment ", edit_dt_checkout_path(:step => "payment")], 
+      "confirm" => ["Step 4. Confirmation ", edit_dt_checkout_path(:step => "confirm")]
       }
-    ["", "payment", "confirm"].each do |key|
-      current = (params[:step] ? false : true) if key.empty?
-      current = (params[:step] == key ? true : false) unless key.empty?
+    ["support", "billing", "payment", "confirm"].each do |key|
+      current = (@current_step ? false : true) if key.empty?
+      current = (@current_step == key ? true : false) unless key.empty?
       link_item = false if current
       title = nav_info[key][0]
       link = nav_info[key][1]

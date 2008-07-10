@@ -1,0 +1,7 @@
+<div id="news_<%= news_item.id %>" class="news_item">
+	<h2><%= link_to news_item.subject, dt_news_item_path(news_item)%></h2>
+	<p>
+		<%= news_item.content %>
+	</p>
+	<h5>Posted By: <%= news_item.author %> On: <%= news_item.created_at%></h5>
+</div>

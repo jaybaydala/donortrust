@@ -60,4 +60,30 @@ module DtApplicationHelper
   def cart_empty?
     false
   end
+  
+  #
+  # Shows a spinner when any active AJAX requests are running - Joe
+  #
+  def show_spinner
+    content_tag "div", "Working... " + image_tag("/images/bus_admin/spinner.gif"), :id => "ajax_busy", :style => "display:none;"
+  end
+  
+  def what_is_this?(id,description)
+    result = image_tag('dt/icons/information.png', :border=>0, :alt => 'What is this?')
+    result = result + content_tag(:span,blind_down_link("What is This?","what_is_this_#{id}",id),:class => :small_text)
+    result + content_tag(:div, ( description + " (" + blind_up_link('Hide',"what_is_this_#{id}",id) + ")"), :id => id, :class => 'what_is_this_box', :style => 'display:none;')  
+  end
+  
+  def blind_down_link(text, id, div)
+      link_to_function(text, nil, :id =>id) do |page|
+                            page.visual_effect :blind_down, div, :duration => 0.5
+                            page.visual_effect :highlight, div, :duration => 2
+                   end
+  end
+  
+  def blind_up_link(text, id, div)
+      link_to_function(text, nil, :id =>id) do |page|
+                            page.visual_effect :blind_up, div, :duration => 0.5
+                   end
+  end
 end

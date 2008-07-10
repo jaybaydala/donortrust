@@ -1,12 +1,13 @@
-<%= dt_account_nav %>
-<div id="contentContainer">
-  <div id="leftColW">
-  <h1>Send My Wishlist</h1>
+<%- content_for :head do -%>
+<%= javascript_include_tag "dt/ecards" %>
+<%- end -%>
+<%- content_for :html_title do %>Send My Wishlist<% end -%>
+<%- content_for :nav do %><%= dt_account_nav %><% end -%>
+
   <h2>Spread the word. And the good.</h2>
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+
   <%= error_messages_for :share %>
-  <% form_for(:share, :url => dt_confirm_my_wishlists_path, :html => {:id => "mywishlistform", :name => "mywishlistform"}) do |f| %>
+  <% form_for(:share, :url => confirm_dt_account_my_wishlists_path, :html => {:id => "mywishlistform", :name => "mywishlistform"}) do |f| %>
   <p>You recently got involved in helping change the world with ChristmasFuture. The world has a lot of people - six billion plus - all of which need to be involved if we're going to eradicate extreme poverty. It is with this goal in mind that we humbly ask you to pass your story (and ChristmasFuture's) on to a friend. Or two. Or six billion. <br>Thanks again for getting involved.</p>
   <p>After selecting an image from the E-card Gallery in the right column, please enter your personal information in the form below.</p>
   <div class="userform">
@@ -59,16 +60,13 @@
     <%= render :partial => 'dt/shared/form_requirednote' %>
   </div>
   <% end %>
-  </div>
-
-  <div id="rightColN">
+  <% content_for :sidebar do %>
     <h2>E-Card Gallery</h2>
 
     <div id="miniGallery">
       <p><strong>Select an E-Card</strong></p>
       <p>Select the e-card you wish to send. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
       <%= render 'dt/ecards/sidebar' %>
-      <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('mywishlistform'));window.open('<%= dt_preview_my_wishlists_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
+      <div id="ecardPreview" style="display:none;"><%= button_to_function "<span>Preview your email &raquo;</span>", "window.open('#{preview_dt_account_my_wishlists_path}?' + Form.serialize($('mywishlistform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1');", :class => "buttonsubmit" %></div>
     </div>  
-  </div>
-</div>
+  <% end %>

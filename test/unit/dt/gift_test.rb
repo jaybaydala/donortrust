@@ -18,17 +18,6 @@ context "Gift" do
     Gift.should.differ(:count).by(1) { create_gift }
   end
 
-  specify "if there's no user_id, the credit_card parameters are required" do
-    lambda {
-      t = create_gift(:user_id => nil)
-      t.errors.on(:credit_card).should.not.be.nil
-    }.should.not.change(Gift, :count)
-    lambda {
-      t = create_gift(credit_card_params(:user_id => nil))
-      t.errors.on(:credit_card).should.be.nil
-    }.should.change(Gift, :count)
-  end
-
   specify "should require amount" do
     lambda {
       t = create_gift(:amount => nil)

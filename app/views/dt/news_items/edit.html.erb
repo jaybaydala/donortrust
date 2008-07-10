@@ -1,0 +1,22 @@
+<h1>Editing <%= @news_item.subject %></h1>
+
+<%= error_messages_for :news_item %>
+<div class="campaign_form">
+	<% form_for([:dt,@news_item]) do |f| %>
+		<fieldset>
+			<legend>Edit News Item</legend>
+		
+			<label for="subject">Subject</label>
+		    <%= f.text_field :subject %>
+	
+			<label for="content">Content</label>
+		    <%= f.text_area :content, :cols => 80, :rows => 8 %>
+		
+			<br />
+		    <%= f.submit "Update" %>
+		</fieldset>
+	<% end %>
+</div>
+
+
+<%= link_to 'Back', url_for([:dt,@news_item.postable]) %> 

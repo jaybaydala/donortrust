@@ -35,6 +35,28 @@ class Project < ActiveRecord::Base
   
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
   
+  # ultrasphinx indexer configuration
+  #sphinx
+  #is_indexed :fields => ['name', 
+  #  'description', 
+  #  'note', 
+  #  'intended_outcome', 
+  #  'meas_eval_plan', 
+  #  'project_in_community',
+  #  'total_cost'],
+  #  :include => [{:class_name => 'Place', 
+  #          :field => 'places.name', 
+  #          :as => 'place_name', 
+  #          :association_sql => "LEFT JOIN (places) ON (places.id=projects.place_id)"
+  #        },
+  #        {:class_name => 'Partner', 
+  #          :field => 'partners.name', 
+  #          :as => 'partner_name', 
+  #          :association_sql => "LEFT JOIN (partners) ON (partners.id=projects.partner_id)"
+  #        }
+  #        ],
+  #   :conditions => "project_status_id = 2 AND projects.deleted_at IS NULL"
+  
   def startDate
     "#{self.start_date}"
   end

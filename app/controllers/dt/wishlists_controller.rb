@@ -18,7 +18,7 @@ class Dt::WishlistsController < ApplicationController
       format.html do
         if @saved
           redirect_to dt_wishlists_path(current_user) and return if params[:watchlist_type] == 'personal'
-          redirect_to dt_group_projects_path(@group)
+          redirect_to dt_group_group_projects_path(@group)
         else
           render :action => "new"
         end

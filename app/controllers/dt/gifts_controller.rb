@@ -1,23 +1,13 @@
-require 'iats/iats_process.rb'
+require 'order_helper'
 require 'pdf_proxy'
-include PDFProxy
 
 class Dt::GiftsController < ApplicationController
   helper "dt/places"
-  include IatsProcess
-  include FundCf
   before_filter :login_required, :only => :unwrap
-  
-  #helper for testing purposes since I couldn't figure out
-  #how to determine in the tests whether a certain layout was being used
-  attr_accessor :using_us_layout
+  include OrderHelper
+  include PDFProxy
   
   CANADA = 'canada'
-  
-  def initialize
-    super
-    @page_title = "Gift It!"
-  end
   
   def index
     respond_to do |format|
@@ -41,76 +31,99 @@ class Dt::GiftsController < ApplicationController
   end
   
   def new
-    self.using_us_layout = false
     store_location
     params[:gift] = session[:gift_params] if session[:gift_params]
     @gift = Gift.new( gift_params )
+    @gift.send_email = nil # so we can preselect "now" for delivery
+    @gift.email = current_user.email if !@gift.email? && logged_in?
     @ecards = ECard.find(:all, :order => :id)
-    @action_js = ["dt/ecards", "dt/giving"]
     
-    if params[:project_id]
-      @project = Project.find(params[:project_id]) 
-      @gift.project_id = @project.id if @project
-      redirect_to dt_project_path(@project) and return if @project && !@project.fundable?
+    if params[:project_id] && @project = Project.find(params[:project_id]) 
+      if @project.fundable?
+        @gift.project = @project
+      else
+        flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
+        redirect_to dt_project_path(@project) and return
+      end
     end
     
     if logged_in?
-      %w( email first_name last_name address city province postal_code country ).each {|f| @gift[f.to_sym] = current_user[f.to_sym] unless @gift.send("#{f}?") }
-      @gift[:name] = current_user.full_name if logged_in? && !@gift.name?
-      @gift[:email] = current_user.email unless @gift.email?
-      
-      #MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
-      #layout of the Gift page. If the user's country is nil or not Canada,
-      #use the layout that allows for US donations.
-      unless current_user.in_country?(CANADA)
-        self.using_us_layout = true
-        render :layout => 'us_receipt_layout'
+      %w( email first_name last_name address city province postal_code country).each do |c| 
+        @gift.write_attribute(c, current_user.read_attribute(c)) unless @gift.attribute_present?(c)
       end
-    else
-      #MP Dec 14, 2007 - If there is no logged in user, we should give them the option
-      #of being able to request a US tax receipt as there is no reliable way to determine
-      #what country they are in.
-      self.using_us_layout = true
-      render :layout => 'us_receipt_layout'
+      @gift.write_attribute("name", current_user.full_name) unless @gift.name?
+    end
+    respond_to do |format|
+      format.html {
+        unless logged_in? && current_user.in_country?(CANADA)
+          # MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
+          # layout of the Gift page. If the user's country is nil, not Canada or they're not logged_in,
+          # use the layout that allows for US donations.
+          render :layout => 'us_receipt_layout'
+        else 
+          render :action => 'new'
+        end
+      }
     end
   end
   
   def create
     @gift = Gift.new( gift_params )    
     @gift.user_ip_addr = request.remote_ip
-    @ecards = ECard.find(:all, :order => :id)
-    @project = Project.find(@gift.project_id) if @gift.project_id? && @gift.project_id != 0
-    @action_js = ["dt/ecards", "dt/giving"]
+    set_send_now_delivery!
     
-    if @gift.credit_card?
-      iats = iats_payment(@gift)
-      @gift.authorization_result = iats.authorization_result if iats.status == 1
-    end
-    @cf_investment = build_fund_cf_investment(@gift)
-    @cf_deposit = build_fund_cf_deposit(@gift)
-    @total_amount = @gift.amount + @cf_investment.amount if @cf_investment
-
-    Gift.transaction do
-      if @gift.credit_card? && @cf_investment && @cf_deposit
-        @saved = @gift.save! && @cf_deposit.save! && @cf_investment.save! if @gift.authorization_result?
-      elsif !@gift.credit_card? && @cf_investment
-        @saved = @gift.save! && @cf_investment.save!
-      else
-        @saved = @gift.save! if !@gift.credit_card? || (@gift.credit_card && @gift.authorization_result?) 
-      end
-      flash.now[:error] = "There was an error processing your credit card. If this issue continues, please <a href=\"/contact-us\">contact us</a>." if !@saved
-    end
+    @valid = @gift.valid?
 
     respond_to do |format|
-      if @saved
+      if @valid
         session[:gift_params] = nil
-        # send the email if it's not scheduled for later.
-        @gift.send_gift_mail if @gift.send_gift_mail? == true
-        # send confirmation to the gifter
-        @gift.send_gift_confirm
-        format.html { redirect_to :action => 'show', :id => @gift.id, :code => @gift.pickup_code }
+        @cart = find_cart
+        @cart.add_item(@gift)
+        flash[:notice] = "Your Gift has been added to your cart."
+        format.html { redirect_to dt_cart_path }
       else
+        @project = @gift.project if @gift.project_id? && @gift.project
+        @ecards = ECard.find(:all, :order => :id)
         format.html { render :action => "new" }
+      end
+    end
+  end
+  
+  def edit
+    @cart = find_cart
+    if @cart.items[params[:id].to_i].kind_of?(Gift)
+      @gift = @cart.items[params[:id].to_i]
+      @project = @gift.project if @gift.project_id?
+      @ecards = ECard.find(:all, :order => :id)
+    end
+    respond_to do |format|
+      format.html {
+        redirect_to dt_cart_path and return unless @gift
+      }
+    end
+  end
+  
+  def update
+    @cart = find_cart
+    if @cart.items[params[:id].to_i].kind_of?(Gift)
+      @gift = @cart.items[params[:id].to_i]
+      @gift.attributes = params[:gift]
+      @gift.user_ip_addr = request.remote_ip
+      set_send_now_delivery!
+      @valid = @gift.valid?
+    end
+    
+    respond_to do |format|
+      if !@gift
+        format.html { redirect_to dt_cart_path }
+      elsif @valid
+        @cart.update_item(params[:id], @gift)
+        flash[:notice] = "Your Gift has been updated."
+        format.html { redirect_to dt_cart_path }
+      else
+        @project = @gift.project if @gift.project_id?
+        @ecards = ECard.find(:all, :order => :id)
+        format.html { render :action => "edit" }
       end
     end
   end
@@ -164,18 +177,17 @@ class Dt::GiftsController < ApplicationController
   end
 
   protected
-  def ssl_required?
-    true
+  def set_send_now_delivery!
+    if params[:gift] && params[:gift][:send_email] && params[:gift][:send_email] == "now"
+      @gift.send_email = true
+      @gift.send_at = Time.now + 5.minutes
+    end
   end
   
-  def send_later?
-    return @send_at ? true : false
-  end
-
   def gift_params
     gift_params = {}
     gift_params = gift_params.merge(params[:gift]) if params[:gift]
-    gift_params[:user_id] = current_user.id if logged_in?
+    gift_params[:user_id] = current_user if logged_in?
     normalize_send_at!(gift_params)
     gift_params
   end
