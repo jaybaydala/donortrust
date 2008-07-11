@@ -44,6 +44,14 @@
 				<%# render :partial => 'bus_admin/shared/generic_place_form_column', :locals => { :item => @project, :named_route => 'populate_project_places' }  %>
 				<%# collection_select (:project, :place_id, get_places, :id, :long_name, :include_blank => true) %>
 			</li>
+
+			<li>
+				<label for="project_short_description" class="title">
+					Short description
+					<small>Short description of <strong>up to 255 characters</strong> which will be displayed in search results.</small>
+				</label>
+				<%= f.text_area :short_description, :rows => 3, :cols => 72, :limit => 255 %>
+			</li>
 		</ul>
 
 		<ul class="form">
