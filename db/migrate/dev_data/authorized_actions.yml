@@ -1,0 +1,4 @@
+authorized_action_001: 
+  authorized_controller_id: "1"
+  name: index
+  id: "1"

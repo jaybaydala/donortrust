@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   has_many :projects, :through => :my_wishlists
   has_many :roles, :through => :administrations
   has_many :administrations
+  has_many :orders
   has_administrables :model => "Project"
 
   # Virtual attribute for the unencrypted password"
