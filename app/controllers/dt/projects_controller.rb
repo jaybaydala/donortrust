@@ -149,20 +149,25 @@ class Dt::ProjectsController < DtApplicationController
     @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
     render :partial => 'timeline'
   end
-
+  
   def search
-    @query = params[:keywords]
+    @query = params[:keywords].nil? ?  "" : params[:keywords] 
     
-    # when filtering search, we can't use sphinx because it doesn't accepts conditions in queries
+    #apply filters
+    filters = apply_filters
+   
+   # order results
+    order_map = {
+        "newest" => "created_at", 
+        "target_start_date" => "target_start_date", 
+        "total_cost" => "total_cost", 
+        "partner_name" => "partners.`name`", 
+        "place_name" => "places.`name`"
+      }
     
+    # do the search
+    ultrasphinx_search(filters)
     
-    if params[:filter]
-      #performs filtering on results
-      filter_search
-    else
-      # ultrasphinx (fast response)
-      ultrasphinx_search
-    end
     respond_to do |format|
       format.js{
         render :update do |page|
@@ -172,10 +177,39 @@ class Dt::ProjectsController < DtApplicationController
       format.html { render :partial => 'dt/projects/search_results', :layout => 'layouts/dt_application'}
     end
   end
+
+  # deprecated
+  def search_old
+    #@query = params[:keywords]
+    
+    #if params[:filter]
+      # performs filtering on results
+    #  filter_search
+    #else
+    #  # ultrasphinx (fast response)
+    #  ultrasphinx_search
+    #end
+    #respond_to do |format|
+    #  format.js{
+    #    render :update do |page|
+    #      page.replace_html "count_results_container", "#{@search.total_entries } results found"
+    #    end
+    #  }
+    #  format.html { render :partial => 'dt/projects/search_results', :layout => 'layouts/dt_application'}
+    #end
+  end
   
   #populates a select using the continent_id
   def add_countries
-    @countries = Place.find(:all, :conditions => [ "parent_id = ?", params[:continent_id]] )
+    places = Place.find(:all, :conditions => [ "parent_id = ?", params[:continent_id]] )
+    @countries = [['Location', '']]
+    places.each do |country|
+      projects = Place.projects(2,country.id)
+      if projects.size>0
+        name = country.parent_id? ? "#{country.name} (#{projects.size})" : "#{country.name} (#{projects.size})"
+        @countries << [name, country.id]
+      end
+    end
     respond_to do |format|
       format.js {
         render :update do |page|
@@ -188,22 +222,77 @@ class Dt::ProjectsController < DtApplicationController
 
   protected  
   
-  def filter_search
-    conditions = ['1=1']
+  def apply_filters
+    filters = Hash.new
+    
+    # partner
     if !params[:partner_id].nil? && !params[:partner_id].empty?
-      conditions << "projects.partner_id = #{params[:partner_id]}"
+      filters.merge!({:partner_id => params[:partner_id].to_i})
     end
+    
+    # cause 
     if !params[:cause_id].nil? && !params[:cause_id].empty?
-      conditions << "causes_projects.cause_id = #{params[:cause_id]}"
+      filters.merge!({:cause_id => params[:cause_id].to_i} )
     end
+    
+    # total_cost
     if (!params[:funding_req_min].nil? && !params[:funding_req_min].empty?)|| (!params[:funding_req_max].nil? && !params[:funding_req_max].empty?)
+      
       if !params[:funding_req_max].nil? && !params[:funding_req_max].empty?
-        conditions << "projects.total_cost <= #{params[:funding_req_max]}"
-      end
-      if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
-        conditions << "projects.total_cost >= #{params[:funding_req_min]}"
+        
+        if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
+          filters.merge!(:total_cost => params[:funding_req_min].to_f..params[:funding_req_max].to_f)
+        else
+          filters.merge!(:total_cost => 0..params[:funding_req_max].to_f)
+        end
+        
+      else
+        if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
+          filters.merge!(:total_cost => params[:funding_req_min].to_f..Float::MAX.to_f)
+        end
+       
       end
     end
+    
+
+    if !params[:continent_id].nil? && !params[:continent_id].empty? && !params[:country_id].nil? && !params[:country_id].empty?
+      sel_projects = []
+      sel_projects = Place.projects(2, params[:country_id].to_i)
+      
+    else
+      if !params[:continent_id].nil? && !params[:continent_id].empty?
+        sel_projects = []
+        sel_projects = Place.projects(1, params[:continent_id].to_i)        
+      end
+    end
+    
+    if !sel_projects.nil?
+      ids = []
+      sel_projects.each do |project|  
+        ids << project.place_id
+      end
+      filters.merge!(:place_id => ids)
+    end
+    return filters
+  end
+  
+  # deprecated
+  def filter_search
+    #conditions = ['1=1']
+    #if !params[:partner_id].nil? && !params[:partner_id].empty?
+    #  conditions << "projects.partner_id = #{params[:partner_id]}"
+    #end
+    #if !params[:cause_id].nil? && !params[:cause_id].empty?
+    #  conditions << "causes_projects.cause_id = #{params[:cause_id]}"
+    #end
+    #if (!params[:funding_req_min].nil? && !params[:funding_req_min].empty?)|| (!params[:funding_req_max].nil? && !params[:funding_req_max].empty?)
+    #  if !params[:funding_req_max].nil? && !params[:funding_req_max].empty?
+    #    conditions << "projects.total_cost <= #{params[:funding_req_max]}"
+    #  end
+    #  if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
+    #    conditions << "projects.total_cost >= #{params[:funding_req_min]}"
+    #  end
+    #end
     
     #if (!params[:funding_rec_min].nil? && !params[:funding_rec_min].empty?)|| (!params[:funding_rec_max].nil? && !params[:funding_rec_max].empty?)
     #  if !params[:funding_rec_max].nil? && !params[:funding_rec_max].empty?
@@ -221,40 +310,40 @@ class Dt::ProjectsController < DtApplicationController
     #  end
     #end
     
-    if !params[:start_date].nil? && !params[:start_date].empty?
-      if params[:start_date]=='bigger'
-        conditions << "projects.target_start_date >= '#{params[:start_date_year]}-#{params[:start_date_month]}-#{params[:start_date_day]}'"
-      end
-      if params[:start_date]=='lower'
-        conditions << "projects.target_start_date <= '#{params[:start_date_year]}-#{params[:start_date_month]}-#{params[:start_date_day]}'"
-      end
-    end
+    #if !params[:start_date].nil? && !params[:start_date].empty?
+    #  if params[:start_date]=='bigger'
+    #    conditions << "projects.target_start_date >= '#{params[:start_date_year]}-#{params[:start_date_month]}-#{params[:start_date_day]}'"
+    #  end
+    #  if params[:start_date]=='lower'
+    #    conditions << "projects.target_start_date <= '#{params[:start_date_year]}-#{params[:start_date_month]}-#{params[:start_date_day]}'"
+    #  end
+    # end
     
-     order_map = {
-        "newest" => "created_at", 
-        "target_start_date" => "target_start_date", 
-        "total_cost" => "total_cost", 
-        "partner_name" => "partners.`name`", 
-        "place_name" => "places.`name`"
-      }
-      params[:order] = 'newest' if !params[:order]
-      order = order_map[params[:order]] if order_map.has_key?(params[:order])
+    # order_map = {
+    #    "newest" => "created_at", 
+    #    "target_start_date" => "target_start_date", 
+    #    "total_cost" => "total_cost", 
+    #    "partner_name" => "partners.`name`", 
+    #    "place_name" => "places.`name`"
+    #  }
+    #  params[:order] = 'newest' if !params[:order]
+    #  order = order_map[params[:order]] if order_map.has_key?(params[:order])
  
       
-    @projects = Project.find_public(:all, 
-      :joins => 'LEFT JOIN causes_projects on causes_projects.project_id = projects.id LEFT JOIN places ON places.id = projects.place_id LEFT JOIN partners ON partners.id = projects.partner_id' , 
-      :conditions=> [conditions.join(" AND ")] ,
-      :group =>'projects.id',
-      :select => "projects.*, partners.name, places.name")
+    #@projects = Project.find_public(:all, 
+    #  :joins => 'LEFT JOIN causes_projects on causes_projects.project_id = projects.id LEFT JOIN places ON places.id = projects.place_id LEFT JOIN partners ON partners.id = projects.partner_id' , 
+    #  :conditions=> [conditions.join(" AND ")] ,
+    #  :group =>'projects.id',
+    #  :select => "projects.*, partners.name, places.name")
     
 
-    @search = Project.paginate( @projects, :page => (params[:page].nil? ? '1': params[:page]  ), :per_page => 3)
+    #@search = Project.paginate( @projects, :page => (params[:page].nil? ? '1': params[:page]  ), :per_page => 5)
     
   end
 
-  def ultrasphinx_search
+  def ultrasphinx_search(filters)
     if params[:order].nil?
-      @search = Ultrasphinx::Search.new(:query => @query, :per_page => 3, :page => (params[:page].nil? ? '1': params[:page]  ) )
+      @search = Ultrasphinx::Search.new(:query => @query, :filters =>filters, :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ) )
       Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
         :before_match => '<strong style="background-color:yellow;">',
         :after_match => '</strong>',
@@ -267,7 +356,7 @@ class Dt::ProjectsController < DtApplicationController
         })
         @search.excerpt
       else
-        @search = Ultrasphinx::Search.new(:query => @query, :sort_by => params[:order], :sort_mode => 'ascending', :per_page => 3,  :page => (params[:page].nil? ? '1': params[:page]  ) )
+        @search = Ultrasphinx::Search.new(:query => @query,:filters =>filters, :sort_by => params[:order], :sort_mode => 'ascending', :per_page => 5,  :page => (params[:page].nil? ? '1': params[:page]  ) )
         Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
           :before_match => '<strong style="background-color:yellow;">',
           :after_match => '</strong>',

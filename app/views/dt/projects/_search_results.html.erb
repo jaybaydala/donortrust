@@ -1,5 +1,7 @@
-<%- content_for :html_title do -%>Project Search Results<%- end -%>
 
+
+<%if params[:keywords]%>
+<%- content_for :html_title do -%>Project Search Results<%- end -%>
 <div>
   <strong>You have searched using the following terms:</strong>
 	<% if @search  %>
@@ -8,6 +10,11 @@
 		</div>
 	<% end %>
 </div>
+
+<% else%>
+<%- content_for :html_title do -%>All Projects<%- end -%>
+
+<% end%>
 
 <% if @search.size > 0 %>
 

@@ -56,4 +56,18 @@ class Place < ActiveRecord::Base
     return true if self[:file].match /\.(jpg|gif|png)$/ 
     return false
   end
+  
+  def Place.projects(type_id, place_id, continent_id=nil)
+    sel_projects = []
+    all_projects = Project.find_public :all
+    all_projects.each do |project|
+      project.place.ancestors.each do |ancestor|
+        if ancestor.place_type_id == type_id.to_i && ancestor.id == place_id.to_i
+          sel_projects << project
+        end
+      end
+    end
+    return sel_projects
+  end
+
 end

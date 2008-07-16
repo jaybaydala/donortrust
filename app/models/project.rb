@@ -52,11 +52,19 @@ class Project < ActiveRecord::Base
             :association_sql => "LEFT JOIN (places) ON (places.id=projects.place_id)",
             :sortable => true
           },
+          {:class_name => 'Place', 
+            :field => 'id', 
+            :as => 'place_id'
+          },
           {:class_name => 'Partner', 
             :field => 'partners.name', 
             :as => 'partner_name', 
             :association_sql => "LEFT JOIN (partners) ON (partners.id=projects.partner_id)",
             :sortable => true
+          },
+          {:class_name => 'Partner', 
+            :field => 'id', 
+            :as => 'partner_id'
           },
           {
             :association_name => 'sectors', 

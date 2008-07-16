@@ -41,7 +41,7 @@ module Dt::ProjectsHelper
   def dt_advanced_search
     @continents = [['Location', '']]
 		Project.continents.each do |place|
-  			name = place.parent_id? ? "#{place.name}" : place.name
+  			name = place.parent_id? ? "#{place.name} (#{Place.projects(1,place.id).size})" : "#{place.name} (#{Place.projects(1,place.id).size})"
   			@continents << [name, place.id]
 		end
 		@partners = [['Organization', '']]

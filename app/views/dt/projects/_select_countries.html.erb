@@ -1,1 +1,1 @@
-<%= collection_select :country ,:place_id, @countries, :id, :name, {:include_blank => true} %>
+<%= select_tag "country_id", options_for_select(@countries) %>
