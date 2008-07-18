@@ -1,5 +1,6 @@
 <%- content_for :html_title do -%>My Account<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <div id="intro">
 	<h2>Stay Involved </h2>			

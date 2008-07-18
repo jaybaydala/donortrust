@@ -121,16 +121,16 @@
 NOTICES and ERRORS - General program flow helpers 
 ==================*/
 
-div.notice, div.error, div.errorExplanation {
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:0.9375em;
+div.notice, div.error, div.errorExplanation, div.activation {
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:0.9375em;
 	margin:1em 0;
 	padding:4px;
 }
 #errorExplanation p, #errorExplanation li {
     font-family:Arial, Helvetica, sans-serif;
 }
-div.notice {
+div.notice, div.activation {
   background-color:#FFD;
 	border:1px solid #360;
 }
