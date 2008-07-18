@@ -1,18 +1,26 @@
 
 
-<%if params[:keywords]%>
-<%- content_for :html_title do -%>Project Search Results<%- end -%>
-<div>
-  <strong>You have searched using the following terms:</strong>
-	<% if @search  %>
-		<div class="textsm" style="padding-bottom:0;">
-			<%= params[:keywords]  %>
-		</div>
-	<% end %>
-</div>
+
 
 <% else%>
-<%- content_for :html_title do -%>All Projects<%- end -%>
+  <% if @search.total_entries==Project.find_public(:all).size%>
+    <%- content_for :html_title do -%>All Projects<%- end -%>
+  <%else%>
+    <%if @search.total_entries>0%>
+      <%if params[:keywords] %>
+      <%- content_for :html_title do -%>Project Search Results<%- end -%>
+      <div>
+        <strong>You have searched using the following terms:</strong>
+      	<% if @search  %>
+      		<div class="textsm" style="padding-bottom:0;">
+      			<%= params[:keywords]  %>
+      		</div>
+      	<% end %>
+      </div>
+    <%else%>
+      No results were found. Please review your search.
+    <%end%>
+  <%end%>
 
 <% end%>
 

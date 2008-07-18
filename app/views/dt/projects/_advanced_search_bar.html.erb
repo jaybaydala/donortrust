@@ -3,60 +3,59 @@
 
 <div>
 <% form_tag(  search_dt_projects_path , {:id => 'advanced_search', :method => :get})do %>
-	<h2>Projects Filter Search</h2>
-	<fieldset>
-		Continent:<%= select_tag("continent_id", options_for_select(@continents),  :onchange => "ajaxSubmit(); $('country_id').value='';" )  %> Country: 
-		<span id='country_id_container'>
-			<%= select_tag("country_id", "country_id", :onchange => "ajaxSubmit();" , :disabled => true)%>	
-		</span>
-		<%= image_tag 'spinner.gif' , :id => 'spinner', :style => 'display:none; padding-top:3px;' %>
-		<%=	observe_field("continent_id",
-				:on => "change",
-				:url => {:action => "add_countries"},
-				:method => :get,
-				:with => "continent_id",
-				:before   => %(Element.show("spinner")),
-       	:success  => %(Element.hide("spinner"))
-			)		
-		%>
-	</fieldset>
-	<fieldset>
-		Organization: <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();" ) %>
-		Cause: <%= select_tag("cause_id",options_for_select(@causes, params[:cause_id].to_i) , :onchange => "ajaxSubmit();" ) %>
-		
-	</fieldset>
-	<fieldset>
-		<div>
-		Funding required: 
-		min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();" ) %> 
-		and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();" ) %>
-		</div>
-			<!--<br>
-		Funding received:
-		min <%= text_field_tag("funding_rec_min", params[:funding_rec_min], :size => 10, :onchange => "ajaxSubmit();" ) %> 
-		and max <%= text_field_tag("funding_rec_max", params[:funding_rec_max], :size => 10, :onchange => "ajaxSubmit();" ) %>
-	-->
-	</fieldset>
-	<!-- 
-	<fieldset>
-		Start date: 
-		<%= select_tag("start_date", options_for_select([ ['any',''] , ['sooner than','lower'], ['later than','bigger']], params[:start_date]), :onchange => "ajaxSubmit();" )%>
-		<span id='start_date_form' >
-			<%= text_field_tag("start_date_month", params[:start_date_month], :size => 2, :onblur =>"if(!this.value) this.value='mm';", :onfocus => "if(this.value=='mm') this.value='';", :onchange => "ajaxSubmit();" ) %>
-			-<%= text_field_tag("start_date_day",params[:start_date_day], :size => 2,:onblur =>"if(!this.value) this.value='dd';", :onfocus => "if(this.value=='dd') this.value='';", :onchange => "ajaxSubmit();" ) %>
-			-<%= text_field_tag("start_date_year", params[:start_date_year], :size => 4,:onblur =>"if(!this.value) this.value='yyyy';", :onfocus => "if(this.value=='yyyy') this.value='';", :onchange => "ajaxSubmit();" ) %></span>
-	</fieldset>
--->
+<h2>Projects Filter Search</h2>
+<fieldset>
+  Continent:<%= select_tag("continent_id", options_for_select(@continents),  :onchange => "ajaxSubmit(); $('country_id').value='';" )  %> Country: 
+  <span id='country_id_container'>
+    <%= select_tag("country_id", "country_id", :onchange => "ajaxSubmit();" , :disabled => true)%>	
+  </span>
+  <%= image_tag 'spinner.gif' , :id => 'spinner', :style => 'display:none; padding-top:3px;' %>
+  <%=	observe_field("continent_id",
+  :on => "change",
+  :url => {:action => "add_countries"},
+  :method => :get,
+  :with => "continent_id",
+  :before   => %(Element.show("spinner")),
+  :success  => %(Element.hide("spinner"))
+  )		
+  %>
+</fieldset>
+<fieldset>
+  Organization: <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();" ) %>
+  Cause: <%= select_tag("cause_id",options_for_select(@causes, params[:cause_id].to_i) , :onchange => "ajaxSubmit();" ) %>
 
-	<%= hidden_field_tag "filter", "true"%>
-	<!-- <%= hidden_field_tag "advanced","true"%> -->
-	<input type="button" name="back_to_simple" value="Back to normal search" size="40" id="back_to_simple" onclick="Element.hide('search-bar-wrapper')">
-	<span id="searchsubmit">
-		<%= submit_tag 'Search', :size =>40, :onsubmit=>"$('filter_keywords').value = $('keywords').value;"%>
-	</span>
-	<span id="count_results_container" style="float:right;position:relative;bottom:20px;background:yellow">
-	</span>
-<% end -%>
+</fieldset>
+<fieldset>
+  <div>
+    Funding required: 
+    min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();" ) %> 
+    and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();" ) %>
+  </div>
+  <!--<br>
+    Funding received:
+    min <%= text_field_tag("funding_rec_min", params[:funding_rec_min], :size => 10, :onchange => "ajaxSubmit();" ) %> 
+    and max <%= text_field_tag("funding_rec_max", params[:funding_rec_max], :size => 10, :onchange => "ajaxSubmit();" ) %>
+  -->
+</fieldset>
+<!-- 
+  <fieldset>
+    Start date: 
+    <%= select_tag("start_date", options_for_select([ ['any',''] , ['sooner than','lower'], ['later than','bigger']], params[:start_date]), :onchange => "ajaxSubmit();" )%>
+    <span id='start_date_form' >
+      <%= text_field_tag("start_date_month", params[:start_date_month], :size => 2, :onblur =>"if(!this.value) this.value='mm';", :onfocus => "if(this.value=='mm') this.value='';", :onchange => "ajaxSubmit();" ) %>
+      -<%= text_field_tag("start_date_day",params[:start_date_day], :size => 2,:onblur =>"if(!this.value) this.value='dd';", :onfocus => "if(this.value=='dd') this.value='';", :onchange => "ajaxSubmit();" ) %>
+      -<%= text_field_tag("start_date_year", params[:start_date_year], :size => 4,:onblur =>"if(!this.value) this.value='yyyy';", :onfocus => "if(this.value=='yyyy') this.value='';", :onchange => "ajaxSubmit();" ) %></span>
+    </fieldset>
+  -->
 
+  <%= hidden_field_tag "filter", "true"%>
+  <!-- <%= hidden_field_tag "advanced","true"%> -->
 
+  <span id="searchsubmit">
+    <%= submit_tag 'Search', :size =>40, :onsubmit=>"$('filter_keywords').value = $('keywords').value;"%>
+  </span>
+  <span id="count_results_container" style="float:right;position:relative;bottom:20px;background:yellow">
+  </span>
+  <% end -%>
 </div>
+
