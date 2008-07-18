@@ -43,7 +43,8 @@ class Project < ActiveRecord::Base
     {:field => 'meas_eval_plan'}, 
     {:field => 'project_in_community'},
     {:field => 'total_cost'},
-    {:field => 'target_start_date'}
+    {:field => 'target_start_date'},
+    {:field => 'project_status_id'}
     ],
     :include => [
           {:class_name => 'Place', 
