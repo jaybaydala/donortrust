@@ -1,5 +1,6 @@
 <%- content_for :html_title do -%>Deposit<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <%= error_messages_for :deposit %>
 <% form_for(:deposit, :url => dt_account_deposits_path(:account_id => current_user), :html => {:id => "depositform", :name => "depositform"}) do |f| %>

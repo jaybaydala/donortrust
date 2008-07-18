@@ -1,6 +1,7 @@
 <%- content_for :html_title do -%>Invest<%- end -%>
 <%- content_for :page_title do -%>Invest Directly in a Project, and Invest in the Future.<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <%= error_messages_for :investment %>
 <% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>

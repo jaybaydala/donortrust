@@ -187,7 +187,7 @@ class Dt::GiftsController < DtApplicationController
   def gift_params
     gift_params = {}
     gift_params = gift_params.merge(params[:gift]) if params[:gift]
-    gift_params[:user_id] = current_user if logged_in?
+    gift_params[:user] = current_user if logged_in?
     normalize_send_at!(gift_params)
     gift_params
   end

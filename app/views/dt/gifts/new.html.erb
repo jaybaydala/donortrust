@@ -4,6 +4,7 @@
 <%- content_for :html_title do -%>Gift It!<%- end -%>
 <%- content_for :page_title do -%>Experience a new way to give.<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <%= error_messages_for :gift %>
 

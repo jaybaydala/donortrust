@@ -13,4 +13,3 @@
 <li<%= ' class="current"' if params['controller'] == 'dt/gifts' %>><%= link_to "Give a Gift ", new_dt_gift_path %></li>
 </ul>
 
-<%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %>
