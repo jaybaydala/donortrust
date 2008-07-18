@@ -1,6 +1,7 @@
 class BusAdmin::TasksController < ApplicationController
   layout 'admin'
-  access_control :DEFAULT => 'cf_admin' 
+  before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
 
   active_scaffold :tasks do |config|
     config.columns =[ :milestone, :name, :target_start_date, :target_end_date,

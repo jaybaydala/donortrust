@@ -10,7 +10,7 @@ class CreateActionPermissionTables < ActiveRecord::Migration
       t.integer :authorized_controller_id
     end
 
-    create_table :permissions,:id => false, :force => true do |t|
+    create_table :permissions, :force => true do |t|
       t.integer :authorized_action_id
       t.integer :role_id
     end

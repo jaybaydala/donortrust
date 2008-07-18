@@ -1,8 +1,7 @@
 class BusAdmin::HomeController < ApplicationController
   layout 'admin'
-  before_filter :check_authorization
-  #access_control :DEFAULT => 'cf_admin' 
-
+  before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
 
   include BusAdmin::ProjectsHelper
   include BusAdmin::ProgramsHelper

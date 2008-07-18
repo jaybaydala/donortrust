@@ -100,6 +100,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/users"
   map.resources :roles, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/roles"
   map.resources :administrations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/administrations"
+  map.resources :permissions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/permissions"
+  map.resources :authorized_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_actions"
+  map.resources :authorized_controllers, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_controllers"
   # bus_admin project resources and routes
   map.resources :projects,
                 :path_prefix => "/bus_admin",

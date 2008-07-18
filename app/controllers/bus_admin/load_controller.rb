@@ -1,6 +1,7 @@
 class BusAdmin::LoadController < ApplicationController
   layout 'admin'
-  access_control :DEFAULT => 'cf_admin' 
+  before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin' 
 
   def index
     @loads = Load.find(:all , :conditions => ['sent = 0' ])

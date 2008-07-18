@@ -1,3 +1,182 @@
-authorized_controller_001: 
-  id: "1"
+--- 
+authorized_controllers_055: 
+  id: "70"
+  name: bus_admin/rank_values
+authorized_controllers_044: 
+  id: "58"
+  name: bus_admin/causes
+authorized_controllers_033: 
+  id: "43"
+  name: bus_admin/quick_fact_places
+authorized_controllers_022: 
+  id: "26"
+  name: bus_admin/sectors
+authorized_controllers_011: 
+  id: "15"
+  name: bus_admin/partner_types
+authorized_controllers_056: 
+  id: "71"
+  name: bus_admin/users
+authorized_controllers_045: 
+  id: "59"
+  name: bus_admin/collaborating_agencies
+authorized_controllers_034: 
+  id: "44"
+  name: bus_admin/quick_facts
+authorized_controllers_023: 
+  id: "28"
+  name: bus_admin/country_sectors
+authorized_controllers_012: 
+  id: "16"
+  name: bus_admin/partners
+authorized_controllers_001: 
+  id: "3"
+  name: bus_admin/bus_account
+authorized_controllers_057: 
+  id: "72"
+  name: bus_admin/rank_types
+authorized_controllers_046: 
+  id: "61"
+  name: bus_admin/comments
+authorized_controllers_035: 
+  id: "45"
+  name: bus_admin/quick_fact_partners
+authorized_controllers_024: 
+  id: "29"
+  name: bus_admin/flickr_images
+authorized_controllers_013: 
+  id: "17"
+  name: bus_admin/programs
+authorized_controllers_002: 
+  id: "4"
+  name: bus_admin/bus_secure_actions
+authorized_controllers_047: 
+  id: "62"
+  name: bus_admin/e_cards
+authorized_controllers_036: 
+  id: "46"
+  name: bus_admin/quick_fact_sectors
+authorized_controllers_025: 
+  id: "31"
+  name: bus_admin/regions
+authorized_controllers_014: 
+  id: "18"
+  name: bus_admin/project_categories
+authorized_controllers_003: 
+  id: "5"
+  name: bus_admin/authorized_controllers
+authorized_controllers_048: 
+  id: "63"
+  name: bus_admin/financial_sources
+authorized_controllers_037: 
+  id: "47"
+  name: bus_admin/place_sectors
+authorized_controllers_026: 
+  id: "33"
+  name: bus_admin/frequency_types
+authorized_controllers_015: 
+  id: "19"
+  name: bus_admin/project_histories
+authorized_controllers_004: 
+  id: "6"
+  name: bus_admin/bus_user_types
+authorized_controllers_050: 
+  id: "65"
+  name: bus_admin/load
+authorized_controllers_049: 
+  id: "64"
+  name: bus_admin/gifts
+authorized_controllers_038: 
+  id: "48"
+  name: bus_admin/group_types
+authorized_controllers_027: 
+  id: "34"
+  name: bus_admin/key_measures
+authorized_controllers_016: 
+  id: "20"
+  name: bus_admin/partner_statuses
+authorized_controllers_005: 
+  id: "7"
+  name: bus_admin/measures
+authorized_controllers_051: 
+  id: "66"
+  name: bus_admin/place_types
+authorized_controllers_040: 
+  id: "52"
+  name: bus_admin/ranks
+authorized_controllers_039: 
+  id: "51"
+  name: bus_admin/tasks
+authorized_controllers_028: 
+  id: "37"
+  name: bus_admin/targets
+authorized_controllers_017: 
+  id: "21"
   name: bus_admin/home
+authorized_controllers_006: 
+  id: "8"
+  name: bus_admin/contacts
+authorized_controllers_052: 
+  id: "67"
+  name: bus_admin/project_flickr_images
+authorized_controllers_041: 
+  id: "53"
+  name: bus_admin/budget_items
+authorized_controllers_030: 
+  id: "40"
+  name: bus_admin/rss_feeds
+authorized_controllers_029: 
+  id: "38"
+  name: bus_admin/groups
+authorized_controllers_018: 
+  id: "22"
+  name: bus_admin/you_tube_videos
+authorized_controllers_007: 
+  id: "10"
+  name: bus_admin/milestone_categories
+authorized_controllers_053: 
+  id: "68"
+  name: bus_admin/project_you_tube_videos
+authorized_controllers_042: 
+  id: "54"
+  name: bus_admin/key_measure_datas
+authorized_controllers_031: 
+  id: "41"
+  name: bus_admin/rss_feed_elements
+authorized_controllers_020: 
+  id: "24"
+  name: bus_admin/milestones
+authorized_controllers_019: 
+  id: "23"
+  name: bus_admin/project_statuses
+authorized_controllers_008: 
+  id: "11"
+  name: bus_admin/milestone_statuses
+authorized_controllers_054: 
+  id: "69"
+  name: bus_admin/quick_fact_types
+authorized_controllers_043: 
+  id: "57"
+  name: bus_admin/banner_images
+authorized_controllers_032: 
+  id: "42"
+  name: bus_admin/places
+authorized_controllers_021: 
+  id: "25"
+  name: bus_admin/projects
+authorized_controllers_010: 
+  id: "13"
+  name: bus_admin/partner_histories
+authorized_controllers_009: 
+  id: "12"
+  name: bus_admin/millennium_goals
+authorized_controllers_100: 
+  id: "73"
+  name: bus_admin/permissions
+authorized_controllers_101: 
+  id: "74"
+  name: bus_admin/authorized_actions
+authorized_controllers_102: 
+  id: "75"
+  name: bus_admin/authorized_controllers
+

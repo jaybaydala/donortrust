@@ -1,7 +1,8 @@
 class BusAdmin::BannerImagesController < ApplicationController
   
   layout 'admin'
-  access_control :DEFAULT => 'cf_admin' 
+  before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
   
   active_scaffold :banner_images do |config|
     config.columns =[ :model_id, :controller, :action, :file ]

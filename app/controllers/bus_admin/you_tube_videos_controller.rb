@@ -3,7 +3,8 @@ require 'uri'
 
 class BusAdmin::YouTubeVideosController < ApplicationController
   layout 'admin'
-  access_control :DEFAULT => 'cf_admin' 
+  before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
 
   def index
     @you_tube_videos = YouTubeVideo.find(:all)
