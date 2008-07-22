@@ -1,7 +1,7 @@
 class Dt::AccountsController < DtApplicationController
   before_filter :login_required, :only => [ :show, :edit, :update ]
   helper "dt/places"
-  
+
   def initialize
     @page_title = "My Account"
   end
@@ -17,10 +17,15 @@ class Dt::AccountsController < DtApplicationController
     @user = User.find(params[:id], :include => [:projects])
     # @transactions = @user.user_transactions.find(:all, :order => 'created_at DESC').paginate(:page => params[:tx_page], :per_page => 10)
     @transactions = []
-    @transactions << @user.orders
-    @transactions << @user.gifts.find(:all, :conditions => {:order_id => nil})
-    @transactions << @user.investments.find(:all, :conditions => {:order_id => nil})
-    @transactions << @user.deposits.find(:all, :conditions => {:order_id => nil})
+#    @transactions << @user.orders
+#    @transactions << @user.gifts.find(:all, :conditions => {:order_id => nil})
+#    @transactions << @user.investments.find(:all, :conditions => {:order_id => nil})
+#    @transactions << @user.deposits.find(:all, :conditions => {:order_id => nil})
+
+    @transactions << @user.gifts.find(:all)
+    @transactions << @user.investments.find(:all)
+    @transactions << @user.deposits.find(:all)
+
     @transactions.flatten!
     @transactions = @transactions.sort_by{|tx| tx.created_at }.reverse
     @transactions = @transactions.paginate(:page => params[:tx_page], :per_page => 10)
@@ -63,7 +68,7 @@ class Dt::AccountsController < DtApplicationController
   def update
     redirect_to(:action => 'edit', :id =>current_user.id) unless authorized?
     @user = User.find(params[:id])
-    
+
     # password changing - requires the old password to be entered and correct
     if params[:old_password] && !current_user.authenticated?(params[:old_password])
       params[:old_password] = nil
@@ -73,7 +78,7 @@ class Dt::AccountsController < DtApplicationController
     #params[:user][:password_confirmation] = nil if !params[:old_password]
     @user.change_password = false
     @saved = @user.update_attributes(params[:user])
-    
+
     respond_to do |format|
       if @saved
         if @user.login_changed?
@@ -85,7 +90,7 @@ class Dt::AccountsController < DtApplicationController
         #format.js
         format.xml  { head :ok }
       else
-        flash[:error] = "Couldn't change your password" 
+        flash[:error] = "Couldn't change your password"
         format.html { render :action => "edit" }
         #format.js
         format.xml  { render :xml => @user.errors.to_xml }
@@ -100,13 +105,13 @@ class Dt::AccountsController < DtApplicationController
       session[:tmp_user] = nil
       #MP - Dec 14, 2007
       #Added to support the us tax receipt functionality
-      #If the user has indicated that they want a US tax 
+      #If the user has indicated that they want a US tax
       #receipt, the session variable should be set to false,
       #and the user notified that they can now follow the link
       #**Thought about an automatic redirect here, but decided
       #against it as it might be kinda weird to be redirected
       #when activating the account**. Also, the message below may
-      #never be seen if the session expires before the user 
+      #never be seen if the session expires before the user
       #activates the account.
       if requires_us_tax_receipt?
         requires_us_tax_receipt(false)
@@ -121,7 +126,7 @@ class Dt::AccountsController < DtApplicationController
         format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
     end
   end
-  
+
   def resend(user=nil)
     if !user
       user = User.find_by_id( logged_in? ? current_user : session[:tmp_user] )
@@ -130,7 +135,7 @@ class Dt::AccountsController < DtApplicationController
     flash[:notice] = "We have resent the activation email to your login email address"
     redirect_to dt_accounts_url()
   end
-  
+
   def reset
     respond_to do |format|
       format.html
@@ -148,14 +153,14 @@ class Dt::AccountsController < DtApplicationController
       flash[:notice] = "We have reset your password and sent it to your login email address" if saved
     end
     respond_to do |format|
-      format.html { 
+      format.html {
         redirect_to dt_login_path and return if @user && saved
         flash[:error] = "We could not find that login. Did you try your email address?"
         render :action => 'reset'
       }
     end
   end
-  
+
   protected
   # protect the show/edit/update methods so you can only update/view your own record
   def authorized?(user = current_user())

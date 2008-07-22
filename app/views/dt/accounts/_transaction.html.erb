@@ -14,7 +14,9 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 </tr>
 <% when "Deposit" -%>
 <tr>
-  <td<%= bg %>><div id="depositTransaction-<%= transaction.id %>" class="depositTransaction"><strong><%= transaction_type %></strong></div>
+  <td<%= bg %>><div id="depositTransaction-<%= transaction.id %>" class="depositTransaction"><strong><%= transaction_type %></strong>
+    <%= (transaction.order_id)?" (Order ##{transaction.order_id})":"" %> 
+	</div>
   <% if transaction.gift_id %> 
     (<%= "a gift from #{transaction.gift.name}" %>
     <% if transaction.gift.project_id %>to the &quot;<%= link_to transaction.gift.project.name, dt_project_path(transaction.gift.project.id) %>&quot; Project<% end %>)
@@ -24,13 +26,18 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 </tr>
 <% when "Gift" -%>
 <tr>
-  <td<%= bg %>><div id="giftTransaction-<%= transaction.id %>" class="giftTransaction"><strong><%= transaction_type %></strong> to <%= link_to (transaction.to_name? ? transaction.to_name : transaction.to_email), "mailto:#{transaction.to_email}" %> (from your <%= transaction.credit_card? ? 'credit card' : 'account' %>)</div></td>
+  <td<%= bg %>><div id="giftTransaction-<%= transaction.id %>" class="giftTransaction"><strong><%= transaction_type %></strong> to <%= link_to (transaction.to_name? ? transaction.to_name : transaction.to_email), "mailto:#{transaction.to_email}" %> (from your <%= transaction.credit_card? ? 'credit card' : 'account' %>)
+    <%= (transaction.order_id)?" (Order ##{transaction.order_id})":"" %> 
+  </div></td>
   <td<%= bg %>><%= date %></td>
   <td<%= bg %>><%= amount %></td>
 </tr>
 <% when "Investment" -%>
 <tr>
-  <td<%= bg %>><div id="investmentTransaction-<%= transaction.id %>" class="investmentTransaction"><strong><%= transaction_type %></strong></div> 
+  <td<%= bg %>><div id="investmentTransaction-<%= transaction.id %>" class="investmentTransaction">
+  	<strong><%= transaction_type %></strong>
+  <%= (transaction.order_id)?" (Order ##{transaction.order_id})":"" %> 
+  </div> 
   <% if transaction.gift_id %>(<%= "a gift from #{transaction.gift.name}" %>)<% end %>
   in <%= link_to transaction.project.name, dt_project_path(transaction.project.id) %>. Thanks!</td>
   <td<%= bg %>><%= date %></td>
