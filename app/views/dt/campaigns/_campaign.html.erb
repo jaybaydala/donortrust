@@ -1,12 +1,17 @@
-<% 
+<%
 	show_address ||= false 
 	show_admin ||= false
 %>
 <div class="campaign" id="campaign_<%= campaign.id%>">
-	<h2><%= link_to campaign.name, dt_campaign_path(campaign) %> | 
-			<%= (link_to('Manage Campaign',manage_dt_campaign_path(campaign)) + " | ") unless not campaign.owned? -%>
-			Create A Team | 
-			Join A Team </h2>
+	<h2><%= link_to campaign.name, dt_campaign_path(campaign) %>
+			<%= (" | " + link_to('Manage Campaign', manage_dt_campaign_path(campaign))) unless not campaign.owned? -%>
+			<% if campaign.allow_multiple_teams %>
+				| <%= link_to 'Create a Team', new_dt_campaign_team_path(campaign) %> |
+				<%= link_to 'Join a Team', dt_campaign_teams_path(campaign) %>
+			<% end %>
+			<%= ("| " + link_to('Join Campaign', new_dt_campaign_team_path(campaign))) unless campaign.allow_multiple_teams?%>
+			
+	</h2>
 	<ul class="details_list">
 		<li><span class="detail"><strong>Fundraising Goal:</strong><%= campaign.fundraising_goal_with_currency%></span></li>
 		<li><span class="detail"><strong>Start Date:</strong><%= campaign.start_date %></span></li>
@@ -37,7 +42,7 @@
 											:url => activate_dt_campaign_path(campaign), 
 										   	:complete => "Element.show('flash');") + " | " ) unless not campaign.pending?
 											 %>
-			<%= link_to('Destroy Campaign',dt_campaign_path(campaign), :confirm => 'Are you sure?', :method => :delete )%> | 
+			<%= delete_icon(dt_campaign_path(campaign)) %> | 
 			<%= link_to('Archive Campaign',dt_campaign_path(campaign), :confirm => 'Are you sure?', :method => :delete )%>
 		</h2>
 	</div>

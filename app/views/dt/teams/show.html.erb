@@ -2,10 +2,13 @@
 	<link href="<%= formatted_dt_team_path(@team,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>
 <div id="team">
-	<h1><%= @team.name %></h1>
+	<h1><%= @team.name %> <%= "- PENDING! " unless not @team.pending? %> <%= (" - " + link_to('Join this team!', join_dt_team_path(@team))) unless @team.users.include? current_user%></h1>
 	<h5 style="margin-top:-10px;">
 		<%= link_to "http://www.christmasfutrue.org/#{@team.campaign.short_name}/team/ #{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
 	</h5>
+	<p>
+		<%= @team.description %>
+	</p>
 	
 	<div id="news">
 		<h2>Recent News <%= link_to image_tag('dt/icons/rss_icon.gif'),formatted_dt_team_path(@team,:rss), :format => :rss %></h2>
@@ -17,5 +20,8 @@
 	
 	<div id="team_members">
 		<h2>Team Members</h2>
+		<% for user in @team.users %>
+			<%= user.full_name%>
+		<% end %>
 	</div>
 </div>

@@ -9,7 +9,17 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart'
     dt.resource :checkout
-    dt.resources :projects, :member => { :details => :get, :community => :get, :nation => :get, :organization => :get, :connect => :get, :cause => :get, :facebook_login => :get, :timeline => :get }
+    dt.resources :projects, :member => {  :details => :get, 
+                                          :community => :get, 
+                                          :nation => :get, 
+                                          :organization => :get, 
+                                          :connect => :get, 
+                                          :cause => :get, 
+                                          :facebook_login => :get, 
+                                          :timeline => :get },
+                            :collection => {  :search => :post,
+                                              :list => :get
+                                          }
     dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
     #dt.resources :my_wishlists, :controller => 'my_wishlists'
@@ -40,11 +50,20 @@ ActionController::Routing::Routes.draw do |map|
      end
     
     # Campaign System
-    dt.resources :campaigns,  :collection => {  :update_address_details_for_country => :post, 
+    dt.resources :campaigns,  :collection => {          :update_address_details_for_country => :post, 
                                                         :update_team_config_options => :post, 
                                                         :admin => :get}, 
                                       :member => {      :activate => :post,
-                                                        :manage => :get
+                                                        :manage => :get,
+                                                        :configure_filters_for => :get,
+                                                        :add_project_limit_to => :post,
+                                                        :remove_project_limit_from => :post,
+                                                        :add_place_limit_to => :post,
+                                                        :remove_place_limit_from => :post,
+                                                        :add_cause_limit_to => :post,
+                                                        :remove_cause_limit_from => :post,
+                                                        :add_partner_limit_to => :post,
+                                                        :remove_partner_limit_from => :post
                                       }
     
     dt.resources :campaigns do |campaigns|
@@ -53,14 +72,18 @@ ActionController::Routing::Routes.draw do |map|
      campaigns.resources :teams
     end
     
-    dt.resources :teams, :collection => { :manage => :get }
+    dt.resources :teams, :collection => { :manage => :get }, :member => { :join => :get, :activate => :get}
     dt.resources :teams do |teams|
         teams.resources :wall_posts
         teams.resources :news_items
     end
     
- 
+    #Done with everything pretaining to campaigns
+    
+    
   end
+  
+  map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code', :controller => 'dt/tax_receipts', :action => "show"
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'

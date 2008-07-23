@@ -1,0 +1,10 @@
+<% campaign_filter ||= false%>
+<div class="<%= cycle('filter_even','filter_odd') %>">
+	<% if not campaign_filter%>
+		<%= link_to_remote image_tag('dt/icons/plus_con.gif',:border => 0, :style => 'vertical-align:middle;'), :url => add_project_limit_to_dt_campaign_path(@campaign, :project_id => project ), :update => 'campaign_filters'%>
+	<% else %>
+	  <%= link_to_remote(image_tag('bus_admin/icons/delete_icon.gif',:class => 'icon'),:url => remove_project_limit_from_dt_campaign_path(ProjectLimit.find_by_campaign_id_and_project_id(@campaign,project)), :update => 'campaign_filters')%>
+	<% end %>
+		<%= link_to project.name, [:dt, project] %>
+
+</div>

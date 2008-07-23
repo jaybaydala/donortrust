@@ -1,0 +1,42 @@
+<% @current_panel ||= 'project' %>
+<% if @errors != nil and not @errors.empty? %>
+<div id="errors">
+	<%= @errors.full_messages[0]%>
+</div>
+<% end %>
+<h2>Existing Filters For This Camapign <%= show_spinner %></h2>
+<ul class="filter_ul_list">
+	<%= render :partial => 'list_item', :locals => {:name => 'project', :selected => @current_panel == 'project'} %>
+	<%= render :partial => 'list_item', :locals => {:name => 'place', :selected => @current_panel == 'place'} %>
+	<%= render :partial => 'list_item', :locals => {:name => 'cause', :selected => @current_panel == 'cause'} %>
+	<%= render :partial => 'list_item', :locals => {:name => 'partner', :selected => @current_panel == 'partner'} %>
+</ul>
+<div class="campaign_filters">
+	<div id="campaign_projects" <%= 'style="display:none"' unless @current_panel == 'project' %>>
+		<h2>Projects</h2>
+		<div class="filter_list" >
+			<%= render :partial => 'project', :collection => @campaign.projects, :locals => {:campaign_filter => true} %>
+		</div>
+	</div>
+
+	<div id="campaign_places" <%= 'style="display:none"' unless @current_panel == 'place' %>>
+		<h2>Places</h2>
+		<div class="filter_list">
+			<%= render :partial => 'place', :collection => @campaign.places, :locals => {:campaign_filter => true} %>
+		</div>
+	</div>
+	
+	<div id="campaign_causes" <%= 'style="display:none"' unless @current_panel == 'cause' %>>
+		<h2>Causes</h2>
+		<div class="filter_list">
+			<%= render :partial => 'cause', :collection => @campaign.causes, :locals => {:campaign_filter => true}%>
+		</div>
+	</div>
+	
+	<div id="campaign_partners" <%= 'style="display:none"' unless @current_panel == 'partner' %>>
+		<h2>Partners</h2>
+		<div class="filter_list">
+			<%= render :partial => 'partner', :collection => @campaign.partners, :locals => {:campaign_filter => true}%>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,83 @@
+<div id="filters">
+	<h1>Project Filters</h1>
+	<p>
+		You are able to restrict which projects your campaign participants contribute to. To do this simply select filters from the categories below and select add filter. Also below is a list of the filters you have added to your project so far.
+	</p>
+	<fieldset id="project_filters_config">
+		<legend>Add New Filters</legend>
+
+		<p>
+			Projects 
+			<%= blind_up_down_links(image_tag('dt/icons/expand_icon.png',:border=>0),image_tag('dt/icons/collapse_icon.png',:border=>0),"filter_by_project","projects")%>
+			| Places 
+			<%= blind_up_down_links(image_tag('dt/icons/expand_icon.png',:border=>0),image_tag('dt/icons/collapse_icon.png',:border=>0),"filter_by_place","places")%>
+			| Causes 
+			<%= blind_up_down_links(image_tag('dt/icons/expand_icon.png',:border=>0),image_tag('dt/icons/collapse_icon.png',:border=>0),"filter_by_cause","causes")%>
+			| Partners 
+			<%= blind_up_down_links(image_tag('dt/icons/expand_icon.png',:border=>0),image_tag('dt/icons/collapse_icon.png',:border=>0),"filter_by_partner","partners")%>
+		</p>
+	
+		<!-- Project Filter Configuration -->
+	
+		<div id="projects" style="display: none;" class="campaign_filter">
+			<h3>Projects</h3>
+			<div id="projects_live_search" class="live_search">
+				<% remote_form_for(search_dt_projects_path, :update => 'project_list_body') do |f| %>
+					<%= f.text_field :search_words %>
+					<%= f.submit 'search' %>
+				<% end %>
+			</div>
+			<div id="project_list" class="filter_list">
+				<% @projects = Project.paginate :page => params[:project_page] , :per_page => 10%>
+				<%= render :partial => 'configure_project_filters'%>
+			</div>
+		</div>
+	
+		<div id="places" style="display: none;" class="campaign_filter">
+			<h3>Places</h3>
+			<div id="places_live_search" class="live_search">
+				<% remote_form_for(search_dt_projects_path, :update => 'project_list_body') do |f| %>
+					<%= f.text_field :search_words %>
+					<%= f.submit 'search' %>
+				<% end %>
+			</div>
+			<div id="places_list" class="filter_list">
+				<% @places = Place.paginate_by_sql ["SELECT * FROM places WHERE parent_id IS NULL"], :page => params[:place_page], :per_page => 10 %>
+				
+				<%= render :partial => 'configure_place_filters'%>
+			</div>
+		</div>	
+	
+		<div id="causes" style="display: none;" class="campaign_filter">
+			<h3>Cause</h3>
+			<div id="causes_live_search" class="live_search">
+				<% remote_form_for(search_dt_projects_path, :update => 'project_list_body') do |f| %>
+					<%= f.text_field :search_words %>
+					<%= f.submit 'search' %>
+				<% end %>
+			</div>
+			<div id="cause_list" class="filter_list">
+				<% @causes = Cause.paginate :page => params[:cause_page], :per_page => 10%>
+				<%= render :partial => 'configure_cause_filters'%>
+			</div>
+		</div>
+	
+		<div id="partners" style="display: none;" class="campaign_filter">
+			<h3>Partners</h3>
+			<div id="partners_live_search" class="live_search">
+				<% remote_form_for(search_dt_projects_path, :update => 'project_list_body') do |f| %>
+					<%= f.text_field :search_words %>
+					<%= f.submit 'search' %>
+				<% end %>
+			</div>
+			<div id="partner_list" class="filter_list">
+				<% @partners = Partner.paginate :page => params[:partner_page], :per_page => 10%>
+				<%= render :partial => 'configure_partner_filters'%>
+			</div>
+		</div>
+	
+	</fieldset>
+	<div id="campaign_filters">
+		<%= render :partial => 'project_filters', :locals => {:projects => @campaign.projects}%>
+	</div>
+</div>

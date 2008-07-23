@@ -3,8 +3,8 @@
 <% end %>
 <div id="campaign_page">
 	<div id="campaign_details">
-		<h1><%= @campaign.name %></h1>
-		<h5 style="margin-top:-10px;">http://www.christmasfutrue.org/<%= @campaign.short_name %></h5>
+		<h1><%= @campaign.name %> <%= " - PENDING!" unless not @campaign.pending? %></h1>
+		<h5 style="margin-top:-10px;">http://www.christmasfutrue.org/<%= @campaign.short_name %> | <%= @campaign.participants.size %> participant(s)</h5>
 		<p>
 			<%= @campaign.description %>
 		</p>
@@ -19,10 +19,7 @@
 		<p>
 			Some Value $CDN
 		</p>
-		<h4>Participants</h4>
-		<p>
-			Participant List
-		</p>
+
 	</div>
 	<div id="news">
 		<h2>Recent News <%= link_to image_tag('dt/icons/rss_icon.gif'),formatted_dt_campaign_path(@campaign,:rss), :format => :rss %></h2>
@@ -34,9 +31,7 @@
 	<% if @campaign.allow_multiple_teams%>
 		<div id="Teams">
 			<h2>Teams | <%= link_to 'Create a Team', new_dt_campaign_team_path(@campaign)%></h2>
-			<% for team in @campaign.teams %>
-				Team!
-			<% end %>
+			<%= render :partial => 'team', :collection => @campaign.teams%>
 		</div>
 	<% else %>
 		<div id="Participants">

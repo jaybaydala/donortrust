@@ -7,7 +7,7 @@ class CreateCampaignTypes < ActiveRecord::Migration
     end
     
     CampaignType.create :name => 'Seasonal', :has_teams => true
-    CampaignType.create :name => 'Tradition', :has_teams => true
+    CampaignType.create :name => 'Traditional', :has_teams => true
     CampaignType.create :name => 'School', :has_teams => true
     CampaignType.create :name => 'Registry', :has_teams => false
     

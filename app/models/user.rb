@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
   has_many :my_wishlists
   has_many :projects, :through => :my_wishlists
   has_many :campaigns
-  
-  belongs_to :team_member
+  has_many :team_members
+  has_many :teams, :through => :team_member
   
   # Virtual attribute for the unencrypted password
   attr_accessor :password

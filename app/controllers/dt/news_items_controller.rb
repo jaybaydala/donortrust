@@ -97,10 +97,6 @@ class Dt::NewsItemsController < DtApplicationController
   def destroy
     @news_item = NewsItem.find(params[:id])
     @news_item.destroy
-    
-    respond_to do |format|
-      format.html { redirect_to(news_items_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(url_for([:dt,@news_item.postable]))
   end
 end

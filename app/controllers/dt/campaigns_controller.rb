@@ -51,7 +51,7 @@ class Dt::CampaignsController < DtApplicationController
     respond_to do |format|
       if @campaign.save
         flash[:notice] = '	Campaign was successfully created.'
-        format.html { redirect_to(dt_campaign_path(@campaign)) }
+        format.html { redirect_to(configure_filters_for_dt_campaign_path(@campaign)) }
         format.xml  { render :xml => @campaign, :status => :created, :location => @campaign }
       else
         format.html { render :action => "new" }
@@ -116,5 +116,76 @@ class Dt::CampaignsController < DtApplicationController
   def manage
     @campaign = Campaign.find(params[:id])
   end
-    
+  
+  def configure_filters_for
+    @campaign = Campaign.find(params[:id])
+    if(params[:project_page] != nil)
+      @projects = Project.paginate :page => params[:project_page], :per_page => 10
+      render :partial => 'configure_project_filters'
+    end
+    if(params[:cause_page] != nil)
+      @causes = Cause.paginate :page => params[:cause_page], :per_page => 10
+      render :partial => 'configure_cause_filters'
+    end
+    if(params[:parner_page] != nil)
+      @causes = Partner.paginate :page => params[:partner_page], :per_page => 10
+      render :partial => 'configure_partner_filters'
+    end
+  end
+  
+  def add_project_limit_to
+      @project_limit = ProjectLimit.create :project_id => params[:project_id], :campaign_id => params[:id]
+      [@campaign = Campaign.find(params[:id]), @errors = @project_limit.errors, @current_panel = 'project']
+      render :partial => 'project_filters'
+  end
+  
+  def remove_project_limit_from
+      @project_limit = ProjectLimit.find(params[:id])
+      @campaign = Campaign.find(@project_limit.campaign_id)
+      @project_limit.destroy
+      [@campaign, @current_panel = 'project']
+      render :partial => 'project_filters'
+  end
+  
+  def add_cause_limit_to
+      @cause_limit = CauseLimit.create :cause_id => params[:cause_id], :campaign_id => params[:id]
+      [@campaign = Campaign.find(params[:id]), @errors = @cause_limit.errors, @current_panel = 'cause']
+      render :partial => 'project_filters'
+  end
+  
+  def remove_cause_limit_from
+      @cause_limit = CauseLimit.find(params[:id])
+      @campaign = Campaign.find(@cause_limit.campaign_id)
+      @cause_limit.destroy
+      [@campaign, @current_panel = 'cause']
+      render :partial => 'project_filters'
+  end
+  
+  def add_place_limit_to
+      @place_limit = PlaceLimit.create :place_id => params[:place_id], :campaign_id => params[:id]
+      [@campaign = Campaign.find(params[:id]), @errors = @place_limit.errors, @current_panel = 'place']
+      render :partial => 'project_filters'
+  end
+  
+  def remove_place_limit_from
+      @place_limit = PlaceLimit.find(params[:id])
+      @campaign = Campaign.find(@place_limit.campaign_id)
+      @place_limit.destroy
+      [@campaign, @current_panel = 'place']
+      render :partial => 'project_filters'
+  end
+  
+  def add_partner_limit_to
+      @partner_limit = PartnerLimit.create :partner_id => params[:partner_id], :campaign_id => params[:id]
+      [@campaign = Campaign.find(params[:id]), @errors = @partner_limit.errors, @current_panel = 'partner']
+      render :partial => 'project_filters'
+  end
+  
+  def remove_partner_limit_from
+      @partner_limit = PartnerLimit.find(params[:id])
+      @campaign = Campaign.find(@partner_limit.campaign_id)
+      @partner_limit.destroy
+      [@campaign, @current_panel = 'partner']
+      render :partial => 'project_filters'
+  end
 end

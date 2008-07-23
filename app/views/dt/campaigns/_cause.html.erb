@@ -1,0 +1,9 @@
+<% campaign_filter ||= false %>
+<div class="<%= cycle('filter_even','filter_odd') %>">
+		<% if not campaign_filter %>
+		<%= link_to_remote image_tag('dt/icons/plus_con.gif',:border => 0, :style => 'vertical-align:middle;'), :url => add_cause_limit_to_dt_campaign_path(@campaign, :cause_id => cause ), :update => 'campaign_filters'%>
+		<% else %>
+		  <%= link_to_remote(image_tag('bus_admin/icons/delete_icon.gif',:class => 'icon'),:url => remove_cause_limit_from_dt_campaign_path(CauseLimit.find_by_campaign_id_and_cause_id(@campaign,cause)), :update => 'campaign_filters')%>
+		<% end %>
+		<%= cause.name %>
+</div>

@@ -9,6 +9,18 @@ class Campaign < ActiveRecord::Base
   has_many :news_items, :as =>:postable, :dependent => :destroy
   
   has_many :teams
+  
+  has_many :project_limits
+  has_many :projects, :through => :project_limits
+  
+  has_many :place_limits
+  has_many :places, :through => :place_limits
+  
+  has_many :cause_limits
+  has_many :causes, :through => :cause_limits
+  
+  has_many :partner_limits
+  has_many :partners, :through => :partner_limits  
     
   attr_accessor :use_user_email
   
@@ -41,10 +53,9 @@ class Campaign < ActiveRecord::Base
   
     self.pending = true
   
-    
-    self.postalcode = postalcode.sub(' ', '') if not postalcode.blank?# remove any spaces.
-    
+    self.postalcode = postalcode.sub(' ', '') if not postalcode.blank?# remove any spaces.  
   end
+
   
   def validate
     errors.add('start_date',"must be less than end date")if start_date > end_date
@@ -58,6 +69,15 @@ class Campaign < ActiveRecord::Base
       errors.add('postalcode',"Is not correct for your state") if not zipcode_matches_state?
     end
   
+  end
+  
+  def eligible_projects
+    Project.find_by_sql("SELECT p.* FROM projects p, causes_limit JOIN causes_limit ON ")
+    
+  end
+  
+  def manage_link
+    (link_to('Manage Campaign',manage_dt_campaign_path(self)) + " | ") unless not self.owned?
   end
   
   def fundraising_goal_with_currency
@@ -83,6 +103,19 @@ class Campaign < ActiveRecord::Base
   
   def activate!
     self.update_attribute(:pending,false) ? true : false;
+  end
+  
+  
+  def pending_teams
+    Team.find_all_by_campaign_id_and_pending(self.id, true)
+  end
+  
+  def active_teams
+    Team.find_all_by_campaign_id_and_pending(self.id, false)
+  end
+  
+  def participants
+    User.find_by_sql(["SELECT u.* FROM users u, teams t, team_members tm WHERE tm.user_id = u.id AND tm.team_id = t.id AND t.campaign_id = ?",self.id])
   end
   
   private

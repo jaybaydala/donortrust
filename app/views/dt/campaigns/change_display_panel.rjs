@@ -1,0 +1,18 @@
+page.hide 'campaign_projects'
+page.hide 'campaign_places'
+page.hide 'campaign_causes'
+page.hide 'campaign_partners'
+
+page.hide 'campaign_projects_list_item_selected'
+page.hide 'campaign_places_list_item_selected'
+page.hide 'campaign_causes_list_item_selected'
+page.hide 'campaign_partners_list_item_selected'
+
+page.show 'campaign_projects_list_item'
+page.show 'campaign_places_list_item'
+page.show 'campaign_causes_list_item'
+page.show 'campaign_partners_list_item'
+
+page.show params[:panel]
+page.show params[:panel] + '_list_item_selected'
+page.hide params[:panel] + '_list_item'

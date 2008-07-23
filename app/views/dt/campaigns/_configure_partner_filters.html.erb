@@ -1,0 +1,2 @@
+<%= render :partial => 'partner', :collection => @partners%>
+<%= will_paginate @partners, :renderer => 'RemoteLinkRenderer', :param_name => 'partner_page', :remote => { :update => 'project_list'} -%>

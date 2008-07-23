@@ -15,6 +15,12 @@
 		</span>
 		<%= f.text_field :short_name%><%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your team. It should not contain any spaces. Also this name will be used to provide your team with a Christmas Future URL. http://www.christmasfuture.org/yourCampaignShortName/team/youTeamShortName'%>
 		
+		<label>Description</label>
+		<%= f.text_area :description, :cols => 80, :rows => 8%>
+		
+		<label>Goal</label>
+		<%= f.text_field :goal %><span class="small_text"> $ CDN</span>
+		
 		<label>Contact Email</label>
 		<%= f.text_field :contact_email %> <span class="small_text">Use My Email </span>
 		<%= f.check_box :use_user_email, :onclick => "Element.toggle('team_contact_email');"%><br />

@@ -1,0 +1,6 @@
+<li id="campaign_<%= name.pluralize %>_list_item" class="filter_list_item" <%= "style=display:none" unless not selected %>>
+	<%= link_to_remote name.pluralize.capitalize, :url => change_campaign_display_panel_path(@campaign, "campaign_#{name.pluralize}") %>
+</li>
+<li id="campaign_<%= name.pluralize %>_list_item_selected" class="filter_list_item_selected" <%= "style=display:none" unless selected %>>
+	<%= name.pluralize.capitalize %>
+</li>

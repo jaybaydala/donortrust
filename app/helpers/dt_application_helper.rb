@@ -65,7 +65,7 @@ module DtApplicationHelper
   # Shows a spinner when any active AJAX requests are running - Joe
   #
   def show_spinner
-    content_tag "div", "Working... " + image_tag("/images/bus_admin/spinner.gif"), :id => "ajax_busy", :style => "display:none;"
+    content_tag "span","- Working... " + image_tag("dt/icons/ajax-spinner.gif", :class => 'icon'), :id => "ajax_busy", :style => "display:none;"
   end
   
   def what_is_this?(id,description)
@@ -85,5 +85,30 @@ module DtApplicationHelper
       link_to_function(text, nil, :id =>id) do |page|
                             page.visual_effect :blind_up, div, :duration => 0.5
                    end
+  end
+  
+  def blind_down_link_toggle(text, id, div)
+      link_to_function(text, nil, :id =>id + "_down") do |page|
+                            page.visual_effect :blind_down, div, :duration => 0.5
+                            page.visual_effect :highlight, div, :duration => 2
+                            page.hide(id + "_down")
+                            page.show(id + "_up")
+                   end
+  end
+  
+  def blind_up_link_toggle(text, id, div)
+      link_to_function(text, nil, :id =>id + "_up", :style => "display:none;") do |page|
+                            page.visual_effect :blind_up, div, :duration => 0.5
+                            page.hide(id + "_up")
+                            page.show(id + "_down")
+                   end
+  end
+  
+  def blind_up_down_links(text1,text2, id, div)
+      blind_down_link_toggle(text1,id,div) + blind_up_link_toggle(text2, id, div)
+  end
+  
+  def delete_icon(delete_path)
+    link_to(image_tag('bus_admin/icons/delete_icon.gif', :style => "vertical-align:middle;", :border => 0),delete_path, :confirm => 'Are you sure?', :method => :delete )
   end
 end

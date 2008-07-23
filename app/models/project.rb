@@ -15,6 +15,8 @@ class Project < ActiveRecord::Base
   belongs_to :place
   belongs_to :contact
   belongs_to :frequency_type
+  has_many :project_limits
+  has_many :campaigns, :through => :project_limits
   has_many :milestones, :dependent => :destroy
   has_many :tasks, :through => :milestones
   has_many :project_you_tube_videos, :dependent => :destroy
@@ -30,6 +32,8 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
+  
+  
   
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
   

@@ -50,6 +50,20 @@
 	margin-top: 10px;
 }
 
+.campaign_filter{
+	border: 1px solid gray;
+	padding: 5px;
+}
+
+.live_search {
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+	padding: 5px;
+	margin-left: -5px;
+	margin-right: -5px;
+	margin-bottom: 5px;
+}
+
 span.small_text{
 	font-size: 10px;
 }
@@ -58,5 +72,85 @@ span.small_text{
 	width: 400px;
 	font-size: 10px;
 	border: 1px solid gray;
+	padding: 5px;
+}
+
+#errors {
+	border: 1px solid gray;
+	color: red;
+	text-align: center;
+	font-family: arial sans-serif;
+	padding: 2px;
+}
+
+
+
+.icon {
+	vertical-align: middle;
+	border: 0px;
+}
+
+.filter_list {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+	border: 1px solid gray;
+}
+
+.filter_list_item {
+	display: inline;
+	border-top: 1px solid gray;
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;
+	padding: 5px;
+	margin-right: 5px;
+}
+
+.filter_ul_list a {
+	text-decoration: none;
+}
+
+
+.filter_ul_list a:hover {
+	text-decoration: none;
+	color: #000;
+}
+.filter_list_item:hover {
+	background-color: #ddd;
+}
+
+.filter_list_item_selected {
+	background-color: #ddd;
+	display: inline;
+	border-top: 1px solid gray;
+	border-left: 1px solid gray;
+	border-right: 1px solid gray;
+	padding: 5px;
+	margin-right: 5px;
+}
+
+.filter_ul_list {
+	list-style: none;
+	margin: 0px;
+	padding: 3px;
+}
+
+.campaign_filters {
+	border: 1px solid gray;
+	padding: 5px;
+}
+
+.filter_list a{
+	text-decoration: none;
+}
+
+.filter_even{
+	border-bottom: 1px solid gray;
+	background-color: #ddd;
+	padding: 5px;
+}
+
+.filter_odd{
+	border-bottom: 1px solid gray;
 	padding: 5px;
 }

@@ -2,17 +2,22 @@ class CreateTeams < ActiveRecord::Migration
   def self.up
     create_table :teams do |t|
       
-      
+      # references
       t.references :campaign
       t.references :user
       
+      # config stuff
       t.boolean :pending
-      
-      t.string :name
       t.boolean :ok_to_contact
       t.boolean :require_authorization
+      
+      # team details
+      t.string :name
       t.string :contact_email
       t.string :short_name
+      t.text   :description
+      t.integer :goal
+      t.string  :goal_currency
       
       t.timestamps
     end

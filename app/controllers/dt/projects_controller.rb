@@ -150,6 +150,10 @@ class Dt::ProjectsController < DtApplicationController
     render :partial => 'timeline'
   end
 
+  def list
+    @projects = Project.paginate :page => params[:page]
+    render :layout => false
+  end
 
 
   protected

@@ -31,6 +31,20 @@ Event.observe(window, 'load', function() {
 	}
 });
 
+Ajax.Responders.register({
+	onCreate: function() {
+		if($('ajax_busy') && Ajax.activeRequestCount > 0){
+			Effect.Appear('ajax_busy', {durations: 0.5, queue: 'end'});
+		}
+	},
+	onComplete: function(){
+		if($('ajax_busy') && Ajax.activeRequestCount == 0){
+			Effect.Fade('ajax_busy', {duration: 0.5, queue: 'end'});
+		}
+	}
+});
+
+
 var SubmitButton = Class.create();
 SubmitButton.prototype = {
 	button: null,

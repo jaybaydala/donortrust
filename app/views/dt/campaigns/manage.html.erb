@@ -7,17 +7,14 @@
 	<% if @campaign.allow_multiple_teams? %>
 		<div id="team_management">
 			<h2>Teams</h2>
-			<p>
-			This section provides you, the campaign creator, with the ability to manage team settings.
-			</p>
 			<% if @campaign.require_team_authorization? %>
 				<div id="pending_teams">
 					<h4>Pending Teams</h3>
-				
+					<%= render :partial => 'team', :collection => @campaign.pending_teams %>
 				</div>
 				<div id="authorized_teams">
 					<h4>Authorized Teams</h3>
-					
+					<%= render :partial => 'team', :collection => @campaign.active_teams %>
 				</div>
 			<% else %>
 				<div id="pending_teams">
@@ -31,7 +28,6 @@
 			
 		</div>
 	<% end %>
-	
 	<div id="news">
 		<fieldset>
 			<legend>Add News Item</legend>

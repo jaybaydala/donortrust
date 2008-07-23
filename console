@@ -1,0 +1,344 @@
+Script started on Sat Jul 19 12:04:09 2008
+bash-3.2$ 
+bash-3.2$ ruby script/generate [K[K[K[K[K[K[K[K[Kdestroy model loca[K[K[K[KLocationLimit
+
+    notempty  db/migrate
+    notempty  db
+          rm  db/migrate/128_create_location_limits.rb
+          rm  test/fixtures/location_limits.yml
+          rm  test/unit/location_limit_test.rb
+          rm  app/models/location_limit.rb
+    notempty  test/fixtures
+    notempty  test
+    notempty  test/unit
+    notempty  test
+    notempty  app/models
+    notempty  app
+bash-3.2$ 
+bash-3.2$ ruby script/destroy model LocationLimit[1P[1P[1P[1P[1P[1P[1P[4hg[4l[4he[4l[4hnerate[4l
+^C/Users/joe/Documents/Software/RoR/donortrust/vendor/gems/RedCloth-3.0.4/lib/redcloth.rb:1132: Interrupt
+	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `require'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:342:in `new_constants_in'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.0.2/lib/active_support/dependencies.rb:496:in `require'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.0.2/lib/active_support/core_ext/kernel/requires.rb:7:in `require_library_or_gem'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.0.2/lib/active_support/core_ext/kernel/reporting.rb:11:in `silence_warnings'
+	from /Library/Ruby/Gems/1.8/gems/activesupport-2.0.2/lib/active_support/core_ext/kernel/requires.rb:5:in `require_library_or_gem'
+	 ... 30 levels...
+	from /Library/Ruby/Gems/1.8/gems/rails-2.0.2/lib/commands/generate.rb:1
+	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `gem_original_require'
+	from /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/rubygems/custom_require.rb:27:in `require'
+	from script/generate:3
+
+bash-3.2$ ruby script/generate model LocationLimit[C[1PLimit[1PLimit[1PLimit[1PLimit[1PLimit[1PLimit[1PLimit[1PimitPLimitlLimitaLimitcLimiteLimit
+      exists  app/models/
+      exists  test/unit/
+      exists  test/fixtures/
+      create  app/models/place_limit.rb
+      create  test/unit/place_limit_test.rb
+      create  test/fixtures/place_limits.yml
+      exists  db/migrate
+      create  db/migrate/131_create_place_limits.rb
+bash-3.2$ ruby script/generate model PlaceLimit[C[C[C[C[C[C[C[C[C[C[Krake db:migrate
+(in /Users/joe/Documents/Software/RoR/donortrust)
+== 131 CreatePlaceLimits: migrating ===========================================
+-- create_table(:place_limits)
+   -> 0.0362s
+== 131 CreatePlaceLimits: migrated (0.0366s) ==================================
+
+bash-3.2$ rake routes | grep cause
+                                            cause_dt_project GET    /dt/projects/:id/cause                                                {:controller=>"dt/projects", :action=>"cause"}
+                                  formatted_cause_dt_project GET    /dt/projects/:id/cause.:format                                        {:controller=>"dt/projects", :action=>"cause"}
+                              add_cause_limit_to_dt_campaign POST   /dt/campaigns/:id/add_cause_limit_to                                  {:controller=>"dt/campaigns", :action=>"add_cause_limit_to"}
+                    formatted_add_cause_limit_to_dt_campaign POST   /dt/campaigns/:id/add_cause_limit_to.:format                          {:controller=>"dt/campaigns", :action=>"add_cause_limit_to"}
+                                            inactive_records        /bus_admin/causes/inactive_records                                    {:controller=>"bus_admin/causes", :action=>"inactive_records"}
+                                              recover_record        /bus_admin/causes/recover_record                                      {:controller=>"bus_admin/causes", :action=>"recover_record"}
+                                          show_search_causes GET    /bus_admin/causes/show_search                                         {:controller=>"bus_admin/causes", :action=>"show_search"}
+                                formatted_show_search_causes GET    /bus_admin/causes/show_search.:format                                 {:controller=>"bus_admin/causes", :action=>"show_search"}
+                                         update_table_causes GET    /bus_admin/causes/update_table                                        {:controller=>"bus_admin/causes", :action=>"update_table"}
+                               formatted_update_table_causes GET    /bus_admin/causes/update_table.:format                                {:controller=>"bus_admin/causes", :action=>"update_table"}
+                                      edit_associated_causes GET    /bus_admin/causes/edit_associated                                     {:controller=>"bus_admin/causes", :action=>"edit_associated"}
+                            formatted_edit_associated_causes GET    /bus_admin/causes/edit_associated.:format                             {:controller=>"bus_admin/causes", :action=>"edit_associated"}
+                                                 list_causes GET    /bus_admin/causes/list                                                {:controller=>"bus_admin/causes", :action=>"list"}
+                                       formatted_list_causes GET    /bus_admin/causes/list.:format                                        {:controller=>"bus_admin/causes", :action=>"list"}
+                                         new_existing_causes GET    /bus_admin/causes/new_existing                                        {:controller=>"bus_admin/causes", :action=>"new_existing"}
+                               formatted_new_existing_causes GET    /bus_admin/causes/new_existing.:format                                {:controller=>"bus_admin/causes", :action=>"new_existing"}
+                                                      causes GET    /bus_admin/causes                                                     {:controller=>"bus_admin/causes", :action=>"index"}
+                                            formatted_causes GET    /bus_admin/causes.:format                                             {:controller=>"bus_admin/causes", :action=>"index"}
+                                                             POST   /bus_admin/causes                                                     {:controller=>"bus_admin/causes", :action=>"create"}
+                                                             POST   /bus_admin/causes.:format                                             {:controller=>"bus_admin/causes", :action=>"create"}
+                                                   new_cause GET    /bus_admin/causes/new                                                 {:controller=>"bus_admin/causes", :action=>"new"}
+                                         formatted_new_cause GET    /bus_admin/causes/new.:format                                         {:controller=>"bus_admin/causes", :action=>"new"}
+                                                  edit_cause GET    /bus_admin/causes/:id/edit                                            {:controller=>"bus_admin/causes", :action=>"edit"}
+                                        formatted_edit_cause GET    /bus_admin/causes/:id/edit.:format                                    {:controller=>"bus_admin/causes", :action=>"edit"}
+                                       add_association_cause GET    /bus_admin/causes/:id/add_association                                 {:controller=>"bus_admin/causes", :action=>"add_association"}
+                             formatted_add_association_cause GET    /bus_admin/causes/:id/add_association.:format                         {:controller=>"bus_admin/causes", :action=>"add_association"}
+                                                   row_cause GET    /bus_admin/causes/:id/row                                             {:controller=>"bus_admin/causes", :action=>"row"}
+                                         formatted_row_cause GET    /bus_admin/causes/:id/row.:format                                     {:controller=>"bus_admin/causes", :action=>"row"}
+                                                nested_cause GET    /bus_admin/causes/:id/nested                                          {:controller=>"bus_admin/causes", :action=>"nested"}
+                                      formatted_nested_cause GET    /bus_admin/causes/:id/nested.:format                                  {:controller=>"bus_admin/causes", :action=>"nested"}
+                                       edit_associated_cause GET    /bus_admin/causes/:id/edit_associated                                 {:controller=>"bus_admin/causes", :action=>"edit_associated"}
+                             formatted_edit_associated_cause GET    /bus_admin/causes/:id/edit_associated.:format                         {:controller=>"bus_admin/causes", :action=>"edit_associated"}
+                                         update_column_cause POST   /bus_admin/causes/:id/update_column                                   {:controller=>"bus_admin/causes", :action=>"update_column"}
+                               formatted_update_column_cause POST   /bus_admin/causes/:id/update_column.:format                           {:controller=>"bus_admin/causes", :action=>"update_column"}
+                                                       cause GET    /bus_admin/causes/:id                                                 {:controller=>"bus_admin/causes", :action=>"show"}
+                                             formatted_cause GET    /bus_admin/causes/:id.:format                                         {:controller=>"bus_admin/causes", :action=>"show"}
+                                                             PUT    /bus_admin/causes/:id                                                 {:controller=>"bus_admin/causes", :action=>"update"}
+                                                             PUT    /bus_admin/causes/:id.:format                                         {:controller=>"bus_admin/causes", :action=>"update"}
+                                                             DELETE /bus_admin/causes/:id                                                 {:controller=>"bus_admin/causes", :action=>"destroy"}
+                                                             DELETE /bus_admin/causes/:id.:format                                         {:controller=>"bus_admin/causes", :action=>"destroy"}
+bash-3.2$ rake route  | g[K[K[K[K| grep[K[K[K[K[K[K[Ks | grep campaign
+rake aborted!
+/Users/joe/Documents/Software/RoR/donortrust/config/routes.rb:62: syntax error, unexpected '\n', expecting tASSOC
+
+(See full trace by running task with --trace)
+bash-3.2$ rake routes | grep campaign
+                                          admin_dt_campaigns GET    /dt/campaigns/admin                                                   {:controller=>"dt/campaigns", :action=>"admin"}
+                                formatted_admin_dt_campaigns GET    /dt/campaigns/admin.:format                                           {:controller=>"dt/campaigns", :action=>"admin"}
+                     update_team_config_options_dt_campaigns POST   /dt/campaigns/update_team_config_options                              {:controller=>"dt/campaigns", :action=>"update_team_config_options"}
+           formatted_update_team_config_options_dt_campaigns POST   /dt/campaigns/update_team_config_options.:format                      {:controller=>"dt/campaigns", :action=>"update_team_config_options"}
+             update_address_details_for_country_dt_campaigns POST   /dt/campaigns/update_address_details_for_country                      {:controller=>"dt/campaigns", :action=>"update_address_details_for_country"}
+   formatted_update_address_details_for_country_dt_campaigns POST   /dt/campaigns/update_address_details_for_country.:format              {:controller=>"dt/campaigns", :action=>"update_address_details_for_country"}
+                                                             GET    /dt/campaigns                                                         {:controller=>"dt/campaigns", :action=>"index"}
+                                                             GET    /dt/campaigns.:format                                                 {:controller=>"dt/campaigns", :action=>"index"}
+                                                             POST   /dt/campaigns                                                         {:controller=>"dt/campaigns", :action=>"create"}
+                                                             POST   /dt/campaigns.:format                                                 {:controller=>"dt/campaigns", :action=>"create"}
+                                                             GET    /dt/campaigns/new                                                     {:controller=>"dt/campaigns", :action=>"new"}
+                                                             GET    /dt/campaigns/new.:format                                             {:controller=>"dt/campaigns", :action=>"new"}
+                                                             GET    /dt/campaigns/:id/edit                                                {:controller=>"dt/campaigns", :action=>"edit"}
+                                                             GET    /dt/campaigns/:id/edit.:format                                        {:controller=>"dt/campaigns", :action=>"edit"}
+                                          manage_dt_campaign GET    /dt/campaigns/:id/manage                                              {:controller=>"dt/campaigns", :action=>"manage"}
+                                formatted_manage_dt_campaign GET    /dt/campaigns/:id/manage.:format                                      {:controller=>"dt/campaigns", :action=>"manage"}
+                           configure_filters_for_dt_campaign GET    /dt/campaigns/:id/configure_filters_for                               {:controller=>"dt/campaigns", :action=>"configure_filters_for"}
+                 formatted_configure_filters_for_dt_campaign GET    /dt/campaigns/:id/configure_filters_for.:format                       {:controller=>"dt/campaigns", :action=>"configure_filters_for"}
+                              add_place_limit_to_dt_campaign POST   /dt/campaigns/:id/add_place_limit_to                                  {:controller=>"dt/campaigns", :action=>"add_place_limit_to"}
+                    formatted_add_place_limit_to_dt_campaign POST   /dt/campaigns/:id/add_place_limit_to.:format                          {:controller=>"dt/campaigns", :action=>"add_place_limit_to"}
+                              add_cause_limit_to_dt_campaign POST   /dt/campaigns/:id/add_cause_limit_to                                  {:controller=>"dt/campaigns", :action=>"add_cause_limit_to"}
+                    formatted_add_cause_limit_to_dt_campaign POST   /dt/campaigns/:id/add_cause_limit_to.:format                          {:controller=>"dt/campaigns", :action=>"add_cause_limit_to"}
+                            change_display_panel_dt_campaign POST   /dt/campaigns/:id/change_display_panel                                {:controller=>"dt/campaigns", :action=>"change_display_panel"}
+                  formatted_change_display_panel_dt_campaign POST   /dt/campaigns/:id/change_display_panel.:format                        {:controller=>"dt/campaigns", :action=>"change_display_panel"}
+                                        activate_dt_campaign POST   /dt/campaigns/:id/activate                                            {:controller=>"dt/campaigns", :action=>"activate"}
+                              formatted_activate_dt_campaign POST   /dt/campaigns/:id/activate.:format                                    {:controller=>"dt/campaigns", :action=>"activate"}
+                            add_project_limit_to_dt_campaign POST   /dt/campaigns/:id/add_project_limit_to                                {:controller=>"dt/campaigns", :action=>"add_project_limit_to"}
+                  formatted_add_project_limit_to_dt_campaign POST   /dt/campaigns/:id/add_project_limit_to.:format                        {:controller=>"dt/campaigns", :action=>"add_project_limit_to"}
+                                                             GET    /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"show"}
+                                                             GET    /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"show"}
+                                                             PUT    /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"update"}
+                                                             PUT    /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"update"}
+                                                             DELETE /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"destroy"}
+                                                dt_campaigns GET    /dt/campaigns                                                         {:controller=>"dt/campaigns", :action=>"index"}
+                                      formatted_dt_campaigns GET    /dt/campaigns.:format                                                 {:controller=>"dt/campaigns", :action=>"index"}
+                                                             POST   /dt/campaigns                                                         {:controller=>"dt/campaigns", :action=>"create"}
+                                                             POST   /dt/campaigns.:format                                                 {:controller=>"dt/campaigns", :action=>"create"}
+                                             new_dt_campaign GET    /dt/campaigns/new                                                     {:controller=>"dt/campaigns", :action=>"new"}
+                                   formatted_new_dt_campaign GET    /dt/campaigns/new.:format                                             {:controller=>"dt/campaigns", :action=>"new"}
+                                            edit_dt_campaign GET    /dt/campaigns/:id/edit                                                {:controller=>"dt/campaigns", :action=>"edit"}
+                                  formatted_edit_dt_campaign GET    /dt/campaigns/:id/edit.:format                                        {:controller=>"dt/campaigns", :action=>"edit"}
+                                                 dt_campaign GET    /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"show"}
+                                       formatted_dt_campaign GET    /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"show"}
+                                                             PUT    /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"update"}
+                                                             PUT    /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"update"}
+                                                             DELETE /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"destroy"}
+                                      dt_campaign_wall_posts GET    /dt/campaigns/:campaign_id/wall_posts                                 {:controller=>"dt/wall_posts", :action=>"index"}
+                            formatted_dt_campaign_wall_posts GET    /dt/campaigns/:campaign_id/wall_posts.:format                         {:controller=>"dt/wall_posts", :action=>"index"}
+                                                             POST   /dt/campaigns/:campaign_id/wall_posts                                 {:controller=>"dt/wall_posts", :action=>"create"}
+                                                             POST   /dt/campaigns/:campaign_id/wall_posts.:format                         {:controller=>"dt/wall_posts", :action=>"create"}
+                                   new_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/new                             {:controller=>"dt/wall_posts", :action=>"new"}
+                         formatted_new_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/new.:format                     {:controller=>"dt/wall_posts", :action=>"new"}
+                                  edit_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/:id/edit                        {:controller=>"dt/wall_posts", :action=>"edit"}
+                        formatted_edit_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/:id/edit.:format                {:controller=>"dt/wall_posts", :action=>"edit"}
+                                       dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/:id                             {:controller=>"dt/wall_posts", :action=>"show"}
+                             formatted_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/:id.:format                     {:controller=>"dt/wall_posts", :action=>"show"}
+                                                             PUT    /dt/campaigns/:campaign_id/wall_posts/:id                             {:controller=>"dt/wall_posts", :action=>"update"}
+                                                             PUT    /dt/campaigns/:campaign_id/wall_posts/:id.:format                     {:controller=>"dt/wall_posts", :action=>"update"}
+                                                             DELETE /dt/campaigns/:campaign_id/wall_posts/:id                             {:controller=>"dt/wall_posts", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:campaign_id/wall_posts/:id.:format                     {:controller=>"dt/wall_posts", :action=>"destroy"}
+                                      dt_campaign_news_items GET    /dt/campaigns/:campaign_id/news_items                                 {:controller=>"dt/news_items", :action=>"index"}
+                            formatted_dt_campaign_news_items GET    /dt/campaigns/:campaign_id/news_items.:format                         {:controller=>"dt/news_items", :action=>"index"}
+                                                             POST   /dt/campaigns/:campaign_id/news_items                                 {:controller=>"dt/news_items", :action=>"create"}
+                                                             POST   /dt/campaigns/:campaign_id/news_items.:format                         {:controller=>"dt/news_items", :action=>"create"}
+                                   new_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/new                             {:controller=>"dt/news_items", :action=>"new"}
+                         formatted_new_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/new.:format                     {:controller=>"dt/news_items", :action=>"new"}
+                                  edit_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/:id/edit                        {:controller=>"dt/news_items", :action=>"edit"}
+                        formatted_edit_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/:id/edit.:format                {:controller=>"dt/news_items", :action=>"edit"}
+                                       dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/:id                             {:controller=>"dt/news_items", :action=>"show"}
+                             formatted_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/:id.:format                     {:controller=>"dt/news_items", :action=>"show"}
+                                                             PUT    /dt/campaigns/:campaign_id/news_items/:id                             {:controller=>"dt/news_items", :action=>"update"}
+                                                             PUT    /dt/campaigns/:campaign_id/news_items/:id.:format                     {:controller=>"dt/news_items", :action=>"update"}
+                                                             DELETE /dt/campaigns/:campaign_id/news_items/:id                             {:controller=>"dt/news_items", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:campaign_id/news_items/:id.:format                     {:controller=>"dt/news_items", :action=>"destroy"}
+                                           dt_campaign_teams GET    /dt/campaigns/:campaign_id/teams                                      {:controller=>"dt/teams", :action=>"index"}
+                                 formatted_dt_campaign_teams GET    /dt/campaigns/:campaign_id/teams.:format                              {:controller=>"dt/teams", :action=>"index"}
+                                                             POST   /dt/campaigns/:campaign_id/teams                                      {:controller=>"dt/teams", :action=>"create"}
+                                                             POST   /dt/campaigns/:campaign_id/teams.:format                              {:controller=>"dt/teams", :action=>"create"}
+                                        new_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/new                                  {:controller=>"dt/teams", :action=>"new"}
+                              formatted_new_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/new.:format                          {:controller=>"dt/teams", :action=>"new"}
+                                       edit_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/:id/edit                             {:controller=>"dt/teams", :action=>"edit"}
+                             formatted_edit_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/:id/edit.:format                     {:controller=>"dt/teams", :action=>"edit"}
+                                            dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/:id                                  {:controller=>"dt/teams", :action=>"show"}
+                                  formatted_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/:id.:format                          {:controller=>"dt/teams", :action=>"show"}
+                                                             PUT    /dt/campaigns/:campaign_id/teams/:id                                  {:controller=>"dt/teams", :action=>"update"}
+                                                             PUT    /dt/campaigns/:campaign_id/teams/:id.:format                          {:controller=>"dt/teams", :action=>"update"}
+                                                             DELETE /dt/campaigns/:campaign_id/teams/:id                                  {:controller=>"dt/teams", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:campaign_id/teams/:id.:format                          {:controller=>"dt/teams", :action=>"destroy"}
+                                               show_campaign        /dt/:short_name                                                       {:controller=>"dt/campaigns", :action=>"show"}
+                                          show_campaign_team        /dt/:short_campaign_name/team/:short_name                             {:controller=>"dt/teams", :action=>"show"}
+                                         show_campaign_group        /dt/:short_campaign_name/group/:short_name                            {:controller=>"dt/teams", :action=>"show"}
+                                     show_campaign_classroom        /dt/:short_campaign_name/classroom/:short_name                        {:controller=>"dt/teams", :action=>"show"}
+bash-3.2$ rake routes | grep campaign[K[K[K[K[K[K[K[Kpanel
+^Crake aborted!
+
+
+(See full trace by running task with --trace)
+
+bash-3.2$ rake routes | grep panel
+^Crake aborted!
+
+
+(See full trace by running task with --trace)
+
+bash-3.2$ rake routes | grep panel
+                               change_campaign_display_panel        /dt/campaigns/:id/change_panel/:panel                                 {:controller=>"dt/campaigns", :action=>"change_display_panel"}
+bash-3.2$ rake routes | grep panel[K[K[K[K[Kcampaign
+                                          admin_dt_campaigns GET    /dt/campaigns/admin                                                   {:controller=>"dt/campaigns", :action=>"admin"}
+                                formatted_admin_dt_campaigns GET    /dt/campaigns/admin.:format                                           {:controller=>"dt/campaigns", :action=>"admin"}
+                     update_team_config_options_dt_campaigns POST   /dt/campaigns/update_team_config_options                              {:controller=>"dt/campaigns", :action=>"update_team_config_options"}
+           formatted_update_team_config_options_dt_campaigns POST   /dt/campaigns/update_team_config_options.:format                      {:controller=>"dt/campaigns", :action=>"update_team_config_options"}
+             update_address_details_for_country_dt_campaigns POST   /dt/campaigns/update_address_details_for_country                      {:controller=>"dt/campaigns", :action=>"update_address_details_for_country"}
+   formatted_update_address_details_for_country_dt_campaigns POST   /dt/campaigns/update_address_details_for_country.:format              {:controller=>"dt/campaigns", :action=>"update_address_details_for_country"}
+                                                             GET    /dt/campaigns                                                         {:controller=>"dt/campaigns", :action=>"index"}
+                                                             GET    /dt/campaigns.:format                                                 {:controller=>"dt/campaigns", :action=>"index"}
+                                                             POST   /dt/campaigns                                                         {:controller=>"dt/campaigns", :action=>"create"}
+                                                             POST   /dt/campaigns.:format                                                 {:controller=>"dt/campaigns", :action=>"create"}
+                                                             GET    /dt/campaigns/new                                                     {:controller=>"dt/campaigns", :action=>"new"}
+                                                             GET    /dt/campaigns/new.:format                                             {:controller=>"dt/campaigns", :action=>"new"}
+                                                             GET    /dt/campaigns/:id/edit                                                {:controller=>"dt/campaigns", :action=>"edit"}
+                                                             GET    /dt/campaigns/:id/edit.:format                                        {:controller=>"dt/campaigns", :action=>"edit"}
+                                          manage_dt_campaign GET    /dt/campaigns/:id/manage                                              {:controller=>"dt/campaigns", :action=>"manage"}
+                                formatted_manage_dt_campaign GET    /dt/campaigns/:id/manage.:format                                      {:controller=>"dt/campaigns", :action=>"manage"}
+                           configure_filters_for_dt_campaign GET    /dt/campaigns/:id/configure_filters_for                               {:controller=>"dt/campaigns", :action=>"configure_filters_for"}
+                 formatted_configure_filters_for_dt_campaign GET    /dt/campaigns/:id/configure_filters_for.:format                       {:controller=>"dt/campaigns", :action=>"configure_filters_for"}
+                       remove_project_limit_from_dt_campaign POST   /dt/campaigns/:id/remove_project_limit_from                           {:controller=>"dt/campaigns", :action=>"remove_project_limit_from"}
+             formatted_remove_project_limit_from_dt_campaign POST   /dt/campaigns/:id/remove_project_limit_from.:format                   {:controller=>"dt/campaigns", :action=>"remove_project_limit_from"}
+                              add_place_limit_to_dt_campaign POST   /dt/campaigns/:id/add_place_limit_to                                  {:controller=>"dt/campaigns", :action=>"add_place_limit_to"}
+                    formatted_add_place_limit_to_dt_campaign POST   /dt/campaigns/:id/add_place_limit_to.:format                          {:controller=>"dt/campaigns", :action=>"add_place_limit_to"}
+                              add_cause_limit_to_dt_campaign POST   /dt/campaigns/:id/add_cause_limit_to                                  {:controller=>"dt/campaigns", :action=>"add_cause_limit_to"}
+                    formatted_add_cause_limit_to_dt_campaign POST   /dt/campaigns/:id/add_cause_limit_to.:format                          {:controller=>"dt/campaigns", :action=>"add_cause_limit_to"}
+                                        activate_dt_campaign POST   /dt/campaigns/:id/activate                                            {:controller=>"dt/campaigns", :action=>"activate"}
+                              formatted_activate_dt_campaign POST   /dt/campaigns/:id/activate.:format                                    {:controller=>"dt/campaigns", :action=>"activate"}
+                            add_project_limit_to_dt_campaign POST   /dt/campaigns/:id/add_project_limit_to                                {:controller=>"dt/campaigns", :action=>"add_project_limit_to"}
+                  formatted_add_project_limit_to_dt_campaign POST   /dt/campaigns/:id/add_project_limit_to.:format                        {:controller=>"dt/campaigns", :action=>"add_project_limit_to"}
+                                                             GET    /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"show"}
+                                                             GET    /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"show"}
+                                                             PUT    /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"update"}
+                                                             PUT    /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"update"}
+                                                             DELETE /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"destroy"}
+                                                dt_campaigns GET    /dt/campaigns                                                         {:controller=>"dt/campaigns", :action=>"index"}
+                                      formatted_dt_campaigns GET    /dt/campaigns.:format                                                 {:controller=>"dt/campaigns", :action=>"index"}
+                                                             POST   /dt/campaigns                                                         {:controller=>"dt/campaigns", :action=>"create"}
+                                                             POST   /dt/campaigns.:format                                                 {:controller=>"dt/campaigns", :action=>"create"}
+                                             new_dt_campaign GET    /dt/campaigns/new                                                     {:controller=>"dt/campaigns", :action=>"new"}
+                                   formatted_new_dt_campaign GET    /dt/campaigns/new.:format                                             {:controller=>"dt/campaigns", :action=>"new"}
+                                            edit_dt_campaign GET    /dt/campaigns/:id/edit                                                {:controller=>"dt/campaigns", :action=>"edit"}
+                                  formatted_edit_dt_campaign GET    /dt/campaigns/:id/edit.:format                                        {:controller=>"dt/campaigns", :action=>"edit"}
+                                                 dt_campaign GET    /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"show"}
+                                       formatted_dt_campaign GET    /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"show"}
+                                                             PUT    /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"update"}
+                                                             PUT    /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"update"}
+                                                             DELETE /dt/campaigns/:id                                                     {:controller=>"dt/campaigns", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:id.:format                                             {:controller=>"dt/campaigns", :action=>"destroy"}
+                                      dt_campaign_wall_posts GET    /dt/campaigns/:campaign_id/wall_posts                                 {:controller=>"dt/wall_posts", :action=>"index"}
+                            formatted_dt_campaign_wall_posts GET    /dt/campaigns/:campaign_id/wall_posts.:format                         {:controller=>"dt/wall_posts", :action=>"index"}
+                                                             POST   /dt/campaigns/:campaign_id/wall_posts                                 {:controller=>"dt/wall_posts", :action=>"create"}
+                                                             POST   /dt/campaigns/:campaign_id/wall_posts.:format                         {:controller=>"dt/wall_posts", :action=>"create"}
+                                   new_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/new                             {:controller=>"dt/wall_posts", :action=>"new"}
+                         formatted_new_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/new.:format                     {:controller=>"dt/wall_posts", :action=>"new"}
+                                  edit_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/:id/edit                        {:controller=>"dt/wall_posts", :action=>"edit"}
+                        formatted_edit_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/:id/edit.:format                {:controller=>"dt/wall_posts", :action=>"edit"}
+                                       dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/:id                             {:controller=>"dt/wall_posts", :action=>"show"}
+                             formatted_dt_campaign_wall_post GET    /dt/campaigns/:campaign_id/wall_posts/:id.:format                     {:controller=>"dt/wall_posts", :action=>"show"}
+                                                             PUT    /dt/campaigns/:campaign_id/wall_posts/:id                             {:controller=>"dt/wall_posts", :action=>"update"}
+                                                             PUT    /dt/campaigns/:campaign_id/wall_posts/:id.:format                     {:controller=>"dt/wall_posts", :action=>"update"}
+                                                             DELETE /dt/campaigns/:campaign_id/wall_posts/:id                             {:controller=>"dt/wall_posts", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:campaign_id/wall_posts/:id.:format                     {:controller=>"dt/wall_posts", :action=>"destroy"}
+                                      dt_campaign_news_items GET    /dt/campaigns/:campaign_id/news_items                                 {:controller=>"dt/news_items", :action=>"index"}
+                            formatted_dt_campaign_news_items GET    /dt/campaigns/:campaign_id/news_items.:format                         {:controller=>"dt/news_items", :action=>"index"}
+                                                             POST   /dt/campaigns/:campaign_id/news_items                                 {:controller=>"dt/news_items", :action=>"create"}
+                                                             POST   /dt/campaigns/:campaign_id/news_items.:format                         {:controller=>"dt/news_items", :action=>"create"}
+                                   new_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/new                             {:controller=>"dt/news_items", :action=>"new"}
+                         formatted_new_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/new.:format                     {:controller=>"dt/news_items", :action=>"new"}
+                                  edit_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/:id/edit                        {:controller=>"dt/news_items", :action=>"edit"}
+                        formatted_edit_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/:id/edit.:format                {:controller=>"dt/news_items", :action=>"edit"}
+                                       dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/:id                             {:controller=>"dt/news_items", :action=>"show"}
+                             formatted_dt_campaign_news_item GET    /dt/campaigns/:campaign_id/news_items/:id.:format                     {:controller=>"dt/news_items", :action=>"show"}
+                                                             PUT    /dt/campaigns/:campaign_id/news_items/:id                             {:controller=>"dt/news_items", :action=>"update"}
+                                                             PUT    /dt/campaigns/:campaign_id/news_items/:id.:format                     {:controller=>"dt/news_items", :action=>"update"}
+                                                             DELETE /dt/campaigns/:campaign_id/news_items/:id                             {:controller=>"dt/news_items", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:campaign_id/news_items/:id.:format                     {:controller=>"dt/news_items", :action=>"destroy"}
+                                           dt_campaign_teams GET    /dt/campaigns/:campaign_id/teams                                      {:controller=>"dt/teams", :action=>"index"}
+                                 formatted_dt_campaign_teams GET    /dt/campaigns/:campaign_id/teams.:format                              {:controller=>"dt/teams", :action=>"index"}
+                                                             POST   /dt/campaigns/:campaign_id/teams                                      {:controller=>"dt/teams", :action=>"create"}
+                                                             POST   /dt/campaigns/:campaign_id/teams.:format                              {:controller=>"dt/teams", :action=>"create"}
+                                        new_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/new                                  {:controller=>"dt/teams", :action=>"new"}
+                              formatted_new_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/new.:format                          {:controller=>"dt/teams", :action=>"new"}
+                                       edit_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/:id/edit                             {:controller=>"dt/teams", :action=>"edit"}
+                             formatted_edit_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/:id/edit.:format                     {:controller=>"dt/teams", :action=>"edit"}
+                                            dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/:id                                  {:controller=>"dt/teams", :action=>"show"}
+                                  formatted_dt_campaign_team GET    /dt/campaigns/:campaign_id/teams/:id.:format                          {:controller=>"dt/teams", :action=>"show"}
+                                                             PUT    /dt/campaigns/:campaign_id/teams/:id                                  {:controller=>"dt/teams", :action=>"update"}
+                                                             PUT    /dt/campaigns/:campaign_id/teams/:id.:format                          {:controller=>"dt/teams", :action=>"update"}
+                                                             DELETE /dt/campaigns/:campaign_id/teams/:id                                  {:controller=>"dt/teams", :action=>"destroy"}
+                                                             DELETE /dt/campaigns/:campaign_id/teams/:id.:format                          {:controller=>"dt/teams", :action=>"destroy"}
+                               change_campaign_display_panel        /dt/campaigns/:id/change_panel/:panel                                 {:controller=>"dt/campaigns", :action=>"change_display_panel"}
+                                               show_campaign        /dt/:short_name                                                       {:controller=>"dt/campaigns", :action=>"show"}
+                                          show_campaign_team        /dt/:short_campaign_name/team/:short_name                             {:controller=>"dt/teams", :action=>"show"}
+                                         show_campaign_group        /dt/:short_campaign_name/group/:short_name                            {:controller=>"dt/teams", :action=>"show"}
+                                     show_campaign_classroom        /dt/:short_campaign_name/classroom/:short_name                        {:controller=>"dt/teams", :action=>"show"}
+bash-3.2$ ruby script/destroy model casus[K[K[K[K[KCausesLimit
+    notempty  db/migrate
+    notempty  db
+          rm  db/migrate/127_create_causes_limits.rb
+          rm  test/fixtures/causes_limits.yml
+          rm  test/unit/causes_limit_test.rb
+          rm  app/models/causes_limit.rb
+    notempty  test/fixtures
+    notempty  test
+    notempty  test/unit
+    notempty  test
+    notempty  app/models
+    notempty  app
+bash-3.2$ ruby script/destroy model CausesLimit[C[C[C[1P[1P[1P[1P[1P[1P[1P[4hg[4l[4henerate[4l[C[C[C[C[C[C[C[C[C[C[C[C[C[1PLimit[C[C[C[C[C user[K[K[K[Kcampaign:refernces user[K[K[K[Kcause:references
+      exists  app/models/
+      exists  test/unit/
+      exists  test/fixtures/
+      create  app/models/cause_limit.rb
+      create  test/unit/cause_limit_test.rb
+      create  test/fixtures/cause_limits.yml
+      exists  db/migrate
+      create  db/migrate/132_create_cause_limits.rb
+bash-3.2$ rake db:migrate
+(in /Users/joe/Documents/Software/RoR/donortrust)
+== 132 CreateCauseLimits: migrating ===========================================
+-- create_table(:cause_limits)
+rake aborted!
+undefined method `refernces' for #<ActiveRecord::ConnectionAdapters::TableDefinition:0x4315340>
+
+(See full trace by running task with --trace)
+bash-3.2$ rake db:migrate[C[C[C[C[C[C[C[C[C[C[Krake db:migrate
+(in /Users/joe/Documents/Software/RoR/donortrust)
+== 132 CreateCauseLimits: migrating ===========================================
+-- create_table(:cause_limits)
+   -> 0.1535s
+== 132 CreateCauseLimits: migrated (0.1538s) ==================================
+
+bash-3.2$ ls
+Capfile		Rakefile	components	console		doc		log		script		stories		tmp
+README		app		config		db		lib		public		spec		test		vendor
+bash-3.2$ svn update
+joegaudet@rubyforge.org's password: 
+svn: Directory 'vendor/plugins/will_paginate/.svn' containing working copy admin area is missing
+bash-3.2$ 

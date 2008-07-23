@@ -3,5 +3,5 @@
 	<p>
 		<%= news_item.content %>
 	</p>
-	<h5>Posted By: <%= news_item.author %> On: <%= news_item.created_at%></h5>
+	<h5>Posted By: <%= news_item.author.full_name %> On: <%= news_item.created_at%> <%= (' | ' + delete_icon(url_for([:dt, news_item.postable, news_item]))) unless (not news_item.owned? and not news_item.postable.owned?)%></h5>
 </div>

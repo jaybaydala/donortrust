@@ -1,8 +1,9 @@
 class Team < ActiveRecord::Base
   belongs_to :campaign
-  belongs_to :author, :class_name => "User", :foreign_key => "user_id"
+  belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
   
   has_many :team_members
+  has_many :users, :through => :team_members
   
   # wall posts
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
@@ -21,6 +22,17 @@ class Team < ActiveRecord::Base
     
     if self.campaign.require_team_authorization
       self.pending = true
+    else
+      self.pending = false
     end
+  end
+  
+  def activate!
+    self.update_attribute(:pending,false) ? true : false;
+  end
+  
+  #check if the current user is the owner of this team
+  def owned?
+    current_user != nil ? self.leader == current_user : false;
   end
 end

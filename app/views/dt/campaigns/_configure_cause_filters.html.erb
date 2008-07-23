@@ -1,0 +1,2 @@
+<%= render :partial => 'cause', :collection => @causes%>
+<%= will_paginate @causes, :renderer => 'RemoteLinkRenderer', :param_name => 'cause_page', :remote => { :update => 'cause_list'} -%>
