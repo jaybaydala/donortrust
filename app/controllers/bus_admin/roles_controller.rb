@@ -7,7 +7,7 @@ class BusAdmin::RolesController < ApplicationController
   active_scaffold do |config|
     config.list.columns = [:title, :users]
     config.create.columns = [:title]
-    config.update.columns = [:title, :administrations]
+    config.update.columns = [:title, :administrations, :permissions]
     config.columns[:administrations].label = "Users with this role"
   end
 

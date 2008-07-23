@@ -7,6 +7,10 @@ module BusAdmin::RolesHelper
     else
       super
     end
-  end 
+  end
+
+ # def permissions_form_column(record, name)
+ #    select record.to_s, "permission.id", :name => name
+ # end  
 
 end

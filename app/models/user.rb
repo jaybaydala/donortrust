@@ -191,14 +191,15 @@ class User < ActiveRecord::Base
     DonortrustMailer.deliver_account_expiry_reminder(self)
   end
 
-  def is_bus_admin?
-    self.user_roles.each do |role|
-      if role.role_type == "busAdmin"
-        return true
-      end
-    end
-    return false
-  end
+  # DEPRECATED
+  #def is_bus_admin?
+  #  self.user_roles.each do |role|
+  #    if role.role_type == "busAdmin"
+  #      return true
+  #    end
+  #  end
+  #  return false
+  #end
 
   protected
     def validate

@@ -179,4 +179,11 @@ authorized_controllers_101:
 authorized_controllers_102: 
   id: "75"
   name: bus_admin/authorized_controllers
+authorized_controllers_103: 
+  id: "76"
+  name: bus_admin/roles
+authorized_controllers_104: 
+  id: "77"
+  name: bus_admin/administrations
+
 
