@@ -390,3 +390,18 @@ SIDEBAR FORM ELEMENTS
     width:228px;
 }
 
+
+/* ADVANCED SEARCH */
+#button_placeholder{
+	text-align:right;
+}
+.adv_submit_button {
+    width:92px;
+    height:20px;
+    background: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_grey.gif) no-repeat top left;
+	vertical-align: middle;
+}
+.adv_submit_button:hover {
+    background-image: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_blue.gif);
+}
+
