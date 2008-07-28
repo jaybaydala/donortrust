@@ -2,7 +2,7 @@
 
 
 
-<% else%>
+
   <% if @search.total_entries==Project.find_public(:all).size%>
     <%- content_for :html_title do -%>All Projects<%- end -%>
   <%else%>
@@ -10,19 +10,53 @@
       <%if params[:keywords] %>
       <%- content_for :html_title do -%>Project Search Results<%- end -%>
       <div>
-        <strong>You have searched using the following terms:</strong>
+        <h4>You have searched using the following terms:</h4>
+        
       	<% if @search  %>
       		<div class="textsm" style="padding-bottom:0;">
       			<%= params[:keywords]  %>
       		</div>
+      		<div>
+      		  <% if params[:continent_selected]  && !params[:continent_id].nil? && !params[:continent_id].empty?%>
+      		    <strong>Continent: </strong><%= Place.find(params[:continent_id].to_i).name%>
+      		    <br>
+      		  <% end%>
+      		  <% if params[:country_selected]  && !params[:country_id].nil? && !params[:country_id].empty?%>
+      		    <strong>Country: </strong><%= Place.find(params[:country_id].to_i).name%>
+      		    <br>
+      		  <% end%>
+      		  <% if params[:organization_selected]%>
+      		    <strong>Organization: </strong><%= Partner.find(params[:partner_id].to_i).name%>
+      		    <br>
+      		  <% end%>
+      		  <% if params[:cause_selected]%>
+      		    <strong>Cause: </strong><%= Cause.find(params[:cause_id].to_i).name%>
+      		    <br>
+      		  <% end%>
+      		  <% if params[:funding_req_selected]%>
+      		    <strong>Funding required: </strong> 
+      		    <% if !params[:funding_req_min].empty?%> 
+      		      min: <%= number_to_currency(params[:funding_req_min])%>
+      		    <% end %>
+      		    <% if !params[:funding_req_max].empty?%> 
+      		      max: <%= number_to_currency(params[:funding_req_max])%>      		      
+      		    <%end%>
+      		    <br>
+      		  <% end%>
+      		   <% if params[:fully_funded]%>
+        		    <strong>Fully funded: </strong> <%= params[:fully_funded]%>
+        		    <br>
+        		  <% end%>      		  
+      		</div>
       	<% end %>
+      <% end%>
+      
       </div>
     <%else%>
       No results were found. Please review your search.
     <%end%>
   <%end%>
 
-<% end%>
 
 <% if @search.size > 0 %>
 

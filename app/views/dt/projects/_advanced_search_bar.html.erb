@@ -3,11 +3,16 @@
 
 <div>
 <% form_tag(  search_dt_projects_path , {:id => 'advanced_search', :method => :get})do %>
+<%= hidden_field_tag :keywords %>
 <h2>Projects Filter Search</h2>
 <fieldset>
-  Continent:<%= select_tag("continent_id", options_for_select(@continents),  :onchange => "ajaxSubmit(); $('country_id').value='';" )  %> Country: 
+  
+  <%= check_box_tag( 'continent_selected', '0', params[:continent_selected])%>
+  Continent:<%= select_tag("continent_id", options_for_select(@continents, params[:continent_id].to_i),  :onchange => "ajaxSubmit(); $('country_id').value='';assign_selected(this, 'continent');" )  %> <%=     
+  check_box_tag( 'country_selected', '0' ,params[:country_selected])%>
+  Country: 
   <span id='country_id_container'>
-    <%= select_tag("country_id", "country_id", :onchange => "ajaxSubmit();" , :disabled => true)%>	
+    <%= select_tag("country_id", 'country_id', :onchange => "ajaxSubmit();assign_selected(this, 'country');" , :disabled => true)%>	
   </span>
   <%= image_tag 'spinner.gif' , :id => 'spinner', :style => 'display:none; padding-top:3px;' %>
   <%=	observe_field("continent_id",
@@ -21,15 +26,21 @@
   %>
 </fieldset>
 <fieldset>
-  Organization: <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();" ) %>
-  Cause: <%= select_tag("cause_id",options_for_select(@causes, params[:cause_id].to_i) , :onchange => "ajaxSubmit();" ) %>
+  
+  <%= check_box_tag( 'organization_selected', '0', params[:organization_selected])%>
+  Organization: <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();assign_selected(this, 'organization');" ) %>
+  <%= check_box_tag( 'cause_selected', '0', params[:cause_selected])%>
+  Cause: <%= select_tag("cause_id",options_for_select(@causes, params[:cause_id].to_i) , :onchange => "ajaxSubmit();assign_selected(this, 'cause');" ) %>
 
 </fieldset>
 <fieldset>
   <div>
+    <%= check_box_tag( 'funding_req_selected', '0',params[:funding_req_selected])%>
     Funding required: 
-    min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();" ) %> 
-    and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();" ) %>
+    min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %> 
+    and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %>
+    <br>
+    Fully funded: <%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%> yes 
   </div>
   <!--<br>
     Funding received:
@@ -51,10 +62,10 @@
   <%= hidden_field_tag "filter", "true"%>
   <!-- <%= hidden_field_tag "advanced","true"%> -->
 
-  <span id="searchsubmit">
-    <%= submit_tag 'Search', :size =>40, :onsubmit=>"$('filter_keywords').value = $('keywords').value;"%>
-  </span>
-  <span id="count_results_container" style="float:right;position:relative;bottom:20px;background:yellow">
+  <div id="button_placeholder">
+    <%= submit_tag '', :style=>'border:0px;',:onsubmit=>"$('filter_keywords').value = $('keywords').value;", :class=> 'adv_submit_button'%>
+  </div>
+  <span id="count_results_container" style="float:right;position:relative;bottom:20px;right:160px;background:yellow">
   </span>
   <% end -%>
 </div>

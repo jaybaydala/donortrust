@@ -162,6 +162,21 @@ class Project < ActiveRecord::Base
       end
       @continents
     end
+    
+    def continents_all
+      if @continents.nil?
+        @continents = []
+        Project.find_public(:all, :include => :place).each do |project|
+          if project.community_id? && project.community
+            project.place.ancestors.each do |ancestor|
+              @continents << ancestor and break if ancestor.place_type_id == 1 && !@continents.include?(ancestor)
+            end
+          end
+        end
+        @continents.sort!{|x,y| x.name <=> y.name}
+      end
+      @continents
+    end
 
     def countries
       if @countries.nil?

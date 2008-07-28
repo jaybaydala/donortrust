@@ -60,4 +60,29 @@ module DtApplicationHelper
   def cart_empty?
     false
   end
+  
+  
+  # ultrasphinx simple search
+  def dt_simple_project_search
+    render :partial => 'dt/projects/search', :layout => false
+  end
+  
+  # ultrasphinx advanced search
+  def dt_advanced_search
+    @continents = [['Location', '']]
+		Project.continents_all.each do |place|
+  			name = place.parent_id? ? "#{place.name} (#{Place.projects(1,place.id).size})" : "#{place.name} (#{Place.projects(1,place.id).size})"
+  			@continents << [name, place.id]
+		end
+		@partners = [['Organization', '']]
+    Project.partners.each do |partner|
+      @partners << [partner.name, partner.id]
+    end
+    @causes = [['Cause', '']]
+    Project.causes.each do |cause|
+      @causes << [cause.name, cause.id]
+    end   
+     
+    render :partial => 'dt/projects/advanced_search_bar', :layout => false
+  end
 end
