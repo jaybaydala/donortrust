@@ -229,13 +229,12 @@ class Dt::ProjectsController < DtApplicationController
       }
     end
   end
-  
+  helper_method :add_countries
   
   protected  
   
   def apply_filters
     filters = Hash.new
-    
     # partner
     if params[:organization_selected]
       if !params[:partner_id].nil? && !params[:partner_id].empty?
@@ -268,6 +267,24 @@ class Dt::ProjectsController < DtApplicationController
           end
        
         end
+      end
+    end
+    
+    #fully funded
+    if !params[:fully_funded].nil? && ! params[:fully_funded].empty?
+      @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count)
+      @search.run
+      projects = @search.results
+      sel_ff_projects =[]
+      projects.each do |project|
+        sel_ff_projects << project if project.current_need.to_f<=0.0
+      end
+      if !sel_ff_projects.nil?
+        ids = []
+        sel_ff_projects.each do |project|
+          ids << project.created_at
+        end
+        filters.merge!(:created_at => ids)
       end
     end
     
@@ -381,12 +398,12 @@ class Dt::ProjectsController < DtApplicationController
               "newest" => "created_at", 
               "target_start_date" => "target_start_date", 
               "total_cost" => "total_cost", 
-              "partner_name" => "partners.`name`", 
-              "place_name" => "places.`name`"
+              "partner_name" => "partner_name", 
+              "place_name" => "place_name"
         }
        
         order = order_map[params[:order]] if order_map.has_key?(params[:order])
-        @search = Ultrasphinx::Search.new(:query => @query,:filters =>filters, :sort_by => order, :sort_mode => 'ascending', :sort_by => 'project_status_id',:sort_mode => 'ascending', :per_page => 5,  :page => (params[:page].nil? ? '1': params[:page]  ) )
+        @search = Ultrasphinx::Search.new(:query => @query,:filters =>filters,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending',:sort_by => order, :sort_mode => 'ascending',  :per_page => 5,  :page => (params[:page].nil? ? '1': params[:page]  ) )
         Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
           :before_match => '<strong style="background-color:yellow;">',
           :after_match => '</strong>',

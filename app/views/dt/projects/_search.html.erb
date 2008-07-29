@@ -1,5 +1,5 @@
 <div id="project_search_toolbar" >
-<% form_tag (search_dt_projects_path,{:id => 'project_search', :method => :get} ) do %>
+<% form_tag (search_dt_projects_path,{:id => 'project_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
 	<%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
 		:title => 'Search', 
 		:size => 55 ,

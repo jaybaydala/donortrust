@@ -8,11 +8,23 @@
 <fieldset>
   
   <%= check_box_tag( 'continent_selected', '0', params[:continent_selected])%>
-  Continent:<%= select_tag("continent_id", options_for_select(@continents, params[:continent_id].to_i),  :onchange => "ajaxSubmit(); $('country_id').value='';assign_selected(this, 'continent');" )  %> <%=     
+  Continent: <%= select_tag("continent_id", options_for_select(@continents, params[:continent_id].to_i),  :onchange => "ajaxSubmit(); $('country_id').value='';assign_selected(this, 'continent');" )  %> <%=     
   check_box_tag( 'country_selected', '0' ,params[:country_selected])%>
   Country: 
   <span id='country_id_container'>
-    <%= select_tag("country_id", 'country_id', :onchange => "ajaxSubmit();assign_selected(this, 'country');" , :disabled => true)%>	
+    <% if !params[:country_id].nil? && !params[:country_id].empty? && params[:country_selected] %>
+      <% javascript_tag do -%>
+        Event.observe(window, 'load', function() {
+          new Ajax.Request('/dt/projects/add_countries?country_id=<%= params[:country_id]%>', {
+            asynchronous:true, evalScripts:true, method:'get', parameters:'continent_id=' + <%=params[:continent_id]%>
+          }
+          )
+        }, 'load')
+      <%end -%>
+    <%end%>
+    
+    <%= select_tag("country_id",  '', :onchange => "ajaxSubmit();assign_selected(this, 'country');" , :disabled => true)%>	
+   
   </span>
   <%= image_tag 'spinner.gif' , :id => 'spinner', :style => 'display:none; padding-top:3px;' %>
   <%=	observe_field("continent_id",
@@ -28,7 +40,7 @@
 <fieldset>
   
   <%= check_box_tag( 'organization_selected', '0', params[:organization_selected])%>
-  Organization: <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();assign_selected(this, 'organization');" ) %>
+  Organization: <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();assign_selected(this, 'organization');" ) %><br>
   <%= check_box_tag( 'cause_selected', '0', params[:cause_selected])%>
   Cause: <%= select_tag("cause_id",options_for_select(@causes, params[:cause_id].to_i) , :onchange => "ajaxSubmit();assign_selected(this, 'cause');" ) %>
 
@@ -61,12 +73,13 @@
 
   <%= hidden_field_tag "filter", "true"%>
   <!-- <%= hidden_field_tag "advanced","true"%> -->
-
+  
   <div id="button_placeholder">
     <%= submit_tag '', :style=>'border:0px;',:onsubmit=>"$('filter_keywords').value = $('keywords').value;", :class=> 'adv_submit_button'%>
   </div>
-  <span id="count_results_container" style="float:right;position:relative;bottom:20px;right:160px;background:yellow">
+  <!--<span id="count_results_container" style="float:right;position:relative;bottom:20px;right:160px;background:yellow">
   </span>
+-->
   <% end -%>
 </div>
 

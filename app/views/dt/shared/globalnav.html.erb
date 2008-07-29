@@ -18,13 +18,13 @@
 		</div>
 		-->
 		  <div >
-      <% form_tag (search_dt_projects_path,{:id => 'search', :method => :get} ) do %>
+      <% form_tag (search_dt_projects_path,{:id => 'search', :method => :get,:onsubmit => "if($('keywords2').value=='Search'){ $('keywords2').value='';}"} ) do %>
       	<%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
       		:title => 'Search', 
       		:size => 15 ,
       		:onblur =>"if(!this.value) this.value='Search';", 
       		:onfocus => "if(this.value=='Search') this.value='';",
-      		:onsubmit=> "if(this.value=='Search') this.value='';"
+      		:id=> 'keywords2'
       	%>
       	<span id="searchsubmit">
       		<%= submit_tag 'go',

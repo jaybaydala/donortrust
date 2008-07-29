@@ -44,7 +44,8 @@ class Project < ActiveRecord::Base
     {:field => 'project_in_community'},
     {:field => 'total_cost'},
     {:field => 'target_start_date'},
-    {:field => 'project_status_id'}
+    {:field => 'project_status_id'},
+    {:field => 'created_at'}
     ],
     :include => [
           {:class_name => 'Place', 
