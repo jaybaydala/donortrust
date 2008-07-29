@@ -1,5 +1,5 @@
 
-<script language="JavaScript"> function ajaxSubmit() {new Ajax.Request('<%= search_dt_projects_path %>', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.serialize($('advanced_search'))}); return false;}</script>
+<script language="JavaScript"> function ajaxSubmit(){ return false} /*{new Ajax.Request('<%= search_dt_projects_path %>', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.serialize($('advanced_search'))}); return false;} */</script>
 
 <div>
 <% form_tag(  search_dt_projects_path , {:id => 'advanced_search', :method => :get})do %>
