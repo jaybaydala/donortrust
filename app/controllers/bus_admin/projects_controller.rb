@@ -46,6 +46,9 @@ class BusAdmin::ProjectsController < ApplicationController
     config.action_links.add 'list',  :label => 'Export to CSV',
                                      :page => true, 
                                      :parameters => { :action => 'export_to_csv'}
+    config.action_links.add 'list',  :label => 'Pending',
+                                     :page => true, 
+                                     :parameters => { :action => 'pending_projects'}
                                      
 #    config.action_links.add 'index', :label => '<img src="/images/bus_admin/icons/you_tube.png" border="0"/>',
 #                                     :page => true, :type => :record,

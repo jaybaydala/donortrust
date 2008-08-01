@@ -71,7 +71,7 @@
 					    <tr>
 					<% end %>
 						<td valign="top">
-							<strong><%= program.name %></strong><br /><%=link_to '[View Projects]', {:controller =>'projects', :action => 'report', :program_id => program.id } %>
+							<strong><%= program.name %></strong><br /><%=link_to '[View Projects]', {:controller =>'bus_admin/projects', :action => 'report', :program_id => program.id } %>
 							
 						</td>
 						<td> % Dollars Raised<br />
