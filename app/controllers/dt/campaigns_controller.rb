@@ -188,4 +188,32 @@ class Dt::CampaignsController < DtApplicationController
       [@campaign, @current_panel = 'partner']
       render :partial => 'project_filters'
   end
+  
+  def validate_short_name_of
+    @errors = Array.new
+    
+    @short_name = params[:campaign_short_name]
+    if @short_name != nil 
+      @short_name.downcase!
+      
+      if(@short_name =~ /\W/)
+        @errors.push('You may only use Alphanumeric Characters (ie: a-z, 0-9), hyphens, and underscores. Also this means no white space.')
+      end
+    
+      if(@short_name.length < 3)
+        @errors.push('The short name must be 3 characters or longer.')
+      end
+    
+      if(Campaign.find_by_short_name(@short_name) != nil)
+        @errors.push('That short name has already been used, short names must be globally unique.')
+      end
+    else 
+      @errors.push('The short name may not contain any reserved characters such as ?')
+    end
+    [@errors, @short_name]
+    
+    render :update do |page|
+      page.alert("yo")
+    end
+  end
 end

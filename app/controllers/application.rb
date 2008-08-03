@@ -133,6 +133,7 @@ def recover_record
     end
     
   end
+
   
 protected
   def set_user

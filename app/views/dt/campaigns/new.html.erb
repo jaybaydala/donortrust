@@ -11,11 +11,22 @@
 			<label>Short Name</label>
     		<span class="small_text">http://www.christmasfuture.org/</span><%= f.text_field :short_name %>
 			<%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your campaign. It should not contain any spaces and should be concise so as to convey the central idea of your campaign. Also this name will be used to provide your campaign with a Christmas Future URL. http://www.christmasfuture.org/yourCampaignShortName'%>
+			<%= observe_field	:campaign_short_name, 
+								:frequency => 0.25, 
+								:url => validate_short_name_of_dt_campaigns_path,
+								:with => :campaign_short_name,
+								:update => :short_name_report
+								%>
+			<div id="short_name_report">
+			</div>
+			<div id="test">
+			</div>
+
 
 		    <label>Campaign type</label>
 			<%= collection_select :campaign_type, :id, CampaignType.find(:all), :id, :name %>
 			<%= observe_field :campaign_type_id, 
-									:frequency => 0.25, 
+									:frequency => 2, 
 									:url => { :action => :update_team_config_options}, 
 									:with => :campaign_type_id
 			%>

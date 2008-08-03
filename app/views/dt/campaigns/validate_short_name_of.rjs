@@ -1,0 +1,1 @@
+page[:test].replace_html "New Text"
