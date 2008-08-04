@@ -200,7 +200,7 @@ class Dt::CampaignsController < DtApplicationController
         @errors.push('You may only use Alphanumeric Characters (ie: a-z, 0-9), hyphens, and underscores. Also this means no white space.')
       end
     
-      if(@short_name.length < 3)
+      if(@short_name.length < 3 and @short_name.length != 0)
         @errors.push('The short name must be 3 characters or longer.')
       end
     
@@ -211,9 +211,5 @@ class Dt::CampaignsController < DtApplicationController
       @errors.push('The short name may not contain any reserved characters such as ?')
     end
     [@errors, @short_name]
-    
-    render :update do |page|
-      page.alert("yo")
-    end
   end
 end

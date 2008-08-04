@@ -1,1 +1,11 @@
-page[:test].replace_html "New Text"
+if @errors.size == 0
+  page[:errors].hide
+  page[:errors].replace_html ""
+else
+  page[:errors].show
+  error_string = ""
+  for error in @errors
+    error_string = error + "<br/>"
+  end
+  page[:errors].replace_html error_string
+end
