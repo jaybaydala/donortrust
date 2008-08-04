@@ -405,3 +405,14 @@ SIDEBAR FORM ELEMENTS
     background-image: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_blue.gif);
 }
 
+#wrapper-adv-search-box{
+	border-top: 1px solid #000;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 5px;
+}
+
+.adv-search-label{
+	font-weight: bold;
+}
