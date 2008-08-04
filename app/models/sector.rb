@@ -13,11 +13,21 @@ class Sector < ActiveRecord::Base
 
   
   #ultrasphinx indexer
-  #is_indexed :fields => [
-   # {:field => 'name', :sortable => true},
-  #  {:field => 'description', :sortable => true}
-    #],
-   #:conditions => "sectors.deleted_at IS NULL"
+  
+  is_indexed :fields => [
+    {:field => 'id', :as => 'sector_id'},
+    {:field => 'name', :sortable => true}
+  ], 
+  :include => [
+      {   
+        :class_name => 'Project',
+        :field => 'id',
+        :as => 'project_id',
+        :association_sql => "left join projects_sectors on sectors.id=projects_sectors.sector_id left join projects on projects.id=projects_sectors.project_id"
+      }
+    ],
+  :conditions => "sectors.deleted_at IS NULL"
+  
 #  def project_count
 #    return projects.count
 #  end

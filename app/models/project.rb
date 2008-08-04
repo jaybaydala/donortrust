@@ -68,11 +68,11 @@ class Project < ActiveRecord::Base
             :field => 'id', 
             :as => 'partner_id'
           },
-          {
-            :association_name => 'sectors', 
-            :field => 'id', 
+          {   
+            :class_name => 'Sector',
+            :field => 'id',
             :as => 'sector_id',
-            :association_sql => "LEFT JOIN (projects_sectors) ON (projects_sectors.project_id=projects.id) LEFT JOIN (sectors) ON (sectors.id=projects_sectors.sector_id)"
+            :association_sql => "left join projects_sectors on projects.id=projects_sectors.project_id  left join sectors on sectors.id=projects_sectors.sector_id"
           },
           {
             :association_name => 'causes', 
@@ -205,6 +205,19 @@ class Project < ActiveRecord::Base
         @causes.sort!{|x,y| x.name <=> y.name}
       end
       @causes
+    end
+    
+    def sectors
+      if @sectors.nil?
+        @sectors = []
+        Project.find_public(:all, :include => :sectors).each do |project|
+          project.sectors.each do |sector|
+            @sectors << sector unless @sectors.include?(sector)
+          end
+        end
+        @sectors.sort!{|x,y| x.name <=> y.name}
+      end
+      @sectors
     end
     
     def partners

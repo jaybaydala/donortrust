@@ -29,8 +29,12 @@
       		    <strong>Organization: </strong><%= Partner.find(params[:partner_id].to_i).name%>
       		    <br>
       		  <% end%>
-      		  <% if params[:cause_selected]%>
-      		    <strong>Cause: </strong><%= Cause.find(params[:cause_id].to_i).name%>
+      		  <% if params[:cause_selected] && !params[:cause_id].nil? && !params[:cause_id].empty? %>
+      		    <strong>Cause: </strong><%= Cause.find(params[:cause_id].to_i).name unless params[:cause_id].empty?%>
+      		    <br>
+      		  <% end%>
+      		  <% if params[:cause_selected] && !params[:sector_id].nil? && !params[:sector_id].nil?%>
+      		    <strong>Sector: </strong><%= Sector.find(params[:sector_id].to_i).name unless params[:sector_id].empty? %>
       		    <br>
       		  <% end%>
       		  <% if params[:funding_req_selected]%>

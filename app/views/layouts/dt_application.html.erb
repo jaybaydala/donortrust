@@ -26,7 +26,9 @@
   <div id='search-bar-wrapper' style="display:<%= params[:filter] ? "block" : "none" %>;">
     <%= dt_advanced_search %>
   </div>
-  <div id='hider' onclick="Effect.SlideUp('search-bar-wrapper', { duration: 1.0 }); Effect.Fade('search-bar-wrapper',{ duration: 1.5});  Element.toggle('hider'); " style='display:<%= (params[:filter] || params[:action] =='advancedsearch') ? "block" : "none" %>;'>Hide filters</div>
+  <% if params[:action]!='advancedsearch'%>
+    <div id='hider' onclick="Effect.SlideUp('search-bar-wrapper', { duration: 1.0 }); Effect.Fade('search-bar-wrapper',{  duration: 1.5});  Element.toggle('hider'); " style='display:<%= (params[:filter] || params[:action] =='advancedsearch') ?   "block" : "none" %>;'>Hide filters</div>
+  <% end %>
 
 <%- nav = yield :nav -%>
 <%- page_title = yield :page_title -%>

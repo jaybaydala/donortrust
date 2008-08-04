@@ -1,33 +1,37 @@
 
-<script language="JavaScript"> function ajaxSubmit(){ return false} /*{new Ajax.Request('<%= search_dt_projects_path %>', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.serialize($('advanced_search'))}); return false;} */</script>
-
+<script language="JavaScript"> function ajaxSubmit(){ return false} /*{new Ajax.Request('<%= search_dt_projects_path %>', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.serialize($('advanced_search'))}); return false;} */
+</script>
 <div>
 <% form_tag(  search_dt_projects_path , {:id => 'advanced_search', :method => :get})do %>
 <%= hidden_field_tag :keywords %>
-<h2>Projects Filter Search</h2>
-<fieldset>
+<h3>Advanced Project Search</h3>
+<div id='wrapper-adv-search-box'>
   
-  <%= check_box_tag( 'continent_selected', (params[:continent_selected] ? '1' : '0'), params[:continent_selected])%>
-  Continent: <%= select_tag("continent_id", options_for_select(@continents, params[:continent_id].to_i),  :onchange => "ajaxSubmit(); $('country_id').value='';assign_selected(this, 'continent');" )  %> <%=     
-  check_box_tag( 'country_selected', (params[:country_selected] ? '1' : '0') ,params[:country_selected])%>
-  Country: 
-  <span id='country_id_container'>
-    <% if !params[:country_id].nil? && !params[:country_id].empty? && params[:country_selected] %>
+  <p>
+    <%= check_box_tag( 'continent_selected', (params[:continent_selected] ? '1' : '0'), params[:continent_selected])%>
+    <label class='adv-search-label'>Search By Location:</label>
+    <br>
+    Continent: <%= select_tag("continent_id", options_for_select(@continents, params[:continent_id].to_i),  :onchange => "ajaxSubmit(); $('country_id').value='';assign_selected(this, 'continent');" )  %> 
+    &nbsp;Country: 
+    <span id='country_id_container'>
+      <% if !params[:country_id].nil? && !params[:country_id].empty?%>
       <% javascript_tag do -%>
-        Event.observe(window, 'load', function() {
-          new Ajax.Request('/dt/projects/add_countries?country_id=<%= params[:country_id]%>', {
-            asynchronous:true, evalScripts:true, method:'get', parameters:'continent_id=' + <%=params[:continent_id]%>
-          }
-          )
-        }, 'load')
+      Event.observe(window, 'load', function() {
+        new Ajax.Request('/dt/projects/add_countries?country_id=<%= params[:country_id]%>', {
+          asynchronous:true, evalScripts:true, method:'get', parameters:'continent_id=' + <%=params[:continent_id]%>
+        }
+        )
+      }, 'load')
       <%end -%>
-    <%end%>
-    
-    <%= select_tag("country_id",  '', :onchange => "ajaxSubmit();assign_selected(this, 'country');" , :disabled => true)%>	
-   
-  </span>
-  <%= image_tag 'spinner.gif' , :id => 'spinner', :style => 'display:none; padding-top:3px;' %>
-  <%=	observe_field("continent_id",
+      <%end%>
+      <%= select_tag("country_id",  '', :onchange => "ajaxSubmit();assign_selected(this, 'country');" , :disabled => true)%>	
+
+    </span>
+    <%= image_tag 'spinner.gif' , :id => 'spinner', :style => 'display:none; padding-top:3px;' %>
+
+  </p>
+  
+    <%=	observe_field("continent_id",
   :on => "change",
   :url => {:action => "add_countries"},
   :method => :get,
@@ -36,40 +40,33 @@
   :success  => %(Element.hide("spinner"))
   )		
   %>
-</fieldset>
-<fieldset>
-  
-  <%= check_box_tag( 'organization_selected', (params[:organization_selected] ? '1' : '0'), params[:organization_selected])%>
-  Organization: <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();assign_selected(this, 'organization');" ) %><br>
-  <%= check_box_tag( 'cause_selected', (params[:cause_selected] ? '1' : '0'), params[:cause_selected])%>
-  Cause: <%= select_tag("cause_id",options_for_select(@causes, params[:cause_id].to_i) , :onchange => "ajaxSubmit();assign_selected(this, 'cause');" ) %>
 
-</fieldset>
-<fieldset>
-  <div>
+  <p>
+  <%= check_box_tag( 'organization_selected', (params[:organization_selected] ? '1' : '0'), params[:organization_selected])%>
+  <label class='adv-search-label'>Search By Organization:</label>
+  <br>
+  <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();assign_selected(this, 'organization');" ) %>
+  </p>
+  
+  <p>
+    <%= check_box_tag( 'cause_selected', (params[:cause_selected] ? '1' : '0'), params[:cause_selected])%>
+    <label class='adv-search-label'>Search By Cause or Sector:</label>
+    <br>
+    Sector: <%= select_tag("sector_id",options_for_select(@sectors, params[:sector_id].to_i) , :onchange => "ajaxSubmit();assign_selected(this, 'cause');" ) %> &nbsp;
+     Cause: <%= select_tag("cause_id",options_for_select(@causes, params[:cause_id].to_i) , :onchange => "ajaxSubmit();assign_selected(this, 'cause');" ) %>
+  </p>
+
+  <p>
     <%= check_box_tag( 'funding_req_selected', (params[:fundung_req_selected] ? '1' : '0'),params[:funding_req_selected])%>
-    Funding required: 
+    <label class='adv-search-label'>Search By Funding Requirement:</label>
+    <br>
     min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %> 
     and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %>
-    <br>
+    &nbsp;
     Fully funded: <%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%> yes 
-  </div>
-  <!--<br>
-    Funding received:
-    min <%= text_field_tag("funding_rec_min", params[:funding_rec_min], :size => 10, :onchange => "ajaxSubmit();" ) %> 
-    and max <%= text_field_tag("funding_rec_max", params[:funding_rec_max], :size => 10, :onchange => "ajaxSubmit();" ) %>
-  -->
-</fieldset>
-<!-- 
-  <fieldset>
-    Start date: 
-    <%= select_tag("start_date", options_for_select([ ['any',''] , ['sooner than','lower'], ['later than','bigger']], params[:start_date]), :onchange => "ajaxSubmit();" )%>
-    <span id='start_date_form' >
-      <%= text_field_tag("start_date_month", params[:start_date_month], :size => 2, :onblur =>"if(!this.value) this.value='mm';", :onfocus => "if(this.value=='mm') this.value='';", :onchange => "ajaxSubmit();" ) %>
-      -<%= text_field_tag("start_date_day",params[:start_date_day], :size => 2,:onblur =>"if(!this.value) this.value='dd';", :onfocus => "if(this.value=='dd') this.value='';", :onchange => "ajaxSubmit();" ) %>
-      -<%= text_field_tag("start_date_year", params[:start_date_year], :size => 4,:onblur =>"if(!this.value) this.value='yyyy';", :onfocus => "if(this.value=='yyyy') this.value='';", :onchange => "ajaxSubmit();" ) %></span>
-    </fieldset>
-  -->
+  </p>
+
+
 
   <%= hidden_field_tag "filter", "true"%>
   <!-- <%= hidden_field_tag "advanced","true"%> -->
@@ -83,3 +80,4 @@
   <% end -%>
 </div>
 
+</div>
