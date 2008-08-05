@@ -39,7 +39,9 @@ class CreateCampaigns < ActiveRecord::Migration
       #teams stuff
       t.boolean :require_team_authorization
       t.boolean :allow_multiple_teams
-      
+      t.integer :max_number_of_teams
+      t.integer :max_size_of_teams
+      t.integer :max_participants
       t.timestamps
     end
   end

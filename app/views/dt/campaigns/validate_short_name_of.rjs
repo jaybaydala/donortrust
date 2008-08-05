@@ -1,11 +1,18 @@
 if @errors.size == 0
-  page[:errors].hide
+  page << "if(Element.visible('errors')){"
+    page.visual_effect :blind_up, :errors, :duration => 0.5
+  page << "}"
+  page << "Element.setStyle('campaign_short_name',{border:'solid 1px #999'});"
   page[:errors].replace_html ""
 else
-  page[:errors].show
   error_string = ""
   for error in @errors
-    error_string = error + "<br/>"
+    error_string = error_string + error + "<br/>"
   end
+  page << "Element.setStyle('campaign_short_name',{border:'solid 2px red'});"
   page[:errors].replace_html error_string
+  page << "if(!Element.visible('errors')){"
+    page.visual_effect :blind_down, :errors, :duration => 0.5
+    page[:errors].highlight
+  page << "}"
 end

@@ -1,19 +1,24 @@
 class Team < ActiveRecord::Base
+
+  # associations
   belongs_to :campaign
   belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
-  
+
   has_many :team_members
   has_many :users, :through => :team_members
-  
-  # wall posts
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
-  
-  # news items
   has_many :news_items, :as =>:postable, :dependent => :destroy
   
   attr_accessor :use_user_email
   
+  # validations
+  
   validates_presence_of :contact_email
+  
+  def validate
+    @campaign = self.campaign
+    errors.add_to_base "The maximum number of teams (#{@campaign.max_number_of_Teams}) has been reached for this campaign." unless not @campaign.teams_full?
+  end
   
   def before_validation
     if use_user_email == "1"

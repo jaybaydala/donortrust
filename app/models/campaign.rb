@@ -27,13 +27,17 @@ class Campaign < ActiveRecord::Base
   
   #validations
   validates_presence_of :name, :campaign_type, :description, :country, :province, :postalcode, :fundraising_goal, :creator, :short_name
+  
   validates_uniqueness_of :short_name
+  validates_format_of :short_name, :with => /\w/
+  validates_length_of :short_name, :within => 4...60
   
   validates_length_of :name, :within => 4..255
   validates_length_of :description, :minimum => 10
   
-  validates_numericality_of :fundraising_goal
-
+  validates_numericality_of :fundraising_goal, :fee_amount, :greater_than_or_equal_to => 0, :allow_nil => true
+  validates_numericality_of :max_number_of_teams, :max_size_of_teams, :max_participants, :fee_amount, :greater_than_or_equal_to => 0, :only_integer => true, :allow_nil => true
+  
   #Deal with postal code in terms of Canada
   validates_format_of :postalcode, :with => /(\D\d){3}/, :if => :in_canada? , :message => "In Canada the proper format for postal code is: A9A9A9, Where A is a leter between A-Z and 9 is a number between 0 - 9."
   validates_length_of :postalcode, :is => 6, :if => :in_canada?
@@ -73,7 +77,10 @@ class Campaign < ActiveRecord::Base
   
   def eligible_projects
     Project.find_by_sql("SELECT p.* FROM projects p, causes_limit JOIN causes_limit ON ")
-    
+  end
+  
+  def teams_full?
+    return self.teams.size == self.max_number_of_teams and self.max_number_of_teams != 0
   end
   
   def manage_link

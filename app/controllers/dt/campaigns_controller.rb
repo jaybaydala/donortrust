@@ -197,7 +197,7 @@ class Dt::CampaignsController < DtApplicationController
       @short_name.downcase!
       
       if(@short_name =~ /\W/)
-        @errors.push('You may only use Alphanumeric Characters (ie: a-z, 0-9), hyphens, and underscores. Also this means no white space.')
+        @errors.push('You may only use Alphanumeric Characters, hyphens, and underscores. This also means no spaces.')
       end
     
       if(@short_name.length < 3 and @short_name.length != 0)
@@ -210,6 +210,7 @@ class Dt::CampaignsController < DtApplicationController
     else 
       @errors.push('The short name may not contain any reserved characters such as ?')
     end
+    puts @errors
     [@errors, @short_name]
   end
 end

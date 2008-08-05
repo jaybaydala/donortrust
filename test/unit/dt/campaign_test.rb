@@ -102,7 +102,4 @@ context "Campaign" do
     @campaign.postalcode = "11234"
     @campaign.should.not.validate
   end
-  
-  
-  # TODO Add Tests related to teams
 end
