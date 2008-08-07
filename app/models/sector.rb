@@ -32,4 +32,32 @@ class Sector < ActiveRecord::Base
 #    return projects.count
 #  end
 
+  #TODO propose a better way to get sector images
+  def image_name
+    if self.name=='Education and Extreme Poverty'
+      return 'education.gif'
+    end
+    if self.name=='Agriculture and Extreme Poverty'
+      return 'agriculture.gif'
+    end
+    if self.name=='Economy and Extreme Poverty'
+      return 'economy.gif'
+    end
+    if self.name=='Water & Sanitation and Extreme Poverty'
+      return 'watersanitation.gif'
+    end
+    if self.name=='Gender Equality and Extreme Poverty'
+      return 'gender.gif'
+    end
+    if self.name=='Community Development and Extreme Poverty'
+      return 'community.gif'
+    end
+    if self.name=='Health and Extreme Poverty'
+      return 'health.gif'
+    end
+    if self.name=='Infrastructure and Extreme Poverty'
+      return 'housing.gif'
+    end
+  end
+
 end

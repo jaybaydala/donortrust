@@ -1,10 +1,50 @@
 <% @project = featured_project -%>
+  <div>
+    <div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div>
+    <% if @project.community_id? || @project.nation_id? %>
+      <h5>
+      <% if @project.community_id? %>
+        <%= link_to @project.community.name, community_dt_project_path(@project) %>
+      <% end %>
+      <% if @project.nation_id? %><%= ', ' if @project.community_id?  %>
+        <%= link_to @project.nation.name, nation_dt_project_path(@project) %>
+      <% end %>
+      </h5>
+    <% end %>
+    
+    <div class='project-content'>
+      <!-- project sector images -->
+      <%= sector_images(@project.id) %>
+      <div class='project-pre-info'>
+        <% if @project.target_start_date? %>
+        <span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span>
+        <% end %>
+        <% if @project.partner_id? && @project.partner %>
+        <span><strong>Organization:</strong> <%= link_to @project.partner.name, organization_dt_project_path(@project)%></span>
+        <% end %>
+      </div>
+      <p><strong>Project Description:</strong> <%= @project.summarized_description(75) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
+    </div>
+    
+    <div class='project-sidebar'>
+      <div class="projectbuttons clearfix">
+        <% if @project.fundable? %><%= link_to "<span>Gift this Project</span>", new_dt_gift_path(:project_id => @project), :class => "button-gift" %><% end %>
+        <% if @project.fundable? %><%= link_to "<span>Invest</span>", new_dt_investment_path(:project_id => @project), :class => "button-invest" %><% end %>
+      </div>
+  	  <div class="quickfacts">
+    	  <%= project_quickfacts %>
+  	  </div>
+      
+    </div>
+    
+  </div>
+
+
   <div class="project">
-    <div class="columns"  id="projectInfo-<%= @project.id %>">
+    <div class="columns"  id="projectInfo-<%= @project.id %>" >
       <div class="content">
         <div style="margin-right:1em;">
           <h2><%= link_to @project.name, dt_project_path(@project) %></h2>
-
           <div class="projectRank">
             <ul class="specList">
               <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
