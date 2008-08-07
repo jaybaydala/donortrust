@@ -348,6 +348,33 @@ US TAXES
     padding-top:10px;
 }
 
+/* featured projects */
+.project-title a{
+	text-decoration:none;
+	color:#336600;
+}
+.project-title a:hover{
+	text-decoration:underline;
+}
+
+.project-pre-info {
+	font-size: 13px;
+}
+
+.project-pre-info span strong{
+	color: #336600;
+}
+
+.project-content{
+	width:65%;
+	float:left;
+}
+
+.project-sidebar{
+	width: 35%;
+	float:left;
+}
+
 /*
 SEARCH, layout and forms
 =====*/
