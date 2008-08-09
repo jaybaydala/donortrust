@@ -1,0 +1,1214 @@
+--- 
+authorized_actions_001: 
+  authorized_controller_id: "70"
+  name: create
+  id: "1"
+authorized_actions_002: 
+  authorized_controller_id: "65"
+  name: delete
+  id: "2"
+authorized_actions_003: 
+  authorized_controller_id: "16"
+  name: show
+  id: "3"
+authorized_actions_004: 
+  authorized_controller_id: "3"
+  name: reset_password
+  id: "4"
+authorized_actions_005: 
+  authorized_controller_id: "38"
+  name: delete
+  id: "5"
+authorized_actions_006: 
+  authorized_controller_id: "44"
+  name: edit
+  id: "6"
+authorized_actions_007: 
+  authorized_controller_id: "51"
+  name: edit
+  id: "7"
+authorized_actions_008: 
+  authorized_controller_id: "59"
+  name: delete
+  id: "8"
+authorized_actions_009: 
+  authorized_controller_id: "70"
+  name: list
+  id: "9"
+authorized_actions_010: 
+  authorized_controller_id: "65"
+  name: create
+  id: "10"
+authorized_actions_011: 
+  authorized_controller_id: "16"
+  name: edit
+  id: "11"
+authorized_actions_012: 
+  authorized_controller_id: "5"
+  name: create
+  id: "12"
+authorized_actions_013: 
+  authorized_controller_id: "38"
+  name: create
+  id: "13"
+authorized_actions_014: 
+  authorized_controller_id: "44"
+  name: show
+  id: "14"
+authorized_actions_015: 
+  authorized_controller_id: "51"
+  name: delete
+  id: "15"
+authorized_actions_016: 
+  authorized_controller_id: "70"
+  name: edit
+  id: "16"
+authorized_actions_017: 
+  authorized_controller_id: "65"
+  name: show
+  id: "17"
+authorized_actions_018: 
+  authorized_controller_id: "17"
+  name: edit
+  id: "18"
+authorized_actions_019: 
+  authorized_controller_id: "21"
+  name: list
+  id: "19"
+authorized_actions_020: 
+  authorized_controller_id: "44"
+  name: delete
+  id: "20"
+authorized_actions_021: 
+  authorized_controller_id: "71"
+  name: show
+  id: "21"
+authorized_actions_022: 
+  authorized_controller_id: "65"
+  name: edit
+  id: "22"
+authorized_actions_023: 
+  authorized_controller_id: "21"
+  name: show
+  id: "23"
+authorized_actions_024: 
+  authorized_controller_id: "44"
+  name: create
+  id: "24"
+authorized_actions_025: 
+  authorized_controller_id: "51"
+  name: list
+  id: "25"
+authorized_actions_026: 
+  authorized_controller_id: "71"
+  name: delete
+  id: "26"
+authorized_actions_027: 
+  authorized_controller_id: "66"
+  name: create
+  id: "27"
+authorized_actions_028: 
+  authorized_controller_id: "22"
+  name: show
+  id: "28"
+authorized_actions_029: 
+  authorized_controller_id: "44"
+  name: list
+  id: "29"
+authorized_actions_030: 
+  authorized_controller_id: "52"
+  name: edit
+  id: "30"
+authorized_actions_031: 
+  authorized_controller_id: "71"
+  name: create
+  id: "31"
+authorized_actions_032: 
+  authorized_controller_id: "22"
+  name: list
+  id: "32"
+authorized_actions_033: 
+  authorized_controller_id: "46"
+  name: edit
+  id: "33"
+authorized_actions_034: 
+  authorized_controller_id: "52"
+  name: show
+  id: "34"
+authorized_actions_035: 
+  authorized_controller_id: "71"
+  name: edit
+  id: "35"
+authorized_actions_036: 
+  authorized_controller_id: "22"
+  name: edit
+  id: "36"
+authorized_actions_037: 
+  authorized_controller_id: "52"
+  name: delete
+  id: "37"
+authorized_actions_038: 
+  authorized_controller_id: "71"
+  name: list
+  id: "38"
+authorized_actions_039: 
+  authorized_controller_id: "52"
+  name: create
+  id: "39"
+authorized_actions_040: 
+  authorized_controller_id: "29"
+  name: list
+  id: "40"
+authorized_actions_041: 
+  authorized_controller_id: "52"
+  name: list
+  id: "41"
+authorized_actions_042: 
+  authorized_controller_id: "53"
+  name: list
+  id: "42"
+authorized_actions_043: 
+  authorized_controller_id: "5"
+  name: list
+  id: "43"
+authorized_actions_044: 
+  authorized_controller_id: "5"
+  name: edit
+  id: "44"
+authorized_actions_045: 
+  authorized_controller_id: "5"
+  name: show
+  id: "45"
+authorized_actions_046: 
+  authorized_controller_id: "53"
+  name: delete
+  id: "46"
+authorized_actions_047: 
+  authorized_controller_id: "3"
+  name: create
+  id: "47"
+authorized_actions_048: 
+  authorized_controller_id: "31"
+  name: list
+  id: "48"
+authorized_actions_049: 
+  authorized_controller_id: "53"
+  name: edit
+  id: "49"
+authorized_actions_050: 
+  authorized_controller_id: "3"
+  name: delete
+  id: "50"
+authorized_actions_051: 
+  authorized_controller_id: "12"
+  name: show
+  id: "51"
+authorized_actions_052: 
+  authorized_controller_id: "31"
+  name: edit
+  id: "52"
+authorized_actions_053: 
+  authorized_controller_id: "53"
+  name: show
+  id: "53"
+authorized_actions_054: 
+  authorized_controller_id: "4"
+  name: delete
+  id: "54"
+authorized_actions_055: 
+  authorized_controller_id: "12"
+  name: create
+  id: "55"
+authorized_actions_056: 
+  authorized_controller_id: "31"
+  name: create
+  id: "56"
+authorized_actions_057: 
+  authorized_controller_id: "53"
+  name: create
+  id: "57"
+authorized_actions_058: 
+  authorized_controller_id: "62"
+  name: list
+  id: "58"
+authorized_actions_059: 
+  authorized_controller_id: "4"
+  name: create
+  id: "59"
+authorized_actions_060: 
+  authorized_controller_id: "12"
+  name: list
+  id: "60"
+authorized_actions_061: 
+  authorized_controller_id: "31"
+  name: show
+  id: "61"
+authorized_actions_062: 
+  authorized_controller_id: "54"
+  name: edit
+  id: "62"
+authorized_actions_063: 
+  authorized_controller_id: "62"
+  name: edit
+  id: "63"
+authorized_actions_064: 
+  authorized_controller_id: "6"
+  name: delete
+  id: "64"
+authorized_actions_065: 
+  authorized_controller_id: "12"
+  name: edit
+  id: "65"
+authorized_actions_066: 
+  authorized_controller_id: "19"
+  name: list
+  id: "66"
+authorized_actions_067: 
+  authorized_controller_id: "33"
+  name: list
+  id: "67"
+authorized_actions_068: 
+  authorized_controller_id: "41"
+  name: delete
+  id: "68"
+authorized_actions_069: 
+  authorized_controller_id: "54"
+  name: create
+  id: "69"
+authorized_actions_070: 
+  authorized_controller_id: "62"
+  name: create
+  id: "70"
+authorized_actions_071: 
+  authorized_controller_id: "6"
+  name: create
+  id: "71"
+authorized_actions_072: 
+  authorized_controller_id: "13"
+  name: list
+  id: "72"
+authorized_actions_073: 
+  authorized_controller_id: "19"
+  name: create
+  id: "73"
+authorized_actions_074: 
+  authorized_controller_id: "33"
+  name: edit
+  id: "74"
+authorized_actions_075: 
+  authorized_controller_id: "5"
+  name: delete
+  id: "75"
+authorized_actions_076: 
+  authorized_controller_id: "54"
+  name: list
+  id: "76"
+authorized_actions_077: 
+  authorized_controller_id: "62"
+  name: show
+  id: "77"
+authorized_actions_078: 
+  authorized_controller_id: "7"
+  name: edit
+  id: "78"
+authorized_actions_079: 
+  authorized_controller_id: "13"
+  name: delete
+  id: "79"
+authorized_actions_080: 
+  authorized_controller_id: "33"
+  name: create
+  id: "80"
+authorized_actions_081: 
+  authorized_controller_id: "11"
+  name: record_management
+  id: "81"
+authorized_actions_082: 
+  authorized_controller_id: "54"
+  name: show
+  id: "82"
+authorized_actions_083: 
+  authorized_controller_id: "68"
+  name: show
+  id: "83"
+authorized_actions_084: 
+  authorized_controller_id: "63"
+  name: delete
+  id: "84"
+authorized_actions_085: 
+  authorized_controller_id: "13"
+  name: create
+  id: "85"
+authorized_actions_086: 
+  authorized_controller_id: "19"
+  name: edit
+  id: "086"
+authorized_actions_087: 
+  authorized_controller_id: "33"
+  name: show
+  id: "087"
+authorized_actions_088: 
+  authorized_controller_id: "20"
+  name: record_mangement
+  id: "088"
+authorized_actions_089: 
+  authorized_controller_id: "47"
+  name: show
+  id: "089"
+authorized_actions_090: 
+  authorized_controller_id: "54"
+  name: delete
+  id: "090"
+authorized_actions_091: 
+  authorized_controller_id: "68"
+  name: create
+  id: "091"
+authorized_actions_092: 
+  authorized_controller_id: "63"
+  name: list
+  id: "092"
+authorized_actions_093: 
+  authorized_controller_id: "13"
+  name: show
+  id: "093"
+authorized_actions_094: 
+  authorized_controller_id: "19"
+  name: show
+  id: "094"
+authorized_actions_095: 
+  authorized_controller_id: "34"
+  name: list
+  id: "095"
+authorized_actions_096: 
+  authorized_controller_id: "23"
+  name: record_management
+  id: "096"
+authorized_actions_097: 
+  authorized_controller_id: "47"
+  name: list
+  id: "097"
+authorized_actions_098: 
+  authorized_controller_id: "57"
+  name: delete
+  id: "098"
+authorized_actions_099: 
+  authorized_controller_id: "68"
+  name: edit
+  id: "099"
+authorized_actions_100: 
+  authorized_controller_id: "63"
+  name: show
+  id: "100"
+authorized_actions_101: 
+  authorized_controller_id: "20"
+  name: show
+  id: "101"
+authorized_actions_102: 
+  authorized_controller_id: "34"
+  name: edit
+  id: "102"
+authorized_actions_103: 
+  authorized_controller_id: "8"
+  name: populate_contact_places
+  id: "103"
+authorized_actions_104: 
+  authorized_controller_id: "13"
+  name: edit
+  id: "104"
+authorized_actions_105: 
+  authorized_controller_id: "68"
+  name: delete
+  id: "105"
+authorized_actions_106: 
+  authorized_controller_id: "63"
+  name: edit
+  id: "106"
+authorized_actions_107: 
+  authorized_controller_id: "20"
+  name: edit
+  id: "107"
+authorized_actions_108: 
+  authorized_controller_id: "42"
+  name: list
+  id: "108"
+authorized_actions_109: 
+  authorized_controller_id: "47"
+  name: delete
+  id: "109"
+authorized_actions_110: 
+  authorized_controller_id: "15"
+  name: show
+  id: "110"
+authorized_actions_111: 
+  authorized_controller_id: "69"
+  name: show
+  id: "111"
+authorized_actions_112: 
+  authorized_controller_id: "63"
+  name: create
+  id: "112"
+authorized_actions_113: 
+  authorized_controller_id: "42"
+  name: edit
+  id: "113"
+authorized_actions_114: 
+  authorized_controller_id: "47"
+  name: edit
+  id: "114"
+authorized_actions_115: 
+  authorized_controller_id: "20"
+  name: create
+  id: "115"
+authorized_actions_116: 
+  authorized_controller_id: "69"
+  name: edit
+  id: "116"
+authorized_actions_117: 
+  authorized_controller_id: "64"
+  name: delete
+  id: "117"
+authorized_actions_118: 
+  authorized_controller_id: "42"
+  name: show
+  id: "118"
+authorized_actions_119: 
+  authorized_controller_id: "48"
+  name: create
+  id: "119"
+authorized_actions_120: 
+  authorized_controller_id: "20"
+  name: delete
+  id: "120"
+authorized_actions_121: 
+  authorized_controller_id: "69"
+  name: list
+  id: "121"
+authorized_actions_122: 
+  authorized_controller_id: "43"
+  name: delete
+  id: "122"
+authorized_actions_123: 
+  authorized_controller_id: "48"
+  name: list
+  id: "123"
+authorized_actions_124: 
+  authorized_controller_id: "20"
+  name: list
+  id: "124"
+authorized_actions_125: 
+  authorized_controller_id: "69"
+  name: delete
+  id: "125"
+authorized_actions_126: 
+  authorized_controller_id: "48"
+  name: delete
+  id: "126"
+authorized_actions_127: 
+  authorized_controller_id: "8"
+  name: populate_contact_countries
+  id: "127"
+authorized_actions_128: 
+  authorized_controller_id: "69"
+  name: create
+  id: "128"
+authorized_actions_129: 
+  authorized_controller_id: "48"
+  name: edit
+  id: "129"
+authorized_actions_130: 
+  authorized_controller_id: "70"
+  name: show
+  id: "130"
+authorized_actions_131: 
+  authorized_controller_id: "48"
+  name: show
+  id: "131"
+authorized_actions_132: 
+  authorized_controller_id: "51"
+  name: create
+  id: "132"
+authorized_actions_133: 
+  authorized_controller_id: "4"
+  name: list
+  id: "133"
+authorized_actions_134: 
+  authorized_controller_id: "3"
+  name: list
+  id: "134"
+authorized_actions_135: 
+  authorized_controller_id: "6"
+  name: show
+  id: "135"
+authorized_actions_136: 
+  authorized_controller_id: "26"
+  name: list
+  id: "136"
+authorized_actions_137: 
+  authorized_controller_id: "3"
+  name: show
+  id: "137"
+authorized_actions_138: 
+  authorized_controller_id: "10"
+  name: delete
+  id: "138"
+authorized_actions_139: 
+  authorized_controller_id: "26"
+  name: delete
+  id: "139"
+authorized_actions_140: 
+  authorized_controller_id: "6"
+  name: list
+  id: "140"
+authorized_actions_141: 
+  authorized_controller_id: "10"
+  name: edit
+  id: "141"
+authorized_actions_142: 
+  authorized_controller_id: "28"
+  name: list
+  id: "142"
+authorized_actions_143: 
+  authorized_controller_id: "4"
+  name: edit
+  id: "143"
+authorized_actions_144: 
+  authorized_controller_id: "10"
+  name: show
+  id: "144"
+authorized_actions_145: 
+  authorized_controller_id: "28"
+  name: create
+  id: "145"
+authorized_actions_146: 
+  authorized_controller_id: "59"
+  name: list
+  id: "146"
+authorized_actions_147: 
+  authorized_controller_id: "3"
+  name: edit
+  id: "147"
+authorized_actions_148: 
+  authorized_controller_id: "10"
+  name: create
+  id: "148"
+authorized_actions_149: 
+  authorized_controller_id: "17"
+  name: list
+  id: "149"
+authorized_actions_150: 
+  authorized_controller_id: "28"
+  name: delete
+  id: "150"
+authorized_actions_151: 
+  authorized_controller_id: "38"
+  name: list
+  id: "151"
+authorized_actions_152: 
+  authorized_controller_id: "59"
+  name: edit
+  id: "152"
+authorized_actions_153: 
+  authorized_controller_id: "6"
+  name: edit
+  id: "153"
+authorized_actions_154: 
+  authorized_controller_id: "11"
+  name: list
+  id: "154"
+authorized_actions_155: 
+  authorized_controller_id: "28"
+  name: show
+  id: "155"
+authorized_actions_156: 
+  authorized_controller_id: "40"
+  name: show
+  id: "156"
+authorized_actions_157: 
+  authorized_controller_id: "59"
+  name: show
+  id: "157"
+authorized_actions_158: 
+  authorized_controller_id: "59"
+  name: create
+  id: "158"
+authorized_actions_159: 
+  authorized_controller_id: "4"
+  name: show
+  id: "159"
+authorized_actions_160: 
+  authorized_controller_id: "11"
+  name: edit
+  id: "160"
+authorized_actions_161: 
+  authorized_controller_id: "17"
+  name: show
+  id: "161"
+authorized_actions_162: 
+  authorized_controller_id: "28"
+  name: edit
+  id: "162"
+authorized_actions_163: 
+  authorized_controller_id: "40"
+  name: edit
+  id: "163"
+authorized_actions_164: 
+  authorized_controller_id: "66"
+  name: delete
+  id: "164"
+authorized_actions_165: 
+  authorized_controller_id: "61"
+  name: delete
+  id: "165"
+authorized_actions_166: 
+  authorized_controller_id: "11"
+  name: create
+  id: "166"
+authorized_actions_167: 
+  authorized_controller_id: "17"
+  name: delete
+  id: "167"
+authorized_actions_168: 
+  authorized_controller_id: "21"
+  name: delete
+  id: "168"
+authorized_actions_169: 
+  authorized_controller_id: "40"
+  name: create
+  id: "169"
+authorized_actions_170: 
+  authorized_controller_id: "46"
+  name: create
+  id: "170"
+authorized_actions_171: 
+  authorized_controller_id: "66"
+  name: edit
+  id: "171"
+authorized_actions_172: 
+  authorized_controller_id: "61"
+  name: edit
+  id: "172"
+authorized_actions_173: 
+  authorized_controller_id: "11"
+  name: show
+  id: "173"
+authorized_actions_174: 
+  authorized_controller_id: "17"
+  name: create
+  id: "174"
+authorized_actions_175: 
+  authorized_controller_id: "22"
+  name: delete
+  id: "175"
+authorized_actions_176: 
+  authorized_controller_id: "21"
+  name: edit
+  id: "176"
+authorized_actions_177: 
+  authorized_controller_id: "40"
+  name: delete
+  id: "177"
+authorized_actions_178: 
+  authorized_controller_id: "66"
+  name: show
+  id: "178"
+authorized_actions_179: 
+  authorized_controller_id: "61"
+  name: list
+  id: "179"
+authorized_actions_180: 
+  authorized_controller_id: "11"
+  name: delete
+  id: "180"
+authorized_actions_181: 
+  authorized_controller_id: "18"
+  name: show
+  id: "181"
+authorized_actions_182: 
+  authorized_controller_id: "22"
+  name: create
+  id: "182"
+authorized_actions_183: 
+  authorized_controller_id: "31"
+  name: delete
+  id: "183"
+authorized_actions_184: 
+  authorized_controller_id: "40"
+  name: list
+  id: "184"
+authorized_actions_185: 
+  authorized_controller_id: "46"
+  name: show
+  id: "185"
+authorized_actions_186: 
+  authorized_controller_id: "29"
+  name: create
+  id: "186"
+authorized_actions_187: 
+  authorized_controller_id: "66"
+  name: list
+  id: "187"
+authorized_actions_188: 
+  authorized_controller_id: "61"
+  name: show
+  id: "188"
+authorized_actions_189: 
+  authorized_controller_id: "12"
+  name: delete
+  id: "189"
+authorized_actions_190: 
+  authorized_controller_id: "18"
+  name: edit
+  id: "190"
+authorized_actions_191: 
+  authorized_controller_id: "23"
+  name: edit
+  id: "191"
+authorized_actions_192: 
+  authorized_controller_id: "41"
+  name: list
+  id: "192"
+authorized_actions_193: 
+  authorized_controller_id: "46"
+  name: delete
+  id: "193"
+authorized_actions_194: 
+  authorized_controller_id: "67"
+  name: edit
+  id: "194"
+authorized_actions_195: 
+  authorized_controller_id: "61"
+  name: create
+  id: "195"
+authorized_actions_196: 
+  authorized_controller_id: "18"
+  name: create
+  id: "196"
+authorized_actions_197: 
+  authorized_controller_id: "23"
+  name: create
+  id: "197"
+authorized_actions_198: 
+  authorized_controller_id: "41"
+  name: edit
+  id: "198"
+authorized_actions_199: 
+  authorized_controller_id: "46"
+  name: list
+  id: "199"
+authorized_actions_200: 
+  authorized_controller_id: "29"
+  name: show
+  id: "200"
+authorized_actions_201: 
+  authorized_controller_id: "67"
+  name: list
+  id: "201"
+authorized_actions_202: 
+  authorized_controller_id: "62"
+  name: delete
+  id: "202"
+authorized_actions_203: 
+  authorized_controller_id: "18"
+  name: list
+  id: "203"
+authorized_actions_204: 
+  authorized_controller_id: "41"
+  name: create
+  id: "204"
+authorized_actions_205: 
+  authorized_controller_id: "45"
+  name: edit
+  id: "205"
+authorized_actions_206: 
+  authorized_controller_id: "29"
+  name: delete
+  id: "206"
+authorized_actions_207: 
+  authorized_controller_id: "67"
+  name: create
+  id: "207"
+authorized_actions_208: 
+  authorized_controller_id: "18"
+  name: delete
+  id: "208"
+authorized_actions_209: 
+  authorized_controller_id: "23"
+  name: delete
+  id: "209"
+authorized_actions_210: 
+  authorized_controller_id: "41"
+  name: show
+  id: "210"
+authorized_actions_211: 
+  authorized_controller_id: "45"
+  name: create
+  id: "211"
+authorized_actions_212: 
+  authorized_controller_id: "29"
+  name: edit
+  id: "212"
+authorized_actions_213: 
+  authorized_controller_id: "67"
+  name: delete
+  id: "213"
+authorized_actions_214: 
+  authorized_controller_id: "19"
+  name: delete
+  id: "214"
+authorized_actions_215: 
+  authorized_controller_id: "23"
+  name: list
+  id: "215"
+authorized_actions_216: 
+  authorized_controller_id: "45"
+  name: show
+  id: "216"
+authorized_actions_217: 
+  authorized_controller_id: "72"
+  name: create
+  id: "217"
+authorized_actions_218: 
+  authorized_controller_id: "67"
+  name: show
+  id: "218"
+authorized_actions_219: 
+  authorized_controller_id: "23"
+  name: show
+  id: "219"
+authorized_actions_220: 
+  authorized_controller_id: "45"
+  name: list
+  id: "220"
+authorized_actions_221: 
+  authorized_controller_id: "72"
+  name: show
+  id: "221"
+authorized_actions_222: 
+  authorized_controller_id: "68"
+  name: list
+  id: "222"
+authorized_actions_223: 
+  authorized_controller_id: "24"
+  name: create
+  id: "223"
+authorized_actions_224: 
+  authorized_controller_id: "45"
+  name: delete
+  id: "224"
+authorized_actions_225: 
+  authorized_controller_id: "72"
+  name: edit
+  id: "225"
+authorized_actions_226: 
+  authorized_controller_id: "24"
+  name: show
+  id: "226"
+authorized_actions_227: 
+  authorized_controller_id: "47"
+  name: create
+  id: "227"
+authorized_actions_228: 
+  authorized_controller_id: "72"
+  name: list
+  id: "228"
+authorized_actions_229: 
+  authorized_controller_id: "24"
+  name: list
+  id: "229"
+authorized_actions_230: 
+  authorized_controller_id: "72"
+  name: delete
+  id: "230"
+authorized_actions_231: 
+  authorized_controller_id: "24"
+  name: delete
+  id: "231"
+authorized_actions_232: 
+  authorized_controller_id: "24"
+  name: edit
+  id: "232"
+authorized_actions_233: 
+  authorized_controller_id: "7"
+  name: create
+  id: "233"
+authorized_actions_234: 
+  authorized_controller_id: "25"
+  name: show
+  id: "234"
+authorized_actions_235: 
+  authorized_controller_id: "7"
+  name: show
+  id: "235"
+authorized_actions_236: 
+  authorized_controller_id: "57"
+  name: list
+  id: "236"
+authorized_actions_237: 
+  authorized_controller_id: "7"
+  name: list
+  id: "237"
+authorized_actions_238: 
+  authorized_controller_id: "25"
+  name: create
+  id: "238"
+authorized_actions_239: 
+  authorized_controller_id: "34"
+  name: create
+  id: "239"
+authorized_actions_240: 
+  authorized_controller_id: "57"
+  name: create
+  id: "240"
+authorized_actions_241: 
+  authorized_controller_id: "7"
+  name: delete
+  id: "241"
+authorized_actions_242: 
+  authorized_controller_id: "25"
+  name: list
+  id: "242"
+authorized_actions_243: 
+  authorized_controller_id: "57"
+  name: edit
+  id: "243"
+authorized_actions_244: 
+  authorized_controller_id: "8"
+  name: show
+  id: "244"
+authorized_actions_245: 
+  authorized_controller_id: "15"
+  name: delete
+  id: "245"
+authorized_actions_246: 
+  authorized_controller_id: "25"
+  name: edit
+  id: "246"
+authorized_actions_247: 
+  authorized_controller_id: "34"
+  name: show
+  id: "247"
+authorized_actions_248: 
+  authorized_controller_id: "57"
+  name: show
+  id: "248"
+authorized_actions_249: 
+  authorized_controller_id: "8"
+  name: list
+  id: "249"
+authorized_actions_250: 
+  authorized_controller_id: "15"
+  name: edit
+  id: "250"
+authorized_actions_251: 
+  authorized_controller_id: "25"
+  name: delete
+  id: "251"
+authorized_actions_252: 
+  authorized_controller_id: "37"
+  name: show
+  id: "252"
+authorized_actions_253: 
+  authorized_controller_id: "64"
+  name: show
+  id: "253"
+authorized_actions_254: 
+  authorized_controller_id: "58"
+  name: create
+  id: "254"
+authorized_actions_255: 
+  authorized_controller_id: "8"
+  name: create
+  id: "255"
+authorized_actions_256: 
+  authorized_controller_id: "15"
+  name: list
+  id: "256"
+authorized_actions_257: 
+  authorized_controller_id: "26"
+  name: create
+  id: "257"
+authorized_actions_258: 
+  authorized_controller_id: "37"
+  name: list
+  id: "258"
+authorized_actions_259: 
+  authorized_controller_id: "64"
+  name: edit
+  id: "259"
+authorized_actions_260: 
+  authorized_controller_id: "58"
+  name: edit
+  id: "260"
+authorized_actions_261: 
+  authorized_controller_id: "8"
+  name: edit
+  id: "261"
+authorized_actions_262: 
+  authorized_controller_id: "15"
+  name: create
+  id: "262"
+authorized_actions_263: 
+  authorized_controller_id: "3"
+  name: change_password
+  id: "263"
+authorized_actions_264: 
+  authorized_controller_id: "26"
+  name: edit
+  id: "264"
+authorized_actions_265: 
+  authorized_controller_id: "37"
+  name: create
+  id: "265"
+authorized_actions_266: 
+  authorized_controller_id: "43"
+  name: edit
+  id: "266"
+authorized_actions_267: 
+  authorized_controller_id: "64"
+  name: create
+  id: "267"
+authorized_actions_268: 
+  authorized_controller_id: "58"
+  name: show
+  id: "268"
+authorized_actions_269: 
+  authorized_controller_id: "8"
+  name: delete
+  id: "269"
+authorized_actions_270: 
+  authorized_controller_id: "16"
+  name: list
+  id: "270"
+authorized_actions_271: 
+  authorized_controller_id: "8"
+  name: populate_contact_regions
+  id: "271"
+authorized_actions_272: 
+  authorized_controller_id: "26"
+  name: show
+  id: "272"
+authorized_actions_273: 
+  authorized_controller_id: "37"
+  name: edit
+  id: "273"
+authorized_actions_274: 
+  authorized_controller_id: "43"
+  name: create
+  id: "274"
+authorized_actions_275: 
+  authorized_controller_id: "64"
+  name: list
+  id: "275"
+authorized_actions_276: 
+  authorized_controller_id: "10"
+  name: list
+  id: "276"
+authorized_actions_277: 
+  authorized_controller_id: "16"
+  name: create
+  id: "277"
+authorized_actions_278: 
+  authorized_controller_id: "8"
+  name: populate_contact_urban_centres
+  id: "278"
+authorized_actions_279: 
+  authorized_controller_id: "38"
+  name: edit
+  id: "279"
+authorized_actions_280: 
+  authorized_controller_id: "43"
+  name: list
+  id: "280"
+authorized_actions_281: 
+  authorized_controller_id: "58"
+  name: list
+  id: "281"
+authorized_actions_282: 
+  authorized_controller_id: "70"
+  name: delete
+  id: "282"
+authorized_actions_283: 
+  authorized_controller_id: "65"
+  name: list
+  id: "283"
+authorized_actions_284: 
+  authorized_controller_id: "16"
+  name: delete
+  id: "284"
+authorized_actions_285: 
+  authorized_controller_id: "38"
+  name: show
+  id: "285"
+authorized_actions_286: 
+  authorized_controller_id: "43"
+  name: show
+  id: "286"
+authorized_actions_287: 
+  authorized_controller_id: "51"
+  name: show
+  id: "287"
+authorized_actions_288: 
+  authorized_controller_id: "58"
+  name: delete
+  id: "288"
+authorized_actions_289: 
+  authorized_controller_id: "73"
+  name: show
+  id: "289"
+authorized_actions_290: 
+  authorized_controller_id: "73"
+  name: list
+  id: "290"
+authorized_actions_291: 
+  authorized_controller_id: "73"
+  name: create
+  id: "291"
+authorized_actions_292: 
+  authorized_controller_id: "73"
+  name: edit
+  id: "292"
+authorized_actions_293: 
+  authorized_controller_id: "73"
+  name: delete
+  id: "293"
+authorized_actions_294: 
+  authorized_controller_id: "74"
+  name: show
+  id: "294"
+authorized_actions_295: 
+  authorized_controller_id: "74"
+  name: list
+  id: "295"
+authorized_actions_296: 
+  authorized_controller_id: "74"
+  name: create
+  id: "296"
+authorized_actions_297: 
+  authorized_controller_id: "74"
+  name: edit
+  id: "297"
+authorized_actions_298: 
+  authorized_controller_id: "74"
+  name: delete
+  id: "298"
+authorized_actions_299: 
+  authorized_controller_id: "75"
+  name: show
+  id: "299"
+authorized_actions_300: 
+  authorized_controller_id: "75"
+  name: list
+  id: "300"
+authorized_actions_301: 
+  authorized_controller_id: "75"
+  name: create
+  id: "301"
+authorized_actions_302: 
+  authorized_controller_id: "75"
+  name: edit
+  id: "302"
+authorized_actions_303: 
+  authorized_controller_id: "75"
+  name: delete
+  id: "303"
+
