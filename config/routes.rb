@@ -140,20 +140,22 @@ ActionController::Routing::Routes.draw do |map|
                                                                                                                                             }
 
 
-   map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/project_you_tube_videos", :collection => {  :add => :post,
-                                                                                                                                              :remove => :post,
-                                                                                                                                              :search => :post,
-                                                                                                                                              :projects => :post,
-                                                                                                                                              :videos => :post,
-                                                                                                                                              :preview => :post,
-                                                                                                                                              :search_by_tag => :post,
-                                                                                                                                              :search_by_user => :post,
-                                                                                                                                              :search_by_category_and_tag => :post,
-                                                                                                                                              :list_by_featured => :post,
-                                                                                                                                              :list_by_popular => :post,
-                                                                                                                                              :show_video => :post
-                                                                                                                                            }
-
+   map.resources :project_you_tube_videos,
+                 :path_prefix => "/bus_admin",
+                 :controller => "bus_admin/project_you_tube_videos",
+                 :collection => { :add => :post,
+                                  :remove => :post,
+                                  :search => :post,
+                                  :projects => :post,
+                                  :videos => :post,
+                                  :preview => :post,
+                                  :search_by_tag => :post,
+                                  :search_by_user => :post,
+                                  :search_by_category_and_tag => :post,
+                                  :list_by_featured => :post,
+                                  :list_by_popular => :post,
+                                  :show_video => :post }, 
+                 :active_scaffold => true
 
     map.resources :place_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/place_flickr_images", :collection => {      :add => :post,
                                                                                                                                               :remove => :post,
@@ -163,13 +165,17 @@ ActionController::Routing::Routes.draw do |map|
                                                                                                                                               :show_db_flickr => :post,
                                                                                                                                               :photos=>:post }
 
-  map.resources :project_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/project_flickr_images", :collection => {      :add => :post,
-                                                                                                                                              :remove => :post,
-                                                                                                                                              :search => :post,
-                                                                                                                                              :projects => :post,
-                                                                                                                                              :show_flickr => :post,
-                                                                                                                                              :show_db_flickr => :post,
-                                                                                                                                              :photos=>:post }
+  map.resources :project_flickr_images,
+                :path_prefix => "/bus_admin",
+                :controller => "bus_admin/project_flickr_images", 
+                :collection => { :add => :post,
+                                 :remove => :post,
+                                 :search => :post,
+                                 :projects => :post,
+                                 :show_flickr => :post,
+                                 :show_db_flickr => :post,
+                                 :photos=>:post }, 
+                :active_scaffold => true
 
   map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
@@ -250,6 +256,7 @@ ActionController::Routing::Routes.draw do |map|
   map.showProjectTimeline 'bus_admin/_showProjectTimeline', :controller => 'bus_admin/projects', :action => 'showProjectTimeline'
   map.stats 'bus_admin/stats', :controller => 'bus_admin/stats', :action => 'index'
   map.auto_complete_for_place_name 'auto_complete_for_place_name', :controller => 'bus_admin/projects', :action => 'auto_complete_for_place_name'
+  map.update_location 'update_location', :controller => 'bus_admin/projects', :action => 'update_location'
 
   map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'

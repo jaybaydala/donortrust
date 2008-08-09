@@ -86,11 +86,30 @@ class BusAdmin::ProjectsController < ApplicationController
   # called for POST on bus_admin/project
   def create
     @project = Project.new(params[:project])
-    @project.save!
+    if params[:place] and params[:place][:name]
+      @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id
+    end
+
+    ActiveRecord::Base.transaction do      
+      @saved = @project.valid? && @project.save!
+      #could do this using after_create() on the Project object,
+      #but I wanted this to be in the same transaction
+      if @saved
+        # TODO: use proper user
+        @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => User.find(:first).id, :is_new => true)
+        @saved = @pending.save
+        raise Exception.new("Could not create the pending project.") unless @saved
+      else
+        raise Exception.new("Could not create the project.")
+      end
+    end
+    
     respond_to do |format|
-      format.html do
+      if @saved
         flash[:notice] = "Project was successfully created"
-        redirect_to bus_admin_project_url(@project)
+        format.html {redirect_to bus_admin_projects_url}
+      else
+        format.html {render :action => "new"}
       end
     end
   end
@@ -98,6 +117,15 @@ class BusAdmin::ProjectsController < ApplicationController
   # called for GET on edit_bus_admin_project_path(:id => 1)
   def edit
     @project = Project.find(params[:id])
+
+    begin
+      pending = PendingProject.find_by_project_id(@project.id)
+      @project = @project.from_xml(pending.project_xml) if pending
+      
+    rescue ActiveRecord::RecordNotFound
+      #swallow - just means there was no old pending record
+    end
+
     respond_to do |format|
       format.html
     end
@@ -112,14 +140,12 @@ class BusAdmin::ProjectsController < ApplicationController
   end
   
   # called for GET on bus_admin/projects/:id
-  def show2
+  def show
     redirect_to edit_bus_admin_project_path(params[:id])
   end
   
   # called for PUT on bus_admin/projects/:id
   def update
-    # TODO: check if access is authorized
-    
     @project = Project.find(params[:id])
     
     #there may be an old approval pending that we should get rid of
@@ -141,7 +167,7 @@ class BusAdmin::ProjectsController < ApplicationController
       #Hack - if we don't do this, the textiled properties are added with tags to the xml
       @project.textiled = false
       #create a new PendingProject to hold the requested changes
-      @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_complete_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => false)
+      @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => false)
       if @pending.save                            
         flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
         redirect_to edit_bus_admin_project_path(@project)
@@ -291,6 +317,25 @@ class BusAdmin::ProjectsController < ApplicationController
   #############################################################################
   # additional project methods
   #############################################################################
+  
+  def auto_complete_for_place_name
+    find_options = { 
+      :conditions => [ "LOWER(name) LIKE ? AND country_id = ?", '%' + params[:place][:name].downcase + '%', params[:parent] ], 
+      :order => "name ASC",
+      :limit => 10 }
+    
+    @items = Place.find(:all, find_options)
+
+    render :inline => "<%= auto_complete_result @items, 'name' %>"
+  end
+  
+  def update_location
+    @project = Project.new
+    @project.continent_id = params[:continent]
+    @project.country_id = params[:country] if params[:country]
+
+    render :partial => "bus_admin/projects/location_form"
+  end
   
   def report
     @all_projects = []

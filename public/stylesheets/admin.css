@@ -127,7 +127,6 @@ ul.tabnav li .selected {
 	width: 5%;
 }
 
-
 #stylized ul.form .group span {
 	display: block;
 }
@@ -157,6 +156,7 @@ ul.tabnav li .selected {
 }
 
 /* embedded scaffold */
+
 #stylized .embedded ol li {
 	list-style: none;
 }
@@ -193,4 +193,34 @@ ul.tabnav li .selected {
 	color: #888;
 	font-size: 10px;
 	font-weight: normal;
+}
+
+/* Auto completion */
+
+div.auto_complete {
+	width: 350px;
+	background: #fff;
+}
+
+div.auto_complete ul {
+	border: 1px solid #888;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	list-style-type: none;
+}
+
+div.auto_complete ul li {
+	margin: 0;
+	padding: 3px;
+}
+
+div.auto_complete ul li.selected {
+	background-color: #ffb;
+}
+
+div.auto_complete ul strong.highlight {
+	color: #800;
+	margin: 0;
+	padding: 0;
 }

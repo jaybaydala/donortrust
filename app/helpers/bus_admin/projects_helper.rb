@@ -11,6 +11,22 @@ module BusAdmin::ProjectsHelper
   def dollars_spent_column(record)
     number_to_currency(record.dollars_spent)
   end
+  
+  def get_continents
+    Place.find :all,
+               :conditions => "place_type_id = 1",
+               :order => 'name ASC'
+  end
+  
+  def get_country(parent)
+    if parent
+      Place.find :all,
+                :conditions => "parent_id = #{parent} AND place_type_id = 2",
+                :order => 'name ASC'
+    else
+      []
+    end 
+  end
 
   def get_partners
     Partner.find(:all)

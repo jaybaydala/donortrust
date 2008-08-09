@@ -1,13 +1,13 @@
 <%= error_messages_for :project %>
 
-<% form_for :project, :url => bus_admin_project_path(@project), :html => {:method => :put, :id => 'project-form'} do |f| %> 
+<% form_for :project, :url => bus_admin_project_path(@project), :html => {:method => method, :id => 'project-form'} do |f| %> 
 
 <div id="stylized">
 	<ul class="tabnav top">
 	  <li><a href="#basic" id="tab_basic" class="tab">Basics</a></li>
 	  <li><a href="#details" id="tab_details" class="tab">Details</a></li>
-	  <li><a href="#plan" id="tab_plan" class="tab">Plan</a></li>
-	  <li><a href="#eval" id="tab_eval" class="tab">Evaluation</a></li>
+	  <li><a href="#plan" id="tab_plan" class="tab">Plan &amp; Evaluation</a></li>
+	  <li><a href="#media" id="tab_media" class="tab">Media</a></li>
 	  <li><a href="#internal" id="tab_internal" class="tab">Internal</a></li>
 	  <li><a href="#cfadmin" id="tab_cfadmin" class="tab">CF Admin</a></li>
 	</ul>
@@ -40,7 +40,9 @@
 					<%= render :partial => 'dt/shared/form_required' %>Project location
 					<small>Select the location of the project</small>
 				</label>
-				<%#= text_field_with_auto_complete :place, :name, {:value => @project.place_id ? @project.place.name : ""}, :url => auto_complete_for_place_name_path, :method => :get %>
+				<div class="group" id="project_location_form">
+					<%= render :partial => 'location_form', :locals => {:project  => @project} %>
+				</div>
 				<%# render :partial => 'bus_admin/shared/generic_place_form_column', :locals => { :item => @project, :named_route => 'populate_project_places' }  %>
 				<%# collection_select (:project, :place_id, get_places, :id, :long_name, :include_blank => true) %>
 			</li>
@@ -139,22 +141,6 @@
 			</li>
 
 			<li>
-				<label for="project_blog_url" class="title">
-					Blog URL
-					<small>Blog address for this project</small>
-				</label>
-				<%= f.text_field :blog_url %>
-			</li>
-
-			<li>
-				<label for="project_rss_url" class="title">
-					RSS URL
-					<small>Address of RSS feed</small>
-				</label>
-				<%= f.text_field :rss_url %>
-			</li>
-
-			<li>
 				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
 			</li>
 		</ul>
@@ -205,24 +191,15 @@
 	<fieldset class="sheet" id="panel_plan">
 		<legend class="sheet_heading">x of x: Project Plan</legend>
 		
-		<p>In this section, ...</p>
+		<p>Plan... In this section, ...</p>
 
 		<div class="embedded scaffold">
 			<%= render :active_scaffold => 'bus_admin/milestones', :constraints => { :project_id => @project.id } %>
 		</div>
 		
-		<ul class="form">
-			<li>
-				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
-			</li>
-		</ul>
-	</fieldset>
-
-	<fieldset class="sheet" id="panel_eval">
-		<legend class="sheet_heading">x of x: Project Evaluation</legend>
-
-		<p>In this section, ...</p>
-	
+		
+		<p>Evaluation... In this subsection, ...</p>
+		
 		<ul class="form">
 			<li>
 				<label class="title">
@@ -237,6 +214,46 @@
 			<%= render :active_scaffold => 'bus_admin/key_measures', :constraints => { :project_id => @project.id } %>
 		</div>
 		
+		
+		<ul class="form">
+			<li>
+				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+			</li>
+		</ul>
+
+	</fieldset>
+
+	<fieldset class="sheet" id="panel_media">
+		<legend class="sheet_heading">x of x: Media</legend>
+		
+		<p>Plan... In this section, ...</p>
+
+		<ul class="form">
+			<li>
+				<label for="project_blog_url" class="title">
+					Blog URL
+					<small>Blog address for this project</small>
+				</label>
+				<%= f.text_field :blog_url %>
+			</li>
+
+			<li>
+				<label for="project_rss_url" class="title">
+					RSS URL
+					<small>Address of RSS feed</small>
+				</label>
+				<%= f.text_field :rss_url %>
+			</li>
+		</ul>
+
+		<div class="embedded scaffold">
+			<%= render :active_scaffold => 'bus_admin/project_you_tube_videos', :constraints => { :project_id => @project.id } %>
+		</div>
+
+		<div class="embedded scaffold">
+			<%= render :active_scaffold => 'bus_admin/project_flickr_images', :constraints => { :project_id => @project.id } %>
+		</div>		
+		
 		<ul class="form">
 			<li>
 				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
@@ -250,7 +267,14 @@
 
 		<p>In this section, ...</p>
 		
+		<p><strong>What happens next?</strong></p>
+		
+		<p>After you submit this project by clicking the button below, a Christmas Future representative will, ...</p>
+		
+		<p>If you have anything else you'd like to let us now, please use the "Notes" form below.</p>
+		
 		<ul class="form">
+<% if 3 == 4 -%>
 			<li>	
 				<label for="project_frequency_type_id" class="title">
 					Frequency of feedback
@@ -258,10 +282,11 @@
 				</label>
 				<%= collection_select (:project, :frequency_type_id, get_frequency, :id, :name, :include_blank => true) %>
 			</li>
+<% end -%>
 
 			<li>
 				<label class="title">
-					Note
+					Notes
 					<small>Use this for any internal notes or comments, e.g. reason for change if existing project data has been updated.</small>
 				</label>
 				<%= f.text_area :note, :rows => 12, :cols => 72 %>
