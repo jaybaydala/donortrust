@@ -1,7 +1,13 @@
 if params[:country] == 'United States'
   page[:postal_code].replace_html "Zip Code"
-  page[:province].replace_html "State"
+  page[:province].replace_html "State" 
+  page[:province_holder].replace_html state_selector(:campaign,:province)
 else
   page[:postal_code].replace_html "Postal Code"
   page[:province].replace_html "Province"
+  if params[:country] == "Canada"
+    page[:province_holder].replace_html province_selector(:campaign,:province)
+  else 
+    page[:province_holder].replace_html text_field(:campaign,:province)
+  end
 end

@@ -61,6 +61,15 @@
   			<legend>Location</legend>
 			<label>Address</label>
 	    	<%= f.text_field :address %>
+	
+			<label>City</label>
+			<%= f.text_field :city %>
+			
+			<label id="province">Province</label>
+			<div id="province_holder">
+				<%= province_selector(:campaign, :province)%>
+			</div>
+			
 			<label>Country</label>
 			<%= f.country_select :country, ["Canada", "United States"]  %>
 	
@@ -69,14 +78,10 @@
 									:url => { :action => :update_address_details_for_country}, 
 									:with => :country
 			%>		
+			
 			<label id="postal_code">Postalcode</label>
 			<%= f.text_field :postalcode %>
 
-			<label id="province">Province</label>
-			<%= f.text_field :province %>
-			
-			<label>City</label>
-			<%= f.text_field :city %>
 			
 
 		</fieldset>
@@ -89,13 +94,13 @@
 			<label>Allow Multiple Teams</label>
 			<%= f.check_box :allow_multiple_teams %>
 			
-			<label>Maximum Number of Teams (0 for no limit)</label>
+			<label>Maximum Number of Teams (optional)</label>
 			<%= f.text_field :max_number_of_teams %>
 			
-			<label>Maximum Team Size (0 for no limit)</label>
+			<label>Maximum Team Size (optional)</label>
 			<%= f.text_field :max_size_of_teams %>
 			
-			<label>Maximum Number of Participants</label>
+			<label>Maximum Number of Participants (optional)</label>
 			<%= f.text_field :max_participants %>
 		</fieldset>
 		

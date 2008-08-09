@@ -1,17 +1,32 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-context "Campaign" do
+context "Team" do
   
   fixtures :teams, :campaigns, :campaign_types, :users
   
   setup do
-    @team = Team.find(:first)
-    @team.leader = User.find(:first)
+    @team_one = Team.find(1)
+    @team_two = Team.find(2)
   end
   
-  specify "Should not allow creation when at max number of teams" do
+  specify "Team should not validate when at max number of teams" do
     #setup
-    @campaign = Campaign.find_first
-    @campaign.max_number_of_teams = 1
+    @campaign = Campaign.find(1)
+    
+    #exercise
+    @team_two.campaign = @campaign
+    
+    #assert
+    @team_two.should.not.validate
   end
+  
+  specify "Should allow team creation when not at max number of teams" do
+    #setup
+    @campaign = Campaign.find(2)
+    #exercise
+    @team_two.campaign = @campaign
+    
+    #assert
+    @team_two.should.validate
+  end 
 end

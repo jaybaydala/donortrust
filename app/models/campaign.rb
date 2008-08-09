@@ -80,7 +80,7 @@ class Campaign < ActiveRecord::Base
   end
   
   def teams_full?
-    return self.teams.size == self.max_number_of_teams and self.max_number_of_teams != 0
+    return (self.teams.size == self.max_number_of_teams)
   end
   
   def manage_link
@@ -129,35 +129,35 @@ class Campaign < ActiveRecord::Base
   # check that the postalcode follows the canadian standard for postal codes, see http://en.wikipedia.org/wiki/Canadian_postal_code
   def postalcode_matches_province?
     provinceHash = Hash.new
-    provinceHash['Newfoundland']          = /A/i
-    provinceHash['Nova Scotia']           = /B/i
-    provinceHash['Prince Edward Islant']  = /C/i
-    provinceHash['New Brunswick']         = /E/i
-    provinceHash['Quebec']                = /G|H|J/i
-    provinceHash['Ontario']               = /K|L|M|N|O|P/i
-    provinceHash['Manitoba']              = /R/i
-    provinceHash['Saskatchewan']          = /S/i
-    provinceHash['Alberta']               = /T/i
-    provinceHash['British Columbia']      = /V/i
-    provinceHash['Northwest Territories'] = /X/i
-    provinceHash['Nunavut']               = /X/i
-    provinceHash['Yukon']                 = /Y/i
+    provinceHash['NL'] = /A/i
+    provinceHash['NS'] = /B/i
+    provinceHash['PE'] = /C/i
+    provinceHash['NB'] = /E/i
+    provinceHash['QC'] = /G|H|J/i
+    provinceHash['ON'] = /K|L|M|N|O|P/i
+    provinceHash['MB'] = /R/i
+    provinceHash['SK'] = /S/i
+    provinceHash['AB'] = /T/i
+    provinceHash['BC'] = /V/i
+    provinceHash['NT'] = /X/i
+    provinceHash['NU'] = /X/i
+    provinceHash['YT'] = /Y/i
     (provinceHash[province] =~ postalcode) == 0
   end
   
   #check that the zip code follows the american standard, see http://en.wikipedia.org/wiki/Zip_code
   def zipcode_matches_state?
     zipArray = Array.new
-    zipArray[0] = /Connecticut|Massachusetts|Maine|New Hampshire|New Jersey|Puerto Rico|Rhode Island|Vermont|Virgin Islands|Army Post Office Europe|Fleet Post Office Europe/
-    zipArray[1] = /Delaware|New York|Pennsylvania/
-    zipArray[2] = /District of Columbia|Maryland|North Carolina|South Carolina|Virginia|West Virginia/
-    zipArray[3] = /Alabama|Florida|Georgia|Mississippi|Tennessee|Army Post Office Americas|Fleet Post Office Americas/
-    zipArray[4] = /Indiana|Kentucky|Michigan|Ohio/
-    zipArray[5] = /Iowa|Minnesota|Montana|North Dakota|South Dakota|Wisconsin/
-    zipArray[6] = /Illinois|Kansas|Missouri|Nebraska/
-    zipArray[7] = /Arkansas|Louisiana|Oklahoma|Texas/
-    zipArray[8] = /Arizona|Colorado|Idaho|New Mexico|Nevada|Utah|Wyoming/
-    zipArray[9] = /Alaska|American Samoa|California|Guam|Hawaii|Marshall Islands|Federated States of Micronesia|Northern Mariana Islands|Oregon|Palau|Washington|Army Post Office Pacific|Fleet Post Office Pacific/
+    zipArray[0] = /CT|MA|ME|NH|NJ|RI|VT/
+    zipArray[1] = /DE|NY|PA/
+    zipArray[2] = /DC|MD|NC|SC|VA|WV/
+    zipArray[3] = /AL|FL|GA|MS|TN/
+    zipArray[4] = /IN|KY|MI|OH/
+    zipArray[5] = /IA|MN|MT|ND|SD|WI/
+    zipArray[6] = /IL|KY|MO|NE/
+    zipArray[7] = /AR|LA|OK|TX/
+    zipArray[8] = /AZ|CO|ID|NM|NV|UT|WY/
+    zipArray[9] = /AK|CA|HI|OR|WA/
     (zipArray[postalcode.chars.first.to_i] =~ province) != nil
   end
   
