@@ -1,0 +1,18 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  campaign_id: 1
+  name: Test Team One
+  user_id: 1
+  contact_email: test@test.com
+  short_name: Short_name_one
+
+two:
+  id: 2
+  campaign_id: 2
+  name: Teast Team Two
+  user_id: 1
+  contact_email: test@test.com
+  short_name: Short_name_two
+  
