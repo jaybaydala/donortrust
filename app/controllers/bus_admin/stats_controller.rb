@@ -1,5 +1,7 @@
 class BusAdmin::StatsController < ApplicationController
-   before_filter :login_required, :check_authorization
+  layout 'admin'
+  before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
 
   include BusAdmin::ProjectsHelper
   include BusAdmin::ProgramsHelper

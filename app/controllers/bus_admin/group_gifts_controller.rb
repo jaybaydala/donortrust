@@ -1,7 +1,9 @@
 require 'csv'
 
 class BusAdmin::GroupGiftsController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'' 
   
   def index
     @page_title = 'Group Gift'

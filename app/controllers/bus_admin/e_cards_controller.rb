@@ -1,6 +1,7 @@
 class BusAdmin::ECardsController < ApplicationController
-
- before_filter :login_required, :check_authorization
+  layout 'admin'
+  before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
   
   active_scaffold :e_cards do |config|
     config.create.multipart = true

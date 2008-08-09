@@ -1,5 +1,7 @@
 class BusAdmin::RanksController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
   
   active_scaffold :ranks do |config|
     config.label = "At A Glance "

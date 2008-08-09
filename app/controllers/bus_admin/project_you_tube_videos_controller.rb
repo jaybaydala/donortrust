@@ -1,5 +1,12 @@
 class BusAdmin::ProjectYouTubeVideosController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
+  
+  active_scaffold :project_you_tube_video do |config|
+    config.columns =  [ :you_tube_id ]
+  end
+  
   # GET /bus_admin_project_you_tube_videos
   # GET /bus_admin_project_you_tube_videos.xml
   def index

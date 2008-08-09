@@ -1,5 +1,8 @@
 class BusAdmin::MilestoneStatusesController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
+
   include ApplicationHelper
   active_scaffold :milestone_statuses do |config|
     config.columns =[ :name, :description, :milestones_count, :milestones ]

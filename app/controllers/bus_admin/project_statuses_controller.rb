@@ -1,5 +1,7 @@
 class BusAdmin::ProjectStatusesController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin' 
   
   include ApplicationHelper
   

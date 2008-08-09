@@ -1,5 +1,8 @@
 class BusAdmin::PlaceYouTubeVideosController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
+
   # GET /bus_admin_project_you_tube_videos
   # GET /bus_admin_project_you_tube_videos.xml
   def index

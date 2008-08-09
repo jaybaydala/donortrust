@@ -1,5 +1,8 @@
 class BusAdmin::UnallocatedInvestmentsController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin' 
+
   def index
     @unallocated_investments = Investment.find(:all, :conditions => ['project_id = 11'])
    end

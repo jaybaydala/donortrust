@@ -1,5 +1,7 @@
 class BusAdmin::QuickFactPlacesController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin' 
   
   active_scaffold :quick_fact_places do |config|
     config.label = "Quick Facts"

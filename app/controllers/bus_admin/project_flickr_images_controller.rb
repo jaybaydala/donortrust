@@ -1,5 +1,14 @@
 class BusAdmin::ProjectFlickrImagesController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin' 
+
+  active_scaffold :project_flickr_image do |config|
+    config.columns =  [ :photo_id ]
+  end
+  
+  
+  
   # GET /bus_admin_project_flickr_images
   # GET /bus_admin_project_flickr_images.xml
   def index

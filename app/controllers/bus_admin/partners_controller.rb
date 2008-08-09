@@ -1,5 +1,8 @@
 class BusAdmin::PartnersController < ApplicationController
- before_filter :login_required, :check_authorization
+  layout 'admin'
+  before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin'
+
   active_scaffold :partner do |config|
 #    config.theme = :blue
     config.columns = [ :name, :description, :website, :partner_status, :partner_type, :contacts, :note,

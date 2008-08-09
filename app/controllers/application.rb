@@ -1,43 +1,55 @@
 class ApplicationController < ActionController::Base
   filter_parameter_logging :password
-  include AuthenticatedSystem
-  include BusAdmin::UserInfo
-  #include BusAdmin::ProjectsHelper
-  
-  before_filter :set_user
+  include DtAuthenticatedSystem
+  helper :dt_application
+  helper "dt/search"
+
+  #before_filter :set_user
+  before_filter :login_from_cookie, :ssl_filter
   
   # Pick a unique cookie name to distinguish our session data from others'
-  session :session_key => '_donortrust_session_id'
-   #before_filter :login_from_cookie
-  def login_required
-    unless session[:user_id]
-      flash[:notice] = "Please log in" 
-      session[:jumpto] = request.parameters
-      redirect_to login_path
-    end 
-  end
+  session :session_key => '_donortrustfe_session_id'
   
+  def rescue_404
+    rescue_action_in_public DtNotFoundError.new
+  end
+    
+  def rescue_action_in_public(exception)
+    case exception.to_s
+    when /DtNotFoundError/, /RoutingError/, /UnknownAction/
+      render :template => "dt/shared/errors/error404", :layout => "dt_application", :status => "404"
+    else
+      @message = exception
+      render :template => "dt/shared/errors/error", :layout => "dt_application", :status => "500"
+    end
+  end
+
   def check_authorization
     if logged_in?
-      user = BusUser.find(session[:user_id])
-      user_type = user.bus_user_type
+      roles = current_user.roles
       requested_action = action_name
       requested_controller = self.class.controller_path
       requested_controller_id = self;
-      unless user_type.bus_secure_actions.detect{|bus_secure_action|
-         permitted_actions = BusSecureAction.find :all, :conditions => {"bus_security_level_id","#{requested_controller_id}"}
-         for permitted_action in permitted_actions
+      actions = [];
+      roles.each do |role|
+        role.authorized_actions.each do |action|
+          actions << action
+        end
+      end
+      unless actions.detect do |action|
+          permitted_actions = AuthorizedAction.find :all, :conditions => {"authorized_controller_id","#{requested_controller_id}"}
+          for permitted_action in permitted_actions
             if user_type.bus_secure_action_id == permitted_action.id || indirect_approve()
               return true
             end
-         end
+          end
         
-#          puts "Permitted action: " + bus_secure_action.permitted_actions.to_s + " Desired Action: " + requested_action.to_s + " With controller: " + requested_controller
-#          if direct_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s ) ||
-#             indirect_approve(requested_action.to_s, bus_secure_action.permitted_actions.to_s, requested_controller.to_s,bus_secure_action.bus_security_level.controller.to_s, requested_controller_id )
-#              return true
-#          end
-        } 
+          puts "Permitted action: " + action.name + " Desired Action: " + requested_action.to_s + " With controller: " + requested_controller
+          if direct_approve(requested_action.to_s, action.name.to_s, requested_controller.to_s,  action.authorized_controller.name.to_s ) ||
+              indirect_approve(requested_action.to_s, action.name.to_s, requested_controller.to_s, action.authorized_controller.name.to_s, requested_controller_id )
+            return true
+          end
+      end
         
         flash[:notice] = "You are not authorized to view the requested page." 
 
@@ -45,7 +57,7 @@ class ApplicationController < ActionController::Base
         if request.parameters.has_value?('_list_inline_adapter') || request.parameters.has_value?('_method=delete')
           render :text => "You do not have access"
         else
-          redirect_to('/bus_admin/home')
+          redirect_to('/dt')
         end
         return false
       end
@@ -55,90 +67,106 @@ class ApplicationController < ActionController::Base
   end
   
   def direct_approve (requested_action, permitted_action, requested_controller, permitted_controller)
-   
-    return (request.parameters.has_value?(permitted_action)) && (requested_controller == permitted_controller)
+    return (requested_action == permitted_action) && (requested_controller == permitted_controller)
   end
   
   def indirect_approve (requested_action, permitted_action, requested_controller, permitted_controller, requested_controller_id)
     case(requested_action)
-      when ("index")
-            return (permitted_action == 'list' || permitted_action == 'show') && (requested_controller == permitted_controller)
-      when("update")
-             return permitted_action == 'edit' && (requested_controller == permitted_controller)
-      when("table")
-             return permitted_action == 'list' && (requested_controller == permitted_controller)
-      when("destroy")
-             return permitted_action == 'delete' && (requested_controller == permitted_controller)
-      when("new")
-             return permitted_action == 'create' && (requested_controller == permitted_controller)
-      when("row")
-             return permitted_action == 'list' && (requested_controller == permitted_controller)
-      when("nested")
-             return permitted_action == 'show' && (requested_controller == permitted_controller)
-      when("update_table")
-             return permitted_action == 'show' && (requested_controller == permitted_controller)
-      when("show_search")
-             return permitted_action == 'list' && (requested_controller == permitted_controller)
-      when("edit_associated")
-             return permitted_action == 'edit' && (requested_controller == permitted_controller)
-      when("get_association")
-             return permitted_action == 'edit' && (requested_controller == permitted_controller)
-      when("inactive_records")
-             return permitted_action == 'record_management' && (requested_controller == permitted_controller)
-      when("recover_record")
-             return permitted_action == 'record_management' && (requested_controller == permitted_controller)      
-      else
-            defined? requested_controller_id.get_local_actions(requested_action,permitted_action)
-           
-      end
-  end
-  
-  #
-  # Like it says, Paginates an array. - Joe
-  #
-  def paginate_array(page, array, items_per_page)
-    @size = array.length
-    page ||= 1
-    page = page.to_i
-    offset = (page - 1) * items_per_page
-    # pages = Paginator.new(self, array.length, items_per_page, page)
-    pages = Paginator.new(array.size, items_per_page) do |offset, per_page|
-      array[offset,per_page]
-    end
-    array = array[offset..(offset + items_per_page - 1)]
-    [pages, array]
-  end
-  
-def recover_record
-    puts self.class.controller_path + " THIS IS HTE CLASS"
-    record = self.get_model.find_with_deleted(params[:id])
-    record.deleted_at = nil
-    record.update
-    puts "Redirecting to: " + self.class.controller_path
-    redirect_to("/" + self.class.controller_path)
-  end
-  
-  def inactive_records
-    @inactive_records = Array.new(self.get_model.count_with_deleted("deleted_at = !null"))
-    @record = self.get_model
-     for record in self.get_model.find_with_deleted(:all)
-        if record.deleted_at != nil
-           @inactive_records.push(record)
-        end
-     end
-    if !@inactive_records.empty?
-      render :partial => 'bus_admin/deleted_records/inactive_records'
+    when ("index")
+      return (permitted_action == 'list' || permitted_action == 'show') && (requested_controller == permitted_controller)
+    when("update")
+      return permitted_action == 'edit' && (requested_controller == permitted_controller)
+    when("table")
+      return permitted_action == 'list' && (requested_controller == permitted_controller)
+    when("destroy")
+      return permitted_action == 'delete' && (requested_controller == permitted_controller)
+    when("new")
+      return permitted_action == 'create' && (requested_controller == permitted_controller)
+    when("row")
+      return permitted_action == 'list' && (requested_controller == permitted_controller)
+    when("nested")
+      return permitted_action == 'show' && (requested_controller == permitted_controller)
+    when("update_table")
+      return permitted_action == 'show' && (requested_controller == permitted_controller)
+    when("show_search")
+      return permitted_action == 'list' && (requested_controller == permitted_controller)
+    when("edit_associated")
+      return permitted_action == 'edit' && (requested_controller == permitted_controller)
+    when("get_association")
+      return permitted_action == 'edit' && (requested_controller == permitted_controller)
+    when("inactive_records")
+      return permitted_action == 'record_management' && (requested_controller == permitted_controller)
+    when("recover_record")
+      return permitted_action == 'record_management' && (requested_controller == permitted_controller)      
     else
-      render :text => "There are no deleted records"
+      defined? requested_controller_id.get_local_actions(requested_action,permitted_action)
+           
     end
-    
   end
 
-  
 protected
-  def set_user
-    BusAdmin::UserInfo.current_user = session[:user]
+
+def permission_denied
+  flash[:notice] = "You don't have privileges to access this action" 
+  return redirect_to ('/dt')
+end
+
+def permission_granted
+  # CHANGED: commented the following line as it overrode all the normal flash notices!
+  # flash[:notice] = "Welcome to the business administration area!" 
+end
+
+def ssl_filter
+  if ['production'].include?(ENV['RAILS_ENV'])
+    redirect_to url_for(params.merge({:protocol => 'https://'})) and return false if !request.ssl? && ssl_required? 
+    redirect_to url_for(params.merge({:protocol => 'http://'})) and return false if request.ssl? && !ssl_required? 
   end
+end
+  
+#MP - Dec 14, 2007
+#Added to support the us tax receipt functionality
+#allows us to set a value indicating that the user has requested
+#a US tax receipt. If the value is false, the session variable is
+#cleared, otherwise it is set to true
+def requires_us_tax_receipt(value)
+  if value
+    session[:requires_us_tax_receipt] = value
+  else
+    session[:requires_us_tax_receipt] = nil unless session[:requires_us_tax_receipt].nil?
+  end
+end
+  
+#MP - Dec 14, 2007
+#Added to support the us tax receipt functionality
+#If the user has indicated that they want a US tax 
+#receipt, the session variable will be true,
+#otherwise it should be nil.
+def requires_us_tax_receipt?
+  return session[:requires_us_tax_receipt] unless session[:requires_us_tax_receipt].nil?
+  false
+end
 
+def ssl_required?
+  false
+end
 
+def log_error(exception) 
+  super(exception)
+  if ENV['RAILS_ENV'] == 'production'
+    begin
+      ErrorMailer.deliver_snapshot(
+        exception, 
+        clean_backtrace(exception), 
+        @session.instance_variable_get("@data"), 
+        @params, 
+        @request.env)
+    rescue => e
+      logger.error(e)
+    end
+  end
+end
+
+# Error Handling
+class DtNotFoundError < Exception
+end
 end

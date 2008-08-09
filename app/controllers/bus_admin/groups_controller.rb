@@ -1,5 +1,9 @@
 class BusAdmin::GroupsController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin' 
+
+
   active_scaffold :groups do |config|
     config.columns = [:name, :group_type, :private, :featured, :description, :created_at, :updated_at, :project_count, :projects, :user_count, :users ]
     # unable to select user(s) to add to group by simply adding :users to column.  Even though the relationship is defined as

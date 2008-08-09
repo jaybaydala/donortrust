@@ -1,5 +1,7 @@
 class BusAdmin::GroupTypesController < ApplicationController
+  layout 'admin'
   before_filter :login_required, :check_authorization
+  #access_control :DEFAULT => 'cf_admin' 
 
   active_scaffold :group_type do |config|
     config.columns =[ :name, :group_count ]
