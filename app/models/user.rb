@@ -1,26 +1,29 @@
 require 'digest/sha1'
 require 'acts_as_paranoid_versioned' 
 class User < ActiveRecord::Base
+
+  extend HasAdministrables
   #acts_as_versioned
   acts_as_paranoid_versioned
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
   has_many :group_news
-  has_many :group_walls
+  #FIXME This association bugs active scaffolding. Probably because there's no group_wall model.
+  #has_many :group_walls
   has_many :user_transactions
   has_many :deposits
   has_many :investments
   has_many :gifts
-  has_many :orders
   has_many :tax_receipts
   has_many :my_wishlists
   has_many :projects, :through => :my_wishlists
-  has_many :campaigns
-  has_many :team_members
-  has_many :teams, :through => :team_member
-  
-  # Virtual attribute for the unencrypted password
+  has_many :roles, :through => :administrations
+  has_many :administrations
+  has_many :orders
+  has_administrables :model => "Project"
+
+  # Virtual attribute for the unencrypted password"
   attr_accessor :password
   attr_accessor :terms_of_use
 
@@ -111,10 +114,6 @@ class User < ActiveRecord::Base
       @gifted_with_credit_card ||= calculate_gifts(exclude_credit_card)
     end
   end
-  
-  def ordered
-    @ordered ||= calculate_orders
-  end
 
   # Encrypts the password with the user salt
   def encrypt(password)
@@ -192,6 +191,16 @@ class User < ActiveRecord::Base
     DonortrustMailer.deliver_account_expiry_reminder(self)
   end
 
+  # DEPRECATED
+  #def is_bus_admin?
+  #  self.user_roles.each do |role|
+  #    if role.role_type == "busAdmin"
+  #      return true
+  #    end
+  #  end
+  #  return false
+  #end
+
   protected
     def validate
       if under_thirteen?
@@ -213,7 +222,7 @@ class User < ActiveRecord::Base
     end
         
     def calculate_balance
-      balance = deposited - ordered - invested - gifted(true) || 0
+      balance = deposited - invested - gifted(true) || 0
     end
 
     def calculate_deposits
@@ -226,7 +235,7 @@ class User < ActiveRecord::Base
     end
 
     def calculate_investments
-      investments = Investment.find(:all, :conditions => { :user_id => self[:id], :order_id => nil })
+      investments = Investment.find(:all, :conditions => { :user_id => self[:id] })
       balance = 0
       investments.each do |trans|
         balance = balance + trans.amount
@@ -235,7 +244,7 @@ class User < ActiveRecord::Base
     end
 
     def calculate_gifts(exclude_credit_card = false)
-      conditions = { :user_id => self[:id], :order_id => nil }
+      conditions = { :user_id => self[:id] }
       conditions[:credit_card] = nil if exclude_credit_card == true
       gifts = Gift.find(:all, :conditions => conditions)
       balance = 0
@@ -243,15 +252,6 @@ class User < ActiveRecord::Base
         balance = balance + trans.amount
       end
       balance
-    end
-
-    def calculate_orders
-      orders = Order.find(:all, :conditions => ["user_id=? AND complete=? AND account_balance_total IS NOT NULL", self[:id], true ])
-      order_balance = 0
-      orders.each do |order|
-        order_balance = order_balance + order.account_balance_total.to_f
-      end
-      order_balance
     end
     
     def self.total_users_in_group
