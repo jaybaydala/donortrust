@@ -1,0 +1,21 @@
+
+<table width=:100%" align="center" style="border: 1px solid #DDDDDD;" cellpadding="2" cellspacing="0">
+
+ <% @colorize = true %>
+				<% @measures.each do |measure| %>
+					<% if @colorize %>    
+					    <tr bgcolor="#E6F2FF" >
+					    <% @colorize = false %>
+					<% else @colorize = true %>
+					    <tr>
+					<% end %>
+						<td>
+							<strong><%= measure.target%> <%= measure.measure.description %> </strong>						
+						<br>
+							<%= horizontal_bar_graph_no_title  [[measure.measure.description, measure.get_percent_target]] %>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+				<% end %>   
+</tr>
+</table>

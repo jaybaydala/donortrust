@@ -1,0 +1,239 @@
+<div id="contentContainer">
+  <div id="previewPending">
+	<% if @wrapper %>
+	<% project = @wrapper.real_object
+	   pending = @wrapper.pending_object
+	%>
+			<h1>Preview <%= pending.is_new ? "New" : "Modified" %> Project</h1>
+			<div style="padding-bottom:20px;">
+				<%= link_to "Approve", bus_admin_approve_project_project_path(@project), :method => :put %>
+				<%= reject_pending_project(@project) %>
+			</div>
+			<% if @differences && @differences.differences.length > 0 %>
+				<fieldset id="groupLocation">
+					<legend>Differences between original and changed project</legend>
+					<ul class="row" style="padding-top:10px; padding-bottom:10px;">
+						<li>
+							<table style="width:100%;background-color:red;">
+								<tr>
+									<th>Property</th>
+									<th>Old Value</th>
+									<th>New Value</th>
+								</tr>
+							<% @differences.differences.each do | property, value | %>
+									<tr>
+										<td><%= property.capitalize%></td>
+										<td><%= value.old_value.to_s%></td>
+										<td><%= value.new_value.to_s%></td>
+									</tr>
+							<% end %>
+							</table>
+						</li>
+					</ul>
+				</fieldset>
+			<% end %>
+			 <fieldset id="groupLocation">
+		  		<legend>Project information</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<strong>Name: </strong><%= project.name %>
+						<br />
+							<strong>Status: </strong><%= project.project_status.nil? ? "None" : project.project_status.name %>
+						<br />
+							<strong>Program: </strong><%= project.program.nil? ? "None" : project.program.name %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Description</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+							<%= description_column(project) %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Date information</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<strong>Target Start Date: </strong><%= project.target_start_date.nil? ? "N/A" : project.target_start_date.to_s %>
+							&nbsp;&nbsp;
+							<strong>Target End Date: </strong><%= project.target_end_date.nil? ? "N/A" : project.target_end_date.to_s %>
+							<br />
+							<strong>Actual Start Date: </strong><%= project.actual_start_date.nil? ? "N/A" : project.actual_start_date.to_s %>
+							&nbsp;&nbsp;
+							<strong>Actual End Date: </strong><%= project.actual_end_date.nil? ? "N/A" : project.actual_end_date.to_s %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Cause information</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<% if project.causes && project.causes.length > 0 %>
+								<% for cause in project.causes %>
+									<%= cause.name %><br />
+								<% end %>
+							<% else %>
+								No cause information available.
+							<% end %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Dollar infomation</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<strong>Spent: </strong><%= dollars_spent_column(project) %>
+							<br />
+							<strong>Total Cost: </strong><%= total_cost_column(project) %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Partner infomation</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<strong>Partner: </strong><%= project.partner.nil? ? "N/A" : project.partner.name %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			   <fieldset id="groupLocation">
+		  		<legend>Contact Infomation</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<strong>Contact: </strong><%= project.contact.nil? ? "N/A" : project.contact.fullname %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			   <fieldset id="groupLocation">
+		  		<legend>Sector infomation</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<% if project.sectors && project.sectors.length > 0 %>
+								<% for sector in project.sectors %>
+									<%= sector.name %><br />
+								<% end %>
+							<% else %>
+								No sector information available.
+							<% end %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			   <fieldset id="groupLocation">
+		  		<legend>Public infomation</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<strong>Public? </strong><%= project.public ? "Yes" : "No" %>
+							<br />
+							<strong>Note: </strong><%= note_column(project) %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Featured infomation</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<strong>Featured? </strong><%= project.featured ? "Yes" : "No" %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Url infomation</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<strong>Blog Url: </strong><%= project.blog_url.nil? ? "N/A" : project.blog_url %>
+							<br />
+							<strong>RSS Url: </strong><%= project.rss_url.nil? ? "N/A" : project.rss_url %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Fequency of feedback</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<%= project.frequency_type.nil? ? "N/A" : project.frequency_type.name %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Intended Outcome</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<%= intended_outcome_column(project) %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			   <fieldset id="groupLocation">
+		  		<legend>Measure evaluation plan</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<%= meas_eval_plan_column(project) %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			   <fieldset id="groupLocation">
+		  		<legend>Other projects in the community</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<%= project_in_community_column(project) %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Other project information</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<%= other_projects_column(project) %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Agency information</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<% if project.collaborating_agencies && project.collaborating_agencies.length > 0 %>
+								<% for agency in project.collaborating_agencies %>
+									<strong>Name: </strong><%= agency.agency_name %>&nbsp;&nbsp;
+									<strong>Responsibilites: </strong><%= agency.responsibilities %><br />
+								<% end %>
+							<% else %>
+								No agency information is available.
+							<% end %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Financial source information</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<% if project.financial_sources && project.financial_sources.length > 0 %>
+								<% for source in project.financial_sources %>
+									<strong>Name: </strong><%= source.source %>&nbsp;&nbsp;
+									<strong>Amount: </strong><%= financial_source_amount_column(source) %>
+								<% end %>
+							<% else %>
+								No financial source information is available.
+							<% end %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			  <fieldset id="groupLocation">
+		  		<legend>Lives affected</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<%= project.lives_affected.nil? ? "N/A" : project.lives_affected %>
+						</li>
+				  	</ul>
+		      </fieldset>
+			   <fieldset id="groupLocation">
+		  		<legend>Place information</legend>
+			  		<ul class="row" style="padding-top:10px; padding-bottom:10px;">		  		
+			          	<li>
+			          		<%= project.place.nil? ? "N/A" : Place.full_location_string(project.place) %>
+						</li>
+				  	</ul>
+		      </fieldset>
+		<% end %>
+	</div>
+</div>

@@ -1,0 +1,37 @@
+<% @project = show_rejected_project 
+   @pending = @project.pending_object
+   @project = @project.real_object
+-%>
+    <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
+      <div class="leftColW">
+        <h2><%= link_to @project.name, bus_admin_project_path(@project) %></h2>
+        <div class="projectRank">
+          <ul class="specList">
+            <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
+            <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, partner_path(@project) %></span></li><% end %>
+          </ul>
+        </div>
+        
+        <p><strong>Project Description:</strong> <%= @project.summarized_description(175) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", bus_admin_project_path(@project.id) %></p>
+	  </div>
+      	
+    	<div class="factList">
+    	  <%= project_quickfacts %>
+    	</div>
+		
+		<div style="clear:both;">
+  			<p><strong>Rejection Details:</strong></p>
+			<p>
+				This is a<%= @pending.is_new ? " new project." : "n existing project that has been modified." %>
+				<br />
+				The project was rejected on <%= @pending.date_rejected.to_s %> by <%= @pending.rejector.nil? ? "unknown" : @pending.rejector.login %><br />
+			</p>
+			<p><strong>Rejection Reasons:</strong></p>
+			<p>
+				<%= @pending.rejection_reason %>
+				<br />
+				<br />
+				Click <%= link_to "here", bus_admin_edit_project_path(@project)%> to edit the project and rectify these problems.
+			</p>
+  		</div>
+    </div>
