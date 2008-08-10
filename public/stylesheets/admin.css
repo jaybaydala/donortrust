@@ -1,0 +1,226 @@
+/* @override 
+	http://localhost:3000/stylesheets/admin.css?1213766065
+	http://localhost:3000/stylesheets/admin.css?1214188894
+*/
+
+body {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+p, h1, form, button {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.spacer {
+	clear: both;
+	height: 1px;
+}
+
+/* form tabs */
+
+ul.tabnav {
+	float: right;
+	margin: 10px 15px -6px;
+}
+
+ul.tabnav li {
+	float: left;
+	list-style: none;
+	margin-left: 2px;
+}
+
+ul.tabnav li a {
+	background: #333;
+	padding: 3px 10px;
+}
+
+ul.tabnav li .selected {
+	font-weight: bold;
+	background: #aaa;
+	color: black;
+}
+
+/* overall form layout */
+
+#stylized .sheet {
+	margin: 0 auto;
+	width: 95%;
+	padding: 14px;
+}
+
+#stylized fieldset {
+	border: 2px solid #aaa;
+	clear: right;
+}
+
+#stylized fieldset legend {
+	font-size: 125%;
+}
+
+#stylized p {
+	font-size: 11px;
+	color: #555;
+}
+
+#stylized ul.form {
+	padding: 0;
+}
+
+#stylized ul.form,
+#stylized .embedded {
+	border-top: solid 1px #ccc;
+	padding-top: 10px;
+	margin-top: 40px;
+}
+
+/* form fields */
+
+#stylized ul.form li {
+	clear: both;
+	list-style: none;
+	padding-bottom: 10px;
+}
+
+#stylized ul.form input {
+	float: left;
+}
+
+#stylized ul.form label.title {
+	width: 30%;
+	float: left;
+	clear: left;
+	display: block;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 5px;
+}
+
+#stylized ul.form small {
+	color: #666;
+	display: block;
+	font-size: 10px;
+	font-weight: normal;
+}
+
+#stylized ul.form input, 
+#stylized ul.form textarea, 
+#stylized ul.form select {
+	font-size: 12px;
+	padding: 4px 2px;
+	border: solid 1px #aacfe4;
+	width: 65%;
+	margin: 4px 0 20px 0;
+}
+
+#stylized ul.form .group {
+	display: inline-block;
+	width: 60%;
+}
+
+#stylized ul.form .group input {
+	float: none;
+	margin: 0;
+	padding: 0;
+	width: 5%;
+}
+
+#stylized ul.form .group span {
+	display: block;
+}
+
+#stylized ul.form .short {
+	width: 15%;
+	margin-right: 45%;
+}
+
+#stylized ul.form hr {
+	clear: left;
+}
+
+#stylized ul.form .buttonsubmit {
+	clear: both;
+	float: right;
+	width: 125px;
+	height: 31px;
+	background: #666666 url(/images/bus_admin/button.png) no-repeat;
+	text-align: center;
+	line-height: 31px;
+	color: #FFFFFF;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 0;
+	border: 0;
+}
+
+/* embedded scaffold */
+
+#stylized .embedded ol li {
+	list-style: none;
+}
+
+#stylized .embedded input,
+#stylized .embedded select {
+	font-size: 12px;
+	font-weight: normal;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;
+}
+
+#stylized .embedded a.cancel {
+	display: none;
+}
+
+#stylized .embedded .textile-toolbar {
+	display: none;
+}
+
+#stylized .embedded ol ul {
+	padding: 0;
+}
+
+#stylized .embedded ol .checkbox-list li {
+	display: block;
+}
+
+#stylized .embedded .messages-container p {
+	margin: 0;
+	padding: 3px;
+}
+
+#stylized .embedded .active-scaffold-footer {
+	color: #888;
+	font-size: 10px;
+	font-weight: normal;
+}
+
+/* Auto completion */
+
+div.auto_complete {
+	width: 350px;
+	background: #fff;
+}
+
+div.auto_complete ul {
+	border: 1px solid #888;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	list-style-type: none;
+}
+
+div.auto_complete ul li {
+	margin: 0;
+	padding: 3px;
+}
+
+div.auto_complete ul li.selected {
+	background-color: #ffb;
+}
+
+div.auto_complete ul strong.highlight {
+	color: #800;
+	margin: 0;
+	padding: 0;
+}
