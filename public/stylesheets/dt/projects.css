@@ -349,6 +349,11 @@ US TAXES
 }
 
 /* featured projects */
+.featured-project{
+	clear:both;
+	height: 200px;
+	padding-bottom:80px;
+}
 .project-title a{
 	text-decoration:none;
 	color:#336600;
@@ -366,20 +371,38 @@ US TAXES
 }
 
 .project-content{
-	width:65%;
+	width:60%;
 	float:left;
 }
 
 .project-sidebar{
 	width: 35%;
-	float:left;
+	float:right;
+}
+.project-sidebar .quickfacts ul{
+	list-style-type:none;	
 }
 
 /*
 SEARCH, layout and forms
 =====*/
-#project_search_toolbar{
+.projects-search-home{
+	text-align:center;
+}
+.projects-list-by{
+	width:500px;
+	margin: 0 auto;
+}
 
+.filter-your-results{
+	float:right;
+}
+
+.filter-your-results a{
+	text-decoration: none;
+}
+.filter-your-results a:hover{
+	text-decoration:underline;
 }
 
 form#advanced_search {
