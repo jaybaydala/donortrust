@@ -60,4 +60,7 @@ class Sector < ActiveRecord::Base
     end
   end
 
+  def projects
+    Project.find(:all, :joins => [:sectors], :conditions => ["sector_id=#{self.id} AND projects.project_status_id IN (2,4) AND projects.deleted_at IS NULL"], :group => 'projects.id')
+  end
 end

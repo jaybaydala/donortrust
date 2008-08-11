@@ -38,8 +38,11 @@ module Dt::ProjectsHelper
     @community_projects
   end
   
-  
-  
-  
-    
+  def sectors_projects
+    output =[]
+    Sector.find(:all).each do |sector|
+      output << (link_to image_tag("/images/dt/sectors/#{sector.image_name}",  :title=> sector.name, :alt => sector.name)+" #{sector.name.slice(/\w*\s/)} (#{(sector.projects.size)})", search_dt_projects_path+"?cause_selected=1&sector_id=#{sector.id}") if sector.projects.size>0
+    end
+    return output.last(4).join("<br>")
+  end  
 end

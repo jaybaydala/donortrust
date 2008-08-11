@@ -104,6 +104,7 @@ module DtApplicationHelper
     render :partial => 'dt/projects/advanced_search_bar', :layout => false
   end
   
+  
   def sector_images(project_id=nil)
     output = []
     if project_id

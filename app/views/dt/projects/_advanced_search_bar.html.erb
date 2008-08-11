@@ -2,11 +2,19 @@
 <script language="JavaScript"> function ajaxSubmit(){ return false} /*{new Ajax.Request('<%= search_dt_projects_path %>', {asynchronous:true, evalScripts:true, method:'get', parameters:Form.serialize($('advanced_search'))}); return false;} */
 </script>
 <div>
-<% form_tag(  search_dt_projects_path , {:id => 'advanced_search', :method => :get})do %>
-<%= hidden_field_tag :keywords %>
+<% form_tag(  search_dt_projects_path , {:id => 'advanced_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"})do %>
 <h3>Advanced Project Search</h3>
 <div id='wrapper-adv-search-box'>
-  
+  <p>
+    <label class='adv-search-label'>Search By Keywords:</label>
+    <br>
+    <%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
+    :title => 'Search', 
+    :size => 65 ,
+    :onblur =>"if(!this.value) this.value='Search';", 
+    :onfocus => "if(this.value=='Search') this.value='';"
+    %>  
+  </p>
   <p>
     <%= check_box_tag( 'continent_selected', (params[:continent_selected] ? '1' : '0'), params[:continent_selected])%>
     <label class='adv-search-label'>Search By Location:</label>
@@ -63,7 +71,8 @@
     min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %> 
     and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %>
     &nbsp;
-    Fully funded: <%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%> yes 
+    <br>
+    <%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%> Include fully funded projects
   </p>
 
 
@@ -72,7 +81,7 @@
   <!-- <%= hidden_field_tag "advanced","true"%> -->
   
   <div id="button_placeholder">
-    <%= submit_tag '', :style=>'border:0px;',:onsubmit=>"$('filter_keywords').value = $('keywords').value;", :class=> 'adv_submit_button'%>
+    <%= submit_tag '', :style=>'border:0px;', :class=> 'adv_submit_button'%>
   </div>
   <!--<span id="count_results_container" style="float:right;position:relative;bottom:20px;right:160px;background:yellow">
   </span>

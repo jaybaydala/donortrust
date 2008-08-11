@@ -1,66 +1,69 @@
 
 
-
-
-
-  <% if @search.total_entries==Project.find_public(:all).size%>
+<% if @search.total_entries==Project.find_public(:all).size%>
     <%- content_for :html_title do -%>All Projects<%- end -%>
-  <%else%>
-    <%if @search.total_entries>0%>
-      <%if params[:keywords] %>
-      <%- content_for :html_title do -%>Project Search Results<%- end -%>
-      <div>
-        <h4>You have searched using the following terms:</h4>
-        
-      	<% if @search  %>
-      		<div class="textsm" style="padding-bottom:0;">
-      			<%= params[:keywords]  %>
-      		</div>
-      		<div>
-      		  <% if params[:continent_selected]  && !params[:continent_id].nil? && !params[:continent_id].empty?%>
-      		    <strong>Continent: </strong><%= Place.find(params[:continent_id].to_i).name%>
-      		    <br>
-      		  <% end%>
-      		  <% if params[:country_selected]  && !params[:country_id].nil? && !params[:country_id].empty?%>
-      		    <strong>Country: </strong><%= Place.find(params[:country_id].to_i).name%>
-      		    <br>
-      		  <% end%>
-      		  <% if params[:organization_selected]%>
-      		    <strong>Organization: </strong><%= Partner.find(params[:partner_id].to_i).name%>
-      		    <br>
-      		  <% end%>
-      		  <% if params[:cause_selected] && !params[:cause_id].nil? && !params[:cause_id].empty? %>
-      		    <strong>Cause: </strong><%= Cause.find(params[:cause_id].to_i).name unless params[:cause_id].empty?%>
-      		    <br>
-      		  <% end%>
-      		  <% if params[:cause_selected] && !params[:sector_id].nil? && !params[:sector_id].nil?%>
-      		    <strong>Sector: </strong><%= Sector.find(params[:sector_id].to_i).name unless params[:sector_id].empty? %>
-      		    <br>
-      		  <% end%>
-      		  <% if params[:funding_req_selected]%>
-      		    <strong>Funding required: </strong> 
-      		    <% if !params[:funding_req_min].empty?%> 
-      		      min: <%= number_to_currency(params[:funding_req_min])%>
-      		    <% end %>
-      		    <% if !params[:funding_req_max].empty?%> 
-      		      max: <%= number_to_currency(params[:funding_req_max])%>      		      
-      		    <%end%>
-      		    <br>
-      		  <% end%>
-      		   <% if params[:fully_funded]%>
-        		    <strong>Fully funded: </strong> <%= params[:fully_funded]%>
-        		    <br>
-        		  <% end%>      		  
-      		</div>
-      	<% end %>
-      <% end%>
-      
-      </div>
-    <%else%>
-      No results were found. Please review your search.
-    <%end%>
-  <%end%>
+<% else%>
 
+    <%if @search.total_entries>0%>
+
+        <%- content_for :html_title do -%>Project Search Results<%- end -%>
+        <div>
+            <h4>You have searched using the following terms:</h4>
+
+            <% if @search  %>
+              <div>
+                <% if !params[:keywords].nil? && !params[:keywords].empty? %>
+                <strong>Keywords: </strong><%= params[:keywords]%>
+                <% end%>
+                <% if params[:continent_selected]  && !params[:continent_id].nil? && !params[:continent_id].empty?%>
+                <strong>Continent: </strong><%= Place.find(params[:continent_id].to_i).name%>
+                <br>
+                <% end%>
+                <% if params[:continent_selected]  && !params[:country_id].nil? && !params[:country_id].empty?%>
+                <strong>Country: </strong><%= Place.find(params[:country_id].to_i).name%>
+                <br>
+                <% end%>
+                <% if params[:organization_selected]%>
+                <strong>Organization: </strong><%= Partner.find(params[:partner_id].to_i).name%>
+                <br>
+                <% end%>
+                <% if params[:cause_selected] && !params[:cause_id].nil? && !params[:cause_id].empty? %>
+                <strong>Cause: </strong><%= Cause.find(params[:cause_id].to_i).name unless params[:cause_id].empty?%>
+                <br>
+                <% end%>
+                <% if params[:cause_selected] && !params[:sector_id].nil? && !params[:sector_id].nil?%>
+                <strong>Sector: </strong><%= Sector.find(params[:sector_id].to_i).name unless params[:sector_id].empty? %>
+                <br>
+                <% end%>
+                <% if params[:funding_req_selected]%>
+                    <strong>Funding required: </strong> 
+                
+                    <% if !params[:funding_req_min].empty?%> 
+                      min: <%= number_to_currency(params[:funding_req_min])%>
+                    <% end %>
+                    <% if !params[:funding_req_max].empty?%> 
+                      max: <%= number_to_currency(params[:funding_req_max])%>      		      
+                      <br>
+                    <%end%>                
+                <% end %>
+                <% if params[:fully_funded]%>
+                <strong>Fully funded: </strong> <%= params[:fully_funded]%>            
+                <br>
+                <% end%>                		                  
+             </div>               
+          <%end%>
+        </div>
+  
+
+
+    <%else%>
+        No results were found. Please review your search.
+    <%end%>
+    
+    
+<%end%>
+
+  <div id='filter-your-results' class='filter-your-results' onclick="Effect.SlideDown('search-bar-wrapper', { duration: 1.0 }); Effect.Appear('search-bar-wrapper',{  duration: 1.5});  Element.toggle('hider'); Element.toggle(this);">Too many results? <a href="#" >Filter your results</a></div>
 
 <% if @search.size > 0 %>
 
@@ -83,34 +86,5 @@
 </div>
 <% end %>
 <%= will_paginate @search %>
-<% @search.each do | project | @project = project%>
-
-<div class="project" id="projectInfo-<%= project.id %>">
-    <div class="columns">
-      <div class="content">
-        <div class="contentmargin">
-          <h2><%= link_to project.name, dt_project_path(project) %></h2>
-          <div class="projectRank">
-            <ul class="specList">
-              <% if project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
-              <% if project.partner_id? && project.partner %><li><span><strong>Organization:</strong> <%= link_to project.partner.name, organization_dt_project_path(project) %></span></li><% end %>
-            </ul>
-          </div>
-
-          <p><strong>Project Description:</strong> <%= project.summarized_description(50) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(project.id) %></p>
-        </div>
-      </div>
-      
-    	<div class="sidebar">
-    	  <div class="projectbuttons">
-          <% if project.fundable? %><%= link_to "<span>Gift this Project</span>", new_dt_gift_path(:project_id => project), :class => "button-gift" %><% end %>
-          <% if project.fundable? %><%= link_to "<span>Invest</span>", new_dt_investment_path(:project_id => project), :class => "button-invest" %><% end %>
-        </div>
-        <div class="quickfacts">
-        	<%= project_search_quickfacts %>
-        </div>
-    	</div>
-    </div>
-  </div>
-<%end%>
+  <%= render :partial => '/dt/projects/featured_project', :collection => @search if @search%>
 

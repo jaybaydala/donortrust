@@ -301,8 +301,9 @@ class Dt::ProjectsController < DtApplicationController
   
 
   def ultrasphinx_search(filters)
+
     if params[:order].nil?
-      @search = Ultrasphinx::Search.new(:query => @query,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending', :filters =>filters, :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
+      @search = Ultrasphinx::Search.new(:query => @query,:class_names => ['Project', 'Sector'], :sort_by => 'project_status_id',:sort_mode => 'ascending', :filters =>filters, :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
       Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
         :before_match => '<strong style="background-color:yellow;">',
         :after_match => '</strong>',
@@ -313,6 +314,7 @@ class Dt::ProjectsController < DtApplicationController
         :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
         :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
         })
+       
         @search.excerpt
         
       else
@@ -337,6 +339,7 @@ class Dt::ProjectsController < DtApplicationController
           :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
           })
           @search.excerpt      
+        
       end    
   end
 
