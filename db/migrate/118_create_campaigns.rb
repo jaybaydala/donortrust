@@ -44,6 +44,8 @@ class CreateCampaigns < ActiveRecord::Migration
       t.integer :max_participants
       t.timestamps
     end
+    
+
   end
 
   def self.down

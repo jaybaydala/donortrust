@@ -2,7 +2,6 @@ class Team < ActiveRecord::Base
   # associations
   belongs_to :campaign
   belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
-
   has_many :team_members
   has_many :users, :through => :team_members
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
@@ -11,13 +10,12 @@ class Team < ActiveRecord::Base
   attr_accessor :use_user_email, :campaign
   
   # validations
-  
   validates_presence_of :contact_email
   
-  def validate
-    @campaign = self.campaign
-    errors.add_to_base "The maximum number of teams (#{@campaign.max_number_of_teams}) has been reached for this campaign." unless not @campaign.teams_full?
-  end
+   def validate
+     campaign = self.campaign
+     errors.add_to_base "The maximum number of teams (#{campaign.max_number_of_teams}) has been reached for this campaign." unless not campaign.teams_full?
+   end
   
   def before_validation
     if use_user_email == "1"

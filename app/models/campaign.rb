@@ -91,6 +91,10 @@ class Campaign < ActiveRecord::Base
     "#{self.fundraising_goal} #{self.goal_currency}"
   end
   
+  def campaign_fee_with_currency
+    "#{self.fee_amount} #{self.fee_currency}"
+  end
+  
   def is_active?
     self.active == true
   end

@@ -52,9 +52,11 @@ ActionController::Routing::Routes.draw do |map|
     # Campaign System
     dt.resources :campaigns,  :collection => {          :update_address_details_for_country => :post, 
                                                         :update_team_config_options => :post, 
-                                                        :admin => :get,
-                                                        :validate_short_name_of => :post
-                                                        }, 
+                                                        :admin => :get
+                                                        },
+                                      :new => {
+                                        :validate_short_name_of => :post
+                                      },
                                       :member => {      :activate => :post,
                                                         :manage => :get,
                                                         :configure_filters_for => :get,
@@ -74,7 +76,14 @@ ActionController::Routing::Routes.draw do |map|
      campaigns.resources :teams
     end
     
-    dt.resources :teams, :collection => { :manage => :get }, :member => { :join => :get, :activate => :get}
+    dt.resources :teams,  :collection => { :manage => :get
+                                           },
+                          :new => {
+                                        :validate_short_name_of => :post
+                          },
+                          :member => {  :join => :get, 
+                                        :activate => :get
+                                      }
     dt.resources :teams do |teams|
         teams.resources :wall_posts
         teams.resources :news_items

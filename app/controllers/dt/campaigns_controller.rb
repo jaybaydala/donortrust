@@ -210,7 +210,6 @@ class Dt::CampaignsController < DtApplicationController
     else 
       @errors.push('The short name may not contain any reserved characters such as ?')
     end
-    puts @errors
     [@errors, @short_name]
   end
 end

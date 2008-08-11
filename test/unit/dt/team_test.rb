@@ -18,6 +18,12 @@ context "Team" do
     
     #assert
     @team_two.should.not.validate
+    teams = Team.find(:all)
+    team_one = teams[0]
+    team_two = teams[1]
+    
+    team_one = 
+    
   end
   
   specify "Should allow team creation when not at max number of teams" do
