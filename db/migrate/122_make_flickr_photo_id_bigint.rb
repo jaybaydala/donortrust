@@ -4,6 +4,7 @@ class MakeFlickrPhotoIdBigint < ActiveRecord::Migration
   end
 
   def self.down
-    change_column(:project_flickr_images, :photo_id, :int)
+    # same thing so as to not destroy data by putting values out of range of an int
+    change_column(:project_flickr_images, :photo_id, :bigint)
   end
 end
