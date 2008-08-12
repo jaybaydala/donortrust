@@ -1,7 +1,26 @@
-
 	<form method="get" name="search" id="search" action="http://www.google.com/cse">
 		<input name="q" type="text" id="searchBox" title="Search" value="Search" size="15" maxlength="30" onblur="if(!this.value)this.value='Search';" onfocus="if(this.value=='Search')this.value='';"/>
 		<span id="searchsubmit"><input type="submit" value="Go" class="submitreplace" /></span>
 		<input type="hidden" name="cx" value="018295523257149889047:dzgd_gpevyo" />
 	</form>
 
+<div id="project_search_toolbar" >
+<% form_tag (search_dt_projects_path,{:id => 'project_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
+	<%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
+		:title => 'Search', 
+		:size => 55 ,
+		:onblur =>"if(!this.value) this.value='Search';", 
+		:onfocus => "if(this.value=='Search') this.value='';"
+	%>
+	<span id="searchsubmit">
+		<%= submit_tag 'go',
+			:id => 'simple_search_submit', 
+			:class => 'submitreplace'
+		%>
+	</span>
+	<div id="adv_search_msg">
+		<%= link_to '(Advanced Search)', advancedsearch_dt_projects_path %>
+		</a>
+	</div>
+<% end -%>
+</div>

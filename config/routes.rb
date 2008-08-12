@@ -9,15 +9,18 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart'
     dt.resource :checkout
-    dt.resources :projects, :member => {  :details => :get, 
-                                          :community => :get, 
-                                          :nation => :get, 
-                                          :organization => :get, 
-                                          :connect => :get, 
-                                          :cause => :get, 
-                                          :facebook_login => :get, 
-                                          :timeline => :get },
-                            :collection => {  :search => :post,
+
+    dt.resources :projects, :member => { :details => :get, 
+                                         :community => :get, 
+                                         :nation => :get, 
+                                         :organization => :get, 
+                                         :connect => :get, 
+                                         :cause => :get, 
+                                         :facebook_login => :get, 
+                                         :timeline => :get }, 
+                            :collection => {  :search => :get,
+                                              :advancedsearch => :get, 
+                                              :add_countries => :get,
                                               :list => :get
                                           }
     dt.resources :investments, :controller => 'investments'

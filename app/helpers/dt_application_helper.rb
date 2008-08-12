@@ -60,6 +60,7 @@ module DtApplicationHelper
   def cart_empty?
     false
   end
+
   
   #
   # Shows a spinner when any active AJAX requests are running - Joe
@@ -185,4 +186,68 @@ module DtApplicationHelper
     	['Wisconsin', 'WI'], 
     	['Wyoming', 'WY']])
   end
+
+  
+  
+  # ultrasphinx simple search
+  def dt_simple_project_search
+    render :partial => 'dt/projects/search', :layout => false
+  end
+  
+  # ultrasphinx advanced search
+  # populates select boxes
+  def dt_advanced_search
+    @continents = [['All ...', '']]
+		Project.continents_all.each do |place|
+  			name = place.parent_id? ? "#{place.name} (#{Place.projects(1,place.id).size})" : "#{place.name} (#{Place.projects(1,place.id).size})"
+  			@continents << [name, place.id]
+		end
+		@partners = [['All ...', '']]
+    Project.partners.each do |partner|
+      @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:partner_id => partner.id})
+      @search.run
+      projects = @search.results
+      @partners << ["#{partner.name} (#{projects.size})", partner.id]
+    end
+    @causes = [['All ...', '']]
+    Project.causes.each do |cause|
+       @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:cause_id => cause.id})
+       @search.run
+       projects = @search.results
+       if projects.size>0
+         @causes << ["#{cause.name} (#{projects.size})", cause.id]
+       end
+    end   
+    
+    @sectors = [['All ...', '']]
+    Project.sectors.each do |sector|
+       @search = Ultrasphinx::Search.new(:class_names => ['Project'], :per_page => Project.count, :filters => {:sector_id => sector.id})
+       @search.run
+       projects = @search.results
+       if projects.size>0
+         @sectors << ["#{sector.name} (#{projects.size})", sector.id]
+       end
+    end
+     
+    render :partial => 'dt/projects/advanced_search_bar', :layout => false
+  end
+  
+  # show sector images when a project_id is given, otherwise, return all sector images
+  def sector_images(project_id=nil)
+    output = []
+    if project_id
+      sectors = Project.find(project_id).sectors
+      sectors.each do | sector|
+        output << image_tag("/images/dt/sectors/#{sector.image_name}",  :title=> sector.name, :alt => sector.name)
+      end
+    else
+      Sector.find(:all).each do |sector|
+        output << image_tag("/images/dt/sectors/#{sector.image_name}", :title=> sector.name, :alt => sector.name)
+      end
+    end
+    return output.join "\n"
+  end
+  
+
+
 end

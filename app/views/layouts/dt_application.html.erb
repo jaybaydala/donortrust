@@ -24,11 +24,17 @@
     <%= image_tag "/images/dt/feature_graphics/projectsFeature130.jpg", :alt => "A new way to give. Direct your investment in a project to a loved one." %>
   </div>
   <div id="toolbar-wrapper" class="clearfix">
-  <%- cache 'searchbar' do -%>
-    <%= dt_search_bar %>
-  <%- end -%>
+	</div>
+  <div id='search-bar-wrapper' style="display:<%= params[:filter] ? "block" : "none" %>;">
+    <%= dt_advanced_search %>
   </div>
-  
+  <% if params[:action]!='advancedsearch'%>
+    <div class='hider' id='hider'
+      onclick="Effect.SlideUp('search-bar-wrapper', { duration: 1.0 }); Effect.Fade('search-bar-wrapper',{  duration: 1.5});  Element.toggle('hider'); Element.toggle('filter-your-results');" 
+      style='display:<%= (params[:filter] && params[:action] =='search') ?   "block" : "none" %>;'>Hide filters
+    </div>
+  <% end %>
+
 <%- nav = yield :nav -%>
 <%- page_title = yield :page_title -%>
 <%- page_title = html_title if page_title.nil? || page_title.empty? -%>

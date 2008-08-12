@@ -1,19 +1,42 @@
-<%- content_for :top_content do -%>
-  <div class="columns">
-    <div class="content projectinfo">
-      <div style="margin-righ:1em;">
-        <h1>Lasting, Sustainable Results</h1>
-        <p>Help change the world by investing in projects that will help lift others out of extreme poverty. <strong>Start by using the Search Bar above</strong> to find a project that matches the places, causes, or specific organizations that interest you, or check out our 2 Featured Projects below. <strong>You can share what you find with friends or give them a gift</strong> to support whichever project they choose.</p>
-        <p>ChristmasFuture supports organizations involved in holistic approaches to walking with the poorest communities out of poverty in a lasting way. It&rsquo;s no longer enough to just do something, it&rsquo;s time we do the right things!</p>
-      </div>
+<div>
+  <h1>Project Search:</h1>
+  <div class='projects-search-home'>
+    <div>
+      <% form_tag (search_dt_projects_path,{:id => 'project_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
+      <%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
+      :title => 'Search', 
+      :size => 65 ,
+      :onblur =>"if(!this.value) this.value='Search';", 
+      :onfocus => "if(this.value=='Search') this.value='';"
+      %>
+      <span id="searchsubmit">
+        <%= submit_tag 'go',
+        :id => 'simple_search_submit', 
+        :class => 'submitreplace'
+        %>
+      </span>
     </div>
-    <div class="sidebar">
-      <div><%= link_to image_tag("/images/dt/promos/guarantee_promo.jpg", :alt => '100% Investment Guarantee - 100% of your investments go to the projects you choose.'), "http://www.christmasfuture.org/about-us/faqs/" %></div>
+    <p>Search by location, cause, or name. eg. "women education africa" <br>
+      Or try our <%= link_to 'Advanced Search', advancedsearch_dt_projects_path %>
+    </p>
+
+    <% end -%>
+  </div>
+  
+  <h3> Or list projects by:</h3>
+  <div class='projects-list-by'>
+    <div class='list-sectors'>
+      <h3>Cause/Sector</h3>
+      <%= sectors_projects %>
     </div>
   </div>
-<%- end -%>
-
-<h1>Featured Projects</h1>
-<div class="projectlist">
+  
+  <div class='list-countries'>
+  
+  </div>
+</div>
+<br>
+<h1>This Month's Featured Projects</h1>
+<div>
 <%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
 </div>

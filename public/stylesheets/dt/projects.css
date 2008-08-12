@@ -347,3 +347,88 @@ US TAXES
     padding-left:26px;
     padding-top:10px;
 }
+
+/* featured projects */
+.featured-project{
+	clear:both;
+	height: 200px;
+	padding-bottom:80px;
+}
+.project-title a{
+	text-decoration:none;
+	color:#336600;
+}
+.project-title a:hover{
+	text-decoration:underline;
+}
+
+.project-pre-info {
+	font-size: 13px;
+}
+
+.project-pre-info span strong{
+	color: #336600;
+}
+
+.project-content{
+	width:60%;
+	float:left;
+}
+
+.project-sidebar{
+	width: 35%;
+	float:right;
+}
+.project-sidebar .quickfacts ul{
+	list-style-type:none;	
+}
+
+/*
+SEARCH, layout and forms
+=====*/
+.projects-search-home{
+	text-align:center;
+}
+.projects-list-by{
+	width:500px;
+	margin: 0 auto;
+}
+
+.filter-your-results{
+	float:right;
+}
+
+.filter-your-results a{
+	text-decoration: none;
+}
+.filter-your-results a:hover{
+	text-decoration:underline;
+}
+
+form#advanced_search {
+	padding: .5em 0px;
+}
+input.adv_submitreplace {
+    border:0;
+    font-size:0;
+}
+#adv_search_msg{
+	font: 55% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+	display:inline;
+}
+
+form#project_search{
+	display:inline;
+	margin: 0 20px;
+}
+
+/* attribute selector */
+form#project_search input.submitreplace {
+    width:35px;
+    height:20px;
+	vertical-align: middle;
+	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
+}
+form#project_search input.submitreplace:hover{
+	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
+}

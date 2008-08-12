@@ -390,3 +390,29 @@ SIDEBAR FORM ELEMENTS
     width:228px;
 }
 
+
+/* ADVANCED SEARCH */
+#button_placeholder{
+	text-align:right;
+}
+.adv_submit_button {
+    width:92px;
+    height:20px;
+    background: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_grey.gif) no-repeat top left;
+	vertical-align: middle;
+}
+.adv_submit_button:hover {
+    background-image: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_blue.gif);
+}
+
+#wrapper-adv-search-box{
+	border-top: 1px solid #000;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 5px;
+}
+
+.adv-search-label{
+	font-weight: bold;
+}

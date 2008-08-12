@@ -149,14 +149,208 @@ class Dt::ProjectsController < DtApplicationController
     @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
     render :partial => 'timeline'
   end
-
+  
   def list
     @projects = Project.paginate :page => params[:page]
     render :layout => false
   end
+  
+  
+  def search
+    @query = params[:keywords].nil? ?  "" : params[:keywords]   
+    # prepare filters
+    filters = apply_filters
+    # do the search itself
+    ultrasphinx_search(filters)
+    
+    respond_to do |format|
+      format.js{
+        render :update do |page|
+          # used for ajax preview. no longer needed
+          page.replace_html "count_results_container", "#{@search.total_entries } results found"
+        end
+      }
+      format.html { render :partial => 'dt/projects/search_results', :layout => 'layouts/dt_application'}
+    end
+  end
+
+  def advancedsearch 
+    params[:filter] = true;        
+  end
+  
+  
+  #populates a select using the continent_id
+  def add_countries
+    
+    #places = Place.countries(params[:continent_id].to_i)
+    #places = Place.find(:all, :conditions => [ "parent_id = ?", params[:continent_id]  )
+    #@countries = [['Location', '']]
+    #places.each do |country|
+    #  projects = Place.projects(2,country.id)
+    #  if projects.size>0
+    #    name = country.parent_id? ? "#{country.name} (#{projects.size})" : "#{country.name} (#{projects.size})"
+    #    @countries << [name, country.id]
+    #  end
+    #end
+    
+    projects = Place.projects(1, params[:continent_id].to_i)
+    @countries = [[ 'All ...', '']]
+    projects.each do |project|
+      sum = 0
+      projects.each do |pj|
+        sum += 1 if project.place.country==pj.place.country
+      end
+      name = "#{!project.place.country.nil? ? project.nation.name : project.place.country.name} (#{sum})"
+      @countries << [name, project.place.country.id]
+    end    
+    @countries.uniq!
+    respond_to do |format|
+      format.js {
+        render :update do |page|
+          page.replace_html "country_id_container", :partial => "select_countries"
+        end
+      }
+    end
+  end
+  helper_method :add_countries
+  
+  
+  
+  protected  
+  
+  def apply_filters
+    filters = Hash.new
+    # partner
+    if params[:organization_selected]
+      if !params[:partner_id].nil? && !params[:partner_id].empty?
+        filters.merge!({:partner_id => params[:partner_id].to_i})
+      end
+    end
+    
+    # cause 
+    if params[:cause_selected]
+      if !params[:cause_id].nil? && !params[:cause_id].empty?
+        filters.merge!({:cause_id => params[:cause_id].to_i} )
+      end
+    end
+    
+    # sector
+    if params[:cause_selected]
+      if !params[:sector_id].nil? && !params[:sector_id].empty?
+        filters.merge!({:sector_id => params[:sector_id].to_i} )
+      end
+    end
+    
+    # total_cost
+    if params[:funding_req_selected]
+      if (!params[:funding_req_min].nil? && !params[:funding_req_min].empty?)|| (!params[:funding_req_max].nil? && !params[:funding_req_max].empty?)
+      
+        if !params[:funding_req_max].nil? && !params[:funding_req_max].empty?
+        
+          if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
+            filters.merge!(:total_cost => params[:funding_req_min].to_f..params[:funding_req_max].to_f)
+          else
+            filters.merge!(:total_cost => 0..params[:funding_req_max].to_f)
+          end
+        
+        else
+          if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
+            filters.merge!(:total_cost => params[:funding_req_min].to_f..Float::MAX.to_f)
+          end
+       
+        end
+      end
+    end
+    
+    #fully funded
+    if !params[:fully_funded].nil? && ! params[:fully_funded].empty?
+      @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count)
+      @search.run
+      projects = @search.results
+      sel_ff_projects =[]
+      projects.each do |project|
+        sel_ff_projects << project if project.current_need.to_f<=0.0
+      end
+      if !sel_ff_projects.nil?
+        ids = []
+        sel_ff_projects.each do |project|
+          ids << project.created_at
+        end
+        filters.merge!(:created_at => ids)
+      end
+    end
+    
+    if !params[:continent_id].nil? && !params[:continent_id].empty? && !params[:country_id].nil? && !params[:country_id].empty?
+      sel_projects = []
+      sel_projects = Place.projects(2, params[:country_id].to_i)
+     
+    else
+      if !params[:continent_id].nil? && !params[:continent_id].empty?
+        if params[:continent_selected]
+          sel_projects = []
+          sel_projects = Place.projects(1, params[:continent_id].to_i)        
+        end
+      end
+    end
+    
+    if !sel_projects.nil?
+      ids = []
+      sel_projects.each do |project|  
+        ids << project.place_id
+      end
+      filters.merge!(:place_id => ids)
+    end
+    return filters
+  end
+  
+  
+
+  def ultrasphinx_search(filters)
+
+    if params[:order].nil?
+      @search = Ultrasphinx::Search.new(:query => @query,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending', :filters =>filters, :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
+      Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
+        :before_match => '<strong style="background-color:yellow;">',
+        :after_match => '</strong>',
+        :chunk_separator => "...",
+        :limit => 256,
+        :around => 3,
+        :sort_mode => 'relevance' ,
+        :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+        :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
+        })
+       
+        @search.excerpt
+        
+      else
+        # order results
+        order_map = {
+              "newest" => "created_at", 
+              "target_start_date" => "target_start_date", 
+              "total_cost" => "total_cost", 
+              "partner_name" => "partner_name", 
+              "place_name" => "place_name"
+        }
+       
+        order = order_map[params[:order]] if order_map.has_key?(params[:order])
+        @search = Ultrasphinx::Search.new(:query => @query,:filters =>filters,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending',:sort_by => order, :sort_mode => 'ascending',  :per_page => 5,  :page => (params[:page].nil? ? '1': params[:page]  ) )
+        Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
+          :before_match => '<strong style="background-color:yellow;">',
+          :after_match => '</strong>',
+          :chunk_separator => "...",
+          :limit => 256,
+          :around => 3,
+          :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+          :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
+          })
+          @search.excerpt      
+        
+      end    
+  end
 
 
-  protected
+
+
   def project_id_to_session
     logger.debug '#####################'
     logger.debug 'FACEBOOK PROJECT_ID'

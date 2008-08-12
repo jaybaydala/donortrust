@@ -37,25 +37,53 @@ class Project < ActiveRecord::Base
   
   # ultrasphinx indexer configuration
   #sphinx
-  #is_indexed :fields => ['name', 
-  #  'description', 
-  #  'note', 
-  #  'intended_outcome', 
-  #  'meas_eval_plan', 
-  #  'project_in_community',
-  #  'total_cost'],
-  #  :include => [{:class_name => 'Place', 
-  #          :field => 'places.name', 
-  #          :as => 'place_name', 
-  #          :association_sql => "LEFT JOIN (places) ON (places.id=projects.place_id)"
-  #        },
-  #        {:class_name => 'Partner', 
-  #          :field => 'partners.name', 
-  #          :as => 'partner_name', 
-  #          :association_sql => "LEFT JOIN (partners) ON (partners.id=projects.partner_id)"
-  #        }
-  #        ],
-  #   :conditions => "project_status_id = 2 AND projects.deleted_at IS NULL"
+  is_indexed :fields => [
+    {:field => 'name', :sortable => true}, 
+    {:field => 'description'}, 
+    {:field => 'note'}, 
+    {:field =>'intended_outcome'}, 
+    {:field => 'meas_eval_plan'}, 
+    {:field => 'project_in_community'},
+    {:field => 'total_cost'},
+    {:field => 'target_start_date'},
+    {:field => 'project_status_id'},
+    {:field => 'created_at'}
+    ],
+    :include => [
+          {:class_name => 'Place', 
+            :field => 'places.name', 
+            :as => 'place_name', 
+            :association_sql => "LEFT JOIN (places) ON (places.id=projects.place_id)",
+            :sortable => true
+          },
+          {:class_name => 'Place', 
+            :field => 'id', 
+            :as => 'place_id'
+          },
+          {:class_name => 'Partner', 
+            :field => 'partners.name', 
+            :as => 'partner_name', 
+            :association_sql => "LEFT JOIN (partners) ON (partners.id=projects.partner_id)",
+            :sortable => true
+          },
+          {:class_name => 'Partner', 
+            :field => 'id', 
+            :as => 'partner_id'
+          },
+          {   
+            :class_name => 'Sector',
+            :field => 'id',
+            :as => 'sector_id',
+            :association_sql => "left join projects_sectors on projects.id=projects_sectors.project_id  left join sectors on sectors.id=projects_sectors.sector_id"
+          },
+          {
+            :association_name => 'causes', 
+            :field => 'id', 
+            :as => 'cause_id',
+            :association_sql => "LEFT JOIN (causes_projects) ON (causes_projects.project_id=projects.id) LEFT JOIN (causes) ON (causes.id=causes_projects.cause_id)"
+          }
+          ],
+    :conditions => "project_status_id IN (2,4) AND projects.deleted_at IS NULL"
   
   def startDate
     "#{self.start_date}"
@@ -139,6 +167,21 @@ class Project < ActiveRecord::Base
       end
       @continents
     end
+    
+    def continents_all
+      if @continents.nil?
+        @continents = []
+        Project.find_public(:all, :include => :place).each do |project|
+          if project.community_id? && project.community
+            project.place.ancestors.each do |ancestor|
+              @continents << ancestor and break if ancestor.place_type_id == 1 && !@continents.include?(ancestor)
+            end
+          end
+        end
+        @continents.sort!{|x,y| x.name <=> y.name}
+      end
+      @continents
+    end
 
     def countries
       if @countries.nil?
@@ -166,6 +209,19 @@ class Project < ActiveRecord::Base
         @causes.sort!{|x,y| x.name <=> y.name}
       end
       @causes
+    end
+    
+    def sectors
+      if @sectors.nil?
+        @sectors = []
+        Project.find_public(:all, :include => :sectors).each do |project|
+          project.sectors.each do |sector|
+            @sectors << sector unless @sectors.include?(sector)
+          end
+        end
+        @sectors.sort!{|x,y| x.name <=> y.name}
+      end
+      @sectors
     end
     
     def partners

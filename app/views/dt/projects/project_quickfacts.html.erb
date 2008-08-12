@@ -1,15 +1,9 @@
 <h2>Quick Facts</h2>
 <ul>
-  <% if @project.community_id? || @project.nation_id? %><li><strong>Location:</strong> 
-    <% if @project.community_id? %><%= link_to @project.community.name, community_dt_project_path(@project) %><% end %>
-    <% if @project.nation_id? %><%= ', ' if @project.community_id?  %>
-      <%= link_to @project.nation.name, nation_dt_project_path(@project) %>
-    <% end %></li><% end %>
-  <% if @project.causes.size > 0 %><li><strong>Cause(s):</strong> <%= render :partial => 'dt/projects/cause', :collection => @project.causes %></li><% end %>
-  <% if @project.community_id? %><li><strong>Community Projects:</strong> <%= @project.community_project_count %></li><% end %>
   <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
   <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
-  <li><strong>Dollars Spent:</strong> <%= number_to_currency(@project.dollars_spent) %></li>
   <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
+  <!-- <li><strong>Dollars Spent:</strong> <%= number_to_currency(@project.dollars_spent) %></li> -->
+  
   <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %></li>
 </ul>

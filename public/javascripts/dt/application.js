@@ -102,3 +102,29 @@ SubmitButton.prototype = {
 		this.form.submit();
 	}
 }
+
+/* ADVANCED SEARCH */
+function assign_selected(elem, label){
+	obj = label+'_selected';
+	if (label=='funding_req'){
+		if($('funding_req_max').value=='' && $('funding_req_min').value==''){
+			$(obj).value     = '0';
+			$(obj).checked   = false;
+			$(obj).innerHTML = obj;
+		}else{
+			$(obj).value     = '1';
+			$(obj).checked   = true;
+			$(obj).innerHTML = $('obj');
+		}
+	}else{
+		if (elem.value==0){
+			$(obj).value     = '0';
+			$(obj).checked   = false;
+			$(obj).innerHTML = $('obj');
+		} else {
+			$(obj).value     = '1';
+			$(obj).checked   = true;
+			$(obj).innerHTML = $('obj');
+		}
+	}
+}

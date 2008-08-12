@@ -26,6 +26,13 @@ class Place < ActiveRecord::Base
 
   acts_as_textiled :description
   
+  is_indexed :fields => [
+    {:field => 'name', :sortable => true},
+    {:field => 'parent_id', :as => 'continent'}
+    ],
+    :conditions => 'place_type_id=2'
+
+  
   def Place.getParentString(place)
     parentString = ""
     
@@ -70,4 +77,60 @@ class Place < ActiveRecord::Base
     return true if self[:file].match /\.(jpg|gif|png)$/ 
     return false
   end
+  
+  def country
+    ancestors = self.ancestors
+    ancestors.each do |ancestor|
+      if ancestor.place_type_id==2
+        return ancestor
+      end
+    end
+  end
+  
+  def continent
+    ancestors = self.ancestors
+    ancestors.each do |ancestor|
+      if ancestor.place_type_id==1
+        return ancestor
+      end
+    end
+  end
+  
+  def Place.projects(type_id, place_id, continent_id=nil)
+    sel_projects = []
+    @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count)
+    @search.run
+    all_projects = @search.results
+  
+    all_projects.each do |project|
+      if type_id==2
+        if project.place.country.id == place_id.to_i
+          sel_projects << project
+        end
+        
+      end
+      if type_id==1 
+        if project.place.continent.id == place_id.to_i
+          sel_projects << project
+        end
+        
+      end
+            
+      #project.place.ancestors.each do |ancestor|
+      #  if ancestor.place_type_id == type_id.to_i && ancestor.id == place_id.to_i 
+      #    sel_projects << project
+      #  end
+      #end
+    end
+    return sel_projects
+  end
+  
+  #just for use with ultrasphinx
+  def Place.countries(continent_id)
+      @search = Ultrasphinx::Search.new(:class_names => 'Place', :per_page => Place.count, :filters => {'continent' =>  continent_id})
+      @search.run
+      places = @search.results
+      return places
+  end
+
 end
