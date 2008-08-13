@@ -21,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
                             :collection => {  :search => :get,
                                               :advancedsearch => :get, 
                                               :add_countries => :get,
+                                              :add_causes => :get,
                                               :list => :get
                                           }
     dt.resources :investments, :controller => 'investments'

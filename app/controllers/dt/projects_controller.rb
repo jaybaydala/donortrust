@@ -155,11 +155,13 @@ class Dt::ProjectsController < DtApplicationController
     render :layout => false
   end
   
-  
+  # Ultrasphinx search - First apply filters, then, depending on sorting mode, do the ultrasphinx search
   def search
     @query = params[:keywords].nil? ?  "" : params[:keywords]   
-    # prepare filters
+    
+    # prepare filters 
     filters = apply_filters
+    
     # do the search itself
     ultrasphinx_search(filters)
     
@@ -173,13 +175,14 @@ class Dt::ProjectsController < DtApplicationController
       format.html { render :partial => 'dt/projects/search_results', :layout => 'layouts/dt_application'}
     end
   end
-
+  
+  # advanced search with ultrasphinx.
   def advancedsearch 
     params[:filter] = true;        
   end
   
   
-  #populates a select using the continent_id
+  #populates the country select using the continent_id
   def add_countries
     
     #places = Place.countries(params[:continent_id].to_i)
@@ -193,6 +196,7 @@ class Dt::ProjectsController < DtApplicationController
     #  end
     #end
     
+    #TODO after Adrian migration fix, needed to refactor 
     projects = Place.projects(1, params[:continent_id].to_i)
     @countries = [[ 'All ...', '']]
     projects.each do |project|
@@ -214,6 +218,36 @@ class Dt::ProjectsController < DtApplicationController
   end
   helper_method :add_countries
   
+  # populates the cause select using the sector_id
+  def add_causes
+    # pega todas causas com sector_id
+    # pra cada causa, veja quantos projetos
+    @causes = [['All ...', '']]
+    #@search = Ultrasphinx::Search.new(:class_names => ['Project'], :per_page => Project.count, :filters => {:sector_id => params[:sector_id].to_i })
+    #@search.run
+    causes = Cause.find_by_sector_id(params[:sector_id]) if params[:sector_id]
+    causes.to_a.each do |cause|
+      if cause.projects.size>0
+        @causes << ["#{cause.name} (#{cause.projects.size})", cause.id] 
+      end
+    end
+    @causes
+    
+    
+    #@search.results.each do |cause|
+    #  if cause.projects.size>0
+    #    @causes << ["#{cause.name} (#{cause.projects.size})", cause.id]
+    #  end
+    #end
+    respond_to do |format|
+      format.js {
+        render :update do |page|
+          page.replace_html "cause_id_container", :partial => "select_causes"
+        end
+      }
+    end
+  end
+  helper_method :add_causes
   
   
   protected  

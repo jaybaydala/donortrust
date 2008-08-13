@@ -1,0 +1,1 @@
+<%= select_tag "cause_id", options_for_select(@causes, params[:cause_id].to_i), :onchange => "assign_selected(this, 'cause');ajaxSubmit();" %>

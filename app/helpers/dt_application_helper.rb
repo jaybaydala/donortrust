@@ -209,24 +209,21 @@ module DtApplicationHelper
       projects = @search.results
       @partners << ["#{partner.name} (#{projects.size})", partner.id]
     end
-    @causes = [['All ...', '']]
-    Project.causes.each do |cause|
-       @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:cause_id => cause.id})
-       @search.run
-       projects = @search.results
-       if projects.size>0
-         @causes << ["#{cause.name} (#{projects.size})", cause.id]
-       end
-    end   
+    #@causes = [['All ...', '']]
+    #Project.causes.each do |cause|
+    #   @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:cause_id => cause.id})
+    #   @search.run
+    #   projects = @search.results
+    #   if projects.size>0
+    #     @causes << ["#{cause.name} (#{projects.size})", cause.id]
+    #   end
+    #end   
     
     @sectors = [['All ...', '']]
-    Project.sectors.each do |sector|
-       @search = Ultrasphinx::Search.new(:class_names => ['Project'], :per_page => Project.count, :filters => {:sector_id => sector.id})
-       @search.run
-       projects = @search.results
-       if projects.size>0
-         @sectors << ["#{sector.name} (#{projects.size})", sector.id]
-       end
+    Sector.find(:all).each do |sector|
+      if sector.projects.size>0
+         @sectors << ["#{sector.name} (#{sector.projects.size})", sector.id]
+      end
     end
      
     render :partial => 'dt/projects/advanced_search_bar', :layout => false
