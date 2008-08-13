@@ -14,6 +14,8 @@ class Project < ActiveRecord::Base
   belongs_to :program
   belongs_to :partner
   belongs_to :place
+  belongs_to :country, :class_name => "Place"
+  belongs_to :continent, :class_name => "Place"
   belongs_to :contact
   belongs_to :frequency_type
   has_many :administrations, :as => :administrable
@@ -362,13 +364,11 @@ class Project < ActiveRecord::Base
   end
   
   def nation
-    if @nation.nil? && place_id? && place
-      return place if place.place_type_id == 2
-      place.ancestors.reverse.each do |ancestor|
-        return ancestor if ancestor.place_type_id? && ancestor.place_type_id == 2
-      end
+    if place.place_type_id == 2
+      place
+    else
+      country
     end
-    @nation
   end
   
   def current_need
