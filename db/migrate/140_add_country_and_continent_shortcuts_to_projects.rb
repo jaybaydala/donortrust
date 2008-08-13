@@ -3,7 +3,6 @@ class AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
     add_column :projects, :continent_id, :integer
     add_column :projects, :country_id, :integer
 
-    add_column :project_versions, :short_description, :string, :limit => 255
     add_column :project_versions, :continent_id, :integer
     add_column :project_versions, :country_id, :integer
 
@@ -11,10 +10,10 @@ class AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
       Project.find(:all).each do |p|
         # find the country through place shortcuts
         country = Place.find(p.place.country_id)
-        
+
         p.country_id = country.id
         p.continent_id = country.parent_id
-        
+
         p.save!
       end
     end
@@ -24,7 +23,6 @@ class AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
     remove_column :projects, :country_id
     remove_column :projects, :continent_id
 
-    remove_column :project_versions, :short_description
     remove_column :project_versions, :country_id
     remove_column :project_versions, :continent_id
   end
