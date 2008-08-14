@@ -6,6 +6,8 @@ class AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
     add_column :project_versions, :continent_id, :integer
     add_column :project_versions, :country_id, :integer
 
+    Place.reset_column_information
+
     say_with_time "Adding country and continent ID shortcuts to projects..." do
       Project.find(:all).each do |p|
         # find the country through place shortcuts
