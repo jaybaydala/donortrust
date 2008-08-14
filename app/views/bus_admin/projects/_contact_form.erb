@@ -1,0 +1,1 @@
+<%= collection_select (:project, :contact_id, get_contacts(@partner_id || partner_id), :id, :fullname, :include_blank => true) %>

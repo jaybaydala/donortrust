@@ -128,7 +128,7 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/millennium_goals/recover_record', :controller => 'bus_admin/millennium_goals', :action => 'recover_record'
   map.recover_record 'bus_admin/measures/recover_record', :controller => 'bus_admin/measures', :action => 'recover_record'
   map.inactive_records 'bus_admin/measures/inactive_records', :controller => 'bus_admin/measures', :action => 'inactive_records'
-   map.inactive_records 'bus_admin/causes/inactive_records', :controller => 'bus_admin/causes', :action => 'inactive_records'
+  map.inactive_records 'bus_admin/causes/inactive_records', :controller => 'bus_admin/causes', :action => 'inactive_records'
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
  
   # bus_admin resources
@@ -163,12 +163,9 @@ ActionController::Routing::Routes.draw do |map|
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
   
   map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
-  map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
-  map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
-  map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
+  map.add_measure 'bus_admin/key_measures/add_measure', :controller => 'bus_admin/key_measures', :action => 'add_measure'
   
-  map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :bus_user_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_user_types"
   map.resources :bus_secure_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_secure_actions"
@@ -332,6 +329,7 @@ ActionController::Routing::Routes.draw do |map|
   map.stats 'bus_admin/stats', :controller => 'bus_admin/stats', :action => 'index'
   map.auto_complete_for_place_name 'auto_complete_for_place_name', :controller => 'bus_admin/projects', :action => 'auto_complete_for_place_name'
   map.update_location 'update_location', :controller => 'bus_admin/projects', :action => 'update_location'
+  map.update_partner 'update_partner', :controller => 'bus_admin/projects', :action => 'update_partner'
 
   map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'

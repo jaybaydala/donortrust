@@ -32,8 +32,8 @@ module BusAdmin::ProjectsHelper
     Partner.find(:all)
   end
   
-  def get_contacts
-    Contact.find(:all)
+  def get_contacts(partner_id)
+    Partner.find(partner_id).contacts
   end
   
   def get_programs

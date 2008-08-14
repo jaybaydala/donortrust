@@ -165,6 +165,10 @@ class User < ActiveRecord::Base
     @activated
   end
   
+  def cf_admin?
+    self.roles.member? Role.find(:first, :conditions => "title = 'cf_admin'")
+  end
+  
   # Returns true if the user has just been activated.
   def recently_activated?
     @activated

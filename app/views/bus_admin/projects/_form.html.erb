@@ -8,12 +8,14 @@
 	  <li><a href="#details" id="tab_details" class="tab">Details</a></li>
 	  <li><a href="#plan" id="tab_plan" class="tab">Plan &amp; Evaluation</a></li>
 	  <li><a href="#media" id="tab_media" class="tab">Media</a></li>
-	  <li><a href="#internal" id="tab_internal" class="tab">Internal</a></li>
+	  <li><a href="#internal" id="tab_submit" class="tab">Submission</a></li>
+	<% if @user.cf_admin? -%>
 	  <li><a href="#cfadmin" id="tab_cfadmin" class="tab">CF Admin</a></li>
+	<% end -%>
 	</ul>
 	
 	<fieldset class="sheet" id="panel_basic">
-		<legend class="sheet_heading">x of x: General Project Information</legend>
+		<legend class="sheet_heading">1 of 5: General Project Information</legend>
 		<p>At first please provide the basic information about your planned project.</p> 
 	
 		<p><strong>Important</strong>: Be aware of that all projects <strong>must</strong> be presented on a community or municipality basis. Furthermore, always break projects up into manageable pieces that are attainable for donors to understand and support. Large scale projects <strong>must</strong> always be broken up into smaller pieces.</p>
@@ -43,8 +45,6 @@
 				<div class="group" id="project_location_form">
 					<%= render :partial => 'location_form', :locals => {:project  => @project} %>
 				</div>
-				<%# render :partial => 'bus_admin/shared/generic_place_form_column', :locals => { :item => @project, :named_route => 'populate_project_places' }  %>
-				<%# collection_select (:project, :place_id, get_places, :id, :long_name, :include_blank => true) %>
 			</li>
 
 			<li>
@@ -80,7 +80,52 @@
 				</div>
 			</li>
 		</ul>
+		
+		<ul class="form">
+			<li>
+				<label for="project_program_id" class="title">
+					<%= render :partial => 'dt/shared/form_required' %>Program
+					<small>Select associated program</small>
+				</label>
+				<%= collection_select (:project, :program_id, get_programs, :id, :name, :include_blank => true) %>
+			</li>
 
+		<% if @user.cf_admin? -%>
+			<li>
+				<label for="project_partner_id" class="title">
+					<%= render :partial => 'dt/shared/form_required' %>Partner
+					<small>Select partner who is responsible</small>
+				</label>
+				<%= collection_select (:project, :partner_id, get_partners, :id, :name, :include_blank => true) %>
+				
+				<%= observe_field :project_partner_id,
+								  :url => update_partner_path,
+								  :with => "'partner=' + escape(value)",
+								  :update => :project_contact_form %>
+			</li>
+		<% end -%>
+
+			<li>
+				<label for="project_contact_id" class="title">
+					Contact
+					<small>Select contact for this project</small>
+				</label>
+				<div class="group" id="project_contact_form">
+					<%= render :partial => 'contact_form', :locals => {:partner_id  => @project.partner_id} %>
+				</div>
+			</li>
+
+			<li>
+				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
+			</li>
+		</ul>
+	</fieldset>
+
+	<fieldset class="sheet" id="panel_details">
+		<legend class="sheet_heading">2 of 5: Project Details</legend>
+	
+		<p>In this section, ...</p>
+	
 		<ul class="form">
 			<li>
 				<label for="project_lives_affected" class="title">
@@ -114,43 +159,7 @@
 				<%= calendar_date_select :project, :target_end_date %>
 			</li>
 		</ul>
-		
-		<ul class="form">
-			<li>
-				<label for="project_program_id" class="title">
-					<%= render :partial => 'dt/shared/form_required' %>Program
-					<small>Select associated program</small>
-				</label>
-				<%= collection_select (:project, :program_id, get_programs, :id, :name, :include_blank => true) %>
-			</li>
 
-			<li>
-				<label for="project_partner_id" class="title">
-					<%= render :partial => 'dt/shared/form_required' %>Partner
-					<small>Select partner who is responsible</small>
-				</label>
-				<%= collection_select (:project, :partner_id, get_partners, :id, :name, :include_blank => true) %>
-			</li>
-
-			<li>
-				<label for="project_contact_id" class="title">
-					Contact
-					<small>Select contact for this project</small>
-				</label>
-				<%= collection_select (:project, :contact_id, get_contacts, :id, :fullname, :include_blank => true) %>
-			</li>
-
-			<li>
-				<%= submit_tag "Save and continue", :class => 'buttonsubmit' %>
-			</li>
-		</ul>
-	</fieldset>
-
-	<fieldset class="sheet" id="panel_details">
-		<legend class="sheet_heading">x of x: Project Details</legend>
-	
-		<p>In this section, ...</p>
-	
 		<ul class="form">
 			<li>			
 				<label class="title">
@@ -189,7 +198,7 @@
 	</fieldset>
 
 	<fieldset class="sheet" id="panel_plan">
-		<legend class="sheet_heading">x of x: Project Plan</legend>
+		<legend class="sheet_heading">3 of 5: Project Plan</legend>
 		
 		<p>Plan... In this section, ...</p>
 
@@ -224,7 +233,7 @@
 	</fieldset>
 
 	<fieldset class="sheet" id="panel_media">
-		<legend class="sheet_heading">x of x: Media</legend>
+		<legend class="sheet_heading">4 of 5: Media</legend>
 		
 		<p>Plan... In this section, ...</p>
 
@@ -262,8 +271,8 @@
 
 	</fieldset>
 
-	<fieldset class="sheet" id="panel_internal">
-		<legend class="sheet_heading">x of x: Internal</legend>
+	<fieldset class="sheet" id="panel_submit">
+		<legend class="sheet_heading">5 of 5: Submission</legend>
 
 		<p>In this section, ...</p>
 		
@@ -298,13 +307,22 @@
 		</ul>
 	</fieldset>
 
+<% if @user.cf_admin? -%>
 	<fieldset class="sheet" id="panel_cfadmin">
-		<legend class="sheet_heading">x of x: CF Admin</legend>
+		<legend class="sheet_heading">CF Admin</legend>
 
-		<p>These fields can only be modified by CF Admins.</p>
+		<p>These fields can only be modified by CF Admins and are invisible to other users.</p>
 		 	  
 		<ul class="form">
-			<li>	
+			<li>
+				<label for="project_is_subagreement_signed" class="title">
+					Subagreement signed
+					<small>Check if sub agreement for this project has been signed</small>
+				</label>
+				<%= f.check_box :is_subagreement_signed %>
+			</li>
+
+			<li>
 				<label for="project_public" class="title">
 					Public flag
 					<small>Check if project is visible publicly</small>
@@ -325,6 +343,7 @@
 			</li>
 		</ul>
 	</fieldset>
+<% end -%>
 
 	<% #TODO: improve = periodically_save_form('project-form', "/bus_admin/projects/#{@project.id}", 60) %>
 <% end -%>

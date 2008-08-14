@@ -74,10 +74,8 @@ class BusAdmin::ProjectsController < ApplicationController
   #############################################################################
 
   # called for GET on bus_admin/project
-  def index2
-    # TODO: only list projects that the user has access to
-    
-    @projects = Project.find(:all)
+  def index
+    @projects = current_user.administrated_projects
     respond_to do |format|
       format.html
     end
@@ -116,6 +114,9 @@ class BusAdmin::ProjectsController < ApplicationController
 
   # called for GET on edit_bus_admin_project_path(:id => 1)
   def edit
+    session['project_id'] = params[:id]
+    
+    @user = current_user
     @project = Project.find(params[:id])
 
     begin
@@ -166,13 +167,25 @@ class BusAdmin::ProjectsController < ApplicationController
       @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id if params[:place]
       #Hack - if we don't do this, the textiled properties are added with tags to the xml
       @project.textiled = false
-      #create a new PendingProject to hold the requested changes
-      @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => false)
-      if @pending.save                            
-        flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
-        redirect_to edit_bus_admin_project_path(@project)
+      
+      if current_user.cf_admin?
+        # changes by cf admins are reflected immediately on the website
+        if @project.save
+          flash[:notice] = 'Project was successfully updated and changes will appear publicly immediately.'
+          redirect_to edit_bus_admin_project_path(@project)
+        else
+          render :action => "edit"
+        end
       else
-        render :action => "edit"
+        
+        #create a new PendingProject to hold the requested changes
+        @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => false)
+        if @pending.save                            
+          flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
+          redirect_to edit_bus_admin_project_path(@project)
+        else
+          render :action => "edit"
+        end
       end
     end
   end
@@ -182,6 +195,19 @@ class BusAdmin::ProjectsController < ApplicationController
   # management of pending projects
   # TODO for Adrian: integrate properly
   #############################################################################
+
+  def delete_pending
+    project = Project.find(params[:id])
+
+    begin
+      pending = PendingProject.find_by_project_id(project.id)
+      pending.delete if pending
+    rescue ActiveRecord::RecordNotFound
+      #swallow - just means there was no old pending record
+    end
+
+    redirect_to edit_bus_admin_project_path(project)
+  end
   
   def show_pending_project_rejection
     begin
@@ -335,6 +361,12 @@ class BusAdmin::ProjectsController < ApplicationController
     @project.country_id = params[:country] if params[:country]
 
     render :partial => "bus_admin/projects/location_form"
+  end
+
+  def update_partner
+    @partner_id = params[:partner]
+
+    render :partial => "bus_admin/projects/contact_form"
   end
   
   def report

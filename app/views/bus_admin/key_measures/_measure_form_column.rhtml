@@ -1,0 +1,18 @@
+<dl>
+	<dt><label>Measure</label></dt>
+	<dd>
+	<% if session['project_id'] && Project.find(session['project_id']).partner -%>
+		<% partner_id = Project.find(session['project_id']).partner.id %>
+		<%= select 'record', 'measure', Measure.find(:all, :conditions => ["partner_id = ?", partner_id]).collect {|m| [ m.description, m.id ] } %>
+		<%= link_to_remote	"add new",
+		   					:before => "$name = prompt('Name?')",
+							:url => add_measure_path,
+							:with => "'partner=#{partner_id}&name=' + escape($name)",
+							:complete => visual_effect(:highlight, 'record_measure'),
+							:update => 'record_measure' %>
+	<% else -%>
+		<strong>Please select a partner for this project first and click on save.</strong>
+	<% end -%>
+	</dd>
+</dl>
+
