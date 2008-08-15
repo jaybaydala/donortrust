@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
       :description => :description
     })
   acts_as_paranoid_versioned
- 
+
   has_one :pending_project
   belongs_to :project_status
   belongs_to :program
@@ -34,17 +34,17 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
-  
+
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
-  
+
   # ultrasphinx indexer configuration
   #sphinx
   is_indexed :fields => [
-    {:field => 'name', :sortable => true}, 
-    {:field => 'description'}, 
-    {:field => 'note'}, 
-    {:field =>'intended_outcome'}, 
-    {:field => 'meas_eval_plan'}, 
+    {:field => 'name', :sortable => true},
+    {:field => 'description'},
+    {:field => 'note'},
+    {:field =>'intended_outcome'},
+    {:field => 'meas_eval_plan'},
     {:field => 'project_in_community'},
     {:field => 'total_cost'},
     {:field => 'target_start_date'},
@@ -52,50 +52,50 @@ class Project < ActiveRecord::Base
     {:field => 'created_at'}
     ],
     :include => [
-          {:class_name => 'Place', 
-            :field => 'places.name', 
-            :as => 'place_name', 
+          {:class_name => 'Place',
+            :field => 'places.name',
+            :as => 'place_name',
             :association_sql => "LEFT JOIN (places) ON (places.id=projects.place_id)",
             :sortable => true
           },
-          {:class_name => 'Place', 
-            :field => 'id', 
+          {:class_name => 'Place',
+            :field => 'id',
             :as => 'place_id'
           },
-          {:class_name => 'Partner', 
-            :field => 'partners.name', 
-            :as => 'partner_name', 
+          {:class_name => 'Partner',
+            :field => 'partners.name',
+            :as => 'partner_name',
             :association_sql => "LEFT JOIN (partners) ON (partners.id=projects.partner_id)",
             :sortable => true
           },
-          {:class_name => 'Partner', 
-            :field => 'id', 
+          {:class_name => 'Partner',
+            :field => 'id',
             :as => 'partner_id'
           },
-          {   
+          {
             :class_name => 'Sector',
             :field => 'id',
             :as => 'sector_id',
             :association_sql => "left join projects_sectors on projects.id=projects_sectors.project_id  left join sectors on sectors.id=projects_sectors.sector_id"
           },
           {
-            :association_name => 'causes', 
-            :field => 'id', 
+            :association_name => 'causes',
+            :field => 'id',
             :as => 'cause_id',
             :association_sql => "LEFT JOIN (causes_projects) ON (causes_projects.project_id=projects.id) LEFT JOIN (causes) ON (causes.id=causes_projects.cause_id)"
           }
           ],
     :conditions => "project_status_id IN (2,4) AND projects.deleted_at IS NULL"
-  
+
   def startDate
     "#{self.start_date}"
   end
-  
+
   validates_presence_of :total_cost
   validates_presence_of :dollars_spent
   validates_presence_of :name
   validates_presence_of :place_id
-  validates_presence_of :target_start_date  
+  validates_presence_of :target_start_date
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -111,7 +111,7 @@ class Project < ActiveRecord::Base
     unless me.place( true )
       me.errors.add :place_id, 'does not exist'
     end
-    
+
     #need to validate the presence of other featured projects
     #  there cannot be more than 5 featured projects
     if me.featured == true
@@ -120,7 +120,7 @@ class Project < ActiveRecord::Base
         me.errors.add "There are already 5 featured projects. This project "
       end
     end
-  end  
+  end
 
  # def validate
  #   errors.add(:place_id, "must be a city/village.") if place && place.place_type_id != 6
@@ -141,7 +141,7 @@ class Project < ActiveRecord::Base
         find *args
       end
     end
-    
+
     def continents_and_countries
       if @continents_and_countries.nil?
         @continents_and_countries = []
@@ -154,7 +154,7 @@ class Project < ActiveRecord::Base
       end
       @continents_and_countries
     end
-    
+
     def continents
       if @continents.nil?
         @continents = []
@@ -169,7 +169,7 @@ class Project < ActiveRecord::Base
       end
       @continents
     end
-    
+
     def continents_all
       if @continents.nil?
         @continents = []
@@ -199,7 +199,7 @@ class Project < ActiveRecord::Base
       end
       @countries
     end
-    
+
     def causes
       if @causes.nil?
         @causes = []
@@ -212,7 +212,7 @@ class Project < ActiveRecord::Base
       end
       @causes
     end
-    
+
     def sectors
       if @sectors.nil?
         @sectors = []
@@ -225,7 +225,7 @@ class Project < ActiveRecord::Base
       end
       @sectors
     end
-    
+
     def partners
       if @partners.nil?
         @partners = []
@@ -235,7 +235,7 @@ class Project < ActiveRecord::Base
       end
       @partners
     end
-    
+
     def featured_projects
       projects = Project.find_public(:all, :conditions => { :featured => 1 })
       projects = Project.find_public(:all, :limit => 3) if projects.size == 0
@@ -249,13 +249,13 @@ class Project < ActiveRecord::Base
     end
     false
   end
-  
+
   def fundable?
     return false if self[:project_status_id] != 2
     return false if current_need <= 0
     return true
   end
-  
+
   def summarized_description(length = 50)
     return unless self.description?
     if @summarized_description.nil?
@@ -266,7 +266,7 @@ class Project < ActiveRecord::Base
     end
     @summarized_description
   end
-  
+
   def publicly_visible?
     #publicly visible by default
     visible = true
@@ -282,23 +282,23 @@ class Project < ActiveRecord::Base
     end
     visible
   end
-  
+
   def modified_and_unapproved?
     pending_project && !pending_project.is_new && !pending_project.rejected && pending_project.rejector.nil? && pending_project.date_rejected.nil? && pending_project.rejection_reason.nil?
   end
-  
+
   def has_pending?
-    pending_project  
+    pending_project
   end
-  
+
   def new_and_unapproved?
     pending_project && pending_project.is_new && !pending_project.rejected && pending_project.rejector.nil? && pending_project.date_rejected.nil? && pending_project.rejection_reason.nil?
   end
-  
+
   def modified_and_rejected?
     pending_project && !pending_project.is_new && pending_project.rejected && !pending_project.rejector.nil? && !pending_project.date_rejected.nil? && !pending_project.rejection_reason.nil?
   end
-  
+
   def new_and_rejected?
     pending_project && pending_project.is_new && pending_project.rejected && !pending_project.rejector.nil? && !pending_project.date_rejected.nil? && !pending_project.rejection_reason.nil?
   end
@@ -306,47 +306,46 @@ class Project < ActiveRecord::Base
   def milestone_count
     return milestones.count
   end
-  
+
   def milestones_count
     return Milestone.find(:all).size
   end
-  
+
   def public_groups
     @public_groups ||= groups.find_all_by_private(false)
   end
-  
+
   def self.total_percent_raised
     percent_raised = 100
     unless self.total_costs == nil or self.total_costs == 0
-      percent_raised = self.total_money_raised * 100 / self.total_costs      
+      percent_raised = self.total_money_raised * 100 / self.total_costs
       if percent_raised > 100 then percent_raised = 100 end
     end
     percent_raised
-  end 
-  
+  end
+
   def get_number_of_milestones_by_status(status)
     milestones = self.milestones.find(:all, :conditions => {:milestone_status_id => status.to_s } )
-    return milestones.size unless milestones == nil     
+    return milestones.size unless milestones == nil
   end
-  
+
   def days_remaining
     result = nil
     result = target_end_date - Date.today if target_end_date != nil
     result = 0 if result == nil || result < 0
     return result
   end
-  
+
   def community_id
     community.id if community
   end
-  
+
   def community_id?
     community.id? if community
   end
 
   def nation_id
-    @nation ||= nation
-    return @nation ? @nation.id : nil
+    country_id
   end
 
   def nation_id?
@@ -358,11 +357,11 @@ class Project < ActiveRecord::Base
   def community
     @community ||= self.place if self.place_id? && self.place && self.place.place_type_id >= 6
   end
-  
+
   def community_project_count
     @community_project_count ||= community.projects.size if community
   end
-  
+
   def nation
     if place.place_type_id == 2
       place
@@ -370,11 +369,11 @@ class Project < ActiveRecord::Base
       country
     end
   end
-  
+
   def current_need
     self.total_cost - self.dollars_raised
   end
-  
+
   def dollars_raised
     raised = 0
     Investment.find(:all, :conditions => {:project_id => self.id} ).each do |investment|
@@ -382,7 +381,7 @@ class Project < ActiveRecord::Base
     end
     raised
   end
-   
+
   def get_percent_raised
     percent_raised = 0
     if self.total_cost > 0 then
@@ -391,11 +390,11 @@ class Project < ActiveRecord::Base
     end
     return percent_raised
   end
-  
+
   def self.projects_nearing_end(days_until_end)
     @projects = Project.find(:all, :conditions => ["(target_end_date BETWEEN ? AND ?)", Time.now, days_until_end.days.from_now])
   end
-  
+
   def get_all_you_tube_videos
     @you_tube_videos = Array.new
     for project_you_tube_video in self.project_you_tube_videos
@@ -403,7 +402,7 @@ class Project < ActiveRecord::Base
     end
     @you_tube_videos
   end
-  
+
   def get_total_budget
     total_budget_items_cost = 0.0
     budget_items(force_reload=true).each do |item|
@@ -413,7 +412,7 @@ class Project < ActiveRecord::Base
     end
     total_budget_items_cost
   end
-  
+
   def self.total_money_raised
     total = 0
     Project.find(:all).each do |project|
@@ -423,11 +422,11 @@ class Project < ActiveRecord::Base
     end
     total
   end
-  
+
   def self.total_costs
     return self.sum(:total_cost)
   end
-  
+
   def self.total_money_spent
     return self.sum(:dollars_spent)
   end
@@ -440,8 +439,8 @@ class Project < ActiveRecord::Base
         c.save(false)
       end
     end
-  end   
-  
+  end
+
   def collaborating_agency_attributes=(collaborating_agency_attributes)
     collaborating_agency_attributes.each do |attributes|
       if attributes[:id].blank?
@@ -449,10 +448,10 @@ class Project < ActiveRecord::Base
       else
         collaborating_agency = collaborating_agencies.detect { |c| c.id == attributes[:id].to_i }
         collaborating_agency.attributes = attributes
-      end    
+      end
     end
   end
-  
+
   def save_financial_sources
     financial_sources.each do |f|
       if f.should_destroy_source?
@@ -462,7 +461,7 @@ class Project < ActiveRecord::Base
       end
     end
   end
-  
+
   def financial_source_attributes=(financial_source_attributes)
     financial_source_attributes.each do |attributes|
       if attributes[:id].blank?
@@ -470,16 +469,16 @@ class Project < ActiveRecord::Base
       else
         financial_source = financial_sources.detect { |f| f.id == attributes[:id].to_i }
         financial_source.attributes = attributes
-      end    
+      end
     end
   end
-  
+
   def to_complete_xml
-    self.to_xml :include => [:milestones, :tasks, :project_you_tube_videos, 
+    self.to_xml :include => [:milestones, :tasks, :project_you_tube_videos,
                               :project_flickr_images, :financial_sources, :budget_items,
                               :collaborating_agencies, :ranks, :investments, :key_measures,
-                              :my_wishlists, :users, :groups, :sectors, :causes, :place, 
+                              :my_wishlists, :users, :groups, :sectors, :causes, :place,
                               :contact, :frequency_type, :partner, :program, :project_status]
-  end 
-  
+  end
+
 end

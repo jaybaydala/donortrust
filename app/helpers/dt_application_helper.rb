@@ -229,17 +229,13 @@ module DtApplicationHelper
     render :partial => 'dt/projects/advanced_search_bar', :layout => false
   end
 
-  # show sector images when a project_id is given, otherwise, return all sector images
+  # show sector images when a project_id is given
   def sector_images(project_id=nil)
     output = []
     if project_id
       sectors = Project.find(project_id).sectors
       sectors.each do | sector|
-        output << image_tag("/images/dt/sectors/#{sector.image_name}",  :title=> sector.name, :alt => sector.name)
-      end
-    else
-      Sector.find(:all).each do |sector|
-        output << image_tag("/images/dt/sectors/#{sector.image_name}", :title=> sector.name, :alt => sector.name)
+        output << image_tag("/images/dt/sectors/#{sector.image_name}", :title=> sector.name, :alt => sector.name, :class=>"sector-icon")
       end
     end
     return output.join("\n")

@@ -1,9 +1,11 @@
-<h2>Quick Facts</h2>
+<div class="quickfactsHeader">Quick Facts:</div>
 <ul>
   <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
   <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
   <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
   <!-- <li><strong>Dollars Spent:</strong> <%= number_to_currency(@project.dollars_spent) %></li> -->
   
-  <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %></li>
+  <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %>
+    <a href="give" class="quickfactsSidebarGive">Give</a>
+  </li>
 </ul>

@@ -9,15 +9,15 @@ class Sector < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  
+
   #ultrasphinx indexer
-  
+
   is_indexed :fields => [
     {:field => 'id', :as => 'sector_id'},
     {:field => 'name', :sortable => true}
-  ], 
+  ],
   :include => [
-      {   
+      {
         :class_name => 'Project',
         :field => 'id',
         :as => 'project_id',
@@ -25,7 +25,7 @@ class Sector < ActiveRecord::Base
       }
     ],
   :conditions => "sectors.deleted_at IS NULL"
-  
+
 #  def project_count
 #    return projects.count
 #  end

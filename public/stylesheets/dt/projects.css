@@ -355,6 +355,7 @@ US TAXES
 	padding-bottom:80px;
 }
 .project-title a{
+  float: left;
 	text-decoration:none;
 	color:#336600;
 }
@@ -431,4 +432,58 @@ form#project_search input.submitreplace {
 }
 form#project_search input.submitreplace:hover{
 	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
+}
+
+/* Project search result specific */
+.projectSearchResultHeader {
+  border-bottom: 1.5px solid black;
+  padding: 0;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.searchResultSectorImages {
+  background: none;
+	float: right;
+	vertical-align: top;
+	margin-top: 8px;
+}
+
+.searchResultSectorImages img{
+	margin-left: 3px;
+}
+
+
+.searchResultLocationLink {
+  font-size: .8em;
+  font-weight: bold;
+}
+
+.searchResultLocationLink a{
+  text-decoration: none;
+}
+
+.project-sidebar{
+	width: 35%;
+	float:right;
+}
+.project-sidebar .quickfactsHeader{
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.searchResultsQuickfacts ul{
+	list-style-type:none;	
+}
+
+.searchResultsQuickfacts li{
+	list-style-type:none;
+	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat scroll 0px 4px;
+	padding:0 0 0.1875em 0.875em;
+	font-family:Arial, Helvetica, sans-serif;
+  border-bottom:1px solid #DDDDDD;
+}
+
+.quickfactsSidebarGive {
+  float: right;
 }
