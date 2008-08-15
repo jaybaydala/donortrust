@@ -1,5 +1,5 @@
 #container {
-	width:724px;
+	width:800px;
 	margin:auto;
 	position:relative;
 }
@@ -22,17 +22,17 @@
 	width:100%;
 }
 
-#content-wrapper, #content-plain-wrapper {
+#content-wrapper/*,  #content-plain-wrapper */ {
     width:492px;
     border-right:232px solid transparent; /* The width and color of the rail */
     margin-right:-232px; /* Hat tip to Ryan Brill */
     float:left;
 }
-
+/*
 #content-plain-wrapper {
     width:472px;
 }
-
+*/
 #content {
     margin-right:18px;
 }
@@ -65,7 +65,7 @@
     height:2.1875em; /* 35 pixels */
 }
 #nav {
-    width:724px;
+    width:800px;
     height:1.5625em; /* 25 pixels */
     background:url(/images/dt/nav_elements/subNavBar.jpg) no-repeat top left #C4C4C4;
     margin-bottom:1em;

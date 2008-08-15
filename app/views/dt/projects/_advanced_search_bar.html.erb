@@ -41,7 +41,7 @@
   
     <%=	observe_field("continent_id",
   :on => "change",
-  :url => {:action => "add_countries"},
+  :url => {:controller => "projects", :action => "add_countries"},
   :method => :get,
   :with => "continent_id",
   :before   => %(Element.show("spinner")),
@@ -80,7 +80,7 @@
   </p>
   <%=	observe_field("sector_id",
   :on => "change",
-  :url => {:action => "add_causes"},
+  :url => {:controller => "projects", :action => "add_causes"},
   :method => :get,
   :with => "sector_id",
   :before   => %(Element.show("spinner2")),

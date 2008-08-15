@@ -2,7 +2,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :news_comments
 
-  
+
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.namespace(:dt) do |dt|
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
@@ -10,16 +10,16 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :cart, :controller => 'cart'
     dt.resource :checkout
 
-    dt.resources :projects, :member => { :details => :get, 
-                                         :community => :get, 
-                                         :nation => :get, 
-                                         :organization => :get, 
-                                         :connect => :get, 
-                                         :cause => :get, 
-                                         :facebook_login => :get, 
-                                         :timeline => :get }, 
+    dt.resources :projects, :member => { :details => :get,
+                                         :community => :get,
+                                         :nation => :get,
+                                         :organization => :get,
+                                         :connect => :get,
+                                         :cause => :get,
+                                         :facebook_login => :get,
+                                         :timeline => :get },
                             :collection => {  :search => :get,
-                                              :advancedsearch => :get, 
+                                              :advancedsearch => :get,
                                               :add_countries => :get,
                                               :add_causes => :get,
                                               :list => :get
@@ -45,17 +45,17 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :wishlists, :controller=> 'wishlists'
     dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :confirm => :post, :preview => :get }
     dt.resources :mdgs, :controller=> 'mdgs'
-    
+
     dt.resources :wall_posts
-    
+
     dt.resources :news_items
     dt.resources :news_items do |news_items|
        news_items.resources :news_comments
      end
-    
+
     # Campaign System
-    dt.resources :campaigns,  :collection => {          :update_address_details_for_country => :post, 
-                                                        :update_team_config_options => :post, 
+    dt.resources :campaigns,  :collection => {          :update_address_details_for_country => :post,
+                                                        :update_team_config_options => :post,
                                                         :admin => :get
                                                         },
                                       :new => {
@@ -73,40 +73,40 @@ ActionController::Routing::Routes.draw do |map|
                                                         :add_partner_limit_to => :post,
                                                         :remove_partner_limit_from => :post
                                       }
-    
+
     dt.resources :campaigns do |campaigns|
      campaigns.resources :wall_posts
      campaigns.resources :news_items
      campaigns.resources :teams
     end
-    
+
     dt.resources :teams,  :collection => { :manage => :get
                                            },
                           :new => {
                                         :validate_short_name_of => :post
                           },
-                          :member => {  :join => :get, 
+                          :member => {  :join => :get,
                                         :activate => :get
                                       }
     dt.resources :teams do |teams|
         teams.resources :wall_posts
         teams.resources :news_items
     end
-    
+
     #Done with everything pretaining to campaigns
-    
-    
+
+    dt.resources :give, :controller => 'give'
   end
-  
+
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code', :controller => 'dt/tax_receipts', :action => "show"
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
   map.dt_request_us_tax_receipt '/dt/request_us_tax_receipt', :controller => 'dt/sessions', :action => 'request_us_tax_receipt'
-  
-  
-  map.connect '/dt', :controller => 'dt/projects'
+
+
+  map.connect '/dt', :controller => 'dt/home'
 
 
   # inactive_record resources
@@ -130,7 +130,7 @@ ActionController::Routing::Routes.draw do |map|
   map.inactive_records 'bus_admin/measures/inactive_records', :controller => 'bus_admin/measures', :action => 'inactive_records'
   map.inactive_records 'bus_admin/causes/inactive_records', :controller => 'bus_admin/causes', :action => 'inactive_records'
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
- 
+
   # bus_admin resources
   map.resources :reports, :path_prefix => "/bus_admin", :controller => "bus_admin/reports"
   map.process_report 'bus_admin/reports/process_report', :controller => 'bus_admin/reports', :action => 'process_report'
@@ -145,7 +145,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :gifts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/gifts", :collection => {:change_email => :post}
   map.resources :loads,  :path_prefix => "/bus_admin", :controller => "bus_admin/loads", :collection => {:loads => :post}
   map.resources :sent,  :path_prefix => "/bus_admin", :controller => "bus_admin/sent"
-  map.resources :add_to_group,  :path_prefix => "/bus_admin", :controller => "bus_admin/add_to_group", :collection => {:add_to_groups => :post}    
+  map.resources :add_to_group,  :path_prefix => "/bus_admin", :controller => "bus_admin/add_to_group", :collection => {:add_to_groups => :post}
   map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
   map.resources :financial_sources, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/financial_sources"
   map.resources :collaborating_agencies, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborating_agencies"
@@ -160,12 +160,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :quick_fact_places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_places"
   map.resources :quick_facts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_facts"
   map.resources :comments, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/comments"
-  map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'        
-  
+  map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'
+
   map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
   map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
   map.add_measure 'bus_admin/key_measures/add_measure', :controller => 'bus_admin/key_measures', :action => 'add_measure'
-  
+
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :bus_user_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_user_types"
   map.resources :bus_secure_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_secure_actions"
@@ -184,7 +184,7 @@ ActionController::Routing::Routes.draw do |map|
                 :active_scaffold => true
 
   # The priority is based upon order of creation: first created -> highest priority.
-  
+
   #
   # RSS Feed Resources
   #
@@ -197,16 +197,16 @@ ActionController::Routing::Routes.draw do |map|
   #
   #
   # take that REST
-  map.resources :place_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/place_you_tube_videos", :collection => {  :add => :post, 
-                                                                                                                                              :remove => :post, 
-                                                                                                                                              :search => :post, 
-                                                                                                                                              :places => :post, 
+  map.resources :place_you_tube_videos, :path_prefix => "/bus_admin", :controller => "bus_admin/place_you_tube_videos", :collection => {  :add => :post,
+                                                                                                                                              :remove => :post,
+                                                                                                                                              :search => :post,
+                                                                                                                                              :places => :post,
                                                                                                                                               :videos => :post,
-                                                                                                                                              :preview => :post, 
-                                                                                                                                              :search_by_tag => :post, 
-                                                                                                                                              :search_by_user => :post, 
-                                                                                                                                              :search_by_category_and_tag => :post, 
-                                                                                                                                              :list_by_featured => :post, 
+                                                                                                                                              :preview => :post,
+                                                                                                                                              :search_by_tag => :post,
+                                                                                                                                              :search_by_user => :post,
+                                                                                                                                              :search_by_category_and_tag => :post,
+                                                                                                                                              :list_by_featured => :post,
                                                                                                                                               :list_by_popular => :post,
                                                                                                                                               :show_video => :post
                                                                                                                                             }
@@ -226,7 +226,7 @@ ActionController::Routing::Routes.draw do |map|
                                   :search_by_category_and_tag => :post,
                                   :list_by_featured => :post,
                                   :list_by_popular => :post,
-                                  :show_video => :post }, 
+                                  :show_video => :post },
                  :active_scaffold => true
 
     map.resources :place_flickr_images, :path_prefix => "/bus_admin", :controller => "bus_admin/place_flickr_images", :collection => {      :add => :post,
@@ -239,16 +239,16 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :project_flickr_images,
                 :path_prefix => "/bus_admin",
-                :controller => "bus_admin/project_flickr_images", 
+                :controller => "bus_admin/project_flickr_images",
                 :collection => { :add => :post,
                                  :remove => :post,
                                  :search => :post,
                                  :projects => :post,
                                  :show_flickr => :post,
                                  :show_db_flickr => :post,
-                                 :photos=>:post }, 
+                                 :photos=>:post },
                 :active_scaffold => true
-                                                                                                                                            
+
   map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
 
@@ -265,7 +265,7 @@ ActionController::Routing::Routes.draw do |map|
 
   #
   # Contacts
-  # 
+  #
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
   map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
   map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners'
@@ -275,12 +275,12 @@ ActionController::Routing::Routes.draw do |map|
   #
   map.resources :project_statuses, :controller => "bus_admin/project_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
- 
+
   map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
-    
+
   map.populate_place_sector_places '/bus_admin/projects/populate_place_sector_places', :controller => 'bus_admin/place_sectors', :action => 'populate_place_sector_places'
-   
-  map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses", 
+
+  map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :frequency_types, :controller => "bus_admin/frequency_types",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
@@ -336,7 +336,7 @@ ActionController::Routing::Routes.draw do |map|
   map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
   map.resend 'bus_admin/resend', :controller => 'bus_admin/gifts', :action => 'resend'
   map.resend_gift 'bus_admin/resend_gift', :controller => 'bus_admin/gifts', :action => 'resend_gift'
- 
+
   map.display_inline_report 'bus_admin/display_inline_report', :controller => 'bus_admin/projects', :action => 'display_inline_report'
   map.report 'bus_admin/individual_report_inline', :controller => 'bus_admin/projects', :action => 'individual_report_inline'
   map.note 'bus_admin/show_note', :controller => 'bus_admin/partners', :action => 'show_note'
@@ -350,13 +350,13 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   map.connect '/bus_admin', :controller => 'bus_admin/home'
-  
+
   map.show_campaign '/dt/:short_name', :controller => 'dt/campaigns', :action => 'show'
   map.show_campaign_team '/dt/:short_campaign_name/team/:short_name', :controller => 'dt/teams', :action => 'show'
   map.show_campaign_group '/dt/:short_campaign_name/group/:short_name', :controller => 'dt/teams', :action => 'show'
   map.show_campaign_classroom '/dt/:short_campaign_name/classroom/:short_name', :controller => 'dt/teams', :action => 'show'
-  
-  
+
+
   # Install the default route as the lowest priority.
   #map.connect "*anything",
   #            :controller => 'dt/projects'

@@ -1,98 +1,151 @@
 /*
 GLOBAL NAV and PAGE NAV
 =======================*/
-#globalnav {
-	 padding:0px 10px 0 10px;
+
+/* site redesign for GSoC 2008 */
+/* _nav tabs */
+  *	Heavily inspired by the following articles:
+  *		http://www.alistapart.com/articles/slidingdoors/
+  *		http://www.alistapart.com/articles/mountaintop/
+  *		http://www.alistapart.com/articles/sprites/
+  */
+.main-nav {
+  float:left;
+  width:100%;
+  background: url("/images/dt/nav_elements/tab-line-green.gif") bottom repeat-x;
+  padding:0;
+  font-size:0.8em;
+  line-height:normal;
+  margin-bottom:0;
 }
-#globalnav ul {
-    float:left;
-    width: 500px;
-	padding:0em 0 0 8px;
-	margin:0;    
-	height:2.1875em;
+.main-nav h1 {
+  font:lighter 26px arial,helvetica,sans-serif;
+  margin:0px;
+  padding:0;
 }
+
+.main-nav ul {
+  margin:0;
+  padding:0px 5px 0 5px;
+  list-style:none;
+}
+.main-nav li {
+  display:inline;
+  margin:0;
+  padding:0;
+  font-size:0.7em;
+}
+
+.main-nav a.nav-tab {
+  background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat left top;
+  padding:0 0 0 9px;
+  text-decoration:none;
+  color:#333;
+  margin-right:3px;
+}
+
+.main-nav a.left-tab{
+  float:left;
+}
+.main-nav a.right-tab{
+  float:right;
+}
+
+.main-nav a.nav-tab span {
+  float:left;
+  display:block;
+  background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat right top;
+  padding:4px 15px 3px 6px;
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+.main-nav a.nav-tab span {float:none;}
+/* End IE5-Mac hack */
+
+.main-nav .selected a.nav-tab span {
+  /* padding-bottom:4px;*/f
+}
+.main-nav a.nav-tab:hover, .main-nav a.nav-tab:hover span {
+  background-color:#360;
+  color:#DDD;
+}
+.main-nav .selected a.nav-tab span,  .main-nav .selected a.nav-tab, .main-nav .selected a.nav-tab:hover, .main-nav .selected a.nav-tab:hover span {
+  background-color:#360;
+  color: #fff;
+}
+
+div.tab-bottom {
+  background-color:#336600;
+}
+
+/* account bar nav, and sub navs */
 #nav ul {
-    float:left;
-    width: 485px;
+  float:left;
+  width: 485px;
 	padding:0em 0 0 8px;
 	margin:0px;
 }
 #nav ul.wide {
-    width:716px
+  width:800px
 }
-#globalnav a, #nav a {text-decoration:none;}
-#globalnav li, #nav li {
-    padding:0;
+#nav li {
+	padding:0;
 	margin:1px 0 0 0;
-    font-size:0.8125em; /* 13px */
-    font-family:Arial, Helvetica, sans-serif;
-    list-style-type:none;
-    color:#FFF;	
+	font-size:0.8125em; /* 13px */
+	list-style-type:none;
+	color:#FFF;	
 	float:left;
 	line-height:1.2;
-}
-#globalnav li a {
-    text-decoration:none;
-	display:block;
-    padding: 0.6875em 0.875em 0.875em 0.875em;
 }
 #nav li a {
     text-decoration:none;
 	display:block;
 	padding: 0.31em 0.875em;
 }
-#globalnav li a:link, #globalnav li a:visited, 
 #nav li a:link, #nav li a:visited {
 	color: #666;
 }
-#globalnav li a:hover, #globalnav li a:active,
 #nav li a:hover, #nav li a:active {
 	color: #FFF;
 	background-color:#999;
 }
-#globalnav li.current, #nav li.current {
-    border-left: 1px solid #999;
-    border-right: 1px solid #999;
-    background-color:#360;
+#nav li.current {
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+  background-color:#360;
 }
-#globalnav li.current {padding: 0.625em 0.875em 0.75em 0.875em}
-#nav li.current {padding:0.31em 0.875em;}
-
-#globalnav li.current a:link, #globalnav li.current a:visited, #globalnav li.current a:hover, #globalnav li.current a:active,
+#nav li.current {
+	padding:0.31em 0.875em;
+}
 #nav li.current a:link, #nav li.current a:visited, #nav li.current a:hover, #nav li.current a:active { 
-    padding:0;
-    color:#FFF;
+  padding:0;
+  color:#FFF;
 }
 
-/*
-SUBNAV
-======*/
-#subnav {}
-#subnav ul {
-    border-bottom:1px solid #CCC;
-    padding:0.5625em 0;
-    margin:0 0 0.5625em 0;
-}
-#subnav li {
-    font-size:0.6875em;
-    display:inline;
-    font-family:Arial, Helvetica, sans-serif;
-}
-#subnav li a {
-    padding:0.125em .375em;
-    border:1px solid transparent;
-    text-decoration:none;
-}
-#subnav li a:link, #subnav li a:visited {
-    color: #333;
-}
-#subnav li a:hover, #subnav li a:active {
-    border:1px solid #F60;
-}
-#subnav li.current a, #subnav li.current a:link, #subnav li.current a:visited, #subnav li.current a:hover, #subnav li.current a:active {
-    background-color:#66758B;
-    color:#FFF;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* 
 PAGINATION
@@ -155,3 +208,8 @@ form#search {
 #loginbug #rss img {
     vertical-align:middle;
 }
+
+
+
+
+

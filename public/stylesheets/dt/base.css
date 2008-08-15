@@ -261,7 +261,7 @@ form #leftColW .col ul, form #leftColW .colEnd ul {margin:0 0 10px 0;padding:0 0
 .smColEnd {width:144px; height:auto; margin:0 0 0 0; float:left;}
 
 /* Footer Styles */
-	
+/* overwritten by footer definitions in typography.css 	
 #footer {
 	width: 724px;
 	height: auto;
@@ -301,6 +301,7 @@ form #leftColW .col ul, form #leftColW .colEnd ul {margin:0 0 10px 0;padding:0 0
 	font-weight: normal;
 	text-decoration: underline;
 }
+*/
 
 /* Typographic & Paragraph Styles */
 
@@ -2271,7 +2272,7 @@ div.group_wall-attribution .datestamp {
 
 /* HOME PAGE FEATURE-BANNER BUTTONS - GIANT BUTTONS */
 
-
+/*
 #bigButWrap {
 	width:722px; height:130px;
 	background: transparent url(/images/dt/feature_graphics/blueFade130.jpg) no-repeat center;
@@ -2380,3 +2381,4 @@ div.group_wall-attribution .datestamp {
 	list-style-type: none;
 }
 
+*/

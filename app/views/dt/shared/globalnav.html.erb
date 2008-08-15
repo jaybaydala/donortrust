@@ -1,29 +1,12 @@
-<div id="globalnav-wrapper" class="clearfix">
-  <div id="globalnav" class="clearfix">
-    <ul>
-      <li><a href="/about-us">About Us </a></li>
-      <li<%= ' class="current"' if @topnav == 'projects' %>><a href="/dt/projects">Projects </a></li>
-      <li<%= ' class="current"' if @topnav == 'get_involved' %>><a href="/get-involved">Get Involved </a></li>
-      <li><a href="/school-program">School Program </a></li>
-      <li><a href="/blog">Blog </a></li>
-      <li><a href="/oneyoga">OneYoga </a></li>
+<div class ="main-nav clearfix">
+    <ul class="left-tabs">
+      <h1><%= ((controller.controller_name == "home") ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("<span>Home</span>", {:controller=>'home', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li></h1>
+      <h1><%= ((controller.controller_name == "projects") ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("<span>Projects</span>", {:controller=>'projects', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li></h1>
+      <h1><%= ((controller.controller_name == "give") || ((controller.controller_name == "gifts") && (controller.action_name !="open")) ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("<span>Give</span>", {:controller=>'give', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li></h1>
+      <h1><%= ((controller.controller_name == "gifts" && controller.action_name == "open") ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("<span>Receive</span>", {:controller=>'gifts', :action=>'open'}, {:class=>'nav-tab left-tab'}) %></li></h1>
     </ul>
-		  <div >
-      <% form_tag (search_dt_projects_path,{:id => 'search', :method => :get,:onsubmit => "if($('keywords2').value=='Search'){ $('keywords2').value='';}"} ) do %>
-      	<%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
-      		:title => 'Search', 
-      		:size => 15 ,
-      		:onblur =>"if(!this.value) this.value='Search';", 
-      		:onfocus => "if(this.value=='Search') this.value='';",
-      		:id=> 'keywords2'
-      	%>
-      	<span id="searchsubmit">
-      		<%= submit_tag 'go',
-      			:id => 'simple_search_submit', 
-      			:class => 'submitreplace'
-      		%>
-      	</span>
-      	
-      <% end -%>
-      </div>
+    <ul class="right-tabs">
+      <h1><li><a href="/school-program" class="nav-tab right-tab"><span>School Program </span></a></li></h1>
+    </ul>
 </div>
+<div class="tab-bottom">&nbsp;</div>

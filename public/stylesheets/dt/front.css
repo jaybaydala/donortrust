@@ -1,0 +1,66 @@
+/* front page css */
+
+/* Left Column Wide(W) with Narrow(N) Right Column */
+.leftColW {
+	float: left;
+	width: 475px;
+	height: auto;
+	padding: 10px 0px 0px 0px;
+	background: none;	
+}
+.rightColN {
+  float: right;
+  width:300px;
+	padding: 10px 0px 0px 0px;
+}
+
+
+/* Left Column Stuff */
+#howItWorksImage {
+	float: left;
+}
+
+.keyDifferentiators {
+}
+.keyDifferentiatorIcon {
+  float: left;
+}
+.keyDifferentiatorText {
+  padding: 0px 0px 20px 85px;
+}
+
+.test {
+
+}
+
+.testimg{
+  display: block;
+	float: left;
+}
+
+/* Right Column Stuff */
+#frontGiveButton, #frontReceiveButton {
+	float: right;
+}
+#frontReceiveButton {
+	margin: 0px 0px 0px 10px;
+}
+
+#frontPicsAndFact {
+	float: right;
+	margin: 10px 0px 0px 0px;
+}
+
+#frontFeature {
+	float: right;
+	margin: 10px 0px 0px 0px;
+}
+
+#newsletter (
+	float: left;
+	margin: 10px 0px 0px 0px;
+}
+#tellAFriend {
+	float: left;
+	padding: 10px 0px 0px 50px;
+}
