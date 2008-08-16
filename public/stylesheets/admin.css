@@ -1,6 +1,7 @@
 /* @override 
 	http://localhost:3000/stylesheets/admin.css?1213766065
 	http://localhost:3000/stylesheets/admin.css?1214188894
+	http://localhost:3000/stylesheets/admin.css?1218707349
 */
 
 body {
@@ -66,14 +67,10 @@ ul.tabnav li .selected {
 }
 
 #stylized ul.form {
-	padding: 0;
-}
-
-#stylized ul.form,
-#stylized .embedded {
+	padding: 10px 0 0 0;
 	border-top: solid 1px #ccc;
-	padding-top: 10px;
 	margin-top: 40px;
+	clear: both;
 }
 
 /* form fields */
@@ -157,6 +154,15 @@ ul.tabnav li .selected {
 
 /* embedded scaffold */
 
+#stylized ul.form label.without.title {
+	padding-top: 28px;
+}
+
+#stylized ul.form .embedded {
+	display: inline-block;
+	width: 68%;
+}
+
 #stylized .embedded ol li {
 	list-style: none;
 }
@@ -176,12 +182,30 @@ ul.tabnav li .selected {
 	display: none;
 }
 
+#stylized .embedded .active-scaffold input,
+#stylized .embedded .active-scaffold select,
+#stylized .embedded .active-scaffold textarea {
+	margin: 0;
+	padding: 0;
+	width: auto;
+}
+
+#stylized .embedded .form-element {
+	padding: 0;
+}
+
 #stylized .embedded ol ul {
 	padding: 0;
 }
 
 #stylized .embedded ol .checkbox-list li {
 	display: block;
+	padding: 0;
+}
+
+#stylized .embedded ol .checkbox-list input {
+	width: 10px;
+	margin: 0;
 }
 
 #stylized .embedded .messages-container p {

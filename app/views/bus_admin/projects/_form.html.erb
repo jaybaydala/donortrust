@@ -58,14 +58,6 @@
 
 		<ul class="form">
 			<li>
-				<label for="project_description" class="title">
-					Project description
-					<small>Projects description should be comprehensive overview of the project, including project duration, why there is a need for the project, a few specifics about the impact the project will have on people directly and indirectly. Make sure you have strong and clear first sentences, then communicate further details. Anticipated length of this should be: 300+ words.</small>
-				</label>
-				<%= f.text_area :description, :rows => 20, :cols => 72 %>
-			</li>
-
-			<li>	
 				<label class="title">
 					Project sector
 					<small>Select causes or sectors this projects relates to</small>
@@ -78,6 +70,14 @@
 					</span>
 				<% end %>
 				</div>
+			</li>
+
+			<li>
+				<label for="project_description" class="title">
+					Project description
+					<small>Projects description should be comprehensive overview of the project, including project duration, why there is a need for the project, a few specifics about the impact the project will have on people directly and indirectly. Make sure you have strong and clear first sentences, then communicate further details. Anticipated length of this should be: 300+ words.</small>
+				</label>
+				<%= f.text_area :description, :rows => 20, :cols => 72 %>
 			</li>
 		</ul>
 		
@@ -128,22 +128,6 @@
 	
 		<ul class="form">
 			<li>
-				<label for="project_lives_affected" class="title">
-					Lives affected
-					<small>Number of lives this project will affects</small>
-				</label>
-				<%= f.text_field :lives_affected, :class => 'short' %>
-			</li>
-
-			<li>
-				<label for="project_total_cost" class="title">
-					Total cost
-					<small>Estimated total cost in CAN$</small>
-				</label>
-				<%= f.text_field :total_cost, :class => 'short' %>
-			</li>
-
-			<li>
 				<label for="project_target_start_date" class="title">
 					<%= render :partial => 'dt/shared/form_required' %>Date of initiation
 					<small>Pick projected start date as</small>
@@ -168,6 +152,14 @@
 				</label>
 				<%= f.text_area :intended_outcome, :rows => 24, :cols => 72 %>
 			</li>
+
+			<li>
+				<label for="project_lives_affected" class="title">
+					Lives affected
+					<small>Number of lives this project will affects</small>
+				</label>
+				<%= f.text_field :lives_affected, :class => 'short' %>
+			</li>
 			
 			<li>
 				<label class="title">
@@ -178,17 +170,44 @@
 			</li>
 		</ul>
 		
-		<div class="embedded scaffold">
-			<%= render :active_scaffold => 'bus_admin/financial_sources', :constraints => { :project_id => @project.id, :partner_id => @project.partner_id } %>
-		</div>
+		<ul class="form">
+			<li>
+				<label class="without title">
+					<small>List all agencies you are working with as well as their responsibilities.</small>
+				</label>
+				<div class="embedded scaffold">
+					<%= render :active_scaffold => 'bus_admin/collaborating_agencies', :constraints => { :project_id => @project.id } %>
+				</div>
+			</li>
 
-		<div class="embedded scaffold">
-			<%= render :active_scaffold => 'bus_admin/collaborating_agencies', :constraints => { :project_id => @project.id } %>
-		</div>
+			<li>
+				<label class="without title">
+					<small>List other financial source that are helping to fund this project, and the amounts they are funding.</small>
+				</label>
+				<div class="embedded scaffold">
+					<%= render :active_scaffold => 'bus_admin/financial_sources', :constraints => { :project_id => @project.id, :partner_id => @project.partner_id } %>
+				</div>
+			</li>
+		</ul>
 
-		<div class="embedded scaffold">
-			<%= render :active_scaffold => 'bus_admin/budget_items', :constraints => { :project_id => @project.id } %>
-		</div>
+		<ul class="form">
+			<li>
+				<label class="without title">
+					<small>Provide anticipated budget for entire project. Please ensure that the amount you are asking in funding and your itemized budget are the same number, unless you are receiving additional funding from outside sources. Please have all budget items in Canadian funds.</small>
+				</label>
+				<div class="embedded scaffold">
+					<%= render :active_scaffold => 'bus_admin/budget_items', :constraints => { :project_id => @project.id } %>
+				</div>
+			</li>
+
+			<li>
+				<label for="project_total_cost" class="title">
+					Total cost
+					<small>Estimated total cost in CAN$</small>
+				</label>
+				<%= f.text_field :total_cost, :class => 'short' %>
+			</li>
+		</ul>
 
 		<ul class="form">
 			<li>
@@ -202,9 +221,16 @@
 		
 		<p>Plan... In this section, ...</p>
 
-		<div class="embedded scaffold">
-			<%= render :active_scaffold => 'bus_admin/milestones', :constraints => { :project_id => @project.id } %>
-		</div>
+		<ul class="form">
+			<li>
+				<label class="without title">
+					<small>Milestones are decisive markers towards the implementation and completion of projects.<br/>Include title of Milestone, description of milestone, anticipate date to reach milestone, and tasks, description of tasks with date, associated with reaching the milestone</small>
+				</label>
+				<div class="embedded scaffold">
+					<%= render :active_scaffold => 'bus_admin/milestones', :constraints => { :project_id => @project.id } %>
+				</div>
+			</li>
+		</ul>
 		
 		
 		<p>Evaluation... In this subsection, ...</p>
@@ -219,9 +245,16 @@
 			</li>
 		</ul>
 	
-		<div class="embedded scaffold">
-			<%= render :active_scaffold => 'bus_admin/key_measures', :constraints => { :project_id => @project.id } %>
-		</div>
+		<ul class="form">
+			<li>
+				<label class="without title">
+					<small>Key measures are quantifiable measurements and goals for the project. They will be displayed in a graph format on the ChristmasFuture website. These <strong>must include target numbers</strong> to be achieved.</small>
+				</label>
+				<div class="embedded scaffold">
+					<%= render :active_scaffold => 'bus_admin/key_measures', :constraints => { :project_id => @project.id } %>
+				</div>
+			</li>
+		</ul>
 		
 		
 		<ul class="form">
@@ -255,13 +288,25 @@
 			</li>
 		</ul>
 
-		<div class="embedded scaffold">
-			<%= render :active_scaffold => 'bus_admin/project_you_tube_videos', :constraints => { :project_id => @project.id } %>
-		</div>
+		<ul class="form">
+			<li>
+				<label class="without title">
+					<small>You will need to create a free <a href="http://www.youtube.com/" target="_blank">YouTube account</a> for your organization to upload project videos to your account. After uploading a video, tag it with the following tags: ChristmasFuture, <strong>your</strong> organization name, name of the project. Then add the ID here.</small>
+				</label>
+				<div class="embedded scaffold">
+					<%= render :active_scaffold => 'bus_admin/project_you_tube_videos', :constraints => { :project_id => @project.id } %>
+				</div>
+			</li>
 
-		<div class="embedded scaffold">
-			<%= render :active_scaffold => 'bus_admin/project_flickr_images', :constraints => { :project_id => @project.id } %>
-		</div>		
+			<li>
+				<label class="without title">
+					<small>Photos of projects are to be uploaded to your organizations' <a href="http://www.flickr.com" target="_blank">Flickr account</a> (accounts are free). Once you have added new images, tag them with: ChristmasFuture, <strong>your</strong> organization name, name of the project. Then, create a new set and add all the new photos to this set. Call this set the name of your project and add the ID here.</small>
+				</label>
+				<div class="embedded scaffold">
+					<%= render :active_scaffold => 'bus_admin/project_flickr_images', :constraints => { :project_id => @project.id } %>
+				</div>
+			</li>
+		</ul>
 		
 		<ul class="form">
 			<li>
