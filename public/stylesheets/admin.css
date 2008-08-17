@@ -1,7 +1,5 @@
 /* @override 
-	http://localhost:3000/stylesheets/admin.css?1213766065
-	http://localhost:3000/stylesheets/admin.css?1214188894
-	http://localhost:3000/stylesheets/admin.css?1218707349
+	http://localhost:3000/stylesheets/admin.css?1218882515
 */
 
 body {
@@ -18,6 +16,10 @@ p, h1, form, button {
 .spacer {
 	clear: both;
 	height: 1px;
+}
+
+.active-scaffold th {
+	color: white;
 }
 
 /* form tabs */

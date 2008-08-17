@@ -1,3 +1,6 @@
+require 'pdf/writer'
+require 'string'
+
 class BusAdmin::ProjectsController < ApplicationController
   layout 'admin'
   before_filter :login_required, :check_authorization
@@ -93,8 +96,7 @@ class BusAdmin::ProjectsController < ApplicationController
       #could do this using after_create() on the Project object,
       #but I wanted this to be in the same transaction
       if @saved
-        # TODO: use proper user
-        @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => User.find(:first).id, :is_new => true)
+        @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => true)
         @saved = @pending.save
         raise Exception.new("Could not create the pending project.") unless @saved
       else
@@ -134,6 +136,7 @@ class BusAdmin::ProjectsController < ApplicationController
   
   # called for GET on new_bus_admin_project_path
   def new
+    @user = current_user
     @project = Project.new
     respond_to do |format|
       format.html
@@ -201,12 +204,12 @@ class BusAdmin::ProjectsController < ApplicationController
 
     begin
       pending = PendingProject.find_by_project_id(project.id)
-      pending.delete if pending
+      pending.destroy if pending
     rescue ActiveRecord::RecordNotFound
       #swallow - just means there was no old pending record
     end
 
-    redirect_to edit_bus_admin_project_path(project)
+    redirect_to list_bus_admin_project_path
   end
   
   def show_pending_project_rejection
@@ -355,6 +358,61 @@ class BusAdmin::ProjectsController < ApplicationController
     render :inline => "<%= auto_complete_result @items, 'name' %>"
   end
   
+  def create_subagreement
+    project = Project.find(params[:id])
+    today = Time.now.to_formatted_s(:long)
+    
+    pdf = PDF::Writer.new
+    pdf.select_font "Times-Roman"
+    
+    pdf.text "CHRISTMAS FUTURES FOUNDATION\nPROJECT DESCRIPTION", :font_size => 20, :justification => :center
+    pdf.text "\n", :font_size => 12
+    pdf.text "This project is conducted pursuant to the Master Agency Agreement signed by the Foundation and the Agent on #{today} and all the provisions of the Master Agency Agreement are applicable to this project."
+    pdf.text "\n"
+    pdf.text "<b>Project Name</b>: #{project.name}"
+    pdf.text "\n"
+    pdf.text "<b>Project Location</b>: #{project.place.name}, #{project.country.name}"
+    pdf.text "<b>Project Sector(s)</b>: " + project.sectors.collect{|c| c.name}.join(", ")
+    pdf.text "\n"
+    pdf.text "<b>PM Name & Contact Info</b>: #{project.contact.last_name}, #{project.contact.first_name}"
+    pdf.text "\n"
+    pdf.text "<b>Project Description</b>:\n#{project.description.strip_tags}"
+    pdf.text "\n"
+    pdf.text "<b>Project Funds</b>: CAN$#{project.total_cost}"
+    pdf.text "<b>Date of Initiation</b>: #{project.target_start_date.to_formatted_s(:long)}"
+    pdf.text "<b>Date of Completion</b>: #{project.target_end_date.to_formatted_s(:long)}"
+    pdf.text "\n"
+
+    pdf.text "<b>Project Plan</b>:\n"
+    project.milestones.each do |m|
+      pdf.text "<i>#{m.target_date.to_formatted_s(:long) if m.target_date} - #{m.name}</i>:\n#{m.description}"
+    end
+    pdf.text "\n"
+    
+    pdf.text "<b>Project Funding Schedule</b>: "
+    project.budget_items.each do |b|
+      pdf.text "- #{m.description} - #{m.cost}"
+    end
+    pdf.text "\n"
+    
+    pdf.text "<b>Measurement & Evaluation Plan</b>:\n#{project.meas_eval_plan.strip_tags}"
+    pdf.text "\n"
+    pdf.text "<b>Project Outcomes</b>:\n#{project.intended_outcome.strip_tags}"
+    pdf.text "\n"
+    pdf.text "\n"
+    pdf.text "The undersigned [Agent Name] agrees to the project in accordance with this project description and the Master Agency Agreement."
+    pdf.text "\n"
+    pdf.text "Dated this #{today}."
+    pdf.text "\n"
+    pdf.text "<b>#{project.partner.name}</b>"
+    
+    #i0 = pdf.image "../images/chunkybacon.jpg", :resize => 0.75
+    #i1 = pdf.image "../images/chunkybacon.png", :justification => :center, :resize => 0.75
+    #pdf.image i0, :justification => :right, :resize => 0.75
+
+    send_data pdf.render, :filename => "subagreement.pdf", :type => "application/pdf"
+  end
+  
   def update_location
     @project = Project.new
     @project.continent_id = params[:continent]
@@ -483,5 +541,4 @@ class BusAdmin::ProjectsController < ApplicationController
 
     render :partial => "bus_admin/projects/place_form"
   end
-
 end

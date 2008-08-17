@@ -33,7 +33,11 @@ module BusAdmin::ProjectsHelper
   end
   
   def get_contacts(partner_id)
-    Partner.find(partner_id).contacts
+    if partner_id
+      Partner.find(partner_id).contacts
+    else
+      []
+    end
   end
   
   def get_programs
@@ -108,7 +112,6 @@ module BusAdmin::ProjectsHelper
   def responsibilities_column(record)
      if record.responsibilities != nil 
        RedCloth.new(record.responsibilities).to_html
-    end    
+    end
   end
-    
 end
