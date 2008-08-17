@@ -1,20 +1,32 @@
 <div id="contentContainer">
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  <div class="projectInfo">
-    <div class="leftColW">
-      <h1>Projects</h1>
-    </div>
-  </div>
-  <div id="featuredProjectList">
-  <% if @projects && @projects.length > 0 %>
-    <%= render :partial => '/bus_admin/projects/show_project', :collection => @projects if @projects %>
-  <% else %>
-    <div class="projectInfo">
-      <div class="leftColW">
-        You have no projects.
-      </div>
-    </div>
-  <% end %>
+
+  <div id="featuredProjectList" class="active-scaffold">
+	  <div class="active-scaffold-header">
+		  <div class="actions">
+				<%= link_to "Create new", new_bus_admin_project_url %>
+		  </div>
+		  <h2>Projects</h2>
+	  </div>
+
+		<table cellpadding="0" cellspacing="0">
+		  <thead>
+		    <tr>
+					<th>Project</th>
+					<th>Program</th>
+					<th>Status</th>
+					<th>Start</th>
+					<th>Actions</th>
+		    </tr>
+		  </thead>
+		  <tbody class="records">
+		    <% if !@projects.empty? -%>
+		    	<%= render :partial => '/bus_admin/projects/show_project', :collection => @projects %>
+				<% else -%>
+					<td colspan="5">You have no projects.</td>
+		    <% end -%>
+		  </tbody>
+		</table>
   </div>
 </div>
