@@ -1,40 +1,56 @@
 <%- content_for :html_title do %><%= h @project.name %><% end -%>
-<%- content_for :nav do %><%= project_nav %><% end -%>
-
-<div class="projectRank">
-  <ul class="specList">
-    <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
-    <% if @project.partner_id? && @project.partner %><li><span><strong>Organization:</strong> <%= link_to @project.partner.name, organization_dt_project_path(@project) %></span></li><% end %>
-  </ul>
-</div>
-
-<div class="projectDescription">
-  <p><%= @project.description %></p>
-</div>
-
-<% if @project.rss_url && @rss_feed %>
-<h2>Stories from the field</h2>
-<%= render :partial => 'blog' %>
-<% end %>
-
-<% if @flickr_images.size > 0 %>
-<h2>Project Photos</h2>
-<%= will_paginate @flickr_images, :param_name => 'flickr_page' %>
-<%= render :partial => 'flickr_photo', :collection => @flickr_images %>
-<% end %>
-
-<% if @youtube_videos.size > 0 %>
-<h2>Project Video</h2>
-<%= will_paginate @youtube_videos, :param_name => 'youtube_page' %>
-<%= render :partial => 'youtube_video', :collection => @youtube_videos %>
-<% end %>
-
-<% content_for :sidebar do %>
-  <%= project_actions %>
-  <%= render :partial => 'related_projects' %>
-  <div class="quickfacts">
-  <%= project_quickfacts %>
+<div id='projectRank'>
+  <div class="project-content">
+    <div id='project-flickr-slide-show'>
+    </div>
+      
+    <%= @project.short_description %>
+       
+    <%= @project.description %>
+    
   </div>
-  
-  <%= dt_profile_sidebar %>
-<% end %>
+  <div class='project-sidebar'>
+    <img src="/images/tmp/sectorbar_4sectors.png" align="top" />
+    <img src="/images/tmp/give.gif" align="top"/><br />
+
+    <div id="project-accordion" class="accordion">  
+         <div class="accordion-toggle">Quick Facts</div>    
+         <div class="accordion-content">
+           <div class="quickfacts">
+              <ul>
+                <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
+                <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
+                <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
+                
+                <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %>
+                  
+                </li>
+              </ul>
+           </div>
+         </div>    
+         
+         <div class="accordion-toggle">Financial Data</div>    
+         <div class="accordion-content">Content 2</div>
+             
+         <div class="accordion-toggle">Program</div>    
+         <div class="accordion-content">Content 3</div>    
+         
+         <div class="accordion-toggle">Community</div>    
+         <div class="accordion-content">Content 4</div>
+         
+         <div class="accordion-toggle">Nation</div>    
+         <div class="accordion-content">Content 5</div>
+         
+         <div class="accordion-toggle">Implementing Organization</div>    
+         <div class="accordion-content">Content 6</div>
+    </div>
+    <div id="buttonTellFriend"><a href="/dt/tell_friends/new">Tell a Friend</a></div>
+  </div>
+</div>
+<hr style='clear:both;'>
+
+<%= javascript_tag "document.observe('dom:loaded', function(){ accordion = new Accordion('project-accordion', 1);})"%>
+
+
+
+

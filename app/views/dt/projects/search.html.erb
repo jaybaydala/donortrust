@@ -29,7 +29,7 @@
   	</ul>
 </div>
 <% end %>
-<%= will_paginate @search %>
+<%= will_paginate @search%>
 <% @search.each do | project | @project = project%>
 
 <div class="project" id="projectInfo-<%= project.id %>">

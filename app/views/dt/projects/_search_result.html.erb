@@ -1,16 +1,15 @@
 <% @project = search_result -%>
-<div class="project" id="projectInfo-<%= @project.id %>">
+<div id="projectInfo-<%= @project.id %>">
   <div class="projectSearchResultHeader">
 		<div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div>
 		<!-- project sector images -->
 		<div class="searchResultSectorImages"><%= sector_images(@project.id) %></div>
-		<br />
+		<br>
 		<div class="searchResultLocationLink">
 			<%= (@project.community_id)? "#{link_to @project.community.name, community_dt_project_path(@project)}":"" %><%= ', ' if @project.nation_id?  %>
 			<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
 		</div>
 	</div>
-
   <div class='project-content'>
     <div class='project-pre-info'>
       <% if @project.target_start_date? %>
@@ -22,10 +21,11 @@
     </div>
     <p><strong>Project Description:</strong>
       <% if (@project.short_description) && (@project.short_description!="") %>
-    		<%= @project.short_description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
+    		<%= @project.short_description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
       <% else %>
-    		<%= @project.summarized_description(75) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
+    		<%= @project.summarized_description(75) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
     	<% end%>
+    </p>
   </div>
 
   <div class='project-sidebar'>
@@ -39,3 +39,4 @@
   </div>
 
 </div>
+<div style="clear:both;"></div>

@@ -1,6 +1,6 @@
 <% @project = featured_project -%>
 <div class='featured-project'>
-  <div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div>
+  <div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div><br>
   <% if @project.community_id? || @project.nation_id? %>
   <% if @project.community_id? %>
   <%= link_to @project.community.name, community_dt_project_path(@project) %>

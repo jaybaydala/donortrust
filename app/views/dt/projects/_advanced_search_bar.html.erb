@@ -16,10 +16,10 @@
     %>  
   </p>
   <p>
-    <%= check_box_tag( 'continent_selected', (params[:continent_selected] ? '1' : '0'), params[:continent_selected])%>
+    <%= check_box_tag( 'location_selected', (params[:location_selected] ? '1' : '0'), params[:location_selected])%>
     <label class='adv-search-label'>Search By Location:</label>
     <br>
-    Continent: <%= select_tag("continent_id", options_for_select(@continents, params[:continent_id].to_i),  :onchange => "ajaxSubmit(); $('country_id').value='';assign_selected(this, 'continent');" )  %> 
+    Continent: <%= select_tag("continent_id", options_for_select(@continents, params[:continent_id].to_i),  :onchange => "ajaxSubmit(); $('country_id').value='';assign_selected(this, 'location');" )  %> 
     &nbsp;Country: 
     <span id='country_id_container'>
       <% if !params[:country_id].nil? && !params[:country_id].empty?%>
@@ -32,7 +32,7 @@
       }, 'load')
       <%end -%>
       <%end%>
-      <%= select_tag("country_id",  '', :onchange => "ajaxSubmit();assign_selected(this, 'country');" , :disabled => true)%>	
+      <%= select_tag("country_id",  '', :onchange => "ajaxSubmit();assign_selected(this, 'location');" , :disabled => true)%>	
 
     </span>
     <%= image_tag 'spinner.gif' , :id => 'spinner', :style => 'display:none; padding-top:3px;' %>
