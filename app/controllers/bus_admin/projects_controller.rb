@@ -78,7 +78,11 @@ class BusAdmin::ProjectsController < ApplicationController
 
   # called for GET on bus_admin/project
   def index
-    @projects = current_user.administrated_projects
+    if current_user.roles.include?(Role.find_by_title('cf_admin'))
+      @projects = Project.find(:all)
+    else
+      @projects = current_user.administrated_projects
+    end
     respond_to do |format|
       format.html
     end
