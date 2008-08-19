@@ -9,7 +9,7 @@
 	  <li><a href="#plan" id="tab_plan" class="tab">Plan &amp; Evaluation</a></li>
 	  <li><a href="#media" id="tab_media" class="tab">Media</a></li>
 	  <li><a href="#internal" id="tab_submit" class="tab">Submission</a></li>
-	<% if @user.cf_admin? -%>
+	<% restrict_to "cf_admin" do -%>
 	  <li><a href="#cfadmin" id="tab_cfadmin" class="tab">CF Admin</a></li>
 	<% end -%>
 	</ul>

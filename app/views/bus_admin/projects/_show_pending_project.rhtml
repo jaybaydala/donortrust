@@ -1,10 +1,10 @@
 <% @project = show_pending_project
-   @pending = @project.pending_object
-   @project = @project.real_object
+   @pending = PendingProject.find_by_project_id(Project.find_by_name(@project.name).id)
+  # @project = @project.real_object
 -%>
     <div class="projectInfo"  id="projectInfo-<%= @project.id %>">
       <div class="leftColW">
-        <h2><%= link_to @project.name, bus_admin_show_pending_project_project_path(@project) %></h2>
+        <h2><%= link_to @project.name, 'bus_admin/show_pending_project' %></h2>
         <div class="projectRank">
           <ul class="specList">
             <% if @project.target_start_date? %><li><span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span></li><% end %>
@@ -16,7 +16,7 @@
 	  </div>
       	
     	<div class="factList">
-    	  <%= project_quickfacts %>
+    	  <% #project_quickfacts %>
     	</div>
 
 		<div style="clear:both;">
@@ -30,9 +30,9 @@
 				<% end %>
 				<br />
 				<div style="clear:both">
-					<%= link_to "Approve", bus_admin_approve_project_project_path(@project), :method => :put %>
+					<%= link_to "Approve", 'bus_admin/approve_project', :method => :put %>
 					&nbsp;&nbsp;
-					<%= reject_pending_project(@project) %>
+					<%= 'bus_admin/reject_project' %>
   				</div>
 			</p>
 		</div>

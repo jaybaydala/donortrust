@@ -22,7 +22,8 @@ ActionController::Routing::Routes.draw do |map|
                                               :advancedsearch => :get,
                                               :add_countries => :get,
                                               :add_causes => :get,
-                                              :list => :get
+                                              :list => :get,
+                                              :pending_projects => :get
                                           }
     dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
@@ -304,7 +305,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :programs,    :controller => "bus_admin/programs",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :projects,    :controller => 'bus_admin/projects',
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
+    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true,
+    :collection => { :pending_projects => :ge}
   map.resources :milestones,  :controller => "bus_admin/milestones",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :tasks,       :controller => "bus_admin/tasks",
@@ -326,6 +328,8 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password_now '/bus_admin/bus_account/change_password_now', :controller => 'bus_admin/bus_account', :action =>'change_password_now'
   #map.display_pending '/bus_admin/display_pending', :controller => 'bus_admin/partners', :action =>'display_pending'
   map.home '/bus_admin/index', :controller => 'bus_admin/home', :action=> 'index'
+  map.pending_projects 'bus_admin/pending_projects', :controller => 'bus_admin/projects', :action => 'pending_projects'
+  map.show_pending_project 'bus_admin/show_pending_projects', :controller => 'bus_admin/projects', :action => 'show_pending_project'
   map.report 'bus_admin/report', :controller => 'bus_admin/projects', :action => 'report'
   map.kpi_report 'bus_admin/_kpi_report', :controller => 'bus_admin/projects', :action => 'kpi_report'
   map.report 'bus_admin/individual_report', :controller => 'bus_admin/projects', :action => 'individual_report'

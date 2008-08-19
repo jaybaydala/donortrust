@@ -12,7 +12,7 @@ class AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
       Project.find(:all).each do |p|
         # find the country through place shortcuts
         
-        #only add if it isn't a continet
+        #only add if it isn't a continent
         if p.place.place_type_id != 1
           country = Place.find(p.place.country_id)
           p.country_id = country.id

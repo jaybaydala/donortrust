@@ -17,7 +17,7 @@ class BusAdmin::ProjectsController < ApplicationController
                         :intended_outcome, :meas_eval_plan, :project_in_community,
                         :other_projects, :causes, :collaborating_agencies, :financial_sources,
                         :lives_affected ]      
-    list.columns =    [ :name, :program, :project_status, :target_start_date ]
+    list.columns =    [ :name, :program, :project_status, :target_start_date, :public ]
 
     #update.columns.exclude [ :program, :milestones, :milestone_count, :key_measures ]
     #create.columns.exclude [ :milestones, :milestone_count, :key_measures  ]
@@ -251,7 +251,7 @@ class BusAdmin::ProjectsController < ApplicationController
   def pending_projects
     pp = PendingProject.find(:all, :conditions => ["rejected = false and rejection_reason is null and date_rejected is null"])
     @pending_projects = []
-    pp.each {|p| @pending_projects << PendingWrapper.new(p, Project.rehydrate_from_xml(p.project_xml))}
+    pp.each {|p| @pending_projects << Project.rehydrate_from_xml(p.project_xml)}
     respond_to do |format|
       format.html
     end
@@ -261,7 +261,7 @@ class BusAdmin::ProjectsController < ApplicationController
   def rejected_projects
     pp = PendingProject.find(:all, :conditions => ["rejected = true and rejection_reason is not null and date_rejected is not null and created_by = ?", self.current_busaccount.id])
     @rejected_projects = []
-    pp.each {|p| @rejected_projects << PendingWrapper.new(p, Project.rehydrate_from_xml(p.project_xml))}
+    pp.each {|p| @rejected_projects << Project.rehydrate_from_xml(p.project_xml)}
     respond_to do |format|
       format.html
     end

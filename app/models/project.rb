@@ -127,6 +127,11 @@ class Project < ActiveRecord::Base
  # end
 
   class << self
+   
+    def rehydrate_from_xml(xml)
+      Project.new(Hash.from_xml(xml)['project'])
+    end
+
     def cf_unallocated_project
       @cf_unallocated_project ||= Project.find(11) if Project.exists?(11)
     end
