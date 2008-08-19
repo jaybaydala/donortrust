@@ -6,7 +6,9 @@
 	  <div class="active-scaffold-header">
 		  <div class="actions">
 				<%= link_to "Create new", new_bus_admin_project_url %>
-                                <%= link_to "Pending projects", '/bus_admin/projects/pending_projects' %>
+			<% restrict_to "cf_admin" do -%>
+        <%= link_to "Pending projects", '/bus_admin/projects/pending_projects' %>
+			<% end -%>
 		  </div>
 		  <h2>Projects</h2>
 	  </div>
@@ -16,8 +18,9 @@
 		    <tr>
 					<th>Project</th>
 					<th>Program</th>
-					<th>Status</th>
 					<th>Start</th>
+					<th>Project Status</th>
+					<th>Approval Status</th>
 					<th>Actions</th>
 		    </tr>
 		  </thead>

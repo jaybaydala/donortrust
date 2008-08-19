@@ -90,7 +90,7 @@
 				<%= collection_select (:project, :program_id, get_programs, :id, :name, :include_blank => true) %>
 			</li>
 
-		<% if @user.cf_admin? -%>
+		<% restrict_to "cf_admin" do -%>
 			<li>
 				<label for="project_partner_id" class="title">
 					<%= render :partial => 'dt/shared/form_required' %>Partner
@@ -352,7 +352,7 @@
 		</ul>
 	</fieldset>
 
-<% if @user.cf_admin? -%>
+<% restrict_to "cf_admin" do -%>
 	<fieldset class="sheet" id="panel_cfadmin">
 		<legend class="sheet_heading">CF Admin</legend>
 
@@ -390,7 +390,7 @@
 	</fieldset>
 <% end -%>
 
-	<% #TODO: improve = periodically_save_form('project-form', "/bus_admin/projects/#{@project.id}", 60) %>
+	<%= periodically_save_form('project-form', project_auto_update_url(:id => @project), 60) if @project.id %>
 <% end -%>
 </div>
 
@@ -428,7 +428,16 @@
 		});
 		tabs.autoActivate($('tab_basic')); 	// name of tab to auto-select if none exists in the url
 		
-		
+		// auto save on tab change
+		$$('.tab').each(function (el) {
+			Event.observe(el, 'click', respondToTabClick, true)
+		});
+		function respondToTabClick(event) {
+			new Ajax.Request(
+        '<%= project_auto_update_url(:id => @project) %>',
+        { asynchronous:true, evalScripts:true, method:'put', parameters:$('project-form').serialize() }
+      );
+		}
 	}
 //]]>
 </script>

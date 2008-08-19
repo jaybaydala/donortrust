@@ -91,7 +91,7 @@ class BusAdmin::ProjectsController < ApplicationController
   # called for POST on bus_admin/project
   def create
     @project = Project.new(params[:project])
-    if params[:place] and params[:place][:name]
+    if params[:place] and params[:place][:name] and params[:place][:name] != ""
       @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id
     end
 
@@ -111,7 +111,7 @@ class BusAdmin::ProjectsController < ApplicationController
     respond_to do |format|
       if @saved
         flash[:notice] = "Project was successfully created"
-        format.html {redirect_to bus_admin_projects_url}
+        format.html {render :action => "edit"}
       else
         format.html {render :action => "new"}
       end
@@ -175,29 +175,67 @@ class BusAdmin::ProjectsController < ApplicationController
       #Hack - if we don't do this, the textiled properties are added with tags to the xml
       @project.textiled = false
       
-      if current_user.cf_admin?
+      if @project.valid?
         # changes by cf admins are reflected immediately on the website
-        if @project.save
+        if current_user.cf_admin? and @project.save
           flash[:notice] = 'Project was successfully updated and changes will appear publicly immediately.'
           redirect_to edit_bus_admin_project_path(@project)
         else
-          render :action => "edit"
-        end
-      else
         
-        #create a new PendingProject to hold the requested changes
-        @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => false)
-        if @pending.save                            
-          flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
-          redirect_to edit_bus_admin_project_path(@project)
-        else
-          render :action => "edit"
+          #create a new PendingProject to hold the requested changes
+          @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => false)
+          
+          @pending.submitted_at = Time.now if params[:commit] == "Submit"
+          
+          if @pending.save                            
+            flash[:notice] = 'Project was successfully updated, but changes will not appear publicly until approved.'
+            redirect_to edit_bus_admin_project_path(@project)
+          end
+        end
+      end
+    end
+    
+    unless flash[:notice]
+      flash[:notice] = 'Project could not be saved.'
+      render :action => "edit"
+    end
+  end
+  
+  # called for PUT on bus_admin/projects/:id
+  def auto_update
+    # TODO: check if there were actually any changes => use changed attribute tracking of Rails 2.1
+    
+    respond_to do |wants|
+      wants.js do
+        @project = Project.find(params[:id])
+    
+        #there may be an old approval pending that we should get rid of
+        begin
+          old_pending = PendingProject.find_by_project_id(@project.id)
+        rescue ActiveRecord::RecordNotFound
+          #swallow - just means there was no old pending record
+        end
+    
+        ActiveRecord::Base.transaction do
+          #if there was an old pending record, dump it.
+          old_pending.destroy if old_pending
+            
+          #only update the project attributes !!DO NOT SAVE THE PROJECT HERE!!
+          @project.attributes = params[:project]
+          @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id if params[:place]
+          #Hack - if we don't do this, the textiled properties are added with tags to the xml
+          @project.textiled = false
+      
+          #create a new PendingProject to hold the requested changes
+          pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => false)
+          if pending.save                            
+            @message = 'Changes have been saved as a draft.'
+          end
         end
       end
     end
   end
   
-
   #############################################################################
   # management of pending projects
   # TODO for Adrian: integrate properly
@@ -213,7 +251,7 @@ class BusAdmin::ProjectsController < ApplicationController
       #swallow - just means there was no old pending record
     end
 
-    redirect_to list_bus_admin_project_path
+    redirect_to :action => 'index'
   end
   
   def show_pending_project_rejection

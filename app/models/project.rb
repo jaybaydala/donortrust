@@ -99,17 +99,13 @@ class Project < ActiveRecord::Base
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
-    unless me.program( true )
-      me.errors.add :program_id, 'does not exist'
-    end
-    unless me.partner( true )
-      me.errors.add :partner_id, 'does not exist'
-    end
-    unless me.project_status( true )
-      me.errors.add :project_status_id, 'does not exist'
-    end
-    unless me.place( true )
-      me.errors.add :place_id, 'does not exist'
+    me.errors.add :program_id, 'does not exist'         unless me.program( true )
+    me.errors.add :partner_id, 'does not exist'         unless me.partner( true )
+    me.errors.add :project_status_id, 'does not exist'  unless me.project_status( true )
+    me.errors.add :place_id, 'does not exist'           unless me.place( true )
+    
+    if me.total_cost.to_f != me.get_total_budget
+      me.errors.add :total_cost, "has to be same as sum of costs of all budget items, i.e. #{me.get_total_budget}."
     end
 
     #need to validate the presence of other featured projects
@@ -249,9 +245,21 @@ class Project < ActiveRecord::Base
   end
 
   def allow_subagreement?
-    false
+    (approval_status == :approved and not is_subagreement_signed?)
   end
   
+  def approval_status
+    if not has_pending?
+      :approved
+    elsif has_pending? and not pending_project.submitted_at.nil?
+      :submitted  # waiting for approval
+    elsif has_pending?
+      :changed    # waiting for submission
+    else
+      :unknown
+    end
+  end
+
   def group_project?(user)
     user.groups.each do |user_group|
       return true if group_ids.include?(user_group.id)
@@ -413,23 +421,11 @@ class Project < ActiveRecord::Base
   end
 
   def get_total_budget
-    total_budget_items_cost = 0.0
-    budget_items(force_reload=true).each do |item|
-      if item.cost != nil
-        total_budget_items_cost += item.cost
-      end
-    end
-    total_budget_items_cost
+    budget_items(force_reload=true).inject(0) { |sum, i| i.cost.nil? ? sum : sum + i.cost }.to_f
   end
 
   def self.total_money_raised
-    total = 0
-    Project.find(:all).each do |project|
-      if project.dollars_raised != nil
-        total = total + project.dollars_raised
-      end
-    end
-    total
+    Project.find(:all).inject(0) { |sum, p| p.dollars_raised.nil? ? sum : sum + p.dollars_raised }.to_f
   end
 
   def self.total_costs

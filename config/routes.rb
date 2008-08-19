@@ -341,6 +341,7 @@ ActionController::Routing::Routes.draw do |map|
   map.update_partner 'update_partner', :controller => 'bus_admin/projects', :action => 'update_partner'
   map.create_subagreement 'create_subagreement', :controller => 'bus_admin/projects', :action => 'create_subagreement'
   map.delete_pending 'delete_pending', :controller => 'bus_admin/projects', :action => 'delete_pending'
+  map.project_auto_update 'project_auto_update', :controller => 'bus_admin/projects', :action => 'auto_update'
 
   map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
   map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'

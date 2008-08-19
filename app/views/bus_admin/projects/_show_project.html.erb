@@ -2,11 +2,12 @@
 <tr class="record">
 	<td><%= link_to @project.name, edit_bus_admin_project_url(@project) %></td>
 	<td><%= @project.program.name %></td>
-	<td><%= @project.project_status.name %></td>
 	<td><%= @project.target_start_date.to_formatted_s(:long) %></td>
+	<td><%= @project.project_status.name %></td>
+	<td><%= @project.approval_status %></td>
 
 	<td>
-		<%= link_to("Create subagreement", create_subagreement_url(:id => @project)) + " | " unless @project.allow_subagreement? %>
+		<%= link_to("Create subagreement", create_subagreement_url(:id => @project)) + " | " if @project.allow_subagreement? %>
 		<%= link_to("Delete draft", delete_pending_url(:id => @project), :confirm => 'Are you sure you want to delete your recent changes? This cannot be undone.') + " | " if @project.has_pending? %>
 		<%= link_to "Update", edit_bus_admin_project_url(@project) + '#media' %>
 	</td>
