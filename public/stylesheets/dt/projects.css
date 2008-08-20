@@ -18,48 +18,6 @@ div.projectRank li {
 	padding:0 0 0.1875em 0em;
 }
 
-/*
-Featured and Search Project List
-================================*/
-div.projectlist {}
-div.projectlist .project {
-    border-bottom:0.125em solid #360;
-    padding-bottom:1em;
-	background:none;
-}
-
-div.projectlist .project li {
-	background:none;
-	border:none;
-}
-
-.projectlist ul, .projectlist .project ul {
-	margin:0 0 0 0;
-}
-
-.projectlist li  {
-	list-style-type:none;
-	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat scroll 0px 4px;
-	padding:0 0 0.1875em 0.875em;
-	font-family:Arial, Helvetica, sans-serif;
-    border-bottom:1px solid #DDDDDD;
-}
-.projectlist li p {
-	font-family:Arial, Helvetica, sans-serif;
-	margin:0 0 0 0;
-}
-
-.projectlist li p a:active, .projectlist li p a:link, .projectlist li p a:visited  {
-	background:transparent url(/images/dt/nav_elements/arrows/blue_arrowSM.gif) no-repeat scroll 0px 2px;
-	padding:0px 0px 0px 1.2em;
-}
-
-#content-wrapper .projectlist a:active,#content-wrapper .projectlist a:link,#content-wrapper .projectlist a:visited {
-	font-weight:bold;
-	color:#360;
-	font-family:Arial, Helvetica, sans-serif;
-}
-
 
 /*
 Project Highlight List
@@ -354,8 +312,8 @@ US TAXES
 /* featured projects */
 .featured-project{
 	clear:both;
-	height: 200px;
-	padding-bottom:80px;
+/*	height: 200px;
+	padding-bottom:80px; */
 }
 .project-title a{
   float: left;
@@ -487,6 +445,11 @@ form#project_search input.submitreplace:hover{
 
 
 /* Project search result specific */
+.search-result-info {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
 .projectSearchResultHeader {
   border-bottom: 1.5px solid black;
   padding: 0;
@@ -530,11 +493,9 @@ form#project_search input.submitreplace:hover{
 }
 
 .searchResultsQuickfacts li{
-	list-style-type:none;
 	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat scroll 0px 4px;
 	padding:0 0 0.1875em 0.875em;
 	font-family:Arial, Helvetica, sans-serif;
-  /* border-bottom:1px solid #DDDDDD; */
 }
 
 .quickfactsSidebarGive {

@@ -7,7 +7,7 @@
 <div id='wrapper-adv-search-box'>
   <p>
     <label class='adv-search-label'>Search By Keywords:</label>
-    <br>
+    <br />
     <%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
     :title => 'Search', 
     :size => 65 ,
@@ -18,7 +18,7 @@
   <p>
     <%= check_box_tag( 'location_selected', (params[:location_selected] ? '1' : '0'), params[:location_selected])%>
     <label class='adv-search-label'>Search By Location:</label>
-    <br>
+    <br />
     Continent: <%= select_tag("continent_id", options_for_select(@continents, params[:continent_id].to_i),  :onchange => "ajaxSubmit(); $('country_id').value='';assign_selected(this, 'location');" )  %> 
     &nbsp;Country: 
     <span id='country_id_container'>
@@ -52,14 +52,14 @@
   <p>
   <%= check_box_tag( 'partner_selected', (params[:partner_selected] ? '1' : '0'), params[:partner_selected])%>
   <label class='adv-search-label'>Search By Organization:</label>
-  <br>
+  <br />
   <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();assign_selected(this, 'organization');" ) %>
   </p>
   
   <p>
     <%= check_box_tag( 'cause_selected', (params[:cause_selected] ? '1' : '0'), params[:cause_selected])%>
     <label class='adv-search-label'>Search By Cause or Sector:</label>
-    <br>
+    <br />
     Sector: <%= select_tag("sector_id",options_for_select(@sectors, params[:sector_id].to_i) , :onchange => "ajaxSubmit();assign_selected(this, 'cause');" ) %> &nbsp;
      Cause: 
      <span id='cause_id_container'>
@@ -91,11 +91,11 @@
   <p>
     <%= check_box_tag( 'funding_req_selected', (params[:fundung_req_selected] ? '1' : '0'),params[:funding_req_selected])%>
     <label class='adv-search-label'>Search By Funding Requirement:</label>
-    <br>
+    <br />
     min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %> 
     and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %>
     &nbsp;
-    <br>
+    <br />
     <%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%> Include fully funded projects
   </p>
 

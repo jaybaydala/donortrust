@@ -1,34 +1,40 @@
 <% @project = featured_project -%>
 <div class='featured-project'>
-  <div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div><br>
-  <% if @project.community_id? || @project.nation_id? %>
-  <% if @project.community_id? %>
-  <%= link_to @project.community.name, community_dt_project_path(@project) %>
-  <% end %>
-  <% if @project.nation_id? %><%= ', ' if @project.community_id?  %>
-  <%= link_to @project.nation.name, nation_dt_project_path(@project) %>
-  <% end %>
+	<div id="projectInfo-<%= @project.id %>">
+		<div class="projectSearchResultHeader">
+			<div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div>
+			<!-- project sector images -->
+			<div class="searchResultSectorImages"><%= sector_images(@project.id) %></div>
+			<br />
+			<div class="searchResultLocationLink">
+				<% if @project.community_id %><%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %><% end %>
+				<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
+			</div>
+		</div>
 
-  <% end %>
-  <hr>
-  <div class='project-content'>
-    <!-- project sector images -->
-    <%= sector_images(@project.id) %>
-    <div class='project-pre-info'>
-      <% if @project.target_start_date? %>
-      <span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span>
-      <% end %>
-      <% if @project.partner_id? && @project.partner %>
-      <span><strong>Organization:</strong> <%= link_to @project.partner.name, organization_dt_project_path(@project)%></span>
-      <% end %>
-    </div>
-    <p><strong>Project Description:</strong> <%= @project.summarized_description(75) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %></p>
-  </div>
+		<div class='project-content'>
+			<div class='project-pre-info'>
+				<% if @project.target_start_date? %>
+				<span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span>
+				<% end %>
+				<% if @project.partner_id? && @project.partner %>
+				<span><strong>Organization:</strong> <%= link_to @project.partner.name, organization_dt_project_path(@project)%></span>
+				<% end %>
+			</div>
+			<p><strong>Project Description:</strong>
+				<% if (@project.short_description) && (@project.short_description!="") %>
+					<%= @project.short_description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
+				<% else %>
+					<%= @project.summarized_description(75) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
+				<% end%>
+			</p>
+		</div>
 
-  <div class='project-sidebar'>
-    <div class="quickfacts">
-      <%= project_quickfacts %>
-    </div>
-  </div>
-
+		<div class='project-sidebar'>
+			<div class="searchResultsQuickfacts">
+				<%= project_quickfacts %>
+			</div>
+		</div>
+	</div>
 </div>
+<div style="clear:both;"></div>

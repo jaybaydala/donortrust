@@ -37,7 +37,8 @@ h1, h2, h3, h4, h5 {
 }
 h1 {
 	font-size: 1.5em; /* 16x1.5=24px */
-	line-height: 2.25em;/* 16x2.25=36px */
+	line-height: 2em;/* 16x2=36px */
+	padding-bottom: 0px;
 	margin: 0;
 }
 h2 {

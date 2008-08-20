@@ -16,7 +16,7 @@
         %>
       </span>
     </div>
-    <p>Search by location, cause, or name. eg. "women education africa" <br>
+    <p>Search by location, cause, or name. eg. "women education africa" <br />
       Or try our <%= link_to 'Advanced Search', advancedsearch_dt_projects_path %>
     </p>
 
@@ -43,7 +43,7 @@
   
   <h2>Featured Projects:</h2>
   
-	<div id="featured-projects">
+	<div class="project-list">
 		<%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
 	</div>
 
