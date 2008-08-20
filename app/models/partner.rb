@@ -9,8 +9,8 @@ class Partner < ActiveRecord::Base
   has_many      :programs, :through => :projects
   has_many      :quick_fact_partners , :dependent => :destroy
   has_many      :measures, :dependent => :destroy
-  has_many      :users
   has_many      :contacts
+  has_many      :users, :through => :contacts
   
   has_many      :campaign_limits
   has_many      :campaigns, :through => :campaign_limits

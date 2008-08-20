@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   extend HasAdministrables
   #acts_as_versioned
   acts_as_paranoid_versioned
-  belongs_to :partner
+  has_one :contact
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
@@ -80,6 +80,10 @@ class User < ActiveRecord::Base
   
   def full_name
     under_thirteen? ? self.display_name : "#{self.first_name} #{self.last_name}" 
+  end
+  
+  def partner
+    contact.partner
   end
   
   #MP Dec 14, 2007 - Added to support the need to determine whether the user is in a

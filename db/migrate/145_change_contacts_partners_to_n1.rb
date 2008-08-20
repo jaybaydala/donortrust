@@ -3,7 +3,8 @@ class ChangeContactsPartnersToN1 < ActiveRecord::Migration
     add_column :contacts, :partner_id, :integer
     
     Contact.find(:all).each do |c|
-      c.partner_id = c.partners[0].id if c.partners.size > 0
+      partners = Partner.find_by_sql "SELECT partner_id FROM contacts_partners WHERE contact_id = #{c.id}"
+      c.partner_id = partners[0].partner_id if partners.size > 0
       c.save
     end
     
