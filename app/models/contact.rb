@@ -3,7 +3,7 @@ class Contact < ActiveRecord::Base
   has_many :programs
   has_many :projects
   belongs_to :place
-  has_and_belongs_to_many :partners
+  belongs_to :partner
  
   
   validates_presence_of :first_name

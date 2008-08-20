@@ -7,6 +7,16 @@ class BusAdmin::HomeController < ApplicationController
   include BusAdmin::ProgramsHelper
   
   def index
+    if current_user.cf_admin?
+      cf_home
+      render :action => 'cf_home'
+    else
+      partner_home
+      render :action => 'partner_home'
+    end
+  end
+  
+  def cf_home
     @all_partners = Partner.find(:all)
     @total_partners = @all_partners.size 
     @all_projects = Project.find(:all)#get_projects 
@@ -19,4 +29,20 @@ class BusAdmin::HomeController < ApplicationController
     @total_percent_raised = Project.total_percent_raised
   end
   
+  def partner_home
+    @user = current_user
+    @partner = @user.partner
+    @projects = current_user.administrated_projects
+  end
+  
+  def update_partner
+    partner_home
+    
+    @partner.attributes = params[:partner]
+    flash[:notice] = 'Profile updated successfully.' if @partner.valid? and @partner.save
+    
+    respond_to do |wants|
+      wants.html {render :action => "partner_home"}
+    end
+  end
 end

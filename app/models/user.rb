@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   extend HasAdministrables
   #acts_as_versioned
   acts_as_paranoid_versioned
+  belongs_to :partner
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
@@ -166,7 +167,7 @@ class User < ActiveRecord::Base
   end
   
   def cf_admin?
-    self.roles.member? Role.find(:first, :conditions => "title = 'cf_admin'")
+    self.roles.include?(Role.find_by_title('cf_admin'))
   end
   
   # Returns true if the user has just been activated.
