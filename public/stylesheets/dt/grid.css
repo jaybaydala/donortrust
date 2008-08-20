@@ -80,25 +80,7 @@
     background:url(/images/dt/toolbars/ToolBackground.jpg) no-repeat bottom left #C4C4C4;
 }
 
-#search-bar-wrapper{
-	width: 700px;
-	margin: 0 auto;
-	padding: 0 5px;
-	border-left: 1px solid #979797;
-	border-right: 1px solid #979797;
-	border-bottom: 2px solid #979797;
-}
-.hider{
-	width: 65px;
-	margin: 0 6px;
-	color: #f0f0f0;
-	font-size:80%;
-	background-color: #979797;
-	border-left: 1px solid #979797;
-	border-bottom: 1px solid #979797;
-	border-right: 1px solid #979797;
-	padding: 0 5px;
-}
+
 
 #toolbar2-wrapper {
     background:#CCC url(/images/dt/toolbars/ToolBackground2.jpg) no-repeat;

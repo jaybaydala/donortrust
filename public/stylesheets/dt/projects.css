@@ -375,12 +375,12 @@ US TAXES
 }
 
 .project-content{
-	width:60%;
+	width:65%;
 	float:left;
 }
 
 .project-sidebar{
-	width: 35%;
+	width: 25%;
 	float:right;
 }
 .project-sidebar .quickfacts ul{
@@ -424,7 +424,7 @@ SEARCH, layout and forms
 
 
 .filter-your-results{
-	float:right;
+
 }
 
 .filter-your-results a{
@@ -451,6 +451,28 @@ form#project_search{
 	margin: 0 20px;
 }
 
+#search-bar-wrapper{
+	width: 700px;
+	margin: 0 auto;
+	padding: 0 5px;
+	border-top: 1px solid #979797;
+	border-left: 1px solid #979797;
+	border-right: 1px solid #979797;
+	border-bottom: 2px solid #979797;
+}
+.hider{
+	width: 65px;
+	margin: 0 44px;
+	color: #f0f0f0;
+	font-size:80%;
+	background-color: #979797;
+	border-left: 1px solid #979797;
+	border-bottom: 1px solid #979797;
+	border-right: 1px solid #979797;
+	padding: 0 5px;
+}
+
+
 /* attribute selector */
 form#project_search input.submitreplace {
     width:35px;
@@ -476,7 +498,7 @@ form#project_search input.submitreplace:hover{
   background: none;
 	float: right;
 	vertical-align: top;
-	margin-top: 8px;
+	margin-top: 8px;	
 }
 
 .searchResultSectorImages img{
@@ -519,4 +541,47 @@ form#project_search input.submitreplace:hover{
   float: right;
 }
 
+/* project accordion */
+#project-accordion{
+	width:250px;
+	height:300px;
+}
 
+div#project-accordion{
+    margin: 10px;
+}
+
+div.accordion {
+    position: relative; /* required for bounding--works around a "peculiarity" in Prototype */
+}
+
+div.accordion-toggle{
+    position: relative; /* required for effect */
+    z-index: 10;		/* required for effect */
+		height:24px;
+		background: url(/images/dt/backgrounds/accordion_tab.gif) top left;
+    cursor: pointer;
+}
+
+div.accordion-toggle-active{
+    background: #336600;
+		color:#C0C0C0;
+		padding-left:10px;
+}
+
+div.accordion-content{
+    overflow: hidden;	/* required for effect */
+    padding-left: 10px;
+		padding-right: 10px;
+}
+
+
+/* project flickr slide show */
+#project-flickr-slide-show{
+	width:150px;
+	height:150px;
+	border: solid;
+	display: inline;
+	vertical-align:top;
+	float:right;
+}
