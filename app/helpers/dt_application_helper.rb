@@ -197,16 +197,17 @@ module DtApplicationHelper
   # ultrasphinx advanced search
   # populates select boxes
   def dt_advanced_search
+    
     @continents = [['All ...', '']]
 		Project.continents_all.each do |place|
-  			name = place.parent_id? ? "#{place.name} (#{Place.projects(1,place.id).size})" : "#{place.name} (#{Place.projects(1,place.id).size})"
+  			name = place.id? ? "#{place.name} (#{place.public_projects.size})" : "#{place.name} (#{place.public_projects.size})"
   			@continents << [name, place.id]
 		end
 		@partners = [['All ...', '']]
     Project.partners.each do |partner|
-      @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:partner_id => partner.id})
-      @search.run
-      projects = @search.results
+      @prjts = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:partner_id => partner.id})
+      @prjts.run
+      projects = @prjts.results
       @partners << ["#{partner.name} (#{projects.size})", partner.id]
     end
     #@causes = [['All ...', '']]

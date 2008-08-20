@@ -29,8 +29,7 @@ class Place < ActiveRecord::Base
   is_indexed :fields => [
     {:field => 'name', :sortable => true},
     {:field => 'parent_id', :as => 'continent'}
-    ],
-    :conditions => 'place_type_id=2'
+    ]
 
   
   def Place.getParentString(place)
@@ -93,6 +92,19 @@ class Place < ActiveRecord::Base
       if ancestor.place_type_id==1
         return ancestor
       end
+    end
+  end
+  
+  def public_projects
+    #continent
+    if self.place_type_id==1
+      return Project.find_public :all, :conditions => "projects.continent_id = #{self.id}"
+    end
+    if self.place_type_id==2
+      return Project.find_public :all, :conditions => "projects.country_id = #{self.id}"
+    end
+    if self.place_type_id==6
+      return Project.find_public :all, :conditions => "projects.place_id = #{self.id}"
     end
   end
   

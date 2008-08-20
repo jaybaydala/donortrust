@@ -59,6 +59,8 @@ class Sector < ActiveRecord::Base
   end
 
   def projects
-    Project.find(:all, :joins => [:sectors], :conditions => ["sector_id=#{self.id} AND projects.project_status_id IN (2,4) AND projects.deleted_at IS NULL"], :group => 'projects.id')
+    #return Project.find_by_sql("SELECT * FROM `projects` LEFT JOIN causes_projects ON projects.id=causes_projects.project_id LEFT JOIN causes ON causes.id=causes_projects.cause_id  LEFT JOIN sectors ON sectors.id=causes.sector_id  WHERE causes.sector_id=#{self.id} AND projects.project_status_id IN (2,4) AND (projects.deleted_at IS NULL) ")
+    #return Project.find_public(:all, :joins => [:causes], :conditions => ["causes.sector_id=#{self.id}"])
+    return Project.find_public(:all, :joins => [:sectors], :conditions => ["sectors.id=#{self.id}"])
   end
 end

@@ -57,9 +57,9 @@ module Dt::ProjectsHelper
 
   def countries_with_project_counts(limit = 4)
     output =[]
-    @countries = Place.find_by_sql("SELECT count(*) as count, p.name as name, p.id as id FROM places p inner join projects pr ON pr.country_id = p.id GROUP BY p.id ORDER BY count DESC")
+    @countries = Place.find_by_sql("SELECT count(*) as count, p.name as name, p.id as id FROM places p inner join projects pr ON pr.country_id = p.id WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL GROUP BY p.id ORDER BY count DESC")
     @countries.each do |c|
-      output << (link_to image_tag("/images/dt/flags/#{c.id}.gif",  :title=> c.name, :alt => c.name)+" #{c.name} (#{(c.count)})", search_dt_projects_path+"?continent_selected=1&country_id=#{c.id}") if c.count.to_i>0
+      output << (link_to image_tag("/images/dt/flags/#{c.id}.gif",  :title=> c.name, :alt => c.name)+" #{c.name} (#{(c.count)})", search_dt_projects_path+"?location_selected=1&country_id=#{c.id}") if c.count.to_i>0
     end
 
     if limit && limit < @countries.size
@@ -73,7 +73,7 @@ module Dt::ProjectsHelper
 
   def partners_with_projects_count(limit=4)
     output =[]
-    @partners = Partner.find_by_sql("SELECT count(*) as count, p.name as name, p.id as id FROM partners p inner join projects pr ON pr.partner_id = p.id WHERE pr.project_status_id = 2 AND p.partner_status_id = 1 GROUP BY p.id ORDER BY p.name ASC")
+    @partners = Partner.find_by_sql("SELECT count(*) as count, p.name as name, p.id as id FROM partners p inner join projects pr ON pr.partner_id = p.id WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL AND p.partner_status_id = 1 GROUP BY p.id ORDER BY p.name ASC")
     @partners.each do |p|
       output << link_to("#{p.name} (#{(p.count)})", search_dt_projects_path+"?partner_selected=1&partner_id=#{p.id}") if p.count.to_i>0
     end

@@ -13,15 +13,29 @@ class Cause < ActiveRecord::Base
 
   acts_as_textiled :description
   
+  #ultrasphinx indexer
+  is_indexed :fields => [
+    {:field => 'id', :as => 'cause_id'},
+    {:field => 'name', :sortable => true},
+    {:field => 'sector_id'},
+  ], 
+  :conditions => "causes.deleted_at IS NULL"
+  
+  
   def projects
-    Project.find_by_sql("SELECT * FROM projects 
-                        INNER JOIN causes_projects ON causes_projects.project_id=projects.id 
-                        INNER JOIN causes ON causes_projects.cause_id=causes.id
-                        INNER join sectors ON sectors.id=causes.sector_id
-                        WHERE
-                        causes.sector_id=#{self.sector_id}
-                        AND projects.project_status_id IN (2,4) AND projects.deleted_at IS NULL
-                        GROUP BY causes.id
+    Project.find_by_sql("
+                      SELECT * FROM projects
+                      INNER JOIN causes_projects 
+                       ON causes_projects.project_id=projects.id 
+                      INNER JOIN projects_sectors 
+                       ON projects_sectors.project_id=projects.id
+                      WHERE
+                      projects_sectors.sector_id=#{self.sector_id}
+                      AND
+                      causes_projects.cause_id=#{self.id}
+                      AND 
+                      projects.project_status_id IN (2,4) AND projects.deleted_at IS NULL
+                      GROUP BY projects.id
                       ")
   end
 end

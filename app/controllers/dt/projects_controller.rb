@@ -5,6 +5,8 @@ class Dt::ProjectsController < DtApplicationController
   before_filter :store_location, :except=>[:facebook_login, :finish_facebook_login, :timeline]
   helper "dt/groups"
 
+  @monkey_patch_flag = false
+
   def initialize
     @topnav = 'projects'
   end
@@ -185,27 +187,16 @@ class Dt::ProjectsController < DtApplicationController
   #populates the country select using the continent_id
   def add_countries
 
-    #places = Place.countries(params[:continent_id].to_i)
-    #places = Place.find(:all, :conditions => [ "parent_id = ?", params[:continent_id]  )
-    #@countries = [['Location', '']]
-    #places.each do |country|
-    #  projects = Place.projects(2,country.id)
-    #  if projects.size>0
-    #    name = country.parent_id? ? "#{country.name} (#{projects.size})" : "#{country.name} (#{projects.size})"
-    #    @countries << [name, country.id]
-    #  end
-    #end
 
-    #TODO after Adrian migration fix, needed to refactor
-    projects = Place.projects(1, params[:continent_id].to_i)
+    projects = Project.find_public :all, :conditions => "continent_id=#{params[:continent_id]}"
     @countries = [[ 'All ...', '']]
     projects.each do |project|
       sum = 0
       projects.each do |pj|
-        sum += 1 if project.place.country==pj.place.country
+        sum += 1 if project.country_id==pj.country_id
       end
-      name = "#{!project.place.country.nil? ? project.nation.name : project.place.country.name} (#{sum})"
-      @countries << [name, project.place.country.id]
+      name = "#{!project.country_id.nil? ? project.nation.name : project.place.country.name} (#{sum})"
+      @countries << [name, project.country_id]
     end
     @countries.uniq!
     respond_to do |format|
@@ -225,9 +216,10 @@ class Dt::ProjectsController < DtApplicationController
     @causes = [['All ...', '']]
     #@search = Ultrasphinx::Search.new(:class_names => ['Project'], :per_page => Project.count, :filters => {:sector_id => params[:sector_id].to_i })
     #@search.run
-    causes = Cause.find_by_sector_id(params[:sector_id]) if params[:sector_id]
-    causes.to_a.each do |cause|
-      if cause.projects.size>0
+    #causes = Cause.find_by_sector_id(params[:sector_id]) if params[:sector_id]
+    sector = Sector.find(params[:sector_id])
+    sector.causes.each do |cause|
+    if cause.sector.id==sector.id && cause.projects.size>0
         @causes << ["#{cause.name} (#{cause.projects.size})", cause.id]
       end
     end
@@ -253,6 +245,7 @@ class Dt::ProjectsController < DtApplicationController
   protected
 
   def apply_filters
+    
     filters = Hash.new
     # partner
     if params[:partner_selected]
@@ -268,10 +261,12 @@ class Dt::ProjectsController < DtApplicationController
       end
     end
 
-    # sector
+    # sector (don't worry about cause_selected)
     if params[:cause_selected]
       if !params[:sector_id].nil? && !params[:sector_id].empty?
-        filters.merge!({:sector_id => params[:sector_id].to_i} )
+        #filters.merge!({:sector_id => params[:sector_id].to_i} ) 
+        sel_projects_sector = []       
+        sel_projects_sector = Project.find_public( :all, :joins => [:sectors], :conditions => "sectors.id=#{params[:sector_id]}")
       end
     end
 
@@ -313,32 +308,48 @@ class Dt::ProjectsController < DtApplicationController
         filters.merge!(:created_at => ids)
       end
     end
-
-    if params[:continent_selected]
+    
+    if params[:location_selected]
       if !params[:country_id].nil? && !params[:country_id].empty?
         sel_projects = []
-        sel_projects = Place.projects(2, params[:country_id].to_i)
+        sel_projects = Project.find_public( :all, :conditions => "country_id=#{params[:country_id]}")
       elsif !params[:continent_id].nil? && !params[:continent_id].empty?
-        sel_projects = []
-        sel_projects = Place.projects(1, params[:continent_id].to_i)
+          sel_projects = []
+          sel_projects = Project.find_public( :all, :conditions => "continent_id=#{params[:continent_id]}")
       end
+      
     end
 
+    
+    # monkey patch to easily and quickly search for location 
     if !sel_projects.nil?
       ids = []
       sel_projects.each do |project|
-        ids << project.place_id
+        ids << project.id
       end
-      filters.merge!(:place_id => ids)
+      filters.merge!(:project_id => ids)
+      #filters.merge!(:created_at => ids)
     end
+    
+    # monkey patch to fix sector results
+    if !sel_projects_sector.nil? 
+      ids = []
+      sel_projects_sector.each do |project|
+        ids << project.created_at
+      end
+     
+      filters.merge!(:created_at => ids )
+    end
+    
     return filters
   end
 
 
 
   def ultrasphinx_search(filters)
-
+    
     if params[:order].nil?
+      
       @search = Ultrasphinx::Search.new(:query => @query,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending', :filters =>filters, :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
       Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
         :before_match => '<strong style="background-color:yellow;">',
@@ -347,13 +358,13 @@ class Dt::ProjectsController < DtApplicationController
         :limit => 256,
         :around => 3,
         :sort_mode => 'relevance' ,
-        :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+        :weights => {'name' => 10.0, 'place_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
         :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
         })
 
         @search.excerpt
 
-      else
+    else
         # order results
         order_map = {
               "newest" => "created_at",
@@ -371,12 +382,12 @@ class Dt::ProjectsController < DtApplicationController
           :chunk_separator => "...",
           :limit => 256,
           :around => 3,
-          :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
+          :weights => {'name' => 10.0, 'place_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
           :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
           })
           @search.excerpt
 
-      end
+    end
   end
 
 

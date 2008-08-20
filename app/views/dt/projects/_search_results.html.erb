@@ -1,4 +1,4 @@
-<div class='filter-your-results' id='filter-your-results'>
+<div class='filter-your-results' id='filter-your-results'  style="display:<%= params[:filter] ? "none" : "block" %>;">
   <a href='#' onclick="Effect.SlideDown('search-bar-wrapper', {duration: 1.0});
                     Effect.Appear('search-bar-wrapper',{  duration: 1.5});  
                     Element.toggle('filter-your-results'); Element.toggle('hider');
@@ -31,11 +31,12 @@
                 <% if !params[:keywords].nil? && !params[:keywords].empty? %>
                 <strong>Keywords: </strong><%= params[:keywords]%>
                 <% end%>
-                <% if params[:continent_selected]  && !params[:continent_id].nil? && !params[:continent_id].empty?%>
+                <br>
+                <% if params[:location_selected]  && !params[:continent_id].nil? && !params[:continent_id].empty?%>
                 <strong>Continent: </strong><%= Place.find(params[:continent_id].to_i).name%>
                 <br>
                 <% end%>
-                <% if params[:continent_selected]  && !params[:country_id].nil? && !params[:country_id].empty?%>
+                <% if params[:location_selected]  && !params[:country_id].nil? && !params[:country_id].empty?%>
                 <strong>Country: </strong><%= Place.find(params[:country_id].to_i).name%>
                 <br>
                 <% end%>
@@ -102,7 +103,7 @@
 </div>
 <% end %>
 
-<br />
+<br>
 <%= will_paginate @search %>
 <div class='projectlist'>
   <%= render :partial => '/dt/projects/search_result', :collection => @search %>
