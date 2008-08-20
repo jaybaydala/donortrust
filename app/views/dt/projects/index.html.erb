@@ -1,8 +1,8 @@
-<div>
+<div class="project-search-home">
   <h1>Project Search:</h1>
-  <div class='projects-search-home'>
+  <div class='projects-search-box'>
     <div>
-      <% form_tag (search_dt_projects_path,{:id => 'project_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
+      <% form_tag(search_dt_projects_path,{:id => 'project_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
       <%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
       :title => 'Search', 
       :size => 65 ,
@@ -10,7 +10,7 @@
       :onfocus => "if(this.value=='Search') this.value='';"
       %>
       <span id="searchsubmit">
-        <%= submit_tag 'go',
+        <%= submit_tag '',
         :id => 'simple_search_submit', 
         :class => 'submitreplace'
         %>
@@ -23,20 +23,29 @@
     <% end -%>
   </div>
   
-  <h3> Or list projects by:</h3>
-  <div class='projects-list-by'>
-    <div class='list-sectors'>
+  <h2> Or list projects by:</h2>
+  <div class='predefined-searches'>
+    <div class="predefined-search-list" id='list-by-sectors'>
       <h3>Cause/Sector</h3>
-      <%= sectors_projects %>
+      <%= sectors_projects(15) %>
     </div>
+    <div class="predefined-search-list" id ='list-by-country'>
+      <h3>Country</h3>
+      <%= countries_with_project_counts(15) %>
+    </div>
+    <div class="predefined-search-list" id ='list-by-partner'>
+      <h3>Partner</h3>
+      <%= partners_with_projects_count(15) %>
+    </div>    
   </div>
+
+  <div class='clearfix'></div>
   
-  <div class='list-countries'>
+  <h2>Featured Projects:</h2>
   
-  </div>
+	<div id="featured-projects">
+		<%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
+	</div>
+
 </div>
-<br>
-<h1>This Month's Featured Projects</h1>
-<div>
-<%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
-</div>
+

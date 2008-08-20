@@ -8,7 +8,7 @@ class Dt::ProjectsController < DtApplicationController
   def initialize
     @topnav = 'projects'
   end
-  
+
   def index
     @page_title = 'Featured Projects'
     @projects = Project.featured_projects
@@ -16,7 +16,7 @@ class Dt::ProjectsController < DtApplicationController
       format.html
     end
   end
-  
+
   # for sitemap.xml google sitemap functionality for projects
   #def sitemap
   #  @projects = Project.find_public(:all)
@@ -64,7 +64,7 @@ class Dt::ProjectsController < DtApplicationController
     end
     @community = @project.community
     @page_title = "#{@community.name} | #{@project.name}"
-    
+
     @mdgs = MillenniumGoal.find(:all)
     @rss_feed = last_rss_entry(@project.community.rss_url) if @project && @project.community.rss_url?
     #@rss_feed.clean! if @rss_feed # sanitize the html
@@ -72,7 +72,7 @@ class Dt::ProjectsController < DtApplicationController
       format.html
     end
   end
-    
+
   def nation
     begin
       @project = Project.find_public(params[:id])
@@ -86,7 +86,7 @@ class Dt::ProjectsController < DtApplicationController
       format.html
     end
   end
-  
+
   def organization
     begin
       @project = Project.find_public(params[:id])
@@ -99,7 +99,7 @@ class Dt::ProjectsController < DtApplicationController
       format.html
     end
   end
-    
+
   def connect
     begin
       @project = Project.find_public(params[:id])
@@ -126,11 +126,11 @@ class Dt::ProjectsController < DtApplicationController
       format.html {render :action => 'cause', :layout => 'dt/plain'}
     end
   end
-  
+
   def facebook_login
     # placeholder for the before_filters above: project_id_to_session, facebook_login
-    # is there a more elegant way to do this? 
-    # project_id_to_session: stores the project id in the (surprise) session, 
+    # is there a more elegant way to do this?
+    # project_id_to_session: stores the project id in the (surprise) session,
     # require_facebook_login is a rfacebook thing that bounces the user to facebook, gets a session id, and stores it in the rails session, makes the fbsession object available to controllers
   end
   def finish_facebook_login
@@ -138,7 +138,7 @@ class Dt::ProjectsController < DtApplicationController
     session[:project_id] = nil
     respond_to do |format|
       # TODO: translate to the hash format
-      # :action => 'connect', :id=>session[:project_id] 
+      # :action => 'connect', :id=>session[:project_id]
       format.html { redirect_to dt_connect_project_path(project_id) }
     end
   end
@@ -149,22 +149,22 @@ class Dt::ProjectsController < DtApplicationController
     @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
     render :partial => 'timeline'
   end
-  
+
   def list
     @projects = Project.paginate :page => params[:page]
     render :layout => false
   end
-  
+
   # Ultrasphinx search - First apply filters, then, depending on sorting mode, do the ultrasphinx search
   def search
-    @query = params[:keywords].nil? ?  "" : params[:keywords]   
-    
-    # prepare filters 
+    @query = params[:keywords].nil? ?  "" : params[:keywords]
+
+    # prepare filters
     filters = apply_filters
-    
+
     # do the search itself
     ultrasphinx_search(filters)
-    
+
     respond_to do |format|
       format.js{
         render :update do |page|
@@ -175,16 +175,16 @@ class Dt::ProjectsController < DtApplicationController
       format.html { render :partial => 'dt/projects/search_results', :layout => 'layouts/dt_application'}
     end
   end
-  
+
   # advanced search with ultrasphinx.
-  def advancedsearch 
-    params[:filter] = true;        
+  def advancedsearch
+    params[:filter] = true;
   end
-  
-  
+
+
   #populates the country select using the continent_id
   def add_countries
-    
+
     #places = Place.countries(params[:continent_id].to_i)
     #places = Place.find(:all, :conditions => [ "parent_id = ?", params[:continent_id]  )
     #@countries = [['Location', '']]
@@ -195,8 +195,8 @@ class Dt::ProjectsController < DtApplicationController
     #    @countries << [name, country.id]
     #  end
     #end
-    
-    #TODO after Adrian migration fix, needed to refactor 
+
+    #TODO after Adrian migration fix, needed to refactor
     projects = Place.projects(1, params[:continent_id].to_i)
     @countries = [[ 'All ...', '']]
     projects.each do |project|
@@ -206,7 +206,7 @@ class Dt::ProjectsController < DtApplicationController
       end
       name = "#{!project.place.country.nil? ? project.nation.name : project.place.country.name} (#{sum})"
       @countries << [name, project.place.country.id]
-    end    
+    end
     @countries.uniq!
     respond_to do |format|
       format.js {
@@ -217,7 +217,7 @@ class Dt::ProjectsController < DtApplicationController
     end
   end
   helper_method :add_countries
-  
+
   # populates the cause select using the sector_id
   def add_causes
     # pega todas causas com sector_id
@@ -228,12 +228,12 @@ class Dt::ProjectsController < DtApplicationController
     causes = Cause.find_by_sector_id(params[:sector_id]) if params[:sector_id]
     causes.to_a.each do |cause|
       if cause.projects.size>0
-        @causes << ["#{cause.name} (#{cause.projects.size})", cause.id] 
+        @causes << ["#{cause.name} (#{cause.projects.size})", cause.id]
       end
     end
     @causes
-    
-    
+
+
     #@search.results.each do |cause|
     #  if cause.projects.size>0
     #    @causes << ["#{cause.name} (#{cause.projects.size})", cause.id]
@@ -248,54 +248,54 @@ class Dt::ProjectsController < DtApplicationController
     end
   end
   helper_method :add_causes
-  
-  
-  protected  
-  
+
+
+  protected
+
   def apply_filters
     filters = Hash.new
     # partner
-    if params[:organization_selected]
+    if params[:partner_selected]
       if !params[:partner_id].nil? && !params[:partner_id].empty?
         filters.merge!({:partner_id => params[:partner_id].to_i})
       end
     end
-    
-    # cause 
+
+    # cause
     if params[:cause_selected]
       if !params[:cause_id].nil? && !params[:cause_id].empty?
         filters.merge!({:cause_id => params[:cause_id].to_i} )
       end
     end
-    
+
     # sector
     if params[:cause_selected]
       if !params[:sector_id].nil? && !params[:sector_id].empty?
         filters.merge!({:sector_id => params[:sector_id].to_i} )
       end
     end
-    
+
     # total_cost
     if params[:funding_req_selected]
       if (!params[:funding_req_min].nil? && !params[:funding_req_min].empty?)|| (!params[:funding_req_max].nil? && !params[:funding_req_max].empty?)
-      
+
         if !params[:funding_req_max].nil? && !params[:funding_req_max].empty?
-        
+
           if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
             filters.merge!(:total_cost => params[:funding_req_min].to_f..params[:funding_req_max].to_f)
           else
             filters.merge!(:total_cost => 0..params[:funding_req_max].to_f)
           end
-        
+
         else
           if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
             filters.merge!(:total_cost => params[:funding_req_min].to_f..Float::MAX.to_f)
           end
-       
+
         end
       end
     end
-    
+
     #fully funded
     if !params[:fully_funded].nil? && ! params[:fully_funded].empty?
       @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count)
@@ -313,31 +313,28 @@ class Dt::ProjectsController < DtApplicationController
         filters.merge!(:created_at => ids)
       end
     end
-    
-    if !params[:continent_id].nil? && !params[:continent_id].empty? && !params[:country_id].nil? && !params[:country_id].empty?
-      sel_projects = []
-      sel_projects = Place.projects(2, params[:country_id].to_i)
-     
-    else
-      if !params[:continent_id].nil? && !params[:continent_id].empty?
-        if params[:continent_selected]
-          sel_projects = []
-          sel_projects = Place.projects(1, params[:continent_id].to_i)        
-        end
+
+    if params[:continent_selected]
+      if !params[:country_id].nil? && !params[:country_id].empty?
+        sel_projects = []
+        sel_projects = Place.projects(2, params[:country_id].to_i)
+      elsif !params[:continent_id].nil? && !params[:continent_id].empty?
+        sel_projects = []
+        sel_projects = Place.projects(1, params[:continent_id].to_i)
       end
     end
-    
+
     if !sel_projects.nil?
       ids = []
-      sel_projects.each do |project|  
+      sel_projects.each do |project|
         ids << project.place_id
       end
       filters.merge!(:place_id => ids)
     end
     return filters
   end
-  
-  
+
+
 
   def ultrasphinx_search(filters)
 
@@ -353,19 +350,19 @@ class Dt::ProjectsController < DtApplicationController
         :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
         :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
         })
-       
+
         @search.excerpt
-        
+
       else
         # order results
         order_map = {
-              "newest" => "created_at", 
-              "target_start_date" => "target_start_date", 
-              "total_cost" => "total_cost", 
-              "partner_name" => "partner_name", 
+              "newest" => "created_at",
+              "target_start_date" => "target_start_date",
+              "total_cost" => "total_cost",
+              "partner_name" => "partner_name",
               "place_name" => "place_name"
         }
-       
+
         order = order_map[params[:order]] if order_map.has_key?(params[:order])
         @search = Ultrasphinx::Search.new(:query => @query,:filters =>filters,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending',:sort_by => order, :sort_mode => 'ascending',  :per_page => 5,  :page => (params[:page].nil? ? '1': params[:page]  ) )
         Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
@@ -377,9 +374,9 @@ class Dt::ProjectsController < DtApplicationController
           :weights => {'name' => 10.0, 'places_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
           :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
           })
-          @search.excerpt      
-        
-      end    
+          @search.excerpt
+
+      end
   end
 
 

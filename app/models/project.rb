@@ -103,7 +103,7 @@ class Project < ActiveRecord::Base
     me.errors.add :partner_id, 'does not exist'         unless me.partner( true )
     me.errors.add :project_status_id, 'does not exist'  unless me.project_status( true )
     me.errors.add :place_id, 'does not exist'           unless me.place( true )
-    
+
     if me.total_cost.to_f != me.get_total_budget
       me.errors.add :total_cost, "has to be same as sum of costs of all budget items, i.e. #{me.get_total_budget}."
     end
@@ -123,7 +123,7 @@ class Project < ActiveRecord::Base
  # end
 
   class << self
-   
+
     def rehydrate_from_xml(xml)
       Project.new(Hash.from_xml(xml)['project'])
     end
@@ -247,7 +247,7 @@ class Project < ActiveRecord::Base
   def allow_subagreement?
     (approval_status == :approved and not is_subagreement_signed?)
   end
-  
+
   def approval_status
     if not has_pending?
       :approved
@@ -387,6 +387,7 @@ class Project < ActiveRecord::Base
     end
   end
 
+  #Need to add accounting for funds 3rd Party sources
   def current_need
     self.total_cost - self.dollars_raised
   end

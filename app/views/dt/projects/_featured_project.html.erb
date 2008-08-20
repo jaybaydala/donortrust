@@ -29,10 +29,6 @@
     <div class="quickfacts">
       <%= project_quickfacts %>
     </div>
-    <div class="projectbuttons clearfix">
-      <% if @project.fundable? %><%= link_to "<span>Gift this Project</span>", new_dt_gift_path(:project_id => @project), :class => "button-gift" %><% end %>
-      <% if @project.fundable? %><%= link_to "<span>Invest</span>", new_dt_investment_path(:project_id => @project), :class => "button-invest" %><% end %>
-    </div>
   </div>
 
 </div>

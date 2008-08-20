@@ -50,7 +50,7 @@
   %>
 
   <p>
-  <%= check_box_tag( 'organization_selected', (params[:organization_selected] ? '1' : '0'), params[:organization_selected])%>
+  <%= check_box_tag( 'partner_selected', (params[:partner_selected] ? '1' : '0'), params[:partner_selected])%>
   <label class='adv-search-label'>Search By Organization:</label>
   <br>
   <%= select_tag("partner_id", options_for_select(@partners,params[:partner_id].to_i), :onchange => "ajaxSubmit();assign_selected(this, 'organization');" ) %>

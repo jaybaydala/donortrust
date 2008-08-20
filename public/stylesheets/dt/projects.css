@@ -126,7 +126,7 @@ div.projectlist .project .quickfacts ul li, div.projectlist .project .content-qu
     font-size:0.6875em; /* 11px */
     margin:0em 0;
     padding:0.25em 0 0.25em 0;
-    border-bottom:1px solid #DDD;
+    /* border-bottom:1px solid #DDD; */
 }
 .quickfacts ol li {
     border:0;
@@ -141,6 +141,9 @@ div.projectlist .project .quickfacts ul li, div.projectlist .project .content-qu
 }
 .quickfacts ol, .content-quickfacts ol {
     margin-left:1.5em;
+}
+.sidebar-give {
+	float: right;
 }
 
 /*
@@ -387,13 +390,38 @@ US TAXES
 /*
 SEARCH, layout and forms
 =====*/
-.projects-search-home{
+.projects-search-home h1 {
+}
+
+.projects-search-box{
 	text-align:center;
+	font-size: 18px;
 }
-.projects-list-by{
-	width:500px;
-	margin: 0 auto;
+
+.projects-search-box input{
+  width: 400px;
+	font-size: 24px;
 }
+
+.predefined-searches {
+	width:650px;
+	margin: auto;
+}
+
+.predefined-search-list {
+  float: left;
+  margin-right: 20px;
+  font-size: 14px;
+}
+
+.predefined-search-list h3{
+  font-weight: bold;
+}
+
+.predefined-search-list a{
+  text-decoration: none;
+}
+
 
 .filter-your-results{
 	float:right;
@@ -434,6 +462,8 @@ form#project_search input.submitreplace:hover{
 	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
 }
 
+
+
 /* Project search result specific */
 .projectSearchResultHeader {
   border-bottom: 1.5px solid black;
@@ -455,11 +485,12 @@ form#project_search input.submitreplace:hover{
 
 
 .searchResultLocationLink {
-  font-size: .8em;
-  font-weight: bold;
+	clear:left;
 }
 
 .searchResultLocationLink a{
+  font-size: 12px;
+  font-weight: bold;
   text-decoration: none;
 }
 
@@ -481,9 +512,11 @@ form#project_search input.submitreplace:hover{
 	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat scroll 0px 4px;
 	padding:0 0 0.1875em 0.875em;
 	font-family:Arial, Helvetica, sans-serif;
-  border-bottom:1px solid #DDDDDD;
+  /* border-bottom:1px solid #DDDDDD; */
 }
 
 .quickfactsSidebarGive {
   float: right;
 }
+
+

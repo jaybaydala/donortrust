@@ -18,8 +18,9 @@ GLOBAL NAV and PAGE NAV
   line-height:normal;
   margin-bottom:0;
 }
-.main-nav h1 {
-  font:lighter 26px arial,helvetica,sans-serif;
+.main-nav h1{
+  font:lighter 22px Arial,Helvetica,sans-serif;
+  font-weight: bold;
   margin:0px;
   padding:0;
 }
@@ -152,26 +153,6 @@ SUBNAV
     background-color:#66758B;
     color:#FFF;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

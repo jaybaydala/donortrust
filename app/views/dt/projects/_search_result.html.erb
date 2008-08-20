@@ -4,9 +4,9 @@
 		<div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div>
 		<!-- project sector images -->
 		<div class="searchResultSectorImages"><%= sector_images(@project.id) %></div>
-		<br>
+		<br />
 		<div class="searchResultLocationLink">
-			<%= (@project.community_id)? "#{link_to @project.community.name, community_dt_project_path(@project)}":"" %><%= ', ' if @project.nation_id?  %>
+		  <% if @project.community_id %><%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %><% end %>
 			<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
 		</div>
 	</div>
@@ -31,10 +31,6 @@
   <div class='project-sidebar'>
     <div class="searchResultsQuickfacts">
       <%= project_quickfacts %>
-    </div>
-    <div class="projectbuttons clearfix">
-      <% if @project.fundable? %><% link_to "<span>Gift this Project</span>", new_dt_gift_path(:project_id => @project), :class => "button-gift" %><% end %>
-      <% if @project.fundable? %><% link_to "<span>Invest</span>", new_dt_investment_path(:project_id => @project), :class => "button-invest" %><% end %>
     </div>
   </div>
 

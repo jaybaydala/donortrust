@@ -2,10 +2,15 @@
 <ul>
   <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
   <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
-  <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
+  <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %>
+    <% if @project.fundable? %>
+	    <div class="sidebar-give">
+	  	  <%= link_to "<img src='/images/dt/placeholders/give.gif' alt='Give' />", new_dt_gift_path(:project_id => @project) %>
+	  	</div>
+	  <% end %>
+  </li>
   <!-- <li><strong>Dollars Spent:</strong> <%= number_to_currency(@project.dollars_spent) %></li> -->
   
   <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %>
-    <a href="give" class="quickfactsSidebarGive">Give</a>
   </li>
 </ul>

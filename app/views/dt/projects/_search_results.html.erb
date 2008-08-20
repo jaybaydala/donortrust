@@ -39,7 +39,7 @@
                 <strong>Country: </strong><%= Place.find(params[:country_id].to_i).name%>
                 <br>
                 <% end%>
-                <% if params[:organization_selected]%>
+                <% if params[:partner_selected]%>
                 <strong>Organization: </strong><%= Partner.find(params[:partner_id].to_i).name%>
                 <br>
                 <% end%>
