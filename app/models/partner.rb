@@ -80,4 +80,5 @@ class Partner < ActiveRecord::Base
     if percent_raised > 100 then percent_raised = 100 end
     return percent_raised
   end
+  
 end

@@ -205,10 +205,11 @@ module DtApplicationHelper
 		end
 		@partners = [['All ...', '']]
     Project.partners.each do |partner|
-      @prjts = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:partner_id => partner.id})
-      @prjts.run
-      projects = @prjts.results
-      @partners << ["#{partner.name} (#{projects.size})", partner.id]
+      #@prjts = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:partner_id => partner.id})
+      #@prjts.run
+      #projects = @prjts.results
+      projects = Project.find(:all, :conditions => "projects.partner_id =#{partner.id}")
+      @partners << (["#{partner.name} (#{projects.size})", partner.id]) if !projects.size.nil?
     end
     #@causes = [['All ...', '']]
     #Project.causes.each do |cause|
@@ -227,7 +228,7 @@ module DtApplicationHelper
       end
     end
 
-    render :partial => 'dt/projects/advanced_search_bar', :layout => false
+   render :partial => 'dt/projects/advanced_search_bar', :layout => false
   end
 
   # show sector images when a project_id is given

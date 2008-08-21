@@ -98,13 +98,13 @@ class Place < ActiveRecord::Base
   def public_projects
     #continent
     if self.place_type_id==1
-      return Project.find_public :all, :conditions => "projects.continent_id = #{self.id}"
+      return Project.find_public( :all, :conditions => "projects.continent_id = #{self.id}")
     end
     if self.place_type_id==2
-      return Project.find_public :all, :conditions => "projects.country_id = #{self.id}"
+      return Project.find_public( :all, :conditions => "projects.country_id = #{self.id}")
     end
     if self.place_type_id==6
-      return Project.find_public :all, :conditions => "projects.place_id = #{self.id}"
+      return Project.find_public( :all, :conditions => "projects.place_id = #{self.id}")
     end
   end
   

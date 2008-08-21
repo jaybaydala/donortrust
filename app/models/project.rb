@@ -52,7 +52,7 @@ class Project < ActiveRecord::Base
     {:field => 'project_status_id'},
     {:field => 'created_at'},
     {:field => 'continent_id'},
-    {:field => 'country_id'}
+    {:field => 'country_id'},
     ],
     :include => [
           {:class_name => 'Place',
@@ -76,17 +76,18 @@ class Project < ActiveRecord::Base
             :field => 'pl2.name',
             :as  => 'continent_name',
             :association_sql => 'LEFT JOIN places pl2 ON pl2.id=projects.continent_id'
-          },
-          
+          },        
           {:class_name => 'Partner',
             :field => 'partners.name',
             :as => 'partner_name',
             :association_sql => "LEFT JOIN (partners) ON (partners.id=projects.partner_id)",
             :sortable => true
           },
-          {:class_name => 'Partner',
-            :field => 'id',
-            :as => 'partner_id'
+          {
+            :class_name => 'Partner',
+            :field => 'par.id',
+            :as => 'partner_id',
+            :association_sql => "LEFT JOIN (partners par) ON (par.id=projects.partner_id)",
           },
           {
             :class_name => 'Cause',
@@ -245,13 +246,16 @@ class Project < ActiveRecord::Base
 
     def partners
       if @partners.nil?
-        @partners = []
+       @partners = []
         Project.find_public(:all, :include => :partner, :order => 'partners.name').each do |project|
           @partners << project.partner unless @partners.include?(project.partner)
         end
       end
       @partners
     end
+    
+    
+    
 
     def featured_projects
       projects = Project.find_public(:all, :conditions => { :featured => 1 })
