@@ -52,8 +52,13 @@ namespace :deploy do
     send(run_method, cmd)
   end
   
+  task :start_backgroundrb , :roles => :schedule do
+    # don't do anything on the staging server - backgroundrb isn't running for now
+  end
+  task :stop_backgroundrb , :roles => :schedule do
+    # don't do anything on the staging server - backgroundrb isn't running for now
+  end
   task :restart_backgroundrb , :roles => :app do
     # don't do anything on the staging server - backgroundrb isn't running for now
   end
-  
 end
