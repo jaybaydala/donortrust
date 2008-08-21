@@ -36,7 +36,6 @@ namespace :deploy do
   task :before_restart do
     asset_folder_fix
     copy_iats_config
-    install_backgroundrb
   end
   task :after_restart do
     restart_admin
@@ -60,18 +59,10 @@ namespace :deploy do
   end
   
   desc <<-DESC
-  Install backgrounDRB since it's incompatible with windows boxes
-  DESC
-  task :install_backgroundrb, :roles => :schedule do
-    cmd = "svn co -q http://svn.devjavu.com/backgroundrb/trunk #{current_path}/vendor/plugins/backgroundrb;rm #{current_path}/script/backgroundrb && cd #{current_path} && rake backgroundrb:setup"
-    run cmd
-  end
-  
-  desc <<-DESC
   Start the Backgroundrb daemon on the schedule server.
   DESC
   task :start_backgroundrb , :roles => :schedule do
-    cmd = "#{current_path}/script/backgroundrb start -e #{rails_env}"
+    cmd = "#{current_path}/script/backgroundrb start"
     send(run_method, cmd)
   end
 

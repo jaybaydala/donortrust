@@ -3,6 +3,7 @@
   :ip: localhost
   :port: 11005
   :environment: production
+  :persistent_disabled: false
 :schedules:
   :gift_mailer_worker:
     :do_work:
