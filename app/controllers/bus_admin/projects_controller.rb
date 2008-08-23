@@ -433,7 +433,7 @@ class BusAdmin::ProjectsController < ApplicationController
     
     pdf.text "<b>Project Funding Schedule</b>: "
     project.budget_items.each do |b|
-      pdf.text "- #{m.description} - #{m.cost}"
+      pdf.text "- #{b.description} - #{b.cost}"
     end
     pdf.text "\n"
     
@@ -460,13 +460,29 @@ class BusAdmin::ProjectsController < ApplicationController
     @project.continent_id = params[:continent]
     @project.country_id = params[:country] if params[:country]
 
-    render :partial => "bus_admin/projects/location_form"
+    render :partial => "location_form"
   end
 
   def update_partner
     @partner_id = params[:partner]
-
-    render :partial => "bus_admin/projects/contact_form"
+    render :partial => "contact_form"
+  end
+  
+  def update_sectors
+    sector = Sector.find(params[:sector])
+    @project = Project.find(params[:project])
+    
+    render :update do |page|
+      sector.causes.each do |c|
+        if params[:value] == params[:sector]
+          @cause = c
+          page.insert_html :bottom, 'project_causes_form', :partial => 'cause_form'
+          page.visual_effect :highlight, "cause_#{c.id}", :duration => 0.5
+        else
+          page.remove "cause_#{c.id}"
+        end
+      end
+    end
   end
   
   def report

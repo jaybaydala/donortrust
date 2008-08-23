@@ -32,6 +32,12 @@ module BusAdmin::ProjectsHelper
     Partner.find(:all)
   end
   
+  def get_causes(project)
+    causes = []
+    project.sectors.each { |s| causes << s.causes if s.causes.size > 0 } if project.sectors
+    causes
+  end
+  
   def get_contacts(partner_id)
     if partner_id
       Partner.find(partner_id).contacts

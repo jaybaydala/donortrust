@@ -4,9 +4,9 @@ class Cause < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  has_many :projects
   has_many :cause_limits
   has_many :campaigns, :through => :cause_limit
+  has_and_belongs_to_many :projects
   has_and_belongs_to_many :millennium_goals
 
   belongs_to :sector

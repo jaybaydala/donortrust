@@ -1,0 +1,6 @@
+<%= @cause = cause_form if cause_form %>
+<span id="cause_<%= @cause.id %>">
+	<input name="project[causes_ids][]" id="project_causes_ids_<%= @cause.id %>" type="checkbox" value="<%= @cause.id %>" <%= 'checked="checked" ' if @project.causes.include?(@cause) %>/>
+	<label for="project_causes_ids_<%= @cause.id %>"><%= @cause.name %></label>
+</span>
+

@@ -5,7 +5,6 @@ class Partner < ActiveRecord::Base
   belongs_to    :partner_type
   belongs_to    :partner_status
   has_many      :projects , :dependent => :destroy
-  has_and_belongs_to_many :contacts #is this the right relationship? 
   has_many      :programs, :through => :projects
   has_many      :quick_fact_partners , :dependent => :destroy
   has_many      :measures, :dependent => :destroy

@@ -60,17 +60,33 @@
 			<li>
 				<label class="title">
 					Project sector
-					<small>Select causes or sectors this projects relates to</small>
+					<small>Select sectors this projects relates to</small>
 				</label>
 				<div class="group">
 				<% for sector in Sector.find(:all) %>
 					<span>
 						<input name="project[sector_ids][]" id="project_sector_ids_<%=sector.id%>" type="checkbox" value="<%=sector.id %>" <%= 'checked="checked"' if @project.sectors.include?(sector) %>/>
 						<label for="project_sector_ids_<%=sector.id %>"><%= sector.name %></label>
+
+						<%= observe_field "project_sector_ids_#{sector.id}",
+										  				:url => update_sectors_path,
+										  				:with => "'value=' + escape(value) + '&sector=#{sector.id}&project=#{@project.id}'" %>
 					</span>
 				<% end %>
 				</div>
 			</li>
+
+			<li>
+				<label class="title">
+					Causes
+					<small>Select causes of the selected sectors that this projects relates to</small>
+				</label>
+				<%= get_causes(@project) %>
+				<div class="group" id="project_causes_form">
+					<%= render :partial => 'cause_form', :collection => get_causes(@project), :locals => {:project => @project} %>
+				</div>
+			</li>
+
 
 			<li>
 				<label for="project_description" class="title">
