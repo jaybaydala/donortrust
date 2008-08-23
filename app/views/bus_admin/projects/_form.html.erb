@@ -81,7 +81,7 @@
 					Causes
 					<small>Select causes of the selected sectors that this projects relates to</small>
 				</label>
-				<%= get_causes(@project) %>
+
 				<div class="group" id="project_causes_form">
 					<%= render :partial => 'cause_form', :collection => get_causes(@project), :locals => {:project => @project} %>
 				</div>
@@ -406,7 +406,7 @@
 	</fieldset>
 <% end -%>
 
-	<%= periodically_save_form('project-form', project_auto_update_url(:id => @project), 60) if @project.id %>
+	<%= periodically_save_form('project-form', project_auto_update_url(:id => @project.id), 60) if @project.id %>
 <% end -%>
 </div>
 
@@ -448,6 +448,7 @@
 		$$('.tab').each(function (el) {
 			Event.observe(el, 'click', respondToTabClick, true)
 		});
+		
 		function respondToTabClick(event) {
 			new Ajax.Request(
         '<%= project_auto_update_url(:id => @project) %>',

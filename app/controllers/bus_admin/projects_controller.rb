@@ -238,7 +238,6 @@ class BusAdmin::ProjectsController < ApplicationController
   
   #############################################################################
   # management of pending projects
-  # TODO for Adrian: integrate properly
   #############################################################################
 
   def delete_pending

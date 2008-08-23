@@ -1,6 +1,6 @@
-Continent: <%= collection_select (:project, :continent_id, get_continents, :id, :name, :include_blank => true) %><br/>
-Country:   <%= collection_select (:project, :country_id,   get_country(@continent_id || @project.continent_id), :id, :name, :include_blank => true) %><br/>
-Specific location:
+<label>Continent:</label> <%= collection_select (:project, :continent_id, get_continents, :id, :name, :include_blank => true) %><br/>
+<label>Country:</label>   <%= collection_select (:project, :country_id,   get_country(@continent_id || @project.continent_id), :id, :name, :include_blank => true) %><br/>
+<label>Specific location:</label>
 
 <input autocomplete="off" id="place_name" name="place[name]" size="30" value="<%= @project.place.name if @project.place && @project.place.name %>" type="text" />
 <div style="display: none;" class="auto_complete" id="place_name_auto_complete"></div>

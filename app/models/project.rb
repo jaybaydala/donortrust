@@ -108,6 +108,7 @@ class Project < ActiveRecord::Base
     "#{self.start_date}"
   end
 
+=begin
   validates_presence_of :total_cost
   validates_presence_of :dollars_spent
   validates_presence_of :name
@@ -134,6 +135,7 @@ class Project < ActiveRecord::Base
       end
     end
   end
+=end
 
  # def validate
  #   errors.add(:place_id, "must be a city/village.") if place && place.place_type_id != 6
