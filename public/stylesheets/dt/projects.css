@@ -482,6 +482,13 @@ form#project_search input.submitreplace:hover{
 .project-sidebar{
 	width: 35%;
 	float:right;
+	
+}
+.project-sidebar div {
+	 
+}
+.project-sidebar span {
+	 margin: 10px;
 }
 .project-sidebar .quickfactsHeader{
   font-size: 13px;
@@ -509,7 +516,7 @@ form#project_search input.submitreplace:hover{
 }
 
 div#project-accordion{
-    margin: 10px;
+   margin: 10px;
 }
 
 div.accordion {
@@ -541,8 +548,83 @@ div.accordion-content{
 #project-flickr-slide-show{
 	width:150px;
 	height:150px;
-	border: solid;
 	display: inline;
 	vertical-align:top;
 	float:right;
+	overflow:hidden;
+}
+#flickr-wrapper{
+	
+	width:150px;
+	display:inline;
+	float:right;
+	text-align:center;
+}
+#flickr-wrapper .flickr-left-link{
+	text-align:left;
+}
+
+#flickr-wrapper .flickr-right-link{
+	text-align:right;
+}
+
+
+#project_budget{
+	font-size: 8pt;
+}
+
+/* project tabs overview */
+.section-body{
+	background:#ffffff;
+	
+	padding:14px;
+}
+#ul-project, .li-project{border:0; margin:0; padding:0; list-style:none;}
+#ul-project{
+	top:10px;
+	border-bottom:solid 1px #336600;
+	height:29px;
+}
+.li-project{float:left; margin-right:2px;}
+.tab a:link, .tab a:visited{
+	background:url(/images/dt/nav_elements/tab-round.png) right 60px;
+	color:#000;
+	display:block;
+	d\isplay: inline-block;
+	font-weight:bold;
+	height:30px;
+	line-height:30px;
+	text-decoration:none;
+}
+.tab a span{
+	background:url(/images/dt/nav_elements/tab-round.png) left 60px;
+	display:block;
+	d\isplay: inline-block;
+	height:30px;
+	margin-right:14px;
+	padding-left:14px;
+}
+.tab a:hover{
+	background:url(/images/dt/nav_elements/tab-round.png) right 30px;
+	display:block;
+	color:#e0ded0;
+}
+.tab a:hover span{
+	background:url(/images/dt/nav_elements/tab-round.png) left 30px;
+	display:block;
+}
+
+/* tabs active elements				*/
+.active a:link, .active a:visited, .active a:visited, .active a:hover{
+	color:#ffffdd;
+	background:url(/images/dt/nav_elements/tab-round.png) right 0 no-repeat;
+} 
+.active a span, .active a:hover span{
+	background:url(/images/dt/nav_elements/tab-round.png) left 0 no-repeat;
+}
+
+/*button give */
+.project-sidebar .button-give {
+	float:right;
+ 	margin-right:15px;
 }
