@@ -23,7 +23,8 @@ ActionController::Routing::Routes.draw do |map|
                                               :add_countries => :get,
                                               :add_causes => :get,
                                               :list => :get,
-                                              :pending_projects => :get
+                                              :pending_projects => :get,
+                                              :get_videos => :get
                                           }
     dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
