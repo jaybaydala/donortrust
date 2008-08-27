@@ -5,7 +5,7 @@
   <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %>
     <% if @project.fundable? %>
 	    <div class="sidebar-give">
-	  	  <%= link_to "<img src='/images/dt/placeholders/give.gif' alt='Give' />", new_dt_gift_path(:project_id => @project) %>
+	      <%= link_to '<span>Gift this Project</span>',new_dt_gift_path(:project_id => @project), :class=>'button-gift'%>
 	  	</div>
 	  <% end %>
   </li>

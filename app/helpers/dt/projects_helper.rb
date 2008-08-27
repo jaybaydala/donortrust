@@ -87,4 +87,11 @@ module Dt::ProjectsHelper
     end
   end
 
+  def total_project_budget_items(items)
+    sum = 0.0
+    items.each do |item|
+      sum+=item.cost
+    end
+    return number_to_currency(sum)
+  end
 end

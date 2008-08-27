@@ -1,7 +1,103 @@
 <%- content_for :html_title do %><%= h @project.name %><% end -%>
 <div id='projectRank'>
   <div class="project-content">
-    <div id='project-flickr-slide-show'>
+    <script type="text/javascript">
+
+    /***********************************************
+    * DHTML slideshow script-  © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+    * This notice must stay intact for legal use
+    * Visit http://www.dynamicdrive.com/ for full source code
+    ***********************************************/
+
+    var photos=new Array()
+    var photoslink=new Array()
+    var which=0
+    
+    //Specify whether images should be linked or not (1=linked)
+    var linkornot=1
+    
+    //define images. You can have as many as you want:
+    <% count=0
+       @flickr_images.each do |img| 
+          photo = Flickr::Photo.new(img.photo_id.to_s)
+    %>
+          photos[<%=count%>] = "<%= photo.sizes[2]['source'] %>"
+          photoslink[<%=count%>]="<%=photo.url%>"
+          
+    <%  count+=1
+        end %>
+    
+
+    //do NOT edit pass this line
+
+    var preloadedimages=new Array()
+    for (i=0;i<photos.length;i++){
+    preloadedimages[i]=new Image()
+    preloadedimages[i].src=photos[i]
+    }
+
+
+    function applyeffect(){
+    if (document.all && photoslider.filters){
+    photoslider.filters.revealTrans.Transition=Math.floor(Math.random()*23)
+    photoslider.filters.revealTrans.stop()
+    photoslider.filters.revealTrans.apply()
+    }
+    }
+
+
+
+    function playeffect(){
+    if (document.all && photoslider.filters)
+    photoslider.filters.revealTrans.play()
+    }
+
+    function keeptrack(){
+    window.status="Image "+(which+1)+" of "+photos.length
+    }
+
+
+    function backward(){
+    if (which>0){
+    which--
+    applyeffect()
+    document.images.photoslider.src=photos[which]
+    playeffect()
+    keeptrack()
+    }
+    }
+
+    function forward(){
+    if (which<photos.length-1){
+    which++
+    applyeffect()
+    document.images.photoslider.src=photos[which]
+    playeffect()
+    keeptrack()
+    }
+    }
+
+    function transport(){
+    window.location=photoslink[which]
+    }
+
+    </script>
+
+    
+    <div id='flickr-wrapper'>
+      <div id='project-flickr-slide-show' >
+        <script>
+        if (linkornot==1)
+        document.write('<a href="javascript:transport()">')
+        document.write('<img src="'+photos[0]+'" name="photoslider" style="filter:revealTrans(duration=2,transition=23)" border=0>')
+        if (linkornot==1)
+        document.write('</a>')
+
+        </script>
+
+      </div>
+      <a class='flickr-left-link' href="#" onClick="backward();return false">&laquo; previous</a>
+      <a class='flickr-right-link' href="#" onClick="forward();return false"> next &raquo;</a>
     </div>
       
     <%= @project.short_description %>
@@ -10,28 +106,29 @@
     
   </div>
   <div class='project-sidebar'>
-    <img src="/images/tmp/sectorbar_4sectors.png" align="top" />
-    <img src="/images/tmp/give.gif" align="top"/><br />
+    <div class="button-give">
+      <%= link_to '<span>Gift this Project</span>',new_dt_gift_path(:project_id => @project), :class=>'button-gift'%>
+    </div>
+    <span><%= sector_images(@project.id)%></span>
+    
+    
 
     <div id="project-accordion" class="accordion">  
          <div class="accordion-toggle">Quick Facts</div>    
          <div class="accordion-content">
            <div class="quickfacts">
-              <ul>
-                <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
-                <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
-                <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
-                
-                <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %>
-                  
-                </li>
-              </ul>
+             <%= render :partial => 'small_project_quickfacts' %>
            </div>
          </div>    
          
-         <div class="accordion-toggle">Financial Data</div>    
-         <div class="accordion-content">Content 2</div>
-             
+         <% if @budget_items%>
+            <div class="accordion-toggle">Financial Data</div>    
+            <div class="accordion-content">
+              <div class="quickfacts">
+                  <%= render :partial => 'project_financial_data' %>
+              </div>
+            </div>
+         <% end%>    
          <div class="accordion-toggle">Program</div>    
          <div class="accordion-content">Content 3</div>    
          
@@ -41,16 +138,132 @@
          <div class="accordion-toggle">Nation</div>    
          <div class="accordion-content">Content 5</div>
          
-         <div class="accordion-toggle">Implementing Organization</div>    
-         <div class="accordion-content">Content 6</div>
+         <% if @project.partner %>
+          <div class="accordion-toggle">Implementing Organization</div>    
+          <div class="accordion-content">
+            <div class="quickfacts">
+              <ul>
+                <li><strong>Organization:</strong><%=h @project.partner.name%></li>
+            
+              </ul>
+            </div>
+          </div>
+         <% end %>
     </div>
-    <div id="buttonTellFriend"><a href="/dt/tell_friends/new">Tell a Friend</a></div>
+    <span><a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/nav_elements/buttonsCF/tellFriend_blue.gif" id="tellAFriend"></a></span>
+    
   </div>
 </div>
-<hr style='clear:both;'>
+
 
 <%= javascript_tag "document.observe('dom:loaded', function(){ accordion = new Accordion('project-accordion', 1);})"%>
 
 
+
+<ul id='ul-project' class="tab" style='clear:both;'>
+    <% unless @project.milestones.empty? and @project.target_start_date != nil %>
+	    <li class="li-project" id='project-li'><a href="#home" onclick="tab_select( $('project-li'), $('project_plan') );"><span>Project Plan</span></a></li>
+	  <% end%>
+	  <% if @project.intended_outcome? %>
+        <li class="li-project" id='intended-li'><a href="#intended" onclick="tab_select( $('intended-li'), $('intended_outcome') );"><span>Intended Outcome</span></a></li>
+    <% end%>
+	  <% if @project.meas_eval_plan?%>
+	      <li class="li-project" id='measurable-li'><a href="#measurable" onclick="tab_select( $('measurable-li'), $('measurable_feedback') );"><span>Measurable Feedback</span></a></li>
+	  <% end %>
+	  <% if @flickr_images.size > 0 %>
+      <li class="li-project" id='photos-li' onclick="tab_select( $('photos-li'), $('project_photos') );"><a href="#photos"><span>Photos</span></a></li>
+    <% end %>
+    <% if @youtube_videos_size > 0 %>
+      
+      <li class="li-project" id='videos-li' onclick="tab_select( $('videos-li'), $('project_videos') );">
+      <%= link_to_remote '<span>Videos</span>',
+        :url  => {:controller => :projects, :action => 'get_videos', :id => @project.id},
+        :method => :get,
+        :before   => %(Element.show("ajax_busy")),
+    	 	:success  => %(Element.hide("ajax_busy"))
+      %>
+      </li>
+    <% end %>
+    
+  <%= javascript_tag "document.observe('dom:loaded', function(){  init_tab();})"%>
+  
+</ul>
+<div class="section-body">
+  <%= show_spinner() %>
+  <div id='project_plan'>
+    <% unless @project.milestones.empty? and @project.target_start_date != nil %>
+      <h2>Project Plan</h2>
+      <%
+      project_timeline = ::Simile::Timeline::Timeline.new(
+        :name        => "ProjectsTimeline",
+        :event_source => {
+          :controller => 'dt/projects',
+          :action     => 'timeline',
+          :id         => params[:id]
+        },
+        :event_band   => :weeks,
+        :bands       => {
+          :weeks => {
+              :trackGap       => '0.1',
+              :showEventText  => 'true',
+              :width          => '"75%"',
+              :intervalUnit   => 'Timeline.DateTime.WEEK',
+              :intervalPixels => '50',
+              :date           => "'" + (@project.target_start_date >> 1).strftime("%b %d %Y") + "'"
+            },
+          :months => {
+            :trackGap       => '0.1',
+            :width          => '"25%"',
+            :intervalUnit   => 'Timeline.DateTime.MONTH',
+            :intervalPixels => '150',
+            :trackHeight    => '0.5', 
+            :showEventText  => 'false',
+            :date           =>  "'" + (@project.target_start_date >> 1).strftime("%b %d %Y") + "'"
+          } 
+        },
+        :bands_order => [ :weeks, :months],
+        :highlight => [:weeks, :months],
+        :synchronize => {
+          :months => :weeks
+        }
+      )
+      -%>
+      <div id="projectTimeline"><%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %></div>
+      <% end %>  
+  </div>
+  
+  <!-- intended outcome -->
+  <div id='intended_outcome' style='display:none'>
+
+      
+    <% if @project.intended_outcome? %>
+    <h2>Intended Outcome</h2>
+    <div>
+      <%= @project.intended_outcome %>
+    </div>
+    <% end %>
+    
+  </div>
+  
+  <div id='measurable_feedback' style='display:none;'>
+    <% if @project.meas_eval_plan? %>
+    <h2>Measurements and Evaluations</h2>
+    <div>
+      <%= @project.meas_eval_plan %>
+    </div>
+    <% end %>
+  </div>
+  
+  <div id='project_photos' style='display:none'>
+    <% if @flickr_images.size > 0 %>
+      <h2>Project Photos</h2>
+      <%= will_paginate @flickr_images, :param_name => 'flickr_page' %>
+      <%= render :partial => 'flickr_photo', :collection => @flickr_images %>
+    <% end %>
+  </div>
+  
+  <div id='project_videos'>
+  </div>
+</div>
 
 
