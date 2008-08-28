@@ -1,0 +1,56 @@
+complete:
+  id: 1
+  donor_type: "personal"
+  title: nil
+  first_name: Quentin
+  last_name: Example
+  company: nil
+  address: 1 Test Address
+  address2: nil
+  city: Hollywood
+  province: CA
+  postal_code: 90210
+  country: USA
+  email: quentin@example.com
+  total: 50
+  account_balance_total: nil
+  credit_card_total: 50
+  card_number: 41111111111111111
+  cvv: 989
+  expiry_month: 04
+  expiry_year: <%= 1.year.from_now.to_s :db %>
+  cardholder_name: Quentin Example
+  authorization_result: 1234
+  order_number: 123456789
+  user_id: 1
+  complete: 1
+  created_at: <%= 1.minute.ago.to_s :db %>
+  updated_at: <%= 1.minute.ago.to_s :db %>
+incomplete:
+  id: 2
+  donor_type: "personal"
+  title: nil
+  first_name: Quentin
+  last_name: Example
+  company: nil
+  address: 1 Test Address
+  address2: nil
+  city: Hollywood
+  province: CA
+  postal_code: 90210
+  country: USA
+  email: quentin@example.com
+  total: 25
+  account_balance_total: nil
+  credit_card_total: nil
+  card_number: nil
+  cvv: nil
+  expiry_month: nil
+  expiry_year: nil
+  cardholder_name: nil
+  authorization_result: nil
+  order_number: nil
+  user_id: 1
+  complete: 0
+  created_at: <%= 30.minute.ago.to_s :db %>
+  updated_at: <%= 30.minute.ago.to_s :db %>

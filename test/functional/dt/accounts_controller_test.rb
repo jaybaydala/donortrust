@@ -38,8 +38,8 @@ context "Dt::Accounts #route_for" do
     route_for(:controller => "dt/accounts", :action => "show", :id => 1).should == "/dt/accounts/1"
   end
   
-  specify "should map { :controller => 'dt/accounts', :action => 'edit', :id => 1 } to /dt/accounts/1;edit" do
-    route_for(:controller => "dt/accounts", :action => "edit", :id => 1).should == "/dt/accounts/1;edit"
+  specify "should map { :controller => 'dt/accounts', :action => 'edit', :id => 1 } to /dt/accounts/1/edit" do
+    route_for(:controller => "dt/accounts", :action => "edit", :id => 1).should == "/dt/accounts/1/edit"
   end
   
   specify "should map { :controller => 'dt/accounts', :action => 'update', :id => 1} to /dt/accounts/1" do
@@ -50,24 +50,24 @@ context "Dt::Accounts #route_for" do
     route_for(:controller => "dt/accounts", :action => "destroy", :id => 1).should == "/dt/accounts/1"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'activate'} to /dt/accounts;activate" do
-    route_for(:controller => "dt/accounts", :action => "activate").should == "/dt/accounts;activate"
+  specify "should map { :controller => 'dt/accounts', :action => 'activate'} to /dt/accounts/activate" do
+    route_for(:controller => "dt/accounts", :action => "activate").should == "/dt/accounts/activate"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'activate', :id => 'code' } to /dt/accounts;activate?id=code" do
-    route_for(:controller => "dt/accounts", :action => "activate", :id => 'code' ).should == "/dt/accounts;activate?id=code"
+  specify "should map { :controller => 'dt/accounts', :action => 'activate', :id => 'code' } to /dt/accounts/activate?id=code" do
+    route_for(:controller => "dt/accounts", :action => "activate", :id => 'code' ).should == "/dt/accounts/activate?id=code"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'resend' } to /dt/accounts;resend" do
-    route_for(:controller => "dt/accounts", :action => "resend" ).should == "/dt/accounts;resend"
+  specify "should map { :controller => 'dt/accounts', :action => 'resend' } to /dt/accounts/resend" do
+    route_for(:controller => "dt/accounts", :action => "resend" ).should == "/dt/accounts/resend"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'reset' } to /dt/accounts;reset" do
-    route_for(:controller => "dt/accounts", :action => "reset" ).should == "/dt/accounts;reset"
+  specify "should map { :controller => 'dt/accounts', :action => 'reset' } to /dt/accounts/reset" do
+    route_for(:controller => "dt/accounts", :action => "reset" ).should == "/dt/accounts/reset"
   end
 
-  specify "should map { :controller => 'dt/accounts', :action => 'reset_password' } to /dt/accounts;reset_password" do
-    route_for(:controller => "dt/accounts", :action => "reset_password" ).should == "/dt/accounts;reset_password"
+  specify "should map { :controller => 'dt/accounts', :action => 'reset_password' } to /dt/accounts/reset_password" do
+    route_for(:controller => "dt/accounts", :action => "reset_password" ).should == "/dt/accounts/reset_password"
   end
   private 
   def route_for(options)
@@ -96,7 +96,7 @@ end
 
 context "Dt::Accounts handling GET /dt/accounts/1" do
   use_controller Dt::AccountsController
-  fixtures :users, :projects, :partners, :places, :user_transactions, :gifts, :investments, :deposits
+  fixtures :users, :projects, :partners, :places, :user_transactions, :orders, :gifts, :investments, :deposits
   include DtAuthenticatedTestHelper
 
   setup do
@@ -130,12 +130,25 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
     template.should.be 'dt/accounts/show'
   end
   
-  specify "should show all three types of transactions - gifts, investments, deposits" do
+  specify "should show all four types of transactions - orders and legacy gifts, investments and deposits" do
     login_as(:quentin)
     do_get
+    page.should.select "div.orderTransaction"
     page.should.select "div.giftTransaction"
     page.should.select "div.depositTransaction"
     page.should.select "div.investmentTransaction"
+  end
+
+  specify "should show complete orders" do
+    login_as(:quentin)
+    do_get
+    page.should.select "div#orderTransaction-1"
+  end
+
+  specify "should not show incomplete orders" do
+    login_as(:quentin)
+    do_get
+    page.should.not.select "div#orderTransaction-2"
   end
   
   specify "if a deposit with a gift_id that does not have a project_id, should show depost" do
@@ -191,7 +204,7 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
 
 end
 
-context "Dt::Accounts handling GET /dt/accounts;activate" do
+context "Dt::Accounts handling GET /dt/accounts/activate" do
   use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
@@ -211,7 +224,7 @@ context "Dt::Accounts handling GET /dt/accounts;activate" do
   end
 end
 
-context "Dt::Accounts handling GET /dt/accounts;resend" do
+context "Dt::Accounts handling GET /dt/accounts/resend" do
   use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
@@ -290,7 +303,7 @@ context "Dt::Accounts user activation mailer" do
     @emails.first.subject.should =~ /The future is here./
     @emails.first.body.should    =~ /Username: quire@example\.com/
     @emails.first.body.should    =~ /Password: quire/
-    @emails.first.body.should    =~ /dt\/accounts;activate\?id=#{assigns(:user).activation_code}/
+    @emails.first.body.should    =~ /dt\/accounts\/activate\?id=#{assigns(:user).activation_code}/
   end
 
   protected
@@ -421,7 +434,7 @@ context "Dt::Accounts handling POST /dt/accounts/create" do
   end
 end
 
-context "Dt::Accounts handling GET /dt/accounts/1;edit" do
+context "Dt::Accounts handling GET /dt/accounts/1/edit" do
   use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
@@ -474,7 +487,7 @@ context "Dt::Accounts handling GET /dt/accounts/1;edit" do
   end
 end
 
-context "Dt::Accounts handling PUT /dt/accounts/1;update" do
+context "Dt::Accounts handling PUT /dt/accounts/1/update" do
   use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
@@ -551,11 +564,11 @@ context "Dt::Accounts handling PUT /dt/accounts/1;update" do
     @emails.length.should.equal 1
     @emails.first.subject.should =~ /ChristmasFuture Account Email Confirmation/
     @emails.first.body.should    =~ /To confirm your email and activate your account, please follow the link below/
-    @emails.first.body.should    =~ /\/dt\/accounts;activate\?id=[A-za-z0-9]+/
+    @emails.first.body.should    =~ /\/dt\/accounts\/activate\?id=[A-za-z0-9]+/
   end
 end
 
-context "Dt::Accounts handling PUT /dt/accounts/1;reset_password" do
+context "Dt::Accounts handling PUT /dt/accounts/1/reset_password" do
   use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper
@@ -563,7 +576,7 @@ context "Dt::Accounts handling PUT /dt/accounts/1;reset_password" do
   specify "should contain a form" do
     get :reset
     template.should.be 'dt/accounts/reset'
-    assert_select "form[action=/dt/accounts;reset_password]#resetform" do
+    assert_select "form[action=/dt/accounts/reset_password]#resetform" do
       assert_select "input[type=text][name=login]"
       assert_select "input[type=submit]"
     end
@@ -571,7 +584,7 @@ context "Dt::Accounts handling PUT /dt/accounts/1;reset_password" do
 
 end
 
-context "Dt::Accounts handling PUT /dt/accounts/1;reset_password" do
+context "Dt::Accounts handling PUT /dt/accounts/1/reset_password" do
   use_controller Dt::AccountsController
   fixtures :users
   include DtAuthenticatedTestHelper

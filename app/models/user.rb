@@ -105,19 +105,23 @@ class User < ActiveRecord::Base
   end
 
   def deposited
-    @deposited ||= calculate_deposits
+    @deposited ||= deposits.inject(0){|sum, d| sum += d.amount}
   end
 
   def invested
-    @invested ||= calculate_investments
+    @invested ||= investments.inject(0){|sum, i| sum += i.amount}
   end
 
   def gifted(exclude_credit_card = false)
     if (exclude_credit_card)
-      @gifted_without_credit_card ||= calculate_gifts(exclude_credit_card)
+      @gifted_without_credit_card ||= gifts.find(:all, :conditions => {:credit_card => nil}).inject(0){|sum, g| sum += g.amount}
     else
-      @gifted_with_credit_card ||= calculate_gifts(exclude_credit_card)
+      @gifted_including_credit_card ||= gifts.inject(0){|sum, g| sum += g.amount}
     end
+  end
+
+  def ordered_with_account_balance
+    @ordered ||= orders.find_all_by_complete(true, :conditions => "account_balance_total IS NOT NULL").inject(0){|sum, o| sum += o.account_balance_total}
   end
 
   # Encrypts the password with the user salt
@@ -231,41 +235,16 @@ class User < ActiveRecord::Base
     end
         
     def calculate_balance
-      balance = deposited - invested - gifted(true) || 0
+      balance = deposited
+      balance -= ordered_with_account_balance
+      balance -= investments.find(:all, :conditions => {:order_id => nil}).inject(0){|sum, i| sum += i.amount}
+      balance -= gifts.find(:all, :conditions => {:order_id => nil, :credit_card => nil}).inject(0){|sum, i| sum += i.amount}
+      balance || 0
     end
 
-    def calculate_deposits
-      deposits = Deposit.find(:all, :conditions => { :user_id => self[:id] })
-      balance = 0
-      deposits.each do |trans|
-        balance = balance + trans.amount
-      end
-      balance
-    end
-
-    def calculate_investments
-      investments = Investment.find(:all, :conditions => { :user_id => self[:id] })
-      balance = 0
-      investments.each do |trans|
-        balance = balance + trans.amount
-      end
-      balance
-    end
-
-    def calculate_gifts(exclude_credit_card = false)
-      conditions = { :user_id => self[:id] }
-      conditions[:credit_card] = nil if exclude_credit_card == true
-      gifts = Gift.find(:all, :conditions => conditions)
-      balance = 0
-      gifts.each do |trans|
-        balance = balance + trans.amount
-      end
-      balance
-    end
-    
     def self.total_users_in_group
       total = 0
-      users = self.find_by_sql("Select * from users where id in (select user_id from memberships)")
+      users = self.find_by_sql("select * from users where id in (select user_id from memberships)")
       total = users.size
     end
 

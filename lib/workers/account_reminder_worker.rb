@@ -1,5 +1,7 @@
 class AccountReminderWorker < BackgrounDRb::MetaWorker
   set_worker_name :account_reminder_worker
+  reload_on_schedule true
+  
   def create(args = nil)
     # this method is called, when worker is loaded for the first time
   end
