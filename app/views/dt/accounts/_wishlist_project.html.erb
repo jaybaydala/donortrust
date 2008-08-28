@@ -1,4 +1,4 @@
-      <li><%= link_to wishlist_project.name, dt_project_path(wishlist_project) %>
+      <li class="wishlist-item"><%= link_to wishlist_project.name, dt_project_path(wishlist_project) %>
         <% if wishlist_project.community_id? %><p><strong>Location:</strong> <%= wishlist_project.community.name %>, <%= wishlist_project.nation.name %></p><% end %>
         <p>
           <strong>Cause(s):</strong> 

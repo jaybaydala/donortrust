@@ -6,7 +6,6 @@ class Dt::AccountsController < DtApplicationController
     @page_title = "My Account"
   end
 
-  # say something nice, you goof!  something sweet.
   def index
     @page_title = "Accounts"
     redirect_to(:action => 'new') unless logged_in? || User.count > 0
@@ -17,7 +16,7 @@ class Dt::AccountsController < DtApplicationController
     @user = User.find(params[:id], :include => [:projects])
     # @transactions = @user.user_transactions.find(:all, :order => 'created_at DESC').paginate(:page => params[:tx_page], :per_page => 10)
     @transactions = []
-    @transactions << @user.orders
+    @transactions << @user.orders.find(:all, :conditions => {:complete => true})
     @transactions << @user.gifts.find(:all, :conditions => {:order_id => nil})
     @transactions << @user.investments.find(:all, :conditions => {:order_id => nil})
     @transactions << @user.deposits.find(:all, :conditions => {:order_id => nil})

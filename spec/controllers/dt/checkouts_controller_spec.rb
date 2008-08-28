@@ -521,7 +521,7 @@ describe Dt::CheckoutsController do
     describe "on the billing step" do
       before do
         @step = "billing"
-        @user = mock_model(User, :valid? => true)
+        @user = mock_model(User, :valid? => true, :balance => 0)
         User.stub!(:new).and_return(@user)
         @order.stub!(:email?).and_return(true)
         @order.stub!(:email).and_return("email@example.com")
@@ -708,6 +708,24 @@ describe Dt::CheckoutsController do
           @order.should_receive(:account_balance_total).and_return(@order.total)
           @order.should_receive(:run_transaction).never
           do_request
+        end
+        describe "with a logged in user" do
+          before do
+            @controller.stub!(:logged_in?).and_return(true)
+            @controller.stub!(:current_user).and_return(@user)
+            @user.stub!(:balance).and_return(10)
+            @order.stub!(:total).and_return(55)
+          end
+          it "should check the user's balance" do
+            @user.should_receive(:balance)
+            do_request
+          end
+          it "should set credit_card_total to order.total when the user has no balance" do
+            @user.stub!(:balance).and_return(0)
+            do_request
+            @order.credit_card_total.should == @order.total
+            puts @order.inspect
+          end
         end
       end
       describe "do_confirm method with invalid transaction" do
