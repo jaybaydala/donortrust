@@ -10,16 +10,18 @@ class Partner < ActiveRecord::Base
   has_many      :measures, :dependent => :destroy
   has_many      :contacts
   has_many      :users, :through => :contacts
-  
+
   has_many      :campaign_limits
   has_many      :campaigns, :through => :campaign_limits
+
+  has_many      :partner_payments, :dependent => :destroy
 
   validates_presence_of :name
   validates_presence_of :description
   validates_length_of   :name, :maximum => 50
 
-  acts_as_textiled :description, :business_model, :funding_sources, :mission_statement, :philosophy_dev 
-  
+  acts_as_textiled :description, :business_model, :funding_sources, :mission_statement, :philosophy_dev
+
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -31,26 +33,26 @@ class Partner < ActiveRecord::Base
     end
   end
 
-  def total_projects    
+  def total_projects
     return (self.projects.find(:all)).size
   end
-  
+
   def get_number_of_projects_by_status(status)
-    projects = self.projects.find(:all, :conditions => "project_status_id = " + status.to_s )    
-    return projects.size unless projects == nil 
+    projects = self.projects.find(:all, :conditions => "project_status_id = " + status.to_s )
+    return projects.size unless projects == nil
   end
-  
+
   def get_number_of_projects
-    return Project.find(:all, :conditions => "partner_id = " + id.to_s).size   
+    return Project.find(:all, :conditions => "partner_id = " + id.to_s).size
   end
-  
+
   def get_number_of_programs
-    return Program.find(:all, :conditions => "id = " + id.to_s).size   
+    return Program.find(:all, :conditions => "id = " + id.to_s).size
   end
-  
+
   def get_total_costs
-    projects = Project.find(:all, :conditions => ['partner_id = ? AND project_status_id in (?)', id.to_s, [2,4]])  
-    
+    projects = Project.find(:all, :conditions => ['partner_id = ? AND project_status_id in (?)', id.to_s, [2,4]])
+
     total_cost = 0
     projects.each do |project|
       if project.total_cost != nil
@@ -59,9 +61,9 @@ class Partner < ActiveRecord::Base
     end
     return total_cost
   end
-  
-  def get_total_raised    
-    projects = Project.find(:all, :conditions => ['partner_id = ? AND project_status_id in (?)', id.to_s, [2,4]]) 
+
+  def get_total_raised
+    projects = Project.find(:all, :conditions => ['partner_id = ? AND project_status_id in (?)', id.to_s, [2,4]])
     total_raised = 0
     projects.each do |project|
       if project.dollars_raised != nil
@@ -70,8 +72,8 @@ class Partner < ActiveRecord::Base
     end
     return total_raised
   end
-  
-  def get_total_percent_raised    
+
+  def get_total_percent_raised
     percent_raised = 0
     if get_total_costs > 0 and get_total_raised > 0
       percent_raised = ((get_total_raised / get_total_costs) * 100).floor
@@ -79,5 +81,5 @@ class Partner < ActiveRecord::Base
     if percent_raised > 100 then percent_raised = 100 end
     return percent_raised
   end
-  
+
 end
