@@ -1,26 +1,26 @@
 --- 
 project_statuses_001: 
-  name: Slated
+  name: Pending
   deleted_at: 
   id: "1"
-  description: Status to indicate that the project is not started yet.
+  description: New not yet approved projects.
 project_statuses_002: 
-  name: Started
+  name: Active
   deleted_at: 
   id: "2"
-  description: Status to indicate that the project has  started.
+  description: Live projects on the site.
 project_statuses_003: 
-  name: Canceled
+  name: Inactive
   deleted_at: 
   id: "3"
-  description: Status to indicate that the project has been canceled.
+  description: Projects that are no longer actively raising funds for whatever reason.
 project_statuses_004: 
   name: Completed
   deleted_at: 
   id: "4"
-  description: Status to indicate that the project has been completed.
+  description: Projects that are fully funded, but should still show up in some search results and project lists
 project_statuses_005: 
-  name: In Marketing
+  name: Suspended 
   deleted_at: 
   id: "5"
-  description: Status to indicate that the project is currently in the marketing phase.
+  description: Projects that we or the partner decide to pull from the site.

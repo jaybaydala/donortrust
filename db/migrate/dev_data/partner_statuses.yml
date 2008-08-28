@@ -1,11 +1,21 @@
 --- 
 partner_statuses_001: 
-  name: Approved
+  name: Active
   deleted_at: 
   id: "1"
   description: Organizations that have become apporved partners
 partner_statuses_002: 
-  name: Pending
+  name: Inactive
   deleted_at: 
   id: "2"
-  description: Organizations waiting for apporval
+  description: Organizations that are approved but are now inactive
+partner_statuses_003: 
+  name: Archived
+  deleted_at: 
+  id: "3"
+  description: Organizations that were partners in the past, but are no longer active partners
+partner_statuses_004: 
+  name: Suspended
+  deleted_at: 
+  id: "4"
+  description: Organizations that have been suspended
