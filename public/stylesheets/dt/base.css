@@ -165,6 +165,22 @@ div.highlight {
 #toolbar {
 	width:724px;
 	height:35px;
+	background:url(/images/dt/toolbars/ToolBackground.jpg) no-repeat bottom left #C4C4C4;
+	margin:0 0 8px 18px;
+}
+
+#toolbar2 {
+	width:724px;
+	height:35px;
+	background:#CCC url(/images/dt/toolbars/ToolBackground2.jpg) no-repeat;
+	margin: 0 0 10px 18px;
+	padding: 8px 0 0 8px;
+}
+
+/*
+#toolbar {
+	width:724px;
+	height:35px;
 	background: #CCC url(/images/dt/toolbars/ToolBackground.jpg) no-repeat bottom;
 	margin: 0 0 10px 18px;
 }
@@ -175,6 +191,34 @@ div.highlight {
 	background: #CCC url(/images/dt/toolbars/ToolBackground2.jpg) no-repeat bottom;
 	margin: 0 0 10px 18px;
 }
+*/
+input.submitreplace {
+    border:0;
+    font-size:0;
+}
+
+/*
+TOOLBAR SEARCH FORM
+-------------------*/
+form#projectsearchform {
+	padding:10px 0 0 10px;
+}
+form#projectsearchform select {
+	margin-right:12px;
+	width:190px;
+	float:left;
+	vertical-align: middle;
+}
+form#projectsearchform input.submitreplace {
+	width:92px;
+	height:20px;
+	background: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_grey.gif) no-repeat top left;
+	vertical-align: middle;
+}
+form#projectsearchform input.submitreplace:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/FindGiftbutton_blue.gif);
+}
+
 
 /* COLUMN STYLES */
 
