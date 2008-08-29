@@ -19,24 +19,18 @@ namespace :deploy do
     start
   end
 
-  task :start,    :roles => :app do
-    # do nothing
-  end
-  task :stop,    :roles => :app do
-    # do nothing
+  task :start,  :roles => :app do
+    run "touch #{current_path}/tmp/restart.txt"
   end
   task :restart,  :roles => :app do
-    run "touch {release_path}/tmp/restart.txt"
+    run "touch #{current_path}/tmp/restart.txt"
   end
-  task :start_admin,    :roles => :app do
-    # do nothing
-  end
-  task :stop_admin,    :roles => :app do
-    # do nothing
-  end
-  task :restart_admin,  :roles => :app do
-    # do nothing
-  end
+  task :stop,    :roles => :app do;end
+  task :start_admin,    :roles => :app do;end
+  task :stop_admin,    :roles => :app do;end
+  task :restart_admin,  :roles => :app do;end
+  task :asset_folder_fix,  :roles => :app do;end
+  task :copy_iats_config,  :roles => :app do;end
   
   task :after_update_code, :roles => :app do
     run <<-CMD
