@@ -1,6 +1,8 @@
 <%- content_for :html_title do %><%= h @project.name %><% end -%>
 <div id='projectRank'>
   <div class="project-content">
+
+    <% if @flickr_images.size > 0 %>
     <script type="text/javascript">
 
     /***********************************************
@@ -12,78 +14,78 @@
     var photos=new Array()
     var photoslink=new Array()
     var which=0
-    
+
     //Specify whether images should be linked or not (1=linked)
     var linkornot=1
-    
+
     //define images. You can have as many as you want:
     <% count=0
-       @flickr_images.each do |img| 
-          photo = Flickr::Photo.new(img.photo_id.to_s)
+    @flickr_images.each do |img| 
+    photo = Flickr::Photo.new(img.photo_id.to_s)
     %>
-          photos[<%=count%>] = "<%= photo.sizes[2]['source'] %>"
-          photoslink[<%=count%>]="<%=photo.url%>"
-          
+    photos[<%=count%>] = "<%= photo.sizes[2]['source'] %>"
+    photoslink[<%=count%>]="<%=photo.url%>"
+
     <%  count+=1
-        end %>
-    
+    end %>
+
 
     //do NOT edit pass this line
 
     var preloadedimages=new Array()
     for (i=0;i<photos.length;i++){
-    preloadedimages[i]=new Image()
-    preloadedimages[i].src=photos[i]
+      preloadedimages[i]=new Image()
+      preloadedimages[i].src=photos[i]
     }
 
 
     function applyeffect(){
-    if (document.all && photoslider.filters){
-    photoslider.filters.revealTrans.Transition=Math.floor(Math.random()*23)
-    photoslider.filters.revealTrans.stop()
-    photoslider.filters.revealTrans.apply()
-    }
+      if (document.all && photoslider.filters){
+        photoslider.filters.revealTrans.Transition=Math.floor(Math.random()*23)
+        photoslider.filters.revealTrans.stop()
+        photoslider.filters.revealTrans.apply()
+      }
     }
 
 
 
     function playeffect(){
-    if (document.all && photoslider.filters)
-    photoslider.filters.revealTrans.play()
+      if (document.all && photoslider.filters)
+      photoslider.filters.revealTrans.play()
     }
 
     function keeptrack(){
-    window.status="Image "+(which+1)+" of "+photos.length
+      window.status="Image "+(which+1)+" of "+photos.length
     }
 
 
     function backward(){
-    if (which>0){
-    which--
-    applyeffect()
-    document.images.photoslider.src=photos[which]
-    playeffect()
-    keeptrack()
-    }
+      if (which>0){
+        which--
+        applyeffect()
+        document.images.photoslider.src=photos[which]
+        playeffect()
+        keeptrack()
+      }
     }
 
     function forward(){
-    if (which<photos.length-1){
-    which++
-    applyeffect()
-    document.images.photoslider.src=photos[which]
-    playeffect()
-    keeptrack()
-    }
+      if (which<photos.length-1){
+        which++
+        applyeffect()
+        document.images.photoslider.src=photos[which]
+        playeffect()
+        keeptrack()
+      }
     }
 
     function transport(){
-    window.location=photoslink[which]
+      window.location=photoslink[which]
     }
 
     </script>
 
-    
+
     <div id='flickr-wrapper'>
       <div id='project-flickr-slide-show' >
         <script>
@@ -99,7 +101,8 @@
       <a class='flickr-left-link' href="#" onClick="backward();return false">&laquo; previous</a>
       <a class='flickr-right-link' href="#" onClick="forward();return false"> next &raquo;</a>
     </div>
-      
+    <%end # end flickr div%>
+
     <%= @project.short_description %>
        
     <%= @project.description %>
@@ -161,20 +164,11 @@
 
 
 <ul id='ul-project' class="tab" style='clear:both;'>
-    <% unless @project.milestones.empty? and @project.target_start_date != nil %>
+    
 	    <li class="li-project" id='project-li'><a href="#home" onclick="tab_select( $('project-li'), $('project_plan') );"><span>Project Plan</span></a></li>
-	  <% end%>
-	  <% if @project.intended_outcome? %>
-        <li class="li-project" id='intended-li'><a href="#intended" onclick="tab_select( $('intended-li'), $('intended_outcome') );"><span>Intended Outcome</span></a></li>
-    <% end%>
-	  <% if @project.meas_eval_plan?%>
-	      <li class="li-project" id='measurable-li'><a href="#measurable" onclick="tab_select( $('measurable-li'), $('measurable_feedback') );"><span>Measurable Feedback</span></a></li>
-	  <% end %>
-	  <% if @flickr_images.size > 0 %>
+	    <li class="li-project" id='intended-li'><a href="#intended" onclick="tab_select( $('intended-li'), $('intended_outcome') );"><span>Intended Outcome</span></a></li>
+      <li class="li-project" id='measurable-li'><a href="#measurable" onclick="tab_select( $('measurable-li'), $('measurable_feedback') );"><span>Measurable Feedback</span></a></li>
       <li class="li-project" id='photos-li' onclick="tab_select( $('photos-li'), $('project_photos') );"><a href="#photos"><span>Photos</span></a></li>
-    <% end %>
-    <% if @youtube_videos_size > 0 %>
-      
       <li class="li-project" id='videos-li' onclick="tab_select( $('videos-li'), $('project_videos') );">
       <%= link_to_remote '<span>Videos</span>',
         :url  => {:controller => :projects, :action => 'get_videos', :id => @project.id},
@@ -183,15 +177,13 @@
     	 	:success  => %(Element.hide("ajax_busy"))
       %>
       </li>
-    <% end %>
-    
   <%= javascript_tag "document.observe('dom:loaded', function(){  init_tab();})"%>
   
 </ul>
 <div class="section-body">
   <%= show_spinner() %>
   <div id='project_plan'>
-    <% unless @project.milestones.empty? and @project.target_start_date != nil %>
+    <% if !@project.milestones.empty? && !@project.target_start_date.nil? %>
       <h2>Project Plan</h2>
       <%
       project_timeline = ::Simile::Timeline::Timeline.new(
@@ -229,6 +221,8 @@
       )
       -%>
       <div id="projectTimeline"><%= simile_timeline(project_timeline, { :class => 'default_timeline' } ) %></div>
+      <% else %>
+      <h2>There is no project plan data available.</h2>
       <% end %>  
   </div>
   
@@ -241,6 +235,8 @@
     <div>
       <%= @project.intended_outcome %>
     </div>
+    <% else %>
+      <h2>There is no intended outcome data available.</h2>
     <% end %>
     
   </div>
@@ -251,6 +247,8 @@
     <div>
       <%= @project.meas_eval_plan %>
     </div>
+    <% else %>
+      <h2>There is no measurable feedback data available.</h2>
     <% end %>
   </div>
   
@@ -259,10 +257,12 @@
       <h2>Project Photos</h2>
       <%= will_paginate @flickr_images, :param_name => 'flickr_page' %>
       <%= render :partial => 'flickr_photo', :collection => @flickr_images %>
+    <% else %>
+      <h2>There is no photos available.</h2>
     <% end %>
   </div>
   
-  <div id='project_videos'>
+  <div id='project_videos' style='display:none;'>
   </div>
 </div>
 

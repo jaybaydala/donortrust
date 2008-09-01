@@ -75,7 +75,7 @@ module Dt::ProjectsHelper
     output =[]
     @partners = Partner.find_by_sql("SELECT count(*) as count, p.name as name, p.id as id FROM partners p inner join projects pr ON pr.partner_id = p.id WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL AND p.partner_status_id = 1 GROUP BY p.id ORDER BY p.name ASC")
     @partners.each do |p|
-      output << link_to("#{p.name} (#{(p.count)})", search_dt_projects_path+"?partner_selected=1&partner_id=#{p.id}") if p.count.to_i>0
+      output << link_to("#{truncate(p.name,20)} (#{(p.count)})", search_dt_projects_path+"?partner_selected=1&partner_id=#{p.id}") if p.count.to_i>0
     end
 
     if limit && limit < @partners.size
@@ -93,5 +93,20 @@ module Dt::ProjectsHelper
       sum+=item.cost
     end
     return number_to_currency(sum)
+  end
+  
+  def total_cost_with_project_count
+    #TODO continue later (Pedro)
+    output = []
+    @range_0_10k = Ultrasphinx::Search.new(:filters  => {:total_cost => 0..10000.00}, :per_page  => Project.count, :class_names => ['Project'])
+    @range_10_20k = Ultrasphinx::Search.new(:filters  => {:total_cost => 10001..20000.00}, :per_page  => Project.count)
+    @range_20_30k = Ultrasphinx::Search.new(:filters  => {:total_cost => 20001..30000.00}, :per_page  => Project.count)
+    @range_30_up = Ultrasphinx::Search.new(:filters  => {:total_cost => 300001..Float::MAX.to_f}, :per_page  => Project.count)
+    
+    if @range_0_10k.run
+      output << link_to("#{number_to_currency(0)} ... #{number_to_currency(10000)} (#{@range_0_10k.run.size})", search_dt_projects_path+"?funding_req_selected=1&funding_req_min=0&funding_req_max=10000" )
+    end
+    
+    return output
   end
 end

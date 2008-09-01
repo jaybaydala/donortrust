@@ -1,9 +1,9 @@
 <ul>
-                <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
-                <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
-                <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
-                
-                <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %>
-                  
-                </li>
-              </ul>
+  <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
+  <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
+  <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
+
+  <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %>
+
+  </li>
+</ul>

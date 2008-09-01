@@ -364,14 +364,15 @@ SEARCH, layout and forms
 }
 
 .predefined-searches {
-	width:650px;
-	margin: auto;
+	/*width:700px;*/
+	margin: 0 auto;
 }
 
 .predefined-search-list {
   float: left;
   margin-right: 20px;
   font-size: 14px;
+	width:180px;
 }
 
 .predefined-search-list h3{
@@ -515,6 +516,7 @@ form#project_search input.submitreplace:hover{
 #project-accordion{
 	width:250px;
 	height:300px;
+	border: 1px solid #C0C0C0;
 }
 
 div#project-accordion{
@@ -531,6 +533,7 @@ div.accordion-toggle{
 		height:24px;
 		background: url(/images/dt/backgrounds/accordion_tab.gif) top left;
     cursor: pointer;
+		padding-left:10px;
 }
 
 div.accordion-toggle-active{
@@ -543,6 +546,7 @@ div.accordion-content{
     overflow: hidden;	/* required for effect */
     padding-left: 10px;
 		padding-right: 10px;
+		height:156px;
 }
 
 
@@ -572,7 +576,7 @@ div.accordion-content{
 
 
 #project_budget{
-	font-size: 8pt;
+	font-size: 90%;
 }
 
 /* project tabs overview */
