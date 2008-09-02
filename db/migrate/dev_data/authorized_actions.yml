@@ -1211,4 +1211,23 @@ authorized_actions_303:
   authorized_controller_id: "75"
   name: delete
   id: "303"
-
+authorized_actions_304: 
+  authorized_controller_id: "76"
+  name: show
+  id: "304"
+authorized_actions_305: 
+  authorized_controller_id: "76"
+  name: list
+  id: "305"
+authorized_actions_306: 
+  authorized_controller_id: "76"
+  name: create
+  id: "306"
+authorized_actions_307: 
+  authorized_controller_id: "76"
+  name: edit
+  id: "307"
+authorized_actions_308: 
+  authorized_controller_id: "76"
+  name: delete
+  id: "308"

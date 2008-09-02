@@ -1,912 +1,987 @@
 --- 
-pemission_001: 
+permission_001: 
   role_id: 1
   authorized_action_id: "1"
-pemission_002: 
+permission_002: 
   role_id: 1
   authorized_action_id: "2"
-pemission_003: 
+permission_003: 
   role_id: 1
   authorized_action_id: "3"
-pemission_004: 
+permission_004: 
   role_id: 1
   authorized_action_id: "4"
-pemission_005: 
+permission_005: 
   role_id: 1
   authorized_action_id: "5"
-pemission_006: 
+permission_006: 
   role_id: 1
   authorized_action_id: "6"
-pemission_007: 
+permission_007: 
   role_id: 1
   authorized_action_id: "7"
-pemission_008: 
+permission_008: 
   role_id: 1
   authorized_action_id: "8"
-pemission_009: 
+permission_009: 
   role_id: 1
   authorized_action_id: "9"
-pemission_010: 
+permission_010: 
   role_id: 1
   authorized_action_id: "10"
-pemission_011: 
+permission_011: 
   role_id: 1
   authorized_action_id: "11"
-pemission_012: 
+permission_012: 
   role_id: 1
   authorized_action_id: "12"
-pemission_013: 
+permission_013: 
   role_id: 1
   authorized_action_id: "13"
-pemission_014: 
+permission_014: 
   role_id: 1
   authorized_action_id: "14"
-pemission_015: 
+permission_015: 
   role_id: 1
   authorized_action_id: "15"
-pemission_016: 
+permission_016: 
   role_id: 1
   authorized_action_id: "16"
-pemission_017: 
+permission_017: 
   role_id: 1
   authorized_action_id: "17"
-pemission_018: 
+permission_018: 
   role_id: 1
   authorized_action_id: "18"
-pemission_019: 
+permission_019: 
   role_id: 1
   authorized_action_id: "19"
-pemission_020: 
+permission_020: 
   role_id: 1
   authorized_action_id: "20"
-pemission_021: 
+permission_021: 
   role_id: 1
   authorized_action_id: "21"
-pemission_022: 
+permission_022: 
   role_id: 1
   authorized_action_id: "22"
-pemission_023: 
+permission_023: 
   role_id: 1
   authorized_action_id: "23"
-pemission_024: 
+permission_024: 
   role_id: 1
   authorized_action_id: "24"
-pemission_025: 
+permission_025: 
   role_id: 1
   authorized_action_id: "25"
-pemission_026: 
+permission_026: 
   role_id: 1
   authorized_action_id: "26"
-pemission_027: 
+permission_027: 
   role_id: 1
   authorized_action_id: "27"
-pemission_028: 
+permission_028: 
   role_id: 1
   authorized_action_id: "28"
-pemission_029: 
+permission_029: 
   role_id: 1
   authorized_action_id: "29"
-pemission_030: 
+permission_030: 
   role_id: 1
   authorized_action_id: "30"
-pemission_031: 
+permission_031: 
   role_id: 1
   authorized_action_id: "31"
-pemission_032: 
+permission_032: 
   role_id: 1
   authorized_action_id: "32"
-pemission_033: 
+permission_033: 
   role_id: 1
   authorized_action_id: "33"
-pemission_034: 
+permission_034: 
   role_id: 1
   authorized_action_id: "34"
-pemission_035: 
+permission_035: 
   role_id: 1
   authorized_action_id: "35"
-pemission_036: 
+permission_036: 
   role_id: 1
   authorized_action_id: "36"
-pemission_037: 
+permission_037: 
   role_id: 1
   authorized_action_id: "37"
-pemission_038: 
+permission_038: 
   role_id: 1
   authorized_action_id: "38"
-pemission_039: 
+permission_039: 
   role_id: 1
   authorized_action_id: "39"
-pemission_040: 
+permission_040: 
   role_id: 1
   authorized_action_id: "40"
-pemission_041: 
+permission_041: 
   role_id: 1
   authorized_action_id: "41"
-pemission_042: 
+permission_042: 
   role_id: 1
   authorized_action_id: "42"
-pemission_043: 
+permission_043: 
   role_id: 1
   authorized_action_id: "43"
-pemission_044: 
+permission_044: 
   role_id: 1
   authorized_action_id: "44"
-pemission_045: 
+permission_045: 
   role_id: 1
   authorized_action_id: "45"
-pemission_046: 
+permission_046: 
   role_id: 1
   authorized_action_id: "46"
-pemission_047: 
+permission_047: 
   role_id: 1
   authorized_action_id: "47"
-pemission_048: 
+permission_048: 
   role_id: 1
   authorized_action_id: "48"
-pemission_049: 
+permission_049: 
   role_id: 1
   authorized_action_id: "49"
-pemission_050: 
+permission_050: 
   role_id: 1
   authorized_action_id: "50"
-pemission_051: 
+permission_051: 
   role_id: 1
   authorized_action_id: "51"
-pemission_052: 
+permission_052: 
   role_id: 1
   authorized_action_id: "52"
-pemission_053: 
+permission_053: 
   role_id: 1
   authorized_action_id: "53"
-pemission_054: 
+permission_054: 
   role_id: 1
   authorized_action_id: "54"
-pemission_055: 
+permission_055: 
   role_id: 1
   authorized_action_id: "55"
-pemission_056: 
+permission_056: 
   role_id: 1
   authorized_action_id: "56"
-pemission_057: 
+permission_057: 
   role_id: 1
   authorized_action_id: "57"
-pemission_058: 
+permission_058: 
   role_id: 1
   authorized_action_id: "58"
-pemission_059: 
+permission_059: 
   role_id: 1
   authorized_action_id: "59"
-pemission_060: 
+permission_060: 
   role_id: 1
   authorized_action_id: "60"
-pemission_061: 
+permission_061: 
   role_id: 1
   authorized_action_id: "61"
-pemission_062: 
+permission_062: 
   role_id: 1
   authorized_action_id: "62"
-pemission_063: 
+permission_063: 
   role_id: 1
   authorized_action_id: "63"
-pemission_064: 
+permission_064: 
   role_id: 1
   authorized_action_id: "64"
-pemission_065: 
+permission_065: 
   role_id: 1
   authorized_action_id: "65"
-pemission_066: 
+permission_066: 
   role_id: 1
   authorized_action_id: "66"
-pemission_067: 
+permission_067: 
   role_id: 1
   authorized_action_id: "67"
-pemission_068: 
+permission_068: 
   role_id: 1
   authorized_action_id: "68"
-pemission_069: 
+permission_069: 
   role_id: 1
   authorized_action_id: "69"
-pemission_070: 
+permission_070: 
   role_id: 1
   authorized_action_id: "70"
-pemission_071: 
+permission_071: 
   role_id: 1
   authorized_action_id: "71"
-pemission_072: 
+permission_072: 
   role_id: 1
   authorized_action_id: "72"
-pemission_073: 
+permission_073: 
   role_id: 1
   authorized_action_id: "73"
-pemission_074: 
+permission_074: 
   role_id: 1
   authorized_action_id: "74"
-pemission_075: 
+permission_075: 
   role_id: 1
   authorized_action_id: "75"
-pemission_076: 
+permission_076: 
   role_id: 1
   authorized_action_id: "76"
-pemission_077: 
+permission_077: 
   role_id: 1
   authorized_action_id: "77"
-pemission_078: 
+permission_078: 
   role_id: 1
   authorized_action_id: "78"
-pemission_079: 
+permission_079: 
   role_id: 1
   authorized_action_id: "79"
-pemission_080: 
+permission_080: 
   role_id: 1
   authorized_action_id: "80"
-pemission_081: 
+permission_081: 
   role_id: 1
   authorized_action_id: "81"
-pemission_082: 
+permission_082: 
   role_id: 1
   authorized_action_id: "82"
-pemission_083: 
+permission_083: 
   role_id: 1
   authorized_action_id: "83"
-pemission_084: 
+permission_084: 
   role_id: 1
   authorized_action_id: "84"
-pemission_085: 
+permission_085: 
   role_id: 1
   authorized_action_id: "85"
-pemission_086: 
+permission_086: 
   role_id: 1
   authorized_action_id: "086"
-pemission_087: 
+permission_087: 
   role_id: 1
   authorized_action_id: "087"
-pemission_088: 
+permission_088: 
   role_id: 1
   authorized_action_id: "088"
-pemission_089: 
+permission_089: 
   role_id: 1
   authorized_action_id: "089"
-pemission_090: 
+permission_090: 
   role_id: 1
   authorized_action_id: "090"
-pemission_091: 
+permission_091: 
   role_id: 1
   authorized_action_id: "091"
-pemission_092: 
+permission_092: 
   role_id: 1
   authorized_action_id: "092"
-pemission_093: 
+permission_093: 
   role_id: 1
   authorized_action_id: "093"
-pemission_094: 
+permission_094: 
   role_id: 1
   authorized_action_id: "094"
-pemission_095: 
+permission_095: 
   role_id: 1
   authorized_action_id: "095"
-pemission_096: 
+permission_096: 
   role_id: 1
   authorized_action_id: "096"
-pemission_097: 
+permission_097: 
   role_id: 1
   authorized_action_id: "097"
-pemission_098: 
+permission_098: 
   role_id: 1
   authorized_action_id: "098"
-pemission_099: 
+permission_099: 
   role_id: 1
   authorized_action_id: "099"
-pemission_100: 
+permission_100: 
   role_id: 1
   authorized_action_id: "100"
-pemission_101: 
+permission_101: 
   role_id: 1
   authorized_action_id: "101"
-pemission_102: 
+permission_102: 
   role_id: 1
   authorized_action_id: "102"
-pemission_103: 
+permission_103: 
   role_id: 1
   authorized_action_id: "103"
-pemission_104: 
+permission_104: 
   role_id: 1
   authorized_action_id: "104"
-pemission_105: 
+permission_105: 
   role_id: 1
   authorized_action_id: "105"
-pemission_106: 
+permission_106: 
   role_id: 1
   authorized_action_id: "106"
-pemission_107: 
+permission_107: 
   role_id: 1
   authorized_action_id: "107"
-pemission_108: 
+permission_108: 
   role_id: 1
   authorized_action_id: "108"
-pemission_109: 
+permission_109: 
   role_id: 1
   authorized_action_id: "109"
-pemission_110: 
+permission_110: 
   role_id: 1
   authorized_action_id: "110"
-pemission_111: 
+permission_111: 
   role_id: 1
   authorized_action_id: "111"
-pemission_112: 
+permission_112: 
   role_id: 1
   authorized_action_id: "112"
-pemission_113: 
+permission_113: 
   role_id: 1
   authorized_action_id: "113"
-pemission_114: 
+permission_114: 
   role_id: 1
   authorized_action_id: "114"
-pemission_115: 
+permission_115: 
   role_id: 1
   authorized_action_id: "115"
-pemission_116: 
+permission_116: 
   role_id: 1
   authorized_action_id: "116"
-pemission_117: 
+permission_117: 
   role_id: 1
   authorized_action_id: "117"
-pemission_118: 
+permission_118: 
   role_id: 1
   authorized_action_id: "118"
-pemission_119: 
+permission_119: 
   role_id: 1
   authorized_action_id: "119"
-pemission_120: 
+permission_120: 
   role_id: 1
   authorized_action_id: "120"
-pemission_121: 
+permission_121: 
   role_id: 1
   authorized_action_id: "121"
-pemission_122: 
+permission_122: 
   role_id: 1
   authorized_action_id: "122"
-pemission_123: 
+permission_123: 
   role_id: 1
   authorized_action_id: "123"
-pemission_124: 
+permission_124: 
   role_id: 1
   authorized_action_id: "124"
-pemission_125: 
+permission_125: 
   role_id: 1
   authorized_action_id: "125"
-pemission_126: 
+permission_126: 
   role_id: 1
   authorized_action_id: "126"
-pemission_127: 
+permission_127: 
   role_id: 1
   authorized_action_id: "127"
-pemission_128: 
+permission_128: 
   role_id: 1
   authorized_action_id: "128"
-pemission_129: 
+permission_129: 
   role_id: 1
   authorized_action_id: "129"
-pemission_130: 
+permission_130: 
   role_id: 1
   authorized_action_id: "130"
-pemission_131: 
+permission_131: 
   role_id: 1
   authorized_action_id: "131"
-pemission_132: 
+permission_132: 
   role_id: 1
   authorized_action_id: "132"
-pemission_133: 
+permission_133: 
   role_id: 1
   authorized_action_id: "133"
-pemission_134: 
+permission_134: 
   role_id: 1
   authorized_action_id: "134"
-pemission_135: 
+permission_135: 
   role_id: 1
   authorized_action_id: "135"
-pemission_136: 
+permission_136: 
   role_id: 1
   authorized_action_id: "136"
-pemission_137: 
+permission_137: 
   role_id: 1
   authorized_action_id: "137"
-pemission_138: 
+permission_138: 
   role_id: 1
   authorized_action_id: "138"
-pemission_139: 
+permission_139: 
   role_id: 1
   authorized_action_id: "139"
-pemission_140: 
+permission_140: 
   role_id: 1
   authorized_action_id: "140"
-pemission_141: 
+permission_141: 
   role_id: 1
   authorized_action_id: "141"
-pemission_142: 
+permission_142: 
   role_id: 1
   authorized_action_id: "142"
-pemission_143: 
+permission_143: 
   role_id: 1
   authorized_action_id: "143"
-pemission_144: 
+permission_144: 
   role_id: 1
   authorized_action_id: "144"
-pemission_145: 
+permission_145: 
   role_id: 1
   authorized_action_id: "145"
-pemission_146: 
+permission_146: 
   role_id: 1
   authorized_action_id: "146"
-pemission_147: 
+permission_147: 
   role_id: 1
   authorized_action_id: "147"
-pemission_148: 
+permission_148: 
   role_id: 1
   authorized_action_id: "148"
-pemission_149: 
+permission_149: 
   role_id: 1
   authorized_action_id: "149"
-pemission_150: 
+permission_150: 
   role_id: 1
   authorized_action_id: "150"
-pemission_151: 
+permission_151: 
   role_id: 1
   authorized_action_id: "151"
-pemission_152: 
+permission_152: 
   role_id: 1
   authorized_action_id: "152"
-pemission_153: 
+permission_153: 
   role_id: 1
   authorized_action_id: "153"
-pemission_154: 
+permission_154: 
   role_id: 1
   authorized_action_id: "154"
-pemission_155: 
+permission_155: 
   role_id: 1
   authorized_action_id: "155"
-pemission_156: 
+permission_156: 
   role_id: 1
   authorized_action_id: "156"
-pemission_157: 
+permission_157: 
   role_id: 1
   authorized_action_id: "157"
-pemission_158: 
+permission_158: 
   role_id: 1
   authorized_action_id: "158"
-pemission_159: 
+permission_159: 
   role_id: 1
   authorized_action_id: "159"
-pemission_160: 
+permission_160: 
   role_id: 1
   authorized_action_id: "160"
-pemission_161: 
+permission_161: 
   role_id: 1
   authorized_action_id: "161"
-pemission_162: 
+permission_162: 
   role_id: 1
   authorized_action_id: "162"
-pemission_163: 
+permission_163: 
   role_id: 1
   authorized_action_id: "163"
-pemission_164: 
+permission_164: 
   role_id: 1
   authorized_action_id: "164"
-pemission_165: 
+permission_165: 
   role_id: 1
   authorized_action_id: "165"
-pemission_166: 
+permission_166: 
   role_id: 1
   authorized_action_id: "166"
-pemission_167: 
+permission_167: 
   role_id: 1
   authorized_action_id: "167"
-pemission_168: 
+permission_168: 
   role_id: 1
   authorized_action_id: "168"
-pemission_169: 
+permission_169: 
   role_id: 1
   authorized_action_id: "169"
-pemission_170: 
+permission_170: 
   role_id: 1
   authorized_action_id: "170"
-pemission_171: 
+permission_171: 
   role_id: 1
   authorized_action_id: "171"
-pemission_172: 
+permission_172: 
   role_id: 1
   authorized_action_id: "172"
-pemission_173: 
+permission_173: 
   role_id: 1
   authorized_action_id: "173"
-pemission_174: 
+permission_174: 
   role_id: 1
   authorized_action_id: "174"
-pemission_175: 
+permission_175: 
   role_id: 1
   authorized_action_id: "175"
-pemission_176: 
+permission_176: 
   role_id: 1
   authorized_action_id: "176"
-pemission_177: 
+permission_177: 
   role_id: 1
   authorized_action_id: "177"
-pemission_178: 
+permission_178: 
   role_id: 1
   authorized_action_id: "178"
-pemission_179: 
+permission_179: 
   role_id: 1
   authorized_action_id: "179"
-pemission_180: 
+permission_180: 
   role_id: 1
   authorized_action_id: "180"
-pemission_181: 
+permission_181: 
   role_id: 1
   authorized_action_id: "181"
-pemission_182: 
+permission_182: 
   role_id: 1
   authorized_action_id: "182"
-pemission_183: 
+permission_183: 
   role_id: 1
   authorized_action_id: "183"
-pemission_184: 
+permission_184: 
   role_id: 1
   authorized_action_id: "184"
-pemission_185: 
+permission_185: 
   role_id: 1
   authorized_action_id: "185"
-pemission_186: 
+permission_186: 
   role_id: 1
   authorized_action_id: "186"
-pemission_187: 
+permission_187: 
   role_id: 1
   authorized_action_id: "187"
-pemission_188: 
+permission_188: 
   role_id: 1
   authorized_action_id: "188"
-pemission_189: 
+permission_189: 
   role_id: 1
   authorized_action_id: "189"
-pemission_190: 
+permission_190: 
   role_id: 1
   authorized_action_id: "190"
-pemission_191: 
+permission_191: 
   role_id: 1
   authorized_action_id: "191"
-pemission_192: 
+permission_192: 
   role_id: 1
   authorized_action_id: "192"
-pemission_193: 
+permission_193: 
   role_id: 1
   authorized_action_id: "193"
-pemission_194: 
+permission_194: 
   role_id: 1
   authorized_action_id: "194"
-pemission_195: 
+permission_195: 
   role_id: 1
   authorized_action_id: "195"
-pemission_196: 
+permission_196: 
   role_id: 1
   authorized_action_id: "196"
-pemission_197: 
+permission_197: 
   role_id: 1
   authorized_action_id: "197"
-pemission_198: 
+permission_198: 
   role_id: 1
   authorized_action_id: "198"
-pemission_199: 
+permission_199: 
   role_id: 1
   authorized_action_id: "199"
-pemission_200: 
+permission_200: 
   role_id: 1
   authorized_action_id: "200"
-pemission_201: 
+permission_201: 
   role_id: 1
   authorized_action_id: "201"
-pemission_202: 
+permission_202: 
   role_id: 1
   authorized_action_id: "202"
-pemission_203: 
+permission_203: 
   role_id: 1
   authorized_action_id: "203"
-pemission_204: 
+permission_204: 
   role_id: 1
   authorized_action_id: "204"
-pemission_205: 
+permission_205: 
   role_id: 1
   authorized_action_id: "205"
-pemission_206: 
+permission_206: 
   role_id: 1
   authorized_action_id: "206"
-pemission_207: 
+permission_207: 
   role_id: 1
   authorized_action_id: "207"
-pemission_208: 
+permission_208: 
   role_id: 1
   authorized_action_id: "208"
-pemission_209: 
+permission_209: 
   role_id: 1
   authorized_action_id: "209"
-pemission_210: 
+permission_210: 
   role_id: 1
   authorized_action_id: "210"
-pemission_211: 
+permission_211: 
   role_id: 1
   authorized_action_id: "211"
-pemission_212: 
+permission_212: 
   role_id: 1
   authorized_action_id: "212"
-pemission_213: 
+permission_213: 
   role_id: 1
   authorized_action_id: "213"
-pemission_214: 
+permission_214: 
   role_id: 1
   authorized_action_id: "214"
-pemission_215: 
+permission_215: 
   role_id: 1
   authorized_action_id: "215"
-pemission_216: 
+permission_216: 
   role_id: 1
   authorized_action_id: "216"
-pemission_217: 
+permission_217: 
   role_id: 1
   authorized_action_id: "217"
-pemission_218: 
+permission_218: 
   role_id: 1
   authorized_action_id: "218"
-pemission_219: 
+permission_219: 
   role_id: 1
   authorized_action_id: "219"
-pemission_220: 
+permission_220: 
   role_id: 1
   authorized_action_id: "220"
-pemission_221: 
+permission_221: 
   role_id: 1
   authorized_action_id: "221"
-pemission_222: 
+permission_222: 
   role_id: 1
   authorized_action_id: "222"
-pemission_223: 
+permission_223: 
   role_id: 1
   authorized_action_id: "223"
-pemission_224: 
+permission_224: 
   role_id: 1
   authorized_action_id: "224"
-pemission_225: 
+permission_225: 
   role_id: 1
   authorized_action_id: "225"
-pemission_226: 
+permission_226: 
   role_id: 1
   authorized_action_id: "226"
-pemission_227: 
+permission_227: 
   role_id: 1
   authorized_action_id: "227"
-pemission_228: 
+permission_228: 
   role_id: 1
   authorized_action_id: "228"
-pemission_229: 
+permission_229: 
   role_id: 1
   authorized_action_id: "229"
-pemission_230: 
+permission_230: 
   role_id: 1
   authorized_action_id: "230"
-pemission_231: 
+permission_231: 
   role_id: 1
   authorized_action_id: "231"
-pemission_232: 
+permission_232: 
   role_id: 1
   authorized_action_id: "232"
-pemission_233: 
+permission_233: 
   role_id: 1
   authorized_action_id: "233"
-pemission_234: 
+permission_234: 
   role_id: 1
   authorized_action_id: "234"
-pemission_235: 
+permission_235: 
   role_id: 1
   authorized_action_id: "235"
-pemission_236: 
+permission_236: 
   role_id: 1
   authorized_action_id: "236"
-pemission_237: 
+permission_237: 
   role_id: 1
   authorized_action_id: "237"
-pemission_238: 
+permission_238: 
   role_id: 1
   authorized_action_id: "238"
-pemission_239: 
+permission_239: 
   role_id: 1
   authorized_action_id: "239"
-pemission_240: 
+permission_240: 
   role_id: 1
   authorized_action_id: "240"
-pemission_241: 
+permission_241: 
   role_id: 1
   authorized_action_id: "241"
-pemission_242: 
+permission_242: 
   role_id: 1
   authorized_action_id: "242"
-pemission_243: 
+permission_243: 
   role_id: 1
   authorized_action_id: "243"
-pemission_244: 
+permission_244: 
   role_id: 1
   authorized_action_id: "244"
-pemission_245: 
+permission_245: 
   role_id: 1
   authorized_action_id: "245"
-pemission_246: 
+permission_246: 
   role_id: 1
   authorized_action_id: "246"
-pemission_247: 
+permission_247: 
   role_id: 1
   authorized_action_id: "247"
-pemission_248: 
+permission_248: 
   role_id: 1
   authorized_action_id: "248"
-pemission_249: 
+permission_249: 
   role_id: 1
   authorized_action_id: "249"
-pemission_250: 
+permission_250: 
   role_id: 1
   authorized_action_id: "250"
-pemission_251: 
+permission_251: 
   role_id: 1
   authorized_action_id: "251"
-pemission_252: 
+permission_252: 
   role_id: 1
   authorized_action_id: "252"
-pemission_253: 
+permission_253: 
   role_id: 1
   authorized_action_id: "253"
-pemission_254: 
+permission_254: 
   role_id: 1
   authorized_action_id: "254"
-pemission_255: 
+permission_255: 
   role_id: 1
   authorized_action_id: "255"
-pemission_256: 
+permission_256: 
   role_id: 1
   authorized_action_id: "256"
-pemission_257: 
+permission_257: 
   role_id: 1
   authorized_action_id: "257"
-pemission_258: 
+permission_258: 
   role_id: 1
   authorized_action_id: "258"
-pemission_259: 
+permission_259: 
   role_id: 1
   authorized_action_id: "259"
-pemission_260: 
+permission_260: 
   role_id: 1
   authorized_action_id: "260"
-pemission_261: 
+permission_261: 
   role_id: 1
   authorized_action_id: "261"
-pemission_262: 
+permission_262: 
   role_id: 1
   authorized_action_id: "262"
-pemission_263: 
+permission_263: 
   role_id: 1
   authorized_action_id: "263"
-pemission_264: 
+permission_264: 
   role_id: 1
   authorized_action_id: "264"
-pemission_265: 
+permission_265: 
   role_id: 1
   authorized_action_id: "265"
-pemission_266: 
+permission_266: 
   role_id: 1
   authorized_action_id: "266"
-pemission_267: 
+permission_267: 
   role_id: 1
   authorized_action_id: "267"
-pemission_268: 
+permission_268: 
   role_id: 1
   authorized_action_id: "268"
-pemission_269: 
+permission_269: 
   role_id: 1
   authorized_action_id: "269"
-pemission_270: 
+permission_270: 
   role_id: 1
   authorized_action_id: "270"
-pemission_271: 
+permission_271: 
   role_id: 1
   authorized_action_id: "271"
-pemission_272: 
+permission_272: 
   role_id: 1
   authorized_action_id: "272"
-pemission_273: 
+permission_273: 
   role_id: 1
   authorized_action_id: "273"
-pemission_274: 
+permission_274: 
   role_id: 1
   authorized_action_id: "274"
-pemission_275: 
+permission_275: 
   role_id: 1
   authorized_action_id: "275"
-pemission_276: 
+permission_276: 
   role_id: 1
   authorized_action_id: "276"
-pemission_277: 
+permission_277: 
   role_id: 1
   authorized_action_id: "277"
-pemission_278: 
+permission_278: 
   role_id: 1
   authorized_action_id: "278"
-pemission_279: 
+permission_279: 
   role_id: 1
   authorized_action_id: "279"
-pemission_280: 
+permission_280: 
   role_id: 1
   authorized_action_id: "280"
-pemission_281: 
+permission_281: 
   role_id: 1
   authorized_action_id: "281"
-pemission_282: 
+permission_282: 
   role_id: 1
   authorized_action_id: "282"
-pemission_283: 
+permission_283: 
   role_id: 1
   authorized_action_id: "283"
-pemission_284: 
+permission_284: 
   role_id: 1
   authorized_action_id: "284"
-pemission_285: 
+permission_285: 
   role_id: 1
   authorized_action_id: "285"
-pemission_286: 
+permission_286: 
   role_id: 1
   authorized_action_id: "286"
-pemission_287: 
+permission_287: 
   role_id: 1
   authorized_action_id: "287"
-pemission_288: 
+permission_288: 
   role_id: 1
   authorized_action_id: "288"
-pemission_289: 
+permission_289: 
   role_id: 1
   authorized_action_id: "289"
-pemission_290: 
+permission_290: 
   role_id: 1
   authorized_action_id: "290"
-pemission_291: 
+permission_291: 
   role_id: 1
   authorized_action_id: "291"
-pemission_292: 
+permission_292: 
   role_id: 1
   authorized_action_id: "292"
-pemission_293: 
+permission_293: 
   role_id: 1
   authorized_action_id: "293"
-pemission_294: 
+permission_294: 
   role_id: 1
   authorized_action_id: "294"
-pemission_295: 
+permission_295: 
   role_id: 1
   authorized_action_id: "295"
-pemission_296: 
+permission_296: 
   role_id: 1
   authorized_action_id: "296"
-pemission_297: 
+permission_297: 
   role_id: 1
   authorized_action_id: "297"
-pemission_298: 
+permission_298: 
   role_id: 1
   authorized_action_id: "298"
-pemission_299: 
+permission_299: 
   role_id: 1
   authorized_action_id: "299"
-pemission_300: 
+permission_300: 
   role_id: 1
   authorized_action_id: "300"
-pemission_301: 
+permission_301: 
   role_id: 1
   authorized_action_id: "301"
-pemission_302: 
+permission_302: 
   role_id: 1
   authorized_action_id: "302"
-pemission_303: 
+permission_303: 
   role_id: 1
   authorized_action_id: "303"
+permission_304: 
+  role_id: 1
+  authorized_action_id: "304"
+permission_305: 
+  role_id: 1
+  authorized_action_id: "305"
+permission_306: 
+  role_id: 1
+  authorized_action_id: "306"
+permission_307: 
+  role_id: 1
+  authorized_action_id: "307"
+permission_308: 
+  role_id: 1
+  authorized_action_id: "308"
 
+##Project admin permissions
+permission_309: 
+  role_id: 3
+  authorized_action_id: "23"
+permission_310: 
+  role_id: 3
+  authorized_action_id: "168"
+permission_311: 
+  role_id: 3
+  authorized_action_id: "176"
+permission_312: 
+  role_id: 3
+  authorized_action_id: "19"
 
+##
+permission_313: 
+  role_id: 3
+  authorized_action_id: "234"
+permission_314: 
+  role_id: 3
+  authorized_action_id: "238"
+permission_315: 
+  role_id: 3
+  authorized_action_id: "242"
+permission_316: 
+  role_id: 3
+  authorized_action_id: "246"
+permission_317: 
+  role_id: 3
+  authorized_action_id: "251"
+
+##Partner Admin Permissions
+permission_318: 
+  role_id: 2
+  authorized_action_id: "23"
+permission_319: 
+  role_id: 2
+  authorized_action_id: "168"
+permission_320: 
+  role_id: 2
+  authorized_action_id: "176"
+permission_321: 
+  role_id: 2
+  authorized_action_id: "19"
+
+##
+permission_322: 
+  role_id: 2
+  authorized_action_id: "234"
+permission_323: 
+  role_id: 2
+  authorized_action_id: "238"
+permission_324: 
+  role_id: 2
+  authorized_action_id: "242"
+permission_325: 
+  role_id: 2
+  authorized_action_id: "246"
+permission_326: 
+  role_id: 2
+  authorized_action_id: "251"

@@ -2,6 +2,14 @@
 cf_admin:
     id: 1
     title: 'cf_admin'
+
+partner_admin:
+    id: 2
+    title: 'partner_admin'
+
+project_admin:
+    id: 3
+    title: 'project_admin'
 #
 # two:
 #   column: value
