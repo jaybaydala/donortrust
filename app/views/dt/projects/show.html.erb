@@ -1,4 +1,12 @@
-<%- content_for :html_title do %><%= h @project.name %><% end -%>
+<div class="full-display-project-header clearfix">
+	<div class='full-display-project-title'><%= @project.name %></div>
+	<div class="full-display-sector-images"><%= sector_images(@project.id) %></div>
+
+	<div class="project-location-link">
+		<% if @project.community_id %><%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %><% end %>
+		<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
+	</div>
+</div>
 <div id='projectRank'>
   <div class="project-content">
 
@@ -109,52 +117,49 @@
     
   </div>
   <div class='project-sidebar'>
-    <div class="button-give">
-      <%= link_to '<span>Gift this Project</span>',new_dt_gift_path(:project_id => @project), :class=>'button-gift'%>
-    </div>
-    <span><%= sector_images(@project.id)%></span>
-    
-    
+		<div id="project-accordion" class="accordion">  
+		<div class="accordion-toggle">Quick Facts</div>    
+		<div class="accordion-content">
+		<div class="quickfacts">
+			<%= render :partial => 'small_project_quickfacts' %>
+		</div>
+		</div>    
 
-    <div id="project-accordion" class="accordion">  
-         <div class="accordion-toggle">Quick Facts</div>    
-         <div class="accordion-content">
-           <div class="quickfacts">
-             <%= render :partial => 'small_project_quickfacts' %>
-           </div>
-         </div>    
-         
-         <% if @budget_items%>
-            <div class="accordion-toggle">Financial Data</div>    
-            <div class="accordion-content">
-              <div class="quickfacts">
-                  <%= render :partial => 'project_financial_data' %>
-              </div>
-            </div>
-         <% end%>    
-         <div class="accordion-toggle">Program</div>    
-         <div class="accordion-content">Content 3</div>    
-         
-         <div class="accordion-toggle">Community</div>    
-         <div class="accordion-content">Content 4</div>
-         
-         <div class="accordion-toggle">Nation</div>    
-         <div class="accordion-content">Content 5</div>
-         
-         <% if @project.partner %>
-          <div class="accordion-toggle">Implementing Organization</div>    
-          <div class="accordion-content">
-            <div class="quickfacts">
-              <ul>
-                <li><strong>Organization:</strong><%=h @project.partner.name%></li>
-            
-              </ul>
-            </div>
-          </div>
-         <% end %>
-    </div>
-    <span><a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/nav_elements/buttonsCF/tellFriend_blue.gif" id="tellAFriend"></a></span>
-    
+		<% if @budget_items%>
+			<div class="accordion-toggle">Financial Data</div>    
+				<div class="accordion-content">
+				<div class="quickfacts">
+					<%= render :partial => 'project_financial_data' %>
+				</div>
+			</div>
+		<% end%>    
+		<div class="accordion-toggle">Program</div>    
+		<div class="accordion-content">Content 3</div>    
+
+		<div class="accordion-toggle">Community</div>    
+		<div class="accordion-content">Content 4</div>
+
+		<div class="accordion-toggle">Nation</div>    
+		<div class="accordion-content">Content 5</div>
+
+		<% if @project.partner %>
+			<div class="accordion-toggle">Implementing Organization</div>    
+			<div class="accordion-content">
+			<div class="quickfacts">
+				<ul>
+					<li><strong>Organization:</strong><%=h @project.partner.name%></li>
+				</ul>
+			</div>
+			</div>
+		<% end %>
+	</div>
+	<div class="project-sidebar-buttons">
+		<% if @project.fundable? %>
+			<%= link_to "<img src='/images/dt/placeholders/give.gif' alt='Give' />", new_dt_gift_path(:project_id => @project) %>
+		<% end %>
+		<a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/nav_elements/buttonsCF/tellFriend_lgrey2.gif"></a>
+	</div>
+        
   </div>
 </div>
 

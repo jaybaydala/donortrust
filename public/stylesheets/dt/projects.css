@@ -1,4 +1,35 @@
 /*
+Project Header
+*/
+.full-display-project-header {
+  border-bottom: 1.5px solid black;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.full-display-project-title {
+  float: left;
+  padding-top: 20px;
+  font-size: 24px;
+}
+
+.project-location-link {
+  float: left;
+  padding-top:2px;
+	clear:left;
+}
+
+.project-location-link a{
+  text-decoration: none;
+}
+
+.full-display-sector-images {
+  background: none;
+	float: right;
+  padding-top: 30px;
+}
+
+/*
 Project Body
 ============*/
 div.projectRank {
@@ -101,7 +132,7 @@ div.projectlist .project .quickfacts ul li, div.projectlist .project .content-qu
     margin-left:1.5em;
 }
 .sidebar-give {
-	float: right;
+	afloat: right;
 }
 
 /*
@@ -317,11 +348,15 @@ US TAXES
 /*	height: 200px;
 	padding-bottom:80px; */
 }
+
+
 .project-title a{
   float: left;
 	text-decoration:none;
+	font-weight: bold;
 	color:#336600;
 }
+
 .project-title a:hover{
 	text-decoration:underline;
 }
@@ -335,7 +370,7 @@ US TAXES
 }
 
 .project-content{
-	width:65%;
+	width:540px;
 	float:left;
 }
 
@@ -456,21 +491,20 @@ form#project_search input.submitreplace:hover{
 .projectSearchResultHeader {
   border-bottom: 1.5px solid black;
   padding: 0;
+  padding-top: 10px;
   display: block;
   margin-bottom: 8px;
 }
 
-.searchResultSectorImages {
+.small-sector-images {
   background: none;
 	float: right;
-	vertical-align: top;
-	margin-top: 8px;	
+	padding-top: 8px;	
 }
 
-.searchResultSectorImages img{
+.small-sector-images img{
 	margin-left: 3px;
 }
-
 
 .searchResultLocationLink {
 	clear:left;
@@ -483,16 +517,15 @@ form#project_search input.submitreplace:hover{
 }
 
 .project-sidebar{
-	width: 35%;
+	width: 250px;
 	float:right;
-	
 }
-.project-sidebar div {
-	 
+
+.project-sidebar div {	 
 }
 .project-sidebar span {
-	 margin: 10px;
 }
+
 .project-sidebar .quickfactsHeader{
   font-size: 13px;
   font-weight: bold;
@@ -517,10 +550,8 @@ form#project_search input.submitreplace:hover{
 	width:250px;
 	height:300px;
 	border: 1px solid #C0C0C0;
-}
-
-div#project-accordion{
-   margin: 10px;
+  margin-bottom: 10px;
+	float: right;	
 }
 
 div.accordion {

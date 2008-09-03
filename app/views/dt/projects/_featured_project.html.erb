@@ -3,9 +3,7 @@
 	<div id="projectInfo-<%= @project.id %>">
 		<div class="projectSearchResultHeader">
 			<div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div>
-			<!-- project sector images -->
-			<div class="searchResultSectorImages"><%= sector_images(@project.id) %></div>
-			<br />
+			<div class="small-sector-images"><%= sector_images(@project.id) %></div>
 			<div class="searchResultLocationLink">
 				<% if @project.community_id %><%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %><% end %>
 				<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>

@@ -3,8 +3,6 @@
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <div id="intro">
-	<h2>Stay Involved </h2>			
-	<p>Keep supporting the movement! Be sure to visit the <a href="/get-involved">Get Involved</a> section to see how you can do more.</p>
 </div>
 <% if @transactions.total_entries > 0 %><p style="font-weight:bold;" class="textsm">Uninvested Funds: <%= number_to_currency(current_user.balance) %></p><% end %>
 <div class="account-summary" style="margin-bottom:18px;">

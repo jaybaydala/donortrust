@@ -17,19 +17,6 @@
 <div id="container">
   <%= render "dt/shared/head" %>
   <%= render "dt/shared/globalnav" %>
-
-  <div id="masthead">
-    <%= image_tag dt_american_masthead_image, :alt => '' %>
-  </div>
-  <div id="toolbar-wrapper" class="clearfix">
-  	<div class="usTaxLink">Require a U.S. tax receipt? <%= link_to 'Click here', dt_request_us_tax_receipt_url %></div>
-  </div>
-
-  <div id="toolbar2-wrapper" class="clearfix">
-    <%= dt_search_bar %>
-  </div>
-
-<%- nav = yield :nav -%>
 <%- page_title = yield :page_title -%>
 <%- page_title = html_title if page_title.nil? || page_title.empty? -%>
 <%- top_content = yield :top_content -%>
@@ -39,14 +26,10 @@
 
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-
-  <h1><%= page_title %></h1>
   
-  <%- if nav -%>
-  <div id="nav">
-    <%= nav %>
-  </div>
-  <%- end -%>
+  <div class="usTaxLink">Require a U.S. tax receipt? <%= link_to 'Click here', dt_request_us_tax_receipt_url %></div>	
+
+  <h1><%= page_title %></h1> 
   
   <%- if top_content -%>
   <div id="topcontentcontainer" class="clearfix">

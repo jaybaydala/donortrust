@@ -59,7 +59,7 @@ module Dt::ProjectsHelper
     output =[]
     @countries = Place.find_by_sql("SELECT count(*) as count, p.name as name, p.id as id FROM places p inner join projects pr ON pr.country_id = p.id WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL GROUP BY p.id ORDER BY count DESC")
     @countries.each do |c|
-      output << (link_to image_tag("/images/dt/flags/#{c.id}.gif",  :title=> c.name, :alt => c.name)+" #{c.name} (#{(c.count)})", search_dt_projects_path+"?location_selected=1&country_id=#{c.id}") if c.count.to_i>0
+      output << (link_to "#{c.name} (#{(c.count)})", search_dt_projects_path+"?location_selected=1&country_id=#{c.id}") if c.count.to_i>0
     end
 
     if limit && limit < @countries.size
@@ -94,7 +94,7 @@ module Dt::ProjectsHelper
     end
     return number_to_currency(sum)
   end
-  
+
   def total_cost_with_project_count
     #TODO continue later (Pedro)
     output = []
@@ -102,11 +102,11 @@ module Dt::ProjectsHelper
     @range_10_20k = Ultrasphinx::Search.new(:filters  => {:total_cost => 10001..20000.00}, :per_page  => Project.count)
     @range_20_30k = Ultrasphinx::Search.new(:filters  => {:total_cost => 20001..30000.00}, :per_page  => Project.count)
     @range_30_up = Ultrasphinx::Search.new(:filters  => {:total_cost => 300001..Float::MAX.to_f}, :per_page  => Project.count)
-    
+
     if @range_0_10k.run
       output << link_to("#{number_to_currency(0)} ... #{number_to_currency(10000)} (#{@range_0_10k.run.size})", search_dt_projects_path+"?funding_req_selected=1&funding_req_min=0&funding_req_max=10000" )
     end
-    
+
     return output
   end
 end
