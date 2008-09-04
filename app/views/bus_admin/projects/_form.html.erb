@@ -127,7 +127,7 @@
 					<small>Select contact for this project</small>
 				</label>
 				<div class="group" id="project_contact_form">
-					<%= render :partial => 'contact_form', :locals => {:partner_id  => @project.partner_id} %>
+					<%= render :partial => 'contact_form', :locals => {:partner_id  => @partner || @project.partner_id} %>
 				</div>
 			</li>
 

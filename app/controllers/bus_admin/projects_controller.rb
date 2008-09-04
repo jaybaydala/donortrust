@@ -90,31 +90,36 @@ class BusAdmin::ProjectsController < ApplicationController
   
   # called for POST on bus_admin/project
   def create
-    @project = Project.new(params[:project])
-    if params[:place] and params[:place][:name] and params[:place][:name] != ""
-      @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id
-    end
+    unless current_user.administrated_partners.empty?  
+      @project = Project.new(params[:project])
+      if params[:place] and params[:place][:name] and params[:place][:name] != ""
+        @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id
+      end
 
-    ActiveRecord::Base.transaction do      
-      @saved = @project.valid? && @project.save!
-      #could do this using after_create() on the Project object,
-      #but I wanted this to be in the same transaction
-      if @saved
-        @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => true)
-        @saved = @pending.save
-        raise Exception.new("Could not create the pending project.") unless @saved
-      else
-        raise Exception.new("Could not create the project.")
+      ActiveRecord::Base.transaction do      
+        @saved = @project.valid? && @project.save!
+        #could do this using after_create() on the Project object,
+        #but I wanted this to be in the same transaction
+        if @saved
+          @pending = PendingProject.new(:project_id => @project.id, :project_xml => @project.to_xml, :date_created => Date.today, :created_by => current_user.id, :is_new => true)
+          @saved = @pending.save
+          current_user.administrated_projects << @project
+          raise Exception.new("Could not create the pending project.") unless @saved
+        else
+          raise Exception.new("Could not create the project.")
+        end
       end
-    end
     
-    respond_to do |format|
-      if @saved
-        flash[:notice] = "Project was successfully created"
-        format.html {render :action => "edit"}
-      else
-        format.html {render :action => "new"}
+      respond_to do |format|
+        if @saved
+          flash[:notice] = "Project was successfully created"
+          format.html {render :action => "edit"}
+        else
+          format.html {render :action => "new"}
+        end
       end
+    else
+      redirect_to show_bus_admin_home_path
     end
   end
 
@@ -124,6 +129,7 @@ class BusAdmin::ProjectsController < ApplicationController
     
     @user = current_user
     @project = Project.find(params[:id])
+    @partner = current_user.administrated_partners.first unless current_user.administrated_partners.empty?
 
     begin
       pending = PendingProject.find_by_project_id(@project.id)
@@ -140,10 +146,15 @@ class BusAdmin::ProjectsController < ApplicationController
   
   # called for GET on new_bus_admin_project_path
   def new
-    @user = current_user
-    @project = Project.new
-    respond_to do |format|
-      format.html
+    unless current_user.administrated_partners.empty?
+      @user = current_user
+      @partner = current_user.administrated_partners.first
+      @project = Project.new
+      respond_to do |format|
+        format.html
+      end
+    else
+      redirect_to show_bus_admin_home_path
     end
   end
   
