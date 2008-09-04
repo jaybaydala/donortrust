@@ -4,7 +4,6 @@ class Contact < ActiveRecord::Base
   has_many :projects
   belongs_to :place
   belongs_to :partner
-  belongs_to :user
  
   
   validates_presence_of :first_name

@@ -31,7 +31,7 @@ class BusAdmin::HomeController < ApplicationController
   
   def partner_home
     @user = current_user
-    @partner = @user.partner
+    @partner = current_user.administrated_partners.first
     @projects = current_user.administrated_projects
   end
   

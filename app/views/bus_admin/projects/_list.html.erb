@@ -1,7 +1,9 @@
 <div id="featuredProjectList" class="active-scaffold">
   <div class="active-scaffold-header">
 	  <div class="actions">
+		<% unless current_user.administrated_partners.empty? -%>
 			<%= link_to "Create new", new_bus_admin_project_url %>
+		<% end -%>
 		<% restrict_to "cf_admin" do -%>
       <%= link_to "Pending projects", '/bus_admin/projects/pending_projects' %>
 		<% end -%>

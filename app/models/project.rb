@@ -108,6 +108,9 @@ class Project < ActiveRecord::Base
     "#{self.start_date}"
   end
 
+  validates_presence_of :name
+  validates_length_of   :name, :maximum => 50
+
 =begin
   validates_presence_of :total_cost
   validates_presence_of :dollars_spent

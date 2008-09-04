@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   extend HasAdministrables
   #acts_as_versioned
   acts_as_paranoid_versioned
-  has_one :contact
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
@@ -23,6 +22,7 @@ class User < ActiveRecord::Base
   has_many :administrations
   has_many :orders
   has_administrables :model => "Project"
+  has_administrables :model => "Partner"
 
   # Virtual attribute for the unencrypted password"
   attr_accessor :password

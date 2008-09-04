@@ -24,9 +24,9 @@
 			<li>
 				<label for="project_name" class="title">
 					<%= render :partial => 'dt/shared/form_required' %>Project name
-					<small>Include specific type of project, location and length if over 1 year</small>
+					<small>Include specific type of project, location and length if over 1 year (50 chars max)</small>
 				</label>
-				<%= f.text_field :name %>
+				<%= f.text_field :name, :maxlength => 50 %>
 			</li>
 
 			<li>

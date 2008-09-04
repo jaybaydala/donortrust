@@ -2,15 +2,16 @@
 	<%= render :partial => '/bus_admin/projects/list', :object => @projects %>
 </div>
 
-<h2><a href="#" onclick="javascript:Effect.toggle('contacts_form','slide');">Update your organisation's contacts</a></h2>
+<% unless @partner.nil? -%>
+	<h2><a href="#" onclick="javascript:Effect.toggle('contacts_form','slide');">Update your organisation's contacts</a></h2>
 
-<div id="contacts_form" style="display:none;">
-	<%= render :active_scaffold => 'bus_admin/contacts', :constraints => { :partner_id => @partner.id } unless @partner.nil? %>
-</div>
+	<div id="contacts_form" style="display:none;">
+		<%= render :active_scaffold => 'bus_admin/contacts', :constraints => { :partner_id => @partner.id } unless @partner.nil? %>
+	</div>
 
-<h2><a href="#" onclick="javascript:Effect.toggle('profile_form','slide');">Update your organisation's profile</a></h2>
+	<h2><a href="#" onclick="javascript:Effect.toggle('profile_form','slide');">Update your organisation's profile</a></h2>
 
-<div id="profile_form"<% unless params[:action] == 'update_partner'%> style="display:none;"<% end %>>
-	<%= render :partial => 'profile_form', :object => @partner unless @partner.nil? %>
-</div>
-
+	<div id="profile_form"<% unless params[:action] == 'update_partner'%> style="display:none;"<% end %>>
+		<%= render :partial => 'profile_form', :object => @partner unless @partner.nil? %>
+	</div>
+<% end -%>
