@@ -1,50 +1,53 @@
-Story: A User adds items to their Cart
+Feature: A User adds items to their Cart
 
+In order to checkout and purchase items
 As a User
 I want to add items to my cart
-So I can checkout and purchase those items
 
-Scenario 1: Adding a gift
-Given that the user has created a gift
-  And the Gift Amount is $20
-  And the Gift is valid
-  And the Shopping Cart total is $0
-When the User adds the gift to their Cart
-Then the Gift should appear in their Cart
-  And the User should be able to Preview the Gift
-  And the User should be able to Edit the Gift
-  And the User should be able to Remove the Gift
-  And the Cart Total should be $20
+  Scenario 1: Adding a gift
+    Given that the user has created a gift
+    And the Shopping Cart total is $0
+    When I fill in "20" for "Amount"
+    And I fill in "test1@example.com" for "From Email"
+    And I fill in "test2@example.com" for "To Email"
+    And I click Add to Cart
+    Then the Gift should appear in the Cart
+    And there should be a link to Preview the Gift
+    And there should be a link to Edit the Gift
+    And there should be a link to Remove the Gift
+    And the Cart Total should be $20
 
-Scenario 2: Adding another gift
-Given that the user has created a gift
-  And the Gift Amount is $25
-  And the Gift is valid
-  And the Cart already holds an Existing Gift
-  And the Existing Gift Amount is $20
-When the User adds the Gift to their Cart
-Then the Gift should appear in their Cart
-  And the User should be able to Preview the Gift
-  And the User should be able to Edit the Gift
-  And the User should be able to Remove the Gift
-  And the Cart Total should be $45
+  Scenario 2: Adding another gift
+    Given that the user has created a gift
+    And the Cart already holds an Existing Gift
+    And the Existing Gift Amount is $20
+    When I fill in "25" for "Amount"
+    And I fill in "test1@example.com" for "From Email"
+    And I fill in "test2@example.com" for "To Email"
+    And I click Add to Cart
+    Then the Gift should appear in the Cart
+    And there should be a link to Preview the Gift
+    And there should be a link to Edit the Gift
+    And there should be a link to Remove the Gift
+    And the Cart Total should be $45
 
-Scenario 3: Adding an Investment
-Given that the user is Investing in a project
-  And the Investment Amount is $100
-  And the Investment Project id is 5
-When the User adds the Investment to their Cart
-Then the Investment should appear in their Cart
-  And the User should be able to Edit the Investment
-  And the User should be able to Remove the Investment
-  And the Cart Total should be $100
+  Scenario 3: Adding an Investment
+    Given that the user is Investing in a project
+    And the Investment Amount is $100
+    And the Investment Project id is 5
+    When I fill in "100" for "Amount"
+    And I choose "5" for "Project"
+    And I click Add to Cart
+    Then the Investment should appear in the Cart
+    And there should be a link to Edit the Investment
+    And there should be a link to Remove the Investment
+    And the Cart Total should be $100
 
-Scenario 4: Adding a Deposit
-Given that the user is logged in
-  And they want to Deposit into their account
-  And the Deposit Amount is $50
-When the User adds the Deposit to their Cart
-Then the Deposit should appear in their Cart
-  And the User should be able to Edit the Deposit
-  And the User should be able to Remove the Deposit
-  And the Cart Total should be $50
+  Scenario 4: Adding a Deposit
+    Given that the user is logged in
+    When I fill in "50" for "Amount"
+    And I click Add to Cart
+    Then the Deposit should appear in their Cart
+    And there should be a link to Edit the Deposit
+    And there should be a link to Remove the Deposit
+    And the Cart Total should be $50

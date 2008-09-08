@@ -46,7 +46,7 @@ Rails::Initializer.run do |config|
   config.active_record.observers = :user_observer, :tax_receipt_observer, :searchbar_sweeper
 
   # Add vendor/gems into the load path so we can unpack gems and keep them local
-  config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
+  config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir|
     File.directory?(lib = "#{dir}/lib") ? lib : dir
   end
 end
