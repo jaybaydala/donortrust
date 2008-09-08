@@ -1,0 +1,6 @@
+<div id="<%= "team_#{team.id}"%>" class="admin_container">
+	<%= campaign_h2_header(team.name,"team_#{team.id}_container")%>
+	<div id="<%= "team_#{team.id}_container" %>">
+		<%= render :partial => 'admin_participant', :collection => team.participants %>
+	</div>
+</div>

@@ -2,7 +2,7 @@
 
 <%= error_messages_for :campaign %>
 <div id="new_campaign" class="campaign_form">
-	<% form_for([:dt, @campaign]) do |f|%>
+	<% form_for([:dt, @campaign], :html => { :multipart => true}) do |f|%>
 		<fieldset>
   			<legend>Campaign Details</legend>
 			<label>Name</label>
@@ -14,8 +14,7 @@
 			<%= observe_field	:campaign_short_name, 
 								:frequency => 1,
 								:url => validate_short_name_of_new_dt_campaign_path,
-								:with => :campaign_short_name,
-								:update => :short_name_report
+								:with => :campaign_short_name
 								%>
 			<%= show_spinner("Validating ") %>
 			<div id="errors" style="display:none;">
@@ -33,6 +32,9 @@
 			<label>Contact Email</label>
 			<%= f.text_field :email %> <span class="small_text">Use My Email </span>
 			<%= f.check_box :use_user_email, :onclick => "Element.toggle('campaign_email');"%> 
+			
+			<label>Campaign Image</label>
+			<%= upload_column_field :campaign,  :picture  %>
 			
 			<label>Description</label>
 	    	<%= f.text_area :description, :rows => 10, :cols => 70%>

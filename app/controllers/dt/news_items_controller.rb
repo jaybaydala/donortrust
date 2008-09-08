@@ -1,14 +1,12 @@
 class Dt::NewsItemsController < DtApplicationController
   
+   before_filter :find_postable, :only => [:index, :create]
+  
   # GET /news_items
   # GET /news_items.xml
   def index
-    @news_items = NewsItem.find(:all)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @news_items }
-    end
+    @news_items = @postable.news_items
+    [@news_item,@postable]
   end
 
   # GET /news_items/1
@@ -67,7 +65,7 @@ class Dt::NewsItemsController < DtApplicationController
       if @news_item.save
         flash[:notice] = 'News Added.'
         format.html {
-          redirect_to url_for([:dt, @news_item.postable])
+          redirect_to url_for([:manage,:dt, @news_item.postable])
         }
         format.xml  { render :xml => @news_item, :status => :created, :location => @news_item }
       else
@@ -98,5 +96,16 @@ class Dt::NewsItemsController < DtApplicationController
     @news_item = NewsItem.find(params[:id])
     @news_item.destroy
     redirect_to(url_for([:dt,@news_item.postable]))
+  end
+  
+  
+  private
+  def find_postable
+    # hackish solution to the polymorphic association, but it allows us to avoid
+    # a messy switch case, or anything of that nature. So to add a wall post to something
+    # is trivial.
+    postable_key = ""
+    params.keys.each{|key| postable_key = key unless not key.end_with?'_id'}
+    @postable = Kernel.const_get(postable_key[0..postable_key.length-4].capitalize).find(params[postable_key])
   end
 end

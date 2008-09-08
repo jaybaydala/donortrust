@@ -3,34 +3,38 @@
 <% end %>
 <div id="campaign_page">
 	
-	<div id="campagin_container">
+	<div class="campagin_container">
 		<div id="campaign_details">
 			<h1><%= @campaign.name %> <%= " - PENDING!" unless not @campaign.pending? %></h1>
+			
 			<h5 style="margin-top:-10px;">http://www.christmasfutrue.org/<%= @campaign.short_name %></h5>
+			
+			<%= image_tag @campaign.picture.full.url, :class => :thumbnail %>
 			<p>
 				<%= @campaign.description %>
 			</p>
 		</div>
 	
-		<div id="news">
-			<h2>Recent News <%= link_to image_tag('dt/icons/rss_icon.gif'),formatted_dt_campaign_path(@campaign,:rss), :format => :rss %></h2>
-			<%= render :partial => 'dt/news_items/news_item', :collection => @campaign.news_items.reverse %>
-		</div>
+		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
 	
 		<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @campaign} %>
 	
 		<% if @campaign.allow_multiple_teams%>
 			<div id="Teams">
-				<h2>Teams | <%= link_to 'Create a Team', new_dt_campaign_team_path(@campaign)%></h2>
-				<%= render :partial => 'team', :collection => @campaign.teams%>
+				<%= campaign_h2_header('Teams | ' + link_to('Create a Team', new_dt_campaign_team_path(@campaign)),'teams_container')%>
+				<div id="teams_container" class='row_container'>
+					<%= render :partial => 'team', :collection => @campaign.teams%>
+				</div>
 			</div>
 		<% else %>
 			<div id="Participants">
-				<h2>Participants | <%= link_to 'Join this Campaign', ''%></h2>
+				<%= campaign_h2_header('Participants | ' + link_to('Join this Campaign', new_dt_team_participant_path(@campaign.teams[0])),'participants_container')%>
+				<div id="participants_container" class='row_container'>
+				</div>
 			</div>
 		<% end %>
 	</div>
-	<div id="metrics">
+	<div class="metrics">
 		<h2>Metrics</h2>
 		<h4>Goal</h4>
 		<span class="small_text">
@@ -38,17 +42,11 @@
 		</span>
 		<h4>Pledged</h4>
 		<span class="small_text">
-			Some Value $CDN
+			<%= @campaign.funds_raised %>$CDN
 		</span>
-		<h4>Particpants</h4>
+		<h4>Percentage of Goal</h4>
 		<span class="small_text">
-			<%= @campaign.participants.size %>
+			<%= @campaign.percentage_done %>
 		</span>
-		<% if @campaign.fee_amount != 0 %>
-			<h4>Registration Fee</h4>
-			<span class="small_text">
-				<%= @campaign.campaign_fee_with_currency %>
-			</span>
-		<% end %>
 	</div>
 </div>

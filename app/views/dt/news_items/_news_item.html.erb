@@ -1,7 +1,9 @@
 <div id="news_<%= news_item.id %>" class="news_item">
-	<h2><%= link_to news_item.subject, dt_news_item_path(news_item)%></h2>
+	<h2><%= link_to news_item.subject, dt_news_item_path(news_item)%><br />
+		<span class="small_text">
+		Posted By: <%= news_item.author.full_name %> On: <%= news_item.created_at%> <%= (' | ' + delete_icon(url_for([:dt, news_item.postable, news_item]))) unless (not news_item.owned? and not news_item.postable.owned?)%>
+		</span></h2>
 	<p>
 		<%= news_item.content %>
 	</p>
-	<h5>Posted By: <%= news_item.author.full_name %> On: <%= news_item.created_at%> <%= (' | ' + delete_icon(url_for([:dt, news_item.postable, news_item]))) unless (not news_item.owned? and not news_item.postable.owned?)%></h5>
 </div>

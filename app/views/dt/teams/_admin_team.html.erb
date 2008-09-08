@@ -1,0 +1,12 @@
+<div id="team_<%= admin_team.id %>" class="admin_team">
+	<%= campaign_h2_header(admin_team.name + ' | ' + delete_icon(dt_team_path(admin_team)),"team_#{admin_team.id}_container")%> 	
+	<div id="team_<%= admin_team.id %>_container" class="team_container">
+		<ul class="details_list">
+			<li class="detail"><strong>Leader:</strong><%= admin_team.leader.login %></li>
+			<li class="detail"><strong>Fundraising Goal:</strong><%= admin_team.goal_with_currency %></li>
+		</ul>
+		<p>
+			<%= admin_team.description %>
+		</p>
+	</div>
+</div>

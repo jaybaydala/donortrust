@@ -1,8 +1,6 @@
 
 ActionController::Routing::Routes.draw do |map|
   map.resources :news_comments
-
-
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.namespace(:dt) do |dt|
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
@@ -76,12 +74,30 @@ ActionController::Routing::Routes.draw do |map|
                                                         :remove_partner_limit_from => :post
                                       }
 
+
+    dt.resources :teams,  :collection => {  :manage => :get,
+                                            :admin => :get
+                                           },
+                          :new => {
+                                        :validate_short_name_of => :post
+                          },
+                          :member => {  :join => :get, 
+                                        :activate => :get,
+                                        :manage => :get
+                                      }
+                                      
+    dt.resources :pledges
+    
+    dt.resources :participants,
+                          :collection => { :admin => :get},
+                          :member => { :manage => :get }
+    
     dt.resources :campaigns do |campaigns|
      campaigns.resources :wall_posts
      campaigns.resources :news_items
      campaigns.resources :teams
     end
-
+    
     dt.resources :teams,  :collection => { :manage => :get
                                            },
                           :new => {
@@ -90,11 +106,19 @@ ActionController::Routing::Routes.draw do |map|
                           :member => {  :join => :get,
                                         :activate => :get
                                       }
+
     dt.resources :teams do |teams|
         teams.resources :wall_posts
         teams.resources :news_items
+        teams.resources :participants
     end
 
+    dt.resources :participants do |participants|
+      participants.resources :wall_posts
+      participants.resources :news_items
+      participants.resources :pledges
+    end
+    
     #Done with everything pretaining to campaigns
 
     dt.resources :give, :controller => 'give'

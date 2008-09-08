@@ -1,0 +1,14 @@
+<fieldset>
+	<legend>Add News Item</legend>
+		<% form_for([:dt,postable,postable.news_items.new]) do |f|%>
+			<label for="Subject">Subject</label>
+			<%= f.text_field :subject %>
+			
+			<label for="Content">News</label>
+			<%= fckeditor_textarea( "news_item", "content", :height => 200 ) %> 
+			
+			<p>
+		    	<%= f.submit "Post" %>
+		  	</p>
+		<% end %>
+</fieldset>

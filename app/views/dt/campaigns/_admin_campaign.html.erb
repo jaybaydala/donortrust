@@ -1,0 +1,38 @@
+<%
+	show_address ||= false 
+%>
+<div class="campaign" id="campaign_<%= admin_campaign.id%>">
+			<% content =  admin_campaign.name + ' | '%>
+			<% content = ( link_to_remote('Activate', :update => :campaigns,
+											:url => activate_dt_campaign_path(admin_campaign), 
+										   	:complete => "Element.show('flash');") + " | " ) unless not admin_campaign.pending? 	%>
+			<% content = content + delete_icon(dt_campaign_path(admin_campaign)) + ' | '  + link_to('Archive Campaign',dt_campaign_path(admin_campaign), :confirm => 'Are you sure?', :method => :delete )
+											%>
+	<%= campaign_h2_header(content, 'campaign_details_container')%>
+	<div id="campaign_details_container">
+		<ul class="details_list">
+			<li class="detail"><strong>Fundraising Goal: </strong><%= admin_campaign.fundraising_goal_with_currency%></li>
+			<li class="detail"><strong>Start Date: </strong><%= admin_campaign.start_date %> <li>
+			<li class="detail"><strong>End Date: </strong><%= admin_campaign.end_date%></li>
+		</ul>
+		<p>
+			<%= image_tag admin_campaign.picture.thumb.url, :class => :thumbnail %>
+			<%= admin_campaign.description %>
+		</p>
+	
+		<ul class="details_list">
+			<li class="detail"><strong>Creator:</strong><%= admin_campaign.creator.name%></li>
+			<li class="detail"><strong>Email:</strong><%= admin_campaign.email%></li>
+		</ul>
+		<% if show_address == true %>
+		<h2>Address</h2>
+		<div id="<%= "contact_#{admin_campaign.id}"%>">
+			<p class="address">
+				<%= admin_campaign.address %> <br />
+				<%= admin_campaign.province %>, <%= admin_campaign.postalcode %> <br />
+				<%= admin_campaign.country %>
+			</p>
+		</div>
+		<% end %>
+	</div>
+</div>

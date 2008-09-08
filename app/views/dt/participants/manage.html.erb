@@ -1,0 +1,7 @@
+<div>
+	<h1><%= @participant.user.full_name %> page for <%= @participant.team.campaign.name %>.</h1>
+	
+	<%= render :partial => 'dt/news_items/news', :locals => {:postable => @participant, :show_post_form => true}%>
+	
+	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @participant, :show_post_form => false}%>
+</div>

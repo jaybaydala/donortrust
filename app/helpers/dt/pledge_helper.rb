@@ -1,0 +1,2 @@
+module Dt::PledgeHelper
+end

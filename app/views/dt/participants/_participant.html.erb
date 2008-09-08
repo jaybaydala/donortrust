@@ -1,0 +1,6 @@
+<div id="team_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>">
+	<p>
+		<%= link_to participant.name, dt_participant_path(participant) %> - <%= participant.funds_raised %> dollars raised. 
+	</p>
+</div>
+

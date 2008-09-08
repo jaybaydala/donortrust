@@ -1,6 +1,5 @@
-<div id="team_<%= team.id %>">
-	<h4><%= link_to team.name, dt_team_path(team) %> - <%= team.team_members.size %> members 
+<div id="team_<%= team.id %>"  class="<%= cycle('row_even','row_odd') %>">
+	<p><%= link_to team.name, dt_team_path(team) %> - <%= team.participants.size %> members 
 	<%= ("-" + link_to('Activate!',activate_dt_team_path(team))) unless not (team.pending? and team.owned?)%>
-	<%= delete_icon(dt_team_path(team)) unless not team.owned? %>
-	</h4>
+	<%= delete_icon(dt_team_path(team)) unless not team.owned? %></p>
 </div>

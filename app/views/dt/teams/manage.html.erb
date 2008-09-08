@@ -1,0 +1,22 @@
+<div>
+	<h1>Manage <%= @team.name %>.</h1>
+	<% if @team.require_authorization? %>
+		<div id="applicants">
+			<h3>Applicants</h3>
+			<% for applicant in @applicants %>
+				<%= applicant.user.full_name %>
+			<% end %>
+		</div>
+	<% end %>
+	
+	<div id="participants">
+		<%= campaign_h2_header("Participants",'participant_container')%>
+		<div id="participant_container">
+			<%= render :partial => 'dt/participants/participant', :collection => @participants %>
+		</div>
+	</div>
+	
+	<%= render :partial => 'dt/news_items/news', :locals => {:postable => @team, :show_post_form => true}%>
+	
+	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @team, :show_post_form => false}%>
+</div>

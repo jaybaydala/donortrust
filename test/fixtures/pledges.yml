@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  participant: 
+  deposit: 
+  user: 
+  released: false
+
+two:
+  participant: 
+  deposit: 
+  user: 
+  released: false

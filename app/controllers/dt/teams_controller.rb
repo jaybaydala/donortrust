@@ -1,7 +1,7 @@
 class Dt::TeamsController < DtApplicationController
   
   before_filter :find_campaign, :except => [:validate_short_name_of]
-  before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :activate], :except => [:validate_short_name_of]
+  before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :activate], :except => [:validate_short_name_of, :index]
   
   # GET /dt_teams
   # GET /dt_teams.xml
@@ -38,7 +38,8 @@ class Dt::TeamsController < DtApplicationController
     @team = Team.new(params[:team])
     @team.campaign = @campaign
     @team.leader = current_user
-
+    @team.pending = @campaign.require_team_authorization?
+    
     if @team.save
       if @team.pending
         flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
@@ -69,19 +70,24 @@ class Dt::TeamsController < DtApplicationController
   # DELETE /dt_teams/1
   # DELETE /dt_teams/1.xml
   def destroy
+    @campaign = @team.campaign
     @team.destroy
-    respond_to do |format|
-      format.html { redirect_to(dt_teams_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(dt_campaign_path(@campaign))
   end
   
   def manage
-    @pending_teams = Team.find_all_by_pending(true)
-    @active_teams = Team.find_all_by_pending(false)
+    @applicants = Participant.find_all_by_pending(true)
+    @participants = Participant.find_all_by_pending(false)
+    @team = Team.find(params[:id])
+    [@applicants, @participants, @team]
   end
   
-  def join
+  def admin
+    @teams = Team.find(:all) unless params[:campaign_id] != nil
+    @teams = Team.find_by_campaign_id(params[:campaign_id]) unless params[:campaign_id] == nil
+  end
+  
+  def join!
     if @team.pending?
       flash[:notice] = "This team has not yet been approved, thus you may not join it."
     else
@@ -128,7 +134,7 @@ class Dt::TeamsController < DtApplicationController
       end
     
       if(Team.find_by_short_name_and_campaign_id(@short_name,params[:campaign_id]) != nil)
-        @errors.push('That short name has already been used, short names must be unique to each team.')
+        @errors.push('That short name has already been used, short names must be unique to each campaign.')
       end
     else 
       @errors.push('The short name may not contain any reserved characters such as ?')
@@ -142,7 +148,7 @@ class Dt::TeamsController < DtApplicationController
     @campaign = Campaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name].blank?
     
     if @campaign == nil
-      @campaign = Team.find(params[:id]).campaign
+      @campaign = Team.find(params[:id]).campaign unless params[:id] == nil
     end
     @campaign
   end

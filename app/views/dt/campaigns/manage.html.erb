@@ -6,49 +6,35 @@
 	</p>
 	<% if @campaign.allow_multiple_teams? %>
 		<div id="team_management">
-			<h2>Teams</h2>
-			<% if @campaign.require_team_authorization? %>
-				<div id="pending_teams">
-					<h4>Pending Teams</h3>
-					<%= render :partial => 'team', :collection => @campaign.pending_teams %>
-				</div>
-				<div id="authorized_teams">
-					<h4>Authorized Teams</h3>
-					<%= render :partial => 'team', :collection => @campaign.active_teams %>
-				</div>
-			<% else %>
-				<div id="pending_teams">
-					<h3>Teams</h3>
-				</div>
-			<% end %>
+			<%= campaign_h2_header("Teams",'team_management_container')%>
+			<div id="team_management_container">
+				<% if @campaign.require_team_authorization? %>
+					<div id="pending_teams" class="row_container">				
+						<%= campaign_h2_header("Pending Teams",'pending_container')%>
+						<div id="pending_container">
+							<%= render :partial => 'team', :collection => @campaign.pending_teams %>
+						</div>
+					</div>
+					<div id="authorized_teams" class="row_container">
+						<%= campaign_h2_header("Active Teams",'active_container')%>
+						<div id="active_container">
+							<%= render :partial => 'team', :collection => @campaign.active_teams %>
+						</div>
+					</div>
+				<% else %>
+					<div id="teams" class="row_container">
+						<%= render :partial => 'team', :collection => @campaign.teams %>
+					</div>
+				<% end %>
+			</div>
 		</div>
 	<% else %>
 		<div id="participants">
 			<h2>Participants</h2>
-			
 		</div>
-	<% end %>
-	<div id="news">
-		<fieldset>
-			<legend>Add News Item</legend>
-				<% form_for([:dt,@campaign,@campaign.news_items.new]) do |f|%>
-					<label for="Subject">Subject</label>
-					<%= f.text_field :subject %>
-					
-					<label for="Content">News</label>
-					<%= f.text_area :content, :rows => 10, :cols => 80  %>
-					<p>
-				    	<%= f.submit "Post" %>
-				  	</p>
-				<% end %>
-		</fieldset>
-		<h2>News Items</h2>
-		<%= render :partial => 'dt/news_items/news_item', :collection => @campaign.news_items %>
-	</div>
+	<% end %>	
+	<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign, :show_post_form => true}%>
 	
-	<div id="wall_management">
-		<h2>Wall Posts</h2>
-		<%= render :partial => 'dt/wall_posts/wall_post', :collection => @campaign.wall_posts, :locals => {:show_admin => true} %>
-	</div>
+	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @campaign, :show_post_form => false}%>
 	
 </div>

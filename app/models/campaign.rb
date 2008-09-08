@@ -9,6 +9,7 @@ class Campaign < ActiveRecord::Base
   has_many :news_items, :as =>:postable, :dependent => :destroy
   
   has_many :teams
+  has_many :participants, :through => :teams
   
   has_many :project_limits
   has_many :projects, :through => :project_limits
@@ -46,6 +47,12 @@ class Campaign < ActiveRecord::Base
   validates_numericality_of :postalcode, :if => :in_usa?, :message => "Zip codes must be a number."
   validates_length_of :postalcode, :is => 5, :if => :in_usa?
   
+  image_column  :picture,
+                :versions => { :thumb => "75x75", :full => "150x150"  },
+                :filename => proc{|inst, orig, ext| "campaign_#{inst.id}.#{ext}"},
+                :store_dir => "uploaded_pictures/campaign_pictures"
+  validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
+  
   def before_validation
     if use_user_email == "1"
       self.email = current_user.email
@@ -57,7 +64,7 @@ class Campaign < ActiveRecord::Base
   
     self.pending = true
   
-    self.postalcode = postalcode.sub(' ', '') if not postalcode.blank?# remove any spaces.  
+    self.postalcode = postalcode.sub(' ', '') if not postalcode.blank? # remove any spaces.  
   end
 
   
@@ -75,12 +82,31 @@ class Campaign < ActiveRecord::Base
   
   end
   
+  def after_save
+    if not self.allow_multiple_teams? # if only one team is allowed build the container team.
+      puts 'creating team'
+      Team.create :name => self.name, :short_name => self.short_name, :description => self.description, :campaign_id => self.id, :contact_email => self.email, :user_id => self.user_id, :pending => 0
+    end
+  end
+  
+  def funds_raised
+    total = 0
+    for team in self.teams
+      total = total + team.funds_raised
+    end
+    total
+  end
+  
   def eligible_projects
     Project.find_by_sql("SELECT p.* FROM projects p, causes_limit JOIN causes_limit ON ")
   end
   
   def teams_full?
     return (self.teams.size == self.max_number_of_teams)
+  end
+  
+  def percentage_done
+    "#{(self.funds_raised / self.fundraising_goal)*100} %"
   end
   
   def manage_link
@@ -126,43 +152,42 @@ class Campaign < ActiveRecord::Base
   end
   
   def participants
-    User.find_by_sql(["SELECT u.* FROM users u, teams t, team_members tm WHERE tm.user_id = u.id AND tm.team_id = t.id AND t.campaign_id = ?",self.id])
-  end
+     User.find_by_sql(["SELECT u.* FROM users u, teams t, participants p WHERE p.user_id = u.id AND p.team_id = t.id AND t.campaign_id = ?",self.id])
+   end
   
   private
-  # check that the postalcode follows the canadian standard for postal codes, see http://en.wikipedia.org/wiki/Canadian_postal_code
-  def postalcode_matches_province?
-    provinceHash = Hash.new
-    provinceHash['NL'] = /A/i
-    provinceHash['NS'] = /B/i
-    provinceHash['PE'] = /C/i
-    provinceHash['NB'] = /E/i
-    provinceHash['QC'] = /G|H|J/i
-    provinceHash['ON'] = /K|L|M|N|O|P/i
-    provinceHash['MB'] = /R/i
-    provinceHash['SK'] = /S/i
-    provinceHash['AB'] = /T/i
-    provinceHash['BC'] = /V/i
-    provinceHash['NT'] = /X/i
-    provinceHash['NU'] = /X/i
-    provinceHash['YT'] = /Y/i
-    (provinceHash[province] =~ postalcode) == 0
-  end
+    # check that the postalcode follows the canadian standard for postal codes, see http://en.wikipedia.org/wiki/Canadian_postal_code
+    def postalcode_matches_province?
+      provinceHash = Hash.new
+      provinceHash['NL'] = /A/i
+      provinceHash['NS'] = /B/i
+      provinceHash['PE'] = /C/i
+      provinceHash['NB'] = /E/i
+      provinceHash['QC'] = /G|H|J/i
+      provinceHash['ON'] = /K|L|M|N|O|P/i
+      provinceHash['MB'] = /R/i
+      provinceHash['SK'] = /S/i
+      provinceHash['AB'] = /T/i
+      provinceHash['BC'] = /V/i
+      provinceHash['NT'] = /X/i
+      provinceHash['NU'] = /X/i
+      provinceHash['YT'] = /Y/i
+      (provinceHash[province] =~ postalcode) == 0
+    end
   
-  #check that the zip code follows the american standard, see http://en.wikipedia.org/wiki/Zip_code
-  def zipcode_matches_state?
-    zipArray = Array.new
-    zipArray[0] = /CT|MA|ME|NH|NJ|RI|VT/
-    zipArray[1] = /DE|NY|PA/
-    zipArray[2] = /DC|MD|NC|SC|VA|WV/
-    zipArray[3] = /AL|FL|GA|MS|TN/
-    zipArray[4] = /IN|KY|MI|OH/
-    zipArray[5] = /IA|MN|MT|ND|SD|WI/
-    zipArray[6] = /IL|KY|MO|NE/
-    zipArray[7] = /AR|LA|OK|TX/
-    zipArray[8] = /AZ|CO|ID|NM|NV|UT|WY/
-    zipArray[9] = /AK|CA|HI|OR|WA/
-    (zipArray[postalcode.chars.first.to_i] =~ province) != nil
-  end
-  
+    #check that the zip code follows the american standard, see http://en.wikipedia.org/wiki/Zip_code
+    def zipcode_matches_state?
+      zipArray = Array.new
+      zipArray[0] = /CT|MA|ME|NH|NJ|RI|VT/
+      zipArray[1] = /DE|NY|PA/
+      zipArray[2] = /DC|MD|NC|SC|VA|WV/
+      zipArray[3] = /AL|FL|GA|MS|TN/
+      zipArray[4] = /IN|KY|MI|OH/
+      zipArray[5] = /IA|MN|MT|ND|SD|WI/
+      zipArray[6] = /IL|KY|MO|NE/
+      zipArray[7] = /AR|LA|OK|TX/
+      zipArray[8] = /AZ|CO|ID|NM|NV|UT|WY/
+      zipArray[9] = /AK|CA|HI|OR|WA/
+      (zipArray[postalcode.chars.first.to_i] =~ province) != nil
+    end
 end

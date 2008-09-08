@@ -1,5 +1,10 @@
-<div id="wall">
-	<h2>The Wall</h2>
-	<%= render :partial => 'dt/wall_posts/wall_form', :locals => {:form_for_value => [:dt,postable,WallPost.new]}%>
-	<%= render :partial => 'dt/wall_posts/wall_post', :collection => postable.wall_posts.reverse %>
+<% show_post_form ||= true %>
+<div id="wall">	
+	<%= campaign_h2_header("#{postable.name}'s Wall",'wall_container')%>
+	<div id="wall_container">
+		<% if show_post_form %>
+			<%= render :partial => 'dt/wall_posts/wall_form', :locals => {:form_for_value => [:dt,postable,WallPost.new]}%>
+		<% end %>
+		<%= render :partial => 'dt/wall_posts/wall_post', :collection => postable.wall_posts.reverse %>
+	</div>
 </div>

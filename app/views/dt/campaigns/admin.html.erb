@@ -1,11 +1,14 @@
 <div id="campaigns">
-	<div id="pending_campaigns">
-		<h2>Pending Campaigns</h2>
-		<%= render :partial => 'campaign', :collection => @pending_campaigns, :locals => {:show_admin => true}%>
+	<div id="pending_campaigns" style="border: 1px solid gray;margin-top:5px;">
+		<%= campaign_h2_header('Pending Campaigns','pending_container')%>
+		<div id="pending_container" >
+			<%= render :partial => 'admin_campaign', :collection => @pending_campaigns, :locals => {:show_admin => true}%>
+		</div>
 	</div>
-
-	<div id="active_campaings">
-		<h2>Active Campaigns</h2>
-		<%= render :partial => 'campaign', :collection => @active_campaigns, :locals => {:show_admin => true}%>
+	<div id="active_campaings" style="border: 1px solid gray;margin-top:5px;">
+		<%= campaign_h2_header('Active Campaigns','active_container')%>
+		<div id="active_container">
+			<%= render :partial => 'admin_campaign', :collection => @active_campaigns, :locals => {:show_admin => true}%>
+		</div>
 	</div>
 </div>

@@ -1,26 +1,5 @@
-<h1>Listing news_items</h1>
-
-<table>
-  <tr>
-    <th>Subject</th>
-    <th>Content</th>
-    <th>User</th>
-    <th>News</th>
-  </tr>
-
-<% for news_item in @news_items %>
-  <tr>
-    <td><%=h news_item.subject %></td>
-    <td><%=h news_item.content %></td>
-    <td><%=h news_item.user %></td>
-    <td><%=h news_item.news %></td>
-    <td><%= link_to 'Show', news_item %></td>
-    <td><%= link_to 'Edit', edit_news_item_path(news_item) %></td>
-    <td><%= link_to 'Destroy', news_item, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% content_for :rss do %>
+	<link href="<%= url_for([:dt,@postable,NewsItem.new])%>.rss" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New news_item', new_news_item_path %>
+<h1>News for <%= @postable.name %> </h1>
+<%= render :partial => 'news_item', :collection => @news_items %>

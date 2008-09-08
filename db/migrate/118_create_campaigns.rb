@@ -8,6 +8,7 @@ class CreateCampaigns < ActiveRecord::Migration
       t.text :description
       t.integer :user_id
       t.integer :campaign_type_id
+      t.string :picture
       
       # waiting to be authorized by a CF admin
       t.boolean :pending

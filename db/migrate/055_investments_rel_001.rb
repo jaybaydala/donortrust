@@ -1,4 +1,4 @@
-class InvestmentsRel001 < ActiveRecord::Migration
+  class InvestmentsRel001 < ActiveRecord::Migration
   def self.up
     create_table :investments do |t|
       t.column :amount,               :decimal, :precision => 12, :scale => 2

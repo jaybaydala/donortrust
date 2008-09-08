@@ -1,5 +1,5 @@
 <div id="team_<%= team.id %>">
-	<h2><%= team.name %></h2>
+	<h2><%= link_to team.name, dt_team_path(team) %></h2>
 	<p>
 		Team Leader: <%= team.leader.login %> <br />
 		Team Goal: GOAL GOES HERE <br />

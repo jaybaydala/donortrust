@@ -88,8 +88,8 @@ module DtApplicationHelper
                    end
   end
 
-  def blind_down_link_toggle(text, id, div)
-      link_to_function(text, nil, :id =>id + "_down") do |page|
+  def blind_down_link_toggle(text, id, div, style)
+      link_to_function(text, nil, :id =>id + "_down", :style => style) do |page|
                             page.visual_effect :blind_down, div, :duration => 0.5
                             page.visual_effect :highlight, div, :duration => 2
                             page.hide(id + "_down")
@@ -97,8 +97,8 @@ module DtApplicationHelper
                    end
   end
 
-  def blind_up_link_toggle(text, id, div)
-      link_to_function(text, nil, :id =>id + "_up", :style => "display:none;") do |page|
+  def blind_up_link_toggle(text, id, div, style)
+      link_to_function(text, nil, :id =>id + "_up", :style => style) do |page|
                             page.visual_effect :blind_up, div, :duration => 0.5
                             page.hide(id + "_up")
                             page.show(id + "_down")
@@ -106,13 +106,21 @@ module DtApplicationHelper
   end
 
   def blind_up_down_links(text1,text2, id, div)
-      blind_down_link_toggle(text1,id,div) + blind_up_link_toggle(text2, id, div)
+      blind_up_link_toggle(text2, id, div, '') + blind_down_link_toggle(text1,id,div,'display:none;')
   end
 
+  def blind_down_up_links(text1,text2, id, div)
+      blind_down_link_toggle(text1,id,div,'display:none;') + blind_up_link_toggle(text2, id, div, '')
+  end
+  
   def delete_icon(delete_path)
     link_to(image_tag('bus_admin/icons/delete_icon.gif', :style => "vertical-align:middle;", :border => 0),delete_path, :confirm => 'Are you sure?', :method => :delete )
   end
 
+  def campaign_h2_header(content, target_div)
+    '<h2 class="campaign">' + blind_up_down_links(image_tag('dt/icons/expand_icon.png',:border=>0),image_tag('dt/icons/collapse_icon.png',:border=>0),'expand_' + target_div,target_div) + content + '</h2>'
+  end
+  
   def province_selector(model, field)
     select(model, field, [
     	['Select a Province', 'None'],

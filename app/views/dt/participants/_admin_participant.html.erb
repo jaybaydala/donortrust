@@ -1,0 +1,8 @@
+<div class="admin_container">
+	<%= campaign_h2_header(admin_participant.user.full_name ,"participant_#{admin_participant.id}_container")%>
+	<div id="participant_<%= admin_participant.id %>_container" class="content_container">
+		<p>
+			<%= admin_participant.short_about_participant %>
+		</p>
+	</div>
+</div>
