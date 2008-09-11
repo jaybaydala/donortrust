@@ -15,3 +15,6 @@ config.action_controller.perform_caching             = false
 # The :test delivery method accumulates sent emails in the
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
+
+# require test-spec gem in test environment only
+config.gem "test-spec", :version => "0.9.0", :lib => 'test/spec'

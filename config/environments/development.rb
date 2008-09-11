@@ -15,7 +15,7 @@ config.action_view.debug_rjs                         = true
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
-ActionController::Base.fragment_cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache/fragments"
+ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache"
 
 ActionMailer::Base.delivery_method = :test
 
