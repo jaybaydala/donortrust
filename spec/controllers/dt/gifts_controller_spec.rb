@@ -306,4 +306,34 @@ describe Dt::GiftsController do
       put 'update', :id => 0, :gift => {:amount => 50}
     end
   end
+  
+  describe "open action" do
+    before do
+      Gift.stub!(:validate_pickup).and_return(@gift)
+      @gift.stub!(:amount).and_return(20)
+      @gift.stub!(:pickup_code).and_return("asdf1234")
+    end
+    
+    it "should find the gift" do
+      Gift.should_receive(:validate_pickup).and_return(@gift)
+      do_request(@gift.pickup_code)
+    end
+    
+    # it "should load the opened gift id into the session" do
+    #   do_request(@gift.pickup_code)
+    #   session[:gift_cart_id].should == @gift.id
+    # end
+    # 
+    # it "should load the opened gift amount into the session" do
+    #   do_request(@gift.pickup_code)
+    #   session[:gift_cart_amount].should == @gift.id
+    # end
+    
+    def do_request(code=nil)
+      params = {}
+      params[:code] = @gift.pickup_code if code
+      get "open", params
+    end
+  end
+  
 end

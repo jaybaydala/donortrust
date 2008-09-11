@@ -724,7 +724,6 @@ describe Dt::CheckoutsController do
             @user.stub!(:balance).and_return(0)
             do_request
             @order.credit_card_total.should == @order.total
-            puts @order.inspect
           end
         end
       end
