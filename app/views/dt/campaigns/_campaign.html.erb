@@ -4,10 +4,10 @@
 	content = ' ' + link_to(campaign.name,show_campaign_path(campaign.short_name))
 %>
 <div class="campaign" id="campaign_<%= campaign.id%>">
-	<% if campaign.allow_multiple_teams? %>
-		<% content = content + ' | ' + link_to('Create a Team', new_dt_campaign_team_path(campaign)) + ' | ' + link_to('Join a Team', dt_campaign_teams_path(campaign)) %>
+	<% if campaign.allow_multiple_teams? && (campaign.teams.size < campaign.max_number_of_teams || !campaign.max_number_of_teams?) %>
+		<% content = content + " | " + link_to('Create a Team', new_dt_campaign_team_path(campaign)) + " | " + link_to('Join a Team', dt_campaign_teams_path(campaign)) %>
 	<% else %>
-		<% content = content + "| " + link_to('Join Campaign', new_dt_campaign_team_path(campaign)) %>
+		<% content = content + " | " + link_to('Join Campaign', new_dt_campaign_team_path(campaign)) %>
 	<% end %>
 	<% (content = content + " | " + link_to('Manage Campaign', manage_dt_campaign_path(campaign))) unless not campaign.owned? %>
 	<%= campaign_h2_header(content, 'campaign_details_container')%>
@@ -27,26 +27,26 @@
 			<li class="detail"><strong>Email: </strong><%= campaign.email%></li>
 		</ul>
 		<% if show_address == true %>
-		<h2>Address</h2>
-		<div id="<%= "contact_#{campaign.id}"%>">
-			<p class="address">
-				<%= campaign.address %> <br />
-				<%= campaign.province %>, <%= campaign.postalcode %> <br />
-				<%= campaign.country %>
-			</p>
-		</div>
+			<h2>Address</h2>
+			<div id="<%= "contact_#{campaign.id}"%>">
+				<p class="address">
+					<%= campaign.address %> <br />
+					<%= campaign.province %>, <%= campaign.postalcode %> <br />
+					<%= campaign.country %>
+				</p>
+			</div>
 		<% end %>
 		<% if show_admin == true%>
-		<div class="campaign_admin">
-			<h2 class='admin'><span style="color:#000">Admin</span> |
-				<%= ( link_to_remote('Activate', :update => :campaigns,
-												:url => activate_dt_campaign_path(campaign), 
-											   	:complete => "Element.show('flash');") + " | " ) unless not campaign.pending?
-												 %>
-				<%= delete_icon(dt_campaign_path(campaign)) %> | 
-				<%= link_to('Archive Campaign',dt_campaign_path(campaign), :confirm => 'Are you sure?', :method => :delete )%>
-			</h2>
-		</div>
+			<div class="campaign_admin">
+				<h2 class='admin'><span style="color:#000">Admin</span> |
+					<%= ( link_to_remote('Activate', :update => :campaigns,
+													:url => activate_dt_campaign_path(campaign), 
+														:complete => "Element.show('flash');") + " | " ) unless not campaign.pending?
+													 %>
+					<%= delete_icon(dt_campaign_path(campaign)) %> | 
+					<%= link_to('Archive Campaign',dt_campaign_path(campaign), :confirm => 'Are you sure?', :method => :delete )%>
+				</h2>
+			</div>
+  	<% end %>
 	</div>
-	<% end %>
 </div>

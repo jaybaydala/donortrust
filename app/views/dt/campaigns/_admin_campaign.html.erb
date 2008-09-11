@@ -2,8 +2,8 @@
 	show_address ||= false 
 %>
 <div class="campaign" id="campaign_<%= admin_campaign.id%>">
-			<% content =  admin_campaign.name + ' | '%>
-			<% content = ( link_to_remote('Activate', :update => :campaigns,
+			<% content =  link_to (admin_campaign.name, dt_campaign_path(admin_campaign)) + ' | ' %>
+			<% content = content + ( link_to_remote('Activate', :update => :campaigns,
 											:url => activate_dt_campaign_path(admin_campaign), 
 										   	:complete => "Element.show('flash');") + " | " ) unless not admin_campaign.pending? 	%>
 			<% content = content + delete_icon(dt_campaign_path(admin_campaign)) + ' | '  + link_to('Archive Campaign',dt_campaign_path(admin_campaign), :confirm => 'Are you sure?', :method => :delete )
