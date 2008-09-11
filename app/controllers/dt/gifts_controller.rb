@@ -32,7 +32,6 @@ class Dt::GiftsController < DtApplicationController
   
   def new
     store_location
-    params[:gift] = session[:gift_params] if session[:gift_params]
     @gift = Gift.new( gift_params )
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
@@ -76,7 +75,6 @@ class Dt::GiftsController < DtApplicationController
 
     respond_to do |format|
       if @valid
-        session[:gift_params] = nil
         @cart = find_cart
         @cart.add_item(@gift)
         flash[:notice] = "Your Gift has been added to your cart."

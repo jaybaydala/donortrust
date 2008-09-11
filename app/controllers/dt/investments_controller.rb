@@ -31,7 +31,6 @@ class Dt::InvestmentsController < DtApplicationController
     
     respond_to do |format|
       if @valid
-        session[:investment_params] = nil
         @cart = find_cart
         @cart.add_item(@investment)
         flash[:notice] = "Your Investment has been added to your cart."
