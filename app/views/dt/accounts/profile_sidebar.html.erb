@@ -1,13 +1,13 @@
 <% unless logged_in? %>
   <h2>Login</h2>
-  <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
+  <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform', :id => 'loginform' }) do |f| %>
     <% store_location %>
     <div class="textsm">
-    <label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %><br />
-    <label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %><br />
-    <label><%= check_box_tag "remember_me" %> Remember Me</label> | <%= link_to "Create Account", new_dt_account_path %><br />
-    <%= submit_tag "Login", :class => "buttonsubmit" %><br />
-    <div style="clear:left;"><%= link_to "Forgot your password?", reset_dt_accounts_path %></div>
+      <label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %><br />
+      <label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %><br />
+      <label><%= check_box_tag "remember_me" %> Remember Me</label> | <%= link_to "Create Account", new_dt_account_path %><br />
+      <%= submit_tag "Login", :class => "buttonsubmit" %><br />
+      <div style="clear:left;"><%= link_to "Forgot your password?", reset_dt_accounts_path %></div>
     </div>
   <% end %>
 <% end %>
@@ -47,7 +47,7 @@
   </div>
   <% end %>
 <% else %>
-  <p>Have a ChristmasFuture account? Login below or <strong><%= link_to "Sign up", dt_signup_path %>!</strong></p>
+  <p>Have a ChristmasFuture account? <strong><%= link_to "Login", dt_login_path %></strong> above or <strong><%= link_to "Sign up", dt_signup_path %>!</strong></p>
   
   <p style="margin-bottom:0;">A ChristmasFuture account allows you to:</p>
 

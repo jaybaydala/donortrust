@@ -1,16 +1,15 @@
 <%- content_for :html_title do %>Password Reset<% end -%>
 <%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
-<div id="contentContainer">
-  	<p>To reset your password, enter your username (your email address) below.</p>
-  	<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-  	<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
-    <% form_tag(reset_password_dt_accounts_path, :method => :put, :name => 'resetform', :id => 'resetform' ) do %>
-      <div id="signInWrapper">
-          <label for="login">Username/Email</label>
-          <%= text_field_tag 'login', nil, :tabindex => 1, :style => 'width:200px;' %>
-        <div id="buttonSignIn"><%= submit_tag 'Reset Password', :class => 'buttonsubmit' %></div>
-      </div>
-    <% end %>
+<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
+<% form_tag(reset_password_dt_accounts_path, :method => :put, :name => 'resetform', :id => 'resetform' ) do %>
+  <div class="userform">
+    <fieldset>
+      <legend>To reset your password, enter your username (your email address) below.</legend>
+      <ol>
+        <li><label for="login">Username/Email</label><%= text_field_tag 'login', nil, :tabindex => 1 %></li>
+        <li><%= submit_tag 'Reset Password', :class => 'buttonsubmit' %></li>
+      </ol>
+    </fieldset>
   </div>
-</div>
+<% end %>
