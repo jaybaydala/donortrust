@@ -94,12 +94,12 @@ attributes for a user:
     attributes_for :user do |u|
       password = String.random
     
-      u.value                  = "a value",
-      u.other                  = "other value",
-      u.another                = String.random,     # random string 10 characters long
-      u.one_more               = String.random(15), # 15 characters long
-      u.password               = password,
-      u.password_confirmation  = password,
+      u.value                  = "a value"
+      u.other                  = "other value"
+      u.another                = String.random     # random string 10 characters long
+      u.one_more               = String.random(15) # 15 characters long
+      u.password               = password
+      u.password_confirmation  = password
       u.associated_object      = default_bar        # expects attributes_for :bar to be setup
     end
     
@@ -256,9 +256,9 @@ Once again, the test above doesn't care about usernames, so why should you?  But
     attributes_for :user do |u|
       password = String.random
       
-      u.username => String.random,
-      u.password => password,
-      u.password_confirmation => password
+      u.username = String.random
+      u.password = password
+      u.password_confirmation = password
     end    
     
   end
