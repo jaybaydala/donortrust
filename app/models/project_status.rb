@@ -9,4 +9,8 @@ class ProjectStatus < ActiveRecord::Base
   def project_count
     return projects.count
   end
+  
+  def self.started
+    find(:first, :conditions => {:name => "Started"})
+  end
 end
