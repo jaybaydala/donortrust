@@ -74,6 +74,7 @@
             <div id="ecardPreview" style="display:none;">
               <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
               <%= button_to_function "<span>Preview your ecard &raquo;</span>", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
+            </div>
       		</li>
         </ol>
       </div>

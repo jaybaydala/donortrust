@@ -132,7 +132,22 @@ class Dt::GiftsController < DtApplicationController
     store_location
     @gift = Gift.validate_pickup(params[:code]) if params[:code]
     respond_to do |format|
-      flash.now[:error] = 'The pickup code is not valid. Please check your email and try again.' if params[:code] && !@gift
+      if @gift
+        if @gift.project_id?
+          flash.now[:notice] = "You have been given #{number_to_currency(@gift.amount)}!"
+          @gift.pickup
+        else
+          flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.amount)}" unless @gift.project_id?
+          # track some gift stuff in the session for cart and checkout
+          session[:gift_card_id] = @gift.id
+          session[:gift_card_amount] = @gift.amount
+          # track it in a cookie as well for the blog site
+          cookies[:gift_card_id] = @gift.id.to_s
+          cookies[:gift_card_amount] = @gift.amount.to_s
+        end 
+      else
+        flash.now[:error] = "The pickup code is not valid. Please check your email and try again." if params[:code]
+      end
       format.html
     end
   end
