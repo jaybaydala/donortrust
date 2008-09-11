@@ -209,7 +209,7 @@ class Dt::CheckoutsController < DtApplicationController
         @order.user = @user
       end
     elsif !logged_in?
-      flash.now[:notice] = "A user with your email address (#{@order.email}) already exists. To have this order appear in your account, login below and continue your checkout." if User.find_by_login(@order.email)
+      flash.now[:notice] = "A user with your email address (#{@order.email}) already exists. To have this order associated with your account, login below and continue your checkout." if User.find_by_login(@order.email)
     end
   end
   
