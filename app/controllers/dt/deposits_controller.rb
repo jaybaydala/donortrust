@@ -82,7 +82,7 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def access_denied_with_deposit
-    flash[:notice] = "You must be logged in to make a deposit to your account."
+    flash[:error] = "You must be logged in to make a deposit to your account."
     access_denied_without_deposit
   end
   alias_method_chain :access_denied, :deposit

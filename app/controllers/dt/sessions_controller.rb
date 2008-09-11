@@ -94,4 +94,14 @@ class Dt::SessionsController < DtApplicationController
     flash[:notice] = "You have been logged out."
     redirect_back_or_default(:controller => '/dt/accounts', :action => 'index')
   end
+  
+  protected
+  # if they're being redirected back to a "false" account, put the proper account id in
+  def redirect_back_or_default_with_account(default)
+    if logged_in? && session[:return_to] =~ /^\/dt\/accounts\/false/
+      session[:return_to].sub!(/^\/dt\/accounts\/false/, "/dt/accounts/#{current_user.id}")
+    end
+    redirect_back_or_default_without_account(default)
+  end
+  alias_method_chain :redirect_back_or_default, :account
 end
