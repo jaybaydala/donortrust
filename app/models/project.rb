@@ -167,7 +167,8 @@ class Project < ActiveRecord::Base
   end
   
   def fundable?
-    return false if self[:project_status_id] != 2
+    started = ProjectStatus.started
+    return false if started && self[:project_status_id] != started.id
     return false if current_need <= 0
     return true
   end
