@@ -55,13 +55,6 @@ describe Dt::GiftsController do
       get 'new'
     end
     
-    it "should check the session for a gift (abandoned gift) and load it" do
-      session_gift = mock_model(Gift)
-      session[:gift_params] = session_gift
-      get 'new'
-      params[:gift].should == session_gift
-    end
-    
     it "should load all ecards" do
       ecards = [ECard.new]
       ECard.should_receive(:find).with(:all, :order => :id).and_return(ecards)
