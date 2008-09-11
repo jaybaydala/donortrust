@@ -73,7 +73,7 @@ SubmitButton.prototype = {
 		a.id = this.name + 'link-' + this.id;
 		a.href = 'javascript:void(0);';
 		a.className = this.size;
-		a.innerHTML = this.value;
+		a.innerHTML = "<span>"+this.value+"</span>";
 		div.appendChild(a);
 		this.linkObserver()
 	},
