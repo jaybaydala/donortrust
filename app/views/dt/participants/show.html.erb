@@ -6,7 +6,7 @@
 		<h1><%= @participant.user.full_name %>'s</h1>
 		<h5 style="margin-top:-10px;"> <%= @participant.team.campaign.name %> page.</h5>
 		<p>
-			<%= image_tag @participant.picture.thumb.url, :class => :thumbnail %>
+			<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>
 			<%= @participant.about_participant%>
 		</p>
 
@@ -27,7 +27,7 @@
 		<% end %>
 		<h4>Goal</h4>
 		<span class="small_text">
-			TODO : Add Personal Goal
+		  <%= "$ #{@participant.goal}" if @participant.goal %>
 		</span>
 		<h4>Pledged</h4>
 		<span class="small_text">

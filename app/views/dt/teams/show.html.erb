@@ -5,11 +5,10 @@
 	<div  class="campagin_container">
 		<h1><%= @team.name %> <%= "- PENDING! " unless not @team.pending? %> <%= (" - " + link_to('Join this team!', new_dt_team_participant_path(@team))) unless @team.users.include? current_user%></h1>
 		<h5 style="margin-top:-10px;">
-			<%= link_to "http://www.christmasfutrue.org/#{@team.campaign.short_name}/team/ #{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
+			<%= link_to "http://www.christmasfuture.org/dt/#{@team.campaign.short_name}/team/#{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
 		</h5>
 		<p>
-			
-			<%= image_tag @team.picture.full.url, :class => :thumbnail %>
+  		<%= image_tag @team.picture.full.url, :class => :thumbnail if @campaign.picture? %>
 			<%= @team.description %>
 		</p>
 		
@@ -28,7 +27,7 @@
 		<h2>Metrics</h2>
 		<h4>Goal</h4>
 		<span class="small_text">
-			TODO : Add Team Goal
+		  <%= "$ #{@team.goal}" if @team.goal %>
 		</span>
 		<h4>Campaign</h4>
 		<span class="small_text">
@@ -36,7 +35,7 @@
 		</span>
 		<h4>Pledged</h4>
 		<span class="small_text">
-			<%= @team.funds_raised %> $CDN
+			$<%= @team.funds_raised %> CDN
 		</span>
 		<h4>Particpants</h4>
 		<span class="small_text">

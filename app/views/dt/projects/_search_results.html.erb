@@ -4,21 +4,13 @@
 <div id='search-bar-wrapper' style="display:<%= params[:filter] ? "block" : "none" %>;">
   <%= dt_advanced_search %>
 </div>
-<% if params[:action]!='advancedsearch' %>
-  <div class='hider' id='hider'
-    onclick="Effect.SlideUp('search-bar-wrapper', { duration: 1.0 }); 
-      Effect.Fade('search-bar-wrapper',{  duration: 1.5});  
-      Element.toggle('hider'); Effect.Appear('filter-your-results', {duration: 1.5});" 
-    style='display:<%= (params[:filter] && params[:action] =='search') ?   "block" : "none" %>;'>Hide filters
-  </div>
-<% end %>
 
 <% if @search.total_entries==Project.find_public(:all).size%>
     <%- content_for :html_title do -%>All Projects<%- end -%>
 <% else%>
 	<%if @search.total_entries>0%>
-		<%- content_for :html_title do -%>Project Search Results<%- end -%>
 		<div class="search-result-info">
+			<div class="search-header">Search Results</div>
 			<h3>You have searched using the following terms:</h3>
 			<% if @search  %>
 				<div>

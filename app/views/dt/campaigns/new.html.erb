@@ -9,7 +9,7 @@
     		<%= f.text_field :name %>
 
 			<label>Short Name</label>
-    		<span class="small_text">http://www.christmasfuture.org/</span><%= f.text_field :short_name %>
+    		<span class="small_text">http://www.christmasfuture.org/dt/</span><%= f.text_field :short_name %>
 			<%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your campaign. It should not contain any spaces and should be concise so as to convey the central idea of your campaign. Also this name will be used to provide your campaign with a Christmas Future URL. http://www.christmasfuture.org/yourCampaignShortName'%>
 			<%= observe_field	:campaign_short_name, 
 								:frequency => 1,
@@ -30,7 +30,8 @@
 			%>
 
 			<label>Contact Email</label>
-			<%= f.text_field :email %> <span class="small_text">Use My Email </span>
+			<%= f.text_field :email %> <span class="small_text">Use My Email </span>			
+			<span class="small_text">(<%= current_user.login %>) </span>
 			<%= f.check_box :use_user_email, :onclick => "Element.toggle('campaign_email');"%> 
 			
 			<label>Campaign Image</label>

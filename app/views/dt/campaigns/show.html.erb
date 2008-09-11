@@ -7,9 +7,9 @@
 		<div id="campaign_details">
 			<h1><%= @campaign.name %> <%= " - PENDING!" unless not @campaign.pending? %></h1>
 			
-			<h5 style="margin-top:-10px;">http://www.christmasfutrue.org/<%= @campaign.short_name %></h5>
+			<h5 style="margin-top:-10px;">http://www.christmasfuture.org/dt/<%= @campaign.short_name %></h5>
 			
-			<%= image_tag @campaign.picture.full.url, :class => :thumbnail %>
+  		<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
 			<p>
 				<%= @campaign.description %>
 			</p>
