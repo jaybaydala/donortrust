@@ -133,7 +133,7 @@ class Dt::GiftsController < DtApplicationController
       if @gift
         if @gift.project_id?
           flash.now[:notice] = "You have been given #{number_to_currency(@gift.amount)}!"
-          @gift.pickup
+          # @gift.pickup
         else
           flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.amount)}" unless @gift.project_id?
           # track some gift stuff in the session for cart and checkout

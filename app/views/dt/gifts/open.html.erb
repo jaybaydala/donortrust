@@ -16,9 +16,9 @@
       <% if Project.cf_unallocated_project %><li><%= link_to "let ChristmasFuture figure it out", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.amount), :project_id => Project.cf_unallocated_project.id }) %></li><% end %>
       <li><%= link_to "Deposit it into my account", new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) %></li>
       <% if Project.cf_admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.amount), :project_id => Project.cf_admin_project.id }) %></li><% end %>
-      <li>Do nothing <div class="textsm">Note: if you choose to do nothing, your gift will expire 30 days after it was sent, which is just like choosing &quot;Let ChristmasFuture figure it out&quot;</div></li>
     </ul>
-	<% end %>
+    <div class="textsm">Note: if you choose to do nothing, your gift will expire 30 days after it was sent, which is just like choosing &quot;Let ChristmasFuture figure it out&quot;</div>
+  <% end %>
 <% else -%>
 	<%= error_messages_for :pickup %>
 	<% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "opengiftform", :name => "opengiftform"}) do |f| %>

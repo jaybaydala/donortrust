@@ -6,9 +6,9 @@ class Dt::CartController < DtApplicationController
     if session[:gift_card_amount]
       gift_card_balance = session[:gift_card_amount] - @cart.total
       if gift_card_balance >= 0
-        flash.now[:notice] = "<strong>Your current Gift Card Balance:</strong> #{number_to_currency(gift_card_balance)}"
+        flash.now[:notice] = "You've invested #{number_to_currency(@cart.total)} and have #{number_to_currency(gift_card_balance)} remaining on your gift card"
       else
-        flash.now[:notice] = "<strong>Your current Gift Card Balance:</strong> $0.00<br />Your cart contains #{number_to_currency(gift_card_balance.abs)} more your available gift card balance &ndash; you can pay for the outstanding amount using your credit card"
+        flash.now[:notice] = "You've invested #{number_to_currency(@cart.total)} and have #{number_to_currency(gift_card_balance.abs)} remaining on your gift card"
       end
     end
   end
