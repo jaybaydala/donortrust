@@ -30,6 +30,7 @@ Rails::Initializer.run do |config|
   config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
   config.gem "mocha", :version => "0.5.5"
   config.gem "mongrel", :version => "1.1.5"
+  config.gem "mislav-will_paginate", :version => ">= 2.3.2", :lib => "will_paginate", :source => "http://gems.github.com"
   config.gem "packet", :version => "0.1.10"
   config.gem "pdf-writer", :version => ">= 1.1.3", :lib => "pdf/writer"
   config.gem "RedCloth", :version => ">= 3.301", :source => "http://code.whytheluckystiff.net/"
@@ -56,7 +57,7 @@ Rails::Initializer.run do |config|
   # Make Time.zone default to the specified zone, and make Active Record store time values
   # in the database in UTC, and return them converted to the specified local zone.
   # Run "rake -D time" for a list of tasks for finding time zone names. Uncomment to use default local time.
-  config.time_zone = 'UTC'
+  config.time_zone = 'Mountain Time (US & Canada)'
 
   # Your secret key for verifying cookie session data integrity.
   # If you change this key, all old sessions will become invalid!
