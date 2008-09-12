@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
+
 context "RSSFeed" do
-  
   fixtures :rss_feeds, :rss_feed_elements
   
   setup do

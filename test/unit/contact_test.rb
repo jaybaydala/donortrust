@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BusAdmin::ContactTest < Test::Unit::TestCase
-
 context "Contact Tests " do
   fixtures :contacts
   setup do
@@ -39,5 +37,4 @@ context "Contact Tests " do
   def create_contact(options = {})
       Contact.create({ :first_name => 'FirstName', :last_name => 'LastName', :phone_number => '403-978-3245', :fax_number => '403-978-3246', :email_address => 'test@test.ca', :web_address => 'www.google.ca', :department => 'department', :place_id => '1', :address_line_1 => '2127 50th Ave SW', :address_line_2 => 'address line 2', :postal_code => 'T2T4B2' }.merge(options))  
   end                                                          
-end
 end

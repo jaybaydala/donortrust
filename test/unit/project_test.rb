@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-#class BusAdmin::ProjectTest < Test::Unit::TestCase
 context "Projects" do
-  
   fixtures :projects, :milestones, :budget_items, :investments
 
   NUMBER_OF_DAYS_UNTIL_END = 30
@@ -147,5 +145,4 @@ context "Projects" do
     total_budget.should.equal expected_value
     #total_budget.should.equal 3000.00
   end    
-
 end

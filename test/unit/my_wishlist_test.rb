@@ -1,6 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-
 context "My Wish List Tests " do
   fixtures :my_wishlists, :projects, :users
  

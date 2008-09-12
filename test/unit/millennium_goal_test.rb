@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-  context "MillenniumGoals" do
+context "MillenniumGoals" do
   fixtures :millennium_goals
    
     specify "should create a millennium goal" do
