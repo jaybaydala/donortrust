@@ -3,7 +3,8 @@
 <% end %>
 <div id="team">
 	<div  class="campagin_container">
-		<h1><%= @team.name %> <%= "- PENDING! " unless not @team.pending? %> <%= (" - " + link_to('Join this team!', new_dt_team_participant_path(@team))) unless @team.users.include? current_user%></h1>
+		<h1><%= @team.name %> <%= "- Awaiting Approval! " unless not @team.pending? %>
+		<%= (" - " + link_to('Join this team!', new_dt_team_participant_path(@team))) if @team.joinable? %></h1>
 		<h5 style="margin-top:-10px;">
 			<%= link_to "http://www.christmasfuture.org/dt/#{@team.campaign.short_name}/team/#{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
 		</h5>
@@ -17,7 +18,7 @@
 
 	
 		<div id="team_members">
-			<%= campaign_h2_header('Participants | ' + link_to('Join this team!',new_dt_team_participant_path(@team)),'participant_container') %>
+			<%= campaign_h2_header('Participants' + (@team.joinable? ? " | #{link_to('Join this team!',new_dt_team_participant_path(@team))}":""),'participant_container') %>
 			<div id="participant_container" class="row_container">
 				<%= render :partial => 'dt/participants/participant', :collection => @team.participants %>
 			</div>

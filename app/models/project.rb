@@ -64,7 +64,7 @@ class Project < ActiveRecord::Base
           {:class_name => 'Place',
             :field => 'id',
             :as => 'place_id'
-          },        
+          },
           {
             :class_name => 'Place',
             :field => 'pl.name',
@@ -76,7 +76,7 @@ class Project < ActiveRecord::Base
             :field => 'pl2.name',
             :as  => 'continent_name',
             :association_sql => 'LEFT JOIN places pl2 ON pl2.id=projects.continent_id'
-          },        
+          },
           {:class_name => 'Partner',
             :field => 'partners.name',
             :as => 'partner_name',
@@ -109,7 +109,7 @@ class Project < ActiveRecord::Base
   end
 
   validates_presence_of :name
-  validates_length_of   :name, :maximum => 50
+  #validates_length_of   :name, :maximum => 50
 
 =begin
   validates_presence_of :total_cost
@@ -258,9 +258,9 @@ class Project < ActiveRecord::Base
       end
       @partners
     end
-    
-    
-    
+
+
+
 
     def featured_projects
       projects = Project.find_public(:all, :conditions => { :featured => 1 })

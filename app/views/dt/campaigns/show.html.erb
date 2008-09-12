@@ -21,7 +21,7 @@
 	
 		<% if @campaign.allow_multiple_teams%>
 			<div id="Teams">
-				<%= campaign_h2_header('Teams | ' + link_to('Create a Team', new_dt_campaign_team_path(@campaign)),'teams_container')%>
+				<%= campaign_h2_header(' Teams | ' + link_to('Create a Team', new_dt_campaign_team_path(@campaign)),'teams_container')%>
 				<div id="teams_container" class='row_container'>
 					<%= render :partial => 'team', :collection => @campaign.teams%>
 				</div>

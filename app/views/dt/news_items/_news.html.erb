@@ -1,12 +1,12 @@
 <% show_post_form ||= false %>
 <div id="news">
 	<% if show_post_form %>
-		<%= campaign_h2_header('Post New News!','post_news_container')%>
+		<%= campaign_h2_header(' Post New News!','post_news_container')%>
 		<div id="post_news_container">
 			<%= render :partial => 'dt/news_items/post_form', :locals => {:postable => postable}%>
 		</div>
 	<% end %>
-		<%= campaign_h2_header('Recent News ' + link_to(image_tag('dt/icons/rss_icon.gif'),url_for([:dt, postable, NewsItem.new]) + '.rss'),'news_container')%>
+		<%= campaign_h2_header(' Recent News ' + link_to(image_tag('dt/icons/rss_icon.gif'),url_for([:dt, postable, NewsItem.new]) + '.rss'),'news_container')%>
 	<div id="news_container">
 		<%= render :partial => 'dt/news_items/news_item', :collection => postable.news_items.reverse %>
 	</div>
