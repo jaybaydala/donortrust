@@ -3,7 +3,14 @@ Feature: Opening a Gift
   As a gift receiver
   I want to be able to open my gift
 
-  Scenario: Opening the gift
+
+	Scenario: Opening the project gift
+	  Given that I have received a project gift
+	  When I open the gift
+	  Then I should see what I have been given
+	  And I should see a link to the Project
+
+  Scenario: Opening a gift card
     Given that I have received a gift
     When I open the gift
     Then I should see my gift card balance
@@ -13,12 +20,6 @@ Feature: Opening a Gift
     And I should see an option to "Deposit it into my account"
     And I should see an option to "Donate it to the CF Operations project"
     And I should see an option to "Do nothing"
-
-  Scenario: Opening the gift
-    Given that I have received a project gift
-    When I open the gift
-    Then I should see what I have been given
-    And I should see a link to the Project
 
   Scenario: Choosing a gift option
     Given that I am opening a gift
@@ -35,3 +36,9 @@ Feature: Opening a Gift
     When I go anywhere in the site
     Then there should be a cookie with the Gift Card Amount
     And there should be a cookie with the Gift Card id
+
+	Scenario: Let CF Figure It Out
+		Given that i have open a gift
+	  When i have choose "let Cf figure it out"
+		Then i should be redirected to the payment step of the checkout process
+
