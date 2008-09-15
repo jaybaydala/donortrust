@@ -4,7 +4,7 @@ In order to checkout and purchase items
 As a User
 I want to add items to my cart
 
-  Scenario 1: Adding a gift
+  Scenario: Adding a gift
     Given that the user has created a gift
     And the Shopping Cart total is $0
     When I fill in "20" for "Amount"
@@ -17,7 +17,7 @@ I want to add items to my cart
     And there should be a link to Remove the Gift
     And the Cart Total should be $20
 
-  Scenario 2: Adding another gift
+  Scenario: Adding another gift
     Given that the user has created a gift
     And the Cart already holds an Existing Gift
     And the Existing Gift Amount is $20
@@ -31,7 +31,7 @@ I want to add items to my cart
     And there should be a link to Remove the Gift
     And the Cart Total should be $45
 
-  Scenario 3: Adding an Investment
+  Scenario: Adding an Investment
     Given that the user is Investing in a project
     And the Investment Amount is $100
     And the Investment Project id is 5
@@ -43,7 +43,7 @@ I want to add items to my cart
     And there should be a link to Remove the Investment
     And the Cart Total should be $100
 
-  Scenario 4: Adding a Deposit
+  Scenario: Adding a Deposit
     Given that the user is logged in
     When I fill in "50" for "Amount"
     And I click Add to Cart
