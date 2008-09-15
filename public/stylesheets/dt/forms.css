@@ -293,6 +293,17 @@ GIFT FORMS
 	background-image: url(/images/dt/nav_elements/buttonsCF/unwrap_blue.gif);
 }
 
+div.multiplegiftfields {
+	background-color:#EFEFEF;
+	padding:8px;
+}
+div.multiplegiftfields .content {
+	width:476px;
+}
+div.medImg img {
+	border:1px #CCC solid;
+}
+
 
 /*
 CHECKOUT FORMS
