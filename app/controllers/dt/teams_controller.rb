@@ -43,14 +43,23 @@ class Dt::TeamsController < DtApplicationController
     @team.campaign = @campaign
     @team.leader = current_user
     @team.pending = @campaign.require_team_authorization?
+    
 
     if @team.save
-      if @team.pending
-        flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
-      else
-        flash[:notice] = 'Team was successfully created.'
+      @participant = Participant.new
+      @participant.team = @team
+      @participant.user = current_user
+      @participant.pending = false
+      if @participant.save
+        if @team.pending
+          flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
+        else
+          flash[:notice] = 'Team was successfully created.'
+        end
+        redirect_to(dt_team_path(@team))
+      else 
+          flash[:notice] = 'There was an error creating your team.'
       end
-      redirect_to(dt_team_path(@team))
     else
       render :action => "new"
     end
@@ -59,15 +68,11 @@ class Dt::TeamsController < DtApplicationController
   # PUT /dt_teams/1
   # PUT /dt_teams/1.xml
   def update
-    respond_to do |format|
-      if @team.update_attributes(params[:team])
-        flash[:notice] = 'Dt::Team was successfully updated.'
-        format.html { redirect_to(@team) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @team.errors, :status => :unprocessable_entity }
-      end
+    if @team.update_attributes(params[:team])
+      flash[:notice] = 'Team was successfully updated.'
+      redirect_to(dt_team_path(@team))
+    else
+      render :action => "edit"
     end
   end
 
@@ -95,19 +100,23 @@ class Dt::TeamsController < DtApplicationController
     if @team.pending?
       flash[:notice] = "This team has not yet been approved, thus you may not join it."
     else
-      if @team.users.include?(current_user)
-        flash[:notice] = "You are already a member of this team!"
-      else
-        @team_member = TeamMember.new
-        @team_member.user = current_user
-        @team_member.team = @team
-        if @team_member.save
-          flash[:notice] = "Welcome to the team!"
-          if @team.require_authorization?
-            flash[:notice] = flash[:notice] + " You will be contacted when your membership has been approved."
-          end
+      if @team.campaign.participating?(current_user)
+        flash[:notice] = "You are already participating in this campaign, thus you may not join another team."
+      else  
+        if @team.users.include?(current_user)
+          flash[:notice] = "You are already a member of this team!"
         else
-          flash[:notice] = "There was an error joining this team!"
+          @team_member = TeamMember.new
+          @team_member.user = current_user
+          @team_member.team = @team
+          if @team_member.save
+            flash[:notice] = "Welcome to the team!"
+            if @team.require_authorization?
+              flash[:notice] = flash[:notice] + " You will be contacted when your membership has been approved."
+            end
+          else
+            flash[:notice] = "There was an error joining this team!"
+          end
         end
       end
     end

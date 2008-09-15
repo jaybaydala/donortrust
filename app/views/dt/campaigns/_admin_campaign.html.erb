@@ -8,8 +8,8 @@
 										   	:complete => "Element.show('flash');") + " | " ) unless not admin_campaign.pending? 	%>
 			<% content = content + delete_icon(dt_campaign_path(admin_campaign)) + ' | '  + link_to('Archive Campaign',dt_campaign_path(admin_campaign), :confirm => 'Are you sure?', :method => :delete )
 											%>
-	<%= campaign_h2_header(content, 'campaign_details_container')%>
-	<div id="campaign_details_container">
+	<%= campaign_h2_header(content, "campaign_#{admin_campaign.id}_details_container")%>
+	<div id="campaign_<%= admin_campaign.id%>_details_container">
 		<ul class="details_list">
 			<li class="detail"><strong>Fundraising Goal: </strong><%= admin_campaign.fundraising_goal_with_currency%></li>
 			<li class="detail"><strong>Start Date: </strong><%= admin_campaign.start_date %> <li>
@@ -29,6 +29,7 @@
 		<div id="<%= "contact_#{admin_campaign.id}"%>">
 			<p class="address">
 				<%= admin_campaign.address %> <br />
+				<%= admin_campaign.address_2 %> <br />
 				<%= admin_campaign.province %>, <%= admin_campaign.postalcode %> <br />
 				<%= admin_campaign.country %>
 			</p>

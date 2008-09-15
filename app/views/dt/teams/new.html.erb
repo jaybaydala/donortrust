@@ -28,14 +28,14 @@
 		<label>Description</label>
 		<%= f.text_area :description, :cols => 80, :rows => 8%>
 		
-		<label>Team Image (if you don't use one a default image will be used for you)<label>
+		<label>Team Image (if you don't use one a default image will be used for you)</label>
 		<%= upload_column_field :team,  :picture  %>
 		
 		<label>Goal</label>
 		<%= f.text_field :goal %><span class="small_text"> $ CDN</span>
 		
 		<label>Contact Email</label>
-		<%= f.text_field :contact_email %> <span class="small_text">Use My Email </span>
+		<%= f.text_field :contact_email %> <span class="small_text">Use My Email (<%= current_user.email%>)</span>
 		<%= f.check_box :use_user_email, :onclick => "Element.toggle('team_contact_email');"%><br />
 		<%= f.check_box :ok_to_contact %><span class="small_text">It is ok for participants to contact me</span><br />
 		<%= f.check_box :require_authorization%><span class="small_text">Require Authorization to Join Team</span>

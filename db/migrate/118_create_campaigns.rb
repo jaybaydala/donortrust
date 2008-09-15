@@ -32,6 +32,7 @@ class CreateCampaigns < ActiveRecord::Migration
       
       # address
       t.string :address
+      t.string :address_2
       t.string :city
       t.string :province
       t.string :country

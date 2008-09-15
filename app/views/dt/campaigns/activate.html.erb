@@ -1,9 +1,9 @@
 <div id="pending_campaigns">
 	<h1>Pending Campaigns</h1>
-	<%= render :partial => 'campaign', :collection => @pending_campaigns, :locals => {:show_admin => true}%>
+	<%= render :partial => 'admin_campaign', :collection => @pending_campaigns%>
 </div>
 
 <div id="active_campaings">
 	<h1>Active Campaigns</h1>
-	<%= render :partial => 'campaign', :collection => @active_campaigns%>
+	<%= render :partial => 'admin_campaign', :collection => @active_campaigns%>
 </div>

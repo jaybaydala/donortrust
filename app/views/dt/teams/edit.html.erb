@@ -1,27 +1,46 @@
-<h1>Editing team</h1>
+<h1>Editing <%= @team.name %></h1>
 
 <%= error_messages_for :team %>
 
-<% form_for(@team) do |f| %>
-  <p>
-    <b>Campaign</b><br />
-    <%= f.text_field :campaign %>
-  </p>
-
-  <p>
-    <b>Name</b><br />
-    <%= f.text_field :name %>
-  </p>
-
-  <p>
-    <b>User</b><br />
-    <%= f.text_field :user %>
-  </p>
-
-  <p>
-    <%= f.submit "Update" %>
-  </p>
+<% form_for([:dt, @campaign, @team], :html => {:multipart => true}) do |f| %>
+	<fieldset class="campaign_form">
+		<legend>Team Details</legend>
+  		
+		<label>Team Name</label>
+	    <%= f.text_field :name %>
+	
+		<label>Short Name</label>
+		<span class="small_text">
+			http://www.christmasfuture.org/<%= @campaign.short_name %>/team/
+		</span>
+		<%= f.text_field :short_name %><%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your team. It should not contain any spaces. Also this name will be used to provide your team with a Christmas Future URL. http://www.christmasfuture.org/yourCampaignShortName/team/youTeamShortName'%>
+		
+		<%= observe_field	:team_short_name, 
+							:frequency => 1,
+							:url => validate_short_name_of_new_dt_team_path(:campaign_id => @campaign),
+							:with => :team_short_name
+							%>
+							
+		<%= show_spinner("Validating ") %>
+		
+		<div id="errors" style="display:none;">
+		</div>
+		<label>Description</label>
+		<%= f.text_area :description, :cols => 80, :rows => 8%>
+		
+		<label>Team Image (if you don't use one a default image will be used for you)</label>
+		<%= upload_column_field :team,  :picture  %>
+		
+		<label>Goal</label>
+		<%= f.text_field :goal %><span class="small_text"> $ CDN</span>
+		
+		<label>Contact Email</label>
+		<%= f.text_field :contact_email %> <span class="small_text">Use My Email (<%= current_user.email%>)</span>
+		<%= f.check_box :use_user_email, :onclick => "Element.toggle('team_contact_email');"%><br />
+		<%= f.check_box :ok_to_contact %><span class="small_text">It is ok for participants to contact me</span><br />
+		<%= f.check_box :require_authorization%><span class="small_text">Require Authorization to Join Team</span>
+		<p>
+			<%= f.submit "Update" %>
+		</p>
+  	<fieldset>
 <% end %>
-
-<%= link_to 'Show', @team %> |
-<%= link_to 'Back', teams_path %>

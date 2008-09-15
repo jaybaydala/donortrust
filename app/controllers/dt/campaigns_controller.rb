@@ -48,15 +48,34 @@ class Dt::CampaignsController < DtApplicationController
     @campaign.campaign_type_id = params[:campaign_type][:id]
     @campaign.creator = current_user
     
-    respond_to do |format|
-      if @campaign.save
-        flash[:notice] = '	Campaign was successfully created.'
-        format.html { redirect_to(configure_filters_for_dt_campaign_path(@campaign)) }
-        format.xml  { render :xml => @campaign, :status => :created, :location => @campaign }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @campaign.errors, :status => :unprocessable_entity }
+    if @campaign.save
+      if @campaign.allow_multiple_teams? # if multiple campaigns are allowed then creat a default team container.
+        @team = Team.new
+        @team.goal = @campaign.fundraising_goal
+        @team.campaign = @campaign
+        @team.leader = current_user
+        @team.name = @campaign.name + " Team"
+        @team.short_name = @campaign.short_name + '_team'
+        @team.description = @campaign.description
+        @team.require_authorization = @campaign.require_team_authorization
+        @team.goal_currency = @campaign.goal_currency
+        @team.picture = @campaign.picture
+        @team.contact_email = @campaign.email
+        @team.pending = false
+        if @team.save
+          flash[:notice] = 'Campaign was successfully created.'
+          redirect_to(dt_campaign_path(@campaign))
+        else
+          @campaign.destroy
+          flash[:notice] = 'There was an error creating your campaign, specifically in the creation of the default team.'
+          render :action => "new"
+        end
+      else 
+        flash[:notice] = 'Campaign was successfully created.'
+        redirect_to(dt_campaign_path(@campaign))
       end
+    else
+      render :action => "new"
     end
   end
 
@@ -68,7 +87,7 @@ class Dt::CampaignsController < DtApplicationController
     respond_to do |format|
       if @campaign.update_attributes(params[:campaign])
         flash[:notice] = 'Campaign was successfully updated.'
-        format.html { redirect_to(@campaign) }
+        format.html { redirect_to(dt_campaign_path(@campaign)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

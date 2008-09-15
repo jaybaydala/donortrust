@@ -26,7 +26,8 @@ class Team < ActiveRecord::Base
    campaign = self.campaign
    if(campaign.allow_multiple_teams?)
      errors.add_to_base "The maximum number of teams (#{campaign.max_number_of_teams}) has been reached for this campaign." unless not campaign.teams_full?
-     errors.add 'short_name', " has already been used in this campaign." unless Team.find_by_campaign_id_and_short_name(campaign, self.short_name) == nil
+     @team_to_test = Team.find_by_campaign_id_and_short_name(campaign, self.short_name)
+     errors.add 'short_name', " has already been used in this campaign." unless @team_to_test == nil or @team_to_test == self
    end
  end
 

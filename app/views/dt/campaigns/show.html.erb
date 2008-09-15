@@ -13,6 +13,13 @@
 			<p>
 				<%= @campaign.description %>
 			</p>
+			<h5>Address</h5>
+			<p class="address">
+				<%= @campaign.address %> <br />
+				<%= (@campaign.address_2 + ' <br />') unless @campaign.address_2 == ''%>
+				<%= @campaign.province %>, <%= @campaign.postalcode %> <br />
+				<%= @campaign.country %>
+			</p>
 		</div>
 	
 		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
