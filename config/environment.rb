@@ -1,7 +1,7 @@
 # The app is set to production by default - this is for capistrano purposes - CM
 ENV['RAILS_ENV'] ||= 'development'
 
-RAILS_GEM_VERSION = '2.1.0' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
 
 require File.join(File.dirname(__FILE__), 'boot')
 require 'fastercsv'
@@ -97,18 +97,18 @@ require 'deliver_to_admins_only'
 
 MY_KEY='dce9d80477ea833b9dd029bc5f0eceea'
 class Flickr
- alias old_initialize initialize
- def initialize(api_key=MY_KEY, email=nil, password=nil)
-   old_initialize(api_key, email, password)
+  def initialize_with_key(api_key=MY_KEY, email=nil, password=nil)
+    initialize_without_key(api_key, email, password)
     @host="http://api.flickr.com"
     @activity_file='flickr_activity_cache.xml'
   end
+  alias_method_chain :initialize, :key
 end
 
 YOU_TUBE_KEY = 'BayCH1FukEw'
 class RubyTube
-  alias old_initialize initialize
-  def initialize(you_tube_key=YOU_TUBE_KEY)
-    old_initialize(you_tube_key)
+  def initialize_with_key(you_tube_key=YOU_TUBE_KEY)
+    initialize_without_key(you_tube_key)
   end
+  alias_method_chain :initialize, :key
 end
