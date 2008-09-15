@@ -1,4 +1,3 @@
-require 'pdf/writer'
 require 'action_view/helpers/number_helper'
 include ActionView::Helpers::NumberHelper
 
