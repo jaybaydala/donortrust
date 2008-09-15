@@ -1,4 +1,5 @@
 require 'active_merchant'
+require 'iats/gateways/iats'
 ActiveMerchant::Billing::Base.mode = RAILS_ENV == "production" ? :production : :test
 class Order < ActiveRecord::Base
   has_many :investments
