@@ -1,0 +1,28 @@
+<%- content_for :head do -%>
+<%- end -%>
+<%- content_for :html_title do -%>Gift It!<%- end -%>
+<%- content_for :page_title do -%>Experience a new way to give.<%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+
+<p><%= link_to "Return to Individual Gift Giving", new_dt_gift_path(), :class => 'buttonsubmit' %></p>
+
+<%= @errors.inspect %>
+
+<% form_for(:gift, :url => dt_bulk_gifts_path, :html => {:id => "bulkgiftform", :name => "bulkgiftform"}) do |f| %>
+<div class="userform">
+  <fieldset>
+    <ol class="clearfix">
+      <li><label for="gift_name">Name</label><%= f.text_field :name %></li>
+      <li><label for="gift_email">Email</label><%= f.text_field :email %></li>
+      <li><label for="gift_email">Confirm Email</label><%= f.text_field :email_confirmation %></li>
+      <li>
+        <label for="gift_amount">Amount</label><%= f.text_field :amount %>
+        <div class="note">Please enter a comma-delimited list of email addresses.</div>
+      </li>
+      <li><label for="recipients">Gift Recipients</label><%= text_area_tag :recipients, nil, :rows => 5, :cols => 40 %></li>
+      <!--<li><label for="gift_email_file">Email Addresses File</label><%= f.file_field :email_file %></li>-->
+    </ol>
+  </fieldset>
+  <div style="float:right;" class="clearfix"><%= submit_tag 'Add this Gift', :class => 'buttonsubmit' %></div>
+</div>
+<%- end -%>
