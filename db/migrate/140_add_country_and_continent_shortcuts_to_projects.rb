@@ -20,7 +20,7 @@ class AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
     #     end
     #   end
     # end
-    
+
   end
 
   def self.down
