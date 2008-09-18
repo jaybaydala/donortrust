@@ -1,4 +1,6 @@
-<div class="columns multiplegiftfields">
+<div id="addgiftfields-showlink" style="display:none;"><%= link_to "Add another gift", "javascript:void(0);", :onclick => "$('addgiftfields').toggle();$('addgiftfields-showlink').toggle();" %></div>
+<div class="columns multiplegiftfields" id="addgiftfields">
+  <div id="addgiftfields-cancellink" style="display:none;"><%= link_to "Cancel", "javascript:void(0);", :onclick => "$('addgiftfields').toggle();$('addgiftfields-showlink').toggle();" %></div>
   <div class="content">
     <div class="contentmargin">
       <h2>Add a Gift</h2>
@@ -72,7 +74,7 @@
           </li>
         </ol>
       </fieldset>
-      <div style="float:right;" class="clearfix"><%= submit_tag 'Add this Gift', :class => 'buttonsubmit' %></div>
+      <div style="float:right;" class="clearfix"><%= submit_tag 'Add this Gift', :class => 'buttonsubmit', :id => "giftsubmit" %></div>
     </div>
   </div>
   <div class="sidebar">

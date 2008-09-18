@@ -1,0 +1,18 @@
+if @valid
+  page.insert_html :top, "createdgifts", render(:partial => "createdgift", :locals => { :createdgift => @gift }) if @cart
+  page.replace_html "sidebarcart", render("dt/cart/sidebar") if @cart
+  # empty all the fields
+  %w(gift_to_name gift_to_email gift_to_email_confirmation gift_amount gift_message).each do |f|
+    page[f].value = ""
+  end
+  page["gift_send_email_now"].checked = true
+  # hide the add a gift form and show the "Add another gift" link
+  page["addgiftfields-showlink"].show
+  page["addgiftfields-cancellink"].show
+  page["addgiftfields"].hide
+else
+  warning = "Your gift could not be saved because of the following problems:\n\n"
+  warning += "    #{@gift.errors.full_messages.join("\n    ")}\n\n"
+  warning += "Please correct the errors and submit your gift again."
+  page.alert warning
+end

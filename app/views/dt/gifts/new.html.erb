@@ -1,11 +1,16 @@
 <%- content_for :head do -%>
-<%= javascript_include_tag "dt/ecards" %>
+  <%= javascript_include_tag "dt/ecards" %>
+  <%= stylesheet_link_tag "dt/cart" %>
 <%- end -%>
 <%- content_for :html_title do -%>Gift It!<%- end -%>
 <%- content_for :page_title do -%>Experience a new way to give.<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
 <%- content_for :top_content do -%>
   <%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %>
+  
+  <p>Do you have a <strong>lot</strong> of gifts to give? <%= link_to "Go to our Bulk Gift Giving page", new_dt_bulk_gift_path %>.</p>
+  <%#= link_to "Go to Bulk Gift Giving",  %>
+  
   <%= error_messages_for :gift %>
 
   <% form_for(:gift, :url => dt_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
@@ -55,12 +60,13 @@
         </div>
       </div>
     </div>
+    
+    <div id="createdgifts">
+      <%= render :partial => "createdgift", :collection => @cart.gifts %>
+    </div>
 
     <%= render :partial => "newgift", :locals => { :f => f } %>
     
-    
-    <!--<div style="float:right;" class="clearfix"><%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %></div>-->
-
   </div>
   <% end %>
 <%- end -%>

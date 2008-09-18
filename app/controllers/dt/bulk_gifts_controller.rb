@@ -11,6 +11,38 @@ class Dt::BulkGiftsController < DtApplicationController
   end
   
   def new
+    store_location
+    find_cart
+    @gift = Gift.new( gift_params )
+    @gift.send_email = nil # so we can preselect "now" for delivery
+    @gift.email = current_user.email if !@gift.email? && logged_in?
+    @ecards = ECard.find(:all, :order => :id)
+    if params[:project_id] && @project = Project.find(params[:project_id]) 
+      if @project.fundable?
+        @gift.project = @project
+      else
+        flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
+        redirect_to dt_project_path(@project) and return
+      end
+    end
+    
+    if logged_in?
+      @gift.write_attribute("email", current_user.email) unless @gift.email?
+      @gift.write_attribute("name", current_user.full_name) unless @gift.name?
+    end
+    
+    respond_to do |format|
+      format.html {
+        unless logged_in? && current_user.in_country?(CANADA)
+          # MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
+          # layout of the Gift page. If the user's country is nil, not Canada or they're not logged_in,
+          # use the layout that allows for US donations.
+          render :layout => 'us_receipt_layout'
+        else 
+          render :action => 'new'
+        end
+      }
+    end
   end
   
   def create

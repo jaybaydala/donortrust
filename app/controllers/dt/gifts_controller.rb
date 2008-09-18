@@ -48,9 +48,7 @@ class Dt::GiftsController < DtApplicationController
     end
     
     if logged_in?
-      %w( email first_name last_name address city province postal_code country).each do |c| 
-        @gift.write_attribute(c, current_user.read_attribute(c)) unless @gift.attribute_present?(c)
-      end
+      @gift.write_attribute("email", current_user.email) unless @gift.email?
       @gift.write_attribute("name", current_user.full_name) unless @gift.name?
     end
     respond_to do |format|
@@ -64,10 +62,12 @@ class Dt::GiftsController < DtApplicationController
           render :action => 'new'
         end
       }
+      format.js
     end
   end
   
   def create
+    find_cart
     @gift = Gift.new( gift_params )    
     @gift.user_ip_addr = request.remote_ip
     set_send_now_delivery!
@@ -78,12 +78,16 @@ class Dt::GiftsController < DtApplicationController
       if @valid
         @cart = find_cart
         @cart.add_item(@gift)
-        flash[:notice] = "Your Gift has been added to your cart."
-        format.html { redirect_to dt_cart_path }
+        format.html { 
+          flash[:notice] = "Your Gift has been added to your cart."
+          redirect_to dt_cart_path
+        }
+        format.js
       else
         @project = @gift.project if @gift.project_id? && @gift.project
         @ecards = ECard.find(:all, :order => :id)
         format.html { render :action => "new" }
+        format.js
       end
     end
   end
