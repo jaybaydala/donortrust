@@ -1,15 +1,5 @@
 /** Campaign Stuff */
 
-.metrics {
-	float: right;
-	overflow: auto;
-	border: 1px solid gray;
-	background-color: #FEFEFE;
-	margin: 5px 5px 5px 5px;
-	padding: 5px;
-	width: 20%;
-}
-
 .thumbnail{
 	float: left;
 	margin: 5px;
@@ -39,9 +29,10 @@
 	padding-left: 5px;
 	padding-right: 5px;
 	margin-top: -5px;
-	background-color: #efe;
+	background-color: #ddd;
+	font-size: 0.875em;
+	font-weight: bold;
 }
-
 
 .campaign {
 	margin: 5px;
@@ -83,6 +74,39 @@ span.detail {
 }
 
 
+/* sidebar items */
+.campaign-sidebar-box {
+	float: right;
+	overflow: auto;
+	margin: 5px 0px 5px 0px;
+	padding: 5px;
+	width: 170px;
+}
+
+.metrics {
+	border: 1px solid gray;
+	background-color: #FEFEFE;
+	margin: 10px 0px 5px 0px;
+}
+
+.get-involved {
+	border: 1px solid gray;
+}
+
+.get-involved ul {
+  list-style:none;
+}
+.get-involved li {
+	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat scroll 0px 4px;
+	padding:0 0 0.1875em 1em;
+}
+.get-involved a {
+	text-decoration: none;
+}
+
+.campaign-address {
+	border: 1px solid gray;
+}
 
 .campaign p.address{
 	font-size: 10px;
@@ -129,7 +153,7 @@ li.detail strong{
 }
 
 span.small_text{
-	font-size: 10px;
+	font-size: 12px;
 }
 
 .what_is_this_box {

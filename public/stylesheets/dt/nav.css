@@ -2,47 +2,43 @@
 GLOBAL NAV and PAGE NAV
 =======================*/
 
-/* site redesign for GSoC 2008 */
-/* _nav tabs */
-  *	Heavily inspired by the following articles:
-  *		http://www.alistapart.com/articles/slidingdoors/
-  *		http://www.alistapart.com/articles/mountaintop/
-  *		http://www.alistapart.com/articles/sprites/
-  */
+/* site redesign for GSoC 2008
+ *	Heavily inspired by the following articles
+ *		http://www.alistapart.com/articles/slidingdoors/
+ *		http://www.alistapart.com/articles/mountaintop/
+ *		http://www.alistapart.com/articles/sprites/
+ */
+
 .main-nav {
-  float:left;
-  width:100%;
-  background: url("/images/dt/nav_elements/tab-line-green.gif") bottom repeat-x;
-  padding:0;
-  font-size:0.8em;
-  line-height:normal;
-  margin-bottom:0;
+	padding-left: 10px;
 }
 .main-nav h1{
   font:lighter 22px Arial,Helvetica,sans-serif;
-  font-weight: bold;
   margin:0px;
   padding:0;
 }
 
 .main-nav ul {
-  margin:0;
   padding:0px 5px 0 5px;
+  margin:0;
   list-style:none;
 }
+
 .main-nav li {
   display:inline;
-  margin:0;
-  padding:0;
-  font-size:0.7em;
+	margin:1px 0 0 0;
+  padding:0;  
+	line-height:1.2;
+	font-size:0.8125em; /* 13px */
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight: bold;
 }
 
-.main-nav a.nav-tab {
-  background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat left top;
-  padding:0 0 0 9px;
+.main-nav li a.nav-tab {
+  margin-top: 1px;
   text-decoration:none;
-  color:#EEE;
-  margin-right:3px;
+	display:block;
+  padding: 0.6875em 0.875em 0.6875em 0.875em;
 }
 
 .main-nav a.left-tab{
@@ -52,31 +48,13 @@ GLOBAL NAV and PAGE NAV
   float:right;
 }
 
-.main-nav a.nav-tab span {
-  float:left;
-  display:block;
-  background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat right top;
-  padding:4px 15px 3px 6px;
-}
-
-/* Commented Backslash Hack hides rule from IE5-Mac \*/
-.main-nav a.nav-tab span {float:none;}
-/* End IE5-Mac hack */
-
-.main-nav .selected a.nav-tab span {
-  /* padding-bottom:4px;*/f
-}
-.main-nav a.nav-tab:hover, .main-nav a.nav-tab:hover span {
+.main-nav a.nav-tab:hover {
   background-color:#360;
-  color:#DDD;
+  color:#EEE;
 }
-.main-nav .selected a.nav-tab span,  .main-nav .selected a.nav-tab, .main-nav .selected a.nav-tab:hover, .main-nav .selected a.nav-tab:hover span {
+.main-nav .selected a.nav-tab, .main-nav .selected a.nav-tab:hover {
   background-color:#360;
   color: #fff;
-}
-
-div.tab-bottom {
-  background-color:#336600;
 }
 
 /* account bar nav, and sub navs */

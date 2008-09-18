@@ -4,12 +4,6 @@
 	content = ' ' + link_to(campaign.name,show_campaign_path(campaign.short_name))
 %>
 <div class="campaign" id="campaign_<%= campaign.id%>">
-	<% if campaign.allow_multiple_teams? && !campaign.teams_full? %>
-		<% content = content + " | " + link_to('Create a Team', new_dt_campaign_team_path(campaign))  %>
-		<% content = content + " | " + link_to('Join a Team', dt_campaign_teams_path(campaign)) if campaign.teams.size > 0%>
-	<% else %>
-		<% content = content + " | " + link_to('Join Campaign', new_dt_campaign_team_path(campaign)) %>
-	<% end %>
 	<% (content = content + " | " + link_to('Manage Campaign', manage_dt_campaign_path(campaign))) unless not campaign.owned? %>
 	<%= campaign_h2_header(content, 'campaign_details_container')%>
 	<div id="campaign_details_container" class="content_container">

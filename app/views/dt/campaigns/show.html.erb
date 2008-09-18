@@ -2,33 +2,28 @@
 	<link href="<%= formatted_dt_campaign_path(@campaign,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>
 <div id="campaign_page">
-	
-	<div class="campagin_container">
+	<div class="leftColW800">
 		<div id="campaign_details">
-			<h1><%= @campaign.name %> <%= " - PENDING!" unless not @campaign.pending? %></h1>
-			
+			<h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
+
 			<h5 style="margin-top:-10px;">http://www.christmasfuture.org/dt/<%= @campaign.short_name %></h5>
-			
-  		<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
+
+			<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
 			<p>
 				<%= @campaign.description %>
 			</p>
-			<h5>Address</h5>
-			<p class="address">
-				<%= @campaign.address %> <br />
-				<%= (@campaign.address_2 + ' <br />') unless @campaign.address_2 == ''%>
-				<%= @campaign.province %>, <%= @campaign.postalcode %> <br />
-				<%= @campaign.country %>
-			</p>
 		</div>
-	
 		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
-	
-		<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @campaign} %>
-	
+
 		<% if @campaign.allow_multiple_teams%>
 			<div id="Teams">
-				<%= campaign_h2_header(' Teams | ' + link_to('Create a Team', new_dt_campaign_team_path(@campaign)),'teams_container')%>
+				<% if @campaign.allow_multiple_teams? && !@campaign.teams_full? %>
+					<% content = link_to('Create a Team', new_dt_campaign_team_path(@campaign))  %>
+				<% end %>
+				<% content = content + " | " + link_to('Join a Team', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 %>
+
+				<%= campaign_h2_header(' Teams | ' + content,'teams_container')%>
+
 				<div id="teams_container" class='row_container'>
 					<%= render :partial => 'team', :collection => @campaign.teams%>
 				</div>
@@ -40,20 +35,33 @@
 				</div>
 			</div>
 		<% end %>
+
+		<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @campaign} %>
 	</div>
-	<div class="metrics">
-		<h2>Metrics</h2>
-		<h4>Goal</h4>
-		<span class="small_text">
-			<%= @campaign.fundraising_goal_with_currency%>
-		</span>
-		<h4>Pledged</h4>
-		<span class="small_text">
-			<%= @campaign.funds_raised %>$CDN
-		</span>
-		<h4>Percentage of Goal</h4>
-		<span class="small_text">
-			<%= @campaign.percentage_done %>
-		</span>
+
+	<div class="leftColN800">
+		<div class="campaign-sidebar-box metrics">
+			<h2>Quick Facts</h2>
+			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%> CDN</span><br/>
+			<span class="small_text">Pledged: $ <%= @campaign.funds_raised %> CDN</span><br/>
+			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
+		</div>
+		<div class="campaign-sidebar-box get-involved">
+			<li><%= link_to("Join #{@campaign.name}", new_dt_campaign_team_path(@campaign)) %></li>
+			<li><%= link_to('Join a Team', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 %></li>
+			<%= ("<li>" + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) +"</li>")if (@campaign.allow_multiple_teams? && !@campaign.teams_full?)%></li>
+			<li>Support a participant</li>
+		</div>
+		<div class="campaign-sidebar-box campaign-address">
+			<h5>Address</h5>
+			<p class="address">
+				<%= @campaign.address %> <br />
+				<%= (@campaign.address_2 + ' <br />') unless @campaign.address_2 == ''%>
+				<%= @campaign.province %>, <%= @campaign.postalcode %> <br />
+				<%= @campaign.country %>
+			</p>
+		</div>
 	</div>
+
+	
 </div>

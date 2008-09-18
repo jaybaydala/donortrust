@@ -67,4 +67,13 @@ class Team < ActiveRecord::Base
     (!self.pending && !self.is_full? && !self.campaign.has_participant(current_user))? true : false
   end
 
+  def percentage_raised
+    if self.goal?
+      "#{(self.funds_raised / self.goal)*100 } %"
+    else
+      "n/a"
+    end
+  end
+
+
 end

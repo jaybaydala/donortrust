@@ -392,7 +392,13 @@ SEARCH, layout and forms
 .projects-search-home h1 {
 }
 
-.projects-search-box{
+.search-header {
+  font-size: 24px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.projects-search-box, .wrapper-adv-search-box{
 	text-align:center;
 	font-size: 18px;
 }
@@ -461,15 +467,13 @@ form#project_search{
 	border-bottom: 2px solid #979797;
 }
 .hider{
-	width: 65px;
-	margin: 0 44px;
-	color: #f0f0f0;
+  float: right;
+	w/idth:18px;
+	margin-top: 5px;
+	height: 18px;
 	font-size:80%;
-	background-color: #979797;
-	border-left: 1px solid #979797;
-	border-bottom: 1px solid #979797;
-	border-right: 1px solid #979797;
-	padding: 0 5px;
+	b/order: 1px solid black;
+	cursor: pointer;
 }
 
 

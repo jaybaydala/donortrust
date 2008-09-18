@@ -2,45 +2,44 @@
 	<link href="<%= formatted_dt_team_path(@team,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>
 <div id="team">
-	<div  class="campagin_container">
-		<h1><%= @team.name %> <%= "- Awaiting Approval! " unless not @team.pending? %>
-		<%= (" - " + link_to('Join this team!', new_dt_team_participant_path(@team))) if @team.joinable? %></h1>
-		<h5 style="margin-top:-10px;">
-			<%= link_to "http://www.christmasfuture.org/dt/#{@team.campaign.short_name}/team/#{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
-		</h5>
-		<p>
-  		<%= image_tag @team.picture.full.url, :class => :thumbnail if @campaign.picture? %>
-			<%= @team.description %>
-		</p>
-		
-		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @team}%>
-		<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @team} %>
+	<div class="leftColW800">
+		<div id="team_details">
+			<h1><%= @team.name %> <%= "- Awaiting Approval! " unless not @team.pending? %>
+			<%= (" - " + link_to('Join this team!', new_dt_team_participant_path(@team))) if @team.joinable? %></h1>
+			<h5 style="margin-top:-10px;">
+				<%= link_to "http://www.christmasfuture.org/dt/#{@team.campaign.short_name}/team/#{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
+			</h5>
+			<p>
+				<%= image_tag @team.picture.full.url, :class => :thumbnail if @campaign.picture? %>
+				<%= @team.description %>
+			</p>
 
-	
-		<div id="team_members">
-			<%= campaign_h2_header('Participants' + (@team.joinable? ? " | #{link_to('Join this team!',new_dt_team_participant_path(@team))}":""),'participant_container') %>
-			<div id="participant_container" class="row_container">
-				<%= render :partial => 'dt/participants/participant', :collection => @team.participants %>
+			<%= render :partial => 'dt/news_items/news', :locals => {:postable => @team}%>
+
+			<div id="team_members">
+				<%= campaign_h2_header('Participants' + (@team.joinable? ? " | #{link_to('Join this team!',new_dt_team_participant_path(@team))}":""),'participant_container') %>
+				<div id="participant_container" class="row_container">
+					<%= render :partial => 'dt/participants/participant', :collection => @team.participants %>
+				</div>
 			</div>
+			<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @team} %>
 		</div>
 	</div>
-	<div class="metrics">
-		<h2>Metrics</h2>
-		<h4>Goal</h4>
-		<span class="small_text">
-		  <%= "$ #{@team.goal}" if @team.goal %>
-		</span>
-		<h4>Campaign</h4>
-		<span class="small_text">
-			<%= link_to @team.campaign.name, dt_campaign_path(@team.campaign) %>
-		</span>
-		<h4>Pledged</h4>
-		<span class="small_text">
-			$<%= @team.funds_raised %> CDN
-		</span>
-		<h4>Particpants</h4>
-		<span class="small_text">
-			<%= @team.participants.size %>
-		</span>
+
+	<div class="leftColN800">
+		<div class="campaign-sidebar-box metrics">
+			<h2>Team Facts</h2>
+			<span class="small_text">Campaign: <%= link_to(@team.campaign.name, dt_campaign_path(@team.campaign)) %></span><br/>
+			<span class="small_text">Goal: $ <%= @team.goal if @team.goal %> CDN</span><br/>
+			<span class="small_text">Pledged: $ <%= @team.funds_raised %> CDN</span><br/>
+			<span class="small_text">Percentage of Goal: <%= @team.percentage_raised %></span><br/>
+			<span class="small_text">Participants:	$ <%= @team.participants.size %> members</span>
+		</div>
+		<div class="campaign-sidebar-box get-involved">
+		  <% if @team.joinable? %>
+				<li><%= link_to("Join \"#{@team.name}\"", new_dt_team_participant_path(@team)) %></li>
+			<% end %>
+			<li>Support a participant</li>
+		</div>
 	</div>
 </div>

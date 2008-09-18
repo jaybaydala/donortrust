@@ -1,4 +1,8 @@
-<h1>Campaigns - <%= link_to 'Create a new Campaign!', new_dt_campaign_path %></h1>
+<h1>Campaigns  
+		<% restrict_to "cf_admin" do %>
+			- <%= link_to('[Create a new Campaign]', new_dt_campaign_path) %>     
+		<% end %>
+</h1>
 <div id="search_box">
 </div>
 <div id="campaigns">

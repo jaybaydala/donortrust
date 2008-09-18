@@ -60,9 +60,10 @@
 }
 
 #globalnav-wrapper {
-    width:724px;
-    background:url(/images/dt/nav_elements/topNavBar.jpg) no-repeat top left #C4C4C4;
-    height:2.1875em; /* 35 pixels */
+    width:800px;
+    background:url(/images/dt/nav_elements/globalNavBar.jpg) no-repeat top left;
+    haeight:2.1875em; /* 35 pixels */
+		height: 36px;
 }
 #nav {
     width:800px;
@@ -92,7 +93,7 @@
 =======================*/
 .columns {}
 .columns .content {
-    width:492px;
+    width:292px;
     border-right:232px solid transparent; /* The width and color of the rail */
     margin-right:-232px; /* Hat tip to Ryan Brill */
     float:left;
@@ -115,6 +116,21 @@
     width:48%;
     margin-left:1%;
 }
+
+/******* newstuff *********/
+.leftColW800 {
+	float: left;
+	width: 598px;
+	height: auto;
+	padding: 10px 0px 0px 0px;
+	background: none;	
+}
+.rightColN800 {
+  float: right;
+  width:200px;
+	padding: 10px 0px 0px 0px;
+}
+/*********************/
 
 
 /* 

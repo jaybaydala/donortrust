@@ -59,8 +59,8 @@ class Campaign < ActiveRecord::Base
     end
 
     #hard coding currency
-    self.fee_currency = "$ CDN"
-    self.goal_currency = "$ CDN"
+    self.fee_currency = "CDN"
+    self.goal_currency = "CDN"
 
     self.pending = true
 
@@ -154,7 +154,7 @@ class Campaign < ActiveRecord::Base
   def participants
      User.find_by_sql(["SELECT u.* FROM users u, teams t, participants p WHERE p.user_id = u.id AND p.team_id = t.id AND t.campaign_id = ?",self.id])
   end
-  
+
   def participating?(user)
     participants.include?(user)
   end
