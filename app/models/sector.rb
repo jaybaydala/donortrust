@@ -32,28 +32,28 @@ class Sector < ActiveRecord::Base
 
   #TODO propose a better way to get sector images
   def image_name
-    if self.name=='Education and Extreme Poverty'
+    if self.name=='Education'
       return 'education.gif'
     end
-    if self.name=='Agriculture and Extreme Poverty'
+    if self.name=='Agriculture'
       return 'agriculture.gif'
     end
-    if self.name=='Economy and Extreme Poverty'
+    if self.name=='Economy'
       return 'economy.gif'
     end
-    if self.name=='Water & Sanitation and Extreme Poverty'
+    if self.name=='Water & Sanitation'
       return 'watersanitation.gif'
     end
-    if self.name=='Gender Equality and Extreme Poverty'
+    if self.name=='Gender Equality'
       return 'gender.gif'
     end
-    if self.name=='Community Development and Extreme Poverty'
+    if self.name=='Community Development'
       return 'community.gif'
     end
-    if self.name=='Health and Extreme Poverty'
+    if self.name=='Health'
       return 'health.gif'
     end
-    if self.name=='Infrastructure and Extreme Poverty'
+    if self.name=='Infrastructure'
       return 'housing.gif'
     end
   end

@@ -3,10 +3,10 @@
 </script>
 <div>
 <% if params[:action]!='advancedsearch' %>
-  <div class='hider' id='hider'
+  <div class='close-button' id='close-button'
     onclick="Effect.SlideUp('search-bar-wrapper', { duration: 1.0 }); 
       Effect.Fade('search-bar-wrapper',{  duration: 1.5});  
-      Element.toggle('hider'); Effect.Appear('filter-your-results', {duration: 1.5});" 
+      Element.toggle('close-button'); Effect.Appear('filter-your-results', {duration: 1.5});" 
     style='display:<%= (params[:filter] && params[:action] =='search') ?   "block" : "none" %>;'>Close [X]
   </div>
 <% end %>
@@ -94,13 +94,9 @@
 
 	<%= check_box_tag( 'funding_req_selected', (params[:fundung_req_selected] ? '1' : '0'),params[:funding_req_selected])%>
 	<label class='adv-search-label'>Search By Funding Requirement:</label>
-	<br />
 	min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %> 
-	and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %>
-	&nbsp;
+	and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %><br />
 	<%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%> Include fully funded projects
-
-
 
   <%= hidden_field_tag "filter", "true"%>
   <!-- <%= hidden_field_tag "advanced","true"%> -->
@@ -108,9 +104,7 @@
   <div id="button_placeholder">
     <%= submit_tag '', :style=>'border:0px;', :class=> 'adv_submit_button'%>
   </div>
-  <!--<span id="count_results_container" style="float:right;position:relative;bottom:20px;right:160px;background:yellow">
-  </span>
--->
+  <!--<span id="count_results_container" style="float:right;position:relative;bottom:20px;right:160px;background:yellow"></span>-->
   <% end -%>
 </div>
 

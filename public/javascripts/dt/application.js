@@ -248,13 +248,14 @@ var Accordion = Class.create({
 
 /* Project view | activates a tab and show its content*/
 function tab_select(item, section){
-  
+
    $('project_plan').hide();
    $('intended_outcome').hide();
    $('measurable_feedback').hide();
+   $('project_stories').hide();
    $('project_photos').hide();
    $('project_videos').hide();
-   
+
    if( $('project-li')){
      $('project-li').removeClassName('active');
    }
@@ -264,25 +265,28 @@ function tab_select(item, section){
    if( $('measurable-li')){
      $('measurable-li').removeClassName('active');
    }
+   if( $('stories-li')){
+     $('stories-li').removeClassName('active');
+   }
    if( $('photos-li')){
      $('photos-li').removeClassName('active');
    }
    if( $('videos-li')){
      $('videos-li').removeClassName('active');
-   }    
-   
+   }
+
    // deactives all, except the selected one
    item.addClassName('active');
-   Element.show(section);  
+   Element.show(section);
  }
 
 function init_tab(){
 	if( $('project-li')){
      $('project-li').addClassName('active');
-			Element.show('project_plan');  
+			Element.show('project_plan');
    }
 	 if( $('intended-li') && !$('project-li') ){
      $('intended-li').addClassName('active');
-		 Element.show('intended_outcome'); 
+		 Element.show('intended_outcome');
    }
 }

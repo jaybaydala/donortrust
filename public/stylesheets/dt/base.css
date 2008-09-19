@@ -463,7 +463,7 @@ p {
 	padding: 0px 0 3px 14px;
 	margin: 0 0 3px 0;
 	border-bottom: 1px solid #CCC;
-	background: transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) 0px 4px no-repeat;
+	background: transparent url(/images/dt/icons/disc_arrow.gif) 0px 4px no-repeat;
 }
 .plist {
 	font: 13px/22px Arial, Helvetica, sans-serif;
@@ -1975,7 +1975,7 @@ p.rating, span.rating {font: 11px/15px Arial, Helvetica, sans-serif;margin-botto
 	font: 11px/16px Arial, Helvetica, sans-serif;
 	padding: 0px 0px 4px 14px; margin-bottom:6px; 
 	border-bottom: 1px solid #ccc;
-	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) 0px 3px no-repeat;
+	background:transparent url(/images/dt/icons/disc_arrow.gif) 0px 3px no-repeat;
 }
 #tableList .textsm {padding:0;margin:0;}
 
@@ -1984,7 +1984,7 @@ form #tableList li {
 	font: 11px/16px Arial, Helvetica, sans-serif;
 	padding: 0px 0px 4px 14px; margin-bottom:6px; 
 	border-bottom: 1px solid #ccc; width:455px;
-	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) 0px 3px no-repeat;
+	background:transparent url(/images/dt/icons/disc_arrow.gif) 0px 3px no-repeat;
 }
 form #tableList .textsm {padding:0;margin:0;}
 

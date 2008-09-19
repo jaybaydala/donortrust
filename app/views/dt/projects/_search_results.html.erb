@@ -64,10 +64,10 @@
 <% if @search.size > 0 %>
 
   <div class="search-result-info">
-    <%= @search.nil? ? @projects.size : @search.total_entries %> Projects Found  <a href='#' onclick="Effect.SlideDown('search-bar-wrapper', {duration: 1.0});
-                    Effect.Appear('search-bar-wrapper',{  duration: 1.5});  
-                    Element.toggle('filter-your-results'); Element.toggle('hider');
-  	">[Refine your search]</a>
+    <%= @search.nil? ? @projects.size : @search.total_entries %> Projects Found  
+    	<a href='#' class="filter-your-results" id="filter-your-results"
+    	onclick="Effect.SlideDown('search-bar-wrapper', {duration: 1.0}); Effect.Appear('search-bar-wrapper',{  duration: 1.5});
+      Element.toggle('filter-your-results'); Element.toggle('close-button');">[Refine your search]</a>
   </div>
 
 <div id="subnav" style="padding-left:0;">

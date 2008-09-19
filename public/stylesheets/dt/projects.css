@@ -33,10 +33,10 @@ Project Header
 Project Body
 ============*/
 div.projectRank {
-    margin:.625em 0 .5em 0;
+	margin:.625em 0 .5em 0;
 }
 div.projectRank strong {
-    color:#360;
+	color:#360;
 }
 
 div.projectRank ul {
@@ -44,8 +44,8 @@ div.projectRank ul {
 }
 
 div.projectRank li {
-    display:inline;
-    list-style:none;
+	display:inline;
+	list-style:none;
 	padding:0 0 0.1875em 0em;
 }
 
@@ -59,7 +59,7 @@ Project Highlight List
 }
 .projecthighlight li {
     font-family:Arial, Helvetica, sans-serif;
-    background:url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat transparent 0px 0.5em;
+    background:url(/images/dt/icons/disc_arrow.gif) no-repeat transparent 0px 0.5em;
     list-style-type:none;
     font-size:0.6875em; /* 11px */
     margin:0.125em 0;
@@ -466,7 +466,7 @@ form#project_search{
 	border-right: 1px solid #979797;
 	border-bottom: 2px solid #979797;
 }
-.hider{
+.close-button{
   float: right;
 	w/idth:18px;
 	margin-top: 5px;
@@ -544,7 +544,7 @@ form#project_search input.submitreplace:hover{
 }
 
 .searchResultsQuickfacts li{
-	background:transparent url(/images/dt/nav_elements/arrows/disc_arrow.gif) no-repeat scroll 0px 4px;
+	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
 	padding:0 0 0.1875em 0.875em;
 	font-family:Arial, Helvetica, sans-serif;
 }
@@ -618,58 +618,77 @@ div.accordion-content{
 	font-size: 90%;
 }
 
-/* project tabs overview */
-.section-body{
-	background:#ffffff;
+/* project details */
+.project-details {
+}
+
+.detail-tabs {
+  float:left;
+  width:100%;
+  background: url("/images/dt/nav_elements/tab-line-green.gif") bottom repeat-x;
+  padding:0;
+  font:lighter 22px Arial,Helvetica,sans-serif;
+  line-height:normal;
+  margin-bottom:0;
+}
+
+.detail-tabs ul {
+  margin:0;
+  padding:0px 5px 0 5px;
+  list-style:none;
+}
+.detail-tabs li {
+  display:inline;
+  margin:0;
+  padding:0;
+}
+
+.detail-tabs a.detail-tab{
+  float:left;
+}
+
+.detail-tabs a.nav-tab {
+  float:left;
+  background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat left top;
+  padding:0 0 0 9px;
+  text-decoration:none;
+  margin-right:5px;
+  color:#EEE;  
+}
+
+.detail-tabs a.nav-tab span {
+  float:left;
+  display:block;
+  background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat right top;
+  padding:4px 15px 3px 6px;
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+.detail-tabs a.nav-tab span {float:none;}
+/* End IE5-Mac hack */
+
+.detail-tabs .active a.nav-tab span {
+  padding-bottom:4px;
+}
+.detail-tabs a.nav-tab:hover, .detail-tabs a.nav-tab:hover span {
+  background-color:#FFF;
+  color:#333;
+}
+.detail-tabs .active a.nav-tab span,  .detail-tabs .active a.nav-tab, .detail-tabs .active a.nav-tab:hover, .detail-tabs .active a.nav-tab:hover span {
+  background-color:#FFF;
+  color: #333;
+}
+
+/**********************************/
+.detail-content{
+	display: block;
+	float: left;
+	width: 100%;
+	background:#FFF;
+	margin-top: 0px;
 	padding:14px;
-	border:solid 1px #336600;
-
-}
-#ul-project, .li-project{border:0; margin:0; padding:0; list-style:none;}
-#ul-project{
-	top:10px;
-	height:29px;
-}
-.li-project{float:left; margin-right:2px;}
-.tab a:link, .tab a:visited{
-	background:url(/images/dt/nav_elements/tab-round.png) right 60px;
-	color:#000;
-	display:block;
-	d\isplay: inline-block;
-	font-weight:bold;
-	height:30px;
-	line-height:30px;
-	text-decoration:none;
-}
-.tab a span{
-	background:url(/images/dt/nav_elements/tab-round.png) left 60px;
-	display:block;
-	d\isplay: inline-block;
-	height:30px;
-	margin-right:14px;
-	padding-left:14px;
-}
-.tab a:hover{
-	background:url(/images/dt/nav_elements/tab-round.png) right 30px;
-	display:block;
-	color:#e0ded0;
-}
-.tab a:hover span{
-	background:url(/images/dt/nav_elements/tab-round.png) left 30px;
-	display:block;
+	border-left:1px solid #336600;
+	border-right:1px solid #336600;
+	border-bottom:1px solid #336600;
 }
 
-/* tabs active elements				*/
-.active a:link, .active a:visited, .active a:visited, .active a:hover{
-	color:#ffffdd;
-	background:url(/images/dt/nav_elements/tab-round.png) right 0 no-repeat;
-} 
-.active a span, .active a:hover span{
-	background:url(/images/dt/nav_elements/tab-round.png) left 0 no-repeat;
-}
-
-/*button give */
-.project-sidebar .button-give {
-	float:right;
- 	margin-right:15px;
-}
