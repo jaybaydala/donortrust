@@ -1,7 +1,7 @@
 # The app is set to production by default - this is for capistrano purposes - CM
 ENV['RAILS_ENV'] ||= 'development'
 
-RAILS_GEM_VERSION = '2.1.0' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
 
 require File.join(File.dirname(__FILE__), 'boot')
 require 'fastercsv'
@@ -21,7 +21,6 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "chronic", :version => "0.2.3"
-  config.gem "aslakhellesoy-cucumber", :version => ">= 0.1.5", :source => "http://gems.github.com", :lib => "cucumber"
   config.gem "daemons", :version => ">= 1.0.10"
   config.gem "feed-normalizer", :version => "1.4.0"
   config.gem "flickr", :version => "1.0.0"
@@ -45,7 +44,7 @@ Rails::Initializer.run do |config|
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-  # config.plugins = [ :active_scaffold, :all ]
+  config.plugins = [ :active_scaffold, :all ]
 
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
