@@ -81,6 +81,15 @@ class User < ActiveRecord::Base
   def full_name
     under_thirteen? ? self.display_name : "#{self.first_name} #{self.last_name}" 
   end
+
+  def self.find_by_full_name(full_name)
+    User.find(:all).each do |user|
+      if (user.full_name == full_name)
+        return user
+      end
+    end
+    return nil;
+  end
   
   def partner
     contact.partner

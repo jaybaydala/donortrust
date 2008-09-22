@@ -20,7 +20,7 @@ class Partner < ActiveRecord::Base
   validates_length_of   :name, :maximum => 50
 
   acts_as_textiled :description, :business_model, :funding_sources, :mission_statement, :philosophy_dev
-
+  
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -29,6 +29,39 @@ class Partner < ActiveRecord::Base
     end
     unless me.partner_type( true )
       me.errors.add :partner_type_id, 'does not exist'
+    end
+  end
+  
+  def admins
+    admins = [] 
+    users = User.find(:all)
+    first = true;
+    users.each do |user|
+      if user.administrated_partners.include?(self)
+        if !first
+          admins << ","
+        end
+        admins << user.full_name
+        first = false;
+      end
+    end
+    return admins
+  end 
+  
+  def admins=(admins)
+    remove_all_admins
+    users_names = admins.split(",")
+    users_names.each do |user_name|
+      if ((user = User.find_by_full_name(user_name)) != nil)
+        user.administrated_partners << self
+      end
+    end
+  end
+
+  def remove_all_admins
+    users = User.find(:all)
+    users.each do |user|
+      user.administrated_partners.delete(self)
     end
   end
 

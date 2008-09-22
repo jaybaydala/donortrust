@@ -4,9 +4,9 @@ class BusAdmin::PartnersController < ApplicationController
   #access_control :DEFAULT => 'cf_admin'
 
   active_scaffold :partner do |config|
-#    config.theme = :blue
-    config.columns = [ :name, :description, :website, :partner_status, :partner_type, :contacts, :note,
-                       :business_model, :funding_sources, :mission_statement, :philosophy_dev]
+    #config.theme = :blue
+    config.columns = [ :name, :description, :website, :partner_status, :partner_type, :note,#:contacts,
+                       :business_model, :funding_sources, :mission_statement, :philosophy_dev, :admins]
     config.columns[ :partner_status ].form_ui = :select
     config.columns[ :partner_status ].label = "Status"
     config.columns[ :partner_type ].form_ui = :select
@@ -14,13 +14,13 @@ class BusAdmin::PartnersController < ApplicationController
     config.columns[ :philosophy_dev ].label = "Philosophy of Development"    
     list.columns.exclude [ :description, :contacts,:business_model , :funding_sources, :mission_statement, :philosophy_dev ]
     config.nested.add_link("Projects", [:projects]) 
-
-    #passing desired partner status in action link to filter list; 1 = Approved, 2 = Pending 
-    config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'partners', :action => 'report_partners'},:page => true
-    config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
-    config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
-    config.nested.add_link("Quick Fact", [:quick_fact_partners])
-   #    config.action_links.add 'list', :label => 'All', redirect_to partners 
+#
+#    #passing desired partner status in action link to filter list; 1 = Approved, 2 = Pending 
+#    config.action_links.add 'list', :label => 'Reports', :parameters =>{:controller=>'partners', :action => 'report_partners'},:page => true
+#    config.action_links.add 'list', :label => 'Pending', :parameters =>{:controller=>'partners', :status => '2'},:page => true
+#    config.action_links.add 'list', :label => 'Approved', :parameters =>{:controller=>'partners', :status => '1'},:page => true
+#    config.nested.add_link("Quick Fact", [:quick_fact_partners])
+#    #config.action_links.add 'list', :label => 'All', redirect_to partners 
        
   end
 
