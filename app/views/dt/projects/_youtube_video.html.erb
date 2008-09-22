@@ -1,1 +1,2 @@
-<% video = RubyTube.new.get_video(youtube_video.you_tube_id) %><%= link_to image_tag(video.thumbnail_url.to_s, :alt => ''), "http://youtube.com/watch?v=#{youtube_video.you_tube_id}", :rel => 'blank' %>
+<% video = RubyTube.new.get_video(youtube_video.you_tube_id) %>
+<%= video.embed.to_s %>

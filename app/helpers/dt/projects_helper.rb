@@ -132,7 +132,13 @@ module Dt::ProjectsHelper
       output = link_to("$ #{minimum} - $ #{maximum} (#{projectcount[0].count})", search_dt_projects_path+"?funding_req_selected=1&funding_req_min=#{minimum}&funding_req_max=#{maximum}" ) + "<br/>"
     end
 
-
     return output
+
+  end
+  
+  def flickr_slider
+    if @flickr_images.size > 0
+      render :partial  => 'flickr_slider'
+  	end
   end
 end

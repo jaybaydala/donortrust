@@ -253,7 +253,7 @@ class Dt::ProjectsController < DtApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          if @youtube_videos.size<0
+          if @youtube_videos.size>0
             page.replace_html "project_videos", :partial => 'youtube_video' , :collection => @youtube_videos
           else
             page.replace_html "project_videos", '<h2>There is no videos available.</h2>'

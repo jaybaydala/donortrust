@@ -428,7 +428,7 @@ SEARCH, layout and forms
 }
 
 .predefined-search-list {
-  float: left;
+	float: left;
   margin-right: 25px;
   font-size: 14px;
 }

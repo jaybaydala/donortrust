@@ -99,10 +99,10 @@ class Project < ActiveRecord::Base
             :class_name => 'Sector',
             :field => 'sectors.id',
             :as => 'sector_id',
-            :association_sql => "RIGHT JOIN (projects_sectors) ON projects_sectors.project_id=projects.id LEFT JOIN sectors ON sectors.id=projects_sectors.sector_id"
+            :association_sql => "LEFT JOIN (projects_sectors) ON projects_sectors.project_id=projects.id LEFT JOIN sectors ON sectors.id=projects_sectors.sector_id"
           },
           ],
-    :conditions => "project_status_id IN (2,4) AND projects.deleted_at IS NULL"
+    :conditions => "project_status_id IN (2,4) AND projects.deleted_at IS NULL AND partners.partner_status_id IN (1,3)"
 
   def startDate
     "#{self.start_date}"
@@ -368,6 +368,10 @@ class Project < ActiveRecord::Base
   def get_number_of_milestones_by_status(status)
     milestones = self.milestones.find(:all, :conditions => {:milestone_status_id => status.to_s } )
     return milestones.size unless milestones == nil
+  end
+  
+  def milestones
+    Milestone.find(:all, :conditions => {:project_id => self.id}, :order=> "target_date ASC")
   end
 
   def days_remaining
