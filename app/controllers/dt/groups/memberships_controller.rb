@@ -11,7 +11,10 @@ class Dt::Groups::MembershipsController < DtApplicationController
 
   def index
     @group = Group.find(params[:group_id])
-    login_required and return if @group.private? && !logged_in?
+    if @group.private? && !logged_in?
+      login_required
+      return
+    end
     @page_title = "Members | #{@group.name}"
     @memberships = @group.memberships.paginate({:page => params[:page], :per_page => 10})
     @membership = Membership.find(:first, :conditions => {:user_id => current_user, :group_id => params[:group_id]}) if logged_in?
