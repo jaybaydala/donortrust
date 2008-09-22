@@ -5,4 +5,3 @@
       <% if @project && @project.nation_id? && @project.nation %><li id="project-nav-nation"<%= ' class="current"' if params[:action] == 'nation'       && params[:controller] == 'dt/projects' %>><%= link_to "Nation ",  nation_dt_project_path(@project) %></li><% end %>
       <li id="project-nav-organization"<%= ' class="current"' if params[:action] == 'organization' && params[:controller] == 'dt/projects' %>><%= link_to "Organization ", organization_dt_project_path(@project) %></li>
     </ul>
-    <%= link_to "<span>Connect</span> ", connect_dt_project_path(@project), ( params[:action] == 'connect' && params[:controller] == 'dt/projects' ? { :class => "button-connect current"  } : { :class => "button-connect" } ) %>

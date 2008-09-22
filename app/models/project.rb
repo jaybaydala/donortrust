@@ -260,11 +260,10 @@ class Project < ActiveRecord::Base
     end
 
 
-
-
+    #**********************need to make sure these projects are active and partners are active**********
     def featured_projects
       projects = Project.find_public(:all, :conditions => { :featured => 1 })
-      projects = Project.find_public(:all, :limit => 3) if projects.size == 0
+      projects = Project.find_public(:all, :limit => 3, :order => 'RAND()') if projects.size == 0
       projects
     end
   end

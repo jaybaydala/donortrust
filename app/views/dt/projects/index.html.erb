@@ -51,11 +51,12 @@
 
   <div class='clearfix'></div>
   
-  <h2>Featured Projects:</h2>
+  <div id="featured-projects">
+  	<h2>Featured Projects:</h2>
   
-	<div class="project-list">
-		<%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
+		<div class="project-list">
+			<%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
+		</div>
 	</div>
-
 </div>
 

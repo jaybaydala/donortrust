@@ -42,9 +42,6 @@
 #frontGiveButton, #frontReceiveButton {
 	float: right;
 }
-#frontReceiveButton {
-	margin: 0px 0px 0px 10px;
-}
 
 #frontPicsAndFact {
 	float: right;

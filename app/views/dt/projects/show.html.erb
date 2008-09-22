@@ -3,8 +3,7 @@
 	<div class="full-display-sector-images"><%= sector_images(@project.id) %></div>
 
 	<div class="project-location-link">
-		<% if @project.community_id %><%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %><% end %>
-		<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
+		<% if @project.community_id %><%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %><% end %><%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
 	</div>
 </div>
 
@@ -101,10 +100,7 @@
 		</div>
 	<% end # end flickr div%>
 
-	<%= @project.short_description %>
-
 	<%= @project.description %>
-
 </div>
 <div class='project-sidebar'>
 	<div id="project-accordion" class="accordion">		

@@ -9,14 +9,16 @@ Project Header
 
 .full-display-project-title {
   float: left;
+  line-height: 1em;
   padding-top: 20px;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .project-location-link {
+  clear:left;
   float: left;
   padding-top:2px;
-	clear:left;
+  width: 200px;
 }
 
 .project-location-link a{
@@ -24,9 +26,11 @@ Project Header
 }
 
 .full-display-sector-images {
+  clear: both; 
   background: none;
 	float: right;
-  padding-top: 30px;
+	padding-top:35px;
+  vertical-align: bottom; 
 }
 
 /*
@@ -48,6 +52,12 @@ div.projectRank li {
 	list-style:none;
 	padding:0 0 0.1875em 0em;
 }
+
+/* limit project typography */
+div.project-content h1 { font-size: 1.25em; /* 20px */ font-weight: bold; }
+div.project-content h2 { font-size: 1.125em; /* 18px */ font-weight: bold; }
+div.project-content h3 { font-size: 1em; /* 16px */ font-weight: bold; }
+div.project-content h4 { font-size: 0.875em;/* 16x0.875em=14px */ font-weight: bold; }
 
 
 /*
@@ -353,6 +363,9 @@ US TAXES
 	padding-bottom:80px; */
 }
 
+div#featured-projects {
+	margin-top: 40px;
+}
 
 .project-title a{
   float: left;
@@ -381,6 +394,7 @@ US TAXES
 .project-sidebar{
 	width: 25%;
 	float:right;
+	padding-bottom:15px;
 }
 .project-sidebar .quickfacts ul{
 	list-style-type:none;	
@@ -409,28 +423,26 @@ SEARCH, layout and forms
 }
 
 .predefined-searches {
-	/*width:700px;*/
+	width:725px;
 	margin: 0 auto;
 }
 
 .predefined-search-list {
   float: left;
-  margin-right: 20px;
+  margin-right: 25px;
   font-size: 14px;
-	width:180px;
 }
 
 .predefined-search-list h3{
   font-weight: bold;
+  font-size: 16px;
 }
 
 .predefined-search-list a{
   text-decoration: none;
 }
 
-
 .filter-your-results{
-
 }
 
 .filter-your-results a{
@@ -627,7 +639,6 @@ div.accordion-content{
   width:100%;
   background: url("/images/dt/nav_elements/tab-line-green.gif") bottom repeat-x;
   padding:0;
-  font:lighter 22px Arial,Helvetica,sans-serif;
   line-height:normal;
   margin-bottom:0;
 }
@@ -652,7 +663,9 @@ div.accordion-content{
   background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat left top;
   padding:0 0 0 9px;
   text-decoration:none;
-  margin-right:5px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right:4px;
   color:#EEE;  
 }
 
@@ -660,7 +673,7 @@ div.accordion-content{
   float:left;
   display:block;
   background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat right top;
-  padding:4px 15px 3px 6px;
+  padding:4px 12px 3px 3px;
 }
 
 /* Commented Backslash Hack hides rule from IE5-Mac \*/

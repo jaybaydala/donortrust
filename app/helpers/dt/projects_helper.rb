@@ -48,7 +48,8 @@ module Dt::ProjectsHelper
             "WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL AND pa.id != 4 "+
             "GROUP BY s.id ORDER BY count DESC")
     @sectors.each do |sector|
-      output << (link_to image_tag("/images/dt/sectors/#{sector.image_name}",  :title=> sector.name, :alt => sector.name)+" #{sector.name.slice(/\w*\s/)} (#{(sector.count)})", search_dt_projects_path+"?cause_selected=1&sector_id=#{sector.id}") if sector.projects.size>0
+      puts sector.name
+      output << (link_to image_tag("/images/dt/sectors/#{sector.image_name}",  :title=> sector.name, :alt => sector.name)+" #{sector.name} (#{(sector.count)})", search_dt_projects_path+"?cause_selected=1&sector_id=#{sector.id}") if sector.projects.size>0
     end
 
     if limit && limit < @sectors.size
@@ -112,11 +113,25 @@ module Dt::ProjectsHelper
 
   def total_cost_with_project_count(minimum=0, maximum=100000)
     output = []
-    @range = Ultrasphinx::Search.new(:filters  => {:total_cost => minimum..maximum}, :per_page  => Project.count, :class_names => ['Project'])
+    #@range = Ultrasphinx::Search.new(:filters  => {:total_cost => minimum..maximum}, :per_page  => Project.count, :class_names => ['Project'])
 
-    if @range.run
-      output << link_to("$ #{minimum} - $ #{maximum} (#{@range.run.size})", search_dt_projects_path+"?funding_req_selected=1&funding_req_min=#{minimum}&funding_req_max=#{maximum}" ) + "<br/>"
+    #@partners.each do |p|
+    #  output << link_to("#{truncate(p.name,20)} (#{(p.count)})", search_dt_projects_path+"?partner_selected=1&partner_id=#{p.id}") if p.count.to_i>0
+    #end
+
+    #if @range.run
+    #  output << link_to("$ #{minimum} - $ #{maximum} (#{@range.run.size})", search_dt_projects_path+"?funding_req_selected=1&funding_req_min=#{minimum}&funding_req_max=#{maximum}" ) + "<br/>"
+    #end
+
+    projectcount =  Project.find_by_sql([
+        "SELECT count(*) as count FROM partners p INNER JOIN projects pr ON pr.partner_id = p.id "+
+        "WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL AND p.id != 4 "+
+        "AND p.partner_status_id = 1 AND pr.total_cost >= ? AND pr.total_cost <= ?;",minimum, maximum])
+
+    if projectcount[0].count.to_i > 0
+      output = link_to("$ #{minimum} - $ #{maximum} (#{projectcount[0].count})", search_dt_projects_path+"?funding_req_selected=1&funding_req_min=#{minimum}&funding_req_max=#{maximum}" ) + "<br/>"
     end
+
 
     return output
   end
