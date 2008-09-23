@@ -629,6 +629,7 @@ div.accordion-content{
 
 /* project details */
 .project-details {
+
 }
 
 .detail-tabs {
@@ -691,14 +692,11 @@ div.accordion-content{
 
 /**********************************/
 .detail-content{
-	display: block;
-	float: left;
-	width: 100%;
-	background:#FFF;
-	margin-top: 0px;
+	clear:both;
 	padding:14px;
 	border-left:1px solid #336600;
 	border-right:1px solid #336600;
 	border-bottom:1px solid #336600;
 }
+
 
