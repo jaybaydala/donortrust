@@ -1,0 +1,66 @@
+--- !ruby/object:Gem::Specification 
+name: flickr
+version: !ruby/object:Gem::Version 
+  version: 1.0.0
+platform: ruby
+authors: []
+
+autorequire: flickr
+bindir: bin
+cert_chain: 
+date: 2005-04-19 00:00:00 -04:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: xml-simple
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 1.0.7
+    version: 
+description: 
+email: sco@redgreenblu.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: []
+
+files: 
+- flickr.rb
+- index.html
+- pkg
+- Rakefile
+- test_flickr.rb
+has_rdoc: false
+homepage: http://redgreenblu.com/flickr/
+post_install_message: 
+rdoc_options: []
+
+require_paths: 
+- bin
+- .
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">"
+    - !ruby/object:Gem::Version 
+      version: 0.0.0
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: 
+- Flickr developers API key
+rubyforge_project: flickr
+rubygems_version: 1.2.0
+signing_key: 
+specification_version: 1
+summary: An insanely easy interface to the Flickr photo-sharing service. By Scott Raymond.
+test_files: []
+
