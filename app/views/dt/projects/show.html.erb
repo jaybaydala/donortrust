@@ -3,13 +3,15 @@
 	<div class="full-display-sector-images"><%= sector_images(@project.id) %></div>
 
 	<div class="project-location-link">
-		<% if @project.community_id %><%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %><% end %><%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
+		<% if @project.community_id %>
+			<%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %>
+		<% end %>
+		<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
 	</div>
 </div>
 
 <div class="project-content">
 	<%= flickr_slider %>
-
 	<%= @project.description %>
 </div>
 <div class='project-sidebar'>
@@ -110,6 +112,12 @@
 			<% end %>
 		</div>
 		<div id='project_stories' style='display:none;'>
+			<% if @project.rss_url && @rss_feed %>
+				<h2>Stories from the field</h2>
+				<%= render :partial => 'blog' %>
+			<% else %>
+			  <h2>No stories available for this project yet<h2>
+			<% end %>		
 		</div>
 
 		<div id='project_photos' style='display:none'>

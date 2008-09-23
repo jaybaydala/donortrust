@@ -48,7 +48,6 @@ module Dt::ProjectsHelper
             "WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL AND pa.id != 4 "+
             "GROUP BY s.id ORDER BY count DESC")
     @sectors.each do |sector|
-      puts sector.name
       output << (link_to image_tag("/images/dt/sectors/#{sector.image_name}",  :title=> sector.name, :alt => sector.name)+" #{sector.name} (#{(sector.count)})", search_dt_projects_path+"?cause_selected=1&sector_id=#{sector.id}") if sector.projects.size>0
     end
 
@@ -135,7 +134,7 @@ module Dt::ProjectsHelper
     return output
 
   end
-  
+
   def flickr_slider
     if @flickr_images.size > 0
       render :partial  => 'flickr_slider'

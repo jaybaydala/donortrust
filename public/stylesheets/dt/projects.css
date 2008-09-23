@@ -3,7 +3,6 @@ Project Header
 */
 .full-display-project-header {
   border-bottom: 1.5px solid black;
-  padding: 0;
   margin-bottom: 8px;
 }
 
@@ -15,7 +14,6 @@ Project Header
 }
 
 .project-location-link {
-  clear:left;
   float: left;
   padding-top:2px;
   width: 200px;
@@ -26,8 +24,6 @@ Project Header
 }
 
 .full-display-sector-images {
-  clear: both; 
-  background: none;
 	float: right;
 	padding-top:35px;
   vertical-align: bottom; 
@@ -616,6 +612,7 @@ div.accordion-content{
 	display:inline;
 	float:right;
 	text-align:center;
+	padding-left: 10px;
 }
 #flickr-wrapper .flickr-left-link{
 	text-align:left;
