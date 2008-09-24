@@ -54,8 +54,12 @@ class Cart
     @items.select{|item| item.is_a?(Deposit) }
   end
 
+  def pledges
+    @items.select{|item| item.is_a?(Pledge)}
+  end
+
   private
   def valid_item?(item)
-    [Gift, Investment, Deposit].include?(item.class) && item.valid?
+    [Gift, Investment, Deposit, Pledge].include?(item.class) && item.valid?
   end
 end

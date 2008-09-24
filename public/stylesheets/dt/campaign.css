@@ -280,6 +280,16 @@ span.small_text{
 	margin: 5px;
 }
 
+#participants {
+	border: 1px solid gray;
+	margin: 5px;	
+}
+
+#applicants {
+	border: 1px solid gray;
+	margin: 5px;	
+}
+
 .admin_team {
 	border: 1px solid gray;
 	margin-top: 5px;
@@ -301,3 +311,10 @@ span.small_text{
 .content_container p{
 	margin: 0px;
 }
+
+.participant_details{
+	margin: 0px;
+	min-width: 150px;
+	font-size:12px;
+}
+

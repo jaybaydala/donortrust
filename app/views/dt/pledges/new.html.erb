@@ -1,14 +1,34 @@
-
 <div id="pledge_form" class="campaign_form">
 	<%= error_messages_for :pledge, :deposit %>
 	<fieldset>
-		<legend>Pledge for <%= @participant.user.full_name %>'s participation in <%= @participant.team.campaign.name %></legend>
-		<% form_for([:dt,@participant,@pledge]) do |f| %>
-
-		<label>Amount</label>
-		<%= f.text_field :amount %>
-		<br />
-		<%= f.submit 'Pledge!'%>
+		<% if @participant != nil %>
+			<legend>
+				Pledge for <%= @participant.user.full_name %>'s participation in <%= @participant.team.campaign.name %>
+			</legend>	
+			<% form_for_var = @participant%>
+		<% end %>
+		
+		<% if @team != nil %>
+			<legend>
+				Pledge towards <%= @team.name %> a team participating in <%= @team.campaign.name %>
+			</legend>	
+			<% form_for_var = @team%>
+		<% end %>
+		
+		<% if @campaign != nil %>
+			<legend>
+				Pledge towards <%= @campaign.name %>
+			</legend>	
+			<% form_for_var = @campaign %>
+		<% end %>
+		
+		
+		
+		<% form_for([:dt,form_for_var,@pledge]) do |f| %>		
+			<label>Amount</label>
+			<%= f.text_field :amount %>
+			<br />
+			<%= f.submit 'Pledge!'%>
 	
 		<% end %>
 	</fieldset>

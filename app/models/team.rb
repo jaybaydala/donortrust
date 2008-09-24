@@ -3,7 +3,7 @@ class Team < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
 
-  has_many :participants
+  has_many :participants, :dependent => :destroy
   has_many :users, :through => :participants
 
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
@@ -13,6 +13,11 @@ class Team < ActiveRecord::Base
 
   # validations
   validates_presence_of :contact_email
+  validates_presence_of :name
+  validates_presence_of :short_name
+  validates_presence_of :description
+  validates_presence_of :goal
+  validates_numericality_of :goal
 
   image_column  :picture,
                 :versions => { :thumb => "100x100", :full => "200x200"  },
@@ -65,6 +70,10 @@ class Team < ActiveRecord::Base
 
   def joinable?
     (!self.pending && !self.is_full? && !self.campaign.has_participant(current_user))? true : false
+  end
+
+  def short_description(length=100)
+    short_description = (self.description.length > length) ? self.description[0...length] + '...' : self.description
   end
 
   def percentage_raised

@@ -6,6 +6,9 @@ class CreateTeams < ActiveRecord::Migration
       t.references :user
       t.string :picture
       
+      #team type generic is the campaign general purpose container.
+      t.boolean :generic
+      
       # config stuff
       t.boolean :pending
       t.boolean :ok_to_contact

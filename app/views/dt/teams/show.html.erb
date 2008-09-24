@@ -9,17 +9,17 @@
 			<h5 style="margin-top:-10px;">
 				<%= link_to "http://www.christmasfuture.org/dt/#{@team.campaign.short_name}/team/#{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
 			</h5>
-			<p>
-				<%= image_tag @team.picture.full.url, :class => :thumbnail if @campaign.picture? %>
+			<p style="overflow:auto;">
+				<%= image_tag @team.picture.full.url, :class => :thumbnail if @team.picture? %>
 				<%= @team.description %>
 			</p>
 
 			<%= render :partial => 'dt/news_items/news', :locals => {:postable => @team}%>
 
 			<div id="team_members">
-				<%= campaign_h2_header('Participants' + (@team.joinable? ? " | #{link_to('Join this team!',new_dt_team_participant_path(@team))}":""),'participant_container') %>
+				<%= campaign_h2_header(link_to('Participants',dt_team_participants_path(@team)) + (@team.joinable? ? " | #{link_to('Join this team!',new_dt_team_participant_path(@team))}":""),'participant_container') %>
 				<div id="participant_container" class="row_container">
-					<%= render :partial => 'dt/participants/participant', :collection => @team.participants %>
+					<%= render :partial => 'dt/participants/participant', :collection => @team.participants, :locals => {:long_view => false} %>
 				</div>
 			</div>
 			<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @team} %>
@@ -36,10 +36,12 @@
 			<span class="small_text">Participants:	$ <%= @team.participants.size %> members</span>
 		</div>
 		<div class="campaign-sidebar-box get-involved">
-		  <% if @team.joinable? %>
+		  	<% if @team.joinable? %>
 				<li><%= link_to("Join \"#{@team.name}\"", new_dt_team_participant_path(@team)) %></li>
 			<% end %>
-			<li>Support a participant</li>
+			<%= ('<li>' + link_to("Manage Team", manage_dt_team_path(@team)) + '<li>') if @team.owned?%>
+			<li><%= link_to 'Support a participant', dt_team_participants_path(@team) %></li>
+			<%= link_to "<span>Pledge</span>", new_dt_team_pledge_path(@team), :class => "button-pledge" %>
 		</div>
 	</div>
 </div>

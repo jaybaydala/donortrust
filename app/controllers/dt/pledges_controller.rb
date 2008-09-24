@@ -1,35 +1,43 @@
 class Dt::PledgesController < DtApplicationController
   include OrderHelper
   
-  before_filter :find_participant
-
   def create
     @cart = find_cart
     @pledge = Pledge.new(params[:pledge])
-    @deposit = Deposit.new
-    @deposit.amount = @pledge.amount
-    @deposit.user = @participant.user
-    
-    if @deposit.save
-      @pledge.deposit = @deposit
+    @pledge.paid = false
+    if(params[:participant_id] != nil)
+      @participant = Participant.find(params[:participant_id])
       @pledge.participant = @participant
-      if @pledge.save
-        @cart.add_item(@deposit)
-        redirect_to dt_participant_path(@participant)
-      else
-        render :action => "new"
-      end
+      @pledge.team = @participant.team
+      @pledge.campaign = @participant.team.campaign
+    end
+    
+    if(params[:team_id] != nil)
+      @team = Team.find(params[:team_id])
+      @pledge.team = @team
+      @pledge.campaign = @team.campaign
+    end
+    
+    if(params[:campaign_id] != nil)
+      @campaign = Campaign.find(params[:campaign_id])
+      @pledge.campaign = @campaign
+    end
+    
+    if @pledge.save
+      @cart.add_item(@pledge)
+      redirect_to dt_cart_path
     else
       render :action => "new"
     end
   end
 
   def new
+    @participant = Participant.find(params[:participant_id]) unless  params[:participant_id] == nil
+    @team = Team.find(params[:team_id]) unless  params[:teamn_id] == nil
+    @campaign = Campaign.find(params[:campaign_id]) unless  params[:campaign_id] == nil
     @pledge = Pledge.new
   end
   
-  private
-  def find_participant
-    @participant = Participant.find(params[:participant_id])
-  end
+  
+  
 end

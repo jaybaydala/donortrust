@@ -4,31 +4,35 @@
 <div id="team_member_page">
 	<div class="leftColW800">
 		<div id="participant_details">
-			<h1><%= @participant.user.full_name %>'s</h1>
+			<h1><%= @participant.user.full_name %>'s 
+				<%= " (Awaiting approval)" unless not @participant.pending? %>
+				</h1>
 			<h5 style="margin-top:-10px;"> <%= @participant.team.campaign.name %> page.</h5>
-			<p>
-				<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>
+			<p style="overflow:auto;">
+				<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>			
+				<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless @participant.picture? %>
 				<%= @participant.about_participant%>
 			</p>
-
 			<%= render :partial => 'dt/news_items/news',  :locals => {:postable => @participant} %>
 			<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @participant} %>
 		</div>
 	</div>
-
+	
 	<div class="leftColN800">
 		<div class="campaign-sidebar-box metrics">
 			<h2>Team Facts</h2>
 			<span class="small_text">Campaign: <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %></span><br/>
-			<% if @campaign.allow_multiple_teams? %>
+			<% if @campaign.allow_multiple_teams? and not @participant.team.generic? %>
 				<span class="small_text">Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
 			<% end %>
 			<span class="small_text">Goal: $ <%= @participant.goal if @participant.goal %> CDN</span><br/>
 			<span class="small_text">Pledged: $ <%= @participant.funds_raised %> CDN</span><br/>
 			<span class="small_text">Percentage of Goal: <%= @participant.percentage_raised %></span><br/>
 		</div>
+		
 		<div class="campaign-sidebar-box get-involved">
-			<li><%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(@participant), :class => "button-pledge" %></li>
+			<%= "<li>" + link_to('Manage your Page',manage_dt_participant_path(@participant)) + "</li>" if @participant.owned? or current_user.is_cf_admin? %>		
+			<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(@participant), :class => "button-pledge" %>
 		</div>
 	</div>
 </div>

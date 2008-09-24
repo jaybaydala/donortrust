@@ -1,0 +1,6 @@
+<div id="participants">
+	<%= campaign_h2_header('Participants','participant_container')%>
+	<div id="participant_container" class="row_container">
+		<%= render :partial => 'participant', :collection => @participants, :locals => {:long_view => true} %>
+	</div>
+</div>

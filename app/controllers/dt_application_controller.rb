@@ -76,7 +76,6 @@ class DtApplicationController < ActionController::Base
   end
 
 
-
  # Error Handling
  class DtNotFoundError < Exception
  end

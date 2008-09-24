@@ -1,6 +1,6 @@
 <h1>New campaign</h1>
 
-<%= error_messages_for :campaign %>
+<%= error_messages_for :campaign, :participant, :team %>
 <div id="new_campaign" class="campaign_form">
 	<% form_for([:dt, @campaign], :html => { :multipart => true}) do |f|%>
 		<fieldset>
@@ -124,5 +124,3 @@
   	</p>
 	<% end %>
 </div>
-
-<%= link_to 'Back', dt_campaigns_path %>

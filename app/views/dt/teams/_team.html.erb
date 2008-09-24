@@ -1,10 +1,14 @@
-<div id="team_<%= team.id %>">
-	<h2><%= link_to team.name, dt_team_path(team) %></h2>
-	<p>
-		Team Leader: <%= team.leader.login %> <br />
-		Team Goal: GOAL GOES HERE <br />
-	</p>
-	<p>
-		<%= team.description %>
-	</p>
-</div>
+<% if not team.generic? and not team.pending?%>
+	<div id="team_<%= team.id %>" class="<%= cycle('row_even','row_odd') %>">
+		<h2 style="margin:0px"><%= link_to(team.name, dt_team_path(team)) %></h2>
+		<div id="team_<%= team.id %>_container">
+			<p>
+				Team Leader: <%= team.leader.login %> <br />
+				Team Goal: <%= team.goal %> $CDN <br />
+			</p>
+			<p>
+				<%= team.short_description %>
+			</p>
+		</div>
+	</div>
+<% end %>

@@ -213,6 +213,10 @@ class User < ActiveRecord::Base
     DonortrustMailer.deliver_account_expiry_reminder(self)
   end
 
+  def is_cf_admin?
+    return self.roles.include?(Role.find_by_title('cf_admin'))
+  end
+
   # DEPRECATED
   #def is_bus_admin?
   #  self.user_roles.each do |role|

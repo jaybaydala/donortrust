@@ -4,6 +4,9 @@ class Order < ActiveRecord::Base
   has_many :investments
   has_many :gifts
   has_many :deposits
+  
+  has_many :pledges # added by joe
+  
   has_one :tax_receipt
   belongs_to :user
   validates_uniqueness_of :order_number

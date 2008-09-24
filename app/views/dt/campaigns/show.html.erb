@@ -5,16 +5,28 @@
 	<div class="leftColW800">
 		<div id="campaign_details">
 			<h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
-
 			<h5 style="margin-top:-10px;">http://www.christmasfuture.org/dt/<%= @campaign.short_name %></h5>
+			<p style="overflow:auto;">	
+				<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
 
-			<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
-			<p>
 				<%= @campaign.description %>
 			</p>
 		</div>
 		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
 
+		<div id="Participants">
+			<%= campaign_h2_header(' ' +link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container')%>
+			
+				
+			<div id="participant_container" class="row_container">
+				<%= render :partial => 'dt/participants/participant', :collection => @campaign.participants, :locals => {:long_view => false} %>
+				<div class="row_odd">
+					<span class="small_text">** Campaign Organizer</span><br />
+					<span class="small_text">* Team Leader</span>
+				</div>
+			</div>
+		</div>
+	
 		<% if @campaign.allow_multiple_teams%>
 			<div id="Teams">
 				<% if @campaign.allow_multiple_teams? && !@campaign.teams_full? %>
@@ -28,13 +40,8 @@
 					<%= render :partial => 'team', :collection => @campaign.teams%>
 				</div>
 			</div>
-		<% else %>
-			<div id="Participants">
-				<%= campaign_h2_header('Participants | ' + link_to('Join this Campaign', new_dt_team_participant_path(@campaign.teams[0])),'participants_container')%>
-				<div id="participants_container" class='row_container'>
-				</div>
-			</div>
 		<% end %>
+
 
 		<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @campaign} %>
 	</div>
@@ -47,10 +54,11 @@
 			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
 		</div>
 		<div class="campaign-sidebar-box get-involved">
-			<li><%= link_to("Join #{@campaign.name}", new_dt_campaign_team_path(@campaign)) %></li>
-			<li><%= link_to('Join a Team', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 %></li>
-			<%= ("<li>" + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) +"</li>")if (@campaign.allow_multiple_teams? && !@campaign.teams_full?)%></li>
-			<li>Support a participant</li>
+			<li><%= link_to("Join #{@campaign.name}", join_dt_campaign_path(@campaign)) %></li>
+			<%= link_to('<li>Join a Team</li>', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 %></li>
+			<%= ("<li>" + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) +"</li>")if (@campaign.allow_multiple_teams? && !@campaign.teams_full?)%>
+			<li><%= link_to "Support a participant", dt_campaign_participants_path(@campaign) %></li>
+			<%= link_to "<span>Pledge</span>", new_dt_campaign_pledge_path(@campaign), :class => "button-pledge" %>
 		</div>
 		<div class="campaign-sidebar-box campaign-address">
 			<h5>Address</h5>

@@ -1,5 +1,7 @@
 <h1>Join This Campaign!</h1>
 <div class="campaign_form">
+	
+	<%= error_messages_for :participant %>
 	<% form_for([:dt,@team,@participant], :html => {:multipart => true}) do |f| %>
 		<fieldset>
 			<legend>Some details about your membership</legend>

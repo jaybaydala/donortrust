@@ -2,7 +2,7 @@ development:
   adapter: mysql
   database: donortrust_development
   username: root
-  password: 
+  password: root
   host: localhost
 
 staging:

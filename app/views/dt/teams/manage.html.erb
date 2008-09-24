@@ -1,11 +1,36 @@
-<div>
+
+<%= error_messages_for :team %>
+<div id="new_campaign" class="campaign_form">
 	<h1>Manage <%= @team.name %>.</h1>
+	
+	<% form_for([:dt, @campaign, @team], :html => {:multipart => true}) do |f| %>
+	<fieldset class="campaign_form">
+		<legend>Editable Details About Your Campaign</legend>
+			
+		<br />
+		<%= image_tag @team.picture.thumb.url if @team.picture? %>
+		<label>Team Image (if you don't use one a default image will be used for you)</label>
+		<%= upload_column_field :team,  :picture  %>
+		
+		<label>Description</label>
+		<%= f.text_area :description, :cols => 80, :rows => 8%>
+		
+		<label>Fundraising Goal</label>
+		<%= f.text_field :goal %><span class="small_text"> $ CDN</span>
+		
+		<p>
+			<%= f.submit 'Update'%>
+		</p>
+	<% end %>
+	
 	<% if @team.require_authorization? %>
 		<div id="applicants">
-			<h3>Applicants</h3>
-			<% for applicant in @applicants %>
-				<%= applicant.user.full_name %>
-			<% end %>
+			<%= campaign_h2_header("Team Applicants",'applicant_container')%>
+			<div id="applicant_container">
+				<% for applicant in @applicants %>
+					<%= applicant.user.full_name %>
+				<% end %>
+			</div>
 		</div>
 	<% end %>
 	

@@ -1,3 +1,6 @@
-<h1>Listing teams for <%= @campaign.name %></h1>
-<%= render :partial => 'team', :collection => @campaign.teams %>
-
+<div id="teams">
+	<%= campaign_h2_header('Teams','team_container')%>
+	<div id="team_container" class="row_container">		
+		<%= render :partial => 'team', :collection => @campaign.teams %>
+	</div>
+</div>

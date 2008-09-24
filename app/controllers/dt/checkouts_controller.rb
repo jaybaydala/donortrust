@@ -227,9 +227,12 @@ class Dt::CheckoutsController < DtApplicationController
         if transaction_successful
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_at? && gift.send_at < Time.now}
           # save the cart items into the db via the association
+          @cart.pledges.each{|pledge| pledge.update_attributes(:paid => true)}
           @order.gifts = @cart.gifts
           @order.investments = @cart.investments
           @order.deposits = @cart.deposits
+          @order.pledges = @cart.pledges
+          
           # mark the order as complete
           @order.update_attributes(:complete => true)
         end

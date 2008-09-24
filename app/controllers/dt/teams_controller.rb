@@ -2,6 +2,8 @@ class Dt::TeamsController < DtApplicationController
 
   before_filter :find_campaign, :except => [:validate_short_name_of]
   before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :activate], :except => [:validate_short_name_of, :index]
+  before_filter :login_required, :except => [:show]
+  before_filter :check_if_in_team
 
   # GET /dt_teams
   # GET /dt_teams.xml
@@ -43,7 +45,7 @@ class Dt::TeamsController < DtApplicationController
     @team.campaign = @campaign
     @team.leader = current_user
     @team.pending = @campaign.require_team_authorization?
-    
+    @team.generic = false
 
     if @team.save
       @participant = Participant.new
@@ -70,7 +72,7 @@ class Dt::TeamsController < DtApplicationController
   def update
     if @team.update_attributes(params[:team])
       flash[:notice] = 'Team was successfully updated.'
-      redirect_to(dt_team_path(@team))
+      redirect_to(manage_dt_team_path(@team))
     else
       render :action => "edit"
     end
@@ -80,7 +82,12 @@ class Dt::TeamsController < DtApplicationController
   # DELETE /dt_teams/1.xml
   def destroy
     @campaign = @team.campaign
-    @team.destroy
+    if not @team.generic?
+        @team.destroy
+        flash[:notice] = 'Team Removed.'
+    else 
+        flash[:notice] = 'You may not destroy the default team.'
+    end
     redirect_to(dt_campaign_path(@campaign))
   end
 
@@ -165,9 +172,16 @@ class Dt::TeamsController < DtApplicationController
     end
     @campaign
   end
-
+  
   def find_team
     @team = Team.find(params[:id]) unless params[:id].blank?
     @team = Team.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
+  end
+  
+  def check_if_in_team
+    find_campaign
+    if @campaign.participating?(current_user)
+      
+    end
   end
 end

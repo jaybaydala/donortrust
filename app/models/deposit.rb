@@ -5,7 +5,6 @@ class Deposit < ActiveRecord::Base
   belongs_to :gift
   belongs_to :order
   has_one :user_transaction, :as => :tx
-  has_one :pledge
 
   validates_presence_of :amount
   validates_numericality_of :amount

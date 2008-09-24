@@ -12,7 +12,7 @@
 					<div id="pending_teams" class="row_container">				
 						<%= campaign_h2_header("Pending Teams",'pending_container')%>
 						<div id="pending_container">
-							<%= render :partial => 'team', :collection => @campaign.pending_teams %>
+							<%= render :partial => 'team', :collection => @campaign.pending_teams, :locals => { :hide_pending => false} %>
 						</div>
 					</div>
 					<div id="authorized_teams" class="row_container">

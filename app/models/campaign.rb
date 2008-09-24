@@ -8,7 +8,7 @@ class Campaign < ActiveRecord::Base
   # news items
   has_many :news_items, :as =>:postable, :dependent => :destroy
 
-  has_many :teams
+  has_many :teams, :dependent => :destroy
   has_many :participants, :through => :teams
 
   has_many :project_limits
@@ -91,10 +91,6 @@ class Campaign < ActiveRecord::Base
 
   def funds_raised
     total = 0
-    for team in self.teams
-      total = total + team.funds_raised
-    end
-    total
   end
 
   def eligible_projects
@@ -142,17 +138,12 @@ class Campaign < ActiveRecord::Base
     self.update_attribute(:pending,false) ? true : false;
   end
 
-
   def pending_teams
     Team.find_all_by_campaign_id_and_pending(self.id, true)
   end
 
   def active_teams
     Team.find_all_by_campaign_id_and_pending(self.id, false)
-  end
-
-  def participants
-     User.find_by_sql(["SELECT u.* FROM users u, teams t, participants p WHERE p.user_id = u.id AND p.team_id = t.id AND t.campaign_id = ?",self.id])
   end
 
   def participating?(user)

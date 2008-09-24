@@ -1,6 +1,8 @@
 class Dt::CampaignsController < DtApplicationController
   
   before_filter :login_required, :only => [:create, :new, :edit, :destroy]
+  before_filter :is_authorized?, :except => [:show, :index, :join, :new, :create, :admin];
+  before_filter :is_cf_admin?, :only => [:new, :create, :admin] # this is just here to prevent anyone but a CF admin from creating campaigns.
   
   # GET /campaigns
   # GET /campaigns.xml
@@ -49,30 +51,38 @@ class Dt::CampaignsController < DtApplicationController
     @campaign.creator = current_user
     
     if @campaign.save
-      if @campaign.allow_multiple_teams? # if multiple campaigns are allowed then creat a default team container.
-        @team = Team.new
-        @team.goal = @campaign.fundraising_goal
-        @team.campaign = @campaign
-        @team.leader = current_user
-        @team.name = @campaign.name + " Team"
-        @team.short_name = @campaign.short_name + '_team'
-        @team.description = @campaign.description
-        @team.require_authorization = @campaign.require_team_authorization
-        @team.goal_currency = @campaign.goal_currency
-        @team.picture = @campaign.picture
-        @team.contact_email = @campaign.email
-        @team.pending = false
-        if @team.save
+      @team = Team.new
+      @team.goal = @campaign.fundraising_goal
+      @team.campaign = @campaign
+      @team.leader = current_user
+      @team.name = @campaign.name + " Team"
+      @team.short_name = @campaign.short_name + '_team'
+      @team.description = @campaign.description
+      @team.require_authorization = @campaign.require_team_authorization
+      @team.goal_currency = @campaign.goal_currency
+      @team.picture = @campaign.picture
+      @team.contact_email = @campaign.email
+      @team.pending = false
+      @team.generic = true
+      if @team.save
+        @participant = Participant.new
+        @participant.team = @team
+        @participant.user = @team.leader
+        @participant.pending = false
+        @participant.goal = 0
+        if @participant.save
           flash[:notice] = 'Campaign was successfully created.'
           redirect_to(dt_campaign_path(@campaign))
         else
           @campaign.destroy
-          flash[:notice] = 'There was an error creating your campaign, specifically in the creation of the default team.'
+          @team.destroy
+          flash[:notice] = 'There was an error creating your campaign, specifically in the adding of you to the default team.'
           render :action => "new"
         end
-      else 
-        flash[:notice] = 'Campaign was successfully created.'
-        redirect_to(dt_campaign_path(@campaign))
+      else
+        @campaign.destroy
+        flash[:notice] = 'There was an error creating your campaign, specifically in the creation of the default team.'
+        render :action => "new"
       end
     else
       render :action => "new"
@@ -83,7 +93,6 @@ class Dt::CampaignsController < DtApplicationController
   # PUT /campaigns/1.xml
   def update
     @campaign = Campaign.find(params[:id])
-
     respond_to do |format|
       if @campaign.update_attributes(params[:campaign])
         flash[:notice] = 'Campaign was successfully updated.'
@@ -101,11 +110,7 @@ class Dt::CampaignsController < DtApplicationController
   def destroy
     @campaign = Campaign.find(params[:id])
     @campaign.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(	campaigns_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(	dt_campaigns_path
   end
   
   
@@ -208,6 +213,11 @@ class Dt::CampaignsController < DtApplicationController
       render :partial => 'project_filters'
   end
   
+  def join
+    @team = Campaign.find(params[:id]).teams[0] # base team
+    redirect_to new_dt_team_participant_path(@team)
+  end
+  
   def validate_short_name_of
     @errors = Array.new
     
@@ -231,4 +241,21 @@ class Dt::CampaignsController < DtApplicationController
     end
     [@errors, @short_name]
   end
+
+  private
+    def is_authorized?
+      @campaign = Campaign.find(params[:id])
+      if @campaign.creator != current_user and not current_user.is_cf_admin?
+        flash[:notice] = 'You are not authorized to view this page.'
+        redirect_to dt_campaign_path(@campaign)
+      end
+    end
+  
+    def is_cf_admin?
+      if not current_user.is_cf_admin?
+        flash[:noticed] = 'You are not authorized to view this page.'
+        redirect_to dt_campaigns_path
+      end
+    end
+  
 end

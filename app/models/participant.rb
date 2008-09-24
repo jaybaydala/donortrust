@@ -17,7 +17,8 @@ class Participant < ActiveRecord::Base
 
   validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
-
+  validates_numericality_of :goal
+  
   def owned?
     current_user != nil ? self.user == current_user : false;
   end
@@ -28,14 +29,16 @@ class Participant < ActiveRecord::Base
 
   def funds_raised
     total = 0;
-    for deposit in self.deposits
-      total = total + deposit.amount
+    for pledge in self.pledges
+      if pledge.paid
+        total = total + pledge.amount
+      end
     end
     total
   end
 
-  def short_about_participant
-    short_about_participant = (self.about_participant.length > 100) ? self.about_participant[0...100] + '...' : self.about_participant
+  def short_about_participant(length = 100)
+    short_about_participant = (self.about_participant.length > length) ? self.about_participant[0...length] + '...' : self.about_participant
   end
 
   def percentage_raised

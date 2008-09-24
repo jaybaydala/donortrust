@@ -1,6 +1,8 @@
 class Dt::ParticipantsController < DtApplicationController
 
   before_filter :find_team, :only => [:new, :create]
+  before_filter :login_required, :except => [:show, :index]
+  before_filter :is_authorized?, :only => [:update, :manage, :admin]
 
   def show
     [@participant = Participant.find(params[:id]), @campaign = @participant.team.campaign]
@@ -32,6 +34,16 @@ class Dt::ParticipantsController < DtApplicationController
     end
   end
   
+  def update
+    @participant = Participant.find(params[:id])
+    if @participant.update_attributes(params[:participant])
+      flash[:notice] = 'Page successfully updated.'
+      redirect_to(manage_dt_participant_path(@participant))
+    else
+      render :action => "manage"
+    end
+  end
+  
   def manage
     @participant = Participant.find(params[:id])
   end
@@ -40,8 +52,23 @@ class Dt::ParticipantsController < DtApplicationController
     @campaigns = Campaign.find_all_by_pending(false)
   end
   
+  def index
+    @participants = Participant.find(:all)
+    @participants = Campaign.find(params[:campaign_id]).participants unless params[:campaign_id] == nil
+    @participants = Team.find(params[:team_id]).participants unless params[:team_id] == nil
+    
+  end
+  
   private
   def find_team
     @team = Team.find(params[:team_id])
+  end
+  
+  def is_authorized?
+    @participant = Participant.find(params[:id])
+    if @participant.user != current_user and not current_user.is_cf_admin?
+      flash[:notice] = 'You are not authorized to see that page.'
+      redirect_to dt_participant_path(@participant)
+    end
   end
 end

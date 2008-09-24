@@ -71,7 +71,8 @@ ActionController::Routing::Routes.draw do |map|
                                                         :add_cause_limit_to => :post,
                                                         :remove_cause_limit_from => :post,
                                                         :add_partner_limit_to => :post,
-                                                        :remove_partner_limit_from => :post
+                                                        :remove_partner_limit_from => :post,
+                                                        :join => :get
                                       }
 
 
@@ -96,6 +97,8 @@ ActionController::Routing::Routes.draw do |map|
      campaigns.resources :wall_posts
      campaigns.resources :news_items
      campaigns.resources :teams
+     campaigns.resources :participants
+     campaigns.resources :pledges
     end
     
     dt.resources :teams,  :collection => { :manage => :get
@@ -111,6 +114,7 @@ ActionController::Routing::Routes.draw do |map|
         teams.resources :wall_posts
         teams.resources :news_items
         teams.resources :participants
+        teams.resources :pledges
     end
 
     dt.resources :participants do |participants|
