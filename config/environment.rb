@@ -1,4 +1,3 @@
-# The app is set to production by default - this is for capistrano purposes - CM
 ENV['RAILS_ENV'] ||= 'development'
 
 RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
@@ -14,31 +13,30 @@ Rails::Initializer.run do |config|
   # Skip frameworks you're not going to use. To use Rails without a database
   # you must remove the Active Record framework.
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+  config.frameworks -= [ :active_resource, ]
 
   # Specify gems that this application depends on. 
   # They can then be installed with "rake gems:install" on new installations.
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "chronic", :version => "0.2.3"
+  config.gem "chronic", :version => ">= 0.2.3"
+  config.gem "color-tools", :version => ">= 1.3.0", :lib => "color"
   config.gem "daemons", :version => ">= 1.0.10"
-  config.gem "feed-normalizer", :version => "1.4.0"
-  config.gem "flickr", :version => "1.0.0"
-  config.gem "highline", :version => "1.4.0"
+  config.gem "feed-normalizer", :version => ">= 1.4.0"
+  config.gem "flickr", :version => ">= 1.0.0"
+  config.gem "highline", :version => ">= 1.4.0"
   config.gem "hoe"
   config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
-  config.gem "mocha", :version => "0.5.5"
-  config.gem "mongrel", :version => "1.1.5"
   config.gem "mislav-will_paginate", :version => ">= 2.3.2", :lib => "will_paginate", :source => "http://gems.github.com"
-  config.gem "packet", :version => "0.1.10"
+  config.gem "packet", :version => ">= 0.1.10"
   config.gem "pdf-writer", :version => ">= 1.1.3", :lib => "pdf/writer"
   config.gem "RedCloth", :version => ">= 3.301", :source => "http://code.whytheluckystiff.net/"
   config.gem "rfacebook", :version => "0.9.8"
   config.gem "rspec_hpricot_matchers", :version => "1.0"
   config.gem "RubyTube", :version => "0.1.0", :lib => "ruby_tube"
-  config.gem "simple-rss", :version => "1.1"
+  config.gem "simple-rss", :version => ">= 1.1"
   config.gem "transaction-simple", :version => ">= 1.4.0", :lib => "pdf/writer"
-  config.gem "color-tools", :version => ">= 1.3.0", :lib => "color"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

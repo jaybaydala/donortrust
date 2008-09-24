@@ -17,4 +17,6 @@ config.action_controller.perform_caching             = false
 config.action_mailer.delivery_method = :test
 
 # require test-spec gem in test environment only
-config.gem "test-spec", :version => ">= 0.9.0", :lib => 'test/spec'
+# config.gem "test-spec", :version => ">= 0.9.0", :lib => 'test/spec'
+config.gem "mocha"
+config.gem "Shoulda"
