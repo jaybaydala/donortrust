@@ -39,7 +39,8 @@ class Project < ActiveRecord::Base
  
   validates_presence_of :name
   validates_presence_of :place_id
-  validates_presence_of :target_start_date  
+  validates_presence_of :target_start_date
+  validates_uniqueness_of :slug
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -66,17 +67,13 @@ class Project < ActiveRecord::Base
     end
   end  
 
- # def validate
- #   errors.add(:place_id, "must be a city/village.") if place && place.place_type_id != 6
- # end
-
   class << self
     def cf_unallocated_project
-      @cf_unallocated_project ||= Project.find(11) if Project.exists?(11)
+      @cf_unallocated_project ||= Project.find_by_slug("unallocated")
     end
 
     def cf_admin_project
-      @cf_admin_project ||= Project.find(10) if Project.exists?(10)
+      @cf_admin_project ||= Project.find_by_slug("admin")
     end
 
     def find_public(*args)
