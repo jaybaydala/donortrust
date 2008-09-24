@@ -20,3 +20,4 @@ config.action_mailer.delivery_method = :test
 # config.gem "test-spec", :version => ">= 0.9.0", :lib => 'test/spec'
 config.gem "mocha"
 config.gem "Shoulda"
+config.gem "rspec_hpricot_matchers"
