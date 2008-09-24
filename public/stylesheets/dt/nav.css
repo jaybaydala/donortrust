@@ -54,7 +54,7 @@ GLOBAL NAV and PAGE NAV
 }
 .main-nav .selected a.nav-tab, .main-nav .selected a.nav-tab:hover {
   background-color:#360;
-  color: #fff;
+  color: #FFF;
 }
 
 /* account bar nav, and sub navs */
@@ -100,7 +100,6 @@ GLOBAL NAV and PAGE NAV
   padding:0;
   color:#FFF;
 }
-
 
 /*
 SUBNAV

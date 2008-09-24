@@ -135,7 +135,7 @@ a.linkminor {
 }
 a.linkminor:link, a.linkminor:visited {
     background:transparent url(/images/dt/nav_elements/arrows/blue_arrowSM.gif) no-repeat scroll 0px 2px;
-    color:#003333;
+    color:#333333;
 }
 a.linkminor:hover, a.linkminor:active {
     background:transparent url(/images/dt/nav_elements/arrows/orange_arrowSM.gif) no-repeat scroll 0px 2px;

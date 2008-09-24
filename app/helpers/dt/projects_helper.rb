@@ -140,4 +140,8 @@ module Dt::ProjectsHelper
       render :partial  => 'flickr_slider'
   	end
   end
+
+  def milestone_date(date)
+    date.strftime("%B %Y")
+  end
 end

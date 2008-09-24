@@ -42,6 +42,7 @@ class Dt::ProjectsController < DtApplicationController
     @youtube_videos_size = @project.project_you_tube_videos.size if @project.project_you_tube_videos
     @budget_items = @project.budget_items
     #@rss_feed.clean! if @rss_feed # sanitize the html
+    @organization = @project.partner
     respond_to do |format|
       format.html
     end
@@ -130,6 +131,18 @@ class Dt::ProjectsController < DtApplicationController
       format.html {render :action => 'cause', :layout => 'dt/plain'}
     end
   end
+
+  def give
+    begin
+      @project = Project.find_public(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      rescue_404 and return
+    end
+    respond_to do |format|
+      format.html
+    end
+  end
+
 
   def facebook_login
     # placeholder for the before_filters above: project_id_to_session, facebook_login
@@ -242,7 +255,7 @@ class Dt::ProjectsController < DtApplicationController
     end
   end
   helper_method :add_causes
-  
+
   def get_videos
     begin
       @project = Project.find_public(params[:id])
@@ -267,7 +280,7 @@ class Dt::ProjectsController < DtApplicationController
   protected
 
   def apply_filters
-    
+
     filters = Hash.new
     # partner
     if params[:partner_selected]
@@ -286,8 +299,8 @@ class Dt::ProjectsController < DtApplicationController
     # sector (don't worry about cause_selected)
     if params[:cause_selected]
       if !params[:sector_id].nil? && !params[:sector_id].empty?
-        #filters.merge!({:sector_id => params[:sector_id].to_i} ) 
-        sel_projects_sector = []       
+        #filters.merge!({:sector_id => params[:sector_id].to_i} )
+        sel_projects_sector = []
         sel_projects_sector = Project.find_public( :all, :joins => [:sectors], :conditions => "sectors.id=#{params[:sector_id]}")
       end
     end
@@ -330,7 +343,7 @@ class Dt::ProjectsController < DtApplicationController
         filters.merge!(:created_at => ids)
       end
     end
-    
+
     if params[:location_selected]
       if !params[:country_id].nil? && !params[:country_id].empty?
         sel_projects = []
@@ -339,11 +352,11 @@ class Dt::ProjectsController < DtApplicationController
           sel_projects = []
           sel_projects = Project.find_public( :all, :conditions => "continent_id=#{params[:continent_id]}")
       end
-      
+
     end
 
-    
-    # monkey patch to easily and quickly search for location 
+
+    # monkey patch to easily and quickly search for location
     if !sel_projects.nil?
       ids = []
       sel_projects.each do |project|
@@ -352,26 +365,26 @@ class Dt::ProjectsController < DtApplicationController
       filters.merge!(:project_id => ids)
       #filters.merge!(:created_at => ids)
     end
-    
+
     # monkey patch to fix sector results
-    if !sel_projects_sector.nil? 
+    if !sel_projects_sector.nil?
       ids = []
       sel_projects_sector.each do |project|
         ids << project.created_at
       end
-     
+
       filters.merge!(:created_at => ids )
     end
-    
+
     return filters
   end
 
 
 
   def ultrasphinx_search(filters)
-    
+
     if params[:order].nil?
-      
+
       @search = Ultrasphinx::Search.new(:query => @query,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending', :filters =>filters, :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
       Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
         :before_match => '<strong style="background-color:yellow;">',

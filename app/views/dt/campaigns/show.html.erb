@@ -12,7 +12,7 @@
 				<%= @campaign.description %>
 			</p>
 		</div>
-		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
+		<% render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
 
 		<div id="Participants">
 			<%= campaign_h2_header(' ' +link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container')%>
@@ -52,6 +52,8 @@
 			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%> CDN</span><br/>
 			<span class="small_text">Pledged: $ <%= @campaign.funds_raised %> CDN</span><br/>
 			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
+			<span class="small_text">Number of Teams: <%= @campaign.teams.size %></span><br/>
+			<span class="small_text">Number of Participants: <%= @campaign.participants.size %></span><br/>
 		</div>
 		<div class="campaign-sidebar-box get-involved">
 			<li><%= link_to("Join #{@campaign.name}", join_dt_campaign_path(@campaign)) %></li>

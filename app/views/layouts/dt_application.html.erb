@@ -21,11 +21,9 @@
 <div id="container">
   <%= render "dt/shared/head" %>
   <%= render "dt/shared/globalnav" %>
-  
 
 <%- nav = yield :nav -%>
 <%- page_title = yield :page_title -%>
-<%- page_title = html_title if page_title.nil? || page_title.empty? -%>
 <%- top_content = yield :top_content -%>
 <%- content = yield :content -%>
 <%- sidebar = yield :sidebar -%>
@@ -51,9 +49,11 @@
   <%- end -%>
 
   <div id="contentcontainer" class="clearfix">
+    <div class="pagetitle"> 
+    	<% unless nav %><h1><%= page_title %></h1><% end %>
+		</div>
     <div id="content<%= "wide" unless sidebar %>-wrapper">
       <div id="content">
-        <% unless nav %><h1><%= page_title %></h1><% end %>
         <%= yield %>
       </div>
     </div>

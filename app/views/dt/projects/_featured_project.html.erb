@@ -23,7 +23,7 @@
 				<% if (@project.short_description) && (@project.short_description!="") %>
 					<%= @project.short_description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
 				<% else %>
-					<%= @project.summarized_description(75) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
+					<%= @project.summarized_description(50) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
 				<% end%>
 			</p>
 		</div>

@@ -1,14 +1,4 @@
-<div class="full-display-project-header clearfix">
-	<div class='full-display-project-title'><%= @project.name %></div>
-	<div class="full-display-sector-images"><%= sector_images(@project.id) %></div>
-
-	<div class="project-location-link">
-		<% if @project.community_id %>
-			<%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %>
-		<% end %>
-		<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
-	</div>
-</div>
+<%= render(:partial => 'project_header', :object => @projects) %>
 
 <div class="project-content">
 	<%= flickr_slider %>
@@ -37,7 +27,7 @@
 			<div class="accordion-content">
 				<div class="quickfacts">
 					<ul>
-						<li><strong>Organization:</strong><%=h @project.partner.name%></li>
+						<li><strong>Organization:</strong> <%= link_to(@organization.name, organization_dt_project_path(@project) )%></li>
 					</ul>
 				</div>
 			</div>
@@ -45,10 +35,15 @@
 	</div>
 	<div class="project-sidebar-buttons">
 		<% if @project.fundable? %>
-			<%= link_to "<img src='/images/dt/placeholders/give.gif' alt='Give' />", new_dt_gift_path(:project_id => @project) %>
+			<%= link_to "<img src='/images/dt/placeholders/give.gif' alt='Give' />", give_dt_project_path(@project) %>
 		<% end %>
 		<a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/nav_elements/buttonsCF/tellFriend_lgrey2.gif"></a>
+		<div class="give-disambiguation-box">
+			<li><%= link_to("Give to this project directly", new_dt_investment_path(:project_id => @project.id)) %></li>
+			<li><%= link_to("Give to this project on behalf of someone", new_dt_gift_path(:project_id => @project)) %></li>
+		</div>
 	</div>
+	
 </div>
 
 
@@ -88,13 +83,10 @@
 
 		<!-- intended outcome -->
 		<div id='intended_outcome' style='display:none'>
-
-
 			<% if @project.intended_outcome? %>
-			<h2>Intended Outcome</h2>
-			<div>
-				<%= @project.intended_outcome %>
-			</div>
+				<div>
+					<%= @project.intended_outcome %>
+				</div>
 			<% else %>
 				<h2>There is no intended outcome data available.</h2>
 			<% end %>
@@ -103,10 +95,10 @@
 
 		<div id='measurable_feedback' style='display:none;'>
 			<% if @project.meas_eval_plan? %>
-			<h2>Measurements and Evaluations</h2>
-			<div>
-				<%= @project.meas_eval_plan %>
-			</div>
+				<h2>Measurements and Evaluations</h2>
+				<div>
+					<%= @project.meas_eval_plan %>
+				</div>
 			<% else %>
 				<h2>There is no measurable feedback data available.</h2>
 			<% end %>
@@ -126,7 +118,7 @@
 				<%= will_paginate @flickr_images, :param_name => 'flickr_page' %>
 				<%= render :partial => 'flickr_photo', :collection => @flickr_images %>
 			<% else %>
-				<h2>There is no photos available.</h2>
+				<h2>There are no photos available.</h2>
 			<% end %>
 		</div>
 

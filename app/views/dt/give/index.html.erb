@@ -1,4 +1,10 @@
-<div>
 
-<h1>Give disambiguation page</h1>
+<div class="indented">
+	<h1>I want to:</h1>
+	<ul>
+		<li><%= link_to("Give a gift card (let the recipient a choose a project)", new_dt_gift_path) %></li>
+		<li><%= link_to("Give to a project on behalf of someone", {:controller=>'projects', :action=>'index'}) %></li>
+		<li><%= link_to("Let ChristmasFuture choose a project for me (donations will go towards project, not operations)", new_dt_investment_path(:project_id => cf_unallocated_project.id)) %></li>
+		<li><%= link_to("Give to ChristmasFuture's Operational Budget", new_dt_investment_path(:project_id => 10)) %></li>
+	</ul>
 </div>

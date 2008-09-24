@@ -260,10 +260,9 @@ class Project < ActiveRecord::Base
     end
 
 
-    #**********************need to make sure these projects are active and partners are active**********
     def featured_projects
       projects = Project.find_public(:all, :conditions => { :featured => 1 })
-      projects = Project.find_public(:all, :limit => 3, :order => 'RAND()') if projects.size == 0
+      projects = Project.find_public(:all, :joins=>"INNER JOIN partners ON projects.partner_id = partners.id", :conditions => "partners.partner_status_id IN (1,3)", :limit => 3, :order => 'RAND()') if projects.size == 0
       projects
     end
   end
@@ -297,10 +296,10 @@ class Project < ActiveRecord::Base
     return true
   end
 
-  def summarized_description(length = 50)
+  def summarized_description(words = 50)
     return unless self.description?
     if @summarized_description.nil?
-      @summarized_description = description(:plain).split($;, length+1)
+      @summarized_description = description(:plain).split($;, words+1)
       @summarized_description.pop
       @summarized_description = @summarized_description.join(' ')
       @summarized_description += (@summarized_description[-1,1] == '.' ? '..' : '...')
@@ -369,7 +368,7 @@ class Project < ActiveRecord::Base
     milestones = self.milestones.find(:all, :conditions => {:milestone_status_id => status.to_s } )
     return milestones.size unless milestones == nil
   end
-  
+
   def milestones
     Milestone.find(:all, :conditions => {:project_id => self.id}, :order=> "target_date ASC")
   end

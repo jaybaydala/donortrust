@@ -12,8 +12,13 @@ Project Header
   padding-top: 20px;
   font-size: 22px;
 }
+.full-display-project-title a{
+  text-decoration: none;
+	color: #360;
+}
 
 .project-location-link {
+  clear: left;
   float: left;
   padding-top:2px;
   width: 200px;
@@ -387,10 +392,14 @@ div#featured-projects {
 	float:left;
 }
 
+.indented {
+	padding-left: 50px;
+}
+
 .project-sidebar{
 	width: 25%;
 	float:right;
-	padding-bottom:15px;
+	padding-bottom:0px;
 }
 .project-sidebar .quickfacts ul{
 	list-style-type:none;	
@@ -425,9 +434,14 @@ SEARCH, layout and forms
 
 .predefined-search-list {
 	float: left;
-  margin-right: 25px;
+  margin-right: 20px;
   font-size: 14px;
 }
+
+.predefined-search-list a{
+	color: #360;
+}
+
 
 .predefined-search-list h3{
   font-weight: bold;
@@ -553,13 +567,32 @@ form#project_search input.submitreplace:hover{
 
 .searchResultsQuickfacts li{
 	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
-	padding:0 0 0.1875em 0.875em;
+	padding:0 0 0.1875em 1em;
 	font-family:Arial, Helvetica, sans-serif;
 }
 
 .quickfactsSidebarGive {
   float: right;
 }
+
+.give-disambiguation-box {
+	border-left: 1px solid #666;
+	width: 200px;
+	margin-left:20px;
+	margin-bottom: 15px;
+	padding-left: 5px;
+}
+.give-disambiguation-box a{
+	color:#360;
+	text-decoration: none;
+}
+.give-disambiguation-box li{
+	list-style: none;
+	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
+	padding:0 0 0.1875em 1em;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
 
 /* project accordion */
 #project-accordion{
@@ -629,7 +662,6 @@ div.accordion-content{
 
 /* project details */
 .project-details {
-
 }
 
 .detail-tabs {
@@ -658,7 +690,7 @@ div.accordion-content{
 
 .detail-tabs a.nav-tab {
   float:left;
-  background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat left top;
+  background:#83A360 url("/images/dt/nav_elements/tabs-green.png") no-repeat left top;
   padding:0 0 0 9px;
   text-decoration:none;
   font-size: 14px;
@@ -670,7 +702,7 @@ div.accordion-content{
 .detail-tabs a.nav-tab span {
   float:left;
   display:block;
-  background:#83A360 url("/images/dt/nav_elements/tabs-orange.png") no-repeat right top;
+  background:#83A360 url("/images/dt/nav_elements/tabs-green.png") no-repeat right top;
   padding:4px 12px 3px 3px;
 }
 
@@ -699,4 +731,7 @@ div.accordion-content{
 	border-bottom:1px solid #336600;
 }
 
+.detail-content #project_plan li {
+	list-style: none;	
+}
 

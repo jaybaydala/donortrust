@@ -8,19 +8,18 @@ class AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
 
     Project.reset_column_information
 
-    # say_with_time "Adding country and continent ID shortcuts to projects..." do
-    #   Project.find(:all).each do |p|
-    #     # find the country through place shortcuts
-    #     #only add if it isn't a continent
-    #     if p.place.place_type_id != 1
-    #       country = Place.find(p.place.country_id)
-    #       p.country_id = country.id
-    #       p.continent_id = country.parent_id
-    #       p.save!
-    #     end
-    #   end
-    # end
-
+    say_with_time "Adding country and continent ID shortcuts to projects..." do
+      Project.find(:all).each do |p|
+        # find the country through place shortcuts
+        #only add if it isn't a continent
+        if p.place.place_type_id != 1
+          country = Place.find(p.place.country_id)
+          p.country_id = country.id
+          p.continent_id = country.parent_id
+          p.save!
+        end
+      end
+    end
   end
 
   def self.down

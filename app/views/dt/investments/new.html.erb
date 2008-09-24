@@ -1,32 +1,42 @@
-<%- content_for :html_title do -%>Invest<%- end -%>
-<%- content_for :page_title do -%>Invest Directly in a Project, and Invest in the Future.<%- end -%>
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :html_title do -%><%= @page_title %><%- end -%>
+<%- content_for :page_title do -%>Give to a project, invest in the future <%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <%= error_messages_for :investment %>
 <% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
-<p>Please enter your personal information.</p>
 <div class="userform">
-  <fieldset>
-    <legend>Please specify how you would like your investment to be allocated:</legend>
-    <ol>
-      <li>
-        <% if cf_unallocated_project %>
-          <label class="left"><%= f.radio_button "project_id", cf_unallocated_project.id %><%= cf_unallocated_project.name %></label>
-          <% if @investment.project_id == cf_unallocated_project.id %>
-            <div class="note">If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.</div>
-          <% end %>
-        <% elsif !@project %>
-          <div class="note"><%= link_to("you must choose a project", dt_projects_path) %></div>
-        <% end %>
-      </li>
-      <% if @project %><li>
-        <label class="left"><%= f.radio_button "project_id", ( @project.id? ? @project.id : 0 ) %>to a project I've chosen</label>
-        <div class="note" style="margin-left:1.6em;">&#8250; <%= @project.id? ? link_to(@project.name, dt_project_path(@project)) : link_to("choose another project", dt_projects_path) %></div>
-        <%= hidden_field_tag :project_id, @project.id %>
-      </li><% end %>
-    </ol>
-  </fieldset>
+	<% if !@project_specified %>
+		<fieldset>
+			<legend>I would like to:</legend>
+			<ol>
+				<% if cf_unallocated_project %>
+					<li>
+						<label class="left"><%= f.hidden_field "project_id" %><%= cf_unallocated_project.name %></label>
+						<% if @investment.project_id == cf_unallocated_project.id %>
+							<div class="note">If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.</div>
+						<% end %>
+					</li>
+				<% elsif !@project %>
+					<li>
+						<div class="note"><%= link_to("you must choose a project", dt_projects_path) %></div>
+					</li>
+				<% end %>
+			</ol>
+		</fieldset>
+	<% else %>
+		<fieldset>
+			<legend>I would like to give to:</legend>
+			<ol>
+				<% if cf_unallocated_project %>
+					<li><h1><%= link_to("\"#{@project.name}\"", dt_project_path(@project)) %></h1>
+						<label class="left"><%= f.hidden_field "project_id" %></label>
+							<div class="note">If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.</div>
+					</li>
+				<% end %>
+			</ol>
+		</fieldset>
+	<% end %>
+		
 
   <fieldset>
     <legend>Your Investment</legend>

@@ -1,0 +1,22 @@
+<%- content_for :html_title do -%><%= "Give" %> | <%= h @project.name %><%- end -%>
+<%- content_for :page_title do -%><%= link_to("", "") %><%- end -%>
+
+<div class="full-display-project-header clearfix">
+	<div class='full-display-project-title'><%= link_to(@project.name, dt_project_path(@project)) %></div>
+	<div class="full-display-sector-images"><%= sector_images(@project.id) %></div>
+
+	<div class="project-location-link">
+		<% if @project.community_id %>
+			<%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %>
+		<% end %>
+		<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
+	</div>
+</div>
+
+<div class="indented">
+	<h1>I would like to:</h1>
+	<ul>
+		<li><%= link_to("Give to \"#{@project.name}\" on behalf of someone", new_dt_gift_path(:project_id => @project)) %></li>
+		<li><%= link_to("Give to \"#{@project.name}\" directly", new_dt_investment_path(:project_id => @project.id)) %></li>
+	</ul>
+</div>

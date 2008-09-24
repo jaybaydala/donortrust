@@ -23,12 +23,12 @@
     <% end -%>
   </div>
   
-  <h2> Or list projects by:</h2>
+  <h2> Or search projects by:</h2>
   <div class='predefined-searches'>
     <div class="predefined-search-list" id='list-by-sectors'>
       <h3>Cause/Sector</h3>
       <%= sectors_projects(15) %>
-    </div>
+    </div>  
     <div class="predefined-search-list" id ='list-by-country'>
       <h3>Country</h3>
       <%= countries_with_project_counts(15) %>
@@ -43,10 +43,10 @@
       <%= total_cost_with_project_count(5001,10000) %>
       <%= total_cost_with_project_count(10001,15000) %>
       <%= total_cost_with_project_count(15001,20000) %>
-      <%= total_cost_with_project_count(20000,50000) %>
+      <%= total_cost_with_project_count(20001,50000) %>
       <%= total_cost_with_project_count(50001,100000) %>
       <%= total_cost_with_project_count(100000,500000) %>
-    </div>
+    </div>    
   </div>
 
   <div class='clearfix'></div>

@@ -1,6 +1,5 @@
 <%- content_for :html_title do -%>Open your gift!<%- end -%>
     <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-    <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
   	<% if @gift -%>
   		<p><%= @gift.name %> has sent you a gift of <%= number_to_currency( @gift.amount ) %>!</p>
   		<p>Just deposit the gift into your ChristmasFuture account to start changing the world.</p>

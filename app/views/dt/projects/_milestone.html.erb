@@ -1,4 +1,1 @@
-<li>
-  <h2><%= milestone.name%> - <%= milestone.target_date%></h2>
-  <p><%= milestone.description %></p>
-</li>
+<li><strong><%= milestone_date(milestone.target_date) %>: <%= milestone.name %></strong> - <%= milestone.description %></li>

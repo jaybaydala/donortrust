@@ -1,13 +1,13 @@
-<% content_for :html_title do %><%= h @nation.name %> | <%=h @project.name %><% end %>
-<% content_for :page_title do %><%=h @project.name %><% end %>
-<% content_for :nav do %><%= project_nav %><% end %>
-
 <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
 <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-<h1><%= @nation.name %></h1>
-<p><%= @nation.description %></p>
 
-<% content_for :sidebar do %>
+<%= render(:partial => 'project_header', :object => @projects) %>
+
+<div class="project-content">
+	<h1><%= @nation.name %></h1>
+	<p><%= @nation.description %></p>
+</div>
+<div class='project-sidebar'>
   <%= project_actions %>
   <% if @nation.file_image? %><%= image_tag @nation.file_image, :alt => "#{@nation.name} Image" %><% end %>
   <% if @nation.quick_fact_places.size > 0 -%>
@@ -28,4 +28,4 @@
   </ul><% end %>
 
   <%= mdg_goals %>
-<% end %>
+</div>

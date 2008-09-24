@@ -1,6 +1,5 @@
     <ul>
       <li id="project-nav-overview"<%=     ' class="current"' if params[:action] == 'show'         && params[:controller] == 'dt/projects' %>><%= link_to "Overview ", dt_project_path(@project) %></li>
-      <li id="project-nav-specs"<%=        ' class="current"' if params[:action] == 'details'      && params[:controller] == 'dt/projects' %>><%= link_to "Project Details ", details_dt_project_path(@project) %></li>
       <% if @project && @project.community_id? && @project.community %><li id="project-nav-community"<%= ' class="current"' if params[:action] == 'community'    && params[:controller] == 'dt/projects' %>><%= link_to "Community ", community_dt_project_path(@project) %></li><% end %>
       <% if @project && @project.nation_id? && @project.nation %><li id="project-nav-nation"<%= ' class="current"' if params[:action] == 'nation'       && params[:controller] == 'dt/projects' %>><%= link_to "Nation ",  nation_dt_project_path(@project) %></li><% end %>
       <li id="project-nav-organization"<%= ' class="current"' if params[:action] == 'organization' && params[:controller] == 'dt/projects' %>><%= link_to "Organization ", organization_dt_project_path(@project) %></li>

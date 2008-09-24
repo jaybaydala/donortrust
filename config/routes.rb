@@ -15,7 +15,8 @@ ActionController::Routing::Routes.draw do |map|
                                          :connect => :get,
                                          :cause => :get,
                                          :facebook_login => :get,
-                                         :timeline => :get },
+                                         :timeline => :get,
+                                         :give => :get},
                             :collection => {  :search => :get,
                                               :advancedsearch => :get,
                                               :add_countries => :get,
@@ -82,17 +83,17 @@ ActionController::Routing::Routes.draw do |map|
                           :new => {
                                         :validate_short_name_of => :post
                           },
-                          :member => {  :join => :get, 
+                          :member => {  :join => :get,
                                         :activate => :get,
                                         :manage => :get
                                       }
-                                      
+
     dt.resources :pledges
-    
+
     dt.resources :participants,
                           :collection => { :admin => :get},
                           :member => { :manage => :get }
-    
+
     dt.resources :campaigns do |campaigns|
      campaigns.resources :wall_posts
      campaigns.resources :news_items
@@ -100,7 +101,7 @@ ActionController::Routing::Routes.draw do |map|
      campaigns.resources :participants
      campaigns.resources :pledges
     end
-    
+
     dt.resources :teams,  :collection => { :manage => :get
                                            },
                           :new => {
@@ -122,7 +123,7 @@ ActionController::Routing::Routes.draw do |map|
       participants.resources :news_items
       participants.resources :pledges
     end
-    
+
     #Done with everything pretaining to campaigns
 
     dt.resources :give, :controller => 'give'

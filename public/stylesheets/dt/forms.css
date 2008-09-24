@@ -2,7 +2,7 @@
 ALL FORMS
 =========*/
 fieldset {
-    border-top:3px solid #95AED0;
+    border-top:1px solid #999;
     margin-bottom:1.125em;
 }
 fieldset fieldset {
@@ -72,7 +72,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 .userform {}
 .userform div.notes {
     float:right;
-    width:160px;
+    width:280px;
     padding:5px;
     margin:0 0 10px 10px;
     background-color:#FFD;
@@ -105,7 +105,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 .userform ol li {
     clear:left;
     padding:.25em;
-    font-size:0.6875em;
+    font-size:0.75em;
 }
 .userform ol li input, .userform ol li select, .userform ul li input, .userform ul li select {
     font-size:1em;
@@ -158,6 +158,10 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     float:none;
     display:block;
 	text-align:left;
+}
+
+#investmenform fieldset {
+	border: 0px;
 }
 
 /*

@@ -3,12 +3,19 @@ require 'order_helper'
 class Dt::InvestmentsController < DtApplicationController
   helper 'dt/places'
   include OrderHelper
-  
+  def initialize
+    @page_title = "Give"
+  end
+
   def new
     @investment = Investment.new( params[:investment] )
-    @investment.project_id = params[:project_id] if params[:project_id]
-    # load the cf_unallocated_project if no other project is loaded
-    @investment.project = Project.cf_unallocated_project if (Project.cf_unallocated_project && !@investment.project)
+    if params[:project_id]
+      @investment.project_id = params[:project_id]
+      @project_specified = true
+    else # load the cf_unallocated_project if no other project is loaded
+      @investment.project = Project.cf_unallocated_project if (Project.cf_unallocated_project && !@investment.project)
+      @project_specified = false
+    end
     @project = @investment.project if @investment.project
     respond_to do |format|
       format.html {
@@ -19,16 +26,16 @@ class Dt::InvestmentsController < DtApplicationController
       }
     end
   end
-  
+
   def create
     @investment = Investment.new( params[:investment] )
     @investment.project_id = params[:project_id] if params[:project_id]
     @investment.user = current_user if logged_in?
     @investment.user_ip_addr = request.remote_ip
     @project = @investment.project if @investment.project
-    
+
     @valid = @investment.valid?
-    
+
     respond_to do |format|
       if @valid
         session[:investment_params] = nil
@@ -42,14 +49,14 @@ class Dt::InvestmentsController < DtApplicationController
       end
     end
   end
-  
+
   def edit
     @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Investment)
       @investment = @cart.items[params[:id].to_i]
       @project = @investment.project if @investment.project_id?
     end
-    
+
     respond_to do |format|
       format.html {
         redirect_to dt_cart_path and return unless @investment
@@ -57,16 +64,16 @@ class Dt::InvestmentsController < DtApplicationController
       }
     end
   end
-  
+
   def update
     @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Investment)
-      @investment = @cart.items[params[:id].to_i] 
+      @investment = @cart.items[params[:id].to_i]
       @investment.attributes = params[:investment]
       @investment.user_ip_addr = request.remote_ip
       @valid = @investment.valid?
     end
-    
+
     respond_to do |format|
       if !@investment
         format.html { redirect_to dt_cart_path }
@@ -82,7 +89,7 @@ class Dt::InvestmentsController < DtApplicationController
       end
     end
   end
-  
+
   private
   def user_validation(user)
     user.errors.add_on_empty %w( first_name last_name address city province postal_code country )
