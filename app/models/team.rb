@@ -48,9 +48,11 @@ class Team < ActiveRecord::Base
   end
 
   def funds_raised
-    total = 0
-    for participant in self.participants
-      total = total + participant.funds_raised
+    total = 0;
+    for pledge in self.pledges
+      if pledge.paid
+        total = total + pledge.amount
+      end
     end
     total
   end
