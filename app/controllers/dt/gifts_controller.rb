@@ -32,7 +32,7 @@ class Dt::GiftsController < DtApplicationController
   
   def new
     store_location
-    find_cart
+    @cart = find_cart
     @gift = Gift.new( gift_params )
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
@@ -67,7 +67,7 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def create
-    find_cart
+    @cart = find_cart
     @gift = Gift.new( gift_params )    
     @gift.user_ip_addr = request.remote_ip
     set_send_now_delivery!
@@ -76,7 +76,6 @@ class Dt::GiftsController < DtApplicationController
 
     respond_to do |format|
       if @valid
-        @cart = find_cart
         @cart.add_item(@gift)
         format.html { 
           flash[:notice] = "Your Gift has been added to your cart."

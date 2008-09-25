@@ -87,11 +87,7 @@ describe Dt::GiftsController do
       end
       
       it "should load the user attributes into the gift" do
-        %w(first_name last_name address city province postal_code country).each do |c|
-          @user.should_receive(:read_attribute).twice.with(c)
-          @gift.should_receive(:attribute_present?).with(c).and_return(false)
-          @gift.should_receive(:write_attribute).with(c, @user.read_attribute(c)).and_return(true)
-        end
+        @gift.should_receive(:write_attribute).with("email", @user.login).and_return(true)
         @gift.should_receive(:write_attribute).with("name", @user.full_name).and_return(true)
         get 'new'
       end
@@ -166,6 +162,10 @@ describe Dt::GiftsController do
       it "should redirect to dt_cart_path" do
         post 'create'
         response.should redirect_to(dt_cart_path)
+      end
+      
+      def do_request
+        
       end
     end
     
