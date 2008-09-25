@@ -28,7 +28,7 @@
 			<legend>I would like to give to:</legend>
 			<ol>
 				<% if cf_unallocated_project %>
-					<li><h1><%= link_to("\"#{@project.name}\"", dt_project_path(@project)) %></h1>
+					<li><h2><%= link_to("\"#{@project.name}\"", dt_project_path(@project)) %></h2>
 						<label class="left"><%= f.hidden_field "project_id" %></label>
 							<div class="note">If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.</div>
 					</li>

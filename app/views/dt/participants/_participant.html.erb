@@ -27,14 +27,16 @@
 			<div class="participant_details"><%= participant.funds_raised %> dollars raised.</div>
 	</div>
 	<% else %>
-	<div id="team_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>">
-			<span class="participant_details">
-				<%= "<strong>*</strong>" unless (participant.user != participant.team.leader ||  participant.team.generic?) %>
-				<%= '<strong>**</strong>' unless (participant.user != participant.team.leader || (not participant.team.generic?)) %>
-			<%= link_to participant.name, dt_participant_path(participant) %>
-			<%= participant.funds_raised %> dollars raised.
-			</span>
-	</div>
+		<% if !participant.pending && !participant.team.pending %>
+			<div id="team_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>">
+				<span class="participant_details">
+					<%= "<strong>*</strong>" unless (participant.user != participant.team.leader ||  participant.team.generic?) %>
+					<%= '<strong>**</strong>' unless (participant.user != participant.team.leader || (not participant.team.generic?)) %>
+				<%= link_to participant.name, dt_participant_path(participant) %> (<%= link_to participant.team.name, dt_team_path(participant.team) %>)
+				<%= participant.funds_raised %> dollars raised.
+				</span>
+			</div>
+		<% end %>	
 	<% end %>
 <% end %>
 

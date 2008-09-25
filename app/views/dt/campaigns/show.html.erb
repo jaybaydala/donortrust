@@ -12,7 +12,7 @@
 				<%= @campaign.description %>
 			</p>
 		</div>
-		<% render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
+		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
 
 		<div id="Participants">
 			<%= campaign_h2_header(' ' +link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container')%>
@@ -52,15 +52,20 @@
 			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%> CDN</span><br/>
 			<span class="small_text">Pledged: $ <%= @campaign.funds_raised %> CDN</span><br/>
 			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
-			<span class="small_text">Number of Teams: <%= @campaign.teams.size %></span><br/>
+			<span class="small_text">Number of Teams: <%= @campaign.active_teams.size %></span><br/>
 			<span class="small_text">Number of Participants: <%= @campaign.participants.size %></span><br/>
 		</div>
 		<div class="campaign-sidebar-box get-involved">
-			<li><%= link_to("Join #{@campaign.name}", join_dt_campaign_path(@campaign)) %></li>
-			<%= link_to('<li>Join a Team</li>', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 %></li>
-			<%= ("<li>" + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) +"</li>")if (@campaign.allow_multiple_teams? && !@campaign.teams_full?)%>
+			<%= ('<li>' + link_to("Manage Campaign", manage_dt_campaign_path(@campaign)) + '<li>') if @campaign.owned?%>
+		
+		  <% if !@campaign.has_participant(current_user) %>
+				<%= link_to("<li>Join #{@campaign.name}</li>", join_dt_campaign_path(@campaign)) %>
+				<%= link_to('<li>Join a Team</li>', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 %>	
+				<%= ("<li>" + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) +"</li>")if (@campaign.allow_multiple_teams? && !@campaign.teams_full?) %>
+			<% end %>
+			
 			<li><%= link_to "Support a participant", dt_campaign_participants_path(@campaign) %></li>
-			<%= link_to "<span>Pledge</span>", new_dt_campaign_pledge_path(@campaign), :class => "button-pledge" %>
+			<li><%= link_to "<span>Pledge</span>", new_dt_campaign_pledge_path(@campaign), :class => "button-pledge" %></li>
 		</div>
 		<div class="campaign-sidebar-box campaign-address">
 			<h5>Address</h5>

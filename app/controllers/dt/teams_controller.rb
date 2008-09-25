@@ -52,6 +52,8 @@ class Dt::TeamsController < DtApplicationController
       @participant.team = @team
       @participant.user = current_user
       @participant.pending = false
+      @participant.goal = 0
+
       if @participant.save
         if @team.pending
           flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
@@ -59,8 +61,8 @@ class Dt::TeamsController < DtApplicationController
           flash[:notice] = 'Team was successfully created.'
         end
         redirect_to(dt_team_path(@team))
-      else 
-          flash[:notice] = 'There was an error creating your team.'
+      else
+        flash[:notice] = 'There was an error creating your team.'
       end
     else
       render :action => "new"
@@ -85,7 +87,7 @@ class Dt::TeamsController < DtApplicationController
     if not @team.generic?
         @team.destroy
         flash[:notice] = 'Team Removed.'
-    else 
+    else
         flash[:notice] = 'You may not destroy the default team.'
     end
     redirect_to(dt_campaign_path(@campaign))
@@ -109,7 +111,7 @@ class Dt::TeamsController < DtApplicationController
     else
       if @team.campaign.participating?(current_user)
         flash[:notice] = "You are already participating in this campaign, thus you may not join another team."
-      else  
+      else
         if @team.users.include?(current_user)
           flash[:notice] = "You are already a member of this team!"
         else
@@ -172,16 +174,16 @@ class Dt::TeamsController < DtApplicationController
     end
     @campaign
   end
-  
+
   def find_team
     @team = Team.find(params[:id]) unless params[:id].blank?
     @team = Team.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
   end
-  
+
   def check_if_in_team
     find_campaign
     if @campaign.participating?(current_user)
-      
+
     end
   end
 end

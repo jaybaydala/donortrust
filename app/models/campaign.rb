@@ -23,6 +23,8 @@ class Campaign < ActiveRecord::Base
   has_many :partner_limits
   has_many :partners, :through => :partner_limits
 
+  has_many :pledges
+
   attr_accessor :use_user_email
 
 

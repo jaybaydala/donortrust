@@ -33,4 +33,21 @@
   </td>
   <td class="numeric money"><%= number_to_currency(sidebar_line_item.amount) %></td>
 <% end -%>
+
+<%- if sidebar_line_item.class == Pledge %>
+  <td>
+    <h5><strong>Pledge</strong></h5>
+		<% if sidebar_line_item.participant != nil %>
+			<p>for <%= link_to(sidebar_line_item.participant.user.full_name, dt_participant_path(sidebar_line_item.participant)) %>'s participation in <%= link_to(sidebar_line_item.campaign.name, dt_campaign_path(sidebar_line_item.campaign)) %></p>
+		<% else %>
+			<% if sidebar_line_item.participant != nil %>
+				<p>towards <%= link_to(sidebar_line_item.team.name, dt_team_path(sidebar_line_item.team.name)) %> a team participating in <%= link_to(sidebar_line_item.campaign.name, dt_campaign_path(sidebar_line_item.campaign)) %></p>
+			<% else %>
+				<p>towards <%= link_to(sidebar_line_item.campaign.name, dt_campaign_path(sidebar_line_item.campaign)) %>
+			<% end %>
+		<% end %>
+  </td>
+  <td class="numeric money"><%= number_to_currency(sidebar_line_item.amount) %></td>
+<% end -%>
+
 </tr>

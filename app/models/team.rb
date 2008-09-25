@@ -9,6 +9,8 @@ class Team < ActiveRecord::Base
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
   has_many :news_items, :as =>:postable, :dependent => :destroy
 
+  has_many :pledges
+
   attr_accessor :use_user_email
 
   # validations
@@ -68,6 +70,20 @@ class Team < ActiveRecord::Base
 
   def is_full?
     self.campaign.max_size_of_teams ? (self.participants.size >= self.campaign.max_size_of_teams): false
+  end
+
+  def pending_participants
+    Participant.find_all_by_team_id_and_pending(self.id, true)
+  end
+
+  def active_participants
+    Participant.find_all_by_team_id_and_pending(self.id, false)
+  end
+
+
+  #############TODO##############
+  def campaign_over?
+
   end
 
   def joinable?
