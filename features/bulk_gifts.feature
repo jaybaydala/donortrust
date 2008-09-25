@@ -12,8 +12,10 @@ Feature: Bulk Gift Giving
    Given that I'm on the bulk gift giving page
    When I enter "Test Gift" for "gift[name]"
    And I enter "tester@example.com" for "gift[email]"
-   And I enter "20" for "Amount"
+	 And I choose "0" for "gift[project]"
+   And I enter "20" for "Gift Amount"
    And I enter "tester@example.com,example@example.com,bob@example.com" for "Gift Recipients"
+	 And I press "Add these Gifts"
    Then I should see 3 gifts in my cart
    And my Cart Total should be $60
 

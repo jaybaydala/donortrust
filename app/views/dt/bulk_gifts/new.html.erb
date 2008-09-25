@@ -7,7 +7,7 @@
 <p><%= link_to "Return to Individual Gift Giving", new_dt_gift_path(), :class => 'buttonsubmit' %></p>
 
 <% form_for(:gift, :url => dt_bulk_gifts_path, :html => {:id => "bulkgiftform", :name => "bulkgiftform"}) do |f| %>
-<div class="userform">
+<div class="userform clearfix">
   <h2>Your Gift Information</h2>
   <fieldset>
     <legend>Choose a Gift Type</legend>
@@ -44,14 +44,19 @@
 
     <fieldset>
       <legend>Gift Recipients</legend>
+      <div id="uploadnotification"></div>
       <ol class="clearfix">
       <li>
-        <div class="note">Please enter a comma-delimited list of email addresses.</div>
+        <div class="note">Please enter a comma-delimited list of email addresses.  If you prefer, you can upload a list of contacts using the form below.</div>
         <label for="recipients">Gift Recipients</label><%= text_area_tag :recipients, nil, :rows => 5, :cols => 40 %>
       </li>
       <!--<li><label for="gift_email_file">Email Addresses File</label><%= f.file_field :email_file %></li>-->
     </ol>
   </fieldset>
+
+  
   <div style="float:right;" class="clearfix"><%= submit_tag 'Add these Gifts', :class => 'buttonsubmit' %></div>
 </div>
 <%- end -%>
+
+<%= render 'dt/email_uploads/new' %>

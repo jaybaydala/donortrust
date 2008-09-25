@@ -48,30 +48,43 @@ class Dt::BulkGiftsController < DtApplicationController
   def create
     @gifts = []
     @errors = []
-    params[:recipients].split(',').each do |r|
-      r = r.strip
-      # email = EmailParser.new(r)
-      gift = Gift.new( gift_params )
-      gift.to_email = r
-      gift.to_email_confirmation = r
-      gift.user_ip_addr = request.remote_ip
-      set_send_now_delivery!(gift)
-      @errors << gift unless gift.valid?
-      @gifts << gift
+    email_parser = EmailParser.new(params[:recipients])
+    email_parser.parse_list
+    if email_parser.errors.empty?
+      email_parser.emails.each do |email|
+        # gift = Gift.create_from_tmail(email, gift_params)
+        gift = Gift.new( gift_params )
+        gift.to_name = email.name
+        gift.to_email = email.address
+        gift.to_email_confirmation = email.address
+        gift.user_ip_addr = request.remote_ip
+        set_send_now_delivery!(gift)
+        @errors << gift unless gift.valid?
+        @gifts << gift
+      end
     end
     
-
     respond_to do |format|
-      if @errors.empty?
+      if @errors.empty? && email_parser.errors.empty?
         find_cart
         @gifts.each{|gift| @cart.add_item(gift)}
         flash[:notice] = "Your Gifts have been added to your cart."
         format.html { redirect_to dt_cart_path }
       else
+        flash.now[:error] = "There were problems adding your gifts to your cart. Please check your email addresses carefully and try again."
         @project = @gift.project if @gift.project_id? && @gift.project
         @ecards = ECard.find(:all, :order => :id)
         format.html { render :action => "new" }
       end
+    end
+  end
+  
+  def update
+    respond_to do |format|
+      format.html {
+          render :action => 'update'
+      }
+      format.js
     end
   end
 

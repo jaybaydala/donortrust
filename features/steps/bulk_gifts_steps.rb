@@ -14,4 +14,6 @@ Given /that I'm on the bulk gift giving page/ do
 end
 
 Then /I should see 3 gifts in my cart/ do
+  visits "/dt/cart"
+  response.should have_tag("#cart p")
 end
