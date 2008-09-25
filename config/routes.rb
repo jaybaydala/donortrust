@@ -19,6 +19,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :session, :controller => 'sessions'
     dt.resources :gifts, :controller => 'gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :put }
     dt.resources :bulk_gifts, :controller => 'bulk_gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :put }
+    dt.resource :email_upload, :controller => 'email_uploads'
     dt.resources :groups, :controller=> 'groups' do |groups|
       groups.resources :memberships, :controller => 'groups/memberships', :member => { :promote => :put, :demote => :put }
       groups.resources :group_projects, :controller => 'group_projects'
