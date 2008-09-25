@@ -1,6 +1,6 @@
 ENV['RAILS_ENV'] ||= 'development'
 
-RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.1' unless defined? RAILS_GEM_VERSION
 
 require File.join(File.dirname(__FILE__), 'boot')
 require 'fastercsv'
@@ -17,26 +17,23 @@ Rails::Initializer.run do |config|
 
   # Specify gems that this application depends on. 
   # They can then be installed with "rake gems:install" on new installations.
-  config.gem "hoe"
-  config.gem "highline", :version => ">= 1.4.0"
-  config.gem "mislav-will_paginate", :version => ">= 2.3.2", :lib => "will_paginate", :source => "http://gems.github.com"
-  config.gem "RedCloth", :version => ">= 3.301", :source => "http://code.whytheluckystiff.net/"
+  config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
+  config.gem "RedCloth", :source => "http://code.whytheluckystiff.net/"
   # RSS Feed parsing
-  config.gem "simple-rss", :version => ">= 1.1"
-  config.gem "feed-normalizer", :version => ">= 1.4.0"
+  config.gem "simple-rss"
+  config.gem "feed-normalizer"
   config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
   # social application gems
-  config.gem "flickr", :version => ">= 1.0.0"
-  config.gem "rfacebook", :version => "0.9.8"
-  config.gem "RubyTube", :version => "0.1.0", :lib => "ruby_tube"
+  config.gem "flickr"
+  config.gem "rfacebook"
+  config.gem "RubyTube", :lib => "ruby_tube"
   # pdf creation gems
   config.gem "pdf-writer", :lib => "pdf/writer"
   config.gem "transaction-simple", :lib => "transaction/simple"
   config.gem "color-tools", :lib => "color"
   # backgroundrb plugin dependencies
-  config.gem "chronic", :version => ">= 0.2.3"
-  config.gem "packet", :version => ">= 0.1.10"
-  config.gem "daemons", :version => ">= 1.0.10"
+  config.gem "chronic"
+  config.gem "packet"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
