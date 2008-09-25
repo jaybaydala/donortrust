@@ -7,6 +7,7 @@ if @valid
   end
   page["gift_send_email_now"].checked = true
   # hide the add a gift form and show the "Add another gift" link
+  page["createdgifts"].show
   page["addgiftfields-showlink"].show
   page["addgiftfields-cancellink"].show
   page["addgiftfields"].hide

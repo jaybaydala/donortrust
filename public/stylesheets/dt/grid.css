@@ -141,6 +141,23 @@ div.errorExplanation ul {
 	margin-left:2em;
 }
 
+div.control {
+	background-color:#EFEFEF;
+	padding:2px;
+	font-size:0.75em;
+}
+div.control a:link, div.control a:visited {
+	text-decoration: underline;
+	color: #F00;
+	padding:2px;
+}
+div.control a:hover, div.control a:active {
+ 	text-decoration: none;
+	color: #FFF;
+	background-color:#F00;
+	padding:2px;
+}
+
 
 /* Add clearfix directly to columns */
 .columns:after {

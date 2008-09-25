@@ -1,6 +1,12 @@
-<div id="addgiftfields-showlink" style="display:none;"><%= link_to "Add another gift", "javascript:void(0);", :onclick => "$('addgiftfields').toggle();$('addgiftfields-showlink').toggle();" %></div>
+<div id="addgiftfields-showlink" class="control" style="display:none;">
+  <%= link_to "Add another gift", "javascript:void(0);", :onclick => "$('addgiftfields').toggle();$('addgiftfields-showlink').toggle();" %>
+  | <%= link_to "Go to My Cart", dt_cart_path %>
+</div>
 <div class="columns multiplegiftfields" id="addgiftfields">
-  <div id="addgiftfields-cancellink" style="display:none;"><%= link_to "Cancel", "javascript:void(0);", :onclick => "$('addgiftfields').toggle();$('addgiftfields-showlink').toggle();" %></div>
+  <div id="addgiftfields-cancellink" class="control"<%= " style=\"display:none;\"" if @cart.gifts.empty? %>>
+    <%= link_to "I'm done adding gifts", "javascript:void(0);", :onclick => "$('addgiftfields').toggle();$('addgiftfields-showlink').toggle();" %>
+    | <%= link_to "Go to My Cart", dt_cart_path %>
+  </div>
   <div class="content">
     <div class="contentmargin">
       <h2>Add a Gift</h2>
@@ -69,7 +75,7 @@
                 :minute_step    => 30,
                 :default        => 1.hour.from_now,
                 :include_blank  => true %>
-              <%= select_tag :time_zone, time_zone_options_for_select('Mountain Time (US & Canada)', ActiveSupport::TimeZone.us_zones) %>
+              <%= select_tag :time_zone, time_zone_options_for_select('Mountain Time (US & Canada)', TimeZone.us_zones) %>
             </div>
           </li>
         </ol>

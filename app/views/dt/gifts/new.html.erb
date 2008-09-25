@@ -61,7 +61,8 @@
       </div>
     </div>
     
-    <div id="createdgifts">
+    <div id="createdgifts"<%= " style=\"display:none;\"" if @cart.gifts.empty? %>>
+      <h2>Your current gifts</h2>
       <%= render :partial => "createdgift", :collection => @cart.gifts %>
     </div>
 
