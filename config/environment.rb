@@ -18,7 +18,7 @@ Rails::Initializer.run do |config|
   # Specify gems that this application depends on. 
   # They can then be installed with "rake gems:install" on new installations.
   config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
-  config.gem "RedCloth", :source => "http://code.whytheluckystiff.net/"
+  config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net/"
   # RSS Feed parsing
   config.gem "simple-rss"
   config.gem "feed-normalizer"
