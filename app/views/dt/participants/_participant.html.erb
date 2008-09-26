@@ -7,23 +7,23 @@
 				<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless participant.picture != nil %>
 			</div>
 			<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(participant), :class => "button-pledge", :style => "float:right;" %>
-			
+			<div class="participant_details"><span class="campaign-item-list" style="{font-weight: bold}"><%= link_to participant.name, dt_participant_path(participant) %></span></div>
+
 			<%
 				participant_class = "#{participant.team.campaign.name} Participant"
 				if participant.user == participant.team.leader
 						if participant.team.generic?
-							participant_class = "#{participant.team.campaign.name} Campaign Organizer"
+							participant_class = "#{participant.team.campaign.name} (Campaign Organizer)"
 						else
-							participant_class = "#{participant.team.name} Team Leader"
+							participant_class = "#{participant.team.name} (Team Leader)"
 						end
 				else
 					if not participant.team.generic?
-						participant_class = "#{participant.team} Member"
+						participant_class = "#{participant.team} (Member)"
 					end
 				end
 			%>
 			<div class="participant_details"><strong><%= participant_class %></strong></div>			
-			<div class="participant_details"><%= link_to participant.name, dt_participant_path(participant) %> </div>
 			<div class="participant_details"><%= participant.funds_raised %> dollars raised.</div>
 	</div>
 	<% else %>
@@ -32,8 +32,11 @@
 				<span class="participant_details">
 					<%= "<strong>*</strong>" unless (participant.user != participant.team.leader ||  participant.team.generic?) %>
 					<%= '<strong>**</strong>' unless (participant.user != participant.team.leader || (not participant.team.generic?)) %>
-				<%= link_to participant.name, dt_participant_path(participant) %> (<%= link_to participant.team.name, dt_team_path(participant.team) %>)
-				<%= participant.funds_raised %> dollars raised.
+				<%= link_to participant.name, dt_participant_path(participant) %>
+				<%= participant.team.generic ? "(Campaign Organizer)":
+				"(#{'Team Admin - ' if participant.team.owned?}#{link_to(participant.team.name, dt_team_path(participant.team))})" %>,
+				$ <%= participant.funds_raised %> raised.
+			  <%= link_to "<span class=\"list-sponsor-link\">[Sponsor #{participant.name}]</span>", new_dt_participant_pledge_path(participant) %>
 				</span>
 			</div>
 		<% end %>	

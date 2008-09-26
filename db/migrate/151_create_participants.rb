@@ -8,7 +8,6 @@ class CreateParticipants < ActiveRecord::Migration
       t.text :about_participant
       t.string :picture
       t.integer :goal
-      t.boolean :receive_email
 
       t.timestamps
     end

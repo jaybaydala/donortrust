@@ -9,27 +9,29 @@ class CreateCampaigns < ActiveRecord::Migration
       t.integer :user_id
       t.integer :campaign_type_id
       t.string :picture
-      
+
       # waiting to be authorized by a CF admin
       t.boolean :pending
-      
+
       #money stuff
       t.integer :fundraising_goal
       t.string :goal_currency
-      
+
       t.integer :fee_amount
       t.string  :fee_currency
-      
+
       # dates
       t.datetime :start_date
-      t.datetime :end_date
-      
+      t.datetime :event_date
+      t.datetime :raise_funds_till_date
+      t.datetime :allocate_funds_by_date
+
       #wall
       t.references :wall
-      
+
       #news
       t.references :news
-      
+
       # address
       t.string :address
       t.string :address_2
@@ -37,7 +39,7 @@ class CreateCampaigns < ActiveRecord::Migration
       t.string :province
       t.string :country
       t.string :postalcode
-      
+
       #teams stuff
       t.boolean :require_team_authorization
       t.boolean :allow_multiple_teams
@@ -46,7 +48,7 @@ class CreateCampaigns < ActiveRecord::Migration
       t.integer :max_participants
       t.timestamps
     end
-    
+
 
   end
 

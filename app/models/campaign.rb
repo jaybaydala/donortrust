@@ -71,7 +71,9 @@ class Campaign < ActiveRecord::Base
 
 
   def validate
-    errors.add('start_date',"must be less than end date")if start_date > end_date
+    errors.add('start_date',"must be before the event date.")if start_date > event_date
+    errors.add('start_date',"must be before the \"Raise Funds Till\" date.")if start_date > raise_funds_till_date
+    errors.add('allocate_funds_by_date',"must be after the \"Raise Funds Till\" date.")if allocate_funds_by_date < raise_funds_till_date
     errors.add('email',"Must provide an email to use for contact." ) if email == ""
 
     if in_canada?

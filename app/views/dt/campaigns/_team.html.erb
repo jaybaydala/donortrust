@@ -2,7 +2,7 @@
 <% if (not team.generic? and (!team.pending? || !hide_pending)) %>
 	<div id="team_<%= team.id %>"  class="<%= cycle('row_even','row_odd') %>">
 		<p><%= link_to team.name, dt_team_path(team) %> - <%= team.participants.size %> members 
-		<%= ("-" + link_to('Activate!',activate_dt_team_path(team))) unless not (team.pending? and team.owned?)%>
-		<%= delete_icon(dt_team_path(team)) unless not team.owned? %></p>
+		<%= (" - " + link_to('Activate!',activate_dt_team_path(team))) if (team.pending? && (!team.owned? || current_user.is_cf_admin?)) %>
+		<%= delete_icon(dt_team_path(team)) if team.campaign.owned? || team.owned? %></p>
 	</div>
 <% end %>

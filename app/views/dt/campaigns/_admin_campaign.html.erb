@@ -13,7 +13,7 @@
 		<ul class="details_list">
 			<li class="detail"><strong>Fundraising Goal: </strong><%= admin_campaign.fundraising_goal_with_currency%></li>
 			<li class="detail"><strong>Start Date: </strong><%= admin_campaign.start_date %> <li>
-			<li class="detail"><strong>End Date: </strong><%= admin_campaign.end_date%></li>
+			<li class="detail"><strong>Event Date: </strong><%= admin_campaign.event_date%></li>
 		</ul>
 		<p>
 			<%= image_tag admin_campaign.picture.thumb.url, :class => :thumbnail if admin_campaign.picture? %>

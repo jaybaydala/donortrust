@@ -47,6 +47,8 @@ class Dt::TeamsController < DtApplicationController
     @team.pending = @campaign.require_team_authorization?
     @team.generic = false
 
+    @team.goal = 0 if @team.goal ==nil
+
     if @team.save
       @participant = Participant.new
       @participant.team = @team

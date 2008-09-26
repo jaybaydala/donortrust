@@ -31,8 +31,10 @@
 		</div>
 		
 		<div class="campaign-sidebar-box get-involved">
-			<%= "<li>" + link_to('Manage your Page',manage_dt_participant_path(@participant)) + "</li>" if @participant.owned? or current_user.is_cf_admin? %>		
-			<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(@participant), :class => "button-pledge" %>
+		  <ul>
+				<%= "<li>" + link_to('Manage your Page',manage_dt_participant_path(@participant)) + "</li>" if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>
+				<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(@participant), :class => "button-pledge" %>
+			</ul>
 		</div>
 	</div>
 </div>

@@ -36,12 +36,12 @@
 			<span class="small_text">Participants:	<%= @team.active_participants.size %> members</span>
 		</div>
 		<div class="campaign-sidebar-box get-involved">
-		  <% if @team.joinable? %>
-				<li><%= link_to("Join \"#{@team.name}\"", new_dt_team_participant_path(@team)) %></li>
-			<% end %>
-			<%= ('<li>' + link_to("Manage Team", manage_dt_team_path(@team)) + '<li>') if @team.owned?%>
-			<li><%= link_to 'Support a participant', dt_team_participants_path(@team) %></li>
-			<li><%= link_to "<span>Pledge</span>", new_dt_team_pledge_path(@team), :class => "button-pledge" %></li>
+	    <ul>
+				<%= "<li>" + link_to('Manage Team',manage_dt_team_path(@team)) + "</li>" if @team.owned? || (current_user != :false && current_user.cf_admin?) %>
+				<%= "<li>" + link_to("Join \"#{@team.name}\"", new_dt_team_participant_path(@team)) + "</li>" if @team.joinable? %>
+				<li><%= link_to 'Support a participant', dt_team_participants_path(@team) %></li>
+				<%= link_to "<span>Pledge</span>", new_dt_team_pledge_path(@team), :class => "button-pledge" %>
+			</ul>
 		</div>
 	</div>
 </div>

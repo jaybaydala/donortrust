@@ -10,7 +10,7 @@
 		<ul class="details_list">
 			<li class="detail"><strong>Fundraising Goal:</strong><%= campaign.fundraising_goal_with_currency%></li>
 			<li class="detail"><strong>Start Date:</strong><%= campaign.start_date %></li>
-			<li class="detail"><strong>End Date:</strong><%= campaign.end_date %></li>
+			<li class="detail"><strong>Event Date:</strong><%= campaign.event_date %></li>
 		</ul>
 		<p>
 		  <%= image_tag campaign.picture.thumb.url, :class => :thumbnail if campaign.picture? %>
@@ -40,7 +40,7 @@
 														:complete => "Element.show('flash');") + " | " ) unless not campaign.pending?
 													 %>
 					<%= delete_icon(dt_campaign_path(campaign)) %> | 
-					<%= link_to('Archive Campaign',dt_campaign_path(campaign), :confirm => 'Are you sure?', :method => :delete )%>
+					<%= link_to('Archive Campaign',dt_campaign_path(campaign), :confirm => 'Are you sure you want to archive this Campaign?', :method => :delete )%>
 				</h2>
 			</div>
   	<% end %>

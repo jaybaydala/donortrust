@@ -586,6 +586,10 @@ form#project_search input.submitreplace:hover{
 	color:#360;
 	text-decoration: none;
 }
+.give-disambiguation-box ul{
+	margin-left: 0px;
+}
+
 .give-disambiguation-box li{
 	list-style: none;
 	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
