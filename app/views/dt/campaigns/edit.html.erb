@@ -25,7 +25,7 @@
 			<%= f.check_box :use_user_email, :onclick => "Element.toggle('campaign_email');"%> 
 	
 			<label>Description</label>
-			<%= f.text_area :description, :rows => 10, :cols => 70%>
+			<%= fckeditor_textarea( "campaign", "description", :height => 200 ) %> 
 		</fieldset>
 
 		<fieldset>

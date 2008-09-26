@@ -26,7 +26,7 @@
 		<div id="errors" style="display:none;">
 		</div>
 		<label>Description</label>
-		<%= f.text_area :description, :cols => 80, :rows => 8%>
+		<%= fckeditor_textarea( "team", "description", :height => 200 ) %> 
 		
 		<label>Team Image (if you don't use one a default image will be used for you)</label>
 		<%= upload_column_field :team,  :picture  %>

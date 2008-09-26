@@ -38,7 +38,8 @@
 			<%= upload_column_field :campaign,  :picture  %>
 			
 			<label>Description</label>
-	    	<%= f.text_area :description, :rows => 10, :cols => 70%>
+			<%= fckeditor_textarea( "campaign", "description", :height => 200 ) %> 
+	    	
 		</fieldset>
 		<fieldset>
 			<legend>Monetary Details</legend>
