@@ -216,6 +216,11 @@ class User < ActiveRecord::Base
   def is_cf_admin?
     return self.roles.include?(Role.find_by_title('cf_admin'))
   end
+  
+  # class method to avoid nil object check
+  def self.is_user_cf_admin?(user)
+    return Role.find_by_title('cf_admin').users.include?(user)
+  end
 
   # DEPRECATED
   #def is_bus_admin?

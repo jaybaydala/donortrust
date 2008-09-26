@@ -5,10 +5,28 @@ class Dt::ParticipantsController < DtApplicationController
   before_filter :is_authorized?, :only => [:update, :manage, :admin]
 
   def show
-    [@participant = Participant.find(params[:id]), @campaign = @participant.team.campaign]
-    if @participant.private
-      flash[:notice] = 'That user has requested that his campaign page remain private.'
-      redirect_to dt_team_path(@participant.team)
+    @participant = Participant.find(params[:id]) unless params[:id] == nil
+    @campaign = Campaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name] == nil
+    @user = User.find_by_display_name(params[:display_name]) unless params[:display_name] == nil
+    @team = Team.find_by_short_name(params[:team_short_name]) unless params[:team_short_name] == nil
+    if(@team != nil and @user != nil)
+      @participant = Participant.find_by_user_id_and_team_id(@user.id,@team.id)
+    else
+      if(@user != nil and @campaign != nil)
+        for pariticpant in @campaign.participants
+          if pariticpant.user == @user
+            @participant = pariticpant
+          end
+        end
+      end
+    end
+    if @campaign == nil
+      @campaign = @participant.team.campaign
+    end
+    
+    if @participant == nil
+      flash[:notice] = 'That campaign / participant could not be found'
+      redirect_to dt_campaigns_path
     end
   end
   
@@ -57,6 +75,18 @@ class Dt::ParticipantsController < DtApplicationController
     @participants = Campaign.find(params[:campaign_id]).participants unless params[:campaign_id] == nil
     @participants = Team.find(params[:team_id]).participants unless params[:team_id] == nil
     
+  end
+  
+  def destroy
+    @participant = Participant.find(params[:id])
+    @particiapnt.destroy
+    if params[:campaign_id] != nil
+      redirect_to manage_dt_campaign(Campaign.find(params[:campaign_id]))
+    else
+      if params[:team_id] != nil
+        redirect_to manage_dt_campaign(Team.find(params[:team_id]))
+      end
+    end
   end
   
   private

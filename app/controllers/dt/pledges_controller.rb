@@ -33,7 +33,7 @@ class Dt::PledgesController < DtApplicationController
 
   def new
     @participant = Participant.find(params[:participant_id]) unless  params[:participant_id] == nil
-    @team = Team.find(params[:team_id]) unless  params[:teamn_id] == nil
+    @team = Team.find(params[:team_id]) unless params[:team_id] == nil
     @campaign = Campaign.find(params[:campaign_id]) unless  params[:campaign_id] == nil
     @pledge = Pledge.new
   end

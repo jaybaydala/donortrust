@@ -4,10 +4,14 @@
 <div id="team_member_page">
 	<div class="leftColW800">
 		<div id="participant_details">
-			<h1><%= @participant.user.full_name %>'s 
+			<h1><%= @participant.user.full_name %> 
 				<%= " (Awaiting approval)" unless not @participant.pending? %>
 				</h1>
-			<h5 style="margin-top:-10px;"> <%= @participant.team.campaign.name %> page.</h5>
+			<h5 style="margin-top:-10px;">
+				<%= "www.christmasfuture.org/dt/:#{@participant.team.short_name}/participant/#{@participant.user.display_name}" if @participant.team.generic?%>
+				
+				<%= "www.christmasfuture.org/dt/:#{@participant.team.campaign.short_name}/team/:#{@participant.team.short_name}/participant/#{@participant.user.display_name}" unless @participant.team.generic? %>
+				</h5>
 			<p style="overflow:auto;">
 				<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>			
 				<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless @participant.picture? %>

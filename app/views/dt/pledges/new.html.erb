@@ -1,27 +1,22 @@
 <div id="pledge_form" class="campaign_form">
 	<%= error_messages_for :pledge, :deposit %>
 	<fieldset>
+		<legend>
 		<% if @participant != nil %>
-			<legend>
 				Pledge for <%= @participant.user.full_name %>'s participation in <%= @participant.team.campaign.name %>
-			</legend>	
 			<% form_for_var = @participant %>
 		<% end %>
 		
 		<% if @team != nil %>
-			<legend>
 				Pledge towards <%= @team.name %> a team participating in <%= @team.campaign.name %>
-			</legend>	
 			<% form_for_var = @team %>
 		<% end %>
 		
 		<% if @campaign != nil %>
-			<legend>
-				Pledge towards <%= @campaign.name %>
-			</legend>	
+				Pledge towards <%= @campaign.name %>	
 			<% form_for_var = @campaign %>
 		<% end %>
-		
+		</legend>
 		
 		
 		<% form_for([:dt,form_for_var,@pledge]) do |f| %>		
@@ -39,4 +34,7 @@ amount raised <br/>
 goal <br/>
 description<br/>
 disambiguation if pledging to a campaign or team...<br/>
+
+
+Ummm there is disabiguation above.... in the legend
 </div>
