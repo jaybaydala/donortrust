@@ -28,6 +28,7 @@
 				<div class="quickfacts">
 					<ul>
 						<li><strong>Organization:</strong> <%= link_to(@organization.name, organization_dt_project_path(@project) )%></li>
+						<li><strong>Description:</strong> <%= truncate(@organization.description.gsub(/<\/?[^>]*>/, ""), 280) %> <%= link_to "Read more&hellip;", organization_dt_project_path(@organization.id) %></li>
 					</ul>
 				</div>
 			</div>
@@ -35,10 +36,10 @@
 	</div>
 	<div class="project-sidebar-buttons">
 		<% if @project.fundable? %>
-			<%= link_to "<img src='/images/dt/placeholders/give.gif' alt='Give' />", give_dt_project_path(@project) %>
+			<%= image_tag("/images/dt/placeholders/give.gif", :alt => 'Give', :title => 'Give', :onclick => "Element.toggle('give-disambiguation-box');")%>
 		<% end %>
 		<a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/nav_elements/buttonsCF/tellFriend_lgrey2.gif"></a>
-		<div class="give-disambiguation-box">
+		<div id='give-disambiguation-box' class="give-disambiguation-box" style="display:none;">
 		  <ul>
 				<li><%= link_to("Give to this project directly", new_dt_investment_path(:project_id => @project.id)) %></li>
 				<li><%= link_to("Give to this project on behalf of someone", new_dt_gift_path(:project_id => @project)) %></li>
