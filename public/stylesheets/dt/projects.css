@@ -661,7 +661,8 @@ div.accordion-content{
 
 
 #project_budget{
-	font-size: 90%;
+	font-family:	Arial,Helvetica,sans-serif;
+	font-size:	11px;
 }
 
 /* project details */
