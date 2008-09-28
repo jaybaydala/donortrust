@@ -269,7 +269,7 @@ class Dt::ProjectsController < DtApplicationController
           if @youtube_videos.size>0
             page.replace_html "project_videos", :partial => 'youtube_video' , :collection => @youtube_videos
           else
-            page.replace_html "project_videos", '<h2>There is no videos available.</h2>'
+            page.replace_html "project_videos", '<h2>There are no project videos available at this time.</h2>'
           end
         end
       }

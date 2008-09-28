@@ -8,7 +8,15 @@
   <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %></li>
 	<% if @project.fundable? %>
 		<div class="sidebar-give">
-			<%= link_to "<img src='/images/dt/placeholders/give.gif' alt='Give' />", give_dt_project_path(@project) %>			
+			<% link_to "<img src='/images/dt/placeholders/give.gif' alt='Give' />", give_dt_project_path(@project) %>			
+			<%= image_tag("/images/dt/placeholders/give.gif", :alt => 'Give', :title => 'Give', :onclick => "Element.toggle('give-disambiguation-box-#{@project.id}');")%>
+			<div id='give-disambiguation-box-<%= @project.id %>' class="give-disambiguation-box" style="display:none;">
+				<ul>
+					<li><%= link_to("Give to this project directly", new_dt_investment_path(:project_id => @project.id)) %></li>
+					<li><%= link_to("Give to this project on behalf of someone", new_dt_gift_path(:project_id => @project)) %></li>
+				</ul>
+			</div>
+			
 		</div>
 	<% end %>
   

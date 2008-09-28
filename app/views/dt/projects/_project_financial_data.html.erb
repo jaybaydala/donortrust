@@ -1,10 +1,12 @@
 
 <div id='project_budget' >
-  <a href='#' onclick="Element.toggle('budget_details'); Element.toggle('arrow-right');Element.toggle('arrow-down');">
-    <%=image_tag '/images/dt/nav_elements/arrows/arrow_right_black.gif', :id => 'arrow-right' %>
-    <%=image_tag '/images/dt/nav_elements/arrows/arrow_down_black.gif' ,:id => 'arrow-down', :style => 'display:none;'%>
-    Project Budget: <%=total_project_budget_items(@budget_items)%>
-  </a><br>
+	<% if @budget_items.size > 0 %>
+		<a href='#' onclick="Element.toggle('budget_details'); Element.toggle('arrow-right');Element.toggle('arrow-down');">
+			<%=image_tag '/images/dt/nav_elements/arrows/arrow_right_black.gif', :id => 'arrow-right' %>
+			<%=image_tag '/images/dt/nav_elements/arrows/arrow_down_black.gif' ,:id => 'arrow-down', :style => 'display:none;'%>
+			Project Budget: <%=total_project_budget_items(@budget_items)%>
+		</a><br>
+	<% end %>
   <div id='budget_details' style='display:none;'>
   <% @budget_items.slice(0..3).each do |item|%>
      &nbsp;&nbsp; - <%= truncate(item.description, 20)%>: <%=number_to_currency(item.cost)%><br>

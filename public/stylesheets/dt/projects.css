@@ -17,15 +17,16 @@ Project Header
 	color: #360;
 }
 
-.project-location-link {
+.full-display-subheader {
   clear: left;
   float: left;
   padding-top:2px;
-  width: 200px;
+  width: 400px;
 }
 
-.project-location-link a{
+.full-display-subheader a{
   text-decoration: none;
+  color: #360;
 }
 
 .full-display-sector-images {
