@@ -1,6 +1,9 @@
 <div id="teams">
-	<%= campaign_h2_header('Teams','team_container')%>
+	<%= campaign_h2_header("#{link_to(@campaign.name + "'s",dt_campaign_path(@campaign))} Teams",'team_container')%>
 	<div id="team_container" class="row_container">		
 		<%= render :partial => 'team', :collection => @campaign.teams %>
 	</div>
+</div>
+<div>
+	Back to <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>
 </div>

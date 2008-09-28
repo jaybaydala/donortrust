@@ -242,6 +242,10 @@ class Dt::CampaignsController < DtApplicationController
     [@errors, @short_name]
   end
 
+  def sponsor
+
+  end
+
   private
     def is_authorized?
       @campaign = Campaign.find(params[:id])

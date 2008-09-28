@@ -23,35 +23,35 @@ class Dt::ParticipantsController < DtApplicationController
     if @campaign == nil
       @campaign = @participant.team.campaign
     end
-    
+
     if @participant == nil
       flash[:notice] = 'That campaign / participant could not be found'
       redirect_to dt_campaigns_path
     end
   end
-  
+
   def new
     @participant = Participant.new
   end
-  
+
   def create
     @participant = Participant.new(params[:participant])
     @participant.user = current_user
     @participant.team = @team
-    
+
     if @team.require_authorization
       @participant.pending = true
     else
       @participant.pending = false
     end
-    
+
     if @participant.save
       redirect_to dt_participant_path(@participant)
     else
       render :action => 'new'
     end
   end
-  
+
   def update
     @participant = Participant.find(params[:id])
     if @participant.update_attributes(params[:participant])
@@ -61,22 +61,22 @@ class Dt::ParticipantsController < DtApplicationController
       render :action => "manage"
     end
   end
-  
+
   def manage
     @participant = Participant.find(params[:id])
   end
-  
+
   def admin
     @campaigns = Campaign.find_all_by_pending(false)
   end
-  
+
   def index
     @participants = Participant.find(:all)
     @participants = Campaign.find(params[:campaign_id]).participants unless params[:campaign_id] == nil
     @participants = Team.find(params[:team_id]).participants unless params[:team_id] == nil
-    
+
   end
-  
+
   def destroy
     @participant = Participant.find(params[:id])
     @particiapnt.destroy
@@ -88,12 +88,12 @@ class Dt::ParticipantsController < DtApplicationController
       end
     end
   end
-  
+
   private
   def find_team
     @team = Team.find(params[:team_id])
   end
-  
+
   def is_authorized?
     @participant = Participant.find(params[:id])
     if @participant.user != current_user and not current_user.is_cf_admin?

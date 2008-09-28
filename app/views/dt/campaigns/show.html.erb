@@ -54,7 +54,7 @@
 			<h2>Campaign Facts</h2>
 			<span class="small_text">Event Date: <%= campaign_date(@campaign.event_date) %></span><br/>
 			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%> CDN</span><br/>
-			<span class="small_text">Pledged: $ <%= @campaign.funds_raised %> CDN</span><br/>
+			<span class="small_text">Amount Raised: $ <%= @campaign.funds_raised %> CDN</span><br/>
 			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
 			<span class="small_text">Number of Teams: <%= @campaign.active_teams.size %></span><br/>
 			<span class="small_text">Number of Participants: <%= @campaign.participants.size %></span><br/>
@@ -63,7 +63,7 @@
 		  <ul>
 				<%= ("<li>" + link_to('Manage Campaign',manage_dt_campaign_path(@campaign)) + "</li>") if @campaign.owned? || (current_user != :false && current_user.cf_admin?) %>					
 				<% if !@campaign.has_participant(current_user) %>
-					<%= "<li>" + link_to("Join #{@campaign.name}", join_dt_campaign_path(@campaign)) +"</li>" %>
+					<%= "<li>" + link_to("Join \"#{@campaign.name}\"", join_dt_campaign_path(@campaign)) +"</li>" %>
 					<%= ("<li>" + link_to("Join a Team", dt_campaign_teams_path(@campaign)) +"</li>") if @campaign.teams.size > 1 %>	
 					<%= ("<li>" + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) +"</li>")if (@campaign.allow_multiple_teams? && !@campaign.teams_full?) %>
 				<% end %>

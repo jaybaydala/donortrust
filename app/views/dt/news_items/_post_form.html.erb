@@ -5,8 +5,7 @@
 			<%= f.text_field :subject %>
 			
 			<label for="Content">News</label>
-			<%= fckeditor_textarea( "news_item", "content", :height => 200 ) %> 
-			
+			<%= fckeditor_textarea( "news_item", "content", :toolbarSet => "ChristmasFuture", :height => 200 ) %> 
 			<p>
 		    	<%= f.submit "Post" %>
 		  	</p>

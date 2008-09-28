@@ -34,11 +34,11 @@
 			<span class="small_text">(<%= current_user.login %>) </span>
 			<%= f.check_box :use_user_email, :onclick => "Element.toggle('campaign_email');"%> 
 			
-			<label>Campaign Image</label>
+			<label>Upload a Campaign image <50kb.  If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
 			<%= upload_column_field :campaign,  :picture  %>
 			
 			<label>Description</label>
-			<%= fckeditor_textarea( "campaign", "description", :height => 200 ) %> 
+			<%= fckeditor_textarea( "campaign", "description", :toolbarSet=> 'ChristmasFuture', :height => 200 ) %> 
 	    	
 		</fieldset>
 		<fieldset>

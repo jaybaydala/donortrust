@@ -1,40 +1,55 @@
-<div id="pledge_form" class="campaign_form">
-	<%= error_messages_for :pledge, :deposit %>
-	<fieldset>
-		<legend>
+<div>
+	<h1>
 		<% if @participant != nil %>
-				Pledge for <%= @participant.user.full_name %>'s participation in <%= @participant.team.campaign.name %>
-			<% form_for_var = @participant %>
-		<% end %>
-		
-		<% if @team != nil %>
-				Pledge towards <%= @team.name %> a team participating in <%= @team.campaign.name %>
+				Sponsor "<%= @participant.user.full_name %>'s" participation in "<%= @participant.team.campaign.name %>" and help end extreme poverty
+			<% form_for_var = @participant %>			
+		<% elsif @team != nil %>
+				Sponsor team "<%= @team.name %>'s" participation in "<%= @team.campaign.name %>" and help end extreme poverty
 			<% form_for_var = @team %>
-		<% end %>
-		
-		<% if @campaign != nil %>
-				Pledge towards <%= @campaign.name %>	
+		<% elsif @campaign != nil %>
+				Give to "<%= @campaign.name %>"
 			<% form_for_var = @campaign %>
 		<% end %>
-		</legend>
-		
-		
+	</h1>
+</div>
+
+<div class="leftColW800">
+	<div id="pledge_form" class="campaign_form">
+		<%= error_messages_for :pledge, :deposit %>
 		<% form_for([:dt,form_for_var,@pledge]) do |f| %>		
-			<label>Amount</label>
-			<%= f.text_field :amount %>
-			<br />
-			<%= f.submit 'Pledge!'%>
-	
+			<h2>I would like to give:	$ <%= f.text_field :amount %></h2><%= f.submit 'Sponsor!'%>
 		<% end %>
-	</fieldset>
+	</div>
 </div>
-<div> more details about team/campaign/participant being pledged to
-picture<br/>
-amount raised <br/>
-goal <br/>
-description<br/>
-disambiguation if pledging to a campaign or team...<br/>
 
-
-Ummm there is disabiguation above.... in the legend
+<div class="leftColN800">
+	<div class="campaign-sidebar-box metrics">
+		<% if @participant != nil %>
+			<h2>Participant Facts</h2>
+			<span class="small_text">Campaign: <%= link_to(@participant.team.campaign.name, 
+			dt_campaign_path(@participant.campaign)) %></span><br/>
+			<% if @participant.team.campaign.allow_multiple_teams? and not @participant.team.generic? %>
+				<span class="small_text">Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
+			<% end %>
+			<span class="small_text">Goal: $ <%= @participant.goal if @participant.goal %></span><br/>
+			<span class="small_text">Amount Raised: $ <%= @participant.funds_raised %></span><br/>
+			<span class="small_text">Percentage of Goal: <%= @participant.percentage_raised %></span><br/>
+		<% elsif @team != nil %>
+			<h2>Team Facts</h2>
+			<span class="small_text">Campaign: <%= link_to(@team.campaign.name, dt_campaign_path(@team.campaign)) %></span><br/>
+			<span class="small_text">Goal: $ <%= @team.goal if @team.goal %></span><br/>
+			<span class="small_text">Pledged: $ <%= @team.funds_raised %></span><br/>
+			<span class="small_text">Percentage of Goal: <%= @team.percentage_raised %></span><br/>
+			<span class="small_text">Members:	<%= @team.active_participants.size %> members</span>
+		<% elsif @campaign != nil %>
+			<h2>Campaign Facts</h2>
+			<span class="small_text">Event Date: <%= campaign_date(@campaign.event_date) %></span><br/>
+			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%> CDN</span><br/>
+			<span class="small_text">Amount Raised: $ <%= @campaign.funds_raised %> CDN</span><br/>
+			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
+			<span class="small_text">Number of Teams: <%= @campaign.active_teams.size %></span><br/>
+			<span class="small_text">Number of Participants: <%= @campaign.participants.size %></span><br/>
+		<% end %>
+	</div>
 </div>
+

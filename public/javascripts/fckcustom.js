@@ -14,7 +14,7 @@ FCKConfig.AllowQueryStringDebug = false;
 FCKConfig.SpellChecker = 'SpellerPages';
 
 // ONLY CHANGE BELOW HERE
-FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/silver/';
+FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/grey/';
 
 FCKConfig.ToolbarSets["Simple"] = [
 	['Source','-','-','Templates'],
@@ -41,4 +41,8 @@ FCKConfig.ToolbarSets["ChristmasFuture"] = [
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink'],
 	['TextColor','BGColor'] // No comma for the last row.
+] ;
+
+FCKConfig.ToolbarSets["ChristmasFutureBasic"] = [
+	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink']
 ] ;

@@ -8,9 +8,9 @@
 				<%= " (Awaiting approval)" unless not @participant.pending? %>
 				</h1>
 			<h5 style="margin-top:-10px;">
-				<%= "www.christmasfuture.org/dt/:#{@participant.team.short_name}/participant/#{@participant.user.display_name}" if @participant.team.generic?%>
+				<%= "www.christmasfuture.org/dt/#{@participant.team.short_name}/participant/#{@participant.user.display_name}" if @participant.team.generic?%>
 				
-				<%= "www.christmasfuture.org/dt/:#{@participant.team.campaign.short_name}/team/:#{@participant.team.short_name}/participant/#{@participant.user.display_name}" unless @participant.team.generic? %>
+				<%= "www.christmasfuture.org/dt/#{@participant.team.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.user.display_name}" unless @participant.team.generic? %>
 				</h5>
 			<p style="overflow:auto;">
 				<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>			
@@ -24,19 +24,19 @@
 	
 	<div class="leftColN800">
 		<div class="campaign-sidebar-box metrics">
-			<h2>Team Facts</h2>
+			<h2>Participant Facts</h2>
 			<span class="small_text">Campaign: <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %></span><br/>
 			<% if @campaign.allow_multiple_teams? and not @participant.team.generic? %>
 				<span class="small_text">Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
 			<% end %>
-			<span class="small_text">Goal: $ <%= @participant.goal if @participant.goal %> CDN</span><br/>
-			<span class="small_text">Pledged: $ <%= @participant.funds_raised %> CDN</span><br/>
+			<span class="small_text">Goal: $ <%= @participant.goal if @participant.goal %></span><br/>
+			<span class="small_text">Amount Raised: $ <%= @participant.funds_raised %></span><br/>
 			<span class="small_text">Percentage of Goal: <%= @participant.percentage_raised %></span><br/>
 		</div>
 		
 		<div class="campaign-sidebar-box get-involved">
 		  <ul>
-				<%= "<li>" + link_to('Manage your Page',manage_dt_participant_path(@participant)) + "</li>" if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>
+				<%= "<li>" + link_to('Manage your profile',manage_dt_participant_path(@participant)) + "</li>" if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>
 				<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(@participant), :class => "button-pledge" %>
 			</ul>
 		</div>

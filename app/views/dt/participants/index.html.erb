@@ -7,3 +7,6 @@
 		<%= render :partial => 'participant', :collection => @participants, :locals => {:long_view => true} %>
 	</div>
 </div>
+<div>
+	Back to <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>
+</div>
