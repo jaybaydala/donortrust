@@ -20,7 +20,7 @@ namespace :deploy do
   end
 
   task :start,    :roles => :app do mongrel.cluster.start end
-  task :stop,     :roles => :app do mongrel.cluster.start end
+  task :stop,     :roles => :app do mongrel.cluster.stop end
   task :restart,  :roles => :app do mongrel.cluster.restart end
   
   # donortrust hooks
@@ -61,7 +61,7 @@ namespace :deploy do
   Start the Backgroundrb daemon on the schedule server.
   DESC
   task :start_backgroundrb , :roles => :schedule do
-    cmd = "rm #{current_path}/tmp/pids/backgroundrb*.pid"
+    cmd = "rm #{shared_path}/pids/backgroundrb*.pid"
     send(run_method, cmd)
     cmd = "#{current_path}/script/backgroundrb start"
     send(run_method, cmd)
