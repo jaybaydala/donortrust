@@ -1,7 +1,7 @@
 <%- content_for :html_title do %><%= @group.name %><% end -%>
 <%- content_for :nav do %><%= dt_account_nav %><% end -%>
 
-<%= dt_group_nav unless @group.private && !@membership %>
+  <%= dt_group_nav if !@group.private? || @membership %>
 
     <h2>Group News</h2>
     <% if current_member && current_member.admin? -%>

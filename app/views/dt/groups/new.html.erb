@@ -7,29 +7,29 @@
     <% form_for(:group, :url => dt_groups_path, :html => { :id => 'groupform', :name => 'groupform' }) do |f| %>
       <fieldset id="groupInfo">
   			<legend>Please enter your group information </legend>
-  			<ul class="row" style="padding-top:10px; padding-bottom:10px;">
-  				<li class="textsm" style="margin-bottom:4px; "><%= f.radio_button :private, 0, :style => "border:none; padding:0; margin-right:3px;" %> Public Group - Choose to reveal group to public.</li>
-  				<li class="textsm" style="margin-bottom:4px; "><%= f.radio_button :private, 1, :style => "border:none; padding:0; margin-right:3px;" %> Private Group - Choose to hide group from public view.</li>
+  			<ol class="row" style="padding-top:10px; padding-bottom:10px;">
+  				<li class="textsm" style="margin-bottom:4px; "><label for="group_private_0" class="left"><%= f.radio_button :private, 0, :style => "border:none; padding:0; margin-right:3px;" %> Public Group - Choose to reveal group to public.</label></li>
+  				<li class="textsm" style="margin-bottom:4px; "><label for="group_private_1" class="left"><%= f.radio_button :private, 1, :style => "border:none; padding:0; margin-right:3px;" %> Private Group - Choose to hide group from public view.</label></li>
   				<li><label for="group_name"><%= render :partial => 'dt/shared/form_required' %>Group name</label><%= f.text_field :name, :style => 'width:340px;' %></li>
   				<!--<li><label for="group_location" >Group Location</label><input name="group[location]" type="text" id="group_location"  style="width:340px; margin-right:5px; " size="30"/></li>-->
           <li><label for="group_group_type">Group Type</label> <%= collection_select :group, :group_type_id, group_types, :id, :name, { :include_blank => true } %></li>
-  			</ul>
+  			</ol>
   		</fieldset>
 
       <fieldset id="groupDescription">
         <legend>Enter your Group Description</legend>
-        <ul class="row">
+        <ol class="row">
           <li><label for="group_description">Group Description</label><%= f.text_area :description, :rows => 8, :cols => 30 %></li>
-        </ul>
+        </ol>
       </fieldset>
 
       <fieldset id="groupLocation">
         <legend>Enter your Group Location</legend>
-        <ul class="row" style="padding-top:10px; padding-bottom:10px;">
+        <ol class="row" style="padding-top:10px; padding-bottom:10px;">
           <li><label for="group_city">City/Town</label><%= f.text_field :city %></li>
           <li><label for="group_province">Province/State</label><%= f.text_field :province %></li>
           <li><label for="group_country">Country</label><%= f.select :country, country_select_options %></li>
-        </ul>
+        </ol>
       </fieldset>
 
       

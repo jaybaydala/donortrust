@@ -1,3 +1,4 @@
+require "#{RAILS_ROOT}/lib/email_parser"
 class Dt::InvitationsController < DtApplicationController
   before_filter :login_required
   include EmailParser
@@ -30,7 +31,7 @@ class Dt::InvitationsController < DtApplicationController
         @unsaved << @i.to_email unless saved
       end
     end
-    @noemails = true if !params[:invitation][:to_email] && !params[:to_emails]
+    @noemails = true if (params[:invitation][:to_email].nil? || params[:invitation][:to_email].empty?) && (params[:to_emails].nil? || params[:to_emails].empty?)
     respond_to do |format|
       format.html do
         flash[:error] = "Invitations could not be created for the following emails: #{@unsaved.join(', ')}" unless @unsaved.empty?
