@@ -70,6 +70,7 @@ class Dt::CampaignsController < DtApplicationController
         @participant.user = @team.leader
         @participant.pending = false
         @participant.goal = 0
+        @participant.short_name = @campaign.short_name +'_participant'
         if @participant.save
           flash[:notice] = 'Campaign was successfully created.'
           redirect_to(dt_campaign_path(@campaign))

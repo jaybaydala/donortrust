@@ -8,9 +8,8 @@
 				<%= " (Awaiting approval)" unless not @participant.pending? %>
 				</h1>
 			<h5 style="margin-top:-10px;">
-				<%= "www.christmasfuture.org/dt/#{@participant.team.short_name}/participant/#{@participant.user.display_name}" if @participant.team.generic?%>
-				
-				<%= "www.christmasfuture.org/dt/#{@participant.team.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.user.display_name}" unless @participant.team.generic? %>
+				<%= "http://www.christmasfuture.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}" if @participant.team.generic?%>
+				<% "http://www.christmasfuture.org/dt/#{@participant.team.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}" unless @participant.team.generic? %>
 				</h5>
 			<p style="overflow:auto;">
 				<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>			

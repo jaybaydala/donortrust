@@ -88,7 +88,6 @@ class Campaign < ActiveRecord::Base
 
   def after_save
     if not self.allow_multiple_teams? # if only one team is allowed build the container team.
-      puts 'creating team'
       Team.create :name => self.name, :short_name => self.short_name, :description => self.description, :campaign_id => self.id, :contact_email => self.email, :user_id => self.user_id, :pending => 0
     end
   end

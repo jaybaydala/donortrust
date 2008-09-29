@@ -20,6 +20,9 @@ class Participant < ActiveRecord::Base
   validates_numericality_of :goal
   validates_uniqueness_of :user_id, :scope => :team_id
 
+  validates_format_of :short_name, :with => /\w/
+  validates_length_of :short_name, :within => 4...60
+
   def owned?
     current_user != nil ? self.user == current_user : false;
   end
@@ -27,6 +30,15 @@ class Participant < ActiveRecord::Base
   def name
     self.user.full_name
   end
+
+#  def validate
+#    campaign = self.campaign
+#    if(campaign.allow_multiple_teams?)
+#      errors.add_to_base "The maximum number of teams (#{campaign.max_number_of_teams}) has been reached for this campaign." unless not campaign.teams_full?
+#      @participant_to_test = Participant.find_by_campaign_id_and_short_name(campaign, self.short_name)
+#      errors.add 'short_name', " has already been used in this campaign." unless @team_to_test == nil or @team_to_test == self
+#    end
+#  end
 
   def funds_raised
     total = 0;
@@ -48,6 +60,10 @@ class Participant < ActiveRecord::Base
     else
       "n/a"
     end
+  end
+
+  def campaign
+    self.team.campaign
   end
 
 end

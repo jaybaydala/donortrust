@@ -16,7 +16,20 @@
 	<%= error_messages_for :participant %>
 	<% form_for([:dt,@team,@participant], :html => {:multipart => true}) do |f| %>
 		<fieldset>
-			<legend></legend>
+			<label>Short Name</label>
+    		<span class="small_text">http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name %>
+			<%= what_is_this?'short_name', 'The short name is a small (10-20 characters) that will make 
+			it easier to share your profile page with others. It should not contain any spaces and should 
+			be concise so as to convey the central idea of your campaign. Also this name will be used to 
+			provide your profile with a Christmas Future URL. http://www.christmasfuture.org/dt/campaigns/#<%= @team.campaign.short_name $>/ShortName'%>
+			<%= observe_field	:participant_short_name, 
+								:frequency => 1,
+								:url => validate_short_name_of_new_dt_participant_path,
+								:with => :participant_short_name
+								%>
+			<%= show_spinner("Validating ") %>
+			<div id="errors" style="display:none;">
+			</div>
 
 			<label>Share a little about yourself (this information will be publically viewable):</label>
 			<%= fckeditor_textarea( "participant", "about_participant", :toolbarSet=> 'ChristmasFutureBasic', :height => 200 ) %> 

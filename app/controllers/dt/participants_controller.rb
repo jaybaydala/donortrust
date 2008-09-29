@@ -6,21 +6,24 @@ class Dt::ParticipantsController < DtApplicationController
 
   def show
     @participant = Participant.find(params[:id]) unless params[:id] == nil
+    if @participant ==nil
+      @participant = Participant.find_by_short_name(params[:short_name]) unless params[:short_name] == nil
+    end
+
     @campaign = Campaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name] == nil
-    @user = User.find_by_display_name(params[:display_name]) unless params[:display_name] == nil
     @team = Team.find_by_short_name(params[:team_short_name]) unless params[:team_short_name] == nil
+
     if(@team != nil and @user != nil)
       @participant = Participant.find_by_user_id_and_team_id(@user.id,@team.id)
-    else
-      if(@user != nil and @campaign != nil)
-        for pariticpant in @campaign.participants
-          if pariticpant.user == @user
-            @participant = pariticpant
-          end
+    elsif(@user != nil and @campaign != nil)
+      for pariticpant in @campaign.participants
+        if pariticpant.user == @user
+          @participant = pariticpant
         end
       end
     end
-    if @campaign == nil
+
+    if (@campaign == nil && @participant != nil)
       @campaign = @participant.team.campaign
     end
 
@@ -52,6 +55,35 @@ class Dt::ParticipantsController < DtApplicationController
     end
   end
 
+  def validate_short_name_of
+    @errors = Array.new
+    @short_name = params[:participant_short_name]
+    if @short_name != nil
+      @short_name.downcase!
+
+      if(@short_name =~ /\W/)
+        @errors.push('You may only use Alphanumeric Characters, hyphens, and underscores. This also means no spaces.')
+      end
+
+      if(@short_name.length < 3 and @short_name.length != 0)
+        @errors.push('The short name must be 3 characters or longer.')
+      end
+
+      participants_shortname_find = Participant.find_by_sql([
+        "SELECT p.* FROM participants p INNER JOIN teams t INNER JOIN campaigns c " +
+        "ON p.team_id = t.id AND t.campaign_id = c.id "+
+        "WHERE p.short_name = ? AND c.id = ?",@short_name, params[:campaign_id]])
+
+      if(participants_shortname_find != nil && !participants_shortname_find.empty? )
+        @errors.push('That short name has already been used, short names must be unique to each campaign.')
+      end
+    else
+      @errors.push('The short name may not contain any reserved characters such as ?')
+    end
+    [@errors, @short_name]
+  end
+
+
   def update
     @participant = Participant.find(params[:id])
     if @participant.update_attributes(params[:participant])
@@ -74,7 +106,10 @@ class Dt::ParticipantsController < DtApplicationController
     @participants = Participant.find(:all)
     @participants = Campaign.find(params[:campaign_id]).participants unless params[:campaign_id] == nil
     @participants = Team.find(params[:team_id]).participants unless params[:team_id] == nil
-
+    @campaign = Campaign.find(params[:campaign_id]) unless params[:campaign_id] == nil
+    if !@campaign
+      @campaign = Team.find(params[:team_id]).campaign
+    end
   end
 
   def destroy

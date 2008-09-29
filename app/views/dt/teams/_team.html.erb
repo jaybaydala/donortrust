@@ -4,6 +4,9 @@
 			<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
 			<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless team.picture != nil %>
 		</div>
+
+		<%= link_to "<span>Pledge</span>", new_dt_team_pledge_path(team), :class => "button-pledge", :style => "float:right;" %>
+		
 		<h2 style="margin:0px"><%= link_to(team.name, dt_team_path(team)) %></h2>
 		<div id="team_<%= team.id %>_container">
 			<p>

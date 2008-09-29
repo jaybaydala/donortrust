@@ -92,7 +92,8 @@ ActionController::Routing::Routes.draw do |map|
 
     dt.resources :participants,
                           :collection => { :admin => :get},
-                          :member => { :manage => :get }
+                          :member => { :manage => :get },
+                          :new => { :validate_short_name_of => :post}
 
     dt.resources :campaigns do |campaigns|
      campaigns.resources :wall_posts
@@ -400,8 +401,8 @@ ActionController::Routing::Routes.draw do |map|
   map.show_campaign_team '/dt/:short_campaign_name/team/:short_name', :controller => 'dt/teams', :action => 'show'
   map.show_campaign_group '/dt/:short_campaign_name/group/:short_name', :controller => 'dt/teams', :action => 'show'
   map.show_campaign_classroom '/dt/:short_campaign_name/classroom/:short_name', :controller => 'dt/teams', :action => 'show'
-  map.show_campaign_participant '/dt/:short_campaign_name/team/:team_short_name/participant/:display_name', :controller => 'dt/participants', :action => 'show'
-  map.show_campaign_participant '/dt/:short_campaign_name/participant/:display_name', :controller => 'dt/participants', :action => 'show'
+  map.show_campaign_participant '/dt/:short_campaign_name/team/:team_short_name/participant/:short_name', :controller => 'dt/participants', :action => 'show'
+  map.show_campaign_participant '/dt/:short_campaign_name/participant/:short_name', :controller => 'dt/participants', :action => 'show'
 
   # Install the default route as the lowest priority.
   #map.connect "*anything",

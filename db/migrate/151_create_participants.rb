@@ -3,6 +3,7 @@ class CreateParticipants < ActiveRecord::Migration
     create_table :participants do |t|
       t.references :team
       t.references :user
+      t.string :short_name
       t.boolean :pending
       t.boolean :private
       t.text :about_participant

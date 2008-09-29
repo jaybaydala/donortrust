@@ -2,21 +2,25 @@
 <% if not participant.pending?%>
 	<% if long_view %>
 	<div id="team_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>" style="height:60px;">
-			<div style="width:120px;float:left">
+			<div style="width:60px;float:left">
 				<%= image_tag participant.picture.thumb.url, :class => :thumbnail unless participant.picture == nil %>
 				<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless participant.picture != nil %>
 			</div>
 			<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(participant), :class => "button-pledge", :style => "float:right;" %>
-			<div class="participant_details"><span class="campaign-item-list" style="{font-weight: bold}"><%= link_to participant.name, dt_participant_path(participant) %></span></div>
+			<div class="participant_details">
+				<span class="campaign-item-list" style="{font-weight: bold}">
+					<%= link_to participant.name, dt_participant_path(participant) %>
+				</span>
+			</div>
 
 			<%
 				participant_class = "#{participant.team.campaign.name} Participant"
 				if participant.user == participant.team.leader
-						if participant.team.generic?
-							participant_class = "#{participant.team.campaign.name} (Campaign Organizer)"
-						else
-							participant_class = "#{participant.team.name} (Team Leader)"
-						end
+					if participant.team.generic?
+						participant_class = "#{participant.team.campaign.name} (Campaign Organizer)"
+					else
+						participant_class = "#{participant.team.name} (Team Leader)"
+					end
 				else
 					if not participant.team.generic?
 						participant_class = "#{participant.team} (Member)"

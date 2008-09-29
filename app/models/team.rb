@@ -29,14 +29,14 @@ class Team < ActiveRecord::Base
   validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
 
- def validate
-   campaign = self.campaign
-   if(campaign.allow_multiple_teams?)
-     errors.add_to_base "The maximum number of teams (#{campaign.max_number_of_teams}) has been reached for this campaign." unless not campaign.teams_full?
-     @team_to_test = Team.find_by_campaign_id_and_short_name(campaign, self.short_name)
-     errors.add 'short_name', " has already been used in this campaign." unless @team_to_test == nil or @team_to_test == self
-   end
- end
+  def validate
+    campaign = self.campaign
+    if(campaign.allow_multiple_teams?)
+      errors.add_to_base "The maximum number of teams (#{campaign.max_number_of_teams}) has been reached for this campaign." unless not campaign.teams_full?
+      @team_to_test = Team.find_by_campaign_id_and_short_name(campaign, self.short_name)
+      errors.add 'short_name', " has already been used in this campaign." unless @team_to_test == nil or @team_to_test == self
+    end
+  end
 
   def before_validation_on_create
     if use_user_email == "1"

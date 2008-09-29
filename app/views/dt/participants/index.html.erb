@@ -1,8 +1,9 @@
 <div>
   placeholder for leif's explanation text... and maybe if we can get another dev some way to search this campaign?
 </div>
+
 <div id="participants">
-	<%= campaign_h2_header('Participants','participant_container')%>
+	<%= campaign_h2_header("#{link_to(@campaign.name + "'s",dt_campaign_path(@campaign))} Participants",'team_container')%>
 	<div id="participant_container" class="row_container">
 		<%= render :partial => 'participant', :collection => @participants, :locals => {:long_view => true} %>
 	</div>
