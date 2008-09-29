@@ -15,15 +15,11 @@
 		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
 
 		<div id="Participants">
-			<%= campaign_h2_header(' ' +link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container')%>
+			<%= campaign_h2_header(' ' + link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container',true)%>
 			
 				
-			<div id="participant_container" class="row_container">
-				<%= render :partial => 'dt/participants/participant', :collection => @campaign.participants, :locals => {:long_view => false} %>
-				<div class="row_odd">
-					<span class="small_text">** Campaign Organizer</span><br />
-					<span class="small_text">* Team Leader</span>
-				</div>
+			<div id="participant_container" class="row_container" style="display:none;">
+				<%= render :partial => 'participants' %>
 			</div>
 		</div>
 	
@@ -40,7 +36,7 @@
 				<%= campaign_h2_header(' '+link_to('Teams',dt_campaign_teams_path(@campaign)) + content,'teams_container')%>
 
 				<div id="teams_container" class='row_container'>
-					<%= render :partial => 'team', :collection => @campaign.teams%>
+					<%= render :partial => 'teams' %>
 				</div>
 			</div>
 		<% end %>
@@ -55,8 +51,8 @@
 			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%> CDN</span><br/>
 			<span class="small_text">Amount Raised: $ <%= @campaign.funds_raised %> CDN</span><br/>
 			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
-			<span class="small_text">Number of Teams: <%= @campaign.active_teams.size %></span><br/>
-			<span class="small_text">Number of Participants: <%= @campaign.participants.size %></span><br/>
+			<span class="small_text">Number of Teams: <%= @campaign.active_teams.size - 1 %></span><br/>
+			<span class="small_text">Number of Participants: <%= @campaign.not_pending_participants.size %></span><br/>
 		</div>
 		<div class="campaign-sidebar-box get-involved">
 		  <ul>

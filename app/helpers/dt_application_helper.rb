@@ -110,15 +110,19 @@ module DtApplicationHelper
   end
 
   def blind_down_up_links(text1,text2, id, div)
-      blind_down_link_toggle(text1,id,div,'display:none;') + blind_up_link_toggle(text2, id, div, '')
+      blind_down_link_toggle(text1,id,div,'') + blind_up_link_toggle(text2, id, div, 'display:none;')
   end
   
   def delete_icon(delete_path)
     link_to(image_tag('bus_admin/icons/delete_icon.gif', :style => "vertical-align:middle;", :border => 0),delete_path, :confirm => 'Are you sure?', :method => :delete )
   end
 
-  def campaign_h2_header(content, target_div)
-    '<h2 class="campaign">' + blind_up_down_links(image_tag('dt/icons/expand_icon.png',:border=>0),image_tag('dt/icons/collapse_icon.png',:border=>0),'expand_' + target_div,target_div) + content + '</h2>'
+  def campaign_h2_header(content, target_div, collapsed=false)
+    if !collapsed
+      '<h2 class="campaign">' + blind_up_down_links(image_tag('dt/icons/expand_icon.png',:border=>0),image_tag('dt/icons/collapse_icon.png',:border=>0),'expand_' + target_div,target_div) + content + '</h2>'
+    else
+      '<h2 class="campaign">' + blind_down_up_links(image_tag('dt/icons/expand_icon.png',:border=>0),image_tag('dt/icons/collapse_icon.png',:border=>0),'expand_' + target_div,target_div) + content + '</h2>'
+    end
   end
   
   def province_selector(model, field)

@@ -1,0 +1,4 @@
+<%= render :partial => 'team', :collection => @teams%>
+<div class="<%= (@teams.size % 2 == 0)? 'row_even' : 'row_odd' %>">
+	<%= will_paginate @teams, :renderer => 'RemoteLinkRenderer', :param_name => :team_page, :remote => { :update => 'teams_container'} -%>
+</div>

@@ -1,0 +1,6 @@
+<%= render :partial => 'dt/participants/participant', :collection => @participants, :locals => {:long_view => false} %>
+<div class="<%= (@participants.size % 2 == 0)? 'row_even' : 'row_odd' %>">
+	<span class="small_text">** Campaign Organizer</span><br />
+	<span class="small_text">* Team Leader</span>
+		<%= will_paginate @participants, :renderer => 'RemoteLinkRenderer', :param_name => :participant_page, :remote => { :update => 'participant_container'} -%>
+</div>

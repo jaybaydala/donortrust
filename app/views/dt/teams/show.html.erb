@@ -19,7 +19,7 @@
 			<div id="team_members">
 				<%= campaign_h2_header(link_to('Participants',dt_team_participants_path(@team)) + (@team.joinable? ? " | #{link_to('Join this team!',new_dt_team_participant_path(@team))}":""),'participant_container') %>
 				<div id="participant_container" class="row_container">
-					<%= render :partial => 'dt/participants/participant', :collection => @team.participants, :locals => {:long_view => false} %>
+					<%= render :partial => 'participants' %>
 				</div>
 			</div>
 			<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @team} %>

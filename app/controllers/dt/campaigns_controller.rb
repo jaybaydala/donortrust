@@ -8,10 +8,6 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns.xml
   def index
     @campaigns = Campaign.find_all_by_pending(false)
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @campaigns }
-    end
   end
 
   # GET /campaigns/1
@@ -19,7 +15,22 @@ class Dt::CampaignsController < DtApplicationController
   def show
     @campaign = Campaign.find(params[:id]) unless params[:id].blank?
     @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
-    [@campaign, @wall_post = @campaign.wall_posts.new]
+    @campaign
+    @wall_post = @campaign.wall_posts.new
+    
+    #@participants = Participant.paginate_by_campaign_id @campaign.id, :page => params[:page]
+    
+    #hack to get remote pagination working
+    @teams = Team.paginate_by_campaign_id_and_pending_and_generic @campaign.id,false,false, :page => params[:team_page], :per_page => 10
+    if(params[:team_page] != nil)
+      render :partial => 'teams'
+    end
+    
+    @participants = Participant.paginate_by_sql ["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = ?",@campaign.id,0], :page => params[:participant_page], :per_page => 10
+    if(params[:participant_page] != nil)
+      render :partial => 'participants'
+    end
+    
     if @campaign != nil
       return @campaign
     else
@@ -70,7 +81,6 @@ class Dt::CampaignsController < DtApplicationController
         @participant.user = @team.leader
         @participant.pending = false
         @participant.goal = 0
-        @participant.short_name = @campaign.short_name +'_participant'
         if @participant.save
           flash[:notice] = 'Campaign was successfully created.'
           redirect_to(dt_campaign_path(@campaign))
@@ -241,10 +251,6 @@ class Dt::CampaignsController < DtApplicationController
       @errors.push('The short name may not contain any reserved characters such as ?')
     end
     [@errors, @short_name]
-  end
-
-  def sponsor
-
   end
 
   private

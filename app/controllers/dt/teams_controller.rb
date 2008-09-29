@@ -18,6 +18,10 @@ class Dt::TeamsController < DtApplicationController
   # GET /dt_teams/1
   # GET /dt_teams/1.xml
   def show
+    @participants = Participant.paginate_by_team_id_and_pending @team.id, false, :page => params[:participant_page], :per_page => 10
+    if(params[:participant_page] != nil)
+      render :partial => 'participants'
+    end
   end
 
   # GET /dt_teams/new
