@@ -14,6 +14,8 @@ class Dt::Groups::NewsController < DtApplicationController
     @group = Group.find(params[:group_id])
     @group_message = @group.news.build
     @group_messages = @group.news.paginate({:page => params[:page], :per_page => 5, :order => "created_at DESC"})
+    @membership = @group.memberships.find_by_user_id(current_user.id) if logged_in?
+    
     respond_to do |format|
       format.html
     end
