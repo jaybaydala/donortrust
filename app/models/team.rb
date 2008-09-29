@@ -36,9 +36,9 @@ class Team < ActiveRecord::Base
       @team_to_test = Team.find_by_campaign_id_and_short_name(campaign, self.short_name)
       errors.add 'short_name', " has already been used in this campaign." unless @team_to_test == nil or @team_to_test == self
     end
-    
+
     if((Team.find_by_user_id_and_campaign_id(current_user.id,campaign.id) != nil) && (campaign.user_id != current_user.id))
-      errors.add_to_base "You have already created a team... and therefor cannot."
+      errors.add_to_base "You have already created a team for this campaign and cannot create another one."
     end
   end
 

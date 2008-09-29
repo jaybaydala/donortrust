@@ -2,13 +2,13 @@ class Dt::TeamsController < DtApplicationController
 
   before_filter :find_campaign, :except => [:validate_short_name_of]
   before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :activate], :except => [:validate_short_name_of, :index]
-  before_filter :login_required, :except => [:show]
+  before_filter :login_required, :except => [:show,:index]
   before_filter :check_if_in_team
 
   # GET /dt_teams
   # GET /dt_teams.xml
   def index
-    @teams = Team.find_all_by_campaign_id(params[:campaign_id])
+    @teams = Team.find_all_by_campaign_id(params[:campaign_id], :conditions => {:pending => false})
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @dt_teams }
@@ -59,6 +59,7 @@ class Dt::TeamsController < DtApplicationController
       @participant.user = current_user
       @participant.pending = false
       @participant.goal = 0
+      @participant.short_name = @team.short_name + '_participant'
 
       if @participant.save
         if @team.pending

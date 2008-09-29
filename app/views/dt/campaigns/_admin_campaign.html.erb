@@ -6,7 +6,7 @@
 			<% content = content + ( link_to_remote('Activate', :update => :campaigns,
 											:url => activate_dt_campaign_path(admin_campaign), 
 										   	:complete => "Element.show('flash');") + " | " ) unless not admin_campaign.pending? 	%>
-			<% content = content + delete_icon(dt_campaign_path(admin_campaign)) + ' | '  + link_to('Archive Campaign',dt_campaign_path(admin_campaign), :confirm => 'Are you sure?', :method => :delete )
+			<% content = content + delete_icon(dt_campaign_path(admin_campaign)) + ' | '  + link_to('Archive Campaign',dt_campaign_path(admin_campaign), :confirm => 'Are you sure you want to archive the campaign?', :method => :delete )
 											%>
 	<%= campaign_h2_header(content, "campaign_#{admin_campaign.id}_details_container")%>
 	<div id="campaign_<%= admin_campaign.id%>_details_container">
