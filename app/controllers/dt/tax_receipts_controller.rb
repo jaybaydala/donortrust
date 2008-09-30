@@ -21,9 +21,9 @@ class Dt::TaxReceiptsController < DtApplicationController
         end
       }
       format.pdf {
-        proxy = create_pdf_proxy(@receipt)
-        send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
-        proxy.post_render
+        pdf = create_pdf_proxy(@receipt)
+        send_data pdf.render, :filename => pdf.filename, :type => "application/pdf"
+        pdf.post_render
       }
     end
   end

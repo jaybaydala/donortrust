@@ -10,18 +10,15 @@ class Gift < ActiveRecord::Base
   belongs_to :order
   has_one :deposit
   has_one :user_transaction, :as => :tx
-#  has_many :gift_lists
 
   validates_presence_of :amount
-  validates_numericality_of :amount, :if => Proc.new { |gift| gift.amount?}
-  validates_presence_of :to_email, :email
+  validates_presence_of :to_email
+  validates_presence_of :email
   validates_confirmation_of :to_email, :email, :on => :create
-  validates_format_of   :to_email,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address", :if => Proc.new { |gift| gift.to_email?}
-  validates_format_of   :email,       :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address", :if => Proc.new { |gift| gift.email?}
+  validates_numericality_of :amount, :if => Proc.new { |gift| gift.amount? }
   validates_uniqueness_of :pickup_code, :allow_nil => :true
-  validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id?}
+  validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id? }
   
-  before_validation :trim_mailtos
   after_create :user_transaction_create, :tax_receipt_create
   
   attr_accessor :preview
@@ -31,9 +28,9 @@ class Gift < ActiveRecord::Base
   end
 
   def self.validate_pickup(pickup_code, id=nil)
-    return nil if pickup_code == nil || pickup_code.empty?
-    gift = find_by_id_and_pickup_code(id, pickup_code, :conditions => { :picked_up_at => nil }) if id != nil
-    gift = find_by_pickup_code(pickup_code, :conditions => { :picked_up_at => nil }) if id == nil
+    return nil if pickup_code.nil? || pickup_code.empty?
+    gift = find_by_id_and_pickup_code(id, pickup_code, :conditions => { :picked_up_at => nil }) unless id.nil?
+    gift = find_by_pickup_code(pickup_code, :conditions => { :picked_up_at => nil }) if id.nil?
     gift
   end
   
@@ -42,7 +39,7 @@ class Gift < ActiveRecord::Base
   end
   
   def picked_up?
-    @picked_up || false
+    @picked_up || !picked_up_at.nil?
   end
   
   def send_gift_mail
@@ -61,12 +58,8 @@ class Gift < ActiveRecord::Base
   end
 
   def send_gift_reminder
-    DonortrustMailer.deliver_gift_expiry_notifier(self)
+    DonortrustMailer.deliver_gift_expiry_notifier(self) if notify_giver?
     DonortrustMailer.deliver_gift_expiry_reminder(self)
-  end
-
-  def send_gift_mail?
-    return !new_record? && !send_at? && !sent_at? && send_email? ? true : false
   end
   
   def expiry_date
@@ -99,23 +92,37 @@ class Gift < ActiveRecord::Base
     @message_summary
   end
   
-  protected
-  def validate_on_create
-    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
-    errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project_id && project && amount > project.current_need
-    super
+  def pdf
+    GiftPDFProxy.new(self)
   end
   
+  protected
   def before_validation
-    self[:project_id] = nil if project_id == 0
+    self.project_id = nil unless project_id?
+    self.number = number.gsub(/[^0-9]/, "") if attribute_present?("number")
+    self.to_email = to_email.sub(/^ *mailto: */, '') if attribute_present?("to_email")
+    self.email = email.sub(/^ *mailto: */, '') if attribute_present?("email")
+    if project_id?
+      self.balance = nil
+    else
+      self.balance = amount
+    end
     super
   end
   
   def validate
-    errors.add("project_id", "is not a valid project") if project_id? && project_id <= 0
+    errors.add("project_id", "is not a valid project") if project_id? && !project
+    errors.add("to_email", "must be a valid email") unless EmailParser.parse_email(to_email) if attribute_present?("to_email")
+    errors.add("email", "must be a valid email") unless EmailParser.parse_email(email) if attribute_present?("email")
+    errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project_id? && project && amount > project.current_need
     super
   end
-
+  
+  def validate_on_create
+    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
+    super
+  end
+  
   def before_save
     self.credit_card = credit_card.to_s[-4, 4] if credit_card != nil
   end
@@ -141,11 +148,6 @@ class Gift < ActiveRecord::Base
     hash
   end
 
-  def trim_mailtos
-    self[:to_email].sub!(/^ *mailto: */, '') if self[:to_email]
-    self[:email].sub!(/^ *mailto: */, '') if self[:email]
-  end
-  
   def self.dollars_gifted
     raised = 0
     self.find(:all).each do |gift|

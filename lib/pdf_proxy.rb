@@ -129,11 +129,11 @@ class GiftPDFProxy
   def filename
     return "ChristmasFuture printable ecard.pdf" 
   end
-
+  
   protected
   def create_gift_pdf(gift)
       _pdf = PDF::Writer.new
-      _pdf.select_font "Times-Roman"
+      _pdf.select_font "Helvetica"
       _pdf.compressed=true
       image_path = File.expand_path("#{gift.e_card.printable}") if gift.e_card_id? && gift.e_card
       i0 = _pdf.image image_path if image_path && File.exists?(image_path)

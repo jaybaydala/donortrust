@@ -1,11 +1,9 @@
 require 'order_helper'
-require 'pdf_proxy'
 
 class Dt::GiftsController < DtApplicationController
   helper "dt/places"
   before_filter :login_required, :only => :unwrap
   include OrderHelper
-  include PDFProxy
   
   CANADA = 'canada'
   
@@ -24,8 +22,9 @@ class Dt::GiftsController < DtApplicationController
       end
       format.html
       format.pdf {
-        proxy = create_pdf_proxy(@gift)
-        send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
+        pdf = @gift.pdf
+        send_data pdf.render, :filename => pdf.filename, :type => "application/pdf"
+        pdf.post_render
       }
     end
   end
@@ -197,7 +196,7 @@ class Dt::GiftsController < DtApplicationController
   def set_send_now_delivery!
     if params[:gift] && params[:gift][:send_email] && params[:gift][:send_email] == "now"
       @gift.send_email = true
-      @gift.send_at = Time.now + 5.minutes
+      @gift.send_at = Time.now + 2.minutes
     end
   end
   
