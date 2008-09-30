@@ -1,13 +1,13 @@
 <div>
 	<h1>
 		<% if @participant != nil %>
-				Sponsor "<%= @participant.user.full_name %>'s" participation in "<%= @participant.team.campaign.name %>" and help end extreme poverty
+				Sponsor <strong><%= @participant.user.full_name %>'s</strong> participation in: <%= @participant.team.campaign.name %>
 			<% form_for_var = @participant %>			
 		<% elsif @team != nil %>
-				Sponsor team "<%= @team.name %>'s" participation in "<%= @team.campaign.name %>" and help end extreme poverty
+				Sponsor team <strong><%= @team.name %>'s</strong> participation in <%= @team.campaign.name %>
 			<% form_for_var = @team %>
 		<% elsif @campaign != nil %>
-				Give to "<%= @campaign.name %>"
+				Give to <strong><%= @campaign.name %></strong>
 			<% form_for_var = @campaign %>
 		<% end %>
 	</h1>
@@ -17,7 +17,7 @@
 	<div id="pledge_form" class="campaign_form">
 		<%= error_messages_for :pledge, :deposit %>
 		<% form_for([:dt,form_for_var,@pledge]) do |f| %>		
-			<h2>I would like to give:	$ <%= f.text_field :amount %></h2><%= f.submit 'Sponsor!'%>
+			<h2>I would like to give:	$ <%= f.text_field :amount %> <%= f.submit 'Sponsor'%></h2>
 		<% end %>
 	</div>
 </div>
@@ -44,8 +44,8 @@
 		<% elsif @campaign != nil %>
 			<h2>Campaign Facts</h2>
 			<span class="small_text">Event Date: <%= campaign_date(@campaign.event_date) %></span><br/>
-			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%> CDN</span><br/>
-			<span class="small_text">Amount Raised: $ <%= @campaign.funds_raised %> CDN</span><br/>
+			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%></span><br/>
+			<span class="small_text">Amount Raised: $ <%= @campaign.funds_raised %></span><br/>
 			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
 			<span class="small_text">Number of Teams: <%= @campaign.active_teams.size %></span><br/>
 			<span class="small_text">Number of Participants: <%= @campaign.participants.size %></span><br/>

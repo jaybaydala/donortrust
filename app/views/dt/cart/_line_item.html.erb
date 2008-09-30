@@ -56,19 +56,18 @@
 <%- if line_item.class == Pledge %>
 	<td>
 		<div class="textsm">
-	      <%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), dt_cart_path(:id => line_item_counter), :confirm => "Are you sure you want to remove this item from your cart?", :method => :delete %>
+		    <br/>
+	      <%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "[delete item]", :title => "Remove this item from your cart"), dt_cart_path(:id => line_item_counter), :confirm => "Are you sure you want to remove this item from your cart?", :method => :delete %>
 	    </div>
 	</td>
 	<td>
 		<h5><strong>Pledge</strong></h5>
 		<% if line_item.participant != nil %>
 			<p>Pledge for <%= link_to(line_item.participant.user.full_name, dt_participant_path(line_item.participant)) %>'s participation in <%= link_to(line_item.campaign.name, dt_campaign_path(line_item.campaign)) %></p>
+		<% elsif line_item.team != nil %>
+			<p>Pledge towards <%= link_to(line_item.team.name, dt_team_path(line_item.team.name)) %> (a team participating in <%= link_to(line_item.campaign.name, dt_campaign_path(line_item.campaign)) %>)</p>
 		<% else %>
-			<% if line_item.participant != nil %>
-				<p>Pledge towards <%= link_to(line_item.team.name, dt_team_path(line_item.team.name)) %> a team participating in <%= link_to(line_item.campaign.name, dt_campaign_path(line_item.campaign)) %></p>
-			<% else %>
-				<p>Pledge towards <%= link_to(line_item.campaign.name, dt_campaign_path(line_item.campaign)) %>
-			<% end %>
+			<p>Pledge towards <%= link_to(line_item.campaign.name, dt_campaign_path(line_item.campaign)) %>
 		<% end %>
 	
 	</td>
