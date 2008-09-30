@@ -1,7 +1,7 @@
 class Dt::CampaignsController < DtApplicationController
 
   before_filter :login_required, :only => [:create, :new, :edit, :destroy]
-  before_filter :is_authorized?, :except => [:show, :index, :join, :new, :create, :admin];
+  before_filter :is_authorized?, :except => [:show, :index, :join, :new, :create, :admin, :search];
   before_filter :is_cf_admin?, :only => [:new, :create, :admin] # this is just here to prevent anyone but a CF admin from creating campaigns.
 
   # GET /campaigns
@@ -254,6 +254,21 @@ class Dt::CampaignsController < DtApplicationController
     [@errors, @short_name]
   end
 
+  def search 
+    @search = Ultrasphinx::Search.new(:query => params[:keywords],:class_names => ['Campaign'], :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
+    Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
+        :before_match => '<strong style="background-color:yellow;">',
+        :after_match => '</strong>',
+        :chunk_separator => "...",
+        :limit => 256,
+        :around => 3,
+        :sort_mode => 'relevance' ,
+        :weights => {'name' => 10.0, 'description' => 8.0},
+        :content_methods => [['name'], ['description']]
+        })
+   @search.excerpt
+  end
+  
   private
     def is_authorized?
       @campaign = Campaign.find(params[:id])

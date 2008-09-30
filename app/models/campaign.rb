@@ -27,6 +27,13 @@ class Campaign < ActiveRecord::Base
 
   attr_accessor :use_user_email
 
+  is_indexed :fields=> [
+      {:field => 'name', :sortable => true},
+      {:field => 'description'},
+      {:field => 'city'},
+      {:field => 'province'},
+      {:field => 'country'}      
+    ] 
 
   #validations
   validates_presence_of :name, :campaign_type, :description, :country, :province, :postalcode, :fundraising_goal, :creator, :short_name

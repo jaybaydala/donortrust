@@ -1,0 +1,20 @@
+<% form_tag (search_dt_campaigns_path,{:id => 'campaign_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
+	<%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
+		:title => 'Search', 
+		:size => 55 ,
+		:onblur =>"if(!this.value) this.value='Search';", 
+		:onfocus => "if(this.value=='Search') this.value='';"
+	%>
+	<span id="searchsubmit">
+		<%= submit_tag 'go',
+			:id => 'simple_search_submit', 
+			:class => 'submitreplace'
+		%>
+	</span>
+	<!-- 
+	<br>
+	<%= check_box_tag 'search_type', 'user'%>Users
+	<%= check_box_tag 'search_type', 'team'%>Teams
+	<%= check_box_tag 'search_type', 'campaign'%>Campaigns
+  -->
+<% end%>

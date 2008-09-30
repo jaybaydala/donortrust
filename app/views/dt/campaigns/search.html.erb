@@ -1,0 +1,7 @@
+<h1>Search Results</h1>
+<h3>You searched for <strong><%= @search.query%></strong></h3>
+<p><%= @search.total_entries%> results were found</p>
+
+<%= render :partial => 'campaign', :collection => @search.results%>
+<br>
+<%= will_paginate @search %>
