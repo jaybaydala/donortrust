@@ -57,7 +57,8 @@ ActionController::Routing::Routes.draw do |map|
     # Campaign System
     dt.resources :campaigns,  :collection => {          :update_address_details_for_country => :post,
                                                         :update_team_config_options => :post,
-                                                        :admin => :get
+                                                        :admin => :get,
+                                                        :search => :get
                                                         },
                                       :new => {
                                         :validate_short_name_of => :post
