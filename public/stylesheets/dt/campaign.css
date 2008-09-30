@@ -1,5 +1,4 @@
 /** Campaign Stuff */
-
 .thumbnail{
 	float: left;
 	margin: 5px;
@@ -55,8 +54,10 @@ h2.campaign {
 	border-top: none;
 	border-left: none;
 	border-right: none;
-	border-bottom: solid 1px #393;
-	background-color: #efe;
+	border-bottom: solid 1px #360;
+	background-color: #DDD; 
+	/*border-bottom: solid 1px #CCC;
+	background-color: #83A360;*/
 	margin-left: 0px;
 	margin-right: 0px;
 	margin-top: 0px;
