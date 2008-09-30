@@ -319,3 +319,17 @@ span.small_text{
 	font-size:12px;
 }
 
+/* search */
+#search_box{
+	margin-bottom: 15px;
+}
+
+form#campaign_search input.submitreplace {
+    width:35px;
+    height:20px;
+	vertical-align: middle;
+	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
+}
+form#campaign_search input.submitreplace:hover{
+	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
+}
