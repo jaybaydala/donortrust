@@ -99,14 +99,14 @@ HTML
       
       def step_failed(step, regexp, args)
         @errors << step.error
-        print_javascript_tag("stepFailed(#{step.id}, (<r><![CDATA[#{step.error.message}]]></r>).toString(), (<r><![CDATA[#{step.error.backtrace.join("\n")}]]></r>).toString())")
+        print_javascript_tag("stepFailed(#{step.id}, #{step.error.message.inspect}, #{step.error.backtrace.join("\n").inspect})")
       end
       
       def step_pending(step, regexp, args)
         print_javascript_tag("stepPending(#{step.id})")
       end
       
-      def step_skipped(step)
+      def step_skipped(step, regexp, args)
         # noop
       end
 
