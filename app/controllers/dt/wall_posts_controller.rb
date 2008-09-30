@@ -1,9 +1,9 @@
 class Dt::WallPostsController < DtApplicationController
   before_filter :authorized?, :only => :destroy
-  
+
   # GET /dt_wall_posts
   # GET /dt_wall_posts.xml
-  
+
   # this should be embeddable so that we can constantly just render this sucker for
   # ajax action
   def index
@@ -23,7 +23,7 @@ class Dt::WallPostsController < DtApplicationController
   def create
     @wall_post = WallPost.new(params[:wall_post])
     @wall_post.author = current_user
-    
+
     # hackish solution to the polymorphic association, but it allows us to avoid
     # a messy switch case, or anything of that nature. So to add a wall post to something
     # is trivial.
@@ -31,11 +31,11 @@ class Dt::WallPostsController < DtApplicationController
     params.keys.each{|key| postable_key = key unless not key.end_with?'_id'}
     @wall_post.postable_id = params[postable_key]
     @wall_post.postable_type = postable_key[0..postable_key.length-4].capitalize
-    
-    
+
+
     respond_to do |format|
       if @wall_post.save
-        flash[:notice] = 'Post Added.'
+        flash[:notice] = 'Wall post added!'
         format.html {
           redirect_to url_for([:dt, @wall_post.postable])
         }
@@ -58,11 +58,11 @@ class Dt::WallPostsController < DtApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
   def authorized?
     @wall_post = WallPost.find(params[:id])
     @wall_post.postable.owned? || @wall_post.owned?
   end
-  
+
 end

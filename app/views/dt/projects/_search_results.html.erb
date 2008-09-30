@@ -56,7 +56,9 @@
 			<%end%>
 		</div>
 	<%else%>
-		No results were found. Please review your search.
+		<div>
+			<h2>No results were found. Click <%= link_to('here', :back) %> to search again. </h2>
+		</div>
 	<%end%>
 
 <%end%>

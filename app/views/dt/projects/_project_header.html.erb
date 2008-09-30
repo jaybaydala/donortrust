@@ -9,7 +9,7 @@
 	<div class="full-display-sector-images"><%= sector_images(@project.id) %></div>
 
 	<div class="full-display-subheader">
-		<%= link_to(@project.partner.name,organization_dt_project_path(@organization.id))  %>, 
+		<%= link_to(@project.partner.name,organization_dt_project_path(@project))  %>, 
 		<% if @project.community_id %>
 			<%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %>
 		<% end %>

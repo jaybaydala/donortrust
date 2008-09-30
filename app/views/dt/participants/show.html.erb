@@ -4,7 +4,7 @@
 <div id="team_member_page">
 	<div class="leftColW800">
 		<div id="participant_details">
-			<h1><%= @participant.user.full_name %> 
+			<h1><%= @participant.user.full_name %>'s "<%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>" page 
 				<%= " (Awaiting approval)" unless not @participant.pending? %>
 				</h1>
 			<h5 style="margin-top:-10px;">
@@ -23,19 +23,13 @@
 	
 	<div class="leftColN800">
 		<div class="campaign-sidebar-box metrics">
-			<h2>Participant Facts</h2>
-			<span class="small_text">Campaign: <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %></span><br/>
-			<% if @campaign.allow_multiple_teams? and not @participant.team.generic? %>
-				<span class="small_text">Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
-			<% end %>
-			<span class="small_text">Goal: $ <%= @participant.goal if @participant.goal %></span><br/>
-			<span class="small_text">Amount Raised: $ <%= @participant.funds_raised %></span><br/>
-			<span class="small_text">Percentage of Goal: <%= @participant.percentage_raised %></span><br/>
+			<%= render :partial => 'participant_facts',  :locals => {:participant => @participant} %>
 		</div>
 		
 		<div class="campaign-sidebar-box get-involved">
 		  <ul>
 				<%= "<li>" + link_to('Manage your profile',manage_dt_participant_path(@participant)) + "</li>" if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>
+				<li><span class="small_text"><%= link_to("Back to \"#{@campaign.name}\" Home", dt_campaign_path(@campaign)) %></span></li>
 				<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(@participant), :class => "button-pledge" %>
 			</ul>
 		</div>

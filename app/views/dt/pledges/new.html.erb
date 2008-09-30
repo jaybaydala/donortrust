@@ -25,30 +25,11 @@
 <div class="leftColN800">
 	<div class="campaign-sidebar-box metrics">
 		<% if @participant != nil %>
-			<h2>Participant Facts</h2>
-			<span class="small_text">Campaign: <%= link_to(@participant.team.campaign.name, 
-			dt_campaign_path(@participant.campaign)) %></span><br/>
-			<% if @participant.team.campaign.allow_multiple_teams? and not @participant.team.generic? %>
-				<span class="small_text">Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
-			<% end %>
-			<span class="small_text">Goal: $ <%= @participant.goal if @participant.goal %></span><br/>
-			<span class="small_text">Amount Raised: $ <%= @participant.funds_raised %></span><br/>
-			<span class="small_text">Percentage of Goal: <%= @participant.percentage_raised %></span><br/>
+			<%= render :partial => 'dt/participants/participant_facts',  :locals => {:@participant => @participant} %>
 		<% elsif @team != nil %>
-			<h2>Team Facts</h2>
-			<span class="small_text">Campaign: <%= link_to(@team.campaign.name, dt_campaign_path(@team.campaign)) %></span><br/>
-			<span class="small_text">Goal: $ <%= @team.goal if @team.goal %></span><br/>
-			<span class="small_text">Pledged: $ <%= @team.funds_raised %></span><br/>
-			<span class="small_text">Percentage of Goal: <%= @team.percentage_raised %></span><br/>
-			<span class="small_text">Members:	<%= @team.active_participants.size %> members</span>
+			<%= render :partial => 'dt/teams/team_facts',  :locals => {:team => @team} %>
 		<% elsif @campaign != nil %>
-			<h2>Campaign Facts</h2>
-			<span class="small_text">Event Date: <%= campaign_date(@campaign.event_date) %></span><br/>
-			<span class="small_text">Goal: $ <%= @campaign.fundraising_goal%></span><br/>
-			<span class="small_text">Amount Raised: $ <%= @campaign.funds_raised %></span><br/>
-			<span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
-			<span class="small_text">Number of Teams: <%= @campaign.active_teams.size %></span><br/>
-			<span class="small_text">Number of Participants: <%= @campaign.participants.size %></span><br/>
+			<%= render :partial => 'dt/campaigns/campaign_facts',  :locals => {:campaign => @campaign} %>
 		<% end %>
 	</div>
 </div>

@@ -13,7 +13,7 @@
 				</span>
 			</div>
 
-			<%
+			<% 
 				participant_class = "#{participant.team.campaign.name} Participant"
 				if participant.user == participant.team.leader
 					if participant.team.generic?
@@ -34,13 +34,20 @@
 		<% if (!participant.pending && !participant.team.pending) || (controller.controller_name =="teams") %>
 			<div id="team_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>">
 				<span class="participant_details">
-					<%= "<strong>*</strong>" unless (participant.user != participant.team.leader ||  participant.team.generic?) %>
-					<%= '<strong>**</strong>' unless (participant.user != participant.team.leader || (not participant.team.generic?)) %>
-				<%= link_to participant.name, dt_participant_path(participant) %>
-				<%= participant.team.generic ? "(Campaign Organizer)":
-				"(#{'Team Admin - ' if participant.team.leader}#{link_to(participant.team.name, dt_team_path(participant.team))})" %>,
-				$ <%= participant.funds_raised %> raised.
-			  <%= link_to "<span class=\"list-sponsor-link\">[Sponsor #{participant.name}]</span>", new_dt_participant_pledge_path(participant) %>
+					<%= link_to participant.name, dt_participant_path(participant) %>
+					<% if participant.team.generic? %>				
+						<% if participant.user == participant.team.leader %>				
+							(Campaign Organizer)
+						<% end %>
+					<% else %>
+						<% if participant.team.owned? %>
+							(Team Admin - <%= link_to(participant.team.name, dt_team_path(participant.team)) %>)
+						<% else %>
+							(Team Member - <%= link_to(participant.team.name, dt_team_path(participant.team)) %>)
+						<% end %>
+					<% end %>
+					$ <%= participant.funds_raised %> raised.
+					<%= link_to "<span class=\"list-sponsor-link\">[Sponsor #{participant.name}]</span>", new_dt_participant_pledge_path(participant) %>
 				</span>
 			</div>
 		<% end %>	

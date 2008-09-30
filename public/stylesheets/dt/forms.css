@@ -72,7 +72,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 .userform {}
 .userform div.notes {
     float:right;
-    width:280px;
+    width:220px;
     padding:5px;
     margin:0 0 10px 10px;
     background-color:#FFD;

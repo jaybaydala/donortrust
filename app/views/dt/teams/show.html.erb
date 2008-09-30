@@ -28,12 +28,7 @@
 
 	<div class="leftColN800">
 		<div class="campaign-sidebar-box metrics">
-			<h2>Team Facts</h2>
-			<span class="small_text">Campaign: <%= link_to(@team.campaign.name, dt_campaign_path(@team.campaign)) %></span><br/>
-			<span class="small_text">Goal: $ <%= @team.goal if @team.goal %></span><br/>
-			<span class="small_text">Pledged: $ <%= @team.funds_raised %></span><br/>
-			<span class="small_text">Percentage of Goal: <%= @team.percentage_raised %></span><br/>
-			<span class="small_text">Members:	<%= @team.active_participants.size %> members</span>
+			<%= render :partial => 'team_facts',  :locals => {:campaign => @team} %>
 		</div>
 		<div class="campaign-sidebar-box get-involved">
 	    <ul>

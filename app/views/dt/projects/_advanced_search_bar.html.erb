@@ -96,7 +96,8 @@
 	<label class='adv-search-label'>Search By Funding Requirement:</label>
 	min <%= text_field_tag("funding_req_min", params[:funding_req_min], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %> 
 	and max <%= text_field_tag("funding_req_max", params[:funding_req_max], :size => 10, :onchange => "ajaxSubmit();assign_selected(this, 'funding_req');" ) %><br />
-	<%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%> Include fully funded projects
+	<%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%>
+	<label class='adv-search-label'>Include fully funded projects</label>
 
   <%= hidden_field_tag "filter", "true"%>
   <!-- <%= hidden_field_tag "advanced","true"%> -->
