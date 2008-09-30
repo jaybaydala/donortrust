@@ -7,12 +7,12 @@ class Dt::InvestmentsController < DtApplicationController
   def new
     @investment = Investment.new( params[:investment] )
     @investment.project_id = params[:project_id] if params[:project_id]
-    # load the cf_unallocated_project if no other project is loaded
-    @investment.project = Project.cf_unallocated_project if (Project.cf_unallocated_project && !@investment.project)
+    # load the unallocated_project if no other project is loaded
+    @investment.project = Project.unallocated_project if (Project.unallocated_project && !@investment.project)
     @project = @investment.project if @investment.project
     respond_to do |format|
       format.html {
-        if @project && @project != Project.cf_unallocated_project && !@project.fundable?
+        if @project && @project != Project.unallocated_project && !@project.fundable?
           flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
           redirect_to dt_project_path(@project) and return
         end

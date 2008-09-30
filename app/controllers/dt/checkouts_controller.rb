@@ -149,6 +149,7 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def before_billing
+    # load the info from the first gift into the billing fields
     gift = @cart.gifts.first if @cart.gifts.size > 0
     if gift
       @order.email = gift.email unless @order.email?
@@ -159,6 +160,7 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def before_payment
+    # remove the payment info so we never keep it around
     @order.card_number = nil
     @order.cvv = nil
     @order.expiry_month = nil
@@ -167,8 +169,8 @@ class Dt::CheckoutsController < DtApplicationController
   end
 
   def do_support
-    if !params[:fund_cf].nil? && %w(dollars percent no).include?(params[:fund_cf]) && Project.cf_admin_project
-      @cf_project = Project.cf_admin_project
+    if !params[:fund_cf].nil? && %w(dollars percent no).include?(params[:fund_cf]) && Project.admin_project
+      @cf_project = Project.admin_project
       # delete the cf_project investment item - it will get re-added below, if applicable
       index = @cart.items.index(@cart.items.find{|item| item.class == Investment && item.project_id == @cf_project.id })
       @cart.remove_item(index) if index
@@ -225,6 +227,7 @@ class Dt::CheckoutsController < DtApplicationController
         # if there is, we should render the payment template and show the errors...
         transaction_successful = @order.account_balance_total == @order.total ? true : @order.run_transaction
         if transaction_successful
+          # auto-push the send_at dates into the future, if necessary to avoid silly validation errors
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_at? && gift.send_at < Time.now}
           # save the cart items into the db via the association
           @order.gifts = @cart.gifts

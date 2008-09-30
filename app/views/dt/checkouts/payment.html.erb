@@ -46,7 +46,7 @@
       <p>A total of <strong><%= number_to_currency(@cart.total) %></strong> CAD will be charged to your credit card.</p>
       <% end %>
       <ol class="clearfix">
-        <li><label for="order_credit_card" class="wide"><%= form_required %>Credit Card Number</label> <%= f.text_field :card_number, :maxlength => 16 %></li>
+        <li><label for="order_card_number" class="wide"><%= form_required %>Credit Card Number</label> <%= f.text_field :card_number, :maxlength => 16 %></li>
         <li>
           <label for="order_cvv" class="wide"><%= form_required %>Card Security Number (CVV)</label> <%= f.text_field :cvv, :maxlength => 5, :size => 5, :style => "width:auto;" %>
           <div class="note" style="margin-left:125px;">This is final 3 digits on the back of your card. For AMEX: 4 digits on the front of the card.</div>

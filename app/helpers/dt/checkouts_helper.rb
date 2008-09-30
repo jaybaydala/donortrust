@@ -8,8 +8,8 @@ module Dt::CheckoutsHelper
   end
   
   def cart_cf_investment
-    return nil unless @cart && Project.cf_admin_project
-    @cart_cf_investment ||= @cart.items.find{|item| item.class == Investment && item.project_id == Project.cf_admin_project.id }
+    return nil unless @cart && Project.admin_project
+    @cart_cf_investment ||= @cart.items.find{|item| item.class == Investment && item.project_id == Project.admin_project.id }
   end
   
   def expiry_months

@@ -133,9 +133,11 @@ describe Dt::GiftsController do
       post "create"
     end
     
-    it "should set the gift.send_at to 5 minutes in the future if send_gift is 'now'" do
+    it "should set the gift.send_at to 2 minutes from now if send_gift is 'now'" do
+      time = Time.now
+      Time.stub!(:now).and_return(time)
       @gift.should_receive(:send_email=).with(true)
-      @gift.should_receive(:send_at=).with(Time.now + 5.minutes)
+      @gift.should_receive(:send_at=).with(time + 2.minutes)
       post "create", :gift => {:send_email => "now"}
     end
     

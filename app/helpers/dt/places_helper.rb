@@ -1,7 +1,7 @@
 module Dt::PlacesHelper
   def country_select_options
     priority_countries = ['Canada', 'United States of America']
-    countries = Place.find(:all, :conditions => { :place_type_id => 2 }, :select => :name, :order => :name)
+    countries = Place.find(:all, :conditions => { :place_type_id => PlaceType.country.id }, :select => :name, :order => :name)
     starting_options = [['Choose a Country...', '']]
     @countries = []
     countries.each do |country|

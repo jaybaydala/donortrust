@@ -24,15 +24,19 @@ class EmailParser
     @data.split(',').each do |email|
       begin
         email = TMail::Address.parse(email)
-           @emails << email unless @emails.detect{|e| e.address == email.address }
+        @emails << email unless @emails.detect{|e| e.address == email.address }
       rescue TMail::SyntaxError
         @errors << email.strip
       end
     end
     @emails
   end
-  
-  def flatten
-    
-  end
+
+  def self.parse_email(email)
+    begin
+      TMail::Address.parse(email)
+    rescue TMail::SyntaxError
+      false
+    end
+  end  
 end

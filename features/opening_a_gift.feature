@@ -1,16 +1,15 @@
 Feature: Opening a Gift
   In order to choose how to allocate the money that was given to me
   As a gift receiver
-  I want to be able to open my gift
+  I want to open my gift
 
+  Scenario: Opening a Project Gift
+    Given that I have received a project gift
+    When I open the gift
+    Then I should see what I have been given
+    And I should see a link to the Project
 
-	Scenario: Opening the project gift
-	  Given that I have received a project gift
-	  When I open the gift
-	  Then I should see what I have been given
-	  And I should see a link to the Project
-
-  Scenario: Opening a gift card
+  Scenario: Opening a Gift Card
     Given that I have received a gift
     When I open the gift
     Then I should see my gift card balance
@@ -27,18 +26,18 @@ Feature: Opening a Gift
     Then I should see my gift card balance
 
   Scenario: Gift Card Total status
-    Given That I have opened a gift
+    Given that I have opened a gift
     When I go to "/dt"
     Then I should see my gift card total in the top right corner
 
   Scenario: Gift Card Total status (blog site)
-    Given That I have opened a gift
+    Given that I have opened a gift
     When I go anywhere in the site
     Then there should be a cookie with the Gift Card Amount
     And there should be a cookie with the Gift Card id
 
 	Scenario: Let CF Figure It Out
-		Given that i have open a gift
-	  When i have choose "let Cf figure it out"
-		Then i should be redirected to the payment step of the checkout process
-
+		Given that I have opened a gift
+	  When I choose "let Cf figure it out"
+		Then I should be redirected to the payment step of the checkout process
+		And I should see the proper investment for my Gift Card Balance in my cart

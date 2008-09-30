@@ -91,7 +91,7 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
     end
 
     it "should set the credit_card_total to @order.total if !logged_in?" do
-      controller.should_receive(:logged_in?).at_least(:once).and_return(false)
+      controller.stub!(:logged_in?).and_return(false)
       @order.should_receive(:credit_card_total=).with(@cart.total)
       controller.send!(:initialize_existing_order)
     end

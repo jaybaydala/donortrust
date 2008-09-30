@@ -11,16 +11,16 @@
     <legend>Please specify how you would like your investment to be allocated:</legend>
     <ol>
       <li>
-        <% if cf_unallocated_project %>
-          <label class="left"><%= f.radio_button "project_id", cf_unallocated_project.id %><%= cf_unallocated_project.name %></label>
-          <% if @investment.project_id == cf_unallocated_project.id %>
+        <% if unallocated_project %>
+          <label class="left"><%= f.radio_button "project_id", unallocated_project.id %><%= unallocated_project.name %></label>
+          <% if @investment.project_id == unallocated_project.id %>
             <div class="note">If this is not what you want, you can <%= link_to "find a different projects", dt_search_path %> to invest in.</div>
           <% end %>
         <% elsif !@project %>
           <div class="note"><%= link_to("you must choose a project", dt_projects_path) %></div>
         <% end %>
       </li>
-      <% if @project && (!cf_unallocated_project || @project.id != cf_unallocated_project.id) %><li>
+      <% if @project && (!unallocated_project || @project.id != unallocated_project.id) %><li>
         <label class="left"><%= f.radio_button "project_id", ( @project.id? ? @project.id : 0 ) %>to a project I've chosen</label>
         <div class="note" style="margin-left:1.6em;">&#8250; <%= @project.id? ? link_to(@project.name, dt_project_path(@project)) : link_to("choose another project", dt_projects_path) %></div>
         <%= hidden_field_tag :project_id, @project.id %>

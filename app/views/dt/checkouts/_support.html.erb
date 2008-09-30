@@ -2,7 +2,7 @@
 <div class="userform">
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
 
-  <% if Project.cf_admin_project %>
+  <% if Project.admin_project %>
   <fieldset>
     <legend>Support ChristmasFuture</legend>
     
@@ -14,9 +14,9 @@
         <fieldset>
           <ol>
             <li>
-              <label class="left"><%= radio_button_tag "fund_cf", "percent", false %> Add a percentage to my investment</label>
-              <label class="left"><%= radio_button_tag "fund_cf", "dollars", (cart_cf_investment ? true : false) %> Add a specific dollar amount</label>
-              <label class="left"><%= radio_button_tag "fund_cf", "no", false %> Not this time</label>
+              <label for="fund_cf_percent" class="left"><%= radio_button_tag "fund_cf", "percent", false %> Add a percentage to my investment</label>
+              <label for="fund_cf_dollars" class="left"><%= radio_button_tag "fund_cf", "dollars", (cart_cf_investment ? true : false) %> Add a specific dollar amount</label>
+              <label for="fund_cf_no" class="left"><%= radio_button_tag "fund_cf", "no", false %> Not this time</label>
             </li>
           </ol>
         </fieldset>

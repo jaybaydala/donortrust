@@ -5,9 +5,6 @@ Event.observe(window, 'load', function() {
 				anchor.target = "_blank"
 		});
 	}
-	if ($('giftform') && $("giftsubmit")) {
-	  $("giftsubmit").writeAttribute({onclick:"new Ajax.Request('/dt/gifts.js', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('giftform'))}); return false;"});
-  }
 	
 	ua=navigator.userAgent.toLowerCase();
 	ie = document.all && ua.search(/msie/i) != -1 ? true : false;

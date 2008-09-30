@@ -72,7 +72,7 @@ class Dt::BulkGiftsController < DtApplicationController
         format.html { redirect_to dt_cart_path }
       else
         flash.now[:error] = "There were problems adding your gifts to your cart. Please check your email addresses carefully and try again."
-        @project = @gift.project if @gift.project_id? && @gift.project
+        @project = @gifts[0].project if !@gifts.empty? && @gifts[0].project_id? && @gifts[0].project
         @ecards = ECard.find(:all, :order => :id)
         format.html { render :action => "new" }
       end

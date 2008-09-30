@@ -125,6 +125,7 @@ describe Order do
     end
     describe "checking credit card validity" do
       before do
+        @credit_card = mock("CreditCard", :valid? => true)
         @order.stub!(:credit_card).and_return(@credit_card)
       end
       it "should check the credit card for validity if there's a minimum credit card payment" do
@@ -146,6 +147,7 @@ describe Order do
     end
     describe "invalid credit card" do
       before do
+        @credit_card = mock("CreditCard", :valid? => true)
         @errors = mock("Errors", :full_messages => ["error1", "error2"])
         @order.stub!(:minimum_credit_card_payment).and_return(1)
         @order.card_number = "4111111111111111"

@@ -429,7 +429,7 @@ describe Dt::CheckoutsController do
       describe "in the do_support method" do
         before do
           @cf_project = mock_model(Project)
-          Project.stub!(:cf_admin_project).and_return(@cf_project)
+          Project.stub!(:admin_project).and_return(@cf_project)
           @cf_investment = mock_model(Investment, :project => @cf_project, :project_id => @cf_project.id, :amount => 10.0, :amount? => true)
           Investment.stub!(:new).and_return(@cf_investment)
           @gift.stub!(:project_id).and_return(@cf_project.id + 50)
@@ -437,23 +437,23 @@ describe Dt::CheckoutsController do
           @cart.stub!(:valid_item?).and_return(true)
         end
         
-        it "should not call Project.cf_admin_project unless params[:fund_cf]" do
-          Project.should_receive(:cf_admin_project).never
+        it "should not call Project.admin_project unless params[:fund_cf]" do
+          Project.should_receive(:admin_project).never
           do_request(:fund_cf => nil)
         end
 
-        it "should call Project.cf_admin_project if params[:fund_cf] == 'dollars'" do
-          Project.stub!(:cf_admin_project).and_return(@cf_project)
+        it "should call Project.admin_project if params[:fund_cf] == 'dollars'" do
+          Project.stub!(:admin_project).and_return(@cf_project)
           do_request(:fund_cf => "dollars")
         end
 
-        it "should call Project.cf_admin_project if params[:fund_cf] == 'percent'" do
-          Project.stub!(:cf_admin_project).and_return(@cf_project)
+        it "should call Project.admin_project if params[:fund_cf] == 'percent'" do
+          Project.stub!(:admin_project).and_return(@cf_project)
           do_request(:fund_cf => "percent")
         end
 
-        it "should call Project.cf_admin_project if params[:fund_cf] == 'no'" do
-          Project.stub!(:cf_admin_project).and_return(@cf_project)
+        it "should call Project.admin_project if params[:fund_cf] == 'no'" do
+          Project.stub!(:admin_project).and_return(@cf_project)
           do_request(:fund_cf => "no")
         end
         
@@ -711,6 +711,7 @@ describe Dt::CheckoutsController do
         end
         describe "with a logged in user" do
           before do
+            @user = mock_model(User, :valid? => true, :balance => 0)
             @controller.stub!(:logged_in?).and_return(true)
             @controller.stub!(:current_user).and_return(@user)
             @user.stub!(:balance).and_return(10)

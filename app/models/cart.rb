@@ -31,7 +31,9 @@ class Cart
   end
 
   def remove_item(index)
-    @items.delete_at(index.to_i) if @items[index.to_i]
+    item = @items.delete_at(index.to_i) if @items[index.to_i]
+    reindex
+    item
   end
   
   def minimum_credit_card_payment
@@ -57,5 +59,9 @@ class Cart
   private
   def valid_item?(item)
     [Gift, Investment, Deposit].include?(item.class) && item.valid?
+  end
+  
+  def reindex
+    @items = @items.map{|i| i}
   end
 end

@@ -15,9 +15,15 @@ class Investment < ActiveRecord::Base
 
   after_create :user_transaction_create
   
+  attr_accessor :checkout_investment
+  
   def sum
     #return 0 if self[:gift_id] && self.gift[:project_id]
     super * -1
+  end
+  
+  def checkout_investment
+    
   end
 
   def self.new_from_gift(gift, user_id)

@@ -1,7 +1,7 @@
 module FundCf
   protected
   def build_fund_cf_deposit(other)
-    if params[:fund_cf] && params[:fund_cf_percentage] && other.credit_card? && cf_admin_project = Project.cf_admin_project
+    if params[:fund_cf] && params[:fund_cf_percentage] && other.credit_card? && admin_project = Project.admin_project
       cf_amount = other.amount * trim_percentage(params[:fund_cf_percentage])
       cf_deposit = Deposit.new
       other.attributes.each do |k,v|
@@ -16,14 +16,14 @@ module FundCf
   end
 
   def build_fund_cf_investment(other)
-    if params[:fund_cf] && params[:fund_cf_percentage] && cf_admin_project = Project.cf_admin_project
+    if params[:fund_cf] && params[:fund_cf_percentage] && admin_project = Project.admin_project
       cf_amount = other.amount * trim_percentage(params[:fund_cf_percentage])
       cf_investment = Investment.new
       other.attributes.each do |k,v|
         cf_investment[k] = v if cf_investment.attribute_names.include?(k)
       end
       cf_investment.amount = cf_amount
-      cf_investment.project_id = cf_admin_project.id
+      cf_investment.project_id = admin_project.id
     end
     cf_investment
   end

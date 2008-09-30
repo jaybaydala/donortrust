@@ -10,9 +10,9 @@
     <legend>Please specify how you would like your investment to be allocated:</legend>
     <ol>
       <li>
-        <% if cf_unallocated_project %>
-        <label class="left"><%= f.radio_button "project_id", cf_unallocated_project.id %><%= cf_unallocated_project.name %></label>
-        <% if @investment.project_id == cf_unallocated_project.id %><div class="note">
+        <% if unallocated_project %>
+        <label class="left"><%= f.radio_button "project_id", unallocated_project.id %><%= unallocated_project.name %></label>
+        <% if @investment.project_id == unallocated_project.id %><div class="note">
           If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.
         </div><% end %>
         <% elsif !@project %>

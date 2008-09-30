@@ -7,14 +7,14 @@
         <div id="_quick_fact_places">        
 			<select class="quick_fact-input" id="record_quick_fact" name="record[quick_fact][id]"><option value="" selected="selected">- select -</option>
 	       
-	        <% if @record.place.place_type_id == 6 %>
+	        <% if @record.place.place_type_id == PlaceType.community.id %>
 	        	<% for quick_fact in QuickFact.find :all %>
 					<% if quick_fact.quick_fact_type_id == 1 %>
 						<option value= <%= quick_fact.id.to_s %>> <%=quick_fact.name%></option>
            			<% end %>
          		<% end %>	
          		<% else %> 
-         		 <% if @record.place.place_type_id == 2 %>
+         		 <% if @record.place.place_type_id == PlaceType.country.id %>
          		     <% for quick_fact in QuickFact.find :all %>
 					       <% if quick_fact.quick_fact_type_id == 4 %>
 						      <option value= <%= quick_fact.id.to_s %>> <%=quick_fact.name%></option>

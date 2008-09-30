@@ -10,7 +10,7 @@ Given /I am on the new deposit page/ do
 end
 
 Given /I am on the new project investment page/ do
-  @project = create_project
+  @project = Project.generate!
   get("/dt/investments/new", {:project_id => @project.id})
 end
 
@@ -69,8 +69,8 @@ Then /there should be a link to Edit the Deposit/ do
   response.should have_tag("#cart td a[href=/dt/accounts/#{@user.id}/deposits/0/edit]")
 end
 
-Then /there should be a link to Remove the (\w+)/ do
-  response.should have_tag("#cart td a[href=/dt/cart?id=0][onclick~=m.setAttribute('name', '_method'); m.setAttribute('value', 'delete');]", :count => 1) do |t|
+Then /there should be a link to Remove the (\w+)/ do |cart_item|
+  response.should have_tag("#cart td div.#{cart_item.downcase} a[href=/dt/cart?id=0][onclick~=m.setAttribute('name', '_method'); m.setAttribute('value', 'delete');]", :count => 1) do |t|
     t.should have_tag("img[alt=Remove item from cart]")
   end
 end
@@ -85,6 +85,6 @@ end
 def add_gift(amount)
   @cart = Cart.new
   response.session[:cart] = @cart
-  gift = create_gift({:amount => amount})
+  gift = Gift.generate!({:amount => amount})
   @cart.add_item(gift)
 end

@@ -13,9 +13,9 @@
     <p>Now that you've opened your gift, you have some options. You can:</p>
     <ul>
       <li><%= link_to "find a project to donate to", dt_search_path %></li>
-      <% if Project.cf_unallocated_project %><li><%= link_to "let ChristmasFuture figure it out", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.amount), :project_id => Project.cf_unallocated_project.id }) %></li><% end %>
+      <% if Project.unallocated_project %><li><%= link_to "let ChristmasFuture figure it out", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.amount), :project_id => Project.unallocated_project.id }) %></li><% end %>
       <li><%= link_to "Deposit it into my account", new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) %></li>
-      <% if Project.cf_admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.amount), :project_id => Project.cf_admin_project.id }) %></li><% end %>
+      <% if Project.admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.amount), :project_id => Project.admin_project.id }) %></li><% end %>
     </ul>
     <div class="textsm">Note: if you choose to do nothing, your gift will expire 30 days after it was sent, which is just like choosing &quot;Let ChristmasFuture figure it out&quot;</div>
   <% end %>

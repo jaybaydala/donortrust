@@ -48,9 +48,9 @@ describe Dt::InvestmentsController do
       get 'new', :project_id => @project
     end
   
-    it "should load the cf_unallocated_project if there's no investment.project" do
+    it "should load the unallocated_project if there's no investment.project" do
       @cf_project = mock_model(Project)
-      Project.should_receive(:cf_unallocated_project).twice.and_return(@cf_project)
+      Project.should_receive(:unallocated_project).twice.and_return(@cf_project)
     
       @investment.should_receive(:project).any_number_of_times.and_return(nil)
       @investment.should_receive(:project=)

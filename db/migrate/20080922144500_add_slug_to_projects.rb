@@ -6,13 +6,13 @@ class AddSlugToProjects < ActiveRecord::Migration
     if %w(production staging development).include?(ENV['RAILS_ENV'])
       say "Updating admin and unallocated project to use `slug' column"
       begin 
-        cf_admin_project = Project.find(10)
-        cf_admin_project.update_attributes({:slug => 'admin'})
+        admin_project = Project.find(10)
+        admin_project.update_attributes({:slug => 'admin'})
       rescue ActiveRecord::RecordNotFound
       end
       begin 
-        cf_unallocated_project = Project.find(11)
-        cf_unallocated_project.update_attributes({:slug => 'unallocated'})
+        unallocated_project = Project.find(11)
+        unallocated_project.update_attributes({:slug => 'unallocated'})
       rescue ActiveRecord::RecordNotFound
       end
     end
