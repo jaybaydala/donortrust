@@ -26,7 +26,9 @@ def add_gift_to_cart(amount, project_id=nil)
   clicks_button("Add to Cart")
 end
 def add_investment_to_cart(amount, project_id=nil)
-  visits "/dt/investments/new"
+  url = "/dt/investments/new"
+  url += "?project_id=#{project_id}" unless project_id.nil?
+  visits url
   fills_in("investment_amount", :with => amount)
   chooses("investment_project_id_#{project_id}") unless project_id.nil?
   clicks_button("Add to Cart")
@@ -44,7 +46,7 @@ def checkout_steps
   %w( support billing payment confirmation )
 end
 def checkout_support_step(type=false, amount=nil)
-  Project.generate!({ :slug => "admin" })
+  Project.generate!({ :slug => "admin" }) unless Project.admin_project
   visits "/dt/checkout/new"
   case type
   when false

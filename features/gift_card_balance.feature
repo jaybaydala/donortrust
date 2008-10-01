@@ -5,18 +5,26 @@ As a Gift Receiver
 I want to have a balance on my gift card
 
   Scenario: A new gift card should have a balance equal to the amount
-    Given that I am a gift giver
-    When I add a gift to my cart
-    And checkout
-    Then the gift should have a balance equal to the amount
+    Given I add a gift for $50 to my cart
+    And I checkout
+    Then the gift card amount should be $50
+    Then the gift card balance should be $50
+    
 
   Scenario: Opening a gift card should tell the balance
-    Given that I've received a gift
+    Given I have received a gift for $65
     When I open the gift
-    Then I should be told the gift card balance
+    Then I should see "Your Gift Card Balance is: $65.00"
 
   Scenario: Checking out with a gift card should reduce the balance
-    Given that I've opened a gift
-    When I checkout using part of the balanace
-    Then the gift card balance should be updated
-    And I can open the gift again and see the balance
+    Given I have received a gift for $100
+    When I open the gift
+    And I add an investment for $60 to my cart
+    And I checkout
+    Then the gift card balance should be $40
+  
+  Scenario: Reopening a gift should show the current gift balance
+    GivenScenario: Checking out with a gift card should reduce the balance
+    Given I come back in another browser session
+    When I open my gift card again
+    Then the gift card balance should be $40
