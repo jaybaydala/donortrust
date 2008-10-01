@@ -155,10 +155,10 @@ class Dt::GiftsController < DtApplicationController
           flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.balance)}" unless @gift.project_id?
           # track some gift stuff in the session for cart and checkout
           session[:gift_card_id] = @gift.id
-          session[:gift_card_amount] = @gift.balance
+          session[:gift_card_balance] = @gift.balance
           # track it in a cookie as well for the blog site
           cookies[:gift_card_id] = @gift.id.to_s
-          cookies[:gift_card_amount] = @gift.balance.to_s
+          cookies[:gift_card_balance] = @gift.balance.to_s
         end 
       else
         flash.now[:error] = "The pickup code is not valid. Please check your email and try again." if params[:code]
