@@ -46,18 +46,18 @@ When /I choose any of the gift opening options/ do
   visits "/dt/investments/new?project_id=#{@project.id}"
 end
 Then /I should see my gift card balance/ do
-  response.should have_tag("div.notice", "Your Gift Card Balance is: #{number_to_currency(@gift.amount)}")
+  response.should have_tag("div.notice", "Your Gift Card Balance is: #{number_to_currency(@gift.balance)}")
 end
 
 Then /I should see my gift card total in the top right corner/ do
-  response.should have_tag("#giftcard-amount", "Gift Card Amount: #{number_to_currency(@gift.amount)}")
+  response.should have_tag("#giftcard-amount", "Gift Card Amount: #{number_to_currency(@gift.balance)}")
 end
 
 When /I go anywhere in the site/ do
   visits "/dt"
 end
-Then /there should be a cookie with the Gift Card Amount/ do
-  request.cookies["gift_card_amount"].first.should == @gift.amount.to_s
+Then /^there should be a cookie with the Gift Card Balance$/ do
+  request.cookies["gift_card_balance"].first.should == @gift.balance.to_s
 end
 Then /there should be a cookie with the Gift Card id/ do
   request.cookies["gift_card_id"].first.should == @gift.id.to_s

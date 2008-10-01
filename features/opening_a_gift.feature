@@ -33,7 +33,7 @@ Feature: Opening a Gift
   Scenario: Gift Card Total status - external site
     Given I am opening a gift
     When I go anywhere in the site
-    Then there should be a cookie with the Gift Card Amount
+    Then there should be a cookie with the Gift Card Balance
     And there should be a cookie with the Gift Card id
 
 	Scenario: Let ChristmasFuture Figure It Out
