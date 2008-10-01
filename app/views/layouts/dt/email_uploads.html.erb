@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  
+  <title><%= (html_title = yield :html_title) ? html_title + " | " : '' %>ChristmasFuture</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="description" content="ChristmasFuture, Change the world for good." />
+  <meta name="keywords" content="" />
+<%= javascript_include_tag "prototype", "builder", "effects", "controls", "dt/application" %>
+<%= stylesheet_link_tag 'dt/master.css', :media => 'screen, projection' %>
+<!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css', :media => 'screen, projection' %><![endif]-->
+<%= yield :head %>
+</head>
+<body>
+<div id="container">
+
+<%= yield %>
+
+</div>
+</body>
+</html>

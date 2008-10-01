@@ -34,6 +34,19 @@ class Gift < ActiveRecord::Base
     gift
   end
   
+  def send_email=(val)
+    if val == "now"
+      write_attribute(:send_email, true)
+      self[:send_at] = Time.now + 5.minutes # hit the next send
+    else
+      super(val)
+    end
+  end
+  
+  def adjust_send_at_for_timezone(tz)
+    
+  end
+  
   def pickup
     @picked_up = true if update_attributes(:picked_up_at => Time.now.utc, :pickup_code => nil)
   end

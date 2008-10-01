@@ -3,7 +3,7 @@ class Dt::BulkGiftsController < DtApplicationController
   helper "dt/places"
   include OrderHelper
   before_filter :login_required, :only => :unwrap
-  
+  before_filter :add_user_to_params, :only => [ :new, :create ]
   def index
     respond_to  do |format|
       format.html {redirect_to :action => 'new'}
@@ -33,7 +33,7 @@ class Dt::BulkGiftsController < DtApplicationController
     
     respond_to do |format|
       format.html {
-        unless logged_in? && current_user.in_country?(CANADA)
+        unless logged_in? && current_user.in_country?("CANADA")
           # MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
           # layout of the Gift page. If the user's country is nil, not Canada or they're not logged_in,
           # use the layout that allows for US donations.
@@ -58,7 +58,6 @@ class Dt::BulkGiftsController < DtApplicationController
         gift.to_email = email.address
         gift.to_email_confirmation = email.address
         gift.user_ip_addr = request.remote_ip
-        set_send_now_delivery!(gift)
         @errors << gift unless gift.valid?
         @gifts << gift
       end
@@ -89,17 +88,15 @@ class Dt::BulkGiftsController < DtApplicationController
   end
 
   protected
-  def set_send_now_delivery!(gift)
-    if params[:gift] && params[:gift][:send_email] && params[:gift][:send_email] == "now"
-      gift.send_email = true
-      gift.send_at = Time.now + 5.minutes
+  def add_user_to_params
+    unless params[:gift].nil?
+      params[:gift][:user] = current_user if logged_in?
     end
   end
   
   def gift_params
     gift_params = {}
     gift_params = gift_params.merge(params[:gift]) if params[:gift]
-    gift_params[:user] = current_user if logged_in?
     normalize_send_at!(gift_params)
     gift_params
   end

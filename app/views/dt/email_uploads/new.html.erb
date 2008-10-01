@@ -1,16 +1,16 @@
-
-  <% form_for(:email_upload, :url => dt_email_upload_path, :html => {:id => "emailfileform", :name => "emailfileform", :target => 'email_upload_frame', :multipart => true }) do |f| %>
+<% form_for(:email_upload, :url => dt_email_upload_path, :html => {:id => "emailfileform", :name => "emailfileform", :target => 'email_upload_frame', :multipart => true }) do |f| %>
   <div class="userform" class="clearfix">
     <fieldset>
-      <legend>Email File Upload</legend>
+      <legend>1a. Email File Upload (optional)</legend>
       <ol>
         <li>
-          <div class="note">We support importing contacts in the CSV file format (Comma Separated Values). For best results, please use a CSV file produced by Outlook, Outlook Express, Yahoo!, or Hotmail. For Apple Address Book, there is a useful utility called "<a href="http://www.google.com/search?q=a+to+g" target="_blank">A to G</a>".</div>
-          <label for="email_file">Upload File</label><%= f.file_field :email_file %>
+          <label for="email_upload_email_file" class="left" style="width:99%;">
+            Upload File<%= f.file_field :email_file %>
+            <%= submit_tag 'Upload File' %>
+          </label>
+          <div class="note" style="margin:0;">We support importing contacts in the CSV file format (Comma Separated Values). For best results, please use a CSV file produced by Outlook, Outlook Express, Yahoo!, or Hotmail. For Apple Address Book, there is a useful utility called "<a href="http://www.google.com/search?q=a+to+g" target="_blank">A to G</a>".</div>
         </li>
       </ol>
     </fieldset>  
-      <div style="float:right;" class="clearfix"><%= submit_tag 'Upload', :class => 'buttonsubmit' %></div>
-  <iframe id="email_upload_frame" name="email_upload_frame" style="height:1px;"></iframe>
-</div>  
+  </div>  
 <% end %>

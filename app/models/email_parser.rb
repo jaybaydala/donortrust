@@ -14,8 +14,11 @@ class EmailParser
   
   def parse_upload
     FasterCSV.parse(@data, { :headers => true, :return_headers => false }) do |row|
-      email = "#{row[0]} <#{row[1]}>"
-      @emails << email
+      begin
+        email = TMail::Address.parse("#{row[0]} <#{row[1]}>")
+        @emails << email
+      rescue TMail::SyntaxError
+      end
     end
     @emails
   end
