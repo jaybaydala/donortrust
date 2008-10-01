@@ -1,13 +1,22 @@
 <% if @team.generic? %>
 	<h1>Join "<%= link_to(@team.campaign.name, dt_campaign_path(@team.campaign)) %>" as an individual</h1>
+	<div class="campaign-picture" style="float:left;padding-top:10px;">
+		<%= image_tag @team.campaign.picture.thumb.url, :class => :thumbnail if @team.campaign.picture? %>			
+		<% image_tag 'dt/icons/campaign_placeholder_icon_72x72.jpg', :class => :thumbnail unless @team.campaign.picture? %>
+	</div>
 	<div>
 		<span><strong>Are you part of a team or group? </strong><br/>You must sign up with that team if you wish to be a part of it for this campaign. 
 		Click  <%= link_to("here", dt_campaign_teams_path(@team.campaign)) %>	to find a team to join, or you can <%=link_to('create a team', new_dt_campaign_team_path(@campaign)) %>.
 	</div>
 <% else %>
+	<div class="team-picture" style="float:left;padding-top:10px;">
+		<%= image_tag @team.picture.thumb.url, :class => :thumbnail if @team.picture? %>			
+		<%= image_tag 'dt/icons/team_placeholder_icon_48x60.jpg', :class => :thumbnail unless @team.picture? %>
+	</div>
 	<h1>Join <%= link_to(@team.name, dt_team_path(@team)) %></h1>
+	
 	<div>
-		<span>You're about to join :<%= @team.name %>".....</span>
+		<span>You're about to join: <%= @team.name %></span>
 	</div>
 <% end %>
 <br />
@@ -39,8 +48,8 @@
 			<label>Upload your photo (must be less than 50 kb). If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
 			<%= upload_column_field :participant,  :picture  %>
 		</fieldset>
-		<p><br />
-			<%= f.submit 'Join'%>
+		<p>
+			<h1><%= f.submit 'Join'%></h1>
 		</p>	
 	<% end %>
 </div>

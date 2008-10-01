@@ -5,6 +5,7 @@
 }
 
 div.participant-picture {
+	clear:both;
 }
 
 .image {
@@ -83,6 +84,7 @@ h2.campaign {
 }
 .campaign-sidebar-box a{
 	color: #360;
+	font-size: 14px;
 }
 
 .metrics {
@@ -134,8 +136,8 @@ li.detail strong{
 
 .campaign_form label {
 	display: block;
-	font-size: 10px;
-	margin-top: 5px;
+	font-size: 16px;
+	margin-top: 10px;
 }
 
 .campaign_form #submit {
@@ -157,7 +159,7 @@ li.detail strong{
 }
 
 span.small_text{
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .what_is_this_box {
@@ -320,6 +322,7 @@ span.small_text{
 	margin: 0px;
 	padding-left: 10px;
 	min-width: 150px;
+	font-size: 14px;
 }
 
 #participant_details ul, #participant_details ol, 
@@ -331,14 +334,33 @@ span.small_text{
 	font-style: italic;
 }
 
+/* List display */
+.participant_long_display_picture {
+	width:60px;
+	float:left
+}
+
+.team_long_display_picture {
+	width:70px;
+	float:left
+}
+
+
+/* pledge form */
+#pledge_form span{
+	float: right;
+	font-size: 1.25em;
+	padding-top: 5px;
+}
+
 /* search */
 #search_box{
 	margin-bottom: 15px;
 }
 
 form#campaign_search input.submitreplace {
-    width:35px;
-    height:20px;
+	width:35px;
+	height:20px;
 	vertical-align: middle;
 	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
 }

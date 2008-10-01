@@ -13,12 +13,12 @@
 				<%= @campaign.description %>
 			</p>
 		</div>
+		<div class="clearfix"></div>
+
 		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
 
 		<div id="Participants">
 			<%= campaign_h2_header(' ' + link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container',true)%>
-			
-				
 			<div id="participant_container" class="row_container" style="display:none;">
 				<%= render :partial => 'participants' %>
 			</div>

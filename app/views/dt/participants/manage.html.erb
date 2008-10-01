@@ -14,7 +14,7 @@
 
 				<label>Upload your photo (must be less than 50 kb). If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
 				<%= image_tag @participant.picture.thumb.url if @participant.picture? %>
-				<%= image_tag 'dt/icons/dummy_user.png'unless @participant.picture != nil %><br/>
+				<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg'unless @participant.picture != nil %><br/>
 				<%= upload_column_field :participant,  :picture  %>
 			</fieldset>
 			<p>

@@ -14,10 +14,11 @@
 			<p>
 				<div class="participant-picture">
 					<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>			
-					<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless @participant.picture? %>
+					<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.picture? %>
 				</div>
 				<%= @participant.about_participant%>
 			</p>
+			<div class="clearfix"></div>
 			<%= render :partial => 'dt/news_items/news',  :locals => {:postable => @participant} %>
 			<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @participant} %>
 		</div>

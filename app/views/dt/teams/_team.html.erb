@@ -1,8 +1,8 @@
 <% if not team.generic? and not team.pending?%>
 	<div id="team_<%= team.id %>" class="<%= cycle('row_even','row_odd') %>">
-		<div style="width:60px;float:left">
+		<div class="team_long_display_picture">
 			<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
-			<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless team.picture != nil %>
+			<%= image_tag 'dt/icons/team_placeholder_icon_48x60.jpg', :class => :thumbnail unless team.picture != nil %>
 		</div>
 
 		<%= link_to "<span>Pledge</span>", new_dt_team_pledge_path(team), :class => "button-pledge", :style => "float:right;" %>
