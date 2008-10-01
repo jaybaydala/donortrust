@@ -49,18 +49,20 @@ class TaxReceiptPDFProxy
   def filename
     return "CFTaxReceipt-#{@receipt.id_display}.pdf"
   end
+  
+  def image_file(duplicate)
+    image_file = duplicate ? "tax_receipt-duplicate.jpg" : "tax_receipt.jpg"
+    image_file = "tax_receipt-void.jpg" unless RAILS_ENV == "production"
+    File.dirname(__FILE__) + "/tax_receipts/#{image_file}"
+  end
 
   protected 
   def create_pdf(receipt, duplicate)
     _pdf = PDF::Writer.new
-    _pdf.select_font "Times-Roman"
+    _pdf.select_font "Helvetica"
     _pdf.compressed=true
     i0 = nil
-    if duplicate
-      i0 = _pdf.image File.dirname(__FILE__) + "/tax_receipt-duplicate.png"
-    else
-      i0 = _pdf.image File.dirname(__FILE__) + "/tax_receipt.png"
-    end
+    i0 = _pdf.image image_file(duplicate)
     x = 227
     font_size = 8
     _pdf.add_text(x+14, 639, receipt.id_display, font_size)    
