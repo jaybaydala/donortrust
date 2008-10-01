@@ -6,5 +6,5 @@ Feature: Muptiple Gift Giving
  Scenario: Link to "Bulk Gift Giving" page
    Given that I'm any user
    When I visit "/dt/gifts/new"
-   Then I will see a link that states "Go to our Bulk Gift Giving page" that points at "/dt/bulk_gifts/new"
+   Then I should see "Give more than one gift at once"
 
