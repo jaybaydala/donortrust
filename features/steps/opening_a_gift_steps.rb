@@ -18,7 +18,7 @@ end
 
 Then /the gift information should be in the session/ do
   response.session[:gift_card_id].should == @gift.id
-  response.session[:gift_card_amount].should == @gift.amount
+  response.session[:gift_card_balance].should == @gift.balance
 end
 Then /I should see an option to "find a project to donate to"/ do
   response.should have_tag("a[href=/dt/search]", "find a project to donate to")
