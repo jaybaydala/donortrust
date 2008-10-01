@@ -9,8 +9,10 @@
 			<h5 style="margin-top:-10px;">
 				<%= link_to "http://www.christmasfuture.org/dt/#{@team.campaign.short_name}/team/#{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
 			</h5>
-			<p style="overflow:auto;">
-				<%= image_tag @team.picture.full.url, :class => :thumbnail if @team.picture? %>
+			<p>
+				<div class="campaign-picture">
+					<%= image_tag @team.picture.full.url, :class => :thumbnail if @team.picture? %>
+				</div>
 				<%= @team.description %>
 			</p>
 
@@ -33,7 +35,8 @@
 		<div class="campaign-sidebar-box get-involved">
 	    <ul>
 				<%= "<li>" + link_to('Manage Team',manage_dt_team_path(@team)) + "</li>" if @team.owned? || (current_user != :false && current_user.cf_admin?) %>
-				<%= "<li>" + link_to("Join \"#{@team.name}\"", new_dt_team_participant_path(@team)) + "</li>" if @team.joinable? %>
+				<%= "<li>" + link_to("Join \"#{@team.name}\"", new_dt_team_participant_path(@team)) + 
+						"#{render :partial => 'dt/shared/login_required'}" + "</li>" if @team.joinable? %>
 				<li><%= link_to 'Support a participant', dt_team_participants_path(@team) %></li>
 				<%= link_to "<span>Pledge</span>", new_dt_team_pledge_path(@team), :class => "button-pledge" %>
 			</ul>

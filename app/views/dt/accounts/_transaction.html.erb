@@ -30,7 +30,7 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
     <%= (transaction.order_id)?" (Order ##{transaction.order_id})":"" %> 
   </div></td>
   <td<%= bg %>><%= date %></td>
-  <td<%= bg %>><%= amount %></td>
+  <td<%= bg %>>(<%= amount %>)</td>
 </tr>
 <% when "Investment" -%>
 <tr>
@@ -40,6 +40,25 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
   </div> 
   <% if transaction.gift_id %>(<%= "a gift from #{transaction.gift.name}" %>)<% end %>
   in <%= link_to transaction.project.name, dt_project_path(transaction.project.id) %>. Thanks!</td>
+  <td<%= bg %>><%= date %></td>
+  <td<%= bg %>>(<%= amount %>)</td>
+</tr>
+<% when "Pledge" -%>
+<tr>
+  <td<%= bg %>><div id="investmentTransaction-<%= transaction.id %>" class="investmentTransaction">
+  	<strong><%= transaction_type %></strong>
+  <%= (transaction.order_id)?" (Order ##{transaction.order_id})":"" %> 
+  </div> 
+  <% if !transaction.participant_id %>
+  	<% if !transaction.team_id %>
+  		a pledge to <%= link_to(transaction.campaign.name,dt_campaign_path(transaction.campaign)) %>
+  	<% else %>
+  		a pledge to <%= link_to(transaction.team.name,dt_team_path(transaction.team)) %>
+  	<% end %>
+  <% else %>
+  	a pledge to <%= link_to(transaction.participant.name,dt_participant_path(transaction.participant)) %>
+  <% end %>
+  </td>
   <td<%= bg %>><%= date %></td>
   <td<%= bg %>>(<%= amount %>)</td>
 </tr>

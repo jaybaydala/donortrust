@@ -1,5 +1,4 @@
 <%- content_for :html_title do %>Tell a Friend Confirmation<% end -%>
-<%- content_for :nav do %><%= dt_account_nav if logged_in? %><% end -%>
 
   <%= error_messages_for :share %>
   <% form_for(:share, :url => dt_tell_friends_path, :html => {:id => "tellfriendform", :name => "tellfriendform"}) do |f| %>

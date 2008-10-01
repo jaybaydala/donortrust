@@ -1,5 +1,5 @@
 require 'digest/sha1'
-require 'acts_as_paranoid_versioned' 
+require 'acts_as_paranoid_versioned'
 class User < ActiveRecord::Base
 
   extend HasAdministrables
@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :deposits
   has_many :investments
   has_many :gifts
+  has_many :pledges
   has_many :tax_receipts
   has_many :my_wishlists
   has_many :projects, :through => :my_wishlists
@@ -50,7 +51,7 @@ class User < ActiveRecord::Base
   #  u = find_by_login(login, :conditions => ["(last_logged_in_at IS NULL OR last_logged_in_at >= ?)", Time.now.last_year ]) # need to get the salt
   #  #check for account activation using activated_at
   #  #u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login]
-  #  
+  #
   #  authenticated = u && u.activated? && u.authenticated?(password) ? u : nil if check_activated
   #  authenticated = u && u.authenticated?(password) ? u : nil if !check_activated
   #  u.update_attributes( :last_logged_in_at => Time.now ) if check_activated && authenticated
@@ -73,13 +74,13 @@ class User < ActiveRecord::Base
     return "#{self.first_name} #{self.last_name[0,1]}." if self.display_name.blank?
     self.display_name
   end
-  
+
    def fullname_login
     "#{self.first_name} #{self.last_name}          (#{self.login})"
-  end   
-  
+  end
+
   def full_name
-    under_thirteen? ? self.display_name : "#{self.first_name} #{self.last_name}" 
+    under_thirteen? ? self.display_name : "#{self.first_name} #{self.last_name}"
   end
 
   def self.find_by_full_name(full_name)
@@ -90,18 +91,18 @@ class User < ActiveRecord::Base
     end
     return nil;
   end
-  
+
   def partner
     contact.partner
   end
-  
+
   #MP Dec 14, 2007 - Added to support the need to determine whether the user is in a
   #specified country. This supports the US tax receipt functionality
   #If the user's country is nil, or the specified country is nil, or the
   #user's country doesn't match the specified country, this method returns
   #false. Otherwise, it returns true.
   def in_country?(country)
-    if self.country.nil? || country.nil? || 
+    if self.country.nil? || country.nil? ||
       (self.country.downcase != country.downcase)
           return false
     else
@@ -141,7 +142,7 @@ class User < ActiveRecord::Base
   def authenticated?(password)
     crypted_password == encrypt(password)
   end
-  
+
   def expired?
     return false if self.last_logged_in_at == nil
     self.last_logged_in_at.to_i < Time.now.last_year.to_i
@@ -150,13 +151,13 @@ class User < ActiveRecord::Base
   def expiry_date
     @expiry_date ||= last_logged_in_at + 1.year
   end
-  
+
   def expiry_in_days
     ((expiry_date - Time.now) / (3600*24)).floor
   end
 
   def remember_token?
-    remember_token_expires_at && Time.now.utc < remember_token_expires_at 
+    remember_token_expires_at && Time.now.utc < remember_token_expires_at
   end
 
   # These create and unset the fields required for remembering users between browser closes
@@ -182,16 +183,16 @@ class User < ActiveRecord::Base
     @activated = update_attributes(:activated_at => Time.now.utc, :activation_code => nil) ? true : false
     @activated
   end
-  
+
   def cf_admin?
     self.roles.include?(Role.find_by_title('cf_admin'))
   end
-  
+
   # Returns true if the user has just been activated.
   def recently_activated?
     @activated
   end
-  
+
   def login_changed?
     @login_changed
   end
@@ -200,15 +201,15 @@ class User < ActiveRecord::Base
   def activated?
     return activation_code ? false : true
   end
-  
+
   def group_admin?
     @group_admin ||= ( memberships.find(:first, :conditions => ['membership_type >= ?', Membership.admin]) ? true : false)
   end
-  
+
   def self.find_old_accounts
     User.find(:all, :conditions => ["last_logged_in_at IS NOT NULL AND last_logged_in_at <= ?", 6.months.ago])
   end
-  
+
   def send_account_reminder
     DonortrustMailer.deliver_account_expiry_reminder(self)
   end
@@ -216,7 +217,7 @@ class User < ActiveRecord::Base
   def is_cf_admin?
     return self.roles.include?(Role.find_by_title('cf_admin'))
   end
-  
+
   # class method to avoid nil object check
   def self.is_user_cf_admin?(user)
     return Role.find_by_title('cf_admin').users.include?(user)
@@ -251,12 +252,12 @@ class User < ActiveRecord::Base
         errors.add("country", "cannot be blank") if country.nil? || country.blank?
       end
     end
-        
+
     def calculate_balance
-      balance = deposited
-      balance -= ordered_with_account_balance
-      balance -= investments.find(:all, :conditions => {:order_id => nil}).inject(0){|sum, i| sum += i.amount}
-      balance -= gifts.find(:all, :conditions => {:order_id => nil, :credit_card => nil}).inject(0){|sum, i| sum += i.amount}
+      balance = deposited  #all deposits
+      balance -= ordered_with_account_balance #everything paid for using account balance since introduction of the cart
+      balance -= investments.find(:all, :conditions => {:order_id => nil}).inject(0){|sum, i| sum += i.amount} #all investments before the cart
+      balance -= gifts.find(:all, :conditions => {:order_id => nil, :credit_card => nil}).inject(0){|sum, i| sum += i.amount}  #all gifts before the cart that were paid for using account balance
       balance || 0
     end
 
@@ -266,13 +267,13 @@ class User < ActiveRecord::Base
       total = users.size
     end
 
-    # before filter 
+    # before filter
     def encrypt_password
       return if password.blank?
       self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
       self.crypted_password = encrypt(password)
     end
-    
+
     def password_required?
       crypted_password.blank? || !password.blank?
     end

@@ -6,9 +6,10 @@
 		<div id="campaign_details">
 			<h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
 			<h5 style="margin-top:-10px;"><%= link_to("http://www.christmasfuture.org/dt/#{@campaign.short_name}",show_campaign_path(@campaign.short_name)) %></h5>
-			<p style="overflow:auto;">	
-				<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
-
+			<p>
+				<div class="campaign-picture">
+					<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
+				</div>
 				<%= @campaign.description %>
 			</p>
 		</div>
@@ -50,11 +51,14 @@
 		</div>
 		<div class="campaign-sidebar-box get-involved">
 		  <ul>
-				<%= ("<li>" + link_to('Manage Campaign',manage_dt_campaign_path(@campaign)) + "</li>") if @campaign.owned? || (current_user != :false && current_user.cf_admin?) %>
+				<%= ("<li>#{link_to('Manage Campaign',manage_dt_campaign_path(@campaign))}</li>") if (@campaign.owned? || (current_user != :false && current_user.cf_admin?)) %>
 				<% if !@campaign.has_participant(current_user) %>
-					<%= "<li>" + link_to("Join \"#{@campaign.name}\"", join_dt_campaign_path(@campaign)) + (!logged_in? ? "<br /><i>(requires login)</i>":"") +"</li>" %>
-					<%= ("<li>" + link_to("Join a Team", dt_campaign_teams_path(@campaign)) + (!logged_in? ? "<br /><i>(requires login)</i>":"") + "</li>") if @campaign.teams.size > 1 %>	
-					<%= ("<li>" + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) + (!logged_in? ? "<br /><i>(requires login)</i>":"") + "</li>")if (@campaign.allow_multiple_teams? && !@campaign.teams_full?) %>
+					<%= "<li>" + link_to("Join \"#{@campaign.name}\"", join_dt_campaign_path(@campaign)) + 
+							"#{render :partial => 'dt/shared/login_required'}" +"</li>" %>
+					<%= ("<li>" + link_to("Join a Team", dt_campaign_teams_path(@campaign)) + 
+							"#{render :partial => 'dt/shared/login_required'}" + "</li>") if @campaign.teams.size > 1 %>	
+					<%= ("<li>" + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) + 
+							"#{render :partial => 'dt/shared/login_required'}" + "</li>") if (@campaign.allow_multiple_teams? && !@campaign.teams_full?) %>
 				<% end %>
 
 				<li><%= link_to "Sponsor a participant", dt_campaign_participants_path(@campaign) %></li>

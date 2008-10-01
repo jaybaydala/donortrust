@@ -181,6 +181,7 @@ class Dt::ProjectsController < DtApplicationController
 
     # do the search itself
     ultrasphinx_search(filters)
+    params[:filter] = false;
 
     respond_to do |format|
       format.js{

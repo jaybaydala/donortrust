@@ -18,8 +18,10 @@ class Dt::AccountsController < DtApplicationController
     @transactions << @user.gifts
     @transactions << @user.investments
     @transactions << @user.deposits
+    #@transactions << @user.pledges
     @transactions.flatten!
     @transactions = @transactions.sort_by{|tx| tx.created_at }.reverse
+    puts @user.pledges.inspect
     @transactions = @transactions.paginate(:page => params[:tx_page], :per_page => 10)
   end
 

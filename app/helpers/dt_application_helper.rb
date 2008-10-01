@@ -215,6 +215,13 @@ module DtApplicationHelper
   			name = place.id? ? "#{place.name} (#{place.public_projects.size})" : "#{place.name} (#{place.public_projects.size})"
   			@continents << [name, place.id]
 		end
+
+    #@countries = [['All ...', '']]
+    #Project.project_countries.each do |place|
+    #    name = place.id? ? "#{place.name} (#{place.public_projects.size})" : "#{place.name} (#{place.public_projects.size})"
+    #    @countries << [name, place.id]
+    #end
+
 		@partners = [['All ...', '']]
     Project.partners.each do |partner|
       #@prjts = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count, :filters => {:partner_id => partner.id})

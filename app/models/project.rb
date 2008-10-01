@@ -223,6 +223,21 @@ class Project < ActiveRecord::Base
       @countries
     end
 
+    def project_countries
+      puts 'here'
+      if @countries.nil?
+        @countries = []
+        @countries = Place.find_by_sql(
+            "SELECT count(*) as count, p.name as name, p.id as id, p.place_type_id "+
+            "FROM (SELECT * FROM partners WHERE partner_status_id=1) pa INNER JOIN projects pr INNER JOIN places p "+
+            "ON pa.id = pr.partner_id AND pr.country_id = p.id "+
+            "WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL AND pa.id != 4 "+
+            "GROUP BY p.id ORDER BY count DESC")
+        @countries.sort!{|x,y| x.name <=> y.name}
+      end
+      @countries
+    end
+
     def causes
       if @causes.nil?
         @causes = []

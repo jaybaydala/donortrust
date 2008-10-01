@@ -11,9 +11,11 @@
 				<%= "http://www.christmasfuture.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}" if @participant.team.generic?%>
 				<% "http://www.christmasfuture.org/dt/#{@participant.team.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}" unless @participant.team.generic? %>
 				</h5>
-			<p style="overflow:auto;">
-				<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>			
-				<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless @participant.picture? %>
+			<p>
+				<div class="participant-picture">
+					<%= image_tag @participant.picture.thumb.url, :class => :thumbnail if @participant.picture? %>			
+					<%= image_tag 'dt/icons/dummy_user.png', :class => :thumbnail unless @participant.picture? %>
+				</div>
 				<%= @participant.about_participant%>
 			</p>
 			<%= render :partial => 'dt/news_items/news',  :locals => {:postable => @participant} %>

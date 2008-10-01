@@ -91,7 +91,7 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 .userform ol li, .userform ul li {
     font-family:Arial, Helvetica, sans-serif;
 }
-.userform ol li {
+.userform ol li, .userform ul li {
     list-style-type:none;
 }
 .userform div.notes p {
@@ -235,6 +235,7 @@ LOGIN FORM
 }
 #loginform fieldset li.clear {
     clear:left;
+    width:200px;
 }
 
 /*

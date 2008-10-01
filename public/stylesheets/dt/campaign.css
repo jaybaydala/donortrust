@@ -4,6 +4,9 @@
 	margin: 5px;
 }
 
+div.participant-picture {
+}
+
 .image {
 	float: left;
 	margin: 5px;
@@ -313,10 +316,19 @@ span.small_text{
 	margin: 0px;
 }
 
-.participant_details{
+#participant_details, #campaign_details, #team_details {
 	margin: 0px;
+	padding-left: 10px;
 	min-width: 150px;
-	font-size:12px;
+}
+
+#participant_details ul, #participant_details ol, 
+#campaign_details ul, #campaign_details ol,
+#team_details ul, #team_details ol {
+}
+
+.login-required {
+	font-style: italic;
 }
 
 /* search */

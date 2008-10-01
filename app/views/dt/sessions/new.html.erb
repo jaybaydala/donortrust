@@ -10,7 +10,7 @@
         <li><label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %></li>
         <li><label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %></li>
         <li><br /><%= submit_tag 'Login', :class => 'buttonsubmit' %></li>
-        <li class="clear"><label for="remember_me"><%= check_box_tag "remember_me", "1", false, :id => "remember_me" %> Remember Me</label></li>
+        <li class="clear"><%= check_box_tag "remember_me", "1", false, :id => "remember_me" %> Remember Me</li>
       </ol>
       
       <p class="textsm">

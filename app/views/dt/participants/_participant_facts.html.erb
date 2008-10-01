@@ -1,6 +1,4 @@
 <h2>Participant Facts</h2>
-<% puts campaign %>
-<% puts @participant %>
 <span class="small_text">Campaign: <%= link_to(@participant.team.campaign.name, dt_campaign_path(@participant.team.campaign)) %></span><br/>
 <% if @participant.team.campaign.allow_multiple_teams? and not @participant.team.generic? %>
 	<span class="small_text">Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
