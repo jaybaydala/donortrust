@@ -3,6 +3,8 @@ require 'order_helper'
 class Dt::GiftsController < DtApplicationController
   helper "dt/places"
   before_filter :login_required, :only => :unwrap
+  before_filter :set_time_zone, :only => [ :create, :update ]
+  before_filter :add_user_to_params, :only => [ :create, :update ]
   include OrderHelper
   
   CANADA = 'canada'
@@ -32,7 +34,7 @@ class Dt::GiftsController < DtApplicationController
   def new
     store_location
     @cart = find_cart
-    @gift = Gift.new( gift_params )
+    @gift = Gift.new
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
     @ecards = ECard.find(:all, :order => :id)
@@ -67,11 +69,17 @@ class Dt::GiftsController < DtApplicationController
   
   def create
     @cart = find_cart
-    @gift = Gift.new( gift_params )    
-    @gift.user_ip_addr = request.remote_ip
-    set_send_now_delivery!
-    
-    @valid = @gift.valid?
+    begin
+      @gift = Gift.new( params[:gift] )
+      @gift.user_ip_addr = request.remote_ip
+      @valid = @gift.valid?
+    rescue ActiveRecord::MultiparameterAssignmentErrors
+      fix_date_params!
+      @gift = Gift.new( params[:gift] )
+      @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
+      @gift.user_ip_addr = request.remote_ip
+      @valid = false
+    end
 
     respond_to do |format|
       if @valid
@@ -108,10 +116,16 @@ class Dt::GiftsController < DtApplicationController
     @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Gift)
       @gift = @cart.items[params[:id].to_i]
-      @gift.attributes = params[:gift]
+      begin
+        @gift.attributes = params[:gift]
+        @valid = @gift.valid?
+      rescue ActiveRecord::MultiparameterAssignmentErrors
+        fix_date_params!
+        @gift.attributes = params[:gift]
+        @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
+        @valid = false
+      end
       @gift.user_ip_addr = request.remote_ip
-      set_send_now_delivery!
-      @valid = @gift.valid?
     end
     
     respond_to do |format|
@@ -138,13 +152,13 @@ class Dt::GiftsController < DtApplicationController
           flash.now[:notice] = "You have been given #{number_to_currency(@gift.amount)}!"
           # @gift.pickup
         else
-          flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.amount)}" unless @gift.project_id?
+          flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.balance)}" unless @gift.project_id?
           # track some gift stuff in the session for cart and checkout
           session[:gift_card_id] = @gift.id
-          session[:gift_card_amount] = @gift.amount
+          session[:gift_card_amount] = @gift.balance
           # track it in a cookie as well for the blog site
           cookies[:gift_card_id] = @gift.id.to_s
-          cookies[:gift_card_amount] = @gift.amount.to_s
+          cookies[:gift_card_amount] = @gift.balance.to_s
         end 
       else
         flash.now[:error] = "The pickup code is not valid. Please check your email and try again." if params[:code]
@@ -180,11 +194,10 @@ class Dt::GiftsController < DtApplicationController
   end
 
   def preview
-    @gift = Gift.new( gift_params )
-    # there are a couple of necessary field just for previewing - prefill them
-    %w( email to_email ).each do |field|
-      @gift.send("#{field}=", "#{field}@example.com") unless @gift.send(field + '?')
-    end
+    @gift = Gift.new( params[:gift] )
+    # there are a couple of necessary field just for previewing - prefill them if they're empty
+    @gift.email = "email@example.com" unless @gift.email?
+    @gift.to_email = "to_email@example.com" unless @gift.to_email?
     @gift.pickup_code = '[pickup code]'
     @gift_mail = DonortrustMailer.create_gift_mail(@gift)
     respond_to do |format|
@@ -193,42 +206,16 @@ class Dt::GiftsController < DtApplicationController
   end
 
   protected
-  def set_send_now_delivery!
-    if params[:gift] && params[:gift][:send_email] && params[:gift][:send_email] == "now"
-      @gift.send_email = true
-      @gift.send_at = Time.now + 2.minutes
+  def fix_date_params!
+    params[:gift].delete_if{ |key,value| key.to_s[0,8] == "send_at(" }
+  end
+  def add_user_to_params
+    unless params[:gift].nil?
+      params[:gift][:user] = current_user if logged_in?
     end
   end
-  
-  def gift_params
-    gift_params = {}
-    gift_params = gift_params.merge(params[:gift]) if params[:gift]
-    gift_params[:user] = current_user if logged_in?
-    normalize_send_at!(gift_params)
-    gift_params
+  # this does the actually time-shifting for scheduling the gift?
+  def set_time_zone
+    Time.zone = params[:time_zone] if params[:time_zone]
   end
-  
-  def schedule(gift)
-    send_at_vals = Array.new
-    (1..5).each do |x|
-      send_at_vals << params[:gift]["send_at(#{x}i)"] if params[:gift]["send_at(#{x}i)"] && params[:gift]["send_at(#{x}i)"] != ""
-    end
-    @send_at = Time.utc(send_at_vals[0], send_at_vals[1], send_at_vals[2], send_at_vals[3], send_at_vals[4]) if send_at_vals.length == 5
-    gift.send_at = @send_at
-    if gift.send_at && params[:time_zone] && params[:time_zone] != ''
-      gift.send_at = gift.send_at + -(TimeZone.new(params[:time_zone]).utc_offset)
-    end
-  end
-  
-  def normalize_send_at!(gift_params)
-    delete_send_at = false
-    (1..5).each do |x|
-      delete_send_at = true if gift_params["send_at(#{x}i)"] == '' || !gift_params["send_at(#{x}i)"]
-    end
-    if delete_send_at
-      (1..5).each do |x|
-        gift_params.delete("send_at(#{x}i)")
-      end
-    end
-  end     
 end

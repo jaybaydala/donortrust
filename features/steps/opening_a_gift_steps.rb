@@ -1,15 +1,12 @@
-def open_gift(pickup_code)
-  get("/dt/gifts/open?code=#{pickup_code}")
+Before do
+  Project.generate!(:slug => "unallocated") unless Project.unallocated_project
+  Project.generate!(:slug => "admin") unless Project.admin_project
 end
-
-Given /that I have received a gift/ do
-  @gift = create_gift
+Given /I have received a project gift/ do
+  @project = Project.generate!
+  @gift = Gift.generate!(:project => @project)
 end
-Given /that I have received a project gift/ do
-  @project = create_project
-  @gift = create_gift(:project => @project)
-end
-When /I open the gift/ do
+When /^I open the gift$/ do
   open_gift(@gift.pickup_code)
 end
 Then /I should see what I have been given/ do
@@ -26,7 +23,7 @@ end
 Then /I should see an option to "find a project to donate to"/ do
   response.should have_tag("a[href=/dt/search]", "find a project to donate to")
 end
-Then /I should see an option to "let CF figure it out" PENDING/ do
+Then /I should see an option to "let CF figure it out"/ do
   response.should have_tag("a[href=/dt/investments/new?]", "let ChristmasFuture figure it out")
 end
 Then /I should see an option to "Deposit it into my account"/ do
@@ -40,12 +37,12 @@ Then /I should see an option to "Do nothing"/ do
 end
 
 
-Given /that I am opening a gift/ do
-  @gift = create_gift
+Given /I am opening a gift/ do
+  @gift = Gift.generate!
   open_gift(@gift.pickup_code)
 end
 When /I choose any of the gift opening options/ do
-  @project = create_project
+  @project = Project.generate!
   visits "/dt/investments/new?project_id=#{@project.id}"
 end
 Then /I should see my gift card balance/ do
@@ -56,10 +53,6 @@ Then /I should see my gift card total in the top right corner/ do
   response.should have_tag("#giftcard-amount", "Gift Card Amount: #{number_to_currency(@gift.amount)}")
 end
 
-Given /That I have opened a gift/ do
-  @gift = create_gift
-  open_gift(@gift.pickup_code)
-end
 When /I go anywhere in the site/ do
   visits "/dt"
 end

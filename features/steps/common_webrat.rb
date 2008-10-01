@@ -14,7 +14,7 @@ When /^I fill in "(.*)" with "(.*)"$/ do |field, value|
 end
 
 When /^I select "(.*)" from "(.*)"$/ do |field, value|
-  selects(field, :with => value) 
+  selects(value, :from => field) 
 end
 
 When /^I check "(.*)"$/ do |field|
@@ -43,7 +43,8 @@ When /^I go to (.*)$/ do |page|
 end
 
 Then /^I should see "(.*)"$/ do |text|
-  response.body.should =~ /#{text}/m
+  text = Regexp.escape(text)
+  response.body.should =~ /text/m
 end
 
 Then /^I should not see "(.*)"$/ do |text|

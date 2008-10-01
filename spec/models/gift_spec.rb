@@ -81,6 +81,19 @@ describe Gift do
       @gift.update_attributes(:send_at => Time.now + 10).should be_true
     end
   end
+
+  describe "send_email" do
+    it "should be set to true if \"now\"" do
+      @gift.send_email = "now"
+      @gift.send_email.should be_true
+    end
+    it "should set send_at to Time.now + 5.minutes " do
+      now = Time.now
+      Time.stub!(:now).and_return(now)
+      @gift.send_email = "now"
+      @gift.send_at.should == now + 5.minutes
+    end
+  end
   
   describe "find_unopened_gifts" do
     it "should only find gifts with a pickup_code and that hasn't been sent" do
