@@ -3,10 +3,12 @@
 		<div id="team_container" class="row_container">		
 			<% if @teams.size >0 %>
 				<%= render :partial => 'team', :collection => @campaign.teams %>
-			<% else %>
-				<strong>There are no teams registered for this campaign yet.</strong>
-			<% end %>
+				<%= "strong>There are no teams registered for this campaign yet.</strong>" unless @teams.size > 0%>
+
 		</div>
+	<div class="row_even">
+		<%= will_paginate @participants %>
+	</div>
 </div>
 <div>
 	Back to <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>

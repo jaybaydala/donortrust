@@ -95,6 +95,7 @@ class Team < ActiveRecord::Base
   end
 
   def short_description(length=100)
+    return "" if self.description == nil
     short_description = (self.description.length > length) ? self.description[0...length] + '...' : self.description
   end
 

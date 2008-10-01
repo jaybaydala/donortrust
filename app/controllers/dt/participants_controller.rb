@@ -103,9 +103,12 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def index
-    @participants = Participant.find(:all)
-    @participants = Campaign.find(params[:campaign_id]).participants unless params[:campaign_id] == nil
-    @participants = Team.find(params[:team_id]).participants unless params[:team_id] == nil
+    #@participants = Participant.paginate , :page => params[:page], :per_page => 20
+    
+    @participants = Participant.paginate_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ?", params[:campaign_id]], :page => params[:page], :per_page => 20) unless params[:campaign_id] == nil
+    @participants = Participant.paginate_by_team_id(params[:team_id], :page => params[:page], :per_page => 2) unless params[:team_id] == nil
+    
+    
     @campaign = Campaign.find(params[:campaign_id]) unless params[:campaign_id] == nil
     if !@campaign
       @campaign = Team.find(params[:team_id]).campaign

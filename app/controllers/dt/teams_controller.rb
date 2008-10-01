@@ -8,11 +8,7 @@ class Dt::TeamsController < DtApplicationController
   # GET /dt_teams
   # GET /dt_teams.xml
   def index
-    @teams = Team.find_all_by_campaign_id(params[:campaign_id], :conditions => {:pending => false})
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @dt_teams }
-    end
+    @teams = Team.paginate_by_campaign_id_and_pending_and_generic params[:campaign_id], false, false, :page => params[:page], :per_page => 20
   end
 
   # GET /dt_teams/1
