@@ -36,9 +36,9 @@
 	</div>
 	<div class="project-sidebar-buttons">
 		<% if @project.fundable? %>
-			<%= image_tag("/images/dt/placeholders/give.gif", :alt => 'Give', :title => 'Give', :onclick => "Element.toggle('give-disambiguation-box-#{@project.id}');")%>
+			<%= image_tag("/images/dt/buttons/give.gif", :alt => 'Give', :title => 'Give', :onclick => "Element.toggle('give-disambiguation-box-#{@project.id}');")%>
 		<% end %>
-		<a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/nav_elements/buttonsCF/tellFriend_lgrey2.gif"></a>
+		<a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/buttons/tellFriend_lgrey2.gif"></a>
 		<div id='give-disambiguation-box-<%= @project.id %>' class="give-disambiguation-box" style="display:none;">
 		  <ul>
 				<li><%= link_to("Give to this project directly", new_dt_investment_path(:project_id => @project.id)) %></li>

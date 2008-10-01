@@ -39,7 +39,7 @@
 				<%= "<li>" + link_to("Join \"#{@team.name}\"", new_dt_team_participant_path(@team)) + 
 						"#{render :partial => 'dt/shared/login_required'}" + "</li>" if @team.joinable? %>
 				<li><%= link_to 'Support a participant', dt_team_participants_path(@team) %></li>
-				<%= link_to "<span>Pledge</span>", new_dt_team_pledge_path(@team), :class => "button-pledge" %>
+				<%= link_to "<span>Sponsor</span>", new_dt_team_pledge_path(@team), :class => "button-sponsor" %>
 			</ul>
 		</div>
 	</div>

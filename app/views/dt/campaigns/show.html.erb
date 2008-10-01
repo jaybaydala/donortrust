@@ -5,7 +5,7 @@
 	<div class="leftColW800">
 		<div id="campaign_details">
 			<h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
-			<h5 style="margin-top:-10px;"><%= link_to("http://www.christmasfuture.org/dt/#{@campaign.short_name}",show_campaign_path(@campaign.short_name)) %></h5>
+			<h5 style="margin-top:-10px;"><%= "http://www.christmasfuture.org/dt/#{@campaign.short_name}" %></h5>
 			<p>
 				<div class="campaign-picture">
 					<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
@@ -62,7 +62,7 @@
 				<% end %>
 
 				<li><%= link_to "Sponsor a participant", dt_campaign_participants_path(@campaign) %></li>
-				<%= link_to "<span>Pledge</span>", new_dt_campaign_pledge_path(@campaign), :class => "button-pledge" %>
+				<%= link_to "<span>Sponsor</span>", new_dt_campaign_pledge_path(@campaign), :class => "button-sponsor" %>
 			</ul>
 		</div>
 		<div class="campaign-sidebar-box campaign-address">

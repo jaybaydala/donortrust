@@ -4,7 +4,6 @@
 		<p>
 			<%= link_to team.name, dt_team_path(team) %> - <%= team.participants.size %> members 
 			<%= (" - " + link_to('Activate!',activate_dt_team_path(team))) if (team.pending? && (!team.owned? || current_user.is_cf_admin?)) %>
-	  	<%= link_to "<span class=\"list-sponsor-link\">[Sponsor #{team.name}]</span>", new_dt_team_pledge_path(team) %>
 			<%= delete_icon(dt_team_path(team)) if (current_user != :false && current_user.cf_admin?) %>
 		</p>
 	</div>

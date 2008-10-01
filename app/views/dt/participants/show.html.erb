@@ -26,14 +26,14 @@
 	
 	<div class="leftColN800">
 		<div class="campaign-sidebar-box metrics">
-			<%= render :partial => 'participant_facts',  :locals => {:participant => @participant} %>
+			<%= render :partial => 'participant_facts',  :locals => {:@participant => @participant} %>
 		</div>
 		
 		<div class="campaign-sidebar-box get-involved">
 		  <ul>
 				<%= "<li>" + link_to('Manage your profile',manage_dt_participant_path(@participant)) + "</li>" if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>
 				<li><span class="small_text"><%= link_to("Back to \"#{@campaign.name}\" Home", dt_campaign_path(@campaign)) %></span></li>
-				<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(@participant), :class => "button-pledge" %>
+				<%= link_to "<span>Pledge</span>", new_dt_participant_pledge_path(@participant), :class => "button-sponsor" %>
 			</ul>
 		</div>
 	</div>

@@ -78,7 +78,7 @@ li li {
     font-size:1em; /* maintain font size for nested lists */
 }
 p, li {
-	font-size:1em; /* 14px */
+	font-size:0.875em; /* 14px */
 	font-family:Arial,Helvetica,sans-serif;
 	margin:0 0 1.125em 0;
 }

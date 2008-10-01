@@ -322,7 +322,7 @@ span.small_text{
 	margin: 0px;
 	padding-left: 10px;
 	min-width: 150px;
-	font-size: 14px;
+	font-size: 1em;
 }
 
 #participant_details ul, #participant_details ol, 
@@ -330,6 +330,9 @@ span.small_text{
 #team_details ul, #team_details ol {
 }
 
+h5 a {
+	text-decoration:none;
+}
 .login-required {
 	font-style: italic;
 }
@@ -366,4 +369,17 @@ form#campaign_search input.submitreplace {
 }
 form#campaign_search input.submitreplace:hover{
 	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
+}
+
+/* sponsor button */
+a.button-sponsor {background:url(/images/dt/buttons/sponsor.png) no-repeat transparent;}
+a.button-sponsor, a.button-sponsor span {
+	display:block;
+	float:left;
+	width:104px;
+	height:24px;
+	margin-bottom:.5em;
+}
+a.button-sponsor span {
+	text-indent:-9999px;
 }

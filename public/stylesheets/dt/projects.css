@@ -118,19 +118,18 @@ Quick Facts
 
 .quickfacts ul, .content-quickfacts ul {
 	margin:0 0 1.125em 0;
-    list-style-type:none;
+	list-style-type:none;
 }
 
 div.projectlist .project .quickfacts ul li, div.projectlist .project .content-quickfacts ul li,
 .quickfacts ul li, .content-quickfacts ul li, .quickfacts ol li {
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:0.6875em; /* 11px */
-    margin:0em 0;
-    padding:0.25em 0 0.25em 0;
-    /* border-bottom:1px solid #DDD; */
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:0.6875em; /* 11px */
+	margin:0em 0;
+	padding:0.25em 0 0.25em 0;
 }
 .quickfacts ol li {
-    border:0;
+	border:0;
 }
 
 .content-quickfacts li {
@@ -138,10 +137,9 @@ div.projectlist .project .quickfacts ul li, div.projectlist .project .content-qu
 }
 
 .quickfacts strong, .content-quickfacts strong {
-    color:#360;
 }
 .quickfacts ol, .content-quickfacts ol {
-    margin-left:1.5em;
+	margin-left:1.5em;
 }
 .sidebar-give {
 	afloat: right;
@@ -232,7 +230,7 @@ a.button-connect:hover {background:url(/images/dt/nav_elements/buttonsCF/connect
 
 a.button-gift, a.button-gift span, 
 a.button-invest, a.button-invest span,
-a.button-pledge, a.button-pledge span,
+a.button-sponsor, a.button-sponsor span,
 a.button-creategroup, a.button-creategroup span,
 a.button-checkout, a.button-checkout span,
 a.button-return_to_cart, a.button-return_to_cart span,
@@ -264,7 +262,6 @@ a.button-invitemembers, a.button-invitemembers span{
 }
 a.button-gift span,
 a.button-invest span, 
-a.button-pledge span,
 a.button-creategroup span, 
 a.button-connect span,
 a.button-checkout span,
@@ -283,8 +280,6 @@ a.button-gift {background:url(/images/dt/nav_elements/buttonsCF/giftProject_lgre
 a.button-gift:hover {background:url(/images/dt/nav_elements/buttonsCF/giftProject_blue.gif) no-repeat transparent;}
 a.button-invest {background:url(/images/dt/nav_elements/buttonsCF/invest_grey.gif) no-repeat transparent;}
 a.button-invest:hover {background:url(/images/dt/nav_elements/buttonsCF/invest_blue.gif) no-repeat transparent;}
-a.button-pledge {background:url(/images/dt/nav_elements/buttonsCF/pledge_grey.gif) no-repeat transparent;}
-a.button-pledge:hover {background:url(/images/dt/nav_elements/buttonsCF/pledge_blue.gif) no-repeat transparent;}
 a.button-creategroup {background:url(/images/dt/nav_elements/buttonsCF/createGroup_lgrey2.gif) no-repeat transparent;}
 a.button-creategroup:hover {background:url(/images/dt/nav_elements/buttonsCF/createGroup_blue.gif) no-repeat transparent;}
 a.button-deletegroup {background:url(/images/dt/nav_elements/buttonsCF/deleteGroup_grey.gif) no-repeat transparent;}
@@ -489,6 +484,13 @@ form#project_search{
 	border-right: 1px solid #979797;
 	border-bottom: 2px solid #979797;
 }
+
+#search-bar-wrapper-no-border{
+	width: 700px;
+	margin: 0 auto;
+	padding: 0 5px;
+}
+
 .close-button{
   float: right;
 	w/idth:18px;
@@ -558,8 +560,10 @@ form#project_search input.submitreplace:hover{
 }
 
 .project-sidebar .quickfactsHeader{
-  font-size: 13px;
+  font-size: 0.875em;
   font-weight: bold;
+}
+quickfactsHeader{
 }
 
 .searchResultsQuickfacts ul{

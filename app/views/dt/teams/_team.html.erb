@@ -1,20 +1,23 @@
 <% if not team.generic? and not team.pending?%>
 	<div id="team_<%= team.id %>" class="<%= cycle('row_even','row_odd') %>">
-		<div class="team_long_display_picture">
-			<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
-			<%= image_tag 'dt/icons/team_placeholder_icon_48x60.jpg', :class => :thumbnail unless team.picture != nil %>
-		</div>
+		<span class="participant_details">
 
-		<%= link_to "<span>Pledge</span>", new_dt_team_pledge_path(team), :class => "button-pledge", :style => "float:right;" %>
-		
-		<h2 style="margin:0px"><%= link_to(team.name, dt_team_path(team)) %></h2>
-		<div id="team_<%= team.id %>_container">
-			<p>
-				Team Leader: <%= team.leader.name %>, Team Goal: $ <%= team.goal %><br />
-			</p>
-			<p>
-				<%= team.short_description %>
-			</p>
-		</div>
+			<div class="team_long_display_picture">
+				<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
+				<%= image_tag 'dt/icons/team_placeholder_icon_48x60.jpg', :class => :thumbnail unless team.picture != nil %>
+			</div>
+
+			<%= link_to "<span>Sponsor</span>", new_dt_team_pledge_path(team), :class => "button-sponsor", :style => "float:right;" %>
+
+			<h2 style="margin:0px"><%= link_to(team.name, dt_team_path(team)) %></h2>
+			<div id="team_<%= team.id %>_container">
+				<p>
+					Team Leader: <%= team.leader.name %>, Team Goal: $ <%= team.goal %><br />
+				</p>
+				<p>
+					<%= team.short_description %>
+				</p>
+			</div>
+		</span>
 	</div>
 <% end %>
