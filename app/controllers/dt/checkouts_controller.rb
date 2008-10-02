@@ -170,14 +170,15 @@ class Dt::CheckoutsController < DtApplicationController
 
   def do_support
     if !params[:fund_cf].nil? && %w(dollars percent no).include?(params[:fund_cf]) && Project.admin_project
-      @cf_project = Project.admin_project
-      # delete the cf_project investment item - it will get re-added below, if applicable
-      index = @cart.items.index(@cart.items.find{|item| item.class == Investment && item.project_id == @cf_project.id })
+      @admin_project = Project.admin_project
+      # delete the admin_project investment item - it will get re-added below, if applicable
+      index = @cart.items.index(@cart.items.find{|item| item.class == Investment && item.project_id == @admin_project.id && item.checkout_investment? })
       @cart.remove_item(index) if index
       unless params[:fund_cf] == "no"
-        @cf_investment = Investment.new(:project_id => @cf_project.id, :amount => params[:fund_cf_amount])
-        @cf_investment.amount = @cart.total * (@cf_investment.amount/100) if params[:fund_cf] == "percent"
-        @cart.add_item(@cf_investment) if @cf_investment.amount?
+        @admin_investment = Investment.new(:project_id => @admin_project.id, :amount => params[:fund_cf_amount], :checkout_investment => true)
+puts @admin_investment.checkout_investment?
+        @admin_investment.amount = @cart.total * (@admin_investment.amount/100) if params[:fund_cf] == "percent"
+        @cart.add_item(@admin_investment) if @admin_investment.amount?
       end
     else
       @order.errors.add_to_base("Please choose if you would like to help cover our costs")

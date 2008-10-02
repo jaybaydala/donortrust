@@ -37,6 +37,9 @@
   <%= link_to "<span>Add a Project Gift</span>", dt_search_path, :class => "button-add_project_gift" %>
   <%= link_to "<span>Add a Deposit</span>", new_dt_account_deposit_path(current_user), :class => "button-add_deposit" %>
 </div>
+<% for item in @cart.items %>
+<%= item.checkout_investment?.inspect if item.class == Investment %>
+<% end %>
 <div class="clearfix">
   <% unless @cart.empty? %><%= link_to "<span>Checkout</span>", new_dt_checkout_path, :class => "button-checkout" %><% end %>
 </div>

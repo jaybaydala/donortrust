@@ -3,14 +3,14 @@ class Dt::CartController < DtApplicationController
   include OrderHelper
   before_filter :find_cart
   def show
-    if session[:gift_card_balance]
-      gift_card_balance = session[:gift_card_balance] - @cart.total
-      if gift_card_balance >= 0
-        flash.now[:notice] = "You've invested #{number_to_currency(@cart.total)} and have #{number_to_currency(gift_card_balance)} remaining on your gift card"
-      else
-        flash.now[:notice] = "You've invested #{number_to_currency(@cart.total)} and have #{number_to_currency(gift_card_balance.abs)} remaining on your gift card"
-      end
-    end
+    # if session[:gift_card_balance]
+    #   gift_card_balance = session[:gift_card_balance] - @cart.total
+    #   if gift_card_balance >= 0
+    #     flash.now[:notice] = "You've invested #{number_to_currency(@cart.total)} and have #{number_to_currency(gift_card_balance)} more that you can spend from your gift card"
+    #   else
+    #     flash.now[:notice] = "You've invested #{number_to_currency(@cart.total)} and have #{number_to_currency(gift_card_balance.abs)} more that you can spend from your gift card"
+    #   end
+    # end
   end
   
   def destroy

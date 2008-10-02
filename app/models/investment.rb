@@ -15,17 +15,11 @@ class Investment < ActiveRecord::Base
 
   after_create :user_transaction_create
   
-  attr_accessor :checkout_investment
-  
   def sum
     #return 0 if self[:gift_id] && self.gift[:project_id]
     super * -1
   end
   
-  def checkout_investment
-    
-  end
-
   def self.new_from_gift(gift, user_id)
     logger.info "Gift: #{gift.inspect}"
     if gift.project_id
@@ -42,6 +36,15 @@ class Investment < ActiveRecord::Base
   def credit_card_tx=(val)
     @credit_card_tx ||= val ? true : false
   end
+
+  # this is for the "special" checkout investment option to support the admin project directly
+  def checkout_investment?
+    @checkout_investment || false
+  end
+  def checkout_investment=(val)
+    @checkout_investment = val ? true : false
+  end
+  alias_method :checkout_investment, :checkout_investment?
   
   protected
   def validate

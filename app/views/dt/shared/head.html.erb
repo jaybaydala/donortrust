@@ -17,7 +17,7 @@
           </ul>
           <% if session[:gift_card_balance] %>
           <ul id="giftcard-amount">
-            <li><strong>Gift Card Amount</strong>: <%=h number_to_currency(session[:gift_card_balance]) %></li>
+            <li><strong>Gift Card Balance</strong>: <%=h number_to_currency(session[:gift_card_balance]) %></li>
           </ul>
           <% end %>
         </div>
