@@ -51,22 +51,22 @@
     </ol>
     <ol class="clearfix" id="payment">
       <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :total, @cart.total, :id => 'cart_total' %></li>
-      <li><label>Take From my Account:</label> <%= number_to_currency(@order.account_balance_total) %></li>
-      <li class="odd"><label>Put on My Credit Card:</label> <%= number_to_currency(@order.credit_card_total) %></li>
+      <li><label>Take From my Account:</label> <%= number_to_currency(@order.account_balance_payment) %></li>
+      <li class="odd"><label>Put on My Credit Card:</label> <%= number_to_currency(@order.credit_card_payment) %></li>
       <li id="totalfield"><label>Total Paid:</label> <%= number_to_currency(@order.total) %>&nbsp;</li>
     </ol>
     <% end %>
     
-    <% if @order.credit_card_total && @order.credit_card_total > 0 %>
+    <% if @order.credit_card_payment && @order.credit_card_payment > 0 %>
     <div class="textsm" style="font-size:0.75em;margin-top:1em;"><strong>Credit Card Information</strong></div>
     <div class="notes">
       <h5>Credit Card Information</h5>
       <p>Your credit card is processed on a secure server. We <strong>do not</strong> store any credit card information or details.</p>
     </div>
     <% if logged_in? and current_user.balance > 0 %>
-    <p>The remaining balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></strong> will be charged to your credit card</p>
+    <p>The remaining balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_payment.to_f) %></strong> will be charged to your credit card</p>
     <% else %>
-    <p>A balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_total.to_f) %></strong> will be charged to your credit card</p>
+    <p>A balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_payment.to_f) %></strong> will be charged to your credit card</p>
     <% end %>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
     <ol class="clearfix" style="margin:6px 0 0 0;">

@@ -704,8 +704,8 @@ describe Dt::CheckoutsController do
         end
         it "should not process a credit card when paying from your account" do
           @order.stub!(:total).and_return(55)
-          @order.stub!(:credit_card_total).and_return(0)
-          @order.should_receive(:account_balance_total).and_return(@order.total)
+          @order.stub!(:credit_card_payment).and_return(0)
+          @order.should_receive(:account_balance_payment).and_return(@order.total)
           @order.should_receive(:run_transaction).never
           do_request
         end
@@ -721,10 +721,10 @@ describe Dt::CheckoutsController do
             @user.should_receive(:balance)
             do_request
           end
-          it "should set credit_card_total to order.total when the user has no balance" do
+          it "should set credit_card_payment to order.total when the user has no balance" do
             @user.stub!(:balance).and_return(0)
             do_request
-            @order.credit_card_total.should == @order.total
+            @order.credit_card_payment.should == @order.total
           end
         end
       end

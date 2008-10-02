@@ -24,7 +24,7 @@ describe Order do
     @order.should belong_to(:user)
   end
   
-  %w(account_balance_total credit_card_total total).each do |c|
+  %w(account_balance_payment credit_card_payment total).each do |c|
     it "should strip a '$' from #{c}" do
       @order = Order.new(c.to_sym => "$50")
       @order[c].should == 50.0
@@ -82,7 +82,7 @@ describe Order do
         @credit_card = mock("CreditCard", :valid? => true)
         @order.stub!(:credit_card).and_return(@credit_card)
         @order.stub!(:minimum_credit_payment).and_return(10)
-        @order.credit_card_total = 0
+        @order.credit_card_payment = 0
       end
     end
     
@@ -91,18 +91,18 @@ describe Order do
         @credit_card = mock("CreditCard", :valid? => true)
         @order.stub!(:credit_card).and_return(@credit_card)
         @order.stub!(:minimum_credit_payment).and_return(0)
-        @order.credit_card_total = 0
+        @order.credit_card_payment = 0
       end
     end
-    it "should add an error to credit_card_total if it's less than the amount of the deposits" do
-      @order.credit_card_total = 74.0
+    it "should add an error to credit_card_payment if it's less than the amount of the deposits" do
+      @order.credit_card_payment = 74.0
       @order.validate_payment(@items)
-      @order.errors.on(:credit_card_total).should_not be_nil
+      @order.errors.on(:credit_card_payment).should_not be_nil
     end
-    it "should add an error to account_balance_total if it's more than the balance" do
-      @order.account_balance_total = 75.0
+    it "should add an error to account_balance_payment if it's more than the balance" do
+      @order.account_balance_payment = 75.0
       @order.validate_payment(@items, 74.0)
-      @order.errors.on(:account_balance_total).should_not be_nil
+      @order.errors.on(:account_balance_payment).should_not be_nil
     end
     it "should calculate the minimum_credit_card_payment to the total if no balance is passed" do
       @order.minimum_credit_card_payment(@items).should == 100
@@ -112,14 +112,14 @@ describe Order do
       balance = subtotal
       @order.minimum_credit_card_payment(@items, balance).should == 75 # the deposit amount
     end
-    it "should calculate the minimum_credit_card_payment deposits - (total - deposits - account_balance_total) if the balance is lower than (total - deposits)" do
-      @order.account_balance_total = 10
+    it "should calculate the minimum_credit_card_payment deposits - (total - deposits - account_balance_payment) if the balance is lower than (total - deposits)" do
+      @order.account_balance_payment = 10
       @order.minimum_credit_card_payment(@items, 15).should == 85 # 75 + (100 - 75 - 15)
     end
-    it "should add an error to base it account_balance_total + credit_card_total are less than the @order total" do
+    it "should add an error to base it account_balance_payment + credit_card_payment are less than the @order total" do
       @order.total = 100
-      @order.account_balance_total = 25.0
-      @order.credit_card_total = 74.0
+      @order.account_balance_payment = 25.0
+      @order.credit_card_payment = 74.0
       @order.validate_payment(@items, 25.0)
       @order.errors.on_base.should_not be_nil
     end
@@ -133,14 +133,14 @@ describe Order do
         @credit_card.should_receive(:valid?).and_return(true)
         @order.validate_payment(@items)
       end
-      it "should check the credit card for validity if account_balance_total is less than the total" do
+      it "should check the credit card for validity if account_balance_payment is less than the total" do
         @order.total = 76
-        @order.account_balance_total = 75
+        @order.account_balance_payment = 75
         @credit_card.should_receive(:valid?).and_return(true)
         @order.validate_payment(@items, 100)
       end
-      it "should check the credit card for validity if there's a credit_card_total" do
-        @order.credit_card_total = 1
+      it "should check the credit card for validity if there's a credit_card_payment" do
+        @order.credit_card_payment = 1
         @credit_card.should_receive(:valid?).and_return(true)
         @order.validate_payment(@items, 100)
       end
@@ -180,8 +180,8 @@ describe Order do
         @order.credit_card.errors.on(:number).should_not be_blank
       end
     end
-    it "should not check the credit card for validity if the account_balance_total is equal to the total" do
-      @order.account_balance_total = 100
+    it "should not check the credit card for validity if the account_balance_payment is equal to the total" do
+      @order.account_balance_payment = 100
       @order.validate_payment(@items, 100)
       @order.should_receive(:generate_credit_card).never
       @order.errors.should_receive(:add_on_blank).never

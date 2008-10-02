@@ -15,8 +15,12 @@
   <fieldset>
     <legend>Payment Details</legend>
 
-    <% if logged_in? and current_user.balance > 0 %>
-      <p>Please enter your payment details below. Since you have an account with ChristmasFuture you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>. Deposits to your account must be paid on your credit card.</p>
+    <% if account_payment? || gift_card_payment?  %>
+      <p>
+        Please enter your payment details below. 
+        <% if account_payment? %>Since you have an account with ChristmasFuture you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>.<% end %>
+        Deposits to your account must be paid on your credit card<%= " or gift card" if gift_card_payment? %>.
+      </p>
       <div class="textsm" style="font-size:0.75em;"><strong>Payment</strong></div>
       <ol>
         <li><label class="left" style="font-style:italic;">Your Current Account Balance: <%= current_user.balance ? number_to_currency(current_user.balance) : number_to_currency(0) %><%= hidden_field_tag :account_balance, (current_user.balance ? current_user.balance : 0) %></label></li>
@@ -26,13 +30,13 @@
       </ol>
       <ol class="clearfix" id="payment">
         <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :cart_total, @cart.total, :id => 'cart_total' %></li>
-        <li><label>Take From my Account:</label> $<%= f.text_field :account_balance_total %></li>
-        <li class="odd"><label>Put on My Credit Card:</label> $<%= f.text_field :credit_card_total %></li>
+        <li><label>Take From my Account:</label> $<%= f.text_field :account_balance_payment %></li>
+        <li class="odd"><label>Put on My Credit Card:</label> $<%= f.text_field :credit_card_payment %></li>
         <li style="display:none;" id="paymentrequiredfield"><label>Payment still required:</label> <%= text_field_tag :payment_required, number_to_currency(@order.total), :style => 'border:0;', :disabled => "disabled" %></li>
         <li style="display:none;" id="totalfield"><label>Total Paid:</label> <%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :disabled => "disabled" %></li>
       </ol>
     <% else %>
-      <%= f.hidden_field :credit_card_total %>
+      <%= f.hidden_field :credit_card_payment %>
     <% end %>
 
     <div id="credit_card_details">

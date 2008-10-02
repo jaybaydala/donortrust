@@ -40,11 +40,11 @@ class Order < ActiveRecord::Base
     read_attribute(:card_number)
   end
   
-  def account_balance_total=(val)
-    write_attribute(:account_balance_total, strip_dollar_sign(val))
+  def account_balance_payment=(val)
+    write_attribute(:account_balance_payment, strip_dollar_sign(val))
   end
-  def credit_card_total=(val)
-    write_attribute(:credit_card_total, strip_dollar_sign(val))
+  def credit_card_payment=(val)
+    write_attribute(:credit_card_payment, strip_dollar_sign(val))
   end
   def total=(val)
     write_attribute(:total, strip_dollar_sign(val))
@@ -65,10 +65,10 @@ class Order < ActiveRecord::Base
   
   def validate_payment(cart_items, current_balance = nil)
     minimum_credit_payment = minimum_credit_card_payment(cart_items, current_balance)
-    errors.add(:credit_card_total, "must be at least #{number_to_currency(minimum_credit_payment)}") if self[:credit_card_total].to_f < minimum_credit_payment
-    errors.add(:account_balance_total, "cannot be more than your current balance") if self[:account_balance_total].to_f > current_balance.to_f
-    errors.add_to_base("Please ensure you're paying the full amount.") if (self[:credit_card_total].to_f + self[:account_balance_total].to_f) < self[:total].to_f
-    if minimum_credit_payment > 0 || credit_card_total?
+    errors.add(:credit_card_payment, "must be at least #{number_to_currency(minimum_credit_payment)}") if self[:credit_card_payment].to_f < minimum_credit_payment
+    errors.add(:account_balance_payment, "cannot be more than your current balance") if self[:account_balance_payment].to_f > current_balance.to_f
+    errors.add_to_base("Please ensure you're paying the full amount.") if (self[:credit_card_payment].to_f + self[:account_balance_payment].to_f) < self[:total].to_f
+    if minimum_credit_payment > 0 || credit_card_payment?
       unless credit_card.valid?
         credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
         errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:<ul>#{credit_card_messages.join}</ul>") 
@@ -162,7 +162,7 @@ class Order < ActiveRecord::Base
   end
 
   def create_tax_receipt_from_order
-    if self.credit_card_total?
+    if self.credit_card_payment?
       self.tax_receipt = TaxReceipt.new do |t|
         t.first_name   = self.first_name
         t.last_name    = self.last_name

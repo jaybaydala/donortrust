@@ -90,22 +90,22 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
       controller.send!(:initialize_existing_order)
     end
 
-    it "should set the credit_card_total to @order.total if !logged_in?" do
+    it "should set the credit_card_payment to @order.total if !logged_in?" do
       controller.stub!(:logged_in?).and_return(false)
-      @order.should_receive(:credit_card_total=).with(@cart.total)
+      @order.should_receive(:credit_card_payment=).with(@cart.total)
       controller.send!(:initialize_existing_order)
     end
 
-    it "should set the credit_card_total to @order.total if logged_in? and 0 balance" do
+    it "should set the credit_card_payment to @order.total if logged_in? and 0 balance" do
       @user.should_receive(:balance).and_return(0)
-      @order.should_receive(:credit_card_total=).with(@cart.total)
+      @order.should_receive(:credit_card_payment=).with(@cart.total)
       controller.send!(:initialize_existing_order)
     end
 
-    it "should not set the credit_card_total to @order.total if logged_in? and balance > 0" do
+    it "should not set the credit_card_payment to @order.total if logged_in? and balance > 0" do
       controller.should_receive(:logged_in?).at_least(:once).and_return(true)
       @user.should_receive(:balance).and_return(50)
-      @order.should_not_receive(:credit_card_total=)
+      @order.should_not_receive(:credit_card_payment=)
       controller.send!(:initialize_existing_order)
     end
   end

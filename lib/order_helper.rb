@@ -34,7 +34,7 @@ module OrderHelper
     @order.attributes = params[:order]
     @order.total = @cart.total
     @order.user = current_user if logged_in?
-    @order.credit_card_total = @order.total unless logged_in? && current_user.balance > 0
+    @order.credit_card_payment = @order.total unless logged_in? && current_user.balance > 0
     @order
   end
 end

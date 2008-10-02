@@ -225,7 +225,7 @@ class Dt::CheckoutsController < DtApplicationController
         # process the credit card - should handle an exception here
         # if no exception, we're all good.
         # if there is, we should render the payment template and show the errors...
-        transaction_successful = @order.account_balance_total == @order.total ? true : @order.run_transaction
+        transaction_successful = @order.account_balance_payment == @order.total ? true : @order.run_transaction
         if transaction_successful
           # auto-push the send_at dates into the future, if necessary to avoid silly validation errors
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_at? && gift.send_at < Time.now}
