@@ -22,7 +22,7 @@
 	<% elsif @team != nil %>
 		<div class="team-picture">
 			<%= image_tag @team.picture.thumb.url, :class => :thumbnail if @team.picture? %>			
-			<%= image_tag 'dt/icons/team_placeholder_icon_120x150.jpg', :class => :thumbnail unless @team.picture? %>
+			<%= image_tag 'dt/icons/team_placeholder_icon_125x75.jpg', :class => :thumbnail unless @team.picture? %>
 		</div>
 	<% elsif @campaign != nil %>
 		<div class="campaign-picture" style="float:right;">

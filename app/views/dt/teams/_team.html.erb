@@ -4,7 +4,7 @@
 
 			<div class="team_long_display_picture">
 				<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
-				<%= image_tag 'dt/icons/team_placeholder_icon_48x60.jpg', :class => :thumbnail unless team.picture != nil %>
+				<%= image_tag 'dt/icons/team_placeholder_icon_75x45.jpg', :class => :thumbnail unless team.picture != nil %>
 			</div>
 
 			<%= link_to "<span>Sponsor</span>", new_dt_team_pledge_path(team), :class => "button-sponsor", :style => "float:right;" %>

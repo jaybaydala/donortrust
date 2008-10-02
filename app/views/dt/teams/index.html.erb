@@ -1,11 +1,12 @@
 <div id="teams">
-		<%= campaign_h2_header("#{link_to(@campaign.name + "'s",dt_campaign_path(@campaign))} Teams",'team_container')%>
-		<div id="team_container" class="row_container">		
-			<% if @teams.size >0 %>
-				<%= render :partial => 'team', :collection => @campaign.teams %>
-				<%= "strong>There are no teams registered for this campaign yet.</strong>" unless @teams.size > 0%>
+	<h2 class="campaign"><%= link_to(@campaign.name + "'s",dt_campaign_path(@campaign)) %> Teams</h2>
 
-		</div>
+	<div id="team_container" class="row_container">		
+		<% if @teams.size >0 %>
+			<%= render :partial => 'team', :collection => @campaign.teams %>
+			<%= "strong>There are no teams registered for this campaign yet.</strong>" unless @teams.size > 0%>
+		<% end %>
+	</div>
 	<div class="row_even">
 		<%= will_paginate @participants %>
 	</div>

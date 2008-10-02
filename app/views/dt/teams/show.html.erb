@@ -7,7 +7,7 @@
 			<h1><%= @team.name %> <%= "- Awaiting Approval! " unless not @team.pending? %>
 			<%= (" - " + link_to('Join this team!', new_dt_team_participant_path(@team))) if @team.joinable? %></h1>
 			<h5 style="margin-top:-10px;">
-				<%= link_to "http://www.christmasfuture.org/dt/#{@team.campaign.short_name}/team/#{@team.short_name}", show_campaign_team_path(@team.campaign.short_name,@team.short_name) %>
+				http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/team/<%= @team.short_name %>
 			</h5>
 			<p>
 				<div class="campaign-picture">

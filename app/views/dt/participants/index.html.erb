@@ -3,7 +3,7 @@
 </div>
 
 <div id="participants">
-	<%= campaign_h2_header("#{link_to(@campaign.name + "'s",dt_campaign_path(@campaign))} Participants",'team_container')%>
+	<h2 class="campaign"><%= link_to(@campaign.name + "'s",dt_campaign_path(@campaign)) %> Participants</h2>
 	<div id="participant_container" class="row_container">
 		<%= render :partial => 'participant', :collection => @participants, :locals => {:long_view => true} %>
 		<%= "<strong>There are no participants registered for this campaign yet.</strong>" unless @participants.size > 0 %>
