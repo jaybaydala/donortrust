@@ -34,12 +34,12 @@
         <% if minimum_credit_payment = @order.minimum_credit_payment(@cart.items) %>
           <% if gift_card_payment? %>
             <li>
-              <label class="left" style="font-style:italic;">Your Minimum combined Gift Card/Credit Card Payment(s): <%= number_to_currency(minimum_credit_payment) %></label>
+              <label class="left" style="font-style:italic;">Your minimum combined Gift Card/Credit Card payment(s): <%= number_to_currency(minimum_credit_payment) %></label>
               <div class="note" style="margin-left:0;">You must pay at least this amount from your gift card and credit card combined to pay for your Deposits.</div>
             </li>
           <% else %>
             <li>
-              <label class="left" style="font-style:italic;">Your Minimum Credit Card Payment: <%= number_to_currency(minimum_credit_payment) %></label>
+              <label class="left" style="font-style:italic;">Your minimum Credit Card payment: <%= number_to_currency(minimum_credit_payment) %></label>
               <div class="note" style="margin-left:0;">You must pay at least this amount from your credit card to pay for your Deposits.</div>
             </li>
           <% end %>
