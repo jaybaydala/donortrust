@@ -1,5 +1,5 @@
 <div class="quickfactsHeader"><span>Quick Facts:</span></div>
-<ul class="quickfacts">
+<ul class="search-results-quickfacts">
   <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
   <li><strong>Funding Required:</strong> <%= number_to_currency(@project.total_cost) %></li>
   <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
