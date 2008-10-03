@@ -2,14 +2,14 @@
 
 <% if @gift -%>
   <% if @gift.project_id? %>
-	  <p><%= @gift.name %> has sent you a Project Gift for <%= number_to_currency( @gift.amount ) %>!</p>
+	  <p><%= @gift.name || @gift.email %> has sent you a Project Gift for <%= number_to_currency( @gift.amount ) %>!</p>
 	  <p>
 	    This is the project they chose to give the gift to:<br />
 	    <%= link_to @gift.project.name, dt_project_path(@gift.project) %><br />
 	    Follow the link to learn more about the project.
 	  </p>
 	<% else %>
-    <p><%= @gift.name %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
+    <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
     <p>Now that you've opened your gift, you have some options. You can:</p>
     <ul>
       <li><%= link_to "find a project to donate to", dt_search_path %></li>
