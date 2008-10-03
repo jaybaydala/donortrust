@@ -13,8 +13,8 @@ complete:
   country: USA
   email: quentin@example.com
   total: 50
-  account_balance_total: nil
-  credit_card_total: 50
+  account_balance_payment: nil
+  credit_card_payment: 50
   card_number: 41111111111111111
   cvv: 989
   expiry_month: 04
@@ -41,8 +41,8 @@ incomplete:
   country: USA
   email: quentin@example.com
   total: 25
-  account_balance_total: nil
-  credit_card_total: nil
+  account_balance_payment: nil
+  credit_card_payment: nil
   card_number: nil
   cvv: nil
   expiry_month: nil
