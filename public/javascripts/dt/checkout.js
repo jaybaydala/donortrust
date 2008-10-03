@@ -63,7 +63,7 @@ AccountTotal.prototype = {
       return sum
     });
     this.set_currency_value(this.total_field, current_total)
-    balance = $F(this.cart_total_field - current_total
+    balance = $F(this.cart_total_field) - current_total
     if (balance) {
       // we'll show the payment required field
       this.set_currency_value(this.payment_required_field, $F(this.cart_total_field) - current_total)
