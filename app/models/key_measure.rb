@@ -16,10 +16,10 @@ class KeyMeasure < ActiveRecord::Base
     unless me.measure( true )
       me.errors.add :measure_id, 'does not exist'
     end
-    
+
   end
 
-  
+
   def destroy
     result = false
     if key_measure_data.count > 0
@@ -38,7 +38,7 @@ class KeyMeasure < ActiveRecord::Base
   def measurement_count
     return key_measure_datas.count
   end
-  
+
   def get_percent_target
     percent_target = 0
     measureData = self.key_measure_datas(:first, :order => 'date DESC')
@@ -50,11 +50,17 @@ class KeyMeasure < ActiveRecord::Base
         percent_target = (data.value * 100 / self.target)
       end
      # if percent_target > 100 then percent_target = 100 end
-      
+
     end
     return percent_target
   end
-  
-  
+
+  def achieved
+    data = KeyMeasureData.find_by_key_measure_id(self.id)
+    if data
+      data.value.to_s
+    end
+  end
+
 end
 
