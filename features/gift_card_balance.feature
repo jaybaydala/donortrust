@@ -20,7 +20,7 @@ I want to have a balance on my gift card
     Given I have received a gift for $100
     When I open the gift
     And I add an investment for $60 to my cart
-    And I checkout
+    And I checkout using my gift card
     Then the gift card balance should be $40
   
   Scenario: Reopening a gift should show the current gift balance

@@ -3,6 +3,7 @@ class Gift < ActiveRecord::Base
   include UserTransactionHelper
 
   before_create :make_pickup_code
+  before_create :set_balance
 
   belongs_to :user
   belongs_to :project
@@ -92,6 +93,16 @@ class Gift < ActiveRecord::Base
     find(:all, :conditions => 'sent_at IS NOT NULL AND picked_up_at IS NULL')
   end
   
+  # set the reader methods for the columns dealing with currency
+  # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
+  def amount
+    BigDecimal.new(read_attribute(:amount).to_s) unless read_attribute(:amount).nil?
+  end
+  def balance
+    BigDecimal.new(read_attribute(:balance).to_s) unless read_attribute(:balance).nil?
+  end
+  
+  
   def message_summary(length = 30) # default to 30 characters
     return unless self.message?
     if message.length <= length
@@ -110,16 +121,16 @@ class Gift < ActiveRecord::Base
   end
   
   protected
+  def set_balance
+    self.balance = amount if project_id.nil?
+  end
+
   def before_validation
     self.project_id = nil unless project_id?
     self.number = number.gsub(/[^0-9]/, "") if attribute_present?("number")
     self.to_email = to_email.sub(/^ *mailto: */, '') if attribute_present?("to_email")
     self.email = email.sub(/^ *mailto: */, '') if attribute_present?("email")
-    if project_id?
-      self.balance = nil
-    else
-      self.balance = amount
-    end
+    self.balance = nil if project_id?
     super
   end
   

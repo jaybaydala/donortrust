@@ -72,6 +72,9 @@ def checkout_billing_step(params={})
   clicks_button("Proceed to Step 3")
 end
 def checkout_payment_step(params={})
+  fills_in("account_balance_payment", :with => params[:account_balance_payment]) if params[:account_balance_payment]
+  fills_in("gift_card_payment", :with => params[:gift_card_payment]) if params[:gift_card_payment]
+  fills_in("credit_card_payment", :with => params[:credit_card_payment]) if params[:credit_card_payment]
   fills_in("order_card_number", :with => params[:card_number] || "1")
   fills_in("order_cardholder_name", :with => params[:cardholder_name] || "Test User")
   fills_in("order_cvv", :with => params[:cvv] || "989")

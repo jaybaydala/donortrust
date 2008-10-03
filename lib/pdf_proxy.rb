@@ -73,7 +73,7 @@ class TaxReceiptPDFProxy
       _pdf.add_text(x, 625, number_to_currency(receipt.deposit.amount), font_size)
       _pdf.add_text(x, 598, receipt.deposit.created_at.to_s(), font_size)
     elsif receipt.order != nil
-      _pdf.add_text(x, 625, number_to_currency(receipt.order.credit_card_total), font_size)
+      _pdf.add_text(x, 625, number_to_currency(receipt.order.credit_card_payment), font_size)
       _pdf.add_text(x, 598, receipt.order.created_at.to_s(), font_size)
     end   
     _pdf.add_text(x, 612, receipt.created_at.to_s(), font_size)

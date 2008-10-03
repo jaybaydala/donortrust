@@ -1,3 +1,4 @@
+require 'bigdecimal'
 require 'active_merchant'
 require 'iats/gateways/iats'
 ActiveMerchant::Billing::Base.mode = RAILS_ENV == "production" ? :production : :test
@@ -40,14 +41,32 @@ class Order < ActiveRecord::Base
     read_attribute(:card_number)
   end
   
+  # set some accessor methods
   def account_balance_payment=(val)
     write_attribute(:account_balance_payment, strip_dollar_sign(val))
   end
   def credit_card_payment=(val)
     write_attribute(:credit_card_payment, strip_dollar_sign(val))
   end
+  def gift_card_payment=(val)
+    write_attribute(:gift_card_payment, strip_dollar_sign(val))
+  end
   def total=(val)
     write_attribute(:total, strip_dollar_sign(val))
+  end
+  # set the reader methods for the columns dealing with currency
+  # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
+  def account_balance_payment
+    BigDecimal.new(read_attribute(:account_balance_payment).to_s) unless read_attribute(:account_balance_payment).nil?
+  end
+  def credit_card_payment
+    BigDecimal.new(read_attribute(:credit_card_payment).to_s) unless read_attribute(:credit_card_payment).nil?
+  end
+  def gift_card_payment
+    BigDecimal.new(read_attribute(:gift_card_payment).to_s) unless read_attribute(:gift_card_payment).nil?
+  end
+  def total
+    BigDecimal.new(read_attribute(:total).to_s) unless read_attribute(:total).nil?
   end
   
   def card_expiry
@@ -63,12 +82,20 @@ class Order < ActiveRecord::Base
     errors.empty?
   end
   
-  def validate_payment(cart_items, current_balance = nil)
-    minimum_credit_payment = minimum_credit_card_payment(cart_items, current_balance)
-    errors.add(:credit_card_payment, "must be at least #{number_to_currency(minimum_credit_payment)}") if self[:credit_card_payment].to_f < minimum_credit_payment
-    errors.add(:account_balance_payment, "cannot be more than your current balance") if self[:account_balance_payment].to_f > current_balance.to_f
-    errors.add_to_base("Please ensure you're paying the full amount.") if (self[:credit_card_payment].to_f + self[:account_balance_payment].to_f) < self[:total].to_f
-    if minimum_credit_payment > 0 || credit_card_payment?
+  attr_accessor :account_balance, :gift_card_balance
+  def account_balance=(val)
+    @account_balance = BigDecimal.new(val.to_s)
+  end
+  def gift_card_balance=(val)
+    @gift_card_balance = BigDecimal.new(val.to_s)
+  end
+  def validate_payment(cart_items)
+    errors.add_to_base("You must pay for deposits from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
+    errors.add(:account_balance_payment, "cannot be more than your current account balance") if @account_balance && @account_balance > 0 && account_balance_payment? && account_balance_payment > @account_balance
+    errors.add(:gift_card_payment, "cannot be more than your current gift card balance") if @gift_card_balance && @gift_card_balance > 0 && gift_card_payment? && gift_card_payment > @gift_card_balance
+    errors.add_to_base("Please ensure you're paying the full amount.") if total_payments < total
+    errors.add_to_base("You only need to pay the cart total.") if total_payments > total
+    if credit_card_payment?
       unless credit_card.valid?
         credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
         errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:<ul>#{credit_card_messages.join}</ul>") 
@@ -76,28 +103,20 @@ class Order < ActiveRecord::Base
     end
     errors.empty?
   end
-  
-  def minimum_credit_card_payment(cart_items, current_balance = nil)
-    total = self[:total].to_f
-    current_balance = current_balance.to_f
-    if !current_balance
-      @minimum_credit_card_payment = total
+
+  def minimum_credit_payment(cart_items)
+    if @account_balance.nil?
+      @minimum_credit_payment = total
     else
-      deposit_balance = 0
-      cart_items.each{|item| deposit_balance += item.amount if item.class == Deposit}
-      @minimum_credit_card_payment = deposit_balance
-      subtotal = total - deposit_balance # this is what's left
-      if current_balance < subtotal
-         @minimum_credit_card_payment += subtotal - current_balance
-      end
+      @minimum_credit_payment = cart_items.inject(0) {|sum, item| sum + (item.class == Deposit ? item.amount : 0) }
     end
-    @minimum_credit_card_payment
+    @minimum_credit_payment
   end
   
-  def validate_confirmation(cart_items, current_balance = nil)
+  def validate_confirmation(cart_items)
     # run through everything just to make sure...
     validate_billing
-    validate_payment(cart_items, current_balance)
+    validate_payment(cart_items)
     errors.empty?
   end
   
@@ -188,9 +207,23 @@ class Order < ActiveRecord::Base
   end
   
   protected
+  def credit_payments
+    total = BigDecimal.new("0")
+    total += credit_card_payment if credit_card_payment?
+    total += gift_card_payment if gift_card_payment?
+    total
+  end
+  def total_payments
+    total = BigDecimal.new("0")
+    total += credit_card_payment if credit_card_payment?
+    total += gift_card_payment if gift_card_payment?
+    total += account_balance_payment if account_balance_payment?
+    total
+  end
+  
   private
   def strip_dollar_sign(val)
     val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
-    val.to_f
+    val
   end
 end

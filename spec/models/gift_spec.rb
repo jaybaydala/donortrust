@@ -64,6 +64,11 @@ describe Gift do
       @gift.save
       @gift.balance.should be_nil
     end
+    it "should not get changed when getting updated" do
+      @gift.balance = 20
+      @gift.save
+      @gift.balance.should == 20
+    end
   end
 
   describe "send_at" do

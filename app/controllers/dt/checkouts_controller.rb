@@ -5,6 +5,9 @@ class Dt::CheckoutsController < DtApplicationController
   before_filter :cart_empty?, :except => :show
   helper_method :current_step
   helper_method :next_step
+  helper_method :account_payment?
+  helper_method :gift_card_payment?
+  helper_method :summed_account_balances
   
   CHECKOUT_STEPS = ["support", "billing", "payment", "confirm"]
   
@@ -108,6 +111,22 @@ class Dt::CheckoutsController < DtApplicationController
   def ssl_required?
     true
   end
+
+  def account_payment?
+    logged_in? and current_user.balance.to_f > 0
+  end
+  
+  def gift_card_payment?
+    session[:gift_card_balance] && session[:gift_card_balance].to_f > 0
+  end
+  
+  def summed_account_balances
+    balance = 0
+    balance += current_user.balance if account_payment?
+    balance += session[:gift_card_balance] if gift_card_payment?
+    balance
+  end
+  
   
   def current_step
     return nil unless params[:step]
@@ -128,9 +147,9 @@ class Dt::CheckoutsController < DtApplicationController
       when "billing"
         @valid = @order.validate_billing
       when "payment"
-        @valid = @order.validate_payment(@cart.items, user_balance)
+        @valid = @order.validate_payment(@cart.items)
       when "confirm"
-        @valid = @order.validate_confirmation(@cart.items, user_balance)
+        @valid = @order.validate_confirmation(@cart.items)
     end
     @valid
   end
@@ -172,11 +191,10 @@ class Dt::CheckoutsController < DtApplicationController
     if !params[:fund_cf].nil? && %w(dollars percent no).include?(params[:fund_cf]) && Project.admin_project
       @admin_project = Project.admin_project
       # delete the admin_project investment item - it will get re-added below, if applicable
-      index = @cart.items.index(@cart.items.find{|item| item.class == Investment && item.project_id == @admin_project.id && item.checkout_investment? })
+      index = @cart.investments.index(@cart.items.find{|item| item.project_id == @admin_project.id && item.checkout_investment? })
       @cart.remove_item(index) if index
       unless params[:fund_cf] == "no"
         @admin_investment = Investment.new(:project_id => @admin_project.id, :amount => params[:fund_cf_amount], :checkout_investment => true)
-puts @admin_investment.checkout_investment?
         @admin_investment.amount = @cart.total * (@admin_investment.amount/100) if params[:fund_cf] == "percent"
         @cart.add_item(@admin_investment) if @admin_investment.amount?
       end
@@ -217,7 +235,7 @@ puts @admin_investment.checkout_investment?
   end
   
   def do_payment
-    # nothing to do other than the validation that's already happened...
+    # nothing more to do here after the validation
   end
   
   def do_confirm
@@ -226,16 +244,24 @@ puts @admin_investment.checkout_investment?
         # process the credit card - should handle an exception here
         # if no exception, we're all good.
         # if there is, we should render the payment template and show the errors...
-        transaction_successful = @order.account_balance_payment == @order.total ? true : @order.run_transaction
+        transaction_successful = @order.credit_card_payment? ? @order.run_transaction : true
         if transaction_successful
-          # auto-push the send_at dates into the future, if necessary to avoid silly validation errors
+          # auto-push the send_at dates into the future, wherever necessary, to avoid silly validation errors
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_at? && gift.send_at < Time.now}
           # save the cart items into the db via the association
           @order.gifts = @cart.gifts
           @order.investments = @cart.investments
           @order.deposits = @cart.deposits
+          # add the gift_payment_id onto the order if a gift_card_payment is happening
+          # set it to nil if there isn't
+          if @order.gift_card_payment?
+            @order.update_attributes!(:gift_card_payment_id => session[:gift_card_id])
+            @gift_card = Gift.find(@order.gift_card_payment_id)
+            @gift_card.balance = @gift_card.balance - @order.gift_card_payment
+            @gift_card.save!
+          end
           # mark the order as complete
-          @order.update_attributes(:complete => true)
+          @order.update_attributes!(:complete => true)
         end
       end
     end
@@ -246,6 +272,9 @@ puts @admin_investment.checkout_investment?
       # add the order number into the session so they can view their completed order(s) for the session
       session[:order_number] = [] unless session[:order_number]
       session[:order_number] << @order.order_number
+      # empty the gift card from the session, if any
+      session[:gift_card_id] = nil
+      session[:gift_card_balance] = nil
     end
   end
   

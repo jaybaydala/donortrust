@@ -2,17 +2,16 @@ Event.observe(window, 'load', function() {
 	if (form = $('orderform') && $('create_account') && $('create_account').checked) {
 	  $('password_entry').show();
 	}
+	/*
 	if (form = $('paymentform') && $('totalfield')) {
 	  $('totalfield').show();
 	  $('paymentrequiredfield').show();
 	  account_total = new AccountTotal(form)
-		if ($(account_total.account_amount_field)) {
-	    Event.observe(account_total.account_amount_field, 'change', account_total.update_from_account_amount.bindAsEventListener(account_total))
-		}
-		if ($(account_total.cc_amount_field)) {
-	    Event.observe(account_total.cc_amount_field, 'change', account_total.update_from_cc.bindAsEventListener(account_total))
-		}
+	  account_total.buckets.each(function(bucket) {
+	    $(bucket).observe('change', account_total.update_payments.bindAsEventListener(account_total))
+	  });
 	}
+	*/
 	if (form = $('paymentform') && $('create_account') && $('create_account').checked) {
 	  $('password_entry').show();
   }
@@ -20,14 +19,64 @@ Event.observe(window, 'load', function() {
 var AccountTotal = Class.create();
 AccountTotal.prototype = {
 	form: null,
-	balance_field: 'account_balance', 
-	cart_total_field: 'cart_total', 
+	priority_buckets: $w('order_gift_card_payment order_account_payment'),
+	buckets: new Array(),
+	/*
+	account_balance_field: 'account_balance', 
 	account_amount_field: 'order_account_balance_payment', 
 	cc_amount_field: 'order_credit_card_payment', 
-	min_cc_payment_field: 'minimum_credit_card_payment', 
-	payment_required_field: 'payment_required', 
+	*/
+	minimum_credit_card_payment_field: 'minimum_credit_card_payment', 
+	credit_card_payment_field: 'order_credit_card_payment',
+	cart_total_field: 'cart_total', 
 	total_field: 'total', 
+	payment_required_field: 'payment_required', 
+	initialize: function(form) {
+	  this.form = form
+	  this.buckets = $$("#payment input").inject([], function(array, el) {
+	    if (el.name.startsWith("order["))
+	      array.push(el.id)
+	    return array
+	  });
+	},
+	update_payments: function(event) {
+	  var element = event.element();
+    // ensure the minimum credit payment is met - change that first
+    credit_card_difference = 0
+    if ($F(this.credit_card_payment_field) < $F(this.minimum_credit_card_payment_field)) {
+      credit_card_difference = $F(this.minimum_credit_card_payment_field) - $F(this.credit_card_payment_field)
+      this.set_currency_value(this.credit_card_payment_field, $F(this.minimum_credit_card_payment_field))
+    }
+    // any change to the credit payment gets adjusted in the target value
+    // ie. if we have to add $5 to credit_card, we need to take $5 away...
+    this.set_currency_value(element, $F(element)-credit_card_difference)
+    // check all the buckets to ensure that none are over-limit
+    this.buckets.each(function(bucket){
+      well = bucket.sub(/^order_/, "").sub(/_payment$/, "_balance")
+      if ($(well) && $F(well) && $F(well) < $F(bucket)) {
+        account_total.set_currency_value(bucket, $F(well))
+      }
+    });
+    // if there's any balance left, we should show the payment required field
+    current_total = this.buckets.inject(0, function(sum, bucket){
+      sum += ($F(bucket)-0)
+      return sum
+    });
+    this.set_currency_value(this.total_field, current_total)
+    balance = $F(this.cart_total_field - current_total
+    if (balance) {
+      // we'll show the payment required field
+      this.set_currency_value(this.payment_required_field, $F(this.cart_total_field) - current_total)
+      if (!$("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindDown({ duration: 0.8 })}
+    } else {
+      if ($("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindUp({ duration: 0.8 })}
+    }
+	},
+	set_currency_value: function(field, value) {
+	  $(field).setValue(number_helper.to_currency(number_helper.filter_amount(value), false))
+	}
 
+/*
 	initialize: function(form, type) {
 		this.form = form
 		this.update_totals()
@@ -109,7 +158,7 @@ AccountTotal.prototype = {
     $(this.payment_required_field).value = number_helper.to_currency(value)
 	},
 	get_account_balance: function() {
-	  value = number_helper.filter_amount($(this.balance_field).value)
+	  value = number_helper.filter_amount($(this.account_balance_field).value)
 	  return this.to_cents(value);
 	},
 	get_min_cc_payment: function() {
@@ -138,6 +187,7 @@ AccountTotal.prototype = {
 	to_dollars: function(cents) {
 	  return cents / 100;
 	}
+*/
 }
 
 number_helper = {

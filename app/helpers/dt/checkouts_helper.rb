@@ -12,14 +12,6 @@ module Dt::CheckoutsHelper
     @cart_cf_investment ||= @cart.items.find{|item| item.class == Investment && item.project_id == Project.admin_project.id && item.checkout_investment? }
   end
   
-  def account_payment?
-    logged_in? and current_user.balance > 0
-  end
-  
-  def gift_card_payment?
-    session[:gift_card_balance] && session[:gift_card_balance] > 0
-  end
-  
   def expiry_months
     (1..12).to_a.collect do |m|
       mo = m.to_s.rjust(2, "0")

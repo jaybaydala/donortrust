@@ -19,6 +19,12 @@ class Investment < ActiveRecord::Base
     #return 0 if self[:gift_id] && self.gift[:project_id]
     super * -1
   end
+
+  # set the reader methods for the columns dealing with currency
+  # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
+  def amount
+    BigDecimal.new(read_attribute(:amount).to_s) unless read_attribute(:amount).nil?
+  end
   
   def self.new_from_gift(gift, user_id)
     logger.info "Gift: #{gift.inspect}"

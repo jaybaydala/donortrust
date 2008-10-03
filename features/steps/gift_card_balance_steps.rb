@@ -20,6 +20,12 @@ When /^I checkout$/ do
   end
 end
 
+When /^I checkout using my gift card$/ do
+  checkout_steps.each do |step|
+    send("checkout_#{step}_step")
+  end
+end
+
 Given /^I have received a gift for \$([\d]+[\.]?[\d]?)$/ do |amount|
   @gift = Gift.generate!(:amount => amount)
 end
@@ -29,4 +35,11 @@ Then /^the gift card amount should be \$([\d]+[\.]?[\d]?)$/ do |amount|
 end
 Then /^the gift card balance should be \$([\d]+[\.]?[\d]?)$/ do |balance|
   Gift.find(:last).balance.should == balance.to_f
+end
+
+Given /^I come back in another browser session$/ do
+end
+
+When /^I open my gift card again$/ do
+  open_gift(@gift.pickup_code)
 end

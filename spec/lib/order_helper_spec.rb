@@ -62,6 +62,17 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
       @user.should_receive(:read_attribute).exactly(count).times
       controller.send!(:initialize_new_order)
     end
+    
+    it "should set the account_balance attribute to the current_user.balance" do
+      @user.stub!(:balance).and_return(100)
+      @order.should_receive(:account_balance=).with(100).and_return(false)
+      controller.send!(:initialize_new_order)
+    end
+    it "should set the gift_card_balance attribute to the session[:gift_card_balance]" do
+      controller.session[:gift_card_balance] = 50
+      @order.should_receive(:gift_card_balance=).with(50).and_return(false)
+      controller.send!(:initialize_new_order)
+    end
   end
 
   describe "initialize_existing_order" do
