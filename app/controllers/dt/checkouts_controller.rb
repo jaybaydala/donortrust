@@ -191,7 +191,7 @@ class Dt::CheckoutsController < DtApplicationController
     if !params[:fund_cf].nil? && %w(dollars percent no).include?(params[:fund_cf]) && Project.admin_project
       @admin_project = Project.admin_project
       # delete the admin_project investment item - it will get re-added below, if applicable
-      index = @cart.investments.index(@cart.items.find{|item| item.project_id == @admin_project.id && item.checkout_investment? })
+      index = @cart.items.index(@cart.items.find{|item| item.class == Investment && item.project_id == @admin_project.id && item.checkout_investment? })
       @cart.remove_item(index) if index
       unless params[:fund_cf] == "no"
         @admin_investment = Investment.new(:project_id => @admin_project.id, :amount => params[:fund_cf_amount], :checkout_investment => true)

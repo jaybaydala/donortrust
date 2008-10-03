@@ -45,19 +45,31 @@
   
   <fieldset>
     <legend>Payment Summary</legend>
-    <% if logged_in? and current_user.balance > 0 %>
     <ol>
-      <li><label class="left"><em>Your Current Account Balance:</em> <%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(50) %><%= hidden_field_tag :account_balance, (logged_in? ? current_user.balance : 50), :id => 'account_balance' %></label></li>
-    </ol>
-    <ol class="clearfix" id="payment">
       <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :total, @cart.total, :id => 'cart_total' %></li>
-      <li><label>Take From my Account:</label> <%= number_to_currency(@order.account_balance_payment) %></li>
-      <li class="odd"><label>Put on My Credit Card:</label> <%= number_to_currency(@order.credit_card_payment) %></li>
-      <li id="totalfield"><label>Total Paid:</label> <%= number_to_currency(@order.total) %>&nbsp;</li>
+      <% if @order.gift_card_payment? %>
+        <li>
+          <label>Gift Card Payment:</label> <%= number_to_currency(@order.gift_card_payment) %>
+          <div class="note" >After this transaction, your gift card balance will be <%= number_to_currency(session[:gift_card_balance] - @order.gift_card_payment) %>.</div>
+        </li>
+      <% end %>
+      <% if @order.account_balance_payment? %>
+        <li>
+          <label>Account Balance Payment:</label> <%= number_to_currency(@order.account_balance_payment) %>
+          <div class="note">After this transaction, your account balance will be <%= number_to_currency(current_user.balance - @order.account_balance_payment) %>.</div>
+        </li>
+      <% end %>
+      <% if @order.credit_card_payment? %>
+        <li>
+          <label>Credit Card Payment:</label> <%= number_to_currency(@order.credit_card_payment) %>
+        </li>
+      <% end %>
+      <li id="totalfield">
+        <label>Total Paid:</label> <%= number_to_currency(@order.total) %>&nbsp;
+      </li>
     </ol>
-    <% end %>
     
-    <% if @order.credit_card_payment && @order.credit_card_payment > 0 %>
+    <% if @order.credit_card_payment? %>
     <div class="textsm" style="font-size:0.75em;margin-top:1em;"><strong>Credit Card Information</strong></div>
     <div class="notes">
       <h5>Credit Card Information</h5>
