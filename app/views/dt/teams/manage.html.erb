@@ -2,14 +2,18 @@
 <%= error_messages_for :team %>
 <div id="new_campaign" class="campaign_form">
 	<h1>Manage Team: <%= link_to(@team.name,dt_team_path(@team)) %></h1>	
-	<%= link_to 'Edit Team Details', edit_dt_team_path(@team)%>
-	
-	<% if @team.require_authorization? %>
+	<% if @team.require_authorization? && @applicants.size > 0 %>
 		<div id="applicants">
-			<%= campaign_h2_header("Team Applicants",'applicant_container')%>
+			<%= campaign_h2_header("Team Members Awaiting Approval",'applicant_container')%>
 			<div id="applicant_container">
 				<% for applicant in @applicants %>
-					<%= applicant.user.full_name %>
+					<div id="applicant_<%= applicant.id %>"  class="<%= cycle('row_even','row_odd') %>">
+						<p>
+							<%= link_to applicant.name, dt_participant_path(applicant) %>
+							<%= (" [" + link_to('Approve!',approve_dt_participant_path(applicant))) + "]" if (!applicant.team.pending? && (!applicant.team.owned? || current_user.is_cf_admin?)) %>
+							<%= (" [" + link_to('Decline',decline_dt_participant_path(applicant))) + "]" if (!applicant.team.pending? && (!applicant.team.owned? || current_user.is_cf_admin?)) %>							
+						</p>
+					</div>
 				<% end %>
 			</div>
 		</div>
@@ -22,7 +26,9 @@
 		</div>
 	</div>
 	
-	<%= render :partial => 'dt/news_items/news', :locals => {:postable => @team, :show_post_form => true}%>
-	
-	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @team, :show_post_form => false}%>
+	<div class="postnews">
+		<a name="news"></a>
+		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @team, :show_post_form => true}%>
+	</div>	
+	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @team, :show_post_form => true}%>
 </div>

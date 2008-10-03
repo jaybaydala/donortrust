@@ -40,10 +40,11 @@
 								(Campaign Organizer)
 							<% end %>
 						<% else %>
-							<% if participant.team.owned? %>
-								(Team Admin - <%= link_to(participant.team.name, dt_team_path(participant.team)) %>)
+							<% if controller.controller_name != 'teams' %>
+								<%= participant.user == participant.team.leader ? "(Team Admin":"(Team Member" %>
+								- <%= link_to(participant.team.name, dt_team_path(participant.team)) %>)
 							<% else %>
-								(Team Member - <%= link_to(participant.team.name, dt_team_path(participant.team)) %>)
+								<%= participant.user == participant.team.leader ? "(Team Admin)":"(Team Member)" %>
 							<% end %>
 						<% end %>
 						$ <%= participant.funds_raised %> raised.

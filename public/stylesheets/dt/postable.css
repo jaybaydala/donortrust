@@ -59,3 +59,17 @@
 	margin-left: -5px;
 	margin-right: -5px;
 }
+
+.post_button {
+	float: right;
+	margin-top: 10px;
+	font-size: 1.5em;
+} 
+
+#wall_form {
+	padding: 5px;
+}
+
+#wall_form textarea{
+	width: 100%
+}

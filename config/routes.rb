@@ -85,7 +85,7 @@ ActionController::Routing::Routes.draw do |map|
                                         :validate_short_name_of => :post
                           },
                           :member => {  :join => :get,
-                                        :activate => :get,
+                                        :approve => :get,
                                         :manage => :get
                                       }
 
@@ -93,7 +93,10 @@ ActionController::Routing::Routes.draw do |map|
 
     dt.resources :participants,
                           :collection => { :admin => :get},
-                          :member => { :manage => :get },
+                          :member => { :manage => :get,
+                                       :approve => :get,
+                                       :decline => :get
+                                    },
                           :new => { :validate_short_name_of => :post}
 
     dt.resources :campaigns do |campaigns|
@@ -110,7 +113,7 @@ ActionController::Routing::Routes.draw do |map|
                                         :validate_short_name_of => :post
                           },
                           :member => {  :join => :get,
-                                        :activate => :get
+                                        :approve => :get
                                       }
 
     dt.resources :teams do |teams|

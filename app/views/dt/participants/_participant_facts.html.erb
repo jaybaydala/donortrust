@@ -1,8 +1,10 @@
 <h2>Participant Facts</h2>
 <span class="small_text">Campaign: <%= link_to(@participant.team.campaign.name, dt_campaign_path(@participant.team.campaign)) %></span><br/>
 <% if @participant.team.campaign.allow_multiple_teams? and not @participant.team.generic? %>
-	<span class="small_text">Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
+	<span class="small_text">My Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
 <% end %>
-<span class="small_text">Goal: $ <%= @participant.goal if @participant.goal %></span><br/>
-<span class="small_text">Amount Raised: $ <%= @participant.funds_raised %></span><br/>
+<span class="small_text">Personal Goal: $ <%= @participant.goal if @participant.goal %></span><br/>
+<span class="small_text">&nbsp;&nbsp;Amount Raised: $ <%= @participant.funds_raised %></span><br/>
+<span class="small_text">Team Goal: $ <%= @participant.team.goal if @participant.team.goal %></span><br/>
+<span class="small_text">&nbsp;&nbsp;Amount Raised: $ <%= @participant.team.funds_raised %></span><br/>
 <span class="small_text">Percentage of Goal: <%= @participant.percentage_raised %><br/>

@@ -87,6 +87,19 @@ h2.campaign {
 	font-size: 14px;
 }
 
+.campaign-sidebar-box ul {
+  list-style:none;
+  margin-left: 0; 
+}
+.campaign-sidebar-box li {
+  list-style:none;
+	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
+	padding:0 0 0.1875em 1em;
+}
+.campaign-sidebar-box a {
+	text-decoration: none;
+}
+
 .metrics {
 	border: 1px solid gray;
 	background-color: #FEFEFE;
@@ -97,20 +110,8 @@ h2.campaign {
 	border: 1px solid gray;
 }
 
-.get-involved ul {
-  list-style:none;
-  margin-left: 0; 
-}
-.get-involved li {
-  list-style:none;
-	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
-	padding:0 0 0.1875em 1em;
-}
-.get-involved a {
-	text-decoration: none;
-}
-
 .campaign-address {
+  padding-top: 0px;
   clear: right;
 }
 
@@ -281,21 +282,6 @@ span.small_text{
 	margin: 5px;
 }
 
-#teams {
-	border: 1px solid gray;
-	margin: 5px;
-}
-
-#participants {
-	border: 1px solid gray;
-	margin: 5px;	
-}
-
-#applicants {
-	border: 1px solid gray;
-	margin: 5px;	
-}
-
 .admin_team {
 	border: 1px solid gray;
 	margin-top: 5px;
@@ -318,11 +304,17 @@ span.small_text{
 	margin: 0px;
 }
 
-#participant_details, #campaign_details, #team_details {
+#participant_details, #campaign_details, #team_details, #participants, #teams, #team_members, #applicants, .postables {
 	margin: 0px;
 	padding-left: 10px;
 	min-width: 150px;
 	font-size: 1em;
+}
+
+#participants, #teams, #team_members, #applicants {
+	border: 1px solid #ddd;
+	margin-left: 10px;
+	padding-left: 0px;
 }
 
 #participant_details ul, #participant_details ol, 
@@ -330,9 +322,22 @@ span.small_text{
 #team_details ul, #team_details ol {
 }
 
+h5 {
+	font-size: 0.875em;
+	font-family:Arial,Helvetica,sans-serif;
+	margin:0px;	
+	border: none;	
+}
+
 h5 a {
 	text-decoration:none;
 }
+
+div.links {
+  padding-bottom: 3px;
+	border-bottom:1px solid #666;
+}
+
 .login-required {
 	font-style: italic;
 }
@@ -348,6 +353,8 @@ h5 a {
 	float:left
 }
 
+.campaign-picture {
+}
 
 /* pledge form */
 #pledge_form span{
@@ -382,4 +389,16 @@ a.button-sponsor, a.button-sponsor span {
 }
 a.button-sponsor span {
 	text-indent:-9999px;
+}
+
+.campaign_action_button {
+  float: left;
+	padding-top: 5px;
+	padding-left: -5px;
+	margin-left: -5px;
+}
+
+/* join button */
+.join, .create {
+  float: right;
 }

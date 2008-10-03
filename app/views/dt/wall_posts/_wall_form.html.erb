@@ -1,12 +1,12 @@
 <% if logged_in? %>
-	<% form_for(form_for_value) do |f|%>
-		<div id="wall_form">
-			<%= f.text_area :wall_text, :rows => 6, :cols => 70%>
-			<p>
-					<%= f.submit "Post" %>
-				</p>
-		</div>
-	<% end %>
+	<fieldset>
+		<% form_for(form_for_value) do |f|%>
+			<div id="wall_form">
+				<%= f.text_area :wall_text, :rows => 6 %>
+				<span class="post_button"><%= f.submit "Post" %></span>
+			</div>
+		<% end %>
+	</fieldset>
 <% else %>
 	<p>You must be logged in to post on the wall </p>
 <% end %>

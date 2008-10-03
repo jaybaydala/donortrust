@@ -23,6 +23,10 @@ class Participant < ActiveRecord::Base
   validates_format_of :short_name, :with => /\w/
   validates_length_of :short_name, :within => 4...60
 
+  def approve!
+    self.update_attribute(:pending,false) ? true : false;
+  end
+
   def owned?
     current_user != nil ? self.user == current_user : false;
   end

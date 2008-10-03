@@ -1,5 +1,5 @@
 <% unless logged_in? %>
-  <h2>Login</h2>
+  <h2>Already a user? Login:</h2>
   <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
     <% store_location %>
     <div class="textsm">

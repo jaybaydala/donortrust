@@ -4,43 +4,57 @@
 <div id="team">
 	<div class="leftColW800">
 		<div id="team_details">
-			<h1><%= @team.name %> <%= "- Awaiting Approval! " unless not @team.pending? %>
-			<%= (" - " + link_to('Join this team!', new_dt_team_participant_path(@team))) if @team.joinable? %></h1>
-			<h5 style="margin-top:-10px;">
-				http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/team/<%= @team.short_name %>
-			</h5>
+			<h1><%= @team.name %> <%= "- Awaiting Approval! " unless not @team.pending? %></h1>
+			<div class="links">
+				<h5 style="margin-top:-10px;">Share this link:<br/>
+					www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/team/<%= @team.short_name %>
+				</h5>
+				<%= "<h5>Team contact: #{@team.contact_email}</h5>" if (@team.ok_to_contact != nil && @team.ok_to_contact) %>
+			</div>
 			<p>
 				<div class="campaign-picture">
 					<%= image_tag @team.picture.full.url, :class => :thumbnail if @team.picture? %>
+					<%= image_tag 'dt/icons/team_placeholder_icon_125x75.jpg', :class => :thumbnail unless @team.picture? %>					
 				</div>
 				<%= @team.description %>
 			</p>
-			<div class="clearfix"></div>
-
+		</div>
+		<div class="clearfix"></div>
+		<div class="postables">
 			<%= render :partial => 'dt/news_items/news', :locals => {:postable => @team}%>
-
-			<div id="team_members">
-				<%= campaign_h2_header(link_to('Participants',dt_team_participants_path(@team)) + (@team.joinable? ? " | #{link_to('Join this team!',new_dt_team_participant_path(@team))}":""),'participant_container') %>
-				<div id="participant_container" class="row_container">
-					<%= render :partial => 'participants' %>
-				</div>
+		</div>
+		<div id="team_members">
+			<%= campaign_h2_header(link_to('Participants',dt_team_participants_path(@team)),'participant_container') %>
+			<div id="participant_container" class="row_container">
+				<%= render :partial => 'participants' %>
 			</div>
-			<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @team} %>
+		</div>
+		<div class="postables">		
+			<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @team} %>
 		</div>
 	</div>
 
 	<div class="leftColN800">
+	  <div class="campaign-sidebar-box">
+	  	<%= link_to(image_tag("/images/dt/buttons/join_this_team.png", :alt => "Join #{@team.name}", 
+	  			:title => "Join #{@team.name}", :class => "campaign_action_button"), new_dt_team_participant_path(@team)) if @team.joinable? %><br/>
+	  	<%= link_to(image_tag("/images/dt/buttons/sponsor_team.png", :alt => "Sponsor this Team", 
+	  			:title => "Sponsor this Team", :class => "campaign_action_button"), new_dt_team_pledge_path(@team)) if !@team.pending && !@team.campaign.pending %><br/>
+	  
+	  	[_______] SEARCH
+	  </div>
+
 		<div class="campaign-sidebar-box metrics">
 			<%= render :partial => 'team_facts',  :locals => {:campaign => @team} %>
 		</div>
-		<div class="campaign-sidebar-box get-involved">
-	    <ul>
-				<%= "<li>" + link_to('Manage Team',manage_dt_team_path(@team)) + "</li>" if @team.owned? || (current_user != :false && current_user.cf_admin?) %>
-				<%= "<li>" + link_to("Join \"#{@team.name}\"", new_dt_team_participant_path(@team)) + 
-						"#{render :partial => 'dt/shared/login_required'}" + "</li>" if @team.joinable? %>
-				<li><%= link_to 'Support a participant', dt_team_participants_path(@team) %></li>
-				<%= link_to "<span>Sponsor</span>", new_dt_team_pledge_path(@team), :class => "button-sponsor" %>
-			</ul>
-		</div>
+		<% if @team.owned? || (current_user != :false && current_user.cf_admin?) %>
+			<div class="campaign-sidebar-box get-involved">
+				<ul>
+					<li><%= link_to('Manage Team',manage_dt_team_path(@team)) %></li>
+					<li><%= link_to('Edit Team Profile', edit_dt_team_path(@team)) %><li>
+					<li><%= link_to('Post News to your Team', manage_dt_team_path(@team)+"#news") %><li>
+				</ul>
+			</div>
+		<% end %>
 	</div>
 </div>

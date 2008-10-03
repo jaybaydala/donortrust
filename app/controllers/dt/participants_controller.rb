@@ -6,7 +6,8 @@ class Dt::ParticipantsController < DtApplicationController
 
   def show
     @participant = Participant.find(params[:id]) unless params[:id] == nil
-    if @participant ==nil
+
+    if @participant == nil
       @participant = Participant.find_by_short_name(params[:short_name]) unless params[:short_name] == nil
     end
 
@@ -104,11 +105,11 @@ class Dt::ParticipantsController < DtApplicationController
 
   def index
     #@participants = Participant.paginate , :page => params[:page], :per_page => 20
-    
+
     @participants = Participant.paginate_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ?", params[:campaign_id]], :page => params[:page], :per_page => 20) unless params[:campaign_id] == nil
-    @participants = Participant.paginate_by_team_id(params[:team_id], :page => params[:page], :per_page => 2) unless params[:team_id] == nil
-    
-    
+    @participants = Participant.paginate_by_team_id(params[:team_id], :page => params[:page], :per_page => 20) unless params[:team_id] == nil
+
+
     @campaign = Campaign.find(params[:campaign_id]) unless params[:campaign_id] == nil
     if !@campaign
       @campaign = Team.find(params[:team_id]).campaign
@@ -126,6 +127,35 @@ class Dt::ParticipantsController < DtApplicationController
       end
     end
   end
+
+  def approve
+    @participant = Participant.find(params[:id]) unless params[:id] == nil
+    @team = @participant.team
+    if @participant.approve!
+      flash[:notice] = "#{@participant.name} approved!"
+      redirect_to manage_dt_team_path(@team)
+      # send email to participant when approved
+    else
+      flash[:notice] = "There was an error approving that participant, please try again."
+    end
+  end
+
+  def decline
+    @participant = Participant.find(params[:id]) unless params[:id] == nil
+    @team = @participant.team
+    @campaign = @team.campaign
+    # assign participant to generic team and approve
+    @participant.team = @campaign.generic_team
+    if @participant.approve!
+      flash[:notice] = "#{@participant.name} assigned to #{@campaign.name} with with no team."
+      redirect_to manage_dt_team_path(@team)
+      # send email to participant when approved
+    else
+      flash[:notice] = "There was an error declining that participant, please try again."
+    end
+
+  end
+
 
   private
   def find_team

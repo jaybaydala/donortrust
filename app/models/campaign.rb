@@ -32,8 +32,8 @@ class Campaign < ActiveRecord::Base
       {:field => 'description'},
       {:field => 'city'},
       {:field => 'province'},
-      {:field => 'country'}      
-    ] 
+      {:field => 'country'}
+    ]
 
   #validations
   validates_presence_of :name, :campaign_type, :description, :country, :province, :postalcode, :fundraising_goal, :creator, :short_name
@@ -165,14 +165,18 @@ class Campaign < ActiveRecord::Base
   def participating?(user)
     participants.include?(user)
   end
-  
+
   def not_pending_participants
     @participants = Participant.find_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = 0",self.id])
   end
 
   def has_participant(user)
-     users = User.find_by_sql(["SELECT u.* FROM users u, teams t, participants p WHERE p.user_id = u.id AND p.team_id = t.id AND t.campaign_id = ? AND u.id = ?",self.id, user.id])
-     users.first ? true : false;
+    users = User.find_by_sql(["SELECT u.* FROM users u, teams t, participants p WHERE p.user_id = u.id AND p.team_id = t.id AND t.campaign_id = ? AND u.id = ?",self.id, user])
+    users.first ? true : false;
+  end
+
+  def generic_team
+    Team.find_by_campaign_id_and_generic(self.id, true)
   end
 
   private

@@ -23,9 +23,11 @@
 		<% end %>
 	</div>
 	
+	<div class="postnews">
+		<a name="news"></a>
+		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @participant, :show_post_form => true}%>
+	</div>
 	
 	
-	<%= render :partial => 'dt/news_items/news', :locals => {:postable => @participant, :show_post_form => true}%>
-	
-	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @participant, :show_post_form => false}%>
+	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @participant, :show_post_form => true}%>
 </div>

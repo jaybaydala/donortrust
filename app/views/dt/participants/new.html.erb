@@ -24,12 +24,14 @@
 	<%= error_messages_for :participant %>
 	<% form_for([:dt,@team,@participant], :html => {:multipart => true}) do |f| %>
 		<fieldset>
-			<label>Short Name <%= form_required %></label>
-    		<span class="small_text">http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name %>
+			<h2>Create your Personal Profile:</h2>
+			<label>Enter the URL you would like to share with your friends:<%= form_required %>
 			<%= what_is_this?'short_name', "The short name is a small (10-20 characters) that will make 
 			it easier to share your profile page with others. It should not contain any spaces and should 
 			be concise so as to convey the central idea of your campaign. Also this name will be used to 
 			provide your profile with a Christmas Future URL. http://www.christmasfuture.org/dt/campaigns/#{@team.campaign.short_name}/ShortName" %>
+			</label>
+    		<span class="small_text">http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name %>
 			<%= observe_field	:participant_short_name, 
 								:frequency => 1,
 								:url => validate_short_name_of_new_dt_participant_path,
@@ -41,14 +43,14 @@
 
 			<label>Share a little about yourself (this information will be publically viewable): <%= form_required %></label>
 			<%= fckeditor_textarea( "participant", "about_participant", :toolbarSet=> 'ChristmasFutureBasic', :height => 200 ) %> 
-			<label>What is your fundraising goal? (optional, leave blank for no specific goal)</label>
+			
+			<label>What is your personal fundraising goal? (optional, leave blank for no specific goal)</label>
 			$ <%= f.text_field :goal %>
 			
 			<label>Upload your photo (must be less than 50 kb). If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
 			<%= upload_column_field :participant,  :picture  %>
+			
+			<span class="join"><h1><%= f.submit 'Join'%></h1></span>
 		</fieldset>
-		<p>
-			<h1><%= f.submit 'Join'%></h1>
-		</p>	
 	<% end %>
 </div>

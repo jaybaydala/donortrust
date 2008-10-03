@@ -49,26 +49,31 @@ class Dt::TeamsController < DtApplicationController
 
     @team.goal = 0 if @team.goal ==nil
 
-    if @team.save
-      @participant = Participant.new
-      @participant.team = @team
-      @participant.user = current_user
-      @participant.pending = false
-      @participant.goal = 0
-      @participant.short_name = @team.short_name + '_participant'
-
-      if @participant.save
-        if @team.pending
-          flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
-        else
-          flash[:notice] = 'Team was successfully created.'
-        end
-        redirect_to(dt_team_path(@team))
-      else
-        flash[:notice] = 'There was an error creating your team.'
-      end
+    #validation pulled here to only run on create
+    if((Team.find_by_user_id_and_campaign_id(current_user.id,campaign.id) != nil) && (campaign.user_id != current_user.id))
+      flash[:notice] = "You have already created a team for this campaign and cannot create another one."
     else
-      render :action => "new"
+      if @team.save
+        @participant = Participant.new
+        @participant.team = @team
+        @participant.user = current_user
+        @participant.pending = false
+        @participant.goal = 0
+        @participant.short_name = @team.short_name + '_participant'
+
+        if @participant.save
+          if @team.pending
+            flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
+          else
+            flash[:notice] = 'Team was successfully created.'
+          end
+          redirect_to(dt_team_path(@team))
+        else
+          flash[:notice] = 'There was an error creating your team.'
+        end
+      else
+        render :action => "new"
+      end
     end
   end
 
@@ -135,12 +140,14 @@ class Dt::TeamsController < DtApplicationController
     redirect_to dt_team_path(@team)
   end
 
-  def activate
-    if @team.activate!
-      flash[:notice] = "#{@team.name} activated!"
+  def approve
+    @team = Team.find(params[:id]) unless params[:id] == nil
+    if @team.approve!
+      flash[:notice] = "#{@team.name} approve!"
       redirect_to manage_dt_campaign_path(@campaign)
+      # send email to team admin when approved
     else
-      flash[:notice] = "There was an error activating that team, please try again."
+      flash[:notice] = "There was an error approving that team, please try again."
     end
   end
 

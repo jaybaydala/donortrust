@@ -26,7 +26,7 @@ class Dt::CampaignsController < DtApplicationController
       render :partial => 'teams'
     end
 
-    @participants = Participant.paginate_by_sql ["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = ?",@campaign.id,0], :page => params[:participant_page], :per_page => 10
+    @participants = Participant.paginate_by_sql ["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = ? AND t.pending = ?",@campaign.id,0,0], :page => params[:participant_page], :per_page => 10
     if(params[:participant_page] != nil)
       render :partial => 'participants'
     end
@@ -254,7 +254,7 @@ class Dt::CampaignsController < DtApplicationController
     [@errors, @short_name]
   end
 
-  def search 
+  def search
     @search = Ultrasphinx::Search.new(:query => params[:keywords],:class_names => ['Campaign'], :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
     Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
         :before_match => '<strong style="background-color:yellow;">',
@@ -268,7 +268,7 @@ class Dt::CampaignsController < DtApplicationController
         })
    @search.excerpt
   end
-  
+
   private
     def is_authorized?
       @campaign = Campaign.find(params[:id])

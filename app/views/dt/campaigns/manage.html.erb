@@ -1,9 +1,6 @@
 <div id="manage_campaign">
 	<h1> Manage - <%= link_to(@campaign.name,show_campaign_path(@campaign.short_name)) %></h1>
-	<%= link_to 'Edit Campaign Details', edit_dt_campaign_path(@campaign)%>
-	<p>
-	<%= @campaign.description %>
-	</p>
+
 	<% if @campaign.allow_multiple_teams? %>
 		<div id="team_management">
 			<%= campaign_h2_header("Teams",'team_management_container')%>
@@ -33,8 +30,12 @@
 			<h2>Participants</h2>
 		</div>
 	<% end %>	
-	<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign, :show_post_form => true}%>
+
+	<div class="postnews">
+		<a name="news"></a>
+		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign, :show_post_form => true}%>
+	</div>
 	
-	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @campaign, :show_post_form => false}%>
+	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @campaign, :show_post_form => true}%>
 	
 </div>
