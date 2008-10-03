@@ -64,9 +64,6 @@
         <h5>Credit Card Details</h5>
         <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
       </div>
-      <% if !logged_in? or current_user.balance == 0 %>
-      <p>A total of <strong><%= number_to_currency(@cart.total) %></strong> CAD will be charged to your credit card.</p>
-      <% end %>
       <ol class="clearfix">
         <li><label for="order_card_number" class="wide"><%= form_required %>Credit Card Number</label> <%= f.text_field :card_number, :maxlength => 16 %></li>
         <li>
