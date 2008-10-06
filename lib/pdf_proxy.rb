@@ -1,4 +1,3 @@
-require 'pdf/writer'
 require 'action_view/helpers/number_helper'
 include ActionView::Helpers::NumberHelper
 
@@ -50,18 +49,20 @@ class TaxReceiptPDFProxy
   def filename
     return "CFTaxReceipt-#{@receipt.id_display}.pdf"
   end
+  
+  def image_file(duplicate)
+    image_file = duplicate ? "tax_receipt-duplicate.jpg" : "tax_receipt.jpg"
+    image_file = "tax_receipt-void.jpg" unless RAILS_ENV == "production"
+    File.dirname(__FILE__) + "/tax_receipts/#{image_file}"
+  end
 
   protected 
   def create_pdf(receipt, duplicate)
     _pdf = PDF::Writer.new
-    _pdf.select_font "Times-Roman"
+    _pdf.select_font "Helvetica"
     _pdf.compressed=true
     i0 = nil
-    if duplicate
-      i0 = _pdf.image File.dirname(__FILE__) + "/tax_receipt-duplicate.png"
-    else
-      i0 = _pdf.image File.dirname(__FILE__) + "/tax_receipt.png"
-    end
+    i0 = _pdf.image image_file(duplicate)
     x = 227
     font_size = 8
     _pdf.add_text(x+14, 639, receipt.id_display, font_size)    
@@ -72,7 +73,7 @@ class TaxReceiptPDFProxy
       _pdf.add_text(x, 625, number_to_currency(receipt.deposit.amount), font_size)
       _pdf.add_text(x, 598, receipt.deposit.created_at.to_s(), font_size)
     elsif receipt.order != nil
-      _pdf.add_text(x, 625, number_to_currency(receipt.order.credit_card_total), font_size)
+      _pdf.add_text(x, 625, number_to_currency(receipt.order.credit_card_payment), font_size)
       _pdf.add_text(x, 598, receipt.order.created_at.to_s(), font_size)
     end   
     _pdf.add_text(x, 612, receipt.created_at.to_s(), font_size)
@@ -130,11 +131,11 @@ class GiftPDFProxy
   def filename
     return "ChristmasFuture printable ecard.pdf" 
   end
-
+  
   protected
   def create_gift_pdf(gift)
       _pdf = PDF::Writer.new
-      _pdf.select_font "Times-Roman"
+      _pdf.select_font "Helvetica"
       _pdf.compressed=true
       image_path = File.expand_path("#{gift.e_card.printable}") if gift.e_card_id? && gift.e_card
       i0 = _pdf.image image_path if image_path && File.exists?(image_path)
