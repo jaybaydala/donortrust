@@ -1,4 +1,4 @@
-Feature: Checkout with a Gift Card Balance
+Feature: Checkout with a Gift Card
 	In order to spend my gift card
 	As a gift receiver
 	I want to use my gift card balance to pay for my cart contents
@@ -25,3 +25,9 @@ Feature: Checkout with a Gift Card Balance
 		And not be asked for my credit card information
 		And the gifter will receive an email notifying that the gift has been opened
 	
+	Scenario: Let CF figure it out
+	  Given that I have opened a gift
+	  When I follow "Let ChristmasFuture figure it out"
+	  Then I should be forwarded to the payment step of checkout
+	  And my cart should hold an Investment with the balance of my gift card
+	  And an order should be created
