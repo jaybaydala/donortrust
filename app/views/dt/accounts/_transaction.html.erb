@@ -53,10 +53,15 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
   	<% if !transaction.team_id %>
   		a pledge to <%= link_to(transaction.campaign.name,dt_campaign_path(transaction.campaign)) %>
   	<% else %>
-  		a pledge to <%= link_to(transaction.team.name,dt_team_path(transaction.team)) %>
+  		a pledge to <%= link_to(transaction.team.name,dt_team_path(transaction.team)) %>, 
+  		a team participating in <%= link_to(transaction.team.campaign.name, dt_campaign_path(transaction.team.campaign)) %>
   	<% end %>
   <% else %>
-  	a pledge to <%= link_to(transaction.participant.name,dt_participant_path(transaction.participant)) %>
+  	a pledge to <%= link_to(transaction.participant.name,dt_participant_path(transaction.participant)) %> 
+  	participating in <%= link_to(transaction.participant.team.campaign.name, dt_campaign_path(transaction.participant.team.campaign)) %>
+  	<% if !transaction.participant.team.generic %>
+  		as a member of <%= link_to(transaction.participant.team.name, dt_team_path(transaction.participant.team)) %>
+  	<% end %>
   <% end %>
   </td>
   <td<%= bg %>><%= date %></td>

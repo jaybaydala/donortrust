@@ -731,6 +731,22 @@ div.accordion-content{
   color: #333;
 }
 
+.key_measures {
+	padding-left: 10px;
+}
+
+.key_measure {
+	padding-bottom: 10px;
+}
+
+.key_measure_numbers {
+	font-size: 0.875em;
+}
+
+.key_measure_graph {
+	padding-left: 20px;
+}
+
 /**********************************/
 .detail-content{
 	clear:both;

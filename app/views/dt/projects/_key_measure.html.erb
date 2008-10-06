@@ -1,7 +1,13 @@
-      <li>
-        <div><%= key_measure.target%> <%= key_measure.measure.description %> </div>
+<div class="key_measure">
+	<div class="key_measure_heading">
+		<strong><%= key_measure.measure.description %></strong>
+	</div>
+	<div class="key_measure_graph">
 		<%= horizontal_bar_graph_no_title  [[key_measure.measure.description, key_measure.get_percent_target]] %>
-			
-      </li>
+		<span class="key_measure_numbers">	
+			(<strong>Target:</strong> <%= key_measure.target%>, <strong>Achieved: </strong> <%= key_measure.achieved %>)
+		</span>
+	</div>
+</div>
 
 	  

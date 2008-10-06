@@ -4,7 +4,7 @@ class Dt::CartController < DtApplicationController
   def show
     @cart = find_cart
   end
-  
+
   def destroy
     @cart = find_cart
     if params[:id]

@@ -1,7 +1,7 @@
 class Dt::PledgesController < DtApplicationController
   include OrderHelper
 
-  def create
+  def create_backup
     @cart = find_cart
     @pledge = Pledge.new(params[:pledge])
     @pledge.user = current_user if logged_in?
@@ -31,6 +31,52 @@ class Dt::PledgesController < DtApplicationController
       render :action => "new"
     end
   end
+
+
+  def create
+    @pledge = Pledge.new(params[:pledge])
+    @pledge.user = current_user if logged_in?
+
+    error_redirect_path = ""
+
+    if(params[:participant_id] != nil)
+      @participant = Participant.find(params[:participant_id])
+      @pledge.participant = @participant
+      @pledge.team = @participant.team
+      @pledge.campaign = @participant.team.campaign
+      error_redirect_path = new_dt_participant_pledge_path(@participant)
+    end
+
+    if(params[:team_id] != nil)
+      @team = Team.find(params[:team_id])
+      @pledge.team = @team
+      @pledge.campaign = @team.campaign
+      error_redirect_path = new_dt_team_pledge_path(@team)
+    end
+
+    if(params[:campaign_id] != nil)
+      @campaign = Campaign.find(params[:campaign_id])
+      @pledge.campaign = @campaign
+      error_redirect_path = new_dt_campaign_pledge_path(@campaign)
+    end
+
+    @valid = @pledge.valid?
+
+    respond_to do |format|
+      if @valid
+        session[:pledge_params] = nil
+        @cart = find_cart
+        @cart.add_item(@pledge)
+        flash[:notice] = "Your Pledge has been added to your cart."
+        format.html { redirect_to dt_cart_path }
+      else
+        flash.now[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
+        format.html { redirect_to error_redirect_path }
+      end
+    end
+
+  end
+
 
   def new
     @participant = Participant.find(params[:participant_id]) unless  params[:participant_id] == nil

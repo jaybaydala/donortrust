@@ -98,13 +98,21 @@
 
 		<div id='measurable_feedback' style='display:none;'>
 			<% if @project.meas_eval_plan? %>
-				<h2>Measurements and Evaluations</h2>
 				<div>
+					<h2>Measurable Feedback Reporting Plan:</h2>
 					<%= @project.meas_eval_plan %>
+				</div>
+			<% end %>
+		
+			<% if @project.key_measures.size > 0 %>
+				<h2>Measurements and Evaluations</h2>
+				<div class="key_measures">
+					<%= render :partial => 'key_measure', :collection => @project.key_measures %>
 				</div>
 			<% else %>
 				<h2>There is no measurable feedback data available.</h2>
 			<% end %>
+		
 		</div>
 		<div id='project_stories' style='display:none;'>
 			<% if @project.rss_url && @rss_feed %>

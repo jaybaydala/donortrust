@@ -224,7 +224,6 @@ class Project < ActiveRecord::Base
     end
 
     def project_countries
-      puts 'here'
       if @countries.nil?
         @countries = []
         @countries = Place.find_by_sql(
