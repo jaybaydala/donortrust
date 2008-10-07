@@ -6,7 +6,7 @@ class CreatePledges < ActiveRecord::Migration
       t.references :team
       t.references :campaign
       t.references :order
-      t.referneces :user
+      t.references :user
 
       t.decimal :amount
 
