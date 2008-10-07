@@ -151,6 +151,10 @@ class Dt::TeamsController < DtApplicationController
     end
   end
 
+  def deny
+    # placeholder for denying a team that wants to join a campaign without destroying it
+  end
+
   def validate_short_name_of
     @errors = Array.new
     @short_name = params[:team_short_name]
