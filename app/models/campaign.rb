@@ -151,7 +151,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def activate!
-    self.update_attribute(:pending,false) ? true : false;
+    self.update_attribute(:pending, false)
   end
 
   def pending_teams
