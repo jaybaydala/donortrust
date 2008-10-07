@@ -368,6 +368,12 @@ div.links {
 	margin-bottom: 15px;
 }
 
+#search_box input[type=text]{
+	height:30px;
+	width: 400px;
+	font-size:135%;
+}
+
 form#campaign_search input.submitreplace {
 	width:35px;
 	height:20px;
