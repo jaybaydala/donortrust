@@ -1,4 +1,4 @@
-lass AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
+class AddCountryAndContinentShortcutsToProjects < ActiveRecord::Migration
   def self.up
     add_column :projects, :continent_id, :integer
     add_column :projects, :country_id, :integer
