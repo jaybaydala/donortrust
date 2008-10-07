@@ -33,7 +33,26 @@ class Campaign < ActiveRecord::Base
       {:field => 'city'},
       {:field => 'province'},
       {:field => 'country'}
-    ]
+    ],
+    :include => [
+          {:class_name => 'Team',
+            :field => 'teams.name',
+            :as => 'team_name',
+            :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"            
+           },
+           {
+             :class_name=> 'Team',
+             :field => 'teams1.short_name',
+             :as => 'team_short_name',
+             :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"             
+           },
+           {
+             :class_name => 'Team',
+             :field => 'teams2.description',
+             :as => 'team_description',
+             :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"             
+           }          
+          ]
 
   #validations
   validates_presence_of :name, :campaign_type, :description, :country, :province, :postalcode, :fundraising_goal, :creator, :short_name

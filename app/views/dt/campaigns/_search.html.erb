@@ -11,10 +11,17 @@
 			:class => 'submitreplace'
 		%>
 	</span>
-	<!-- 
 	<br>
-	<%= check_box_tag 'search_type', 'user'%>Users
-	<%= check_box_tag 'search_type', 'team'%>Teams
-	<%= check_box_tag 'search_type', 'campaign'%>Campaigns
-  -->
+	  <%= check_box_tag 'search_type[]', 
+	    'Participant', 
+	    (params[:search_type] ? params[:search_type].include?('Participant') : false)
+	  %>Users
+	  <%= check_box_tag 'search_type[]',
+	    'Team', 
+	    (params[:search_type] ? params[:search_type].include?('Team') : false)
+	  %>Teams
+	  <%= check_box_tag 'search_type[]', 
+	  'Campaign' ,
+	  (params[:search_type] ? params[:search_type].include?('Campaign') : false) 
+	  %>Campaigns
 <% end%>
