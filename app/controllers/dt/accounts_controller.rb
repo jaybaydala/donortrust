@@ -22,6 +22,8 @@ class Dt::AccountsController < DtApplicationController
     @transactions.flatten!
     @transactions = @transactions.sort_by{|tx| tx.created_at }.reverse
     @transactions = @transactions.paginate(:page => params[:tx_page], :per_page => 10)
+
+    @participants = @user.participation
   end
 
   # GET /dt/accounts/new

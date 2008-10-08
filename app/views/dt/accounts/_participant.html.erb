@@ -1,0 +1,13 @@
+	<div class="<%= cycle('row_even','row_odd') %>" id="campaign_<%= participant.team.campaign.id%>">
+		<strong><%= link_to(participant.team.campaign.name, dt_campaign_path(participant.team.campaign)) %></strong>
+		<div class="campaign_details">
+			<p>
+				<strong>Event Date: </strong><%= participant.team.campaign.event_date.strftime("%b %d %Y") %>, 
+				<strong>Raised to Date:</strong> $ <%= participant.team.campaign.funds_raised %>
+				<strong>My sponsorship Raised:</strong> $ <%= participant.funds_raised %>
+				<% if !participant.team.generic %>
+					as part of <% link_to(participant.team.name, dt_team_path(participant.team)) %>
+				<% end %>
+			</p>
+		</div>
+	</div>

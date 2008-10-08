@@ -233,6 +233,18 @@ class User < ActiveRecord::Base
   #  return false
   #end
 
+  def campaigns
+    @campaigns = Campaign.find_by_sql([
+      "SELECT c.* from campaigns c INNER JOIN teams t INNER JOIN participants p " +
+      "ON c.id = t.campaign_id AND t.id = p.team_id "+
+      "WHERE p.user_id = ?", self.id])
+  end
+
+  def participation
+    @participation = Participant.find_by_sql(["SELECT p.* from participants p WHERE p.user_id = ?", self.id])
+  end
+
+
   protected
     def validate
       if under_thirteen?
@@ -316,4 +328,5 @@ class User < ActiveRecord::Base
         make_activation_code
       end
     end
+
 end

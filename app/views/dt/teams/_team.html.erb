@@ -1,21 +1,24 @@
 <% if not team.generic? and not team.pending?%>
 	<div id="team_<%= team.id %>" class="<%= cycle('row_even','row_odd') %>">
-		<span class="participant_details">
-
-			<div class="team_long_display_picture">
-				<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
-				<%= image_tag 'dt/icons/team_placeholder_icon_75x45.jpg', :class => :thumbnail unless team.picture != nil %>
-			</div>
-
-			<h2 style="margin:0px"><%= link_to(team.name, dt_team_path(team)) %></h2>
+		<div class="team_long_display_picture">
+			<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
+			<%= image_tag 'dt/icons/team_placeholder_icon_75x45.jpg', :class => :thumbnail unless team.picture != nil %>
+		</div>
+		<div class="team_details">
+			<% if controller.action_name == 'search' %>
+				<strong><%= link_to(team.campaign.name, dt_campaign_path(team.campaign)) %>:</strong>
+			<% end %>
+			<strong><%= link_to(team.name, dt_team_path(team)) %></strong>
 			<div id="team_<%= team.id %>_container">
 				<p>
-					Team Leader: <%= team.leader.name %>, Team Goal: $ <%= team.goal %><br />
+					<strong>Team Leader:</strong> <%= team.leader.full_name %>, <strong>Team Goal:</strong> $ <%= team.goal %>
+					<%= " - <strong>Raised to Date:</strong><span class='dollars-raised'> $ #{team.funds_raised}</span>!" if team.funds_raised > 0 %>
 				</p>
 				<p>
-					<%= team.short_description %>
+					<%= summarize_html(team.description, 100, true) %>
 				</p>
 			</div>
-		</span>
+		</div>
+
 	</div>
 <% end %>

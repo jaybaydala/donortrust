@@ -266,6 +266,65 @@ module DtApplicationHelper
     return output.join("\n")
   end
 
+  # Truncates HTML text at /length/ characters and appends '...'.  If
+  # strip tags is true, HTML tags will be stripped.  Otherwise, unbalanced
+  # HTML tags will be closed.
+  #
+  # = Restrictions
+  #
+  #  * Comments break it.
+  #  * Processing instructions break it.
+  #
+  def summarize_html(text, length = 100, strip_tags = true)
+    if text.nil?
+      return nil
+    end
+
+    if strip_tags
+      summary = text.gsub(/\<[^\>]*\>/, '')
+    else
+      summary = text.clone
+    end
+
+    if summary.length > length
+      summary = summary[0...length]
+      summary += '...'
+    end
+
+    # Make sure we did not cut a tag in half at the end of text
+    lt_idx = summary.rindex('<')
+    gt_idx = summary.rindex('>')
+
+    lt_idx = 0 if lt_idx.nil?
+    gt_idx = 0 if gt_idx.nil?
+
+    if lt_idx > gt_idx
+      # Bah!  We've ripped a tag in half.  Throw it away!
+      summary = summary[0...lt_idx]
+    end
+
+    # Search for imbalanced tags
+    tag_list = []
+    tag_regex = /\<\s*(\/?)(\w+).*?(\/)?\>/
+    summary.scan(tag_regex) { |slash, tag, tag_close|
+      if tag_close != '/'
+        if slash == ''
+          tag_list.push(tag)
+        else slash
+          tag_list.pop()
+        end
+      end
+    }
+
+    # Close imbalanced tags
+    tag_list = tag_list.reverse
+    for tag in tag_list
+      summary += "</#{tag}>"
+    end
+
+    # Return summarized strings
+    return summary
+  end
 
 
 end

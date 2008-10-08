@@ -174,3 +174,9 @@ div.errorExplanation ul {
 /* Hide from IE Mac \*/
 .columns {display:block;}
 /* End hide from IE Mac */
+
+
+/* general use classes  */
+.hidden {
+	display: none;
+}

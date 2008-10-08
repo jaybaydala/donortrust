@@ -7,18 +7,22 @@
 
   <% @search.results.sort_by{|obj| obj.class.name}.each do |result| %>
     <% if result.is_a?(Campaign) %>
-      <%= render :partial => 'campaign', :object => result%>
-      <hr/>
+    	<div class="search_result_campaigns">
+				<%= render :partial => 'campaign', :object => result%>
+			</div>
     <% end%>
     <% if result.is_a?(Team)%>
-    Under campaign <strong><%= result.campaign.name%></strong>
-      <%= render :partial => 'team', :object => result %>
+    	<div class="search_result_teams">
+	      <%= render :partial => 'dt/teams/team', :object => result %>
+	    </div>
     <% end %>
     <% if result.is_a?(Participant)%>
-    Under campaign <strong><%= result.campaign.name%></strong>, team <strong><%= result.team.name%></strong>
-      <%= render :partial => 'dt/participants/participant', :object => result, :locals => {:long_view => false}%>
+    	<div class="search_result_participants">
+	      <%= render :partial => 'dt/participants/participant', :object => result, :locals => {:long_view => true}%>
+    	</div>
     <% end %>
   <% end%>
   
-<br>
+<br/>
 <%= will_paginate @search %>
+

@@ -40,8 +40,6 @@
 	  			:title => "Join #{@team.name}", :class => "campaign_action_button"), new_dt_team_participant_path(@team)) if @team.joinable? %><br/>
 	  	<%= link_to(image_tag("/images/dt/buttons/sponsor_team.png", :alt => "Sponsor this Team", 
 	  			:title => "Sponsor this Team", :class => "campaign_action_button"), new_dt_team_pledge_path(@team)) if !@team.pending && !@team.campaign.pending %><br/>
-	  
-	  	[_______] SEARCH
 	  </div>
 
 		<div class="campaign-sidebar-box metrics">
@@ -51,8 +49,8 @@
 			<div class="campaign-sidebar-box get-involved">
 				<ul>
 					<li><%= link_to('Manage Team',manage_dt_team_path(@team)) %></li>
-					<li><%= link_to('Edit Team Profile', edit_dt_team_path(@team)) %><li>
-					<li><%= link_to('Post News to your Team', manage_dt_team_path(@team)+"#news") %><li>
+					<li><%= link_to('Edit Team Profile', edit_dt_team_path(@team)) %></li>
+					<li><%= link_to('Post News to your Team', manage_dt_team_path(@team)+"#news") %></li>
 				</ul>
 			</div>
 		<% end %>

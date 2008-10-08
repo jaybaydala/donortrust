@@ -1,17 +1,18 @@
-<div>
-  <h1>Search box goes here: [______________________] [search]</h1>
-</div>
-
+<br />
 <div id="participants">
 	<h2 class="campaign"><%= link_to(@campaign.name + "'s",dt_campaign_path(@campaign)) %> Participants</h2>
+	<div id="search_box">
+		<%= render :partial => 'dt/campaigns/search' %>
+	</div>
+
 	<div id="participant_container" class="row_container">
 		<%= render :partial => 'participant', :collection => @participants, :locals => {:long_view => true} %>
 		<%= "<strong>There are no participants registered for this campaign yet.</strong>" unless @participants.size > 0 %>
 		<div class="row_even">
 			<%= will_paginate @participants %>
+			<div>
+				Back to <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>
+			</div>
 		</div>
 	</div>
-</div>
-<div>
-	Back to <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>
 </div>

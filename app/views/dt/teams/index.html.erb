@@ -1,5 +1,8 @@
 <div id="teams">
 	<h2 class="campaign"><%= link_to(@campaign.name + "'s",dt_campaign_path(@campaign)) %> Teams</h2>
+	<div id="search_box">
+		<%= render :partial => 'dt/campaigns/search' %>
+	</div>
 
 	<div id="team_container" class="row_container">		
 		<% if @teams.size >0 %>
@@ -10,7 +13,5 @@
 	<div class="row_even">
 		<%= will_paginate @teams %>
 	</div>
-</div>
-<div>
-	Back to <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>
+		Back to <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>
 </div>

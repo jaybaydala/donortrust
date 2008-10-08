@@ -276,7 +276,7 @@ class Dt::CampaignsController < DtApplicationController
       params[:search_type] = ['Campaign', 'Team','Participant']
     end
     search_type = params[:search_type].each{|o|o.camelize}
-    @search = Ultrasphinx::Search.new(:query => params[:keywords],:class_names => search_type, :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
+    @search = Ultrasphinx::Search.new(:query => params[:keywords],:class_names => search_type, :per_page => 10, :page => (params[:page].nil? ? '1': params[:page]  ))
     Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
         :before_match => '<strong style="background-color:yellow;">',
         :after_match => '</strong>',

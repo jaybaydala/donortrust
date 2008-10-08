@@ -19,8 +19,8 @@ class Team < ActiveRecord::Base
       {:field => 'name', :sortable => true}
     ],
     :conditions => "teams.generic=0 AND teams.pending=0"
-  
-  
+
+
   # validations
   validates_presence_of :contact_email
   validates_presence_of :name

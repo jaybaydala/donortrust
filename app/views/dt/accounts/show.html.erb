@@ -58,6 +58,20 @@
 	<% end %>
 </div>
 
+<div class="campaignlist" id="campaign-list">
+  <h2>My Campaign Participation</h2>
+  <p>This is a list of the campaigns you are involved with:</p>
+	<% if @participants.size > 0 %>
+    <ul>
+      <%= render :partial => 'participant', :collection => @participants %>
+    </ul>
+	<% else %>
+	  <div class="highlight">
+	    <p>You have not participated in any campaigns</p>
+	  </div>
+	<% end %>
+</div>
+
 <% if @user.tax_receipts.length > 0 -%>
 <h2 style="margin-top:10px;">Tax Receipts</h2>
 <div class="account-summary">
