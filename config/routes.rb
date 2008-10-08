@@ -74,7 +74,8 @@ ActionController::Routing::Routes.draw do |map|
                                                         :remove_cause_limit_from => :post,
                                                         :add_partner_limit_to => :post,
                                                         :remove_partner_limit_from => :post,
-                                                        :join => :get
+                                                        :join => :get,
+                                                        :join_options => :get
                                       }
 
 

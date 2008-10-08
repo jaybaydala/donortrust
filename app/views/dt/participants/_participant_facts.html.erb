@@ -5,6 +5,8 @@
 <% end %>
 <span class="small_text">Personal Goal: $ <%= @participant.goal if @participant.goal %></span><br/>
 <span class="small_text">&nbsp;&nbsp;Amount Raised: $ <%= @participant.funds_raised %></span><br/>
-<span class="small_text">Team Goal: $ <%= @participant.team.goal if @participant.team.goal %></span><br/>
-<span class="small_text">&nbsp;&nbsp;Amount Raised: $ <%= @participant.team.funds_raised %></span><br/>
+<% if !@participant.team.generic %>
+	<span class="small_text">Team Goal: $ <%= @participant.team.goal if @participant.team.goal %></span><br/>
+	<span class="small_text">&nbsp;&nbsp;Amount Raised: $ <%= @participant.team.funds_raised %></span><br/>
+<% end %>
 <span class="small_text">Percentage of Goal: <%= @participant.percentage_raised %><br/>

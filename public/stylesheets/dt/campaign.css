@@ -91,7 +91,7 @@ h2.campaign {
   list-style:none;
   margin-left: 0; 
 }
-.campaign-sidebar-box li {
+.campaign-sidebar-box li, .campaign-join-options li {
   list-style:none;
 	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
 	padding:0 0 0.1875em 1em;

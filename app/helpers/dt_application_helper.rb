@@ -31,6 +31,10 @@ module DtApplicationHelper
     render 'dt/accounts/profile_sidebar'
   end
 
+  def dt_short_profile_sidebar
+    render 'dt/accounts/short_profile_sidebar'
+  end
+
   def dt_action_js
     js = ''
     if @action_js

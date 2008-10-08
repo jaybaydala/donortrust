@@ -25,11 +25,12 @@
 				<% end %>
 			</div>
 		</div>
-	<% else %>
-		<div id="participants">
-			<h2>Participants</h2>
-		</div>
-	<% end %>	
+	<% end %>
+	
+	<%= campaign_h2_header(' ' + link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container',true)%>
+	<div id="participant_container" class="row_container" style="display:none;">
+		<%= render :partial => 'participants' %>
+	</div>
 
 	<div class="postnews">
 		<a name="news"></a>

@@ -1,7 +1,7 @@
 class Dt::CampaignsController < DtApplicationController
 
   before_filter :login_required, :only => [:create, :new, :edit, :destroy]
-  before_filter :is_authorized?, :except => [:show, :index, :join, :new, :create, :admin, :search];
+  before_filter :is_authorized?, :except => [:show, :index, :join, :new, :create, :admin, :search, :join_options];
   before_filter :is_cf_admin?, :only => [:new, :create, :admin] # this is just here to prevent anyone but a CF admin from creating campaigns.
 
   # GET /campaigns
@@ -151,6 +151,17 @@ class Dt::CampaignsController < DtApplicationController
 
   def manage
     @campaign = Campaign.find(params[:id])
+
+    #hack to get remote pagination working
+    @teams = Team.paginate_by_campaign_id_and_pending_and_generic @campaign.id,false,false, :page => params[:team_page], :per_page => 10
+    if(params[:team_page] != nil)
+      render :partial => 'teams'
+    end
+
+    @participants = Participant.paginate_by_sql ["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = ? AND t.pending = ?",@campaign.id,0,0], :page => params[:participant_page], :per_page => 10
+    if(params[:participant_page] != nil)
+      render :partial => 'participants'
+    end
   end
 
   def configure_filters_for
@@ -230,6 +241,11 @@ class Dt::CampaignsController < DtApplicationController
     redirect_to new_dt_team_participant_path(@team)
   end
 
+  def join_options
+    @campaign = Campaign.find(params[:id]) unless params[:id].blank?
+    @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
+  end
+
   def validate_short_name_of
     @errors = Array.new
 
@@ -272,6 +288,23 @@ class Dt::CampaignsController < DtApplicationController
         :content_methods => [['name'], ['description'], ['team_name'], ['team_description']]
         })
    @search.excerpt
+  end
+
+  protected
+  def access_denied
+    if ['new', 'create'].include?(action_name) && !logged_in?
+      flash[:notice] = "You must have an account to create a campaign, Log in below, or "+
+      "<a href='/dt/signup'>click here</a> to create an account."
+      respond_to do |accepts|
+        accepts.html { redirect_to dt_login_path and return }
+      end
+    elsif ['manage','edit'].include?(action_name) && !logged_in?
+      flash[:notice] = "You must be logged in to manage your team profile or details"
+      respond_to do |accepts|
+        accepts.html { redirect_to dt_login_path and return }
+      end
+    end
+    super
   end
 
   private

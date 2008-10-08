@@ -1,4 +1,5 @@
-
+<%- content_for :html_title do %>Discover a new way to give<% end -%>
+<br/>
 <div class="indented">
 	<h1>I want to:</h1>
 	<ul>
@@ -8,3 +9,15 @@
 		<li><%= link_to("Give to ChristmasFuture's Operational Budget", new_dt_investment_path(:project_id => 10)) %></li>
 	</ul>
 </div>
+
+
+<% content_for :sidebar do %>  
+<br/>
+	<div>
+  	<h3>
+  		<img src = "/images/dt/icons/you-icon-orange.jpg" style ="float: left; padding-right: 5px;"/>
+  		Support projects that help communities climb out of extreme poverty.
+  	</h3>
+  </div>
+  <%= dt_short_profile_sidebar %>
+<% end %>

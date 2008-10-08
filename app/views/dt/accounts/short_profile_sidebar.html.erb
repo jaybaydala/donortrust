@@ -1,0 +1,57 @@
+<% unless logged_in? %>
+  <h2>Already a user? Login:</h2>
+  <% form_for(:user, :url => dt_session_path, :html => { :name => 'loginform' }) do |f| %>
+    <% store_location %>
+    <div class="textsm">
+    <label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %><br />
+    <label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %><br />
+    <label><%= check_box_tag "remember_me" %> Remember Me</label> | <%= link_to "Create Account", new_dt_account_path %><br />
+    <%= submit_tag "Login", :class => "buttonsubmit" %><br />
+    <div style="clear:left;"><%= link_to "Forgot your password?", reset_dt_accounts_path %></div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if logged_in? %>
+<h2>My Profile</h2>
+  <p><strong><%= current_user.full_name %></strong> 
+  <% unless current_user.under_thirteen? %>
+  (<%= current_user.name %>)<% end %></p>
+	<div class="projectactions">
+    <ul>
+      <li class="blueblock"><%= link_to "Make a Deposit", new_dt_account_deposit_path(:account_id => current_user) %></li>
+      <li class="blueblock"><%= link_to "Logout", dt_logout_path %></li>
+      <% if @group && !@group.new_record? %>
+      <% if !current_member(@group) || !current_member(@group).founder? %><li class="blueblock"><% if current_member(@group) %><%= link_to "&nbsp;Leave Group", dt_group_membership_path(:id => current_member(@group).id, :group_id => @group.id), :method => 'delete', :confirm => "Do you want to leave #{@group.name}?" %><% else %><%= link_to "&nbsp;Join This Group", dt_group_memberships_path(@group), :method => :post, :confirm => "Do you want to join #{@group.name}?" %><% end %></li><% end %>
+      <% if current_member(@group) && current_member(@group).founder? %><li class="blueblock"><%= link_to "&nbsp;Delete this Group", dt_group_path(@group), :method => :delete, :confirm => "Do you want to delete #{@group.name}?" %></li><% end %>
+      <% end %>
+  	</ul>
+  </div>
+
+  <h5>My Portfolio</h5>
+  <div class="quickfacts">
+  <ul> 
+	  <li><strong>Groups:</strong> <%= render :partial => 'dt/accounts/membership', :collection => current_user.memberships(:include => :group) %><% if current_user.memberships && current_user.memberships.size == 0 %><%= link_to "Find a group to join", dt_groups_path %> or <%= link_to "Create a group", new_dt_group_path %><% end %></li>
+	  <li><strong>Invested:</strong> <%= number_to_currency(current_user.invested) %></li>
+	  <li><strong>Account Balance:</strong> <%= number_to_currency(current_user.balance) %></li>
+  </ul>
+  </div>
+  <% if current_user.projects.size > 0 %>
+  <div class="projectlist">
+  <h5>My Projects</h5>
+  <ul>
+    <%= render :partial => 'dt/projects/project_list_item', :collection => current_user.projects %>
+  </ul>
+  </div>
+  <% end %>
+<% else %>    
+  <% unless @controller.class == Dt::CheckoutsController %>
+  <div class="projectactions" style="display:none">
+    <ul>
+      <li class="blueblock"><%= link_to "Make a Deposit", new_dt_account_deposit_path(:account_id => current_user) %></li>
+      <li class="blueblock"><%= link_to "Invest in a project", new_dt_investment_path %></li>
+      <li class="blueblock"><%= link_to "Give a Gift", new_dt_gift_path %></li>
+    </ul>
+  </div>
+  <% end %>
+<% end %>

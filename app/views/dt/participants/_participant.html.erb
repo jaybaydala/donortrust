@@ -48,6 +48,7 @@
 							<% end %>
 						<% end %>
 						$ <%= participant.funds_raised %> raised.
+					  <%= delete_icon(dt_participant_path(participant)) if (current_user!=:false && participant.funds_raised == 0 && (current_user.cf_admin? || participant.team.owned?) && participant.user != participant.team.leader) %>
 					</p>
 				</span>
 			</div>

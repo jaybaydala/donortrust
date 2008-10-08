@@ -1,5 +1,5 @@
 class Dt::SessionsController < DtApplicationController
- 
+
   def show
     respond_to do |format|
       format.html {
@@ -8,14 +8,14 @@ class Dt::SessionsController < DtApplicationController
       }
     end
   end
-  
+
   def new
     @page_title = "Login"
     respond_to do |format|
       format.html { redirect_back_or_default(dt_account_path(current_user)) if logged_in? }
     end
   end
-  
+
   #MP - Dec 14, 2007
   #if the user is logged in, direct them to the GroundSpring site,
   #if not, force them to log in or create an account and then log in.
@@ -34,7 +34,7 @@ class Dt::SessionsController < DtApplicationController
       end
     end
   end
-  
+
   def create
     return unless request.post?
     self.current_user = User.authenticate(params[:login], params[:password])
@@ -54,7 +54,7 @@ class Dt::SessionsController < DtApplicationController
         else
           #MP - Dec 14, 2007
           #Added to support the us tax receipt functionality
-          #If the user has indicated that they want a US tax 
+          #If the user has indicated that they want a US tax
           #receipt, the session variable should be set to false,
           #and the user redirected to the GroundSpring page
           unless requires_us_tax_receipt?

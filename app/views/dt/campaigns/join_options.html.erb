@@ -1,0 +1,18 @@
+<%- content_for :html_title do %>Join <%= @campaign.name %><% end -%>
+
+<h1>Join <%= @campaign.name %></h1>
+
+<div class="campaign-join-options">
+	<div style="float:right">
+		<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
+	</div>
+
+	<h2>What type of participant are you?</h2>
+	<ul>
+		<li><strong>Individual:</strong> <%= link_to('I want raise support as just me', join_dt_campaign_path(@campaign)) %></li>
+		<li><strong>Team Member:</strong> <%= link_to('I want to raise support with a team or group' ,dt_campaign_teams_path(@campaign)) %></li>
+		<li><strong>Team Leader:</strong> <%= link_to('I want to create a new team that others can join', new_dt_campaign_team_path(@campaign)) %></li>
+	</ul>
+
+	When you join <campaign name> you must signup with the team or group you want to be a part of. If you can't find the team, contact the person who was going to create the team and ask them to create the team you want to join. Duplicate teams cannot be merged together.
+</div>

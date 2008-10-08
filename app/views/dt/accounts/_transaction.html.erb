@@ -57,6 +57,7 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
   		a team participating in <%= link_to(transaction.team.campaign.name, dt_campaign_path(transaction.team.campaign)) %>
   	<% end %>
   <% else %>
+    <% puts transaction.id %>
   	a pledge to <%= link_to(transaction.participant.name,dt_participant_path(transaction.participant)) %> 
   	participating in <%= link_to(transaction.participant.team.campaign.name, dt_campaign_path(transaction.participant.team.campaign)) %>
   	<% if !transaction.participant.team.generic %>

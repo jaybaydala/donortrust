@@ -117,13 +117,14 @@ class Dt::ParticipantsController < DtApplicationController
 
   def destroy
     @participant = Participant.find(params[:id])
-    @particiapnt.destroy
+    @campaign = @participant.team.campaign
+    @participant.destroy
     if params[:campaign_id] != nil
       redirect_to manage_dt_campaign(Campaign.find(params[:campaign_id]))
+    elsif params[:team_id] != nil
+      redirect_to manage_dt_campaign(Team.find(params[:team_id]))
     else
-      if params[:team_id] != nil
-        redirect_to manage_dt_campaign(Team.find(params[:team_id]))
-      end
+      redirect_to(dt_campaign_path(@campaign))
     end
   end
 
@@ -153,6 +154,24 @@ class Dt::ParticipantsController < DtApplicationController
       flash[:notice] = "There was an error declining that participant, please try again."
     end
 
+  end
+
+
+  protected
+  def access_denied
+    if ['join', 'new', 'create'].include?(action_name) && !logged_in?
+      flash[:notice] = "You must have an account to join this campaign as a participant. Log in below, or "+
+      "<a href='/dt/signup'>click here</a> to create an account."
+      respond_to do |accepts|
+        accepts.html { redirect_to dt_login_path and return }
+      end
+    elsif ['manage'].include?(action_name) && !logged_in?
+      flash[:notice] = "You must be logged in to manage your participant account.  Please log in."
+      respond_to do |accepts|
+        accepts.html { redirect_to dt_login_path and return }
+      end
+    end
+    super
   end
 
 

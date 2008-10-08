@@ -172,6 +172,7 @@ div.buttonsubmit {
 	padding:3px 0 0 0;
 	float:left;
 }
+
 div.simpleform div.buttonsubmit {
     padding-left:0;
 }
@@ -206,6 +207,10 @@ div.buttonsubmit a.large {
 }
 div.buttonsubmit a.large:hover {
 	background-image: url(/images/dt/nav_elements/buttonsCF/button_blue_large.gif);
+}
+
+.right {
+	float:right;
 }
 
 /*
@@ -420,3 +425,5 @@ SIDEBAR FORM ELEMENTS
 	font-weight: bold;
 	font-size: 14px;
 }
+
+
