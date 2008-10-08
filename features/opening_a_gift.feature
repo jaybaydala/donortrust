@@ -28,16 +28,10 @@ Feature: Opening a Gift
   Scenario: Gift Card Total status
     Given I am opening a gift
     When I follow "find a project to donate to"
-    Then I should see my gift card total in the top right corner
+    Then I should see my gift card balance in the top right corner
 
   Scenario: Gift Card Total status - external site
     Given I am opening a gift
     When I go anywhere in the site
     Then there should be a cookie with the Gift Card Balance
     And there should be a cookie with the Gift Card id
-
-	Scenario: Let ChristmasFuture Figure It Out
-		Given I have opened a gift
-	  When I follow "let ChristmasFuture figure it out"
-		Then I should be redirected to the payment step of the checkout process
-		And I should see the proper investment for my Gift Card Balance in my cart

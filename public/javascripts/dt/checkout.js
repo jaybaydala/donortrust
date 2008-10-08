@@ -2,7 +2,6 @@ Event.observe(window, 'load', function() {
 	if (form = $('orderform') && $('create_account') && $('create_account').checked) {
 	  $('password_entry').show();
 	}
-	/*
 	if (form = $('paymentform') && $('totalfield')) {
 	  $('totalfield').show();
 	  $('paymentrequiredfield').show();
@@ -10,8 +9,8 @@ Event.observe(window, 'load', function() {
 	  account_total.buckets.each(function(bucket) {
 	    $(bucket).observe('change', account_total.update_payments.bindAsEventListener(account_total))
 	  });
+	  // make sure to hide the credit card fields if there's no credit card amount
 	}
-	*/
 	if (form = $('paymentform') && $('create_account') && $('create_account').checked) {
 	  $('password_entry').show();
   }
@@ -49,7 +48,8 @@ AccountTotal.prototype = {
     }
     // any change to the credit payment gets adjusted in the target value
     // ie. if we have to add $5 to credit_card, we need to take $5 away...
-    this.set_currency_value(element, $F(element)-credit_card_difference)
+    // this.set_currency_value(element, $F(element)-credit_card_difference)
+    
     // check all the buckets to ensure that none are over-limit
     this.buckets.each(function(bucket){
       well = bucket.sub(/^order_/, "").sub(/_payment$/, "_balance")
@@ -63,10 +63,10 @@ AccountTotal.prototype = {
       return sum
     });
     this.set_currency_value(this.total_field, current_total)
-    balance = $F(this.cart_total_field) - current_total
-    if (balance) {
+    payment_required = $F(this.cart_total_field) - current_total
+    if (payment_required > 0) {
       // we'll show the payment required field
-      this.set_currency_value(this.payment_required_field, $F(this.cart_total_field) - current_total)
+      this.set_currency_value(this.payment_required_field, payment_required)
       if (!$("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindDown({ duration: 0.8 })}
     } else {
       if ($("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindUp({ duration: 0.8 })}

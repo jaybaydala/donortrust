@@ -45,12 +45,13 @@ When /I choose any of the gift opening options/ do
   @project = Project.generate!
   visits "/dt/investments/new?project_id=#{@project.id}"
 end
-Then /I should see my gift card balance/ do
+Then /^I should see my gift card balance$/ do
   response.should have_tag("div.notice", "Your Gift Card Balance is: #{number_to_currency(@gift.balance)}")
 end
 
-Then /I should see my gift card total in the top right corner/ do
-  response.should have_tag("#giftcard-amount", "Gift Card Amount: #{number_to_currency(@gift.balance)}")
+Then /^I should see my gift card balance in the top right corner$/ do
+puts response.body
+  response.should have_tag("#giftcard-balance", "Gift Card Amount: #{number_to_currency(@gift.balance)}")
 end
 
 When /I go anywhere in the site/ do

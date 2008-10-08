@@ -36,6 +36,9 @@ module OrderHelper
     @order.attributes = params[:order]
     @order.total = @cart.total
     @order.user = current_user if logged_in?
+    
+    ############
+    # THE GIFT_CARD_PAYMENT AND CREDIT_CARD_PAYMENT SHOULD ONLY BE SET IF THEY'RE NOT ALREADY...
     # set the gift card payment
     @order.gift_card_payment = session[:gift_card_balance] if session[:gift_card_balance] && session[:gift_card_balance] > 0
     # set the credit card payment
