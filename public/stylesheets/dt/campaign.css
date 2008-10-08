@@ -404,6 +404,22 @@ form#campaign_search input.submitreplace:hover{
 }
 
 
+.campaign_sidebar_search_form {
+	margin-top: 5px;
+	padding-left: -5px;
+	margin-left: -5px;	
+}
+
+.campaign_sidebar_search_form #keywords{
+	height:20px;
+	width: 117px;
+	font-size:1em;
+}
+
+.campaign_sidebar_search_form #simple_search_submit{
+	margin-top: -3px;
+}
+
 /* sponsor button */
 a.button-sponsor {background:url(/images/dt/buttons/sponsor.png) no-repeat transparent;}
 a.button-sponsor, a.button-sponsor span {

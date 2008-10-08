@@ -8,7 +8,7 @@
 		<div id="campaign_details">
 			<h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
 			<div class="links">			
-				<h5 style="margin-top:-10px;">Share this address:<br/>
+				<h5 style="margin-top:-10px;">Share this address:<%= "<br/>" if "http://www.christmasfuture.org/dt/#{@campaign.short_name}".length > 60 %>
 				<%= "http://www.christmasfuture.org/dt/#{@campaign.short_name}" %></h5>
 			</div>
 			<p>
@@ -58,8 +58,8 @@
 	  			:title => "Join #{@campaign.name}", :class => "campaign_action_button"), join_options_dt_campaign_path(@campaign)) if !@campaign.has_participant(current_user) && !@campaign.pending %><br/>
 	  	<%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor a Participant", 
 	  			:title => "Sponsor a Participant", :class => "campaign_action_button"), dt_campaign_participants_path(@campaign)) if !@campaign.pending %><br/>
-	  
-	  	[_______] SEARCH
+			<div class="clearfix"></div>
+			<%= render :partial => "sidebar_search" %>	  
 	  </div>
 		<div class="campaign-sidebar-box metrics">
 			<%= render :partial => 'campaign_facts',  :locals => {:campaign => @campaign} %>

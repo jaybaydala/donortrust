@@ -1,0 +1,32 @@
+<div class="campaign_sidebar_search_form">
+	<% form_tag(search_dt_campaigns_path,{:id => 'campaign_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
+		<%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
+			:title => 'Search', 
+			:onblur =>"if(!this.value) this.value='Search';", 
+			:onfocus => "if(this.value=='Search') this.value='';"
+		%>
+		<span id="searchsubmit">
+			<%= submit_tag 'go',
+				:id => 'simple_search_submit', 
+				:class => 'submitreplace'
+			%>
+		</span>
+		<br>
+		<% showcheckboxes = true if (controller.controller_name == 'campaigns') %>
+
+		<div class="campaign-search-checkboxes hidden">
+			<%= check_box_tag 'search_type[]', 
+				'Participant', 
+				(params[:search_type] ? params[:search_type].include?('Participant') : ((controller.controller_name == "participants" || controller.controller_name == "campaigns") ? true:false))
+			%>Users
+			<%= check_box_tag 'search_type[]',
+				'Team', 
+				(params[:search_type] ? params[:search_type].include?('Team') : ((controller.controller_name == "teams" || controller.controller_name == "campaigns") ? true:false))
+			%>Teams
+			<%= check_box_tag 'search_type[]', 
+			'Campaign' ,
+			(params[:search_type] ? params[:search_type].include?('Campaign') : ((controller.controller_name == "campaigns") ? true:false)) 
+			%>Campaigns
+		 </div>
+	<% end%>
+</div>
