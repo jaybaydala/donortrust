@@ -2,6 +2,7 @@ require 'order_helper'
 class Dt::CheckoutsController < DtApplicationController
   helper "dt/places"
   include OrderHelper
+  before_filter :unallocated_gift, :only => :create
   before_filter :cart_empty?, :except => :show
   helper_method :current_step
   helper_method :next_step
@@ -25,14 +26,27 @@ class Dt::CheckoutsController < DtApplicationController
   def create
     redirect_to(edit_dt_checkout_path) and return if find_order
     @order = initialize_new_order
+    unless params[:unallocated_gift].nil?
+      gift = Gift.find(session[:gift_card_id])
+      @order.email = gift.to_email
+      unless gift.to_name.nil?
+        to_name = gift.to_name.split(' ')
+        @order.first_name = to_name[0]
+        @order.last_name = to_name[1]
+      end
+      
+    end
     @valid = validate_order
-    do_action
+    do_action if params[:unallocated_gift].nil?
     @saved = @order.save if @valid
     # save our order_id in the session
     session[:order_id] = @order.id if @saved
     respond_to do |format|
       format.html { 
-        redirect_to edit_dt_checkout_path(:step => next_step) and return if @saved
+        if @saved
+          redirect_to edit_dt_checkout_path(:step => "confirm") and return if params[:unallocated_gift]
+          redirect_to edit_dt_checkout_path(:step => next_step) and return
+        end
         render :action => "new"
       }
     end
@@ -287,4 +301,27 @@ class Dt::CheckoutsController < DtApplicationController
     end
     true
   end
+  
+  def unallocated_gift
+    return true if params[:unallocated_gift].nil?
+    @cart = find_cart
+    if @cart.items.find {|item| item.class == Investment && item.project == Project.unallocated_project && item.amount == Gift.find(session[:gift_card_id]).balance}
+      return true unless find_order
+      redirect_to edit_dt_checkout_path(:step => "confirm") and return false
+    end
+    @investment = Investment.new( params[:investment])
+    @investment.amount = Gift.find(session[:gift_card_id]).balance
+    @investment.project = Project.unallocated_project
+    @investment.user = current_user if logged_in?
+    @investment.user_ip_addr = request.remote_ip
+
+    @valid = @investment.valid?
+
+    if @valid
+      @cart.add_item(@investment)
+    else
+      flash.now[:error] = "There was a problem adding the Investment to your cart. Please review your information and try again."
+    end
+  end
+
 end

@@ -22,7 +22,7 @@ Feature: Opening a Gift
 
   Scenario: Choosing a gift option
     Given I am opening a gift
-    When I choose any of the gift opening options
+    When I go anywhere in the site
     Then I should see my gift card balance
 
   Scenario: Gift Card Total status
@@ -35,3 +35,15 @@ Feature: Opening a Gift
     When I go anywhere in the site
     Then there should be a cookie with the Gift Card Balance
     And there should be a cookie with the Gift Card id
+
+  Scenario: Let ChristmasFuture Figure It Out
+    Given I have received a gift for $50
+    And I open the gift
+    When I follow "let ChristmasFuture figure it out"
+    And I press "Confirm"
+    Then I should be on the confirmation step of the checkout process
+    And the "first_name" should be "To"
+    And the "last_name" should be "Name"
+    And the "email" should be "to_email@example.com"
+    And the Investment should appear in the Cart
+    And the Cart Total should be $50.00

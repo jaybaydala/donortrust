@@ -87,8 +87,8 @@
       <li><label class="wide"><strong>Card Expiry</strong></label> <%=h @order.card_expiry %></li>
       <li><label class="wide"><strong>Cardholder Name</strong></label> <%=h @order.cardholder_name %></li>
     </ol>
+  <% end %>  
   </fieldset>
-  <% end %>
 </div>
 <div class="checkoutbuttons clearfix">
   <div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", edit_dt_checkout_path(:step => 'payment'), :class => "large" %></div>

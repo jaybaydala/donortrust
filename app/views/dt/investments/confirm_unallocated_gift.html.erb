@@ -1,0 +1,14 @@
+<div class="userform">
+<fieldset>
+<legend>Let ChristmasFuture figure out where my gift card balance will be used.</legend>
+
+<ol>
+<li>
+<% form_for(:investment,  :url => dt_checkout_path, :html => {:method => 'post' })  do |f|%>
+  <%= hidden_field_tag :unallocated_gift, 1 %>
+<%= submit_tag "Confirm", :class => 'buttonsubmit', :id => "button-unwrap" %>
+<% end -%></li>
+</ol>
+
+</fieldset>
+</div>

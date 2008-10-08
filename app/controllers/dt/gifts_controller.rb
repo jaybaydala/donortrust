@@ -205,6 +205,9 @@ class Dt::GiftsController < DtApplicationController
     end
   end
 
+  def confirm
+  end
+
   protected
   def fix_date_params!
     params[:gift].delete_if{ |key,value| key.to_s[0,8] == "send_at(" }
