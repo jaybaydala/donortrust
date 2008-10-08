@@ -1,0 +1,20 @@
+
+---
+:backgroundrb:
+  :ip: localhost
+  :port: 11006
+  :environment: staging
+  :persistent_disabled: false
+:schedules:
+  :gift_mailer_worker:
+    :do_work:
+      :trigger_args: 0 0,15,30,45 * * * * *
+  :session_cleaner_worker:
+    :do_work:
+      :trigger_args: 0 0,20,40 * * * * *
+  :gift_reminder_worker:
+    :do_work:
+      :trigger_args: 0 0 8 * * * *
+  :account_reminder_worker:
+    :do_work:
+      :trigger_args: 0 30 7 * * * *
