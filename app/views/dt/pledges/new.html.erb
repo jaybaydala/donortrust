@@ -1,13 +1,16 @@
 <div>
 	<h1>
 		<% if @participant != nil %>
-				Sponsor <strong><%= @participant.user.full_name %>'s</strong> participation in: <%= @participant.team.campaign.name %>
+			<%- content_for :html_title do -%>Sponsor <%= @participant.user.full_name %>'s participation in: <%= @participant.team.campaign.name %><%- end -%>		
+			Sponsor <strong><%= @participant.user.full_name %>'s</strong> participation in: <%= @participant.team.campaign.name %>
 			<% form_for_var = @participant %>			
 		<% elsif @team != nil %>
-				Sponsor team <strong><%= @team.name %>'s</strong> participation in <%= @team.campaign.name %>
+			<%- content_for :html_title do -%>Sponsor team <%= @team.name %>'s participation in <%= @team.campaign.name %><%- end -%>		
+			Sponsor team <strong><%= @team.name %>'s</strong> participation in <%= @team.campaign.name %>
 			<% form_for_var = @team %>
 		<% elsif @campaign != nil %>
-				Give to <strong><%= @campaign.name %></strong>
+			<%- content_for :html_title do -%>Give to <%= @campaign.name %><%- end -%>
+			Give to <strong><%= @campaign.name %></strong>
 			<% form_for_var = @campaign %>
 		<% end %>
 	</h1>

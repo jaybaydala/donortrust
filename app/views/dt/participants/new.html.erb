@@ -1,3 +1,5 @@
+<%- content_for :html_title do -%>Join <%= @team.campaign.name %><%- end -%>
+
 <% if @team.generic? %>
 	<h1>Join "<%= link_to(@team.campaign.name, dt_campaign_path(@team.campaign)) %>" as an individual</h1>
 	<div class="campaign-picture" style="float:right;padding-top:-50px;">

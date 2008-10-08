@@ -1,3 +1,5 @@
+<%- content_for :html_title do -%>Manage Your Profile: <%= @participant.name %><%- end -%>
+
 <div>
 	<h1><%= link_to @participant.user.full_name, dt_participant_path(@participant) %>'s page for <%= link_to @participant.team.campaign.name, dt_campaign_path(@participant.team.campaign) %>.</h1>
 	

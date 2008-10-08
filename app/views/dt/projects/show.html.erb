@@ -1,3 +1,5 @@
+<%- content_for :html_title do -%><%= @project.partner.name %>: <%= @project.name %><%- end -%>
+
 <%= render(:partial => 'project_header', :object => @projects) %>
 
 <div class="project-content">

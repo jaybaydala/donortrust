@@ -1,3 +1,6 @@
+<%- content_for :html_title do -%><%= @campaign.name %> Teams<%- end -%>
+
+<br />
 <div id="teams">
 	<h2 class="campaign"><%= link_to(@campaign.name + "'s",dt_campaign_path(@campaign)) %> Teams</h2>
 	<div id="search_box">
