@@ -135,6 +135,7 @@ class Dt::ParticipantsController < DtApplicationController
       flash[:notice] = "#{@participant.name} approved!"
       redirect_to manage_dt_team_path(@team)
       # send email to participant when approved
+      CampaignsMailer.deliver_participant_approved(@participant.campaign, @participant.team, @participant)
     else
       flash[:notice] = "There was an error approving that participant, please try again."
     end
@@ -150,6 +151,7 @@ class Dt::ParticipantsController < DtApplicationController
       flash[:notice] = "#{@participant.name} assigned to #{@campaign.name} with with no team."
       redirect_to manage_dt_team_path(@team)
       # send email to participant when approved
+      CampaignsMailer.deliver_participant_declined(@participant.campaign, @participant.team, @participant)
     else
       flash[:notice] = "There was an error declining that participant, please try again."
     end

@@ -41,6 +41,7 @@ class Participant < ActiveRecord::Base
 
   validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
+  validates_presence_of :user, :team, :campaign
   validates_numericality_of :goal
   validates_uniqueness_of :user_id, :scope => :team_id
 

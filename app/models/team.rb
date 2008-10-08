@@ -22,11 +22,13 @@ class Team < ActiveRecord::Base
 
 
   # validations
+  validates_presence_of :campaign
   validates_presence_of :contact_email
   validates_presence_of :name
   validates_presence_of :short_name
   validates_presence_of :description
   validates_presence_of :goal
+  validates_presence_of :leader
   validates_numericality_of :goal
 
   image_column  :picture,

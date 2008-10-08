@@ -176,6 +176,10 @@ class User < ActiveRecord::Base
   def email
     self.login
   end
+  
+  def full_email_address
+    "\"#{name}\" <#{email}>"
+  end
 
   # Activates the user in the database.
   def activate

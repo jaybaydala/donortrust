@@ -1,0 +1,5 @@
+Thank you for joining <%= @campaign.name %>.
+Although you have been declined as a member of <%= @team.name %>, you've been added as a member of the <%= @campaign.name %> team!
+
+Now you can start raising sponsorship to help end extreme poverty by sharing your profile with your supporters.
+Your <%= @campaign.name %> profile: <%= dt_campaign_participant_url(@campaign.id, @participant.id, :host => @host) %>

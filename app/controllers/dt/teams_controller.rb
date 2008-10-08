@@ -146,6 +146,7 @@ class Dt::TeamsController < DtApplicationController
       flash[:notice] = "#{@team.name} approve!"
       redirect_to manage_dt_campaign_path(@campaign)
       # send email to team admin when approved
+      CampaignsMailer.deliver_team_approved(@team.campaign, @team)
     else
       flash[:notice] = "There was an error approving that team, please try again."
     end
@@ -153,6 +154,9 @@ class Dt::TeamsController < DtApplicationController
 
   def deny
     # placeholder for denying a team that wants to join a campaign without destroying it
+    
+    # send email to team admin when declined
+    # CampaignsMailer.deliver_team_declined(@team.campaign, @team)
   end
 
   def validate_short_name_of
