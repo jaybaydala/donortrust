@@ -50,7 +50,7 @@ class Dt::TeamsController < DtApplicationController
     @team.goal = 0 if @team.goal ==nil
 
     #validation pulled here to only run on create
-    if((Team.find_by_user_id_and_campaign_id(current_user.id,campaign.id) != nil) && (campaign.user_id != current_user.id))
+    if((Team.find_by_user_id_and_campaign_id(current_user.id,@campaign.id) != nil) && (@campaign.user_id != current_user.id))
       flash[:notice] = "You have already created a team for this campaign and cannot create another one."
     else
       if @team.save
