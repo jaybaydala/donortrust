@@ -82,7 +82,7 @@ class Dt::TeamsController < DtApplicationController
   def update
     if @team.update_attributes(params[:team])
       flash[:notice] = 'Team was successfully updated.'
-      redirect_to(manage_dt_team_path(@team))
+      redirect_to(edit_dt_team_path(@team))
     else
       render :action => "edit"
     end
@@ -154,7 +154,7 @@ class Dt::TeamsController < DtApplicationController
 
   def deny
     # placeholder for denying a team that wants to join a campaign without destroying it
-    
+
     # send email to team admin when declined
     # CampaignsMailer.deliver_team_declined(@team.campaign, @team)
   end

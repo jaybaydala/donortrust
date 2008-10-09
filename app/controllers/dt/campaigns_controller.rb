@@ -108,7 +108,7 @@ class Dt::CampaignsController < DtApplicationController
     respond_to do |format|
       if @campaign.update_attributes(params[:campaign])
         flash[:notice] = 'Campaign was successfully updated.'
-        format.html { redirect_to(dt_campaign_path(@campaign)) }
+        format.html { redirect_to(edit_dt_campaign_path(@campaign)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -443,6 +443,7 @@ a.button-sponsor span {
 /* join button */
 .join, .create {
   float: right;
+  font-size: 1.25em;
 }
 
 .dollars-raised {

@@ -4,7 +4,7 @@
 
 <%= error_messages_for :campaign %>
 <div id="new_campaign" class="campaign_form">
-	<% form_for(:campaign, @campaign, :url => { :action => "edit" }) do |f| %>
+	<% form_for([:dt, @campaign], :html => {:multipart => true}) do |f| %>
 
 		<fieldset>
 			<legend>Campaign Details</legend>
@@ -15,8 +15,8 @@
 			<%= collection_select :campaign_type, :id, CampaignType.find(:all), :id, :name %>
 
 			<label>Contact Email</label>
-			<%= f.text_field :email %> <span class="small_text">Use My Email </span>
-			<%= f.check_box :use_user_email, :onclick => "Element.toggle('campaign_email');"%> 
+			<%= f.text_field :email %> 
+			<% f.check_box :use_user_email, :onclick => "Element.toggle('campaign_email');"%> 
 	
 			<label>Description</label>
 			<%= fckeditor_textarea( "campaign", "description", :toolbarSet=> 'ChristmasFuture', :height => 200 ) %> 
@@ -34,12 +34,18 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Campaign Dates</legend>
-			<label>Start date</label
-			<%= f.datetime_select :start_date %>
-	
-			<label>End Date</label>
-			<%= f.datetime_select :event_date %>
+			<legend>Campaign Dates: <%= form_required %></legend>
+			<label>Start of fundraising:</label>
+	    	<%= f.datetime_select :start_date %>
+			
+			<label>Event Date: <%= form_required %></label>
+	    	<%= f.datetime_select :event_date %>
+	    	
+	    <label>Raise Funds Till: <%= form_required %></label>
+	    	<%= f.datetime_select :raise_funds_till_date %>
+	    	
+	    <label>Allocate Funds By: <%= form_required %></label>
+	    	<%= f.datetime_select :allocate_funds_by_date %>
 		</fieldset>
 
 		<fieldset>
@@ -80,6 +86,9 @@
 			<%= f.check_box :require_team_authorization %>
 	
 		</fieldset>
+		<p>
+    	<%= f.submit "Update" %>
+  	</p>
 
 	<% end %>
 </div>

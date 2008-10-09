@@ -1,7 +1,7 @@
 <div id="globalnav-wrapper" class="clearfix">
 	<div class ="main-nav clearfix">
 		<ul class="left-tabs">
-			<%= ((controller.controller_name == "home" || controller.controller_name == "accounts")  ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Home", {:controller=>'home', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li>
+			<%= ((controller.controller_name == "home" || controller.controller_name == "accounts")  ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Home", '/dt/', {:class=>'nav-tab left-tab'}) %></li>
 			<%= ((controller.controller_name == "projects") ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Projects", {:controller=>'projects', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li>
 			<%= ((controller.controller_name == "give") || 
 					 (controller.controller_name == "investments") || 
