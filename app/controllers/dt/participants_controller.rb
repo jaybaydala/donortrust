@@ -164,11 +164,13 @@ class Dt::ParticipantsController < DtApplicationController
     if ['join', 'new', 'create'].include?(action_name) && !logged_in?
       flash[:notice] = "You must have an account to join this campaign as a participant. Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
+      store_location
       respond_to do |accepts|
         accepts.html { redirect_to dt_login_path and return }
       end
     elsif ['manage'].include?(action_name) && !logged_in?
       flash[:notice] = "You must be logged in to manage your participant account.  Please log in."
+      store_location
       respond_to do |accepts|
         accepts.html { redirect_to dt_login_path and return }
       end
