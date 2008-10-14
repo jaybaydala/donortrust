@@ -96,6 +96,10 @@ class Dt::SessionsController < DtApplicationController
   end
   
   protected
+  def ssl_required?
+    true
+  end
+
   # if they're being redirected back to a "false" account, put the proper account id in
   def redirect_back_or_default_with_account(default)
     if logged_in? && session[:return_to] =~ /^\/dt\/accounts\/false/
