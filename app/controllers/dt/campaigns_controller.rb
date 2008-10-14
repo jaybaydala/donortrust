@@ -3,6 +3,8 @@ class Dt::CampaignsController < DtApplicationController
   before_filter :login_required, :only => [:create, :new, :edit, :destroy]
   before_filter :is_authorized?, :except => [:show, :index, :join, :new, :create, :admin, :search, :join_options];
   before_filter :is_cf_admin?, :only => [:new, :create, :admin] # this is just here to prevent anyone but a CF admin from creating campaigns.
+  include UploadSyncHelper
+  after_filter :sync_uploads, :only => [:create, :update, :destroy]
 
   # GET /campaigns
   # GET /campaigns.xml

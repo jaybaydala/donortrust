@@ -32,6 +32,10 @@ namespace :deploy do
   symlink the images, stylesheets and javascripts to current_path
   DESC
   task :asset_folder_fix , :roles => :web do
+    # uploaded pictures
+    uploaded_pictures_path = "#{latest_release}/public/uploaded_pictures/"
+    send(run_method, "ln -s #{uploaded_pictures_path} #{shared_path}/uploaded_pictures")
+
     %w( stylesheets javascripts ).each do |dir|
       asset_path = "#{latest_release}/public/#{dir}"
       server_path = "/var/www/staging.christmasfuture.org/#{dir}"

@@ -4,6 +4,8 @@ class Dt::TeamsController < DtApplicationController
   before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :activate], :except => [:validate_short_name_of, :index]
   before_filter :login_required, :except => [:show,:index]
   before_filter :check_if_in_team
+  include UploadSyncHelper
+  after_filter :sync_uploads, :only => [:create, :update, :destroy]
 
   # GET /dt_teams
   # GET /dt_teams.xml

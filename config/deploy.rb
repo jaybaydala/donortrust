@@ -35,6 +35,7 @@ namespace :deploy do
   end
   task :before_restart do
     asset_folder_fix
+    sync_uploads
     copy_iats_config
   end
   task :after_restart do
@@ -96,6 +97,23 @@ namespace :deploy do
     cmd = "#{mongrel_rails} cluster::stop -C #{mongrel_admin_conf}"
     cmd += " --clean" if mongrel_clean    
     send(run_method, cmd)
+  end
+  
+  desc <<-DESC
+  Synchronize uploaded files
+  DESC
+  task :sync_uploads, :roles => :app do
+    %w(uploaded_pictures).each do |folder|
+      src = File.join(shared_path, folder)
+      dest = shared_path
+      # find the web server(s) and copy everything there
+      # using rsync because it's fast and will add/remove as necessary
+      find_servers(:roles => :web).each do |server|
+        cmd = "/usr/bin/rsync -rv -e ssh #{src} #{user}@#{server}:#{dest}"
+        # use `run` rather than `run_method` because we don't want to use sudo for this
+        send(run, cmd)
+      end
+    end
   end
 end
 

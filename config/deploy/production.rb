@@ -19,7 +19,7 @@ role :db,  "slice.christmasfuture.org", :primary => true
 role :schedule,  "slice2.christmasfuture.org"
 
 namespace :deploy do
-  task :after_update_code, :rols => :app do
+  task :after_update_code, :roles => :app do
     run <<-CMD
       cd #{release_path} && rake deploy_edge REVISION=#{rails_version} 
     CMD
@@ -43,6 +43,10 @@ namespace :deploy do
   symlink the images, stylesheets and javascripts to current_path
   DESC
   task :asset_folder_fix , :roles => :web do
+    # uploaded pictures
+    uploaded_pictures_path = "#{latest_release}/public/uploaded_pictures/"
+    send(run_method, "ln -s #{uploaded_pictures_path} #{shared_path}/uploaded_pictures")
+
     %w( stylesheets javascripts ).each do |dir|
       asset_path = "#{latest_release}/public/#{dir}"
       server_path = "/var/www/blog.christmasfuture.org/wordpress/#{dir}"

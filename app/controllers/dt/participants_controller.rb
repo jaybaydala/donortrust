@@ -3,6 +3,8 @@ class Dt::ParticipantsController < DtApplicationController
   before_filter :find_team, :only => [:new, :create]
   before_filter :login_required, :except => [:show, :index]
   before_filter :is_authorized?, :only => [:update, :manage, :admin]
+  include UploadSyncHelper
+  after_filter :sync_uploads, :only => [:create, :update, :destroy]
 
   def show
     @participant = Participant.find(params[:id]) unless params[:id] == nil
