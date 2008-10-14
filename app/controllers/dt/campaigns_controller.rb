@@ -140,7 +140,7 @@ class Dt::CampaignsController < DtApplicationController
     @campaign = Campaign.find(params[:id])
 
     if @campaign.activate!
-      CampaignsMailer.deliver_campaign_activation(@campaign)
+      CampaignsMailer.deliver_campaign_approved(@campaign)
       flash[:notice] = "Campaign Sucessfully Activated"
     else
       flash[:error] = "Campaign Not Activated"
