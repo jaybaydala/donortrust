@@ -17,9 +17,9 @@ class Dt::ParticipantsController < DtApplicationController
     if(@team != nil and @user != nil)
       @participant = Participant.find_by_user_id_and_team_id(@user.id,@team.id)
     elsif(@user != nil and @campaign != nil)
-      for pariticpant in @campaign.participants
-        if pariticpant.user == @user
-          @participant = pariticpant
+      for participant in @campaign.participants
+        if participant.user == @user
+          @participant = participant
         end
       end
     end
