@@ -60,6 +60,7 @@ class Dt::CampaignsController < DtApplicationController
     @campaign = Campaign.new(params[:campaign])
     @campaign.campaign_type_id = params[:campaign_type][:id]
     @campaign.creator = current_user
+    @campaign.pending = true
 
     if @campaign.save
       @team = Team.new

@@ -38,20 +38,20 @@ class Campaign < ActiveRecord::Base
           {:class_name => 'Team',
             :field => 'teams.name',
             :as => 'team_name',
-            :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"            
+            :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"
            },
            {
              :class_name=> 'Team',
              :field => 'teams1.short_name',
              :as => 'team_short_name',
-             :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"             
+             :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"
            },
            {
              :class_name => 'Team',
              :field => 'teams2.description',
              :as => 'team_description',
-             :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"             
-           }          
+             :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"
+           }
           ]
 
   #validations
@@ -90,7 +90,7 @@ class Campaign < ActiveRecord::Base
     self.fee_currency = "CDN"
     self.goal_currency = "CDN"
 
-    self.pending = true
+    #self.pending = true
 
     self.postalcode = postalcode.sub(' ', '') if not postalcode.blank? # remove any spaces.
   end
