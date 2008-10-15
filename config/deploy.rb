@@ -35,7 +35,6 @@ namespace :deploy do
   end
   task :before_restart do
     asset_folder_fix
-    sync_uploads
     copy_iats_config
   end
   task :after_restart do
