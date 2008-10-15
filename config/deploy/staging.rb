@@ -32,11 +32,7 @@ namespace :deploy do
   symlink the images, stylesheets and javascripts to current_path
   DESC
   task :asset_folder_fix , :roles => :web do
-    # uploaded pictures
-    uploaded_pictures_path = "#{latest_release}/public/uploaded_pictures/"
-    send(run_method, "ln -s #{uploaded_pictures_path} #{shared_path}/uploaded_pictures")
-
-    %w( stylesheets javascripts ).each do |dir|
+    %w( stylesheets javascripts uploaded_pictures ).each do |dir|
       asset_path = "#{latest_release}/public/#{dir}"
       server_path = "/var/www/staging.christmasfuture.org/#{dir}"
       send(run_method, "rm -f #{server_path}")
@@ -49,6 +45,11 @@ namespace :deploy do
       send(run_method, "rm -f #{server_path}")
       send(run_method, "ln -s #{asset_path} #{server_path}")
     end
+  end
+  task :before_asset_folder_fix, :roles => :app do
+    # uploaded pictures
+    uploaded_pictures_path = "#{latest_release}/public/uploaded_pictures"
+    send(run_method, "ln -s #{shared_path}/uploaded_pictures #{uploaded_pictures_path}")
   end
   
   task :start_backgroundrb , :roles => :schedule do
