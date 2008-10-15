@@ -43,17 +43,7 @@
 	float: right;
 }
 
-#frontPicsAndFact {
+.right_side_banner {
 	float: right;
-	margin: 10px 0px 0px 0px;
-}
-
-#frontFeature {
-	float: right;
-	margin: 10px 0px 0px 0px;
-}
-
-#100_percent_guarantee {
-	float: left;	
 	margin: 10px 0px 0px 0px;
 }
