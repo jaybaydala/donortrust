@@ -39,6 +39,7 @@ GLOBAL NAV and PAGE NAV
   text-decoration:none;
 	display:block;
   padding: 0.375em 0.875em 0.3125em 0.875em;
+  color: #333;
 }
 
 .main-nav a.left-tab{
@@ -49,7 +50,7 @@ GLOBAL NAV and PAGE NAV
 }
 
 .main-nav a.nav-tab:hover {
-  background-color:#360;
+  background-color:#8DA15F;
   color:#EEE;
 }
 .main-nav .selected a.nav-tab, .main-nav .selected a.nav-tab:hover {

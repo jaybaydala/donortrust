@@ -29,15 +29,6 @@
   padding: 0px 0px 20px 85px;
 }
 
-.test {
-
-}
-
-.testimg{
-  display: block;
-	float: left;
-}
-
 /* Right Column Stuff */
 #frontGiveButton, #frontReceiveButton {
 	float: right;

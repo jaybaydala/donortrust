@@ -1,7 +1,7 @@
 <% long_view ||=  false %>
 <% if not participant.pending?%>
 	<% if long_view %>
-	<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>" style="min-height:60px;">
+	<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %> participant_long_view" style="min-height:60px;">
 		<div class="participant_long_display_picture">
 			<%= image_tag participant.picture.thumb.url, :class => :thumbnail unless participant.picture == nil %>
 			<%= image_tag 'dt/icons/participant_placeholder_icon_48x48.jpg', :class => :thumbnail unless participant.picture != nil %>
@@ -34,7 +34,7 @@
 	<% else %>
 		<% if (!participant.pending && !participant.team.pending) || (controller.controller_name =="teams") %>
 			<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>">
-				<span class="participant_details">
+				<span class="participant_list_view">
 				  <p>
 						<%= link_to participant.name, dt_participant_path(participant) %>
 						<% if participant.team.generic? %>				
