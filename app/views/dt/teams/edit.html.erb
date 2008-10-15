@@ -9,19 +9,19 @@
 		<legend>Team Details</legend>
   		
 		<label>Team Name</label>
-	    <%= f.text_field :name %>
+			<%= f.text_field :name, :maxlength => 50, :size => 50 %>
 	
 	  <div id="errors" style="display:none;">		</div>
 		<label>Share a little about the team (this information will be made public)</label>
 		<%= fckeditor_textarea( "team", "description", :toolbarSet=> 'ChristmasFuture', :height => 200 ) %> 
-		<label>Upload a team image <50kb.  If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
+		<label>Upload a team image < 500 kb.  If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
 		<%= upload_column_field :team,  :picture  %>
 		
 		<label>What is your team fundraising goal?</label>
 		<span class="small_text">$ </span><%= f.text_field :goal %>
 		
 		<label>Team Contact Email</label>
-		<%= f.text_field :contact_email, :value => current_user.email %><br />
+		<%= f.text_field :contact_email, :maxlength => 75, :size => 50, :value => current_user.email %><br />
 		<%= f.check_box :ok_to_contact %><span class="small_text">Allow people to contact me about this team (your email address will show on the team page)</span><br />
 		<%= f.check_box :require_authorization%><span class="small_text">New team members require my approval</span>
 		<p>

@@ -40,7 +40,7 @@
 					<% content = content + " | " + link_to('Join a Team', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 && !@campaign.pending %>
 				<% end %>
 				<% content = " | " + content if content != "" %>
-				<%= campaign_h2_header(' '+link_to('Teams',dt_campaign_teams_path(@campaign)) + content,'teams_container')%>
+				<%= campaign_h2_header(' '+link_to("Teams",dt_campaign_teams_path(@campaign)) + content,'teams_container')%>
 
 				<div id="teams_container" class='row_container'>
 					<%= render :partial => 'teams' %>

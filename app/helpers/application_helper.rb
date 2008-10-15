@@ -47,7 +47,7 @@ module ApplicationHelper
   # Shows a spinner when any active AJAX requests are running - Joe
   #
   def show_spinner
-    content_tag "div", "Working... " + image_tag("/images/bus_admin/spinner.gif"), :id => "ajax_busy", :style => "display:none;"
+    content_tag "div", "Working... " + image_tag("/images/bus_admin/spinner.gif", :alt => ""), :id => "ajax_busy", :style => "display:none;"
   end
 
   #

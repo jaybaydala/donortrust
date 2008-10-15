@@ -70,7 +70,7 @@ module DtApplicationHelper
   # Shows a spinner when any active AJAX requests are running - Joe
   #
   def show_spinner(message = 'Working')
-    content_tag "span","- #{message}... " + image_tag("dt/icons/ajax-spinner.gif", :class => 'icon'), :id => "ajax_busy", :style => "display:none;"
+    content_tag "span","- #{message}... " + image_tag("dt/icons/ajax-spinner.gif", :class => 'icon', :alt => ""), :id => "ajax_busy", :style => "display:none;"
   end
 
   def what_is_this?(id,description)

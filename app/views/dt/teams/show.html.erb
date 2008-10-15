@@ -6,7 +6,7 @@
 <div id="team">
 	<div class="leftColW800">
 		<div id="team_details">
-			<h1><%= @team.name %> <%= "- Awaiting Approval! " unless not @team.pending? %></h1>
+			<h1>Team: <%= @team.name %> <%= "- Awaiting Approval! " unless not @team.pending? %></h1>
 			<div class="links">
 				<h5 style="margin-top:-10px;">Share this link:<%= "<br/>" if "www.christmasfuture.org/dt/#{@team.campaign.short_name}/team/#{@team.short_name}".length > 60 %>
 					www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/team/<%= @team.short_name %>

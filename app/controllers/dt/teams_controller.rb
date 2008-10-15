@@ -186,7 +186,6 @@ class Dt::TeamsController < DtApplicationController
 
   protected
   def access_denied
-    puts 'in team acc denied'
     if ['join', 'new', 'create'].include?(action_name) && !logged_in?
       flash[:notice] = "You must have an account to create a team in this campaign.  Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."

@@ -9,12 +9,12 @@
 		<h2>Create your team profile:</h2>
 	
 		<label>Team Name <%= form_required %></label>
-	    <%= f.text_field :name %>
+			<%= f.text_field :name, :maxlength => 50, :size => 50 %>
 	
 		<label>Enter the URL you would like to share with your friends:<%= form_required %>
 		<%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your team. It should not contain any spaces. Also this name will be used to provide your team with a Christmas Future URL. http://www.christmasfuture.org/yourCampaignShortName/team/youTeamShortName'%>
 		</label>
-		<span class="small_text">http://www.christmasfuture.org/dt/<%= @campaign.short_name %>/team/</span><%= f.text_field :short_name %>
+		<span class="small_text">http://www.christmasfuture.org/dt/<%= @campaign.short_name %>/team/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
 		
 		<%= observe_field	:team_short_name, 
 							:frequency => 1,
@@ -32,11 +32,11 @@
 		<label>What is your team fundraising goal? (optional, leave blank for no specific goal)</label>
 		<span class="small_text">$ </span><%= f.text_field :goal %>
 		
-		<label>Upload a team image (must be less than 50 kb). If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
+		<label>Upload a team image (must be less than 500 kb). If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
 		<%= upload_column_field :team,  :picture  %>
 
 		<label>Team Contact Email <%= form_required %></label>
-		<%= f.text_field :contact_email, :value => current_user.email %><br />
+		<%= f.text_field :contact_email, :maxlength => 75, :size => 50, :value => current_user.email %><br />
 		<%= f.check_box :ok_to_contact %><span class="small_text">Allow people to contact me about this team (your email address will show on the team page)</span><br />
 		<%= f.check_box :require_authorization%><span class="small_text">New team members require my approval</span>
 

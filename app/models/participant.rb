@@ -17,22 +17,22 @@ class Participant < ActiveRecord::Base
       {:association_name => 'user',
         :field => 'users.first_name',
         :as => 'user_first_name',
-        :association_sql => "LEFT JOIN (users) ON (participants.user_id=users.id)"            
+        :association_sql => "LEFT JOIN (users) ON (participants.user_id=users.id)"
         },
         {
           :association_name => 'user',
           :field => 'users1.last_name',
           :as => 'user_last_name',
-          :association_sql => "LEFT JOIN (users as users1) ON (participants.user_id=users1.id)"             
+          :association_sql => "LEFT JOIN (users as users1) ON (participants.user_id=users1.id)"
           },
           {
             :association_name => 'user',
             :field => 'users2.display_name',
             :as => 'user_display_name',
-            :association_sql => "LEFT JOIN (users as users2) ON (participants.user_id=users2.id)"             
+            :association_sql => "LEFT JOIN (users as users2) ON (participants.user_id=users2.id)"
           }
     ]
-  
+
 
   image_column  :picture,
                 :versions => { :thumb => "100x100", :full => "200x200"  },
@@ -85,7 +85,7 @@ class Participant < ActiveRecord::Base
 
   def percentage_raised
     if self.goal?
-      "#{(self.funds_raised / self.goal)*100 } %"
+      "#{(self.funds_raised.to_f/ self.goal.to_f)*100 } %"
     else
       "n/a"
     end

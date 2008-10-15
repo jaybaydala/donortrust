@@ -27,7 +27,7 @@
 			be concise so as to convey the central idea of your campaign. Also this name will be used to 
 			provide your profile with a Christmas Future URL. http://www.christmasfuture.org/dt/campaigns/#{@team.campaign.short_name}/ShortName" %>
 			</label>
-    		<span class="small_text">http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name %>
+    		<span class="small_text">http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
 			<%= observe_field	:participant_short_name, 
 								:frequency => 1,
 								:url => validate_short_name_of_new_dt_participant_path,
@@ -43,7 +43,7 @@
 			<label>What is your personal fundraising goal? (optional, leave blank for no specific goal)</label>
 			$ <%= f.text_field :goal %>
 			
-			<label>Upload your photo (must be less than 50kb). You can upload the photo later by editing your profile.</label>
+			<label>Upload your photo (must be less than 500kb). You can upload the photo later by editing your profile.</label>
 			<%= upload_column_field :participant,  :picture  %>
 			
 			<span class="join"><h1><%= f.submit 'Join'%></h1></span>
