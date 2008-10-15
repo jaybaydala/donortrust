@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+require File.join("config", "environment")
+
+require 'capistrano'
+config = Capistrano::Configuration.new
+# load the standard recipe definition
+config.load "standard"
+# load the application recipe definitions
+config.load(File.join(RAILS_ROOT, "config", "deploy.rb"))
+config.load(File.join(RAILS_ROOT, "config", "deploy", "#{ENV['RAILS_ENV']}.rb"))
+
+# grab the capistrano info that we need
+shared_path = config.fetch(:shared_path, File.expand_path(File.dirname(__FILE__) + '/../../shared'))
+user = config.fetch(:user, "dtrust")
+servers = config.find_servers(:roles => :web)  
+
+%w(uploaded_pictures).each do |folder|
+  dest = File.join(shared_path, "system")
+  src = File.join(dest, folder)
+  dest = File.join(dest, "")
+  # find the web server(s) and copy everything there
+  # using rsync because it's fast and will add/remove as necessary
+  servers.each do |server|
+    cmd = "/usr/bin/rsync -rq -e ssh #{src} #{user}@#{server}:#{dest}"
+    system(cmd)
+  end
+end
