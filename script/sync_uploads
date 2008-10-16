@@ -11,9 +11,11 @@ config.load(File.join(RAILS_ROOT, "config", "deploy.rb"))
 config.load(File.join(RAILS_ROOT, "config", "deploy", "#{ENV['RAILS_ENV']}.rb"))
 
 # grab the capistrano info that we need
-shared_path = config.fetch(:shared_path, File.expand_path(File.dirname(__FILE__) + '/../../shared'))
+shared_path = config.fetch(:shared_path, File.expand_path(File.dirname(__FILE__) + '/../../../shared'))
 user = config.fetch(:user, "dtrust")
 servers = config.find_servers(:roles => :web)  
+
+i_am = `whoami`.strip
 
 %w(uploaded_pictures).each do |folder|
   dest = File.join(shared_path, "system")
@@ -22,7 +24,8 @@ servers = config.find_servers(:roles => :web)
   # find the web server(s) and copy everything there
   # using rsync because it's fast and will add/remove as necessary
   servers.each do |server|
-    cmd = "/usr/bin/rsync -rq -e ssh #{src} #{user}@#{server}:#{dest}"
+    cmd = "/usr/bin/rsync -rpq -e ssh #{src} #{user}@#{server}:#{dest}"
+    cmd = "sudo -u #{user} #{cmd}" if i_am == "root"
     system(cmd)
   end
 end
