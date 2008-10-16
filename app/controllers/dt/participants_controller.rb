@@ -7,6 +7,8 @@ class Dt::ParticipantsController < DtApplicationController
   after_filter :sync_uploads, :only => [:create, :update, :destroy]
 
   def show
+    store_location
+
     @participant = Participant.find(params[:id]) unless params[:id] == nil
 
     if @participant == nil

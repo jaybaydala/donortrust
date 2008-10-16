@@ -32,7 +32,6 @@ class Dt::WallPostsController < DtApplicationController
     @wall_post.postable_id = params[postable_key]
     @wall_post.postable_type = postable_key[0..postable_key.length-4].capitalize
 
-
     respond_to do |format|
       if @wall_post.save
         flash[:notice] = 'Wall post added!'
@@ -41,7 +40,9 @@ class Dt::WallPostsController < DtApplicationController
         }
         format.xml  { render :xml => @wall_post, :status => :created, :location => @wall_post }
       else
-        format.html { render :action => "new" }
+        format.html {
+          redirect_to url_for([:dt, @wall_post.postable])
+        }
         format.xml  { render :xml => @wall_post.errors, :status => :unprocessable_entity }
       end
     end

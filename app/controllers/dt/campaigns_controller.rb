@@ -15,6 +15,7 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns/1
   # GET /campaigns/1.xml
   def show
+    store_location
     @campaign = Campaign.find(params[:id]) unless params[:id].blank?
     @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
     @campaign

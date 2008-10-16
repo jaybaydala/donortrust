@@ -12,6 +12,7 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def index
+    store_location
     @page_title = 'Featured Projects'
     @projects = Project.featured_projects
     respond_to do |format|
@@ -30,6 +31,7 @@ class Dt::ProjectsController < DtApplicationController
   #end
 
   def show
+    store_location
     begin
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
