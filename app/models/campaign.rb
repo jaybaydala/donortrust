@@ -1,4 +1,5 @@
 class Campaign < ActiveRecord::Base
+  after_save :make_uploads_world_readable
   belongs_to :campaign_type
   belongs_to :creator, :class_name => 'User', :foreign_key => 'user_id'
 
@@ -232,5 +233,11 @@ class Campaign < ActiveRecord::Base
       zipArray[8] = /AZ|CO|ID|NM|NV|UT|WY/
       zipArray[9] = /AK|CA|HI|OR|WA/
       (zipArray[postalcode.chars.first.to_i] =~ province) != nil
+    end
+    
+    def make_uploads_world_readable
+      list = self.picture.versions.map {|version, image| image.path }
+      list << self.picture.path
+      FileUtils.chmod_R(0644, list) unless list.empty?
     end
 end

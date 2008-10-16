@@ -1,4 +1,5 @@
 class Participant < ActiveRecord::Base
+  after_save :make_uploads_world_readable
   belongs_to :user
   belongs_to :team
   belongs_to :campaign
@@ -95,4 +96,10 @@ class Participant < ActiveRecord::Base
     self.team.campaign
   end
 
+  private
+  def make_uploads_world_readable
+    list = self.picture.versions.map {|version, image| image.path }
+    list << self.picture.path
+    FileUtils.chmod_R(0644, list) unless list.empty?
+  end
 end

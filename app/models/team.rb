@@ -1,4 +1,5 @@
 class Team < ActiveRecord::Base
+  after_save :make_uploads_world_readable
   # associations
   belongs_to :campaign
   belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
@@ -113,5 +114,10 @@ class Team < ActiveRecord::Base
     end
   end
 
-
+  private
+  def make_uploads_world_readable
+    list = self.picture.versions.map {|version, image| image.path }
+    list << self.picture.path
+    FileUtils.chmod_R(0644, list) unless list.empty?
+  end
 end
