@@ -287,8 +287,17 @@ class Dt::CheckoutsController < DtApplicationController
       session[:order_number] = [] unless session[:order_number]
       session[:order_number] << @order.order_number
       # empty the gift card from the session, if any
-      session[:gift_card_id] = nil
-      session[:gift_card_balance] = nil
+      
+      if @gift_card
+        if @gift_card.balance == 0
+          session[:gift_card_id] = nil
+          session[:gift_card_balance] = nil
+          @gift_card.pickup
+        else
+          session[:gift_card_balance] = @gift_card.balance
+          flash[:notice] = "Your gift card balance will expire on #{@gift_card.expiry_date.strftime("%b %e, %Y")}" if !@gift_card.expiry_date.nil?
+        end
+      end
     end
   end
   

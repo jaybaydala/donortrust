@@ -43,3 +43,7 @@ end
 When /^I open my gift card again$/ do
   open_gift(@gift.pickup_code)
 end
+
+Then /^I should be told the gift card expiry date$/ do
+  response.should have_tag(".notice", "Your gift card balance will expire on #{@gift.expiry_date.strftime("%b %e, %Y")}")
+end
