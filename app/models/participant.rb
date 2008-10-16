@@ -43,7 +43,7 @@ class Participant < ActiveRecord::Base
   validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
   validates_presence_of :user, :team, :campaign
-  validates_numericality_of :goal
+  validates_numericality_of :goal, :allow_nil => true
   validates_uniqueness_of :user_id, :scope => :team_id
 
   validates_format_of :short_name, :with => /\w/
@@ -98,6 +98,7 @@ class Participant < ActiveRecord::Base
 
   private
   def make_uploads_world_readable
+    return if picture.nil?
     list = self.picture.versions.map {|version, image| image.path }
     list << self.picture.path
     FileUtils.chmod_R(0644, list) unless list.empty?
