@@ -49,12 +49,19 @@
 		</div>
 		<% if @team.owned? || (current_user != :false && current_user.cf_admin?) %>
 			<div class="campaign-sidebar-box get-involved">
-				<ul>
+				<ul class="arrow">
 					<li><%= link_to('Manage Team',manage_dt_team_path(@team)) %></li>
 					<li><%= link_to('Edit Team Profile', edit_dt_team_path(@team)) %></li>
 					<li><%= link_to('Post News to your Team', manage_dt_team_path(@team)+"#news") %></li>
 				</ul>
 			</div>
 		<% end %>
+		
+		<div class="campaign-sidebar-box">
+			<ul class="arrow">
+				<li><span class="small_text"><%= link_to("Back to \"#{@team.campaign.name}\" Home", dt_campaign_path(@team.campaign)) %></span></li>
+			</ul>
+		</div>		
+
 	</div>
 </div>

@@ -3,7 +3,7 @@
 <h1>Editing campaign</h1>
 
 <%= error_messages_for :campaign %>
-<div id="new_campaign" class="campaign_form">
+<div id="new_campaign" class="campaign_form clearfix">
 	<% form_for([:dt, @campaign], :html => {:multipart => true}) do |f| %>
 
 		<fieldset>
@@ -76,12 +76,21 @@
 		</fieldset>
 
 		<fieldset id="team_settings">
-			<legend>Team Settings</legend>
+  			<legend>Team Settings</legend>
 			<label>Require Authorization to Add Team</label>
 			<%= f.check_box :require_team_authorization %>
-	
+			
 			<label>Allow Multiple Teams</label>
 			<%= f.check_box :allow_multiple_teams %>
+			
+			<label>Maximum Number of Teams (optional, leave blank if no maximum)</label>
+			<%= f.text_field :max_number_of_teams, :maxlength => 4, :size => 10 %>
+			
+			<label>Maximum Team Size (optional, leave blank if no maximum)</label>
+			<%= f.text_field :max_size_of_teams, :maxlength => 4, :size => 10 %>
+			
+			<label>Maximum Number of Participants (optional, leave blank if no maximum)</label>
+			<%= f.text_field :max_participants, :maxlength => 7, :size => 10 %>
 		</fieldset>
 
 		<fieldset id="participant_settings" style="display:none;">
@@ -90,10 +99,7 @@
 			<%= f.check_box :require_team_authorization %>
 	
 		</fieldset>
-		<p>
-    	<%= f.submit "Update" %>
-  	</p>
-
+			<span class="update"><%= f.submit "Update" %></span>
 	<% end %>
 </div>
 <%= link_to 'Show', dt_campaign_path(@campaign) %> |

@@ -42,7 +42,7 @@
 		<% end %>
 		<a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/buttons/tellFriend_lgrey2.gif"></a>
 		<div id='give-disambiguation-box-<%= @project.id %>' class="give-disambiguation-box" style="display:none;">
-		  <ul>
+		  <ul class="arrow">
 				<li><%= link_to("Give to this project directly", new_dt_investment_path(:project_id => @project.id)) %></li>
 				<li><%= link_to("Give to this project on behalf of someone", new_dt_gift_path(:project_id => @project)) %></li>
 			</ul>

@@ -1,5 +1,5 @@
 <div class="quickfactsHeader"><span>Quick Facts:</span></div>
-<ul class="search-results-quickfacts">
+<ul class="search-results-quickfacts arrow">
   <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
   <li><strong>Funding Required:</strong> <%= number_to_currency(@project.total_cost) %></li>
   <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
@@ -10,7 +10,7 @@
 		<div class="sidebar-give">
 			<%= image_tag("/images/dt/buttons/give.gif", :alt => 'Give', :title => 'Give', :onclick => "Element.toggle('give-disambiguation-box-#{@project.id}');")%>
 			<div id='give-disambiguation-box-<%= @project.id %>' class="give-disambiguation-box" style="display:none;">
-				<ul>
+				<ul class="arrow">
 					<li><%= link_to("Give to this project directly", new_dt_investment_path(:project_id => @project.id)) %></li>
 					<li><%= link_to("Give to this project on behalf of someone", new_dt_gift_path(:project_id => @project)) %></li>
 				</ul>

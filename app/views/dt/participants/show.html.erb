@@ -47,7 +47,7 @@
 		
 		<% if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>
 			<div class="campaign-sidebar-box get-involved">
-				<ul>
+				<ul class="arrow">
 					<li><%= link_to('Edit your profile',manage_dt_participant_path(@participant)) %></li>
 					<li><%= link_to('Post news to Profile',manage_dt_participant_path(@participant)+"#news") %></li>
 				</ul>
@@ -55,7 +55,7 @@
 		<% end %>
 		
 		<div class="campaign-sidebar-box">
-		  <ul>
+			<ul class="arrow">
 				<li><span class="small_text"><%= link_to("Back to \"#{@campaign.name}\" Home", dt_campaign_path(@campaign)) %></span></li>
 			</ul>
 		</div>		

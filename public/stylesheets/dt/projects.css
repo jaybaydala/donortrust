@@ -72,16 +72,13 @@ Project Highlight List
 	margin:0pt 0pt 1.125em 0em;
 }
 .projecthighlight li {
-    font-family:Arial, Helvetica, sans-serif;
-    background:url(/images/dt/icons/disc_arrow.gif) no-repeat transparent 0px 0.5em;
-    list-style-type:none;
-    font-size:0.6875em; /* 11px */
-    margin:0.125em 0;
-    padding:0.1875em 0 0.25em 14px;
-    border-bottom:solid 1px #DDD;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:0.6875em; /* 11px */
+	margin:0.125em 0;
+	border-bottom:solid 1px #DDD;
 }
 .projecthighlight strong {
-    color:#360;
+	color:#360;
 }
 
 /*
@@ -93,12 +90,12 @@ Project Actions
     margin:0;
 }
 .projectactions li {
-    font-family:Arial, Helvetica, sans-serif;
-    list-style-display:none;
-    font-size:0.6875em; /* 11px */
-    margin:0.125em 0;
-    padding:0.1875em 0 0.25em 0;
-    border-bottom:solid 1px #DDD;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	list-style-display:none;
+	font-size:0.6875em; /* 11px */
+	margin:0.125em 0;
+	padding:0.1875em 0 0.25em 0;
+	border-bottom:solid 1px #DDD;
 }
 .projectactions strong {
     color:#360;
@@ -125,7 +122,7 @@ Quick Facts
 
 div.projectlist .project .quickfacts ul li, div.projectlist .project .content-quickfacts ul li,
 .quickfacts ul li, .content-quickfacts ul li, .quickfacts ol li {
-	font-family:Arial, Helvetica, sans-serif;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
 	font-size:0.6875em; /* 11px */
 	margin:0em 0;
 	padding:0.25em 0 0.25em 0;
@@ -166,7 +163,7 @@ Group Messages
 Member List
 ===========*/
 #memberlist li {
-	font-family:Arial,Helvetica,sans-serif;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
 	font-size:11px;
 	list-style-type:none;
     border-bottom:solid 1px #DDD;
@@ -343,15 +340,15 @@ Ecards
 US TAXES
 ========*/
 .usTaxLink {
-		float: right;
-    background:transparent url(/images/dt/icons/USflag_icon.png) no-repeat scroll 7px 9px;
-    font-family:Arial,Helvetica,sans-serif;
-    font-size:11px;
-    line-height:14px;
-    margin-right:200px;    
-    margin-top: 7px;
-    padding-left:26px;
-    padding-top:10px;
+	float: right;
+	background:transparent url(/images/dt/icons/USflag_icon.png) no-repeat scroll 7px 9px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	line-height:14px;
+	margin-right:200px;    
+	margin-top: 7px;
+	padding-left:26px;
+	padding-top:10px;
 }
 
 /* featured projects */
@@ -509,8 +506,8 @@ form#project_search{
 
 /* attribute selector */
 form#project_search input.submitreplace {
-    width:35px;
-    height:20px;
+	width:35px;
+	height:20px;
 	vertical-align: middle;
 	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
 }
@@ -568,17 +565,6 @@ form#project_search input.submitreplace:hover{
   font-size: 0.75em;
   font-weight: bold;
 }
-quickfactsHeader{
-}
-
-.searchResultsQuickfacts ul{
-	list-style-type:none;	
-}
-
-.searchResultsQuickfacts li{
-	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
-	padding:0 0 0.1875em 1em;
-}
 
 .quickfactsSidebarGive {
   float: right;
@@ -595,16 +581,6 @@ quickfactsHeader{
 	color:#360;
 	text-decoration: none;
 }
-.give-disambiguation-box ul{
-	margin-left: 0px;
-}
-
-.give-disambiguation-box li{
-	list-style: none;
-	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
-	padding:0 0 0.1875em 1em;
-}
-
 
 /* project accordion */
 #project-accordion{

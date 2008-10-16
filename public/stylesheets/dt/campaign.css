@@ -88,20 +88,8 @@ h2.campaign a {
 }
 .campaign-sidebar-box a{
 	color: #360;
-	font-size: 14px;
-}
-
-.campaign-sidebar-box ul {
-  list-style:none;
-  margin-left: 0; 
-}
-.campaign-sidebar-box li, .campaign-join-options li {
-  list-style:none;
-	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
-	padding:0 0 0.1875em 1em;
-}
-.campaign-sidebar-box a {
-	text-decoration: none;
+	font-size: 12px;
+	text-decoration: none;	
 }
 
 .metrics {
@@ -141,7 +129,7 @@ li.detail strong{
 
 .campaign_form label {
 	display: block;
-	font-size: 16px;
+	font-size: 12px;
 	margin-top: 10px;
 }
 
@@ -453,9 +441,9 @@ a.button-sponsor span {
 }
 
 /* join button */
-.join, .create {
+.join, .create, .update {
   float: right;
-  font-size: 1.25em;
+  font-size: 1.5em;
 }
 
 .dollars-raised {
