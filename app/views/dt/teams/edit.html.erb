@@ -24,8 +24,6 @@
 		<%= f.text_field :contact_email, :maxlength => 75, :size => 50, :value => current_user.email %><br />
 		<%= f.check_box :ok_to_contact %><span class="small_text">Allow people to contact me about this team (your email address will show on the team page)</span><br />
 		<%= f.check_box :require_authorization%><span class="small_text">New team members require my approval</span>
-		<p>
-			<%= f.submit "Update" %>
-		</p>
+			<span class="update"><%= f.submit "Update" %></span>
   	<fieldset>
 <% end %>

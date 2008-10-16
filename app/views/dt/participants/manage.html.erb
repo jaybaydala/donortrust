@@ -19,9 +19,7 @@
 				<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg'unless @participant.picture != nil %><br/>
 				<%= upload_column_field :participant,  :picture  %>
 			</fieldset>
-			<p>
-				<%= f.submit 'Update'%>
-			</p>	
+			<span class="update"><%= f.submit "Update" %></span>
 		<% end %>
 	</div>
 	
