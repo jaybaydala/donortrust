@@ -38,18 +38,13 @@ namespace :deploy do
       send(run_method, "rm -f #{server_path}")
       send(run_method, "ln -s #{asset_path} #{server_path}")
     end
-    image_paths = ["active_scaffold", "bus_admin", "calendar.gif", "dt", "rails.png", "redbox_spinner.gif"]
+    image_paths = ["active_scaffold", "bus_admin", "calendar.gif", "dt", "rails.png", "redbox_spinner.gif", "uploaded_pictures"]
     image_paths.each do |image|
       asset_path = "#{latest_release}/public/images/#{image}"
       server_path = "/var/www/staging.christmasfuture.org/images/#{image}"
       send(run_method, "rm -f #{server_path}")
       send(run_method, "ln -s #{asset_path} #{server_path}")
     end
-  end
-  task :before_asset_folder_fix, :roles => :app do
-    # uploaded pictures
-    uploaded_pictures_path = "#{latest_release}/public/uploaded_pictures"
-    send(run_method, "ln -s #{shared_path}/uploaded_pictures #{uploaded_pictures_path}")
   end
   
   task :start_backgroundrb , :roles => :schedule do

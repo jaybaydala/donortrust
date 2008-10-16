@@ -43,17 +43,13 @@ namespace :deploy do
   symlink the images, stylesheets and javascripts to current_path
   DESC
   task :asset_folder_fix , :roles => :web do
-    # uploaded pictures
-    uploaded_pictures_path = "#{latest_release}/public/uploaded_pictures/"
-    send(run_method, "ln -s #{uploaded_pictures_path} #{shared_path}/uploaded_pictures")
-
     %w( stylesheets javascripts ).each do |dir|
       asset_path = "#{latest_release}/public/#{dir}"
       server_path = "/var/www/blog.christmasfuture.org/wordpress/#{dir}"
       send(run_method, "rm -f #{server_path}")
       send(run_method, "ln -s #{asset_path} #{server_path}")
     end
-    image_paths = ["active_scaffold", "bus_admin", "calendar.gif", "dt", "rails.png", "redbox_spinner.gif"]
+    image_paths = ["active_scaffold", "bus_admin", "calendar.gif", "dt", "rails.png", "redbox_spinner.gif", "uploaded_pictures"]
     image_paths.each do |image|
       asset_path = "#{latest_release}/public/images/#{image}"
       server_path = "/var/www/blog.christmasfuture.org/wordpress/images/#{image}"

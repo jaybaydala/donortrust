@@ -45,6 +45,11 @@ namespace :deploy do
   task :asset_folder_fix , :roles => :web do
     # to be defined by multistage deployment files
   end
+  task :before_asset_folder_fix, :roles => :app do
+    # uploaded pictures
+    uploaded_pictures_path = "#{latest_release}/public/images/uploaded_pictures"
+    send(run_method, "ln -s #{shared_path}/system/uploaded_pictures #{uploaded_pictures_path}")
+  end
 
   task :setup_mongrel_cluster do
     sudo "cp #{current_path}/config/mongrel_cluster.yml #{mongrel_conf}"
