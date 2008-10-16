@@ -1,5 +1,7 @@
 <%- content_for :html_title do -%>Manage Campaign: <%= @campaign.name %><%- end -%>
 
+<%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
+
 <div id="manage_campaign">
 	<h1> Manage - <%= link_to(@campaign.name,show_campaign_path(@campaign.short_name)) %></h1>
 

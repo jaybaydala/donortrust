@@ -1,5 +1,7 @@
 <%- content_for :html_title do -%>Edit Team Details: <%= @team.name %><%- end -%>
 
+<%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
+
 <h1>Editing <%= @team.name %></h1>
 
 <%= error_messages_for :team %>

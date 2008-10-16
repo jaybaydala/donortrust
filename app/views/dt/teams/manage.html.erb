@@ -1,6 +1,7 @@
 <%- content_for :html_title do -%>Manage Your Team: <%= @team.name %><%- end -%>
 
 <%= error_messages_for :team %>
+<%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
 <div id="new_campaign" class="campaign_form">
 	<h1>Manage Team: <%= link_to(@team.name,dt_team_path(@team)) %></h1>	
 	<% if @team.require_authorization? && @applicants.size > 0 %>
@@ -11,8 +12,10 @@
 					<div id="applicant_<%= applicant.id %>"  class="<%= cycle('row_even','row_odd') %>">
 						<p>
 							<%= link_to applicant.name, dt_participant_path(applicant) %>
-							<%= (" [" + link_to('Approve!',approve_dt_participant_path(applicant))) + "]" if (!applicant.team.pending? && (!applicant.team.owned? || current_user.is_cf_admin?)) %>
-							<%= (" [" + link_to('Decline',decline_dt_participant_path(applicant))) + "]" if (!applicant.team.pending? && (!applicant.team.owned? || current_user.is_cf_admin?)) %>							
+							<%  if (!applicant.team.pending? && (@team.owned? || current_user.is_cf_admin?)) %>
+								<%= (" [" + link_to('Approve!',approve_dt_participant_path(applicant))) + "]" %> 
+								<%= (" [" + link_to('Decline',decline_dt_participant_path(applicant))) + "]" %>
+							<% end %>
 						</p>
 					</div>
 				<% end %>

@@ -1,10 +1,12 @@
 <%- content_for :html_title do -%>Manage Your Profile: <%= @participant.name %><%- end -%>
 
+<%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
+
 <div>
 	<h1><%= link_to @participant.user.full_name, dt_participant_path(@participant) %>'s page for <%= link_to @participant.team.campaign.name, dt_campaign_path(@participant.team.campaign) %>.</h1>
 	
 	<%= error_messages_for :participant %>
-	<div class="campaign_form">
+	<div class="campaign_form clearfix">
 		<% form_for([:dt,@participant], :html => {:multipart => true}) do |f| %>
 			<fieldset>
 				<legend></legend>

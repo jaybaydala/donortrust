@@ -2,6 +2,7 @@
 .thumbnail{
 	float: left;
 	margin: 5px;
+	width: 75px;
 }
 
 div.participant-picture {
@@ -448,4 +449,14 @@ a.button-sponsor span {
 
 .dollars-raised {
 	color: green;
+}
+
+/* breadcrumbs */
+.campaign-breadcrumb {
+	padding-top: 10px;
+}
+
+.campaign-breadcrumb li{
+	display: inline;
+	font-size: 12px;
 }
