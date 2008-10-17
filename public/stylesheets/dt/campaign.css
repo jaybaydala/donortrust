@@ -5,6 +5,18 @@
 	width: 75px;
 }
 
+.team_thumbnail {
+	float: left;
+	margin: 5px;
+	width: 75px;
+}
+
+.participant_thumbnail {
+	float: left;
+	margin: 5px;
+	width: 48px;	
+}
+
 .full_picture{
 	float: left;
 	margin: 5px;
@@ -351,7 +363,8 @@ div.links {
 /* List display */
 .participant_long_display_picture {
 	width:60px;
-	float:left
+	float:left;
+	display: block;
 }
 
 .team_long_display_picture {

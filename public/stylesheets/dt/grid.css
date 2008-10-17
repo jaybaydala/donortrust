@@ -183,7 +183,7 @@ div.errorExplanation ul {
 
 /* li with arrow icons */
 ul.arrow {
-	margin-left: 0px;
+	margin: 0px;
 }
 
 ul.arrow li{

@@ -1,10 +1,10 @@
 <% long_view ||=  false %>
 <% if not participant.pending?%>
 	<% if long_view %>
-		<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %> participant_long_view" style="min-height:60px;">
+		<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %> participant_long_view clearfix" style="min-height:60px;">
 			<div class="participant_long_display_picture">
-				<%= image_tag participant.picture.thumb.url, :class => :thumbnail unless participant.picture == nil %>
-				<%= image_tag 'dt/icons/participant_placeholder_icon_48x48.jpg', :class => :thumbnail unless participant.picture != nil %>
+				<%= image_tag participant.picture.thumb.url, :class => :participant_thumbnail unless participant.picture == nil %>
+				<%= image_tag 'dt/icons/participant_placeholder_icon_48x48.jpg', :class => :participant_thumbnail unless participant.picture != nil %>
 			</div>
 			<%= link_to image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor this Participant", 
 						:title => "Sponsor this Participant"), new_dt_participant_pledge_path(participant), :style => "float:right;" unless controller.action_name == "search" %>

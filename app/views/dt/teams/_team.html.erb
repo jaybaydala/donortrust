@@ -1,5 +1,5 @@
 <% if not team.generic? and not team.pending?%>
-	<div id="team_<%= team.id %>" class="<%= cycle('row_even','row_odd') %>">
+	<div id="team_<%= team.id %>" class="<%= cycle('row_even','row_odd') %> clearfix">
 		<div class="team_long_display_picture">
 			<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
 			<%= image_tag 'dt/icons/team_placeholder_icon_75x45.jpg', :class => :thumbnail unless team.picture != nil %>
