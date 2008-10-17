@@ -61,6 +61,7 @@ class Campaign < ActiveRecord::Base
   validates_uniqueness_of :short_name
   validates_format_of :short_name, :with => /\w/
   validates_length_of :short_name, :within => 4...60
+  validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
 
   validates_length_of :name, :within => 4..255
   validates_length_of :description, :minimum => 10
@@ -81,6 +82,7 @@ class Campaign < ActiveRecord::Base
                 :filename => proc{|inst, orig, ext| "campaign_#{inst.id}.#{ext}"},
                 :store_dir => "uploaded_pictures/campaign_pictures"
   validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
+
 
   def before_validation
     if use_user_email == "1"
@@ -235,7 +237,7 @@ class Campaign < ActiveRecord::Base
       zipArray[9] = /AK|CA|HI|OR|WA/
       (zipArray[postalcode.chars.first.to_i] =~ province) != nil
     end
-    
+
     def make_uploads_world_readable
       return if picture.nil?
       list = self.picture.versions.map {|version, image| image.path }

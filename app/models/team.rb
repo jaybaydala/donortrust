@@ -39,6 +39,10 @@ class Team < ActiveRecord::Base
 
   validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
+  validates_format_of :short_name, :with => /\w/
+  validates_length_of :short_name, :within => 4...60
+  validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
+
 
   def validate
     campaign = self.campaign

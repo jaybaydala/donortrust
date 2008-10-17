@@ -48,6 +48,7 @@ class Participant < ActiveRecord::Base
 
   validates_format_of :short_name, :with => /\w/
   validates_length_of :short_name, :within => 4...60
+  validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
 
   def approve!
     self.update_attribute(:pending,false) ? true : false;
