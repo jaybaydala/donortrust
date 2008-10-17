@@ -13,7 +13,7 @@
 			</div>
 			<p>
 				<div class="campaign-picture">
-					<%= image_tag @campaign.picture.full.url,:class => :thumbnail if @campaign.picture? %>
+					<%= image_tag @campaign.picture.full.url,:class => :full_picture if @campaign.picture? %>
 				</div>
 				<%= @campaign.description %>
 			</p>

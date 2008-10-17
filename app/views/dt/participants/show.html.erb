@@ -22,7 +22,7 @@
 			</div>
 			<p>
 				<div class="participant-picture">
-					<%= image_tag @participant.picture.full.url, :class => :thumbnail if @participant.picture? %>			
+					<%= image_tag @participant.picture.full.url, :class => :full_picture if @participant.picture? %>			
 					<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.picture? %>
 				</div>
 				<%= @participant.about_participant%>
