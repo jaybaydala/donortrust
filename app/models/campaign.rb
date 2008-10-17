@@ -138,7 +138,8 @@ class Campaign < ActiveRecord::Base
   end
 
   def percentage_done
-    "#{(self.funds_raised.to_f/self.fundraising_goal.to_f)*100} %"
+    raised= ((self.funds_raised.to_f/self.fundraising_goal.to_f)*100).round(2)
+    "#{raised} %"
   end
 
   def manage_link

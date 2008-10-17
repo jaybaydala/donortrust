@@ -188,7 +188,7 @@ ul.arrow {
 
 ul.arrow li{
 	list-style: none;
-	background:transparent url(/images/dt/icons/disc_arrow.gif) no-repeat scroll 0px 4px;
+	background:transparent url(/images/dt/icons/bullet.png) no-repeat scroll 0px 4px;
 	padding:0 0 0.1875em 1.2em;
 }
 

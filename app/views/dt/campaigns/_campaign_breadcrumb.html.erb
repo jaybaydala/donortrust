@@ -1,0 +1,17 @@
+<div class="campaign-breadcrumb">
+	<ul class="arrow">
+	<% if @participant != nil %>
+		<li><%= link_to(@participant.team.campaign.name,dt_campaign_path(@participant.team.campaign)) %></li>
+		<li><%= link_to(@participant.team.name,dt_team_path(@participant.team)) %></li>
+		<li><%= link_to(@participant.name,dt_participant_path(@participant)) %></li>
+		<%= "<li>" + controller.action_name + " personal profile</li>" if controller.action_name !="show" %>
+	<% elsif @team != nil %>
+		<li><%= link_to(@team.campaign.name,dt_campaign_path(@team.campaign)) %></li>
+		<li><%= link_to(@team.name,dt_team_path(@team)) %></li> 
+		<%= "<li>" + controller.action_name + " team profile</li>" if controller.action_name !="show" %>
+	<% elsif @campaign != nil %>
+		<li><%= link_to(@campaign.name,dt_campaign_path(@campaign)) %></li>
+		<%= "<li>" + controller.action_name + " campaign profile</li>" if controller.action_name !="show" %>
+	<% end %>
+	</ul>
+</div>

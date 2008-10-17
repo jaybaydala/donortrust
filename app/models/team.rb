@@ -108,7 +108,8 @@ class Team < ActiveRecord::Base
 
   def percentage_raised
     if self.goal?
-      "#{(self.funds_raised.to_f/self.goal.to_f)*100 } %"
+      raised= ((self.funds_raised.to_f/self.goal.to_f)*100).round(2)
+      "#{raised} %"
     else
       "n/a"
     end
