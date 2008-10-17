@@ -140,7 +140,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def percentage_done
-    raised= ((self.funds_raised.to_f/self.fundraising_goal.to_f)*100).round(2)
+    raised= ((self.funds_raised.to_f/self.fundraising_goal.to_f)*100).round(0).to_i
     "#{raised} %"
   end
 

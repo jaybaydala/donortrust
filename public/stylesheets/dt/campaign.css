@@ -61,8 +61,6 @@ h2.campaign {
 	border-right: none;
 	border-bottom: solid 1px #360;
 	background-color: #DDD; 
-	/*border-bottom: solid 1px #CCC;
-	background-color: #83A360;*/
 	margin-left: 0px;
 	margin-right: 0px;
 	margin-top: 0px;
@@ -85,7 +83,7 @@ h2.campaign a {
 	overflow: auto;
 	margin: 5px 0px 5px 0px;
 	padding: 5px;
-	width: 170px;
+	width: 175px;
 }
 .campaign-sidebar-box a{
 	color: #360;
