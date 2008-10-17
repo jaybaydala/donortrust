@@ -5,12 +5,16 @@
 			<%= ((controller.controller_name == "projects") ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Projects", {:controller=>'projects', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li>
 			<%= ((controller.controller_name == "give") || 
 					 (controller.controller_name == "investments") || 
-					 (controller.controller_name == "pledges") || 
 					((controller.controller_name == "gifts") && (controller.action_name !="open")) ? 
 					"<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Give", {:controller=>'give', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li>
 			<%= ((controller.controller_name == "gifts" && controller.action_name == "open") ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Receive", {:controller=>'gifts', :action=>'open'}, {:class=>'nav-tab left-tab'}) %></li>
 		</ul>
 		<ul class="right-tabs clearfix">
+			<%= ((controller.controller_name == "campaigns") || 
+					 (controller.controller_name == "teams") || 
+					 (controller.controller_name == "participants") || 
+					 (controller.controller_name == "pledges") ? 
+					"<li class='selected right-tab'>" :  "<li class='right-tab'>" )  + link_to("OneYoga", {:controller=>'campaigns', :action=>'index'}, {:class=>'nav-tab right-tab'}) %></li>
 			<% restrict_to  "(cf_admin | project_admin)" do %>
 				<li><a href="/bus_admin" class="nav-tab right-tab">Admin </a></li>      
 			<% end %>

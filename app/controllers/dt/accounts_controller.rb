@@ -47,7 +47,7 @@ class Dt::AccountsController < DtApplicationController
       if @saved = @user.save
         session[:tmp_user] = @user.id
         flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address.'
-        format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
+        format.html { redirect_to(:controller => '/dt/accounts', :action => 'index') }
         #format.js
         format.xml  { head :created, :location => dt_accounts_url }
       else
