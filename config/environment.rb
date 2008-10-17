@@ -7,7 +7,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 require 'fastercsv'
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
-  
+
   # Skip frameworks you're not going to use (only works if using vendor/rails)
   # config.frameworks -= [ :action_web_service, :action_mailer ]
 
@@ -18,7 +18,7 @@ Rails::Initializer.run do |config|
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
-  # Force all environments to use the same logger level 
+  # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
 
@@ -29,7 +29,7 @@ Rails::Initializer.run do |config|
   #end
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
-  # This is necessary if your schema can't be completely dumped by the schema dumper, 
+  # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   config.active_record.schema_format = :sql
 
@@ -38,20 +38,20 @@ Rails::Initializer.run do |config|
 
   # Make Active Record use UTC-base instead of local time
   # config.active_record.default_timezone = :utc
-  
+
   # See Rails::Configuration for more options
-  
-  # install user_observer for authenticated_mailer 
+
+  # install user_observer for authenticated_mailer
   # install gift_observer for gift_notifier
   config.active_record.observers = :user_observer, :tax_receipt_observer, :searchbar_sweeper
 
   # Add vendor/gems into the load path so we can unpack gems and keep them local
-  config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
+  config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir|
     File.directory?(lib = "#{dir}/lib") ? lib : dir
   end
 end
 
-# Add new inflection rules using the following format 
+# Add new inflection rules using the following format
 # (all these examples are active by default):
 # Inflector.inflections do |inflect|
 #   inflect.plural /^(ox)$/i, '\1en'
@@ -66,7 +66,7 @@ end
 Mime::Type.register "application/pdf", :pdf
 
 #The url to the GroundSpring US donations page
-GROUNDSPRING_URL = 'https://secure.groundspring.org/dn/index.php?aid=21488'  
+GROUNDSPRING_URL = 'https://secure.groundspring.org/dn/index.php?aid=21488'
 
 # Include your application configuration below
 
@@ -100,5 +100,17 @@ class RubyTube
   alias old_initialize initialize
   def initialize(you_tube_key=YOU_TUBE_KEY)
     old_initialize(you_tube_key)
+  end
+end
+
+
+#fixes for ruby enumeration error
+unless '1.9'.respond_to?(:force_encoding)
+  String.class_eval do
+    begin
+      remove_method :chars
+    rescue NameError
+      # OK
+    end
   end
 end
