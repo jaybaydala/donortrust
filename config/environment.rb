@@ -102,15 +102,3 @@ class RubyTube
     old_initialize(you_tube_key)
   end
 end
-
-
-#fixes for ruby enumeration error
-unless '1.9'.respond_to?(:force_encoding)
-  String.class_eval do
-    begin
-      remove_method :chars
-    rescue NameError
-      # OK
-    end
-  end
-end
