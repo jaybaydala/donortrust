@@ -38,7 +38,7 @@
 				  <p>
 						<%= link_to participant.name, dt_participant_path(participant) %>
 						<% if participant.team.generic? %>				
-							<% if participant.user == participant.team.leader %>				
+							<% if participant.user == participant.team.leader %>
 								(Campaign Organizer)
 							<% end %>
 						<% else %>
