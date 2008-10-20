@@ -8,7 +8,7 @@
 <div id="team_member_page">
 	<div class="leftColW800">
 		<div id="participant_details">
-			<h1><%= @participant.user.full_name %>'s "<%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>" page 
+			<h1><%= @participant.user.full_name %>'s <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %> page 
 				<%= " (Awaiting approval)" unless not @participant.pending? %>
 			</h1>
 			<div class="links">			
