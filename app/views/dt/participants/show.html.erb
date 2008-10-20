@@ -1,5 +1,7 @@
 <%- content_for :html_title do -%><%= @participant.name %>'s Profile | <%= @campaign.name %><%- end -%>
 
+<%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
+
 <% content_for :rss do %>
 	<link href="<%= formatted_dt_participant_path(@participant,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>

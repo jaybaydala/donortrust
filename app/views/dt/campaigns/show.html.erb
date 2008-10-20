@@ -1,5 +1,7 @@
 <%- content_for :html_title do -%><%= @campaign.name %><%- end -%>
 
+<%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
+
 <% content_for :rss do %>
 	<link href="<%= formatted_dt_campaign_path(@campaign,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>
@@ -8,8 +10,8 @@
 		<div id="campaign_details">
 			<h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
 			<div class="links">			
-				<h5 style="margin-top:-10px;">Share this address:<%= "<br/>" if "http://www.christmasfuture.org/dt/#{@campaign.short_name}".length > 60 %>
-				<%= "http://www.christmasfuture.org/dt/#{@campaign.short_name}" %></h5>
+				<h5 style="margin-top:-10px;">Share this address:<%= "<br/>" if "www.christmasfuture.org/dt/#{@campaign.short_name}".length > 60 %>
+				<%= "www.christmasfuture.org/dt/#{@campaign.short_name}" %></h5>
 			</div>
 			<p>
 				<div class="campaign-picture">

@@ -1,5 +1,7 @@
 <%- content_for :html_title do -%><%= @team.name %> | <%= @team.campaign.name %><%- end -%>
 
+<%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
+
 <% content_for :rss do %>
 	<link href="<%= formatted_dt_team_path(@team,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>

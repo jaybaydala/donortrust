@@ -8,16 +8,17 @@
 					((controller.controller_name == "gifts") && (controller.action_name !="open")) ? 
 					"<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Give", {:controller=>'give', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li>
 			<%= ((controller.controller_name == "gifts" && controller.action_name == "open") ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Receive", {:controller=>'gifts', :action=>'open'}, {:class=>'nav-tab left-tab'}) %></li>
+			<%= ((controller.controller_name == "campaigns") || 
+					 (controller.controller_name == "teams") || 
+					 (controller.controller_name == "participants") || 
+					 (controller.controller_name == "pledges") ? 
+					"<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("OneYoga", "/dt/OneYoga/", {:class=>'nav-tab left-tab'}) %></li>
+			<%= "<li class='left-tab'>" + link_to("School Program", "/school-program/", {:class=>'nav-tab left-tab'}) %></li>
 		</ul>
 		<ul class="right-tabs clearfix">
 			<% restrict_to  "(cf_admin | project_admin)" do %>
 				<li><a href="/bus_admin" class="nav-tab right-tab">Admin </a></li>      
 			<% end %>
-			<%= ((controller.controller_name == "campaigns") || 
-					 (controller.controller_name == "teams") || 
-					 (controller.controller_name == "participants") || 
-					 (controller.controller_name == "pledges") ? 
-					"<li class='selected right-tab'>" :  "<li class='right-tab'>" )  + link_to("OneYoga", {:controller=>'campaigns', :action=>'index'}, {:class=>'nav-tab right-tab'}) %></li>
 		</ul>
 	</div>
 </div>

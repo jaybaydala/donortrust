@@ -4,7 +4,7 @@
 	content = ' ' + link_to(campaign.name,show_campaign_path(campaign.short_name))
 %>
 <% if controller.action_name == "search" %>
-	<div class="<%= cycle('row_even','row_odd') %>" id="campaign_<%= campaign.id%>">
+	<div class="<%= cycle('row_even','row_odd') %> clearfix" id="campaign_<%= campaign.id%>">
 		<strong><%= link_to(campaign.name, dt_campaign_path(campaign)) %></strong>
 		<div class="campaign_details">
 			<p>
@@ -22,7 +22,7 @@
 	</div>
 <% else %>
 
-	<div class="campaign" id="campaign_<%= campaign.id%>">
+	<div class="campaign clearfix" id="campaign_<%= campaign.id%>">
 		<% (content = content + " | " + link_to('Manage Campaign', manage_dt_campaign_path(campaign))) unless not campaign.owned? %>
 		<%= campaign_h2_header(content, 'campaign_details_container')%>
 		<div id="campaign_details_container" class="content_container">
