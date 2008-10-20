@@ -34,6 +34,9 @@ Rails::Initializer.run do |config|
   # backgroundrb plugin dependencies
   config.gem "chronic"
   config.gem "packet"
+  
+  # fiveruns - temporary profiling
+  config.gem "fiveruns_tuneup"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

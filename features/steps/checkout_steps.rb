@@ -1,12 +1,12 @@
 Before do
-  place_type = PlaceType.generate!(:name => "Country") unless PlaceType.find_by_name("Country")
+  place_type = PlaceType.find_by_name("Country") || PlaceType.generate!(:name => "Country")
   ["Canada", "United States", "Gabon"].each do |country|
     Place.generate!({:name => country, :place_type_id => place_type.id}) unless Place.find_by_name(country)
   end
 end
 
 Given /^I am starting the checkout process$/ do
-  Project.generate!({ :slug => "admin" })
+  Project.generate!({ :slug => "admin" }) unless Project.find_by_slug("admin")
   visits "/dt/checkout/new"
 end
 

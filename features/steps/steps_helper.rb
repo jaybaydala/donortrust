@@ -26,8 +26,9 @@ def add_gift_to_cart(amount, project_id=nil)
   clicks_button("Add to Cart")
 end
 def add_investment_to_cart(amount, project_id=nil)
+  project = Project.find_by_id(project_id) || Project.generate!
   url = "/dt/investments/new"
-  url += "?project_id=#{project_id}" unless project_id.nil?
+  url += "?project_id=#{project.id}"
   visits url
   fills_in("investment_amount", :with => amount)
   chooses("investment_project_id_#{project_id}") unless project_id.nil?

@@ -74,12 +74,12 @@
         <li>
           <label class="left">Ecard Image:</label>
           <%= render :partial => 'dt/ecards/ecard_preview', :locals => {:ecard => @ecards[0], :form => f} %>
-    		  <div>Please select an image from the Ecard Gallery on the right &raquo;</div>
+          <div>Please select an image from the Ecard Gallery on the right &raquo;</div>
           <div id="ecardPreview" style="display:none;">
             <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
             <%= button_to_function "<span>Preview your ecard &raquo;</span>", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
           </div>
-    		</li>
+        </li>
       </ol>
     </fieldset>
     <fieldset>
