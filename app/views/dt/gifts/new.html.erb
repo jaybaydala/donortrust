@@ -59,7 +59,7 @@
       <div id="bulk" style="display:none;">
         <p><%= link_to "Return to Individual Gift Giving", "javascript:void(0);", :onclick => "$('individual').toggle();$('bulk').toggle();$('recipients').value='';" %></p>
         
-        <%= render :partial => "dt/bulk_gifts/form", :locals => {:f => f} %>
+        <%= render :partial => "bulk_gifts", :locals => {:f => f} %>
       </div>
     </fieldset>
     <fieldset>
