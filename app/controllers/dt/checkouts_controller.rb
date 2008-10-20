@@ -102,9 +102,6 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def show
-    # need to add an authorization check here.
-    # either user_id (if it exists and they're logged_in?)
-    # or session[:order_number].include?(params[:order_number])
     @order = Order.find_by_order_number(params[:order_number]) if params[:order_number]
     redirect_to dt_cart_path and return unless @order
     redirect_to edit_dt_checkout_path and return unless @order.complete?
@@ -287,7 +284,6 @@ class Dt::CheckoutsController < DtApplicationController
       session[:order_number] = [] unless session[:order_number]
       session[:order_number] << @order.order_number
       # empty the gift card from the session, if any
-      
       if @gift_card
         if @gift_card.balance == 0
           session[:gift_card_id] = nil
@@ -332,5 +328,4 @@ class Dt::CheckoutsController < DtApplicationController
       flash.now[:error] = "There was a problem adding the Investment to your cart. Please review your information and try again."
     end
   end
-
 end
