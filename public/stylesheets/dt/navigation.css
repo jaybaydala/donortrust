@@ -120,13 +120,12 @@ This allows us to validate the project overview page by not repeating
 	background: #FFF url(/images/dt/nav_elements/subNavBar.jpg) no-repeat 0px 0px;
 	margin-left:18px;
 	height: 25px;
-	width: 714px;
 	text-align:left;
 	/* Box-model hack */
 	voice-family: "\"}\"";
 	voice-family: inherit;
 	height: 25px;
-	width: 714px;
+	/* width: 714px;*/
 }
 #subNavWide ul {float:left; width: 714px; padding-top:5px; padding-bottom:5px;}
 #subNavWide a {text-decoration:none;}
@@ -172,7 +171,7 @@ This allows us to validate the project overview page by not repeating
 /* TERTIARY NAVIGATION (OR SUB-SUB NAVIGATION) */
 
 #subSubNav, #subSubNav_2col {
-	width: 724px;
+	/* width: 724px; */
 	height: auto;
 	text-align:left;
 	background: #FFF;
@@ -185,7 +184,7 @@ This allows us to validate the project overview page by not repeating
 	padding: 1px 0px 1px 0px;
 	margin: 0 0 4px 0px;
 	height: 18px;
-	width: 717px;
+	/* width: 717px;*/
 	text-align:left;
 	border-bottom:1px solid #ccc;
 }
