@@ -11,7 +11,7 @@ GLOBAL NAV and PAGE NAV
 
 .main-nav {
 	padding-left: 10px;
-  font:lighter 22px Arial,Helvetica,sans-serif;	
+  font:lighter 20px Arial,Helvetica,sans-serif;	
 }
 .main-nav h1{
   margin:0px;
@@ -38,7 +38,7 @@ GLOBAL NAV and PAGE NAV
   margin-top: 0.5px;
   text-decoration:none;
 	display:block;
-  padding: 0.375em 0.875em 0.3125em 0.875em;
+  padding: 0.5em 0.875em 0.375em 0.875em;
   color: #333;
 }
 
