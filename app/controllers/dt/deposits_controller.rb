@@ -2,6 +2,7 @@ require 'order_helper'
 class Dt::DepositsController < DtApplicationController
   helper 'dt/places'
   before_filter :login_required
+  before_filter :find_cart
   include OrderHelper
   
   CANADA = 'canada'
@@ -42,7 +43,6 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def edit
-    @cart = find_cart
     @deposit = @cart.items[params[:id].to_i] if @cart.items[params[:id].to_i].kind_of?(Deposit)
     respond_to do |format|
       format.html {
@@ -52,7 +52,6 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def update
-    @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Deposit)
       @deposit = @cart.items[params[:id].to_i] 
       @deposit.attributes = params[:deposit]

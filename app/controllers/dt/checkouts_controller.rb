@@ -15,6 +15,7 @@ class Dt::CheckoutsController < DtApplicationController
   def new
     redirect_to(edit_dt_checkout_path) and return if find_order
     @order = initialize_new_order
+    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
     respond_to do |format|
       format.html {
         @current_step = 'support'
@@ -34,7 +35,6 @@ class Dt::CheckoutsController < DtApplicationController
         @order.first_name = to_name[0]
         @order.last_name = to_name[1]
       end
-      
     end
     @valid = validate_order
     do_action if params[:unallocated_gift].nil?
@@ -54,6 +54,7 @@ class Dt::CheckoutsController < DtApplicationController
   
   def edit
     @order = find_order
+    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
     redirect_to(new_dt_checkout_path) and return unless @order
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order

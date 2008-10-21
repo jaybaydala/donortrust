@@ -2,6 +2,7 @@
 <%- content_for :page_title do -%>Invest Directly in a Project, and Invest in the Future.<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
+<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
 
 <%= error_messages_for :investment %>
 <% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
@@ -56,5 +57,6 @@
 <% end %>
 
 <%- content_for :sidebar do -%>
+  <%= render "dt/cart/summary" %>
 	<%= dt_profile_sidebar %>
 <%- end -%>

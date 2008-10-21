@@ -4,6 +4,7 @@
 <%- content_for :html_title do -%>Gift It!<%- end -%>
 <%- content_for :page_title do -%>Experience a new way to give.<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
 
 <%= error_messages_for :gift %>
 
@@ -114,6 +115,7 @@
 <% end %>
 
 <%- content_for :sidebar do -%>
+  <%= render "dt/cart/summary" %>
   <h2>Ecard Gallery</h2>
 
   <p><strong>Select an ecard</strong> from the gallery to send with your gift. The larger image below is your current selection.</p>

@@ -1,0 +1,34 @@
+<h2><%= link_to "Cart Summary", dt_cart_path %></h2>
+<div id="cart">
+<table cellpadding="0" cellspacing="0">
+  <colgroup>
+    <col style="width:75%;" />
+    <col style="width:20%;" />
+  </colgroup>
+  <tr>
+    <th>Item</th>
+    <th class="numeric">Amount</th>
+  </tr>
+  <tr class="odd">
+    <td><h5>Gifts</h5></td>
+    <td class="numeric"><%= @cart.gifts.size %></td>
+  </tr>
+  <tr class="even">
+    <td><h5>Investments</h5></td>
+    <td class="numeric"><%= @cart.investments.size %></td>
+  </tr>
+  <% if logged_in? %>
+  <tr class="odd">
+    <td><h5>Deposits</h5></td>
+    <td class="numeric"><%= @cart.deposits.size %></td>
+  </tr>
+  <% end %>
+  <tr class="footer">
+    <td class="numeric money">
+      <div style="font-size:.9em;float:left;width:80px;font-weight:normal;font-style:normal;text-align:left;"><%= link_to "View your cart", dt_cart_path %></div>
+      Cart Total
+    </td>
+    <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
+  </tr>
+</table>
+</div>

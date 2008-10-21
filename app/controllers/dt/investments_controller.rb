@@ -2,6 +2,7 @@ require 'order_helper'
 
 class Dt::InvestmentsController < DtApplicationController
   helper 'dt/places'
+  before_filter :find_cart
   include OrderHelper
   
   def new
@@ -32,7 +33,6 @@ class Dt::InvestmentsController < DtApplicationController
     
     respond_to do |format|
       if @valid
-        @cart = find_cart
         @cart.add_item(@investment)
         flash[:notice] = "Your Investment has been added to your cart."
         format.html { redirect_to dt_cart_path }
@@ -44,7 +44,6 @@ class Dt::InvestmentsController < DtApplicationController
   end
   
   def edit
-    @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Investment)
       @investment = @cart.items[params[:id].to_i]
       @project = @investment.project if @investment.project_id?
@@ -59,7 +58,6 @@ class Dt::InvestmentsController < DtApplicationController
   end
   
   def update
-    @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Investment)
       @investment = @cart.items[params[:id].to_i] 
       @investment.attributes = params[:investment]

@@ -1,18 +1,22 @@
-<table cellpadding="0" cellspacing="0" id="cart">
-  <colgroup>
-    <col style="width:75%;" />
-    <col style="width:20%;" />
-  </colgroup>
-  <tr>
-    <th>Item</th>
-    <th class="numeric">Amount</th>
-  </tr>
-  <%= render :partial => "dt/cart/sidebar_line_item", :collection => @cart.items %>
-  <tr class="footer">
-    <td class="numeric money">
-      <div style="font-size:.9em;float:left;width:80px;font-weight:normal;font-style:normal;text-align:left;"><%= link_to "Edit your cart", dt_checkout_path, :method => :delete %></div>
-      Cart Total
-    </td>
-    <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
-  </tr>
-</table>
+<div id="cart">
+  <%= will_paginate @cart_items, :param_name => 'cart_page', :renderer => 'RemoteLinkRenderer' , :remote => {:update => "cart"} %>
+  <table cellpadding="0" cellspacing="0">
+    <colgroup>
+      <col style="width:75%;" />
+      <col style="width:20%;" />
+    </colgroup>
+    <tr>
+      <th>Item</th>
+      <th class="numeric">Amount</th>
+    </tr>
+    <%= render :partial => "dt/cart/sidebar_line_item", :collection => @cart_items %>
+    <tr class="footer">
+      <td class="numeric money">
+        <div style="font-size:.9em;float:left;width:80px;font-weight:normal;font-style:normal;text-align:left;"><%= link_to "Edit your cart", dt_checkout_path, :method => :delete %></div>
+        Cart Total
+      </td>
+      <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
+    </tr>
+  </table>
+  <%= will_paginate @cart_items, :param_name => 'cart_page', :renderer => 'RemoteLinkRenderer' , :remote => {:url => dt_cart_path, :with => "sidebar=1", :update => "cart"} %>
+</div>

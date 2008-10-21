@@ -5,6 +5,7 @@ class Dt::GiftsController < DtApplicationController
   before_filter :login_required, :only => :unwrap
   before_filter :set_time_zone, :only => [ :create, :update ]
   before_filter :add_user_to_params, :only => [ :create, :update ]
+  before_filter :find_cart
   include OrderHelper
   
   CANADA = 'canada'
@@ -33,7 +34,6 @@ class Dt::GiftsController < DtApplicationController
   
   def new
     store_location
-    @cart = find_cart
     @gift = Gift.new
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
@@ -68,7 +68,6 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def create
-    @cart = find_cart
     begin
       @gift = Gift.new( params[:gift] )
       @gift.user_ip_addr = request.remote_ip
@@ -99,7 +98,6 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def edit
-    @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Gift)
       @gift = @cart.items[params[:id].to_i]
       @project = @gift.project if @gift.project_id?
@@ -113,7 +111,6 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def update
-    @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Gift)
       @gift = @cart.items[params[:id].to_i]
       begin
