@@ -3,6 +3,7 @@ class DtApplicationController < ActionController::Base
   helper :dt_application
   helper "dt/search"
   include DtAuthenticatedSystem
+  helper_method :ssl_available?
 
   # "remember me" functionality
   before_filter :login_from_cookie, :ssl_filter
@@ -26,7 +27,7 @@ class DtApplicationController < ActionController::Base
   
   protected
   def ssl_filter
-    if ['production'].include?(ENV['RAILS_ENV'])
+    if ssl_available?
       if !request.ssl? && ssl_required? 
         flash.keep
         redirect_to url_for(params.merge({:protocol => 'https://'})) and return false
@@ -36,6 +37,10 @@ class DtApplicationController < ActionController::Base
         redirect_to url_for(params.merge({:protocol => 'http://'})) and return false
       end
     end
+  end
+  
+  def ssl_available?
+    return 'production' == ENV['RAILS_ENV'] ? true : false
   end
   
   #MP - Dec 14, 2007
