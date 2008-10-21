@@ -186,12 +186,6 @@ class Dt::ProjectsController < DtApplicationController
     params[:filter] = false;
 
     respond_to do |format|
-      format.js{
-        render :update do |page|
-          # used for ajax preview. no longer needed
-          page.replace_html "count_results_container", "#{@search.total_entries } results found"
-        end
-      }
       format.html { render :partial => 'dt/projects/search_results', :layout => 'layouts/dt_application'}
     end
   end

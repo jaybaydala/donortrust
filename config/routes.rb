@@ -343,7 +343,7 @@ ActionController::Routing::Routes.draw do |map|
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :projects,    :controller => 'bus_admin/projects',
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true,
-    :collection => { :pending_projects => :ge}
+    :collection => { :pending_projects => :get}
   map.resources :milestones,  :controller => "bus_admin/milestones",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :tasks,       :controller => "bus_admin/tasks",
