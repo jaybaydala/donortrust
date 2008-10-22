@@ -20,7 +20,7 @@ class Partner < ActiveRecord::Base
   validates_length_of   :name, :maximum => 50
 
   acts_as_textiled :description, :business_model, :funding_sources, :mission_statement, :philosophy_dev
-  
+
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -31,10 +31,13 @@ class Partner < ActiveRecord::Base
       me.errors.add :partner_type_id, 'does not exist'
     end
   end
-  
+
   def admins
-    admins = [] 
-    users = User.find(:all)
+    admins = []
+    # only grab users that are in the administrations table,
+    # in the future we can just grab the users for the specific partner, if that is working with:
+    # "WHERE administrable_type = 'partners' AND administrable_id = self.id"
+    users = User.find_by_sql("SELECT u.* from users u inner join administrations a ON u.id = a.user_id")
     first = true;
     users.each do |user|
       if user.administrated_partners.include?(self)
@@ -46,8 +49,8 @@ class Partner < ActiveRecord::Base
       end
     end
     return admins
-  end 
-  
+  end
+
   def admins=(admins)
     remove_all_admins
     users_names = admins.split(",")
