@@ -223,11 +223,11 @@ form#projectsearchform input.submitreplace:hover {
 /* COLUMN STYLES */
 
 #contentContainer {
-	width: 724px;
+	width: 800px;
 	height: auto;
 	text-align:left;
 	background: #FFF;
-	padding: 0px 0 0px 18px;
+	/* padding: 0px 0 0px 18px;*/
 	float:left;
 }
 #contentContainer2 {

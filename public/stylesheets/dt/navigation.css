@@ -11,14 +11,12 @@
 	padding: 0px 0px 0 10px;
 	background: #CCC url(/images/dt/nav_elements/topNavBar.jpg) no-repeat;
 	height: 35px;
-	width: 714px;
 	color: #666;
 	text-align:left;
 	/* Box-model hack */
 	voice-family: "\"}\"";
 	voice-family: inherit;
 	height: 35px;
-	width: 714px;
 }
 #topNav ul {float:left; width: 546px; padding-top:10px; padding-bottom:10px;}
 #topNav a {text-decoration:none;}
@@ -90,13 +88,11 @@
 	background: #FFF url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat 0px 0px;
 	margin-left:18px;
 	height: 25px;
-	width: 714px;
 	text-align:left;
 	/* Box-model hack */
 	voice-family: "\"}\"";
 	voice-family: inherit;
 	height: 25px;
-	width: 714px;
 }
 #subNav ul {float:left; width: 486px; padding-top:5px; padding-bottom:5px;}
 #subNav a {text-decoration:none;}
