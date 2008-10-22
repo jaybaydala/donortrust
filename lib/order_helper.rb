@@ -45,10 +45,6 @@ module OrderHelper
     unless logged_in? && current_user.balance > 0
       @order.credit_card_payment = @order.gift_card_payment? ? @order.total - @order.gift_card_payment : @order.total
     end
-    #if @order.gift_card_payment? && @order.gift_card_payment > @order.total
-    #  @order.gift_card_payment = @order.total
-    #  @order.credit_card_payment = 0
-    #end
     @order
   end
 end
