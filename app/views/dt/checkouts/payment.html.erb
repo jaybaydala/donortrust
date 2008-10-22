@@ -1,6 +1,6 @@
 <%- content_for :head do -%>
-<%= stylesheet_link_tag 'dt/cart' %>
-<%= javascript_include_tag "dt/checkout" %>
+  <%= stylesheet_link_tag "dt/cart" %>
+  <%= javascript_include_tag "dt/checkout" %>
 <%- end -%>
 <%- content_for :html_title do -%>Checkout<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
@@ -50,8 +50,8 @@
         <% if gift_card_payment? %><li><label>Take From my Gift Card:</label> $<%= f.text_field :gift_card_payment %></li><% end %>
         <% if account_payment? %><li><label>Take From my Account:</label> $<%= f.text_field :account_balance_payment %></li><% end %>
         <li class="odd"><label>Put on My Credit Card:</label> $<%= f.text_field :credit_card_payment %></li>
-        <li style="display:none;" id="paymentrequiredfield"><label>Payment still required:</label> <%= text_field_tag :payment_required, number_to_currency(@order.total), :style => 'border:0;', :disabled => "disabled" %></li>
-        <li style="display:none;" id="totalfield"><label>Total Paid:</label> <%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :disabled => "disabled" %></li>
+        <li style="display:none;" id="paymentrequiredfield"><label>Payment still required:</label> $<%= text_field_tag :payment_required, number_to_currency(@order.total), :style => 'border:0;', :disabled => "disabled" %></li>
+        <li style="display:none;" id="totalfield"><label>Total Paid:</label> $<%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :disabled => "disabled" %></li>
       </ol>
     <% else %>
       <%= f.hidden_field :credit_card_payment %>
