@@ -24,7 +24,7 @@ class Dt::InvestmentsController < DtApplicationController
   
   def create
     @investment = Investment.new( params[:investment] )
-    @investment.project_id = params[:project_id] if params[:project_id]
+    @investment.project_id = params[:project_id] if params[:project_id] && !@investment.project_id?
     @investment.user = current_user if logged_in?
     @investment.user_ip_addr = request.remote_ip
     @project = @investment.project if @investment.project

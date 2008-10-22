@@ -1,5 +1,5 @@
 <div id="cart">
-  <%= will_paginate @cart_items, :param_name => 'cart_page', :renderer => 'RemoteLinkRenderer' , :remote => {:update => "cart"} %>
+  <%= will_paginate @cart_items, :param_name => 'cart_page', :renderer => 'RemoteLinkRenderer' , :remote => {:url => dt_cart_path(:sidebar=>1), :special_url => "checkoutcart", :update => "cart"} %>
   <table cellpadding="0" cellspacing="0">
     <colgroup>
       <col style="width:75%;" />
@@ -18,5 +18,5 @@
       <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
     </tr>
   </table>
-  <%= will_paginate @cart_items, :param_name => 'cart_page', :renderer => 'RemoteLinkRenderer' , :remote => {:url => dt_cart_path, :with => "sidebar=1", :update => "cart"} %>
+  <%= will_paginate @cart_items, :param_name => 'cart_page', :renderer => 'RemoteLinkRenderer' , :remote => {:url => dt_cart_path(:sidebar=>1), :special_url => "checkoutcart", :update => "cart"} %>
 </div>

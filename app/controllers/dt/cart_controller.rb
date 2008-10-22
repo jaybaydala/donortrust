@@ -7,7 +7,8 @@ class Dt::CartController < DtApplicationController
     respond_to do |format|
       format.html {
         unless params[:sidebar].nil?
-          render :action => "sidebar" and return
+          @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
+          render :action => "sidebar", :layout => false and return
         end
         render :action => "show"
       }

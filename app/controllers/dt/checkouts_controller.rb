@@ -15,7 +15,7 @@ class Dt::CheckoutsController < DtApplicationController
   def new
     redirect_to(edit_dt_checkout_path) and return if find_order
     @order = initialize_new_order
-    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
+    paginate_cart
     respond_to do |format|
       format.html {
         @current_step = 'support'
@@ -27,6 +27,7 @@ class Dt::CheckoutsController < DtApplicationController
   def create
     redirect_to(edit_dt_checkout_path) and return if find_order
     @order = initialize_new_order
+    paginate_cart
     unless params[:unallocated_gift].nil?
       gift = Gift.find(session[:gift_card_id])
       @order.email = gift.to_email
@@ -54,7 +55,7 @@ class Dt::CheckoutsController < DtApplicationController
   
   def edit
     @order = find_order
-    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
+    paginate_cart
     redirect_to(new_dt_checkout_path) and return unless @order
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order
@@ -70,6 +71,7 @@ class Dt::CheckoutsController < DtApplicationController
   
   def update
     @order = find_order
+    paginate_cart
     redirect_to(new_dt_checkout_path) and return unless @order
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order
@@ -328,5 +330,10 @@ class Dt::CheckoutsController < DtApplicationController
     else
       flash.now[:error] = "There was a problem adding the Investment to your cart. Please review your information and try again."
     end
+  end
+  
+  protected
+  def paginate_cart
+    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
   end
 end
