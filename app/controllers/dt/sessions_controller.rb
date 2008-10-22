@@ -50,7 +50,7 @@ class Dt::SessionsController < DtApplicationController
         cookies[:dt_login_name] = self.current_user.name
         if current_user.change_password?
           flash[:notice] = "Please change your password to something you'll remember"
-          format.html { redirect_to dt_edit_account_path(current_user) }
+          format.html { redirect_to edit_dt_account_path(current_user) }
         else
           #MP - Dec 14, 2007
           #Added to support the us tax receipt functionality
