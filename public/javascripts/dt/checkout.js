@@ -11,11 +11,6 @@ Event.observe(window, 'load', function() {
 			$(bucket).observe('change', account_total.update_payments_on_change.bindAsEventListener(account_total))
 		});
 		account_total.update_payments();
-		// make sure to hide the credit card fields if there's no credit card amount
-		credit_card_payment = $F("order_credit_card_payment")
-		if (credit_card_payment == "" || credit_card_payment == "0") {
-			$("credit_card_details").hide();
-		}
 	}
 });
 var AccountTotal = Class.create();
@@ -64,6 +59,13 @@ AccountTotal.prototype = {
 			if (!$("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindDown({ duration: 0.8 })}
 		} else {
 			if ($("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindUp({ duration: 0.8 })}
+		}
+		// make sure to show/hide the credit card fields for credit_card_payment
+		credit_card_payment = $F(this.credit_card_payment_field)
+		if (credit_card_payment == "" || credit_card_payment == "0") {
+			$("credit_card_details").hide();
+		} else {
+			$("credit_card_details").show();
 		}
 	},
 	set_currency_value: function(field, value) {

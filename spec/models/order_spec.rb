@@ -67,6 +67,13 @@ describe Order do
       @order.errors.should_receive(:add_on_blank).with(%w(donor_type first_name last_name address city postal_code province country email))
       @order.validate_billing
     end
+    it "should only validate blank on email if no tax_receipt_needed? and we ask it to check" do
+      @order.stub!(:tax_receipt_needed?).and_return(false)
+      @order.errors.should_not_receive(:add_on_blank).with(%w(donor_type first_name last_name address city postal_code province country))
+      @order.errors.should_receive(:add_on_blank).with(%w(email))
+      @order.validate_billing(true) # "true" tells it to test for the tax_receipt_needed?
+    end
+    
     it "should refuse a bad email address" do
       @order.email = "bademail.example.com"
       @order.should_receive(:email?).and_return(true)

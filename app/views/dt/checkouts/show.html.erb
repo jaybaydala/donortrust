@@ -1,13 +1,13 @@
 <%- content_for :html_title do -%>Checkout Complete!<%- end -%>
-<%- content_for :page_title do -%>Thank You!<%- end -%>
+<%- content_for :page_title do -%>Thank you for helping to change the world.<%- end -%>
 
-<p>Thanks! With your generous gift(s) of <strong><%= number_to_currency(@order.total) %></strong>, we're one step closer to changing the world...for good.</p>
+<p>Extreme poverty can end in our lifetime. Your choice to refocus <strong><%= number_to_currency(@order.total) %></strong> to development projects will help make lasting and sustainable change in people's lives.</p>
 
 <% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
 <p>We also thank you for supporting the ChristmasFuture Foundation directly!</p>
 <% end %>
 
-<p>You can now download your item(s) below and return to the <%= link_to "homepage", "/" %>.</p>
+<p>You can now return to the <%= link_to "Homepage", "/" %> or download any item(s) that you may have below.</p>
 
 <% if @order.tax_receipt %>
 <h2>Tax Receipt</h2>

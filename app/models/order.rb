@@ -73,8 +73,14 @@ class Order < ActiveRecord::Base
     "#{expiry_month.to_s.rjust(2, "0")}/#{expiry_year}"
   end
   
-  def validate_billing
-    errors.add_on_blank(%w(donor_type first_name last_name address city postal_code province country email))
+  def validate_billing(check_if_tax_receipt_needed = false)
+    tax_receipt_validation = check_if_tax_receipt_needed == false ? true : tax_receipt_needed?
+    if tax_receipt_validation
+      required_fields = %w(donor_type first_name last_name address city postal_code province country email)
+    else
+      required_fields = %w(email)
+    end
+    errors.add_on_blank(required_fields)
     errors.add_on_blank(:company) if self.donor_type? && self.donor_type == self.class.corporate_donor
     if self.email? && !errors.on(:email)
       errors.add(:email, "isn't a valid email address") unless self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
@@ -115,7 +121,7 @@ class Order < ActiveRecord::Base
   
   def validate_confirmation(cart_items)
     # run through everything just to make sure...
-    validate_billing
+    validate_billing(true)
     validate_payment(cart_items)
     errors.empty?
   end
@@ -181,7 +187,7 @@ class Order < ActiveRecord::Base
   end
 
   def create_tax_receipt_from_order
-    if self.credit_card_payment?
+    if tax_receipt_needed?
       self.tax_receipt = TaxReceipt.new do |t|
         t.first_name   = self.first_name
         t.last_name    = self.last_name
@@ -195,6 +201,10 @@ class Order < ActiveRecord::Base
         t.order_id     = self.id
       end
     end
+  end
+  
+  def tax_receipt_needed?
+    self.credit_card_payment?
   end
   
   def self.generate_order_number

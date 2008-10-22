@@ -139,7 +139,7 @@ class GiftPDFProxy
       _pdf.compressed=true
       image_path = File.expand_path("#{gift.e_card.printable}") if gift.e_card_id? && gift.e_card
       i0 = _pdf.image image_path if image_path && File.exists?(image_path)
-      RAILS_DEFAULT_LOGGER.warn "Gift Card Image does not exist: #{image_path}" unless File.exists?(image_path)
+      RAILS_DEFAULT_LOGGER.warn "Gift Card Image does not exist: #{image_path}" if image_path.nil? || !File.exists?(image_path)
       # make sure to add text on top of the image! 
       _pdf.add_text(138, 151, gift[:pickup_code], 12)
       return _pdf
