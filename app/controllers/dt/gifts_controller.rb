@@ -34,10 +34,11 @@ class Dt::GiftsController < DtApplicationController
   
   def new
     store_location
-    @gift = Gift.new
+    @ecards = ECard.find(:all, :order => :id)
+    @ecards.unshift(@ecards.delete_at(2)) # changing the default image
+    @gift = Gift.new(:e_card => @ecards.first)
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
-    @ecards = ECard.find(:all, :order => :id)
     
     if params[:project_id] && @project = Project.find(params[:project_id]) 
       if @project.fundable?

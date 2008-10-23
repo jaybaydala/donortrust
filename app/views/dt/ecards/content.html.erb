@@ -1,0 +1,5 @@
+<% if @ecards and !@ecards.empty? %>
+<ul id="ecardthumbs">
+  <%= render :partial => 'dt/ecards/thumbnail', :collection => @ecards %>
+</ul>
+<% end %>

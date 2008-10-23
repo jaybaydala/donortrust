@@ -63,6 +63,7 @@
       <%= render :partial => "bulk_gifts", :locals => {:f => f} %>
     </div>
   </fieldset>
+
   <fieldset>
     <legend>2. Gift Details</legend>
     <ol class="clearfix">
@@ -70,26 +71,43 @@
         <label for="gift_amount">Gift Amount</label> $<%= f.text_field :amount %>
         <div class="note" style="padding-left:.5em;">Example: $100</div>
       </li>
-      <li><label for="gift_message" class="left">Your personal message to the recipient:</label><%= f.text_area :message, :rows => 6, :cols => 35 %></li>
-      <li><label for="gift_notify" class="left"><%= f.check_box :notify_giver %>Let me know this gift is used or not used</label></li>
       <li>
-        <label class="left">Ecard Image:</label>
-        <%= render :partial => 'dt/ecards/ecard_preview', :locals => {:ecard => @ecards[0], :form => f} %>
-        <div>Please select an image from the Ecard Gallery on the right &raquo;</div>
-        <div id="ecardPreview" style="display:none;">
+        <div class="columns">
+          <div class="left" style="width:150px;">
+            <label class="left">Ecard Image:</label>
+            <div id="medImgWrap">
+              <div class="medImg"><%= image_tag url_for_file_column(@ecards[0], "medium"), :id => 'mediumEcard', :alt => '' %></div>
+              <div style="color:#333;"><em>Selected Image</em></div>
+            </div>
+            <%= f.hidden_field 'e_card_id', :id => "e_card_id" %>
+          </div>
+          <div class="right" style="width:300px;">
+            <label for="gift_message" class="left">Your personal message to the recipient(s):</label>
+            <%= f.text_area :message, :rows => 6, :cols => 35 %>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div id="ecardPreview" style="display:none;" class="clearfix">
           <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
           <%= button_to_function "<span>Preview your ecard &raquo;</span>", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
         </div>
       </li>
+      <li>
+        <div>Please select an image from the Ecard Gallery:</div>
+        <%= render "dt/ecards/content" %>
+      </li>
     </ol>
   </fieldset>
+
   <fieldset>
     <legend>3. Gift Delivery</legend>
     <div class="notes">
       <h5>Gift Delivery</h5>
-      <p>Gifts that remain unopened or unclaimed for 30 days will automatically be invested in one of our projects. We&rsquo;ll send both you and the recipient multiple email reminders before unclaimed gifts are invested.</p>
+      <p>Gifts that remain unopened or unclaimed for 30 days will automatically be invested in one of our projects. If you choose, we can send both you and the recipient multiple email reminders before unclaimed gifts are invested.</p>
     </div>
     <ol>
+      <li><label for="gift_notify" class="left"><%= f.check_box :notify_giver %>Let me know this gift is used or not used</label></li>
       <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "$('gift_send_at').hide();", :checked => "checked" %> Email my gift now</label></li>
       <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Schedule my gift delivery</label></li>
       <li>
@@ -114,6 +132,7 @@
       </li>
     </ol>
   </fieldset>
+
   <div style="float:right;" class="clearfix"><%= submit_tag 'Add to Cart', :class => 'buttonsubmit', :id => "giftsubmit" %></div>
 
 </div>
