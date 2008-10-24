@@ -114,7 +114,7 @@
       <p>Gifts that remain unopened or unclaimed for 30 days will automatically be invested in one of our projects. If you choose, we can send both you and the recipient multiple email reminders before unclaimed gifts are invested.</p>
     </div>
     <ol>
-      <li><label for="gift_notify" class="left"><%= f.check_box :notify_giver %>Let me know this gift is used or not used</label></li>
+      <li><label for="gift_notify_giver" class="left"><%= f.check_box :notify_giver %>Let me know this gift is used or not used</label></li>
       <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "$('gift_send_at').hide();", :checked => "checked" %> Email my gift now</label></li>
       <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Schedule my gift delivery</label></li>
       <li>
