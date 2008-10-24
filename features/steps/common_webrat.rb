@@ -33,7 +33,7 @@ When /^I attach the file at "(.*)" to "(.*)" $/ do |path, field|
   attaches_file(field, path)
 end
 
-When /^I go to (.*)$/ do |page|
+When /^I go to \"(.*)\"$/ do |page|
   visits case page
   when "the home page"
     "/"

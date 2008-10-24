@@ -1,5 +1,5 @@
-Then /^I should see 3 gifts in my cart$/ do
-  response.should have_tag("#cart div.gift", :count => 3)
+Then /^I should see (\d+) gifts in my cart$/ do |count|
+  response.should have_tag("#cart div.gift", :count => count.to_i)
 end
 
 Then /^I should see all the email addresses from the file in "Gift Recipients" PENDING$/ do

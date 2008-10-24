@@ -45,5 +45,5 @@ When /^I open my gift card again$/ do
 end
 
 Then /^I should be told the gift card expiry date$/ do
-  response.should have_tag(".notice", "Your gift card balance will expire on #{@gift.expiry_date.strftime("%b %e, %Y")}")
+  response.should have_tag(".notice", "Please note: Your gift card balance will expire on #{@gift.expiry_date.strftime("%b %e, %Y")}. If you need more time, please Deposit the balance into your account.")
 end

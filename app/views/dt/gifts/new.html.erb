@@ -72,6 +72,10 @@
         <div class="note" style="padding-left:.5em;">Example: $100</div>
       </li>
       <li>
+        <% if @ecards.empty? %>
+        <label for="gift_message" class="left">Your personal message to the recipient(s):</label>
+        <%= f.text_area :message, :rows => 6, :cols => 35 %>
+        <% else %>
         <div class="columns">
           <div class="left" style="width:150px;">
             <label class="left">Ecard Image:</label>
@@ -86,7 +90,9 @@
             <%= f.text_area :message, :rows => 6, :cols => 35 %>
           </div>
         </div>
+        <% end %>
       </li>
+      <% unless @ecards.empty? %>
       <li>
         <div id="ecardPreview" style="display:none;" class="clearfix">
           <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
@@ -97,6 +103,7 @@
         <div>Please select an image from the Ecard Gallery:</div>
         <%= render "dt/ecards/content" %>
       </li>
+      <% end %>
     </ol>
   </fieldset>
 

@@ -38,5 +38,5 @@ Then /^I should be shown my order$/ do
   @order = Order.find_by_order_number(request.parameters[:order_number])
   response.should have_tag('h2', "Tax Receipt")
   response.should have_tag('h2', "Gift(s)")
-  response.should have_tag("p", "Thanks! With your generous gift(s) of #{number_to_currency(@order.total)}, we're one step closer to changing the world...for good.")
+  response.should have_tag("p", "Extreme poverty can end in our lifetime. Your choice to refocus #{number_to_currency(@order.total)} to development projects will help make lasting and sustainable change in people's lives.")
 end

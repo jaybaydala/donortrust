@@ -4,7 +4,7 @@ As a user
 I want to be able to give a gift
 
   Scenario: Adding a gift
-    Given that I am on the new gift page
+    Given I go to "/dt/gifts/new"
     When I fill in "Gift Amount" with "20"
     And I fill in "gift[email]" with "test1@example.com"
     And I fill in "gift[to_email]" with "test2@example.com"
@@ -16,7 +16,7 @@ I want to be able to give a gift
     And the Cart Total should be $20
 
   Scenario: Giving a bulk gift
-    Given that I am on the new gift page
+    Given I go to "/dt/gifts/new"
     When I fill in "gift[name]" with "Test Gift"
     And I fill in "gift[email]" with "tester@example.com"
     And I fill in "Gift Amount" with "20"
@@ -26,7 +26,7 @@ I want to be able to give a gift
     And the Cart Total should be $60
 
   Scenario: Valid file import upload
-    Given that I am on the new gift page
+    Given I go to "/dt/gifts/new"
     When I attach the file at "valid_file.csv" to "email_upload[email_file]"
     Then I should see all the email addresses from the file in "Gift Recipients"
 
@@ -37,6 +37,6 @@ I want to be able to give a gift
     Then I should see 3 gifts in my cart
 
   Scenario: Invalid file import upload
-    Given that I am on the new gift page
+    Given I go to "/dt/gifts/new"
     When I attach the file at "invalid_file.csv" to "email_upload[email_file]"
     Then I should get an error message with further instructions
