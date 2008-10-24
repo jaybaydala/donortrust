@@ -106,3 +106,5 @@ class RubyTube
   end
   alias_method_chain :initialize, :key
 end
+
+require 'bleak_house' if ENV['BLEAK_HOUSE']
