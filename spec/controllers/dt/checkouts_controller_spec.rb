@@ -494,8 +494,9 @@ describe Dt::CheckoutsController do
         end
         
         it "should remove admin_investment from the cart.items if it's in there" do
-          @cart.add_item @admin_investment
-          index = @cart.investments.size - 1
+          @cart.add_item(@admin_investment)
+          
+          index = @cart.items.index(@admin_investment)
           @cart.should_receive(:remove_item).with(index)
           do_request
         end
@@ -782,14 +783,15 @@ describe Dt::CheckoutsController do
                 @gift_card.update_attributes(:amount => @order.total + 1, :balance => @order.total + 1)
                 controller.session[:gift_card_balance] = @gift_card.balance
               end
-              it "should set gift_card_payment to order.total and credit_card_balance to 0 when the user has no balance" do
+              it "should set gift_card_payment to order.total when the user has no balance" do
                 @gift_card.update_attributes(:amount => @order.total + 1, :balance => @order.total + 1)
                 @user.stub!(:balance).and_return(0)
                 do_request
                 @order.gift_card_payment.should == @order.total
               end
               it "should set credit_card_payment to 0 when the user has no balance and has a gift card larger than the total" do
-                @gift_card.update_attributes(:amount => @order.total + 1, :balance => @order.total + 1)
+                new_balance = @order.total + 1
+                @gift_card.update_attributes(:amount => new_balance, :balance => new_balance)
                 @user.stub!(:balance).and_return(0)
                 do_request
                 @order.credit_card_payment.should == 0

@@ -206,7 +206,7 @@ class Dt::CheckoutsController < DtApplicationController
       @admin_project = Project.admin_project
       # delete the admin_project investment item - it will get re-added below, if applicable
       index = @cart.items.index(@cart.items.find{|item| item.class == Investment && item.project_id == @admin_project.id && item.checkout_investment? })
-      @cart.remove_item(index) if index
+      @cart.remove_item(index) unless index.nil?
       unless params[:fund_cf] == "no"
         @admin_investment = Investment.new(:project_id => @admin_project.id, :amount => params[:fund_cf_amount], :checkout_investment => true)
         @admin_investment.amount = @cart.total * (@admin_investment.amount/100) if params[:fund_cf] == "percent"

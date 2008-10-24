@@ -113,7 +113,7 @@ describe Dt::GiftsController do
       request.stub!(:remote_ip).and_return("127.0.0.1")
       controller.stub!(:request).and_return(request)
       @cart = Cart.new
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
       now = Time.now
       Time.stub!(:now).and_return(now)
     end
@@ -143,7 +143,7 @@ describe Dt::GiftsController do
       end
       
       it "should find_cart" do
-        controller.should_receive(:find_cart).and_return(@cart)
+        controller.should_receive(:find_cart)
         post 'create'
       end
       
@@ -198,7 +198,7 @@ describe Dt::GiftsController do
       @gift.stub!(:kind_of?).and_return(true)
       @cart = Cart.new
       @cart.stub!(:items).and_return([@gift])
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should render the edit template" do
@@ -207,7 +207,7 @@ describe Dt::GiftsController do
     end
     
     it "should load the cart" do
-      controller.should_receive(:find_cart).and_return(@cart)
+      controller.should_receive(:find_cart)
       do_request
     end
     
@@ -243,7 +243,7 @@ describe Dt::GiftsController do
       @gift.stub!(:valid?).and_return(true)
       @cart = Cart.new
       @cart.stub!(:items).and_return([@gift])
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should redirect to dt_cart_path" do
@@ -252,7 +252,7 @@ describe Dt::GiftsController do
     end
     
     it "should load the cart" do
-      controller.should_receive(:find_cart).and_return(@cart)
+      controller.should_receive(:find_cart)
       do_request
     end
     

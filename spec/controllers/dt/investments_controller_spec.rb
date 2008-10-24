@@ -64,7 +64,7 @@ describe Dt::InvestmentsController do
       request.stub!(:remote_ip).and_return("127.0.0.1")
       controller.stub!(:request).and_return(request)
       @cart = Cart.new
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should add the current_user if logged_in?" do
@@ -101,7 +101,7 @@ describe Dt::InvestmentsController do
       end
       
       it "should load the the cart" do
-        controller.should_receive(:find_cart).and_return(@cart)
+        Cart.should_receive(:new).and_return(@cart)
         post 'create'
       end
       
@@ -127,7 +127,7 @@ describe Dt::InvestmentsController do
       @investment.stub!(:kind_of?).and_return(true)
       @cart = Cart.new
       @cart.stub!(:items).and_return([@investment])
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should render the edit template" do
@@ -136,7 +136,7 @@ describe Dt::InvestmentsController do
     end
     
     it "should load the cart" do
-      controller.should_receive(:find_cart).and_return(@cart)
+      Cart.should_receive(:new).and_return(@cart)
       do_request
     end
     
@@ -172,7 +172,7 @@ describe Dt::InvestmentsController do
       @investment.stub!(:valid?).and_return(true)
       @cart = Cart.new
       @cart.stub!(:items).and_return([@investment])
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should redirect to dt_cart_path" do
@@ -181,7 +181,7 @@ describe Dt::InvestmentsController do
     end
     
     it "should load the cart" do
-      controller.should_receive(:find_cart).and_return(@cart)
+      Cart.should_receive(:new).and_return(@cart)
       do_request
     end
     

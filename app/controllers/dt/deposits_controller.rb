@@ -32,7 +32,6 @@ class Dt::DepositsController < DtApplicationController
     respond_to do |format|
       if @valid
         session[:deposit_params] = nil
-        @cart = find_cart
         @cart.add_item(@deposit)
         flash[:notice] = "Your Deposit has been added to your cart."
         format.html { redirect_to dt_cart_path }

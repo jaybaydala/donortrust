@@ -82,8 +82,8 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
       controller.stub!(:logged_in?).and_return(true)
       controller.stub!(:current_user).and_return(@user)
       controller.stub!(:params).and_return({:order => {}})
-      @cart = Cart.new
       @cart.stub!(:total).and_return(100)
+      @order = Order.generate!(:amount => @cart.total)
     end
 
     it "should load params[:order] into @order.attributes" do
