@@ -1,5 +1,5 @@
 Feature: A User adds items to their Cart
-  In order to checkout and purchase items
+  So that we can checkout and purchase items
   As a User
   I want to add items to my cart
 

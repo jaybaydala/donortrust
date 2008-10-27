@@ -145,23 +145,26 @@ class Dt::GiftsController < DtApplicationController
     store_location
     @gift = Gift.validate_pickup(params[:code]) if params[:code]
     respond_to do |format|
-      if @gift
-        if @gift.project_id?
-          flash.now[:notice] = "You have been given #{number_to_currency(@gift.amount)}!"
-          # @gift.pickup
+      format.html {
+        if @gift
+          if @gift.project_id?
+            flash.now[:notice] = "You have been given #{number_to_currency(@gift.amount)}!"
+            # @gift.pickup
+          else
+            flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.balance)}" unless @gift.project_id?
+            # track some gift stuff in the session for cart and checkout
+            session[:gift_card_id] = @gift.id
+            session[:gift_card_balance] = @gift.balance
+            # track it in a cookie as well for the blog site
+            cookies[:gift_card_id] = @gift.id.to_s
+            cookies[:gift_card_balance] = @gift.balance.to_s
+          end
+        elsif session[:gift_card_id]
+          @gift = Gift.find(session[:gift_card_id])
         else
-          flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.balance)}" unless @gift.project_id?
-          # track some gift stuff in the session for cart and checkout
-          session[:gift_card_id] = @gift.id
-          session[:gift_card_balance] = @gift.balance
-          # track it in a cookie as well for the blog site
-          cookies[:gift_card_id] = @gift.id.to_s
-          cookies[:gift_card_balance] = @gift.balance.to_s
-        end 
-      else
-        flash.now[:error] = "The pickup code is not valid. Please check your email and try again." if params[:code]
-      end
-      format.html
+          flash.now[:error] = "The pickup code is not valid. Please check your email and try again." if params[:code]
+        end
+      }
     end
   end
   

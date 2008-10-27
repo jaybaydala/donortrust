@@ -24,14 +24,13 @@ Given /^my cart has a deposit of \$(\d+\.?\d*)$/ do |amount|
   add_deposit_to_cart(amount)
 end
 
-Then /^I should be on the billing step of the checkout process$/ do
-  response.should have_tag("h2", "Step 2 of 4 - Billing Information")
-end
 Then /^I should be on the payment step of the checkout process$/ do
-  response.should have_tag("h2", "Step 3 of 4 - Payment Details")
+  response.should have_tag("h2", "Step 2 of 4 - Payment Details")
+end
+Then /^I should be on the billing step of the checkout process$/ do
+  response.should have_tag("h2", "Step 3 of 4 - Billing Information")
 end
 Then /^I should be on the confirmation step of the checkout process$/ do
-  
   response.should have_tag("h2", "Step 4 of 4 - Confirmation")
 end
 Then /^I should be shown my order$/ do

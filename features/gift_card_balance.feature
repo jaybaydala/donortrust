@@ -1,11 +1,11 @@
 Feature: A User uses a portion of their gift card should maintain a balance
-In order to use a gift card in multiple visits
-As a Gift Receiver
-I want to have a balance on my gift card
+  So that I a gift card in multiple visits
+  As a Gift Receiver
+  I want to have a balance on my gift card
 
   Scenario: A new gift card should have a balance equal to the amount
     Given I add a gift for $50 to my cart
-    And I checkout
+    And I checkout using my credit card
     Then the gift card amount should be $50
     Then the gift card balance should be $50
     

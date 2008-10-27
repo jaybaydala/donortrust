@@ -10,7 +10,7 @@ class Dt::CheckoutsController < DtApplicationController
   helper_method :gift_card_payment?
   helper_method :summed_account_balances
   
-  CHECKOUT_STEPS = ["support", "billing", "payment", "confirm"]
+  CHECKOUT_STEPS = ["support", "payment", "billing", "confirm"]
   
   def new
     redirect_to(edit_dt_checkout_path) and return if find_order
@@ -159,7 +159,7 @@ class Dt::CheckoutsController < DtApplicationController
         # no model validation to happen here
         @valid = true
       when "billing"
-        @valid = @order.validate_billing
+        @valid = @order.validate_billing(@cart.items)
       when "payment"
         @valid = @order.validate_payment(@cart.items)
       when "confirm"

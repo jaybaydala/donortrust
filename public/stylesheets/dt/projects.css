@@ -233,6 +233,7 @@ a.button-checkout, a.button-checkout span,
 a.button-return_to_cart, a.button-return_to_cart span,
 a.button-add_gift_card, a.button-add_gift_card span,
 a.button-add_project_gift, a.button-add_project_gift span,
+a.button-give_project, a.button-give_project span,
 a.button-add_deposit, a.button-add_deposit span,
 a.button-send_wishlist, a.button-send_wishlist span,
 a.button-add_project, a.button-add_project span,
@@ -250,6 +251,7 @@ a.button-add_project, a.button-add_project span {
 }
 a.button-return_to_cart, a.button-return_to_cart span {width:170px;}
 a.button-add_project_gift, a.button-add_project_gift span {width:150px;}
+a.button-give_project, a.button-give_project span {width:150px;}
 a.button-add_gift_card, a.button-add_gift_card span {width:140px;}
 a.button-add_deposit, a.button-add_deposit span {width:130px;}
 
@@ -265,6 +267,7 @@ a.button-checkout span,
 a.button-return_to_cart span,
 a.button-add_gift_card span,
 a.button-add_project_gift span,
+a.button-give_project span,
 a.button-add_deposit span,
 a.button-add_project span,
 a.button-send_wishlist span,
@@ -289,6 +292,8 @@ a.button-add_gift_card {background:url(/images/dt/nav_elements/add_gift_card_gre
 a.button-add_gift_card:hover {background:url(/images/dt/nav_elements/add_gift_card_blue.gif) no-repeat transparent;}
 a.button-add_project_gift {background:url(/images/dt/nav_elements/add_project_gift_grey.gif) no-repeat transparent;}
 a.button-add_project_gift:hover {background:url(/images/dt/nav_elements/add_project_gift_blue.gif) no-repeat transparent;}
+a.button-give_project {background:url(/images/dt/nav_elements/give_to_a_project_grey.gif) no-repeat transparent;}
+a.button-give_project:hover {background:url(/images/dt/nav_elements/give_to_a_project_blue.gif) no-repeat transparent;}
 a.button-add_deposit {background:url(/images/dt/nav_elements/add_deposit_grey.gif) no-repeat transparent;}
 a.button-add_deposit:hover {background:url(/images/dt/nav_elements/add_deposit_blue.gif) no-repeat transparent;}
 a.button-send_wishlist {background:url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey.gif) no-repeat transparent;}
@@ -303,6 +308,7 @@ a.button-invitemembers:hover {background:url(/images/dt/nav_elements/buttonsCF/n
 
 a.button-add_gift_card, a.button-add_gift_card span,
 a.button-add_project_gift, a.button-add_project_gift span,
+a.button-give_project, a.button-give_project span,
 a.button-add_deposit, a.button-add_deposit span,
 a.button-checkout, a.button-checkout span,
 a.button-go, a.button-go span {
@@ -332,7 +338,8 @@ Ecards
 }
 #ecardthumbs li {
     display:inline;
-    margin:4px;
+    mar
+    gin:4px;
 }
 
 /* 

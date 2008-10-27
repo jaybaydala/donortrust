@@ -44,7 +44,7 @@ end
 # CHECKOUT HELPERS
 # ================================
 def checkout_steps 
-  %w( support billing payment confirmation )
+  %w( support payment billing confirmation )
 end
 def checkout_support_step(type=false, amount=nil)
   Project.generate!({ :slug => "admin" }) unless Project.admin_project
@@ -61,6 +61,15 @@ def checkout_support_step(type=false, amount=nil)
   end
   clicks_button("Proceed to Step 2")
 end
+def checkout_payment_step(params={})
+  # if it's only the credit_card_payment, it's autofilled
+  unless params.size == 1 && params[:credit_card_payment] 
+    fills_in("order_account_balance_payment", :with => params[:account_balance_payment]) if params[:account_balance_payment]
+    fills_in("order_gift_card_payment", :with => params[:gift_card_payment]) if params[:gift_card_payment]
+    fills_in("order_credit_card_payment", :with => params[:credit_card_payment]) if params[:credit_card_payment]
+  end
+  clicks_button("Proceed to Step 3")
+end
 def checkout_billing_step(params={})
   fills_in("order_first_name", :with => params[:first_name] || "Test")
   fills_in("order_last_name", :with => params[:last_name] || "Name")
@@ -70,17 +79,13 @@ def checkout_billing_step(params={})
   fills_in("order_postal_code", :with => params[:postal_code] || "T2Y 3N2")
   selects(params[:country] || "Canada", :from => "order_country") 
   fills_in("order_email", :with => params[:email] || "test@example.com")
-  clicks_button("Proceed to Step 3")
-end
-def checkout_payment_step(params={})
-  fills_in("account_balance_payment", :with => params[:account_balance_payment]) if params[:account_balance_payment]
-  fills_in("gift_card_payment", :with => params[:gift_card_payment]) if params[:gift_card_payment]
-  fills_in("credit_card_payment", :with => params[:credit_card_payment]) if params[:credit_card_payment]
-  fills_in("order_card_number", :with => params[:card_number] || "1")
-  fills_in("order_cardholder_name", :with => params[:cardholder_name] || "Test User")
-  fills_in("order_cvv", :with => params[:cvv] || "989")
-  selects(params[:expiry_month] || "04", :from => "order_expiry_month") 
-  selects(params[:expiry_year] || Time.now.year+1, :from => "order_expiry_year") 
+  if params[:credit_card_payment]
+    fills_in("order_card_number", :with => params[:card_number] || "1")
+    fills_in("order_cardholder_name", :with => params[:cardholder_name] || "Test User")
+    fills_in("order_cvv", :with => params[:cvv] || "989")
+    selects(params[:expiry_month] || "04", :from => "order_expiry_month")
+    selects(params[:expiry_year] || Time.now.year+1, :from => "order_expiry_year")
+  end
   clicks_button("Proceed to Step 4")
 end
 def checkout_confirmation_step

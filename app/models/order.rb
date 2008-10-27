@@ -73,7 +73,7 @@ class Order < ActiveRecord::Base
     "#{expiry_month.to_s.rjust(2, "0")}/#{expiry_year}"
   end
   
-  def validate_billing(check_if_tax_receipt_needed = false)
+  def validate_billing(cart_items, check_if_tax_receipt_needed = false)
     tax_receipt_validation = check_if_tax_receipt_needed == false ? true : tax_receipt_needed?
     if tax_receipt_validation
       required_fields = %w(donor_type first_name last_name address city postal_code province country email)
@@ -84,6 +84,14 @@ class Order < ActiveRecord::Base
     errors.add_on_blank(:company) if self.donor_type? && self.donor_type == self.class.corporate_donor
     if self.email? && !errors.on(:email)
       errors.add(:email, "isn't a valid email address") unless self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+    end
+    # credit_card_payment
+    errors.add_to_base("You must pay for deposits from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
+    if credit_card_payment?
+      unless credit_card.valid?
+        credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
+        errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:<ul>#{credit_card_messages.join}</ul>") 
+      end
     end
     errors.empty?
   end
@@ -96,17 +104,10 @@ class Order < ActiveRecord::Base
     @gift_card_balance = BigDecimal.new(val.to_s)
   end
   def validate_payment(cart_items)
-    errors.add_to_base("You must pay for deposits from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
     errors.add(:account_balance_payment, "cannot be more than your current account balance") if @account_balance && @account_balance > 0 && account_balance_payment? && account_balance_payment > @account_balance
     errors.add(:gift_card_payment, "cannot be more than your current gift card balance") if @gift_card_balance && @gift_card_balance > 0 && gift_card_payment? && gift_card_payment > @gift_card_balance
     errors.add_to_base("Please ensure you're paying the full amount.") if total_payments < total
     errors.add_to_base("You only need to pay the cart total.") if total_payments > total
-    if credit_card_payment?
-      unless credit_card.valid?
-        credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
-        errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:<ul>#{credit_card_messages.join}</ul>") 
-      end
-    end
     errors.empty?
   end
 
@@ -121,7 +122,7 @@ class Order < ActiveRecord::Base
   
   def validate_confirmation(cart_items)
     # run through everything just to make sure...
-    validate_billing(true)
+    validate_billing(cart_items, true)
     validate_payment(cart_items)
     errors.empty?
   end

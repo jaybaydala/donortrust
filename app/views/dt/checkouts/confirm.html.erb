@@ -75,13 +75,8 @@
       <h5>Credit Card Information</h5>
       <p>Your credit card is processed on a secure server. We <strong>do not</strong> store any credit card information or details.</p>
     </div>
-    <% if logged_in? and current_user.balance > 0 %>
-    <p>The remaining balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_payment.to_f) %></strong> will be charged to your credit card</p>
-    <% else %>
-    <p>A balance of <strong><%= number_to_currency(@cart.total - @order.account_balance_payment.to_f) %></strong> will be charged to your credit card</p>
-    <% end %>
-    <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
-    <ol class="clearfix" style="margin:6px 0 0 0;">
+    <p>A balance of <strong><%= number_to_currency( @order.credit_card_payment) %></strong> will be charged to your credit card.</p>
+    <ol class="clearfix">
       <li><label class="wide"><strong>Credit Card</strong></label><%=h @order.card_number_concealed %> <%= f.hidden_field :card_number, :value => @order.credit_card.number %><%# this sets the card_number temporarily back to the full value for processing %></li>
       <li><label class="wide"><strong>Card Security Number (CVV)</strong></label> <%=h @order.cvv.gsub(/./, "*") if @order.cvv? %></li>
       <li><label class="wide"><strong>Card Expiry</strong></label> <%=h @order.card_expiry %></li>

@@ -56,17 +56,20 @@ AccountTotal.prototype = {
 		if (payment_required != 0) {
 			// we'll show the payment required field
 			this.set_currency_value(this.payment_required_field, payment_required)
-			if (!$("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindDown({ duration: 0.8 })}
+			if (!$("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindDown({ duration: 0.4 })}
 		} else {
-			if ($("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindUp({ duration: 0.8 })}
+			if ($("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindUp({ duration: 0.4 })}
 		}
 		// make sure to show/hide the credit card fields for credit_card_payment
+		// not needed since we've moved credit_card_details to the next step
+		/*
 		credit_card_payment = $F(this.credit_card_payment_field)
 		if (credit_card_payment == "" || credit_card_payment == "0") {
 			$("credit_card_details").hide();
 		} else {
 			$("credit_card_details").show();
 		}
+		*/
 	},
 	set_currency_value: function(field, value) {
 		$(field).setValue(number_helper.to_currency(number_helper.filter_amount(value), false))
@@ -77,119 +80,6 @@ AccountTotal.prototype = {
 	subtract_values: function() {
 		
 	}
-
-/*
-	initialize: function(form, type) {
-		this.form = form
-		this.update_totals()
-	},
-	update_totals: function() {
-		cart_total = this.get_cart_total()
-		total = this.get_account_amount() + this.get_cc_amount()
-		remaining = cart_total - total
-		this.set_cc_amount(this.get_cc_amount())
-		this.set_account_amount(this.get_account_amount())
-		this.set_total(total)
-		this.set_payment_required(remaining)
-		if (remaining == 0) {
-			if ($("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindUp({ duration: 0.8 })}
-		} else {
-			if (!$("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindDown({ duration: 0.8 })}
-		}
-		if (this.get_account_amount() == cart_total) {
-				$('credit_card_details').hide();
-		} else {
-			$('credit_card_details').show();
-		}
-	},
-	update_from_cc: function() {
-		cart_total = this.get_cart_total()
-		account_balance = this.get_account_balance()
-		cc_amount = this.get_cc_amount()
-		min_cc_payment = this.get_min_cc_payment()
-		if (cc_amount > cart_total) {
-			cc_amount = cart_total
-		}
-		if (cc_amount < min_cc_payment) {
-			cc_amount = min_cc_payment
-		}
-		account_amount = cart_total - cc_amount
-		if (account_balance < account_amount) {
-			account_amount = account_balance
-		}
-		this.set_cc_amount(cc_amount)
-		this.set_account_amount(account_amount)
-		this.update_totals()
-	},
-	update_from_account_amount: function() {
-		cart_total = this.get_cart_total()
-		account_balance = this.get_account_balance()
-		account_amount = this.get_account_amount()
-		min_cc_payment = this.get_min_cc_payment()
-		if (account_amount > cart_total) {
-			account_amount = cart_total
-		}
-		if (account_balance < account_amount) {
-			account_amount = account_balance
-		}
-		if (cart_total - account_amount < min_cc_payment) {
-			account_amount = cart_total - min_cc_payment
-		}
-		cc_amount = cart_total - account_amount
-		if (cc_amount > cart_total) {
-			cc_amount = cart_total
-		}
-		this.set_cc_amount(cc_amount)
-		this.set_account_amount(account_amount)
-		this.update_totals()
-	},
-	set_cc_amount: function(value) {
-		value = this.to_dollars(value)
-		$(this.cc_amount_field).value = number_helper.to_currency(value, false)
-	},
-	set_account_amount: function(value) {
-		value = this.to_dollars(value)
-		$(this.account_amount_field).value = number_helper.to_currency(value, false)
-	},
-	set_total: function(value) {
-		value = this.to_dollars(value)
-		$(this.total_field).value = number_helper.to_currency(value)
-	},
-	set_payment_required: function(value) {
-		value = this.to_dollars(value)
-		$(this.payment_required_field).value = number_helper.to_currency(value)
-	},
-	get_account_balance: function() {
-		value = number_helper.filter_amount($(this.account_balance_field).value)
-		return this.to_cents(value);
-	},
-	get_min_cc_payment: function() {
-		value = number_helper.filter_amount($(this.min_cc_payment_field).value)
-		return this.to_cents(value);
-	},
-	get_cart_total: function() {
-		value = number_helper.filter_amount($(this.cart_total_field).value)
-		return this.to_cents(value);
-	},
-	get_cc_amount: function() {
-		value = number_helper.filter_amount($(this.cc_amount_field).value)
-		return this.to_cents(value);
-	},
-	get_account_amount: function() {
-		value = number_helper.filter_amount($(this.account_amount_field).value)
-		return this.to_cents(value);
-	},
-	get_total: function() {
-		value = number_helper.filter_amount($(this.total_field).value)
-		return this.to_cents(value);
-	},
-	to_cents: function(dollars) {
-		return dollars * 100;
-	},
-	to_dollars: function(cents) {
-		return cents / 100;
-	}
-*/
 }
 
 number_helper = {

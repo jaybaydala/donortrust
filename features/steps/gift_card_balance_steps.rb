@@ -14,16 +14,20 @@ Given /^I add an investment for \$([\d]+[\.]?[\d]?) to my cart$/ do |amount|
 end
 
 
-When /^I checkout$/ do
-  checkout_steps.each do |step|
-    send("checkout_#{step}_step")
-  end
+When /^I checkout using my credit card$/ do
+  credit_card_payment = session[:cart].total
+  checkout_support_step
+  checkout_payment_step({:credit_card_payment => credit_card_payment})
+  checkout_billing_step({:credit_card_payment => credit_card_payment})
+  checkout_confirmation_step
 end
 
 When /^I checkout using my gift card$/ do
-  checkout_steps.each do |step|
-    send("checkout_#{step}_step")
-  end
+  gift_card_payment = session[:cart].total
+  checkout_support_step
+  checkout_payment_step({:gift_card_payment => gift_card_payment})
+  checkout_billing_step
+  checkout_confirmation_step
 end
 
 Given /^I have received a gift for \$([\d]+[\.]?[\d]?)$/ do |amount|
