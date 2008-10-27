@@ -32,10 +32,10 @@
   <fieldset>
     <legend>Your Investment</legend>
     <ol>
-  		<li>
-  		  <label for="investment_amount" style="width:135px;"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label> $<%= f.text_field :amount %>
-  		  <div class="note" style="margin-left:150px;">Example: $100</div>
-  		</li>
+      <li>
+        <label for="investment_amount" style="width:135px;"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label> $<%= f.text_field :amount %>
+        <div class="note" style="margin-left:150px;">Example: $100</div>
+      </li>
     </ol>
   </fieldset>
   
@@ -52,11 +52,11 @@
   </fieldset>
   <% end %>
 
-	<div style="float:right;" class="clearfix"><%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %></div>
+  <div style="float:right;" class="clearfix"><%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %></div>
 </div>
 <% end %>
 
 <%- content_for :sidebar do -%>
   <%= render "dt/cart/summary" %>
-	<%= dt_profile_sidebar %>
+  <%= dt_profile_sidebar %>
 <%- end -%>

@@ -41,9 +41,9 @@
       </ol>
       <ol class="clearfix" id="payment">
         <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :cart_total, @cart.total, :id => 'cart_total' %></li>
-        <% if gift_card_payment? %><li><label>Take From my Gift Card:</label> $<%= f.text_field :gift_card_payment %></li><% end %>
-        <% if account_payment? %><li><label>Take From my Account:</label> $<%= f.text_field :account_balance_payment %></li><% end %>
-        <li class="odd"><label>Put on My Credit Card:</label> $<%= f.text_field :credit_card_payment %></li>
+        <% if gift_card_payment? %><li><label>Take From my Gift Card:</label> $<%= f.text_field :gift_card_payment, :value => number_with_precision(@order.gift_card_payment, 2) %></li><% end %>
+        <% if account_payment? %><li><label>Take From my Account:</label> $<%= f.text_field :account_balance_payment, :value => number_with_precision(@order.account_balance_payment, 2) %></li><% end %>
+        <li class="odd"><label>Put on My Credit Card:</label> $<%= f.text_field :credit_card_payment, :value => number_with_precision(@order.credit_card_payment, 2) %></li>
         <li style="display:none;" id="paymentrequiredfield"><label>Payment still required:</label> $<%= text_field_tag :payment_required, number_to_currency(@order.total), :style => 'border:0;', :disabled => "disabled" %></li>
         <li style="display:none;" id="totalfield"><label>Total Paid:</label> $<%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :disabled => "disabled" %></li>
       </ol>
@@ -73,14 +73,14 @@
       <ol>
         <li><label for="password" style="width:120px;">Password</label> <%= password_field_tag :password, nil, :id => 'password' %></li>
         <li><label for="password_confirmation" style="width:120px;">Confirm Password</label> <%= password_field_tag :password_confirmation, nil, :id => 'password_confirmation' %></li>
-    	  <li>
-        	<fieldset>
-        	  <legend>Terms of Service</legend>
-        	  <ol>
-          	  <li class="left"><%= check_box_tag :terms_of_use %> I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</li>
-        	  </ol>
+        <li>
+          <fieldset>
+            <legend>Terms of Service</legend>
+            <ol>
+              <li class="left"><%= check_box_tag :terms_of_use %> I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</li>
+            </ol>
           </fieldset>
-    	  </li>
+        </li>
     </ol>
     </div>
   </fieldset>

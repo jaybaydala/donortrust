@@ -55,7 +55,7 @@
     <legend>4. Gift Details</legend>
     <ol class="clearfix">
       <li>
-        <label for="gift_amount">Gift Amount</label> $<%= f.text_field :amount %>
+        <label for="gift_amount">Gift Amount</label> $<%= f.text_field :amount, :value => number_with_precision(@investment.amount, 2) %>
         <div class="note" style="padding-left:.5em;">Example: $100</div>
       </li>
     </ol>
