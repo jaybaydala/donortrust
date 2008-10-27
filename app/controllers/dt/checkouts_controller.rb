@@ -158,10 +158,10 @@ class Dt::CheckoutsController < DtApplicationController
       when "support"
         # no model validation to happen here
         @valid = true
-      when "billing"
-        @valid = @order.validate_billing(@cart.items)
       when "payment"
         @valid = @order.validate_payment(@cart.items)
+      when "billing"
+        @valid = @order.validate_billing(@cart.items)
       when "confirm"
         @valid = @order.validate_confirmation(@cart.items)
     end

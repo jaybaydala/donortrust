@@ -9,8 +9,13 @@
 	    Follow the link to learn more about the project.
 	  </p>
 	<% else %>
-    <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
-    <p>Now that you've opened your gift, you have some options. You can:</p>
+	  <% if @opening_now %>
+      <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
+      <p>Now that you've opened your gift, you have some options. You can:</p>
+    <% else %>
+      <p>Your current Gift Card Balance is <%= number_to_currency( @gift.balance ) %>.</p>
+      <p>To use your gift, you have some options. You can:</p>
+    <% end %>
     <ul>
       <li><%= link_to "find a project to donate to", dt_search_path %></li>
       <% if Project.unallocated_project %><li><%= link_to "let ChristmasFuture figure it out", new_dt_investment_path(:unallocated_gift => 1) %></li><% end %>

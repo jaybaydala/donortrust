@@ -73,9 +73,8 @@ class Order < ActiveRecord::Base
     "#{expiry_month.to_s.rjust(2, "0")}/#{expiry_year}"
   end
   
-  def validate_billing(cart_items, check_if_tax_receipt_needed = false)
-    tax_receipt_validation = check_if_tax_receipt_needed == false ? true : tax_receipt_needed?
-    if tax_receipt_validation
+  def validate_billing(cart_items)
+    if tax_receipt_needed?
       required_fields = %w(donor_type first_name last_name address city postal_code province country email)
     else
       required_fields = %w(email)
@@ -86,7 +85,7 @@ class Order < ActiveRecord::Base
       errors.add(:email, "isn't a valid email address") unless self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
     end
     # credit_card_payment
-    errors.add_to_base("You must pay for deposits from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
+    errors.add_to_base("You must pay at least #{number_to_currency(minimum_credit_payment(cart_items))} from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
     if credit_card_payment?
       unless credit_card.valid?
         credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
@@ -112,18 +111,18 @@ class Order < ActiveRecord::Base
   end
 
   def minimum_credit_payment(cart_items)
-    if @account_balance.nil?
-      @minimum_credit_payment = total
-    else
+    if user_id? && user && user.balance > 0
       @minimum_credit_payment = cart_items.inject(0) {|sum, item| sum + (item.class == Deposit ? item.amount : 0) }
+    else
+      @minimum_credit_payment = total
     end
     @minimum_credit_payment
   end
   
   def validate_confirmation(cart_items)
     # run through everything just to make sure...
-    validate_billing(cart_items, true)
     validate_payment(cart_items)
+    validate_billing(cart_items)
     errors.empty?
   end
   

@@ -23,7 +23,7 @@ Feature: A User uses a portion of their gift card should maintain a balance
     And I should see my gift card balance in the top right corner
     And I should see "Your gift card balance is $40"
     And I should be told the gift card expiry date
-  
+
   Scenario: Reopening a gift should show the current gift balance
     GivenScenario: Checking out with a gift card should reduce the balance
     Given I come back in another browser session
