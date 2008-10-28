@@ -62,6 +62,17 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
       @user.should_receive(:read_attribute).exactly(count).times
       controller.send!(:initialize_new_order)
     end
+    
+    it "should set the account_balance attribute to the current_user.balance" do
+      @user.stub!(:balance).and_return(100)
+      @order.should_receive(:account_balance=).with(100).and_return(false)
+      controller.send!(:initialize_new_order)
+    end
+    it "should set the gift_card_balance attribute to the session[:gift_card_balance]" do
+      controller.session[:gift_card_balance] = 50
+      @order.should_receive(:gift_card_balance=).with(50).and_return(false)
+      controller.send!(:initialize_new_order)
+    end
   end
 
   describe "initialize_existing_order" do
@@ -71,8 +82,8 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
       controller.stub!(:logged_in?).and_return(true)
       controller.stub!(:current_user).and_return(@user)
       controller.stub!(:params).and_return({:order => {}})
-      @cart = Cart.new
       @cart.stub!(:total).and_return(100)
+      @order = Order.generate!(:amount => @cart.total)
     end
 
     it "should load params[:order] into @order.attributes" do
@@ -90,22 +101,22 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
       controller.send!(:initialize_existing_order)
     end
 
-    it "should set the credit_card_total to @order.total if !logged_in?" do
-      controller.should_receive(:logged_in?).at_least(:once).and_return(false)
-      @order.should_receive(:credit_card_total=).with(@cart.total)
+    it "should set the credit_card_payment to @order.total if !logged_in?" do
+      controller.stub!(:logged_in?).and_return(false)
+      @order.should_receive(:credit_card_payment=).with(@cart.total)
       controller.send!(:initialize_existing_order)
     end
 
-    it "should set the credit_card_total to @order.total if logged_in? and 0 balance" do
+    it "should set the credit_card_payment to @order.total if logged_in? and 0 balance" do
       @user.should_receive(:balance).and_return(0)
-      @order.should_receive(:credit_card_total=).with(@cart.total)
+      @order.should_receive(:credit_card_payment=).with(@cart.total)
       controller.send!(:initialize_existing_order)
     end
 
-    it "should not set the credit_card_total to @order.total if logged_in? and balance > 0" do
+    it "should not set the credit_card_payment to @order.total if logged_in? and balance > 0" do
       controller.should_receive(:logged_in?).at_least(:once).and_return(true)
       @user.should_receive(:balance).and_return(50)
-      @order.should_not_receive(:credit_card_total=)
+      @order.should_not_receive(:credit_card_payment=)
       controller.send!(:initialize_existing_order)
     end
   end

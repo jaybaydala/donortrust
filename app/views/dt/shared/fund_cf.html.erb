@@ -1,12 +1,12 @@
-<% if logged_in? && cf_admin_project %><fieldset>
+<% if logged_in? && admin_project %><fieldset>
   <legend>100% of your funds go to the projects you select</legend>
   <ul>
-	  <li><p class="textsm">Would you like to support the <%= link_to "ChristmasFuture organization", dt_project_path(cf_admin_project), :rel => 'blank' %>?</p></li>
+	  <li><p class="textsm">Would you like to support the <%= link_to "ChristmasFuture organization", dt_project_path(admin_project), :rel => 'blank' %>?</p></li>
 	  <li><label for="fund_cf">I would like to support ChristmasFuture directly</label><%= check_box_tag "fund_cf" %>&nbsp;&nbsp;&nbsp;&nbsp;</li>
 	  <li><label for="fund_cf_percentage">Percentage to add</label><%= text_field_tag "fund_cf_percentage", "5%" %></li>
   </ul>	
 </fieldset>
 <% else %>
 <div><strong>100% of your funds go to the project(s) you select</strong></div>
-<p><%= link_to "Login", dt_login_path %> to support the <%= link_to "ChristmasFuture organization", dt_project_path(cf_admin_project), :rel => 'blank' %> directly</p>
+<p><%= link_to "Login", dt_login_path %> to support the <%= link_to "ChristmasFuture organization", dt_project_path(admin_project), :rel => 'blank' %> directly</p>
 <% end %>

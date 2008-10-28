@@ -1,12 +1,21 @@
 require 'order_helper'
 class Dt::CartController < DtApplicationController
   include OrderHelper
+  before_filter :find_cart
   def show
-    @cart = find_cart
+    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 10)
+    respond_to do |format|
+      format.html {
+        unless params[:sidebar].nil?
+          @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
+          render :action => "sidebar", :layout => false and return
+        end
+        render :action => "show"
+      }
+    end
   end
 
   def destroy
-    @cart = find_cart
     if params[:id]
       @cart.remove_item(params[:id]) if params[:id] && @cart.items[params[:id].to_i]
       flash[:notice] = "Your item has been removed from your cart."

@@ -44,7 +44,6 @@ module ActiveScaffold
       # the standard active scaffold options used for textual inputs
       def active_scaffold_input_text_options(options = {})
         options[:autocomplete] = 'off'
-        options[:size] = 20
         options[:class] = "#{options[:class]} text-input".strip
         options
       end
@@ -52,7 +51,7 @@ module ActiveScaffold
       # the standard active scaffold options used for class, name and scope
       def active_scaffold_input_options(column, scope = nil)
         name = scope ? "record#{scope}[#{column.name}]" : "record[#{column.name}]"
-        options = { :name => name, :class => "#{column.name}-input", :id => "record_#{column.name}_#{params[:eid] || params[:id]}"}
+        { :name => name, :class => "#{column.name}-input", :id => "record_#{column.name}_#{params[:eid] || params[:id]}"}
       end
 
       ##
@@ -109,28 +108,30 @@ module ActiveScaffold
       # requires RecordSelect plugin to be installed and configured.
       # ... maybe this should be provided in a bridge?
       def active_scaffold_input_record_select(column, options)
+        unless column.association
+          raise ArgumentError, "record_select can only work against associations (and #{column.name} is not).  A common mistake is to specify the foreign key field (like :user_id), instead of the association (:user)."
+        end
         remote_controller = active_scaffold_controller_for(column.association.klass).controller_path
 
         # if the opposite association is a :belongs_to, then only show records that have not been associated yet
-        params = if column.association and [:has_one, :has_many].include?(column.association.macro)
-          {column.association.primary_key_name => ''}
-        else
-          {}
+        params = {:parent_id => @record.id, :parent_model => @record.class}
+        
+        # if the opposite association is a :belongs_to, then only show records that have not been associated yet
+        # robd 2008-06-29: is this code doing the right thing? doesn't seem to check :belongs_to...
+        # in any case, could we encapsulate this code on column in a method like .singular_association?
+        if [:has_one, :has_many].include?(column.association.macro)
+          params.merge!({column.association.primary_key_name => ''})
         end
+        
+        record_select_options = {:controller => remote_controller, :id => options[:id], :params => params}
+        record_select_options.merge!(active_scaffold_input_text_options)
+        record_select_options.merge!(column.options)
 
         if column.singular_association?
-          record_select_field(
-            "#{options[:name]}",
-            @record.send(column.name) || column.association.klass.new,
-            {:controller => remote_controller, :id => options[:id], :params => params.merge(:parent_id => @record.id, :parent_model => @record.class)}.merge(active_scaffold_input_text_options).merge(column.options)
-          )
+          record_select_field(options[:name], (@record.send(column.name) || column.association.klass.new), record_select_options)
         elsif column.plural_association?
-          record_multi_select_field(
-            options[:name],
-            @record.send(column.name),
-            {:controller => remote_controller, :id => options[:id], :params => params.merge(:parent_id => @record.id, :parent_model => @record.class)}.merge(active_scaffold_input_text_options).merge(column.options)
-          )
-        end
+          record_multi_select_field(options[:name], @record.send(column.name), record_select_options)
+        end   
       end
 
       def active_scaffold_input_checkbox(column, options)
@@ -184,7 +185,7 @@ module ActiveScaffold
 
       def override_form_field_partial?(column)
         path, partial_name = partial_pieces(override_form_field_partial(column))
-        file_exists? File.join(path, "_#{partial_name}")
+        @finder.file_exists? File.join(path, "_#{partial_name}")
       end
 
       # the naming convention for overriding form fields with partials

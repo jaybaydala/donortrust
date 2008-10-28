@@ -1,9 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class SimpleGateway
-  include ActiveMerchant::PostsData
-end
-
 class MockResponse
   def body
   end
@@ -13,11 +9,11 @@ class PostsDataTests < Test::Unit::TestCase
   URL = 'http://example.com'
   
   def setup
-    @gateway = SimpleGateway.new
+    @gateway = SimpleTestGateway.new
   end
   
   def teardown
-    SimpleGateway.retry_safe = false
+    SimpleTestGateway.retry_safe = false
   end
   
   def test_single_successful_post
@@ -80,6 +76,24 @@ class PostsDataTests < Test::Unit::TestCase
     @gateway.retry_safe = true
                                                      
     assert_raises(ActiveMerchant::ConnectionError) do  
+      @gateway.ssl_post(URL, '')
+    end
+  end
+  
+  def test_setting_ssl_strict_outside_class_definition
+    assert_equal SimpleTestGateway.ssl_strict, SubclassGateway.ssl_strict
+    SimpleTestGateway.ssl_strict = !SimpleTestGateway.ssl_strict
+    assert_equal SimpleTestGateway.ssl_strict, SubclassGateway.ssl_strict
+  end
+
+  def test_setting_timeouts
+    @gateway.class.open_timeout=50
+    @gateway.class.read_timeout=37
+    Net::HTTP.any_instance.expects(:post).once.returns(MockResponse.new)
+    Net::HTTP.any_instance.expects(:open_timeout=).with(50)
+    Net::HTTP.any_instance.expects(:read_timeout=).with(37)
+
+    assert_nothing_raised do
       @gateway.ssl_post(URL, '')
     end
   end

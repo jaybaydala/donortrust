@@ -1,0 +1,86 @@
+--- !ruby/object:Gem::Specification 
+name: rfacebook
+version: !ruby/object:Gem::Version 
+  version: 0.9.8
+platform: ruby
+authors: 
+- Matt Pizzimenti
+autorequire: rfacebook
+bindir: bin
+cert_chain: []
+
+date: 2008-01-08 00:00:00 -05:00
+default_executable: 
+dependencies: 
+- !ruby/object:Gem::Dependency 
+  name: hpricot
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 0.6.0
+    version: 
+- !ruby/object:Gem::Dependency 
+  name: mocha
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ">="
+      - !ruby/object:Gem::Version 
+        version: 0.5.3
+    version: 
+description: 
+email: matt@livelearncode.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- README
+files: 
+- lib/facebook_desktop_session.rb
+- lib/facebook_session.rb
+- lib/facebook_web_session.rb
+- lib/facepricot.rb
+- lib/rfacebook.rb
+- README
+- test/facebook_desktop_session_test.rb
+- test/facebook_session_test_methods.rb
+- test/facebook_web_session_test.rb
+- test/test_helper.rb
+has_rdoc: true
+homepage: http://www.livelearncode.com/
+post_install_message: 
+rdoc_options: []
+
+require_paths: 
+- bin
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: 
+- Hpricot version >= 0.6.0 (has better handling of XML than previous versions)
+- Mocha version >= 0.5.3 (used for unit testing of the Gem and Rails Plugin)
+rubyforge_project: rfacebook
+rubygems_version: 1.2.0
+signing_key: 
+specification_version: 2
+summary: A Ruby interface to the Facebook API v1.0+.  Works with RFacebook on Rails plugin (see http://rfacebook.rubyforge.org).
+test_files: 
+- test/facebook_desktop_session_test.rb
+- test/facebook_session_test_methods.rb
+- test/facebook_web_session_test.rb
+- test/test_helper.rb

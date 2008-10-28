@@ -18,8 +18,9 @@ class Dt::TellFriendsController < DtApplicationController
           flash[:notice] = "The gift has already been picked up so the printable card is no longer available."
           redirect_to :action => 'new'
         else
-          proxy = create_pdf_proxy(@share)
-          send_data proxy.render, :filename => proxy.filename, :type => "application/pdf"
+          pdf = create_pdf_proxy(@share)
+          send_data pdf.render, :filename => pdf.filename, :type => "application/pdf"
+          pdf.post_render
         end
       }
     end

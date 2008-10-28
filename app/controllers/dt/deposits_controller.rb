@@ -2,6 +2,7 @@ require 'order_helper'
 class Dt::DepositsController < DtApplicationController
   helper 'dt/places'
   before_filter :login_required
+  before_filter :find_cart
   include OrderHelper
   
   CANADA = 'canada'
@@ -31,7 +32,6 @@ class Dt::DepositsController < DtApplicationController
     respond_to do |format|
       if @valid
         session[:deposit_params] = nil
-        @cart = find_cart
         @cart.add_item(@deposit)
         flash[:notice] = "Your Deposit has been added to your cart."
         format.html { redirect_to dt_cart_path }
@@ -42,7 +42,6 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def edit
-    @cart = find_cart
     @deposit = @cart.items[params[:id].to_i] if @cart.items[params[:id].to_i].kind_of?(Deposit)
     respond_to do |format|
       format.html {
@@ -52,7 +51,6 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def update
-    @cart = find_cart
     if @cart.items[params[:id].to_i].kind_of?(Deposit)
       @deposit = @cart.items[params[:id].to_i] 
       @deposit.attributes = params[:deposit]
@@ -82,7 +80,7 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def access_denied_with_deposit
-    flash[:notice] = "You must be logged in to make a deposit to your account."
+    flash[:error] = "You must be logged in to make a deposit to your account."
     access_denied_without_deposit
   end
   alias_method_chain :access_denied, :deposit

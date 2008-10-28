@@ -33,6 +33,14 @@ require 'active_merchant/billing/integrations/action_view_helper'
 
 ActiveMerchant::Billing::Base.mode = :test
 
+# Test gateways
+class SimpleTestGateway < ActiveMerchant::Billing::Gateway
+end
+
+class SubclassGateway < SimpleTestGateway
+end
+
+
 module ActiveMerchant
   module Assertions
     def assert_field(field, value)
@@ -127,20 +135,34 @@ module Test
           :type => 'visa'
         }.update(options)
 
-        ActiveMerchant::Billing::CreditCard.new(defaults)
+        CreditCard.new(defaults)
+      end
+      
+      def check(options = {})
+        defaults = {
+          :name => 'Jim Smith',
+          :routing_number => '244183602', 
+          :account_number => '15378535', 
+          :account_holder_type => 'personal', 
+          :account_type => 'checking', 
+          :number => '1'
+        }.update(options)
+        
+        Check.new(defaults)
       end
       
       def address(options = {})
         { 
-          :name => 'Jim Smith',
+          :name     => 'Jim Smith',
           :address1 => '1234 My Street',
           :address2 => 'Apt 1',
-          :company => 'Widgets Inc',
-          :city => 'Ottawa',
-          :state => 'ON',
-          :zip => 'K1C2N6',
-          :country => 'CA',
-          :phone => '(555)555-5555'
+          :company  => 'Widgets Inc',
+          :city     => 'Ottawa',
+          :state    => 'ON',
+          :zip      => 'K1C2N6',
+          :country  => 'CA',
+          :phone    => '(555)555-5555',
+          :fax      => '(555)555-6666'
         }.update(options)
       end
       

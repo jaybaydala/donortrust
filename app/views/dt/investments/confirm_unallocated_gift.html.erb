@@ -1,0 +1,19 @@
+<%- content_for :html_title do -%>Let ChristmasFuture figure it out<%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+
+
+<div class="userform">
+  <% form_for(:investment,  :url => dt_checkout_path, :html => {:method => 'post' })  do |f|%>
+    <fieldset>
+      <legend>You are choosing to let ChristmasFuture figure out where your gift card balance will be used.</legend>
+      <p>Is this what you want to do?</p>
+      <ol>
+        <li>
+          <%= hidden_field_tag :unallocated_gift, 1 %>
+          <%= submit_tag "Confirm", :class => 'buttonsubmit' %>
+          <%= button_to_function "Cancel", "document.location='#{open_dt_gifts_path}'", :class => 'buttonsubmit' %>
+        </li>
+      </ol>
+    </fieldset>
+  <% end -%>
+</div>

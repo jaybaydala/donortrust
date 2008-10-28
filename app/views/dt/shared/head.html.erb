@@ -15,5 +15,10 @@
               <li><%= link_to "Cart", dt_cart_path %> </li>
             <%- end -%>
           </ul>
+          <% if session[:gift_card_balance] %>
+          <ul id="giftcard-balance">
+            <li><strong><%= link_to "Gift Card Balance", open_dt_gifts_path %></strong>: <%=h number_to_currency(session[:gift_card_balance]) %></li>
+          </ul>
+          <% end %>
         </div>
       </div>

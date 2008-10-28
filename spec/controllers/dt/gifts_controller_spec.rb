@@ -55,13 +55,6 @@ describe Dt::GiftsController do
       get 'new'
     end
     
-    it "should check the session for a gift (abandoned gift) and load it" do
-      session_gift = mock_model(Gift)
-      session[:gift_params] = session_gift
-      get 'new'
-      params[:gift].should == session_gift
-    end
-    
     it "should load all ecards" do
       ecards = [ECard.new]
       ECard.should_receive(:find).with(:all, :order => :id).and_return(ecards)
@@ -94,11 +87,7 @@ describe Dt::GiftsController do
       end
       
       it "should load the user attributes into the gift" do
-        %w(first_name last_name address city province postal_code country).each do |c|
-          @user.should_receive(:read_attribute).twice.with(c)
-          @gift.should_receive(:attribute_present?).with(c).and_return(false)
-          @gift.should_receive(:write_attribute).with(c, @user.read_attribute(c)).and_return(true)
-        end
+        @gift.should_receive(:write_attribute).with("email", @user.login).and_return(true)
         @gift.should_receive(:write_attribute).with("name", @user.full_name).and_return(true)
         get 'new'
       end
@@ -124,14 +113,9 @@ describe Dt::GiftsController do
       request.stub!(:remote_ip).and_return("127.0.0.1")
       controller.stub!(:request).and_return(request)
       @cart = Cart.new
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
       now = Time.now
       Time.stub!(:now).and_return(now)
-    end
-    
-    it "should load the gift_params" do
-      controller.should_receive(:gift_params)
-      post "create"
     end
     
     it "should load the remote_ip" do
@@ -144,11 +128,14 @@ describe Dt::GiftsController do
       post "create"
     end
     
-    it "should set the gift.send_at to 5 minutes in the future if send_gift is 'now'" do
-      @gift.should_receive(:send_email=).with(true)
-      @gift.should_receive(:send_at=).with(Time.now + 5.minutes)
-      post "create", :gift => {:send_email => "now"}
-    end
+    # it "should set the gift.send_at to 5 minutes from now if send_gift is 'now'" do
+    #   time = Time.now
+    #   Time.stub!(:now).and_return(time)
+    #   # @gift.should_receive(:send_email=).with("now")
+    #   @gift.should_receive(:write_attribute=).with(:send_email, true)
+    #   @gift.should_receive(:write_attribute=).with(:send_at, time + 5.minutes)
+    #   post "create", :gift => {:send_email => "now"}
+    # end
     
     describe "valid gift" do
       before do
@@ -156,7 +143,7 @@ describe Dt::GiftsController do
       end
       
       it "should find_cart" do
-        controller.should_receive(:find_cart).and_return(@cart)
+        controller.should_receive(:find_cart)
         post 'create'
       end
       
@@ -173,6 +160,10 @@ describe Dt::GiftsController do
       it "should redirect to dt_cart_path" do
         post 'create'
         response.should redirect_to(dt_cart_path)
+      end
+      
+      def do_request
+        
       end
     end
     
@@ -207,7 +198,7 @@ describe Dt::GiftsController do
       @gift.stub!(:kind_of?).and_return(true)
       @cart = Cart.new
       @cart.stub!(:items).and_return([@gift])
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should render the edit template" do
@@ -216,7 +207,7 @@ describe Dt::GiftsController do
     end
     
     it "should load the cart" do
-      controller.should_receive(:find_cart).and_return(@cart)
+      controller.should_receive(:find_cart)
       do_request
     end
     
@@ -252,7 +243,7 @@ describe Dt::GiftsController do
       @gift.stub!(:valid?).and_return(true)
       @cart = Cart.new
       @cart.stub!(:items).and_return([@gift])
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should redirect to dt_cart_path" do
@@ -261,7 +252,7 @@ describe Dt::GiftsController do
     end
     
     it "should load the cart" do
-      controller.should_receive(:find_cart).and_return(@cart)
+      controller.should_receive(:find_cart)
       do_request
     end
     
@@ -306,4 +297,34 @@ describe Dt::GiftsController do
       put 'update', :id => 0, :gift => {:amount => 50}
     end
   end
+  
+  describe "open action" do
+    before do
+      Gift.stub!(:validate_pickup).and_return(@gift)
+      @gift.stub!(:amount).and_return(20)
+      @gift.stub!(:pickup_code).and_return("asdf1234")
+    end
+    
+    it "should find the gift" do
+      Gift.should_receive(:validate_pickup).and_return(@gift)
+      do_request(@gift.pickup_code)
+    end
+    
+    # it "should load the opened gift id into the session" do
+    #   do_request(@gift.pickup_code)
+    #   session[:gift_cart_id].should == @gift.id
+    # end
+    # 
+    # it "should load the opened gift amount into the session" do
+    #   do_request(@gift.pickup_code)
+    #   session[:gift_cart_amount].should == @gift.id
+    # end
+    
+    def do_request(code=nil)
+      params = {}
+      params[:code] = @gift.pickup_code if code
+      get "open", params
+    end
+  end
+  
 end

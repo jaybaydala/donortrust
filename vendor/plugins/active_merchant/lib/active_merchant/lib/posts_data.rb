@@ -11,7 +11,7 @@ module ActiveMerchant #:nodoc:
     READ_TIMEOUT = 60
     
     def self.included(base)
-      base.class_inheritable_accessor :ssl_strict
+      base.superclass_delegating_accessor :ssl_strict
       base.ssl_strict = true
       
       base.class_inheritable_accessor :pem_password
@@ -19,14 +19,23 @@ module ActiveMerchant #:nodoc:
       
       base.class_inheritable_accessor :retry_safe
       base.retry_safe = false
+
+      base.superclass_delegating_accessor :open_timeout
+      base.open_timeout = OPEN_TIMEOUT
+
+      base.superclass_delegating_accessor :read_timeout
+      base.read_timeout = READ_TIMEOUT
     end
     
     def ssl_post(url, data, headers = {})
+      # Ruby 1.8.4 doesn't automatically set this header
+      headers['Content-Type'] ||= "application/x-www-form-urlencoded"
+      
       uri   = URI.parse(url)
 
       http = Net::HTTP.new(uri.host, uri.port) 
-      http.open_timeout = OPEN_TIMEOUT
-      http.read_timeout = READ_TIMEOUT
+      http.open_timeout = self.class.open_timeout
+      http.read_timeout = self.class.read_timeout
       http.use_ssl      = true
       
       if ssl_strict

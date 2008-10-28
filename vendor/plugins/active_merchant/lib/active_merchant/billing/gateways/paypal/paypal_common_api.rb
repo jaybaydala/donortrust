@@ -8,7 +8,7 @@ module ActiveMerchant #:nodoc:
         base.cattr_accessor :signature
       end
       
-      API_VERSION = '2.0'
+      API_VERSION = '52.0'
       
       URLS = {
         :test => { :certificate => 'https://api.sandbox.paypal.com/2.0/',
@@ -41,6 +41,8 @@ module ActiveMerchant #:nodoc:
       }
       
       SUCCESS_CODES = [ 'Success', 'SuccessWithWarning' ]
+      
+      FRAUD_REVIEW_CODE = "11610"
       
       # The gateway must be configured with either your PayPal PEM file
       # or your PayPal API Signature.  Only one is required.
@@ -109,7 +111,7 @@ module ActiveMerchant #:nodoc:
 
       private
       def build_reauthorize_request(money, authorization, options)
-        xml = Builder::XmlMarkup.new :indent => 2
+        xml = Builder::XmlMarkup.new
         
         xml.tag! 'DoReauthorizationReq', 'xmlns' => PAYPAL_NAMESPACE do
           xml.tag! 'DoReauthorizationRequest', 'xmlns:n2' => EBAY_NAMESPACE do
@@ -123,7 +125,7 @@ module ActiveMerchant #:nodoc:
       end
           
       def build_capture_request(money, authorization, options)   
-        xml = Builder::XmlMarkup.new :indent => 2
+        xml = Builder::XmlMarkup.new
         
         xml.tag! 'DoCaptureReq', 'xmlns' => PAYPAL_NAMESPACE do
           xml.tag! 'DoCaptureRequest', 'xmlns:n2' => EBAY_NAMESPACE do
@@ -139,7 +141,7 @@ module ActiveMerchant #:nodoc:
       end
       
       def build_credit_request(money, identification, options)
-        xml = Builder::XmlMarkup.new :indent => 2
+        xml = Builder::XmlMarkup.new
             
         xml.tag! 'RefundTransactionReq', 'xmlns' => PAYPAL_NAMESPACE do
           xml.tag! 'RefundTransactionRequest', 'xmlns:n2' => EBAY_NAMESPACE do
@@ -155,7 +157,7 @@ module ActiveMerchant #:nodoc:
       end
       
       def build_void_request(authorization, options)
-        xml = Builder::XmlMarkup.new :indent => 2
+        xml = Builder::XmlMarkup.new
         
         xml.tag! 'DoVoidReq', 'xmlns' => PAYPAL_NAMESPACE do
           xml.tag! 'DoVoidRequest', 'xmlns:n2' => EBAY_NAMESPACE do
@@ -172,7 +174,7 @@ module ActiveMerchant #:nodoc:
         default_options = args.last.is_a?(Hash) ? args.pop : {}
         recipients = args.first.is_a?(Array) ? args : [args]
         
-        xml = Builder::XmlMarkup.new :indent => 2
+        xml = Builder::XmlMarkup.new
         
         xml.tag! 'MassPayReq', 'xmlns' => PAYPAL_NAMESPACE do
           xml.tag! 'MassPayRequest', 'xmlns:n2' => EBAY_NAMESPACE do
@@ -201,17 +203,32 @@ module ActiveMerchant #:nodoc:
         
         xml = REXML::Document.new(xml)
         if root = REXML::XPath.first(xml, "//#{action}Response")
-          root.elements.to_a.each do |node|
+          root.elements.each do |node|            
             case node.name
             when 'Errors'
-              error_messages << node.elements['//LongMessage'].text if node.elements['//LongMessage']
-              error_codes << node.elements['//ErrorCode'].text if node.elements['//ErrorCode']
+              short_message = nil
+              long_message = nil
+              
+              node.elements.each do |child|
+                case child.name
+                when "LongMessage"
+                  long_message = child.text unless child.text.blank?
+                when "ShortMessage"
+                  short_message = child.text unless child.text.blank?
+                when "ErrorCode"
+                  error_codes << child.text unless child.text.blank?
+                end
+              end
+
+              if message = long_message || short_message
+                error_messages << message
+              end
             else
               parse_element(response, node)
             end
           end
-          response[:message] = error_messages.join(". ") unless error_messages.empty?
-          response[:error_codes] = error_codes.join(",") unless error_codes.empty?
+          response[:message] = error_messages.uniq.join(". ") unless error_messages.empty?
+          response[:error_codes] = error_codes.uniq.join(",") unless error_codes.empty?
         elsif root = REXML::XPath.first(xml, "//SOAP-ENV:Fault")
           parse_element(response, root)
           response[:message] = "#{response[:faultcode]}: #{response[:faultstring]} - #{response[:detail]}"
@@ -231,19 +248,8 @@ module ActiveMerchant #:nodoc:
         end
       end
 
-      def response_type_for(action)
-        case action
-        when 'Authorization', 'Purchase'
-          'DoDirectPaymentResponse'
-        when 'Void'
-          'DoVoidResponse'
-        when 'Capture'
-          'DoCaptureResponse'
-        end
-      end
-
       def build_request(body)
-        xml = Builder::XmlMarkup.new :indent => 2
+        xml = Builder::XmlMarkup.new
         
         xml.instruct!
         xml.tag! 'env:Envelope', ENVELOPE_NAMESPACES do
@@ -293,9 +299,14 @@ module ActiveMerchant #:nodoc:
         build_response(successful?(response), message_from(response), response,
     	    :test => test?,
     	    :authorization => authorization_from(response),
+    	    :fraud_review => fraud_review?(response),
     	    :avs_result => { :code => response[:avs_code] },
     	    :cvv_result => response[:cvv2_code]
         )
+      end
+      
+      def fraud_review?(response)
+        response[:error_codes] == FRAUD_REVIEW_CODE
       end
       
       def authorization_from(response)

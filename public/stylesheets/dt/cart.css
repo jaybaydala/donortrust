@@ -1,4 +1,4 @@
-table#cart {
+#cart table, table#cart {
     width:100%;
     border:1px #999 solid;
     border-collapse:separate;
@@ -20,6 +20,9 @@ table#cart {
     font-weight:bold;
 }
 #cart td {
+}
+#cart td p {
+  margin:0;
 }
 #cart th.numeric, #cart td.numeric {
     text-align:right;

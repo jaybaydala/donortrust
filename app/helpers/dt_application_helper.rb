@@ -49,12 +49,12 @@ module DtApplicationHelper
     js
   end
 
-  def cf_unallocated_project
-    Project.cf_unallocated_project
+  def unallocated_project
+    Project.unallocated_project
   end
 
-  def cf_admin_project
-    Project.cf_admin_project
+  def admin_project
+    Project.admin_project
   end
 
   def form_required

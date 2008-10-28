@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 context "RssFeedElement" do
-  
   fixtures :rss_feeds, :rss_feed_elements
   
   setup do
@@ -23,5 +22,4 @@ context "RssFeedElement" do
     @element.update
     @element.rss_feed.pub_date.to_s.should.equal DateTime.now.to_s
   end
-  
 end

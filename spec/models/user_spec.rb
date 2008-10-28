@@ -198,9 +198,9 @@ describe User do
       @investment2 = mock_model(Investment, :amount => 25.0)
       @gift1 = mock_model(Gift, :amount => 110.0, :credit_card => "4111111111111111")
       @gift2 = mock_model(Gift, :amount => 25.0, :credit_card => nil)
-      @order1 = mock_model(Order, :complete => true, :amount => 100, :account_balance_total => 90, :credit_card_balance => nil)
-      @order2 = mock_model(Order, :complete => true, :amount => 120, :account_balance_total => nil, :credit_card_balance => 160)
-      @order3 = mock_model(Order, :complete => false, :amount => 5000, :account_balance_total => nil, :credit_card_balance => nil)
+      @order1 = mock_model(Order, :complete => true, :amount => 100, :account_balance_payment => 90, :credit_card_balance => nil)
+      @order2 = mock_model(Order, :complete => true, :amount => 120, :account_balance_payment => nil, :credit_card_balance => 160)
+      @order3 = mock_model(Order, :complete => false, :amount => 5000, :account_balance_payment => nil, :credit_card_balance => nil)
       @orders = [@order1, @order2, @order3]
       # stub the user model
       @user = create_user

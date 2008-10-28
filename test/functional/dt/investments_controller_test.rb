@@ -49,13 +49,13 @@ context "Dt::InvestmentsController new behaviour" do
     end
   end
   
-  specify "if Project.cf_unallocated_project exists, should show a radio button for it" do
+  specify "if Project.unallocated_project exists, should show a radio button for it" do
     login_as :quentin
     unallocated_project = Project.new
     unallocated_project.stubs(:name).returns('Unallocated Project')
     unallocated_project.stubs(:id).returns(999999)
     unallocated_project.stubs(:fundable?).returns(true)
-    Project.stubs(:cf_unallocated_project).returns(unallocated_project)
+    Project.stubs(:unallocated_project).returns(unallocated_project)
     project = Project.find_public(:first)
     project.stubs(:fundable?).returns(true)
     get :new, :project_id => project.id
@@ -65,12 +65,12 @@ context "Dt::InvestmentsController new behaviour" do
     end
   end
 
-  specify "if Project.cf_unallocated_project exists and no project_id is passed the radio button should be selected and we should give the option to find a project" do
+  specify "if Project.unallocated_project exists and no project_id is passed the radio button should be selected and we should give the option to find a project" do
     login_as :quentin
     unallocated_project = Project.new
     unallocated_project.stubs(:name).returns('Unallocated Project')
     unallocated_project.stubs(:id).returns(999999)
-    Project.stubs(:cf_unallocated_project).returns(unallocated_project)
+    Project.stubs(:unallocated_project).returns(unallocated_project)
     get :new
     assert_select "form#investmentform" do
       assert_select "input[type=radio][checked=checked]#investment_project_id_#{unallocated_project.id}"

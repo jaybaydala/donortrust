@@ -10,6 +10,10 @@ describe Dt::GiftsController do
     it "should map { :controller => 'dt/gifts', :action => 'new' } to /dt/gifts/new" do
       route_for(:controller => "dt/gifts", :action => "new").should == "/dt/gifts/new"
     end
+
+    it "should map { :controller => 'dt/gifts', :action => 'new', :format => :js } to /dt/gifts/new.js" do
+      route_for(:controller => "dt/gifts", :action => "new", :format => :js).should == "/dt/gifts/new.js"
+    end
   
     it "should map { :controller => 'dt/gifts', :action => 'show', :id => 1 } to /dt/gifts/1" do
       route_for(:controller => "dt/gifts", :action => "show", :id => 1).should == "/dt/gifts/1"
@@ -36,6 +40,10 @@ describe Dt::GiftsController do
   
     it "should generate params { :controller => 'dt/gifts', action => 'new' } from GET /dt/gifts/new" do
       params_from(:get, "/dt/gifts/new").should == {:controller => "dt/gifts", :action => "new"}
+    end
+
+    it "should generate params { :controller => 'dt/gifts', action => 'new', :format => 'js' } from GET /dt/gifts/new.js" do
+      params_from(:get, "/dt/gifts/new.js").should == {:controller => "dt/gifts", :action => "new", :format => "js"}
     end
   
     it "should generate params { :controller => 'dt/gifts', action => 'create' } from POST /dt/gifts" do

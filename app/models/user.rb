@@ -131,7 +131,7 @@ class User < ActiveRecord::Base
   end
 
   def ordered_with_account_balance
-    @ordered ||= orders.find_all_by_complete(true, :conditions => "account_balance_total IS NOT NULL").inject(0){|sum, o| sum += o.account_balance_total}
+    @ordered ||= orders.find_all_by_complete(true, :conditions => "account_balance_payment IS NOT NULL").inject(0){|sum, o| sum += o.account_balance_payment}
   end
 
   # Encrypts the password with the user salt

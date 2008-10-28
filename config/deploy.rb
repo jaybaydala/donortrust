@@ -8,7 +8,7 @@ set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
 set :mongrel_clean, true
 
-set :rails_version, 8441 unless variables[:rails_version]
+set :rails_version, "v2.1.0" unless variables[:rails_version]
 
 namespace :deploy do
 
@@ -19,12 +19,15 @@ namespace :deploy do
     start
   end
 
-  # until mongrel_cluster updates to cap2...
-  task :start,    :roles => :app do start_mongrel_cluster end
-  task :stop,     :roles => :app do stop_mongrel_cluster end
-  task :restart,  :roles => :app do restart_mongrel_cluster end
+  task :start,    :roles => :app do mongrel.cluster.start end
+  task :stop,     :roles => :app do mongrel.cluster.stop end
+  task :restart,  :roles => :app do mongrel.cluster.restart end
   
   # donortrust hooks
+  task :before_update do
+    asset_folder_fix
+    copy_iats_config
+  end
   task :after_start do
     start_admin
     start_backgroundrb
@@ -32,10 +35,6 @@ namespace :deploy do
   task :after_stop do
     stop_admin
     stop_backgroundrb
-  end
-  task :before_restart do
-    asset_folder_fix
-    copy_iats_config
   end
   task :after_restart do
     restart_admin
@@ -67,6 +66,8 @@ namespace :deploy do
   Start the Backgroundrb daemon on the schedule server.
   DESC
   task :start_backgroundrb , :roles => :schedule do
+    cmd = "rm #{shared_path}/pids/backgroundrb*.pid"
+    send(run_method, cmd)
     cmd = "#{current_path}/script/backgroundrb start"
     send(run_method, cmd)
   end

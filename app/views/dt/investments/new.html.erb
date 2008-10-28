@@ -1,50 +1,39 @@
 <%- content_for :html_title do -%><%= @page_title %><%- end -%>
 <%- content_for :page_title do -%>Give to a project, invest in the future <%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
+<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
 
 <%= error_messages_for :investment %>
 <% form_for(:investment, :url => dt_investments_path, :html => {:id => "investmentform", :name => "investmentform"}) do |f| %>
 <div class="userform">
-	<% if !@project_specified %>
-		<fieldset>
-			<legend>I would like to:</legend>
-			<ol>
-				<% if cf_unallocated_project %>
-					<li>
-						<label class="left"><%= f.hidden_field "project_id" %><%= cf_unallocated_project.name %></label>
-						<% if @investment.project_id == cf_unallocated_project.id %>
-							<div class="note">If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.</div>
-						<% end %>
-					</li>
-				<% elsif !@project %>
-					<li>
-						<div class="note"><%= link_to("you must choose a project", dt_projects_path) %></div>
-					</li>
-				<% end %>
-			</ol>
-		</fieldset>
-	<% else %>
-		<fieldset>
-			<legend>I would like to give to:</legend>
-			<ol>
-				<% if cf_unallocated_project %>
-					<li><h2><%= link_to("\"#{@project.name}\"", dt_project_path(@project)) %></h2>
-						<label class="left"><%= f.hidden_field "project_id" %></label>
-							<div class="note">If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.</div>
-					</li>
-				<% end %>
-			</ol>
-		</fieldset>
-	<% end %>
-		
+  <fieldset>
+    <legend>Please specify how you would like your investment to be allocated:</legend>
+    <ol>
+      <li>
+        <% if unallocated_project %>
+          <label class="left"><%= f.radio_button "project_id", unallocated_project.id %><%= unallocated_project.name %></label>
+          <% if @investment.project_id == unallocated_project.id %>
+            <div class="note">If this is not what you want, you can <%= link_to "find a different projects", dt_search_path %> to invest in.</div>
+          <% end %>
+        <% elsif !@project %>
+          <div class="note"><%= link_to("you must choose a project", dt_projects_path) %></div>
+        <% end %>
+      </li>
+      <% if @project && (!unallocated_project || @project.id != unallocated_project.id) %><li>
+        <label class="left"><%= f.radio_button "project_id", ( @project.id? ? @project.id : 0 ) %>to a project I've chosen</label>
+        <div class="note" style="margin-left:1.6em;">&#8250; <%= @project.id? ? link_to(@project.name, dt_project_path(@project)) : link_to("choose another project", dt_projects_path) %></div>
+        <%= hidden_field_tag :project_id, @project.id %>
+      </li><% end %>
+    </ol>
+  </fieldset>
 
   <fieldset>
     <legend>Your Investment</legend>
     <ol>
-  		<li>
-  		  <label for="investment_amount" style="width:135px;"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label> $<%= f.text_field :amount %>
-  		  <div class="note" style="margin-left:150px;">Example: $100</div>
-  		</li>
+      <li>
+        <label for="investment_amount" style="width:135px;"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label> $<%= f.text_field :amount %>
+        <div class="note" style="margin-left:150px;">Example: $100</div>
+      </li>
     </ol>
   </fieldset>
   
@@ -61,10 +50,11 @@
   </fieldset>
   <% end %>
 
-	<div style="float:right;" class="clearfix"><%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %></div>
+  <div style="float:right;" class="clearfix"><%= submit_tag 'Add to Cart', :class => 'buttonsubmit' %></div>
 </div>
 <% end %>
 
 <%- content_for :sidebar do -%>
-	<%= dt_profile_sidebar %>
+  <%= render "dt/cart/summary" %>
+  <%= dt_profile_sidebar %>
 <%- end -%>

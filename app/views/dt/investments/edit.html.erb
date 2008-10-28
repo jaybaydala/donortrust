@@ -1,6 +1,7 @@
 <%- content_for :html_title do -%>Invest<%- end -%>
 <%- content_for :page_title do -%>Invest Directly in a Project, and Invest in the Future.<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
 
 <%= error_messages_for :investment %>
 <% form_for(:investment, :url => dt_investment_path(:id => params[:id]), :html => {:id => "investmentform", :name => "investmentform", :method => :put}) do |f| %>
@@ -10,9 +11,9 @@
     <legend>Please specify how you would like your investment to be allocated:</legend>
     <ol>
       <li>
-        <% if cf_unallocated_project %>
-        <label class="left"><%= f.radio_button "project_id", cf_unallocated_project.id %><%= cf_unallocated_project.name %></label>
-        <% if @investment.project_id == cf_unallocated_project.id %><div class="note">
+        <% if unallocated_project %>
+        <label class="left"><%= f.radio_button "project_id", unallocated_project.id %><%= unallocated_project.name %></label>
+        <% if @investment.project_id == unallocated_project.id %><div class="note">
           If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.
         </div><% end %>
         <% elsif !@project %>
@@ -30,10 +31,10 @@
   <fieldset>
     <legend>Your Investment</legend>
     <ol>
-  		<li>
-  		  <label for="investment_amount" style="width:135px;"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label> $<%= f.text_field :amount %>
-  		  <div class="note" style="margin-left:150px;">Example: $100</div>
-  		</li>
+      <li>
+        <label for="investment_amount" style="width:135px;"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label> $<%= f.text_field :amount, :value => number_with_precision(@investment.amount, 2) %>
+        <div class="note" style="margin-left:150px;">Example: $100</div>
+      </li>
     </ol>
   </fieldset>
   
@@ -50,10 +51,11 @@
   </fieldset>
   <% end %>
 
-	<div style="float:right;" class="clearfix"><%= submit_tag 'Update Investment', :class => 'buttonsubmit' %></div>
+  <div style="float:right;" class="clearfix"><%= submit_tag 'Update Investment', :class => 'buttonsubmit' %></div>
 </div>
 <% end %>
 
 <%- content_for :sidebar do -%>
-	<%= dt_profile_sidebar %>
+  <%= render "dt/cart/summary" %>
+  <%= dt_profile_sidebar %>
 <%- end -%>

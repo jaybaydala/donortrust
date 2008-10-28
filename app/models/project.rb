@@ -117,6 +117,8 @@ class Project < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :place_id
   validates_presence_of :target_start_date
+  validates_presence_of :target_start_date
+  validates_uniqueness_of :slug, :allow_nil => true
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned
@@ -140,26 +142,21 @@ class Project < ActiveRecord::Base
   end
 =end
 
- # def validate
- #   errors.add(:place_id, "must be a city/village.") if place && place.place_type_id != 6
- # end
-
   class << self
-
     def rehydrate_from_xml(xml)
       Project.new(Hash.from_xml(xml)['project'])
     end
 
-    def cf_unallocated_project
-      @cf_unallocated_project ||= Project.find(11) if Project.exists?(11)
+    def unallocated_project
+      @unallocated_project ||= Project.find_by_slug("unallocated")
     end
 
-    def cf_admin_project
-      @cf_admin_project ||= Project.find(10) if Project.exists?(10)
+    def admin_project
+      @admin_project ||= Project.find_by_slug("admin")
     end
 
     def find_public(*args)
-      valid_project_status_ids = [2,4]
+      valid_project_status_ids = ProjectStatus.public_ids
       with_scope :find => { :conditions => { :project_status_id => valid_project_status_ids }} do
         find *args
       end
@@ -179,12 +176,13 @@ class Project < ActiveRecord::Base
     end
 
     def continents
+      continent_place_type = PlaceType.continent
       if @continents.nil?
         @continents = []
         Project.find_public(:all, :include => :place).each do |project|
           if project.community_id? && project.community
             project.place.ancestors.each do |ancestor|
-              @continents << ancestor and break if ancestor.place_type_id == 1 && !@continents.include?(ancestor) && ancestor.name != 'North America'
+              @continents << ancestor and break if ancestor.place_type_id == continent_place_type.id && !@continents.include?(ancestor) && ancestor.name != 'North America'
             end
           end
         end
@@ -209,12 +207,13 @@ class Project < ActiveRecord::Base
     end
 
     def countries
+      country_place_type = PlaceType.country
       if @countries.nil?
         @countries = []
         Project.find_public(:all, :include => :place).each do |project|
           if project.community_id? && project.community
             project.place.ancestors.each do |ancestor|
-              @countries << ancestor and break if ancestor.place_type_id == 2 && !@countries.include?(ancestor) && ancestor.name != 'Canada'
+              @countries << ancestor and break if ancestor.place_type_id == country_place_type.id && !@countries.include?(ancestor) && ancestor.name != 'Canada'
             end
           end
         end
@@ -305,7 +304,8 @@ class Project < ActiveRecord::Base
   end
 
   def fundable?
-    return false if self[:project_status_id] != 2
+    started = ProjectStatus.started
+    return false if started && self[:project_status_id] != started.id
     return false if current_need <= 0
     return true
   end
@@ -314,9 +314,13 @@ class Project < ActiveRecord::Base
     return unless self.description?
     if @summarized_description.nil?
       @summarized_description = description(:plain).split($;, words+1)
-      @summarized_description.pop
-      @summarized_description = @summarized_description.join(' ')
-      @summarized_description += (@summarized_description[-1,1] == '.' ? '..' : '...')
+      if length >= description.split.size
+        @summarized_description = @summarized_description.join(' ')
+      else
+        @summarized_description.pop
+        @summarized_description = @summarized_description.join(' ')
+        @summarized_description += (@summarized_description[-1,1] == '.' ? '..' : '...') 
+      end
     end
     @summarized_description
   end
@@ -413,18 +417,21 @@ class Project < ActiveRecord::Base
   end
 
   def community
-    @community ||= self.place if self.place_id? && self.place && self.place.place_type_id >= 6
+    community_place_type = PlaceType.community
+    @community ||= self.place if self.place_id? && self.place && self.place.place_type_id >= community_place_type.id
   end
 
   def community_project_count
-    @community_project_count ||= community.projects.size if community
+    @community_project_count ||= community.projects.size unless community.nil?
   end
 
   def nation
-    if place.place_type_id == 2
-      place
-    else
-      country
+    nation_place_type = PlaceType.nation
+    if @nation.nil? && place_id? && place
+      return place if place.place_type_id == nation_place_type.id
+      place.ancestors.reverse.each do |ancestor|
+        return ancestor if ancestor.place_type_id? && ancestor.place_type_id == nation_place_type.id
+      end
     end
   end
 
@@ -434,11 +441,7 @@ class Project < ActiveRecord::Base
   end
 
   def dollars_raised
-    raised = 0
-    Investment.find(:all, :conditions => {:project_id => self.id} ).each do |investment|
-      raised = raised + investment.amount
-    end
-    raised
+    investments(true).inject(0){|raised, investment| raised += investment.amount }
   end
 
   def get_percent_raised

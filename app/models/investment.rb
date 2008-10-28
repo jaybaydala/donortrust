@@ -20,6 +20,12 @@ class Investment < ActiveRecord::Base
     super * -1
   end
 
+  # set the reader methods for the columns dealing with currency
+  # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
+  def amount
+    BigDecimal.new(read_attribute(:amount).to_s) unless read_attribute(:amount).nil?
+  end
+  
   def self.new_from_gift(gift, user_id)
     logger.info "Gift: #{gift.inspect}"
     if gift.project_id
@@ -36,6 +42,15 @@ class Investment < ActiveRecord::Base
   def credit_card_tx=(val)
     @credit_card_tx ||= val ? true : false
   end
+
+  # this is for the "special" checkout investment option to support the admin project directly
+  def checkout_investment?
+    @checkout_investment || false
+  end
+  def checkout_investment=(val)
+    @checkout_investment = val ? true : false
+  end
+  alias_method :checkout_investment, :checkout_investment?
   
   protected
   def validate

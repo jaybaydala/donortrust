@@ -17,6 +17,8 @@ module OrderHelper
   def initialize_new_order
     @order = Order.new(params[:order])
     @order.order_number = Order.generate_order_number
+    @order.account_balance = current_user.balance if logged_in?
+    @order.gift_card_balance = session[:gift_card_balance] if session[:gift_card_balance]
     if logged_in?
       %w(first_name last_name address city province postal_code country).each do |c|
         @order.write_attribute(c, current_user.read_attribute(c)) unless @order.attribute_present?(c)
@@ -34,7 +36,20 @@ module OrderHelper
     @order.attributes = params[:order]
     @order.total = @cart.total
     @order.user = current_user if logged_in?
-    @order.credit_card_total = @order.total unless logged_in? && current_user.balance > 0
+    
+    ############
+    # THE GIFT_CARD_PAYMENT AND CREDIT_CARD_PAYMENT SHOULD ONLY BE SET IF THEY'RE NOT ALREADY...
+    # set the gift card payment
+    if !@order.gift_card_payment? && session[:gift_card_balance] && session[:gift_card_balance] > 0
+      @order.gift_card_payment = 
+        @order.total && session[:gift_card_balance] > @order.total ? 
+        @order.total : 
+        session[:gift_card_balance]
+    end
+    # set the credit card payment
+    unless logged_in? && current_user.balance > 0
+      @order.credit_card_payment = @order.gift_card_payment? ? @order.total - @order.gift_card_payment : @order.total
+    end
     @order
   end
 end

@@ -29,7 +29,7 @@ fieldset ol {
 fieldset ol li {
     list-style-type:none;
 }
-input, select {
+input[type=text], input[type=password], select {
     background-color:#FFF;
     border:1px solid #999;
     color:#333;
@@ -39,18 +39,7 @@ input, select {
 .textsm input, .textsm select {
     font-size:1em;
 }
-input[type=submit] {
-    background-color:#DDD;
-    border:1px solid #999999;
-    padding:auto;
-}
-input[type=image] {
-    border:0;
-    padding:0;
-}
-input[type=radio], input[type=checkbox] {
-	border:0;
-}
+
 select {
     padding:0 0 1px 0;
 }
@@ -89,12 +78,25 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
     border-bottom:1px #555 solid;
 }
 
-.userform ol li, .userform ul li {
+.userform li {
     font-family:Arial, Helvetica, sans-serif;
 }
 .userform ol li, .userform ul li {
+    clear:left;
+    padding:.25em;
+    font-size:0.6875em;
     list-style-type:none;
 }
+.userform ol li li, .userform li li {
+  font-size:1em;
+}
+.userform ol li input, .userform ol li select, .userform ul li input, .userform ul li select {
+    font-size:1em;
+}
+.userform fieldset fieldset ol li {
+    font-size:1em;
+}
+
 .userform div.notes p {
     margin:0;
     font-size:0.75em;
@@ -102,17 +104,6 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 }
 .userform select, .userform input[type=text] {
     width:150px;
-}
-.userform ol li {
-    clear:left;
-    padding:.25em;
-    font-size:0.75em;
-}
-.userform ol li input, .userform ol li select, .userform ul li input, .userform ul li select {
-    font-size:1em;
-}
-.userform fieldset fieldset ol li {
-    font-size:1em;
 }
 .userform fieldset {}
 .userform label {
@@ -229,6 +220,7 @@ LOGIN FORM
     display:block;
     float:none;
     text-align:left;
+    width:auto;
 }
 #loginform fieldset input[type=text], #loginform fieldset input[type=password] {
     width:100%;
@@ -243,6 +235,82 @@ LOGIN FORM
     clear:left;
     width:200px;
 }
+
+#sidebar #loginform {
+	background-color:#D8DEE7;
+	padding:8px
+}
+#sidebar #loginform input[type="text"], 
+#sidebar #loginform input[type="password"] {
+	width: 210px;
+}
+/*
+GIFT FORMS
+==========*/
+#opengiftform {
+	width:225px;
+}
+#opengiftform .userform {
+	background-color:#AAC698;
+	padding:2px 0 0 2px;
+}
+
+#opengiftform fieldset {
+	border-top:0;
+}
+#opengiftform fieldset label {
+		background-color:#AAC698;
+    display:block;
+    float:none;
+    text-align:left;
+    width:auto;
+}
+#opengiftform fieldset input {
+    width:100%;
+}
+#opengiftform fieldset li {
+    display:block;
+    width:140px;
+    float:left;
+    clear:none;
+}
+#opengiftform fieldset li.submitli {
+  width:65px;
+}
+#opengiftform fieldset li.clear {
+    clear:left;
+}
+#opengiftform #buttonsubmit-0 {
+	margin-top:1.4em;
+}
+#opengiftform #buttonsubmit-0 a span {
+	display:block;
+	text-indent:-9999px;
+}
+#opengiftform #buttonsubmit-0 a {
+	width:65px;
+	background-image: url(/images/dt/nav_elements/buttonsCF/unwrap_grey.gif);
+}
+#opengiftform #buttonsubmit-0 a:hover {
+	background-image: url(/images/dt/nav_elements/buttonsCF/unwrap_blue.gif);
+}
+
+div.multiplegiftfields {
+	background-color:#EFEFEF;
+	padding:8px;
+}
+div.multiplegiftfields .content {
+	width:476px;
+}
+#medImgWrap {
+  width:142px;
+  padding-right:8px;
+  float:left;
+}
+div.medImg img {
+	border:1px #CCC solid;
+}
+
 
 /*
 CHECKOUT FORMS
@@ -323,8 +391,8 @@ select#time_zone {
     width:270px;
 }
 #gift_message {
-    clear:both;
     width:100%;
+    height:140px;
 }
 label#gift_message_label {
     float:none;

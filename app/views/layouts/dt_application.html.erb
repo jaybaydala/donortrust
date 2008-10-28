@@ -40,7 +40,7 @@
   </div>
   <%- end -%>
   
-  <%- if top_content -%>
+  <%- if top_content && !top_content.empty? -%>
   <div id="topcontentcontainer" class="clearfix">
     <div id="topcontent">
       <%= top_content %>

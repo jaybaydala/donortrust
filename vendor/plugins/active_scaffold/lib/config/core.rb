@@ -152,7 +152,6 @@ module ActiveScaffold::Config
       end
       super
     end
-
     # some utility methods
     # --------------------
 
@@ -178,10 +177,10 @@ module ActiveScaffold::Config
     # must be a class method so the layout doesn't depend on a controller that uses active_scaffold
     # note that this is unaffected by per-controller frontend configuration.
     def self.javascripts(frontend = self.frontend)
-      javascript_dir = File.join(RAILS_ROOT, "public", "javascripts", asset_path('', frontend))
-      Dir.entries(javascript_dir).reject { |e| !e.match(/\.js/) or (!self.dhtml_history? and e.match('dhtml_history')) }
+      javascript_dir = File.join(Rails.public_path, "javascripts", asset_path('', frontend))
+      Dir.entries(javascript_dir).reject { |e| !e.match(/\.js$/) or (!self.dhtml_history? and e.match('dhtml_history')) }
     end
-
+    
     # the ActiveScaffold-specific template paths
     # an instance method. this is the only place that pays attention to per-controller frontend configuration.
     # note: for the rails 1.2.x rendering, this needs to be relative to app/views.
@@ -196,7 +195,7 @@ module ActiveScaffold::Config
     end
 
     def self.available_frontends
-      frontends_dir = File.join(RAILS_ROOT, "vendor", "plugins", ActiveScaffold::Config::Core.plugin_directory, "frontends")
+      frontends_dir = File.join(Rails.root, "vendor", "plugins", ActiveScaffold::Config::Core.plugin_directory, "frontends")
       Dir.entries(frontends_dir).reject { |e| e.match(/^\./) } # Get rid of files that start with .
     end
   end

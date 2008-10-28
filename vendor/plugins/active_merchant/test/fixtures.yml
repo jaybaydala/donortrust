@@ -18,6 +18,11 @@ beanstream:
   login: merchant id
   user: username
   password: password
+  
+beanstream_interac:
+  login: merchant id
+  user: username
+  password: password
 
 braintree:
   login: demo
@@ -59,6 +64,10 @@ linkpoint:
   pem: |--
     PASTE YOUR PEM FILE HERE
 
+modern_payments:
+  login: login
+  password: password
+  
 # Working credentials, no need to replace
 moneris:
   login: store1
@@ -241,6 +250,10 @@ realex_mastercard_coms_error:
   year: '2020'
   verification_value: '123'
 
+sage:
+  login: login
+  password: password
+
 secure_pay:
   login: LOGIN
   password: PASSWORD
@@ -280,3 +293,9 @@ viaklix:
   login: LOGIN
   password: PASSWORD
   user: USER
+  
+# Working test credentials, no need to replace
+wirecard:
+  login: 56500
+  password: TestXAPTER
+  

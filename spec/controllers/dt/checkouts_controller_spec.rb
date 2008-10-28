@@ -18,11 +18,11 @@ describe Dt::CheckoutsController do
   end
 
   before do
-    @investment = mock_model(Investment)
-    @gift = mock_model(Gift)
+    @investment = Investment.generate!
+    @gift = Gift.generate!
     @cart = Cart.new
-    @cart.stub!(:items).and_return([@investment, @gift])
-    @cart.stub!(:empty?).and_return(false)
+    @cart.add_item @gift
+    @cart.add_item @investment
     controller.stub!(:find_cart).and_return(@cart)
     @order = Order.new(:email => "user@example.com")
     controller.stub!(:find_order).and_return(@order)
@@ -428,32 +428,34 @@ describe Dt::CheckoutsController do
       
       describe "in the do_support method" do
         before do
-          @cf_project = mock_model(Project)
-          Project.stub!(:cf_admin_project).and_return(@cf_project)
-          @cf_investment = mock_model(Investment, :project => @cf_project, :project_id => @cf_project.id, :amount => 10.0, :amount? => true)
-          Investment.stub!(:new).and_return(@cf_investment)
-          @gift.stub!(:project_id).and_return(@cf_project.id + 50)
-          @investment.stub!(:project_id).and_return(@cf_project.id + 75)
-          @cart.stub!(:valid_item?).and_return(true)
+          # set up projects
+          @admin_project = Project.admin_project || Project.generate!(:slug => 'admin')
+          @unallocated_project = Project.unallocated_project || Project.generate!(:slug => 'unallocated')
+          # set up investment(s)/gift(s)
+          @admin_investment = Investment.spawn(:amount => 10, :checkout_investment => true)
+          @admin_investment.project = @admin_project
+          Investment.stub!(:new).and_return(@admin_investment)
+          @gift.project = Project.generate!
+          @investment.project = Project.generate!
         end
         
-        it "should not call Project.cf_admin_project unless params[:fund_cf]" do
-          Project.should_receive(:cf_admin_project).never
+        it "should not call Project.admin_project unless params[:fund_cf]" do
+          Project.should_receive(:admin_project).never
           do_request(:fund_cf => nil)
         end
 
-        it "should call Project.cf_admin_project if params[:fund_cf] == 'dollars'" do
-          Project.stub!(:cf_admin_project).and_return(@cf_project)
+        it "should call Project.admin_project if params[:fund_cf] == 'dollars'" do
+          Project.stub!(:admin_project).and_return(@admin_project)
           do_request(:fund_cf => "dollars")
         end
 
-        it "should call Project.cf_admin_project if params[:fund_cf] == 'percent'" do
-          Project.stub!(:cf_admin_project).and_return(@cf_project)
+        it "should call Project.admin_project if params[:fund_cf] == 'percent'" do
+          Project.stub!(:admin_project).and_return(@admin_project)
           do_request(:fund_cf => "percent")
         end
 
-        it "should call Project.cf_admin_project if params[:fund_cf] == 'no'" do
-          Project.stub!(:cf_admin_project).and_return(@cf_project)
+        it "should call Project.admin_project if params[:fund_cf] == 'no'" do
+          Project.stub!(:admin_project).and_return(@admin_project)
           do_request(:fund_cf => "no")
         end
         
@@ -471,11 +473,11 @@ describe Dt::CheckoutsController do
         end
         
         it "should add an investment to the cart" do
-          @cart.should_receive(:add_item).with(@cf_investment).and_return(@cart.items << @cf_investment)
+          @cart.should_receive(:add_item).with(@admin_investment).and_return(@cart.items << @admin_investment)
           do_request
         end
         it "should not add an investment to the cart if there's an empty amount" do
-          @cf_investment.should_receive(:amount?).and_return(false)
+          @admin_investment.should_receive(:amount?).and_return(false)
           @cart.should_receive(:add_item).never
           do_request
         end
@@ -491,24 +493,23 @@ describe Dt::CheckoutsController do
           do_request({:fund_cf_amount => "5", :fund_cf => "percent"})
         end
         
-        it "should remove cf_investment from the cart.items if it's in there" do
-          @cart.items << @cf_investment
-          index = @cart.items.size - 1
-          @cart.items.should_receive(:index).and_return(index)
+        it "should remove admin_investment from the cart.items if it's in there" do
+          @cart.add_item(@admin_investment)
+          
+          index = @cart.items.index(@admin_investment)
           @cart.should_receive(:remove_item).with(index)
           do_request
         end
         
         it "should replace an existing fund_cf in the @cart if one is already there" do
-          @cart.items << @cf_investment
-          @cart.should_receive(:remove_item)
-          @cart.should_receive(:add_item).with(@cf_investment)
+          @cart.add_item @admin_investment
+          @cart.should_receive(:add_item).with(@admin_investment)
           do_request(:fund_cf => 'dollars', :fund_cf_amount => "10")
         end
 
         it "should remove an existing fund_cf in the @cart when params[:fund_cf] is \"no\"" do
           do_request({:fund_cf => "no"})
-          @cart.items.select{|item| item.project_id == @cf_project.id && item.class == Investment }.should be_empty
+          @cart.items.select{|item| item.project_id == @admin_project.id && item.class == Investment }.should be_empty
         end
 
         def do_request(params = {})
@@ -685,7 +686,7 @@ describe Dt::CheckoutsController do
           do_request
         end
         it "should mark the order as complete" do
-          @order.should_receive(:update_attributes).with({:complete => true})
+          @order.should_receive(:update_attributes!).with({:complete => true})
           do_request
         end
         it "should empty the cart" do
@@ -702,15 +703,51 @@ describe Dt::CheckoutsController do
           do_request
           session[:order_number].should == [@order.order_number]
         end
-        it "should not process a credit card when paying from your account" do
+        it "should not process a credit card when not paying from it" do
           @order.stub!(:total).and_return(55)
-          @order.stub!(:credit_card_total).and_return(0)
-          @order.should_receive(:account_balance_total).and_return(@order.total)
+          @order.stub!(:credit_card_payment).and_return(0)
           @order.should_receive(:run_transaction).never
           do_request
         end
+        describe "when paying with a gift card" do
+          before do
+            @gift_card = Gift.generate!(:amount => @cart.total)
+            controller.session[:gift_card_id] = @gift_card.id
+            controller.session[:gift_card_balance] = @gift_card.balance
+            @order.credit_card_payment = 0
+            @order.total = @cart.total
+            @order.gift_card_balance = @gift_card.balance
+            @order.gift_card_payment = @gift_card.balance
+          end
+          it "should not run a credit card when paying with a gift card" do
+            @order.should_receive(:run_transaction).never
+            do_request
+          end
+          it "should add the gift_card_payment_id to the order when paying with a gift_card" do
+            do_request
+            @order.gift_card_payment_id.should == @gift_card.id
+          end
+          it "should save the gift_card_payment to the order when paying with a gift_card" do
+            do_request
+            @order.gift_card_payment.should == @gift_card.balance
+          end
+          it "should reduce the gift_card balance when paying with a gift_card" do
+            do_request
+            @gift_card.reload
+            @gift_card.balance.should == @order.total - @order.gift_card_payment
+          end
+          it "should remove the gift_card_id from the session" do
+            do_request
+            controller.session[:gift_card_id].should be_nil
+          end
+          it "should remove the gift_card_balance from the session" do
+            do_request
+            controller.session[:gift_card_balance].should be_nil
+          end
+        end
         describe "with a logged in user" do
           before do
+            @user = mock_model(User, :valid? => true, :balance => 0)
             @controller.stub!(:logged_in?).and_return(true)
             @controller.stub!(:current_user).and_return(@user)
             @user.stub!(:balance).and_return(10)
@@ -720,11 +757,46 @@ describe Dt::CheckoutsController do
             @user.should_receive(:balance)
             do_request
           end
-          it "should set credit_card_total to order.total when the user has no balance" do
+          it "should set credit_card_payment to order.total when the user has no balance" do
             @user.stub!(:balance).and_return(0)
             do_request
-            @order.credit_card_total.should == @order.total
-            puts @order.inspect
+            @order.credit_card_payment.should == @order.total
+          end
+          describe "with a gift card" do
+            before do
+              @gift_card = Gift.generate!(:amount => @order.total - 1)
+              controller.session[:gift_card_balance] = @gift_card.balance
+              controller.session[:gift_card_id] = @gift_card.id
+            end
+            it "should set gift_card_payment to gift_card_balance when the user has no balance and has a gift card" do
+              @user.stub!(:balance).and_return(0)
+              do_request
+              @order.gift_card_payment.should == @gift_card.balance
+            end
+            it "should set credit_card_payment to order.total-gift_card_balance when the user has no balance and has a gift card" do
+              @user.stub!(:balance).and_return(0)
+              do_request
+              @order.credit_card_payment.should == 1
+            end
+            describe "with a balance larger than the total" do
+              before do
+                @gift_card.update_attributes(:amount => @order.total + 1, :balance => @order.total + 1)
+                controller.session[:gift_card_balance] = @gift_card.balance
+              end
+              it "should set gift_card_payment to order.total when the user has no balance" do
+                @gift_card.update_attributes(:amount => @order.total + 1, :balance => @order.total + 1)
+                @user.stub!(:balance).and_return(0)
+                do_request
+                @order.gift_card_payment.should == @order.total
+              end
+              it "should set credit_card_payment to 0 when the user has no balance and has a gift card larger than the total" do
+                new_balance = @order.total + 1
+                @gift_card.update_attributes(:amount => new_balance, :balance => new_balance)
+                @user.stub!(:balance).and_return(0)
+                do_request
+                @order.credit_card_payment.should == 0
+              end
+            end
           end
         end
       end

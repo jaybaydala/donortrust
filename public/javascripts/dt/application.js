@@ -5,6 +5,7 @@ Event.observe(window, 'load', function() {
 				anchor.target = "_blank"
 		});
 	}
+	
 	ua=navigator.userAgent.toLowerCase();
 	ie = document.all && ua.search(/msie/i) != -1 ? true : false;
 	old_ie = ie && ua.search(/msie [0-6]/i) != -1 ? true : false;
@@ -87,7 +88,7 @@ SubmitButton.prototype = {
 		a.id = this.name + 'link-' + this.id;
 		a.href = 'javascript:void(0);';
 		a.className = this.size;
-		a.innerHTML = this.value;
+		a.innerHTML = "<span>"+this.value+"</span>";
 		div.appendChild(a);
 		this.linkObserver()
 	},

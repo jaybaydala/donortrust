@@ -86,7 +86,7 @@ describe Dt::DepositsController do
       before do
         @deposit.should_receive(:valid?).any_number_of_times.and_return(true)
         @cart = Cart.new
-        controller.stub!(:find_cart).and_return(@cart)
+        Cart.stub!(:new).and_return(@cart)
       end
       
       it "should find_cart" do
@@ -131,7 +131,7 @@ describe Dt::DepositsController do
       @deposit.stub!(:kind_of?).and_return(true)
       @cart = Cart.new
       @cart.stub!(:items).and_return([@deposit])
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should render the edit template" do
@@ -169,7 +169,7 @@ describe Dt::DepositsController do
       @deposit.stub!(:valid?).and_return(true)
       @cart = Cart.new
       @cart.stub!(:items).and_return([@deposit])
-      controller.stub!(:find_cart).and_return(@cart)
+      Cart.stub!(:new).and_return(@cart)
     end
     
     it "should redirect to dt_cart_path" do
@@ -208,6 +208,7 @@ describe Dt::DepositsController do
     it "should render the edit template if !valid?" do
       @deposit.should_receive(:valid?).and_return(false)
       do_request
+      puts response.body
       response.should render_template("edit")
     end
 

@@ -8,40 +8,55 @@
 # This is in contrast to how Rails will normally bypass the controller if it sees
 # a partial.
 
-# if render_action exists, we can use our existing hooks.
-unless ActionController::Base.method_defined? :render_action
-
 class ActionController::Base
   class_inheritable_accessor :generic_view_paths
   self.generic_view_paths = []
-end
-
-class ActionView::Base
-  private
-  def find_full_template_path_with_generic_paths(template_path, extension)
-    path = find_full_template_path_without_generic_paths(template_path, extension)
-    if path and not path.empty?
-      path
-    elsif search_generic_view_paths?
-      template_file = File.basename("#{template_path}.#{extension}")
-      path = find_generic_base_path_for(template_file)
-      path ? "#{path}/#{template_file}" : ""
-    else
-      ""
-    end
-  end
-  alias_method_chain :find_full_template_path, :generic_paths
 
   # Returns the view path that contains the given relative template path.
-  def find_generic_base_path_for(template_file_name)
-    controller.generic_view_paths.find { |p| File.file?(File.join(p, template_file_name)) }
+  def find_generic_base_path_for(template_path, extension)
+    self.generic_view_paths.each do |generic_path|
+      template_file_name = File.basename("#{template_path}.#{extension}")
+      generic_file_path = File.join(generic_path, template_file_name)
+      return generic_file_path if File.file?(generic_file_path)
+    end
+    nil
   end
+end
+
+class ActionView::TemplateFinder
+
+  def pick_template_with_generic_paths(template_path, extension)
+    path = pick_template_without_generic_paths(template_path, extension)
+    if path.blank? and search_generic_view_paths?
+      path = controller.find_generic_base_path_for(template_path, extension)
+    end
+    path
+  end
+  alias_method_chain :pick_template, :generic_paths
+  alias_method :template_exists?, :pick_template # re-alias to the new pick_template
+
+  def find_template_extension_from_handler_with_generic_paths(template_path, template_format = @template.template_format)
+    extension = find_template_extension_from_handler_without_generic_paths(template_path, template_format)
+    if extension.blank? and search_generic_view_paths?
+      self.class.template_handler_extensions.each do |handler_extension|
+        return handler_extension if controller.find_generic_base_path_for(template_path, handler_extension)
+      end
+    end
+    extension
+  end
+  alias_method_chain :find_template_extension_from_handler, :generic_paths
+
+protected
 
   # We don't want to use generic_view_paths in ActionMailer, and we don't want
   # to use them unless the controller action was explicitly defined.
   def search_generic_view_paths?
     controller.respond_to?(:generic_view_paths) and controller.class.action_methods.include?(controller.action_name)
   end
-end
 
+private
+
+  def controller
+    @template.controller
+  end
 end

@@ -1,51 +1,44 @@
-<%- content_for :html_title do -%>Open your gift.  Change the world.<%- end -%>
-<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+<%- content_for :html_title do -%>Open your gift. Change the world.<%- end -%>
 
 <% if @gift -%>
-	<br/>
-	<p><%= @gift.name %> has sent you a gift of <%= number_to_currency( @gift.amount ) %>!</p>
-	<p>Just deposit the gift into your ChristmasFuture account to start changing the world.</p>
-	<% if logged_in? %>
-	<% form_for(:gift, :url => unwrap_dt_gift_path(@gift), :html => {:method => :put, :id => "giftform", :name => "giftform"}) do |f| %>
-	<div class="userform">
-		Click &quot;Deposit Gift&quot; below to deposit the gift into your account.
-		<%= f.hidden_field :pickup_code %>
-		<%= submit_tag "Deposit Gift", :class => 'buttonsubmit' %>
-	</div>
-	<% end -%>
-	<% else %>
-	<div id="login-signup"><p>Either <%= link_to "login", dt_login_path %> or <%= link_to "signup", dt_signup_path %> to get started. After you login or signup, you will be redirected back here. If you get lost in the meantime, don't worry. Just grab the Pickup Code from your email again to get back here.</p></div>
-	<% end %>
+  <% if @gift.project_id? %>
+    <p><%= @gift.name || @gift.email %> has sent you a Project Gift for <%= number_to_currency( @gift.amount ) %>!</p>
+    <p>
+      This is the project they chose to give the gift to:<br />
+      <%= link_to @gift.project.name, dt_project_path(@gift.project) %><br />
+      Follow the link to learn more about the project.
+    </p>
+  <% else %>
+    <% if @opening_now %>
+      <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
+      <p>Now that you've opened your gift, you have some options. You can:</p>
+    <% else %>
+      <p>Your current Gift Card Balance is <%= number_to_currency( @gift.balance ) %>.</p>
+      <p>To use your gift, you have some options. You can:</p>
+    <% end %>
+    <ul>
+      <li><%= link_to "find a project to donate to", dt_search_path %></li>
+      <% if Project.unallocated_project %><li><%= link_to "let ChristmasFuture figure it out", new_dt_investment_path(:unallocated_gift => 1) %></li><% end %>
+      <li><%= link_to "Deposit it into my account", new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) %></li>
+      <% if Project.admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.balance), :project_id => Project.admin_project.id }) %></li><% end %>
+    </ul>
+    <div class="textsm">Note: if you choose to do nothing, your gift will expire 30 days after it was sent, which is just like choosing &quot;Let ChristmasFuture figure it out&quot;</div>
+  <% end %>
 <% else -%>
-	<%= error_messages_for :pickup %>
-	<br/>
-	<h1>Open your gift. Change the world.</h1>
-	<% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "giftform", :name => "giftform"}) do |f| %>
-	<div class="userform">
-		<h2 style="float:right; padding-right:150px;">Pickup Code: <%= text_field_tag :code %></h2>
-		<%= submit_tag 'open your gift', :class => '', :style => 'float:right; margin-right: 150px; font-size: 16px;' %>
-	</div>
-
-	<div class="clearfix"></div>
-	
-	<h2>How it works:</h2>
-	<div class="indented">
-		<ol>
-			<li>Open your gift</li>
-			<li>Find a project you want to support</li>
-			<li>Give to the project using gift card balance</li>  
-		</ol>  
-	</div>
-	<% end -%>
+  <%= error_messages_for :pickup %>
+  <% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "opengiftform", :name => "opengiftform"}) do |f| %>
+  <div class="userform">
+    <fieldset>
+      <ol>
+        <li><label for="code">Enter your Pickup Code</label><%= text_field_tag :code %></li>
+        <li class="submitli"><%= submit_tag 'Unwrap', :class => 'buttonsubmit', :id => "button-unwrap" %></li>
+      </ol>
+    </fieldset>
+  </div>
+  
+  <% end -%>
 <% end -%>
 
-<% content_for :sidebar do %>  
-	<br/>
-	<div>
-  	<h3>
-  		<img src = "/images/dt/icons/recipient-icon-yellow.png" style ="float: left; padding-right: 5px;"/>
-  		Open your gift and support projects that help communities climb out of extreme poverty.
-  	</h3>
-  </div>
-  <%= dt_short_profile_sidebar %>
-<% end %>
+<%- content_for :sidebar do -%>
+  <%= dt_profile_sidebar %>
+<% end -%>

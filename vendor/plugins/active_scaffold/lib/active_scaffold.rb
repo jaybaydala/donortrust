@@ -64,10 +64,12 @@ module ActiveScaffold
 
       # set up the generic_view_paths (Rails 2.x)
       if method_defined? :generic_view_paths
-        frontends_path = File.join(RAILS_ROOT, 'vendor', 'plugins', ActiveScaffold::Config::Core.plugin_directory, 'frontends')
+        frontends_path = File.join(Rails.root, 'vendor', 'plugins', ActiveScaffold::Config::Core.plugin_directory, 'frontends')
 
         paths = self.active_scaffold_config.inherited_view_paths.clone 
-        paths << File.join(RAILS_ROOT, 'app', 'views', 'active_scaffold_overrides')
+        ActionController::Base.view_paths.each do |dir|
+          paths << File.join(dir,"active_scaffold_overrides") if File.exists?(File.join(dir,"active_scaffold_overrides"))
+        end
         paths << File.join(frontends_path, active_scaffold_config.frontend, 'views') if active_scaffold_config.frontend.to_sym != :default
         paths << File.join(frontends_path, 'default', 'views')
         self.generic_view_paths = paths

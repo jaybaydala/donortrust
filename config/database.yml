@@ -7,7 +7,7 @@ development:
 
 staging:
   adapter: mysql
-  database: donortrust_staging
+  database: donortrust_staging2
   username: dt_stager
   password: donor99truDB
   host: mysql.christmasfuture.org

@@ -1,2 +1,2 @@
-module BusAdmin::RSSFeedsHelper
+module BusAdmin::RssFeedsHelper
 end

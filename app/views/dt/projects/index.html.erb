@@ -12,7 +12,7 @@
       :onfocus => "if(this.value=='Search') this.value='';"
       %>
       <span id="searchsubmit">
-        <%= submit_tag '',
+        <%= submit_tag '', 
         :id => 'simple_search_submit', 
         :class => 'submitreplace'
         %>
@@ -38,7 +38,7 @@
     <div class="predefined-search-list" id ='list-by-partner'>
       <h3>Partner</h3>
       <%= partners_with_projects_count(15) %>
-    </div>    
+    </div>
     <div class="predefined-search-list" id ='list-by-total-cost'>
       <h3>Total Cost</h3>
       <%= total_cost_with_project_count(0,5000) %>
@@ -48,17 +48,17 @@
       <%= total_cost_with_project_count(20001,50000) %>
       <%= total_cost_with_project_count(50001,100000) %>
       <%= total_cost_with_project_count(100000,500000) %>
-    </div>    
+    </div>
   </div>
 
   <div class='clearfix'></div>
   
   <div id="featured-projects">
-  	<h2>Featured Projects:</h2>
-  
-		<div class="project-list">
-			<%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
-		</div>
-	</div>
+    <h2>Featured Projects:</h2>
+    
+    <div class="project-list">
+      <%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
+    </div>
+  </div>
 </div>
 

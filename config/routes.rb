@@ -1,4 +1,3 @@
-
 ActionController::Routing::Routes.draw do |map|
   map.resources :news_comments
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
@@ -36,6 +35,8 @@ ActionController::Routing::Routes.draw do |map|
     end
     dt.resource :session, :controller => 'sessions'
     dt.resources :gifts, :controller => 'gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :put }
+    dt.resources :bulk_gifts, :controller => 'bulk_gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :put }
+    dt.resource :email_upload, :controller => 'email_uploads'
     dt.resources :groups, :controller=> 'groups' do |groups|
       groups.resources :memberships, :controller => 'groups/memberships', :member => { :promote => :put, :demote => :put }
       groups.resources :group_projects, :controller => 'group_projects'
@@ -234,63 +235,18 @@ ActionController::Routing::Routes.draw do |map|
   #
   #
   # take that REST
-  map.resources :place_you_tube_videos,
-                :path_prefix => "/bus_admin",
-                :controller => "bus_admin/place_you_tube_videos",
-                :collection => {  :add => :post,
-                                  :remove => :post,
-                                  :search => :post,
-                                  :places => :post,
-                                  :videos => :post,
-                                  :preview => :post,
-                                  :search_by_tag => :post,
-                                  :search_by_user => :post,
-                                  :search_by_category_and_tag => :post,
-                                  :list_by_featured => :post,
-                                  :list_by_popular => :post,
-                                  :show_video => :post }
-
-
-   map.resources :project_you_tube_videos,
-                 :path_prefix => "/bus_admin",
-                 :controller => "bus_admin/project_you_tube_videos",
-                 :collection => { :add => :post,
-                                  :remove => :post,
-                                  :search => :post,
-                                  :projects => :post,
-                                  :videos => :post,
-                                  :preview => :post,
-                                  :search_by_tag => :post,
-                                  :search_by_user => :post,
-                                  :search_by_category_and_tag => :post,
-                                  :list_by_featured => :post,
-                                  :list_by_popular => :post,
-                                  :show_video => :post },
-                 :active_scaffold => true
-
-  map.resources :place_flickr_images,
-                :path_prefix => "/bus_admin",
-                :controller => "bus_admin/place_flickr_images",
-                :collection => {  :add => :post,
-                                  :remove => :post,
-                                  :search => :post,
-                                  :places => :post,
-                                  :show_flickr => :post,
-                                  :show_db_flickr => :post,
-                                  :photos=>:post }
-
-  map.resources :project_flickr_images,
-                :path_prefix => "/bus_admin",
-                :controller => "bus_admin/project_flickr_images",
-                :collection => { :add => :post,
-                                 :remove => :post,
-                                 :search => :post,
-                                 :projects => :post,
-                                 :show_flickr => :post,
-                                 :show_db_flickr => :post,
-                                 :photos=>:post },
-                :active_scaffold => true
-
+  map.resources :place_you_tube_videos, :path_prefix => "/bus_admin", 
+    :controller => "bus_admin/place_you_tube_videos", 
+    :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :videos => :post,:preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post }
+  map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", 
+    :controller => "bus_admin/project_you_tube_videos", 
+    :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :videos => :post, :preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post }
+  map.resources :place_flickr_images, :path_prefix => "/bus_admin", 
+    :controller => "bus_admin/place_flickr_images", 
+    :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post }
+  map.resources :project_flickr_images, :path_prefix => "/bus_admin", 
+    :controller => "bus_admin/project_flickr_images", 
+    :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post }
   map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
   map.home_update_partner 'bus_admin/home/update_partner', :controller => 'bus_admin/home', :action => 'update_partner'
@@ -339,14 +295,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
   map.resources :rank_values, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_values"
 
-  map.resources :programs,    :controller => "bus_admin/programs",
+  map.resources :programs, :controller => "bus_admin/programs",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :projects,    :controller => 'bus_admin/projects',
+  map.resources :projects, :controller => 'bus_admin/projects',
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true,
     :collection => { :pending_projects => :get}
-  map.resources :milestones,  :controller => "bus_admin/milestones",
+  map.resources :milestones, :controller => "bus_admin/milestones",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :tasks,       :controller => "bus_admin/tasks",
+  map.resources :tasks, :controller => "bus_admin/tasks",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :measures
   map.resources :accounts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/accounts"
@@ -414,5 +370,5 @@ ActionController::Routing::Routes.draw do |map|
   #            :controller => 'dt/projects'
   # HPD these should not be used / exist when using 'full' RESTful structure
   #map.connect ':controller/:action/:id.:format'
-#  map.connect ':controller/:action/:id'
+  #map.connect ':controller/:action/:id'
 end

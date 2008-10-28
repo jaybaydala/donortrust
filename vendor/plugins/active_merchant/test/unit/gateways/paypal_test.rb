@@ -193,6 +193,33 @@ class PaypalTest < Test::Unit::TestCase
     assert_equal 'M', response.cvv_result['code']
   end
   
+  def test_fraud_review
+    @gateway.expects(:ssl_post).returns(fraud_review_response)
+    
+    response = @gateway.purchase(@amount, @credit_card, @options)
+    assert_success response
+    assert_equal "SuccessWithWarning", response.params["ack"]
+    assert_equal "Payment Pending your review in Fraud Management Filters", response.message
+    assert response.fraud_review?
+  end
+  
+  def test_failed_capture_due_to_pending_fraud_review
+    @gateway.expects(:ssl_post).returns(failed_capture_due_to_pending_fraud_review)
+    
+    response = @gateway.capture(@amount, 'authorization')
+    assert_failure response
+    assert_equal "Transaction must be accepted in Fraud Management Filters before capture.", response.message
+  end
+  
+  # This occurs when sufficient 3rd party API permissions are not present to make the call for the user
+  def test_authentication_failed_response
+    @gateway.expects(:ssl_post).returns(authentication_failed_response)
+    response = @gateway.purchase(@amount, @credit_card, @options)
+    assert_failure response
+    assert_equal "10002", response.params["error_codes"]
+    assert_equal "You do not have permissions to make this API call", response.message
+  end
+  
   private
   def successful_purchase_response
     <<-RESPONSE
@@ -375,6 +402,119 @@ class PaypalTest < Test::Unit::TestCase
     </DoReauthorizationResponse>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>  
+    RESPONSE
+  end
+  
+  def fraud_review_response
+    <<-RESPONSE
+    <?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cc="urn:ebay:apis:CoreComponentTypes" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:wsse="http://schemas.xmlsoap.org/ws/2002/12/secext" xmlns:ebl="urn:ebay:apis:eBLBaseComponents" xmlns:ns="urn:ebay:api:PayPalAPI">
+  <SOAP-ENV:Header>
+    <Security xmlns="http://schemas.xmlsoap.org/ws/2002/12/secext" xsi:type="wsse:SecurityType"/>
+    <RequesterCredentials xmlns="urn:ebay:api:PayPalAPI" xsi:type="ebl:CustomSecurityHeaderType">
+      <Credentials xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:UserIdPasswordType">
+        <Username xsi:type="xs:string"/>
+        <Password xsi:type="xs:string"/>
+        <Signature xsi:type="xs:string">An5ns1Kso7MWUdW4ErQKJJJ4qi4-Azffuo82oMt-Cv9I8QTOs-lG5sAv</Signature>
+        <Subject xsi:type="xs:string"/>
+      </Credentials>
+    </RequesterCredentials>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body id="_0">
+    <DoDirectPaymentResponse xmlns="urn:ebay:api:PayPalAPI">
+      <Timestamp xmlns="urn:ebay:apis:eBLBaseComponents">2008-07-04T19:27:39Z</Timestamp>
+      <Ack xmlns="urn:ebay:apis:eBLBaseComponents">SuccessWithWarning</Ack>
+      <CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">205d8397e7ed</CorrelationID>
+      <Errors xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:ErrorType">
+        <ShortMessage xsi:type="xs:string">Payment Pending your review in Fraud Management Filters</ShortMessage>
+        <LongMessage xsi:type="xs:string">Payment Pending your review in Fraud Management Filters</LongMessage>
+        <ErrorCode xsi:type="xs:token">11610</ErrorCode>
+        <SeverityCode xmlns="urn:ebay:apis:eBLBaseComponents">Warning</SeverityCode>
+      </Errors>
+      <Version xmlns="urn:ebay:apis:eBLBaseComponents">50.0</Version>
+      <Build xmlns="urn:ebay:apis:eBLBaseComponents">623197</Build>
+      <Amount xsi:type="cc:BasicAmountType" currencyID="USD">1500.00</Amount>
+      <AVSCode xsi:type="xs:string">X</AVSCode>
+      <CVV2Code xsi:type="xs:string">M</CVV2Code>
+      <TransactionID>5V117995ER6796022</TransactionID>
+    </DoDirectPaymentResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+    RESPONSE
+  end
+  
+  def failed_capture_due_to_pending_fraud_review
+    <<-RESPONSE
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cc="urn:ebay:apis:CoreComponentTypes" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:market="urn:ebay:apis:Market" xmlns:auction="urn:ebay:apis:Auction" xmlns:sizeship="urn:ebay:api:PayPalAPI/sizeship.xsd" xmlns:ship="urn:ebay:apis:ship" xmlns:skype="urn:ebay:apis:skype" xmlns:wsse="http://schemas.xmlsoap.org/ws/2002/12/secext" xmlns:ebl="urn:ebay:apis:eBLBaseComponents" xmlns:ns="urn:ebay:api:PayPalAPI">
+  <SOAP-ENV:Header>
+    <Security xmlns="http://schemas.xmlsoap.org/ws/2002/12/secext" xsi:type="wsse:SecurityType"/>
+    <RequesterCredentials xmlns="urn:ebay:api:PayPalAPI" xsi:type="ebl:CustomSecurityHeaderType">
+      <Credentials xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:UserIdPasswordType">
+        <Username xsi:type="xs:string"/>
+        <Password xsi:type="xs:string"/>
+        <Subject xsi:type="xs:string"/>
+      </Credentials>
+    </RequesterCredentials>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body id="_0">
+    <DoCaptureResponse xmlns="urn:ebay:api:PayPalAPI">
+      <Timestamp xmlns="urn:ebay:apis:eBLBaseComponents">2008-07-04T21:45:35Z</Timestamp>
+      <Ack xmlns="urn:ebay:apis:eBLBaseComponents">Failure</Ack>
+      <CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">32a3855bd35b7</CorrelationID>
+      <Errors xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:ErrorType">
+        <ShortMessage xsi:type="xs:string">Transaction must be accepted in Fraud Management Filters before capture.</ShortMessage>
+        <LongMessage xsi:type="xs:string"/>
+        <ErrorCode xsi:type="xs:token">11612</ErrorCode>
+        <SeverityCode xmlns="urn:ebay:apis:eBLBaseComponents">Error</SeverityCode>
+      </Errors>
+      <Version xmlns="urn:ebay:apis:eBLBaseComponents">52.000000</Version>
+      <Build xmlns="urn:ebay:apis:eBLBaseComponents">588340</Build>
+      <DoCaptureResponseDetails xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:DoCaptureResponseDetailsType">
+        <PaymentInfo xsi:type="ebl:PaymentInfoType">
+          <TransactionType xsi:type="ebl:PaymentTransactionCodeType">none</TransactionType>
+          <PaymentType xsi:type="ebl:PaymentCodeType">none</PaymentType>
+          <PaymentStatus xsi:type="ebl:PaymentStatusCodeType">None</PaymentStatus>
+          <PendingReason xsi:type="ebl:PendingStatusCodeType">none</PendingReason>
+          <ReasonCode xsi:type="ebl:ReversalReasonCodeType">none</ReasonCode>
+        </PaymentInfo>
+      </DoCaptureResponseDetails>
+    </DoCaptureResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+    RESPONSE
+  end
+  
+  def authentication_failed_response
+    <<-RESPONSE
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cc="urn:ebay:apis:CoreComponentTypes" xmlns:wsu="http://schemas.xmlsoap.org/ws/2002/07/utility" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:market="urn:ebay:apis:Market" xmlns:auction="urn:ebay:apis:Auction" xmlns:sizeship="urn:ebay:api:PayPalAPI/sizeship.xsd" xmlns:ship="urn:ebay:apis:ship" xmlns:skype="urn:ebay:apis:skype" xmlns:wsse="http://schemas.xmlsoap.org/ws/2002/12/secext" xmlns:ebl="urn:ebay:apis:eBLBaseComponents" xmlns:ns="urn:ebay:api:PayPalAPI">
+  <SOAP-ENV:Header>
+    <Security xmlns="http://schemas.xmlsoap.org/ws/2002/12/secext" xsi:type="wsse:SecurityType"/>
+    <RequesterCredentials xmlns="urn:ebay:api:PayPalAPI" xsi:type="ebl:CustomSecurityHeaderType">
+      <Credentials xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:UserIdPasswordType">
+        <Username xsi:type="xs:string"/>
+        <Password xsi:type="xs:string"/>
+        <Subject xsi:type="xs:string"/>
+      </Credentials>
+    </RequesterCredentials>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body id="_0">
+    <DoDirectPaymentResponse xmlns="urn:ebay:api:PayPalAPI">
+      <Timestamp xmlns="urn:ebay:apis:eBLBaseComponents">2008-08-12T19:40:59Z</Timestamp>
+      <Ack xmlns="urn:ebay:apis:eBLBaseComponents">Failure</Ack>
+      <CorrelationID xmlns="urn:ebay:apis:eBLBaseComponents">b874109bfd11</CorrelationID>
+      <Errors xmlns="urn:ebay:apis:eBLBaseComponents" xsi:type="ebl:ErrorType">
+        <ShortMessage xsi:type="xs:string">Authentication/Authorization Failed</ShortMessage>
+        <LongMessage xsi:type="xs:string">You do not have permissions to make this API call</LongMessage>
+        <ErrorCode xsi:type="xs:token">10002</ErrorCode>
+        <SeverityCode xmlns="urn:ebay:apis:eBLBaseComponents">Error</SeverityCode>
+      </Errors>
+      <Version xmlns="urn:ebay:apis:eBLBaseComponents">52.000000</Version>
+      <Build xmlns="urn:ebay:apis:eBLBaseComponents">628921</Build>
+    </DoDirectPaymentResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
     RESPONSE
   end
 end
