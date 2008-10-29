@@ -1,17 +1,17 @@
 #container {
-	width:800px;
-	margin:auto;
-	position:relative;
+  width:800px;
+  margin:auto;
+  position:relative;
 }
 
 #header {
-	padding:10px 0;
+  padding:10px 0;
 }
 
 #masthead {
-	border-top:1px solid #999;
-	border-right:1px solid #999;
-	border-left:1px solid #999;
+  border-top:1px solid #999;
+  border-right:1px solid #999;
+  border-left:1px solid #999;
 }
 #masthead img {
   display:block; /* this got rid of the top margin but pushes it way over to the right!?!? */
@@ -19,30 +19,31 @@
 
 #contentcontainer {
   overflow:hidden;
-	width:100%;
+  width:100%;
 }
 
-#contentcontainer #pagetitle{
-	width: 100%;
+#contentcontainer #pagetitle {
+  width: 100%;
 }
 
-#content-wrapper/*,  #content-plain-wrapper */ {
-	width:562px;
-	/* border-right:232px solid transparent; */ /* The width and color of the rail */
-	/* margin-right:-232px; */ /* Hat tip to Ryan Brill */
-	float:left;
+#content-wrapper, #content-plain-wrapper {
+  /* the width and border/margin should equal the width of the container */
+  width:568px;
+  border-right:232px solid #FFF; /* The width and color of the rail */
+  margin-right:-232px; /* Hat tip to Ryan Brill */
+  float:left;
 }
-/*
+
 #content-plain-wrapper {
   width:472px;
 }
-*/
+
 #content {
   margin-right:18px;
 }
 
 .content-padding {
-	padding:0 0.875em 0 0;
+  padding:0 0.875em 0 0;
 }
 
 /* no sidebar */
@@ -55,41 +56,42 @@
 
 #sidebar-wrapper {
   width:232px;
-  float:right;
+  float:left;
 }
 
 #sidebar-plain-wrapper {
   width:222px;
-  float:right;
+  float:left;
+}
+
+/* Home Page exceptions */
+body#home #pagetitle {
+  text-indent:-9999px;
+}
+body#home #content-wrapper {
+  /* the width and border/margin should equal the width of the container */
+  width:500px;
+  border-right:300px solid #FFF; /* The width and color of the rail */
+  margin-right:-300px; /* Hat tip to Ryan Brill */
+  float:left;
+}
+body#home #sidebar-wrapper {
+  width:300px;
 }
 
 #globalnav-wrapper {
   width:800px;
   background:url(/images/dt/nav_elements/globalNavBar.jpg) no-repeat top left;
-  haeight:2.1875em; /* 35 pixels */
-		height: 36px;
+  height:2.1875em; /* 35 pixels */
 }
 #nav {
   width:800px;
   height:1.5625em; /* 25 pixels */
   background:url(/images/dt/nav_elements/subNavBar.jpg) no-repeat top left #C4C4C4;
-  margin:1em 0;
+  margin-bottom:1em;
 }
 #navproject {
   background:url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat top left #C4C4C4;
-}
-
-#toolbar-wrapper {
-  width:724px;
-  height:2.1875em; /* 35 pixels */
-  background:url(/images/dt/toolbars/ToolBackground.jpg) no-repeat bottom left #C4C4C4;
-}
-
-#toolbar2-wrapper {
-  background:#CCC url(/images/dt/toolbars/ToolBackground2.jpg) no-repeat;
-  height:35px;
-  width:724px;
-  margin:10px 0 0 0;
 }
 
 /*
@@ -97,7 +99,7 @@
 =======================*/
 .columns {}
 .columns .content {
-  width:292px;
+  width:568px;
   border-right:232px solid transparent; /* The width and color of the rail */
   margin-right:-232px; /* Hat tip to Ryan Brill */
   float:left;
@@ -123,16 +125,16 @@
 
 /******* newstuff *********/
 .leftColW800 {
-	float: left;
-	width: 598px;
-	height: auto;
-	padding: 10px 0px 0px 0px;
-	background: none;	
+  float: left;
+  width: 598px;
+  height: auto;
+  padding: 10px 0px 0px 0px;
+  background: none;  
 }
 .rightColN800 {
   float: right;
   width:200px;
-	padding: 10px 0px 0px 0px;
+  padding: 10px 0px 0px 0px;
 }
 /*********************/
 
@@ -147,38 +149,35 @@ div.notice, div.error, div.errorExplanation, div.activation {
   margin:1em 0;
   padding:4px;
 }
-div.notice, div.error {
-  margin:1em 0 0 0;
-}
 #errorExplanation p, #errorExplanation li {
   font-family:Arial, Helvetica, sans-serif;
 }
 div.notice, div.activation {
   background-color:#FFD;
-	border:1px solid #360;
+  border:1px solid #360;
 }
 div.error, div.errorExplanation {
-	border:2px solid #C00;
+  border:2px solid #C00;
 }
 div.errorExplanation ul {
-	margin-left:2em;
+  margin-left:2em;
 }
 
 div.control {
-	background-color:#EFEFEF;
-	padding:2px;
-	font-size:0.75em;
+  background-color:#EFEFEF;
+  padding:2px;
+  font-size:0.75em;
 }
 div.control a:link, div.control a:visited {
-	text-decoration: underline;
-	color: #F00;
-	padding:2px;
+  text-decoration: underline;
+  color: #F00;
+  padding:2px;
 }
 div.control a:hover, div.control a:active {
- 	text-decoration: none;
-	color: #FFF;
-	background-color:#F00;
-	padding:2px;
+  text-decoration: none;
+  color: #FFF;
+  background-color:#F00;
+  padding:2px;
 }
 
 
@@ -198,21 +197,21 @@ div.control a:hover, div.control a:active {
 
 /* general use classes  */
 .hidden {
-	display: none;
+  display: none;
 }
 
 /* li with arrow icons */
 ul.arrow {
-	margin: 0px;
+  margin: 0px;
 }
 
 ul.arrow li{
-	list-style: none;
-	background:transparent url(/images/dt/icons/bullet.png) no-repeat scroll 0px 4px;
-	padding:0 0 0.1875em 1.2em;
+  list-style: none;
+  background:transparent url(/images/dt/icons/bullet.png) no-repeat scroll 0px 4px;
+  padding:0 0 0.1875em 1.2em;
 }
 
 ul.arrow a{
-	text-decoration: none;
+  text-decoration: none;
 }
 

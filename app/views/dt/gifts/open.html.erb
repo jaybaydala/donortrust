@@ -1,4 +1,5 @@
 <%- content_for :html_title do -%>Open your gift. Change the world.<%- end -%>
+<%- content_for :page_title do -%>Open your gift. Change the world.<%- end -%>
 
 <% if @gift -%>
   <% if @gift.project_id? %>
@@ -8,6 +9,7 @@
       <%= link_to @gift.project.name, dt_project_path(@gift.project) %><br />
       Follow the link to learn more about the project.
     </p>
+    <p><%= link_to "Associate this gift with my account", open_dt_gift_path(:code => @gift.pickup_code) %></p>
   <% else %>
     <% if @opening_now %>
       <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
@@ -28,25 +30,27 @@
   <% end %>
 <% else -%>
   <%= error_messages_for :pickup %>
-  <br/>
-  <h1>Open your gift. Change the world.</h1>
   <% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "giftform", :name => "giftform"}) do |f| %>
   <div class="userform clearfix">
     <h2 style="float:right; padding-right:150px;">Pickup Code: <%= text_field_tag :code %></h2>
-    <%= submit_tag 'open your gift', :style => "float:right;margin-right:150px;" %>
+    <%= submit_tag 'open your gift', :class => '', :style => 'float:right; margin-right: 150px; font-size: 16px;' %>
   </div>
-
+  
   <h2>How it works:</h2>
   <div class="indented">
     <ol>
       <li>Open your gift</li>
       <li>Find a project you want to support</li>
-      <li>Give to the project using your gift card balance</li>  
+      <li>Give to the project using gift card balance</li>  
     </ol>  
   </div>
   <% end -%>
 <% end -%>
 
-<%- content_for :sidebar do -%>
-  <%= dt_profile_sidebar %>
-<% end -%>
+<% content_for :sidebar do %>  
+  <h3>
+    <img src="/images/dt/icons/recipient-icon-yellow.png" alt="" style="float:left;padding-right:5px;" />
+    Open your gift and support projects that help communities climb out of extreme poverty.
+  </h3>
+  <%= dt_short_profile_sidebar %>
+<% end %>

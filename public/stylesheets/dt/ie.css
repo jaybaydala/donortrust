@@ -1,1 +1,2 @@
-.clearfix {height:1px;}
+.clearfix {zoom:1;/* triggers hasLayout */}
+

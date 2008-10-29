@@ -17,7 +17,7 @@
 
 
 </head>
-<body>
+<body<%= " id=\"home\"" if controller.class == Dt::HomeController %>>
 <div id="container">
   <%= render "dt/shared/head" %>
   <%= render "dt/shared/globalnav" %>
@@ -33,7 +33,7 @@
   <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
   <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
 
-  <% if nav %><h1><%= page_title %></h1><% end %>
+  <% if nav %><h1 id="pagetitle"><%= page_title %></h1><% end %>
   
   <%- if nav -%>
   <div id="nav" class="clearfix">
@@ -50,9 +50,7 @@
   <%- end -%>
 
   <div id="contentcontainer" class="clearfix">
-    <div class="pagetitle"> 
-    	<% unless nav %><h1><%= page_title %></h1><% end %>
-		</div>
+    <% unless nav %><h1 id="pagetitle"><%= page_title %></h1><% end %>
     <div id="content<%= "wide" unless sidebar %>-wrapper">
       <div id="content">
         <%= yield %>
