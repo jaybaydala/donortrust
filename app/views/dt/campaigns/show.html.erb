@@ -10,15 +10,15 @@
 		<div id="campaign_details">
 			<h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
 			<div class="links">			
-				<h5 style="margin-top:-10px;">Share this address:<%= "<br/>" if "www.christmasfuture.org/dt/#{@campaign.short_name}".length > 60 %>
+				<h5 style="margin-top:-0.5em;">Share this address:<%= "<br/>" if "www.christmasfuture.org/dt/#{@campaign.short_name}".length > 60 %>
 				<%= "www.christmasfuture.org/dt/#{@campaign.short_name}" %></h5>
 			</div>
-			<p>
+			<div style="margin-top:0.5em;">
 				<div class="campaign-picture">
 					<%= image_tag @campaign.picture.full.url,:class => :full_picture if @campaign.picture? %>
 				</div>
 				<%= @campaign.description %>
-			</p>
+			</div>
 		</div>
 		<div class="clearfix"></div>
 		<div class="postables">
