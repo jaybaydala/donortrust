@@ -13,7 +13,7 @@ class BusAdmin::StatsController < ApplicationController
     @totalGiftsGiven = Gift.dollars_gifted
     @noOfGiftsRedeemed = Gift.find(:all, :conditions => ["pickup_code is null"] ).size
     @totalGiftsRedeemed = Gift.dollars_redeemed
-    @projects = Project.find(:all, :conditions => ['projects.project_status_id in (?) AND projects.id != ?', [2,4], Project.cf_admin_project.id])
+    @projects = Project.find(:all, :conditions => ['projects.project_status_id in (?) AND projects.id != ?', [2,4], Project.admin_project.id])
     @noOfProjects = @projects.size
     @noOfDonors = User.find(:all).size
     @noOfGroups = Group.find(:all).size
@@ -29,7 +29,7 @@ class BusAdmin::StatsController < ApplicationController
     
     @totalInvestments = 0
     @noOfInvestments=0
-    Investment.find(:all, :conditions => ['projects.project_status_id in (?) AND projects.id != ?', [2,4], Project.cf_admin_project.id], :include =>  :project).each do |investment|
+    Investment.find(:all, :conditions => ['projects.project_status_id in (?) AND projects.id != ?', [2,4], Project.admin_project.id], :include =>  :project).each do |investment|
       if investment.project.get_percent_raised < 100
          @totalInvestments =  @totalInvestments + investment.amount
          @noOfInvestments = @noOfInvestments +1
@@ -39,7 +39,7 @@ class BusAdmin::StatsController < ApplicationController
     @noOfAdminInvestments = 0
     @AdminInvestmentsFront = 0
     @AdminInvestmentsBack = 0
-    Investment.find(:all, :conditions => ['projects.id = ?',  Project.cf_admin_project.id], :include =>  :project).each do |investment|
+    Investment.find(:all, :conditions => ['projects.id = ?',  Project.admin_project.id], :include =>  :project).each do |investment|
       @noOfAdminInvestments = @noOfAdminInvestments +1
       if investment.user_id == -1
         @AdminInvestmentsBack = @AdminInvestmentsBack + investment.amount

@@ -1,6 +1,8 @@
 <%- content_for :head do -%>
-  <%= javascript_include_tag "dt/ecards" %>
   <%= stylesheet_link_tag "dt/cart" %>
+  <%= javascript_include_tag "dt/ecards" %>
+  <%= javascript_include_tag "dt/charcount" %>
+  <script type="text/javascript">Event.observe(window, 'load', function(){makeItCount('gift_message', 1000)});</script>
 <%- end -%>
 <%- content_for :html_title do -%>Give!<%- end -%>
 <%- content_for :page_title do -%>Experience a new way to give.<%- end -%>
@@ -80,9 +82,11 @@
             </div>
             <%= f.hidden_field 'e_card_id', :id => "e_card_id" %>
           </div>
-          <div class="right" style="width:300px;">
+          <div class="right" style="width:370px;">
             <label for="gift_message" class="left">Your personal message to the recipient(s):</label>
             <%= f.text_area :message, :rows => 6, :cols => 35 %>
+            <div class="note" style="margin:0;">Your message is limited to 1000 characters</div>
+            <div id="counter-gift_message"></div>
           </div>
         </div>
         <% end %>

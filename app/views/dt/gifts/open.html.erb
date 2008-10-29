@@ -16,26 +16,34 @@
       <p>Your current Gift Card Balance is <%= number_to_currency( @gift.balance ) %>.</p>
       <p>To use your gift, you have some options. You can:</p>
     <% end %>
-    <ul>
-      <li><%= link_to "find a project to donate to", dt_search_path %></li>
-      <% if Project.unallocated_project %><li><%= link_to "let ChristmasFuture figure it out", new_dt_investment_path(:unallocated_gift => 1) %></li><% end %>
-      <li><%= link_to "Deposit it into my account", new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) %></li>
-      <% if Project.admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.balance), :project_id => Project.admin_project.id }) %></li><% end %>
-    </ul>
+    <div class="gift-options">
+      <ul>
+        <li><%= link_to "Find a project to donate to", dt_projects_path %></li>
+        <% if Project.unallocated_project %><li><%= link_to "Let ChristmasFuture figure it out", new_dt_investment_path(:unallocated_gift => 1) %></li><% end %>
+        <li><%= link_to "Deposit it into my account", new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) %></li>
+        <% if Project.admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.balance), :project_id => Project.admin_project.id }) %></li><% end %>
+      </ul>
+    </div>
     <div class="textsm">Note: if you choose to do nothing, your gift will expire 30 days after it was sent, which is just like choosing &quot;Let ChristmasFuture figure it out&quot;</div>
   <% end %>
 <% else -%>
   <%= error_messages_for :pickup %>
-  <% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "opengiftform", :name => "opengiftform"}) do |f| %>
-  <div class="userform">
-    <fieldset>
-      <ol>
-        <li><label for="code">Enter your Pickup Code</label><%= text_field_tag :code %></li>
-        <li class="submitli"><%= submit_tag 'Unwrap', :class => 'buttonsubmit', :id => "button-unwrap" %></li>
-      </ol>
-    </fieldset>
+  <br/>
+  <h1>Open your gift. Change the world.</h1>
+  <% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "giftform", :name => "giftform"}) do |f| %>
+  <div class="userform clearfix">
+    <h2 style="float:right; padding-right:150px;">Pickup Code: <%= text_field_tag :code %></h2>
+    <%= submit_tag 'open your gift', :style => "float:right;margin-right:150px;" %>
   </div>
-  
+
+  <h2>How it works:</h2>
+  <div class="indented">
+    <ol>
+      <li>Open your gift</li>
+      <li>Find a project you want to support</li>
+      <li>Give to the project using your gift card balance</li>  
+    </ol>  
+  </div>
   <% end -%>
 <% end -%>
 

@@ -314,7 +314,7 @@ class Project < ActiveRecord::Base
     return unless self.description?
     if @summarized_description.nil?
       @summarized_description = description(:plain).split($;, words+1)
-      if length >= description.split.size
+      if words >= description.split.size
         @summarized_description = @summarized_description.join(' ')
       else
         @summarized_description.pop
@@ -427,11 +427,10 @@ class Project < ActiveRecord::Base
 
   def nation
     nation_place_type = PlaceType.nation
-    if @nation.nil? && place_id? && place
-      return place if place.place_type_id == nation_place_type.id
-      place.ancestors.reverse.each do |ancestor|
-        return ancestor if ancestor.place_type_id? && ancestor.place_type_id == nation_place_type.id
-      end
+    if place.place_type_id == nation_place_type.id
+      place
+    else
+      country
     end
   end
 

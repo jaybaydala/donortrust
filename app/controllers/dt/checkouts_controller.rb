@@ -289,7 +289,7 @@ class Dt::CheckoutsController < DtApplicationController
       # add the order number into the session so they can view their completed order(s) for the session
       session[:order_number] = [] unless session[:order_number]
       session[:order_number] << @order.order_number
-      # empty the gift card from the session, if any
+      # deal with the gift card
       if @gift_card
         if @gift_card.balance == 0
           session[:gift_card_id] = nil

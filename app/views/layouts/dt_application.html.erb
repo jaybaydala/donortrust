@@ -24,6 +24,7 @@
 
 <%- nav = yield :nav -%>
 <%- page_title = yield :page_title -%>
+<%- page_title = html_title if page_title.nil? || page_title.empty? -%>
 <%- top_content = yield :top_content -%>
 <%- content = yield :content -%>
 <%- sidebar = yield :sidebar -%>

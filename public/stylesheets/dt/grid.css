@@ -73,7 +73,7 @@
   width:800px;
   height:1.5625em; /* 25 pixels */
   background:url(/images/dt/nav_elements/subNavBar.jpg) no-repeat top left #C4C4C4;
-  margin-bottom:1em;
+  margin:1em 0;
 }
 #navproject {
   background:url(/images/dt/nav_elements/projectNavBar.jpg) no-repeat top left #C4C4C4;
@@ -144,8 +144,11 @@ NOTICES and ERRORS - General program flow helpers
 div.notice, div.error, div.errorExplanation, div.activation {
   font-family:Arial, Helvetica, sans-serif;
   font-size:0.9375em;
-	margin:1em 0;
-	padding:4px;
+  margin:1em 0;
+  padding:4px;
+}
+div.notice, div.error {
+  margin:1em 0 0 0;
 }
 #errorExplanation p, #errorExplanation li {
   font-family:Arial, Helvetica, sans-serif;

@@ -32,8 +32,8 @@ Project Header
 }
 
 .full-display-sector-images {
-	float: right;
-	padding-top:35px;
+  float: right;
+  padding-top:35px;
   vertical-align: bottom; 
 }
 
@@ -41,20 +41,20 @@ Project Header
 Project Body
 ============*/
 div.projectRank {
-	margin:.625em 0 .5em 0;
+  margin:.625em 0 .5em 0;
 }
 div.projectRank strong {
-	color:#360;
+  color:#360;
 }
 
 div.projectRank ul {
-	margin:0 0 1.125em 0;
+  margin:0 0 1.125em 0;
 }
 
 div.projectRank li {
-	display:inline;
-	list-style:none;
-	padding:0 0 0.1875em 0em;
+  display:inline;
+  list-style:none;
+  padding:0 0 0.1875em 0em;
 }
 
 /* limit project typography */
@@ -69,16 +69,16 @@ Project Highlight List
 ======================*/
 .projecthighlight {}
 .projecthighlight ul {
-	margin:0pt 0pt 1.125em 0em;
+  margin:0pt 0pt 1.125em 0em;
 }
 .projecthighlight li {
-	font-family:Verdana, Arial, Helvetica, sans-serif;
-	font-size:0.6875em; /* 11px */
-	margin:0.125em 0;
-	border-bottom:solid 1px #DDD;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size:0.6875em; /* 11px */
+  margin:0.125em 0;
+  border-bottom:solid 1px #DDD;
 }
 .projecthighlight strong {
-	color:#360;
+  color:#360;
 }
 
 /*
@@ -86,19 +86,19 @@ Project Actions
 ===============*/
 .projectactions {}
 .projectactions ul {
-    list-style:none;
-    margin:0;
+  list-style:none;
+  margin:0;
 }
 .projectactions li {
-	font-family:Verdana, Arial, Helvetica, sans-serif;
-	list-style-display:none;
-	font-size:0.6875em; /* 11px */
-	margin:0.125em 0;
-	padding:0.1875em 0 0.25em 0;
-	border-bottom:solid 1px #DDD;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  list-style-display:none;
+  font-size:0.6875em; /* 11px */
+  margin:0.125em 0;
+  padding:0.1875em 0 0.25em 0;
+  border-bottom:solid 1px #DDD;
 }
 .projectactions strong {
-    color:#360;
+  color:#360;
 }
 
 /*
@@ -106,8 +106,8 @@ Project Info
 ===============*/
 
 .projectinfo {
-	background:url(/images/dt/2pxGrnLine.gif) repeat-x 0 bottom;
-	margin:0;
+  background:url(/images/dt/2pxGrnLine.gif) repeat-x 0 bottom;
+  margin:0;
 }
 
 /*
@@ -115,74 +115,96 @@ Quick Facts
 ===========*/
 .quickfacts {}
 
-.quickfacts ul, .content-quickfacts ul {
-	margin:0 0 1.125em 0;
-	list-style-type:none;
+.quickfacts ul, .content-quickfacts ul, .gift-options ul {
+  margin:0 0 1.125em 0;
+  list-style-type:none;
 }
 
 div.projectlist .project .quickfacts ul li, div.projectlist .project .content-quickfacts ul li,
 .quickfacts ul li, .content-quickfacts ul li, .quickfacts ol li {
-	font-family:Verdana, Arial, Helvetica, sans-serif;
-	font-size:0.6875em; /* 11px */
-	margin:0em 0;
-	padding:0.25em 0 0.25em 0;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size:0.6875em; /* 11px */
+  margin:0em 0;
+  padding:0.25em 0 0.25em 0;
 }
 .quickfacts ol li {
-	border:0;
+  border:0;
 }
 
 .content-quickfacts li {
-	border:0;
+  border:0;
 }
 
 .quickfacts strong, .content-quickfacts strong {
 }
 .quickfacts ol, .content-quickfacts ol {
-	margin-left:1.5em;
+  margin-left:1.5em;
 }
 .sidebar-give {
+}
+
+/*
+Gift Options
+============*/
+.gift-options ul li {
+  margin:0.25em 0;
+  padding:0;
+}
+.gift-options ul li a {
+  text-decoration:none;
+  display:block;
+  color:#FFF;
+  padding:0 0 0 3px;
+}
+.gift-options ul li a:link, .gift-options ul li a:visited {
+  background: #A4ADB4;
+  border: 1px solid #727477;
+}
+.gift-options ul li a:hover, .gift-options ul li a:active {
+  background: #FF7519;
+  border: 1px solid #917563;
 }
 
 /*
 Group Messages
 ===============*/
 .group_wall {
-	background:url(/images/dt/2pxGrnLine.gif) repeat-x 0 bottom;
-	font-family:Georgia,"Times New Roman",Times,serif;
-	font-size:.9em;
-	margin:0.375em 0 0 0;
-	padding:0 0 1px 0;
+  background:url(/images/dt/2pxGrnLine.gif) repeat-x 0 bottom;
+  font-family:Georgia,"Times New Roman",Times,serif;
+  font-size:.9em;
+  margin:0.375em 0 0 0;
+  padding:0 0 1px 0;
 }
 
 .group_wall-attribution strong {
-	color:#360;
-	font-size:1em;
+  color:#360;
+  font-size:1em;
 }
 
 /*
 Member List
 ===========*/
 #memberlist li {
-	font-family:Verdana, Arial, Helvetica, sans-serif;
-	font-size:11px;
-	list-style-type:none;
-    border-bottom:solid 1px #DDD;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size:11px;
+  list-style-type:none;
+  border-bottom:solid 1px #DDD;
 }
 
 #memberlist .name {
-	float:left;
-	width:254px;
+  float:left;
+  width:254px;
 }
 
 #memberlist .date {
-	float:left;
-	text-align:left;
-	width:80px;
+  float:left;
+  text-align:left;
+  width:80px;
 }
 
 #memberlist .mtype {
-	float:right;
-	width:80px;
+  float:right;
+  width:80px;
 }
 
 /*
@@ -190,38 +212,38 @@ Transaction List
 ===========*/
 
 #transaction-list {
-	padding:0 0 0 10px;
+  padding:0 0 0 10px;
 }
 
 #transaction-list table {
-	border:1px solid #DDD;
-	font-size:12px;
+  border:1px solid #DDD;
+  font-size:12px;
 }
 
 #transaction-list th {
-	background:#999;
-	color:#FFF;
-	font-size:1.1em;
-	font-weight:bold;
+  background:#999;
+  color:#FFF;
+  font-size:1.1em;
+  font-weight:bold;
 }
 #transaction-list td, #transaction-list th {
-	margin:0pt 1px 0pt 0pt;
-	padding:1px;
+  margin:0pt 1px 0pt 0pt;
+  padding:1px;
 }
 
 /*
 Project Buttons
 ===============*/
 div.projectbuttons {
-    margin:0.5em 0;
-    margin-top:1em;
+  margin:0.5em 0;
+  margin-top:1em;
 }
 
 a.button-connect, a.button-connect span {
-    display:block;float:left;
-    margin-top:3px;
-    width:92px;
-    height:20px;
+  display:block;float:left;
+  margin-top:3px;
+  width:92px;
+  height:20px;
 }
 a.button-connect {background:url(/images/dt/nav_elements/buttonsCF/connectButton_grey.gif) no-repeat transparent;}
 a.button-connect:hover {background:url(/images/dt/nav_elements/buttonsCF/connectButton_blue.gif) no-repeat transparent;}
@@ -240,15 +262,15 @@ a.button-send_wishlist, a.button-send_wishlist span,
 a.button-add_project, a.button-add_project span,
 a.button-deletegroup, a.button-deletegroup span,
 a.button-invitemembers, a.button-invitemembers span {
-    display:block;
-    float:left;
-    width:104px;
-    height:24px;
-    margin-bottom:.5em;
+  display:block;
+  float:left;
+  width:104px;
+  height:24px;
+  margin-bottom:.5em;
 }
 a.button-send_wishlist, a.button-send_wishlist span,
 a.button-add_project, a.button-add_project span {
-	width:124px;
+  width:124px;
 }
 a.button-return_to_cart, a.button-return_to_cart span {width:170px;}
 a.button-add_project_gift, a.button-add_project_gift span {width:150px;}
@@ -257,8 +279,8 @@ a.button-add_gift_card, a.button-add_gift_card span {width:140px;}
 a.button-add_deposit, a.button-add_deposit span {width:130px;}
 
 a.button-invitemembers, a.button-invitemembers span{
-    width:102px;
-    height:16px;
+  width:102px;
+  height:16px;
 }
 a.button-gift span,
 a.button-invest span, 
@@ -275,7 +297,7 @@ a.button-send_wishlist span,
 a.button-go span,
 a.button-deletegroup span,
 a.button-invitemembers span {
-    text-indent:-9999px;
+  text-indent:-9999px;
 }
 a.button-gift {background:url(/images/dt/nav_elements/buttonsCF/giftProject_lgrey2.gif) no-repeat transparent;}
 a.button-gift:hover {background:url(/images/dt/nav_elements/buttonsCF/giftProject_blue.gif) no-repeat transparent;}
@@ -313,19 +335,19 @@ a.button-give_project, a.button-give_project span,
 a.button-add_deposit, a.button-add_deposit span,
 a.button-checkout, a.button-checkout span,
 a.button-go, a.button-go span {
-    float:right;
+  float:right;
 }
 
- a.button-go {
-	width:35px;
+a.button-go {
+   width:35px;
 }
 
 .blueblock {}
 .blueblock a {
-    text-decoration:none;
-    display:block;
-    color:#FFF;
-    padding:0 0 0 3px;
+  text-decoration:none;
+  display:block;
+  color:#FFF;
+  padding:0 0 0 3px;
 }
 .blueblock a:link, .blueblock a:visited {background:transparent url(/images/dt/nav_elements/buttonsCF/button_blueGrey_228.gif) no-repeat;}
 .blueblock a:hover, .blueblock a:active {background:transparent url(/images/dt/nav_elements/buttonsCF/button_orange_228.gif) no-repeat;}
@@ -334,77 +356,76 @@ a.button-go, a.button-go span {
 Ecards
 ======*/
 #ecardthumbs  {
-    margin:0;
-    padding:0;
+  margin:0;
+  padding:0;
 }
 #ecardthumbs li {
-    display:inline;
-    mar
-    gin:4px;
+  display:inline;
+  margin:4px;
 }
 
 /* 
 US TAXES
 ========*/
 .usTaxLink {
-	float: right;
-	background:transparent url(/images/dt/icons/USflag_icon.png) no-repeat scroll 7px 9px;
-	font-family:Verdana, Arial, Helvetica, sans-serif;
-	font-size:11px;
-	line-height:14px;
-	margin-right:200px;    
-	margin-top: 7px;
-	padding-left:26px;
-	padding-top:10px;
+  float: right;
+  background:transparent url(/images/dt/icons/USflag_icon.png) no-repeat scroll 7px 9px;
+  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-size:11px;
+  line-height:14px;
+  margin-right:200px;  
+  margin-top: 7px;
+  padding-left:26px;
+  padding-top:10px;
 }
 
 /* featured projects */
 .featured-project{
-	clear:both;
-/*	height: 200px;
-	padding-bottom:80px; */
+  clear:both;
+/*  height: 200px;
+  padding-bottom:80px; */
 }
 
 div#featured-projects {
-	margin-top: 40px;
+  margin-top: 40px;
 }
 
 .project-title a{
   float: left;
-	text-decoration:none;
-	font-weight: bold;
-	font-size:14px;
-	color:#336600;
+  text-decoration:none;
+  font-weight: bold;
+  font-size:14px;
+  color:#336600;
 }
 
 .project-title a:hover{
-	text-decoration:underline;
+  text-decoration:underline;
 }
 
 .project-pre-info {
-	font-size: 13px;
+  font-size: 13px;
 }
 
 .project-pre-info span strong{
-	color: #336600;
+  color: #336600;
 }
 
 .project-content{
-	width:540px;
-	float:left;
+  width:540px;
+  float:left;
 }
 
 .indented {
-	padding-left: 50px;
+  padding-left: 50px;
 }
 
 .project-sidebar{
-	width: 25%;
-	float:right;
-	padding-bottom:20px;
+  width: 25%;
+  float:right;
+  padding-bottom:20px;
 }
 .project-sidebar .quickfacts ul{
-	list-style-type:none;	
+  list-style-type:none;  
 }
 
 /*
@@ -420,28 +441,28 @@ SEARCH, layout and forms
 }
 
 .projects-search-box, .wrapper-adv-search-box{
-	text-align:center;
-	font-size: 18px;
+  text-align:center;
+  font-size: 18px;
 }
 
 .projects-search-box input{
   width: 400px;
-	font-size: 24px;
+  font-size: 24px;
 }
 
 .predefined-searches {
-	width:725px;
-	margin: 0 auto;
+  width:725px;
+  margin: 0 auto;
 }
 
 .predefined-search-list {
-	float: left;
+  float: left;
   margin-right: 20px;
   font-size: 12px;
 }
 
 .predefined-search-list a{
-	color: #360;
+  color: #360;
 }
 
 
@@ -458,68 +479,68 @@ SEARCH, layout and forms
 }
 
 .filter-your-results a{
-	text-decoration: none;
+  text-decoration: none;
 }
 .filter-your-results a:hover{
-	text-decoration:underline;
+  text-decoration:underline;
 }
 
 form#advanced_search {
-	padding: .5em 0px;
+  padding: .5em 0px;
 }
 input.adv_submitreplace {
-    border:0;
-    font-size:0;
+  border:0;
+  font-size:0;
 }
 #adv_search_msg{
-	font: 55% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
-	display:inline;
+  font: 55% "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+  display:inline;
 }
 
 form#project_search{
-	display:inline;
-	margin: 0 20px;
+  display:inline;
+  margin: 0 20px;
 }
 
 #search-bar-wrapper{
-	width: 700px;
-	margin: 0 auto;
-	padding: 0 5px;
-	border-top: 1px solid #979797;
-	border-left: 1px solid #979797;
-	border-right: 1px solid #979797;
-	border-bottom: 2px solid #979797;
+  width: 700px;
+  margin: 0 auto;
+  padding: 0 5px;
+  border-top: 1px solid #979797;
+  border-left: 1px solid #979797;
+  border-right: 1px solid #979797;
+  border-bottom: 2px solid #979797;
 }
 
 #search-bar-wrapper-no-border{
-	width: 700px;
-	margin: 0 auto;
-	padding: 0 5px;
+  width: 700px;
+  margin: 0 auto;
+  padding: 0 5px;
 }
 
 .close-button{
   float: right;
-	w/idth:18px;
-	margin-top: 5px;
-	height: 18px;
-	font-size:80%;
-	b/order: 1px solid black;
-	cursor: pointer;
+  w/idth:18px;
+  margin-top: 5px;
+  height: 18px;
+  font-size:80%;
+  b/order: 1px solid black;
+  cursor: pointer;
 }
 
 .search-example-text {
-	padding-right: 40px;
+  padding-right: 40px;
 }
 
 /* attribute selector */
 form#project_search input.submitreplace {
-	width:35px;
-	height:20px;
-	vertical-align: middle;
-	background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
+  width:35px;
+  height:20px;
+  vertical-align: middle;
+  background: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOff.gif) no-repeat top left;
 }
 form#project_search input.submitreplace:hover{
-	background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
+  background-image: url(/images/dt/nav_elements/buttonsCF/CF_GObuttonOver.gif);
 }
 
 
@@ -540,16 +561,16 @@ form#project_search input.submitreplace:hover{
 
 .small-sector-images {
   background: none;
-	float: right;
-	padding-top: 8px;	
+  float: right;
+  padding-top: 8px;  
 }
 
 .small-sector-images img{
-	margin-left: 3px;
+  margin-left: 3px;
 }
 
 .searchResultLocationLink {
-	clear:left;
+  clear:left;
 }
 
 .searchResultLocationLink a{
@@ -559,11 +580,11 @@ form#project_search input.submitreplace:hover{
 }
 
 .project-sidebar{
-	width: 250px;
-	float:right;
+  width: 250px;
+  float:right;
 }
 
-.project-sidebar div {	 
+.project-sidebar div {   
 }
 .project-sidebar span {
 }
@@ -578,81 +599,81 @@ form#project_search input.submitreplace:hover{
 }
 
 .give-disambiguation-box {
-	border-left: 1px solid #666;
-	width: 200px;
-	margin-left:20px;
-	margin-bottom: 15px;
-	padding-left: 5px;
+  border-left: 1px solid #666;
+  width: 200px;
+  margin-left:20px;
+  margin-bottom: 15px;
+  padding-left: 5px;
 }
 .give-disambiguation-box a{
-	color:#360;
-	text-decoration: none;
+  color:#360;
+  text-decoration: none;
 }
 
 /* project accordion */
 #project-accordion{
-	width:250px;
-	height:227px;
-	border: 1px solid #C0C0C0;
+  width:250px;
+  height:227px;
+  border: 1px solid #C0C0C0;
   margin-bottom: 10px;
-	float: right;	
+  float: right;  
 }
 
 div.accordion {
-	position: relative; /* required for bounding--works around a "peculiarity" in Prototype */
+  position: relative; /* required for bounding--works around a "peculiarity" in Prototype */
 }
 
 div.accordion-toggle{
-	position: relative; /* required for effect */
-	z-index: 10;		/* required for effect */
-	height:24px;
-	background: url(/images/dt/backgrounds/accordion_tab.gif) top left;
-	cursor: pointer;
-	padding-left:10px;
+  position: relative; /* required for effect */
+  z-index: 10;    /* required for effect */
+  height:24px;
+  background: url(/images/dt/backgrounds/accordion_tab.gif) top left;
+  cursor: pointer;
+  padding-left:10px;
 }
 
 div.accordion-toggle-active{
-	background: #336600;
-	color:#C0C0C0;
-	padding-left:10px;
+  background: #336600;
+  color:#C0C0C0;
+  padding-left:10px;
 }
 
 div.accordion-content{
-	overflow: hidden;	/* required for effect */
-	padding-left: 10px;
-	padding-right: 10px;
-	height:156px;
+  overflow: hidden;  /* required for effect */
+  padding-left: 10px;
+  padding-right: 10px;
+  height:156px;
 }
 
 
 /* project flickr slide show */
 #project-flickr-slide-show{
-	width:150px;
-	height:150px;
-	display: inline;
-	vertical-align:top;
-	float:right;
-	overflow:hidden;
+  width:150px;
+  height:150px;
+  display: inline;
+  vertical-align:top;
+  float:right;
+  overflow:hidden;
 }
 #flickr-wrapper{
-	
-	width:150px;
-	display:inline;
-	float:right;
-	text-align:center;
-	padding-left: 10px;
+  
+  width:150px;
+  display:inline;
+  float:right;
+  text-align:center;
+  padding-left: 10px;
 }
 #flickr-wrapper .flickr-left-link{
-	text-align:left;
+  text-align:left;
 }
 
 #flickr-wrapper .flickr-right-link{
-	text-align:right;
+  text-align:right;
 }
 
 
 #project_budget{
-	font-size:	11px;
+  font-size:  11px;
 }
 
 /* project details */
@@ -718,31 +739,31 @@ div.accordion-content{
 }
 
 .key_measures {
-	padding-left: 10px;
+  padding-left: 10px;
 }
 
 .key_measure {
-	padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .key_measure_numbers {
-	font-size: 0.875em;
+  font-size: 0.875em;
 }
 
 .key_measure_graph {
-	padding-left: 20px;
+  padding-left: 20px;
 }
 
 /**********************************/
 .detail-content{
-	clear:both;
-	padding:14px;
-	border-left:1px solid #336600;
-	border-right:1px solid #336600;
-	border-bottom:1px solid #336600;
+  clear:both;
+  padding:14px;
+  border-left:1px solid #336600;
+  border-right:1px solid #336600;
+  border-bottom:1px solid #336600;
 }
 
 .detail-content #project_plan li {
-	list-style: none;	
+  list-style: none;  
 }
 
