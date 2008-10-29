@@ -1,6 +1,6 @@
 <% long_view ||=  false %>
-<% if not participant.pending?%>
-	<% if long_view %>
+<%- if not participant.pending?%>
+	<%- if long_view %>
 		<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %> participant_long_view clearfix" style="min-height:60px;">
 			<div class="participant_long_display_picture">
 				<%= image_tag participant.picture.thumb.url, :class => :participant_thumbnail unless participant.picture == nil %>
@@ -34,8 +34,8 @@
 	<% else %>
 		<% if (!participant.pending && !participant.team.pending) || (controller.controller_name =="teams") %>
 			<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>">
-				<span class="participant_list_view">
-				  <p>
+			  <p>
+				  <span class="participant_list_view">
 						<%= link_to participant.name, dt_participant_path(participant) %>
 						<% if participant.team.generic? %>				
 							<% if participant.user == participant.team.leader %>
@@ -51,10 +51,9 @@
 						<% end %>
 						$ <%= participant.funds_raised %> raised.
 					  <%= delete_icon(dt_participant_path(participant)) if (current_user!=:false && participant.funds_raised == 0 && (current_user.cf_admin? || participant.team.owned?) && participant.user != participant.team.leader) %>
-					</p>
-				</span>
+				  </span>
+				</p>
 			</div>
 		<% end %>	
-	<% end %>
-<% end %>
-
+	<%- end -%>
+<%- end -%>
