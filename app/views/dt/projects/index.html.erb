@@ -1,7 +1,7 @@
 <%- content_for :html_title do -%>Projects<%- end -%>
+<%- content_for :page_title do -%>Project Search:<%- end -%>
 
 <div class="project-search-home">
-  <h1>Project Search:</h1>
   <div class='projects-search-box'>
     <div>
       <% form_tag(search_dt_projects_path,{:id => 'project_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
