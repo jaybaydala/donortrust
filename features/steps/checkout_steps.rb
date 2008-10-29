@@ -31,7 +31,7 @@ Then /^I should be on the billing step of the checkout process$/ do
   response.should have_tag("h2", "Step 3 of 4 - Billing Information")
 end
 Then /^I should be on the confirmation step of the checkout process$/ do
-  response.should have_tag("h2", "Step 4 of 4 - Confirmation")
+  response.should have_tag("h2", "Step 4 of 4 - Confirm your details")
 end
 Then /^I should be shown my order$/ do
   @order = Order.find_by_order_number(request.parameters[:order_number])
