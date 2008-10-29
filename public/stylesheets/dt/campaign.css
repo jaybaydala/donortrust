@@ -100,7 +100,7 @@ h2.campaign a {
 	overflow: auto;
 	margin: 5px 0px 5px 0px;
 	padding: 5px;
-	width: 175px;
+	width: 100%;
 }
 .campaign-sidebar-box a{
 	color: #360;
@@ -400,6 +400,9 @@ div.links {
 
 .campaign_search_form .search-label {
 	font-size:1.25em;	
+}
+form#campaign_search input#keywords {
+  width:156px;
 }
 
 form#campaign_search input.submitreplace {
