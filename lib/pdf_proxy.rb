@@ -122,26 +122,42 @@ class GiftPDFProxy
   end
 
   def render
-    create_gift_pdf(@gift).render
+    create_pdf(@gift).render
+  end
+  
+  def create_pdf
+    create_gift_pdf(@gift)
   end
   
   def post_render
   end
   
   def filename
-    return "ChristmasFuture printable ecard.pdf" 
+    return "ChristmasFuture printable gift card.pdf"
   end
   
   protected
   def create_gift_pdf(gift)
-      _pdf = PDF::Writer.new
+    _pdf = PDF::Writer.new
+    _pdf.select_font "Helvetica"
+    _pdf.compressed=true
+    image_path = File.expand_path("#{gift.e_card.printable}") if gift.e_card_id? && gift.e_card
+    i0 = _pdf.image image_path if image_path && File.exists?(image_path)
+    RAILS_DEFAULT_LOGGER.warn "Gift Card Image does not exist: #{image_path}" if image_path.nil? || !File.exists?(image_path)
+    # make sure to add text on top of the image! 
+    right_pane_boundaries = {:absolute_left => 324, :absolute_right => 594}
+    _pdf.add_text(138, 151, gift.pickup_code, 12)
+    _pdf.select_font "Helvetica"
+    _pdf.pointer = 396
+    _pdf.text(gift.message.gsub(/\n\n/, "\n"), {:font_size => 10}.merge(right_pane_boundaries)) if gift.message?
+    if gift.project
+      _pdf.select_font "Helvetica-Bold"
+      _pdf.pointer = 90
+      _pdf.text("This #{number_to_currency(gift.amount)} gift is being directed to a project:", {:font_size => 10}.merge(right_pane_boundaries))
       _pdf.select_font "Helvetica"
-      _pdf.compressed=true
-      image_path = File.expand_path("#{gift.e_card.printable}") if gift.e_card_id? && gift.e_card
-      i0 = _pdf.image image_path if image_path && File.exists?(image_path)
-      RAILS_DEFAULT_LOGGER.warn "Gift Card Image does not exist: #{image_path}" if image_path.nil? || !File.exists?(image_path)
-      # make sure to add text on top of the image! 
-      _pdf.add_text(138, 151, gift[:pickup_code], 12)
-      return _pdf
+      project_text = "#{gift.project.name}\nhttp://www.christmasfuture.org/dt/project/#{gift.project_id}"
+      _pdf.text(project_text, {:font_size => 10}.merge(right_pane_boundaries))
+    end
+    return _pdf
   end
 end
