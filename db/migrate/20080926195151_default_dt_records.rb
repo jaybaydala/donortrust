@@ -9,9 +9,9 @@ class DefaultDtRecords < ActiveRecord::Migration
       PlaceType.create!(:name => place_type) unless PlaceType.find(:first, :conditions => ["name LIKE ?", place_type])
     end
     # ProjectStatus
-    ["Slated", "Started", "Canceled", "Completed", "In Marketing"].each do |project_status| 
-      ProjectStatus.create!(:name => project_status) unless ProjectStatus.find(:first, :conditions => ["name LIKE ?", project_status])
-    end
+    #["Pending", "Active", "Inactive", "Completed", "Suspended"].each do |project_status| 
+    #  ProjectStatus.create!(:name => project_status) unless ProjectStatus.find(:first, :conditions => ["name LIKE ?", project_status])
+    #end
   end
 
   def self.down
