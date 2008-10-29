@@ -96,11 +96,10 @@ h2.campaign a {
 
 /* sidebar items */
 .campaign-sidebar-box {
-	float: right;
 	overflow: auto;
 	margin: 5px 0px 5px 0px;
 	padding: 5px;
-	width: 175px;
+	width: auto;
 }
 .campaign-sidebar-box a{
 	color: #360;
@@ -400,6 +399,9 @@ div.links {
 
 .campaign_search_form .search-label {
 	font-size:1.25em;	
+}
+form#campaign_search input#keywords {
+  width:156px;
 }
 
 form#campaign_search input.submitreplace {

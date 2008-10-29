@@ -4,89 +4,84 @@
 <%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
 
 <% content_for :rss do %>
-	<link href="<%= formatted_dt_campaign_path(@campaign,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
+  <link href="<%= formatted_dt_campaign_path(@campaign,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>
-<div id="campaign_page">
-	<div class="leftColW800">
-		<div id="campaign_details">
-			<h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
-			<div class="links">			
-				<h5 style="margin-top:-0.5em;">Share this address:<%= "<br/>" if "www.christmasfuture.org/dt/#{@campaign.short_name}".length > 60 %>
-				<%= "www.christmasfuture.org/dt/#{@campaign.short_name}" %></h5>
-			</div>
-			<div style="margin-top:0.5em;">
-				<div class="campaign-picture">
-					<%= image_tag @campaign.picture.full.url,:class => :full_picture if @campaign.picture? %>
-				</div>
-				<%= @campaign.description %>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-		<div class="postables">
-			<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
-		</div>
-		
-		<div id="participants">
-			<%= campaign_h2_header(' ' + link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container',true)%>
-			<div id="participant_container" class="row_container" style="display:none;">
-				<%= render :partial => 'participants' %>
-			</div>
-		</div>
-	
-		<% if @campaign.allow_multiple_teams%>
-			<div id="teams">
-			  <% content ="" %>
-				<% if !@campaign.has_participant(current_user) %>
-					<% if @campaign.allow_multiple_teams? && !@campaign.teams_full? %>
-						<% content = link_to('Create a Team', new_dt_campaign_team_path(@campaign)) if !@campaign.pending %>
-					<% end %>
-					<% content = content + " | " + link_to('Join a Team', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 && !@campaign.pending %>
-				<% end %>
-				<% content = " | " + content if content != "" %>
-				<%= campaign_h2_header(' '+link_to("Teams",dt_campaign_teams_path(@campaign)) + content,'teams_container')%>
 
-				<div id="teams_container" class='row_container'>
-					<%= render :partial => 'teams' %>
-				</div>
-			</div>
-		<% end %>
-		<div class="postables">
-			<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @campaign} %>
-		</div>
-	</div>
-
-	<div class="leftColN800">
-	  <div class="campaign-sidebar-box">
-	  	<%= link_to(image_tag("/images/dt/buttons/join_this_event.png", :alt => "Join #{@campaign.name}", 
-	  			:title => "Join #{@campaign.name}", :class => "campaign_action_button"), join_options_dt_campaign_path(@campaign)) if !@campaign.has_participant(current_user) && !@campaign.pending %><br/>
-	  	<%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor a Participant", 
-	  			:title => "Sponsor a Participant", :class => "campaign_action_button"), dt_campaign_participants_path(@campaign)) if !@campaign.pending %><br/>
-			<div class="clearfix"></div>
-			<%= render :partial => "sidebar_search" %>	  
-	  </div>
-		<div class="campaign-sidebar-box metrics">
-			<%= render :partial => 'campaign_facts',  :locals => {:campaign => @campaign} %>
-		</div>
-		
-		<% if (@campaign.owned? || (current_user != :false && current_user.cf_admin?)) %>
-			<div class="campaign-sidebar-box get-involved">
-				<ul class="arrow">
-					<li><%= link_to('Manage Campaign',manage_dt_campaign_path(@campaign)) %></li>
-					<li><%= link_to('Edit Campaign Profile', edit_dt_campaign_path(@campaign)) %></li>
-					<li><%= link_to('Post News to your Campaign', manage_dt_campaign_path(@campaign)+"#news") %></li>
-				</ul>
-			</div>
-		<% end %>
-		<div class="campaign-sidebar-box campaign-address">
-			<h5>Event Location</h5>
-			<p class="address">
-				<%= @campaign.address %> <br />
-				<%= (@campaign.address_2 + ' <br />') unless @campaign.address_2 == ''%>
-				<%= @campaign.province %>, <%= @campaign.postalcode %> <br />
-				<%= @campaign.country %>
-			</p>
-		</div>
-	</div>
-
-	
+<div id="campaign_details">
+  <h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
+  <div class="links">      
+    <h5 style="margin-top:-0.5em;">Share this address:<%= "<br/>" if "www.christmasfuture.org/dt/#{@campaign.short_name}".length > 60 %>
+    <%= "www.christmasfuture.org/dt/#{@campaign.short_name}" %></h5>
+  </div>
+  <div style="margin-top:0.5em;">
+    <div class="campaign-picture">
+      <%= image_tag @campaign.picture.full.url,:class => :full_picture if @campaign.picture? %>
+    </div>
+    <%= @campaign.description %>
+  </div>
 </div>
+<div class="clearfix"></div>
+<div class="postables">
+  <%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign}%>
+</div>
+
+<div id="participants">
+  <%= campaign_h2_header(' ' + link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container',true)%>
+  <div id="participant_container" class="row_container" style="display:none;">
+    <%= render :partial => 'participants' %>
+  </div>
+</div>
+
+<% if @campaign.allow_multiple_teams%>
+  <div id="teams">
+    <% content ="" %>
+    <% if !@campaign.has_participant(current_user) %>
+      <% if @campaign.allow_multiple_teams? && !@campaign.teams_full? %>
+        <% content = link_to('Create a Team', new_dt_campaign_team_path(@campaign)) if !@campaign.pending %>
+      <% end %>
+      <% content = content + " | " + link_to('Join a Team', dt_campaign_teams_path(@campaign)) if @campaign.teams.size > 1 && !@campaign.pending %>
+    <% end %>
+    <% content = " | " + content if content != "" %>
+    <%= campaign_h2_header(' '+link_to("Teams",dt_campaign_teams_path(@campaign)) + content,'teams_container')%>
+
+    <div id="teams_container" class='row_container'>
+      <%= render :partial => 'teams' %>
+    </div>
+  </div>
+<% end %>
+<div class="postables">
+  <%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @campaign} %>
+</div>
+
+<%- content_for :sidebar do -%>
+<div class="campaign-sidebar-box">
+  <%= link_to(image_tag("/images/dt/buttons/join_this_event.png", :alt => "Join #{@campaign.name}", 
+      :title => "Join #{@campaign.name}", :class => "campaign_action_button"), join_options_dt_campaign_path(@campaign)) if !@campaign.has_participant(current_user) && !@campaign.pending %><br/>
+  <%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor a Participant", 
+      :title => "Sponsor a Participant", :class => "campaign_action_button"), dt_campaign_participants_path(@campaign)) if !@campaign.pending %><br/>
+  <div class="clearfix"></div>
+  <%= render :partial => "sidebar_search" %>    
+</div>
+<div class="campaign-sidebar-box metrics">
+  <%= render :partial => 'campaign_facts',  :locals => {:campaign => @campaign} %>
+</div>
+
+<% if (@campaign.owned? || (current_user != :false && current_user.cf_admin?)) %>
+  <div class="campaign-sidebar-box get-involved">
+    <ul class="arrow">
+      <li><%= link_to('Manage Campaign',manage_dt_campaign_path(@campaign)) %></li>
+      <li><%= link_to('Edit Campaign Profile', edit_dt_campaign_path(@campaign)) %></li>
+      <li><%= link_to('Post News to your Campaign', manage_dt_campaign_path(@campaign)+"#news") %></li>
+    </ul>
+  </div>
+<% end %>
+<div class="campaign-sidebar-box campaign-address">
+  <h5>Event Location</h5>
+  <p class="address">
+    <%= @campaign.address %> <br />
+    <%= (@campaign.address_2 + ' <br />') unless @campaign.address_2 == ''%>
+    <%= @campaign.province %>, <%= @campaign.postalcode %> <br />
+    <%= @campaign.country %>
+  </p>
+</div>
+<%- end -%>

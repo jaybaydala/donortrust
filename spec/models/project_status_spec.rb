@@ -17,12 +17,12 @@ describe ProjectStatus do
   
   describe "class methods" do
     before do
-      @project_status_started = ProjectStatus.generate!(:name => "Started")
+      @project_status_active = ProjectStatus.generate!(:name => "Active")
       @project_status_completed = ProjectStatus.generate!(:name => "Completed")
     end
     describe "started method" do
-      it "should return the first Started ProjectStatus record" do
-        ProjectStatus.started.should == @project_status_started
+      it "should return the first Active ProjectStatus record" do
+        ProjectStatus.started.should == @project_status_active
       end
     end
     describe "completed method" do
@@ -31,13 +31,13 @@ describe ProjectStatus do
       end
     end
     describe "public method" do
-      it "should return the Started & Completed ProjectStatus records" do
-        ProjectStatus.public.should == [@project_status_started, @project_status_completed]
+      it "should return the Active & Completed ProjectStatus records" do
+        ProjectStatus.public.should == [@project_status_active, @project_status_completed]
       end
     end
     describe "public_ids method" do
-      it "should return the Started & Completed ProjectStatus ids" do
-        ProjectStatus.public_ids.should == [@project_status_started.id, @project_status_completed.id]
+      it "should return the Active & Completed ProjectStatus ids" do
+        ProjectStatus.public_ids.should == [@project_status_active.id, @project_status_completed.id]
       end
     end
   end

@@ -29,7 +29,7 @@ describe Dt::CheckoutsController do
   end
   
   it "should define CHECKOUT_STEPS as %w(support billing payment confirm)" do
-    controller.class::CHECKOUT_STEPS.should == %w( support billing payment confirm )
+    controller.class::CHECKOUT_STEPS.should == %w( support payment billing confirm )
   end
   
   %w(new create edit update destroy).each do |action|
@@ -387,9 +387,9 @@ describe Dt::CheckoutsController do
         @step = "support"
       end
       
-      it "next_step should be 'billing'" do
+      it "next_step should be 'payment'" do
         do_request
-        controller.send!(:next_step).should == "billing"
+        controller.send!(:next_step).should == "payment"
       end
       
       it "should call do_support" do
@@ -397,11 +397,11 @@ describe Dt::CheckoutsController do
         do_request
       end
       
-      it "should render the billing step if order is valid" do
+      it "should render the payment step if order is valid" do
         controller.stub!(:validate_order).and_return(true)
         controller.stub!(:do_action).and_return(true)
         do_request
-        response.should render_template("billing")
+        response.should render_template("payment")
       end
       
       describe "before_billing method" do
