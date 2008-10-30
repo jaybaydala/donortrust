@@ -415,6 +415,9 @@ describe Dt::CheckoutsController do
           controller.should_receive(:before_billing)
           do_request
         end
+      end
+      
+      describe "before_payment method" do
         it "should grab the first gift and prepopulate the email address" do
           @order.should_receive(:email?).and_return(false)
           @order.should_receive(:email=).with(@gifts[0].email).and_return(true)
@@ -528,9 +531,9 @@ describe Dt::CheckoutsController do
         @order.stub!(:email).and_return("email@example.com")
       end
       
-      it "next_step should be 'payment'" do
+      it "next_step should be 'confirm'" do
         do_request
-        controller.send!(:next_step).should == "payment"
+        controller.send!(:next_step).should == "confirm"
       end
       it "should call do_billing" do
         controller.should_receive(:do_billing)
@@ -569,9 +572,9 @@ describe Dt::CheckoutsController do
         @order.should_receive(:save)
         do_request
       end
-      it "should render the payment step" do
+      it "should render the confirm step" do
         do_request
-        response.should render_template("payment")
+        response.should render_template("confirm")
       end
       it "should render billing template if it's not valid" do
         controller.should_receive(:validate_order).and_return(false)
@@ -590,7 +593,7 @@ describe Dt::CheckoutsController do
       end
       it "next_step should be 'payment'" do
         do_request
-        controller.send!(:next_step).should == "confirm"
+        controller.send!(:next_step).should == "billing"
       end
       describe "do_payment method" do
         it "should not save the card_number in the session" do
@@ -611,9 +614,9 @@ describe Dt::CheckoutsController do
         @order.should_receive(:save)
         do_request
       end
-      it "should redirect to payment step" do
+      it "should redirect to billing step" do
         do_request
-        response.should render_template("confirm")
+        response.should render_template("billing")
       end
       it "should render payment template if it's not valid" do
         controller.should_receive(:validate_order).and_return(false)
