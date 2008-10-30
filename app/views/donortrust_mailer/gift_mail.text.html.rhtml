@@ -17,6 +17,27 @@
     text-align: left; /* this is asking IE to centre the container ;) */
   }
   
+  /*
+  Gift Options
+  ============*/
+  .gift-options ul li {
+    margin:0.25em 0;
+    padding:0;
+  }
+  .gift-options ul li a {
+    text-decoration:none;
+    display:block;
+    color:#FFF;
+    padding:0 0 0 3px;
+  }
+  .gift-options ul li a:link, .gift-options ul li a:visited {
+    background: #A4ADB4;
+    border: 1px solid #727477;
+  }
+  .gift-options ul li a:hover, .gift-options ul li a:active {
+    background: #FF7519;
+    border: 1px solid #917563;
+  }
   -->
   </style>
 </head>
@@ -32,8 +53,20 @@
 <% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
 
 <p>
-  <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.<br />
-  Just click on the link below to open it - and a whole new world. <br />
+  <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.</p>
+<p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
+<p>Now that you've opened your gift, you have some options. You can:</p>
+<div class="gift-options">
+  <ul>
+    <li><%= link_to "Find a project to donate to", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :find => 1) %></li>
+    <% if Project.unallocated_project %><li><%= link_to "Let ChristmasFuture figure it out", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :unallocated_gift => 1) %></li><% end %>
+    <li><%= link_to "Deposit it into my account", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :deposit => 1) %></li>
+    <% if Project.admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :donate => 1) %></li><% end %>
+  </ul>
+</div>
+
+<p>
+  If you're not sure yet, click on the link below to just open your gift - and a whole new world. <br />
   <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
 </p>
 
