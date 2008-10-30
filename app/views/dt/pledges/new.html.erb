@@ -1,3 +1,4 @@
+<%- content_for :page_title do -%>&nbsp;<%- end -%>
 <%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
 
 <div>
@@ -18,34 +19,33 @@
 	</h1>
 </div>
 
-<div class="leftColW800">
-	<% if @participant != nil %>
-		<div class="participant-picture">
-			<%= image_tag @participant.picture.thumb.url, :class => :full_picture if @participant.picture? %>			
-			<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.picture? %>
-		</div>
-	<% elsif @team != nil %>
-		<div class="team-picture">
-			<%= image_tag @team.picture.thumb.url, :class => :full_picture if @team.picture? %>			
-			<%= image_tag 'dt/icons/team_placeholder_icon_125x75.jpg', :class => :thumbnail unless @team.picture? %>
-		</div>
-	<% elsif @campaign != nil %>
-		<div class="campaign-picture" style="float:right;">
-			<%= image_tag @campaign.picture.thumb.url, :class => :full_picture if @campaign.picture? %>			
-			<% image_tag 'dt/icons/campaign_placeholder_icon_72x72.jpg', :class => :thumbnail unless @campaign.picture? %>
-		</div>
-	<% end %>
-	<div id="pledge_form" class="campaign_form">
-		<%= error_messages_for :pledge, :deposit %>
-		<% form_for([:dt,form_for_var,@pledge]) do |f| %>		
-			<span>I would like to give:	$ <%= f.text_field :amount %></span>
-			<div style="clear: right;"></div>
-			<span><%= f.submit 'Sponsor'%></span>
-		<% end %>
+
+<% if @participant != nil %>
+	<div class="participant-picture">
+		<%= image_tag @participant.picture.thumb.url, :class => :full_picture if @participant.picture? %>			
+		<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.picture? %>
 	</div>
+<% elsif @team != nil %>
+	<div class="team-picture">
+		<%= image_tag @team.picture.thumb.url, :class => :full_picture if @team.picture? %>			
+		<%= image_tag 'dt/icons/team_placeholder_icon_125x75.jpg', :class => :thumbnail unless @team.picture? %>
+	</div>
+<% elsif @campaign != nil %>
+	<div class="campaign-picture" style="float:right;">
+		<%= image_tag @campaign.picture.thumb.url, :class => :full_picture if @campaign.picture? %>			
+		<% image_tag 'dt/icons/campaign_placeholder_icon_72x72.jpg', :class => :thumbnail unless @campaign.picture? %>
+	</div>
+<% end %>
+<div id="pledge_form" class="campaign_form">
+	<%= error_messages_for :pledge, :deposit %>
+	<% form_for([:dt,form_for_var,@pledge]) do |f| %>		
+		<span>I would like to give:	$ <%= f.text_field :amount %></span>
+		<div style="clear: right;"></div>
+		<span><%= f.submit 'Sponsor'%></span>
+	<% end %>
 </div>
 
-<div class="leftColN800">
+<%- content_for :sidebar do -%>
 	<div class="campaign-sidebar-box metrics">
 		<% if @participant != nil %>
 			<%= render :partial => 'dt/participants/participant_facts',  :locals => {:@participant => @participant} %>
@@ -55,5 +55,5 @@
 			<%= render :partial => 'dt/campaigns/campaign_facts',  :locals => {:campaign => @campaign} %>
 		<% end %>
 	</div>
-</div>
+<%- end -%>
 
