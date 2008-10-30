@@ -11,12 +11,13 @@ class Dt::EmailUploadsController < DtApplicationController
     responds_to_parent do
       render :update do |page|
         if emails.empty?
+    
           page << "$('uploadnotification').innerHTML = '<div class=\"notice\">Please add a file to upload!</div>'"
           page << "$('uploadnotification').highlight()"
         else
           page << "emails = ''"
           page << "if($('recipients').value != '') emails += $('recipients').value + ', '"
-          page << "emails += '#{emails.join(', ')}'"
+          page << "emails += '#{emails.join(',\n')}'"
           page << "$('recipients').value=emails"
           page << "$('uploadnotification').innerHTML = '<div class=\"notice\">Your file has been successfully uploaded!</div>'"
           page << "$('uploadnotification').highlight()"

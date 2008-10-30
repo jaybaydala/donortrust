@@ -69,32 +69,67 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def create
-    begin
-      @gift = Gift.new( params[:gift] )
-      @gift.user_ip_addr = request.remote_ip
-      @valid = @gift.valid?
-    rescue ActiveRecord::MultiparameterAssignmentErrors
-      fix_date_params!
-      @gift = Gift.new( params[:gift] )
-      @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
-      @gift.user_ip_addr = request.remote_ip
-      @valid = false
-    end
-
-    respond_to do |format|
-      if @valid
-        @cart.add_item(@gift)
-        format.html { 
-          flash[:notice] = "Your Gift has been added to your cart."
-          redirect_to dt_cart_path
-        }
-        format.js
-      else
-        @project = @gift.project if @gift.project_id? && @gift.project
-        @ecards = ECard.find(:all, :order => :id)
-        format.html { render :action => "new" }
-        format.js
+    if !params[:recipients].empty?
+      @gifts = []
+      @errors = []
+      email_parser = EmailParser.new(params[:recipients])
+      email_parser.parse_list
+      if email_parser.errors.empty?
+        email_parser.emails.each do |email|
+          # gift = Gift.create_from_tmail(email, gift_params)
+          gift = Gift.new( gift_params )
+          gift.to_name = email.name
+          gift.to_email = email.address
+          gift.to_email_confirmation = email.address
+          gift.user_ip_addr = request.remote_ip
+          @errors << gift unless gift.valid?
+          @gifts << gift
+        end
       end
+      
+      respond_to do |format|
+        if @errors.empty? && email_parser.errors.empty?
+          find_cart
+          @gifts.each{|gift| @cart.add_item(gift)}
+          flash[:notice] = "Your Gifts have been added to your cart."
+          format.html { redirect_to dt_cart_path }
+        else
+          #flash.now[:error] = "There were problems adding your gifts to your cart. Please check your email addresses carefully and try again."
+          @gift = Gift.new( params[:gift] )
+          @gift.errors.add_to_base("There were some invalid email addresses. Please fix them to continue: #{email_parser.errors.join(', ')}")
+          @project = @gift.project if @gift.project_id? && @gift.project
+          @ecards = ECard.find(:all, :order => :id)
+          format.html { render :action => "new" }
+        end
+      end
+    else
+      begin
+        @gift = Gift.new( params[:gift] )
+        @gift.user_ip_addr = request.remote_ip
+        @valid = @gift.valid?
+      rescue ActiveRecord::MultiparameterAssignmentErrors
+        fix_date_params!
+        @gift = Gift.new( params[:gift] )
+        @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
+        @gift.user_ip_addr = request.remote_ip
+        @valid = false
+      end
+
+      respond_to do |format|
+        if @valid
+          @cart.add_item(@gift)
+          format.html { 
+            flash[:notice] = "Your Gift has been added to your cart."
+            redirect_to dt_cart_path
+          }
+          format.js
+        else
+          @project = @gift.project if @gift.project_id? && @gift.project
+          @ecards = ECard.find(:all, :order => :id)
+          format.html { render :action => "new" }
+          format.js
+        end
+      end  
     end
   end
   
@@ -218,6 +253,30 @@ class Dt::GiftsController < DtApplicationController
       params[:gift][:user] = current_user if logged_in?
     end
   end
+  
+  
+  
+  def gift_params
+    gift_params = {}
+    gift_params = gift_params.merge(params[:gift]) if params[:gift]
+    normalize_send_at!(gift_params)
+    gift_params
+  end
+  
+  
+  
+  def normalize_send_at!(gift_params)
+    delete_send_at = false
+    (1..5).each do |x|
+      delete_send_at = true if gift_params["send_at(#{x}i)"] == '' || !gift_params["send_at(#{x}i)"]
+    end
+    if delete_send_at
+      (1..5).each do |x|
+        gift_params.delete("send_at(#{x}i)")
+      end
+    end
+  end
+  
   # this does the actually time-shifting for scheduling the gift?
   def set_time_zone
     Time.zone = params[:time_zone] if params[:time_zone]
