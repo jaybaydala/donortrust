@@ -51,7 +51,7 @@
 				<label for="project_short_description" class="title">
 					Short description
 					<small>Short description of <strong>up to 255 characters</strong> which will be displayed in search results.</small>
-				</label>
+				</label>				
 				<%= f.text_area :short_description, :rows => 3, :cols => 72, :limit => 255 %>
 			</li>
 		</ul>
@@ -93,7 +93,8 @@
 					Project description
 					<small>Projects description should be comprehensive overview of the project, including project duration, why there is a need for the project, a few specifics about the impact the project will have on people directly and indirectly. Make sure you have strong and clear first sentences, then communicate further details. Anticipated length of this should be: 300+ words.</small>
 				</label>
-				<%= f.text_area :description, :rows => 20, :cols => 72 %>
+   			<%= fckeditor_textarea( "project", "description", :toolbarSet=> 'ChristmasFuture', :height => 500, :width =>450 ) %> 
+				
 			</li>
 		</ul>
 		
@@ -103,7 +104,7 @@
 					<%= render :partial => 'dt/shared/form_required' %>Program
 					<small>Select associated program</small>
 				</label>
-				<%= collection_select (:project, :program_id, get_programs, :id, :name, :include_blank => true) %>
+				<%= collection_select(:project, :program_id, get_programs, :id, :name, :include_blank => true) %>
 			</li>
 
 		<% restrict_to "cf_admin" do -%>
@@ -112,7 +113,7 @@
 					<%= render :partial => 'dt/shared/form_required' %>Partner
 					<small>Select partner who is responsible</small>
 				</label>
-				<%= collection_select (:project, :partner_id, get_partners, :id, :name, :include_blank => true) %>
+				<%= collection_select(:project, :partner_id, get_partners, :id, :name, :include_blank => true) %>
 				
 				<%= observe_field :project_partner_id,
 								  :url => update_partner_path,
@@ -148,7 +149,7 @@
 					<%= render :partial => 'dt/shared/form_required' %>Date of initiation
 					<small>Pick projected start date as</small>
 				</label>
-				<%= calendar_date_select :project, :target_start_date %>
+				<%= f.date_select :target_start_date %>				
 			</li>
 
 			<li>
@@ -156,7 +157,7 @@
 					Date of completion
 					<small>Pick projected end date</small>
 				</label>
-				<%= calendar_date_select :project, :target_end_date %>
+				<%= f.date_select :target_end_date %>								
 			</li>
 		</ul>
 
@@ -166,7 +167,7 @@
 					Project outcome
 					<small>List or write all intended outcomes of this project, including indirect impacts.  Be sure to express details about who will be directly impacted for the project. If a project is part of a three year plan, first express who will be impacted by the project in the year you are speaking about, and then about the impacts of the three-year project as a whole. Feel free to add headers if you need to break up content.</small>
 				</label>
-				<%= f.text_area :intended_outcome, :rows => 24, :cols => 72 %>
+   			<%= fckeditor_textarea( "project", "intended_outcome", :toolbarSet=> 'ChristmasFuture', :height => 500, :width =>450 ) %> 
 			</li>
 
 			<li>
@@ -182,7 +183,7 @@
 					Projects in the community
 					<small>List other projects in the community done by your organization, done by other organizations, as well as any projects that will begin in the village in the next year.</small>
 				</label>
-				<%= f.text_area :project_in_community, :rows => 12, :cols => 72 %>
+				<%= fckeditor_textarea( "project", "project_in_community", :toolbarSet=> 'ChristmasFuture', :height => 300, :width =>450 ) %> 
 			</li>
 		</ul>
 		
@@ -257,7 +258,7 @@
 					Measure &amp; evaluation plan
 					<small>Provide an overview on your M&amp;E plan that you can report back to donors at a later date. 200+ words. This can be text or bullet points.</small>
 				</label>
-				<%= f.text_area :meas_eval_plan, :rows => 12, :cols => 72 %>
+				<%= fckeditor_textarea( "project", "meas_eval_plan", :toolbarSet=> 'ChristmasFuture', :height => 500, :width =>450 ) %> 
 			</li>
 		</ul>
 	
@@ -284,7 +285,7 @@
 	<fieldset class="sheet" id="panel_media">
 		<legend class="sheet_heading">4 of 5: Media</legend>
 		
-		<p>Plan... In this section, ...</p>
+		<p>Link to your project's <a href="http://www.flickr.com">Flickr</a> images or <a href="http://www.youtube.com">Youtube</a> videos</p>
 
 		<ul class="form">
 			<li>
@@ -350,7 +351,7 @@
 					Frequency of feedback
 					<small>Select how often you require feedback</small>
 				</label>
-				<%= collection_select (:project, :frequency_type_id, get_frequency, :id, :name, :include_blank => true) %>
+				<%= collection_select(:project, :frequency_type_id, get_frequency, :id, :name, :include_blank => true) %>
 			</li>
 <% end -%>
 

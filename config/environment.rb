@@ -15,7 +15,7 @@ Rails::Initializer.run do |config|
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
   config.frameworks -= [ :active_resource, ]
 
-  # Specify gems that this application depends on. 
+  # Specify gems that this application depends on.
   # They can then be installed with "rake gems:install" on new installations.
   config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
   config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net/"
@@ -35,7 +35,10 @@ Rails::Initializer.run do |config|
   config.gem "chronic"
   config.gem "packet"
 
-  # Only load the plugins named here, in the order given. By default, all plugins 
+  #calendar_date_select
+  #config.gem "timcharper-calendar_date_select", :version => "1.11", :source => "http://gems.github.com", :lib => "gem_init"
+
+  # Only load the plugins named here, in the order given. By default, all plugins
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -55,7 +58,7 @@ Rails::Initializer.run do |config|
 
   # Your secret key for verifying cookie session data integrity.
   # If you change this key, all old sessions will become invalid!
-  # Make sure the secret is at least 30 characters and all random, 
+  # Make sure the secret is at least 30 characters and all random,
   # no regular words or you'll be exposed to dictionary attacks.
   # config.action_controller.session = {
   #   :session_key => '_donortrust_session',
@@ -108,3 +111,14 @@ class RubyTube
 end
 
 require 'bleak_house' if ENV['BLEAK_HOUSE']
+
+#
+#unless '1.9'.respond_to?(:force_encoding)
+#  String.class_eval do
+#    begin
+#      remove_method :chars
+#    rescue NameError
+#      # OK
+#    end
+#  end
+#end
