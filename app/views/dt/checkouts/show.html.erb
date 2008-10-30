@@ -28,9 +28,14 @@
       <blockquote>
         <strong>Your message:</strong> <%=h gift.message %>
       </blockquote>
-      <div class="buttonsubmit"><%= link_to "Download Printable Ecard", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
+      <div class="buttonsubmit"><%= link_to "Download Printable Card", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
     </div>
   <% end %>
 <% end %>
+
+<%- content_for :sidebar do -%>
+  <%= render "dt/accounts/profile_sidebar" %>  
+  <%= render :partial => 'dt/checkouts/verisign' %>
+<%- end -%>
 
 <% content_for :google_analytics_path do %>/checkout/complete.html<% end %>

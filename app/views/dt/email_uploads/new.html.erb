@@ -1,5 +1,6 @@
+<% content_for :body_id do %>gift<% end %>
 <% form_for(:email_upload, :url => dt_email_upload_path, :html => {:id => "emailfileform", :name => "emailfileform", :target => 'email_upload_frame', :multipart => true }) do |f| %>
-  <div class="userform" class="clearfix">
+  <div class="userform" class="clearfix" style="width:520px;">
     <fieldset>
       <legend>1a. Email File Upload (optional)</legend>
       <ol>
@@ -12,5 +13,5 @@
         </li>
       </ol>
     </fieldset>  
-  </div>  
+  </div>
 <% end %>

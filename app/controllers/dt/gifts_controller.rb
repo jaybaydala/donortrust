@@ -96,7 +96,8 @@ class Dt::GiftsController < DtApplicationController
         else
           #flash.now[:error] = "There were problems adding your gifts to your cart. Please check your email addresses carefully and try again."
           @gift = Gift.new( params[:gift] )
-          @gift.errors.add_to_base("There were some invalid email addresses. Please fix them to continue: #{email_parser.errors.join(', ')}")
+          @valid = @gift.valid?
+          @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong>")
           @project = @gift.project if @gift.project_id? && @gift.project
           @ecards = ECard.find(:all, :order => :id)
           format.html { render :action => "new" }

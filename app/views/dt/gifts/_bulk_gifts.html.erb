@@ -1,11 +1,11 @@
 <div id="uploadnotification"></div>
 <ol class="clearfix">
   <li>
-    <div class="note">Please enter a comma-delimited list of email addresses.  If you prefer, you can upload a list of contacts using the form below.</div>
-    <label for="recipients">Gift Recipients</label><%= text_area_tag :recipients, nil, :rows => 5, :cols => 40 %>
+    <div class="note">Please enter a list of email addresses (separated by commas) or upload a list of email addresses from your address book (using <strong>1a.</strong> below)</div>
+    <label for="recipients">Gift Recipients</label><%= text_area_tag :recipients, params[:recipients], :rows => 5, :cols => 40 %>
   </li>
 </ol>
 
 
-<iframe src="<%= new_dt_email_upload_path %>" style="width:100%;height:100px;"></iframe>
-<%= render :partial => "dt/email_uploads/upload_frame" %>
+<iframe src="<%= new_dt_email_upload_path %>" style="width:100%;height:135px;"></iframe>
+<div style="margin-left:1.5em;"><%= render :partial => "dt/email_uploads/upload_frame" %></div>

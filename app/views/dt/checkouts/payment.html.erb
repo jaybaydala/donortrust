@@ -15,41 +15,37 @@
   <fieldset>
     <legend>Payment Details</legend>
 
-    <% if account_payment? || gift_card_payment?  %>
-      <p>
-        Please enter your payment details below. 
-        <% if account_payment? %>Since you have an account with ChristmasFuture you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>.<% end %>
-        Deposits to your account must be paid on your credit card<%= " or gift card" if gift_card_payment? %>.
-      </p>
-      <ol>
-        <% if gift_card_payment? %>
+    <p>
+      Please enter your payment details below. 
+      <% if account_payment? %>Since you have an account with ChristmasFuture you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>.<% end %>
+      Deposits to your account must be paid on your credit card<%= " or gift card" if gift_card_payment? %>.
+    </p>
+    <ol>
+      <% if gift_card_payment? %>
+        <li>
+          <label class="left" style="font-style:italic;">
+            Your Current Gift Card Balance: <%= number_to_currency(session[:gift_card_balance]) %>
+          </label>
+        </li>
+      <% end %>
+      <% if account_payment? %><li><label class="left" style="font-style:italic;">Your Current Account Balance: <%= number_to_currency(current_user.balance) %><%= hidden_field_tag :account_balance, current_user.balance %></label></li><% end %>
+      <% if minimum_credit_payment = @order.minimum_credit_payment(@cart.items) %>
+        <% if !gift_card_payment? %>
           <li>
-            <label class="left" style="font-style:italic;">
-              Your Current Gift Card Balance: <%= number_to_currency(session[:gift_card_balance]) %>
-            </label>
+            <label class="left" style="font-style:italic;">Your minimum Credit Card payment: <%= number_to_currency(minimum_credit_payment) %></label>
+            <div class="note" style="margin-left:0;">You must pay at least this amount from your credit card to pay for your cart balance.</div>
           </li>
         <% end %>
-        <% if account_payment? %><li><label class="left" style="font-style:italic;">Your Current Account Balance: <%= number_to_currency(current_user.balance) %><%= hidden_field_tag :account_balance, current_user.balance %></label></li><% end %>
-        <% if minimum_credit_payment = @order.minimum_credit_payment(@cart.items) %>
-          <% if !gift_card_payment? %>
-            <li>
-              <label class="left" style="font-style:italic;">Your minimum Credit Card payment: <%= number_to_currency(minimum_credit_payment) %></label>
-              <div class="note" style="margin-left:0;">You must pay at least this amount from your credit card to pay for your Deposits.</div>
-            </li>
-          <% end %>
-        <% end %>
-      </ol>
-      <ol class="clearfix" id="payment">
-        <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :cart_total, @cart.total, :id => 'cart_total' %></li>
-        <% if gift_card_payment? %><li><label>Take From my Gift Card:</label> $<%= f.text_field :gift_card_payment, :value => number_with_precision(@order.gift_card_payment, 2) %></li><% end %>
-        <% if account_payment? %><li><label>Take From my Account:</label> $<%= f.text_field :account_balance_payment, :value => number_with_precision(@order.account_balance_payment, 2) %></li><% end %>
-        <li class="odd"><label>Put on My Credit Card:</label> $<%= f.text_field :credit_card_payment, :value => number_with_precision(@order.credit_card_payment, 2) %></li>
-        <li style="display:none;" id="paymentrequiredfield"><label>Payment still required:</label> $<%= text_field_tag :payment_required, number_to_currency(@order.total), :style => 'border:0;', :disabled => "disabled" %></li>
-        <li style="display:none;" id="totalfield"><label>Total Paid:</label> $<%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :disabled => "disabled" %></li>
-      </ol>
-    <% else %>
-      <%= f.hidden_field :credit_card_payment %>
-    <% end %>
+      <% end %>
+    </ol>
+    <ol class="clearfix" id="payment">
+      <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :cart_total, @cart.total, :id => 'cart_total' %></li>
+      <li><label>Take From my Gift Card:</label> $<%= f.text_field :gift_card_payment, :value => number_with_precision(@order.gift_card_payment, 2) %></li>
+      <li><label>Take From my Account:</label> $<%= f.text_field :account_balance_payment, :value => number_with_precision(@order.account_balance_payment, 2) %></li>
+      <li class="odd"><label>Put on My Credit Card:</label> $<%= f.text_field :credit_card_payment, :value => number_with_precision(@order.credit_card_payment, 2) %></li>
+      <li style="display:none;" id="paymentrequiredfield"><label>Payment still required:</label> $<%= text_field_tag :payment_required, number_to_currency(@order.total), :style => 'border:0;', :disabled => "disabled" %></li>
+      <li style="display:none;" id="totalfield"><label>Total Paid:</label> $<%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :disabled => "disabled" %></li>
+    </ol>
   </fieldset>
 
   <% if !@order.user_id && !logged_in? %>
