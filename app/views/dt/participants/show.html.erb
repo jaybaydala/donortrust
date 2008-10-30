@@ -1,4 +1,5 @@
 <%- content_for :html_title do -%><%= @participant.name %>'s Profile | <%= @campaign.name %><%- end -%>
+<%- content_for :page_title do -%>&nbsp;<%- end -%>
 
 <%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
 
@@ -6,47 +7,46 @@
 	<link href="<%= formatted_dt_participant_path(@participant,:rss)%>" title="RSS 2.0" rel="alternate" type="application/rss+xml" />
 <% end %>
 <div id="team_member_page">
-	<div class="leftColW800">
-		<div id="participant_details">
-			<h1><%= @participant.user.full_name %>'s <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %> page 
-				<%= " (Awaiting approval)" unless not @participant.pending? %>
-			</h1>
-			<div class="links">			
-				<h5 style="margin-top:-10px;">Share this address:
-					<% if @participant.team.generic? %>
-						<%= "<br/>" if "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}".length > 60 %>
-						<%= "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}" %>
-					<% elsif !@participant.team.generic? %>
-						<%= "<br/>" if "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}".length > 60 %>					
-						<%= "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}" %>
-					<% end %>
-				</h5>
+	<div id="participant_details">
+		<h1><%= @participant.user.full_name %>'s <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %> page 
+			<%= " (Awaiting approval)" unless not @participant.pending? %>
+		</h1>
+		<div class="links">			
+			<h5 style="margin-top:-10px;">Share this address:
+				<% if @participant.team.generic? %>
+					<%= "<br/>" if "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}".length > 60 %>
+					<%= "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}" %>
+				<% elsif !@participant.team.generic? %>
+					<%= "<br/>" if "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}".length > 60 %>					
+					<%= "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}" %>
+				<% end %>
+			</h5>
+		</div>
+		<p>
+			<div class="participant-picture clearfix">
+				<%= image_tag @participant.picture.full.url, :class => :full_picture if @participant.picture? %>			
+				<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.picture? %>
 			</div>
-			<p>
-				<div class="participant-picture">
-					<%= image_tag @participant.picture.full.url, :class => :full_picture if @participant.picture? %>			
-					<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.picture? %>
-				</div>
-				<%= @participant.about_participant%>
-			</p>
-		</div>
-		<div class="clearfix"></div>
-		<div class="postables">
-			<%= render :partial => 'dt/news_items/news',  :locals => {:postable => @participant} %>
-			<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @participant} %>
-		</div>
+			<%= @participant.about_participant%>
+		</p>
+	</div>
+	<div class="clearfix"></div>
+	<div class="postables">
+		<%= render :partial => 'dt/news_items/news',  :locals => {:postable => @participant} %>
+		<%= render :partial => 'dt/wall_posts/wall',  :locals => {:postable => @participant} %>
 	</div>
 	
-	<div class="leftColN800">
-	  <div class="campaign-sidebar-box">
-	  	<%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor this Participant", 
-	  			:title => "Sponsor this Participant", :class => "campaign_action_button"), new_dt_participant_pledge_path(@participant)) if !@participant.pending && !@campaign.pending && !@participant.team.pending %><br/>
-	  </div>
-	
+	<%- content_for :sidebar do -%>
+		<div class="campaign-sidebar-box">
+			<%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor this Participant", 
+					:title => "Sponsor this Participant", :class => "campaign_action_button"), new_dt_participant_pledge_path(@participant)) if !@participant.pending && !@campaign.pending && !@participant.team.pending %><br/>
+			<div class="clearfix"></div>
+		</div>
+
 		<div class="campaign-sidebar-box metrics">
 			<%= render :partial => 'participant_facts',  :locals => {:@participant => @participant} %>
 		</div>
-		
+
 		<% if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>
 			<div class="campaign-sidebar-box get-involved">
 				<ul class="arrow">
@@ -55,11 +55,11 @@
 				</ul>
 			</div>
 		<% end %>
-		
+
 		<div class="campaign-sidebar-box">
 			<ul class="arrow">
 				<li><span class="small_text"><%= link_to("Back to \"#{@campaign.name}\" Home", dt_campaign_path(@campaign)) %></span></li>
 			</ul>
-		</div>		
-	</div>
+		</div>	
+	<%- end -%>
 </div>
