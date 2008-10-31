@@ -183,7 +183,7 @@ class Dt::GiftsController < DtApplicationController
       format.html {
         if @gift
           if @gift.project_id?
-            flash.now[:notice] = "You have been given #{number_to_currency(@gift.amount)}!"
+            flash.now[:notice] = "You have been given #{number_to_currency(@gift.amount)}!" unless flash[:notice]
           else
             @opening_now = true
             flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.balance)}" unless @gift.project_id?
@@ -208,28 +208,20 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def unwrap
-    @gift = Gift.validate_pickup(params[:gift][:pickup_code], params[:id])
+    @gift = Gift.validate_pickup(params[:code], params[:id])
     redirect_to :action => 'open' and return if !@gift
-    @gift.pickup
     respond_to do |format|
-      if @gift.picked_up?
-        logger.debug "STARTING UNWRAP TRANSACTION"
-        Gift.transaction do
-          logger.debug "CREATING DEPOSIT"
-          @deposit = Deposit.new_from_gift(@gift, current_user.id)
-          @deposit.user_ip_addr = request.remote_ip
-          @deposit.save!
-          logger.debug "CREATING INVESTMENT"
-          @investment = Investment.new_from_gift(@gift, current_user.id) if @gift.project_id
-          @investment.user_ip_addr = request.remote_ip if @investment
-          @investment.save! if @investment
+      order = Order.find_by_gift_card_payment_id(@gift.id)
+      if order
+        order.update_attributes(:user => current_user)
+        order.investments.each do |i|
+          i.update_attributes(:user => current_user)
         end
-        logger.debug "FINISHING UNWRAP TRANSACTION"
-        format.html { redirect_to :controller => 'dt/accounts', :action => 'show', :id => current_user.id }
+        flash[:notice] = "The project investment has been associated to your account."
       else
-        flash[:error] = 'Your gift couldn\'t be picked up at this time. Please recheck your code and try again.'
-        format.html { redirect_to :action => 'open' }
+        flash[:notice] = "We could not find the associated investment"
       end
+      format.html { redirect_to open_dt_gifts_path(:code => @gift.pickup_code) }
     end
   end
 

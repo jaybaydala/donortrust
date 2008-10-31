@@ -206,6 +206,28 @@ class Order < ActiveRecord::Base
     end
   end
   
+  def self.create_order_with_investment_from_project_gift(gift)
+    return unless gift.project_id? && gift.project
+    first_name, last_name = gift.to_name.to_s.split(/ /, 2)
+    Order.transaction do
+      order = Order.create!(
+        :first_name => first_name,
+        :last_name => last_name,
+        :email => gift.to_email,
+        :total => gift.amount,
+        :gift_card_payment => gift.amount,
+        :gift_card_payment_id => gift.id,
+        :complete => true
+      )
+      order.investments = [Investment.create!(
+        :amount => gift.amount,
+        :project => gift.project,
+        :gift_id => gift.id
+      )]
+      order
+    end
+  end
+  
   def tax_receipt_needed?
     self.credit_card_payment?
   end

@@ -269,6 +269,11 @@ class Dt::CheckoutsController < DtApplicationController
           @order.deposits = @cart.deposits
           @order.pledges = @cart.pledges
           
+          # create a new order (with investment) for any project gifts
+          @order.gifts.each {|gift|
+            Order.create_order_with_investment_from_project_gift(gift)
+          }
+          
           # add the gift_payment_id onto the order if a gift_card_payment is happening
           # set it to nil if there isn't
           if @order.gift_card_payment?

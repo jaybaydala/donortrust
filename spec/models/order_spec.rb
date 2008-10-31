@@ -484,4 +484,39 @@ describe Order do
       }.should raise_error(ActiveMerchant::Billing::Error)
     end
   end
+  
+  describe "create_order_with_investment_from_project_gift method" do
+    before do
+      @gift = Gift.generate!(:project => Project.generate!)
+    end
+    it "should do nothing for a gift card" do
+      @gift.project = nil
+      @gift.save
+      lambda{ Order.create_order_with_investment_from_project_gift(@gift) }.should_not change(Order, :count)
+    end
+    it "should create an order from a project gift" do
+      lambda{ Order.create_order_with_investment_from_project_gift(@gift) }.should change(Order, :count).by(1)
+    end
+    it "should have the required gift information" do
+      first_name, last_name = @gift.to_name.to_s.split(/ /, 2)
+      order = Order.create_order_with_investment_from_project_gift(@gift)
+      order.first_name.should == first_name
+      order.last_name.should == last_name
+      order.email.should == @gift.to_email
+      order.total.should == @gift.amount
+      order.gift_card_payment.should == @gift.amount
+      order.gift_card_payment_id.should == @gift.id
+    end
+    it "should create an investment associated with the new order" do
+      order = Order.create_order_with_investment_from_project_gift(@gift)
+      order.investments.size.should == 1
+    end
+    it "should have an investment with the gift information" do
+      order = Order.create_order_with_investment_from_project_gift(@gift)
+      i = order.investments[0]
+      i.gift_id.should == @gift.id
+      i.amount.should == @gift.amount
+      i.project.should == @gift.project
+    end
+  end
 end
