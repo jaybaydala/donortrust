@@ -76,7 +76,7 @@ end
 
 Then /^there should be a link to Remove the (\w+)$/ do |cart_item|
   response.should have_tag("#cart td div.#{cart_item.downcase}controls a[href=/dt/cart?id=0][onclick~=m.setAttribute('name', '_method'); m.setAttribute('value', 'delete');]", :count => 1) do |t|
-    t.should have_tag("img[alt=Remove item from cart]")
+    t.should have_tag('img[title="Remove this item from your cart"]')
   end
 end
 
@@ -93,6 +93,23 @@ Then /^I should see (\d+) gift\(s\) on the first page of the cart$/ do |num|
 end
 Then /^I should see (\d+) gift\(s\) on the second page of the cart$/ do |num|
   visits "/dt/cart?cart_page=2"
+  response.should have_tag("#cart div.gift", :count => num.to_i)
+end
+
+
+Then /^I should see the checkout cart pagination$/ do
+  response.should have_tag("div.pagination a[href=/dt/checkout/new?cart_page=2]", "2", :count => 2)
+  response.should have_tag("div.pagination a[href=/dt/checkout/new?cart_page=2]", /Next/i, :count => 2)
+end
+Then /^I should see (\d+) gift\(s\) on the first page of the checkout cart$/ do |num|
+  response.should have_tag("#cart div.gift", :count => num.to_i)
+end
+Then /^I should see (\d+) gift\(s\) on the second page of the checkout cart$/ do |num|
+  visits "/dt/checkout/new?cart_page=2"
+  response.should have_tag("#cart div.gift", :count => num.to_i)
+end
+Then /^I should see (\d+) gift\(s\) on the third page of the checkout cart$/ do |num|
+  visits "/dt/checkout/new?cart_page=3"
   response.should have_tag("#cart div.gift", :count => num.to_i)
 end
 

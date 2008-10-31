@@ -56,6 +56,17 @@ describe Dt::InvestmentsController do
       @investment.should_receive(:project=)
       get 'new'
     end
+    
+    it "should render the 'confirm_unallocated_gift' template if session[:gift_card_balance] && params[:unallocated_gift] == 1" do
+      session[:gift_card_balance] = 1
+      get 'new', :unallocated_gift => 1
+      response.should render_template(:confirm_unallocated_gift)
+    end
+    it "should render the 'new' template if session[:gift_card_balance] == 0 && params[:unallocated_gift] == 1" do
+      session[:gift_card_balance] = 0
+      get 'new', :unallocated_gift => 1
+      response.should render_template(:new)
+    end
   end
 
   describe "create action" do
@@ -70,7 +81,7 @@ describe Dt::InvestmentsController do
     it "should add the current_user if logged_in?" do
       controller.should_receive(:logged_in?).and_return(true)
       controller.should_receive(:current_user).and_return(@user)
-      @investment.should_receive(:user=).with(@user)
+      @investment.should_receive(:user_id=).with(@user.id)
       post 'create'
     end
     

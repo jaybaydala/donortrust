@@ -404,31 +404,6 @@ describe Dt::CheckoutsController do
         response.should render_template("payment")
       end
       
-      describe "before_billing method" do
-        before do
-          controller.stub!(:validate_order).and_return(true)
-          controller.stub!(:do_action).and_return(true)
-          @gifts = [mock_model(Gift, :email => "email@example.com", :name => "Test Name")] 
-          @cart.stub!(:gifts).and_return(@gifts)
-        end
-        it "should call before_billing if the order is valid" do
-          controller.should_receive(:before_billing)
-          do_request
-        end
-      end
-      
-      describe "before_payment method" do
-        it "should grab the first gift and prepopulate the email address" do
-          @order.should_receive(:email?).and_return(false)
-          @order.should_receive(:email=).with(@gifts[0].email).and_return(true)
-          @order.should_receive(:first_name?).and_return(false)
-          @order.should_receive(:first_name=).with("Test").and_return(true)
-          @order.should_receive(:last_name?).and_return(false)
-          @order.should_receive(:last_name=).with("Name").and_return(true)
-          do_request
-        end
-      end
-      
       describe "in the do_support method" do
         before do
           # set up projects
@@ -622,6 +597,30 @@ describe Dt::CheckoutsController do
         controller.should_receive(:validate_order).and_return(false)
         do_request
         response.should render_template("payment")
+      end
+      
+      describe "before_billing method" do
+        before do
+          controller.stub!(:validate_order).and_return(true)
+          controller.stub!(:do_action).and_return(true)
+          @gift = Gift.generate!
+          @cart.add_item(@gift)
+          # @cart.stub!(:gifts).and_return(@gifts)
+        end
+        it "should call before_billing if the order is valid" do
+          controller.should_receive(:before_billing)
+          do_request
+        end
+        it "should grab the first gift and prepopulate the email address" do
+          first_name, last_name = @gift.name.to_s.split(/ /, 2)
+          @order.should_receive(:email?).and_return(false)
+          @order.should_receive(:email=).with(@gift.email).and_return(true)
+          @order.should_receive(:first_name?).and_return(false)
+          @order.should_receive(:first_name=).with(first_name).and_return(true)
+          @order.should_receive(:last_name?).and_return(false)
+          @order.should_receive(:last_name=).with(last_name).and_return(true)
+          do_request
+        end
       end
     end
 

@@ -17,7 +17,8 @@
 
 
 </head>
-<body<%= " id=\"home\"" if controller.class == Dt::HomeController %>>
+<%- body_id = yield :body_id -%>
+<body<%= " id=\"#{body_id.strip}\"" if body_id %>>
 <div id="container">
   <%= render "dt/shared/head" %>
   <%= render "dt/shared/globalnav" %>

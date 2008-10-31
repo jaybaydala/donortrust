@@ -79,7 +79,7 @@ class Dt::CheckoutsController < DtApplicationController
     begin
       do_action
     rescue ActiveMerchant::Billing::Error => err
-      @payment_error = true
+      @billing_error = true
       @valid = false
       flash.now[:error] = "<strong>There was an error processing your credit card:</strong><br />#{err.message}"
     end
@@ -92,10 +92,10 @@ class Dt::CheckoutsController < DtApplicationController
           before_billing if @current_step == "billing"
           before_payment if @current_step == "payment"
           render :action => next_step
-        elsif @payment_error
-          @current_step = 'payment'
-          before_payment
-          render :action => 'payment'
+        elsif @billing_error
+          @current_step = 'billing'
+          before_billing
+          render :action => 'billing'
         else
           @current_step = current_step
           render :action => current_step
@@ -181,6 +181,15 @@ class Dt::CheckoutsController < DtApplicationController
     end
   end
   
+  def before_payment
+    # remove the payment info so we never keep it around
+    @order.card_number = nil
+    @order.cvv = nil
+    @order.expiry_month = nil
+    @order.expiry_year = nil
+    @order.cardholder_name = nil
+  end
+
   def before_billing
     # load the info from the first gift into the billing fields
     gift = @cart.gifts.first if @cart.gifts.size > 0
@@ -192,15 +201,6 @@ class Dt::CheckoutsController < DtApplicationController
     end
   end
   
-  def before_payment
-    # remove the payment info so we never keep it around
-    @order.card_number = nil
-    @order.cvv = nil
-    @order.expiry_month = nil
-    @order.expiry_year = nil
-    @order.cardholder_name = nil
-  end
-
   def do_support
     if !params[:fund_cf].nil? && %w(dollars percent no).include?(params[:fund_cf]) && Project.admin_project
       @admin_project = Project.admin_project

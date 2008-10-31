@@ -20,27 +20,32 @@ Ecards.prototype = {
 		if (form_container) this.form_container = form_container
 		if (preview_container) this.preview_container = preview_container
 		// load the cards
-		this.cards = new Array;
+		this.cards = new Hash();
 		i = 0;
-		for (i=0;i<ecards.length;i++) {
-			this.cards[i] = new Ecard(ecards[i].id, ecards[i].small, ecards[i].medium, ecards[i].large);
-			// when a small image gets clicked, put it in the medium "preview" area
-			ecard_link = $("ecard-link-"+ecards[i].id);
-			Event.observe(ecard_link, 'click', this.select.bindAsEventListener(this, i));
-		}
-		// set the first card as current
-		this.select(null, 0)
+		ecards.each(function(pair) {
+			key = pair.key
+			value = pair.value
+			this.cards.set(key, new Ecard(value.id, value.small, value.medium, value.large))
+			ecard_link = $("ecard-link-"+value.id);
+			Event.observe(ecard_link, 'click', this.select.bindAsEventListener(this, value.id));
+		}, this);
+		// set the card
+		this.change($F('e_card_id'))
 	},
-	select: function(e, card_index) {
+	select: function(e, card_id) {
+		this.change(card_id);
+	},
+	change: function(card_id) {
 		if (img = $(this.medium_container)) {
-			img.src = this.cards[card_index].medium
+			card = this.cards.get(card_id)
+			img.src = card.medium
 			if (form_el = $(this.form_container)) {
-				form_el.value = this.cards[card_index].id
+				form_el.value = card.id
 			}
 			if (preview_el = $(this.preview_container)) {
-				preview_el.src = this.cards[card_index].small
+				preview_el.src = card.small
 			}
-			this.current = card_index
+			this.current = card_id
 		}
 	}
 }

@@ -17,6 +17,10 @@
 <div class="userform">
   <h2>Your Gift Information</h2>
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+  
+  <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
+    <p style="margin:0;">If you have <strong>several similar gifts</strong> to give, don't forget to <strong>check out our Bulk giving</strong> below!</p>
+  </div>
 
   <fieldset>
     <legend>Choose a Gift Type</legend>
@@ -32,7 +36,7 @@
   </fieldset>
 
   <fieldset>
-    <legend>Enter Your Information</legend>
+    <legend>1. Enter Your Information</legend>
     <ol>
       <li><label for="gift_name">Name</label> <%= f.text_field :name %></li>
       <li><label for="gift_email"><em>*</em> Email</label> <%= f.text_field :email %></li>
@@ -41,9 +45,11 @@
   </fieldset>
   
   <fieldset>
-    <legend>1. Recipient Information</legend>
+    <legend>2. Recipient Information</legend>
     <div id="individual"<%= " style=\"display:none;\"" if params[:recipients] && !params[:recipients].blank? %>>
-      <p>Do you have a <strong>lot</strong> of similar gifts to give? <%= link_to "Give more than one gift at once", "javascript:void(0);", :onclick => "$('individual').toggle();$('bulk').toggle();" %>.</p>
+      <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
+        <p style="margin:0;">If you have more than one gift to give, <strong><%= link_to "try our bulk giving", "javascript:void(0);", :onclick => "$('individual').toggle();$('bulk').toggle();" %></strong>!</p>
+      </div>
       <div class="notes clearfix">
         <h5>Recipient Information</h5>
         <p>His/her name, as you would like it to appear on the ecard.</p>
@@ -55,14 +61,16 @@
       </ol>
     </div>
     <div id="bulk"<%= " style=\"display:none;\"" unless params[:recipients] && !params[:recipients].blank? %>>
-      <p><%= link_to "Return to Individual Gift Giving", "javascript:void(0);", :onclick => "$('individual').toggle();$('bulk').toggle();$('recipients').value='';" %></p>
+      <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
+        <p style="margin:0;"><%= link_to "Return to individual gift giving", "javascript:void(0);", :onclick => "$('individual').toggle();$('bulk').toggle();$('recipients').value='';" %></p>
+      </div>
       
       <%= render :partial => "bulk_gifts", :locals => {:f => f} %>
     </div>
   </fieldset>
 
   <fieldset>
-    <legend>2. Gift Details</legend>
+    <legend>3. Gift Details</legend>
     <ol class="clearfix">
       <li>
         <label for="gift_amount">Gift Amount</label> $<%= f.text_field :amount %>
@@ -107,7 +115,7 @@
   </fieldset>
 
   <fieldset>
-    <legend>3. Gift Delivery</legend>
+    <legend>4. Gift Delivery</legend>
     <div class="notes">
       <h5>Gift Delivery</h5>
       <p>Gifts that remain unopened or unclaimed for 30 days will automatically be invested in one of our projects. If you choose, we can send both you and the recipient multiple email reminders before unclaimed gifts are invested.</p>

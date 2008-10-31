@@ -9,7 +9,7 @@
       <%= link_to @gift.project.name, dt_project_path(@gift.project) %><br />
       Follow the link to learn more about the project.
     </p>
-    <p><%= link_to "Associate this gift with my account", open_dt_gift_path(:code => @gift.pickup_code) %></p>
+    <p><%= link_to "Associate this gift with my account", open_dt_gifts_path(:code => @gift.pickup_code) %></p>
   <% else %>
     <% if @opening_now %>
       <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>

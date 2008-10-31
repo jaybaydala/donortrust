@@ -9,7 +9,8 @@
 <%= stylesheet_link_tag 'dt/navigation.css' %>
 <!--[if lt IE 7]><%= stylesheet_link_tag 'dt/ie.css' %><![endif]-->
 </head>
-<body>
+<%- body_id = yield :body_id -%>
+<body<%= " id=\"#{body_id}\"" if body_id %>>
   <%- sidebar = yield :sidebar -%>
   <%- page_title = yield :page_title -%>
   <%- page_title = html_title if page_title.nil? || page_title.empty? -%>

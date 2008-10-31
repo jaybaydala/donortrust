@@ -84,6 +84,7 @@ describe Project do
       country = Place.generate!(:place_type_id => country_place_type.id)
       @community = @project.place
       @community.update_attributes(:place_type => community_place_type, :parent => country)
+      @project.update_attributes(:country => country);
     end
     it "should have a community available to it" do
       @project.community_id.should_not be_nil
@@ -121,14 +122,14 @@ describe Project do
     before do
       @project.stub!(:current_need).and_return(1)
       @project_status_marketing = ProjectStatus.generate!(:name => "In Marketing")
-      @project_status_started = ProjectStatus.generate!(:name => "Started")
+      @project_status_active = ProjectStatus.generate!(:name => "Active")
       @project_status_completed = ProjectStatus.generate!(:name => "Completed")
     end
-    it "should be fundable if ProjectStatus is started" do
-      @project.update_attributes(:project_status => @project_status_started)
+    it "should be fundable if ProjectStatus is active" do
+      @project.update_attributes(:project_status => @project_status_active)
       @project.fundable?.should be_true
     end
-    it "should not be fundable if ProjectStatus is not started" do
+    it "should not be fundable if ProjectStatus is not active" do
       @project.update_attributes(:project_status => @project_status_completed)
       @project.fundable?.should be_false
       @project.update_attributes(:project_status => @project_status_marketing)
@@ -140,11 +141,11 @@ describe Project do
     before do
       @project.stub!(:current_need).with(1)
       @project_status_marketing = ProjectStatus.generate!(:name => "In Marketing")
-      @project_status_started = ProjectStatus.generate!(:name => "Started")
+      @project_status_active = ProjectStatus.generate!(:name => "Active")
       @project_status_completed = ProjectStatus.generate!(:name => "Completed")
       @started_project = Project.generate!
       @completed_project = Project.generate!
-      @started_project.update_attributes(:project_status => @project_status_started)
+      @started_project.update_attributes(:project_status => @project_status_active)
       @completed_project.update_attributes(:project_status => @project_status_completed)
       @project.update_attributes(:project_status => @project_status_marketing)
     end

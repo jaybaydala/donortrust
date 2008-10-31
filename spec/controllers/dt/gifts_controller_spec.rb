@@ -4,15 +4,12 @@ describe Dt::GiftsController do
   before do
     @user = mock_model(User)
 
-    @project = mock_model(Project)
-    @project.stub!(:name).and_return("Spec Project")
+    @project = Project.generate!
     @project.stub!(:fundable?).and_return(true)
     Project.stub!(:find).and_return(@project)
     
-    @gift = mock_model(Gift)
+    @gift = Gift.generate(:project => @project)
     Gift.stub!(:new).and_return(@gift)
-    @gift.stub!(:project).and_return(@project)
-    @gift.stub!(:project_id?).and_return(true)
   end
 
   it "should use DtApplicationController" do
@@ -188,7 +185,7 @@ describe Dt::GiftsController do
       
       it "should render the new template" do
         post 'create'
-        response.should render_template("dt/gifts/new")
+        response.should render_template(:new)
       end
     end
   end

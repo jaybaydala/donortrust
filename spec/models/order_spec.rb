@@ -221,20 +221,20 @@ describe Order do
           @order.account_balance_payment = @order.total - deposit_total + 0.01
           @order.gift_card_payment = deposit_total - 0.01
           @order.validate_payment(@items)
-          @order.errors.on_base.include?("You must pay for deposits from a credit card and/or gift card.").should be_true
+          @order.errors.on_base.include?("You must pay at least #{number_to_currency(deposit_total)} from a credit card and/or gift card.").should be_true
         end
         it "should add a error if you're paying less than the deposit on your credit_card" do
           @order.account_balance_payment = @order.total - deposit_total + 0.01
           @order.credit_card_payment = deposit_total - 0.01
           @order.validate_payment(@items)
-          @order.errors.on_base.include?("You must pay for deposits from a credit card and/or gift card.").should be_true
+          @order.errors.on_base.include?("You must pay at least #{number_to_currency(deposit_total)} from a credit card and/or gift card.").should be_true
         end
         it "should add a error if you're paying less than the deposit on your credit_card and gift_card combined" do
           @order.account_balance_payment = @order.total - deposit_total + 0.01
           @order.gift_card_payment = deposit_total/2
           @order.credit_card_payment = deposit_total/2 - 0.01
           @order.validate_payment(@items)
-          @order.errors.on_base.include?("You must pay for deposits from a credit card and/or gift card.").should be_true
+          @order.errors.on_base.include?("You must pay at least #{number_to_currency(deposit_total)} from a credit card and/or gift card.").should be_true
         end
         def deposit_total
           total = @items.inject(0){|sum, deposit| sum + (deposit.class == Deposit ? deposit.amount : 0) }

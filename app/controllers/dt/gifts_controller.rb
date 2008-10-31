@@ -34,8 +34,7 @@ class Dt::GiftsController < DtApplicationController
   
   def new
     store_location
-    @ecards = ECard.find(:all, :order => :id)
-    @ecards.unshift(@ecards.delete_at(2)) unless @ecards.empty? # changing the default image
+    load_ecards
     @gift = Gift.new(:e_card => @ecards.first)
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
@@ -69,14 +68,13 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def create
-    if !params[:recipients].empty?
+    if params[:recipients] && !params[:recipients].empty?
       @gifts = []
       @errors = []
       email_parser = EmailParser.new(params[:recipients])
       email_parser.parse_list
       if email_parser.errors.empty?
         email_parser.emails.each do |email|
-          # gift = Gift.create_from_tmail(email, gift_params)
           gift = Gift.new( gift_params )
           gift.to_name = email.name
           gift.to_email = email.address
@@ -94,12 +92,10 @@ class Dt::GiftsController < DtApplicationController
           flash[:notice] = "Your Gifts have been added to your cart."
           format.html { redirect_to dt_cart_path }
         else
-          #flash.now[:error] = "There were problems adding your gifts to your cart. Please check your email addresses carefully and try again."
-          @gift = Gift.new( params[:gift] )
-          @valid = @gift.valid?
-          @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong>")
+          @gift = @gifts.first
+          @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong>") unless email_parser.errors.empty?
           @project = @gift.project if @gift.project_id? && @gift.project
-          @ecards = ECard.find(:all, :order => :id)
+          load_ecards
           format.html { render :action => "new" }
         end
       end
@@ -126,7 +122,7 @@ class Dt::GiftsController < DtApplicationController
           format.js
         else
           @project = @gift.project if @gift.project_id? && @gift.project
-          @ecards = ECard.find(:all, :order => :id)
+          load_ecards
           format.html { render :action => "new" }
           format.js
         end
@@ -138,7 +134,10 @@ class Dt::GiftsController < DtApplicationController
     if @cart.items[params[:id].to_i].kind_of?(Gift)
       @gift = @cart.items[params[:id].to_i]
       @project = @gift.project if @gift.project_id?
-      @ecards = ECard.find(:all, :order => :id)
+      if @gift.send_email_now
+        @gift.send_email = nil # so we can preselect "now" for delivery
+      end
+      load_ecards
     end
     respond_to do |format|
       format.html {
@@ -171,7 +170,7 @@ class Dt::GiftsController < DtApplicationController
         format.html { redirect_to dt_cart_path }
       else
         @project = @gift.project if @gift.project_id?
-        @ecards = ECard.find(:all, :order => :id)
+        load_ecards
         format.html { render :action => "edit" }
       end
     end
@@ -250,6 +249,11 @@ class Dt::GiftsController < DtApplicationController
   end
 
   protected
+  def load_ecards 
+    @ecards = ECard.find(:all, :order => :id)
+    @ecards.unshift(@ecards.delete_at(2)) unless @ecards.empty? # changing the default image
+  end
+  
   def fix_date_params!
     params[:gift].delete_if{ |key,value| key.to_s[0,8] == "send_at(" }
   end

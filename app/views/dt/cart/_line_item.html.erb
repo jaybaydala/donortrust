@@ -4,47 +4,27 @@ odd_or_even = line_item_counter % 2 == 0 ? 'even' : 'odd'
 case line_item.class.to_s
 when "Gift"
   partial_name = "gift"
-  edit_path = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_gift_path(@line_item_counter_from_0)
+  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_gift_path(@line_item_counter_from_0)
 when "Investment"
   partial_name = "investment"
-  edit_path = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_investment_path(@line_item_counter_from_0)
+  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_investment_path(@line_item_counter_from_0)
 when "Deposit"
   partial_name = "deposit"
-  edit_path = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_account_deposit_path(current_user, @line_item_counter_from_0)
+  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_account_deposit_path(current_user, @line_item_counter_from_0)
+when "Pledge"
+  partial_name = "pledge"
+  edit_link = "" # no editing
 end
 -%>
 <tr class="<%= odd_or_even %>">
   <td>
     <div class="textsm <%= partial_name %>controls">
-      <%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "Remove item from cart"), dt_cart_path(:id => @line_item_counter_from_0), :confirm => "Are you sure you want to remove this item from your cart?", :method => :delete %>
-      <%= edit_path %>
+      <%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "[delete item]", :title => "Remove this item from your cart"), dt_cart_path(:id => @line_item_counter_from_0), :confirm => "Are you sure you want to remove this item from your cart?", :method => :delete %>
+      <%= edit_link %>
     </div>
   </td>
   <td>
-    <%= render :partial => partial_name, :locals => { :line_item => line_item } %>
+    <%= render :partial => "dt/cart/#{partial_name}", :locals => { :line_item => line_item } %>
   </td>
   <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
-
-<%- if line_item.class == Pledge %>
-	<td>
-		<div class="textsm">
-		    <br/>
-	      <%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "[delete item]", :title => "Remove this item from your cart"), dt_cart_path(:id => line_item_counter), :confirm => "Are you sure you want to remove this item from your cart?", :method => :delete %>
-	    </div>
-	</td>
-	<td>
-		<h5><strong>Pledge</strong></h5>
-		<% if line_item.participant != nil %>
-			<p>Pledge for <%= link_to(line_item.participant.user.full_name, dt_participant_path(line_item.participant)) %>'s participation in <%= link_to(line_item.campaign.name, dt_campaign_path(line_item.campaign)) %></p>
-		<% elsif line_item.team != nil %>
-			<p>Pledge towards <%= link_to(line_item.team.name, dt_team_path(line_item.team.name)) %> (a team participating in <%= link_to(line_item.campaign.name, dt_campaign_path(line_item.campaign)) %>)</p>
-		<% else %>
-			<p>Pledge towards <%= link_to(line_item.campaign.name, dt_campaign_path(line_item.campaign)) %>
-		<% end %>
-	
-	</td>
-	<td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
-<% end -%>
-
 </tr>
-

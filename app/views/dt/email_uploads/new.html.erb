@@ -1,12 +1,11 @@
-<% content_for :body_id do %>gift<% end %>
 <% form_for(:email_upload, :url => dt_email_upload_path, :html => {:id => "emailfileform", :name => "emailfileform", :target => 'email_upload_frame', :multipart => true }) do |f| %>
-  <div class="userform" class="clearfix" style="width:520px;">
+  <div class="userform" class="clearfix">
     <fieldset>
-      <legend>1a. Email File Upload (optional)</legend>
+      <legend>2a. Email File Upload (optional)</legend>
       <ol>
         <li>
           <label for="email_upload_email_file" class="left" style="width:99%;">
-            Upload File<%= f.file_field :email_file %>
+            Upload File <%= f.file_field :email_file %>
             <%= submit_tag 'Upload File' %>
           </label>
           <div class="note" style="margin:0;">We support importing contacts in the CSV file format (Comma Separated Values). For best results, please use a CSV file produced by Outlook, Outlook Express, Yahoo!, or Hotmail. For Apple Address Book, there is a useful utility called "<a href="http://www.google.com/search?q=a+to+g" target="_blank">A to G</a>".</div>

@@ -58,3 +58,11 @@ Feature: A User adds items to their Cart
     Then I should see 10 gift(s) on the first page of the cart
     And I should see the cart pagination
     And I should see 1 gift(s) on the second page of the cart
+
+  Scenario: Cart Paging in Checkout
+    Given I add 11 gifts to the cart
+    When I go to "/dt/checkout/new"
+    Then I should see 5 gift(s) on the first page of the checkout cart
+    And I should see the checkout cart pagination
+    And I should see 5 gift(s) on the second page of the checkout cart
+    And I should see 1 gift(s) on the third page of the checkout cart

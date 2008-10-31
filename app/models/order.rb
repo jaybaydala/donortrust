@@ -88,7 +88,6 @@ class Order < ActiveRecord::Base
       errors.add(:email, "isn't a valid email address") unless self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
     end
     # credit_card_payment
-    errors.add_to_base("You must pay at least #{number_to_currency(minimum_credit_payment(cart_items))} from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
     if credit_card_payment?
       unless credit_card.valid?
         credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
@@ -110,11 +109,12 @@ class Order < ActiveRecord::Base
     errors.add(:gift_card_payment, "cannot be more than your current gift card balance") if @gift_card_balance && @gift_card_balance > 0 && gift_card_payment? && gift_card_payment > @gift_card_balance
     errors.add_to_base("Please ensure you're paying the full amount.") if total_payments < total
     errors.add_to_base("You only need to pay the cart total.") if total_payments > total
+    errors.add_to_base("You must pay at least #{number_to_currency(minimum_credit_payment(cart_items))} from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
     errors.empty?
   end
 
   def minimum_credit_payment(cart_items)
-    if user_id? && user && user.balance > 0
+    if (account_balance && account_balance > 0) || (user_id? && user && user.balance > 0)
       @minimum_credit_payment = cart_items.inject(0) {|sum, item| sum + (item.class == Deposit ? item.amount : 0) }
     else
       @minimum_credit_payment = total

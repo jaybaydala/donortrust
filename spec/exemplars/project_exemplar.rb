@@ -7,6 +7,9 @@ class Project < ActiveRecord::Base
   generator_for :program do
     Program.generate
   end
+  generator_for :place do
+    Place.generate
+  end
   generator_for :project_status do
     ProjectStatus.generate
   end

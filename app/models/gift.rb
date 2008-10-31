@@ -22,7 +22,7 @@ class Gift < ActiveRecord::Base
   
   after_create :user_transaction_create, :tax_receipt_create
   
-  attr_accessor :preview
+  attr_accessor :preview, :send_email_now
   
   def sum
     return credit_card ? 0 : super * -1
@@ -37,9 +37,11 @@ class Gift < ActiveRecord::Base
   
   def send_email=(val)
     if val == "now"
+      @send_email_now = true
       write_attribute(:send_email, true)
       self[:send_at] = Time.now + 5.minutes # hit the next send
     else
+      @send_email_now = false
       super(val)
     end
   end

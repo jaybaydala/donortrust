@@ -3,15 +3,15 @@ GLOBAL NAV and PAGE NAV
 =======================*/
 
 /* site redesign for GSoC 2008
- *	Heavily inspired by the following articles
- *		http://www.alistapart.com/articles/slidingdoors/
- *		http://www.alistapart.com/articles/mountaintop/
- *		http://www.alistapart.com/articles/sprites/
+ *  Heavily inspired by the following articles
+ *  http://www.alistapart.com/articles/slidingdoors/
+ *  http://www.alistapart.com/articles/mountaintop/
+ *  http://www.alistapart.com/articles/sprites/
  */
 
 .main-nav {
-	padding-left: 10px;
-  font:lighter 20px Arial,Helvetica,sans-serif;	
+  padding-left: 10px;
+  font:lighter 20px Arial,Helvetica,sans-serif;  
 }
 .main-nav h1{
   margin:0px;
@@ -26,18 +26,18 @@ GLOBAL NAV and PAGE NAV
 
 .main-nav li {
   display:inline;
-	margin:1px 0 0 0;
+  margin:1px 0 0 0;
   padding:0;  
-	line-height:1.2;
-	font-size:0.8125em; /* 13px */
-	font-family:Arial, Helvetica, sans-serif;
-	fo/nt-weight: bold;
+  line-height:1.2;
+  font-size:0.8125em; /* 13px */
+  font-family:Arial, Helvetica, sans-serif;
+  fo/nt-weight: bold;
 }
 
 .main-nav li a.nav-tab {
   margin-top: 0.5px;
   text-decoration:none;
-	display:block;
+  display:block;
   padding: 0.5em 0.875em 0.4125em 0.875em;
   color: #333;
 }
@@ -62,32 +62,32 @@ GLOBAL NAV and PAGE NAV
 #nav ul {
   float:left;
   width: 485px;
-	padding:0em 0 0 8px;
-	margin:0px;
+  padding:0em 0 0 8px;
+  margin:0px;
 }
 #nav ul.wide {
   width:800px
 }
 #nav li {
-	padding:0;
-	margin:1px 0 0 0;
-	font-size:0.8125em; /* 13px */
-	list-style-type:none;
-	color:#FFF;	
-	float:left;
-	line-height:1.2;
+  padding:0;
+  margin:1px 0 0 0;
+  font-size:0.8125em; /* 13px */
+  list-style-type:none;
+  color:#FFF;  
+  float:left;
+  line-height:1.2;
 }
 #nav li a {
-    text-decoration:none;
-	display:block;
-	padding: 0.31em 0.875em;
+  text-decoration:none;
+  display:block;
+  padding: 0.31em 0.875em;
 }
 #nav li a:link, #nav li a:visited {
-	color: #666;
+  color: #666;
 }
 #nav li a:hover, #nav li a:active {
-	color: #FFF;
-	background-color:#999;
+  color: #FFF;
+  background-color:#999;
 }
 #nav li.current {
   border-left: 1px solid #999;
@@ -95,7 +95,7 @@ GLOBAL NAV and PAGE NAV
   background-color:#360;
 }
 #nav li.current {
-	padding:0.31em 0.875em;
+  padding:0.31em 0.875em;
 }
 #nav li.current a:link, #nav li.current a:visited, #nav li.current a:hover, #nav li.current a:active { 
   padding:0;
@@ -107,30 +107,30 @@ SUBNAV
 ======*/
 #subnav {}
 #subnav ul {
-    border-bottom:1px solid #CCC;
-    border-top:1px solid #CCC;
-    padding:0.3125em 0;
-    margin:0 0 0.5625em 0;
+  border-bottom:1px solid #CCC;
+  border-top:1px solid #CCC;
+  padding:0.3125em 0;
+  margin:0 0 0.5625em 0;
 }
 #subnav li {
-    font-size:0.6875em;
-    display:inline;
-    font-family:Arial, Helvetica, sans-serif;
+  font-size:0.6875em;
+  display:inline;
+  font-family:Arial, Helvetica, sans-serif;
 }
 #subnav li a {
-    padding:0.125em .375em;
-    border:1px solid transparent;
-    text-decoration:none;
+  padding:0.125em .375em;
+  border:1px solid transparent;
+  text-decoration:none;
 }
 #subnav li a:link, #subnav li a:visited {
-    color: #333;
+  color: #333;
 }
 #subnav li a:hover, #subnav li a:active {
-    border:1px solid #F60;
+  border:1px solid #F60;
 }
 #subnav li.current a, #subnav li.current a:link, #subnav li.current a:visited, #subnav li.current a:hover, #subnav li.current a:active {
-    background-color:#66758B;
-    color:#FFF;
+  background-color:#66758B;
+  color:#FFF;
 }
 
 
@@ -138,33 +138,33 @@ SUBNAV
 PAGINATION
 ==========*/
 div.pagination {
-	font-size: 0.6875em; /* 11px */
-	color:#999;
-	margin-top:7px;
+  font-size: 0.6875em; /* 11px */
+  color:#999;
+  margin:7px 0 1px 0;
 }
 div.pagination span.disabled {
-	color:#999;
+  color:#999;
 }
 
 div.pagination a, div.pagination span {
-	background-color:#FFF;
-	color: #333;
-	text-decoration:none;
-	display: inline;
-	font-weight: normal;
-	padding: 1px 6px;
-	border: 0.0625em solid transparent;
+  background-color:#FFF;
+  color: #333;
+  text-decoration:none;
+  display: inline;
+  font-weight: normal;
+  padding: 1px 6px;
+  border: 0.0625em solid transparent;
 }
 
 div.pagination .current {
-	background:#EEE;
+  background:#EEE;
 }
 
 div.pagination a:link, div.pagination a:visited, div.pagination a:hover, div.pagination a:active {
-	color: #333;
+  color: #333;
 }
 div.pagination a:hover, div.pagination a:active {
-	border: 0.0625em solid #F60;
+  border: 0.0625em solid #F60;
 }
 
 
@@ -172,31 +172,26 @@ div.pagination a:hover, div.pagination a:active {
 TEMPLATE HEADER
 ===============*/
 #logo {
-    width:205px;
-    float:left;
+  width:205px;
+  float:left;
 }
 
 form#search {
-	float:right;
-	padding: .5em 0px;
+  float:right;
+  padding: .5em 0px;
 }
 
 #loginbug {
-    float:right;
-    text-align:right;
+  float:right;
+  text-align:right;
 }
 #loginbug ul {
-    margin:0;
-    list-style:none;
+  margin:0;
+  list-style:none;
 }
 #loginbug li {
-    display:inline;
+  display:inline;
 }
 #loginbug #rss img {
-    vertical-align:middle;
+  vertical-align:middle;
 }
-
-
-
-
-

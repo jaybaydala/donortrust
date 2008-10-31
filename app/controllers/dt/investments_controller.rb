@@ -16,7 +16,9 @@ class Dt::InvestmentsController < DtApplicationController
     @project = @investment.project if @investment.project
     respond_to do |format|
       format.html {
-        render :action => 'confirm_unallocated_gift' and return unless params[:unallocated_gift].nil?
+        if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:unallocated_gift] && !params[:unallocated_gift].empty?
+          render :action => 'confirm_unallocated_gift' and return 
+        end
         if @project && @project != Project.unallocated_project && !@project.fundable?
           flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
           redirect_to dt_project_path(@project) and return

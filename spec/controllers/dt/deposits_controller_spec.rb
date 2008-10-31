@@ -208,7 +208,6 @@ describe Dt::DepositsController do
     it "should render the edit template if !valid?" do
       @deposit.should_receive(:valid?).and_return(false)
       do_request
-      puts response.body
       response.should render_template("edit")
     end
 
