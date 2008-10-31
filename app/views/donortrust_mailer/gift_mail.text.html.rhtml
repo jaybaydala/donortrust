@@ -57,24 +57,40 @@
 
 <% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
 
-<p>
-  <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.</p>
-<p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
-<p>Now that you've opened your gift, you have some options. You can:</p>
-<div class="gift-options">
-  <ul>
-    <li><%= link_to "Find a project to donate to", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :find => 1) %></li>
-    <% if Project.unallocated_project %><li><%= link_to "Let ChristmasFuture figure it out", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :unallocated_gift => 1) %></li><% end %>
-    <li><%= link_to "Deposit it into my account", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :deposit => 1) %></li>
-    <% if Project.admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :donate => 1) %></li><% end %>
-  </ul>
-</div>
+<% if @gift.project %>
+  <p>
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty.
+  </p>
+  
+  <p>
+    <%= @gift.name || @gift.email %> has sent you a Project Gift for <%= number_to_currency( @gift.amount ) %> which will be directed to this project:<br />
+    <%= link_to @gift.project.name, dt_project_url(@gift.project, :host => @host) %>
+  </p>
 
-<p>
-  If you're not sure yet, click on the link below to just open your gift - and a whole new world. <br />
-  <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
-</p>
+  <p>
+    Just click on the link below to open your gift - and a whole new world. <br />
+    <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
+  </p>
+<% else %>
+  <p>
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.
+  </p>
+  <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
+  <p>Now that you've opened your gift, you have some options. You can:</p>
+  <div class="gift-options">
+    <ul>
+      <li><%= link_to "Find a project to donate to", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :find => 1) %></li>
+      <% if Project.unallocated_project %><li><%= link_to "Let ChristmasFuture figure it out", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :unallocated_gift => 1) %></li><% end %>
+      <li><%= link_to "Deposit it into my account", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :deposit => 1) %></li>
+      <% if Project.admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :donate => 1) %></li><% end %>
+    </ul>
+  </div>
 
+  <p>
+    If you're not sure yet, click on the link below to just open your gift - and a whole new world. <br />
+    <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
+  </p>
+<% end %>
 <p>
   If that does not work for you, copy and paste the following link into your web browser and enter your pickup code:<br />
   <%= link_to open_dt_gifts_url(:host => @host), open_dt_gifts_url(:host => @host) %>
