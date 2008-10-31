@@ -8,11 +8,13 @@ class AddSlugToProjects < ActiveRecord::Migration
       begin 
         admin_project = Project.find(10)
         admin_project.update_attributes({:slug => 'admin'})
+        say "admin project updated"
       rescue ActiveRecord::RecordNotFound
       end
       begin 
         unallocated_project = Project.find(11)
         unallocated_project.update_attributes({:slug => 'unallocated'})
+        say "unallocated project updated"
       rescue ActiveRecord::RecordNotFound
       end
     end
