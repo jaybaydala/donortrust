@@ -10,7 +10,10 @@
       Follow the link to learn more about the project.
     </p>
     <% unless Order.find_by_gift_card_payment_id(@gift.id) %>
-      <p><%= link_to "Associate this gift with my account", unwrap_dt_gift_path(@gift.id, :code => @gift.pickup_code), :method => :put %></p>
+      <p>
+        <%= link_to "Associate this gift with my account", unwrap_dt_gift_path(@gift.id, :code => @gift.pickup_code), :method => :put %>
+        Don't have an account? <%= link_to "Create one here", new_dt_account_path %>.
+        </p>
     <% end %>
   <% else %>
     <% if @opening_now %>
