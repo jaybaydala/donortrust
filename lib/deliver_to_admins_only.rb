@@ -3,7 +3,7 @@
 module DeliverToAdminsOnly
   def self.included(base)
     base.class_eval do
-      alias_method_chain :create_mail, :admins_only if ENV['RAILS_ENV'] == 'staging'
+      alias_method_chain :create_mail, :admins_only if ENV['RAILS_ENV'] == 'development'
     end
   end
   
