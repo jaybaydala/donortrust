@@ -149,7 +149,8 @@
 					<%= render :partial => 'dt/shared/form_required' %>Date of initiation
 					<small>Pick projected start date as</small>
 				</label>
-				<%= f.date_select :target_start_date %>				
+				<%= calendar_date_select :project, :target_start_date %>
+
 			</li>
 
 			<li>
@@ -157,7 +158,7 @@
 					Date of completion
 					<small>Pick projected end date</small>
 				</label>
-				<%= f.date_select :target_end_date %>								
+				<%= calendar_date_select :project, :target_end_date %>
 			</li>
 		</ul>
 
