@@ -19,7 +19,7 @@ class Partner < ActiveRecord::Base
   validates_presence_of :description
   validates_length_of   :name, :maximum => 50
   validates_presence_of :partner_status_id
-  validates_presence_of :partner_type_id
+  #validates_presence_of :partner_type_id
   acts_as_textiled :description, :business_model, :funding_sources, :mission_statement, :philosophy_dev
 
   validate do |me|
@@ -28,9 +28,9 @@ class Partner < ActiveRecord::Base
     unless me.partner_status( true )
       me.errors.add :partner_status_id, 'does not exist'
     end
-    unless me.partner_type( true )
-      me.errors.add :partner_type_id, 'does not exist'
-    end
+    #unless me.partner_type( true )
+    #  me.errors.add :partner_type_id, 'does not exist'
+    #end
   end
 
   def admins

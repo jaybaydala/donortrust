@@ -90,7 +90,7 @@ class BusAdmin::ProjectsController < ApplicationController
 
   # called for POST on bus_admin/project
   def create
-    unless current_user.administrated_partners.empty?
+    unless current_user.administrated_partners.empty? && !current_user.cf_admin?
       @project = Project.new(params[:project])
       if params[:place] and params[:place][:name] and params[:place][:name] != ""
         @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id
@@ -146,7 +146,7 @@ class BusAdmin::ProjectsController < ApplicationController
 
   # called for GET on new_bus_admin_project_path
   def new
-    unless current_user.administrated_partners.empty?
+    unless current_user.administrated_partners.empty? && !current_user.cf_admin?
       @user = current_user
       @partner = current_user.administrated_partners.first
       @project = Project.new
