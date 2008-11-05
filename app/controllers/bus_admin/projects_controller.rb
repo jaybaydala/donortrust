@@ -426,31 +426,45 @@ class BusAdmin::ProjectsController < ApplicationController
     pdf.text "<b>Project Location</b>: #{project.place.name}, #{project.country.name}"
     pdf.text "<b>Project Sector(s)</b>: " + project.sectors.collect{|c| c.name}.join(", ")
     pdf.text "\n"
-    pdf.text "<b>PM Name & Contact Info</b>: #{project.contact.last_name}, #{project.contact.first_name}"
-    pdf.text "\n"
-    pdf.text "<b>Project Description</b>:\n#{project.description.strip_tags}"
-    pdf.text "\n"
+
+    if project.contact
+      pdf.text "<b>PM Name & Contact Info</b>: #{project.contact.last_name}, #{project.contact.first_name}"
+      pdf.text "\n"
+    end
+
+      pdf.text "<b>Project Description</b>:\n#{project.description.strip_tags}"
+      pdf.text "\n"
+
     pdf.text "<b>Project Funds</b>: CAN$#{project.total_cost}"
     pdf.text "<b>Date of Initiation</b>: #{project.target_start_date.to_formatted_s(:long)}"
     pdf.text "<b>Date of Completion</b>: #{project.target_end_date.to_formatted_s(:long)}"
     pdf.text "\n"
 
-    pdf.text "<b>Project Plan</b>:\n"
-    project.milestones.each do |m|
-      pdf.text "<i>#{m.target_date.to_formatted_s(:long) if m.target_date} - #{m.name}</i>:\n#{m.description}"
+    if project.milestones.size >0
+      pdf.text "<b>Project Plan</b>:\n"
+      project.milestones.each do |m|
+        pdf.text "<i>#{m.target_date.to_formatted_s(:long) if m.target_date} - #{m.name}</i>:\n#{m.description}"
+      end
+      pdf.text "\n"
     end
-    pdf.text "\n"
 
-    pdf.text "<b>Project Funding Schedule</b>: "
-    project.budget_items.each do |b|
-      pdf.text "- #{b.description} - #{b.cost}"
+    if project.budget_items.size >0
+      pdf.text "<b>Project Funding Schedule</b>: "
+      project.budget_items.each do |b|
+        pdf.text "- #{b.description} - #{b.cost}"
+      end
+      pdf.text "\n"
     end
-    pdf.text "\n"
 
-    pdf.text "<b>Measurement & Evaluation Plan</b>:\n#{project.meas_eval_plan.strip_tags}"
-    pdf.text "\n"
-    pdf.text "<b>Project Outcomes</b>:\n#{project.intended_outcome.strip_tags}"
-    pdf.text "\n"
+    if project.meas_eval_plan
+      pdf.text "<b>Measurement & Evaluation Plan</b>:\n#{project.meas_eval_plan.strip_tags}"
+      pdf.text "\n"
+    end
+
+    if project.intended_outcome
+      pdf.text "<b>Project Outcomes</b>:\n#{project.intended_outcome.strip_tags}"
+      pdf.text "\n"
+    end
     pdf.text "\n"
     pdf.text "The undersigned [Agent Name] agrees to the project in accordance with this project description and the Master Agency Agreement."
     pdf.text "\n"
@@ -462,7 +476,7 @@ class BusAdmin::ProjectsController < ApplicationController
     #i1 = pdf.image "../images/chunkybacon.png", :justification => :center, :resize => 0.75
     #pdf.image i0, :justification => :right, :resize => 0.75
 
-    send_data pdf.render, :filename => "subagreement.pdf", :type => "application/pdf"
+    send_data pdf.render, :filename => "#{project.partner.name}-#{project.name}-subagreement.pdf", :type => "application/pdf"
   end
 
   def update_location
