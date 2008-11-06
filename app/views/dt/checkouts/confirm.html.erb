@@ -14,25 +14,29 @@
 
   <fieldset style="margin-top:1em;">
     <legend>Billing and Tax Receipt Information</legend>
-    <div class="notes clearfix">
-      <h5>Billing and Tax Receipt Information</h5>
-      <p>Please ensure this information is correct for your credit card transaction and tax receipt.</p>
-    </div>
-    <ol>
-      <li><label><strong>Donor Type</strong></label> <%=h @order.donor_type %></li>
-      <li><label><strong>Title</strong></label> <%=h @order.title %></li>
-      <li><label><strong>First Name</strong></label> <%=h @order.first_name %></li>
-      <li><label><strong>Last Name</strong></label> <%=h @order.last_name %></li>
-      <li><label><strong>Company</strong></label> <%=h @order.company %></li>
-      <li><label><strong>Street Address</strong></label> <%=h @order.address %></li>
-      <li><label><strong>Street Address 2</strong></label> <%=h @order.address2 %></li>
-      <li><label><strong>City</strong></label> <%=h @order.city %></li>
-      <li><label><strong>Province/State</strong></label> <%=h @order.province %></li>
-      <li><label><strong>Postal/Zip Code</strong></label> <%=h @order.postal_code %></li>
-      <li><label><strong>Country</strong></label> <%=h @order.country %></li>
-      <li><label><strong>Province</strong></label> <%=h @order.province %></li>
-      <li><label><strong>Email</strong></label> <%=h @order.email %></li>
-    </ol>
+    <% if @order.credit_card_payment? %>
+      <div class="notes clearfix">
+        <h5>Billing and Tax Receipt Information</h5>
+        <p>Please ensure this information is correct for your credit card transaction and tax receipt.</p>
+      </div>
+      <ol>
+        <li><label><strong>Donor Type</strong></label> <%=h @order.donor_type %></li>
+        <li><label><strong>Title</strong></label> <%=h @order.title %></li>
+        <li><label><strong>First Name</strong></label> <%=h @order.first_name %></li>
+        <li><label><strong>Last Name</strong></label> <%=h @order.last_name %></li>
+        <li><label><strong>Company</strong></label> <%=h @order.company %></li>
+        <li><label><strong>Street Address</strong></label> <%=h @order.address %></li>
+        <li><label><strong>Street Address 2</strong></label> <%=h @order.address2 %></li>
+        <li><label><strong>City</strong></label> <%=h @order.city %></li>
+        <li><label><strong>Province/State</strong></label> <%=h @order.province %></li>
+        <li><label><strong>Postal/Zip Code</strong></label> <%=h @order.postal_code %></li>
+        <li><label><strong>Country</strong></label> <%=h @order.country %></li>
+        <li><label><strong>Province</strong></label> <%=h @order.province %></li>
+        <li><label><strong>Email</strong></label> <%=h @order.email %></li>
+      </ol>
+    <% else %>
+      <p>You are not paying with a credit card. No billing information is required.</p>
+    <% end %>
   </fieldset>
   
   <% if cart_cf_investment %>
