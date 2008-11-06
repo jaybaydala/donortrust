@@ -156,6 +156,10 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 	border: 0px;
 }
 
+#checkout_create_account ul li {
+  list-style-type:disc;
+}
+
 /*
 SUBMIT BUTTONS
 ==============*/
