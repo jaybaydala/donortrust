@@ -34,27 +34,26 @@ class Sector < ActiveRecord::Base
   def image_name
     if self.name=='Education'
       return 'education.gif'
-    end
-    if self.name=='Agriculture'
+    elsif self.name=='Agriculture'
       return 'agriculture.gif'
-    end
-    if self.name=='Economy'
+    elsif self.name=='Economy'
       return 'economy.gif'
-    end
-    if self.name=='Water & Sanitation'
+    elsif self.name=='Water & Sanitation'
       return 'watersanitation.gif'
-    end
-    if self.name=='Gender Equality'
+    elsif self.name=='Gender Equality'
       return 'gender.gif'
-    end
-    if self.name=='Community Development'
+    elsif self.name=='Community Development'
       return 'community.gif'
-    end
-    if self.name=='Health'
+    elsif self.name=='Health'
       return 'health.gif'
-    end
-    if self.name=='Infrastructure'
+    elsif self.name=='Infrastructure'
       return 'housing.gif'
+    elsif self.name=='Power & Energy'
+      return 'powerenergy.gif'
+    elsif self.name=='Government & Advocacy'
+      return 'government.gif'
+    elsif self.name=='Food'
+      return 'food.gif'
     end
   end
 

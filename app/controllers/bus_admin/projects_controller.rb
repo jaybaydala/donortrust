@@ -461,6 +461,13 @@ class BusAdmin::ProjectsController < ApplicationController
       pdf.text "\n"
     end
 
+    pdf.text "<b>Project Feedback</b>: "
+    pdf.text "Every 3-4 months, submit:"
+    pdf.text "1) 2-4 digital photos directly related to the project, via email or uploaded to flickr.com."
+    pdf.text "2) A 50-200 word email or blog entry related to the project"
+    pdf.text "3) If possible, a 1-3 minute video related to the project on YouTube.com"
+    pdf.text "\n"
+
     if project.intended_outcome
       pdf.text "<b>Project Outcomes</b>:\n#{project.intended_outcome.strip_tags}"
       pdf.text "\n"

@@ -5,7 +5,7 @@ Event.observe(window, 'load', function() {
 				anchor.target = "_blank"
 		});
 	}
-	
+
 	ua=navigator.userAgent.toLowerCase();
 	ie = document.all && ua.search(/msie/i) != -1 ? true : false;
 	old_ie = ie && ua.search(/msie [0-6]/i) != -1 ? true : false;
@@ -282,12 +282,8 @@ function tab_select(item, section){
  }
 
 function init_tab(){
-	if( $('project-li')){
-     $('project-li').addClassName('active');
-			Element.show('project_plan');
-   }
-	 if( $('intended-li') && !$('project-li') ){
-     $('intended-li').addClassName('active');
-		 Element.show('intended_outcome');
-   }
+	if( $('intended-li')){
+		$('intended-li').addClassName('active');
+		Element.show('intended_outcome');
+	}
 }
