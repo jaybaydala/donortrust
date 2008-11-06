@@ -3,11 +3,11 @@ class BusAdmin::RolesController < ApplicationController
   before_filter :login_required, :check_authorization
   #access_control :DEFAULT => 'cf_admin'
   include BusAdmin::RolesHelper
-   
+
   active_scaffold do |config|
     config.list.columns = [:title, :users]
     config.create.columns = [:title]
-    config.update.columns = [:title, :administrations, :permissions]
+    config.update.columns = [:administrations]
     config.columns[:administrations].label = "Users with this role"
   end
 
