@@ -8,3 +8,8 @@ end
 Then /^I should get an error message with further instructions PENDING$/ do
 end
 
+When /^I attach the \"([^\"]+)\" file to \"([^\"]+)\"/ do |file, field|
+  path = File.join(RAILS_ROOT, "spec", "fixtures", "email_uploads", file)
+system("mate #{path}")
+  attaches_file(field, path)
+end

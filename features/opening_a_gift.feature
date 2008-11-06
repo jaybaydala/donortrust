@@ -1,5 +1,5 @@
 Feature: Opening a Gift
-  In order to choose how to allocate the money that was given to me
+  So that I can choose how to allocate the money that was given to me
   As a gift receiver
   I want to open my gift
 

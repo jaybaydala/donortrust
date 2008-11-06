@@ -1,5 +1,5 @@
 Feature: A User goes to Checkout and pay for their Cart
-  In order to pay for the items in my Cart
+  So that I can pay for the items in my Cart
   As a User
   I want to checkout
 
