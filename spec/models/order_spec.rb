@@ -61,10 +61,9 @@ describe Order do
       @order.errors.should_receive(:add_on_blank).with(%w(donor_type first_name last_name address city postal_code province country email))
       @order.validate_billing(@items)
     end
-    it "should only validate email if no credit_card_payment?" do
+    it "should not validate tax receipt fields if no credit_card_payment?" do
       @order.credit_card_payment = 0
       @order.errors.should_not_receive(:add_on_blank).with(%w(donor_type first_name last_name address city postal_code province country email))
-      @order.errors.should_receive(:add_on_blank).with(%w(email))
       @order.validate_billing(@items)
     end
     it "should set card_expiry to expiry_month/expiry_year" do

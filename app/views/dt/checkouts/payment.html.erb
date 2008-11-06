@@ -40,9 +40,26 @@
     </ol>
     <ol class="clearfix" id="payment">
       <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :cart_total, @cart.total, :id => 'cart_total' %></li>
-      <li><label>Take From my Gift Card:</label> $<%= f.text_field :gift_card_payment, :value => number_with_precision(@order.gift_card_payment, 2) %></li>
-      <li><label>Take From my Account:</label> $<%= f.text_field :account_balance_payment, :value => number_with_precision(@order.account_balance_payment, 2) %></li>
-      <li class="odd"><label>Put on My Credit Card:</label> $<%= f.text_field :credit_card_payment, :value => number_with_precision(@order.credit_card_payment, 2) %></li>
+      <li>
+        <label>Take From my Gift Card:</label> 
+        <%- if session[:gift_card_balance] && session[:gift_card_balance] > 0 -%>
+        $<%= f.text_field :gift_card_payment, :value => number_with_precision(@order.gift_card_payment, 2) %>
+        <%- else -%>
+        $<%= f.text_field :gift_card_payment, :value => number_with_precision(@order.gift_card_payment, 2), :disabled => "disabled", :style => 'background-color:#DDD;' %>
+        <%- end -%>
+      </li>
+      <li>
+        <label>Take From my Account:</label> 
+        <%- if logged_in? && current_user.balance > 0 -%>
+        $<%= f.text_field :account_balance_payment, :value => number_with_precision(@order.account_balance_payment, 2) %>
+        <%- else -%>
+        $<%= f.text_field :account_balance_payment, :value => number_with_precision(@order.account_balance_payment, 2), :disabled => "disabled", :style => 'background-color:#DDD;' %>
+        <%- end -%>
+      </li>
+      <li class="odd">
+        <label>Put on My Credit Card:</label> 
+        $<%= f.text_field :credit_card_payment, :value => number_with_precision(@order.credit_card_payment, 2) %>
+      </li>
       <li style="display:none;" id="paymentrequiredfield"><label>Payment still required:</label> $<%= text_field_tag :payment_required, number_to_currency(@order.total), :style => 'border:0;', :disabled => "disabled" %></li>
       <li style="display:none;" id="totalfield"><label>Total Paid:</label> $<%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :disabled => "disabled" %></li>
     </ol>

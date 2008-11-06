@@ -40,15 +40,20 @@ module OrderHelper
     ############
     # THE GIFT_CARD_PAYMENT AND CREDIT_CARD_PAYMENT SHOULD ONLY BE SET IF THEY'RE NOT ALREADY...
     # set the gift card payment
-    if !@order.gift_card_payment? && session[:gift_card_balance] && session[:gift_card_balance] > 0
-      @order.gift_card_payment = 
-        @order.total && session[:gift_card_balance] > @order.total ? 
-        @order.total : 
-        session[:gift_card_balance]
-    end
-    # set the credit card payment
-    unless logged_in? && current_user.balance > 0
-      @order.credit_card_payment = @order.gift_card_payment? ? @order.total - @order.gift_card_payment : @order.total
+    unless @order.total_payments == @order.total
+      if session[:gift_card_balance] && session[:gift_card_balance] > 0 && !@order.gift_card_payment?
+        @order.gift_card_payment = 
+          @order.total && session[:gift_card_balance] > @order.total ? 
+          @order.total : 
+          session[:gift_card_balance]
+      end
+      # set the credit card payment
+      unless @order.credit_card_payment?
+        unless logged_in? && current_user.balance > 0
+          @order.credit_card_payment = @order.gift_card_payment? ? @order.total - @order.gift_card_payment : @order.total
+          @order.credit_card_payment = 0 if @order.credit_card_payment? && @order.credit_card_payment < 0 
+        end
+      end
     end
     @order
   end

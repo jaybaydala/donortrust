@@ -82,7 +82,7 @@
       <li><%= link_to "Find a project to donate to", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :find => 1) %></li>
       <% if Project.unallocated_project %><li><%= link_to "Let ChristmasFuture figure it out", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :unallocated_gift => 1) %></li><% end %>
       <li><%= link_to "Deposit it into my account", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :deposit => 1) %></li>
-      <% if Project.admin_project %><li><%= link_to "Donate it to the ChristmasFuture Operational Funds project", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :donate => 1) %></li><% end %>
+      <% if Project.admin_project %><li><%= link_to "Donate it to ChristmasFuture's Operational budget", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :admin_gift => 1) %></li><% end %>
     </ul>
   </div>
 

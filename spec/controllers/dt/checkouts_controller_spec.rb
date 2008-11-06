@@ -611,16 +611,16 @@ describe Dt::CheckoutsController do
           controller.should_receive(:before_billing)
           do_request
         end
-        it "should grab the first gift and prepopulate the email address" do
-          first_name, last_name = @gift.name.to_s.split(/ /, 2)
-          @order.should_receive(:email?).and_return(false)
-          @order.should_receive(:email=).with(@gift.email).and_return(true)
-          @order.should_receive(:first_name?).and_return(false)
-          @order.should_receive(:first_name=).with(first_name).and_return(true)
-          @order.should_receive(:last_name?).and_return(false)
-          @order.should_receive(:last_name=).with(last_name).and_return(true)
-          do_request
-        end
+        # it "should grab the first gift and prepopulate the email address" do
+        #   first_name, last_name = @gift.name.to_s.split(/ /, 2)
+        #   @order.should_receive(:email?).and_return(false)
+        #   @order.should_receive(:email=).with(@gift.email).and_return(true)
+        #   @order.should_receive(:first_name?).and_return(false)
+        #   @order.should_receive(:first_name=).with(first_name).and_return(true)
+        #   @order.should_receive(:last_name?).and_return(false)
+        #   @order.should_receive(:last_name=).with(last_name).and_return(true)
+        #   do_request
+        # end
       end
     end
 

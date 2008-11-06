@@ -2,7 +2,7 @@ require 'order_helper'
 class Dt::CheckoutsController < DtApplicationController
   helper "dt/places"
   include OrderHelper
-  before_filter :unallocated_gift, :only => :create
+  before_filter :directed_gift, :only => :create
   before_filter :cart_empty?, :except => :show
   helper_method :current_step
   helper_method :next_step
@@ -28,24 +28,24 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(edit_dt_checkout_path) and return if find_order
     @order = initialize_new_order
     paginate_cart
-    unless params[:unallocated_gift].nil?
+    if !params[:unallocated_gift].nil? && !params[:admin_gift].nil?
       gift = Gift.find(session[:gift_card_id])
-      @order.email = gift.to_email
-      unless gift.to_name.nil?
-        to_name = gift.to_name.split(' ')
-        @order.first_name = to_name[0]
-        @order.last_name = to_name[1]
-      end
+      # @order.email = gift.to_email
+      # unless gift.to_name.nil?
+      #   to_name = gift.to_name.split(' ')
+      #   @order.first_name = to_name[0]
+      #   @order.last_name = to_name[1]
+      # end
     end
     @valid = validate_order
-    do_action if params[:unallocated_gift].nil?
+    do_action if params[:unallocated_gift].nil? && params[:admin_gift].nil?
     @saved = @order.save if @valid
     # save our order_id in the session
     session[:order_id] = @order.id if @saved
     respond_to do |format|
       format.html { 
         if @saved
-          redirect_to edit_dt_checkout_path(:step => "confirm") and return if params[:unallocated_gift]
+          redirect_to edit_dt_checkout_path(:step => "confirm") and return if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
           redirect_to edit_dt_checkout_path(:step => next_step) and return
         end
         render :action => "new"
@@ -192,13 +192,13 @@ class Dt::CheckoutsController < DtApplicationController
 
   def before_billing
     # load the info from the first gift into the billing fields
-    gift = @cart.gifts.first if @cart.gifts.size > 0
-    if gift
-      @order.email = gift.email unless @order.email?
-      first_name, last_name = gift.name.to_s.split(/ /, 2)
-      @order.first_name = first_name unless @order.first_name?
-      @order.last_name = last_name unless @order.last_name?
-    end
+    # gift = @cart.gifts.first if @cart.gifts.size > 0
+    # if gift
+    #   @order.email = gift.email unless @order.email?
+    #   first_name, last_name = gift.name.to_s.split(/ /, 2)
+    #   @order.first_name = first_name unless @order.first_name?
+    #   @order.last_name = last_name unless @order.last_name?
+    # end
   end
   
   def do_support
@@ -318,16 +318,21 @@ class Dt::CheckoutsController < DtApplicationController
     true
   end
   
-  def unallocated_gift
-    return true if params[:unallocated_gift].nil?
+  def directed_gift
+    return true if params[:unallocated_gift].nil? && params[:admin_gift].nil?
     @cart = find_cart
-    if @cart.items.find {|item| item.class == Investment && item.project == Project.unallocated_project && item.amount == Gift.find(session[:gift_card_id]).balance}
+    if params[:unallocated_gift] == "1"
+      project = Project.unallocated_project
+    elsif params[:admin_gift] == "1"
+      project = Project.admin_project
+    end
+    if @cart.items.find {|item| item.class == Investment && item.project == project && item.amount == Gift.find(session[:gift_card_id]).balance}
       return true unless find_order
       redirect_to edit_dt_checkout_path(:step => "confirm") and return false
     end
     @investment = Investment.new( params[:investment])
     @investment.amount = Gift.find(session[:gift_card_id]).balance
-    @investment.project = Project.unallocated_project
+    @investment.project = project
     @investment.user = current_user if logged_in?
     @investment.user_ip_addr = request.remote_ip
 
@@ -339,7 +344,7 @@ class Dt::CheckoutsController < DtApplicationController
       flash.now[:error] = "There was a problem adding the Investment to your cart. Please review your information and try again."
     end
   end
-  
+
   protected
   def paginate_cart
     @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)

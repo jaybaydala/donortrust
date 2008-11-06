@@ -79,10 +79,10 @@ class Order < ActiveRecord::Base
   def validate_billing(cart_items)
     if tax_receipt_needed?
       required_fields = %w(donor_type first_name last_name address city postal_code province country email)
-    else
-      required_fields = %w(email)
+      errors.add_on_blank(required_fields)
+    # else
+    #   required_fields = %w(email)
     end
-    errors.add_on_blank(required_fields)
     errors.add_on_blank(:company) if self.donor_type? && self.donor_type == self.class.corporate_donor
     if self.email? && !errors.on(:email)
       errors.add(:email, "isn't a valid email address") unless self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
@@ -110,6 +110,9 @@ class Order < ActiveRecord::Base
     errors.add_to_base("Please ensure you're paying the full amount.") if total_payments < total
     errors.add_to_base("You only need to pay the cart total.") if total_payments > total
     errors.add_to_base("You must pay at least #{number_to_currency(minimum_credit_payment(cart_items))} from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
+    errors.add(:gift_card_payment, "must be a positive number") if self.gift_card_payment? && self.gift_card_payment < 0
+    errors.add(:account_balance_payment, "must be a positive number") if self.account_balance_payment? && self.account_balance_payment < 0
+    errors.add(:credit_card_payment, "must be a positive number") if self.credit_card_payment? && self.credit_card_payment < 0
     errors.empty?
   end
 
@@ -215,6 +218,7 @@ class Order < ActiveRecord::Base
         :last_name => last_name,
         :email => gift.to_email,
         :total => gift.amount,
+        :order_number => Order.generate_order_number,
         :gift_card_payment => gift.amount,
         :gift_card_payment_id => gift.id,
         :complete => true
@@ -241,18 +245,19 @@ class Order < ActiveRecord::Base
     return random
   end
   
-  protected
-  def credit_payments
-    total = BigDecimal.new("0")
-    total += credit_card_payment if credit_card_payment?
-    total += gift_card_payment if gift_card_payment?
-    total
-  end
   def total_payments
     total = BigDecimal.new("0")
     total += credit_card_payment if credit_card_payment?
     total += gift_card_payment if gift_card_payment?
     total += account_balance_payment if account_balance_payment?
+    total
+  end
+
+  protected
+  def credit_payments
+    total = BigDecimal.new("0")
+    total += credit_card_payment if credit_card_payment?
+    total += gift_card_payment if gift_card_payment?
     total
   end
   

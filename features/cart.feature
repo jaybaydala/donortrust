@@ -5,7 +5,7 @@ Feature: A User adds items to their Cart
 
   Scenario: Adding a gift
     Given I am on the new gift page
-    When I fill in "Gift Amount" with "20"
+    When I fill in "Gift Amount for each recipient" with "20"
     And I fill in "gift_email" with "test1@example.com"
     And I fill in "gift_email_confirmation" with "test1@example.com"
     And I fill in "gift_to_email" with "test2@example.com"
@@ -20,7 +20,7 @@ Feature: A User adds items to their Cart
   Scenario: Adding another gift
     Given the Cart holds an Existing Gift of $20
     And I am on the new gift page
-    When I fill in "Gift Amount" with "25"
+    When I fill in "Gift Amount for each recipient" with "25"
     And I fill in "gift_email" with "test1@example.com"
     And I fill in "gift_email_confirmation" with "test1@example.com"
     And I fill in "gift_to_email" with "test2@example.com"

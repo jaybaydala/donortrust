@@ -65,12 +65,12 @@ Then /there should be a cookie with the Gift Card id/ do
   request.cookies["gift_card_id"].first.should == @gift.id.to_s
 end
 
-Then /the "([^\"]+)" should be "([^\"]+)"/ do |label, text|
-  field = Inflector.underscore(label.gsub(/ /, ""))
-  order = Order.last
-  order.read_attribute(field.to_sym).should == text
-  # response.should have_tag("#orderform fieldset li", "#{label} #{text}") do |t|
-  #   t.should have_tag("label", label)
-  # end
-end
+# Then /the "([^\"]+)" should be "([^\"]+)"/ do |label, text|
+#   field = Inflector.underscore(label.gsub(/ /, ""))
+#   order = Order.last
+#   order.read_attribute(field.to_sym).should == text
+#   # response.should have_tag("#orderform fieldset li", "#{label} #{text}") do |t|
+#   #   t.should have_tag("label", label)
+#   # end
+# end
 

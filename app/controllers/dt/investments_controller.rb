@@ -19,6 +19,9 @@ class Dt::InvestmentsController < DtApplicationController
         if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:unallocated_gift] && !params[:unallocated_gift].empty?
           render :action => 'confirm_unallocated_gift' and return 
         end
+        if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:admin_gift] && !params[:admin_gift].empty?
+          render :action => 'confirm_admin_gift' and return 
+        end
         if @project && @project != Project.unallocated_project && !@project.fundable?
           flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
           redirect_to dt_project_path(@project) and return

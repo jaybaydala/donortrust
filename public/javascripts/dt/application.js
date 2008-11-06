@@ -6,6 +6,7 @@ Event.observe(window, 'load', function() {
 		});
 	}
 
+	/*
 	ua=navigator.userAgent.toLowerCase();
 	ie = document.all && ua.search(/msie/i) != -1 ? true : false;
 	old_ie = ie && ua.search(/msie [0-6]/i) != -1 ? true : false;
@@ -18,6 +19,7 @@ Event.observe(window, 'load', function() {
 			});
 		}
 	}
+	*/
 	if (notices = $$('div.notice')) {
 		notices.each(function(s) {
 			new Effect.Highlight(s,{delay:2,duration:1,startcolor:'#FFFFDD',endcolor:'#FFFFFF',restorecolor:'#FFFFFF'})

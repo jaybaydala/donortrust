@@ -17,7 +17,7 @@ Feature: Opening a Gift
     And I should see "find a project to donate to"
     And I should see "let ChristmasFuture figure it out"
     And I should see "Deposit it into my account"
-    And I should see "Donate it to the ChristmasFuture Operational Funds project"
+    And I should see "Donate it to ChristmasFuture's Operational budget"
     And I should see "Note: if you choose to do nothing, your gift will expire"
 
   Scenario: Choosing a gift option
@@ -42,8 +42,14 @@ Feature: Opening a Gift
     When I follow "let ChristmasFuture figure it out"
     And I press "Confirm"
     Then I should be on the confirmation step of the checkout process
-    And the "first_name" should be "To"
-    And the "last_name" should be "Name"
-    And the "email" should be "to_email@example.com"
+    And the Investment should appear in the Cart
+    And the Cart Total should be $50.00
+
+  Scenario: Donate it to ChristmasFuture's Operational budget
+    Given I have received a gift for $50
+    And I open the gift
+    When I follow "Donate it to ChristmasFuture's Operational budget"
+    And I press "Confirm"
+    Then I should be on the confirmation step of the checkout process
     And the Investment should appear in the Cart
     And the Cart Total should be $50.00

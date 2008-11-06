@@ -68,6 +68,8 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def create
+    @gift = Gift.new( params[:gift] )
+    @gift.user_ip_addr = request.remote_ip
     if params[:recipients] && !params[:recipients].empty?
       @gifts = []
       @errors = []
@@ -75,11 +77,10 @@ class Dt::GiftsController < DtApplicationController
       email_parser.parse_list
       if email_parser.errors.empty?
         email_parser.emails.each do |email|
-          gift = Gift.new( gift_params )
+          gift = @gift.clone
           gift.to_name = email.name
           gift.to_email = email.address
           gift.to_email_confirmation = email.address
-          gift.user_ip_addr = request.remote_ip
           @errors << gift unless gift.valid?
           @gifts << gift
         end
@@ -92,8 +93,8 @@ class Dt::GiftsController < DtApplicationController
           flash[:notice] = "Your Gifts have been added to your cart."
           format.html { redirect_to dt_cart_path }
         else
-          @gift = @gifts.first
-          @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong>") unless email_parser.errors.empty?
+          @gift = @gifts.first unless @gifts.empty?
+          @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong><br /><strong>Please Note:</strong> the list must be separated by commas") unless email_parser.errors.empty?
           @project = @gift.project if @gift.project_id? && @gift.project
           load_ecards
           format.html { render :action => "new" }
@@ -101,8 +102,6 @@ class Dt::GiftsController < DtApplicationController
       end
     else
       begin
-        @gift = Gift.new( params[:gift] )
-        @gift.user_ip_addr = request.remote_ip
         @valid = @gift.valid?
       rescue ActiveRecord::MultiparameterAssignmentErrors
         fix_date_params!
@@ -196,7 +195,7 @@ class Dt::GiftsController < DtApplicationController
             redirect_to dt_projects_path and return if params[:find] == "1"
             redirect_to new_dt_investment_path(:unallocated_gift => 1) and return if params[:unallocated_gift] == "1"
             redirect_to new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) and return if params[:deposit] == "1"
-            redirect_to new_dt_investment_path(:investment => {:amount => number_to_currency(@gift.balance), :project_id => Project.admin_project.id }) and return if params[:donate] == "1"
+            redirect_to new_dt_investment_path(:admin_gift => 1) and return if params[:admin_gift] == "1"
           end
         elsif session[:gift_card_id]
           @gift = Gift.find(session[:gift_card_id])
@@ -209,17 +208,19 @@ class Dt::GiftsController < DtApplicationController
   
   def unwrap
     @gift = Gift.validate_pickup(params[:code], params[:id])
-    redirect_to :action => 'open' and return if !@gift
+    unless @gift
+      flash[:notice] = "We could not find that gift"
+      redirect_to :action => 'open' and return
+    end
     respond_to do |format|
       order = Order.find_by_gift_card_payment_id(@gift.id)
+      order = Order.create_order_with_investment_from_project_gift(@gift) unless order
       if order
         order.update_attributes(:user => current_user)
         order.investments.each do |i|
           i.update_attributes(:user => current_user)
         end
         flash[:notice] = "The project investment has been associated to your account."
-      else
-        flash[:notice] = "We could not find the associated investment"
       end
       format.html { redirect_to open_dt_gifts_path(:code => @gift.pickup_code) }
     end

@@ -1,7 +1,7 @@
 <div class="gift">
   <h5><strong>Gift: <%= line_item.project_id? ? "Project" : "Gift Card" %></strong></h5>
   <div style="float:right;"><%= button_to_function "Preview", "window.open('#{preview_dt_gifts_path(:gift => line_item.attributes.merge({:preview => 1}))}', 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %></div>
-  <p><strong>To:</strong> <%=h line_item.to_name %> &lt;<%=h line_item.to_email %>&gt;
+  <p><strong>To:</strong> <a href="mailto:<%=h line_item.to_email %>"><%=h(line_item.to_name || line_item.to_email.sub(/@.*/, '')) %></a>
   </p>
 
   <% if line_item.project_id? && line_item.project %>

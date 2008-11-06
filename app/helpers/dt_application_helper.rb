@@ -1,4 +1,9 @@
 module DtApplicationHelper
+  def ssl_protocol
+    return 'https://' if ENV['RAILS_ENV'] == 'production'
+    'http://'
+  end
+  
   def dt_head
     render 'dt/shared/head'
   end

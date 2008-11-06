@@ -17,10 +17,10 @@
 <div class="userform">
   <h2>Your Gift Information</h2>
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
-  
   <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
     <p style="margin:0;">If you have <strong>several similar gifts</strong> to give, don't forget to <strong>check out our Bulk giving</strong> below!</p>
   </div>
+
 
   <fieldset>
     <legend>Choose a Gift Type</legend>
@@ -50,10 +50,6 @@
       <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
         <p style="margin:0;">If you have more than one gift to give, <strong><%= link_to "try our bulk giving", "javascript:void(0);", :onclick => "$('individual').toggle();$('bulk').toggle();" %></strong>!</p>
       </div>
-      <div class="notes clearfix">
-        <h5>Recipient Information</h5>
-        <p>His/her name, as you would like it to appear on the ecard.</p>
-      </div>
       <ol>
         <li><label for="gift_to_name">Name</label> <%= f.text_field :to_name %></li>
         <li><label for="gift_to_email"><em>*</em> Email</label> <%= f.text_field :to_email %></li>
@@ -73,7 +69,7 @@
     <legend>3. Gift Details</legend>
     <ol class="clearfix">
       <li>
-        <label for="gift_amount">Gift Amount</label> $<%= f.text_field :amount %>
+        <label for="gift_amount">Gift Amount <br />for each recipient</label> $<%= f.text_field :amount %>
         <div class="note" style="padding-left:.5em;">Example: $100</div>
       </li>
       <li>
@@ -103,7 +99,7 @@
       <li>
         <div id="ecardPreview" style="display:none;" class="clearfix">
           <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
-          <%= button_to_function "<span>Preview your ecard &raquo;</span>", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
+          <%= button_to_function "Preview your ecard &raquo;", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
         </div>
       </li>
       <li>
