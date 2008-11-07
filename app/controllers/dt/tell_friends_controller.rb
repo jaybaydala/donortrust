@@ -1,3 +1,4 @@
+require 'lib/email_parser'
 class Dt::TellFriendsController < DtApplicationController
   before_filter :login_required, :only => :show
   include EmailParser
