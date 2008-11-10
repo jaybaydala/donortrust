@@ -15,7 +15,7 @@ set :rails_env, "production"
 role :app, "slice2.christmasfuture.org"
 role :admin, "slice2.christmasfuture.org"
 role :web, "slice.christmasfuture.org"
-role :db,  "slice.christmasfuture.org", :primary => true
+role :db,  "slice2.christmasfuture.org", :primary => true
 role :schedule,  "slice2.christmasfuture.org"
 
 namespace :deploy do
