@@ -58,7 +58,7 @@ namespace :deploy do
   task :copy_iats_config do
     set :iats_conf, "#{current_path}/config/iats.yml"
     sudo "cp #{shared_path}/system/iats.yml #{iats_conf}"
-    sudo "chmod a+r #{iats_conf}"
+    sudo "chown #{user}:#{group} #{iats_conf} && chmod a+r #{iats_conf}"
   end
   
   desc <<-DESC

@@ -11,6 +11,7 @@ set :mongrel_clean, true
 set :stage, "production"
 set :deploy_to, "/home/dtrust/#{application}"
 set :user, "dtrust"
+set :group, "dtrust"
 set :rails_env, "production"
 role :app, "slice2.christmasfuture.org"
 role :admin, "slice2.christmasfuture.org"
