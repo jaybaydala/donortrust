@@ -24,8 +24,8 @@ namespace :deploy do
   
   # donortrust hooks
   task :before_update do
-    asset_folder_fix
     copy_iats_config
+    asset_folder_fix
   end
   task :after_start do
     start_admin
@@ -65,7 +65,7 @@ namespace :deploy do
   Start the Backgroundrb daemon on the schedule server.
   DESC
   task :start_backgroundrb , :roles => :schedule do
-    cmd = "rm #{shared_path}/pids/backgroundrb*.pid"
+    cmd = "rm -f #{shared_path}/pids/backgroundrb*.pid"
     send(run_method, cmd)
     cmd = "#{current_path}/script/backgroundrb start"
     send(run_method, cmd)
