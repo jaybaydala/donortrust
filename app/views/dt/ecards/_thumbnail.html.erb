@@ -14,7 +14,7 @@
     end
   end
   -%>
-  <% if thumbnail_counter == 1 %>ecards = new Hash();<% end %>ecards.set(<%= thumbnail.id %>, <%= ecard_for_js.to_json %>);
+  <% if thumbnail_counter == 0 %>ecards = new Hash();<% end %>ecards.set(<%= thumbnail.id %>, <%= ecard_for_js.to_json %>);
   -->
   </script>
 </li>

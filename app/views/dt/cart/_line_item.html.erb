@@ -1,6 +1,6 @@
 <% 
 odd_or_even = line_item_counter % 2 == 0 ? 'even' : 'odd'
-@line_item_counter_from_0 = line_item_counter - 1
+@line_item_counter_from_0 = line_item_counter
 case line_item.class.to_s
 when "Gift"
   partial_name = "gift"
