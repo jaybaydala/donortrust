@@ -92,9 +92,10 @@ ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:dt_defaul
 
 require 'deliver_to_admins_only'
 
-MY_KEY='dce9d80477ea833b9dd029bc5f0eceea'
 class Flickr
-  def initialize_with_key(api_key=MY_KEY, email=nil, password=nil)
+  DT_KEY = "dce9d80477ea833b9dd029bc5f0eceea"
+  def initialize_with_key(api_key=nil, email=nil, password=nil)
+    api_key = Flickr::DT_KEY if api_key.nil?
     initialize_without_key(api_key, email, password)
     @host="http://api.flickr.com"
     @activity_file='flickr_activity_cache.xml'
@@ -102,10 +103,11 @@ class Flickr
   alias_method_chain :initialize, :key
 end
 
-YOU_TUBE_KEY = 'BayCH1FukEw'
 class RubyTube
-  def initialize_with_key(you_tube_key=YOU_TUBE_KEY)
-    initialize_without_key(you_tube_key)
+  DT_KEY =  "BayCH1FukEw"
+  def initialize_with_key(api_key)
+    api_key = RubyTube::DT_KEY if api_key.nil?
+    initialize_without_key(api_key)
   end
   alias_method_chain :initialize, :key
 end
