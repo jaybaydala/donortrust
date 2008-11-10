@@ -75,8 +75,8 @@
 </div>
 
 <div class="checkoutbuttons clearfix">
-  <div class="buttonsubmit"><%= link_to "&laquo; Go Back a Step", edit_dt_checkout_path(:step => "payment"), :class => "large" %></div>
-  <%= submit_tag 'Proceed to Step 4 &raquo;', :class => 'buttonsubmit' %>
+  <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "payment") %>
+  <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_4.png", :alt => 'Proceed to Step 4' %>
 </div>
 <% end %>
 
