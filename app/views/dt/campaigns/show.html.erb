@@ -8,7 +8,7 @@
 <% end %>
 
 <div id="campaign_details">
-  <h1><%= @campaign.name %> <%= " (Awaiting approval)" unless not @campaign.pending? %></h1>
+  <h1><%= @campaign.name %> <%= " (Awaiting approval)" if @campaign.pending? %></h1>
   <div class="links">      
     <h5 style="margin-top:-0.5em;">Share this address:<%= "<br/>" if "www.christmasfuture.org/dt/#{@campaign.short_name}".length > 60 %>
     <%= "www.christmasfuture.org/dt/#{@campaign.short_name}" %></h5>
@@ -69,7 +69,8 @@
 <% if (@campaign.owned? || (current_user != :false && current_user.cf_admin?)) %>
   <div class="campaign-sidebar-box get-involved">
     <ul class="arrow">
-      <li><%= link_to('Manage Campaign',manage_dt_campaign_path(@campaign)) %></li>
+      <li><%= link_to('Approve Campaign', activate_dt_campaign_path(@campaign), :method => :post) %></li>
+      <li><%= link_to('Manage Campaign', manage_dt_campaign_path(@campaign)) %></li>
       <li><%= link_to('Edit Campaign Profile', edit_dt_campaign_path(@campaign)) %></li>
       <li><%= link_to('Post News to your Campaign', manage_dt_campaign_path(@campaign)+"#news") %></li>
     </ul>

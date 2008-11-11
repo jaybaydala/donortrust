@@ -19,7 +19,7 @@ class Dt::CampaignsController < DtApplicationController
     @campaign = Campaign.find(params[:id]) unless params[:id].blank?
     @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
     @campaign
-    raise ActiveRecord::RecordNotFound if @campaign.nil?
+    rescue_404 and return if @campaign.nil?
     @wall_post = @campaign.wall_posts.new
 
     #@participants = Participant.paginate_by_campaign_id @campaign.id, :page => params[:page]
@@ -152,7 +152,7 @@ class Dt::CampaignsController < DtApplicationController
     end
 
     [@pending_campaigns = Campaign.find_all_by_pending(true), @active_campaigns = Campaign.find_all_by_pending(false)]
-    render :layout => false
+    render :action => :activate
   end
 
   def manage
