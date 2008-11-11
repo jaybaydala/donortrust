@@ -19,12 +19,12 @@ role :db,  "slice.christmasfuture.org", :primary => true
 role :schedule,  "slice2.christmasfuture.org"
 
 namespace :deploy do
-  task :after_update_code, :roles => :app do
+  task :configure_backgroundrb, :roles => :app do
     run <<-CMD
       mv #{release_path}/config/backgroundrb.yml.staging #{release_path}/config/backgroundrb.yml
     CMD
   end
-  
+
   desc <<-DESC
   symlink the images, stylesheets and javascripts to current_path
   DESC

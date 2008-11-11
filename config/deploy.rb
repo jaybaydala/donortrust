@@ -23,10 +23,13 @@ namespace :deploy do
   task :restart,  :roles => :app do mongrel.cluster.restart end
   
   # donortrust hooks
-  task :before_update do
+  task :after_update_code do
     copy_iats_config
+    configure_backgroundrb
     asset_folder_fix
+    insert_google_stats
   end
+
   task :after_start do
     start_admin
     start_backgroundrb
@@ -40,13 +43,22 @@ namespace :deploy do
     restart_backgroundrb
   end
 
-  task :asset_folder_fix , :roles => :web do
-    # to be defined by multistage deployment files
+  task :copy_iats_config do
+    set :iats_conf, "#{latest_release}/config/iats.yml"
+    sudo "cp #{shared_path}/system/iats.yml #{iats_conf}"
+    sudo "chown #{user}:#{group} #{iats_conf} && chmod a+r #{iats_conf}"
   end
+  
   task :before_asset_folder_fix do
     # uploaded pictures
     uploaded_pictures_path = "#{latest_release}/public/images/uploaded_pictures"
     send(run_method, "rm -f #{uploaded_pictures_path} && ln -s #{shared_path}/system/uploaded_pictures #{uploaded_pictures_path}")
+  end
+  task :asset_folder_fix , :roles => :web do
+    # to be defined by multistage deployment files
+  end
+  task :insert_google_stats, :roles => :app do
+    # to be defined by multistage deployment files
   end
 
   task :setup_mongrel_cluster do
@@ -54,12 +66,6 @@ namespace :deploy do
     sudo "chown mongrel:www-data #{mongrel_conf}"
     sudo "chmod g+w #{mongrel_conf}"
   end 
-  
-  task :copy_iats_config do
-    set :iats_conf, "#{current_path}/config/iats.yml"
-    sudo "cp #{shared_path}/system/iats.yml #{iats_conf}"
-    sudo "chown #{user}:#{group} #{iats_conf} && chmod a+r #{iats_conf}"
-  end
   
   desc <<-DESC
   Start the Backgroundrb daemon on the schedule server.
@@ -107,7 +113,7 @@ end
 desc <<-DESC
 Check the status of all mongrel processes
 DESC
-task :status,  :roles => :app do status_mongrel_cluster end
+task :status,  :roles => :app do mongrel.cluster.status end
 task :after_status , :roles => :admin do
   send(run_method, "#{mongrel_rails} cluster::status -C #{mongrel_admin_conf}")
 end

@@ -21,20 +21,20 @@ role :db,  "slice2.christmasfuture.org", :primary => true
 role :schedule,  "slice2.christmasfuture.org"
 
 namespace :deploy do
-  task :after_update_code, :roles => :app do
+  task :configure_backgroundrb, :roles => :app do
     run <<-CMD
       mv #{release_path}/config/backgroundrb.yml.production #{release_path}/config/backgroundrb.yml
     CMD
   end
 
-  task :after_symlink, :roles => :app do
+  task :insert_google_stats, :roles => :app do
     stats = <<-JS
       <script type="text/javascript">
       _uacct = "UA-832237-2";
       urchinTracker();
       </script>
     JS
-    layout = "#{current_path}/app/views/layouts/dt_application.html.erb" 
+    layout = "#{latest_release}/app/views/layouts/dt_application.html.erb" 
     run "sed -i 's?<!--googlestats-->?#{stats}?' #{layout}" 
   end
 
