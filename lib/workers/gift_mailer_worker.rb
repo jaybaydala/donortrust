@@ -20,6 +20,6 @@ class GiftMailerWorker < BackgrounDRb::MetaWorker
   end
 
   def find_records(send_at_time = Time.now.utc)
-    Gift.find(:all, :conditions=>['sent_at is null AND send_at <= ?', send_at_time.to_s(:db)])
+    Gift.find(:all, :conditions=>['send_email = ? AND (send_at <= ? OR send_at IS NULL) AND sent_at IS NULL', true, send_at_time.to_s(:db)])
   end
 end
