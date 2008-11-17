@@ -77,14 +77,14 @@
 			</li>
 
 			<li>
-				<label class="title">
+				<label for="project_causes" class="title">
 					Causes
-					<small>Select causes of the selected sectors that this projects relates to</small>
+					<small>Select causes of the selected sectors that this projects relates to. Hold the CTRL key for multiple selections.</small>
 				</label>
 
-				<div class="group" id="project_causes_form">
-					<%= render :partial => 'cause_form', :collection => get_causes(@project), :locals => {:project => @project} %>
-				</div>
+				<% # This code taken from http://www.cornetdesign.com/2008/02/multiselect-control-in-rails-with-many.html %>
+				<%= select_tag("project[cause_ids][]", options_for_select(Cause.find(:all).collect { |cau| [cau.name, cau.id] }, @project.causes.collect { |cau| cau.id}), {:multiple=>true, :size=>6})%>
+
 			</li>
 
 
