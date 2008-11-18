@@ -198,8 +198,6 @@ class Dt::ProjectsController < DtApplicationController
 
   #populates the country select using the continent_id
   def add_countries
-
-
     projects = Project.find_public :all, :conditions => "continent_id=#{params[:continent_id]}"
     @countries = [[ 'All ...', '']]
     projects.each do |project|
@@ -277,7 +275,6 @@ class Dt::ProjectsController < DtApplicationController
   protected
 
   def apply_filters
-
     filters = Hash.new
     # partner
     if params[:partner_selected]
@@ -354,7 +351,7 @@ class Dt::ProjectsController < DtApplicationController
 
 
     # monkey patch to easily and quickly search for location
-    if !sel_projects.nil?
+    unless sel_projects.nil?
       ids = []
       sel_projects.each do |project|
         ids << project.id
@@ -364,13 +361,14 @@ class Dt::ProjectsController < DtApplicationController
     end
 
     # monkey patch to fix sector results
-    if !sel_projects_sector.nil?
+    unless sel_projects_sector.nil?
+pp sel_projects_sector.map{|p|p.id}
       ids = []
       sel_projects_sector.each do |project|
-        ids << project.created_at
+        ids << project.id
       end
 
-      filters.merge!(:created_at => ids )
+      filters.merge!(:project_id => ids )
     end
 
     return filters
