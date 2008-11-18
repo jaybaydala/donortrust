@@ -56,7 +56,7 @@
 <%- content_for :sidebar do -%>
 <div class="campaign-sidebar-box">
   <%= link_to(image_tag("/images/dt/buttons/join_this_event.png", :alt => "Join #{@campaign.name}", 
-      :title => "Join #{@campaign.name}", :class => "campaign_action_button"), join_options_dt_campaign_path(@campaign)) if !@campaign.has_participant(current_user) && !@campaign.pending %><br/>
+      :title => "Join #{@campaign.name}", :class => "campaign_action_button"), join_options_dt_campaign_path(@campaign)) if !@campaign.has_participant(current_user) && !@campaign.pending && @campaign.event_date.utc > Time.now.utc %><br/>
   <%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor a Participant", 
       :title => "Sponsor a Participant", :class => "campaign_action_button"), dt_campaign_participants_path(@campaign)) if !@campaign.pending %><br/>
   <div class="clearfix"></div>
