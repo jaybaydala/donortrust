@@ -13,7 +13,8 @@ class Participant < ActiveRecord::Base
   is_indexed :fields=> [
     {:field => 'short_name', :sortable => true},
     {:field => 'about_participant'}
-    ],
+    ], 
+    :delta => true, 
     :include => [
       {:association_name => 'user',
         :field => 'users.first_name',

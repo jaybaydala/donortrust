@@ -34,7 +34,8 @@ class Campaign < ActiveRecord::Base
       {:field => 'city'},
       {:field => 'province'},
       {:field => 'country'}
-    ],
+    ], 
+    :delta => true, 
     :include => [
           {:class_name => 'Team',
             :field => 'teams.name',

@@ -54,7 +54,8 @@ class Project < ActiveRecord::Base
     {:field => 'created_at'},
     {:field => 'continent_id'},
     {:field => 'country_id'},
-    ],
+    ], 
+    :delta => true, 
     :include => [
           {:class_name => 'Place',
             :field => 'places.name',
