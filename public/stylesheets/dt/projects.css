@@ -265,7 +265,7 @@ a.button-invitemembers, a.button-invitemembers span {
   display:block;
   float:left;
   width:104px;
-  height:24px;
+  height:23px;
   margin-bottom:.5em;
 }
 a.button-send_wishlist, a.button-send_wishlist span,
@@ -273,10 +273,11 @@ a.button-add_project, a.button-add_project span {
   width:124px;
 }
 a.button-return_to_cart, a.button-return_to_cart span {width:170px;}
-a.button-add_project_gift, a.button-add_project_gift span {width:150px;}
-a.button-give_project, a.button-give_project span {width:150px;}
-a.button-add_gift_card, a.button-add_gift_card span {width:140px;}
-a.button-add_deposit, a.button-add_deposit span {width:130px;}
+a.button-add_project_gift, a.button-add_project_gift span {width:141px;}
+a.button-give_project, a.button-give_project span {width:134px;}
+a.button-add_gift_card, a.button-add_gift_card span {width:134px;}
+a.button-add_deposit, a.button-add_deposit span {width:134px;}
+a.button-checkout, a.button-checkout span {width:86px;}
 
 a.button-invitemembers, a.button-invitemembers span{
   width:102px;
@@ -307,18 +308,21 @@ a.button-creategroup {background:url(/images/dt/nav_elements/buttonsCF/createGro
 a.button-creategroup:hover {background:url(/images/dt/nav_elements/buttonsCF/createGroup_blue.gif) no-repeat transparent;}
 a.button-deletegroup {background:url(/images/dt/nav_elements/buttonsCF/deleteGroup_grey.gif) no-repeat transparent;}
 a.button-deletegroup:hover {background:url(/images/dt/nav_elements/buttonsCF/deleteGroup_orange.gif) no-repeat transparent;}
-a.button-checkout {background:url(/images/dt/nav_elements/checkout_grey.gif) no-repeat transparent;}
-a.button-checkout:hover {background:url(/images/dt/nav_elements/checkout_blue.gif) no-repeat transparent;}
 a.button-return_to_cart {background:url(/images/dt/nav_elements/return_to_cart_grey.gif) no-repeat transparent;}
 a.button-return_to_cart:hover {background:url(/images/dt/nav_elements/return_to_cart_blue.gif) no-repeat transparent;}
-a.button-add_gift_card {background:url(/images/dt/nav_elements/add_gift_card_grey.gif) no-repeat transparent;}
-a.button-add_gift_card:hover {background:url(/images/dt/nav_elements/add_gift_card_blue.gif) no-repeat transparent;}
-a.button-add_project_gift {background:url(/images/dt/nav_elements/add_project_gift_grey.gif) no-repeat transparent;}
-a.button-add_project_gift:hover {background:url(/images/dt/nav_elements/add_project_gift_blue.gif) no-repeat transparent;}
-a.button-give_project {background:url(/images/dt/nav_elements/give_to_a_project_grey.gif) no-repeat transparent;}
-a.button-give_project:hover {background:url(/images/dt/nav_elements/give_to_a_project_blue.gif) no-repeat transparent;}
-a.button-add_deposit {background:url(/images/dt/nav_elements/add_deposit_grey.gif) no-repeat transparent;}
-a.button-add_deposit:hover {background:url(/images/dt/nav_elements/add_deposit_blue.gif) no-repeat transparent;}
+
+/* CART */
+a.button-checkout {background:url(/images/dt/nav_elements/checkout.png) no-repeat transparent;}
+a.button-checkout:hover {background:url(/images/dt/nav_elements/checkout.png) no-repeat transparent;}
+a.button-add_gift_card {background:url(/images/dt/nav_elements/add_a_gift_card.png) no-repeat transparent;}
+a.button-add_gift_card:hover {background:url(/images/dt/nav_elements/add_a_gift_card.png) no-repeat transparent;}
+a.button-add_project_gift {background:url(/images/dt/nav_elements/add_a_project_gift.png) no-repeat transparent;}
+a.button-add_project_gift:hover {background:url(/images/dt/nav_elements/add_a_project_gift.png) no-repeat transparent;}
+a.button-give_project {background:url(/images/dt/nav_elements/give_to_a_project.png) no-repeat transparent;}
+a.button-give_project:hover {background:url(/images/dt/nav_elements/give_to_a_project.png) no-repeat transparent;}
+a.button-add_deposit {background:url(/images/dt/nav_elements/add_a_deposit.png) no-repeat transparent;}
+a.button-add_deposit:hover {background:url(/images/dt/nav_elements/add_a_deposit.png) no-repeat transparent;}
+
 a.button-send_wishlist {background:url(/images/dt/nav_elements/buttonsCF/sendWishlist_grey.gif) no-repeat transparent;}
 a.button-send_wishlist:hover {background:url(/images/dt/nav_elements/buttonsCF/sendWishlist_blue.gif) no-repeat transparent;}
 a.button-add_project {background:url(/images/dt/nav_elements/buttonsCF/addProjButton_grey.gif) no-repeat transparent;}

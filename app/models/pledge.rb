@@ -12,4 +12,10 @@ class Pledge < ActiveRecord::Base
   validates_numericality_of :amount
 
   after_create :user_transaction_create
+
+  # set the reader methods for the columns dealing with currency
+  # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
+  def amount
+    BigDecimal.new(read_attribute(:amount).to_s) unless read_attribute(:amount).nil?
+  end
 end

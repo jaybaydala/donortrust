@@ -19,6 +19,7 @@ class Cause < ActiveRecord::Base
     {:field => 'name', :sortable => true},
     {:field => 'sector_id'},
   ], 
+  :delta => true, 
   :conditions => "causes.deleted_at IS NULL"
   
   

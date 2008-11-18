@@ -29,7 +29,8 @@ class Place < ActiveRecord::Base
   is_indexed :fields => [
     {:field => 'name', :sortable => true},
     {:field => 'parent_id', :as => 'continent'}
-    ]
+    ], 
+    :delta => true
 
   
   def Place.getParentString(place)

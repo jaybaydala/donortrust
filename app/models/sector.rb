@@ -15,7 +15,8 @@ class Sector < ActiveRecord::Base
   is_indexed :fields => [
     {:field => 'id', :as => 'sector_id'},
     {:field => 'name', :sortable => true}
-  ],
+  ], 
+  :delta => true, 
   :include => [
       {
         :class_name => 'Project',

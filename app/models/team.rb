@@ -18,7 +18,8 @@ class Team < ActiveRecord::Base
       {:field => 'short_name', :sortable => true},
       {:field => 'description'},
       {:field => 'name', :sortable => true}
-    ],
+    ], 
+    :delta => true, 
     :conditions => "teams.generic=0 AND teams.pending=0"
 
 
