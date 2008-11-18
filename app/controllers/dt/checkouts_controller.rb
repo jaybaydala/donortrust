@@ -261,7 +261,7 @@ class Dt::CheckoutsController < DtApplicationController
         transaction_successful = @order.credit_card_payment? ? @order.run_transaction : true
         if transaction_successful
           # auto-push the send_at dates into the future, wherever necessary, to avoid silly validation errors
-          @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now))}
+          @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now)) }
           # save the cart items into the db via the association
           @cart.pledges.each{|pledge| pledge.update_attributes(:paid => true)}
           @order.gifts = @cart.gifts

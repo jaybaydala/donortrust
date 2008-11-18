@@ -657,32 +657,46 @@ describe Dt::CheckoutsController do
         it "should update the send_now on any stale gifts (with send_at values in the past)" do
           now = Time.now
           Time.stub!(:now).and_return(now)
-          @gift1 = mock_model(Gift, :send_at? => true, :send_at => 15.minutes.ago)
-          @gift2 = mock_model(Gift, :send_at? => true, :send_at => 3.seconds.from_now)
-          @gift3 = mock_model(Gift, :send_at? => false)
-          @cart.stub!(:gifts).and_return([@gift1, @gift2, @gift3])
-          @gift1.should_receive(:send_at=).with(Time.now + 1.minute)
-          @gift2.should_receive(:send_at=).never
-          @gift3.should_receive(:send_at=).never
+          @gift = Gift.generate!(:send_email => true)
+          @gift.stub!(:send_at).and_return(Time.now - 15.minutes)
+          @cart.stub!(:gifts).and_return([@gift])
+          @gift.should_receive(:send_at=).with(Time.now + 1.minute)
+          do_request
+        end
+        it "should not update the send_now on any non-stale gifts (with send_at values in the future)" do
+          now = Time.now
+          Time.stub!(:now).and_return(now)
+          @gift = Gift.generate!(:send_email => true)
+          @gift.stub!(:send_at).and_return(Time.now + 3.seconds)
+          @cart.stub!(:gifts).and_return([@gift])
+          @gift.should_receive(:send_at=).never
+          do_request
+        end
+        it "should not update the send_now on any gifts that aren't being sent (send_email = false)" do
+          now = Time.now
+          Time.stub!(:now).and_return(now)
+          @gift = Gift.generate!(:send_email => false)
+          @cart.stub!(:gifts).and_return([@gift])
+          @gift.should_receive(:send_at=).never
           do_request
         end
         it "should save the gifts from the cart into the db" do
-          @gift1 = mock_model(Gift, :send_at? => false)
-          @gift2 = mock_model(Gift, :send_at? => false)
+          @gift1 = Gift.generate!
+          @gift2 = Gift.generate!
           @cart.should_receive(:gifts).twice.and_return([@gift1, @gift2])
           @order.should_receive(:gifts=).with([@gift1, @gift2])
           do_request
         end
         it "should save the investments from the cart into the db" do
-          @investment1 = mock_model(Investment)
-          @investment2 = mock_model(Investment)
+          @investment1 = Investment.generate!
+          @investment2 = Investment.generate!
           @cart.should_receive(:investments).and_return([@investment1, @investment2])
           @order.should_receive(:investments=).with([@investment1, @investment2])
           do_request
         end
         it "should save the deposits from the cart into the db" do
-          @deposit1 = mock_model(Investment)
-          @deposit2 = mock_model(Investment)
+          @deposit1 = Deposit.generate!
+          @deposit2 = Deposit.generate!
           @cart.should_receive(:deposits).and_return([@deposit1, @deposit2])
           @order.should_receive(:deposits=).with([@deposit1, @deposit2])
           do_request
