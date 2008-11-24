@@ -1,4 +1,5 @@
 class Dt::EmailUploadsController < DtApplicationController
+  include ActionView::Helpers::JavascriptHelper
   
   def new
     respond_to do |format|
@@ -11,16 +12,16 @@ class Dt::EmailUploadsController < DtApplicationController
     responds_to_parent do
       render :update do |page|
         if emails.empty?
-    
-          page << "$('uploadnotification').innerHTML = '<div class=\"notice\">Please add a file to upload!</div>'"
-          page << "$('uploadnotification').highlight()"
+          page << "$('uploadnotification').innerHTML = '<div class=\"notice\">Please add a file to upload!</div>';"
+          page << "$('uploadnotification').highlight();"
         else
-          page << "emails = ''"
-          page << "if($('recipients').value != '') emails += $('recipients').value + ', '"
-          page << "emails += '#{emails.join(',\n')}'"
-          page << "$('recipients').value=emails"
-          page << "$('uploadnotification').innerHTML = '<div class=\"notice\">Your file has been successfully uploaded!</div>'"
-          page << "$('uploadnotification').highlight()"
+          emails.collect!{|email| escape_javascript(email.to_s) }
+          page << "emails = '';"
+          page << "if($('recipients').value != '') emails += $('recipients').value + ', ';"
+          page << "emails += '#{emails.join(',\n')}';"
+          page << "$('recipients').value=emails;"
+          page << "$('uploadnotification').innerHTML = '<div class=\"notice\">Your file has been successfully uploaded!</div>';"
+          page << "$('uploadnotification').highlight();"
         end
       end
     end
