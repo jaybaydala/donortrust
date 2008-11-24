@@ -370,4 +370,11 @@ ActionController::Routing::Routes.draw do |map|
   # HPD these should not be used / exist when using 'full' RESTful structure
   #map.connect ':controller/:action/:id.:format'
   #map.connect ':controller/:action/:id'
+
+	# TODO: Is this the right way to route the iframe?
+	map.connect '/bus_admin/projects/embedded_budget_items/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_budget_items'
+	map.connect '/bus_admin/projects/embedded_milestones/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_milestones'
+	map.connect '/bus_admin/projects/embedded_key_measures/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_key_measures'
+	map.connect '/bus_admin/projects/embedded_you_tube_videos/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_you_tube_videos'
+	map.connect '/bus_admin/projects/embedded_flickr_images/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_flickr_images'
 end
