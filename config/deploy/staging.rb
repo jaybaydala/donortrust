@@ -7,15 +7,17 @@ set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}-staging.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}-staging_admin.yml"
 set :mongrel_clean, true
+set :mongrel_rails, "/opt/ruby-enterprise/bin/mongrel_rails"
 
 set :stage, "staging"
 set :deploy_to, "/home/dtrust/#{application}_staging"
 set :user, "dtrust"
+set :group, "dtrust"
 set :rails_env, "staging"
 role :app, "slice2.christmasfuture.org"
 role :admin, "slice2.christmasfuture.org"
 role :web, "slice.christmasfuture.org"
-role :db,  "slice.christmasfuture.org", :primary => true
+role :db,  "slice2.christmasfuture.org", :primary => true
 role :schedule,  "slice2.christmasfuture.org"
 
 namespace :deploy do
