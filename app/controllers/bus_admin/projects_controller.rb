@@ -631,38 +631,31 @@ class BusAdmin::ProjectsController < ApplicationController
     render :partial => "bus_admin/projects/place_form"
   end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_budget_items
-    session['project_id'] = params[:project_id]
-    @project = Project.find(params[:project_id])
-		render :layout => 'embedded'
+    render_embedded_item
 	end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_milestones
-    session['project_id'] = params[:project_id]
-    @project = Project.find(params[:project_id])
-		render :layout => 'embedded'
+    render_embedded_item
 	end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_key_measures
-    session['project_id'] = params[:project_id]
-    @project = Project.find(params[:project_id])
-		render :layout => 'embedded'
+    render_embedded_item
 	end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_you_tube_videos
-    session['project_id'] = params[:project_id]
-    @project = Project.find(params[:project_id])
-		render :layout => 'embedded'
+    render_embedded_item
 	end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_flickr_images
+    render_embedded_item
+	end
+
+  def render_embedded_item
     session['project_id'] = params[:project_id]
     @project = Project.find(params[:project_id])
 		render :layout => 'embedded'
-	end
+  end
+
+  
 end
