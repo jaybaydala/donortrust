@@ -67,6 +67,7 @@
 /* Home Page exceptions */
 body#home #pagetitle {
   text-indent:-9999px;
+  height:10px;
 }
 body#home #content-wrapper {
   /* the width and border/margin should equal the width of the container */
