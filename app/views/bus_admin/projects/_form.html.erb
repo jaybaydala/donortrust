@@ -203,7 +203,7 @@
 					<small>List other financial source that are helping to fund this project, and the amounts they are funding.</small>
 				</label>
 				<div class="embedded scaffold">
-					<%= render :active_scaffold => 'bus_admin/financial_sources', :constraints => { :project_id => @project.id, :partner_id => @project.partner_id } %>
+					<iframe src="/bus_admin/projects/embedded_financial_sources/<%= @project.id %>" width="100%"></iframe>					
 				</div>
 			</li>
 		</ul>

@@ -655,6 +655,10 @@ class BusAdmin::ProjectsController < ApplicationController
     render_embedded_item
 	end
 
+	def embedded_financial_sources
+    render_embedded_item
+	end
+
   protected
   def render_embedded_item
     session['project_id'] = params[:project_id]
