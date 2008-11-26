@@ -25,7 +25,8 @@ class Project < ActiveRecord::Base
   has_many :project_flickr_images, :dependent => :destroy
   has_many :financial_sources
   has_many :budget_items
-  has_many :collaborating_agencies
+  has_many :collaborating_agencies, :through => :collaborations
+  has_many :collaborations
   has_many :ranks
   has_many :investments
   has_many :gifts

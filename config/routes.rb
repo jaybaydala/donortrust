@@ -210,6 +210,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/users"
   map.resources :roles, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/roles"
   map.resources :administrations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/administrations"
+  map.resources :collaborations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborations"
   map.resources :permissions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/permissions"
   map.resources :authorized_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_actions"
   map.resources :authorized_controllers, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_controllers"
@@ -376,5 +377,6 @@ ActionController::Routing::Routes.draw do |map|
 	map.connect '/bus_admin/projects/embedded_milestones/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_milestones'
 	map.connect '/bus_admin/projects/embedded_key_measures/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_key_measures'
 	map.connect '/bus_admin/projects/embedded_you_tube_videos/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_you_tube_videos'
+	map.connect '/bus_admin/projects/embedded_collaborations/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_collaborations'
 	map.connect '/bus_admin/projects/embedded_flickr_images/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_flickr_images'
 end

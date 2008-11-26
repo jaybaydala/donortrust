@@ -194,7 +194,7 @@
 					<small>List all agencies you are working with as well as their responsibilities.</small>
 				</label>
 				<div class="embedded scaffold">
-					<%= render :active_scaffold => 'bus_admin/collaborating_agencies', :constraints => { :project_id => @project.id } %>
+					<iframe src="/bus_admin/projects/embedded_collaborations/<%= @project.id %>" width="100%"></iframe>					
 				</div>
 			</li>
 

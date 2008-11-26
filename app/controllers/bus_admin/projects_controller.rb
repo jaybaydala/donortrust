@@ -651,11 +651,15 @@ class BusAdmin::ProjectsController < ApplicationController
     render_embedded_item
 	end
 
+	def embedded_collaborations
+    render_embedded_item
+	end
+
+  protected
   def render_embedded_item
     session['project_id'] = params[:project_id]
     @project = Project.find(params[:project_id])
 		render :layout => 'embedded'
   end
-
   
 end

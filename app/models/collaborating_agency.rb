@@ -1,5 +1,9 @@
 class CollaboratingAgency < ActiveRecord::Base
-  belongs_to :project 
-  
-  validates_presence_of :agency_name, :responsibilities , :project
+  has_many :projects, :through => :collaborations
+  has_many :collaborations
+
+  # Make active scaffold use this column to represent the "name" of this collaborating agency
+  def to_label
+    "#{agency_name}"
+  end
 end
