@@ -1,2 +1,8 @@
-<% video = RubyTube.new.get_video(youtube_video.you_tube_id) %>
+<% 
+  yt = RubyTube.new("BayCH1FukEw") 
+  video = yt.get_video(youtube_video.you_tube_id)
+%>
+
 <%= video.embed.to_s %>
+
+<hr />
