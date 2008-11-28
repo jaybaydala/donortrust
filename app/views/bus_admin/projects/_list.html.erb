@@ -1,9 +1,14 @@
 <div id="featuredProjectList" class="active-scaffold">
   <div class="active-scaffold-header">
 	  <div class="actions">
-		<% unless current_user.administrated_partners.empty? -%>
+
 			<%= link_to "Create new", new_bus_admin_project_url %>
-		<% end -%>
+
+    <%# Commented this out for http://rubyforge.org/tracker/index.php?func=detail&aid=23011&group_id=2921&atid=11280 %>
+		<% #unless current_user.administrated_partners.empty? -%>
+			<%#= link_to "Create new", new_bus_admin_project_url %>
+		<%# end -%>
+
 		<% restrict_to "cf_admin" do -%>
       <%= link_to "Pending projects", '/bus_admin/pending_projects' %>
 		<% end -%>
