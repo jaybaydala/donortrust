@@ -330,7 +330,7 @@ ActionController::Routing::Routes.draw do |map|
   map.showProjectTimeline 'bus_admin/_showProjectTimeline', :controller => 'bus_admin/projects', :action => 'showProjectTimeline'
   map.stats 'bus_admin/stats', :controller => 'bus_admin/stats', :action => 'index'
 
-  map.auto_complete_for_place_name  'bus_admin/_auto_complete_for_place_name', :controller => 'bus_admin/projects', :action => 'auto_complete_for_place_name'
+  map.auto_complete_for_place_name  '/auto_complete_for_place_name', :controller => 'bus_admin/projects', :action => 'auto_complete_for_place_name'
   map.update_location 'bus_admin/_update_location', :controller => 'bus_admin/projects', :action => 'update_location'
   map.update_partner 'bus_admin/_update_partner', :controller => 'bus_admin/projects', :action => 'update_partner'
   map.update_sectors 'bus_admin/_update_sectors', :controller => 'bus_admin/projects', :action => 'update_sectors'
