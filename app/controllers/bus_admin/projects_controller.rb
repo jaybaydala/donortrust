@@ -106,7 +106,14 @@ class BusAdmin::ProjectsController < ApplicationController
           current_user.administrated_projects << @project
           raise Exception.new("Could not create the pending project.") unless @saved
         else
-          raise Exception.new("Could not create the project.")
+          # HACK! HACK! HACK!
+          # This is not the best way to fix the problem reported by Leif at 
+          # 2008-12-01 16:21 in bug #22820.
+          # If you create a new project that is valid except that 4 sectors are
+          # checked, the user is redirected back to the project creation screen 
+          # with a descriptive error (good) but the URL says 
+          # /bus_admin/projects/ (bad).
+          flash[:error] = "Project was NOT created"
         end
       end
 
