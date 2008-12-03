@@ -106,7 +106,14 @@ class BusAdmin::ProjectsController < ApplicationController
           current_user.administrated_projects << @project
           raise Exception.new("Could not create the pending project.") unless @saved
         else
-          raise Exception.new("Could not create the project.")
+          # HACK! HACK! HACK!
+          # This is not the best way to fix the problem reported by Leif at 
+          # 2008-12-01 16:21 in bug #22820.
+          # If you create a new project that is valid except that 4 sectors are
+          # checked, the user is redirected back to the project creation screen 
+          # with a descriptive error (good) but the URL says 
+          # /bus_admin/projects/ (bad).
+          flash[:error] = "Project was NOT created"
         end
       end
 
@@ -631,38 +638,39 @@ class BusAdmin::ProjectsController < ApplicationController
     render :partial => "bus_admin/projects/place_form"
   end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_budget_items
-    session['project_id'] = params[:project_id]
-    @project = Project.find(params[:project_id])
-		render :layout => 'embedded'
+    render_embedded_item
 	end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_milestones
-    session['project_id'] = params[:project_id]
-    @project = Project.find(params[:project_id])
-		render :layout => 'embedded'
+    render_embedded_item
 	end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_key_measures
-    session['project_id'] = params[:project_id]
-    @project = Project.find(params[:project_id])
-		render :layout => 'embedded'
+    render_embedded_item
 	end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_you_tube_videos
-    session['project_id'] = params[:project_id]
-    @project = Project.find(params[:project_id])
-		render :layout => 'embedded'
+    render_embedded_item
 	end
 
-	# TODO: Find a way to combine this with the other "embedded" methods
 	def embedded_flickr_images
+    render_embedded_item
+	end
+
+	def embedded_collaborations
+    render_embedded_item
+	end
+
+	def embedded_financial_sources
+    render_embedded_item
+	end
+
+  protected
+  def render_embedded_item
     session['project_id'] = params[:project_id]
     @project = Project.find(params[:project_id])
 		render :layout => 'embedded'
-	end
+  end
+  
 end

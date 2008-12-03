@@ -25,7 +25,8 @@ class Project < ActiveRecord::Base
   has_many :project_flickr_images, :dependent => :destroy
   has_many :financial_sources
   has_many :budget_items
-  has_many :collaborating_agencies
+  has_many :collaborating_agencies, :through => :collaborations
+  has_many :collaborations
   has_many :ranks
   has_many :investments
   has_many :gifts
@@ -111,6 +112,7 @@ class Project < ActiveRecord::Base
   end
 
   validates_presence_of :name
+  validate :max_number_of_sectors
   #validates_length_of   :name, :maximum => 50
 
 =begin
@@ -530,6 +532,11 @@ class Project < ActiveRecord::Base
                               :collaborating_agencies, :ranks, :investments, :key_measures,
                               :my_wishlists, :users, :groups, :sectors, :causes, :place,
                               :contact, :frequency_type, :partner, :program, :project_status]
+  end
+
+  private
+  def max_number_of_sectors
+    errors.add_to_base "A project can have a maximum of 3 sectors" if self.sectors.length > 3  
   end
 
 end

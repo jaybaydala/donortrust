@@ -136,6 +136,13 @@
 		</div>
 
 		<div id='project_videos' style='display:none;'>
+			<% if @youtube_videos.size > 0 %>
+				<h2>Project Videos</h2>
+				<%= will_paginate @youtube_videos, :param_name => 'youtube_page' %>
+				<%= render :partial => 'youtube_video', :collection => @youtube_videos %>
+			<% else %>
+				<h2>There are no videos available.</h2>
+			<% end %>
 		</div>
 	</div>
 </div>
