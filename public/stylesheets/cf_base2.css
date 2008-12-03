@@ -12,6 +12,10 @@ body {
   text-align: center; /* this is asking IE to centre the container ;) */
 }
 
+body.embedded_iframe {
+	text-align: left;
+}
+
 .style1 {
 	color: #a0a0a0;
 	font-size: 12px;
@@ -1449,3 +1453,6 @@ td .even:hover{
   color: #000;
 }
 
+div.scaffold iframe {
+	border: 0;
+}

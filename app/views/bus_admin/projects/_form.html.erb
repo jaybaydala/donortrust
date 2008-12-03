@@ -214,7 +214,7 @@
 					<small>Provide anticipated budget for entire project. Please ensure that the amount you are asking in funding and your itemized budget are the same number, unless you are receiving additional funding from outside sources. Please have all budget items in Canadian funds.</small>
 				</label>
 				<div class="embedded scaffold">
-					<%= render :active_scaffold => 'bus_admin/budget_items', :constraints => { :project_id => @project.id } %>
+					<iframe src="/bus_admin/projects/embedded_budget_items/<%= @project.id %>" width="100%"></iframe>					
 				</div>
 			</li>
 
@@ -245,7 +245,7 @@
 					<small>Milestones are decisive markers towards the implementation and completion of projects.<br/>Include title of Milestone, description of milestone, anticipate date to reach milestone, and tasks, description of tasks with date, associated with reaching the milestone</small>
 				</label>
 				<div class="embedded scaffold">
-					<%= render :active_scaffold => 'bus_admin/milestones', :constraints => { :project_id => @project.id } %>
+					<iframe src="/bus_admin/projects/embedded_milestones/<%= @project.id %>" width="100%" height="250px"></iframe>	
 				</div>
 			</li>
 		</ul>
@@ -269,7 +269,7 @@
 					<small>Key measures are quantifiable measurements and goals for the project. They will be displayed in a graph format on the ChristmasFuture website. These <strong>must include target numbers</strong> to be achieved.</small>
 				</label>
 				<div class="embedded scaffold">
-					<%= render :active_scaffold => 'bus_admin/key_measures', :constraints => { :project_id => @project.id } %>
+					<iframe src="/bus_admin/projects/embedded_key_measures/<%= @project.id %>" width="100%" height="250px"></iframe> 
 				</div>
 			</li>
 		</ul>
@@ -312,7 +312,7 @@
 					<small>You will need to create a free <a href="http://www.youtube.com/" target="_blank">YouTube account</a> for your organization to upload project videos to your account. After uploading a video, tag it with the following tags: ChristmasFuture, <strong>your</strong> organization name, name of the project. Then add the ID here.</small>
 				</label>
 				<div class="embedded scaffold">
-					<%= render :active_scaffold => 'bus_admin/project_you_tube_videos', :constraints => { :project_id => @project.id } %>
+					<iframe src="/bus_admin/projects/embedded_you_tube_videos/<%= @project.id %>" width="100%" height="250px"></iframe> 
 				</div>
 			</li>
 
@@ -321,7 +321,7 @@
 					<small>Photos of projects are to be uploaded to your organizations' <a href="http://www.flickr.com" target="_blank">Flickr account</a> (accounts are free). Once you have added new images, tag them with: ChristmasFuture, <strong>your</strong> organization name, name of the project. Then, create a new set and add all the new photos to this set. Call this set the name of your project and add the ID here.</small>
 				</label>
 				<div class="embedded scaffold">
-					<%= render :active_scaffold => 'bus_admin/project_flickr_images', :constraints => { :project_id => @project.id } %>
+					<iframe src="/bus_admin/projects/embedded_flickr_images/<%= @project.id %>" width="100%" height="250px"></iframe>
 				</div>
 			</li>
 		</ul>
