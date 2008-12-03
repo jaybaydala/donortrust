@@ -26,6 +26,19 @@ class TaxReceipt < ActiveRecord::Base
     return id.to_s.rjust(10,'0') if id
   end
   
+  def total
+    unless @total
+      if order
+        @total = order.credit_card_payment
+      elsif gift
+        @total = gift.amount
+      elsif deposit
+        @total = deposit.amount
+      end
+    end
+    @total
+  end
+  
   def make_view_code
     code = TaxReceipt.generate_view_code
     # ensure it's not currently being used
