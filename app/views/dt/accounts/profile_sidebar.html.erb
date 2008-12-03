@@ -17,19 +17,10 @@
   <p><strong><%= current_user.full_name %></strong> 
   <% unless current_user.under_thirteen? %>
   (<%= current_user.name %>)<% end %></p>
-  <div class="projectactions">
-    <ul>
-      <% if @group && !@group.new_record? %>
-      <% if !current_member(@group) || !current_member(@group).founder? %><li class="blueblock"><% if current_member(@group) %><%= link_to "&nbsp;Leave Group", dt_group_membership_path(:id => current_member(@group).id, :group_id => @group.id), :method => 'delete', :confirm => "Do you want to leave #{@group.name}?" %><% else %><%= link_to "&nbsp;Join This Group", dt_group_memberships_path(@group), :method => :post, :confirm => "Do you want to join #{@group.name}?" %><% end %></li><% end %>
-      <% if current_member(@group) && current_member(@group).founder? %><li class="blueblock"><%= link_to "&nbsp;Delete this Group", dt_group_path(@group), :method => :delete, :confirm => "Do you want to delete #{@group.name}?" %></li><% end %>
-      <% end %>
-    </ul>
-  </div>
 
   <h5>My Portfolio</h5>
   <div class="quickfacts">
   <ul> 
-    <li><strong>Groups:</strong> <%= render :partial => 'dt/accounts/membership', :collection => current_user.memberships(:include => :group) %><% if current_user.memberships && current_user.memberships.size == 0 %><%= link_to "Find a group to join", dt_groups_path %> or <%= link_to "Create a group", new_dt_group_path %><% end %></li>
     <li><strong>Invested:</strong> <%= number_to_currency(current_user.invested) %></li>
     <li><strong>Account Balance:</strong> <%= number_to_currency(current_user.balance) %></li>
   </ul>
