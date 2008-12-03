@@ -1,0 +1,19 @@
+<%- content_for :html_title do -%>Confirmation of giving my entire gift card balance<%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+
+<div class="userform">
+  <% form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'post' })  do |f|%>
+    <fieldset>
+      <legend>You are about to give your entire gift card balance to <%= @project.name %></legend>
+      <p>Is this what you want to do?</p>
+      <ol>
+        <li>
+          <%= hidden_field_tag :gift_project, @project.id %>
+          <%= hidden_field_tag :directed_gift, 1 %>
+          <%= submit_tag "Yes", :class => 'buttonsubmit' %>
+          <%= button_to_function "No", "document.location='#{dt_projects_path}'", :class => 'buttonsubmit' %>
+        </li>
+      </ol>
+    </fieldset>
+  <% end -%>
+</div>
