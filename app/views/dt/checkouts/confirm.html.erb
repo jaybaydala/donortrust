@@ -89,9 +89,12 @@
   <% end %>  
   </fieldset>
 </div>
-<div class="checkoutbuttons clearfix">
+<div class="checkoutbuttons clearfix" id="checkout-submitbuttons">
   <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "billing") %>
   <%= image_submit_tag "/images/dt/nav_elements/checkout.png", :alt => 'Complete Checkout' %>
+</div>
+<div id="please-wait" style="display:none;text-align:right;">
+  <%= image_tag "/images/dt/nav_elements/please_wait.gif", :alt => 'Please Wait...' %>
 </div>
 <% end %>
 

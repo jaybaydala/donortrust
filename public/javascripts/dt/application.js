@@ -1,11 +1,16 @@
-Event.observe(window, 'load', function() {
+document.observe("dom:loaded", function() {
+	// Final submit page
+	if ($("orderform") && $('step') && $('step').value == "confirm") {
+		new CheckoutSubmit("orderform", "checkout-submitbuttons");
+	}
+
 	if (anchors = $$('a')) {
 		anchors.each(function(anchor) {
 			if (anchor.getAttribute("href") && anchor.getAttribute("rel") == "blank" && !anchor.getAttribute("target"))
 				anchor.target = "_blank"
 		});
 	}
-
+	
 	/*
 	ua=navigator.userAgent.toLowerCase();
 	ie = document.all && ua.search(/msie/i) != -1 ? true : false;
@@ -47,6 +52,25 @@ Ajax.Responders.register({
 	}
 });
 
+
+var CheckoutSubmit = Class.create();
+CheckoutSubmit.prototype = {
+	form: null,
+	submit: null,
+	initialize: function(form, submit) {
+		if (form && $(form) && submit && $(submit)) {
+			this.form = form;
+			this.submit = submit;
+			$(form).observe("submit", this.disable_submit.bind(this));
+		}
+	},
+	disable_submit: function() {
+		if ($("please-wait")) {
+			$("please-wait").show();
+		}
+		$(this.submit).remove();
+	}
+}
 
 var SubmitButton = Class.create();
 SubmitButton.prototype = {
