@@ -11,21 +11,6 @@ class ApplicationController < ActionController::Base
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_donortrustfe_session_id'
 
-  def render_404
-    respond_to do |type|
-      type.html { render :template => "dt/shared/errors/error404", :layout => "dt_application", :status => "404" }
-      type.all  { render :nothing => true, :status => "404 Not Found" }
-    end
-  end
-
-  def render_500
-    respond_to do |type|
-      @message = exception
-      type.html { render :template => "dt/shared/errors/error", :layout => "dt_application", :status => "500" }
-      type.all  { render :nothing => true, :status => "500 Error" }
-    end
-  end
-
   def check_authorization
     return false unless logged_in?
     roles = current_user.roles
@@ -148,4 +133,22 @@ class ApplicationController < ActionController::Base
   def ssl_required?
     false
   end
+
+  private
+
+    def render_404
+      respond_to do |type|
+        type.html { render :template => "dt/shared/errors/error404", :layout => "dt_application", :status => "404" }
+        type.all  { render :nothing => true, :status => "404 Not Found" }
+      end
+    end
+
+    def render_500
+      respond_to do |type|
+        @message = exception
+        type.html { render :template => "dt/shared/errors/error", :layout => "dt_application", :status => "500" }
+        type.all  { render :nothing => true, :status => "500 Error" }
+      end
+    end
+
 end
