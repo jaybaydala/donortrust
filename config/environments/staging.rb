@@ -6,7 +6,7 @@ config.cache_classes = false
 # config.logger = SyslogLogger.new
 
 # Full error reports are disabled and caching is turned on
-config.action_controller.consider_all_requests_local = true
+config.action_controller.consider_all_requests_local = false
 config.action_controller.perform_caching             = true
 
 # Enable serving of images, stylesheets, and javascripts from an asset server
@@ -19,7 +19,7 @@ ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache"
 
 config.log_level = :debug
 
-ActionMailer::Base.delivery_method = :test
+ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
   :address => '127.0.0.1',
   :domain  => '192.168.1.1'
