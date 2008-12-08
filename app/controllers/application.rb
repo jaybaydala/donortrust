@@ -145,7 +145,6 @@ class ApplicationController < ActionController::Base
 
     def render_500
       respond_to do |type|
-        @message = exception
         type.html { render :template => "dt/shared/errors/error", :layout => "dt_application", :status => "500" }
         type.all  { render :nothing => true, :status => "500 Error" }
       end
