@@ -1,15 +1,23 @@
 Gifts
 ===============================
-<% render partial => "inspect_model", :collection => @cart.gifts %>
+<%- @cart.gifts.each do |gift| -%>
+<%= inspect_model_object(gift) %>
+<%- end -%>
 
 Investments
 ===============================
-<% render partial => "inspect_model", :collection => @cart.investments %>
+<%- @cart.investments.each do |investments| -%>
+<%= inspect_model_object(investments) %>
+<%- end -%>
 
 Deposits
 ===============================
-<% render partial => "inspect_model", :collection => @cart.deposits %>
+<%- @cart.deposits.each do |deposit| -%>
+<%= inspect_model_object(deposit) %>
+<%- end -%>
 
 Pledges
 ===============================
-<% render partial => "inspect_model", :collection => @cart.pledges %>
+<%- @cart.pledges.each do |pledge| -%>
+<%= inspect_model_object(pledge) %>
+<%- end -%>
