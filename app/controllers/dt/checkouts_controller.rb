@@ -352,7 +352,7 @@ class Dt::CheckoutsController < DtApplicationController
     @investment.user_ip_addr = request.remote_ip
 
     @valid_investment = @investment.valid?
-    
+
 
     if @valid_investment
       @cart.add_item(@investment)
@@ -368,7 +368,14 @@ class Dt::CheckoutsController < DtApplicationController
   end
 
   protected
-  def paginate_cart
-    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
-  end
+    def paginate_cart
+      @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
+    end
+
+    ExceptionNotifier.sections << "cart"
+    exception_data :additional_data
+    def additional_data
+      { :cart => @cart }
+    end
+
 end
