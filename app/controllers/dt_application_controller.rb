@@ -3,6 +3,7 @@ class DtApplicationController < ActionController::Base
   helper :dt_application
   helper "dt/search"
   include DtAuthenticatedSystem
+  include ExceptionNotifiable
   helper_method :ssl_available?
 
   # "remember me" functionality
@@ -55,4 +56,22 @@ class DtApplicationController < ActionController::Base
   def ssl_required?
     false
   end
+
+  private
+
+    def render_404
+      respond_to do |type|
+        type.html { render :template => "dt/shared/errors/error404", :layout => "dt_application", :status => "404" }
+        type.all  { render :nothing => true, :status => "404 Not Found" }
+      end
+    end
+
+    def render_500
+      respond_to do |type|
+        @message = exception
+        type.html { render :template => "dt/shared/errors/error", :layout => "dt_application", :status => "500" }
+        type.all  { render :nothing => true, :status => "500 Error" }
+      end
+    end
+
 end
