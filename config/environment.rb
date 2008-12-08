@@ -87,7 +87,7 @@ end
 
 # set up the Exception Notifier plugin
 ExceptionNotifier.exception_recipients = %w(sysadmin@pivotib.com)
-ExceptionNotifier.sender_address = %("Application Error" <dt.error@christmasfuture.com>)
+ExceptionNotifier.sender_address = %("DT Application Error" <support@christmasfuture.com>)
 ExceptionNotifier.email_prefix = "[DT ERROR] "
 
 #The url to the GroundSpring US donations page
