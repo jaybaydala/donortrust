@@ -94,10 +94,11 @@ class Dt::CheckoutsController < DtApplicationController
             show_params[:order_number] = @order.order_number
             redirect_to dt_checkout_path(show_params) and return
           end
-          @current_step = next_step
-          before_billing if @current_step == "billing"
-          before_payment if @current_step == "payment"
-          render :action => next_step
+          
+        @current_step = next_step
+        before_billing if @current_step == "billing"
+        before_payment if @current_step == "payment"
+        render :action => @current_step
         elsif @billing_error
           @current_step = 'billing'
           before_billing
