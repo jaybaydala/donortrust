@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   filter_parameter_logging :password
   include DtAuthenticatedSystem
+  include ExceptionNotifiable
   helper :dt_application
   helper "dt/search"
 
@@ -10,17 +11,18 @@ class ApplicationController < ActionController::Base
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_donortrustfe_session_id'
 
-  def rescue_404
-    rescue_action_in_public DtNotFoundError.new
+  def render_404
+    respond_to do |type|
+      type.html { render :template => "dt/shared/errors/error404", :layout => "dt_application", :status => "404" }
+      type.all  { render :nothing => true, :status => "404 Not Found" }
+    end
   end
 
-  def rescue_action_in_public(exception)
-    case exception.to_s
-    when /DtNotFoundError/, /RoutingError/, /UnknownAction/
-      render :template => "dt/shared/errors/error404", :layout => "dt_application", :status => "404"
-    else
+  def render_500
+    respond_to do |type|
       @message = exception
-      render :template => "dt/shared/errors/error", :layout => "dt_application", :status => "500"
+      type.html { render :template => "dt/shared/errors/error", :layout => "dt_application", :status => "500" }
+      type.all  { render :nothing => true, :status => "500 Error" }
     end
   end
 
@@ -145,25 +147,5 @@ class ApplicationController < ActionController::Base
 
   def ssl_required?
     false
-  end
-
-  def log_error(exception)
-    super(exception)
-    if ENV['RAILS_ENV'] == 'production'
-      begin
-        ErrorMailer.deliver_snapshot(
-          exception,
-          clean_backtrace(exception),
-          @session.instance_variable_get("@data"),
-          @params,
-          @request.env)
-      rescue => e
-        logger.error(e)
-      end
-    end
-  end
-
-  # Error Handling
-  class DtNotFoundError < Exception
   end
 end

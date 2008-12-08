@@ -85,6 +85,11 @@ Rails::Initializer.run do |config|
   #end
 end
 
+# set up the Exception Notifier plugin
+ExceptionNotifier.exception_recipients = %w(sysadmin@pivotib.com)
+ExceptionNotifier.sender_address = %("Application Error" <dt.error@christmasfuture.com>)
+ExceptionNotifier.email_prefix = "[DT ERROR] "
+
 #The url to the GroundSpring US donations page
 GROUNDSPRING_URL = 'https://secure.groundspring.org/dn/index.php?aid=21488'
 
