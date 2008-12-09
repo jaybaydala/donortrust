@@ -197,9 +197,9 @@ class Dt::ProjectsController < DtApplicationController
   end
 
 
-  #populates the country select using the continent_id
+  # populates the country select using the continent_id
   def add_countries
-    projects = Project.find_public :all, :conditions => "continent_id=#{params[:continent_id]}"
+    projects = Project.find_public(:all, :conditions => ["continent_id=?" params[:continent_id].to_i])
     @countries = [[ 'All ...', '']]
     projects.each do |project|
       sum = 0
@@ -228,7 +228,7 @@ class Dt::ProjectsController < DtApplicationController
     #@search = Ultrasphinx::Search.new(:class_names => ['Project'], :per_page => Project.count, :filters => {:sector_id => params[:sector_id].to_i })
     #@search.run
     #causes = Cause.find_by_sector_id(params[:sector_id]) if params[:sector_id]
-    sector = Sector.find(params[:sector_id])
+    sector = Sector.find(params[:sector_id].to_i)
     sector.causes.each do |cause|
     if cause.sector.id==sector.id && cause.projects.size>0
         @causes << ["#{cause.name} (#{cause.projects.size})", cause.id]
