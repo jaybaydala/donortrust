@@ -81,7 +81,7 @@ class Place < ActiveRecord::Base
   def country
     ancestors = self.ancestors
     ancestors.each do |ancestor|
-      if ancestor.place_type_id==2
+      if ancestor.place_type_id == PlaceType.country.id
         return ancestor
       end
     end
@@ -90,7 +90,7 @@ class Place < ActiveRecord::Base
   def continent
     ancestors = self.ancestors
     ancestors.each do |ancestor|
-      if ancestor.place_type_id==1
+      if ancestor.place_type_id == PlaceType.continent.id
         return ancestor
       end
     end
@@ -98,13 +98,13 @@ class Place < ActiveRecord::Base
   
   def public_projects
     #continent
-    if self.place_type_id==1
+    if self.place_type_id == PlaceType.continent.id
       return Project.find_public( :all, :conditions => "projects.continent_id = #{self.id}")
     end
-    if self.place_type_id==2
+    if self.place_type_id == PlaceType.country.id
       return Project.find_public( :all, :conditions => "projects.country_id = #{self.id}")
     end
-    if self.place_type_id==6
+    if self.place_type_id == PlaceType.city.id
       return Project.find_public( :all, :conditions => "projects.place_id = #{self.id}")
     end
   end
