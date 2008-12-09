@@ -278,7 +278,7 @@ class Project < ActiveRecord::Base
 
 
     def featured_projects
-      projects = Project.find_public(:all, :conditions => { :featured => 1 })
+      projects = Project.find_public(:all, :conditions => { :featured => true })
       projects = Project.find_public(:all, :joins=>"INNER JOIN partners ON projects.partner_id = partners.id", :conditions => "partners.partner_status_id IN (1,3)", :limit => 3, :order => 'RAND()') if projects.size == 0
       projects
     end
@@ -403,11 +403,11 @@ class Project < ActiveRecord::Base
   end
 
   def community_id
-    community.id if community
+    community.id unless community.nil?
   end
 
   def community_id?
-    community.id? if community
+    community.id? unless community.nil?
   end
 
   def nation_id
@@ -421,8 +421,8 @@ class Project < ActiveRecord::Base
   end
 
   def community
-    community_place_type = PlaceType.community
-    @community ||= self.place if self.place_id? && self.place && self.place.place_type_id >= community_place_type.id
+    @community ||= self.place if self.place_id? && self.place && self.place.place_type_id >= PlaceType.community.id
+    @community
   end
 
   def community_project_count

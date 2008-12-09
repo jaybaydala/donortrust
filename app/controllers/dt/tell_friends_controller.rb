@@ -1,7 +1,5 @@
-require 'lib/email_parser'
 class Dt::TellFriendsController < DtApplicationController
   before_filter :login_required, :only => :show
-  include EmailParser
   
   def initialize
     @page_title = "Tell a Friend"
@@ -133,4 +131,13 @@ class Dt::TellFriendsController < DtApplicationController
       format.html { render :layout => false }
     end
   end
+
+  protected
+
+    def emails(email_list)
+      emails = email_list.class == String ? email_list.split(%r{,\s*}) : email_list
+      emails.collect! { |email| email.strip }
+      emails
+    end
+
 end

@@ -1,7 +1,5 @@
-require "#{RAILS_ROOT}/lib/email_parser"
 class Dt::InvitationsController < DtApplicationController
   before_filter :login_required
-  include EmailParser
 
   def new
   end
@@ -65,7 +63,14 @@ class Dt::InvitationsController < DtApplicationController
   end
   
   protected
-  def access_denied
-    redirect_to dt_login_path and return unless logged_in?
-  end
+    def access_denied
+      redirect_to dt_login_path and return unless logged_in?
+    end
+
+    def emails(email_list)
+      emails = email_list.class == String ? email_list.split(%r{,\s*}) : email_list
+      emails.collect! { |email| email.strip }
+      emails
+    end
+
 end

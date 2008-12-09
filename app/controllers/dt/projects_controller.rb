@@ -32,11 +32,7 @@ class Dt::ProjectsController < DtApplicationController
 
   def show
     store_location
-    begin
-      @project = Project.find_public(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
     @page_title = @project.name
     @rss_feed = last_rss_entry(@project.rss_url) if @project && @project.rss_url
     @flickr_images = @project.project_flickr_images.paginate({:page => params[:flickr_page], :per_page => 12})
@@ -52,11 +48,7 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def details
-    begin
-      @project = Project.find_public(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
     @page_title = "Project Details | #{@project.name}"
     @action_js = "http://simile.mit.edu/timeline/api/timeline-api.js"
     respond_to do |format|
@@ -65,11 +57,7 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def community
-    begin
-      @project = Project.find_public(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
     @community = @project.community
     @page_title = "#{@community.name} | #{@project.name}"
 
@@ -82,11 +70,7 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def nation
-    begin
-      @project = Project.find_public(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
     @nation = @project.nation
     @page_title = "#{@nation.name} | #{@project.name}"
     @mdgs = MillenniumGoal.find(:all)
@@ -96,11 +80,7 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def organization
-    begin
-      @project = Project.find_public(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
     @organization = @project.partner if @project.partner_id?
     @page_title = "#{@organization.name} | #{@project.name}"
     respond_to do |format|
@@ -109,11 +89,7 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def connect
-    begin
-      @project = Project.find_public(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
     @public_groups = @project.public_groups.paginate({:page => params[:page], :per_page => 10})
     @page_title = "Connect | #{@project.name}"
 
@@ -124,23 +100,15 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def cause
-    begin
-      @project = Project.find_public(params[:id])
-      @cause = Cause.find(params[:cause_id]) if params[:cause_id]
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
+    @cause = Cause.find(params[:cause_id]) if params[:cause_id]
     respond_to do |format|
       format.html {render :action => 'cause', :layout => 'dt/plain'}
     end
   end
 
   def give
-    begin
-      @project = Project.find_public(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
     respond_to do |format|
       format.html
     end
@@ -199,7 +167,7 @@ class Dt::ProjectsController < DtApplicationController
 
   # populates the country select using the continent_id
   def add_countries
-    projects = Project.find_public(:all, :conditions => ["continent_id=?" params[:continent_id].to_i])
+    projects = Project.find_public(:all, :conditions => ["continent_id=?", params[:continent_id].to_i])
     @countries = [[ 'All ...', '']]
     projects.each do |project|
       sum = 0
@@ -253,11 +221,7 @@ class Dt::ProjectsController < DtApplicationController
   helper_method :add_causes
 
   def get_videos
-    begin
-      @project = Project.find_public(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
-    end
+    @project = Project.find_public(params[:id])
     @youtube_videos = @project.project_you_tube_videos
     respond_to do |format|
       format.js {

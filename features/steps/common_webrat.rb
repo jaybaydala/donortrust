@@ -33,6 +33,21 @@ When /^I attach the file at "(.*)" to "(.*)" $/ do |path, field|
   attaches_file(field, path)
 end
 
+When /^I visit (.*)$/ do |page|
+  visits case page
+  when "the home page"
+    "/"
+  when "the projects page"
+    dt_projects_path
+  when "the project"
+    dt_project_path(@project)
+  else
+    page
+    # raise "Can't find mapping from \"#{page}\" to a path"
+  end
+end
+
+
 When /^I go to \"(.*)\"$/ do |page|
   visits case page
   when "the home page"
