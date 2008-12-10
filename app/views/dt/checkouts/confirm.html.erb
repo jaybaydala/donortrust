@@ -10,7 +10,7 @@
 <%= error_messages_for :order %>
 <% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform", :method => :put}) do |f| %>
 <%= hidden_field_tag "step", "confirm" %>
-<%= hidden_field_tag :directed_gift, params[:directed_gift] %>
+<%= hidden_field_tag(:directed_gift, params[:directed_gift]) unless params[:directed_gift].nil? %>
 <%= hidden_field_tag :project_id, params[:project_id] %>
 <div class="userform">
 

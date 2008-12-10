@@ -39,17 +39,24 @@ Feature: Opening a Gift
   Scenario: Let ChristmasFuture Figure It Out
     Given I have received a gift for $50
     And I open the gift
-    When I follow "let ChristmasFuture figure it out"
-    And I press "Confirm"
-    Then I should be on the confirmation step of the checkout process
-    And the Investment should appear in the Cart
-    And the Cart Total should be $50.00
+    When I choose to "let ChristmasFuture figure it out"
+    And I press "Yes"
+    Then I should be shown my directed order
+    And the gift card balance should be $0
 
-  Scenario: Donate it to ChristmasFuture's Operational budget
+  Scenario: Donate it to ChristmasFuture's Operational budget (Admin Gift) 
     Given I have received a gift for $50
     And I open the gift
-    When I follow "Donate it to ChristmasFuture's Operational budget"
-    And I press "Confirm"
-    Then I should be on the confirmation step of the checkout process
-    And the Investment should appear in the Cart
-    And the Cart Total should be $50.00
+    When I choose to "Donate it to ChristmasFuture's Operational budget"
+    And I press "Yes"
+    Then I should be shown my directed order
+    And the gift card balance should be $0
+
+  Scenario: Directed Gift
+    Given I have received a gift for $50
+    And I open the gift
+    When I go to a Project Page
+    And I follow "Give my entire gift card balance to this project"
+    And I press "Yes"
+    Then I should be shown my directed order
+    And the gift card balance should be $0

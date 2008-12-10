@@ -9,8 +9,8 @@
       <ol>
         <li>
           <%= hidden_field_tag :admin_gift, 1 %>
-          <%= submit_tag "Confirm", :class => 'buttonsubmit' %>
-          <%= button_to_function "Cancel", "document.location='#{open_dt_gifts_path}'", :class => 'buttonsubmit' %>
+          <%= submit_tag "Yes", :class => 'buttonsubmit' %>
+          <%= button_to_function "No", "document.location='#{open_dt_gifts_path}'", :class => 'buttonsubmit' %>
         </li>
       </ol>
     </fieldset>

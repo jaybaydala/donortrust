@@ -329,7 +329,9 @@ class Dt::CheckoutsController < DtApplicationController
   
   def directed_gift
     @directed_gift = false
-    return true if params[:unallocated_gift].nil? && params[:admin_gift].nil? && params[:directed_gift].nil?
+    return true if (params[:unallocated_gift].nil? || params[:unallocated_gift].empty?) && 
+                   (params[:admin_gift].nil? || params[:admin_gift].empty?) && 
+                   (params[:directed_gift].nil? || params[:directed_gift].empty?)
     @cart = find_cart
     if params[:unallocated_gift] == "1"
       project = Project.unallocated_project
