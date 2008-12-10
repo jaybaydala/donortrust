@@ -2,7 +2,7 @@
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
 
 <div class="userform">
-  <% form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'post' })  do |f|%>
+  <% form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'put' })  do |f|%>
     <fieldset>
       <legend>You are about to give your entire gift card balance to <%= @project.name %></legend>
       <p>Is this what you want to do?</p>

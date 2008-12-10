@@ -2,7 +2,7 @@ require 'order_helper'
 class Dt::CheckoutsController < DtApplicationController
   helper "dt/places"
   include OrderHelper
-  before_filter :directed_gift, :only => :create
+  before_filter :directed_gift, :only => :update
   before_filter :cart_empty?, :except => :show
   helper_method :current_step
   helper_method :next_step
@@ -30,12 +30,6 @@ class Dt::CheckoutsController < DtApplicationController
     paginate_cart
     if !params[:unallocated_gift].nil? && !params[:admin_gift].nil? && !params[:directed_gift].nil?
       gift = Gift.find(session[:gift_card_id])
-      # @order.email = gift.to_email
-      # unless gift.to_name.nil?
-      #   to_name = gift.to_name.split(' ')
-      #   @order.first_name = to_name[0]
-      #   @order.last_name = to_name[1]
-      # end
     end
     @valid = validate_order
     do_action if params[:unallocated_gift].nil? && params[:admin_gift].nil? && params[:directed_gift].nil?
@@ -46,7 +40,6 @@ class Dt::CheckoutsController < DtApplicationController
       format.html { 
         if @saved
           redirect_to edit_dt_checkout_path(:step => "confirm") and return if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
-          
           redirect_to edit_dt_checkout_path(:step => next_step) and return
         end
         render :action => "new"
@@ -77,6 +70,7 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order
     @valid = validate_order
+
     begin
       do_action
     rescue ActiveMerchant::Billing::Error => err
@@ -87,18 +81,21 @@ class Dt::CheckoutsController < DtApplicationController
     @saved = @order.save if @valid
     respond_to do |format|
       format.html{
+
         if @saved
           if @order.complete?
             show_params = {}
             show_params[:directed_gift] = 1 if @directed_gift
             show_params[:order_number] = @order.order_number
             redirect_to dt_checkout_path(show_params) and return
-          end
-          
-        @current_step = next_step
-        before_billing if @current_step == "billing"
-        before_payment if @current_step == "payment"
-        render :action => @current_step
+          elsif @directed_gift
+            flash[:error] = "You have more items in your cart than your gift card can cover. Please go through the normal checkout process - you can still use the balance of your gift card when you checkout."
+            redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[0]) and return
+          end  
+          @current_step = next_step
+          before_billing if @current_step == "billing"
+          before_payment if @current_step == "payment"
+          render :action => @current_step
         elsif @billing_error
           @current_step = 'billing'
           before_billing
@@ -115,7 +112,7 @@ class Dt::CheckoutsController < DtApplicationController
     @order = Order.find_by_order_number(params[:order_number]) if params[:order_number]
     @directed_gift = params[:directed_gift] ? true : false
     if @directed_gift
-      @project = @order.investments[0].project.name
+      @project = @order.investments.first.project
     end
     redirect_to dt_cart_path and return unless @order
     redirect_to edit_dt_checkout_path and return unless @order.complete?
@@ -342,8 +339,8 @@ class Dt::CheckoutsController < DtApplicationController
       project = Project.find(params[:gift_project]);
     end
     if @cart.items.find {|item| item.class == Investment && item.project == project && item.amount == Gift.find(session[:gift_card_id]).balance}
-      return true unless find_order
-      redirect_to edit_dt_checkout_path(:step => "confirm") and return false
+      return true if find_order
+      redirect_to new_dt_checkout_path and return false
     end
     @investment = Investment.new( params[:investment])
     @investment.amount = Gift.find(session[:gift_card_id]).balance
@@ -355,15 +352,14 @@ class Dt::CheckoutsController < DtApplicationController
 
 
     if @valid_investment
-      @cart.add_item(@investment)
-      @current_step = 'confirm'
       @directed_gift = true
+      @current_step = 'confirm'
+      @cart.add_item(@investment)
       @order = initialize_new_order
       @valid = validate_order
       @saved = @order.save if @valid
       # save our order_id in the session
       session[:order_id] = @order.id if @saved
-      update
     end
   end
 
