@@ -2,7 +2,7 @@ require 'order_helper'
 class Dt::CheckoutsController < DtApplicationController
   helper "dt/places"
   include OrderHelper
-  before_filter :directed_gift, :only => :create
+  before_filter :directed_gift, :only => :update
   before_filter :cart_empty?, :except => :show
   helper_method :current_step
   helper_method :next_step
@@ -28,17 +28,11 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(edit_dt_checkout_path) and return if find_order
     @order = initialize_new_order
     paginate_cart
-    if !params[:unallocated_gift].nil? && !params[:admin_gift].nil?
+    if !params[:unallocated_gift].nil? && !params[:admin_gift].nil? && !params[:directed_gift].nil?
       gift = Gift.find(session[:gift_card_id])
-      # @order.email = gift.to_email
-      # unless gift.to_name.nil?
-      #   to_name = gift.to_name.split(' ')
-      #   @order.first_name = to_name[0]
-      #   @order.last_name = to_name[1]
-      # end
     end
     @valid = validate_order
-    do_action if params[:unallocated_gift].nil? && params[:admin_gift].nil?
+    do_action if params[:unallocated_gift].nil? && params[:admin_gift].nil? && params[:directed_gift].nil?
     @saved = @order.save if @valid
     # save our order_id in the session
     session[:order_id] = @order.id if @saved
@@ -76,6 +70,7 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order
     @valid = validate_order
+
     begin
       do_action
     rescue ActiveMerchant::Billing::Error => err
@@ -86,12 +81,21 @@ class Dt::CheckoutsController < DtApplicationController
     @saved = @order.save if @valid
     respond_to do |format|
       format.html{
-        if @saved 
-          redirect_to dt_checkout_path(:order_number => @order.order_number) and return if @order.complete?
+
+        if @saved
+          if @order.complete?
+            show_params = {}
+            show_params[:directed_gift] = 1 if @directed_gift
+            show_params[:order_number] = @order.order_number
+            redirect_to dt_checkout_path(show_params) and return
+          elsif @directed_gift
+            flash[:error] = "You have more items in your cart than your gift card can cover. Please go through the normal checkout process - you can still use the balance of your gift card when you checkout."
+            redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[0]) and return
+          end  
           @current_step = next_step
           before_billing if @current_step == "billing"
           before_payment if @current_step == "payment"
-          render :action => next_step
+          render :action => @current_step
         elsif @billing_error
           @current_step = 'billing'
           before_billing
@@ -106,6 +110,10 @@ class Dt::CheckoutsController < DtApplicationController
   
   def show
     @order = Order.find_by_order_number(params[:order_number]) if params[:order_number]
+    @directed_gift = params[:directed_gift] ? true : false
+    if @directed_gift
+      @project = @order.investments.first.project
+    end
     redirect_to dt_cart_path and return unless @order
     redirect_to edit_dt_checkout_path and return unless @order.complete?
     redirect_to dt_cart_path and return unless session[:order_number].include?(params[:order_number].to_i)
@@ -143,9 +151,11 @@ class Dt::CheckoutsController < DtApplicationController
   
   
   def current_step
-    return nil unless params[:step]
-    return params[:step] if params[:step] && CHECKOUT_STEPS.include?(params[:step])
-    return nil
+    if @current_step.nil?
+      @current_step = nil unless params[:step]
+      @current_step =  params[:step] if params[:step] && CHECKOUT_STEPS.include?(params[:step])
+    end
+    @current_step
   end
   
   def next_step
@@ -303,6 +313,7 @@ class Dt::CheckoutsController < DtApplicationController
           flash[:notice] = "Please note: Your gift card balance will expire on #{@gift_card.expiry_date.strftime("%b %e, %Y")}. If you need more time, please <a href=\"#{new_dt_account_deposit_path(current_user, :deposit => {:amount => @gift_card.balance})}\">Deposit the balance</a> into your account." if !@gift_card.expiry_date.nil?
         end
       end
+            
     end
   end
   
@@ -317,16 +328,21 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def directed_gift
-    return true if params[:unallocated_gift].nil? && params[:admin_gift].nil?
+    @directed_gift = false
+    return true if (params[:unallocated_gift].nil? || params[:unallocated_gift].empty?) && 
+                   (params[:admin_gift].nil? || params[:admin_gift].empty?) && 
+                   (params[:directed_gift].nil? || params[:directed_gift].empty?)
     @cart = find_cart
     if params[:unallocated_gift] == "1"
       project = Project.unallocated_project
     elsif params[:admin_gift] == "1"
       project = Project.admin_project
+    elsif params[:directed_gift] == "1"
+      project = Project.find(params[:gift_project]);
     end
     if @cart.items.find {|item| item.class == Investment && item.project == project && item.amount == Gift.find(session[:gift_card_id]).balance}
-      return true unless find_order
-      redirect_to edit_dt_checkout_path(:step => "confirm") and return false
+      return true if find_order
+      redirect_to new_dt_checkout_path and return false
     end
     @investment = Investment.new( params[:investment])
     @investment.amount = Gift.find(session[:gift_card_id]).balance
@@ -334,26 +350,23 @@ class Dt::CheckoutsController < DtApplicationController
     @investment.user = current_user if logged_in?
     @investment.user_ip_addr = request.remote_ip
 
-
     @valid_investment = @investment.valid?
-
+    
 
     if @valid_investment
+      @directed_gift = true
+      @current_step = 'confirm'
       @cart.add_item(@investment)
-    else
-      flash.now[:error] = "There was a problem adding the Investment to your cart. Please review your information and try again."
+      @order = initialize_new_order
+      @valid = validate_order
+      @saved = @order.save if @valid
+      # save our order_id in the session
+      session[:order_id] = @order.id if @saved
     end
   end
 
   protected
-    def paginate_cart
-      @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
-    end
-
-    ExceptionNotifier.sections << "cart"
-    exception_data :additional_data
-    def additional_data
-      { :cart => @cart }
-    end
-
+  def paginate_cart
+    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
+  end
 end

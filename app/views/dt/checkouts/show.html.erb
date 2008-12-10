@@ -1,7 +1,13 @@
 <%- content_for :html_title do -%>Checkout Complete!<%- end -%>
-<%- content_for :page_title do -%>Thank you for helping to change the world.<%- end -%>
 
-<p>Extreme poverty can end in our lifetime. Your choice to refocus <strong><%= number_to_currency(@order.total) %></strong> to development projects will help make lasting and sustainable change in people's lives.</p>
+<% if @directed_gift %>
+  <%- content_for :page_title do -%>Thank you for helping to end extreme poverty.<%- end -%>
+  <p>You just gave <strong><%= number_to_currency(@order.total) %></strong> to <strong><%= link_to @project.name, dt_project_path(@project) %></strong>! Thank you.</p>
+<% else %>
+  <%- content_for :page_title do -%>Thank you for helping to change the world.<%- end -%>
+  <p>Extreme poverty can end in our lifetime. Your choice to refocus <strong><%= number_to_currency(@order.total) %></strong> to development projects will help make lasting and sustainable change in people's lives.</p>
+<% end %>
+
 
 <% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
 <p>We also thank you for supporting the ChristmasFuture Foundation directly!</p>

@@ -36,6 +36,16 @@ Then /I should see an option to "Do nothing"/ do
   response.should have_tag("li", /^Do nothing/)
 end
 
+When /I choose to "(.*)"$/ do |link|
+  if link == "let ChristmasFuture figure it out"
+    @project = Project.unallocated_project || Project.generate!(:slug => "unallocated")
+  elsif link == "Donate it to ChristmasFuture's Operational budget"
+    @project = Project.admin_project || Project.generate!(:slug => "admin")
+  else
+    @project = Project.generate!
+  end
+  clicks_link(link)
+end
 
 Given /I am opening a gift/ do
   @gift = Gift.generate!
@@ -65,12 +75,13 @@ Then /there should be a cookie with the Gift Card id/ do
   request.cookies["gift_card_id"].first.should == @gift.id.to_s
 end
 
-# Then /the "([^\"]+)" should be "([^\"]+)"/ do |label, text|
-#   field = Inflector.underscore(label.gsub(/ /, ""))
-#   order = Order.last
-#   order.read_attribute(field.to_sym).should == text
-#   # response.should have_tag("#orderform fieldset li", "#{label} #{text}") do |t|
-#   #   t.should have_tag("label", label)
-#   # end
-# end
-
+When /^I go to a Project Page$/ do
+  @project = Project.generate!
+  visits dt_project_path(@project)
+end
+Then /^I should be shown my directed order$/ do
+  @order = Order.find_by_order_number(request.parameters[:order_number])
+  response.should_not have_tag('h2', "Tax Receipt")
+  response.should_not have_tag('h2', "Gift(s)")
+  response.should have_tag("p", "You just gave #{number_to_currency(@order.total)} to #{@project.name}! Thank you.")
+end

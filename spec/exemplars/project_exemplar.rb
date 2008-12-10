@@ -11,7 +11,7 @@ class Project < ActiveRecord::Base
     Place.generate
   end
   generator_for :project_status do
-    ProjectStatus.generate
+    ProjectStatus.active || ProjectStatus.generate(:name => "Active", :description => "Active Project")
   end
   generator_for :partner do
     Partner.generate

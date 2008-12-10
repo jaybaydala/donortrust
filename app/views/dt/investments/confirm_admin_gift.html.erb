@@ -2,15 +2,15 @@
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
 
 <div class="userform">
-  <% form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'post' })  do |f|%>
+  <% form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'put' })  do |f|%>
     <fieldset>
       <legend>You are choosing to donate your gift card balance directly to ChristmasFuture's Operational budget</legend>
       <p>Is this what you want to do?</p>
       <ol>
         <li>
           <%= hidden_field_tag :admin_gift, 1 %>
-          <%= submit_tag "Confirm", :class => 'buttonsubmit' %>
-          <%= button_to_function "Cancel", "document.location='#{open_dt_gifts_path}'", :class => 'buttonsubmit' %>
+          <%= submit_tag "Yes", :class => 'buttonsubmit' %>
+          <%= button_to_function "No", "document.location='#{open_dt_gifts_path}'", :class => 'buttonsubmit' %>
         </li>
       </ol>
     </fieldset>
