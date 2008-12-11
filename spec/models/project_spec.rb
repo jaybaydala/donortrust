@@ -122,8 +122,8 @@ describe Project do
     before do
       @project.stub!(:current_need).and_return(1)
       @project_status_marketing = ProjectStatus.generate!(:name => "In Marketing")
-      @project_status_active = ProjectStatus.generate!(:name => "Active")
-      @project_status_completed = ProjectStatus.generate!(:name => "Completed")
+      @project_status_active = ProjectStatus.active || ProjectStatus.generate!(:name => "Active")
+      @project_status_completed = ProjectStatus.completed || ProjectStatus.generate!(:name => "Completed")
     end
     it "should be fundable if ProjectStatus is active" do
       @project.update_attributes(:project_status => @project_status_active)
@@ -141,8 +141,8 @@ describe Project do
     before do
       @project.stub!(:current_need).with(1)
       @project_status_marketing = ProjectStatus.generate!(:name => "In Marketing")
-      @project_status_active = ProjectStatus.generate!(:name => "Active")
-      @project_status_completed = ProjectStatus.generate!(:name => "Completed")
+      @project_status_active = ProjectStatus.active || ProjectStatus.generate!(:name => "Active")
+      @project_status_completed = ProjectStatus.completed || ProjectStatus.generate!(:name => "Completed")
       @started_project = Project.generate!
       @completed_project = Project.generate!
       @started_project.update_attributes(:project_status => @project_status_active)

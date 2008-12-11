@@ -81,7 +81,6 @@ class Dt::CheckoutsController < DtApplicationController
     @saved = @order.save if @valid
     respond_to do |format|
       format.html{
-
         if @saved
           if @order.complete?
             show_params = {}
@@ -92,18 +91,14 @@ class Dt::CheckoutsController < DtApplicationController
             flash[:error] = "You have more items in your cart than your gift card can cover. Please go through the normal checkout process - you can still use the balance of your gift card when you checkout."
             redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[0]) and return
           end  
-          @current_step = next_step
-          before_billing if @current_step == "billing"
-          before_payment if @current_step == "payment"
-          render :action => @current_step
+          before_billing if next_step == "billing"
+          before_payment if next_step == "payment"
+          render :action => next_step and return
         elsif @billing_error
           @current_step = 'billing'
           before_billing
-          render :action => 'billing'
-        else
-          @current_step = current_step
-          render :action => current_step
         end
+        render :action => current_step
       }
     end
   end
@@ -149,11 +144,11 @@ class Dt::CheckoutsController < DtApplicationController
     balance
   end
   
-  
+  attr_accessor :current_step
   def current_step
     if @current_step.nil?
       @current_step = nil unless params[:step]
-      @current_step =  params[:step] if params[:step] && CHECKOUT_STEPS.include?(params[:step])
+      @current_step = params[:step] if params[:step] && CHECKOUT_STEPS.include?(params[:step])
     end
     @current_step
   end

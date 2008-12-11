@@ -1,5 +1,17 @@
+Before do
+  ProjectStatus.generate!(:name => "Active") unless ProjectStatus.active
+  ProjectStatus.generate!(:name => "Completed") unless ProjectStatus.completed
+  PlaceType.generate!(:name => "City") unless PlaceType.city
+  Project.generate!(:slug => "unallocated") unless Project.unallocated_project
+  Project.generate!(:slug => "admin") unless Project.admin_project
+end
+
 # USER HELPERS
 # ================================
+Given /^I am logged in$/ do
+  login
+end
+
 def login
   @user = User.generate!
   @user.activate

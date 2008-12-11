@@ -1,9 +1,3 @@
-Before do
-  ProjectStatus.generate!(:name => "Active") unless ProjectStatus.active
-  ProjectStatus.generate!(:name => "Completed") unless ProjectStatus.completed
-  PlaceType.generate!(:name => "City") unless PlaceType.city
-end
-
 Given /^there are (\d+) featured projects$/ do |num|
   num = num.to_i
   @projects = (1..num).map{Project.generate!(:featured => true, :project_status => ProjectStatus.active)}
@@ -32,4 +26,9 @@ Then /^I should see links to more information$/ do
 end
 Then /^I should be able to give to the project$/ do
   response.body.should have_tag("div.project-sidebar-buttons img[title=Give]")
+end
+
+When /^I go to a Project Page$/ do
+  @project = Project.generate!
+  visits dt_project_path(@project)
 end
