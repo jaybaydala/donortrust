@@ -1,55 +1,3 @@
-# GIVENS
-# ================================
-
-Given /^I am on the new gift page$/ do
-  visits "/dt/gifts/new"
-end
-
-Given /^I am on the new deposit page$/ do
-  visits "/dt/accounts/1/deposits/new"
-end
-
-Given /^I am on the new project investment page$/ do
-  @project = Project.generate!
-  get("/dt/investments/new", {:project_id => @project.id})
-end
-
-Given /^the Cart holds an Existing Gift of \$(\d+\.?\d{0,2})$/ do |n|
-  to_email = "to@example.com"
-  from_email = "from@example.com"
-  post("/dt/gifts", {:gift => {
-      :amount                => n,
-      :name                  => "From Me",
-      :email                 => from_email,
-      :email_confirmation    => from_email,
-      :to_name               => "To You",
-      :to_email              => to_email,
-      :to_email_confirmation => to_email,
-      :message               => "This is a message",
-      :send_email            => true,
-      :send_at               => 2.hours.from_now
-    }})
-end
-
-Given /^I am logged in$/ do
-  login
-end
-
-
-# WHENS
-# ================================
-
-When /^I choose the project$/ do
-  chooses("investment_project_id_#{@project.id}")
-end
-
-When /^I add (\d+) gifts to the cart$/ do |num|
-  (1..num.to_i).each{|i| add_gift_to_cart(i)}
-end
-
-# THENS
-# ================================
-
 Then /^the Gift should appear in the Cart$/ do
   response.should have_tag("#cart td div.gift")
 end
@@ -58,6 +6,10 @@ Then /^the Investment should appear in the Cart$/ do
 end
 Then /^the Deposit should appear in the Cart$/ do
   response.should have_tag("#cart td div.deposit")
+end
+
+Then /^I should see (\d+) gifts in my cart$/ do |count|
+  response.should have_tag("#cart div.gift", :count => count.to_i)
 end
 
 Then /^there should be a link to Preview the Gift$/ do

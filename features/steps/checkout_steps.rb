@@ -10,20 +10,6 @@ Given /^I am starting the checkout process$/ do
   visits "/dt/checkout/new"
 end
 
-Given /^my cart has (\d+) \$(\d+\.?\d*) gifts in it$/ do |number, amount|
-  number.to_i.times do |n|
-    add_gift_to_cart(amount)
-  end
-end
-
-Given /^my cart has an investment of \$(\d+\.?\d*)$/ do |amount|
-  add_investment_to_cart(amount)
-end
-
-Given /^my cart has a deposit of \$(\d+\.?\d*)$/ do |amount|
-  add_deposit_to_cart(amount)
-end
-
 Then /^I should be on the payment step of the checkout process$/ do
   response.should have_tag("h2", "Step 2 of 4 - Payment Details")
 end

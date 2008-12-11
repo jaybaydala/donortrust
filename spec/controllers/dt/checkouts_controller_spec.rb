@@ -341,6 +341,10 @@ describe Dt::CheckoutsController do
       describe "for all steps (#{step} step)" do
         before do
           @step = step
+          if step == "confirm"
+            @order.stub!(:run_transaction).and_return(true)
+            controller.stub!(:validate_order).and_return(true)
+          end
         end
         it "should validate_order" do
           controller.should_receive(:validate_order).and_return(true)
@@ -350,9 +354,13 @@ describe Dt::CheckoutsController do
           controller.should_receive(:do_action).and_return(true)
           do_request
         end
+        it "should set current_step to the current step (duh)" do
+          do_request
+          controller.__send__(:current_step).should == @step
+        end
         it "should save the order if it's valid" do
           controller.should_receive(:validate_order).and_return(true)
-          # do_action can invalidate the order - we're exploring that later in this describe block
+          # do_action can invalidate the order - we're exploring that elsewhere in this describe block
           controller.stub!(:do_action).and_return(true)
           @order.should_receive(:save).and_return(true)
           do_request
@@ -369,11 +377,11 @@ describe Dt::CheckoutsController do
         end
         it "should render the next step's template if the order is valid and there's a next step available" do
           controller.stub!(:validate_order).and_return(true)
-          # do_action can invalidate the order - we're exploring that later in this describe block
+          # do_action can invalidate the order - we're exploring that elsewhere in this describe block
           controller.stub!(:do_action).and_return(true)
           @order.should_receive(:complete?).and_return(true) if step == "confirm" # we're on the last step
           do_request
-          next_step = controller.send!(:next_step)
+          next_step = controller.__send__(:next_step)
           if next_step
             response.should render_template(next_step) if next_step
           else # we're on the last step
@@ -566,7 +574,7 @@ describe Dt::CheckoutsController do
         controller.should_receive(:do_payment)
         do_request
       end
-      it "next_step should be 'payment'" do
+      it "next_step should be 'billing'" do
         do_request
         controller.send!(:next_step).should == "billing"
       end

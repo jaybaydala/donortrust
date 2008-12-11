@@ -158,7 +158,7 @@ class Order < ActiveRecord::Base
       end
       true
     else
-      raise ActiveMerchant::Billing::Error.new
+      raise ActiveMerchant::Billing::Error.new("There was an error with the credit card.")
     end
   end
   
