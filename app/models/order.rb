@@ -78,12 +78,16 @@ class Order < ActiveRecord::Base
   
   def validate_billing(cart_items)
     if tax_receipt_needed?
-      required_fields = %w(donor_type first_name last_name address city postal_code province country email)
+      
+      required_fields = %w(donor_type address city postal_code province country email)
+      if self.donor_type? && self.donor_type == self.class.corporate_donor
+        required_fields << "company"
+      else
+        required_fields << "first_name"
+        required_fields << "last_name"
+      end
       errors.add_on_blank(required_fields)
-    # else
-    #   required_fields = %w(email)
     end
-    errors.add_on_blank(:company) if self.donor_type? && self.donor_type == self.class.corporate_donor
     if self.email? && !errors.on(:email)
       errors.add(:email, "isn't a valid email address") unless self.email =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
     end

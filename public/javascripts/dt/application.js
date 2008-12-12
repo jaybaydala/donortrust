@@ -3,6 +3,11 @@ document.observe("dom:loaded", function() {
 	if ($("orderform") && $('step') && $('step').value == "confirm") {
 		new CheckoutSubmit("orderform", "checkout-submitbuttons");
 	}
+	if ($("billingform") && $('step') && $F('step') == "billing") {
+		DonorType.change();
+		$('order_donor_type_personal').observe("change", DonorType.change);
+		$('order_donor_type_corporate').observe("change", DonorType.change);
+	}
 
 	if (anchors = $$('a')) {
 		anchors.each(function(anchor) {
@@ -52,6 +57,27 @@ Ajax.Responders.register({
 	}
 });
 
+var DonorType = {
+	change: function() {
+		if ($('order_donor_type_personal').checked) {
+			DonorType.personal();
+		} else {
+			DonorType.corporate();
+		}
+	},
+	corporate: function() {
+		$$('li.personal').each(function(e){
+			e.hide();
+		});
+		$('companyrequired').show();
+	},
+	personal: function() {
+		$$('li.personal').each(function(e){
+			e.show();
+		});
+		$('companyrequired').hide();
+	}
+}
 
 var CheckoutSubmit = Class.create();
 CheckoutSubmit.prototype = {

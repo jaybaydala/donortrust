@@ -64,40 +64,6 @@
       <li style="display:none;" id="totalfield"><label>Total Paid:</label> $<%= text_field_tag :total, number_to_currency(0), :style => 'border:0;', :disabled => "disabled" %></li>
     </ol>
   </fieldset>
-
-  <% if !@order.user_id && !logged_in? %>
-  <fieldset class="clearfix" id="checkout_create_account">
-    <legend>Create an Account?</legend>
-    <p>A ChristmasFuture account allows you to:</p>
-    <ul>
-      <li>track your giving history over time and your impact in the world</li>
-      <li>access your tax receipts and printable gift cards online</li>
-      <li>resend gifts to alternate email addresses</li>
-      <li>save information preferences, so you don&rsquo;t have to re-enter it next time!</li>
-      <li>join a group with people who are interested in the same projects and causes that you are</li>
-      <li>conveniently track projects you have supported in one place </li>
-      <li>create a &ldquo;projects wishlist&rdquo; and more!</li>
-    </ul>
-
-    <ol>
-      <li><label class="left"><%= check_box_tag :create_account, "1", (params[:create_account] ? true : false), :onchange => "if(this.checked){$('password_entry').show();}else{$('password_entry').hide();}" %> Yes, I want to create an account on ChristmasFuture&rsquo;s website</label></li>
-    </ol>
-    <div id="password_entry" style="display:none;">
-      <ol>
-        <li><label for="password" style="width:120px;">Password</label> <%= password_field_tag :password, nil, :id => 'password' %></li>
-        <li><label for="password_confirmation" style="width:120px;">Confirm Password</label> <%= password_field_tag :password_confirmation, nil, :id => 'password_confirmation' %></li>
-        <li>
-          <fieldset>
-            <legend>Terms of Service</legend>
-            <ol>
-              <li class="left"><%= check_box_tag :terms_of_use %> I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</li>
-            </ol>
-          </fieldset>
-        </li>
-    </ol>
-    </div>
-  </fieldset>
-  <% end %>
 </div>
 <div class="checkoutbuttons clearfix">
   <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "support") %>

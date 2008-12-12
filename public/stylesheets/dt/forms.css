@@ -13,6 +13,7 @@ legend {
     font-weight:bold;
     padding-right:2px;
     display:block;
+    white-space: normal;
 }
 fieldset fieldset legend, fieldset fieldset ol li {
     font-size:1em;
