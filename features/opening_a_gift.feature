@@ -56,7 +56,7 @@ Feature: Opening a Gift
     Given I have received a gift for $50
     And I open the gift
     When I go to a Project Page
-    And I follow "Give my entire gift card balance to this project"
+    And I follow "Give my entire Gift Card Balance to this project"
     And I press "Yes"
     Then I should be shown my directed order
     And the gift card balance should be $0
