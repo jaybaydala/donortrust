@@ -14,7 +14,7 @@
 					<li><%= link_to("Give to this project directly", new_dt_investment_path(:project_id => @project.id)) %></li>
 					<li><%= link_to("Give to this project on behalf of someone", new_dt_gift_path(:project_id => @project)) %></li>
 					<% if session[:gift_card_balance] %>
-					<li><%= link_to("Give my entire gift card balance to this project", new_dt_investment_path(:project_id => @project, :directed_gift => 1)) %></li>
+					<li><%= link_to("Give my entire Gift Card Balance to this project", new_dt_investment_path(:project_id => @project, :directed_gift => 1)) %></li>
 					<% end %>
 				</ul>
 			</div>
