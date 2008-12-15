@@ -1,4 +1,6 @@
+gem "recaptcha"
 class Dt::TellFriendsController < DtApplicationController
+  include ReCaptcha::AppHelper
   before_filter :login_required, :only => :show
   
   def initialize
@@ -63,18 +65,22 @@ class Dt::TellFriendsController < DtApplicationController
       end
     end
     @noemails = true if @shares.empty?
-    
+
     respond_to do |format|
-      if @unsaved.empty? && !@noemails
-        flash.now[:notice] = "Your invitations have been sent"
-        format.html
+      if validate_recap(params, @share.errors)
+        if @unsaved.empty? && !@noemails
+          flash.now[:notice] = "Your invitations have been sent"
+          format.html
+        else
+          @ecards = ECard.find(:all, :order => :id)
+          @project = Project.find(@share.project_id) if @share.project_id? && @share.project_id != 0
+          @action_js = "dt/ecards"
+          flash.now[:error] = "Emails could not be created for the following email addresses: #{@unsaved.join(', ')}" unless @unsaved.empty?
+          flash.now[:error] = "You need to include at least one email" if @noemails
+          format.html { render :action => "new" }
+        end
       else
-        @ecards = ECard.find(:all, :order => :id)
-        @project = Project.find(@share.project_id) if @share.project_id? && @share.project_id != 0
-        @action_js = "dt/ecards"
-        flash.now[:error] = "Emails could not be created for the following email addresses: #{@unsaved.join(', ')}" unless @unsaved.empty?
-        flash.now[:error] = "You need to include at least one email" if @noemails
-        format.html { render :action => "new" }
+        format.html { render :action => "confirm" }
       end
     end
   end

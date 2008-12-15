@@ -1,4 +1,10 @@
+require "recaptcha"
 module DtApplicationHelper
+  include ReCaptcha::ViewHelper
+  def recaptcha_available?
+    !RCC_PUB.nil? && !RCC_PRIV.nil?
+  end
+  
   def ssl_protocol
     return 'https://' if ENV['RAILS_ENV'] == 'production'
     'http://'

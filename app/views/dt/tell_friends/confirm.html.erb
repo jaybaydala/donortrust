@@ -26,6 +26,13 @@
       </ul>
     </fieldset>
 
+    <%- if recaptcha_available? -%>
+    <fieldset id="recaptcha">
+      <legend>Please fill in the following to send your emails.</legend>
+      <%= get_captcha %>
+    </fieldset>
+    <%- end -%>
+
     <%= submit_tag 'Send E-card', :class => 'buttonsubmit' %>
     <input type="button" value="Go Back" onclick="history.go(-1);" class="buttonsubmit" />
   </div>

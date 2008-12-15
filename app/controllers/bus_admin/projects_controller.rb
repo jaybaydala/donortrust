@@ -275,7 +275,7 @@ class BusAdmin::ProjectsController < ApplicationController
     begin
       @project = Project.find_by_id(params[:id])
     rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
+      render_404 and return
     end
     respond_to do |format|
       format.html {render :partial => "show_pending_project_rejection"}
@@ -295,7 +295,7 @@ class BusAdmin::ProjectsController < ApplicationController
 
       @wrapper = PendingWrapper.new(@pending, @rehydrated)
     rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
+      render_404 and return
     end
     respond_to do |format|
       format.html
@@ -328,14 +328,14 @@ class BusAdmin::ProjectsController < ApplicationController
     begin
       @project = Project.find_by_id(params[:id])
     rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
+      render_404 and return
     end
 
     #Find the pending version of the project
     begin
       @pending = PendingProject.find_by_project_id(@project.id)
     rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
+      render_404 and return
     end
 
     #If the project is not new, we need to apply the pending changes to the project and save it.
@@ -371,14 +371,14 @@ class BusAdmin::ProjectsController < ApplicationController
     begin
       @project = Project.find_by_id(params[:id])
     rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
+      render_404 and return
     end
 
     #find the pending version of the project
     begin
       @pending = PendingProject.find_by_project_id(@project.id)
     rescue ActiveRecord::RecordNotFound
-      rescue_404 and return
+      render_404 and return
     end
 
     #mark the pending version as rejected, with the reason, the date rejected, and who rejected it.
