@@ -164,7 +164,7 @@ ORDER BY pla.place_type_id, pla.parent_id;
 
     # Run some specific SQL to address a project that is pointing to a place 
     # called Koinadugu that should actually be a city.
-    execute "UPDATE places SET place_type_id = 6 WHERE place_id = 2587;"
+    execute "UPDATE places SET place_type_id = 6 WHERE id = 2587;"
 
     Project.find(:all).each do |project|
       ensure_entity_points_to_city(project)
