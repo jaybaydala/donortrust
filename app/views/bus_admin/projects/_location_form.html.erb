@@ -1,18 +1,12 @@
-<label>Continent:</label> <%= collection_select (:project, :continent_id, get_continents, :id, :name, :include_blank => true) %><br/>
-<label>Country:</label>   <%= collection_select (:project, :country_id,   get_country(@continent_id || @project.continent_id), :id, :name, :include_blank => true) %><br/>
+<label>Country:</label> <%= collection_select (:project, :country_id, get_countries, :id, :name, :include_blank => false) %><br/>
 <label>Specific location:</label>
 
 <input autocomplete="off" id="place_name" name="place[name]" size="30" value="<%= @project.place.name if @project.place && @project.place.name %>" type="text" />
 <div style="display: none;" class="auto_complete" id="place_name_auto_complete"></div>
 
-<%= observe_field :project_continent_id,
-				  :url => update_location_path,
-				  :with => "'id=#{@project.id}&continent=' + escape(value)",
-				  :update => :project_location_form %>
-
 <%= observe_field :project_country_id,
 				  :url => update_location_path,
-				  :with => "'id=#{@project.id}&country=' + escape(value) + '&continent=' + $F('project_continent_id')",
+				  :with => "'id=#{@project.id}&country=' + escape(value)",
 				  :update => :project_location_form %>
 
 <script type="text/javascript">
