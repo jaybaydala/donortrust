@@ -85,6 +85,9 @@ Rails::Initializer.run do |config|
   #end
 end
 
+recaptcha_file = File.join(RAILS_ROOT, "public", "system", "recaptcha_vars.rb")
+require recaptcha_file if File.exists?(recaptcha_file)
+
 # set up the Exception Notifier plugin
 ExceptionNotifier.exception_recipients = %w(sysadmin@pivotib.com)
 ExceptionNotifier.sender_address = %("DT Application Error" <support@christmasfuture.com>)
