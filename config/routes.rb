@@ -380,4 +380,7 @@ ActionController::Routing::Routes.draw do |map|
 	map.connect '/bus_admin/projects/embedded_collaborations/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_collaborations'
 	map.connect '/bus_admin/projects/embedded_flickr_images/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_flickr_images'
 	map.connect '/bus_admin/projects/embedded_financial_sources/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_financial_sources'
+
+	map.connect '/bus_admin/places_for_approval', :controller => 'bus_admin/places', :action => 'places_for_approval'
+
 end

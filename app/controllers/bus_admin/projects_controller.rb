@@ -92,8 +92,9 @@ class BusAdmin::ProjectsController < ApplicationController
   def create
     unless current_user.administrated_partners.empty? && !current_user.cf_admin?
       @project = Project.new(params[:project])
+
       if params[:place] and params[:place][:name] and params[:place][:name] != ""
-        @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id
+        assign_place_to_project(params, @project)
       end
 
       ActiveRecord::Base.transaction do
@@ -189,7 +190,9 @@ class BusAdmin::ProjectsController < ApplicationController
 
       #only update the project attributes !!DO NOT SAVE THE PROJECT HERE!!
       @project.attributes = params[:project]
-      @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id if params[:place]
+
+      assign_place_to_project(params, @project)
+
       #Hack - if we don't do this, the textiled properties are added with tags to the xml
       @project.textiled = false
 
@@ -240,7 +243,18 @@ class BusAdmin::ProjectsController < ApplicationController
 
           #only update the project attributes !!DO NOT SAVE THE PROJECT HERE!!
           @project.attributes = params[:project]
-          @project.place_id = Place.find(:first, :conditions => {:name => params[:place][:name]}).id if params[:place]
+
+          # TODO: Combine this with the same section in the assign_place_to_project code      
+          # Deal with the place that has been assigned to the project
+          submitted_place = Place.find(:first, :conditions => {:name => params[:place][:name]})
+          if submitted_place.nil?
+            # Don't do anything because the user hasn't entered a place name yet            
+            return
+          else
+            # This place already exists in the database
+            @project.place_id = submitted_place.id if params[:place]
+          end
+
           #Hack - if we don't do this, the textiled properties are added with tags to the xml
           @project.textiled = false
 
@@ -495,7 +509,6 @@ class BusAdmin::ProjectsController < ApplicationController
 
   def update_location
     @project = Project.new
-    @project.continent_id = params[:continent]
     @project.country_id = params[:country] if params[:country]
 
     render :partial => "location_form"
@@ -671,6 +684,31 @@ class BusAdmin::ProjectsController < ApplicationController
     session['project_id'] = params[:project_id]
     @project = Project.find(params[:project_id])
 		render :layout => 'embedded'
+  end
+
+  private
+  def assign_place_to_project(params, project)
+    submitted_place = Place.find(:first, :conditions => {:name => params[:place][:name]})
+
+    if submitted_place.nil?
+      # Assume user wants to create a new place so insert one into the 
+      # database. Note that Christmas Future will still need to approve the 
+      # place.
+      # TODO: Move this logic to the places_controller
+      RAILS_DEFAULT_LOGGER.info('User is creating a new place called ' + params[:place][:name])
+      RAILS_DEFAULT_LOGGER.info('in country ID ' + params[:project][:country_id])
+      new_place = Place.new  
+      new_place.name = params[:place][:name]
+      new_place.parent_id = params[:project][:country_id]
+      new_place.place_type_id = 6 # TODO: Do this in a more robust way without magic numbers
+      new_place.save
+      project.place_id = new_place.id
+      # TODO: Why isn't this putting a message on the project page?
+      flash[:notice] = 'A new city called ' + new_place.name + ' was created but has not yet been approved.'
+    else
+      # This place already exists in the database
+      project.place_id = submitted_place.id
+    end
   end
   
 end
