@@ -79,16 +79,6 @@
 	</div>
 	<div class="detail-content">
 		<%= show_spinner() %>
-		<div id='project_plan'>
-			<% if !@project.milestones.empty? && !@project.target_start_date.nil? %>
-			  <ul>
-				<%= render :partial => 'milestone', :collection => @project.milestones%>
-				</ul>
-			<% else %>
-				<h2>There is no project plan data available.</h2>
-			<% end %>  
-		</div>
-
 		<!-- intended outcome -->
 		<div id='intended_outcome' style='display:none'>
 			<% if @project.intended_outcome? %>
@@ -99,6 +89,16 @@
 				<h2>There is no intended outcome data available.</h2>
 			<% end %>
 
+		</div>
+
+		<div id='project_plan' style='display:none;'>
+			<% if !@project.milestones.empty? && !@project.target_start_date.nil? %>
+			  <ul>
+				<%= render :partial => 'milestone', :collection => @project.milestones%>
+				</ul>
+			<% else %>
+				<h2>There is no project plan data available.</h2>
+			<% end %>  
 		</div>
 
 		<div id='measurable_feedback' style='display:none;'>
