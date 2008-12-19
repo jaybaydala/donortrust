@@ -111,7 +111,7 @@ class Dt::CheckoutsController < DtApplicationController
     end
     redirect_to dt_cart_path and return unless @order
     redirect_to edit_dt_checkout_path and return unless @order.complete?
-    redirect_to dt_cart_path and return unless session[:order_number].include?(params[:order_number].to_i)
+    redirect_to dt_cart_path and return unless session[:order_number] && session[:order_number].include?(params[:order_number].to_i)
   end
   
   def destroy
