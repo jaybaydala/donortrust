@@ -26,6 +26,22 @@ module OrderHelper
       @order.email = current_user.login
       @order.user = current_user
     end
+    @order.total = @cart.total
+    ############
+    # THE GIFT_CARD_PAYMENT AND CREDIT_CARD_PAYMENT SHOULD ONLY BE SET ONCE
+    # set the gift card payment
+    unless @order.total_payments == @order.total
+      if session[:gift_card_balance] && session[:gift_card_balance] > 0 && !@order.gift_card_payment?
+        @order.gift_card_payment = @order.total && session[:gift_card_balance] > @order.total ? @order.total : session[:gift_card_balance]
+      end
+      # set the credit card payment
+      unless @order.credit_card_payment?
+        unless logged_in? && (current_user.balance > 0)
+          @order.credit_card_payment = @order.gift_card_payment? ? @order.total - @order.gift_card_payment : @order.total
+          @order.credit_card_payment = 0 if @order.credit_card_payment? && @order.credit_card_payment < 0
+        end
+      end
+    end
     @order
   end
   
@@ -34,27 +50,11 @@ module OrderHelper
     @cart = find_cart unless @cart
     return nil unless @order && @cart
     @order.attributes = params[:order]
-    @order.total = @cart.total
-    @order.user = current_user if logged_in?
-    
-    ############
-    # THE GIFT_CARD_PAYMENT AND CREDIT_CARD_PAYMENT SHOULD ONLY BE SET IF THEY'RE NOT ALREADY...
-    # set the gift card payment
-    unless @order.total_payments == @order.total
-      if session[:gift_card_balance] && session[:gift_card_balance] > 0 && !@order.gift_card_payment?
-        @order.gift_card_payment = 
-          @order.total && session[:gift_card_balance] > @order.total ? 
-          @order.total : 
-          session[:gift_card_balance]
-      end
-      # set the credit card payment
-      unless @order.credit_card_payment?
-        unless logged_in? && current_user.balance > 0
-          @order.credit_card_payment = @order.gift_card_payment? ? @order.total - @order.gift_card_payment : @order.total
-          @order.credit_card_payment = 0 if @order.credit_card_payment? && @order.credit_card_payment < 0 
-        end
-      end
+    # add in the pledge_account_balance
+    if logged_in? && params[:order] && params[:order][:pledge_account_payment_id] && pledge_account = PledgeAccount.find(params[:order][:pledge_account_payment_id], :conditions => {:user_id => current_user})
+      @order.pledge_account_balance = pledge_account.balance if pledge_account
     end
+    @order.user = current_user if logged_in?
     @order
   end
 end

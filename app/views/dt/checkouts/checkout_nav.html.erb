@@ -9,8 +9,8 @@
       "confirm" => ["Step 4. Confirmation ", edit_dt_checkout_path(:step => "confirm")]
       }
     ["support", "payment", "billing", "confirm"].each do |key|
-      current = (@current_step ? false : true) if key.empty?
-      current = (@current_step == key ? true : false) unless key.empty?
+      current = (current_step ? false : true) if key.empty?
+      current = (current_step == key ? true : false) unless key.empty?
       link_item = false if current
       title = nav_info[key][0]
       link = nav_info[key][1]

@@ -285,6 +285,17 @@ class Dt::CheckoutsController < DtApplicationController
             @gift_card.balance = @gift_card.balance - @order.gift_card_payment
             @gift_card.save!
           end
+
+          # reduce the pledge_account_payment balance if a pledge_account_payment
+          # set it to nil if there isn't
+          if logged_in? && @order.pledge_account_payment? && @order.pledge_account_payment_id?
+            @pledge_account = PledgeAccount.find(@order.pledge_account_payment_id, :conditions => {:user_id => current_user})
+            @pledge_account.balance = @pledge_account.balance - @order.pledge_account_payment
+            @pledge_account.save!
+          else
+            @order.update_attributes!(:pledge_account_payment => nil, :pledge_account_payment_id => nil)
+          end
+
           # mark the order as complete
           @order.update_attributes!(:complete => true)
         end

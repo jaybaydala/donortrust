@@ -28,7 +28,19 @@
           </label>
         </li>
       <% end %>
-      <% if account_payment? %><li><label class="left" style="font-style:italic;">Your Current Account Balance: <%= number_to_currency(current_user.balance) %><%= hidden_field_tag :account_balance, current_user.balance %></label></li><% end %>
+      <%- if account_payment? -%>
+        <li>
+          <label class="left" style="font-style:italic;">Your Current Account Balance: <%= number_to_currency(current_user.balance) %></label>
+          <%= hidden_field_tag :account_balance, current_user.balance %>
+        </li>
+      <%- end -%>
+      <%- if pledge_account -%>
+        <li>
+          <label class="left" style="font-style:italic;">Your Current <%= pledge_account.campaign.name %> Pledge Account Balance: <%= number_to_currency(pledge_account.balance) %></label>
+          <%= f.hidden_field :pledge_account_payment_id, :value => pledge_account.id %>
+          <%= hidden_field_tag :pledge_account_balance, pledge_account.balance %>
+        </li>
+      <%- end -%>
       <% if minimum_credit_payment = @order.minimum_credit_payment(@cart.items) %>
         <% if !gift_card_payment? %>
           <li>
@@ -48,7 +60,7 @@
         $<%= f.text_field :gift_card_payment, :value => number_with_precision(@order.gift_card_payment, 2), :disabled => "disabled", :style => 'background-color:#DDD;' %>
         <%- end -%>
       </li>
-      <li>
+      <li class="odd">
         <label>Take From my Account:</label> 
         <%- if logged_in? && current_user.balance > 0 -%>
         $<%= f.text_field :account_balance_payment, :value => number_with_precision(@order.account_balance_payment, 2) %>
@@ -56,6 +68,9 @@
         $<%= f.text_field :account_balance_payment, :value => number_with_precision(@order.account_balance_payment, 2), :disabled => "disabled", :style => 'background-color:#DDD;' %>
         <%- end -%>
       </li>
+      <%- if pledge_account -%>
+        <%= render :partial => "pledge_account", :locals => {:pledge_account => pledge_account, :f => f} %>
+      <%- end -%>
       <li class="odd">
         <label>Put on My Credit Card:</label> 
         $<%= f.text_field :credit_card_payment, :value => number_with_precision(@order.credit_card_payment, 2) %>

@@ -39,10 +39,11 @@ AccountTotal.prototype = {
 		if ($(this.account_balance_field) && $(this.account_payment_field) && $F(this.account_balance_field) - $F(this.account_payment_field) < 0) {
 			this.set_currency_value(this.account_payment_field, $F(this.account_balance_field))
 		}
+
 		// check all the buckets to ensure that none are over-limit
 		this.buckets.each(function(bucket) {
-			well = bucket.sub(/^order_/, "").sub(/_payment$/, "_balance")
-			if ($(well) && $F(well) && $F(well) < $F(bucket)) {
+			well = bucket.sub(/^order_/, "").sub(/_payment$/, "_balance");
+			if ($(well) && $F(well) && $F(well)*100 < $F(bucket)*100) {
 				account_total.set_currency_value(bucket, $F(well))
 			}
 		});
@@ -60,16 +61,6 @@ AccountTotal.prototype = {
 		} else {
 			if ($("paymentrequiredfield").visible()) {$("paymentrequiredfield").blindUp({ duration: 0.4 })}
 		}
-		// make sure to show/hide the credit card fields for credit_card_payment
-		// not needed since we've moved credit_card_details to the next step
-		/*
-		credit_card_payment = $F(this.credit_card_payment_field)
-		if (credit_card_payment == "" || credit_card_payment == "0") {
-			$("credit_card_details").hide();
-		} else {
-			$("credit_card_details").show();
-		}
-		*/
 	},
 	set_currency_value: function(field, value) {
 		$(field).setValue(number_helper.to_currency(number_helper.filter_amount(value), false))
