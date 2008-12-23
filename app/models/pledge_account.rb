@@ -2,8 +2,6 @@ class PledgeAccount < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :team
   belongs_to :user
-  has_many :user
-  
   
   def self.generate_user_accounts(user)
     campaigns = Pledge.find(:all, :conditions => ["admin_user_id=? AND released=?", user, true], :select => "DISTINCT(campaign_id)").map{|p|p.campaign}
