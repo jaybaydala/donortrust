@@ -292,8 +292,9 @@ class Dt::CheckoutsController < DtApplicationController
             @pledge_account = PledgeAccount.find(@order.pledge_account_payment_id, :conditions => {:user_id => current_user})
             @pledge_account.balance = @pledge_account.balance - @order.pledge_account_payment
             @pledge_account.save!
-          else
-            @order.update_attributes!(:pledge_account_payment => nil, :pledge_account_payment_id => nil)
+          end
+          if !@pledge_account
+            @order.update_attributes(:pledge_account_payment => nil, :pledge_account_payment_id => nil) 
           end
 
           # mark the order as complete
@@ -311,15 +312,14 @@ class Dt::CheckoutsController < DtApplicationController
       # deal with the gift card
       if @gift_card
         if @gift_card.balance == 0
+          @gift_card.pickup # this sends the notify email and disallows the gift from being opened again
           session[:gift_card_id] = nil
           session[:gift_card_balance] = nil
-          @gift_card.pickup
         else
           session[:gift_card_balance] = @gift_card.balance
           flash[:notice] = "Please note: Your gift card balance will expire on #{@gift_card.expiry_date.strftime("%b %e, %Y")}. If you need more time, please <a href=\"#{new_dt_account_deposit_path(current_user, :deposit => {:amount => @gift_card.balance})}\">Deposit the balance</a> into your account." if !@gift_card.expiry_date.nil?
         end
       end
-            
     end
   end
   

@@ -12,6 +12,7 @@ class Order < ActiveRecord::Base
   has_one :tax_receipt
   belongs_to :user
   validates_uniqueness_of :order_number
+  before_create :generate_order_number
   
   # virtual attribute for the entire card number
   attr_accessor :full_card_number
@@ -128,7 +129,7 @@ class Order < ActiveRecord::Base
   def minimum_credit_payment(cart_items)
     if (account_balance && account_balance > 0) || 
         (user_id? && user && user.balance > 0) || 
-        (user.pledge_accounts && user.pledge_accounts.inject(0){|sum,pa| sum+=pa.balance} > 0)
+        (user_id? && user.pledge_accounts && user.pledge_accounts.inject(0){|sum,pa| sum+=pa.balance} > 0)
       @minimum_credit_payment = cart_items.inject(0) {|sum, item| sum + (item.class == Deposit ? item.amount : 0) }
     else
       @minimum_credit_payment = total
@@ -247,6 +248,9 @@ class Order < ActiveRecord::Base
     self.credit_card_payment?
   end
   
+  def generate_order_number
+    self.order_number = Order.generate_order_number
+  end
   def self.generate_order_number
     record = Object.new
     while record

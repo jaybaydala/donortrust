@@ -15,8 +15,8 @@ module OrderHelper
   end
   
   def initialize_new_order
+    @cart = find_cart unless @cart
     @order = Order.new(params[:order])
-    @order.order_number = Order.generate_order_number
     @order.account_balance = current_user.balance if logged_in?
     @order.gift_card_balance = session[:gift_card_balance] if session[:gift_card_balance]
     if logged_in?
@@ -36,7 +36,7 @@ module OrderHelper
       end
       # set the credit card payment
       unless @order.credit_card_payment?
-        unless logged_in? && (current_user.balance > 0)
+        unless logged_in? && @order.account_balance && (@order.account_balance > 0)
           @order.credit_card_payment = @order.gift_card_payment? ? @order.total - @order.gift_card_payment : @order.total
           @order.credit_card_payment = 0 if @order.credit_card_payment? && @order.credit_card_payment < 0
         end
@@ -50,6 +50,7 @@ module OrderHelper
     @cart = find_cart unless @cart
     return nil unless @order && @cart
     @order.attributes = params[:order]
+    @order.total = @cart.total
     # add in the pledge_account_balance
     if logged_in? && params[:order] && params[:order][:pledge_account_payment_id] && pledge_account = PledgeAccount.find(params[:order][:pledge_account_payment_id], :conditions => {:user_id => current_user})
       @order.pledge_account_balance = pledge_account.balance if pledge_account
