@@ -18,7 +18,7 @@ class Dt::GiftsController < DtApplicationController
 
   def show
     @gift = Gift.find(:first, :conditions => ["id=? AND pickup_code=?", params[:id], params[:code]]) if params[:code]
-    respond_to do |format|
+    respond_to do |format|  
       if !@gift
         flash[:notice] = "That gift does not exist or has already been opened"
         redirect_to :action => 'new' and return
@@ -183,6 +183,7 @@ class Dt::GiftsController < DtApplicationController
         if @gift
           if @gift.project_id?
             flash.now[:notice] = "You have been given #{number_to_currency(@gift.amount)}!" unless flash[:notice]
+            @gift.pickup
           else
             @opening_now = true
             flash[:notice] = "Your Gift Card Balance is: #{number_to_currency(@gift.balance)}" unless @gift.project_id?
