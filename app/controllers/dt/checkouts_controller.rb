@@ -19,6 +19,7 @@ class Dt::CheckoutsController < DtApplicationController
     respond_to do |format|
       format.html {
         @current_step = 'support'
+        @current_nav_step = current_step
         render :action => "new" 
       }
     end
@@ -42,6 +43,7 @@ class Dt::CheckoutsController < DtApplicationController
           redirect_to edit_dt_checkout_path(:step => "confirm") and return if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
           redirect_to edit_dt_checkout_path(:step => next_step) and return
         end
+        @current_nav_step = current_step
         render :action => "new"
       }
     end
@@ -57,7 +59,7 @@ class Dt::CheckoutsController < DtApplicationController
     before_billing if current_step == "billing"
     respond_to do |format|
       format.html {
-        @current_step = current_step
+        @current_nav_step = current_step
         render :action => current_step
       }
     end
@@ -93,11 +95,13 @@ class Dt::CheckoutsController < DtApplicationController
           end  
           before_billing if next_step == "billing"
           before_payment if next_step == "payment"
+          @current_nav_step = next_step
           render :action => next_step and return
         elsif @billing_error
           @current_step = 'billing'
           before_billing
         end
+        @current_nav_step = current_step
         render :action => current_step
       }
     end

@@ -65,6 +65,12 @@
           <div class="note">After this transaction, your account balance will be <%= number_to_currency(current_user.balance - @order.account_balance_payment) %>.</div>
         </li>
       <% end %>
+      <% if pledge_account && @order.pledge_account_payment? %>
+        <li>
+          <label>Pledge Account Payment:</label> <%= number_to_currency(@order.pledge_account_payment) %>
+          <div class="note" >After this transaction, your pledge account balance will be <%= number_to_currency(pledge_account.balance - @order.pledge_account_payment) %>.</div>
+        </li>
+      <% end %>
       <% if @order.credit_card_payment? %>
         <li>
           <label>Credit Card Payment:</label> <%= number_to_currency(@order.credit_card_payment) %>
