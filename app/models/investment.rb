@@ -6,6 +6,7 @@ class Investment < ActiveRecord::Base
   belongs_to :group
   belongs_to :gift
   belongs_to :order
+  belongs_to :promotion
   has_one :user_transaction, :as => :tx
 
   validates_presence_of :amount

@@ -20,6 +20,7 @@ class BusAdmin::StatsController < ApplicationController
     @noOfPeopleGroups = Membership.count(:all,  :select => "DISTINCT user_id")
     @noOfTellaFriend = Share.find(:all).size
     @Partners = Partner.find(:all)
+    @Promotions = Promotion.find(:all)
     
     @Total_needed = 0
     @projects.each do |project|
