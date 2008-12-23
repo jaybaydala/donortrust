@@ -3,4 +3,6 @@ class Participant < ActiveRecord::Base
     prev.succ
   end
   generator_for :goal => 100
+  generator_for :campaign => Campaign.generate!
+  generator_for :team => Team.generate!
 end

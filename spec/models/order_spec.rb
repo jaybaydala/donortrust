@@ -58,7 +58,13 @@ describe Order do
     
     it "should validate all tax receipt fields if credit_card_payment?" do
       @order.credit_card_payment = 1
-      @order.errors.should_receive(:add_on_blank).with(%w(donor_type first_name last_name address city postal_code province country email))
+      @order.errors.should_receive(:add_on_blank).with(%w(donor_type address city postal_code province country email first_name last_name))
+      @order.validate_billing(@items)
+    end
+    it "should skip name field validation and add company if donor_type == company and credit_card_payment?" do
+      @order.credit_card_payment = 1
+      @order.donor_type = Order.corporate_donor
+      @order.errors.should_receive(:add_on_blank).with(%w(donor_type address city postal_code province country email company))
       @order.validate_billing(@items)
     end
     it "should not validate tax receipt fields if no credit_card_payment?" do

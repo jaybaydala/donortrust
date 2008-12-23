@@ -25,4 +25,9 @@ module Dt::CheckoutsHelper
       [ d.year, d.year ]
     end
   end
+  
+  def pledge_account
+    return unless logged_in?
+    PledgeAccount.find(:first, :conditions => {:user_id => current_user})
+  end
 end

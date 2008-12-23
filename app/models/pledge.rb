@@ -5,6 +5,7 @@ class Pledge < ActiveRecord::Base
   belongs_to :team
   belongs_to :campaign
   belongs_to :user
+  has_one :pledge_deposit
 
   has_one :user_transaction, :as => :tx
 

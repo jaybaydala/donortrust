@@ -227,6 +227,12 @@ describe User do
     end
   end
   
+  describe "pledge_accounts" do
+    # pledge accounts come directly from the pledge_deposits table, which has a user_id. 
+    # there is one pledge account for each unique campaign in the pledge_deposits table
+    
+  end
+  
   def create_user(options = {})
     User.create({ :login => 'login@example.com', :first_name => 'FirstName', :last_name => 'LastName', :display_name => 'DisplayName', :address => '4320 15 st', :city => 'Calgary', :province => 'Alberta', :country => 'Canada', :postal_code => 'T2T4B2', :under_thirteen => 0, :crypted_password => '00742970dc9e6319f8019fd54864d3ea740f04b1', :salt => '7e3041ebc2fc05a40c60028e2c4901a81035d3cd', :created_at => '2006-10-16 13:14:40', :updated_at => '2007-10-16 13:14:40', :remember_token => 'test', :remember_token_expires_at => '2011-10-16 13:14:40', :activation_code => 'code', :activated_at => '2007-10-16 13:14:40', :last_logged_in_at => '2007-09-16 13:14:40', :terms_of_use => "1" }.merge(options))
   end

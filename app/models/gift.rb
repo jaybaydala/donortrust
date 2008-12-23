@@ -51,6 +51,7 @@ class Gift < ActiveRecord::Base
   end
   
   def pickup
+    DonortrustMailer.deliver_gift_notify(self) if notify_giver?
     @picked_up = true if update_attributes(:picked_up_at => Time.now.utc, :pickup_code => nil)
   end
   

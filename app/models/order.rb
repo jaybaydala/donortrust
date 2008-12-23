@@ -12,6 +12,7 @@ class Order < ActiveRecord::Base
   has_one :tax_receipt
   belongs_to :user
   validates_uniqueness_of :order_number
+  before_create :generate_order_number
   
   # virtual attribute for the entire card number
   attr_accessor :full_card_number
@@ -101,27 +102,34 @@ class Order < ActiveRecord::Base
     errors.empty?
   end
   
-  attr_accessor :account_balance, :gift_card_balance
+  attr_accessor :account_balance, :gift_card_balance, :pledge_account_balance
   def account_balance=(val)
     @account_balance = BigDecimal.new(val.to_s)
   end
   def gift_card_balance=(val)
     @gift_card_balance = BigDecimal.new(val.to_s)
   end
+  def pledge_account_balance=(val)
+    @pledge_account_balance = BigDecimal.new(val.to_s)
+  end
   def validate_payment(cart_items)
     errors.add(:account_balance_payment, "cannot be more than your current account balance") if @account_balance && @account_balance > 0 && account_balance_payment? && account_balance_payment > @account_balance
     errors.add(:gift_card_payment, "cannot be more than your current gift card balance") if @gift_card_balance && @gift_card_balance > 0 && gift_card_payment? && gift_card_payment > @gift_card_balance
+    errors.add(:pledge_account_payment, "cannot be more than your current pledge account balance") if @pledge_account_balance && @pledge_account_balance > 0 && pledge_account_payment? && pledge_account_payment > @pledge_account_balance
     errors.add_to_base("Please ensure you're paying the full amount.") if total_payments < total
     errors.add_to_base("You only need to pay the cart total.") if total_payments > total
     errors.add_to_base("You must pay at least #{number_to_currency(minimum_credit_payment(cart_items))} from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
     errors.add(:gift_card_payment, "must be a positive number") if self.gift_card_payment? && self.gift_card_payment < 0
     errors.add(:account_balance_payment, "must be a positive number") if self.account_balance_payment? && self.account_balance_payment < 0
+    errors.add(:pledge_account_payment, "must be a positive number") if self.pledge_account_payment? && self.pledge_account_payment < 0
     errors.add(:credit_card_payment, "must be a positive number") if self.credit_card_payment? && self.credit_card_payment < 0
     errors.empty?
   end
 
   def minimum_credit_payment(cart_items)
-    if (account_balance && account_balance > 0) || (user_id? && user && user.balance > 0)
+    if (account_balance && account_balance > 0) || 
+        (user_id? && user && user.balance > 0) || 
+        (user_id? && user.pledge_accounts && user.pledge_accounts.inject(0){|sum,pa| sum+=pa.balance} > 0)
       @minimum_credit_payment = cart_items.inject(0) {|sum, item| sum + (item.class == Deposit ? item.amount : 0) }
     else
       @minimum_credit_payment = total
@@ -240,6 +248,9 @@ class Order < ActiveRecord::Base
     self.credit_card_payment?
   end
   
+  def generate_order_number
+    self.order_number = Order.generate_order_number
+  end
   def self.generate_order_number
     record = Object.new
     while record
@@ -254,6 +265,7 @@ class Order < ActiveRecord::Base
     total += credit_card_payment if credit_card_payment?
     total += gift_card_payment if gift_card_payment?
     total += account_balance_payment if account_balance_payment?
+    total += pledge_account_payment if pledge_account_payment?
     total
   end
 

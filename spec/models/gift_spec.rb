@@ -154,9 +154,34 @@ describe Gift do
   
   describe "gift notifications" do
     before do
+      ActionMailer::Base.delivery_method = :test
+      ActionMailer::Base.perform_deliveries = true
+      ActionMailer::Base.deliveries = []
       time = Time.now
       Time.stub!(:now).and_return(time)
       @gift.update_attributes(:send_at => time)
+    end
+    
+    describe "pickup" do
+      it "should not notify the giver if notify_giver? is false" do
+        @gift.notify_giver = false
+        lambda {
+          @gift.pickup
+        }.should_not change(ActionMailer::Base.deliveries, :size)
+      end
+      it "should notify the giver if notify_giver? is true" do
+        @gift.notify_giver = true
+        lambda {
+          @gift.pickup
+        }.should change(ActionMailer::Base.deliveries, :size)
+      end
+      it "should send the right email" do
+        @gift.notify_giver = true
+        @gift.pickup
+        mail = ActionMailer::Base.deliveries[0]
+        mail.to.include?(@gift.email).should be_true
+        mail.subject.should == "Your ChristmasFuture gift has been opened"
+      end
     end
   end
 end

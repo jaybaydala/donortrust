@@ -431,7 +431,7 @@ class Project < ActiveRecord::Base
 
   def nation
     nation_place_type = PlaceType.nation
-    if place.place_type_id == nation_place_type.id
+    if place && place.place_type_id == nation_place_type.id
       place
     else
       country

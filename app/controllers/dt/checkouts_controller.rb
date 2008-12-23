@@ -19,6 +19,7 @@ class Dt::CheckoutsController < DtApplicationController
     respond_to do |format|
       format.html {
         @current_step = 'support'
+        @current_nav_step = current_step
         render :action => "new" 
       }
     end
@@ -42,6 +43,7 @@ class Dt::CheckoutsController < DtApplicationController
           redirect_to edit_dt_checkout_path(:step => "confirm") and return if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
           redirect_to edit_dt_checkout_path(:step => next_step) and return
         end
+        @current_nav_step = current_step
         render :action => "new"
       }
     end
@@ -57,7 +59,7 @@ class Dt::CheckoutsController < DtApplicationController
     before_billing if current_step == "billing"
     respond_to do |format|
       format.html {
-        @current_step = current_step
+        @current_nav_step = current_step
         render :action => current_step
       }
     end
@@ -93,11 +95,13 @@ class Dt::CheckoutsController < DtApplicationController
           end  
           before_billing if next_step == "billing"
           before_payment if next_step == "payment"
+          @current_nav_step = next_step
           render :action => next_step and return
         elsif @billing_error
           @current_step = 'billing'
           before_billing
         end
+        @current_nav_step = current_step
         render :action => current_step
       }
     end
@@ -111,7 +115,7 @@ class Dt::CheckoutsController < DtApplicationController
     end
     redirect_to dt_cart_path and return unless @order
     redirect_to edit_dt_checkout_path and return unless @order.complete?
-    redirect_to dt_cart_path and return unless session[:order_number].include?(params[:order_number].to_i)
+    redirect_to dt_cart_path and return unless session[:order_number] && session[:order_number].include?(params[:order_number].to_i)
   end
   
   def destroy
@@ -285,6 +289,18 @@ class Dt::CheckoutsController < DtApplicationController
             @gift_card.balance = @gift_card.balance - @order.gift_card_payment
             @gift_card.save!
           end
+
+          # reduce the pledge_account_payment balance if a pledge_account_payment
+          # set it to nil if there isn't
+          if logged_in? && @order.pledge_account_payment? && @order.pledge_account_payment_id?
+            @pledge_account = PledgeAccount.find(@order.pledge_account_payment_id, :conditions => {:user_id => current_user})
+            @pledge_account.balance = @pledge_account.balance - @order.pledge_account_payment
+            @pledge_account.save!
+          end
+          if !@pledge_account
+            @order.update_attributes(:pledge_account_payment => nil, :pledge_account_payment_id => nil) 
+          end
+
           # mark the order as complete
           @order.update_attributes!(:complete => true)
         end
@@ -300,15 +316,14 @@ class Dt::CheckoutsController < DtApplicationController
       # deal with the gift card
       if @gift_card
         if @gift_card.balance == 0
+          @gift_card.pickup # this sends the notify email and disallows the gift from being opened again
           session[:gift_card_id] = nil
           session[:gift_card_balance] = nil
-          @gift_card.pickup
         else
           session[:gift_card_balance] = @gift_card.balance
           flash[:notice] = "Please note: Your gift card balance will expire on #{@gift_card.expiry_date.strftime("%b %e, %Y")}. If you need more time, please <a href=\"#{new_dt_account_deposit_path(current_user, :deposit => {:amount => @gift_card.balance})}\">Deposit the balance</a> into your account." if !@gift_card.expiry_date.nil?
         end
       end
-            
     end
   end
   
