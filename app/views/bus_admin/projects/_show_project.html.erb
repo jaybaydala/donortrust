@@ -1,7 +1,9 @@
 <% @project = show_project -%>
 <tr class="record">
+	<td><%= @project.id %></td>
 	<td><%= link_to @project.name, edit_bus_admin_project_url(@project) %></td>
 	<td><%= @project.program.name unless @project.program.nil? %></td>
+	<td><%= @project.partner.name unless @project.partner.nil? %></td>
 	<td><%= @project.target_start_date.to_formatted_s(:long) unless @project.target_start_date.nil? %></td>
 	<td><%= @project.project_status.name unless @project.project_status.nil? %></td>
 	<td><%= @project.approval_status %></td>
