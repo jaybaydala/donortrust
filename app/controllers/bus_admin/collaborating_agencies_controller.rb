@@ -4,7 +4,8 @@ class BusAdmin::CollaboratingAgenciesController < ApplicationController
   #access_control :DEFAULT => 'cf_admin'
 
   active_scaffold :collaborating_agencies do |config|
-    config.list.columns =[ :agency_name ]
-    config.columns =[ :agency_name, :description ]
+    config.list.columns =[ :agency_name, :approved ]
+    config.columns =[ :agency_name, :approved, :description ]
+    config.columns[ :approved ].form_ui = :checkbox
   end
 end

@@ -191,7 +191,7 @@
 		<ul class="form">
 			<li>
 				<label class="without title">
-					<small>List all agencies you are working with as well as their responsibilities.</small>
+					<small>List all agencies you are working with as well as their responsibilities. If you can't find the agency you want to associate with this project then <%= link_to("create", {:controller => "collaborating_agencies"}, :popup => ['collab_agencies_window', 'height=300,width=800,scrollbars=yes']) %> one.</small>
 				</label>
 				<div class="embedded scaffold">
           <% if @project.id.nil? %>
