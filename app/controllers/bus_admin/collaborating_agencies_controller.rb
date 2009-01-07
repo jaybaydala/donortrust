@@ -4,6 +4,7 @@ class BusAdmin::CollaboratingAgenciesController < ApplicationController
   #access_control :DEFAULT => 'cf_admin'
 
   active_scaffold :collaborating_agencies do |config|
-    config.columns =[ :agency_name ]
+    config.list.columns =[ :agency_name ]
+    config.columns =[ :agency_name, :description ]
   end
 end
