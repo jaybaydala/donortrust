@@ -50,9 +50,10 @@
 			<li>
 				<label for="project_short_description" class="title">
 					Short description
-					<small>Short description of <strong>up to 255 characters</strong> which will be displayed in search results.</small>
+					<small>Short description which will be displayed in search results. <strong>Up to <span id="remLen">255</span> characters left</strong> </small>
 				</label>				
-				<%= f.text_area :short_description, :rows => 3, :cols => 72, :limit => 255 %>
+				<%= f.text_area :short_description, :rows => 4, :cols => 72, :limit => 255, :onkeydown => 'textCounter(this, "remLen", 255)', :onkeyup => 'textCounter(this, "remLen", 255)' %>
+        <br>
 			</li>
 		</ul>
 

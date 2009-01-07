@@ -80,3 +80,19 @@ function ClearOptions(dropDownNameId) {
             drp.remove(0);
     }
 }
+
+// Dynamic Version by: Nannette Thacker
+// http://www.shiningstar.net
+// Original by :  Ronnie T. Moore
+// Web Site:  The JavaScript Source
+// Use one function for multiple text areas on a page
+// Limit the number of characters per textarea
+function textCounter(field, cntfield, maxlimit) {
+  if (field.value.length > maxlimit) 
+    // if too long...trim it!
+    field.value = field.value.substring(0, maxlimit);
+  else
+    // otherwise, update 'characters left' counter
+    document.getElementById(cntfield).innerHTML = maxlimit - field.value.length;
+    //cntfield.value = maxlimit - field.value.length;
+}

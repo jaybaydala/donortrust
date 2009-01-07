@@ -22,6 +22,8 @@ class Gift < ActiveRecord::Base
   
   after_create :user_transaction_create, :tax_receipt_create
   
+  named_scope :expired, lambda { |*args| {:conditions => ["picked_up_at IS NULL AND created_at <= ?", (args.first || Time.now-30.days)]} }
+  
   attr_accessor :preview, :send_email_now
   
   def sum
