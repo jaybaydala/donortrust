@@ -422,7 +422,7 @@ class BusAdmin::ProjectsController < ApplicationController
 
   def auto_complete_for_place_name
     find_options = {
-      :conditions => [ "LOWER(name) LIKE ? AND country_id = ?", '%' + params[:place][:name].downcase + '%', params[:parent] ],
+      :conditions => [ "LOWER(name) LIKE ? AND country_id = ? AND place_type_id = ?", '%' + params[:place][:name].downcase + '%', params[:parent], 6 ],
       :order => "name ASC",
       :limit => 10 }
 
