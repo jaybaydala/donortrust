@@ -27,6 +27,16 @@ class BusAdmin::ReportsController < ApplicationController
        @results = Deposit.find_by_sql(sqlString)
         export(@results)
 
+    when selected_report == "investment_report":
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM investments WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
+       @results = Investment.find_by_sql(sqlString)
+        export(@results)
+
+    when selected_report == "pledge_report":
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM pledges WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
+       @results = Pledge.find_by_sql(sqlString)
+        export(@results)
+
     else
       # TODO: What should happen here? Raise an 
     end
