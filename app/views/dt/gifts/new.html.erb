@@ -14,13 +14,15 @@
 <%= error_messages_for :gift %>
 
 <% form_for(:gift, :url => dt_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
+
+<%= f.hidden_field 'promotion_id', :id => "promotion_id" %>
+
 <div class="userform">
   <h2>Your Gift Information</h2>
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
   <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
     <p style="margin:0;">If you have <strong>several similar gifts</strong> to give, don't forget to <strong>check out our Bulk giving</strong> below!</p>
   </div>
-
 
   <fieldset>
     <legend>Choose a Gift Type</legend>

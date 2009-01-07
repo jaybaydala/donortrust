@@ -14,6 +14,9 @@
 <%= error_messages_for :gift %>
 
 <% form_for(:gift, :url => dt_gift_path(:id => params[:id]), :html => {:id => "giftform", :name => "giftform", :method => :put}) do |f| %>
+
+<%= f.hidden_field 'promotion_id', :id => "promotion_id" %>
+
 <div class="userform">
   <h2>Your Gift Information</h2>
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>

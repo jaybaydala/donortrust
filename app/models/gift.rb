@@ -9,6 +9,7 @@ class Gift < ActiveRecord::Base
   belongs_to :project
   belongs_to :e_card
   belongs_to :order
+  belongs_to :promotion
   has_one :deposit
   has_one :user_transaction, :as => :tx
 

@@ -5,6 +5,9 @@
 
 <%= error_messages_for :investment %>
 <% form_for(:investment, :url => dt_investment_path(:id => params[:id]), :html => {:id => "investmentform", :name => "investmentform", :method => :put}) do |f| %>
+
+<%= f.hidden_field 'promotion_id', :id => "promotion_id" %>
+
 <p>Please enter your personal information.</p>
 <div class="userform">
   <fieldset>

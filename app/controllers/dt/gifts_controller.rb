@@ -48,6 +48,17 @@ class Dt::GiftsController < DtApplicationController
       end
     end
     
+    # Is this gift being given as a result of a promotion?    
+    if params[:promotion_id]
+      promotion = Promotion.find(params[:promotion_id])
+      
+      if !promotion.nil?
+        @gift.promotion = promotion
+      end
+      # Otherwise, someone has tried to hack the query string with any old rubbish
+
+    end
+
     if logged_in?
       @gift.write_attribute("email", current_user.email) unless @gift.email?
       @gift.write_attribute("name", current_user.full_name) unless @gift.name?

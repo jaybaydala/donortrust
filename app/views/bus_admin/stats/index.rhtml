@@ -77,6 +77,7 @@
 		<td valign="top" width="40%" colspan="2">&nbsp</td>
 	</tr>
 	</table>
+
 	<table width="700px" align="center" border="0" cellspacing="0" cellpadding="2">
 		<tr style="font-size: 13px; font-weight: bold; background-color: #888; foreground-color: #000">
 			<td valign="top" halign="left" width="100%" colspan="2" style="font-size: 16px;">Partner Data</td>
@@ -136,5 +137,54 @@
 			<td valign="top" height="2px" halign="left" width="90%" colspan="2" style="font-size: 13px;"></td>
 		</tr>
 		<% end %>
+	<% end %>
+  </table>
+
+	<table width="700px" align="center" border="0" cellspacing="0" cellpadding="2">
+
+		<tr>
+  		<td valign="top" width="40%" colspan="2">&nbsp</td>
+		</tr>
+
+		<tr style="font-size: 13px; font-weight: bold; background-color: #888; foreground-color: #000">
+			<td valign="top" halign="left" width="100%" colspan="2" style="font-size: 16px;">Promotion Data</td>
+		</tr>
+
+		<tr>
+  		<td valign="top" width="40%" colspan="2">&nbsp</td>
+		</tr>
+
+	<% @Promotions.each do |promotion| %>
+		<tr >
+			<td valign="top" height="2px" halign="left" width="90%" colspan="2" style="font-size: 13px;"></td>
+		</tr>
+		<tr style="background-color: #f0f0f0;" >
+			<td valign="top" height="1px" halign="left" width="90%" colspan="2" style="font-size: 13px;"></td>
+		</tr>
+		<tr >
+			<td valign="top" height="2px" halign="left" width="90%" colspan="2" style="font-size: 13px;"></td>
+		</tr>
+		<tr style="font-size: 13px; font-weight: bold; background-color: #f0f0f0; "  >
+			<td halign="left" width="70%" colspan="" style="font-size: 13px;"><%= promotion.name%></td>
+			<td halign="right" width="30%" colspan="" ><strong>Raised:</strong><%=   number_to_currency(promotion.get_raised(promotion.id)) %></td>
+		</tr>
+		<tr style="font-size: 13px; font-weight: bold; background-color: #f0f0f0; "  >
+			<td halign="left" width="70%" colspan="" style="font-size: 13px;"><strong>Number of gifts:</strong><%=   promotion.get_number_of_gifts(promotion.id) %></td>
+			<td halign="right" width="30%" colspan="" ><strong>Value of gifts:</strong><%=   promotion.get_value_of_gifts(promotion.id) %></td>
+		</tr>
+		<tr style="font-size: 13px; font-weight: bold; background-color: #f0f0f0; "  >
+			<td halign="left" width="70%" colspan="" style="font-size: 13px;"><strong>Number of investments:</strong><%=   promotion.get_number_of_investments(promotion.id) %></td>
+			<td halign="right" width="30%" colspan="" ><strong>Value of gifts:</strong><%=   promotion.get_value_of_investments(promotion.id) %></td>
+		</tr>
+		<tr >
+			<td valign="top" height="2px" halign="left" width="90%" colspan="2" style="font-size: 13px;"></td>
+		</tr>
+		<tr style="background-color: #f0f0f0;" >
+			<td valign="top" height="1px" halign="left" width="90%" colspan="2" style="font-size: 13px;"></td>
+		</tr>
+		<tr >
+			<td valign="top" height="2px" halign="left" width="90%" colspan="2" style="font-size: 13px;"></td>
+		</tr>
+
 	<% end %>
 </table>
