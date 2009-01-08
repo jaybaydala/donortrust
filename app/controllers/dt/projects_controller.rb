@@ -327,7 +327,6 @@ class Dt::ProjectsController < DtApplicationController
 
     # monkey patch to fix sector results
     unless sel_projects_sector.nil?
-pp sel_projects_sector.map{|p|p.id}
       ids = []
       sel_projects_sector.each do |project|
         ids << project.id
