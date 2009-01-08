@@ -14,15 +14,33 @@ class BusAdmin::ReportsController < ApplicationController
       @startDate = (Time.now.year).to_s + "-" + (Time.now.month).to_s + "-" + (Time.now.day).to_s
     end    
 
-    if (params[:report][:gift]).to_i == 1 
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM donortrust_production.gifts WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
+    selected_report = params[:report][:gift].to_s;
+
+    case
+    when selected_report == "gift_report":
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM gifts WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
        @results = Gift.find_by_sql(sqlString)
        export(@results)
-    else 
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM donortrust_production.deposits WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
+
+    when selected_report == "deposit_report":
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM deposits WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
        @results = Deposit.find_by_sql(sqlString)
         export(@results)
+
+    when selected_report == "investment_report":
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM investments WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
+       @results = Investment.find_by_sql(sqlString)
+        export(@results)
+
+    when selected_report == "pledge_report":
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM pledges WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
+       @results = Pledge.find_by_sql(sqlString)
+        export(@results)
+
+    else
+      # TODO: What should happen here? Raise an 
     end
+
   end
   
   def get_date(isEndDate)
