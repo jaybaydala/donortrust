@@ -117,7 +117,7 @@ class DonortrustMailer < ActionMailer::Base
     subject "Your ChristmasFuture gift has been opened"
     content_type "text/html"
     amount = number_to_currency(gift.amount)
-    body "<p>The gift you gave to #{gift.to_name} <#{gift.to_email}> has been opened! With your generous gift of #{amount}, we're one gift closer to changing the world...for good. </p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
+    body "<p>The gift you gave to #{gift.to_name} &lt;#{gift.to_email}&gt; has been opened! With your generous gift of #{amount}, we're one gift closer to changing the world...for good. </p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
   end
 
  def gift_resendPDF(gift)
