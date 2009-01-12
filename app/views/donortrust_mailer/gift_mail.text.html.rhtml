@@ -72,10 +72,14 @@
     <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
   </p>
 <% else %>
+
   <p>
-    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the <a href="http://christmasfuture.org">ChristmasFuture website</a>. A gift that helps eradicate extreme poverty and you get to choose how..
   </p>
-  <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
+  
+  <p>
+    <%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>! You can use this card to support projects that are helping communities come out of poverty.
+  </p>
   <p>Now that you've opened your gift, you have some options. You can:</p>
   <div class="gift-options">
     <ul>
