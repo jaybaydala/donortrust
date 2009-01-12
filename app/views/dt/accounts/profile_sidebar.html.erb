@@ -14,15 +14,15 @@
 
 <% if logged_in? %>
 <h2>My Profile</h2>
-  <p><strong><%= current_user.full_name %></strong> 
+  <p><strong><%= link_to h(current_user.full_name), dt_account_path(current_user) %></strong> 
   <% unless current_user.under_thirteen? %>
   (<%= current_user.name %>)<% end %></p>
 
   <h5>My Portfolio</h5>
   <div class="quickfacts">
   <ul> 
-    <li><strong>Invested:</strong> <%= number_to_currency(current_user.invested) %></li>
-    <li><strong>Account Balance:</strong> <%= number_to_currency(current_user.balance) %></li>
+    <li><strong><%= link_to "Invested:", dt_account_path(current_user) %></strong> <%= number_to_currency(current_user.invested) %></li>
+    <li><strong><%= link_to "Account Balance:", dt_account_path(current_user) %></strong> <%= number_to_currency(current_user.balance) %></li>
   </ul>
   </div>
   <% if current_user.projects.size > 0 %>
