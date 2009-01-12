@@ -9,7 +9,11 @@
 
 	<fieldset>
 		<legend class="header">Login/Email</legend>
-		<div class="textsm">If you need to change your email address, please have your parent use their alternate valid email address. <a href="#" rel="blank">What's this?</a></div>
+	  <% if @user.under_thirteen? %>
+		<div class="textsm">If you need to change your email address, please have your parent use their alternate valid email address.</div>
+		<% else %>
+		<div class="textsm">If you need to change your email address, please use a valid alternate email address.</div>
+		<% end %>
 		<ol>
   		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
 		</ol>
