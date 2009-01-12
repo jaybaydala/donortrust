@@ -74,7 +74,7 @@
 <% else %>
 
   <p>
-    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the <a href="http://christmasfuture.org">ChristmasFuture website</a>. A gift that helps eradicate extreme poverty and you get to choose how..
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the <%= link_to "ChristmasFuture website", @host %>. A gift that helps eradicate extreme poverty and you get to choose how.
   </p>
   
   <p>
