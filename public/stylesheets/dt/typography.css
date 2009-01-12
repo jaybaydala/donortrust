@@ -94,7 +94,7 @@ p, li {
 li {
   margin-bottom:0;
 }
-.textsm {
+.textsm, #whats-this {
   font-family:Arial, Helvetica, sans-serif;
   font-size:0.6875em; /* 11px */
 }
