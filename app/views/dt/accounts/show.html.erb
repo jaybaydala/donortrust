@@ -4,23 +4,20 @@
 
 <div id="intro">
 </div>
-<% if @transactions.total_entries > 0 %><p style="font-weight:bold;" class="textsm">Uninvested Funds: <%= number_to_currency(current_user.balance) %></p><% end %>
-<div class="account-summary" style="margin-bottom:18px;">
-	<%= will_paginate @transactions, :param_name => 'tx_page' %>
-	<% if @transactions.length > 0 -%>
-	<div id="transaction-list">
-		<table style="width:100%;">
-		<tr><th>Transaction Description</th><th>Date</th><th>Amount</th></tr>
-		<%= render :partial => "transaction", :collection => @transactions %>
-		</table>
-	</div>
-	<%= will_paginate @transactions, :param_name => 'tx_page' %>
-	<% else -%>
-	<div class="highlight">
-		<p>You have not made any transactions in your account yet.</p>
-		<p>Get started by <%= link_to "depositing money", new_dt_account_deposit_path(:account_id => current_user.id) %> into your account. You can use this money to Invest in projects and give Gifts to your friends and family.</p>
-	</div>
-	<% end -%>
+
+<div class="projectlist" id="project-list">
+  <h2>My Projects</h2>
+  <p>These are the investments you have made</p>
+	<% if @user.investments.size > 0 %>
+    <ul>
+      <%= render :partial => 'investment', :collection => @user.investments(:all, :order => 'created_at ASC') %>
+    </ul>
+	<% else %>
+	  <div class="highlight">
+	    <p>You have not invested in any projects.</p>
+	    <p><%= link_to "Find a project", dt_projects_path %> that you're interested in and click the &quot;Invest&quot; button beside it.</p>
+	  </div>
+	<% end %>
 </div>
 
 <div id="wishlist">
