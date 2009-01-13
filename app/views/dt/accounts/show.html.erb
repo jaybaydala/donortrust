@@ -19,25 +19,6 @@
 	  </div>
 	<% end %>
 </div>
-  
-<% if @transactions.total_entries > 0 %><p style="font-weight:bold;" class="textsm">Uninvested Funds: <%= number_to_currency(current_user.balance) %></p><% end %>
-<div class="account-summary" style="margin-bottom:18px;">
-	<%= will_paginate @transactions, :param_name => 'tx_page' %>
-	<% if @transactions.length > 0 -%>
-	<div id="transaction-list">
-		<table style="width:100%;">
-		<tr><th>Transaction Description</th><th>Date</th><th>Amount</th></tr>
-		<%= render :partial => "transaction", :collection => @transactions %>
-		</table>
-	</div>
-	<%= will_paginate @transactions, :param_name => 'tx_page' %>
-	<% else -%>
-	<div class="highlight">
-		<p>You have not made any transactions in your account yet.</p>
-		<p>Get started by <%= link_to "depositing money", new_dt_account_deposit_path(:account_id => current_user.id) %> into your account. You can use this money to Invest in projects and give Gifts to your friends and family.</p>
-	</div>
-	<% end -%>
-</div>
 
 <div class="campaignlist" id="campaign-list">
   <h2>My Campaign Participation</h2>

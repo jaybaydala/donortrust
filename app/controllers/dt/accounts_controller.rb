@@ -24,6 +24,10 @@ class Dt::AccountsController < DtApplicationController
     @transactions = @transactions.paginate(:page => params[:tx_page], :per_page => 10)
 
     @participants = @user.participation
+    
+    respond_to do |format|
+        format.html { render :action => 'transactions' if params[:transactions] }
+    end
   end
 
   # GET /dt/accounts/new
