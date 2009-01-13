@@ -20,8 +20,8 @@
 
   <h5>My Portfolio</h5>
   <div class="quickfacts">
-  <ul> 
-    <li><strong><%= link_to "Invested:", dt_account_path(current_user) %></strong> <%= number_to_currency(current_user.invested) %></li>
+  <ul>
+    <li><strong><%= link_to "Invested:", dt_account_path(current_user, :transactions => 1) %></strong> <%= number_to_currency(current_user.invested) %></li>
     <li><strong><%= link_to "Account Balance:", dt_account_path(current_user) %></strong> <%= number_to_currency(current_user.balance) %></li>
   </ul>
   </div>
