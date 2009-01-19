@@ -703,8 +703,11 @@ class BusAdmin::ProjectsController < ApplicationController
       new_place.place_type_id = 6 # TODO: Do this in a more robust way without magic numbers
       new_place.save
       project.place_id = new_place.id
+
       # TODO: Why isn't this putting a message on the project page?
       flash[:notice] = 'A new city called ' + new_place.name + ' was created but has not yet been approved.'
+
+      DonortrustMailer.deliver_new_place_notify(new_place);
     else
       # This place already exists in the database
       project.place_id = submitted_place.id
