@@ -37,8 +37,30 @@ class BusAdmin::ReportsController < ApplicationController
        @results = Pledge.find_by_sql(sqlString)
         export(@results)
 
+    when selected_report == "project_breakdown":
+
+      sqlString = "SELECT PA.name AS partner_name, P.id, P.name, sum(I.amount) AS total_investment, P.total_cost 
+                   FROM projects AS P INNER JOIN investments AS I INNER JOIN partners as PA
+		   ON I.project_id = P.id
+		   AND P.partner_id = PA.id
+		   WHERE I.created_at >= '" + @startDate.to_s + "'
+		   AND I.created_at <= '" + @endDate.to_s + "'
+		   GROUP BY P.id
+		   ORDER BY PA.name ASC"
+
+      @results = Project.find_by_sql(sqlString)
+ 
+      csv_string = FasterCSV.generate do |csv|
+        csv << ["Partner", "Project ID", "Project",  "Total Investments",  "Total Cost" ]
+        @results.each do |result|
+          csv << [result.partner_name, result.id, result.name, result.total_investment, result.total_cost]
+        end
+      end
+
+      send_csv_data(csv_string)
+
     else
-      # TODO: What should happen here? Raise an 
+      # TODO: What should happen here? Raise an exception?
     end
 
   end
@@ -56,12 +78,20 @@ class BusAdmin::ReportsController < ApplicationController
   end      
 
   def export(results)    
+
     csv_string = FasterCSV.generate do |csv|
       csv << ["Date", "No. of Transactions", "Daily Average",  "Daily Total" ]
       @results.each do |result|
         csv << [result.Date, result.Transactions, result.Average,  result.Total]
       end
     end
+
+    send_csv_data(csv_string)
+
+  end
+
+  private
+  def send_csv_data(csv_string)
     headers['Cache-Control'] = 'private'
     send_data csv_string,
        
