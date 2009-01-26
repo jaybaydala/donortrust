@@ -20,22 +20,22 @@ class BusAdmin::ReportsController < ApplicationController
     when selected_report == "gift_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM gifts WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
        @results = Gift.find_by_sql(sqlString)
-       export(@results)
+       export(@results, "Gift")
 
     when selected_report == "deposit_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM deposits WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
        @results = Deposit.find_by_sql(sqlString)
-        export(@results)
+        export(@results, "Deposit")
 
     when selected_report == "investment_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM investments WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
        @results = Investment.find_by_sql(sqlString)
-        export(@results)
+        export(@results, "Investment")
 
     when selected_report == "pledge_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM pledges WHERE DATE(created_at) >= '" + @startDate.to_s + "' AND DATE(created_at) <= '" + @endDate.to_s + "' GROUP BY DATE(created_at)"
        @results = Pledge.find_by_sql(sqlString)
-        export(@results)
+        export(@results, "Pledge")
 
     when selected_report == "project_breakdown":
 
@@ -51,6 +51,7 @@ class BusAdmin::ReportsController < ApplicationController
       @results = Project.find_by_sql(sqlString)
  
       csv_string = FasterCSV.generate do |csv|
+        csv << ["Project breakdown report for dates between " + @startDate.to_s + " and " + @endDate.to_s]
         csv << ["Partner", "Project ID", "Project",  "Total Investments",  "Total Cost" ]
         @results.each do |result|
           csv << [result.partner_name, result.id, result.name, result.total_investment, result.total_cost]
@@ -77,9 +78,10 @@ class BusAdmin::ReportsController < ApplicationController
     send_at = ((send_at_vals[0]).to_s + '-' + (send_at_vals[1]).to_s + '-' + (send_at_vals[2]).to_s).to_s
   end      
 
-  def export(results)    
+  def export(results, report_title)    
 
     csv_string = FasterCSV.generate do |csv|
+      csv << [report_title + " report for dates between " + @startDate.to_s + " and " + @endDate.to_s] if report_title
       csv << ["Date", "No. of Transactions", "Daily Average",  "Daily Total" ]
       @results.each do |result|
         csv << [result.Date, result.Transactions, result.Average,  result.Total]
