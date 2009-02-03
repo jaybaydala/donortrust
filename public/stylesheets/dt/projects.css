@@ -1,4 +1,4 @@
-/*
+﻿/*
 Project Header
 */
 .full-display-project-header {
@@ -44,7 +44,7 @@ div.projectRank {
   margin:.625em 0 .5em 0;
 }
 div.projectRank strong {
-  color:#360;
+	color: #333333;
 }
 
 div.projectRank ul {
@@ -78,7 +78,7 @@ Project Highlight List
   border-bottom:solid 1px #DDD;
 }
 .projecthighlight strong {
-  color:#360;
+	color: #000000;
 }
 
 /*
@@ -98,7 +98,7 @@ Project Actions
   border-bottom:solid 1px #DDD;
 }
 .projectactions strong {
-  color:#360;
+	color: #000000;
 }
 
 /*
@@ -177,8 +177,8 @@ Group Messages
 }
 
 .group_wall-attribution strong {
-  color:#360;
-  font-size:1em;
+	color: #000000;
+	font-size: 1em;
 }
 
 /*
@@ -395,15 +395,16 @@ div#featured-projects {
 }
 
 .project-title a{
-  float: left;
-  text-decoration:none;
-  font-weight: bold;
-  font-size:14px;
-  color:#336600;
+	float: left;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 14px;
+	color: #333333;
 }
 
 .project-title a:hover{
   text-decoration:underline;
+  color:#006600;
 }
 
 .project-pre-info {
@@ -411,7 +412,7 @@ div#featured-projects {
 }
 
 .project-pre-info span strong{
-  color: #336600;
+	color: #333333;
 }
 
 .project-content{
@@ -439,7 +440,7 @@ SEARCH, layout and forms
 }
 
 .search-header {
-  font-size: 24px;
+  font-size: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -451,7 +452,7 @@ SEARCH, layout and forms
 
 .projects-search-box input{
   width: 400px;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .predefined-searches {
@@ -466,7 +467,7 @@ SEARCH, layout and forms
 }
 
 .predefined-search-list a{
-  color: #360;
+	color: #666666;
 }
 
 
@@ -476,8 +477,14 @@ SEARCH, layout and forms
 }
 
 .predefined-search-list a{
-  text-decoration: none;
+text-decoration:none
 }
+
+.predefined-search-list a:hover{
+text-decoration:underline;
+color:#006600
+}
+
 
 .filter-your-results{
 }
@@ -487,6 +494,7 @@ SEARCH, layout and forms
 }
 .filter-your-results a:hover{
   text-decoration:underline;
+  color:#006600;
 }
 
 form#advanced_search {
@@ -634,12 +642,15 @@ div.accordion-toggle{
   background: url(/images/dt/backgrounds/accordion_tab.gif) top left;
   cursor: pointer;
   padding-left:10px;
+  font-size:14px;
 }
 
 div.accordion-toggle-active{
-  background: #336600;
-  color:#C0C0C0;
-  padding-left:10px;
+	background: #336600;
+	color: #FFFFFF;
+	padding-left: 10px;
+	font-size:14px;
+	padding-top:4px;
 }
 
 div.accordion-content{
