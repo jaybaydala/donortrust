@@ -120,6 +120,14 @@ class DonortrustMailer < ActionMailer::Base
     body "<p>The gift you gave to #{gift.to_name} &lt;#{gift.to_email}&gt; has been opened! With your generous gift of #{amount}, we're one gift closer to changing the world...for good. </p><p>All the best to you this holiday season,<br />The ChristmasFuture Team</p>"
   end
 
+  def new_place_notify(place)
+    recipients  "The ChristmasFuture Team <info@christmasfuture.org>"
+    from        "The ChristmasFuture Team <info@christmasfuture.org>"
+    sent_on     Time.now
+    subject 	"A new place has been created"
+    body 	"The new place #{place.name} was created in the country #{place.country.name}. Please approve or delete it."
+  end
+
  def gift_resendPDF(gift)
     content_type "text/html"
     recipients  "\"#{gift.first_name} #{gift.last_name}\" <#{gift.email}>"
