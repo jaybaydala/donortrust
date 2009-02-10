@@ -8,8 +8,7 @@
 			<%= f.date_select :start_date,
 			   :order => [:month, :day, :year], 
 	           :start_year => 2005, 
-	           :end_year => Time.now.year, 
-	           :include_blank => true 
+	           :end_year => Time.now.year
 			%>    		      
 		 	<ul>
 		    	<li>Select a Report End Date</li>
@@ -17,7 +16,7 @@
 	        <%= f.date_select :end_date, 
 	           :order => [:month, :day, :year], 
 	           :start_year => 2007, 
-	           :end_year => Time.now.year+1
+	           :end_year => Time.now.year
 			%> 
 			
 		    <ul>
