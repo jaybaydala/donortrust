@@ -6,8 +6,8 @@ class ChangePlaceExternalColumnsToBigint < ActiveRecord::Migration
   end
 
   def self.down
-    change_column :places, :you_tube_reference, :integer, :limit => 15
-    change_column :places, :flickr_reference,   :integer, :limit => 15
-    change_column :places, :facebook_group_id,  :integer, :limit => 15
+    change_column :places, :you_tube_reference, :integer, :limit => 8
+    change_column :places, :flickr_reference,   :integer, :limit => 8
+    change_column :places, :facebook_group_id,  :integer, :limit => 8
   end
 end

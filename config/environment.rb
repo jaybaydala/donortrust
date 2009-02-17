@@ -26,7 +26,7 @@ Rails::Initializer.run do |config|
   # social application gems
   config.gem "flickr"
   config.gem "rfacebook"
-  config.gem "RubyTube", :lib => "ruby_tube"
+  config.gem "RubyTube", :lib => "ruby_tube"  
   # pdf creation gems
   config.gem "pdf-writer", :lib => "pdf/writer"
   config.gem "transaction-simple", :lib => "transaction/simple"
@@ -34,6 +34,9 @@ Rails::Initializer.run do |config|
   # backgroundrb plugin dependencies
   config.gem "chronic"
   config.gem "packet"
+  
+  config.gem "ruby-recaptcha"
+  
 
   #calendar_date_select
   #config.gem "timcharper-calendar_date_select", :version => "1.11", :source => "http://gems.github.com", :lib => "gem_init"
