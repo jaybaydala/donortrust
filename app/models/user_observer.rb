@@ -1,6 +1,10 @@
 class UserObserver < ActiveRecord::Observer
   def after_create(user)
-    DonortrustMailer.deliver_user_signup_notification(user)
+
+    # See Bug #23790 in rubyforge; users no longer have to activate themselves 
+    # by clicking on a link in an email  
+    #DonortrustMailer.deliver_user_signup_notification(user)
+   
   end
 
   def after_update(user)

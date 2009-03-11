@@ -50,9 +50,13 @@ class Dt::AccountsController < DtApplicationController
     respond_to do |format|
       if @saved = @user.save
         session[:tmp_user] = @user.id
-        flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address.'
-        format.html { redirect_to(:controller => '/dt/accounts', :action => 'index') }
-        #format.js
+
+        # See Bug #23790 in rubyforge; users no longer have to activate themselves 
+        # by clicking on a link in an email  
+        #flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address.'
+        #format.html { redirect_to(:controller => '/dt/accounts', :action => 'index') }
+        format.html { redirect_to(:controller => '/dt/accounts', :action =>'activate', :id => @user.activation_code) }
+
         format.xml  { head :created, :location => dt_accounts_url }
       else
         format.html { render :action => "new" }
@@ -114,11 +118,14 @@ class Dt::AccountsController < DtApplicationController
       #activates the account.
       if requires_us_tax_receipt?
         requires_us_tax_receipt(false)
-        flash[:notice] = "Your email address has been confirmed and your account is activated!<br />You indicated that you require a US tax receipt.\nIf that is still the case, please follow the link and you will be taken to the correct location."
+        flash[:notice] = "Your account is activated!<br />You indicated that you require a US tax receipt.\nIf that is still the case, please follow the link and you will be taken to the correct location."
       else
-       flash[:notice] = "Your email address has been confirmed and your account is activated!"
+       flash[:notice] = "Your account is activated!"
       end
     else
+      # See Bug #23790 in rubyforge; users no longer have to activate themselves 
+      # by clicking on a link in an email
+      # TODO: Will this piece of code ever be reached?
       flash[:notice] = "Account activation has failed. You may have followed an expired confirmation link, or have copied a link incorrectly. Please review your email and try again."
     end
     respond_to do |format|
