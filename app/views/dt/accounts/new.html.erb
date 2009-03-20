@@ -17,10 +17,12 @@
 
 	<fieldset>
 		<legend class="header">Login/Email</legend>
+  <%# Users no longer have to activate via a sent email when they sign up
 		<div class="notes">
 		  <h5>Email Address</h5>
 		  <p>After you sign up, we will send you an email to verify your address, after which you can log in.</p>
 		</div>
+  %>
 		<div class="textsm underThirteen" style="display:none;">Please have your parent sign you up using their valid email address.</div>
 		<ol>
   		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
