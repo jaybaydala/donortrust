@@ -84,7 +84,13 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    under_thirteen? ? self.display_name : "#{self.first_name} #{self.last_name}"
+   if under_thirteen? || self.first_name.blank?
+     self.display_name
+   elsif self.last_name.blank?
+     self.first_name
+   else
+     "#{self.first_name} #{self.last_name}"
+   end
   end
 
   def self.find_by_full_name(full_name)
