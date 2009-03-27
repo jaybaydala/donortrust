@@ -7,7 +7,7 @@ class CreateDisplayNamesForUsersThatDoNotHaveThem < ActiveRecord::Migration
     # Now find all users with a blank display_name and create one for them
     users = User.find(:all, :conditions => ['display_name = ""'])
     users.each do |user|
-      set_display_name_for_user(user, "#{user.first_name} #{user.last_name[0,1]}")   
+      set_display_name_for_user(user, "#{user.first_name} #{user.last_name[0,1]}.")   
     end
 
   end
