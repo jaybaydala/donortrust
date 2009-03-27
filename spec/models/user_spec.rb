@@ -232,7 +232,31 @@ describe User do
     # there is one pledge account for each unique campaign in the pledge_deposits table
     
   end
-  
+
+  describe "full_name" do
+
+    it "should return a user's display name when under 13" do
+      user = create_user({:under_thirteen => 1})
+      user.full_name.should == "DisplayName"
+    end
+
+    it "should return a user's display name when first name is blank" do
+      user = create_user({:first_name => ''})
+      user.full_name.should == "DisplayName"
+    end
+
+    it "should return a user's first name when last name is blank" do
+      user = create_user({:last_name => ''})
+      user.full_name.should == "FirstName"
+    end
+
+    it "should return a user's full name when they have entered both their first and last names" do
+      user = create_user
+      user.full_name.should == "FirstName LastName"
+    end
+    
+  end
+
   def create_user(options = {})
     User.create({ :login => 'login@example.com', :first_name => 'FirstName', :last_name => 'LastName', :display_name => 'DisplayName', :address => '4320 15 st', :city => 'Calgary', :province => 'Alberta', :country => 'Canada', :postal_code => 'T2T4B2', :under_thirteen => 0, :crypted_password => '00742970dc9e6319f8019fd54864d3ea740f04b1', :salt => '7e3041ebc2fc05a40c60028e2c4901a81035d3cd', :created_at => '2006-10-16 13:14:40', :updated_at => '2007-10-16 13:14:40', :remember_token => 'test', :remember_token_expires_at => '2011-10-16 13:14:40', :activation_code => 'code', :activated_at => '2007-10-16 13:14:40', :last_logged_in_at => '2007-09-16 13:14:40', :terms_of_use => "1" }.merge(options))
   end
