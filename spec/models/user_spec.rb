@@ -74,30 +74,15 @@ describe User do
     end
   end
   
-  describe "must have either last_name and first_name OR a display_name" do
-    it "should require a last_name if no display_name" do
+  describe "must have a display_name" do
+    it "should require a display_name" do
       lambda {
-        create_user :display_name => nil, :last_name => nil
-      }.should_not change(User, :count)
-    end
-    it "should require a first_name if no display_name" do
-      lambda {
-        create_user :display_name => nil, :first_name => nil
-      }.should_not change(User, :count)
-    end
-    it "should require a display_name if no first_name or last_name" do
-      lambda {
-        create_user :display_name => nil, :first_name => nil, :last_name => nil
+        create_user :display_name => nil
       }.should_not change(User, :count)
     end
     it "should allow a display_name if no first_name or last_name" do
       lambda {
         create_user :display_name => "test", :first_name => nil, :last_name => nil
-      }.should change(User, :count)
-    end
-    it "should allow a first_name and last_name if no display_name" do
-      lambda {
-        create_user :display_name => nil, :first_name => "Test", :last_name => "User"
       }.should change(User, :count)
     end
   end
