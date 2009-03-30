@@ -19,6 +19,75 @@
 <div class="campaign_form">
 	<%= error_messages_for :participant %>
 	<% form_for([:dt,@team,@participant], :html => {:multipart => true}) do |f| %>
+
+ <%# Users can register with the website and sign up as a participant at the 
+   # same time, so if they are not logged in offer them the opportunity to login 
+   # or register %>
+
+ <%# TODO: Is @participant.user.id.nil? the best test to see if the user associated with the 
+   # participant has just been newed up in the controller because there is no 
+   # currently logged in user? %>
+ <% if @participant.user.id.nil? %>
+
+  <h2>You are not currently logged in.</h2>
+  <p>If you have already have an account with us please <%= link_to 'login', dt_login_path %> by clicking here, otherwise you can create an account below:</p>
+
+  <%# TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
+  <fieldset>
+	  <legend class="header">Login/Email</legend>
+	  <ol>
+   		<li><label for="new_reg_login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :new_reg_login %></li>
+	  </ol>
+  </fieldset>
+
+  <%# TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
+ 	<fieldset>
+	  <legend>Your Identity</legend>
+	  <div class="textsm personalinfo">You must enter a display name will be used to identify you on our website.</div>
+	  <ol>
+		  <li>
+     <label for="display_name">
+      <%= render :partial => 'dt/shared/form_required' %>
+       Display Name
+     </label>
+     <%= f.text_field :new_reg_display_name %>
+    </li>
+	  </ol>
+  </fieldset>
+
+
+  <%# TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
+  <fieldset>
+    <legend>Password</legend>
+	   <div class="textsm">Please provide a password. It must be longer than 4 characters and try to make it something you'll remember.</div>
+    <ol>
+	    <li><label for="new_reg_passw"><%= render :partial => 'dt/shared/form_required' %>Password</label><%= f.password_field :new_reg_password %></li>
+	    <li><label for="new_reg_password_confirm"><%= render :partial => 'dt/shared/form_required' %>Confirm Password</label><%= f.password_field :new_reg_password_confirm %></li>
+    </ol>
+   </fieldset>
+
+  <%# TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
+	 <fieldset class="personalinfo">
+	  <legend>Personal Details</legend>
+  	<ol>
+  		<li style="clear:left;">
+     <label for="country">
+      <%= render :partial => 'dt/shared/form_required' %>
+      Country
+     </label>
+     <%= f.select :new_reg_country, country_select_options, :style => 'width:auto;' %>
+    </li>
+   </ol>
+  </fieldset>
+
+   <%# TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
+   <fieldset>
+    <legend>Terms of Service</legend>
+    <p class="textsm"><%= f.check_box :new_reg_terms_of_use %> I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</p>
+   </fieldset>
+
+ <% end %>
+
 		<fieldset>
 			<h2>Create your personal profile for this campaign:</h2>
 			<label>Enter the URL you would like to share with your friends:<%= form_required %>

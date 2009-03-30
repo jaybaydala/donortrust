@@ -4,6 +4,13 @@ class Participant < ActiveRecord::Base
   belongs_to :team
   belongs_to :campaign
 
+  attr_accessor :new_reg_login
+  attr_accessor :new_reg_password
+  attr_accessor :new_reg_password_confirm
+  attr_accessor :new_reg_terms_of_use
+  attr_accessor :new_reg_country
+  attr_accessor :new_reg_display_name
+
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
   has_many :news_items, :as =>:postable, :dependent => :destroy
 

@@ -1,10 +1,11 @@
 class Dt::ParticipantsController < DtApplicationController
 
   before_filter :find_team, :only => [:new, :create]
-  before_filter :login_required, :except => [:show, :index]
+  before_filter :login_required, :except => [:show, :index, :new, :create]
   before_filter :is_authorized?, :only => [:update, :manage, :admin]
   include UploadSyncHelper
   after_filter :sync_uploads, :only => [:create, :update, :destroy]
+  helper "dt/places"
 
   def show
     store_location
@@ -39,12 +40,69 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def new
+    store_location
+
     @participant = Participant.new
+
+    # If the user is logged in, pass their details through to the form
+    @participant.user = (current_user == :false ? User.new : current_user)
   end
 
   def create
     @participant = Participant.new(params[:participant])
-    @participant.user = current_user
+
+    if current_user == :false
+      # If the user is not logged in check the user details that have been 
+      # passed through in the params. Use the details to 
+      # create a new account
+      new_user = User.new
+      new_user.login = @participant.new_reg_login
+      new_user.password = @participant.new_reg_password
+      new_user.password_confirmation = @participant.new_reg_password_confirm
+      new_user.display_name = @participant.new_reg_display_name
+      new_user.country = @participant.new_reg_country
+      new_user.terms_of_use = @participant.new_reg_terms_of_use
+
+      begin
+        if new_user.save!
+          new_user.activate
+          
+          # TODO: This login code has been stolen from the sessions_controller "create" action - is there a more elegant and DRY way to do this?
+          self.current_user = User.authenticate(new_user.login, new_user.password)
+          current_user.update_attributes(:last_logged_in_at => Time.now)
+          session[:tmp_user] = nil
+          cookies[:dt_login_id] = self.current_user.id.to_s
+          cookies[:dt_login_name] = self.current_user.name
+        else
+          # Something went wrong with saving the user        
+          @participant.user = User.new # TODO: HACK! We know the user is not logged in, otherwise why would they be trying to save new user details?
+          render :action => "new"
+          return
+        end
+      rescue ActiveRecord::RecordInvalid => invalid
+         # Something went wrong with saving the user        
+         
+         #TODO: Why am I having to construct this manually? I know I can't just 
+         # pass the errors back to the form because the form thinks it's dealing 
+         # with a participaant object. But is there a better way?
+         error_message = "<p>Could not create user:</p><ul>"
+         invalid.record.errors.each_full{|msg| error_message << "<li>" + msg + "</li>" }
+         error_message << "</ul>"
+         flash[:error] = error_message
+
+         # TODO: HACK! If you don't do this, you get a "Called id for nil, which 
+         # would mistakenly be 4" error when the new.html.erb page is rendered again
+         @participant.user = User.new 
+         
+         render :action => "new"
+         return
+      end
+
+      @participant.user = new_user
+    else
+      @participant.user = current_user
+    end
+
     @participant.team = @team
 
     if @team.require_authorization
@@ -165,7 +223,7 @@ class Dt::ParticipantsController < DtApplicationController
 
   protected
   def access_denied
-    if ['join', 'new', 'create'].include?(action_name) && !logged_in?
+    if ['join', 'create'].include?(action_name) && !logged_in?
       flash[:notice] = "You must have an account to join this campaign as a participant. Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
       store_location
