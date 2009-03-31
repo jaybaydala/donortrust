@@ -22,27 +22,42 @@ class BusAdmin::ReportsController < ApplicationController
 
     case
     when selected_report == "gift_report":
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM gifts WHERE DATE(created_at) >= '" + @start_date.to_s(:db) + "' AND DATE(created_at) <= '" + @end_date.to_s(:db) + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
+                   FROM gifts 
+                   WHERE DATE(created_at) >= '" + @start_date.to_s(:db) + "' 
+                   AND DATE(created_at) <= '" + @end_date.to_s(:db) + "' 
+                   GROUP BY DATE(created_at)"
        @results = Gift.find_by_sql(sqlString)
        export(@results, "Gift")
 
     when selected_report == "deposit_report":
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM deposits WHERE DATE(created_at) >= '" + @start_date.to_s(:db) + "' AND DATE(created_at) <= '" + @end_date.to_s(:db) + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
+                   FROM deposits 
+                   WHERE DATE(created_at) >= '" + @start_date.to_s(:db) + "' 
+                   AND DATE(created_at) <= '" + @end_date.to_s(:db) + "' 
+                   GROUP BY DATE(created_at)"
        @results = Deposit.find_by_sql(sqlString)
         export(@results, "Deposit")
 
     when selected_report == "investment_report":
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM investments WHERE DATE(created_at) >= '" + @start_date.to_s(:db) + "' AND DATE(created_at) <= '" + @end_date.to_s(:db) + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
+                   FROM investments 
+                   WHERE DATE(created_at) >= '" + @start_date.to_s(:db) + "' 
+                   AND DATE(created_at) <= '" + @end_date.to_s(:db) + "' 
+                   GROUP BY DATE(created_at)"
        @results = Investment.find_by_sql(sqlString)
         export(@results, "Investment")
 
     when selected_report == "pledge_report":
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM pledges WHERE DATE(created_at) >= '" + @start_date.to_s(:db) + "' AND DATE(created_at) <= '" + @end_date.to_s(:db) + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
+                   FROM pledges 
+                   WHERE DATE(created_at) >= '" + @start_date.to_s(:db) + "' 
+                   AND DATE(created_at) <= '" + @end_date.to_s(:db) + "' 
+                   GROUP BY DATE(created_at)"
        @results = Pledge.find_by_sql(sqlString)
         export(@results, "Pledge")
 
     when selected_report == "project_breakdown":
-
       sqlString = "SELECT PA.name AS partner_name, P.id, P.name, sum(I.amount) AS total_investment, P.total_cost 
                    FROM projects AS P INNER JOIN investments AS I INNER JOIN partners as PA
                    ON I.project_id = P.id
@@ -51,7 +66,6 @@ class BusAdmin::ReportsController < ApplicationController
                    AND I.created_at <= '" + @end_date.to_s(:db) + "'
                    GROUP BY P.id
                    ORDER BY PA.name ASC"
-
       @results = Project.find_by_sql(sqlString)
  
       csv_string = FasterCSV.generate do |csv|
