@@ -6,6 +6,7 @@ class Dt::ParticipantsController < DtApplicationController
   include UploadSyncHelper
   after_filter :sync_uploads, :only => [:create, :update, :destroy]
   helper "dt/places"
+  helper "dt/forms"
 
   def show
     store_location
@@ -73,25 +74,30 @@ class Dt::ParticipantsController < DtApplicationController
           session[:tmp_user] = nil
           cookies[:dt_login_id] = self.current_user.id.to_s
           cookies[:dt_login_name] = self.current_user.name
-        else
-          # Something went wrong with saving the user        
-          @participant.user = User.new # TODO: HACK! We know the user is not logged in, otherwise why would they be trying to save new user details?
+        else # Something went wrong with saving the user        
+          
+          # HACK! At this point, we know the user cannot be logged in (after all, they are trying to create new user details)
+          # so before sending them back to the form to correct whatever caused the problem, we need to associate a new
+          # user object with the participant to avoid a "Called id for nil, which would mistakenly be 4" error when the 
+          # new.html.erb page is rendered again
+          @participant.user = User.new
+
           render :action => "new"
           return
         end
       rescue ActiveRecord::RecordInvalid => invalid
-         # Something went wrong with saving the user        
-         
-         #TODO: Why am I having to construct this manually? I know I can't just 
-         # pass the errors back to the form because the form thinks it's dealing 
-         # with a participaant object. But is there a better way?
+       
+         #TODO: Why am I having to construct this error message manually? I know I can't just pass the errors back to 
+         #      the form because the form thinks it's dealing with a participaant object. But is there a better way?
          error_message = "<p>Could not create user:</p><ul>"
          invalid.record.errors.each_full{|msg| error_message << "<li>" + msg + "</li>" }
          error_message << "</ul>"
          flash[:error] = error_message
 
-         # TODO: HACK! If you don't do this, you get a "Called id for nil, which 
-         # would mistakenly be 4" error when the new.html.erb page is rendered again
+         # HACK! At this point, we know the user cannot be logged in (after all, they are trying to create new user details)
+         # so before sending them back to the form to correct whatever caused the problem, we need to associate a new
+         # user object with the participant to avoid a "Called id for nil, which would mistakenly be 4" error when the 
+         # new.html.erb page is rendered again
          @participant.user = User.new 
          
          render :action => "new"

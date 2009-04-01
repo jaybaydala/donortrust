@@ -1,6 +1,7 @@
 class Dt::AccountsController < DtApplicationController
   before_filter :login_required, :only => [ :show, :edit, :update ]
   helper "dt/places"
+  helper "dt/forms"
 
   def initialize
     @page_title = "My Account"
