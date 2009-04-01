@@ -38,55 +38,37 @@
 
     <%#TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
    	<li>
-     <label for="new_reg_login">
-      <%= render :partial => 'dt/shared/form_required' %>
-      Login/Email
-     </label>
+     <%= label(:participant, :new_reg_login, render(:partial => 'dt/shared/form_required') + "Login/Email") %>
      <%= f.text_field :new_reg_login %>
     </li>
 
     <%#TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
 		  <li>
-     <label for="new_reg_display_name">
-      <%= render :partial => 'dt/shared/form_required' %>
-      Display Name (used to identify you on the site)
-     </label>
+     <%= label(:participant, :new_reg_display_name, render(:partial => 'dt/shared/form_required') + "Display Name (used to identify you on the site)") %>
      <%= f.text_field :new_reg_display_name %>
     </li>
 
     <%#TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
 	   <li>
-     <label for="new_reg_passw">
-      <%= render :partial => 'dt/shared/form_required' %>
-      Password (Must be longer than 4 characters and try to make it something you'll remember.)
-     </label>
+     <%= label(:participant, :new_reg_password, render(:partial => 'dt/shared/form_required') + "Password (Must be longer than 4 characters and try to make it something you'll remember.)") %>
      <%= f.password_field :new_reg_password %>
     </li>
     
     <%#TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
 	   <li>
-     <label for="new_reg_password_confirm">
-      <%= render :partial => 'dt/shared/form_required' %>
-      Confirm Password
-     </label>
+     <%= label(:participant, :new_reg_password_confirm, render(:partial => 'dt/shared/form_required') + "Confirm Password") %>
      <%= f.password_field :new_reg_password_confirm %>
     </li>
 
     <%#TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
   		<li style="clear:left;">
-     <label for="new_reg_country">
-      <%= render :partial => 'dt/shared/form_required' %>
-      Country
-     </label>
+     <%= label(:participant, :new_reg_country, render(:partial => 'dt/shared/form_required') + "Country") %>
      <%= f.select :new_reg_country, country_select_options, :style => 'width:auto;' %>
     </li>
 
     <%#TODO: This is not very DRY - combine with app/views/dt/accounts/new.html.erb %>
   		<li style="clear:left;">
-     <label for="new_reg_terms_of_use">
-      <%= render :partial => 'dt/shared/form_required' %>
-      Terms of Service
-     </label>
+     <%= label(:participant, :new_reg_terms_of_use, render(:partial => 'dt/shared/form_required') + "Terms of Service") %>
      <p class="textsm"><%= f.check_box :new_reg_terms_of_use %> I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree</p>
     </li>
 
