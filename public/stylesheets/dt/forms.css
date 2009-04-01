@@ -153,6 +153,10 @@ DONORTRUST USER FORMS (gifts, investments, deposits, checkout)
 	text-align:left;
 }
 
+.userform label.inline {
+    display:inline;
+}
+
 #investmenform fieldset {
 	border: 0px;
 }
