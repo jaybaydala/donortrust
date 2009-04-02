@@ -44,6 +44,7 @@ class User < ActiveRecord::Base
   #MP Dec. 14, 2007 - Added to support the US tax receipt functionality
   #Going forward, it would be good to ensure that users have a country.
   validates_presence_of :country, :on => :create, :unless => :under_thirteen?
+  validates_presence_of     :display_name
 
   before_save :encrypt_password
   before_create :make_activation_code
@@ -269,10 +270,6 @@ class User < ActiveRecord::Base
         errors.add("province", "cannot be included") unless province.blank?
         errors.add("postal_code", "cannot be included") unless postal_code.blank?
         errors.add("country", "cannot be included") unless country.blank?
-      else
-        errors.add("first_name", "cannot be blank if Display name is empty") if first_name.blank? && display_name.blank?
-        errors.add("last_name", "cannot be blank if Display name is empty") if last_name.blank? && display_name.blank?
-        errors.add("display_name", "cannot be blank if First Name and Last Name are empty") if display_name.blank? && first_name.blank? && last_name.blank?
       end
     end
 
