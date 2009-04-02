@@ -22,14 +22,18 @@
 	<fieldset>
 	  <legend>Your Identity</legend>
 	  <% if @user.under_thirteen? %>
-	  <div class="textsm">Please enter a display name for your child that is not personally identifiable</div>
-	  <% else %>
-	  <div class="textsm">You must either give your first and last name or your display name. If you include a display name, it will be used to identify you on our website. If not, we will use your first name and last initial.</div>
+      <div class="textsm personalinfo">You must enter a display name that will be used to identify you on our website.</div>
+      <div class="textsm">Please enter a display name for your child that is not personally identifiable</div>
+    <% else %>
+      <div class="textsm personalinfo">You must enter a display name that will be used to identify you on our website. You may also choose to give us your first and last name which will be used to personalize our communication with you.</div>
 	  <% end %>
 		<ol>
 			<% unless @user.under_thirteen? %><li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li><% end %>
 			<% unless @user.under_thirteen? %><li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li><% end %>
-			<li><label for="user_display_name">Display Name</label> <%= f.text_field :display_name %></li>
+			<li>
+			  <%= label_for_required_field :user, :display_name, "Display Name" %>
+			  <%= f.text_field :display_name %>
+			</li>
 		</ol>
 	</fieldset>
 
