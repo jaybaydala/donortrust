@@ -22,22 +22,38 @@ class BusAdmin::ReportsController < ApplicationController
 
     case
     when selected_report == "gift_report":
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM gifts WHERE DATE(created_at) >= '" + @startDate.to_s(:db) + "' AND DATE(created_at) <= '" + @endDate.to_s(:db) + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
+                   FROM gifts 
+                   WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
+                   AND DATE(created_at) < '" + midnight_string_on_the_day_after(@end_date) + "'
+                   GROUP BY DATE(created_at)"
        @results = Gift.find_by_sql(sqlString)
        export(@results, "Gift")
 
     when selected_report == "deposit_report":
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM deposits WHERE DATE(created_at) >= '" + @startDate.to_s(:db) + "' AND DATE(created_at) <= '" + @endDate.to_s(:db) + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
+                   FROM deposits 
+                   WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
+                   AND DATE(created_at) < '" + midnight_string_on_the_day_after(@end_date) + "'
+                   GROUP BY DATE(created_at)"
        @results = Deposit.find_by_sql(sqlString)
         export(@results, "Deposit")
 
     when selected_report == "investment_report":
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM investments WHERE DATE(created_at) >= '" + @startDate.to_s(:db) + "' AND DATE(created_at) <= '" + @endDate.to_s(:db) + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
+                   FROM investments 
+                   WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
+                   AND DATE(created_at) < '" + midnight_string_on_the_day_after(@end_date) + "'
+                   GROUP BY DATE(created_at)"
        @results = Investment.find_by_sql(sqlString)
         export(@results, "Investment")
 
     when selected_report == "pledge_report":
-      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions FROM pledges WHERE DATE(created_at) >= '" + @startDate.to_s(:db) + "' AND DATE(created_at) <= '" + @endDate.to_s(:db) + "' GROUP BY DATE(created_at)"
+      sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
+                   FROM pledges 
+                   WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
+                   AND DATE(created_at) < '" + midnight_string_on_the_day_after(@end_date) + "'
+                   GROUP BY DATE(created_at)"
        @results = Pledge.find_by_sql(sqlString)
         export(@results, "Pledge")
 
@@ -45,13 +61,12 @@ class BusAdmin::ReportsController < ApplicationController
 
       sqlString = "SELECT PA.name AS partner_name, P.id, P.name, sum(I.amount) AS total_investment, P.total_cost 
                    FROM projects AS P INNER JOIN investments AS I INNER JOIN partners as PA
-		   ON I.project_id = P.id
-		   AND P.partner_id = PA.id
-		   WHERE I.created_at >= '" + @startDate.to_s + "'
-		   AND I.created_at <= '" + @endDate.to_s + "'
-		   GROUP BY P.id
-		   ORDER BY PA.name ASC"
-
+                   ON I.project_id = P.id
+                   AND P.partner_id = PA.id
+                   WHERE I.created_at >= '" + midnight_string_on(@start_date) + "'
+                   AND I.created_at < '" + midnight_string_on_the_day_after(@end_date) + "'
+                   GROUP BY P.id
+                   ORDER BY PA.name ASC"
       @results = Project.find_by_sql(sqlString)
  
       csv_string = FasterCSV.generate do |csv|
@@ -100,5 +115,15 @@ class BusAdmin::ReportsController < ApplicationController
     day = params[:report][dateType + "_date(3i)"] if params[:report][dateType + "_date(3i)"] != ""
     Date.new(year.to_i, month.to_i, day.to_i)
   end      
+
+  private
+  def midnight_string_on(date)
+    date.to_s(:db) + " 00:00:00"
+  end
+
+  private
+  def midnight_string_on_the_day_after(date)
+    date.advance(:days => 1).to_s(:db) + " 00:00:00"
+  end
 
 end
