@@ -42,11 +42,37 @@ class Dt::ParticipantsController < DtApplicationController
 
   def new
     store_location
-
     @participant = Participant.new
 
-    # If the user is logged in, pass their details through to the form
-    @participant.user = (current_user == :false ? User.new : current_user)
+    if (current_user == :false)
+      @participant.user = User.new
+    else
+      # Make sure the user hasn't already signed up to this campaign
+      current_user.campaigns.each do |c|
+
+        if (c.id == @team.campaign.id)
+          # This user has already signed up for this campaign
+          existing_participant = Participant.find(:first, :conditions => [ "user_id = ? AND team_id = ?", current_user.id, @team.id ])
+          if (existing_participant == nil)
+            flash[:notice] = "You are already taking part in the " + @team.campaign.name + 
+                             " campaign as a member of a different team, so you can't join " + @team.name + "."
+            redirect_to dt_campaign_path(@team.campaign) 
+          elsif (existing_participant.pending)
+            flash[:notice] = "You have already applied to take part in the " + @team.campaign.name + 
+                             " campaign as a member of " + @team.name + " but have not yet been approved."
+            redirect_to dt_campaign_path(@team.campaign) 
+          else
+            flash[:notice] = "You are already taking part in the " + @team.campaign.name +
+                             " campaign. This is your campaign page."
+            redirect_to dt_participant_path(existing_participant) 
+          end
+        end
+
+      end
+
+      # This is the first time this user is signing up for this campaign
+      @participant.user = current_user
+    end
   end
 
   def create

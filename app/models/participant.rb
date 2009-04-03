@@ -52,7 +52,7 @@ class Participant < ActiveRecord::Base
 
   validates_presence_of :user, :team, :campaign
   validates_numericality_of :goal, :allow_nil => true
-  validates_uniqueness_of :user_id, :scope => :team_id
+  validates_uniqueness_of :user_id, :scope => :team_id, :message => 'currently logged in is already a member of this team'
 
   validates_format_of :short_name, :with => /\w/
   validates_length_of :short_name, :within => 4...60
