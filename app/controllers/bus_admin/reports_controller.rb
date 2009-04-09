@@ -8,8 +8,14 @@ class BusAdmin::ReportsController < ApplicationController
   
   def process_report
     
-    @end_date= get_date("end")
-    @start_date= get_date("start")  
+    start_date_params = params[:report].select{|k,v| k =~ /start_date/}.sort_by{|d| d[0] }.collect{|d| d[1].to_i }
+    @start_date = DateTime.civil(*start_date_params)
+
+    end_date_params = params[:report].select{|k,v| k =~ /end_date/}.sort_by{|d| d[0] }.collect{|d| d[1].to_i }
+    @end_date = DateTime.civil(*end_date_params)
+    
+    # @end_date = get_date("end")
+    # @start_date = get_date("start")
 
     # We know by this point we have both a start and end date to work with 
     # because the UI doesn't allow blanks to be selected
@@ -85,24 +91,23 @@ class BusAdmin::ReportsController < ApplicationController
   end
 
   def export(results, report_title)    
-
+    
     csv_string = FasterCSV.generate do |csv|
-      csv << [report_title + " report for dates between " + @start_date.to_s + " and " + @end_date.to_s] if report_title
+      csv << [report_title + " report for dates between " + @start_date.to_s(:short) + " and " + @end_date.tomorrow.to_s(:short)] if report_title
       csv << ["Date", "No. of Transactions", "Daily Average",  "Daily Total" ]
       @results.each do |result|
         csv << [result.Date, result.Transactions, result.Average,  result.Total]
       end
     end
 
+    # render :text => csv_string, :content_type => "text/plain" and return
     send_csv_data(csv_string)
-
   end
 
   private
   def send_csv_data(csv_string)
     headers['Cache-Control'] = 'private'
     send_data csv_string,
-       
       :type => 'text/csv; charset=iso-8859-1; header=present',
       :disposition => "attachment; filename=project.csv"
   end
@@ -117,12 +122,16 @@ class BusAdmin::ReportsController < ApplicationController
 
   private
   def midnight_string_on(date)
-    date.to_s(:db) + " 00:00:00"
+    return nil unless date
+    #date.to_s(:db) + " 00:00:00"
+    date.beginning_of_day.to_s(:db)
   end
 
   private
   def midnight_string_on_the_day_after(date)
-    date.advance(:days => 1).to_s(:db) + " 00:00:00"
+    return nil unless date
+    # date.advance(:days => 1).to_s(:db) + " 00:00:00"
+    (date.beginning_of_day.tomorrow).to_s(:db)
   end
 
 end
