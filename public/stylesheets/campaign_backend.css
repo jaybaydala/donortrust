@@ -1,0 +1,126 @@
+body,html {
+	margin: 0;
+	padding: 0;
+	height:100%;
+	width:100%;
+	font-family: Garamond, Serif;
+	
+}
+
+#dashboard{
+	position: relative;
+	min-height: 100%;
+	height: 100%;
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	height: auto;
+}
+
+html>body #dashboard {
+    height: auto;
+}
+
+#dash_header{
+	background-color:#555;
+	color:#fff;
+	height:50px;
+	vertical-align:middle;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+#dash_left_col {
+	float: left;
+	width: 185px;
+	padding: 10px;
+	margin:0px;
+	list-style-type:none;
+	padding-bottom: 80px;
+}
+
+
+
+#dash_left_col li.top_level_link_item{
+	background: url('../images/dashboard/cell_background.png') repeat-x;
+	border:1px solid #ddd;	
+	padding: 0.4em;
+	font-family: Verdana, Sans-Serif;
+	margin-bottom:2px;
+	margin-top:2px;
+}
+
+#dash_left_col li.open_top_level_link_item{
+	background: url('../images/dashboard/cell_open_background.png') repeat-x;
+	border:1px solid #ddd;
+	border-bottom:0px;
+	padding: 0.4em;
+	font-family: Verdana, Sans-Serif;
+	margin-bottom:2px;
+	margin-top:2px;
+}
+
+
+#dash_left_col li.child_link_item{
+	background: url('../images/dashboard/cell_background.png') repeat-x;
+	border:1px solid #ddd;	
+	padding: 0.4em;
+	font-family: Verdana, Sans-Serif;
+}
+
+#dash_left_col li.top_level_link_item:hover{
+	border:1px solid #eeeeee;
+}
+
+#dash_left_col li.child_link_item_with_shadow{
+	background: url('../images/dashboard/cell_background_with_shadow.png') repeat-x;
+	border:1px solid #ddd;
+	border-top:0px;	
+	padding: 0.4em;
+	margin-top:-2px;
+	font-family: Verdana, Sans-Serif;
+}
+
+ul.function_list {
+	list-style-type:none;
+	padding:0;
+	margin:0;
+}
+
+#dash_right_col {
+	margin-left:200px;
+	padding: 5px 5px 70px 5px;
+}
+
+
+#dash_footer {
+	height: 40px;
+	padding-left:10px;
+	padding-right:10px;
+	width:auto; 
+	background-color:#555;
+	color:#aaa;
+	clear:both;
+	position: absolute;
+	bottom:0;
+	right:0;
+	left:0;
+	vertical-align:middle;
+	/* stupid ie hack*/
+	_width:100%;
+}
+
+span.change_line{
+	font-style:italic,bold;
+	line-height:40px;
+}
+
+span.white {
+	color: #eee;
+}
+
+span.title{
+	font-size:30px;
+	font-family:bold;
+	line-height:50px;
+}
+

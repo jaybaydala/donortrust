@@ -19,13 +19,17 @@ class CreateDisplayNamesForUsersThatDoNotHaveThem < ActiveRecord::Migration
   private
   def self.set_display_name_for_user_853(new_display_name)
     user = User.find_by_id(853)
-    set_display_name_for_user(user, new_display_name)
+    if user != nil
+      set_display_name_for_user(user, new_display_name)
+    end
   end
 
   private
   def self.set_display_name_for_user_909(new_display_name)
     user = User.find_by_id(909)
-    set_display_name_for_user(user, new_display_name)
+    if user != nil
+      set_display_name_for_user(user, new_display_name)
+    end
   end
 
   private

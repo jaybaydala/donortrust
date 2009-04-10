@@ -5,6 +5,7 @@ class Dt::CampaignsController < DtApplicationController
   before_filter :is_cf_admin?, :only => [:new, :create, :admin] # this is just here to prevent anyone but a CF admin from creating campaigns.
   include UploadSyncHelper
   after_filter :sync_uploads, :only => [:create, :update, :destroy]
+  
 
   # GET /campaigns
   # GET /campaigns.xml
@@ -46,16 +47,13 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns/new.xml
   def new
     @campaign = Campaign.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @campaign }
-    end
+    render :layout => 'campaign_backend'
   end
 
   # GET /campaigns/1/edit
   def edit
     @campaign = Campaign.find(params[:id])
+    render :layout => 'campaign_backend'
   end
 
   # POST /campaigns
@@ -135,6 +133,7 @@ class Dt::CampaignsController < DtApplicationController
     @pending_campaigns = Campaign.find_all_by_pending(true)
     @active_campaigns = Campaign.find_all_by_pending(false)
     [@pending_campaigns, @active_camapaigns]
+    render :layout => 'campaign_backend'
   end
 
   def main_page
@@ -168,6 +167,8 @@ class Dt::CampaignsController < DtApplicationController
     if(params[:participant_page] != nil)
       render :partial => 'participants'
     end
+    
+    render :layout => 'campaign_backend'
   end
 
   def configure_filters_for

@@ -1,14 +1,44 @@
 <div id="campaigns">
-	<div id="pending_campaigns" style="border: 1px solid gray;margin-top:5px;">
-		<%= campaign_h2_header('Pending Campaigns','pending_container')%>
-		<div id="pending_container" >
-			<%= render :partial => 'admin_campaign', :collection => @pending_campaigns, :locals => {:show_admin => true}%>
-		</div>
-	</div>
-	<div id="active_campaings" style="border: 1px solid gray;margin-top:5px;">
-		<%= campaign_h2_header('Active Campaigns','active_container')%>
-		<div id="active_container">
-			<%= render :partial => 'admin_campaign', :collection => @active_campaigns, :locals => {:show_admin => true}%>
-		</div>
-	</div>
+	<table id="campaigns" width="100%">
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td id="pending_campaigns">
+							<%= campaign_h2_header('Pending Campaigns','pending_container')%>
+							<div id="pending_container" >
+								<%= render :partial => 'admin_campaign', :collection => @pending_campaigns, :locals => {:show_admin => true}%>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td id="active_campaings" >
+							<%= campaign_h2_header('Active Campaigns','active_container')%>
+							<div id="active_container">
+								<%= render :partial => 'admin_campaign', :collection => @active_campaigns, :locals => {:show_admin => true}%>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<td id="wall_posts">
+							<%= campaign_h2_header('Wall Posts','wall_posts_container')%>
+							<div id="wall_posts_container">
+							</div>
+						</td>
+					<tr>
+					</tr>
+						<td id="news_items">
+							<%= campaign_h2_header('News Items','wall_posts_container')%>
+							<div id="wall_posts_container">
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
 </div>
