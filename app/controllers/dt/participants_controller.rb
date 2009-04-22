@@ -235,12 +235,9 @@ class Dt::ParticipantsController < DtApplicationController
     end
   end
 
+  # assign participant to generic team and approve
   def decline
-    @participant = Participant.find(params[:id]) unless params[:id] == nil
-    @team = @participant.team
-    @campaign = @team.campaign
-    # assign participant to generic team and approve
-    @participant.team = @campaign.generic_team
+    assign_participant_to_generic_team(params[:id])
     if @participant.approve!
       flash[:notice] = "#{@participant.name} assigned to #{@campaign.name} with with no team."
       redirect_to manage_dt_team_path(@team)
@@ -251,7 +248,6 @@ class Dt::ParticipantsController < DtApplicationController
     end
 
   end
-
 
   protected
   def access_denied
@@ -284,5 +280,13 @@ class Dt::ParticipantsController < DtApplicationController
       flash[:notice] = 'You are not authorized to see that page.'
       redirect_to dt_participant_path(@participant)
     end
+  end
+
+  private
+  def assign_participant_to_generic_team(participant_id)
+    @participant = Participant.find(participant_id) unless participant_id == nil
+    @team = @participant.team
+    @campaign = @team.campaign
+    @participant.team = @campaign.generic_team
   end
 end
