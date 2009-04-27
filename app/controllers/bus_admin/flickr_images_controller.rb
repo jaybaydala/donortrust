@@ -77,8 +77,8 @@ class BusAdmin::FlickrImagesController < ApplicationController
     render :partial => 'show', :locals => {:db => true}
   end
 
-def get_local_actions(requested_action,permitted_action)
-   case(requested_action)
+  def get_local_actions(requested_action,permitted_action)
+    case(requested_action)
       when("search")
         return permitted_action == 'show'
       when("show_flickr")
@@ -93,6 +93,6 @@ def get_local_actions(requested_action,permitted_action)
         return permitted_action == 'delete'
       else
         return false
-      end  
- end
+    end
+  end
 end
