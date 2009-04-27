@@ -1,46 +1,69 @@
 <%- content_for :html_title do -%>Manage Campaign: <%= @campaign.name %><%- end -%>
 
-<%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
-
 <div id="manage_campaign">
-	<h1> Manage - <%= link_to(@campaign.name,show_campaign_path(@campaign.short_name)) %></h1>
+	<h2> Dashboard - Manage - <%= link_to(@campaign.name,show_campaign_path(@campaign.short_name)) %></h2>
+	
+	<table class="dashboard_table">
+		<tr>
+			<td>
+				<%= render :partial => 'dt/dashboard/important_info'%>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td>
+				<div class="postnews">
+					<%= render :partial => 'dt/news_items/dashboard_news', :locals => {:postable => @campaign, :show_post_form => true, :show_content => false }%>
+				</div>
+			</td>
+			<td>
+				<%= render :partial => 'dt/wall_posts/dashboard_wall', :locals => {:postable => @campaign, :show_post_form => true}%>
+			</td>
+		</tr>
+		<tr valign="top">
+		<% if @campaign.allow_multiple_teams? %>
+			<td class="dashboard_cell">
+				<div id="team_management">
+					<%= dashboard_h4("Teams",'team_management_container',true)%>
+					<div id="team_management_container" style="display:none;">
+						<% if @campaign.require_team_authorization? %>
+							<div id="pending_teams" class="row_container">				
+								<%= dashboard_h4("Pending Teams",'pending_container')%>
+								<div id="pending_container">
+									<%= render :partial => 'team', :collection => @campaign.pending_teams, :locals => { :hide_pending => false} %>
+								</div>
+							</div>
+							<div id="authorized_teams" class="row_container">
+								<%= dashboard_h4("Active Teams",'active_container', true)%>
+								<div id="active_container">
+									<%= render :partial => 'team', :collection => @campaign.active_teams %>
+								</div>
+							</div>
+						<% else %>
+							<div id="teams" class="row_container">
+								<%= render :partial => 'team', :collection => @campaign.teams %>
+							</div>
+						<% end %>
+					</div>
+				</div>
+			</td>
+		<% end %>
+	
+		<td class="dashboard_cell">
+			<%= dashboard_h4('Participants','participants_container',true)%>
+		<div id="participants_container", class="row_container" style="display:none;">
+			<%= dashboard_h4(' ' + link_to('Active Participants',dt_campaign_participants_path(@campaign)),'active_participant_container',true)%>
+			<div id="active_participant_container" class="row_container" style="display:none;">
+				<%= render :partial => 'participants', :collection => @participants %>
+			</div>
 
-	<% if @campaign.allow_multiple_teams? %>
-		<div id="team_management">
-			<%= campaign_h2_header("Teams",'team_management_container')%>
-			<div id="team_management_container">
-				<% if @campaign.require_team_authorization? %>
-					<div id="pending_teams" class="row_container">				
-						<%= campaign_h2_header("Pending Teams",'pending_container')%>
-						<div id="pending_container">
-							<%= render :partial => 'team', :collection => @campaign.pending_teams, :locals => { :hide_pending => false} %>
-						</div>
-					</div>
-					<div id="authorized_teams" class="row_container">
-						<%= campaign_h2_header("Active Teams",'active_container')%>
-						<div id="active_container">
-							<%= render :partial => 'team', :collection => @campaign.active_teams %>
-						</div>
-					</div>
-				<% else %>
-					<div id="teams" class="row_container">
-						<%= render :partial => 'team', :collection => @campaign.teams %>
-					</div>
-				<% end %>
+			<%= dashboard_h4(' ' + link_to('Pending Participants',dt_campaign_participants_path(@campaign)),'pending_participant_container',true)%>
+			<div id="pending_participant_container" class="row_container" style="display:none;">
+				<%= render :partial => 'participants', :collection => @pending_participants %>
 			</div>
 		</div>
-	<% end %>
-	
-	<%= campaign_h2_header(' ' + link_to('Participants',dt_campaign_participants_path(@campaign)),'participant_container',true)%>
-	<div id="participant_container" class="row_container" style="display:none;">
-		<%= render :partial => 'participants' %>
-	</div>
-
-	<div class="postnews">
-		<a name="news"></a>
-		<%= render :partial => 'dt/news_items/news', :locals => {:postable => @campaign, :show_post_form => true}%>
-	</div>
-	
-	<%= render :partial => 'dt/wall_posts/wall', :locals => {:postable => @campaign, :show_post_form => true}%>
-	
+		</td>
+	</tr>
+	</table>
 </div>

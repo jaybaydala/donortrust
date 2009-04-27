@@ -1,0 +1,11 @@
+<% show_post_form = true unless show_post_form != nil %>
+<div id="wall">	
+	<%= dashboard_h4(" #{postable.name}'s Wall",'wall_container',true)%>
+	<div id="wall_container" style="display:none;">
+		<% if show_post_form %>
+			<%= render :partial => 'dt/wall_posts/wall_form', :locals => {:form_for_value => [:dt,postable,WallPost.new]}%>
+		<% end %>
+		
+		<%= render :partial => 'dt/wall_posts/wall_post', :collection => postable.wall_posts.reverse %>
+	</div>
+</div>

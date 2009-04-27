@@ -193,6 +193,10 @@ class Campaign < ActiveRecord::Base
   def not_pending_participants
     @participants = Participant.find_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = 0",self.id])
   end
+  
+  def pending_participants
+    @participants = Participant.find_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = 1",self.id])
+  end
 
   def has_participant(user)
     users = User.find_by_sql(["SELECT u.* FROM users u, teams t, participants p WHERE p.user_id = u.id AND p.team_id = t.id AND t.campaign_id = ? AND u.id = ?",self.id, user])

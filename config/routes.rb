@@ -87,7 +87,8 @@ ActionController::Routing::Routes.draw do |map|
                           },
                           :member => {  :join => :get,
                                         :approve => :get,
-                                        :manage => :get
+                                        :manage => :get,
+                                        :leave => :get
                                       }
 
     dt.resources :pledges

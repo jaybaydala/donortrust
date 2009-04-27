@@ -143,6 +143,10 @@ class Dt::TeamsController < DtApplicationController
     end
     redirect_to dt_team_path(@team)
   end
+  
+  def leave_team
+    
+  end
 
   def approve
     @team = Team.find(params[:id]) unless params[:id] == nil
@@ -185,6 +189,7 @@ class Dt::TeamsController < DtApplicationController
     end
     [@errors, @short_name]
   end
+  
 
   protected
   def access_denied

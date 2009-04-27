@@ -1,0 +1,23 @@
+<div id="important_info">
+	<%= dashboard_h4('Campaign Information','campaign_info')%>
+	<div id="campaign_info">
+		<h5>At a glance.</h5>
+		<ul>
+			<li>
+				<%= @campaign.active_teams.size %> active teams, and <%= @campaign.pending_teams.size %> teams waiting for approval.
+			</li>
+			<li>
+				<%= @campaign.not_pending_participants.size %> active participants, and <%= @campaign.pending_participants.size %> participants awaiting approval
+			</li>
+			<li>
+				<%= @campaign.news_items.size%> news items
+			</li>
+			<li>
+				<%= @campaign.wall_posts.size%> wall posts
+			</li>
+			<li>
+				<%= @campaign.funds_raised %> dollars raised
+			</li>
+		</ul>
+	</div>
+</div>

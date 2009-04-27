@@ -1,0 +1,22 @@
+<ul id="dash_left_col">
+	<li>
+		<div align="center">
+			<h4>Controls</h4>
+		</div>
+	</li>
+	<%= dashboard_blind_list('Campaigns','campaign_functions',true,"top_level_link_item")%>
+	<ul id='campaign_functions' class="function_list" style="display:none;">
+		<li class="child_link_item_with_shadow">News</li>
+		<li class="child_link_item">Wall</li>
+	</ul>
+	<%= dashboard_blind_list('Teams','team_functions',true,"top_level_link_item")%>
+	<ul id='team_functions' class="function_list" style="display:none;">
+		<li class="child_link_item_with_shadow">News</li>
+		<li class="child_link_item">Wall</li>
+	</ul>
+	<%= dashboard_blind_list('Participants','participant_functions',true,"top_level_link_item")%>
+	<ul id='participant_functions' class="function_list" style="display:none;">
+		<li class="child_link_item_with_shadow">News</li>
+		<li class="child_link_item">Wall</li>
+	</ul>
+</ul>

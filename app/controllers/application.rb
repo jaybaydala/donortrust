@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include DtAuthenticatedSystem
   include ExceptionNotifiable
   helper :dt_application
+  helper :dashboard
   helper "dt/search"
 
   #before_filter :set_user

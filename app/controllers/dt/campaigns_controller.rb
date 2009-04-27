@@ -164,6 +164,14 @@ class Dt::CampaignsController < DtApplicationController
     end
 
     @participants = Participant.paginate_by_sql ["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = ? AND t.pending = ?",@campaign.id,0,0], :page => params[:participant_page], :per_page => 10
+    team = Team.find_by_campaign_id_and_generic @campaign.id, true
+    puts team
+    @pending_participants = @particpants
+    # @pending_participants = Participant.find_by_team_id_and_pending team.id, true
+    
+    puts @pending_participants
+    
+#   What is this ?
     if(params[:participant_page] != nil)
       render :partial => 'participants'
     end
