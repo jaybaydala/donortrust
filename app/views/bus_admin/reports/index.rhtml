@@ -1,6 +1,9 @@
-<% form_for :report, :url=>{:controller=>'reports', :action=>'process_report'}, :html => { :multipart => true } do |f| -%>
+<% form_for :report, Report.new, :url=>{:controller=>'reports', :action=>'process_report'}, :html => { :multipart => true } do |f| -%>
   	<fieldset>
 		<legend>Report</legend>	      
+		<% if (flash[:error]) then %>
+		   <div class="errorExplanation">Error: <%= flash[:error] %></div>
+		<% end %>
 		<div id="report_start_date">
 			<ul class="row" style="padding-top:10px; padding-bottom:10px;">		
 		     	<li>Select a Start Date</li>
