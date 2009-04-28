@@ -22,9 +22,10 @@ class BusAdmin::ReportsController < ApplicationController
     if @end_date < @start_date
       flash[:error] = "End date must be before start date."
       redirect_to('/bus_admin/reports')
+      return
     end
 
-    selected_report = params[:report][:gift].to_s;
+    selected_report = params[:report][:gift] ||= "gift_report";
 
     case
     when selected_report == "gift_report":
