@@ -12,7 +12,7 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
   # GET /bus_admin_project_flickr_images
   # GET /bus_admin_project_flickr_images.xml
   def index
-    @flickr_images = ProjectFlickrImage.find(:all, :conditions => "project_id = " + params[:id].to_s)
+    @flickr_images = ProjectFlickrImage.find(:all, :conditions => ["project_id = ", active_scaffold_session_storage[:constraints][:project_id]])
     @flickr_image_pages, @flickr_images = paginate_array(params[:page], @flickr_images, 20)
     
     if(params[:id])
@@ -27,42 +27,43 @@ class BusAdmin::ProjectFlickrImagesController < ApplicationController
   # GET /bus_admin_project_flickr_images/1
   # GET /bus_admin_project_flickr_images/1.xml
   def show
-    @project_flickr_images = ProjectFlickrImage.find(:all, :conditions => "project_id = " + params[:id].to_s)
-
+    @project_flickr_image = ProjectFlickrImage.find(params[:id], :conditions => ["project_id = ?", active_scaffold_session_storage[:constraints][:project_id]])
+    @photo = Flickr::Photo.new(@project_flickr_image.photo_id.to_s)
+    
     respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @project_flickr_images.to_xml }
+      format.html { render :action => "show", :layout => false }
+      format.xml  { render :xml => @project_flickr_image.to_xml }
     end
   end
   
   def add
-    if(ProjectFlickrImage.find_by_project_id_and_photo_id(params[:project_id],params[:id]) == nil)
+    @project = Project.find(params[:project_id])
+    if @project.project_flickr_images.find_by_photo_id(params[:id])
+      @msg = "That Photo has already been added to this project"
+    else
       begin
-        ProjectFlickrImage.create :project_id => params[:project_id], :photo_id => params[:id]
+        @project.project_flickr_images.create(:photo_id => params[:id])
         @msg = "Photo has been added to project"
       rescue
         @msg = "Photo could not be added to this project: " + $!.to_s
       end
-    else
-      @msg = "That Photo has already been added to this project"
     end
     
-    [@project = Project.find(params[:project_id]), @msg]
+    [@project, @msg]
     render :partial => 'project'
   end
   
- def show_flickr
+  def show_flickr
     @photo = Flickr::Photo.new(params[:id])
-     @project_id = params[:project_id]
-      @project_id ||= params[:with][:project_id]
-      
+    @project_id = params[:project_id]
+    @project_id ||= params[:with][:project_id]
     render :partial => 'show'
   end
     
   def show_db_flickr
     @photo = Flickr::Photo.new(params[:id])
     @project_id = params[:project_id]
-      @project_id ||= params[:with][:project_id]
+    @project_id ||= params[:with][:project_id]
       
     render :partial => 'show', :locals => {:db => true}
   end
