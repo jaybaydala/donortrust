@@ -42,6 +42,7 @@ class BusAdmin::ProjectsController < ApplicationController
 
     config.action_links.add 'list',  :label => 'Create',
                                      :page => true,
+				     :type => :table,
                                      :parameters => { :action => 'new' }
     config.action_links.add 'list',  :label => 'Reports',
                                      :page => true,
@@ -158,6 +159,10 @@ class BusAdmin::ProjectsController < ApplicationController
       @user = current_user
       @partner = current_user.administrated_partners.first
       @project = Project.new
+
+      @partner = Partner.find(:first, :conditions => {:id => params[:parent_id]})
+      @project.partner_id = @partner.id
+
       respond_to do |format|
         format.html
       end
