@@ -26,6 +26,8 @@ class Campaign < ActiveRecord::Base
 
   has_many :pledges
 
+  has_one :default_team, :dependent => :destroy, :class_name => "Team"
+
   attr_accessor :use_user_email
 
   is_indexed :fields=> [
