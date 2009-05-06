@@ -1,8 +1,8 @@
 development:
   adapter: mysql
   database: donortrust_development
-  username: jrickard
-  password: freon
+  username: root
+  password: 
   host: 127.0.0.1
 
 staging:
