@@ -96,7 +96,7 @@ class Dt::PledgesController < DtApplicationController
       flash[:notice] = "#{@campaign.name} has not been approved yet. You can sponsor team #{@campaign.name} they have been approved."
       redirect_to dt_campaign_path(@campaign)
     end
-
+    session[:return_to] = new_dt_participant_pledge_path(@participant)
     @pledge = Pledge.new
   end
 

@@ -39,7 +39,11 @@
 <div id="pledge_form" class="campaign_form">
 	<%= error_messages_for :pledge, :deposit %>
 	<% form_for([:dt,form_for_var,@pledge]) do |f| %>		
-		<span>I would like to give:	$ <%= f.text_field :amount %></span>
+		<span>I would like to give:	$ <%= f.text_field :amount %></span><br/>
+		<%- if not logged_in? -%>
+			<span id="my_name" class="small_text">Enter your name: <%= f.text_field :pledger%><br/> or <%= link_to 'login', dt_login_path %>.</span><br/>
+		<%- end -%>
+		<span class="small_text" style="font-size:10px;">I would like my pledge to be anonymous: <%= f.check_box :anonymous, :onclick => "Element.toggle('my_name');"%></span>
 		<div style="clear: right;"></div>
 		<span><%= f.submit 'Sponsor'%></span>
 	<% end %>
