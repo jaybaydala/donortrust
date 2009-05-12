@@ -42,36 +42,48 @@ class Dt::ParticipantsController < DtApplicationController
 
   def new
     store_location
+
     @participant = Participant.new
+    @participant.user = current_user
+    @participant.team_id = @team.id
 
-    if (current_user == :false)
-      @participant.user = User.new
-    else
-      # Make sure the user hasn't already signed up to this campaign
-      current_user.campaigns.each do |c|
-
-        if (c.id == @team.campaign.id)
-          # This user has already signed up for this campaign
-          existing_participant = Participant.find(:first, :conditions => [ "user_id = ? AND team_id = ?", current_user.id, @team.id ])
-          if (existing_participant == nil)
-            flash[:notice] = "You are already taking part in the " + @team.campaign.name + 
-                             " campaign as a member of a different team, so you can't join " + @team.name + "."
-            redirect_to dt_campaign_path(@team.campaign) 
-          elsif (existing_participant.pending)
-            flash[:notice] = "You have already applied to take part in the " + @team.campaign.name + 
-                             " campaign as a member of " + @team.name + " but have not yet been approved."
-            redirect_to dt_campaign_path(@team.campaign) 
-          else
-            flash[:notice] = "You are already taking part in the " + @team.campaign.name +
-                             " campaign. This is your campaign page."
-            redirect_to dt_participant_path(existing_participant) 
-          end
-        end
-
+    #check and see if the user is part of the campaign already
+    campaign = nil
+    
+    current_user.campaigns.each do |c|
+      if (c.id == @team.campaign.id)
+        campaign = c;
       end
+    end
+    
+    if (campaign != nil)
+      #if they are check and see if they are in the default team
+      if (campaign.default_team.has_user?(current_user))
+        @participant = campaign.default_team.participant_for_user(current_user)
+	@participant.team_id = @team.id
 
-      # This is the first time this user is signing up for this campaign
-      @participant.user = current_user
+      else
+    
+	#output some error messages if they are on the campaign
+
+	# This user has already signed up for this campaign
+        existing_participant = Participant.find(:first, :conditions => [ "user_id = ? AND team_id = ?", current_user.id, @team.id ])
+        if (existing_participant == nil)
+          flash[:notice] = "You are already taking part in the " + @team.campaign.name + 
+                           " campaign as a member of a different team, so you can't join " + @team.name + "."
+          redirect_to dt_campaign_path(@team.campaign) 
+
+        elsif (existing_participant.pending)
+          flash[:notice] = "You have already applied to take part in the " + @team.campaign.name + 
+                           " campaign as a member of " + @team.name + " but have not yet been approved."
+          redirect_to dt_campaign_path(@team.campaign) 
+
+        else
+          flash[:notice] = "You are already taking part in the " + @team.campaign.name +
+                           " campaign. This is your campaign page."
+          redirect_to dt_participant_path(existing_participant) 
+        end
+      end
     end
   end
 
@@ -135,18 +147,30 @@ class Dt::ParticipantsController < DtApplicationController
       @participant.user = current_user
     end
 
-    @participant.team = @team
-
-    if @team.require_authorization
-      @participant.pending = true
+    #if the user was part of the default team, remove them from that team and put them in this one
+    if (@team.campaign.default_team.has_user?(current_user)) then
+      default_participant = @team.campaign.default_team.participant_for_user(current_user)
+      default_participant.team_id = @team.id
+      
+      if default_participant.save
+        redirect_to dt_participant_path(@participant)
+      else
+        render :action => 'new'
+      end
     else
-      @participant.pending = false
-    end
+      @participant.team = @team
 
-    if @participant.save
-      redirect_to dt_participant_path(@participant)
-    else
-      render :action => 'new'
+      if @team.require_authorization
+        @participant.pending = true
+      else
+        @participant.pending = false
+      end
+
+      if @participant.save
+        redirect_to dt_participant_path(@participant)
+      else
+        render :action => 'new'
+      end
     end
   end
 
@@ -182,8 +206,12 @@ class Dt::ParticipantsController < DtApplicationController
   def update
     @participant = Participant.find(params[:id])
     if @participant.update_attributes(params[:participant])
+      @participant.team_id = params[:team_id]
+      @participant.save
+
       flash[:notice] = 'Page successfully updated.'
       redirect_to(manage_dt_participant_path(@participant))
+
     else
       render :action => "manage"
     end

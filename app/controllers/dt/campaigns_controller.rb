@@ -23,6 +23,9 @@ class Dt::CampaignsController < DtApplicationController
     render_404 and return if @campaign.nil?
     @wall_post = @campaign.wall_posts.new
 
+    @user_on_campaign_default_team = @campaign.default_team.has_user?(current_user)
+    @user_in_campaign = user_in_campaign(current_user)
+
     #@participants = Participant.paginate_by_campaign_id @campaign.id, :page => params[:page]
 
     #hack to get remote pagination working
@@ -41,6 +44,16 @@ class Dt::CampaignsController < DtApplicationController
     else
       redirect_to :controller => 'campaigns', :action => 'index'
     end
+  end
+
+  def user_in_campaign(user)
+    result = :false
+
+    @campaign.teams.each do |t|
+      result = result || t.has_user?(user)
+    end
+
+    result
   end
 
   # GET /campaigns/new

@@ -121,8 +121,8 @@ class Dt::TeamsController < DtApplicationController
     if @team.pending?
       flash[:notice] = "This team has not yet been approved, thus you may not join it."
     else
-      if @team.campaign.participating?(current_user)
-        flash[:notice] = "You are already participating in this campaign, thus you may not join another team."
+      if !@team.campaign.can_join_team?(current_user)
+        flash[:notice] = "You are already participating on a team in this campaign, you must first leave that team before you can join this one."
       else
         if @team.users.include?(current_user)
           flash[:notice] = "You are already a member of this team!"
@@ -144,8 +144,30 @@ class Dt::TeamsController < DtApplicationController
     redirect_to dt_team_path(@team)
   end
   
-  def leave_team
-    
+  def leave
+    @team = Team.find(:first, :conditions => {:id => params[:id]})
+
+    if (@team.users.include?(current_user)) then
+      if (@team == @team.campaign.default_team) then
+        flash[:notice] = "You can not leave the campaign"
+	return
+      end
+
+      #get the campaign for this team and add this user to the default team 
+      participant = @team.participant_for_user(current_user)
+      @team.campaign.default_team.participants << participant
+
+      #move all the pledges over to the new team
+      current_user.pledges.each do |p|
+        p.team_id = @team.campaign.default_team.id
+	p.save
+      end
+    else
+      #print a notice that the user does not exist in the team
+      flash[:notice] = "The user could not be found in the team"
+    end
+
+    redirect_to dt_campaign_path(@campaign)
   end
 
   def approve

@@ -19,4 +19,16 @@ class Pledge < ActiveRecord::Base
   def amount
     BigDecimal.new(read_attribute(:amount).to_s) unless read_attribute(:amount).nil?
   end
+
+  def pledgee
+    if (self.participant != nil)
+      return self.participant.name
+    elsif (self.team != nil)
+      return self.team.name
+    elsif (self.campaign != nil)
+      return self.campaign.name
+    end
+
+    return nil
+  end
 end

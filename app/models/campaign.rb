@@ -131,6 +131,11 @@ class Campaign < ActiveRecord::Base
         total = total + pledge.amount
       end
     end
+
+    self.teams.each do |t|
+      total = total + t.funds_raised
+    end
+
     total
   end
 
@@ -186,6 +191,22 @@ class Campaign < ActiveRecord::Base
 
   def active_teams
     Team.find_all_by_campaign_id_and_pending(self.id, false)
+  end
+
+  def can_join_team?(user)
+    #if the user is on the default team then we can still join another team
+    if (self.default_team.users.include?(user)) then
+      puts "user is on default team"
+      return false
+    end
+
+    #see if the user is on another team
+    if (participants.include?(user)) then
+      puts "user is on another team"
+      return false
+    end
+
+    return true
   end
 
   def participating?(user)

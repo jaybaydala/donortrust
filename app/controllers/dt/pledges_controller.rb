@@ -6,20 +6,19 @@ class Dt::PledgesController < DtApplicationController
     @pledge = Pledge.new(params[:pledge])
     @pledge.user = current_user if logged_in?
     @pledge.paid = false
+
+    #decide what type of pledge it is
+    #this is very important so that records are propperly tied as people move
+    #around
     if(params[:participant_id] != nil)
       @participant = Participant.find(params[:participant_id])
       @pledge.participant = @participant
-      @pledge.team = @participant.team
-      @pledge.campaign = @participant.team.campaign
-    end
 
-    if(params[:team_id] != nil)
+    elsif(params[:team_id] != nil)
       @team = Team.find(params[:team_id])
       @pledge.team = @team
-      @pledge.campaign = @team.campaign
-    end
 
-    if(params[:campaign_id] != nil)
+    elsif(params[:campaign_id] != nil)
       @campaign = Campaign.find(params[:campaign_id])
       @pledge.campaign = @campaign
     end
@@ -39,22 +38,20 @@ class Dt::PledgesController < DtApplicationController
 
     error_redirect_path = ""
 
+    #decide what type of pledge it is and only fill in the appropriate field!
+    #this is very important so that records are propperly tied as people move
+    #around
     if(params[:participant_id] != nil)
       @participant = Participant.find(params[:participant_id])
       @pledge.participant = @participant
-      @pledge.team = @participant.team
-      @pledge.campaign = @participant.team.campaign
       error_redirect_path = new_dt_participant_pledge_path(@participant)
-    end
 
-    if(params[:team_id] != nil)
+    elsif(params[:team_id] != nil)
       @team = Team.find(params[:team_id])
       @pledge.team = @team
-      @pledge.campaign = @team.campaign
       error_redirect_path = new_dt_team_pledge_path(@team)
-    end
 
-    if(params[:campaign_id] != nil)
+    elsif(params[:campaign_id] != nil)
       @campaign = Campaign.find(params[:campaign_id])
       @pledge.campaign = @campaign
       error_redirect_path = new_dt_campaign_pledge_path(@campaign)

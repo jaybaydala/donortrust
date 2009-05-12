@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :administrations
   has_many :administrations
   has_many :orders
+  has_many :teams, :through => :participants
+  has_many :participants
   has_administrables :model => "Project"
   has_administrables :model => "Partner"
 
@@ -68,7 +70,6 @@ class User < ActiveRecord::Base
     u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login] # need to get the salt
     u && u.authenticated?(password) && u.expired? == false ? u : nil
   end
-
 
   # Encrypts some data with the salt.
   def self.encrypt(password, salt)

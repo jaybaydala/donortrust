@@ -67,11 +67,23 @@ class Team < ActiveRecord::Base
 
   def funds_raised
     total = 0;
+
+    #add up all the team pledges
     for pledge in self.pledges
       if pledge.paid
         total = total + pledge.amount
       end
     end
+
+    #add in all the pledges to team members
+    self.participants.each do |p|
+      p.pledges.each do |pledge|
+        if pledge.paid
+	  total = total + pledge.amount
+	end
+      end
+    end
+
     total
   end
 
@@ -96,14 +108,23 @@ class Team < ActiveRecord::Base
     Participant.find_all_by_team_id_and_pending(self.id, false)
   end
 
+  def participant_for_user(user)
+    user.participants.find(:first, :conditions => {:user_id => user.id})
+  end
 
   #############TODO##############
   def campaign_over?
 
   end
 
+  def has_user?(user)
+    testUser = self.users.find(:first, :conditions => {:id => user.id})
+    
+    return (testUser != nil)
+  end
+
   def joinable?
-    (!self.pending && !self.is_full? && !self.campaign.has_participant(current_user.id))? true : false
+    (!self.pending && !self.is_full?)? true : false
   end
 
   def short_description(length=100)
@@ -113,7 +134,7 @@ class Team < ActiveRecord::Base
 
   def percentage_raised
     if self.goal?
-      raised= ((self.funds_raised.to_f/self.goal.to_f)*100).round(0).to_i
+       raised= ((self.funds_raised.to_f/self.goal.to_f)*100).round(0).to_i
       "#{raised} %"
     else
       "n/a"
