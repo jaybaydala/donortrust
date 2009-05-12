@@ -13,18 +13,18 @@ class BusAdmin::ReportsController < ApplicationController
 
     end_date_params = params[:report].select{|k,v| k =~ /end_date/}.sort_by{|d| d[0] }.collect{|d| d[1].to_i }
     @end_date = DateTime.civil(*end_date_params)
-    
-    # @end_date = get_date("end")
-    # @start_date = get_date("start")
 
-    # We know by this point we have both a start and end date to work with 
-    # because the UI doesn't allow blanks to be selected
-    if @endDate < @startDate
+    # Check for invalid dates just in case
+    if @start_date.blank? || @end_date.blank?
+      flash[:error] = "One of the dates was not valid: #{@start_date.inspect} - #{@end_date.inspect}."
+      redirect_to('/bus_admin/reports') and return
+    end
+    if @end_date < @start_date
       flash[:error] = "End date must be before start date."
-      redirect_to('/bus_admin/reports')
+      redirect_to('/bus_admin/reports') and return
     end
 
-    selected_report = params[:report][:gift].to_s;
+    selected_report = params[:report][:gift] ||= "gift_report";
 
     case
     when selected_report == "gift_report":
@@ -64,7 +64,6 @@ class BusAdmin::ReportsController < ApplicationController
         export(@results, "Pledge")
 
     when selected_report == "project_breakdown":
-
       sqlString = "SELECT PA.name AS partner_name, P.id, P.name, sum(I.amount) AS total_investment, P.total_cost 
                    FROM projects AS P INNER JOIN investments AS I INNER JOIN partners as PA
                    ON I.project_id = P.id
@@ -76,7 +75,7 @@ class BusAdmin::ReportsController < ApplicationController
       @results = Project.find_by_sql(sqlString)
  
       csv_string = FasterCSV.generate do |csv|
-        csv << ["Project breakdown report for dates between " + @startDate.to_s + " and " + @endDate.to_s]
+        csv << ["Project breakdown report for dates between " + @start_date.to_s + " and " + @end_date.to_s]
         csv << ["Partner", "Project ID", "Project",  "Total Investments",  "Total Cost" ]
         @results.each do |result|
           csv << [result.partner_name, result.id, result.name, result.total_investment, result.total_cost]
