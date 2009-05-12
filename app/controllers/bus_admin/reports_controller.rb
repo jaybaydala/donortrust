@@ -13,16 +13,15 @@ class BusAdmin::ReportsController < ApplicationController
 
     end_date_params = params[:report].select{|k,v| k =~ /end_date/}.sort_by{|d| d[0] }.collect{|d| d[1].to_i }
     @end_date = DateTime.civil(*end_date_params)
-    
-    # @end_date = get_date("end")
-    # @start_date = get_date("start")
 
-    # We know by this point we have both a start and end date to work with 
-    # because the UI doesn't allow blanks to be selected
+    # Check for invalid dates just in case
+    if @start_date.blank? || @end_date.blank?
+      flash[:error] = "One of the dates was not valid: #{@start_date.inspect} - #{@end_date.inspect}."
+      redirect_to('/bus_admin/reports') and return
+    end
     if @end_date < @start_date
       flash[:error] = "End date must be before start date."
-      redirect_to('/bus_admin/reports')
-      return
+      redirect_to('/bus_admin/reports') and return
     end
 
     selected_report = params[:report][:gift] ||= "gift_report";
