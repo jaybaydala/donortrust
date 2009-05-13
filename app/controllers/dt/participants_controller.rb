@@ -41,9 +41,20 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def new
+    puts "test: " + current_user.to_s
+    if (current_user == :false)
+      redirect_to dt_login_url
+      return
+    end
+
     store_location
 
     @participant = Participant.new
+
+    puts "8===========================================================D"
+    puts current_user
+    puts "8===========================================================D"
+
     @participant.user = current_user
     @participant.team_id = @team.id
 
