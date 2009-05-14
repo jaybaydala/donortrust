@@ -24,10 +24,7 @@
    # same time, so if they are not logged in offer them the opportunity to login 
    # or register %>
 
- <%# TODO: Is @participant.user.id.nil? the best test to see if the user associated with the 
-   # participant has just been newed up in the controller because there is no 
-   # currently logged in user? %>
- <% if @participant.user.id.nil? %>
+ <% if current_user == :false %>
 
   <h2>You are not currently logged in.</h2>
   <p>If you have already have an account with us please <%= link_to 'login', dt_login_path %> by clicking here, otherwise you can create an account below:</p>

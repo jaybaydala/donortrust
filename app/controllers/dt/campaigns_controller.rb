@@ -60,12 +60,16 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns/new.xml
   def new
     @campaign = Campaign.new
+    @is_new = true
+
     render :layout => 'campaign_backend'
   end
 
   # GET /campaigns/1/edit
   def edit
     @campaign = Campaign.find(params[:id])
+    @is_new = false
+
     render :layout => 'campaign_backend'
   end
 

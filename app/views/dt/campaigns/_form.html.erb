@@ -7,7 +7,7 @@
       <label>Name <%= form_required %></label>
       <%= f.text_field :name, :maxlength => 50, :size => 50 %>
 
-      <% if (is_new) %>
+      <% if (@is_new) %>
         <label>Short Name <%= form_required %></label>
         <span class="small_text">http://www.christmasfuture.org/dt/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
         <%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your campaign. It should not contain any spaces and should be concise so as to convey the central idea of your campaign. Also this name will be used to provide your campaign with a Christmas Future URL. http://www.christmasfuture.org/yourCampaignShortName'%>
@@ -25,7 +25,7 @@
       <%= collection_select :campaign_type, :id, CampaignType.find(:all), :id, :name %>
       <% 
         #TODO: Is this actually being used? Does it do anything?       
-        if (is_new)
+        if (@is_new)
             observe_field :campaign_type_id, 
                           :frequency => 0.25, 
                           :url => { :action => :update_team_config_options}, 
@@ -35,8 +35,8 @@
 
       <label>Contact Email <%= form_required %></label>
       <%# TODO: Rewrite this so that it's all part of one code block %>          
-      <%# TODO: Any way of doing this without an if statement, i.e. only send :value through to the partial if is_new is true %>          
-      <% if (is_new) %>
+      <%# TODO: Any way of doing this without an if statement, i.e. only send :value through to the partial if @is_new is true %>          
+      <% if (@is_new) %>
           <%= f.text_field :email, :maxlength => 75, :size => 50, :value => current_user.email %>
       <% else %>
           <%= f.text_field :email, :maxlength => 75, :size => 50 %>
@@ -92,7 +92,7 @@
       <%= f.text_field :city %>
 
       <label id="province">Province <%= form_required %></label>
-      <% if (is_new) %>
+      <% if (@is_new) %>
         <div id="province_holder">
           <%= province_selector(:campaign, :province)%>
         </div>
@@ -140,7 +140,7 @@
     </fieldset>
 
     <%# TODO: Is there a more elegant way to do this? %>          
-    <% if (is_new) %>
+    <% if (@is_new) %>
       <span class="create"><%= f.submit 'Create'%></span>
     <% else %>
       <span class="update"><%= f.submit "Update" %></span>
