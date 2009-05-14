@@ -65,6 +65,10 @@ class Dt::ParticipantsController < DtApplicationController
       if (campaign.default_team.has_user?(current_user))
         @participant = campaign.default_team.participant_for_user(current_user)
 	@participant.team_id = @team.id
+	@participant.save
+
+	flash[:notice] = 'Team joined successfully'
+      	redirect_to(manage_dt_participant_path(@participant))
 
       else
     
