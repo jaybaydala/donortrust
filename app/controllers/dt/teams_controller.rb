@@ -153,12 +153,13 @@ class Dt::TeamsController < DtApplicationController
 
     if (@team.leader == current_user)
       flash[:notice] = "You have created the team, you can not leave it"
+      redirect_to dt_team_path(@team)
     end
 
     if (@team.users.include?(current_user)) then
       if (@team == @team.campaign.default_team) then
         flash[:notice] = "You can not leave the campaign"
-	return
+	redirect_to dt_campaign_path(@campaign)
       end
 
       #get the campaign for this team and add this user to the default team 
@@ -166,10 +167,10 @@ class Dt::TeamsController < DtApplicationController
       @team.campaign.default_team.participants << participant
 
       #move all the pledges over to the new team
-      current_user.pledges.each do |p|
-        p.team_id = @team.campaign.default_team.id
-	p.save
-      end
+      #current_user.pledges.each do |p|
+      #  p.team_id = @team.campaign.default_team.id
+      #  p.save
+      #end
     else
       #print a notice that the user does not exist in the team
       flash[:notice] = "The user could not be found in the team"
