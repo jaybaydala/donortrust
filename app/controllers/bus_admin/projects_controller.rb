@@ -158,6 +158,9 @@ class BusAdmin::ProjectsController < ApplicationController
       @user = current_user
       @partner = current_user.administrated_partners.first
       @project = Project.new
+     
+      @project.partner_id = params[:parent_id] ||= (@partner.nil?)? nil : @partner.id;
+
       respond_to do |format|
         format.html
       end
