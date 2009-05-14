@@ -68,7 +68,7 @@ class Dt::ParticipantsController < DtApplicationController
 	@participant.save
 
 	flash[:notice] = 'Team joined successfully'
-      	redirect_to(manage_dt_participant_path(@participant))
+      	redirect_to(dt_participant_path(@participant))
 
       else
     
@@ -214,9 +214,10 @@ class Dt::ParticipantsController < DtApplicationController
   def update
     @participant = Participant.find(params[:id])
     if @participant.update_attributes(params[:participant])
-      @participant.team_id = params[:team_id]
-      @participant.save
-
+      if not params[:team_id].nil?
+        @participant.team_id = params[:team_id]
+        @participant.save
+      end
       flash[:notice] = 'Page successfully updated.'
       redirect_to(manage_dt_participant_path(@participant))
 
