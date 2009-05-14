@@ -167,6 +167,7 @@ class Dt::TeamsController < DtApplicationController
       flash[:notice] = "The user could not be found in the team"
     end
 
+    flash[:notice] = "You have left the #{@team.name}"
     redirect_to dt_campaign_path(@campaign)
   end
 
