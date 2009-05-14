@@ -7,6 +7,7 @@
 <% form_for([:dt, @campaign, @team], :html => {:multipart => true}) do |f| %>
 	<fieldset class="campaign_form">
 		<h2>Create your team profile:</h2>
+		<b>NOTE:</b> you will be unable to leave the team once you create it.
 	
 		<label>Team Name <%= form_required %></label>
 			<%= f.text_field :name, :maxlength => 50, :size => 50 %>

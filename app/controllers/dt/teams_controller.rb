@@ -28,6 +28,10 @@ class Dt::TeamsController < DtApplicationController
   # GET /dt_teams/new.xml
   def new
     @team = Team.new
+    if @campaign.has_participant(current_user) && !@campaign.default_team.has_user?(current_user)
+      flash[:notice] = "You are the creator of a team in this campaign, you can not create another team"
+    end
+
     if @campaign.pending?
       flash[:notice] = "This campaign is still pending, and thus cannot be joined."
       redirect_to dt_campaign_path(@campaign)
@@ -146,6 +150,10 @@ class Dt::TeamsController < DtApplicationController
   
   def leave
     @team = Team.find(:first, :conditions => {:id => params[:id]})
+
+    if (@team.leader == current_user)
+      flash[:notice] = "You have created the team, you can not leave it"
+    end
 
     if (@team.users.include?(current_user)) then
       if (@team == @team.campaign.default_team) then
