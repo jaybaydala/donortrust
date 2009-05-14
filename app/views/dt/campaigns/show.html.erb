@@ -36,7 +36,7 @@
 <% if @campaign.allow_multiple_teams%>
   <div id="teams">
     <% content ="" %>
-    <% if !@campaign.has_participant(current_user) %>
+    <% if (!@campaign.has_participant(current_user) || @campaign.default_team.has_user?(current_user)) %>
       <% if @campaign.allow_multiple_teams? && !@campaign.teams_full? %>
         <% content = link_to('Create a Team', new_dt_campaign_team_path(@campaign)) if !@campaign.pending %>
       <% end %>
