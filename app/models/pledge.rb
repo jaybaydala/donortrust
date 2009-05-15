@@ -25,23 +25,7 @@ class Pledge < ActiveRecord::Base
       return false
     end
 
-    if not super.participant.nil?
-      if not super.team.nil? or not super.campaign.nil?
-        return false
-      end
-
-    elsif not super.team.nil?
-      if not super.participant.nil? or not super.campaign.nil?
-        return false
-      end
-
-    elsif not super.campaign.nil?
-      if not super.participant.nil? or not super.team.nil?
-        return false
-      end
-    end
-
-    return super.valid?
+    return super
   end
 
   def campaign
