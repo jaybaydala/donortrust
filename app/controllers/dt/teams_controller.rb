@@ -100,6 +100,20 @@ class Dt::TeamsController < DtApplicationController
   # DELETE /dt_teams/1.xml
   def destroy
     @campaign = @team.campaign
+
+    #move all the current team members into the default team
+    @team.participants.each do |p|
+      p.team_id = @campaign.default_team.id
+      p.save
+    end
+
+    #move all the pledges to the team up to the campaign
+    @team.pledges.each do |p|
+      p.team_id = nil;
+      p.campaign_id = @campaign.id
+      p.save
+    end
+
     if not @team.generic?
         @team.destroy
         flash[:notice] = 'Team Removed.'

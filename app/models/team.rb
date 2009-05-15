@@ -4,7 +4,7 @@ class Team < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
 
-  has_many :participants, :dependent => :destroy
+  has_many :participants
   has_many :users, :through => :participants
 
   has_many :wall_posts, :as =>:postable, :dependent => :destroy

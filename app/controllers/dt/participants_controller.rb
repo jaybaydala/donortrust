@@ -265,7 +265,10 @@ class Dt::ParticipantsController < DtApplicationController
   def destroy
     @participant = Participant.find(params[:id])
     @campaign = @participant.team.campaign
-    @participant.destroy
+
+    @participant.team_id = @campaign.default_team.id
+    @participant.save
+
     if params[:campaign_id] != nil
       redirect_to manage_dt_campaign(Campaign.find(params[:campaign_id]))
     elsif params[:team_id] != nil
