@@ -68,7 +68,7 @@ class Dt::ParticipantsController < DtApplicationController
 	@participant.save
 
 	flash[:notice] = 'Team joined successfully'
-      	redirect_to(dt_participant_path(@participant))
+      	redirect_to(dt_team_path(@team))
 
       else
     
@@ -219,7 +219,7 @@ class Dt::ParticipantsController < DtApplicationController
         @participant.save
       end
       flash[:notice] = 'Page successfully updated.'
-      redirect_to(manage_dt_participant_path(@participant))
+      redirect_to(dt_participant_path(@participant))
 
     else
       render :action => "manage"

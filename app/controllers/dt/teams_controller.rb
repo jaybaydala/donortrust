@@ -159,7 +159,7 @@ class Dt::TeamsController < DtApplicationController
     if (@team.users.include?(current_user)) then
       if (@team == @team.campaign.default_team) then
         flash[:notice] = "You can not leave the campaign"
-	redirect_to dt_campaign_path(@campaign)
+	redirect_to dt_team_path(@team)
       end
 
       #get the campaign for this team and add this user to the default team 
@@ -177,7 +177,7 @@ class Dt::TeamsController < DtApplicationController
     end
 
     flash[:notice] = "You have left the #{@team.name}"
-    redirect_to dt_campaign_path(@campaign)
+    redirect_to dt_team_path(@team)
   end
 
   def approve
