@@ -53,7 +53,7 @@
 			<br/>
 			<%= link_to(image_tag("/images/dt/buttons/sponsor_team.png", :alt => "Sponsor this Team", 
 			  :title => "Sponsor this Team", :class => "campaign_action_button"), 
-			  new_dt_team_pledge_path(@team)) if !@team.pending && !@team.campaign.pending %><br/>
+			  new_dt_team_pledge_path(@team)) if !@team.pending && !@team.campaign.pending && @team.campaign.valid?%><br/>
 			<div class="clearfix"></div>
 		</div>
 

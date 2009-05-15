@@ -44,6 +44,11 @@ class Dt::ParticipantsController < DtApplicationController
     store_location
     @participant = Participant.new
 
+    if not @team.campaign.valid?
+      flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
+      redirect_to dt_team_path(@team)
+    end
+
     if (current_user == :false)
       return
     end
@@ -97,6 +102,11 @@ class Dt::ParticipantsController < DtApplicationController
 
   def create
     @participant = Participant.new(params[:participant])
+
+    if not @participant.team.campaign.valid?
+      flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
+      redirect_to dt_team_path(@team)
+    end
 
     if current_user == :false
       # If the user is not logged in check the user details that have been 
@@ -213,6 +223,12 @@ class Dt::ParticipantsController < DtApplicationController
 
   def update
     @participant = Participant.find(params[:id])
+
+    if not @participant.team.campaign.valid?
+      flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
+      redirect_to dt_team_path(@team)
+    end
+
     if @participant.update_attributes(params[:participant])
       if not params[:team_id].nil?
         @participant.team_id = params[:team_id]
