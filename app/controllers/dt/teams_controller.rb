@@ -151,6 +151,11 @@ class Dt::TeamsController < DtApplicationController
   def leave
     @team = Team.find(:first, :conditions => {:id => params[:id]})
 
+    if not @team.campaign.valid?
+      flash[:notice] = "this campaign has ended"
+      redirect_to dt_team_path(@team)
+    end
+
     if (@team.leader == current_user)
       flash[:notice] = "You have created the team, you can not leave it"
       redirect_to dt_team_path(@team)

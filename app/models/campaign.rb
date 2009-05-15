@@ -101,6 +101,13 @@ class Campaign < ActiveRecord::Base
     self.postalcode = postalcode.sub(' ', '') if not postalcode.blank? # remove any spaces.
   end
 
+  def valid?
+    if Time.now.utc > raise_funds_till_date.utc
+      return false
+    end
+
+    return super
+  end
 
   def validate
     errors.add('start_date',"must be before the event date.")if start_date > event_date

@@ -36,7 +36,7 @@
 <% if @campaign.allow_multiple_teams%>
   <div id="teams">
     <% content ="" %>
-    <% if (!@campaign.has_participant(current_user) || @campaign.default_team.has_user?(current_user)) %>
+    <% if (!@campaign.has_participant(current_user) || @campaign.default_team.has_user?(current_user)) && @campaign.valid?%>
       <% if @campaign.allow_multiple_teams? && !@campaign.teams_full? %>
         <% content = link_to('Create a Team', new_dt_campaign_team_path(@campaign)) if !@campaign.pending %>
       <% end %>
@@ -59,13 +59,13 @@
   <%= 
      link_to(image_tag("/images/dt/buttons/join_this_event.png", :alt => "Join #{@campaign.name}", 
       :title => "Join #{@campaign.name}", :class => "campaign_action_button"), 
-      "/dt/teams/#{@campaign.default_team.id}/participants/new") if !@campaign.has_participant(current_user) && !@campaign.pending && @campaign.event_date.utc > Time.now.utc 
+      "/dt/teams/#{@campaign.default_team.id}/participants/new") if !@campaign.has_participant(current_user) && !@campaign.pending && @campaign.valid?
   %>
   <br/>
   <%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor a Participant", 
-      :title => "Sponsor a Participant", :class => "campaign_action_button"), dt_campaign_participants_path(@campaign)) if !@campaign.pending %><br/>
+      :title => "Sponsor a Participant", :class => "campaign_action_button"), dt_campaign_participants_path(@campaign)) if !@campaign.pending && @campaign.valid? %><br/>
   <div class="clearfix"></div>
-  <%= render :partial => "sidebar_search" %>    
+  <%= render :partial => "sidebar_search" %>
 </div>
 <div class="campaign-sidebar-box metrics">
   <%= render :partial => 'campaign_facts',  :locals => {:campaign => @campaign} %>

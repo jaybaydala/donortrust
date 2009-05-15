@@ -124,6 +124,10 @@ class Team < ActiveRecord::Base
   end
 
   def joinable?
+    if not campaign.valid?
+      return false;
+    end
+
     (!self.pending && !self.is_full?)? true : false
   end
 
