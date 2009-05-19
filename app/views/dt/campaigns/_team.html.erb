@@ -4,7 +4,15 @@
 		<p>
 			<%= link_to team.name, dt_team_path(team) %> - <%= team.active_participants.size %> members 
 			<%= (" - " + link_to('Approve!',approve_dt_team_path(team))) if (team.pending? && (!team.owned? || current_user.is_cf_admin?)) %>
-			<%= delete_icon(dt_team_path(team)) if (current_user != :false && team.funds_raised == 0 && (current_user.cf_admin? || team.owned?)) %>
+			<% if current_user != :false %>
+  			  <% if current_user.cf_admin? then %>
+			    <%= delete_icon(dt_team_path(team)) %>
+
+			  <% else %>
+			    <%= delete_icon(dt_team_path(team)) if (current_user != :false && team.funds_raised == 0 && (team.owned?)) %>
+
+			  <% end %>
+			<% end %>
 		</p>
 	</div>
 <% end %>
