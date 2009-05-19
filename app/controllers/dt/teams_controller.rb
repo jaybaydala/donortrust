@@ -30,6 +30,7 @@ class Dt::TeamsController < DtApplicationController
     @team = Team.new
     if @campaign.has_participant(current_user) && !@campaign.default_team.has_user?(current_user)
       flash[:notice] = "You are the creator of a team in this campaign, you can not create another team"
+      redirect_to dt_campaign_path(@campaign)
     end
 
     if @campaign.pending?
