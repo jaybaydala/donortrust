@@ -18,6 +18,41 @@ class Dt::TeamsController < DtApplicationController
   def show
     store_location
 
+    @can_join_team = true
+    @can_leave_team = true
+
+    if @team.campaign.has_participant(current_user)
+      if !@team.campaign.default_team.has_user?(current_user)
+        @can_join_team = false
+      end
+    end
+
+    if @team.owned?
+      @can_leave_team = false
+    end
+
+    if @campaign.start_date > Time.now.utc
+      @can_join_team = false
+      @can_leave_team = false
+    end
+
+    if @campaign.raise_funds_till_date < Time.now.utc
+      @can_join_team = false
+      @can_leave_team = false
+    end
+
+    if @team.leader == current_user 
+      can_leave_team = false
+    end
+
+    if not @team.has_user?(current_user)
+      @can_leave_team = false
+    end
+
+    if @team == @team.campaign.default_team
+      @can_leave_team = false
+    end
+
     @participants = Participant.paginate_by_team_id_and_pending @team.id, false, :page => params[:participant_page], :per_page => 10
     if(params[:participant_page] != nil)
       render :partial => 'participants'

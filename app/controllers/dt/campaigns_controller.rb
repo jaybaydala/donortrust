@@ -29,35 +29,34 @@ class Dt::CampaignsController < DtApplicationController
     #####################
     ## This block is for determining if users can create/join teams
 
-    @can_join_team = true
-    @can_create_team = true
+    @can_join_team = :true
+    @can_create_team = :true
+    @can_join_campaign = :true
 
     #a user that is not logged in can not create a team
     if (current_user == :false)
-      @can_create_team = false
+      @can_create_team = :false
     end
 
     #if the user is on another team in the campaign they can not create or join a team
     if @campaign.has_participant(current_user)
       if !@campaign.default_team.has_user?(current_user)
-        @can_join_team = false
-	@can_create_team = false
+        @can_join_team = :false
+        @can_join_campaign = :false
+	@can_create_team = :false
       end
     end
 
-    if !@campaign.valid?
-      @can_join_team = false
-      @can_create_team = false
-    end    
-
     if @campaign.pending
-      @can_join_team = false
-      @can_create_team = false
+      @can_join_team = :false
+      @can_join_campaign = :false
+      @can_create_team = :false
     end
 
     #JSR - not sure if we need this or not, but it was in the initial implementation
     if @campaign.teams.size <= 1
-      @can_join_team = false
+      @can_join_campaign = :false
+      @can_join_team = :false
     end
 
     if !@campaign.allow_multiple_teams?
@@ -392,6 +391,12 @@ class Dt::CampaignsController < DtApplicationController
 
   private
     def is_authorized?
+      if (current_user == :false)
+        flash[:notice] = "You must be logged in to view this page."
+        redirect_to dt_login_path
+	return false
+      end
+
       @campaign = Campaign.find(params[:id])
       if @campaign.creator != current_user and not current_user.is_cf_admin?
         flash[:notice] = 'You are not authorized to view this page.'

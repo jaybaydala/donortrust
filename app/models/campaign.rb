@@ -106,6 +106,10 @@ class Campaign < ActiveRecord::Base
       return false
     end
 
+    if Time.now.utc < start_date.utc
+      return false
+    end
+
     return super
   end
 
