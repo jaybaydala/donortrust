@@ -71,6 +71,10 @@ class Dt::TeamsController < DtApplicationController
         @participant.short_name = @team.short_name + '_participant'
 
         if @participant.save
+  	  if (@team.campaign.default_team.has_user?(current_user))
+	    @team.campaign.default_team.participant_for_user(current_user).destroy
+	  end
+
           if @team.pending
             flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
           else

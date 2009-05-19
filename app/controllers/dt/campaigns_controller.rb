@@ -26,6 +26,51 @@ class Dt::CampaignsController < DtApplicationController
     @user_on_campaign_default_team = @campaign.default_team.has_user?(current_user)
     @user_in_campaign = user_in_campaign(current_user)
 
+    #####################
+    ## This block is for determining if users can create/join teams
+
+    @can_join_team = true
+    @can_create_team = true
+
+    #a user that is not logged in can not create a team
+    if (current_user == :false)
+      @can_create_team = false
+    end
+
+    #if the user is on another team in the campaign they can not create or join a team
+    if @campaign.has_participant(current_user)
+      if !@campaign.default_team.has_user?(current_user)
+        @can_join_team = false
+	@can_create_team = false
+      end
+    end
+
+    if !@campaign.valid?
+      @can_join_team = false
+      @can_create_team = false
+    end    
+
+    if @campaign.pending
+      @can_join_team = false
+      @can_create_team = false
+    end
+
+    #JSR - not sure if we need this or not, but it was in the initial implementation
+    if @campaign.teams.size <= 1
+      @can_join_team = false
+    end
+
+    if !@campaign.allow_multiple_teams?
+      @can_create_team = false
+    end
+
+    if @campaign.teams_full? 
+      @can_create_team = false
+    end
+
+    ## End of block
+    #####################
+
     #@participants = Participant.paginate_by_campaign_id @campaign.id, :page => params[:page]
 
     #hack to get remote pagination working
