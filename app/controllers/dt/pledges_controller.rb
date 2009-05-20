@@ -57,10 +57,8 @@ class Dt::PledgesController < DtApplicationController
       error_redirect_path = new_dt_campaign_pledge_path(@campaign)
     end
 
-    @valid = @pledge.valid?
-
     respond_to do |format|
-      if @valid
+      if @pledge.valid?
         session[:pledge_params] = nil
         @cart = find_cart
         @cart.add_item(@pledge)

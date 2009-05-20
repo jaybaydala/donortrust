@@ -19,8 +19,11 @@ class Dt::CampaignsController < DtApplicationController
     store_location
     @campaign = Campaign.find(params[:id]) unless params[:id].blank?
     @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
-    @campaign
-    render_404 and return if @campaign.nil?
+
+    if @campaign.nil?
+      render_404 and return
+    end
+
     @wall_post = @campaign.wall_posts.new
 
     @user_on_campaign_default_team = @campaign.default_team.has_user?(current_user)
@@ -35,6 +38,13 @@ class Dt::CampaignsController < DtApplicationController
 
     #a user that is not logged in can not create a team
     if (current_user == :false)
+      @can_create_team = :false
+    end
+
+    #if the user is the campaign creator they can not join a team
+    if (@campaign.owned?)
+      @can_join_team = :false
+      @can_join_campaign = :false
       @can_create_team = :false
     end
 

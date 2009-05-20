@@ -27,6 +27,11 @@ class Dt::TeamsController < DtApplicationController
       end
     end
 
+    if @team.campaign.owned?
+      @can_join_team = false
+      @can_leave_team = false
+    end
+
     if @team.owned?
       @can_leave_team = false
     end

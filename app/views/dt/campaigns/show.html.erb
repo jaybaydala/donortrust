@@ -59,7 +59,7 @@
   <%= 
      link_to(image_tag("/images/dt/buttons/join_this_event.png", :alt => "Join #{@campaign.name}", 
       :title => "Join #{@campaign.name}", :class => "campaign_action_button"), 
-      "/dt/teams/#{@campaign.default_team.id}/participants/new") if @can_join_campaign
+      "/dt/teams/#{@campaign.default_team.id}/participants/new") if @can_join_campaign == :true
   %>
   <br/>
   <%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor a Participant", 

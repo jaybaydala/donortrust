@@ -21,31 +21,11 @@ class Pledge < ActiveRecord::Base
   end
 
   def valid?
-    if not self.campaign.valid?
+    if not self.team.campaign.valid?
       return false
     end
 
     return super
-  end
-
-  def campaign
-    if not self.participant.nil?
-      return participant.team.campaign
-    elsif not self.team.nil?
-      return team.campaign
-    elsif not self.campaign.nil?
-      return campaign
-    end
-  end
-
-  def team
-    if not self.participant.nil?
-      return participant.team
-    elsif not self.team.nil?
-      return self.team
-    end
-
-    return nil
   end
 
   def pledgee
