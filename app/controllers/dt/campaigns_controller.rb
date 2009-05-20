@@ -60,11 +60,11 @@ class Dt::CampaignsController < DtApplicationController
     end
 
     if !@campaign.allow_multiple_teams?
-      @can_create_team = false
+      @can_create_team = :false
     end
 
     if @campaign.teams_full? 
-      @can_create_team = false
+      @can_create_team = :false
     end
 
     ## End of block
