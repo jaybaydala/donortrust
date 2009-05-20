@@ -103,9 +103,11 @@ class Dt::ParticipantsController < DtApplicationController
   def create
     @participant = Participant.new(params[:participant])
 
-    if not @participant.team.campaign.valid?
-      flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
-      redirect_to dt_team_path(@team)
+    if not @team.nil?
+      if not @team.campaign.valid?
+        flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
+        redirect_to dt_team_path(@team)
+      end
     end
 
     if current_user == :false
