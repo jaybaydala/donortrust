@@ -65,7 +65,6 @@ class Dt::CampaignsController < DtApplicationController
 
     #JSR - not sure if we need this or not, but it was in the initial implementation
     if @campaign.teams.size <= 1
-      @can_join_campaign = :false
       @can_join_team = :false
     end
 
