@@ -14,6 +14,9 @@ when "Deposit"
 when "Pledge"
   partial_name = "pledge"
   edit_link = "" # no editing
+when "RegistrationFee"
+  partial_name = "registration_fee"
+  edit_link = "" # no editing
 end
 -%>
 <tr class="<%= odd_or_even %>">
@@ -24,6 +27,7 @@ end
     </div>
   </td>
   <td>
+    <% puts "test: " + "dt/cart/#{partial_name}" %>
     <%= render :partial => "dt/cart/#{partial_name}", :locals => { :line_item => line_item } %>
   </td>
   <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>

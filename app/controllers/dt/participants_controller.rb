@@ -1,4 +1,5 @@
 class Dt::ParticipantsController < DtApplicationController
+  include OrderHelper
 
   before_filter :find_team, :only => [:new, :create]
   before_filter :login_required, :except => [:show, :index, :new, :create]
@@ -45,7 +46,7 @@ class Dt::ParticipantsController < DtApplicationController
     @participant = Participant.new
 
     if not @team.campaign.valid?
-      flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
+      flash[:notice] = "The campaign is not currently active, you are not able to join or leave teams."
       redirect_to dt_team_path(@team)
     end
 
@@ -178,7 +179,7 @@ class Dt::ParticipantsController < DtApplicationController
         render :action => 'new'
       end
     else
-      @participant.team = @team
+      @participant.team_id = @team.id
 
       if @team.require_authorization
         @participant.pending = true
@@ -186,7 +187,30 @@ class Dt::ParticipantsController < DtApplicationController
         @participant.pending = false
       end
 
+      if @team.campaign.fee_amount.nil?
+        @participant.paid = true
+      end
+
       if @participant.save
+        if not @team.campaign.fee_amount.nil? and not @participant.paid
+
+  	  respond_to do |format|
+            if @participant
+	      registration_fee = RegistrationFee.new
+	      registration_fee.amount = @team.campaign.fee_amount
+	      registration_fee.participant_id = @participant.id
+
+              @cart = find_cart
+              @cart.add_item(registration_fee)
+              flash[:notice] = "Your Registration Fee has been added to your cart."
+              format.html { redirect_to dt_cart_path }
+            else
+              flash.now[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
+              format.html { redirect_to error_redirect_path }
+       	    end
+    	  end
+	end
+      
         redirect_to dt_participant_path(@participant)
       else
         render :action => 'new'

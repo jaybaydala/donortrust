@@ -89,8 +89,17 @@
 			
 			<label>Upload your photo (must be less than 500kb). You can upload the photo later by editing your profile.</label>
 			<%= upload_column_field :participant,  :picture  %>
-			
-			<span class="join"><h1><%= f.submit 'Join'%></h1></span>
+
+			<% if not @team.campaign.fee_amount.nil? %>
+			  <div id="fee-warning-text"><b>NOTE:</b> A fee of 
+			    $<%= @team.campaign.fee_amount.to_s + " " + @team.campaign.fee_currency %>
+			    is required to join this campaign.  This money will go directly to cover the administration 
+			    costs of the campaign.</div>
+			  <span class="join"><h1><%= f.submit 'Proceed to Checkout'%></h1></span>
+			  
+			<% else %>
+			  <span class="join"><h1><%= f.submit 'Join'%></h1></span>
+			<% end %>
 		</fieldset>
 	<% end %>
 </div>

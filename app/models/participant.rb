@@ -15,6 +15,7 @@ class Participant < ActiveRecord::Base
   has_many :news_items, :as =>:postable, :dependent => :destroy
 
   has_many :pledges
+  has_one :registration_fee
 
   has_many :deposits, :through => :pledges
   is_indexed :fields=> [
