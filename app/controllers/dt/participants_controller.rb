@@ -1,4 +1,6 @@
+require 'order_helper'
 class Dt::ParticipantsController < DtApplicationController
+  helper "dt/places"
   include OrderHelper
 
   before_filter :find_team, :only => [:new, :create]
@@ -8,6 +10,12 @@ class Dt::ParticipantsController < DtApplicationController
   after_filter :sync_uploads, :only => [:create, :update, :destroy]
   helper "dt/places"
   helper "dt/forms"
+  helper_method :current_step
+  helper_method :next_step
+
+  CHECKOUT_STEPS = ["support", "payment", "billing", "confirm"]
+
+  helper_method :summed_account_balances
 
   def show
     store_location
@@ -194,24 +202,53 @@ class Dt::ParticipantsController < DtApplicationController
       if @participant.save
         if not @team.campaign.fee_amount.nil? and not @participant.paid
 
-  	  respond_to do |format|
             if @participant
+	      @current_step = "payment"
+
+	      #create the item
 	      registration_fee = RegistrationFee.new
 	      registration_fee.amount = @team.campaign.fee_amount
 	      registration_fee.participant_id = @participant.id
+	      registration_fee.save
 
+	      #add it to the cart
               @cart = find_cart
               @cart.add_item(registration_fee)
-              flash[:notice] = "Your Registration Fee has been added to your cart."
-              format.html { redirect_to dt_cart_path }
+
+	      #if the cart has other items go to the first stage of the checkout
+	      if (@cart.items.size > 1)
+	        redirect_to new_dt_checkout_url and return
+	      end
+
+	      #initialize the order
+ 	      @order = initialize_new_order
+	      @order.total = registration_fee.amount
+	      @order.credit_card_payment = registration_fee.amount
+	      @order.email = current_user.email
+	      
+    	      @valid = validate_order
+
+	      puts "Was the order valid? " + @valid.to_s
+
+   	      @saved = @order.save if @valid
+
+    	      # save our order_id in the session
+    	      session[:order_id] = @order.id if @saved
+
+	      #run the setup for the billing step
+              before_payment
+	      before_billing
+
+	      @current_nav_step = next_step
+              redirect_to edit_dt_checkout_path(:step => "billing") and return
+
             else
               flash.now[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
-              format.html { redirect_to error_redirect_path }
+              redirect_to error_redirect_path and return
        	    end
-    	  end
 	end
       
-        redirect_to dt_participant_path(@participant)
+        redirect_to dt_participant_path(@participant) and return
       else
         render :action => 'new'
       end
@@ -371,4 +408,54 @@ class Dt::ParticipantsController < DtApplicationController
     @campaign = @team.campaign
     @participant.team = @campaign.generic_team
   end
+
+  attr_accessor :current_step
+  def current_step
+    if @current_step.nil?
+      @current_step = nil unless params[:step]
+      @current_step = params[:step] if params[:step] && CHECKOUT_STEPS.include?(params[:step])
+    end
+    @current_step
+  end
+  
+  def next_step
+    next_step = CHECKOUT_STEPS[current_step ? CHECKOUT_STEPS.index(current_step)+1 : 0]
+  end
+  
+  def validate_order
+    user_balance = logged_in? ? current_user.balance : nil
+    case current_step
+      when "support"
+        # no model validation to happen here
+        @valid = true
+      when "payment"
+        @valid = @order.validate_payment(@cart.items)
+      when "billing"
+        @valid = @order.validate_billing(@cart.items)
+      when "confirm"
+        @valid = @order.validate_confirmation(@cart.items)
+    end
+    @valid
+  end
+
+  def before_payment
+    # remove the payment info so we never keep it around
+    @order.card_number = nil
+    @order.cvv = nil
+    @order.expiry_month = nil
+    @order.expiry_year = nil
+    @order.cardholder_name = nil
+  end
+
+  def before_billing
+    # load the info from the first gift into the billing fields
+    # gift = @cart.gifts.first if @cart.gifts.size > 0
+    # if gift
+    #   @order.email = gift.email unless @order.email?
+    #   first_name, last_name = gift.name.to_s.split(/ /, 2)
+    #   @order.first_name = first_name unless @order.first_name?
+    #   @order.last_name = last_name unless @order.last_name?
+    # end
+  end
+  
 end

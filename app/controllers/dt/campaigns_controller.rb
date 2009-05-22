@@ -52,9 +52,10 @@ class Dt::CampaignsController < DtApplicationController
     if @campaign.has_participant(current_user)
       if !@campaign.default_team.has_user?(current_user)
         @can_join_team = :false
-        @can_join_campaign = :false
 	@can_create_team = :false
       end
+
+      @can_join_campaign = :false
     end
 
     if @campaign.pending

@@ -52,7 +52,12 @@ class Dt::CheckoutsController < DtApplicationController
   def edit
     @order = find_order
     paginate_cart
+    
+    puts "Did we find the order? " + (!@order.nil?).to_s
+
     redirect_to(new_dt_checkout_path) and return unless @order
+    puts "current_step: " + @current_step.to_s
+
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order
     before_payment if current_step == "payment"

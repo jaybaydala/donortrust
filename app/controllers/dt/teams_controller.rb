@@ -27,6 +27,10 @@ class Dt::TeamsController < DtApplicationController
       end
     end
 
+    if @team.has_user?(current_user)
+      @can_join_team = false
+    end
+
     if @team.campaign.owned?
       @can_join_team = false
       @can_leave_team = false
@@ -47,7 +51,7 @@ class Dt::TeamsController < DtApplicationController
     end
 
     if @team.leader == current_user 
-      can_leave_team = false
+      @can_leave_team = false
     end
 
     if not @team.has_user?(current_user)
