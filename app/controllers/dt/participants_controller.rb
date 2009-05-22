@@ -199,8 +199,10 @@ class Dt::ParticipantsController < DtApplicationController
         @participant.paid = true
       end
 
+      #the logic here is a little sketchy, what about the case where a user
+      #initiated the process int he past but never paid
       if @participant.save
-        if not @team.campaign.fee_amount.nil? and not @participant.paid
+        if not @team.campaign.fee_amount.nil? and @participant.registration_fee.nil?
 
             if @participant
 	      @current_step = "payment"
@@ -211,8 +213,12 @@ class Dt::ParticipantsController < DtApplicationController
 	      registration_fee.participant_id = @participant.id
 	      registration_fee.save
 
-	      #add it to the cart
               @cart = find_cart
+
+	      #clear the cart
+	      @cart.empty!
+
+	      #add it to the cart
               @cart.add_item(registration_fee)
 
 	      #if the cart has other items go to the first stage of the checkout
@@ -225,7 +231,10 @@ class Dt::ParticipantsController < DtApplicationController
 	      @order.total = registration_fee.amount
 	      @order.credit_card_payment = registration_fee.amount
 	      @order.email = current_user.email
-	      
+	      @order.tax_receipt = nil
+	      @order.is_registration = true
+	      @order.registration_fee_id = registration_fee.id
+
     	      @valid = validate_order
 
 	      puts "Was the order valid? " + @valid.to_s
@@ -235,6 +244,9 @@ class Dt::ParticipantsController < DtApplicationController
     	      # save our order_id in the session
     	      session[:order_id] = @order.id if @saved
 
+	      registration_fee.order_id = @order.id
+	      registration_fee.save
+	      
 	      #run the setup for the billing step
               before_payment
 	      before_billing

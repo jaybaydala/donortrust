@@ -8,6 +8,7 @@ class Order < ActiveRecord::Base
   has_many :deposits
   
   has_many :pledges # added by joe
+  has_one :registration_fee
   
   has_one :tax_receipt
   belongs_to :user
@@ -245,6 +246,8 @@ class Order < ActiveRecord::Base
   end
   
   def tax_receipt_needed?
+    if is_registration != 0 then return false end
+
     self.credit_card_payment?
   end
   
