@@ -73,4 +73,11 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
   <td<%= bg %>><%= date %></td>
   <td<%= bg %>><%= amount %></td>
 </tr>
+<% when "RegistrationFee" %>
+  <tr>
+    <td>
+      a registration fee for 
+      <%= link_to(transaction.participant.team.campaign.name, dt_campaign_path(transaction.participant.team.campaign)) %>
+    </td>
+  </tr>
 <% end %>

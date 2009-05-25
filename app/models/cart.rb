@@ -59,7 +59,7 @@ class Cart
   end
 
   def registration_fees
-    @item.select{|item| item.is_a?(RegistrationFee)}
+    @items.select{|item| item.is_a?(RegistrationFee)}
   end
 
   private

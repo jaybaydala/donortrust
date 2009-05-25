@@ -284,11 +284,16 @@ class Dt::CheckoutsController < DtApplicationController
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now)) }
           # save the cart items into the db via the association
           @cart.pledges.each{|pledge| pledge.update_attributes(:paid => true)}
+
           @order.gifts = @cart.gifts
           @order.investments = @cart.investments
           @order.deposits = @cart.deposits
           @order.pledges = @cart.pledges
-          
+	  
+	  if @order.is_registration
+	    @order.registration_fee.save_transaction
+	  end
+
           # create a new order (with investment) for any project gifts
           @order.gifts.each {|gift| Order.create_order_with_investment_from_project_gift(gift) }
           

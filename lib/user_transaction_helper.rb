@@ -60,6 +60,18 @@ module UserTransactionHelper
     super(val)
   end
 
+  def save_transaction
+    if user_transaction.nil?    
+      user_transaction = UserTransaction.new
+    end
+
+    user_transaction.user_id = self.participant.user_id
+    user_transaction.tx_id = id
+    user_transaction.tx_type = self.class.to_s
+    user_transaction.save
+
+  end
+
   private
   def user_transaction_create
     id = self[:id]
