@@ -116,6 +116,8 @@ class Dt::CampaignsController < DtApplicationController
     @campaign = Campaign.new
     @is_new = true
 
+    @all_projects = Project.find(:all)
+
     render :layout => 'campaign_backend'
   end
 
@@ -123,6 +125,7 @@ class Dt::CampaignsController < DtApplicationController
   def edit
     @campaign = Campaign.find(params[:id])
     @is_new = false
+    @all_projects = Project.find(:all)
 
     render :layout => 'campaign_backend'
   end

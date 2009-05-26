@@ -37,6 +37,8 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
 
+  has_and_belongs_to_many :campaigns
+
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
 
   # ultrasphinx indexer configuration

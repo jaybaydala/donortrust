@@ -139,6 +139,15 @@
       <%= f.check_box :require_team_authorization %>
     </fieldset>
 
+    <fieldset id="project_settings">
+      <legend>Project Settings</legend>
+      Please choose the projects that this campaign will benefit:<br/>
+
+      <% @all_projects.each do |project| %>
+      <%=  check_box_tag "campaign[project_ids][]", project.id, @campaign.has_project?(project) -%> <%= project.name -%><br/>
+      <% end %>
+    </fieldset>
+
     <%# TODO: Is there a more elegant way to do this? %>          
     <% if (@is_new) %>
       <span class="create"><%= f.submit 'Create'%></span>

@@ -12,8 +12,7 @@ class Campaign < ActiveRecord::Base
   has_many :teams, :dependent => :destroy
   has_many :participants, :through => :teams
 
-  has_many :project_limits
-  has_many :projects, :through => :project_limits
+  has_and_belongs_to_many :projects
 
   has_many :place_limits
   has_many :places, :through => :place_limits
@@ -131,6 +130,16 @@ class Campaign < ActiveRecord::Base
       errors.add('postalcode',"Is not correct for your state") if not zipcode_matches_state?
     end
 
+  end
+
+  def has_project?(project)
+    projects.each do |p|
+      if project == p
+        return true
+      end
+    end
+
+    return false
   end
 
   def after_save
