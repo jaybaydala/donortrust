@@ -195,10 +195,6 @@ class Dt::ParticipantsController < DtApplicationController
         @participant.pending = false
       end
 
-      if @team.campaign.fee_amount.nil?
-        @participant.paid = true
-      end
-
       #the logic here is a little sketchy, what about the case where a user
       #initiated the process int he past but never paid
       if @participant.save

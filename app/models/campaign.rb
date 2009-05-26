@@ -61,10 +61,10 @@ class Campaign < ActiveRecord::Base
   #validations
   validates_presence_of :name, :campaign_type, :description, :country, :province, :postalcode, :fundraising_goal, :creator, :short_name
 
-  validates_uniqueness_of :short_name
-  validates_format_of :short_name, :with => /\w/
+  validates_uniqueness_of :short_name, :message => "the short name is not unique"
+  validates_format_of :short_name, :with => /\w/, :message => "the short name must start with an alphabetic character (a-z)"
   validates_length_of :short_name, :within => 4...60
-  validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
+  validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => "Short name can only contain letters, numbers, and underscores."
 
   validates_length_of :name, :within => 4..255
   validates_length_of :description, :minimum => 10
@@ -108,6 +108,10 @@ class Campaign < ActiveRecord::Base
 
     if Time.now.utc < start_date.utc
       return false
+    end
+
+    if errors.count > 0
+      puts "Errors: " + errors.full_messages.to_s
     end
 
     return super
