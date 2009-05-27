@@ -64,8 +64,12 @@ class Dt::CampaignsController < DtApplicationController
       @can_create_team = false
     end
 
-    if ((@campaign.has_registration_fee? && !@campaign.default_team.has_user?(current_user)) || 
-          @campaign.default_team.participant_for_user(current_user).pending)
+    if (@campaign.default_team.participant_for_user(current_user).nil? || 
+       @campaign.default_team.participant_for_user(current_user).pending)
+      @can_create_team = false;
+    end
+
+    if (@campaign.has_registration_fee? && !@campaign.default_team.has_user?(current_user))
       @can_create_team = false
     end
 

@@ -109,7 +109,7 @@ class Team < ActiveRecord::Base
   end
 
   def participant_for_user(user)
-    user.participants.find(:first, :conditions => {:user_id => user.id})
+    participants.find(:first, :conditions => {:user_id => user.id})
   end
 
   #############TODO##############
