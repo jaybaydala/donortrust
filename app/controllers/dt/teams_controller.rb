@@ -71,19 +71,24 @@ class Dt::TeamsController < DtApplicationController
   # GET /dt_teams/new
   # GET /dt_teams/new.xml
   def new
+    if @campaign.has_registration_fee? && !@campaign.default_team.has_user?(current_user)
+      flash[:notice] = "Because this campaign has a registration fee, you must first join the campaign before you can create a team"
+      redirect_to dt_campaign_path(@campaign) and return
+    end
+    
     @team = Team.new
     if @campaign.has_participant(current_user) && !@campaign.default_team.has_user?(current_user)
       flash[:notice] = "You are the creator of a team in this campaign, you can not create another team"
-      redirect_to dt_campaign_path(@campaign)
+      redirect_to dt_campaign_path(@campaign) and return
     end
 
     if @campaign.pending?
       flash[:notice] = "This campaign is still pending, and thus cannot be joined."
-      redirect_to dt_campaign_path(@campaign)
+      redirect_to dt_campaign_path(@campaign) and return
     end
     if !@campaign.allow_multiple_teams?
       flash[:notice] = "You cannot create a team for this campaign."
-      redirect_to dt_campaign_path(@campaign)
+      redirect_to dt_campaign_path(@campaign) and return
     end
   end
 

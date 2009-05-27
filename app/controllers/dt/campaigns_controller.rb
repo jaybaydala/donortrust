@@ -64,6 +64,11 @@ class Dt::CampaignsController < DtApplicationController
       @can_create_team = false
     end
 
+    if ((@campaign.has_registration_fee? && !@campaign.default_team.has_user?(current_user)) || 
+          @campaign.default_team.participant_for_user(current_user).pending)
+      @can_create_team = false
+    end
+
     #if the user is the campaign creator they can not join a team
     if (@campaign.owned?)
       @can_join_team = false

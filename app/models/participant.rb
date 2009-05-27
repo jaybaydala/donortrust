@@ -107,6 +107,20 @@ class Participant < ActiveRecord::Base
     self.team.campaign
   end
 
+  def has_paid_registration_fee?
+    if not campaign.has_registration_fee?
+      return true
+    end
+
+    if not registration_fee.nil?
+      if registration_fee.paid
+        return true
+      end
+    end
+
+    return false
+  end
+
   private
   def make_uploads_world_readable
     return if picture.nil?

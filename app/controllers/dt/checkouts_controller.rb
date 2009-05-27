@@ -97,7 +97,7 @@ class Dt::CheckoutsController < DtApplicationController
           elsif @directed_gift
             flash[:error] = "You have more items in your cart than your gift card can cover. Please go through the normal checkout process - you can still use the balance of your gift card when you checkout."
             redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[0]) and return
-          end  
+          end
           before_billing if next_step == "billing"
           before_payment if next_step == "payment"
           @current_nav_step = next_step
@@ -125,7 +125,26 @@ class Dt::CheckoutsController < DtApplicationController
     if @order.is_registration
       registration_fee = RegistrationFee.find(:first, :conditions => {:id => @order.registration_fee_id})
       registration_fee.paid = true
+
+      unpaid_participant = UnpaidParticipant.find(registration_fee.participant_id)
+
+      participant = Participant.new
+      
+      participant.user_id = unpaid_participant.user_id
+      participant.team_id = unpaid_participant.team_id
+      participant.short_name = unpaid_participant.short_name
+      participant.pending = unpaid_participant.pending
+      participant.private = unpaid_participant.private
+      participant.about_participant = unpaid_participant.about_participant
+      participant.picture = unpaid_participant.picture
+      participant.goal = unpaid_participant.goal
+
+      participant.save
+
+      registration_fee.participant_id = participant.id
       registration_fee.save
+
+      unpaid_participant.destroy
     end
   end
   

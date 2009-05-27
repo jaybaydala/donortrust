@@ -189,89 +189,92 @@ class Dt::ParticipantsController < DtApplicationController
       @participant.user = current_user
     end
 
+    if @team.require_authorization
+      @participant.pending = true
+    else
+      @participant.pending = false
+    end
+
     #if the user was part of the default team, remove them from that team and put them in this one
     if (@team.campaign.default_team.has_user?(current_user)) then
       default_participant = @team.campaign.default_team.participant_for_user(current_user)
       default_participant.team_id = @team.id
       
       if default_participant.save
-        redirect_to dt_participant_path(@participant)
+        redirect_to dt_participant_path(@participant) and return
       else
-        render :action => 'new'
+        render :action => 'new' and return
       end
+
     else
       @participant.team_id = @team.id
 
-      if @team.require_authorization
-        @participant.pending = true
-      else
-        @participant.pending = false
-      end
+      if @team.campaign.has_registration_fee? and not @participant.has_paid_registration_fee?
+        @current_step = "payment"
 
-      #the logic here is a little sketchy, what about the case where a user
-      #initiated the process int he past but never paid
-      if @participant.save
-        if not @team.campaign.fee_amount.nil? and @participant.registration_fee.nil?
+        unpaid_participant = UnpaidParticipant.new( :user_id => @participant.user_id, 
+                                                    :team_id => @participant.team_id,
+                                                    :short_name => @participant.short_name,
+                                                    :pending => @participant.pending,
+                                                    :private => @participant.private,
+                                                    :about_participant => @participant.about_participant,
+                                                    :picture => @participant.picture,
+                                                    :goal => @participant.goal )
 
-            if @participant
-	      @current_step = "payment"
+        unpaid_participant.save
 
-	      #create the item
-	      registration_fee = RegistrationFee.new
-	      registration_fee.amount = @team.campaign.fee_amount
-	      registration_fee.participant_id = @participant.id
-	      registration_fee.save
+        #create the item
+        registration_fee = RegistrationFee.new
+        registration_fee.amount = @team.campaign.fee_amount
+        registration_fee.participant_id = unpaid_participant.id
+        registration_fee.save
 
-              @cart = find_cart
+        unpaid_participant.registration_fee_id = registration_fee.id
+        unpaid_participant.save
 
-	      #clear the cart
+        @cart = find_cart
+
+        #clear the cart
 	      @cart.empty!
 
 	      #add it to the cart
-              @cart.add_item(registration_fee)
+        @cart.add_item(registration_fee)
 
-	      #if the cart has other items go to the first stage of the checkout
-	      if (@cart.items.size > 1)
+        #if the cart has other items go to the first stage of the checkout
+        if (@cart.items.size > 1)
 	        redirect_to new_dt_checkout_url and return
 	      end
 
-	      #initialize the order
+        #initialize the order
  	      @order = initialize_new_order
-	      @order.total = registration_fee.amount
-	      @order.credit_card_payment = registration_fee.amount
-	      @order.email = current_user.email
-	      @order.tax_receipt = nil
-	      @order.is_registration = true
+        @order.total = registration_fee.amount
+        @order.credit_card_payment = registration_fee.amount
+        @order.email = current_user.email
+        @order.tax_receipt = nil
+        @order.is_registration = true
 	      @order.registration_fee_id = registration_fee.id
 
-    	      @valid = validate_order
+        @valid = validate_order
 
-	      puts "Was the order valid? " + @valid.to_s
+        @saved = @order.save if @valid
 
-   	      @saved = @order.save if @valid
+ 	      # save our order_id in the session
+ 	      session[:order_id] = @order.id if @saved
 
-    	      # save our order_id in the session
-    	      session[:order_id] = @order.id if @saved
-
-	      registration_fee.order_id = @order.id
-	      registration_fee.save
+        registration_fee.order_id = @order.id
+        registration_fee.save
 	      
-	      #run the setup for the billing step
-              before_payment
-	      before_billing
+        #run the setup for the billing step
+        before_payment
+        before_billing
 
-	      @current_nav_step = next_step
-              redirect_to edit_dt_checkout_path(:step => "billing") and return
+        @current_nav_step = next_step
+        redirect_to edit_dt_checkout_path(:step => "billing") and return
 
-            else
-              flash.now[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
-              redirect_to error_redirect_path and return
-       	    end
-	end
-      
-        redirect_to dt_participant_path(@participant) and return
       else
-        render :action => 'new'
+      
+        @participant.save
+        redirect_to dt_participant_path(@participant) and return
       end
     end
   end

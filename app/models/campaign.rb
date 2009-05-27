@@ -160,6 +160,10 @@ class Campaign < ActiveRecord::Base
     Project.find_by_sql("SELECT p.* FROM projects p, causes_limit JOIN causes_limit ON ")
   end
 
+  def has_registration_fee?
+    fee_amount.nil? == false
+  end
+
   def teams_full?
     return (self.teams.size >= self.max_number_of_teams if self.max_number_of_teams?)
   end
