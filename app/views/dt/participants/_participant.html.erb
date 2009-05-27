@@ -7,7 +7,7 @@
 				<%= image_tag 'dt/icons/participant_placeholder_icon_48x48.jpg', :class => :participant_thumbnail unless participant.picture != nil %>
 			</div>
 			<%= link_to image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor this Participant", 
-						:title => "Sponsor this Participant"), new_dt_participant_pledge_path(participant), :style => "float:right;" if controller.action_name != "search" && @campaign.valid? %>
+						:title => "Sponsor this Participant"), new_dt_participant_pledge_path(participant), :style => "float:right;" if controller.action_name != "search" && @can_sponsor_participant %>
 			<div class="participant_details">
 				<span class="campaign-item-list" style="{font-weight: bold}">
 					<strong><%= link_to participant.name, dt_participant_path(participant) %></strong>

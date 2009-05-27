@@ -29,52 +29,76 @@ class Dt::CampaignsController < DtApplicationController
     @user_on_campaign_default_team = @campaign.default_team.has_user?(current_user)
     @user_in_campaign = user_in_campaign(current_user)
 
+    #determine if the user can close the campaign
+    @can_close_campaign = false
+    if not current_user.nil?
+      if current_user != :false
+        if @campaign.owned?
+          if not @campaign.funds_allocated
+            if Time.now.utc > @campaign.raise_funds_till_date.utc
+              if Time.now.utc < @campaign.allocate_funds_by_date.utc
+                @can_close_campaign = true
+              end
+            end
+          end
+        end
+      end
+    end
+
+    @can_sponsor_participant = false
+    if @campaign.start_date.utc < Time.now.utc
+      if @campaign.raise_funds_till_date.utc > Time.now.utc
+        @can_sponsor_participant = true
+      end
+    end
+
     #####################
     ## This block is for determining if users can create/join teams
 
-    @can_join_team = :true
-    @can_create_team = :true
-    @can_join_campaign = :true
+    @can_join_team = true
+    @can_create_team = true
+    @can_join_campaign = true
 
     #a user that is not logged in can not create a team
-    if (current_user == :false)
-      @can_create_team = :false
+    if (current_user == false)
+      @can_create_team = false
     end
 
     #if the user is the campaign creator they can not join a team
     if (@campaign.owned?)
-      @can_join_team = :false
-      @can_join_campaign = :false
-      @can_create_team = :false
+      @can_join_team = false
+      @can_join_campaign = false
+      @can_create_team = false
     end
 
     #if the user is on another team in the campaign they can not create or join a team
+
     if @campaign.has_participant(current_user)
       if !@campaign.default_team.has_user?(current_user)
-        @can_join_team = :false
-	@can_create_team = :false
+        @can_join_team = false
+	      @can_create_team = false
       end
 
-      @can_join_campaign = :false
+      @can_join_campaign = false
     end
 
     if @campaign.pending
-      @can_join_team = :false
-      @can_join_campaign = :false
-      @can_create_team = :false
+      @can_join_team = false
+      @can_join_campaign = false
+      @can_create_team = false
     end
 
     #JSR - not sure if we need this or not, but it was in the initial implementation
     if @campaign.teams.size <= 1
-      @can_join_team = :false
+      @can_join_team = false
     end
 
     if !@campaign.allow_multiple_teams?
-      @can_create_team = :false
+      @can_create_team = false
     end
 
     if @campaign.teams_full? 
-      @can_create_team = :false
+      @can_create_team = false
     end
 
     ## End of block
@@ -125,9 +149,9 @@ class Dt::CampaignsController < DtApplicationController
   def edit
     @campaign = Campaign.find(params[:id])
     @is_new = false
-    @all_projects = Project.find(:all)
+    @all_projects = Project.all
 
-    render :layout => 'campaign_backend'
+    #render :layout => 'campaign_backend'
   end
 
   # POST /campaigns
@@ -186,12 +210,17 @@ class Dt::CampaignsController < DtApplicationController
   # PUT /campaigns/1.xml
   def update
     @campaign = Campaign.find(params[:id])
+    @all_projects = Project.all
     respond_to do |format|
       if @campaign.update_attributes(params[:campaign])
         flash[:notice] = 'Campaign was successfully updated.'
-        format.html { redirect_to(edit_dt_campaign_path(@campaign)) }
+        format.html { render :action => "edit" }
         format.xml  { head :ok }
       else
+        flash[:notice] = 'Update not completed successfully, correct your errors and resubmit.'
+
+        puts "Errors(#{@campaign.errors.size}): " + @campaign.errors.full_messages.to_s
+
         format.html { render :action => "edit" }
         format.xml  { render :xml => @campaign.errors, :status => :unprocessable_entity }
       end
@@ -206,6 +235,71 @@ class Dt::CampaignsController < DtApplicationController
     redirect_to(dt_campaigns_path)
   end
 
+  def close
+
+    if @campaign.funds_allocated
+      flash[:notice] = "Funds have already been allocated for this campaign, you can not allocate them again"
+      redirect_to dt_campaigns_path and return
+    end
+
+    #get the total amount that we have to allocate
+    total_funds = @campaign.funds_raised
+
+    projects_to_contribute_to = Array.new
+
+    if not @campaign.projects.empty?
+      @campaign.projects.each do |p|
+          projects_to_contribute_to.push(p)
+      end
+    end
+
+    unallocated_funds = total_funds
+
+    while unallocated_funds > 0
+      amount_per_project = unallocated_funds / projects_to_contribute_to.size
+
+      projects_to_contribute_to.each do |project|
+        investment = Investment.new
+        investment.project_id = project.id
+        investment.campaign_id = @campaign.id
+
+        if project.current_need < amount_per_project
+          investment.amount = project.current_need
+          unallocated_funds = unallocated_funds - project.current_need
+
+          #remove the project from the array
+          projects_to_contribute_to.delete(project)
+        else
+          investment.amount = amount_per_project
+          
+          unallocated_funds = unallocated_funds - amount_per_project
+        end
+
+        project.investments << investment
+      end
+
+      if ((projects_to_contribute_to.empty? and unallocated_funds > 0) or 
+           ((unallocated_funds / projects_to_contribute_to.size) < 0.01))
+
+        project = Project.find(10)
+
+        investment = Investment.new
+        investment.project_id = project.id
+        investment.campaign_id = @campaign.id
+        investment.amount = unallocated_funds
+
+        project.investments << investment
+
+        unallocated_funds = 0
+      end
+    end
+
+    @campaign.funds_allocated = true
+    @campaign.save
+
+    flash[:notice] = "Funds successfully allocated out to selected projects and campaign archived. - Not complete"
+    redirect_to dt_campaigns_path
+  end
 
   def admin
     @pending_campaigns = Campaign.find_all_by_pending(true)

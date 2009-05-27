@@ -145,7 +145,7 @@ ActionController::Routing::Routes.draw do |map|
 
 
   map.connect '/dt', :controller => 'dt/home'
-
+  map.connect 'dt/campaigns/:id/close', :controller => 'dt/campaigns', :action => 'close'
 
   # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'

@@ -24,6 +24,7 @@ class Campaign < ActiveRecord::Base
   has_many :partners, :through => :partner_limits
 
   has_many :pledges
+  has_many :investments
 
   has_one :default_team, :dependent => :destroy, :class_name => "Team"
 
@@ -101,14 +102,6 @@ class Campaign < ActiveRecord::Base
   end
 
   def valid?
-    if Time.now.utc > raise_funds_till_date.utc
-      return false
-    end
-
-    if Time.now.utc < start_date.utc
-      return false
-    end
-
     if errors.count > 0
       puts "Errors: " + errors.full_messages.to_s
     end

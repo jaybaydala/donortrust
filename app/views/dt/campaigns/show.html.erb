@@ -37,10 +37,10 @@
   <div id="teams">
     <% content ="" %>
     <% puts "Value in display text for @can_create_team: " + @can_create_team.to_s %>
-    <% if @can_create_team == :true then %>
+    <% if @can_create_team then %>
       <% content = " | " + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) %>
     <% end %>
-    <% if @can_join_team == :true then %>
+    <% if @can_join_team then %>
       <% content = content + " | " + link_to('Join a Team', dt_campaign_teams_path(@campaign)) %>
     <% end %>
     <%= campaign_h2_header(' '+link_to("Teams",dt_campaign_teams_path(@campaign)) + content,'teams_container')%>
@@ -59,11 +59,11 @@
   <%= 
      link_to(image_tag("/images/dt/buttons/join_this_event.png", :alt => "Join #{@campaign.name}", 
       :title => "Join #{@campaign.name}", :class => "campaign_action_button"), 
-      "/dt/teams/#{@campaign.default_team.id}/participants/new") if @can_join_campaign == :true
+      "/dt/teams/#{@campaign.default_team.id}/participants/new") if @can_join_campaign
   %>
   <br/>
   <%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor a Participant", 
-      :title => "Sponsor a Participant", :class => "campaign_action_button"), dt_campaign_participants_path(@campaign)) if !@campaign.pending && @campaign.valid? %><br/>
+      :title => "Sponsor a Participant", :class => "campaign_action_button"), dt_campaign_participants_path(@campaign)) if @can_sponsor_participant %><br/>
   <div class="clearfix"></div>
   <%= render :partial => "sidebar_search" %>
 </div>
@@ -78,6 +78,7 @@
       <li><%= link_to('Manage Campaign', manage_dt_campaign_path(@campaign)) %></li>
       <li><%= link_to('Edit Campaign Profile', edit_dt_campaign_path(@campaign)) %></li>
       <li><%= link_to('Post News to your Campaign', manage_dt_campaign_path(@campaign)+"#news") %></li>
+      <li><%= link_to('Close Campaign', dt_campaign_path(@campaign) + "/close", :confirm => "By closing this campaign you will allocate all the funds raised to the projects you have selected on the project profile screen.  Are you sure you want to close this campaign?\n*NOTE* This action can not be undone") if @can_close_campaign %></li>
     </ul>
   </div>
 <% end %>

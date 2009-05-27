@@ -39,7 +39,7 @@
 	<%- content_for :sidebar do -%>
 		<div class="campaign-sidebar-box">
 			<%= link_to(image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor this Participant", 
-					:title => "Sponsor this Participant", :class => "campaign_action_button"), new_dt_participant_pledge_path(@participant)) if !@participant.pending && !@campaign.pending && !@participant.team.pending && @participant.team.campaign.valid?%><br/>
+					:title => "Sponsor this Participant", :class => "campaign_action_button"), new_dt_participant_pledge_path(@participant)) if @can_sponsor_participant %><br/>
 			<div class="clearfix"></div>
 		</div>
 

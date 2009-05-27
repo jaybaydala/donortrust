@@ -45,7 +45,20 @@ class Dt::ParticipantsController < DtApplicationController
 
     if @participant == nil
       flash[:notice] = 'That campaign / participant could not be found'
-      redirect_to dt_campaigns_path
+      redirect_to dt_campaigns_path and return
+    end
+
+    @can_sponsor_participant = false
+    if not @participant.pending
+      if not @participant.team.pending
+        if not @campaign.pending
+          if @campaign.start_date.utc < Time.now.utc
+            if @campaign.raise_funds_till_date.utc > Time.now.utc
+              @can_sponsor_participant = true
+            end
+          end
+        end
+      end
     end
   end
 
