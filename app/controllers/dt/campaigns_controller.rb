@@ -161,6 +161,7 @@ class Dt::CampaignsController < DtApplicationController
     @campaign.campaign_type_id = params[:campaign_type][:id]
     @campaign.creator = current_user
     @campaign.pending = true
+    @all_projects = Project.all
 
     if @campaign.save
       @team = Team.new
@@ -251,6 +252,8 @@ class Dt::CampaignsController < DtApplicationController
       @campaign.projects.each do |p|
           projects_to_contribute_to.push(p)
       end
+    else
+      projects_to_contribute_to.push(Project.find(:all, :conditions => "id not in (10,11)"))
     end
 
     unallocated_funds = total_funds
