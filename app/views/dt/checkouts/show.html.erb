@@ -15,7 +15,11 @@
 <p>We also thank you for supporting the ChristmasFuture Foundation directly!</p>
 <% end %>
 
-<p>You can now return to the <%= link_to "Homepage", "/dt/" %> or download any item(s) that you may have below.</p>
+<% if @order.is_registration %>
+  <p>You can now return to the <%= link_to "ChristmasFuture Homepage", "/dt/" %> or to the <%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %> home page.</p>
+<% else %>
+  <p>You can now return to the <%= link_to "Homepage", "/dt/" %> or download any item(s) that you may have below.</p>
+<% end %>
 
 <% if @order.tax_receipt %>
 <h2>Tax Receipt</h2>
