@@ -281,7 +281,7 @@ class Dt::CampaignsController < DtApplicationController
       if ((projects_to_contribute_to.empty? and unallocated_funds > 0) or 
            ((unallocated_funds / projects_to_contribute_to.size) < 0.01))
 
-        project = Project.find(10)
+        project = Project.find(11)
 
         investment = Investment.new
         investment.project_id = project.id
