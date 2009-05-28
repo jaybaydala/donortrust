@@ -337,16 +337,31 @@ class Dt::ParticipantsController < DtApplicationController
     @campaigns = Campaign.find_all_by_pending(false)
   end
 
+  def activate
+    participant = Participant.find(params[:id])
+
+    participant.pending = false
+    participant.save
+
+    flash[:notice] = "User has been activated"
+    redirect_to(request.env["HTTP_REFERER"])
+  end
+
   def index
-    #@participants = Participant.paginate , :page => params[:page], :per_page => 20
+    @participant_having_object = nil #This is either a team or a campaign
 
-    @participants = Participant.paginate_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ?", params[:campaign_id]], :page => params[:page], :per_page => 20) unless params[:campaign_id] == nil
-    @participants = Participant.paginate_by_team_id(params[:team_id], :page => params[:page], :per_page => 20) unless params[:team_id] == nil
-
-    @campaign = Campaign.find(params[:campaign_id]) unless params[:campaign_id] == nil
-    if !@campaign
-      @campaign = Team.find(params[:team_id]).campaign
+    if params[:campaign_id] != nil
+      @participant_having_object = Campaign.find(params[:campaign_id])
+      @campaign = @participant_having_object
+    elsif params[:team_id] != nil
+      @participant_having_object = Team.find(params[:team_id])
+      @team = @participant_having_object
+      @campaign = @team.campaign
     end
+
+    participants_array = @participant_having_object.participants.collect
+
+    @participants = participants_array.paginate :page => params[:page], :per_page => 20
   end
 
   def destroy

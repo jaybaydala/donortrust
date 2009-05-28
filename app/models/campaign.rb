@@ -30,6 +30,11 @@ class Campaign < ActiveRecord::Base
 
   attr_accessor :use_user_email
 
+  def update_attributes(attributes=nil)
+    projects.clear    
+    super
+  end
+
   is_indexed :fields=> [
       {:field => 'name', :sortable => true},
       {:field => 'description'},

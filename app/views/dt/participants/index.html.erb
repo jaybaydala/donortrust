@@ -1,8 +1,18 @@
-<%- content_for :html_title do -%><%= @campaign.name %> Participants<%- end -%>
+<%- content_for :html_title do -%><%= @participant_having_object.name %> Participants<%- end -%>
 
 <br />
 <div id="participants">
-	<h2 class="campaign"><%= link_to(@campaign.name + "'s",dt_campaign_path(@campaign)) %> Participants</h2>
+  <% if @participant_having_object.is_a?(Campaign) %>
+	<h2 class="campaign">
+    <%= link_to(@participant_having_object.name + "'s", dt_campaign_path(@participant_having_object)) %> 
+    Participants
+  </h2>
+  <% else %>
+	<h2 class="team">
+    <%= link_to(@participant_having_object.name + "'s", dt_team_path(@participant_having_object)) %> 
+    Participants
+  </h2>
+  <% end %>
 	<div id="search_box">
 		<%= render :partial => 'dt/campaigns/search' %>
 	</div>
@@ -13,8 +23,13 @@
 		<div class="row_even">
 			<%= will_paginate @participants %>
 			<div>
-				Back to <%= link_to(@campaign.name, dt_campaign_path(@campaign)) %>
+        <% if @participant_having_object.is_a?(Campaign) %>
+				Back to <%= link_to(@participant_having_object.name, dt_campaign_path(@participant_having_object)) %>
+        <% else %>
+				Back to <%= link_to(@participant_having_object.name, dt_team_path(@participant_having_object)) %>
+        <% end %>
 			</div>
+      
 		</div>
 	</div>
 </div>

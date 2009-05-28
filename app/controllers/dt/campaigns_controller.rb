@@ -151,7 +151,7 @@ class Dt::CampaignsController < DtApplicationController
 
     @all_projects = Project.find(:all)
 
-    render :layout => 'campaign_backend'
+    redirect_to dt_campaign_path(@campaign)
   end
 
   # GET /campaigns/1/edit
@@ -226,7 +226,7 @@ class Dt::CampaignsController < DtApplicationController
     respond_to do |format|
       if @campaign.update_attributes(params[:campaign])
         flash[:notice] = 'Campaign was successfully updated.'
-        format.html { render :action => "edit" }
+        format.html { redirect_to dt_campaign_path(@campaign) }
         format.xml  { head :ok }
       else
         flash[:notice] = 'Update not completed successfully, correct your errors and resubmit.'
@@ -268,50 +268,71 @@ class Dt::CampaignsController < DtApplicationController
     end
 
     unallocated_funds = total_funds
+    project_contributions = {}
 
     while unallocated_funds > 0
       amount_per_project = unallocated_funds / projects_to_contribute_to.size
 
       projects_to_contribute_to.each do |project|
-        investment = Investment.new
-        investment.project_id = project.id
-        investment.campaign_id = @campaign.id
+        if project_contributions[project.id].nil?
+          project_contributions[project.id] = 0
+        end
 
         if project.current_need < amount_per_project
-          investment.amount = project.current_need
+          project_contributions[project.id] = project_contributions[project.id] + project.current_need
           unallocated_funds = unallocated_funds - project.current_need
 
           #remove the project from the array
           projects_to_contribute_to.delete(project)
         else
-          investment.amount = amount_per_project
+          project_contributions[project.id] = project_contributions[project.id] + amount_per_project
           
           unallocated_funds = unallocated_funds - amount_per_project
         end
 
-        project.investments << investment
       end
 
       if ((projects_to_contribute_to.empty? and unallocated_funds > 0) or 
            ((unallocated_funds / projects_to_contribute_to.size) < 0.01))
+           
+        project_contributions[11] ||= 0
 
-        project = Project.find(11)
-
-        investment = Investment.new
-        investment.project_id = project.id
-        investment.campaign_id = @campaign.id
-        investment.amount = unallocated_funds
-
-        project.investments << investment
-
+        project_contributions[11] = project_contributions[11] + unallocated_funds
         unallocated_funds = 0
+
       end
+    end
+
+    puts "keys: " + project_contributions.inspect
+
+    #check and see if there are any differences between the allocated and the available and assign the difference
+    if project_contributions.values.sum < total_funds
+      project_contributions[11] = project_contributions[11] + total_funds - project_contributions
+    elsif project_contributions.values.sum > total_funds
+      project_contributions[project_contributions.keys.first] = project_contributions[project_contributions.keys.first] - (project_contributions - total_funds)
+    end
+
+    #allocate all the contributions to their projects via investments
+    project_contributions.keys.each do |key|
+      if project_contributions[key] == 0
+        next
+      end
+
+      project = Project.find(key)
+
+      investment = Investment.new
+      investment.project_id = key
+      investment.campaign_id = @campaign.id
+      investment.amount = project_contributions[key]
+
+      puts "allocating #{investment.amount} to #{project.name} (project_id: #{project.id})"      
+      project.investments << investment
     end
 
     @campaign.funds_allocated = true
     @campaign.save
 
-    flash[:notice] = "Funds successfully allocated out to selected projects and campaign archived. - Not complete"
+    flash[:notice] = "Funds successfully allocated out to selected projects and campaign archived."
     redirect_to dt_campaigns_path
   end
 
