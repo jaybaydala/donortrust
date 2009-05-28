@@ -170,7 +170,9 @@ class Dt::CampaignsController < DtApplicationController
     @campaign.campaign_type_id = params[:campaign_type][:id]
     @campaign.creator = current_user
     @campaign.pending = true
+
     @all_projects = Project.all
+    @is_new = true
 
     if @campaign.save
       @team = Team.new
@@ -204,15 +206,15 @@ class Dt::CampaignsController < DtApplicationController
           @campaign.destroy
           @team.destroy
           flash[:notice] = 'There was an error creating your campaign, specifically in the adding of you to the default team.'
-          render :action => "new"
+          render :action => "new", :layout => 'campaign_backend'
         end
       else
         @campaign.destroy
         flash[:notice] = 'There was an error creating your campaign, specifically in the creation of the default team.'
-        render :action => "new"
+        render :action => "new", :layout => 'campaign_backend'
       end
     else
-      render :action => "new"
+      render :action => "new", :layout => 'campaign_backend'
     end
   end
 
