@@ -246,7 +246,7 @@ class Order < ActiveRecord::Base
   end
   
   def tax_receipt_needed?
-    if is_registration != 0 then return false end
+    if is_registration == 1 then return false end
 
     self.credit_card_payment?
   end
