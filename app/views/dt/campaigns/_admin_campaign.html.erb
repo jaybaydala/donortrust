@@ -6,8 +6,8 @@
       <% content = content + ( link_to_remote('Activate', :update => :campaigns,
                       :url => activate_dt_campaign_path(admin_campaign), 
                       :complete => "Element.show('flash');") + " | " ) unless not admin_campaign.pending?   %>
-      <% content = content + delete_icon(dt_campaign_path(admin_campaign)) + ' | '  + link_to('Archive Campaign',dt_campaign_path(admin_campaign), :confirm => 'Are you sure you want to archive the campaign?', :method => :delete )
-                      %>
+      <% content = content + delete_icon(dt_campaign_path(admin_campaign)) + ' | '  + link_to('Archive Campaign',dt_campaign_path(admin_campaign), :confirm => 'Are you sure you want to archive the campaign?', :method => :delete ) %>
+      <% content = content + " | " + link_to('Close Campaign', dt_campaign_path(@campaign) + "/close", :confirm => "By closing this campaign you will allocate all the funds raised to the projects you have selected on the project profile screen.  Are you sure you want to close this campaign?\n*NOTE* This action can not be undone") if admin_campaign.can_be_closed? %>
   <%= campaign_h2_header(content, "campaign_#{admin_campaign.id}_details_container")%>
   <div id="campaign_<%= admin_campaign.id%>_details_container">
     <ul class="details_list">

@@ -114,6 +114,24 @@ class Campaign < ActiveRecord::Base
     return super
   end
 
+  def can_be_closed?
+    if not current_user.nil?
+      if current_user != :false
+        if owned?
+          if not funds_allocated
+            if Time.now.utc > raise_funds_till_date.utc
+              if Time.now.utc < allocate_funds_by_date.utc
+                return true
+              end
+            end
+          end
+        end
+      end
+    end
+
+    return false
+  end
+
   def validate
     errors.add('start_date',"must be before the event date.")if start_date > event_date
     errors.add('start_date',"must be before the \"Raise Funds Till\" date.")if start_date > raise_funds_till_date

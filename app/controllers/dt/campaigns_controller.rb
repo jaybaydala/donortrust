@@ -30,20 +30,7 @@ class Dt::CampaignsController < DtApplicationController
     @user_in_campaign = user_in_campaign(current_user)
 
     #determine if the user can close the campaign
-    @can_close_campaign = false
-    if not current_user.nil?
-      if current_user != :false
-        if @campaign.owned?
-          if not @campaign.funds_allocated
-            if Time.now.utc > @campaign.raise_funds_till_date.utc
-              if Time.now.utc < @campaign.allocate_funds_by_date.utc
-                @can_close_campaign = true
-              end
-            end
-          end
-        end
-      end
-    end
+    @can_close_campaign = @campaign.can_be_closed?
 
     @can_sponsor_participant = false
     if @campaign.start_date.utc < Time.now.utc
