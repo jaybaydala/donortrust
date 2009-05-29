@@ -137,8 +137,7 @@ class Dt::CampaignsController < DtApplicationController
     @is_new = true
 
     @all_projects = Project.find(:all)
-
-    redirect_to dt_campaign_path(@campaign)
+    #render :layout => 'campaign_backend'
   end
 
   # GET /campaigns/1/edit
