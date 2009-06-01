@@ -1,6 +1,19 @@
 <%- content_for :html_title do -%>Checkout Complete!<%- end -%>
 
-<% if @directed_gift %>
+<% if @order.is_registration then %>
+<p>
+You have successfully joined 
+<%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %>
+. This fee will be used to support costs associated with running 
+<%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %> 
+and this website.<br />
+<br />
+Click here to return to the 
+<%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %>
+homepage.
+</p>
+
+<% elsif @directed_gift %>
   <%- content_for :page_title do -%>Thank you for helping to end extreme poverty.<%- end -%>
   <p>You just gave <strong><%= number_to_currency(@order.total) %></strong> to <strong><%= link_to @project.name, dt_project_path(@project) %></strong>! Thank you.</p>
   
@@ -10,14 +23,11 @@
   <p>Extreme poverty can end in our lifetime. Your choice to refocus <strong><%= number_to_currency(@order.total) %></strong> to development projects will help make lasting and sustainable change in people's lives.</p>
 <% end %>
 
-
 <% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
 <p>We also thank you for supporting the ChristmasFuture Foundation directly!</p>
 <% end %>
 
-<% if @order.is_registration %>
-  <p>You can now return to the <%= link_to "ChristmasFuture Homepage", "/dt/" %> or to the <%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %> home page.</p>
-<% else %>
+<% if !@order.is_registration %>
   <p>You can now return to the <%= link_to "Homepage", "/dt/" %> or download any item(s) that you may have below.</p>
 <% end %>
 
