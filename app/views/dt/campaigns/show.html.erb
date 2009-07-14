@@ -82,13 +82,15 @@
     </ul>
   </div>
 <% end %>
+<%- if @campaign.address? -%>
 <div class="campaign-sidebar-box campaign-address">
   <h5>Event Location</h5>
   <p class="address">
     <%= @campaign.address %> <br />
-    <%= (@campaign.address_2 + ' <br />') unless @campaign.address_2 == ''%>
-    <%= @campaign.province %>, <%= @campaign.postalcode %> <br />
+    <%= "#{@campaign.address_2}<br />" if @campaign.address_2? %>
+    <%= "#{@campaign.province}, #{@campaign.postalcode}<br />" if @campaign.province? && @campaign.postalcode? %>
     <%= @campaign.country %>
   </p>
 </div>
+<%- end -%>
 <%- end -%>

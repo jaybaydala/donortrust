@@ -27,7 +27,7 @@ end
     </div>
   </td>
   <td>
-    <% puts "test: " + "dt/cart/#{partial_name}" %>
+    <%# puts "test: " + "dt/cart/#{partial_name}" %>
     <%= render :partial => "dt/cart/#{partial_name}", :locals => { :line_item => line_item } %>
   </td>
   <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>

@@ -1,9 +1,9 @@
-<h2>Campaign Facts</h2>
-<span class="small_text">Event Date: <%= campaign_date(@campaign.event_date) %></span><br/>
-<span class="small_text">Time: <%= campaign_time(@campaign.event_date) %></span><br/>
+<h2>Details</h2>
 <span class="small_text">Goal: $ <%= @campaign.fundraising_goal%></span><br/>
 <span class="small_text">Amount Raised: $ <%= @campaign.funds_raised %></span><br/>
 <span class="small_text">Percentage of Goal: <%= @campaign.percentage_done %></span><br/>
-<span class="small_text">Teams: <%= @campaign.active_teams.size - 1 %></span><br/>
 <span class="small_text">Participants: <%= @campaign.not_pending_participants.size %></span><br/>
+<span class="small_text">Teams: <%= @campaign.active_teams.size - 1 %></span><br/>
 <span class="small_text">This project supports: <br/><ul class="campaign-facts-projects"><%= @campaign.projects.empty? ? "All Projects"  : @campaign.projects.collect{|p| "<li>" + link_to(p.name, dt_project_path(p)) + "</li>"}.join %></span></ul><br/>
+<span class="small_text">Event Date: <%= campaign_date(@campaign.event_date) %></span><br/>
+<span class="small_text">Time: <%= campaign_time(@campaign.event_date) %></span><br/>

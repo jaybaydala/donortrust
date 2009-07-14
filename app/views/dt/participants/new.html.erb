@@ -26,7 +26,7 @@
  <% if current_user == :false %>
 
   <h2>You are not currently logged in.</h2>
-  <p>If you have already have an account with us please <%= link_to 'login', dt_login_path %> by clicking here, otherwise you can create an account below:</p>
+  <p>If you have already have an account with us please <%= link_to 'login now', dt_login_path %>.</p>
 
   <fieldset>
 	  <legend class="header">Create Account</legend>
@@ -40,7 +40,7 @@
      <%= f.text_field :new_reg_display_name %>
     </li>
 	   <li>
-     <%= label_for_required_field :participant, :new_reg_password, "Password (Must be longer than 4 characters and try to make it something you'll remember.)" %>
+     <%= label_for_required_field :participant, :new_reg_password, "Password (Must be longer than 4 characters)" %>
      <%= f.password_field :new_reg_password %>
     </li>
 	   <li>
@@ -64,8 +64,8 @@
  <% end %>
 
 		<fieldset>
-			<h2>Create your personal profile for this campaign:</h2>
-			<label>Enter the URL you would like to share with your friends:<%= form_required %>
+			<h2>Create your personal profile for this <%= @team.campaign.name %> so that people can support you:</h2>
+			<label>Choose your profile URL:<%= form_required %>
 			<%= what_is_this?'short_name', "The short name is a small (10-20 characters) that will make 
 			it easier to share your profile page with others. It should not contain any spaces and should 
 			be concise so as to convey the central idea of your campaign. Also this name will be used to 
@@ -81,7 +81,7 @@
 			<div id="errors" style="display:none;">
 			</div>
 
-			<label>Public Profile Information (eg. a little about yourself, your reasons for joining the campaign, and why ending poverty interests you): <%= form_required %></label>
+			<label>Public Profile Information (eg. a little about yourself, your reasons for joining <%= @team.campaign.name %>: <%= form_required %></label>
 			<%= fckeditor_textarea( "participant", "about_participant", :toolbarSet=> 'ChristmasFutureBasic', :height => 200 ) %> 
 			
 			<label>What is your personal fundraising goal? (optional, leave blank for no specific goal)</label>
@@ -90,11 +90,12 @@
 			<label>Upload your photo (must be less than 500kb). You can upload the photo later by editing your profile.</label>
 			<%= upload_column_field :participant,  :picture  %>
 
-			<% if not @team.campaign.fee_amount.nil? %>
-			  <div id="fee-warning-text"><b>NOTE:</b> A fee of 
-			    $<%= @team.campaign.fee_amount.to_s + " " + @team.campaign.fee_currency %>
-			    is required to join this campaign.  This money will go directly to cover the administration 
-			    costs of the campaign.</div>
+			<% unless @team.campaign.fee_amount.nil? %>
+			  <div id="fee-warning-text">
+			    <p>
+			      To help cover administration costs, a fee of $<%= @team.campaign.fee_amount.to_s + " " + @team.campaign.fee_currency %> is required to join <%= @team.campaign.name %>
+			    </p>
+			  </div>
 			  <span class="join"><h1><%= f.submit 'Proceed to Checkout'%></h1></span>
 			  
 			<% else %>

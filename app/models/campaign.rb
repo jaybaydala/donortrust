@@ -64,7 +64,16 @@ class Campaign < ActiveRecord::Base
           ]
 
   #validations
-  validates_presence_of :name, :campaign_type, :description, :country, :province, :postalcode, :fundraising_goal, :creator, :short_name
+  validates_presence_of :name, :campaign_type, :description, :fundraising_goal, :creator, :short_name
+  # validates_presence_of :country, :province, :postalcode
+
+  #Deal with postal code in terms of Canada
+  validates_format_of :postalcode, :with => /(\D\d){3}/, :if => :in_canada?, :allow_blank => true, :message => "In Canada the proper format for postal code is: A9A9A9, Where A is a leter between A-Z and 9 is a number between 0 - 9."
+  validates_length_of :postalcode, :is => 6, :if => :in_canada?, :allow_blank => true
+
+  #Deal with Zip code in terms of USA
+  validates_numericality_of :postalcode, :if => :in_usa?, :allow_blank => true, :message => "Zip codes must be a number."
+  validates_length_of :postalcode, :is => 5, :if => :in_usa?, :allow_blank => true
 
   validates_uniqueness_of :short_name, :message => "the short name is not unique"
   validates_format_of :short_name, :with => /\w/, :message => "the short name must start with an alphabetic character (a-z)"
@@ -76,14 +85,6 @@ class Campaign < ActiveRecord::Base
 
   validates_numericality_of :fundraising_goal, :fee_amount, :greater_than_or_equal_to => 0, :allow_nil => true
   validates_numericality_of :max_number_of_teams, :max_size_of_teams, :max_participants, :fee_amount, :greater_than_or_equal_to => 0, :only_integer => true, :allow_nil => true
-
-  #Deal with postal code in terms of Canada
-  validates_format_of :postalcode, :with => /(\D\d){3}/, :if => :in_canada? , :message => "In Canada the proper format for postal code is: A9A9A9, Where A is a leter between A-Z and 9 is a number between 0 - 9."
-  validates_length_of :postalcode, :is => 6, :if => :in_canada?
-
-  #Deal with Zip code in terms of USA
-  validates_numericality_of :postalcode, :if => :in_usa?, :message => "Zip codes must be a number."
-  validates_length_of :postalcode, :is => 5, :if => :in_usa?
 
   image_column  :picture,
                 :versions => { :thumb => "75x75", :full => "150x150"  },
@@ -139,11 +140,11 @@ class Campaign < ActiveRecord::Base
     errors.add('email',"Must provide an email to use for contact." ) if email == ""
 
     if in_canada?
-      errors.add('postalcode',"Is not correct for your province") if not postalcode_matches_province?
+      errors.add('postalcode',"Is not correct for your province") if postalcode? && !postalcode_matches_province?
     end
 
     if in_usa?
-      errors.add('postalcode',"Is not correct for your state") if not zipcode_matches_state?
+      errors.add('postalcode',"Is not correct for your state") if postalcode? && !zipcode_matches_state?
     end
 
   end

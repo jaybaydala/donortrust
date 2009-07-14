@@ -2,10 +2,10 @@
 <%= render :partial => "/dt/campaigns/campaign_breadcrumb" %>
 
 <div>
-	<h1>
+	<h1 style="text-transform:none;">
 		<% if @participant != nil %>
-			<%- content_for :html_title do -%>Sponsor <%= @participant.user.full_name %>'s participation in: <%= @participant.team.campaign.name %><%- end -%>		
-			Sponsor <strong><%= @participant.user.full_name %>'s</strong> participation in: <%= @participant.team.campaign.name %>
+			<%- content_for :html_title do -%>Sponsor <%= @participant.user.full_name %><%- end -%>		
+			Sponsor <strong><%= @participant.user.full_name %></strong>
 			<% form_for_var = @participant %>			
 		<% elsif @team != nil %>
 			<%- content_for :html_title do -%>Sponsor team <%= @team.name %>'s participation in <%= @team.campaign.name %><%- end -%>		
@@ -39,11 +39,7 @@
 <div id="pledge_form" class="campaign_form">
 	<%= error_messages_for :pledge, :deposit %>
 	<% form_for([:dt,form_for_var,@pledge]) do |f| %>		
-		<span>I would like to give:	$ <%= f.text_field :amount %></span><br/>
-		<%- if not logged_in? -%>
-			<span id="my_name" class="small_text">Enter your name: <%= f.text_field :pledger%><br/> or <%= link_to 'login', dt_login_path %>.</span><br/>
-		<%- end -%>
-		<span class="small_text" style="font-size:10px;">I would like my pledge to be anonymous: <%= f.check_box :anonymous, :onclick => "Element.toggle('my_name');"%></span>
+		<span>I would like to give	$<%= f.text_field :amount, :style => "width:160px;" %></span><br/>
 		<div style="clear: right;"></div>
 		<span><%= f.submit 'Sponsor'%></span>
 	<% end %>
