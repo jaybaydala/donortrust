@@ -92,8 +92,8 @@
 
 			<% unless @team.campaign.fee_amount.nil? %>
 			  <div id="fee-warning-text">
-			    <p>
-			      To help cover administration costs, a fee of $<%= @team.campaign.fee_amount.to_s + " " + @team.campaign.fee_currency %> is required to join <%= @team.campaign.name %>
+			    <p style="margin-top:1em;">
+			      <strong>To help cover administration costs, a fee of $<%= @team.campaign.fee_amount.to_s + " " + @team.campaign.fee_currency %> is required to join <%= @team.campaign.name %>.</strong>
 			    </p>
 			  </div>
 			  <span class="join"><h1><%= f.submit 'Proceed to Checkout'%></h1></span>
