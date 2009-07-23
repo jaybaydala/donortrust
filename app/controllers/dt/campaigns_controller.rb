@@ -182,8 +182,8 @@ class Dt::CampaignsController < DtApplicationController
         @participant.goal = 0
         @participant.short_name = @campaign.short_name + '_participant'
 
-	@campaign.default_team_id = @team.id
-	@campaign.save
+        @campaign.default_team_id = @team.id
+        @campaign.save
 
         if @participant.save
           flash[:notice] = 'Campaign was successfully created.'
