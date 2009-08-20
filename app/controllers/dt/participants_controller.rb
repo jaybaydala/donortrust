@@ -65,7 +65,7 @@ class Dt::ParticipantsController < DtApplicationController
   def new
     store_location
     @participant = Participant.new
-
+    
     if not @team.campaign.valid?
       flash[:notice] = "The campaign is not currently active, you are not able to join or leave teams."
       redirect_to dt_team_path(@team)
@@ -123,15 +123,25 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def create
+    
     @participant = Participant.new(params[:participant])
-
+    
     if not @team.nil?
       if not @team.campaign.valid?
         flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
         redirect_to dt_team_path(@team)
       end
+      
+      #validating we have filled in the information that is required
+      #this seems kind of hacky, but since I HAVE NO IDEA WHAT I AM DOING, I am OK with that.
+      logger.info("Checking short name for save.")
+      if validate_short_name_of == false
+        flash[:notice] = "Errors in your profile URL. Please make sure you have one entered and that it is valid."
+        redirect_to :action => "new", :team_id => @team.id and return
+      end
+      
     end
-
+    
     if current_user == :false
       # If the user is not logged in check the user details that have been 
       # passed through in the params. Use the details to 
@@ -209,7 +219,7 @@ class Dt::ParticipantsController < DtApplicationController
     else
       @participant.team_id = @team.id
 
-      if @team.campaign.has_registration_fee? and not @participant.has_paid_registration_fee?
+      if @team.campaign.has_registration_fee? and not @participant.has_paid_registration_fee? #there is something wrong with this
         @current_step = "payment"
 
         unpaid_participant = UnpaidParticipant.new( :user_id => @participant.user_id, 
@@ -276,35 +286,63 @@ class Dt::ParticipantsController < DtApplicationController
         @participant.save
         redirect_to dt_participant_path(@participant) and return
       end
+    
     end
   end
 
   def validate_short_name_of
+    
+    @valid = true
+    
     @errors = Array.new
-    @short_name = params[:participant_short_name]
+    
+    if params[:participant_short_name] == "" || params[:participant_short_name].nil?
+      logger.info("other path")
+      @short_name = @participant.short_name
+    else
+      logger.info("parameter path")
+      @short_name = params[:participant_short_name]
+    end
+    
+    if params[:campaign_id] == "" || params[:campaign_id].nil?
+      @campaign_id = @team.campaign.id
+    else
+      @campaign_id = params[:campaign_id]
+    end  
+
     if @short_name != nil
       @short_name.downcase!
-
+      
       if(@short_name =~ /\W/)
+        logger.info("Invalid characters in shortname")
         @errors.push('You may only use Alphanumeric Characters, hyphens, and underscores. This also means no spaces.')
+        @valid = false;
       end
 
       if(@short_name.length < 3 and @short_name.length != 0)
+        logger.info("Invalid length of shortname")
         @errors.push('The short name must be 3 characters or longer.')
+        @valid = false
       end
 
       participants_shortname_find = Participant.find_by_sql([
         "SELECT p.* FROM participants p INNER JOIN teams t INNER JOIN campaigns c " +
         "ON p.team_id = t.id AND t.campaign_id = c.id "+
-        "WHERE p.short_name = ? AND c.id = ?",@short_name, params[:campaign_id]])
+        "WHERE p.short_name = ? AND c.id = ?",@short_name, @campaign_id])
 
       if(participants_shortname_find != nil && !participants_shortname_find.empty? )
+        logger.info("Non unique shortname")
         @errors.push('That short name has already been used, short names must be unique to each campaign.')
+        @valid = false
       end
     else
+      logger.info("Reserved characters in shortname")
       @errors.push('The short name may not contain any reserved characters such as ?')
+      @valid = false
     end
     [@errors, @short_name]
+    
+    return @valid
   end
 
 

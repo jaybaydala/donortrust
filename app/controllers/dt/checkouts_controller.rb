@@ -138,7 +138,7 @@ class Dt::CheckoutsController < DtApplicationController
       participant.about_participant = unpaid_participant.about_participant
       participant.picture = unpaid_participant.picture
       participant.goal = unpaid_participant.goal
-
+      
       participant.save
 
       registration_fee.participant_id = participant.id
