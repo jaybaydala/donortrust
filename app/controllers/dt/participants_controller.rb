@@ -133,7 +133,6 @@ class Dt::ParticipantsController < DtApplicationController
       end
       
       #validating we have filled in the information that is required
-      #this seems kind of hacky, but since I HAVE NO IDEA WHAT I AM DOING, I am OK with that.
       logger.info("Checking short name for save.")
       if validate_short_name_of == false
         flash[:notice] = "Errors in your profile URL. Please make sure you have one entered and that it is valid."
@@ -314,13 +313,13 @@ class Dt::ParticipantsController < DtApplicationController
       @short_name.downcase!
       
       if(@short_name =~ /\W/)
-        logger.info("Invalid characters in shortname")
+        logger.debug("Invalid characters in shortname")
         @errors.push('You may only use Alphanumeric Characters, hyphens, and underscores. This also means no spaces.')
         @valid = false;
       end
 
-      if(@short_name.length < 3 and @short_name.length != 0)
-        logger.info("Invalid length of shortname")
+      if(@short_name.length < 3)
+        logger.debug("Invalid length of shortname")
         @errors.push('The short name must be 3 characters or longer.')
         @valid = false
       end
@@ -331,12 +330,12 @@ class Dt::ParticipantsController < DtApplicationController
         "WHERE p.short_name = ? AND c.id = ?",@short_name, @campaign_id])
 
       if(participants_shortname_find != nil && !participants_shortname_find.empty? )
-        logger.info("Non unique shortname")
+        logger.debug("Non unique shortname")
         @errors.push('That short name has already been used, short names must be unique to each campaign.')
         @valid = false
       end
     else
-      logger.info("Reserved characters in shortname")
+      logger.debug("Reserved characters in shortname")
       @errors.push('The short name may not contain any reserved characters such as ?')
       @valid = false
     end
