@@ -230,7 +230,18 @@ class Dt::ParticipantsController < DtApplicationController
                                                     :picture => @participant.picture,
                                                     :goal => @participant.goal )
 
-        unpaid_participant.save
+        if @participant.errors.empty?
+          
+          if unpaid_participant.errors.empty? && unpaid_participant.save
+          else
+            flash[:notice] = "Filesize for profile photo is too big.  Please use one under 500k."
+            redirect_to :action => "new", :team_id => @team.id and return
+          end
+          
+        else
+          flash[:notice] = "Filesize for profile photo is too big.  Please use one under 500k."
+          redirect_to :action => "new", :team_id => @team.id and return
+        end
 
         #create the item
         registration_fee = RegistrationFee.new
