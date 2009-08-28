@@ -446,7 +446,7 @@ class Project < ActiveRecord::Base
 
   #Need to add accounting for funds 3rd Party sources
   def current_need
-    self.total_cost - self.dollars_raised
+    BigDecimal.new(self.total_cost.to_s) - BigDecimal.new(self.dollars_raised.to_s)
   end
 
   def dollars_raised
