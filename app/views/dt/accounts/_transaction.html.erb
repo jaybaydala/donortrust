@@ -4,8 +4,8 @@ amount = transaction_type == "Order" ? number_to_currency(transaction.total) : n
 date = transaction.created_at.to_formatted_s(:short) if transaction.created_at
 bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 %>
-<% case transaction_type -%>
-<% when "Order" -%>
+<% case transaction_type
+ when "Order" -%>
 <tr>
   <td<%= bg %>><div id="orderTransaction-<%= transaction.id %>" class="orderTransaction"><strong><%= transaction_type %></strong></div>
   Thanks!</td>
