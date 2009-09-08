@@ -220,7 +220,7 @@ class Dt::ParticipantsController < DtApplicationController
 
       if @team.campaign.has_registration_fee? and not @participant.has_paid_registration_fee? #there is something wrong with this
         @current_step = "payment"
-
+        
         unpaid_participant = UnpaidParticipant.new( :user_id => @participant.user_id, 
                                                     :team_id => @participant.team_id,
                                                     :short_name => @participant.short_name,

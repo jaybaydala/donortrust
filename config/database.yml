@@ -1,6 +1,7 @@
 development:
   adapter: mysql
-  database: donortrust_development
+  # database: donortrust_development
+  database: donortrust_development_20090908
   username: root
   password: 
   host: 127.0.0.1
