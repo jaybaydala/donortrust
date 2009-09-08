@@ -20,18 +20,21 @@ class Dt::ParticipantsController < DtApplicationController
   def show
     store_location
 
-    @participant = Participant.find(params[:id]) unless params[:id] == nil
-
-    if @participant == nil
-      @participant = Participant.find_by_short_name(params[:short_name]) unless params[:short_name] == nil
+    @participant = Participant.find(params[:id]) unless params[:id].nil?
+    @participant = Participant.find_by_short_name(params[:short_name]) if @participant.nil? && !params[:short_name].nil?
+    # old participant records still exist when a campaign/team gets deleted. A participant must belong to a team and a campaign
+    unless @participant && @participant.team && @participant.team.campaign
+      flash[:notice] = 'That campaign / participant could not be found. Please choose a current campaign.'
+      redirect_to dt_campaigns_path and return
     end
+    # raise ActiveRecord::RecordNotFound unless @participant.team && @participant.team.campaign
 
-    @campaign = Campaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name] == nil
-    @team = Team.find_by_short_name(params[:team_short_name]) unless params[:team_short_name] == nil
+    @campaign = Campaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name].nil?
+    @team = Team.find_by_short_name(params[:team_short_name]) unless params[:team_short_name].nil?
 
-    if(@team != nil and @user != nil)
-      @participant = Participant.find_by_user_id_and_team_id(@user.id,@team.id)
-    elsif(@user != nil and @campaign != nil)
+    if @team != nil and @user != nil
+      @participant = Participant.find_by_user_id_and_team_id(@user.id, @team.id)
+    elsif @user != nil and @campaign != nil
       for participant in @campaign.participants
         if participant.user == @user
           @participant = participant
@@ -39,12 +42,12 @@ class Dt::ParticipantsController < DtApplicationController
       end
     end
 
-    if (@campaign == nil && @participant != nil)
+    if @campaign == nil && @participant != nil && @participant.team
       @campaign = @participant.team.campaign
     end
 
     if @participant == nil
-      flash[:notice] = 'That campaign / participant could not be found'
+      flash[:notice] = 'That campaign / participant could not be found. Please choose a current campaign.'
       redirect_to dt_campaigns_path and return
     end
 
@@ -91,17 +94,14 @@ class Dt::ParticipantsController < DtApplicationController
       #if they are check and see if they are in the default team
       if (campaign.default_team.has_user?(current_user))
         @participant = campaign.default_team.participant_for_user(current_user)
-	@participant.team_id = @team.id
-	@participant.save
+        @participant.team_id = @team.id
+        @participant.save
 
-	flash[:notice] = 'Team joined successfully'
-      	redirect_to(dt_team_path(@team))
-
+        flash[:notice] = 'Team joined successfully'
+        redirect_to(dt_team_path(@team))
       else
-    
-	#output some error messages if they are on the campaign
-
-	# This user has already signed up for this campaign
+        #output some error messages if they are on the campaign
+        # This user has already signed up for this campaign
         existing_participant = Participant.find(:first, :conditions => [ "user_id = ? AND team_id = ?", current_user.id, @team.id ])
         if (existing_participant == nil)
           flash[:notice] = "You are already taking part in the " + @team.campaign.name + 
@@ -133,7 +133,7 @@ class Dt::ParticipantsController < DtApplicationController
       end
       
       #validating we have filled in the information that is required
-      logger.info("Checking short name for save.")
+      logger.debug("Checking short name for save.")
       if validate_short_name_of == false
         flash[:notice] = "Errors in your profile URL. Please make sure you have one entered and that it is valid."
         redirect_to :action => "new", :team_id => @team.id and return
@@ -255,35 +255,35 @@ class Dt::ParticipantsController < DtApplicationController
         @cart = find_cart
 
         #clear the cart
-	      @cart.empty!
+        @cart.empty!
 
-	      #add it to the cart
+        #add it to the cart
         @cart.add_item(registration_fee)
 
         #if the cart has other items go to the first stage of the checkout
         if (@cart.items.size > 1)
-	        redirect_to new_dt_checkout_url and return
-	      end
+          redirect_to new_dt_checkout_url and return
+        end
 
         #initialize the order
- 	      @order = initialize_new_order
+        @order = initialize_new_order
         @order.total = registration_fee.amount
         @order.credit_card_payment = registration_fee.amount
         @order.email = current_user.email
         @order.tax_receipt = nil
         @order.is_registration = false  #set to false to allow for tax receipt
-	      @order.registration_fee_id = registration_fee.id
+        @order.registration_fee_id = registration_fee.id
 
         @valid = validate_order
 
         @saved = @order.save if @valid
 
- 	      # save our order_id in the session
- 	      session[:order_id] = @order.id if @saved
+        # save our order_id in the session
+        session[:order_id] = @order.id if @saved
 
         registration_fee.order_id = @order.id
         registration_fee.save
-	      
+        
         #run the setup for the billing step
         before_payment
         before_billing
@@ -307,10 +307,10 @@ class Dt::ParticipantsController < DtApplicationController
     @errors = Array.new
     
     if params[:participant_short_name] == "" || params[:participant_short_name].nil?
-      logger.info("other path")
+      logger.debug("other path")
       @short_name = @participant.short_name
     else
-      logger.info("parameter path")
+      logger.debug("parameter path")
       @short_name = params[:participant_short_name]
     end
     
