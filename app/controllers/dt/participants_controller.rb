@@ -20,18 +20,21 @@ class Dt::ParticipantsController < DtApplicationController
   def show
     store_location
 
-    @participant = Participant.find(params[:id]) unless params[:id] == nil
-
-    if @participant == nil
-      @participant = Participant.find_by_short_name(params[:short_name]) unless params[:short_name] == nil
+    @participant = Participant.find(params[:id]) unless params[:id].nil?
+    @participant = Participant.find_by_short_name(params[:short_name]) if @participant.nil? && !params[:short_name].nil?
+    # old participant records still exist when a campaign/team gets deleted. A participant must belong to a team and a campaign
+    unless @participant && @participant.team && @participant.team.campaign
+      flash[:notice] = 'That campaign / participant could not be found. Please choose a current campaign.'
+      redirect_to dt_campaigns_path and return
     end
+    # raise ActiveRecord::RecordNotFound unless @participant.team && @participant.team.campaign
 
-    @campaign = Campaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name] == nil
-    @team = Team.find_by_short_name(params[:team_short_name]) unless params[:team_short_name] == nil
+    @campaign = Campaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name].nil?
+    @team = Team.find_by_short_name(params[:team_short_name]) unless params[:team_short_name].nil?
 
-    if(@team != nil and @user != nil)
-      @participant = Participant.find_by_user_id_and_team_id(@user.id,@team.id)
-    elsif(@user != nil and @campaign != nil)
+    if @team != nil and @user != nil
+      @participant = Participant.find_by_user_id_and_team_id(@user.id, @team.id)
+    elsif @user != nil and @campaign != nil
       for participant in @campaign.participants
         if participant.user == @user
           @participant = participant
@@ -39,12 +42,12 @@ class Dt::ParticipantsController < DtApplicationController
       end
     end
 
-    if (@campaign == nil && @participant != nil)
+    if @campaign == nil && @participant != nil && @participant.team
       @campaign = @participant.team.campaign
     end
 
     if @participant == nil
-      flash[:notice] = 'That campaign / participant could not be found'
+      flash[:notice] = 'That campaign / participant could not be found. Please choose a current campaign.'
       redirect_to dt_campaigns_path and return
     end
 
@@ -65,7 +68,7 @@ class Dt::ParticipantsController < DtApplicationController
   def new
     store_location
     @participant = Participant.new
-
+    
     if not @team.campaign.valid?
       flash[:notice] = "The campaign is not currently active, you are not able to join or leave teams."
       redirect_to dt_team_path(@team)
@@ -91,17 +94,14 @@ class Dt::ParticipantsController < DtApplicationController
       #if they are check and see if they are in the default team
       if (campaign.default_team.has_user?(current_user))
         @participant = campaign.default_team.participant_for_user(current_user)
-	@participant.team_id = @team.id
-	@participant.save
+        @participant.team_id = @team.id
+        @participant.save
 
-	flash[:notice] = 'Team joined successfully'
-      	redirect_to(dt_team_path(@team))
-
+        flash[:notice] = 'Team joined successfully'
+        redirect_to(dt_team_path(@team))
       else
-    
-	#output some error messages if they are on the campaign
-
-	# This user has already signed up for this campaign
+        #output some error messages if they are on the campaign
+        # This user has already signed up for this campaign
         existing_participant = Participant.find(:first, :conditions => [ "user_id = ? AND team_id = ?", current_user.id, @team.id ])
         if (existing_participant == nil)
           flash[:notice] = "You are already taking part in the " + @team.campaign.name + 
@@ -123,15 +123,24 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def create
+    
     @participant = Participant.new(params[:participant])
-
+    
     if not @team.nil?
       if not @team.campaign.valid?
         flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
         redirect_to dt_team_path(@team)
       end
+      
+      #validating we have filled in the information that is required
+      logger.debug("Checking short name for save.")
+      if validate_short_name_of == false
+        flash[:notice] = "Errors in your profile URL. Please make sure you have one entered and that it is valid."
+        redirect_to :action => "new", :team_id => @team.id and return
+      end
+      
     end
-
+    
     if current_user == :false
       # If the user is not logged in check the user details that have been 
       # passed through in the params. Use the details to 
@@ -209,7 +218,7 @@ class Dt::ParticipantsController < DtApplicationController
     else
       @participant.team_id = @team.id
 
-      if @team.campaign.has_registration_fee? and not @participant.has_paid_registration_fee?
+      if @team.campaign.has_registration_fee? and not @participant.has_paid_registration_fee? #there is something wrong with this
         @current_step = "payment"
 
         unpaid_participant = UnpaidParticipant.new( :user_id => @participant.user_id, 
@@ -246,35 +255,35 @@ class Dt::ParticipantsController < DtApplicationController
         @cart = find_cart
 
         #clear the cart
-	      @cart.empty!
+        @cart.empty!
 
-	      #add it to the cart
+        #add it to the cart
         @cart.add_item(registration_fee)
 
         #if the cart has other items go to the first stage of the checkout
         if (@cart.items.size > 1)
-	        redirect_to new_dt_checkout_url and return
-	      end
+          redirect_to new_dt_checkout_url and return
+        end
 
         #initialize the order
- 	      @order = initialize_new_order
+        @order = initialize_new_order
         @order.total = registration_fee.amount
         @order.credit_card_payment = registration_fee.amount
         @order.email = current_user.email
         @order.tax_receipt = nil
         @order.is_registration = true  #set to true to allow for tax receipt
-	      @order.registration_fee_id = registration_fee.id
+        @order.registration_fee_id = registration_fee.id
 
         @valid = validate_order
 
         @saved = @order.save if @valid
 
- 	      # save our order_id in the session
- 	      session[:order_id] = @order.id if @saved
+        # save our order_id in the session
+        session[:order_id] = @order.id if @saved
 
         registration_fee.order_id = @order.id
         registration_fee.save
-	      
+        
         #run the setup for the billing step
         before_payment
         before_billing
@@ -287,35 +296,63 @@ class Dt::ParticipantsController < DtApplicationController
         @participant.save
         redirect_to dt_participant_path(@participant) and return
       end
+    
     end
   end
 
   def validate_short_name_of
+    
+    @valid = true
+    
     @errors = Array.new
-    @short_name = params[:participant_short_name]
+    
+    if params[:participant_short_name] == "" || params[:participant_short_name].nil?
+      logger.debug("other path")
+      @short_name = @participant.short_name
+    else
+      logger.debug("parameter path")
+      @short_name = params[:participant_short_name]
+    end
+    
+    if params[:campaign_id] == "" || params[:campaign_id].nil?
+      @campaign_id = @team.campaign.id
+    else
+      @campaign_id = params[:campaign_id]
+    end  
+
     if @short_name != nil
       @short_name.downcase!
-
+      
       if(@short_name =~ /\W/)
+        logger.debug("Invalid characters in shortname")
         @errors.push('You may only use Alphanumeric Characters, hyphens, and underscores. This also means no spaces.')
+        @valid = false;
       end
 
-      if(@short_name.length < 3 and @short_name.length != 0)
+      if(@short_name.length < 3)
+        logger.debug("Invalid length of shortname")
         @errors.push('The short name must be 3 characters or longer.')
+        @valid = false
       end
 
       participants_shortname_find = Participant.find_by_sql([
         "SELECT p.* FROM participants p INNER JOIN teams t INNER JOIN campaigns c " +
         "ON p.team_id = t.id AND t.campaign_id = c.id "+
-        "WHERE p.short_name = ? AND c.id = ?",@short_name, params[:campaign_id]])
+        "WHERE p.short_name = ? AND c.id = ?",@short_name, @campaign_id])
 
       if(participants_shortname_find != nil && !participants_shortname_find.empty? )
+        logger.debug("Non unique shortname")
         @errors.push('That short name has already been used, short names must be unique to each campaign.')
+        @valid = false
       end
     else
+      logger.debug("Reserved characters in shortname")
       @errors.push('The short name may not contain any reserved characters such as ?')
+      @valid = false
     end
     [@errors, @short_name]
+    
+    return @valid
   end
 
 

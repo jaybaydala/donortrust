@@ -1,3 +1,4 @@
+<%- if participant.team && participant.team.campaign -%>
 	<div class="<%= cycle('row_even','row_odd') %>" id="campaign_<%= participant.team.campaign.id%>">
 		<strong><%= link_to(participant.team.campaign.name, dt_campaign_path(participant.team.campaign)) %></strong>
 		<div class="campaign_details">
@@ -11,3 +12,13 @@
 			</p>
 		</div>
 	</div>
+<%- else -%>
+  <div class="<%= cycle('row_even','row_odd') %>" id="participant_<%= participant.id%>">
+  	<strong>Previous campaign - <%= participant.short_name %></strong>
+  	<div class="campaign_details">
+  		<p>
+  		  It would appear that the Campaign/Team you were involved in has been removed from our system.
+  		</p>
+  	</div>
+  </div>
+<%- end -%>

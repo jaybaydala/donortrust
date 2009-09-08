@@ -72,10 +72,11 @@
 			provide your profile with a Christmas Future URL. http://www.christmasfuture.org/dt/campaigns/#{@team.campaign.short_name}/ShortName" %>
 			</label>
     		<span class="small_text">http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
+
 			<%= observe_field	:participant_short_name, 
 								:frequency => 1,
 								:url => validate_short_name_of_new_dt_participant_path,
-								:with => :participant_short_name
+								:with => "'participant_short_name='+value+'&campaign_id='+#{@team.campaign.id}" 
 								%>
 			<%= show_spinner("Validating ") %>
 			<div id="errors" style="display:none;">
