@@ -75,6 +75,12 @@ class Dt::PledgesController < DtApplicationController
 
   def new
     @participant = Participant.find(params[:participant_id]) unless  params[:participant_id] == nil
+    # old participant records still exist when a campaign/team gets deleted. A participant must belong to a team and a campaign
+    unless @participant && @participant.team && @participant.team.campaign
+      flash[:notice] = 'That campaign / participant could not be found. Please choose a current campaign.'
+      redirect_to dt_campaigns_path and return
+    end
+    
     if @participant && (@participant.pending || @participant.team.pending || @participant.team.campaign.pending)
       flash[:notice] = "#{@participant.name}, or the team or campaign they are participating in has not been approved yet.  You can sponsor #{@participant.name} once they have been approved."
       redirect_to dt_participant_path(@participant)

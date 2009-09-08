@@ -20,9 +20,7 @@ class Dt::CampaignsController < DtApplicationController
     @campaign = Campaign.find(params[:id]) unless params[:id].blank?
     @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
 
-    if @campaign.nil?
-      render_404 and return
-    end
+    raise ActiveRecord::RecordNotFound if @campaign.nil?
 
     @wall_post = @campaign.wall_posts.new
 
