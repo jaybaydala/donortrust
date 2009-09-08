@@ -12,7 +12,7 @@
         (PENDING - <%= link_to("Click here to activate", dt_participant_path(participant) + "/activate") %>)
       <% end %>
 			<div class="participant_details">
-				<span class="campaign-item-list" style="{font-weight: bold}">
+				<span class="campaign-item-list" style="font-weight: bold">
 					<strong><%= link_to participant.name, dt_participant_path(participant) %></strong>
 					<%= " - <span class='dollars-raised'>#{participant.funds_raised} dollars raised! </span>" if participant.funds_raised > 0 %>
 				</span>
