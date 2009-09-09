@@ -3,7 +3,7 @@ class Dt::TeamsController < DtApplicationController
   before_filter :find_campaign, :except => [:validate_short_name_of]
   before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :activate], :except => [:validate_short_name_of, :index]
   before_filter :login_required, :except => [:show,:index]
-  before_filter :check_if_in_team
+  # before_filter :check_if_in_team
   include UploadSyncHelper
   after_filter :sync_uploads, :only => [:create, :update, :destroy]
 
@@ -331,10 +331,10 @@ class Dt::TeamsController < DtApplicationController
     @team = Team.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
   end
 
-  def check_if_in_team
-    find_campaign
-    if @campaign.participating?(current_user)
-
-    end
-  end
+  # def check_if_in_team
+  #   find_campaign
+  #   if @campaign.participating?(current_user)
+  # 
+  #   end
+  # end
 end
