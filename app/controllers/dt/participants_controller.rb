@@ -271,7 +271,7 @@ class Dt::ParticipantsController < DtApplicationController
         @order.credit_card_payment = registration_fee.amount
         @order.email = current_user.email
         @order.tax_receipt = nil
-        @order.is_registration = false  #set to false to allow for tax receipt
+        @order.is_registration = 1
         @order.registration_fee_id = registration_fee.id
 
         @valid = validate_order

@@ -122,8 +122,8 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to edit_dt_checkout_path and return unless @order.complete?
     redirect_to dt_cart_path and return unless session[:order_number] && session[:order_number].include?(params[:order_number].to_i)
 
-    if @order.is_registration
-      registration_fee = RegistrationFee.find(:first, :conditions => {:id => @order.registration_fee_id})
+    if @order.is_registration? && @order.registration_fee_id? && @order.registration_fee
+      registration_fee = @order.registration_fee
       registration_fee.paid = true
 
       unpaid_participant = UnpaidParticipant.find(registration_fee.participant_id)
@@ -308,10 +308,8 @@ class Dt::CheckoutsController < DtApplicationController
           @order.investments = @cart.investments
           @order.deposits = @cart.deposits
           @order.pledges = @cart.pledges
-	  
-	  if @order.is_registration
-	    @order.registration_fee.save_transaction
-	  end
+  
+          @order.registration_fee.save_transaction if @order.is_registration?
 
           # create a new order (with investment) for any project gifts
           @order.gifts.each {|gift| Order.create_order_with_investment_from_project_gift(gift) }
