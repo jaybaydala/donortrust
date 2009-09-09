@@ -121,31 +121,6 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to dt_cart_path and return unless @order
     redirect_to edit_dt_checkout_path and return unless @order.complete?
     redirect_to dt_cart_path and return unless session[:order_number] && session[:order_number].include?(params[:order_number].to_i)
-
-    if @order.is_registration? && @order.registration_fee_id? && @order.registration_fee
-      registration_fee = @order.registration_fee
-      registration_fee.paid = true
-
-      unpaid_participant = UnpaidParticipant.find(registration_fee.participant_id)
-
-      participant = Participant.new
-      
-      participant.user_id = unpaid_participant.user_id
-      participant.team_id = unpaid_participant.team_id
-      participant.short_name = unpaid_participant.short_name
-      participant.pending = unpaid_participant.pending
-      participant.private = unpaid_participant.private
-      participant.about_participant = unpaid_participant.about_participant
-      participant.picture = unpaid_participant.picture
-      participant.goal = unpaid_participant.goal
-      
-      participant.save
-
-      registration_fee.participant_id = participant.id
-      registration_fee.save
-
-      unpaid_participant.destroy
-    end
   end
   
   def destroy
@@ -308,12 +283,21 @@ class Dt::CheckoutsController < DtApplicationController
           @order.investments = @cart.investments
           @order.deposits = @cart.deposits
           @order.pledges = @cart.pledges
-  
-          @order.registration_fee.save_transaction if @order.is_registration?
+
+          if @order.registration_fee_id? && @order.registration_fee
+            logger.debug "Order: #{@order.inspect}"
+            logger.debug "Registration Fee: #{@order.registration_fee.inspect}"
+            participant = Participant.create_from_unpaid_participant!(@order.registration_fee.participant_id)
+            registration_fee = @order.registration_fee
+            registration_fee.paid = true
+            registration_fee.participant_id = participant.id
+            registration_fee.save!
+            registration_fee.save_transaction
+          end
 
           # create a new order (with investment) for any project gifts
           @order.gifts.each {|gift| Order.create_order_with_investment_from_project_gift(gift) }
-          
+
           # add the gift_payment_id onto the order if a gift_card_payment is happening
           # set it to nil if there isn't
           if @order.gift_card_payment?

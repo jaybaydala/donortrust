@@ -56,7 +56,7 @@ class Participant < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => :team_id, :message => 'currently logged in is already a member of this team'
 
   validates_format_of :short_name, :with => /\w/
-  validates_length_of :short_name, :within => 4...60, :message => 'Short name must be between 3 and 60 characters'
+  validates_length_of :short_name, :within => 3...60, :message => 'Short name must be between 3 and 60 characters'
   validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
   
   def approve!
@@ -79,7 +79,7 @@ class Participant < ActiveRecord::Base
 #      errors.add 'short_name', " has already been used in this campaign." unless @team_to_test == nil or @team_to_test == self
 #    end
 #  end
-
+  
   def funds_raised
     total = 0;
     for pledge in self.pledges
@@ -120,7 +120,23 @@ class Participant < ActiveRecord::Base
 
     return false
   end
+  
+  def self.create_from_unpaid_participant!(unpaid_participant_id)
+    logger.debug "Creating a Participant from an UnpaidParticipant"
+    unpaid_participant = UnpaidParticipant.find(unpaid_participant_id)
 
+    logger.debug "UnpaidParticipant: #{unpaid_participant.inspect}"
+    
+    participant = Participant.new
+    [:team_id, :user_id, :short_name, :pending, :private, :about_participant, :picture, :goal].each do |attr|
+      participant[attr] = unpaid_participant[attr]
+    end
+    participant.save!
+    unpaid_participant.destroy
+    logger.debug "Participant created: #{participant.inspect}"
+    participant
+  end
+  
   private
   def make_uploads_world_readable
     return if picture.nil?
