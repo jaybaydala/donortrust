@@ -1,1 +1,10 @@
-    <% photo = Flickr::Photo.new(flickr_photo.photo_id.to_s) -%><%= link_to image_tag(photo.sizes[0]['source'], :alt => photo.to_s), photo.url, :rel => 'blank' %>
+<%-
+photosource = nil
+photo = Flickr::Photo.new(flickr_photo.photo_id.to_s)
+begin
+  photosource = photo.sizes[0]['source']
+rescue
+  # ignore Photo not Found error
+end
+-%>
+<%= link_to(image_tag(photo.sizes[0]['source'], :alt => photo.to_s), photo.url, :rel => 'blank') if photosource -%>

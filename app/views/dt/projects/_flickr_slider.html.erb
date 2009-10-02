@@ -14,15 +14,27 @@
 	var linkornot=1
 
 	//define images. You can have as many as you want:
-	<% count=0
-	@flickr_images.each do |img| 
-	photo = Flickr::Photo.new(img.photo_id.to_s)
-	%>
-	photos[<%=count%>] = "<%= photo.sizes[2]['source'] %>"
-	photoslink[<%=count%>]="<%=photo.url%>"
-
-	<%  count+=1 
-	end %>
+<%-
+count=0
+@flickr_images.each do |img|
+  photosource = nil
+  photolink = nil
+  begin
+    photo = Flickr::Photo.new(img.photo_id.to_s)
+    photosource = photo.sizes[2]['source']
+    photolink = photo.url
+  rescue
+   # ignore the "Photo not found" error
+  end
+  if photosource && photolink
+-%>
+    photos[<%=count%>] = "<%= photosource %>"
+    photoslink[<%=count%>]="<%= photolink %>"
+<%-
+    count+=1 
+  end
+end
+-%>
 
 	//do NOT edit pass this line
 
