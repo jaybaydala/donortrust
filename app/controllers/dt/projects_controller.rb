@@ -346,6 +346,12 @@ class Dt::ProjectsController < DtApplicationController
 
     end
 
+    # Project Status Filter
+    if params[:project_status_selected]
+      if !params[:project_status_id].nil? && !params[:project_status_id].empty?
+        filters.merge!({:project_status_id => params[:project_status_id].to_i})
+      end
+    end
 
     # monkey patch to easily and quickly search for location
     unless sel_projects.nil?

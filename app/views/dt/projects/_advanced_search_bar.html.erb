@@ -99,6 +99,14 @@
 	<%= check_box_tag('fully_funded', 'yes', params[:fully_funded])%>
 	<label class='adv-search-label'>Include fully funded projects</label>
 
+    <br>
+      
+    <!-- Project status -->
+    <%= check_box_tag( 'project_status_selected', (params[:project_status_selected] ? '1' : '0'), params[:project_status_selected])%>
+	<label class='adv-search-label'>Search By Project Status:</label>
+    <!-- Need to Fix hard-coded select box see dt_application_helper -->
+    Project Status: <%=select_tag("project_status_id", options_for_select([["All...", ""], ["Active","2"],["Completed", "4"]], params[:project_status_id])) %>
+
   <%= hidden_field_tag "filter", "true"%>
   <!-- <%= hidden_field_tag "advanced","true"%> -->
   

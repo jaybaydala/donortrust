@@ -24,6 +24,9 @@
     		<%= @project.summarized_description(60) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
     	<% end%>
     </p>
+    <p>
+      <span><strong>Project Status:</strong> <%= @project.project_status.name %> </span>
+    </p>
   </div>
 
   <div class='project-sidebar'>
