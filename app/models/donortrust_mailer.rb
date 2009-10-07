@@ -204,7 +204,8 @@ TXT
   def gift_setup_email(gift)
     content_type "text/html"
     recipients  gift.to_name? ? "\"#{gift.to_name}\" <#{gift.to_email}>" : "#{gift.to_email}"
-    from        (gift.name? ? "#{gift.name} " : "") << "<info@christmasfuture.org>"
+    # from        (gift.name? ? "#{gift.name} " : "") << "<info@christmasfuture.org>"
+    from        "\"Christmas Future Team on behalf of " << (gift.name? ? "#{gift.name} " : "") << "\" <#{gift.email}>"
     sent_on     Time.now
   end
 end
