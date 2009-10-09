@@ -14,11 +14,13 @@ set :deploy_to, "/home/dtrust/#{application}"
 set :user, "dtrust"
 set :group, "dtrust"
 set :rails_env, "production"
-role :app, "slice2.christmasfuture.org"
-role :admin, "slice2.christmasfuture.org"
-role :web, "slice.christmasfuture.org"
-role :db,  "slice2.christmasfuture.org", :primary => true
-role :schedule,  "slice2.christmasfuture.org"
+set :slice1, "205.206.170.8"
+set :slice2, "205.206.170.9"
+role :app, slice2
+role :admin, slice2
+role :web, slice1
+role :db, slice2, :primary => true
+role :schedule, slice2
 
 namespace :deploy do
   task :configure_backgroundrb, :roles => :app do
