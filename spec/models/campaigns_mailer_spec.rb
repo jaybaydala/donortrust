@@ -13,8 +13,8 @@ describe CampaignsMailer do
     it "should set the recipient to the campaign creator email address" do
       @mail.to_addrs.should == [parse_email(@campaign.creator.full_email_address)]
     end
-    it "should set the subject to \"ChristmasFuture: Campaign approved\"" do
-      @mail.subject.should == "ChristmasFuture: Campaign approved"
+    it "should set the subject to \"Uend: Campaign approved\"" do
+      @mail.subject.should == "Uend: Campaign approved"
     end
   end
   
@@ -26,8 +26,8 @@ describe CampaignsMailer do
     it "should set the recipient to the campaign creator email address" do
       @mail.to_addrs.should == [parse_email(@campaign.creator.full_email_address)]
     end
-    it "should set the subject to \"ChristmasFuture: Campaign declined\"" do
-      @mail.subject.should == "ChristmasFuture: Campaign declined"
+    it "should set the subject to \"Uend: Campaign declined\"" do
+      @mail.subject.should == "Uend: Campaign declined"
     end
   end
 
@@ -41,8 +41,8 @@ describe CampaignsMailer do
     it "should set the recipient to the team leader email address" do
       @mail.to_addrs.should == [parse_email(@team.leader.full_email_address)]
     end
-    it "should set the subject to \"ChristmasFuture: Team approved\"" do
-      @mail.subject.should == "ChristmasFuture: Team approved"
+    it "should set the subject to \"Uend: Team approved\"" do
+      @mail.subject.should == "Uend: Team approved"
     end
   end
   
@@ -55,8 +55,8 @@ describe CampaignsMailer do
     it "should set the recipient to the team leader email address" do
       @mail.to_addrs.should == [parse_email(@team.leader.full_email_address)]
     end
-    it "should set the subject to \"ChristmasFuture: Team declined\"" do
-      @mail.subject.should == "ChristmasFuture: Team declined"
+    it "should set the subject to \"Uend: Team declined\"" do
+      @mail.subject.should == "Uend: Team declined"
     end
   end
 
@@ -72,8 +72,8 @@ describe CampaignsMailer do
     it "should set the recipient to the participant email address" do
       # @mail.to_addrs.should == [parse_email(@user.full_email_address)]
     end
-    it "should set the subject to \"ChristmasFuture: Participation approved\"" do
-      @mail.subject.should == "ChristmasFuture: Participation approved"
+    it "should set the subject to \"Uend: Participation approved\"" do
+      @mail.subject.should == "Uend: Participation approved"
     end
   end
   
@@ -89,8 +89,8 @@ describe CampaignsMailer do
     it "should set the recipient to the participant email address" do
       # @mail.to_addrs.should == [parse_email(@user.full_email_address)]
     end
-    it "should set the subject to \"ChristmasFuture: Participation declined\"" do
-      @mail.subject.should == "ChristmasFuture: Participation declined"
+    it "should set the subject to \"Uend: Participation declined\"" do
+      @mail.subject.should == "Uend: Participation declined"
     end
   end
 end

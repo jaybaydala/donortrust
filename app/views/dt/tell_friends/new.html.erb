@@ -7,7 +7,7 @@
   <h2>Spread the word. And the good.</h2>
   <%= error_messages_for :share %>
   <% form_for(:share, :url => confirm_dt_tell_friends_path, :html => {:id => "tellfriendform", :name => "tellfriendform"}) do |f| %>
-  <p>You recently got involved in helping change the world with ChristmasFuture. The world has a lot of people - six billion plus - all of which need to be involved if we're going to eradicate extreme poverty. It is with this goal in mind that we humbly ask you to pass your story (and ChristmasFuture's) on to a friend. Or two. Or six billion.</p>
+  <p>You recently got involved in helping change the world with Uend:. The world has a lot of people - six billion plus - all of which need to be involved if we're going to eradicate extreme poverty. It is with this goal in mind that we humbly ask you to pass your story (and Uend:'s) on to a friend. Or two. Or six billion.</p>
   <p>Thanks again for getting involved.</p>
   <p>After selecting an image from the E-card Gallery in the right column, please enter your personal information in the form below.</p>
   <div class="userform">
@@ -16,7 +16,7 @@
       <legend>Is there a project you'd like to share?</legend>
       <div class="projectactions">
         <ol>
-          <li class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", "" %>no, I just want to share about ChristmasFuture</li>
+          <li class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", "" %>no, I just want to share about Uend:</li>
           <li class="textsm"><%= f.radio_button "project_id", ( @share.project_id? ? @share.project_id : 0 ) %>a specific project &nbsp;&nbsp; &#8250; <%= @share.project_id? && @share.project ? link_to(@share.project.name, dt_project_path(@share.project)) : link_to("choose project", dt_projects_path) %></li>
         </ol>
       </div>

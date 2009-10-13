@@ -11,7 +11,7 @@
       <p><% if @share.project_id? %>
       a specific project &nbsp;&nbsp; &#8250; <%= @share.project_id? ? link_to(@share.project.name, dt_project_path(@share.project)) : link_to("choose project", dt_projects_path) %>
       <% else %>
-      I just want to share about ChristmasFuture
+      I just want to share about Uend:
       <% end %></p>
       <%= f.hidden_field :project_id %>
     </fieldset>

@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>::: ChristmasFuture Email :::</title>
+  <title>::: Uend Email :::</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style type="text/css">
   <!--
@@ -28,12 +28,12 @@
 </head>
 <body>
 <div style="text-align:left;width:496px;margin:auto;">
-<%= image_tag "http://#{@host}/images/dt/brand_elements/cf_headerlogo.gif", :alt => 'ChristmasFuture - Change the world &helip; for good' %>
+<%= image_tag "http://#{@host}/images/dt/brand_elements/cf_headerlogo.gif", :alt => 'Uend: - Change the world &helip; for good' %>
 
 
 <p>Hello <%=h @invitation.to_name? ? @invitation.to_name : @invitation.to_email %>,</p>
 
-<p>Your friend, <a href="mailto:<%= @invitation.user.email %>"><%=h @invitation.user.name ? @invitation.user.name : @invitation.user.email %></a> has invited you to join the &quot;<%= link_to @invitation.group.name, @url %>&quot; group at ChristmasFuture. Click the link below to check it out.</p>
+<p>Your friend, <a href="mailto:<%= @invitation.user.email %>"><%=h @invitation.user.name ? @invitation.user.name : @invitation.user.email %></a> has invited you to join the &quot;<%= link_to @invitation.group.name, @url %>&quot; group at Uend:. Click the link below to check it out.</p>
  
 <% if @invitation.message? %>
 <p>Their message to you:</p>
@@ -49,7 +49,7 @@
 </p>
 
 <p>Thanks,<br />
-<strong>The ChristmasFuture Team</strong></p>
+<strong>The Uend: Team</strong></p>
 
 </div>
 </body>

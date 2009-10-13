@@ -27,8 +27,8 @@ context "DonortrustMailer on user_signup_notification" do
     @user_notifier.subject.should == "The future is here."
   end
   
-  specify "should set @from to info@christmasfuture.org" do
-    @user_notifier.from.should == ( ["info@christmasfuture.org"])
+  specify "should set @from to info@uend.org" do
+    @user_notifier.from.should == ( ["info@uend.org"])
   end
   
   specify "should contain login reminder (User: quire@example.com) in mail body" do
@@ -139,7 +139,7 @@ context "DonortrustMailer gift_mail Test" do
 
   specify "gift_mail should match the @gift" do
     @gift = create_gift(credit_card_params)
-    @expected.subject = 'You have received a ChristmasFuture Gift from ' + ( @gift.name != nil ? @gift.name : @gift.email )
+    @expected.subject = 'You have received a Uend: Gift from ' + ( @gift.name != nil ? @gift.name : @gift.email )
     @expected.date    = Time.now
 
     email = DonortrustMailer.create_gift_mail(@gift).encoded
@@ -205,12 +205,12 @@ context "DonortrustMailer account_expiry_mailer Tests" do
   specify "send_account_reminder should have the necessary content" do
     @user.send_account_reminder
     
-    @expected.subject = 'Your ChristmasFuture Account'
+    @expected.subject = 'Your Uend: Account'
     @expected.date    = Time.now
   
     email = DonortrustMailer.create_account_expiry_reminder(@user).encoded
     email.should =~ @user.name
-    email.should =~ "You have not logged into your ChristmasFuture account since #{@user.last_logged_in_at.to_formatted_s(:long)}"
+    email.should =~ "You have not logged into your Uend: account since #{@user.last_logged_in_at.to_formatted_s(:long)}"
     email.should =~ "balance of #{number_to_currency(@user.balance)}"
   end
 

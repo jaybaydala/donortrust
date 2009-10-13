@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>::: ChristmasFuture Email :::</title>
+  <title>::: Uend Email :::</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style type="text/css">
   <!--
@@ -41,7 +41,7 @@
 <hr />
 
 <p>
-  This year <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty and you get to choose how.<br />
+  This year <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty and you get to choose how.<br />
   Just click on the link below to open it - and a whole new world. All the best to you this holiday season. <br />
   <%= link_to @url + "?code=#{@gift.pickup_code}", @url + "?code=#{@gift.pickup_code}" %>
 </p>
@@ -54,7 +54,7 @@
 <p>Pickup Code: <%=h @gift.pickup_code %></p>
 
 <p>Thanks,<br />
-<strong>The ChristmasFuture Team</strong></p>
+<strong>The Uend: Team</strong></p>
 
 </div>
 </body>

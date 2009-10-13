@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>::: ChristmasFuture Email :::</title>
+  <title>::: Uend Email :::</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style type="text/css">
   <!--
@@ -31,7 +31,7 @@
 
 <p>Hello <%=h @share.to_name? ? @share.to_name : @share.to_email %>,</p>
 
-<p>Your friend, <a href="mailto:<%= @share.email %>"><%=h @share.name? ? @share.name : @share.email %></a> wanted to share their ChristmasFuture wishlist with you. Check out the projects below to learn more.</p>
+<p>Your friend, <a href="mailto:<%= @share.email %>"><%=h @share.name? ? @share.name : @share.email %></a> wanted to share their Uend: wishlist with you. Check out the projects below to learn more.</p>
  
 <% if @share.e_card_id? && @share.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@share.e_card, "large")}", :alt => "" %><% end %>
 
@@ -43,7 +43,7 @@
 <hr />
 
 <p>
-  This year <a href="mailto:<%= @share.email %>"><%=h @share.name? ? @share.name : @share.email %></a> wants you to give them a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty. <strong>Here is their wishlist:</strong>
+  This year <a href="mailto:<%= @share.email %>"><%=h @share.name? ? @share.name : @share.email %></a> wants you to give them a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty. <strong>Here is their wishlist:</strong>
 </p>
 
 <hr />
@@ -62,10 +62,10 @@
 <% end %><% end %>
 
 <p>Your friend is sharing a way that you can help change the world...for good.  <br />
-<%= link_to (@share.project_id? && @share.project ? @share.project.name : 'ChristmasFuture Projects'), "http://" + @host + @url %></p>
+<%= link_to (@share.project_id? && @share.project ? @share.project.name : 'Uend: Projects'), "http://" + @host + @url %></p>
 
 <p>Thanks,<br />
-<strong>The ChristmasFuture Team</strong></p>
+<strong>The Uend: Team</strong></p>
 
 </div>
 </body>

@@ -28,7 +28,7 @@
     <legend>Choose a Gift Type</legend>
     <ol class="clearfix">
       <li>
-        <label class="left"><strong>Thanks for giving a gift using ChristmasFuture. You've chosen to:</strong></label>
+        <label class="left"><strong>Thanks for giving a gift using Uend:. You've chosen to:</strong></label>
         <% if @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give <%= link_to(@gift.project.name, dt_project_path(@gift.project)) %> as a gift</label><% end %>
         <label class="left"><%= f.radio_button "project_id", nil %> Give a gift card (let the recipient a choose a project)</label>
         <% unless @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give a project as a gift &nbsp; &#8250; <%= link_to("choose a project", dt_projects_path) %></label><% end %>

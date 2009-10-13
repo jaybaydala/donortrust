@@ -69,9 +69,9 @@
 			<%= what_is_this?'short_name', "The short name is a small (10-20 characters) that will make 
 			it easier to share your profile page with others. It should not contain any spaces and should 
 			be concise so as to convey the central idea of your campaign. Also this name will be used to 
-			provide your profile with a Christmas Future URL. http://www.christmasfuture.org/dt/campaigns/#{@team.campaign.short_name}/ShortName" %>
+			provide your profile with a Uend: URL. http://www.uend.org/dt/campaigns/#{@team.campaign.short_name}/ShortName" %>
 			</label>
-    		<span class="small_text">http://www.christmasfuture.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
+    		<span class="small_text">http://www.uend.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
 
 			<%= observe_field	:participant_short_name, 
 								:frequency => 1,

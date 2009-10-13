@@ -14,11 +14,11 @@
 		<div class="links">			
 			<h5 style="margin-top:-10px;">Share this address:
 				<% if @participant.team.generic? %>
-					<%= "<br/>" if "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}".length > 60 %>
-					<%= "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}" %>
+					<%= "<br/>" if "www.uend.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}".length > 60 %>
+					<%= "www.uend.org/dt/#{@participant.campaign.short_name}/participant/#{@participant.short_name}" %>
 				<% elsif !@participant.team.generic? %>
-					<%= "<br/>" if "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}".length > 60 %>					
-					<%= "www.christmasfuture.org/dt/#{@participant.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}" %>
+					<%= "<br/>" if "www.uend.org/dt/#{@participant.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}".length > 60 %>					
+					<%= "www.uend.org/dt/#{@participant.campaign.short_name}/team/#{@participant.team.short_name}/participant/#{@participant.short_name}" %>
 				<% end %>
 			</h5>
 		</div>

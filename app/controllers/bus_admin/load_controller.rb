@@ -18,7 +18,7 @@ class BusAdmin::LoadController < ApplicationController
       @gift.to_email = load.email
       @gift.email = 'desireemckee@hotmail.com' 
       @gift.name =  'Jay Baydala'
-      @gift.message = 'I can\'t imagine a better way to celebrate the launch of ChristmasFuture 
+      @gift.message = 'I can\'t imagine a better way to celebrate the launch of Uend: 
 than to start changing the world! This is our gift to you - invest it 
 in a project or gift it to a loved one...you choose! Either way we ALL 
 win!

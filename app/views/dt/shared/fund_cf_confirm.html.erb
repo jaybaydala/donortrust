@@ -1,6 +1,6 @@
 <% if logged_in? && @cf_investment %>
     <fieldset>
-    	<legend>Thank you for supporting the ChristmasFuture Foundation</legend>
+    	<legend>Thank you for supporting the Uend: Foundation</legend>
       <p class="textsm">100% of your investment goes towards the project(s) you choose</p>
     	<ul>
         <li style="clear:left;"><label for="fund_cf">Project</label> <%= @cf_investment.project.name %>  <%= hidden_field_tag :fund_cf, 1 %></li>

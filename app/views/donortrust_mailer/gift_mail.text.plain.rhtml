@@ -1,6 +1,6 @@
 Hello <%=h @gift.to_name? ? @gift.to_name : @gift.to_email %>,
 
-You have been given a ChristmasFuture gift by <%=h @gift.to_name? ? "#{@gift.to_name} <#{@gift.to_email}>" : @gift.to_email %>.
+You have been given a Uend: gift by <%=h @gift.to_name? ? "#{@gift.to_name} <#{@gift.to_email}>" : @gift.to_email %>.
 
 <% if @gift.message? %>
 Their message to you:
@@ -20,4 +20,4 @@ If that does not work for you, copy and paste the following link into your web b
 Pickup Code: <%= @gift.pickup_code %>
 
 Thanks,
-The ChristmasFuture Team
+The Uend: Team

@@ -9,8 +9,8 @@
 
       <% if (@is_new) %>
         <label>Short Name <%= form_required %></label>
-        <span class="small_text">http://www.christmasfuture.org/dt/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
-        <%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your campaign. It should not contain any spaces and should be concise so as to convey the central idea of your campaign. Also this name will be used to provide your campaign with a Christmas Future URL. http://www.christmasfuture.org/yourCampaignShortName'%>
+        <span class="small_text">http://www.uend.org/dt/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
+        <%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your campaign. It should not contain any spaces and should be concise so as to convey the central idea of your campaign. Also this name will be used to provide your campaign with a Uend: URL. http://www.uend.org/yourCampaignShortName'%>
         <%= observe_field :campaign_short_name, 
                           :frequency => 1,
                           :url => validate_short_name_of_new_dt_campaign_path,

@@ -304,7 +304,7 @@ context "Gift Notification" do
     t.send_gift_mail
     @emails.length.should.equal 1
     @emails.first.subject.should =~ /^You have been gifted!/
-    @emails.first.body.should    =~ /chose to give you a new kind of gift through the ChristmasFuture website/
+    @emails.first.body.should    =~ /chose to give you a new kind of gift through the Uend: website/
     @emails.first.body.should    =~ /Pickup Code: #{t.pickup_code}/
   end
 end

@@ -2,7 +2,7 @@ xml.instruct! :xml, :version => "1.0" , :encoding=>"UTF-8"
 xml.rss(:version => "2.0") do
   xml.channel do
     xml.title(@team.name)
-    xml.link("http://www.christmasfuture.com/#{@team.campaign.short_name}/team/#{@team.short_name}")
+    xml.link("http://www.uend.com/#{@team.campaign.short_name}/team/#{@team.short_name}")
     #xml.description(@team.description)
     
     

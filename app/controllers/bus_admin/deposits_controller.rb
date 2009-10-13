@@ -20,7 +20,7 @@ class BusAdmin::DepositsController < ApplicationController
     if @saved
       flash[:notice] = "Successfully created the deposit."
       #send a notification to the donor, so that they are aware that their donation has been processed
-      #by Christmas Future
+      #by Uend:
       DonortrustMailer.deliver_us_deposit_notification(@deposit.user) if @deposit.user
     else
       flash[:error] = "Could not create the deposit (did you enter a valid dollar amount?)."

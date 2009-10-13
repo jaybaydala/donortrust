@@ -254,7 +254,7 @@ context "Dt::Accounts handling GET /dt/accounts/resend" do
     @emails.length.should.equal 1
     # to is an array of email recipients
     @emails.first.to[0].should =~ User.find_by_id(session[:tmp_user]).login
-    @emails.first.subject.should =~ /ChristmasFuture Account Email Confirmation/
+    @emails.first.subject.should =~ /Uend: Account Email Confirmation/
     @emails.first.body.should    =~ /To confirm your email and activate your account, please follow the link below/
   end
   
@@ -266,7 +266,7 @@ context "Dt::Accounts handling GET /dt/accounts/resend" do
     do_get
     @emails.length.should.equal 1
     @emails.first.to[0].should =~ 'newemail@example.com'
-    @emails.first.subject.should =~ /ChristmasFuture Account Email Confirmation/
+    @emails.first.subject.should =~ /Uend: Account Email Confirmation/
     @emails.first.body.should    =~ /To confirm your email and activate your account, please follow the link below/
   end
 
@@ -562,7 +562,7 @@ context "Dt::Accounts handling PUT /dt/accounts/1/update" do
     u = User.find(1)
     put :update, { :id => u.id, :user => {:login => 'newemail@example.com' } }
     @emails.length.should.equal 1
-    @emails.first.subject.should =~ /ChristmasFuture Account Email Confirmation/
+    @emails.first.subject.should =~ /Uend: Account Email Confirmation/
     @emails.first.body.should    =~ /To confirm your email and activate your account, please follow the link below/
     @emails.first.body.should    =~ /\/dt\/accounts\/activate\?id=[A-za-z0-9]+/
   end

@@ -180,7 +180,7 @@ describe Gift do
         @gift.pickup
         mail = ActionMailer::Base.deliveries[0]
         mail.to.include?(@gift.email).should be_true
-        mail.subject.should == "Your ChristmasFuture gift has been opened"
+        mail.subject.should == "Your Uend: gift has been opened"
       end
     end
   end

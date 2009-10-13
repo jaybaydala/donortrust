@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>::: ChristmasFuture Email :::</title>
+  <title>::: Uend Email :::</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style type="text/css">
   <!--
@@ -59,7 +59,7 @@
 
 <% if @gift.project %>
   <p>
-    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the ChristmasFuture website. A gift that helps eradicate extreme poverty.
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty.
   </p>
   
   <p>
@@ -74,7 +74,7 @@
 <% else %>
 
   <p>
-    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the <%= link_to "ChristmasFuture website", @host %>. A gift that helps eradicate extreme poverty and you get to choose how.
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty and you get to choose how.
   </p>
   
   <p>
@@ -84,9 +84,9 @@
   <div class="gift-options">
     <ul>
       <li><%= link_to "Find a project to donate to", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :find => 1) %></li>
-      <% if Project.unallocated_project %><li><%= link_to "Let ChristmasFuture figure it out", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :unallocated_gift => 1) %></li><% end %>
+      <% if Project.unallocated_project %><li><%= link_to "Let Uend: figure it out", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :unallocated_gift => 1) %></li><% end %>
       <li><%= link_to "Deposit it into my account", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :deposit => 1) %></li>
-      <% if Project.admin_project %><li><%= link_to "Donate it to ChristmasFuture's Operational budget", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :admin_gift => 1) %></li><% end %>
+      <% if Project.admin_project %><li><%= link_to "Donate it to Uend:'s Operational budget", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :admin_gift => 1) %></li><% end %>
     </ul>
   </div>
 
@@ -103,7 +103,7 @@
 <p>Pickup Code: <%=h @gift.pickup_code %></p>
 
 <p>Thanks,<br />
-<strong>The ChristmasFuture Team</strong></p>
+<strong>The Uend: Team</strong></p>
 
 <% if @gift.preview %><div style="text-align:center;"><a href="javascript:window.close();">Close Window</a></div><% end %>
 

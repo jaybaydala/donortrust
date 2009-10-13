@@ -17,7 +17,7 @@
 
     <p>
       Please enter your payment details below. 
-      <% if account_payment? %>Since you have an account with ChristmasFuture you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>.<% end %>
+      <% if account_payment? %>Since you have an account with Uend: you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>.<% end %>
       Deposits to your account must be paid on your credit card<%= " or gift card" if gift_card_payment? %>.
     </p>
     <ol>

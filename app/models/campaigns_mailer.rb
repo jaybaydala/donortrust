@@ -1,47 +1,47 @@
 class CampaignsMailer < ActionMailer::Base
-  HTTP_HOST = (['staging', 'production'].include?(ENV['RAILS_ENV']) ? 'www.christmasfuture.org' : 'localhost:3000') if !const_defined?('HTTP_HOST')
+  HTTP_HOST = (['staging', 'production'].include?(ENV['RAILS_ENV']) ? 'www.uend.org' : 'localhost:3000') if !const_defined?('HTTP_HOST')
   def campaign_approved(campaign)
     setup
     recipients campaign.creator.full_email_address
-    subject "ChristmasFuture: Campaign approved"
+    subject "Uend: Campaign approved"
     body :campaign => campaign, :host => HTTP_HOST
   end
   def campaign_declined(campaign)
     setup
     recipients campaign.creator.full_email_address
-    subject "ChristmasFuture: Campaign declined"
+    subject "Uend: Campaign declined"
     body :campaign => campaign, :host => HTTP_HOST
   end
 
   def team_approved(campaign, team)
     setup
     recipients team.leader.full_email_address
-    subject "ChristmasFuture: Team approved"
+    subject "Uend: Team approved"
     body :campaign => campaign, :team => team, :host => HTTP_HOST
   end
   def team_declined(campaign, team)
     setup
     recipients team.leader.full_email_address
-    subject "ChristmasFuture: Team declined"
+    subject "Uend: Team declined"
     body :campaign => campaign, :team => team, :host => HTTP_HOST
   end
   
   def participant_approved(campaign, team, participant)
     setup
     recipients team.leader.full_email_address
-    subject "ChristmasFuture: Participation approved"
+    subject "Uend: Participation approved"
     body :campaign => campaign, :team => team, :participant => participant, :host => HTTP_HOST
   end
   def participant_declined(campaign, team, participant)
     setup
     recipients team.leader.full_email_address
-    subject "ChristmasFuture: Participation declined"
+    subject "Uend: Participation declined"
     body :campaign => campaign, :team => team, :participant => participant, :host => HTTP_HOST
   end
 
   protected
   def setup
-    from "The ChristmasFuture Team <info@christmasfuture.org>"
+    from "The Uend: Team <info@uend.org>"
     sent_on Time.now
   end
 end

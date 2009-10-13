@@ -441,7 +441,7 @@ class BusAdmin::ProjectsController < ApplicationController
     pdf = PDF::Writer.new
     pdf.select_font "Times-Roman"
 
-    pdf.text "CHRISTMASFUTURE FOUNDATION\nPROJECT DESCRIPTION", :font_size => 20, :justification => :center
+    pdf.text "Uend: FOUNDATION\nPROJECT DESCRIPTION", :font_size => 20, :justification => :center
     pdf.text "\n", :font_size => 12
     pdf.text "This project is conducted pursuant to the Master Agency Agreement signed by the Foundation and the Agent on #{today} and all the provisions of the Master Agency Agreement are applicable to this project."
     pdf.text "\n"

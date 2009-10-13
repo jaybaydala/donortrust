@@ -4,9 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   
-  <title><%= (html_title = yield :html_title) ? html_title + " | " : '' %>ChristmasFuture</title>
+  <title><%= (html_title = yield :html_title) ? html_title + " | " : '' %>Uend:</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <meta name="description" content="ChristmasFuture, Change the world for good." />
+  <meta name="description" content="Uend: - Give a damn." />
   <meta name="keywords" content="" />
 <%= javascript_include_tag "prototype", "builder", "effects", "controls", "dt/application" %>
 <%= javascript_include_tag 'fckeditor/fckeditor' %>
@@ -78,7 +78,11 @@
   <%= dt_footer %>
 </div>
 <script src="http<%= request.ssl? ? 's://ssl' : '://www' %>.google-analytics.com/urchin.js" type="text/javascript"></script>
-<!--googlestats-->
+      <script type="text/javascript">
+      _uacct = "UA-832237-2";
+      urchinTracker();
+      </script>
+
 <% google_analytics_path = yield :google_analytics_path %>
 <% if RAILS_ENV == 'production' && google_analytics_path %>
 	<script type="text/javascript">

@@ -20,7 +20,7 @@ class BusAdmin::AddToGroupController < ApplicationController
       @invitation.to_email = load.email
       @invitation.message = 'Hi! It has been a great afternoon - thank you for sharing it with us.  
 What better way to commemorate this day than by creating a 
-ChristmasFuture giving group for us all. Let\'s find some projects and 
+Uend: giving group for us all. Let\'s find some projects and 
 start to change the world together!
 
 Happy Holidays,
