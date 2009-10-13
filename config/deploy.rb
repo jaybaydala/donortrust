@@ -71,8 +71,10 @@ namespace :deploy do
   desc <<-DESC
   Configure Ultrasphinx for deployment environment
   DESC
-  task :configure_ultrasphinx do
-    sudo "bash -c 'cd /home/dtrust/donortrust/current/; RAILS_ENV=#{rails_env} rake ultrasphinx:configure'"
+  task :configure_ultrasphinx, :roles => :app do
+    ["#{stage}.conf"].each do |config|
+      run "rm -f #{release_path}/config/#{config} && ln -s #{shared_path}/config/#{config} #{release_path}/config/#{config}"
+    end
   end 
   
   desc <<-DESC
