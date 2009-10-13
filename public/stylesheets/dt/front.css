@@ -26,12 +26,12 @@
   float: left;
 }
 .keyDifferentiatorText {
-  padding: 0px 0px 10px 75px;
+  /* padding: 0px 0px 10px 75px; */
 }
 
 /* Right Column Stuff */
 #frontGiveButton, #frontReceiveButton {
-	float: right;
+	/* float: right; */
 }
 
 .right_side_banner {

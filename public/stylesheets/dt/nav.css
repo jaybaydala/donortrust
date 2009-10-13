@@ -1,4 +1,4 @@
-﻿/*
+/*
 GLOBAL NAV and PAGE NAV
 =======================*/
 
@@ -50,11 +50,11 @@ GLOBAL NAV and PAGE NAV
 }
 
 .main-nav a.nav-tab:hover {
-  background-color:#8DA15F;
+  background-color:#CD706C;
   color:#EEE;
 }
 .main-nav .selected a.nav-tab, .main-nav .selected a.nav-tab:hover {
-  background-color:#360;
+  background-color:#CC130A;
   color: #FFF;
 }
 
