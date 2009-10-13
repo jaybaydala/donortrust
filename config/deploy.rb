@@ -28,6 +28,7 @@ namespace :deploy do
     configure_backgroundrb
     asset_folder_fix
     insert_google_stats
+    configure_ultrasphinx
   end
 
   task :after_start do
@@ -65,6 +66,15 @@ namespace :deploy do
     sudo "cp #{current_path}/config/mongrel_cluster.yml #{mongrel_conf}"
     sudo "chown mongrel:www-data #{mongrel_conf}"
     sudo "chmod g+w #{mongrel_conf}"
+  end 
+
+  desc <<-DESC
+  Configure Ultrasphinx for deployment environment
+  DESC
+  task :configure_ultrasphinx, :roles => :app do
+    ["#{stage}.conf"].each do |config|
+      run "rm -f #{release_path}/config/#{config} && ln -s #{shared_path}/config/#{config} #{release_path}/config/#{config}"
+    end
   end 
   
   desc <<-DESC
