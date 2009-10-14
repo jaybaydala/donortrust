@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :login_from_cookie, :ssl_filter
 
   # Pick a unique cookie name to distinguish our session data from others'
-  session :session_key => '_donortrustfe_session_id'
+  # session :session_key => '_donortrustfe_session_id'
 
   def check_authorization
     return false unless logged_in?

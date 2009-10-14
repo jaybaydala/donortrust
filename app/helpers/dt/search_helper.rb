@@ -1,6 +1,6 @@
 module Dt::SearchHelper
   def dt_search_bar
-    render 'dt/search/bar', :layout => false
+    render :file => 'dt/search/bar', :layout => false
   end
 
   def dt_search_by_place_select

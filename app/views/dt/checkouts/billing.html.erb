@@ -82,8 +82,8 @@
 
 <%- content_for :sidebar do -%>
   <h2><%= link_to "My Cart", dt_checkout_path, :method => :delete %></h2>
-  <%= render "dt/cart/sidebar" %>  
-  <%= render "dt/accounts/profile_sidebar" %>  
+  <%= render :file => "dt/cart/sidebar" %>  
+  <%= render :file => "dt/accounts/profile_sidebar" %>  
   <%= render :partial => 'dt/checkouts/verisign' %>
 <%- end -%>
 

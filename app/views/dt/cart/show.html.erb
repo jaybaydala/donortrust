@@ -1,5 +1,5 @@
 <%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart.css', :media => 'screen, projection' %><%- end -%>
-<%- if logged_in? %><%- content_for :nav do %> <%= render "dt/accounts/account_nav" %> <%- end -%><%- end -%>
+<%- if logged_in? %><%- content_for :nav do %> <%= dt_account_nav %><%- end -%><%- end -%>
 <%- content_for :html_title do -%>Your Cart<%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 

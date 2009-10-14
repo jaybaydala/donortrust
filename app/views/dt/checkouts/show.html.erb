@@ -87,7 +87,7 @@ homepage.
 <% end %>
 
 <%- content_for :sidebar do -%>
-  <%= render "dt/accounts/profile_sidebar" %>  
+  <%= render :file => "dt/accounts/profile_sidebar" %>  
   <%= render :partial => 'dt/checkouts/verisign' %>
 <%- end -%>
 

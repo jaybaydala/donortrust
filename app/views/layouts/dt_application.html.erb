@@ -20,8 +20,8 @@
 <%- body_id = yield :body_id -%>
 <body<%= " id=\"#{body_id.strip}\"" if body_id %>>
 <div id="container">
-  <%= render "dt/shared/head" %>
-  <%= render "dt/shared/globalnav" %>
+  <%= render :file => "dt/shared/head" %>
+  <%= render :file => "dt/shared/globalnav" %>
 
 <%- nav = yield :nav -%>
 <%- page_title = yield :page_title -%>

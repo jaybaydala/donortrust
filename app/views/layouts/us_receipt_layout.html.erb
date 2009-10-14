@@ -15,8 +15,8 @@
 </head>
 <body>
 <div id="container">
-  <%= render "dt/shared/head" %>
-  <%= render "dt/shared/globalnav" %>
+  <%= render :file => "dt/shared/head" %>
+  <%= render :file => "dt/shared/globalnav" %>
 <%- page_title = yield :page_title -%>
 <%- page_title = html_title if page_title.nil? || page_title.empty? -%>
 <%- top_content = yield :top_content -%>

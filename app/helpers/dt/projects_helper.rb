@@ -1,24 +1,24 @@
 module Dt::ProjectsHelper
   def project_nav
-    render 'dt/projects/project_nav'
+    render :file => 'dt/projects/project_nav'
   end
 
   def mdg_goals
     if @mdgs
-      render 'dt/shared/mdg_goals'
+      render :file => 'dt/shared/mdg_goals'
     end
   end
 
   def project_actions
-    render 'dt/projects/project_actions'
+    render :file => 'dt/projects/project_actions'
   end
 
   def project_quickfacts
-    render 'dt/projects/project_quickfacts'
+    render :file => 'dt/projects/project_quickfacts'
   end
 
   def project_search_quickfacts
-    render 'dt/projects/project_search_quickfacts'
+    render :file => 'dt/projects/project_search_quickfacts'
   end
 
   def current_member(group, user = current_user)

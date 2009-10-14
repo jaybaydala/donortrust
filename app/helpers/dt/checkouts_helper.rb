@@ -4,7 +4,7 @@ module Dt::CheckoutsHelper
   end
   
   def checkout_nav
-    render "dt/checkouts/checkout_nav"
+    render :file => "dt/checkouts/checkout_nav"
   end
   
   def cart_cf_investment

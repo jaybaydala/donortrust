@@ -11,11 +11,11 @@ module DtApplicationHelper
   end
   
   def dt_head
-    render 'dt/shared/head'
+    render :file => 'dt/shared/head'
   end
 
   def dt_nav
-    render 'dt/shared/nav'
+    render :file => 'dt/shared/nav'
   end
 
   def dt_masthead_image
@@ -27,23 +27,23 @@ module DtApplicationHelper
   end
 
   def dt_account_nav
-    render 'dt/accounts/account_nav'
+    render :file => 'dt/accounts/account_nav'
   end
 
   def dt_get_involved_nav
-    render 'dt/groups/get_involved_nav'
+    render :file => 'dt/groups/get_involved_nav'
   end
 
   def dt_footer
-    render 'dt/shared/footer'
+    render :file => 'dt/shared/footer'
   end
 
   def dt_profile_sidebar
-    render 'dt/accounts/profile_sidebar'
+    render :file => 'dt/accounts/profile_sidebar'
   end
 
   def dt_short_profile_sidebar
-    render 'dt/accounts/short_profile_sidebar'
+    render :file => 'dt/accounts/short_profile_sidebar'
   end
 
   def dt_action_js

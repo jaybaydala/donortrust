@@ -1,6 +1,6 @@
 ENV['RAILS_ENV'] ||= 'development'
 
-RAILS_GEM_VERSION = '2.1.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
 require File.join(File.dirname(__FILE__), 'boot')
 require 'fastercsv'
@@ -63,10 +63,10 @@ Rails::Initializer.run do |config|
   # If you change this key, all old sessions will become invalid!
   # Make sure the secret is at least 30 characters and all random,
   # no regular words or you'll be exposed to dictionary attacks.
-  # config.action_controller.session = {
-  #   :session_key => '_donortrust_session',
-  #   :secret      => '4000cc1a0b91489bd5eb5b3ef9ccd2f250e6a50ebb11c100e24d74dceba8a73df871a292f89a2f2a93cce98e4b0f91e50ccc626fd6d2cee640696fcff08ae597'
-  # }
+  config.action_controller.session = {
+    :session_key => '_donortrustfe_session_id',
+    :secret      => '4000cc1a0b91489bd5eb5b3ef9ccd2f250e6a50ebb11c100e24d74dceba8a73df871a292f89a2f2a93cce98e4b0f91e50ccc626fd6d2cee640696fcff08ae597'
+  }
   
   # Use the database for sessions instead of the cookie-based default,
   # which shouldn't be used to store highly confidential information

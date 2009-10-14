@@ -66,7 +66,7 @@
     <div id="miniGallery">
       <p><strong>Select an E-Card</strong></p>
       <p>Select the e-card you wish to send. If you do not select an e-card from the options below, the e-card currently displayed in the preview will be attached by default.</p>
-      <%= render 'dt/ecards/sidebar' %>
+      <%= render :file => 'dt/ecards/sidebar' %>
       <div id="ecardPreview" style="display:none;"><%= button_to_function "<span>Preview your email &raquo;</span>", "window.open('#{preview_dt_account_my_wishlists_path}?' + Form.serialize($('mywishlistform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1');", :class => "buttonsubmit" %></div>
     </div>  
   <% end %>

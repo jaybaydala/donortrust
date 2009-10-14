@@ -6,7 +6,7 @@ module Dt::GroupsHelper
   end
 
   def dt_account_nav
-    render 'dt/accounts/account_nav'
+    render :file => 'dt/accounts/account_nav'
   end
   
   def group_types
@@ -18,14 +18,14 @@ module Dt::GroupsHelper
   end
   
   def dt_group_nav
-    render 'dt/groups/group_nav'
+    render :file => 'dt/groups/group_nav'
   end
 
   def dt_get_involved_nav
-    render 'dt/groups/get_involved_nav'
+    render :file => 'dt/groups/get_involved_nav'
   end
 
   def group_admin_nav
-    render 'dt/groups/group_admin_nav'
+    render :file => 'dt/groups/group_admin_nav'
   end
 end
