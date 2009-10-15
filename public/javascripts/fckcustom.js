@@ -32,7 +32,7 @@ FCKConfig.ToolbarSets["Simple"] = [
 	['-','About']
 ] ;
 
-FCKConfig.ToolbarSets["ChristmasFuture"] = [
+FCKConfig.ToolbarSets["uEnd"] = [
 	['Cut','Copy','Paste','PasteText'],
 	['Undo','Redo','-','Find'],
 	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
@@ -43,7 +43,7 @@ FCKConfig.ToolbarSets["ChristmasFuture"] = [
 	['TextColor','BGColor'] // No comma for the last row.
 ] ;
 
-FCKConfig.ToolbarSets["ChristmasFutureBasic"] = [
+FCKConfig.ToolbarSets["uEndBasic"] = [
 	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink']
 ] ;
 
