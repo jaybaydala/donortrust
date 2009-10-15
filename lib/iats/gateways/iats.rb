@@ -174,7 +174,6 @@ module ActiveMerchant #:nodoc:
         parameters[:AgentCode] = test? ? "TEST88" : @options[:login]
         parameters[:Password]  = test? ? "TEST88" : @options[:password]
         parameters[:Version] = @version
-        if action == "purchase";end
         parameters.reject{|k,v| v.blank?}.collect { |key, value| "#{key}=#{CGI.escape(value.to_s)}" }.join("&")
       end
       
