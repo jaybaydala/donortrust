@@ -40,7 +40,7 @@ class Dt::CheckoutsController < DtApplicationController
     respond_to do |format|
       format.html { 
         if @saved
-          redirect_to edit_dt_checkout_path(:step => "confirm") and return if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
+          next_step = "confirm" if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
           redirect_to edit_dt_checkout_path(:step => next_step) and return
         end
         @current_nav_step = current_step
