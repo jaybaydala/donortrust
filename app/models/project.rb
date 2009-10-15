@@ -30,6 +30,7 @@ class Project < ActiveRecord::Base
   has_many :ranks
   has_many :investments
   has_many :gifts
+  has_many :subscriptions
   has_many :key_measures
   has_many :my_wishlists
   has_many :users, :through => :my_wishlists

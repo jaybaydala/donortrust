@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :administrations
   has_many :administrations
   has_many :orders
+  has_many :subscriptions
   has_many :teams, :through => :participants
   has_many :participants
   has_administrables :model => "Project"
