@@ -83,7 +83,7 @@
 			</div>
 
 			<label>Public Profile Information (eg. a little about yourself, your reasons for joining <%= @team.campaign.name %>: <%= form_required %></label>
-			<%= fckeditor_textarea( "participant", "about_participant", :toolbarSet=> 'ChristmasFutureBasic', :height => 200 ) %> 
+			<%= fckeditor_textarea( "participant", "about_participant", :toolbarSet=> 'uEndBasic', :height => 200 ) %> 
 			
 			<label>What is your personal fundraising goal? (optional, leave blank for no specific goal)</label>
 			$ <%= f.text_field :goal %>
