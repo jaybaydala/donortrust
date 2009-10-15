@@ -9,7 +9,7 @@ set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
 set :mongrel_clean, true
 
-set :rails_version, "v2.1.2" unless variables[:rails_version]
+set :rails_version, "v2.3.4" unless variables[:rails_version]
 
 namespace :deploy do
 
@@ -26,27 +26,24 @@ namespace :deploy do
   
   # donortrust hooks
   task :after_update_code do
-    copy_iats_config
-    configure_backgroundrb
+    configure_iats
     asset_folder_fix
     insert_google_stats
     configure_ultrasphinx
+    update_crontab
   end
 
   task :after_start do
     start_admin
-    start_backgroundrb
   end
   task :after_stop do
     stop_admin
-    stop_backgroundrb
   end
   task :after_restart do
     restart_admin
-    restart_backgroundrb
   end
 
-  task :copy_iats_config do
+  task :configure_iats do
     set :iats_conf, "#{latest_release}/config/iats.yml"
     sudo "cp #{shared_path}/system/iats.yml #{iats_conf}"
     sudo "chown #{user}:#{group} #{iats_conf} && chmod a+r #{iats_conf}"
@@ -79,30 +76,9 @@ namespace :deploy do
     end
   end 
   
-  desc <<-DESC
-  Start the Backgroundrb daemon on the schedule server.
-  DESC
-  task :start_backgroundrb , :roles => :schedule do
-    cmd = "rm -f #{shared_path}/pids/backgroundrb*.pid"
-    send(run_method, cmd)
-    cmd = "#{current_path}/script/backgroundrb start"
-    send(run_method, cmd)
-  end
-
-  desc <<-DESC
-  Stop the Backgroundrb daemon on the schedule server.
-  DESC
-  task :stop_backgroundrb , :roles => :schedule do
-    cmd = "#{current_path}/script/backgroundrb stop"
-    send(run_method, cmd)
-  end
-
-  desc <<-DESC
-  Restart the Backgroundrb daemon on the app server.
-  DESC
-  task :restart_backgroundrb , :roles => :app do
-    begin stop_backgroundrb; rescue; end #this catches the bdrb error where a PID file doesn't exist
-    start_backgroundrb
+  desc "Update the crontab file"
+  task :update_crontab, :roles => :schedule do
+    run "cd #{release_path} && whenever --set environment=#{rails_env} --update-crontab #{application}"
   end
 
   task :start_admin , :roles => :admin do

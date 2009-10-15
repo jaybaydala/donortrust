@@ -23,12 +23,6 @@ role :db, slice2, :primary => true
 role :schedule, slice2
 
 namespace :deploy do
-  task :configure_backgroundrb, :roles => :app do
-    run <<-CMD
-      mv #{release_path}/config/backgroundrb.yml.staging #{release_path}/config/backgroundrb.yml
-    CMD
-  end
-
   desc <<-DESC
   symlink the images, stylesheets and javascripts to current_path
   DESC
@@ -48,13 +42,7 @@ namespace :deploy do
     end
   end
   
-  task :start_backgroundrb , :roles => :schedule do
-    # don't do anything on the staging server - backgroundrb isn't running for now
-  end
-  task :stop_backgroundrb , :roles => :schedule do
-    # don't do anything on the staging server - backgroundrb isn't running for now
-  end
-  task :restart_backgroundrb , :roles => :app do
-    # don't do anything on the staging server - backgroundrb isn't running for now
+  task :update_crontab, :roles => :schedule do
+    # don't do anything on the staging server - no crontab for now
   end
 end

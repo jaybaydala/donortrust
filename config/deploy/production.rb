@@ -23,12 +23,6 @@ role :db, slice2, :primary => true
 role :schedule, slice2
 
 namespace :deploy do
-  task :configure_backgroundrb, :roles => :app do
-    run <<-CMD
-      mv #{release_path}/config/backgroundrb.yml.production #{release_path}/config/backgroundrb.yml
-    CMD
-  end
-
   task :insert_google_stats, :roles => :app do
     stats = <<-JS
       <script type="text/javascript">
