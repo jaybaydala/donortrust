@@ -8,6 +8,7 @@
 					((controller.controller_name == "gifts") && (controller.action_name !="open")) ? 
 					"<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Give", {:controller=>'/dt/give', :action=>'index'}, {:class=>'nav-tab left-tab'}) %></li>
 			<%= ((controller.controller_name == "gifts" && controller.action_name == "open") ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Receive", {:controller=>'/dt/gifts', :action=>'open'}, {:class=>'nav-tab left-tab'}) %></li>
+			<%= ((%w(campaigns participants teams).include?(controller.controller_name)) ? "<li class='selected left-tab'>" :  "<li class='left-tab'>" )  + link_to("Campaigns", {:controller=>'/dt/campaigns'}, {:class=>'nav-tab left-tab'}) %></li>
 		</ul>
 		<ul class="right-tabs clearfix">
 			<% restrict_to  "(cf_admin | project_admin)" do %>
