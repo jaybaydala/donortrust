@@ -1,0 +1,8 @@
+<%- content_for :html_title do -%>UEnd.org – the first completely U: Powered Non-Profit<%- end -%>
+
+<p>
+  <strong>This will start a monthly $5 subscription:</strong>
+  <%= link_to "Give", dt_checkout_path(:subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
+</p>
+
+<p><strong>Total Donors:</strong> <%= Subscription.count(:conditions => ["project_id=?", Project.admin_project.id]) %></p>
