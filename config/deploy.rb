@@ -3,6 +3,8 @@ require 'capistrano/ext/multistage'
 require 'mongrel_cluster/recipes'
 set :application, "donortrust"
 
+set :deploy_via, :remote_cache
+
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
 set :mongrel_clean, true
@@ -73,7 +75,7 @@ namespace :deploy do
   DESC
   task :configure_ultrasphinx, :roles => :app do
     ["#{stage}.conf"].each do |config|
-      run "rm -f #{release_path}/config/#{config} && ln -s #{shared_path}/config/#{config} #{release_path}/config/#{config}"
+      run "rm -f #{release_path}/config/ultrasphinx/#{config} && ln -s #{shared_path}/config/ultrasphinx/#{config} #{release_path}/config/ultrasphinx/#{config}"
     end
   end 
   
