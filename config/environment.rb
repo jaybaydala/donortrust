@@ -19,22 +19,21 @@ Rails::Initializer.run do |config|
   # They can then be installed with "rake gems:install" on new installations.
   config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
   config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net/"
+  config.gem "calendar_date_select"
+  config.gem "activemerchant", :lib => "active_merchant"
   # RSS Feed parsing
   config.gem "simple-rss"
   config.gem "feed-normalizer"
   config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
   # social application gems
   config.gem "flickr"
-  config.gem "rfacebook"
-  config.gem "RubyTube", :lib => "ruby_tube"  
   # pdf creation gems
   config.gem "pdf-writer", :lib => "pdf/writer"
   config.gem "transaction-simple", :lib => "transaction/simple"
   config.gem "color-tools", :lib => "color"
-  # backgroundrb plugin dependencies
-  config.gem "chronic"
-  config.gem "packet"
-  
+  # scheduling
+  config.gem 'javan-whenever', :lib => false, :version => ">=0.3.0", :source => 'http://gems.github.com'
+  # bad bots
   config.gem "ruby-recaptcha"
   
   
