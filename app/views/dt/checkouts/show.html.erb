@@ -67,7 +67,7 @@ homepage.
 
 <div class="clearfix">
   <p>A tax receipt has been emailed to you. You can also download a duplicate tax receipt right here.</p>
-  <div class="buttonsubmit"><%= link_to "Download Tax Receipt", dt_tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf), :class => "large" %></div>
+  <div><%= link_to "Download Tax Receipt", dt_tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf), :class => "large" %></div>
 </div>
 <% end %>
 
@@ -78,10 +78,10 @@ homepage.
   <% for gift in @order.gifts %>
     <div class="clearfix">
       <h3>Your gift to <%=h gift.to_name %> <%=h gift.to_email %></h3>
-      <blockquote>
+      <blockquote style="margin-bottom:1em;">
         <strong>Your message:</strong> <%=h gift.message %>
       </blockquote>
-      <div class="buttonsubmit"><%= link_to "Download Printable Card", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
+      <div><%= link_to "Download Printable Card", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
     </div>
   <% end %>
 <% end %>
