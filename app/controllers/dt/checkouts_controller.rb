@@ -219,7 +219,7 @@ class Dt::CheckoutsController < DtApplicationController
     if !params[:fund_cf].nil? && %w(dollars percent no).include?(params[:fund_cf]) && Project.admin_project
       @admin_project = Project.admin_project
       # delete the admin_project investment item - it will get re-added below, if applicable
-      index = @cart.items.index(@cart.items.find{|item| item.class == Investment && item.project_id == @admin_project.id && item.checkout_investment? })
+      index = @cart.items.index(@cart.items.detect{|item| item.class == Investment && item.project_id == @admin_project.id && item.checkout_investment? })
       @cart.remove_item(index) unless index.nil?
       unless params[:fund_cf] == "no"
         @admin_investment = Investment.new(:project_id => @admin_project.id, :amount => params[:fund_cf_amount], :checkout_investment => true)
@@ -295,7 +295,7 @@ class Dt::CheckoutsController < DtApplicationController
             registration_fee.save_transaction
           end
 
-          # create a new order (with investment) for any project gifts
+          # pre-create a new order (with investment) for any project gifts
           @order.gifts.each {|gift| Order.create_order_with_investment_from_project_gift(gift) }
 
           # add the gift_payment_id onto the order if a gift_card_payment is happening
@@ -320,6 +320,11 @@ class Dt::CheckoutsController < DtApplicationController
 
           # mark the order as complete
           @order.update_attributes!(:complete => true)
+          @cart.update_attribute(:order_id, @order.id)
+          if @cart.subscription?
+            @subscription = Subscription.create_from_cart_and_order(@cart, @order)
+            @order.subscription_id = @subscription.id
+          end
         end
       end
     end
@@ -367,7 +372,7 @@ class Dt::CheckoutsController < DtApplicationController
     elsif params[:directed_gift] == "1"
       project = Project.find(params[:gift_project]);
     end
-    if @cart.items.find {|item| item.class == Investment && item.project == project && item.amount == Gift.find(session[:gift_card_id]).balance}
+    if @cart.items.detect {|item| item.class == Investment && item.project == project && item.amount == Gift.find(session[:gift_card_id]).balance}
       return true if find_order
       redirect_to new_dt_checkout_path and return false
     end

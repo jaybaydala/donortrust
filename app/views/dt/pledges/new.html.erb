@@ -48,7 +48,7 @@
 <%- content_for :sidebar do -%>
 	<div class="campaign-sidebar-box metrics">
 		<% if @participant != nil %>
-			<%= render :partial => 'dt/participants/participant_facts',  :locals => {:@participant => @participant} %>
+			<%= render :partial => 'dt/participants/participant_facts',  :locals => {:participant => @participant} %>
 		<% elsif @team != nil %>
 			<%= render :partial => 'dt/teams/team_facts',  :locals => {:team => @team} %>
 		<% elsif @campaign != nil %>

@@ -10,7 +10,7 @@
     <legend>Deposit</legend>
     <ol>
       <li>
-        <label for="deposit_amount" class="wide"><%= form_required %>Deposit Amount</label> $<%= f.text_field :amount, :value => number_with_precision(@investment.amount, 2) %>
+        <label for="deposit_amount" class="wide"><%= form_required %>Deposit Amount</label> $<%= f.text_field :amount, :value => number_with_precision(@deposit.amount, 2) %>
         <div class="note" style="margin-left:135px;">Example: $100</div>
       </li>
     </ol>

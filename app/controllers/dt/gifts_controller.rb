@@ -141,8 +141,8 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def edit
-    if @cart.items[params[:id].to_i].kind_of?(Gift)
-      @gift = @cart.items[params[:id].to_i]
+    if @cart.items.find(params[:id]).item.kind_of?(Gift)
+      @gift = @cart.items.find(params[:id]).item
       @project = @gift.project if @gift.project_id?
       if @gift.send_email_now
         @gift.send_email = nil # so we can preselect "now" for delivery
@@ -157,8 +157,8 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def update
-    if @cart.items[params[:id].to_i].kind_of?(Gift)
-      @gift = @cart.items[params[:id].to_i]
+    if @cart.items.find(params[:id]).item.kind_of?(Gift)
+      @gift = @cart.items.find(params[:id]).item
       begin
         @gift.attributes = params[:gift]
         @valid = @gift.valid?

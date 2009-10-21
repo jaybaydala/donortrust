@@ -18,12 +18,10 @@ class Dt::InvestmentsController < DtApplicationController
     # Is this investment being made as a result of a promotion?    
     if params[:promotion_id]
       promotion = Promotion.find(params[:promotion_id])
-      
       if !promotion.nil?
         @investment.promotion = promotion
       end
       # Otherwise, someone has tried to hack the query string with any old rubbish
-
     end
 
     respond_to do |format|
@@ -53,10 +51,10 @@ class Dt::InvestmentsController < DtApplicationController
     @project = @investment.project if @investment.project
 
     @valid = @investment.valid?
+    @cart.add_item(@investment) if @valid
 
     respond_to do |format|
       if @valid
-        @cart.add_item(@investment)
         flash[:notice] = "Your Investment has been added to your cart."
         format.html { redirect_to dt_cart_path }
       else
@@ -67,8 +65,8 @@ class Dt::InvestmentsController < DtApplicationController
   end
 
   def edit
-    if @cart.items[params[:id].to_i].kind_of?(Investment)
-      @investment = @cart.items[params[:id].to_i]
+    if @cart.items.find(params[:id]).item.kind_of?(Investment)
+      @investment = @cart.items.find(params[:id]).item
       @project = @investment.project if @investment.project_id?
     end
 
@@ -81,8 +79,8 @@ class Dt::InvestmentsController < DtApplicationController
   end
 
   def update
-    if @cart.items[params[:id].to_i].kind_of?(Investment)
-      @investment = @cart.items[params[:id].to_i]
+    if @cart.items.find(params[:id]).item.kind_of?(Investment)
+      @investment = @cart.items.find(params[:id]).item
       @investment.attributes = params[:investment]
       @investment.user_ip_addr = request.remote_ip
       @valid = @investment.valid?

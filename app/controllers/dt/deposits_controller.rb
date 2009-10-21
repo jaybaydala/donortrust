@@ -42,7 +42,7 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def edit
-    @deposit = @cart.items[params[:id].to_i] if @cart.items[params[:id].to_i].kind_of?(Deposit)
+    @deposit = @cart.items.find(params[:id]).item if @cart.items.find(params[:id]).item.kind_of?(Deposit)
     respond_to do |format|
       format.html {
         redirect_to dt_cart_path and return unless @deposit
@@ -51,8 +51,8 @@ class Dt::DepositsController < DtApplicationController
   end
   
   def update
-    if @cart.items[params[:id].to_i].kind_of?(Deposit)
-      @deposit = @cart.items[params[:id].to_i] 
+    if @cart.items.find(params[:id]).item.kind_of?(Deposit)
+      @deposit = @cart.items.find(params[:id]).item
       @deposit.attributes = params[:deposit]
       @deposit.user_ip_addr = request.remote_ip
       @valid = @deposit.valid?

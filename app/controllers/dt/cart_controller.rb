@@ -18,7 +18,7 @@ class Dt::CartController < DtApplicationController
 
   def destroy
     if params[:id]
-      @cart.remove_item(params[:id]) if params[:id] && @cart.items[params[:id].to_i]
+      @cart.remove_item(params[:id]) if params[:id]
       flash[:notice] = "Your item has been removed from your cart."
     else
       @cart.empty!
