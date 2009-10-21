@@ -1,8 +1,14 @@
-class Cart
-  attr_reader :items, :total
+class Cart < ActiveRecord::Base
+  attr_reader :total
+  before_save :check_subscription
+  has_many :items, :class_name => "CartLineItem" 
   
-  def initialize
-    empty!
+  def check_subscription
+    if subscription? && subscription_changed?
+      items.each do |line_item|
+        line_item.destroy unless line_item.item_type == "Investment"
+      end
+    end
   end
   
   def empty!
@@ -11,55 +17,62 @@ class Cart
   end
   
   def empty?
-    @items.empty?
+    self.items.empty?
   end
   
   def add_item(item)
-    @items << item if valid_item?(item)
+    logger.debug(valid_item?(item))
+    logger.debug(item.inspect)
+    if valid_item?(item)
+      i = self.items.build({:item => item})
+      i.item = item
+      logger.debug(i.inspect)
+      i.save!
+    end
   end
   
-  def update_item(index, item)
-    @items[index.to_i] = item if valid_item?(item)
+  def update_item(id, item)
+    self.items.find(id).update_attribute(:item, item) if valid_item?(item)
   end
   
   def empty?
-    @items.length == 0
+    self.items.count == 0
   end
   
   def total
-    @total = @items.inject(0.0){|sum, item| sum + item.amount.to_f}
+    @total ||= self.items.inject(0.0){|sum, line_item| sum + line_item.item.amount.to_f}
   end
   
-  def remove_item(index)
-    @items.delete_at(index.to_i) if @items[index.to_i]
+  def remove_item(id)
+    self.items.find(id).destroy
   end
   
   def minimum_credit_card_payment
     minimum = 0
-    @items.each do |item|
-      minimum += item.amount if item.class == Deposit
+    self.items.each do |line_item|
+      minimum += line_item.item.amount if line_item.item.class == Deposit
     end
     minimum
   end
   
   def gifts
-    @items.select{|item| item.is_a?(Gift) }
+    self.items.select{|item| item.item_type == "Gift" }.map(&:item)
   end
   
   def investments
-    @items.select{|item| item.is_a?(Investment) }
+    self.items.select{|item| item.item_type == "Investment" }.map(&:item)
   end
   
   def deposits
-    @items.select{|item| item.is_a?(Deposit) }
+    self.items.select{|item| item.item_type == "Deposit" }.map(&:item)
   end
   
   def pledges
-    @items.select{|item| item.is_a?(Pledge)}
+    self.items.select{|item| item.item_type == "Pledge" }.map(&:item)
   end
   
   def registration_fees
-    @items.select{|item| item.is_a?(RegistrationFee)}
+    self.items.select{|item| item.item_type == "RegistrationFee" }.map(&:item)
   end
   
   private

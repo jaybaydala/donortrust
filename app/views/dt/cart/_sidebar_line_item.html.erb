@@ -1,7 +1,6 @@
 <% 
 odd_or_even = sidebar_line_item_counter % 2 == 0 ? 'even' : 'odd'
-@line_item_counter_from_0 = sidebar_line_item_counter
-case sidebar_line_item.class.to_s
+case sidebar_line_item.item.class.to_s
 when "Gift"
   partial_name = "gift"
 when "Investment"
@@ -18,5 +17,5 @@ end
   <td>
     <%= render :partial => "dt/cart/#{partial_name}", :locals => { :line_item => sidebar_line_item } %>
   </td>
-  <td class="numeric money"><%= number_to_currency(sidebar_line_item.amount) %></td>
+  <td class="numeric money"><%= number_to_currency(sidebar_line_item.item.amount) %></td>
 </tr>

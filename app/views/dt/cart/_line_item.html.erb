@@ -1,16 +1,15 @@
 <% 
 odd_or_even = line_item_counter % 2 == 0 ? 'even' : 'odd'
-@line_item_counter_from_0 = line_item_counter
-case line_item.class.to_s
+case line_item.item.class.to_s
 when "Gift"
   partial_name = "gift"
-  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_gift_path(@line_item_counter_from_0)
+  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_gift_path(line_item.id)
 when "Investment"
   partial_name = "investment"
-  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_investment_path(@line_item_counter_from_0)
+  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_investment_path(line_item.id)
 when "Deposit"
   partial_name = "deposit"
-  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_account_deposit_path(current_user, @line_item_counter_from_0)
+  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_account_deposit_path(current_user, line_item.id)
 when "Pledge"
   partial_name = "pledge"
   edit_link = "" # no editing
@@ -22,7 +21,7 @@ end
 <tr class="<%= odd_or_even %>">
   <td>
     <div class="textsm <%= partial_name %>controls">
-      <%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "[delete item]", :title => "Remove this item from your cart"), dt_cart_path(:id => @line_item_counter_from_0), :confirm => "Are you sure you want to remove this item from your cart?", :method => :delete %>
+      <%= link_to image_tag("dt/nav_elements/cart_remove.gif", :alt => "[delete item]", :title => "Remove this item from your cart"), dt_cart_path(:id => line_item.id), :confirm => "Are you sure you want to remove this item from your cart?", :method => :delete %>
       <%= edit_link %>
     </div>
   </td>
@@ -30,5 +29,5 @@ end
     <%# puts "test: " + "dt/cart/#{partial_name}" %>
     <%= render :partial => "dt/cart/#{partial_name}", :locals => { :line_item => line_item } %>
   </td>
-  <td class="numeric money"><%= number_to_currency(line_item.amount) %></td>
+  <td class="numeric money"><%= number_to_currency(line_item.item.amount) %></td>
 </tr>
