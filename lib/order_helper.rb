@@ -3,8 +3,17 @@
 module OrderHelper
   protected
   def find_cart
-    session[:cart] = Cart.new unless session[:cart]
-    @cart = session[:cart]
+    if session[:cart_id]
+      @cart ||= Cart.find(session[:cart_id])
+    else
+      cart_attributes = {}
+      cart_attributes[:user_id] = current_user.id if logged_in?
+      @cart = Cart.create(cart_attributes)
+      session[:cart_id] = @cart.id
+    end
+    @cart.update_attribute(:user_id, current_user.id) if !@cart.user_id && logged_in?
+    @cart.update_attribute(:subscription, params[:subscription]) if params[:subscription]
+    @cart
   end
   
   def find_order
