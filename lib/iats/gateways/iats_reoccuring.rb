@@ -145,12 +145,14 @@ module ActiveMerchant #:nodoc:
         end
     
         def add_credit_card(post, credit_card)
-          if canadian_currency?
-            post[:FirstName]  = credit_card.cardholder_name
-          else
-            post[:FirstName]  = credit_card.first_name
-            post[:LastName]   = credit_card.last_name
-          end
+          # if canadian_currency?
+          #   post[:FirstName]  = credit_card.cardholder_name
+          # else
+          #   post[:FirstName]  = credit_card.first_name
+          #   post[:LastName]   = credit_card.last_name
+          # end
+          post[:FirstName]  = credit_card.first_name
+          post[:LastName]   = credit_card.last_name
           post[:MOP1]          = card_types[credit_card.type]
           # IATS requires 4111111111111111 for all test transactions
           post[:CCNum1]        = test? ? "4111111111111111" : credit_card.number
@@ -196,6 +198,7 @@ module ActiveMerchant #:nodoc:
             response,
             :test => test?,
             :authorization => response[:authorization],
+            :customer_code => response[:customer_code],
             :fraud_review => response[:code] && %w(7 25).include?(response[:code]) ? true : false
           )
         end
