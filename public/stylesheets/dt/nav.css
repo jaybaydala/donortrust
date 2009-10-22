@@ -92,7 +92,7 @@ GLOBAL NAV and PAGE NAV
 #nav li.current {
   border-left: 1px solid #999;
   border-right: 1px solid #999;
-  background-color:#360;
+  background-color:#CC130A;
 }
 #nav li.current {
   padding:0.31em 0.875em;

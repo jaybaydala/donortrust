@@ -1,4 +1,4 @@
-﻿/*
+/*
 Project Header
 */
 .full-display-project-header {
@@ -404,7 +404,7 @@ div#featured-projects {
 
 .project-title a:hover{
   text-decoration:underline;
-  color:#006600;
+  color:#E84526;
 }
 
 .project-pre-info {
@@ -482,7 +482,7 @@ text-decoration:none
 
 .predefined-search-list a:hover{
 text-decoration:underline;
-color:#006600
+color:#E84526
 }
 
 
@@ -646,7 +646,7 @@ div.accordion-toggle{
 }
 
 div.accordion-toggle-active{
-	background: #336600;
+	background: #E84526;
 	color: #FFFFFF;
 	padding-left: 10px;
 	font-size:14px;
@@ -721,7 +721,7 @@ div.accordion-content{
 
 .detail-tabs a.nav-tab {
   float:left;
-  background:#8DA15F url("/images/dt/nav_elements/tabs-green.png") no-repeat left top;
+  background:#E64626 url("/images/dt/nav_elements/tabs-green.png") no-repeat left top;
   padding:0 0 0 9px;
   text-decoration:none;
   font-size: 14px;
@@ -733,7 +733,7 @@ div.accordion-content{
 .detail-tabs a.nav-tab span {
   float:left;
   display:block;
-  background:#8DA15F url("/images/dt/nav_elements/tabs-green.png") no-repeat right top;
+  background:#E64626 url("/images/dt/nav_elements/tabs-green.png") no-repeat right top;
   padding:4px 12px 3px 3px;
 }
 
@@ -773,9 +773,9 @@ div.accordion-content{
 .detail-content{
   clear:both;
   padding:14px;
-  border-left:1px solid #336600;
-  border-right:1px solid #336600;
-  border-bottom:1px solid #336600;
+  border-left:1px solid #E84526;
+  border-right:1px solid #E84526;
+  border-bottom:1px solid #E84526;
 }
 
 .detail-content #project_plan li {
