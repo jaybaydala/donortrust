@@ -140,7 +140,7 @@ class Participant < ActiveRecord::Base
   private
   def make_uploads_world_readable
     return if picture.nil?
-    list = self.picture.versions.select {|version, image| File.exists?(image.path) }
+    list = self.picture.versions.select {|version, image| File.exists?(image.path) }.map{|image| image.path}
     list << self.picture.path if File.exists?(self.picture.path)
     FileUtils.chmod_R(0644, list) unless list.empty?
   end
