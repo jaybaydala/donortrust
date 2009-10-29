@@ -7,6 +7,8 @@
 
 <h2>Step 4 of 4 - Confirm your details</h2>
 
+<%= render :partial => "subscription" %>
+
 <%= error_messages_for :order %>
 <% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform", :method => :put}) do |f| %>
 <%= hidden_field_tag "step", "confirm" %>

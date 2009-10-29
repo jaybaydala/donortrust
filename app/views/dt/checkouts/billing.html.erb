@@ -7,6 +7,8 @@
 
 <h2>Step 3 of 4 - Billing Information</h2>
 
+<%= render :partial => "subscription" %>
+
 <%= error_messages_for :order %>
 <%= error_messages_for :user %>
 <% form_for(:order, :url => dt_checkout_path, :html => {:id => "billingform", :name => "billingform", :method => :put}) do |f| %>
