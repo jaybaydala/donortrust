@@ -1,3 +1,6 @@
+require 'active_merchant'
+require 'nokogiri'
+
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class IatsReoccuringGateway < Gateway
@@ -11,32 +14,34 @@ module ActiveMerchant #:nodoc:
       # Rather than a specific test url, IATS has user, 
       # password, url and value combos to elicit specific responses:
       # 
-      # UserID 	= TEST88
-      # Password 	= TEST88
+      # UserID  = TEST88
+      # Password  = TEST88
       # 
-      # URL 		= www.iats.ticketmaster.com
-      # *	Dollar Amount 1.00 OK: 678594;
-      # *	Dollar Amount 2.00 REJ: 15;
-      # *	Dollar Amount 3.00 OK: 678594;
-      # *	Dollar Amount 4.00 REJ: 15;
-      # *	Dollar Amount 5.00 REJ: 15;
-      # *	Dollar Amount 6.00 OK: 678594:X;
-      # *	Dollar Amount 7.00 OK: 678594:y;
-      # *	Dollar Amount 8.00 OK: 678594:A;
-      # *	Dollar Amount 9.00 OK: 678594:Z;
-      # *	Dollar Amount 10.00 OK: 678594:N;
-      # *	Dollar Amount 15.00, if CVV2=1234 OK: 678594:Y; if there is no CVV2: REJ: 19
-      # *	Dollar Amount 16.00 REJ: 2;
-      # *	Other Amount REJ: 15. 
+      # URL     = www.iats.ticketmaster.com
+      # * Dollar Amount 1.00 OK: 678594;
+      # * Dollar Amount 2.00 REJ: 15;
+      # * Dollar Amount 3.00 OK: 678594;
+      # * Dollar Amount 4.00 REJ: 15;
+      # * Dollar Amount 5.00 REJ: 15;
+      # * Dollar Amount 6.00 OK: 678594:X;
+      # * Dollar Amount 7.00 OK: 678594:y;
+      # * Dollar Amount 8.00 OK: 678594:A;
+      # * Dollar Amount 9.00 OK: 678594:Z;
+      # * Dollar Amount 10.00 OK: 678594:N;
+      # * Dollar Amount 15.00, if CVV2=1234 OK: 678594:Y; if there is no CVV2: REJ: 19
+      # * Dollar Amount 16.00 REJ: 2;
+      # * Other Amount REJ: 15. 
       
       URL = 'https://www.iats.ticketmaster.com/'
       
       self.default_currency = "CAD"
+
+      # self.ssl_strict = false
       
       def canadian_currency?
         @currency == "CAD"
       end
-
+      
       # The countries the gateway supports merchants from as 2 digit ISO country codes
       self.supported_countries = ['CA', 'US']
       
@@ -62,6 +67,7 @@ module ActiveMerchant #:nodoc:
         add_amount(post, money, credit_card)
         add_invoice(post, options)
         add_credit_card(post, credit_card)
+        add_subscription_data(post, options)
         add_customer_data(post, options)
         unless canadian_currency?
           add_address(post, options)
@@ -69,13 +75,14 @@ module ActiveMerchant #:nodoc:
         add_schedule_data(post, options)
         commit('create', post)
       end
-
-      def update_customer(money, customer_code, credit_card=nil, options = {})
+      
+      def update_customer(money, customer_code, credit_card, options = {})
         post = {}
         add_customer_code(post, options)
         add_amount(post, money, credit_card)
         add_invoice(post, options)
         add_credit_card(post, credit_card) if credit_card
+        add_subscription_data(post, options)
         add_customer_data(post, options)
         unless canadian_currency?
           add_address(post, options)
@@ -99,37 +106,44 @@ module ActiveMerchant #:nodoc:
       end
       
       private
-
+       
         def add_total(post, money)
           post[:Total] = amount(money)
-          end
         end
-
+        
         def add_amount(post, money, credit_card="1")
           if test?
             credit_card.number = "success" unless %w(1 2 3 success failure error 4111111111111111).include?(credit_card.number)
             case credit_card.number.to_s
-              when "4111111111111111"
-                post[:Amount1] = amount(money) # manual tests
-              when "2", "failure"
-                post[:Amount1] = 16 # see iats-specific test notes above
-              when "3", "error"
-                post[:Amount1] = 2 # see iats-specific test notes above
-              else
-                post[:Amount1] = 1 # see iats-specific test notes above
+            when "4111111111111111"
+              post[:Amount1] = amount(money) # manual tests
+            when "2", "failure"
+              post[:Amount1] = 16 # see iats-specific test notes above
+            when "3", "error"
+              post[:Amount1] = 2 # see iats-specific test notes above
+            else
+              post[:Amount1] = 1 # see iats-specific test notes above
             end
           else
             post[:Amount1] = amount(money)
           end
         end
-    
+          
         def add_customer_code(post, options)
           post[:CustCode]  = options[:customer_code]
         end
-    
+          
         def add_customer_data(post, options)
         end
-
+        
+        def add_subscription_data(post, options)
+          post[:reoccurringStatus] = options[:reoccurring_status] ? "ON" : "OFF" # ON, OFF 
+          post[:beginDate]         = options[:begin_date].strftime("%Y-%m-%d") # YYYY-MM-DD 
+          post[:endDate]           = options[:end_date].strftime("%Y-%m-%d") # YYYY-MM-DD 
+          post[:scheduleType]      = options[:schedule_type] # MONTHLY, WEEKLY
+          post[:scheduleDate]      = options[:schedule_date] # (monthly:1-31; Weekly:1-7). 
+        end
+        
         def add_address(post, options)
           address = options[:billing_address] || options[:address]
           return if address.nil?
@@ -138,12 +152,12 @@ module ActiveMerchant #:nodoc:
           post[:State]          = address[:state]
           post[:ZipCode]        = address[:zip]
         end
-
+        
         def add_invoice(post, options)
           post[:InvoiceNum] = options[:invoice_id]
           post[:Comment]    = options[:description]
         end
-    
+          
         def add_credit_card(post, credit_card)
           # if canadian_currency?
           #   post[:FirstName]  = credit_card.cardholder_name
@@ -153,12 +167,12 @@ module ActiveMerchant #:nodoc:
           # end
           post[:FirstName]  = credit_card.first_name
           post[:LastName]   = credit_card.last_name
-          post[:MOP1]          = card_types[credit_card.type]
+          post[:MOP1]       = card_types[credit_card.type]
           # IATS requires 4111111111111111 for all test transactions
-          post[:CCNum1]        = test? ? "4111111111111111" : credit_card.number
-          post[:CCEXPIRY1]        = "#{format(credit_card.month, :two_digits)}/#{format(credit_card.year, :two_digits)}"
+          post[:CCNum1]     = test? ? "4111111111111111" : credit_card.number
+          post[:CCEXPIRY1]  = "#{format(credit_card.month, :two_digits)}/#{format(credit_card.year, :two_digits)}"
         end
-    
+          
         def add_schedule_data(post, options)
           post[:Reoccurring1] = options[:reoccuring_status] ? "ON" : "OFF"
           post[:BeginDate1] = options[:begin_date]
@@ -166,21 +180,62 @@ module ActiveMerchant #:nodoc:
           post[:ScheduleType1] = options[:schedule_type]
           post[:ScheduleDate1] = options[:schedule_date]
         end
-    
-        def parse(body)
+          
+        def commit(action, parameters)
+          RAILS_DEFAULT_LOGGER.debug("Entering IatsReoccuringGateway::commit")
+          RAILS_DEFAULT_LOGGER.debug("url: #{url(action).inspect}")
+          RAILS_DEFAULT_LOGGER.debug("post_data: #{post_data(action, parameters).inspect}")
+          headers = {}
+          headers = { 'Authorization' => encoded_credentials } unless action == "process"
+   	      response = parse(ssl_post(url(action), post_data(action, parameters), headers), action)
+          RAILS_DEFAULT_LOGGER.debug("response: #{response.inspect}")
+          Response.new(
+            success?(response), 
+            response[:message], 
+            response,
+            :test => test?,
+            :authorization => response[:authorization],
+            :fraud_review => response[:code] && %w(7 25).include?(response[:code]) ? true : false
+          )
+        end
+        
+        def parse(body, action)
           RAILS_DEFAULT_LOGGER.debug("Entering IatsReoccuringGateway::parse")
           RAILS_DEFAULT_LOGGER.debug(body.inspect)
           response = {:success => false}
-          if matches = body.match(/AUTHORIZATION RESULT:([^<]+)/)
-            result = matches[1].strip
-            if matches = result.match(/OK:([^$]+)/)
+          case action
+          when "create"
+            parse_create(body, response)
+          when "update"
+            parse_update(body, response)
+          when "delete"
+            parse_delete(body, response)
+          when "process"
+            parse_process(body, response)
+          end
+          response
+        end
+        
+        def parse_create(body, response)
+          if body.match(/HTTP 401./) || !body.match(/CCName|CCNum/)
+            response[:code] = "1"
+            response[:message] = response_code(response[:code])
+            return response
+          end
+          if !body.match(/Reoccurring1/)
+            response[:code] = "2"
+            response[:message] = response_code(response[:code])
+            return response
+          end
+          doc = Nokogiri::HTML(body)
+          if input = doc.xpath('//input[@name="CustCode"]').first
+            result = input[:value]
+            unless result.blank?
               response[:success] = true
-              response[:authorization] = matches[1].strip
-            elsif matches = result.match(/REJECT:([^$]+)/)
-              response[:code] = matches[1].strip
-              response[:message] = response_code(response[:code])
+              response[:authorization] = result
+              response[:customer_code] = result
             else
-              response[:code] = "23"
+              response[:code] = matches[1].strip
               response[:message] = response_code(response[:code])
             end
           else
@@ -188,33 +243,63 @@ module ActiveMerchant #:nodoc:
             response[:message] = response_code(response[:code])
           end
           response
-        end     
-    
-        def commit(action, parameters)
-          response = parse(ssl_post(url(action), post_data(action, parameters)))
-          Response.new(
-            success?(response), 
-            response[:message], 
-            response,
-            :test => test?,
-            :authorization => response[:authorization],
-            :customer_code => response[:customer_code],
-            :fraud_review => response[:code] && %w(7 25).include?(response[:code]) ? true : false
-          )
         end
-    
+
+        def parse_update(body, response)
+          if body.match(/HTTP 401./) || !body.match(/CCName|CCNum/)
+            response[:code] = "1"
+            response[:message] = response_code(response[:code])
+            return response
+          end
+          if !body.match(/Reoccurring1/)
+            response[:code] = "2"
+            response[:message] = response_code(response[:code])
+            return response
+          end
+          response[:success] = true
+          response[:authorization] = "OK: THE CUSTOMER HAS BEEN UPDATED"
+        end
+
+        def parse_delete(body, response)
+          if body.match(/HTTP 401./) || !body.match(/CCName|CCNum/)
+            response[:code] = "1"
+            response[:message] = response_code(response[:code])
+            return response
+          end
+          if !body.match(/Reoccurring1/)
+            response[:code] = "2"
+            response[:message] = response_code(response[:code])
+            return response
+          end
+          response[:success] = true
+          response[:authorization] = "OK: THE CUSTOMER HAS BEEN DELETED"
+        end
+        
+        def parse_process(body, response)
+          if matches = body.match(/AUTHORIZATION RESULT:([^<]+)/)
+            result = matches[1].strip
+            if matches = result.match(/OK:([^$]+)/)
+              response[:success] = true
+              response[:authorization] = matches[1].strip
+            end
+          else
+            response[:code] = "2"
+            response[:message] = response_code(response[:code])
+          end
+        end
+          
         def success?(response)
           response[:success]
         end
-    
+          
         # Should run against the test servers or not?
         def test?
           @options[:test] || Base.gateway_mode == :test
         end
-    
+          
         def url(action)
           # return URL if test?
-          case action
+          @url = case action
             when "create"
               URL + "itravel/Customer_Create.pro"
             when "update"
@@ -224,15 +309,16 @@ module ActiveMerchant #:nodoc:
             when "process"
               URL + "trams/custcodeauthresult.pro"
           end
+          test? ? @url.sub(/^https/, "http") : url
         end
-    
+          
         def post_data(action, parameters = {})
           parameters[:AgentCode] = test? ? "TEST88" : @options[:login]
           parameters[:Password]  = test? ? "TEST88" : @options[:password]
           parameters[:Version] = @version
           parameters.reject{|k,v| v.blank?}.collect { |key, value| "#{key}=#{CGI.escape(value.to_s)}" }.join("&")
         end
-    
+          
         CARD_TYPES = { 
           'visa'               => "VISA",
           'master'             => "MC",
@@ -241,11 +327,11 @@ module ActiveMerchant #:nodoc:
           'diners_club'        => "DC",
           'jcb'                => "DC"
         }
-
+        
         def card_types
           CARD_TYPES
         end
-    
+          
         RESPONSE_CODES = {
           :r1 => "Agent code has not been set up on the authorization system.", 
           :r2 => "Unable to process transaction. Verify and re-enter credit card information.", 
@@ -276,11 +362,11 @@ module ActiveMerchant #:nodoc:
           :r100 => "DO NOT REPROCESS.", 
           :rTimeout => "The system has not responded in the time allotted. Please contact Ticketmaster at 1-888-955-5455."
         }
-    
+        
         def response_codes
           RESPONSE_CODES
         end
-    
+        
         def response_code(code)
           if code.to_s.match(/^r/)
             return response_codes[code.to_sym]
@@ -288,56 +374,12 @@ module ActiveMerchant #:nodoc:
             return response_codes["r#{code}".to_sym]
           end
         end
-      # end private
-    end
-  end
-end
-
-module ActiveMerchant #:nodoc:
-  module Billing #:nodoc:
-    class CreditCard
-      cattr_accessor :canadian_currency
-      self.canadian_currency = false
-      def self.canadian_currency?
-        canadian_currency
-      end
-      
-      # Essential attribute for canadian currency
-      attr_accessor :cardholder_name
-      def cardholder_name?
-        !@cardholder_name.blank?
-      end
-
-      def validate_essential_attributes_with_canadian_currency
-        if CreditCard.canadian_currency?
-          errors.add :month,           "is not a valid month" unless valid_month?(@month)
-          errors.add :year,            "expired"              if expired?
-          errors.add :year,            "is not a valid year"  unless valid_expiry_year?(@year)
-          errors.add :cardholder_name, "cannot be empty"      if @cardholder_name.blank?
-        else
-          validate_essential_attributes_without_canadian_currency
+        
+        def encoded_credentials
+          credentials = [@options[:login], @options[:password]].join(':')
+          "Basic " << Base64.encode64(credentials).strip
         end
-        errors
-      end
-      alias_method_chain :validate_essential_attributes, :canadian_currency
-      
-      def name_with_canadian_currency
-        if CreditCard.canadian_currency?
-          "#{@cardholder_name}"
-        else
-          name_without_canadian_currency
-        end
-      end
-      alias_method_chain :name, :canadian_currency
-      
-      def name_with_canadian_currency?
-        if CreditCard.canadian_currency?
-          cardholder_name?
-        else
-          name_without_canadian_currency?
-        end
-      end
-      alias_method_chain :name?, :canadian_currency
+        
     end
   end
 end
