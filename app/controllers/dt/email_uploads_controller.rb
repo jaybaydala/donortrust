@@ -1,5 +1,4 @@
 class Dt::EmailUploadsController < DtApplicationController
-  include ActionView::Helpers::JavascriptHelper
   
   def new
     respond_to do |format|
@@ -15,7 +14,7 @@ class Dt::EmailUploadsController < DtApplicationController
           page << "$('uploadnotification').innerHTML = '<div class=\"notice\">Please add a file to upload!</div>';"
           page << "$('uploadnotification').highlight();"
         else
-          emails.collect!{|email| escape_javascript(email.to_s) }
+          emails.collect!{|email| helpers.escape_javascript(email.to_s) }
           page << "emails = '';"
           page << "if($('recipients').value != '') emails += $('recipients').value + ', ';"
           page << "emails += '#{emails.join(',\n')}';"
@@ -26,4 +25,15 @@ class Dt::EmailUploadsController < DtApplicationController
       end
     end
   end
+
+  protected
+    def helpers
+      Helper.instance
+    end
+
+    class Helper
+      include Singleton
+      include ActionView::Helpers::JavaScriptHelper
+      include ActionView::Helpers::TextHelper
+    end
 end
