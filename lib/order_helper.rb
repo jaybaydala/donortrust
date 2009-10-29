@@ -17,10 +17,12 @@ module OrderHelper
   end
   
   def find_order
-    # need to check if there's an existing order for the session. If so, grab it and load it
-    Order.find(session[:order_id])
-  rescue
-    return nil
+    begin
+      # need to check if there's an existing order for the session. If so, grab it and load it
+      Order.find(session[:order_id])
+    rescue
+      return nil
+    end
   end
   
   def initialize_new_order
