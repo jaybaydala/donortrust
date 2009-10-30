@@ -2,7 +2,10 @@
 
 <p>
   <strong>This will start a monthly $5 subscription:</strong>
-  <%= link_to "Give", dt_checkout_path(:subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
+  <%= link_to "Give", dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
 </p>
+<%- if @cart && !@cart.empty? -%>
+<p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
+<%- end -%>
 
-<p><strong>Total Donors:</strong> <%= Subscription.count(:conditions => ["project_id=?", Project.admin_project.id]) %></p>
+<p><strong>Total Donors:</strong> <%= Subscription.count %></p>
