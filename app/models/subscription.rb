@@ -56,6 +56,8 @@ class Subscription < ActiveRecord::Base
     cart.items.each do |cart_line_item|
       subscription.line_items.create(:item_type => cart_line_item.item_type, :item_attributes => cart_line_item.item_attributes)
     end
+    
+    subscription
   end
 
   def credit_card(use_iats=true)
@@ -105,6 +107,7 @@ class Subscription < ActiveRecord::Base
 
   private
     def create_customer
+      return true unless self.customer_code.nil?
       logger.debug("Entering Subscription::create_customer")
       logger.debug("credit_card: #{credit_card.inspect}")
       logger.debug("credit_card valid: #{credit_card.valid?}")
@@ -124,7 +127,7 @@ class Subscription < ActiveRecord::Base
         logger.debug("purchase_options: #{purchase_options.inspect}")
         response = gateway.create_customer(amount*100, credit_card, purchase_options)
         if response.success?
-          self.update_attributes!({:customer_code => response.authorization})
+          self.customer_code = response.authorization
         else
           raise ActiveMerchant::Billing::Error.new(response.message)
         end
