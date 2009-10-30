@@ -12,8 +12,9 @@ class Cart < ActiveRecord::Base
   end
   
   def empty!
-    @items = []
-    @total = 0.0
+    items.each do |line_item|
+      line_item.destroy
+    end
   end
   
   def empty?
