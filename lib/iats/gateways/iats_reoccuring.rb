@@ -187,6 +187,7 @@ module ActiveMerchant #:nodoc:
           RAILS_DEFAULT_LOGGER.debug("post_data: #{post_data(action, parameters).inspect}")
           headers = {}
           headers = { 'Authorization' => encoded_credentials } unless action == "process"
+          RAILS_DEFAULT_LOGGER.debug("headers: #{headers.inspect}")
    	      response = parse(ssl_post(url(action), post_data(action, parameters), headers), action)
           RAILS_DEFAULT_LOGGER.debug("response: #{response.inspect}")
           Response.new(
@@ -376,7 +377,10 @@ module ActiveMerchant #:nodoc:
         end
         
         def encoded_credentials
-          credentials = [@options[:login], @options[:password]].join(':')
+          login = test? ? "TEST88" : @options[:login]
+          password  = test? ? "TEST88" : @options[:password]
+          credentials = [login, password].join(':')
+          RAILS_DEFAULT_LOGGER.debug("credentials: #{credentials.inspect}")
           "Basic " << Base64.encode64(credentials).strip
         end
         
