@@ -15,9 +15,6 @@ class Order < ActiveRecord::Base
   validates_uniqueness_of :order_number
   before_create :generate_order_number
   
-  # virtual attribute for the entire card number
-  attr_accessor :full_card_number
-  
   def initialize(params = nil)
     super
     self.donor_type ||= self.class.personal_donor
@@ -32,16 +29,21 @@ class Order < ActiveRecord::Base
   end
   
   def card_number_concealed
-    "**** **** **** #{card_number.to_s[-4, 4]}"
+    "**** **** **** #{card_number.to_s.rjust(4, " ")[-4, 4].strip}"
   end
   
+  # card number temporarily held in tmp_card_number
+  attr_accessor :full_card_number
   def card_number=(number)
-    @full_card_number = number# if !number.nil?
+    # self.tmp_card_number = number
+    @full_card_number = number
     write_attribute(:card_number, number) # clears it if it's nil
-    write_attribute(:card_number, number.to_s[-4, 4]) if number # loads it back up if it's not
+    # this is a bit fancy schmancy - just so we can test with "1" for the card_number
+    write_attribute(:card_number, number.to_s.rjust(4, " ")[-4, 4].strip) if number # loads it back up if it's not
   end
   
   def card_number
+    # return self.tmp_card_number if self.tmp_card_number?
     return @full_card_number if @full_card_number
     read_attribute(:card_number)
   end
@@ -96,8 +98,8 @@ class Order < ActiveRecord::Base
     # credit_card_payment
     if credit_card_payment?
       unless credit_card.valid?
-        credit_card_messages = credit_card.errors.full_messages.collect{|msg| "<li>#{msg}</li>"}
-        errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:<ul>#{credit_card_messages.join}</ul>") 
+        credit_card_messages = credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
+        errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
       end
     end
     errors.empty?
@@ -184,7 +186,7 @@ class Order < ActiveRecord::Base
       end
       # Create a new credit card object
       @credit_card = ActiveMerchant::Billing::CreditCard.new(
-        :number          => self.card_number,
+        :number          => @full_card_number || self.card_number,
         :month           => self.expiry_month,
         :year            => self.expiry_year,
         :cardholder_name => self.cardholder_name,
