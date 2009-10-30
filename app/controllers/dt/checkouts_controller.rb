@@ -14,11 +14,11 @@ class Dt::CheckoutsController < DtApplicationController
   
   def new
     redirect_to(edit_dt_checkout_path) and return if find_order
+    @current_step = CHECKOUT_STEPS[0]
     @order = initialize_new_order
     paginate_cart
     respond_to do |format|
       format.html {
-        @current_step = 'support'
         @current_nav_step = current_step
         render :action => "new" 
       }
@@ -27,6 +27,7 @@ class Dt::CheckoutsController < DtApplicationController
   
   def create
     redirect_to(edit_dt_checkout_path) and return if find_order
+    @current_step = CHECKOUT_STEPS[0]
     @order = initialize_new_order
     paginate_cart
     if !params[:unallocated_gift].nil? && !params[:admin_gift].nil? && !params[:directed_gift].nil?
@@ -38,9 +39,9 @@ class Dt::CheckoutsController < DtApplicationController
     # save our order_id in the session
     session[:order_id] = @order.id if @saved
     respond_to do |format|
-      format.html { 
+      format.html {
         if @saved
-          next_step = "confirm" if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
+          @current_step = CHECKOUT_STEPS[2] if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
           redirect_to edit_dt_checkout_path(:step => next_step) and return
         end
         @current_nav_step = current_step
@@ -83,11 +84,12 @@ class Dt::CheckoutsController < DtApplicationController
     rescue ActiveMerchant::Billing::Error => err
       @billing_error = true
       @valid = false
-      flash.now[:error] = "<strong>There was an error processing your credit card:</strong><br />#{err.message}"
+      flash[:error] = "<strong>There was an error processing your credit card:</strong><br />#{err.message}"
     end
     @saved = @order.save if @valid
     respond_to do |format|
       format.html{
+        redirect_to edit_dt_checkout_path(:step => "billing") and return if @billing_error
         if @saved
           if @order.complete?
             show_params = {}
@@ -101,6 +103,7 @@ class Dt::CheckoutsController < DtApplicationController
           before_billing if next_step == "billing"
           before_payment if next_step == "payment"
           @current_nav_step = next_step
+          # redirect_to edit_dt_checkout_path(:step => next_step) and return
           render :action => next_step and return
         elsif @billing_error
           @current_step = 'billing'
@@ -108,6 +111,7 @@ class Dt::CheckoutsController < DtApplicationController
         end
         @current_nav_step = current_step
         render :action => current_step
+        # redirect_to edit_dt_checkout_path(:step => current_step)
       }
     end
   end
@@ -163,7 +167,7 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def next_step
-    next_step = CHECKOUT_STEPS[current_step ? CHECKOUT_STEPS.index(current_step)+1 : 0]
+    CHECKOUT_STEPS[current_step ? CHECKOUT_STEPS.index(current_step)+1 : 0]
   end
   
   def validate_order
@@ -183,6 +187,7 @@ class Dt::CheckoutsController < DtApplicationController
   end
 
   def do_action
+    logger.debug("current_step: #{current_step}")
     case current_step
       when "support"
         do_support
@@ -272,8 +277,16 @@ class Dt::CheckoutsController < DtApplicationController
         # process the credit card - should handle an exception here
         # if no exception, we're all good.
         # if there is, we should render the payment template and show the errors...
+        if @cart.subscription?
+          @subscription = Subscription.create_from_cart_and_order(@cart, @order)
+          @order.update_attribute(:subscription_id, @subscription.id)
+        end
         transaction_successful = @order.credit_card_payment? ? @order.run_transaction : true
+        # clear the tmp_card_number every time
+        # @order.update_attribute(:tmp_card_number, nil) if @order.tmp_card_number?
+        # params[:order][:tmp_card_number] = nil
         if transaction_successful
+          @cart.update_attribute(:order_id, @order.id)
           # auto-push the send_at dates into the future, wherever necessary, to avoid silly validation errors
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now)) }
           # save the cart items into the db via the association
@@ -320,16 +333,12 @@ class Dt::CheckoutsController < DtApplicationController
 
           # mark the order as complete
           @order.update_attributes!(:complete => true)
-          @cart.update_attribute(:order_id, @order.id)
-          if @cart.subscription?
-            @subscription = Subscription.create_from_cart_and_order(@cart, @order)
-            @order.subscription_id = @subscription.id
-          end
         end
       end
     end
     if @order.complete?
-      @cart.empty!
+      # empty the cart_id from the session
+      session[:cart_id] = nil
       # empty the order_id from the session
       session[:order_id] = nil
       # add the order number into the session so they can view their completed order(s) for the session
