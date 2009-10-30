@@ -155,7 +155,7 @@ div.notice, div.error, div.errorExplanation, div.activation {
 }
 div.notice, div.activation {
   background-color:#FFD;
-  border:1px solid #360;
+  border:1px solid #E74723;
 }
 div.error, div.errorExplanation {
   border:2px solid #C00;

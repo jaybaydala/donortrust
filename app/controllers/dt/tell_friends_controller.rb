@@ -1,4 +1,3 @@
-gem "recaptcha"
 class Dt::TellFriendsController < DtApplicationController
   include ReCaptcha::AppHelper
   before_filter :login_required, :only => :show

@@ -85,7 +85,7 @@ h2.campaign {
 }
 
 h2.campaign a {
-	color:#360;
+	color:#E84524;
 }
 
 .campaign h2.campaign {
@@ -102,7 +102,7 @@ h2.campaign a {
 	width: auto;	
 }
 .campaign-sidebar-box a{
-	color: #360;
+	color: #E84524;
 	font-size: 12px;
 	text-decoration: none;	
 }
@@ -139,7 +139,7 @@ li.detail {
 }
 
 li.detail strong{
-	color: #360;
+	color: #000002;
 }
 
 .campaign_form label {

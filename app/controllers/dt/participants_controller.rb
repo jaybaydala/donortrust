@@ -4,7 +4,7 @@ class Dt::ParticipantsController < DtApplicationController
   include OrderHelper
 
   before_filter :find_team, :only => [:new, :create]
-  before_filter :login_required, :except => [:show, :index, :new, :create]
+  before_filter :login_required, :except => [:show, :index, :new, :create, :validate_short_name_of]
   before_filter :is_authorized?, :only => [:update, :manage, :admin]
   include UploadSyncHelper
   after_filter :sync_uploads, :only => [:create, :update, :destroy]
