@@ -7,6 +7,9 @@
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
 <h2>Step 1 of 4 - Support</h2>
+
+<%= render :partial => "subscription" %>
+
 <%= error_messages_for :order %>
 <% form_for(:order, :url => dt_checkout_path, :html => {:id => "supportform", :name => "supportform"}) do |f| %>
 <%= render :partial => 'support', :locals => {:f => f} %>
