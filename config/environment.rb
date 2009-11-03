@@ -25,6 +25,7 @@ Rails::Initializer.run do |config|
   config.gem "simple-rss"
   config.gem "feed-normalizer"
   config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
+  config.gem "nokogiri"
   # social application gems
   config.gem "flickr"
   # pdf creation gems
@@ -92,7 +93,7 @@ require recaptcha_file if File.exists?(recaptcha_file)
 
 # set up the Exception Notifier plugin
 ExceptionNotifier.exception_recipients = %w(sysadmin@pivotib.com, info@christmasfuture.org)
-ExceptionNotifier.sender_address = %("DT Application Error" <support@christmasfuture.com>)
+ExceptionNotifier.sender_address = %(support@christmasfuture.com)
 ExceptionNotifier.email_prefix = "[DT ERROR] "
 
 #The url to the GroundSpring US donations page
