@@ -190,7 +190,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :financial_sources, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/financial_sources"
   map.resources :collaborating_agencies, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborating_agencies"
   map.resources :e_cards, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/e_cards"
-  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
   map.resources :promotions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/promotions"
   map.resources :place_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_sectors"
   map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
@@ -219,11 +218,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :authorized_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_actions"
   map.resources :authorized_controllers, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_controllers"
   # bus_admin project resources and routes
-  map.resources :projects,
-                :path_prefix => "/bus_admin",
-                :name_prefix => "bus_admin_",
-                :controller => "bus_admin/projects",
-                :active_scaffold => true
+  map.resources :projects, 
+                :path_prefix => "/bus_admin", 
+                :name_prefix => 'bus_admin_', 
+                :controller => 'bus_admin/projects',
+                :active_scaffold => true,
+                :collection => { :pending_projects => :get}
 
   # The priority is based upon order of creation: first created -> highest priority.
 
@@ -296,14 +296,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
   map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
   map.resources :quick_fact_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_types"
-  map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
-  map.resources :rank_values, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_values"
 
   map.resources :programs, :controller => "bus_admin/programs",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :projects, :controller => 'bus_admin/projects',
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true,
-    :collection => { :pending_projects => :get}
   map.resources :milestones, :controller => "bus_admin/milestones",
     :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
   map.resources :tasks, :controller => "bus_admin/tasks",
