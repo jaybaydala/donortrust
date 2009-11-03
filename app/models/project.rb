@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
   belongs_to :contact
   belongs_to :frequency_type
   has_many :administrations, :as => :administrable
-  has_many :milestones, :dependent => :destroy
+  has_many :milestones, :order => "target_date ASC", :dependent => :destroy
   has_many :tasks, :through => :milestones
   has_many :project_you_tube_videos, :dependent => :destroy
   has_many :project_flickr_images, :dependent => :destroy
@@ -373,11 +373,11 @@ class Project < ActiveRecord::Base
   end
 
   def milestone_count
-    return milestones.count
+    milestones.count
   end
 
   def milestones_count
-    return Milestone.find(:all).size
+    Milestone.count
   end
 
   def public_groups
@@ -395,11 +395,7 @@ class Project < ActiveRecord::Base
 
   def get_number_of_milestones_by_status(status)
     milestones = self.milestones.find(:all, :conditions => {:milestone_status_id => status.to_s } )
-    return milestones.size unless milestones == nil
-  end
-
-  def milestones
-    Milestone.find(:all, :conditions => {:project_id => self.id}, :order=> "target_date ASC")
+    milestones.size unless milestones == nil
   end
 
   def days_remaining
