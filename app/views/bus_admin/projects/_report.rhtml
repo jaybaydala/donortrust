@@ -21,7 +21,7 @@
 		<% end %></td>
     <td><%= number_to_currency(project.dollars_spent) %></td>
     <td><%= number_to_currency(project.dollars_raised) %></td>
-    <td><%= project.milestones.find(:all).size %></td>
+    <td><%= project.milestones.size %></td>
     <td><%
       if project.days_remaining == nil
     -%>Not Set<%
