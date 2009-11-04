@@ -30,7 +30,7 @@ class Dt::WallPostsController < DtApplicationController
     postable_key = ""
     params.keys.each{|key| postable_key = key unless not key.end_with?'_id'}
     @wall_post.postable_id = params[postable_key]
-    @wall_post.postable_type = postable_key[0..postable_key.length-4].capitalize
+    @wall_post.postable_type = postable_key[0..postable_key.length-4].classify
 
     respond_to do |format|
       if @wall_post.save
@@ -63,7 +63,7 @@ class Dt::WallPostsController < DtApplicationController
   private
   def authorized?
     @wall_post = WallPost.find(params[:id])
-    @wall_post.postable.owned? || @wall_post.owned?
+    @wall_post.owned? || @wall_post.postable.owned?
   end
 
 end

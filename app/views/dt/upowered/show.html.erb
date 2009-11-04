@@ -1,0 +1,59 @@
+<%- content_for :html_title do -%>UEnd.org – the first completely U:Powered Non-Profit<%- end -%>
+
+<%- if @page -%>
+<%= RedCloth.new(@page.content).to_html %>
+<%- end -%>
+
+<p>
+  <strong>This will start a monthly $5 subscription:</strong>
+  <%= link_to "Give", dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
+</p>
+<%- if @cart && !@cart.empty? -%>
+<p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
+<%- end -%>
+
+<div style="padding:2px;border:1px solid #CCC;margin-bottom:1em;" class="clearfix">
+  <h2 style="margin-top:0;padding-top:0;">Progress</h2>
+  <div style="background:#DDD;padding:2px;height:1.25em;" class="clearfix">
+    <div style="width:390px;float:left;height:100%;">
+      <div style="width:<%= (Subscription.count.to_f/10000.to_f).ceil  %>%;background-color:#e32;height:100%;"></div>
+    </div>
+    <div style="float:left;font-size:0.75em;color:#000;padding:0 4px;"><%= Subscription.count %>/10,000 Contributors</div>
+  </div>
+</div>
+
+<%= render :partial => "dt/pages/wall", :locals => { :postable => @page } if @page %>
+
+<%- content_for :sidebar do -%>
+
+  <div style="background:#DDD;border:1px solid #999;padding:1em 0.5em;margin-bottom:1em;text-align:center;color:#000;">
+    <%= link_to "Join the movement", dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
+  </div>
+
+  <p>
+    <a class="addthis_button" href="http://addthis.com/bookmark.php?v=250&amp;pub=xa-4af1a69520cb1c35"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4af1a69520cb1c35"></script>
+  </p>
+
+  <p>
+    <%= link_to image_tag("dt/feed_icon.gif", :alt => "", :style => "vertical-align:middle;"), "http://www.uend.org/blog/feed/" %>
+    Get Updates
+  </p>
+  
+  <p>
+    <%= link_to "Follow on Twitter", "http://twitter.com/jaybaydala" %>
+  </p>
+
+  <p>
+    <%= link_to "Join our Facebook Page", "http://www.facebook.com/pages/uend-Foundation/239989860463" %>
+  </p>
+
+  <%- if @page_sidebar -%>
+  <h2>Updates from UEnd:</h2>
+  <%= RedCloth.new(@page_sidebar.content).to_html %>
+  <%- end -%>
+
+  <p>
+    <%= link_to "Our Blog", "http://www.uend.org/blog/blog" %>
+  </p>
+<%- end -%>

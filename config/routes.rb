@@ -2,11 +2,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :news_comments
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.namespace(:dt) do |dt|
-    dt.resource :build_the_org
+    dt.resource :upowered, :controller => "upowered"
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
     dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart'
     dt.resource :checkout
+    dt.resources :pages do |page|
+      page.resources :wall_posts
+    end
 
     dt.resources :projects, :member => { :details => :get,
                                          :community => :get,
