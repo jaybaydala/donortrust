@@ -5,8 +5,13 @@ when "Gift"
   partial_name = "gift"
   edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_gift_path(line_item.id)
 when "Investment"
-  partial_name = "investment"
-  edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_investment_path(line_item.id)
+  if @cart.subscription?
+    partial_name = "subscription"
+    edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_investment_path(line_item.id)
+  else
+    partial_name = "investment"
+    edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_investment_path(line_item.id)
+  end
 when "Deposit"
   partial_name = "deposit"
   edit_link = link_to image_tag("dt/nav_elements/cart_edit.png", :alt => "Edit cart item"), edit_dt_account_deposit_path(current_user, line_item.id)

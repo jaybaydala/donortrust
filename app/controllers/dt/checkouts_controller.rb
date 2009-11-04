@@ -19,6 +19,12 @@ class Dt::CheckoutsController < DtApplicationController
     paginate_cart
     respond_to do |format|
       format.html {
+        if @cart.subscription?
+          @valid = validate_order
+          @saved = @order.save if @valid
+          session[:order_id] = @order.id if @saved
+          redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[2]) and return 
+        end
         @current_nav_step = current_step
         render :action => "new" 
       }
@@ -53,12 +59,7 @@ class Dt::CheckoutsController < DtApplicationController
   def edit
     @order = find_order
     paginate_cart
-    
-    # puts "Did we find the order? " + (!@order.nil?).to_s
-
     redirect_to(new_dt_checkout_path) and return unless @order
-    # puts "current_step: " + @current_step.to_s
-
     redirect_to(edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])) and return unless current_step
     initialize_existing_order
     before_payment if current_step == "payment"
@@ -210,14 +211,6 @@ class Dt::CheckoutsController < DtApplicationController
   end
 
   def before_billing
-    # load the info from the first gift into the billing fields
-    # gift = @cart.gifts.first if @cart.gifts.size > 0
-    # if gift
-    #   @order.email = gift.email unless @order.email?
-    #   first_name, last_name = gift.name.to_s.split(/ /, 2)
-    #   @order.first_name = first_name unless @order.first_name?
-    #   @order.last_name = last_name unless @order.last_name?
-    # end
   end
   
   def do_support
@@ -291,11 +284,17 @@ class Dt::CheckoutsController < DtApplicationController
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now)) }
           # save the cart items into the db via the association
           @cart.pledges.each{|pledge| pledge.update_attributes(:paid => true)}
-
+          
           @order.gifts = @cart.gifts
           @order.investments = @cart.investments
           @order.deposits = @cart.deposits
           @order.pledges = @cart.pledges
+          if logged_in?
+            @order.gifts.each{|gift| gift.update_attribute(:user_id, current_user.id)}
+            @order.investments.each{|investment| investment.update_attribute(:user_id, current_user.id)}
+            @order.deposits.each{|deposit| deposit.update_attribute(:user_id, current_user.id)}
+            @order.pledges.each{|pledge| pledge.update_attribute(:user_id, current_user.id)}
+          end
 
           if @order.registration_fee_id? && @order.registration_fee
             logger.debug "Order: #{@order.inspect}"

@@ -4,7 +4,7 @@ case sidebar_line_item.item.class.to_s
 when "Gift"
   partial_name = "gift"
 when "Investment"
-  partial_name = "investment"
+  partial_name = @cart.subscription? ? "subscription" : "investment"
 when "Deposit"
   partial_name = "deposit"
 when "Pledge"
