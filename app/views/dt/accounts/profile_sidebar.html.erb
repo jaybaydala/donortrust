@@ -14,9 +14,12 @@
 
 <% if logged_in? %>
 <h2>My Profile</h2>
-  <p><strong><%= link_to h(current_user.full_name), dt_account_path(current_user) %></strong> 
-  <% unless current_user.under_thirteen? %>
-  (<%= current_user.name %>)<% end %></p>
+  <p>
+    <%= image_tag(current_user.picture.url(:tiny), :alt => "", :style => "vertical-align:middle;") if current_user.picture? %>
+    <strong><%= link_to h(current_user.full_name), dt_account_path(current_user) %></strong> 
+    <% unless current_user.under_thirteen? %>
+    (<%= current_user.name %>)<% end %>
+  </p>
 
   <h5>My Portfolio</h5>
   <div class="quickfacts">

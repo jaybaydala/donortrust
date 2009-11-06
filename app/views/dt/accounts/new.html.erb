@@ -5,7 +5,7 @@
 <p>To sign up, enter your information in the spaces below.</p>
 	
 <%= error_messages_for :user %>
-<% form_for(:user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform"}) do |f| %>
+<% form_for(:user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform", :multipart => true}) do |f| %>
 <div class="userform">
   <fieldset>
     <legend>Age Verification</legend>
@@ -38,21 +38,29 @@
 	<fieldset>
 	  <legend>Your Identity</legend>
 	  <div class="textsm personalinfo">You must enter a display name that will be used to identify you on our website. You may also choose to give us your first and last name which will be used to personalize our communication with you.</div>
-		<div class="textsm underThirteen" style="display:none;">Please enter a display name for your child that is not personally identifiable</div>
-	  <ol>
-  		<li class="personalinfo">
+  <div class="textsm underThirteen" style="display:none;">Please enter a display name for your child that is not personally identifiable</div>
+  <ol>
+    <li class="personalinfo">
       <%= label :user, :first_name, "First Name" %>
       <%= f.text_field :first_name %>
     </li>
-  		<li class="personalinfo">
+    <li class="personalinfo">
       <%= label :user, :last_name, "Last Name" %>
       <%= f.text_field :last_name %>
     </li>
-		<li>
+    <li>
       <%= label_for_required_field :user, :display_name, "Display Name" %>
       <%= f.text_field :display_name %>
+    </li> 
+    <li>
+      <%= f.label :picture %>
+      <%= f.file_field :picture %>
     </li>
-	  </ol>
+    <li>
+      <%= f.label :bio %>
+      <%= f.text_area :bio, :rows => 8, :cols => 40 %>
+    </li>
+  </ol>
   </fieldset>
 
 	<fieldset>

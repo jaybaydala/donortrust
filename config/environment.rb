@@ -36,6 +36,7 @@ Rails::Initializer.run do |config|
   config.gem 'javan-whenever', :lib => false, :version => ">=0.3.0", :source => 'http://gems.github.com'
   # bad bots
   config.gem "ruby-recaptcha"
+  config.gem "paperclip", :source => "http://gemcutter.org"
   
   
   #calendar_date_select

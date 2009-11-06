@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
   has_many :participants
   has_administrables :model => "Project"
   has_administrables :model => "Partner"
+  has_attached_file :picture, :styles => { :tiny => "24x24#",:thumb => "48x48#", :normal=>"72x72#" }, :default_style => :normal
+  
 
   # Virtual attribute for the unencrypted password"
   attr_accessor :password

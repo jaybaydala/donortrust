@@ -3,6 +3,9 @@
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <div id="intro">
+  <h2>My Information</h2>
+  <div><%= image_tag(@user.picture.url) if @user.picture %></div>
+  <%= RedCloth.new(sanitize(@user.bio)).to_html %>
 </div>
 
 <div class="projectlist" id="project-list">

@@ -34,7 +34,7 @@ Feature: A User adds items to their Cart
     
   Scenario: Adding an Investment
     Given I am on the new project investment page
-    When I fill in "investment_amount" with "110"
+    When I fill in "Investment Amount" with "110"
     And I choose the project
     And I press "Add to Cart"
     Then the Investment should appear in the Cart
