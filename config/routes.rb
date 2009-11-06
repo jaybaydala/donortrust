@@ -286,6 +286,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.populate_place_sector_places '/bus_admin/projects/populate_place_sector_places', :controller => 'bus_admin/place_sectors', :action => 'populate_place_sector_places'
 
+  map.resources :pages, :controller => "bus_admin/pages",
+    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :frequency_types, :controller => "bus_admin/frequency_types",

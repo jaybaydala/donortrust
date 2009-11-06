@@ -1,0 +1,27 @@
+<%= error_messages_for :page %>
+<% form_for @page, :url => (@page.new_record? ? bus_admin_pages_path : bus_admin_page_path(@page)), :html => {:method => (@page.new_record? ? :post : :put), :id => 'page-form'} do |f| %> 
+
+<fieldset>
+	<legend>Page Information</legend>
+	<ol class="form">
+		<li>
+		  <%= f.label :title %>
+			<%= f.text_field :title %>
+		</li>
+		<li>
+		  <%= f.label :permalink %>
+			<%= f.text_field :permalink %>
+		</li>
+		<li>
+		  <%= f.label :active %>
+			<%= f.check_box :active %>
+		</li>
+		<li>
+		  <%= f.label :content %><br />
+      <%= fckeditor_textarea("page", "content", :toolbarSet => 'uEnd', :height => 500, :width =>450 ) %> 
+		</li>
+		<li>
+		  <%= submit_tag "Save", :class => 'buttonsubmit' %>
+		</li>
+  </ol>
+<% end %>

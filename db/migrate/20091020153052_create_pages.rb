@@ -4,7 +4,6 @@ class CreatePages < ActiveRecord::Migration
       t.string :title
       t.string :permalink
       t.text :content
-      t.boolean :active, :default => true
 
       t.timestamps
     end

@@ -1,7 +1,7 @@
 <%- content_for :html_title do -%>UEnd.org – the first completely U:Powered Non-Profit<%- end -%>
 
 <%- if @page -%>
-<%= RedCloth.new(@page.content).to_html %>
+<%= RedCloth.new(sanitize(@page.content)).to_html %>
 <%- end -%>
 
 <p>
@@ -50,7 +50,7 @@
 
   <%- if @page_sidebar -%>
   <h2>Updates from UEnd:</h2>
-  <%= RedCloth.new(@page_sidebar.content).to_html %>
+  <%= RedCloth.new(sanitize(@page_sidebar.content)).to_html %>
   <%- end -%>
 
   <p>

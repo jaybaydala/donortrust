@@ -1,0 +1,35 @@
+<div id="contentContainer">
+  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+
+  
+  <div id="featuredProjectList" class="active-scaffold">
+    <div class="active-scaffold-header">
+  	  <div class="actions">
+    		<% restrict_to "cf_admin" do -%>
+  			  <%= link_to "Create new", new_bus_admin_page_path %>
+		    <% end -%>
+  	  </div>
+  	  <h2>Pages</h2>
+    </div>
+
+  	<table cellpadding="0" cellspacing="0">
+  	  <thead>
+  	    <tr>
+  				<th>ID</th>
+  				<th>Title</th>
+  				<th>Permalink</th>
+  				<th>Active</th>
+  				<th>Actions</th>
+  	    </tr>
+  	  </thead>
+  	  <tbody class="records">
+  	    <% if !@pages.empty? -%>
+  	    	<%= render @pages %>
+  			<% else -%>
+  				<td colspan="5">You have no pages.</td>
+  	    <% end -%>
+  	  </tbody>
+  	</table>
+  </div>
+</div>

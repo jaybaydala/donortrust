@@ -1,0 +1,12 @@
+<tr class="record">
+	<td><%= page.id %></td>
+	<td><%= link_to page.title, edit_bus_admin_project_path(page) %></td>
+	<td><%= page.permalink %></td>
+	<td><%= page.active?.to_s %></td>
+	<td>
+		<%- restrict_to "cf_admin" do -%>
+  		<%= link_to "Edit", edit_bus_admin_page_path(page) %> | 
+  	  <%= link_to "Delete", bus_admin_page_path(page), :method => :delete, :confirm => "Are you sure you want to delete this page" %>
+    <%- end -%>
+	</td>
+</tr>
