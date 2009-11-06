@@ -25,6 +25,9 @@
     <title>Uend : <%=(controller.controller_name).titleize %> : <%= (controller.action_name).titleize %></title>
 <% end %>
     <%= stylesheet_link_tag 'cf_base2' %>
+    <%= stylesheet_link_tag 'upowered' %>
+
+    <%= yield :head %>
   </head>
 
   <body>

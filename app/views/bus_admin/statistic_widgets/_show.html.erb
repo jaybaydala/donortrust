@@ -1,0 +1,17 @@
+<%- content_for :head do -%>
+<%= stylesheet_link_tag 'upowered' %>
+<%- end -%>
+
+<h4><%= active_scaffold_config.show.label -%></h4>
+
+
+<div class="clearfix" style="background:#FFF;padding:0.5em;border:1px solid #999;">
+  <%= render :partial => "dt/statistic_widgets/statistic_widget", :locals => { :statistic_widget => @record } %>
+</div>
+<%= render :partial => 'show_columns', :locals => {:columns => active_scaffold_config.show.columns} -%>
+
+
+<p class="form-footer">
+  <%= link_to as_(:close), params_for(:controller => params[:parent_controller] ? params[:parent_controller] : params[:controller], :action => 'list', :id => nil), :class => 'cancel' %>
+  <%= loading_indicator_tag(:action => :create, :id => params[:id]) %>
+</p>
