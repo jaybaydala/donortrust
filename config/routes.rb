@@ -214,6 +214,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bus_secure_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_secure_actions"
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :users, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/users"
+  map.resources :statistic_widgets, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/statistic_widgets"
   map.resources :roles, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/roles"
   map.resources :administrations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/administrations"
   map.resources :collaborations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborations"

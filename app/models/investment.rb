@@ -17,6 +17,11 @@ class Investment < ActiveRecord::Base
 
   after_create :user_transaction_create
   
+  def self.dollars_raised(conditions = {})
+    self.find(:all, :conditions => conditions).inject(0){|raised, investment| raised += investment.amount }
+  end
+  
+
   def sum
     #return 0 if self[:gift_id] && self.gift[:project_id]
     super * -1

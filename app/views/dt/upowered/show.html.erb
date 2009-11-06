@@ -1,4 +1,7 @@
 <%- content_for :html_title do -%>UEnd.org – the first completely U:Powered Non-Profit<%- end -%>
+<%- content_for :head do -%>
+<%= stylesheet_link_tag "upowered" %>
+<%- end -%>
 
 <%- if @page -%>
 <%= RedCloth.new(sanitize(@page.content)).to_html %>
@@ -12,15 +15,10 @@
 <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
 <%- end -%>
 
-<div style="padding:2px;border:1px solid #CCC;margin-bottom:1em;" class="clearfix">
-  <h2 style="margin-top:0;padding-top:0;">Progress</h2>
-  <div style="background:#DDD;padding:2px;height:1.25em;" class="clearfix">
-    <div style="width:390px;float:left;height:100%;">
-      <div style="width:<%= (Subscription.count.to_f/10000.to_f).ceil  %>%;background-color:#e32;height:100%;"></div>
-    </div>
-    <div style="float:left;font-size:0.75em;color:#000;padding:0 4px;"><%= Subscription.count %>/10,000 Contributors</div>
-  </div>
-</div>
+
+<%= render @statistic_widgets %>
+
+
 
 <%= render :partial => "dt/pages/wall", :locals => { :postable => @page } if @page %>
 

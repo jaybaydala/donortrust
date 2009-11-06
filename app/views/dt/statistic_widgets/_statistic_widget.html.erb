@@ -1,0 +1,10 @@
+<div class="statwidget clearfix" id="statwidget-1">
+  <h2 style="margin-top:0;padding-top:0;"><%= statistic_widget.title %></h2>
+  <div class="statcontainer clearfix">
+    <div class="statcontent">
+      <div class="statprogress" style="width:<%= statistic_widget.progress_as_percentage(render(:inline => statistic_widget.progress)) %>%;"></div>
+      <div class="statgoal"><%= send(statistic_widget.goal_modifier, render(:inline => statistic_widget.progress)) %>/<%= send(statistic_widget.goal_modifier, statistic_widget.goal) %> <%= statistic_widget.goal_name %></div>
+    </div>
+  </div>
+</div>
+
