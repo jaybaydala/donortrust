@@ -1,0 +1,31 @@
+div.statwidget {
+  padding:2px;
+  border:1px solid #CCC;
+  margin-bottom:1em;
+}
+div.statwidget h2 {
+  margin-top:0;padding-top:0;
+}
+div.statwidget div.statcontainer {height:1.25em;}
+div.statwidget div.statcontent {
+  position:relative;
+  padding:2px 0;
+  background:#DDD;
+  width:100%;
+  float:left;
+  height:100%;
+}
+div.statwidget div.statprogress {
+  position:absolute;
+  top:0;
+  left:0;
+  background-color:#e32;
+  height:100%;
+}
+div.statwidget div.statgoal {
+  position:absolute;
+  right:4px;
+  font-size:0.75em;
+  color:#000;
+  padding:0 4px;
+}
