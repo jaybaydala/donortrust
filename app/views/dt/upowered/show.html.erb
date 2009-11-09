@@ -15,10 +15,15 @@
 <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
 <%- end -%>
 
-
 <%= render @statistic_widgets %>
 
-
+<% @staff = User.find_all_by_staff(true) %>
+<% if @staff.length > 0 %>
+<div id="staff_users" class="clearfix">
+<h2>The UEnd Team</h2>
+<%= render :partial => "dt/staff/team_user", :collection => @staff %>
+</div>
+<%- end -%>
 
 <%= render :partial => "dt/pages/wall", :locals => { :postable => @page } if @page %>
 

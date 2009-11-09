@@ -1,0 +1,6 @@
+<div class="staff_team_user">
+	  <div class="team_user_picture"><%= link_to image_tag(team_user.picture.url(:thumb)), dt_staff_path %></div>
+	  <div class="team_user_name">
+	    <%= link_to "#{team_user.first_name}<br />#{team_user.last_name}", dt_staff_path %>
+	  </div>
+</div>

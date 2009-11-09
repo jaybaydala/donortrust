@@ -50,7 +50,8 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :wishlists, :controller=> 'wishlists'
     dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :confirm => :post, :preview => :get }
     dt.resources :mdgs, :controller=> 'mdgs'
-
+    
+    dt.resource :staff, :controller => 'staff'
     dt.resources :wall_posts
 
     dt.resources :news_items

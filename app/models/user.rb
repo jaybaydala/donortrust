@@ -28,7 +28,10 @@ class User < ActiveRecord::Base
   has_many :participants
   has_administrables :model => "Project"
   has_administrables :model => "Partner"
-  has_attached_file :picture, :styles => { :tiny => "24x24#",:thumb => "48x48#", :normal=>"72x72#" }, :default_style => :normal
+  has_attached_file :picture, 
+                    :styles => { :tiny => "24x24#",:thumb => "48x48#", :normal=>"72x72#" }, 
+                    :default_style => :normal,
+                    :default_url => "/images/dt/icons/users/:style/missing.png"
   
 
   # Virtual attribute for the unencrypted password"

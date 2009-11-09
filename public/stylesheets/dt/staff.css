@@ -1,0 +1,75 @@
+.staff_user {
+	background:#2E2E2E;
+	margin:0 0 1em 0;
+	color:#FFF;
+}
+
+.staff_user_content {
+	padding:2em 2em 2em 2em;
+}
+
+.staff_user p {
+	margin:0 0 1em 0;
+}
+
+.user_details {
+	float:left;
+	width:650px;
+}
+
+.user_details a {
+	font-size:.75em; /* 0.75em x 16 = 12px */
+}
+
+.user_name {
+	font-size:1.25em; /* 1.25em x 16 = 20px */
+}
+
+.user_title {
+	font-size:.75em; /* 0.75em x 16 = 12px */
+	font-style:italic;
+	padding: 0 0 .5em 0;
+}
+
+.user_twitter, .user_facebook {
+	font-size:.75em; /* 0.75em x 16 = 12px */
+}
+
+.user_picture_normal {
+	width:72px;
+	float:right;
+}
+
+.rtop, .rbottom{display:block; background:#FFF;}
+.rtop b, .rbottom b{display: block; background:#2E2E2E; height: 1px; overflow: hidden}
+.r1{margin: 0 5px}
+.r2{margin: 0 3px}
+.r3{margin: 0 2px}
+.r4{margin: 0 1px; height: 2px}
+
+#staff_users {
+	border:#CCC 1px solid; 
+	padding: 2px; 
+	margin-bottom: 1em;
+}
+
+#staff_users h2{
+	margin-top:0;
+}
+
+.staff_team_user {
+	width:100px;
+	float:left;
+	text-align:center;
+	font-size:0.75em;
+	padding:8px 4px 8px 4px;
+}
+
+.staff_team_user a {
+	text-decoration:none;
+	
+}
+
+.team_user_title {
+	font-size:0.75em;
+}
