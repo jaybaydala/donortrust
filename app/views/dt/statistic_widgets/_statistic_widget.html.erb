@@ -1,5 +1,6 @@
+<%- modifier_arguments = %w(number_to_percentage number_with_precision number_to_currency).include?(statistic_widget.goal_modifier) ? {:precision => 0} : nil -%>
 <div class="statcontent clearfix" id="statwidget-<%= statistic_widget.id %>">
   <div class="statprogress" style="width:<%= statistic_widget.progress_as_percentage(render(:inline => statistic_widget.progress)) %>%;"></div>
-  <div class="statgoal"><%= send(statistic_widget.goal_modifier, render(:inline => statistic_widget.progress)) %>/<%= send(statistic_widget.goal_modifier, statistic_widget.goal) %> <%= statistic_widget.goal_name %></div>
+  <div class="statgoal"><%= send(statistic_widget.goal_modifier, render(:inline => statistic_widget.progress), modifier_arguments) %>/<%= send(statistic_widget.goal_modifier, statistic_widget.goal, modifier_arguments) %> <%= statistic_widget.goal_name %></div>
 </div>
 
