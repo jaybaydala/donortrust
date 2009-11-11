@@ -1,33 +1,49 @@
-div.statwidget {
-  padding:2px;
-  border:1px solid #CCC;
-  margin-bottom:1em;
-}
-div.statwidget h2 {
-  margin-top:0;
-  padding-top:0;
-  border:0;
-}
-div.statwidget div.statcontainer {height:1.25em;}
-div.statwidget div.statcontent {
-  position:relative;
-  padding:2px 0;
-  background:#DDD;
-  width:100%;
-  float:left;
-  height:100%;
+/*div.statwidget {
+  background-color:#706f73;
 }
 div.statwidget div.statprogress {
+  background:url(/images/upowered/progress_bg.gif);
+}
+*/
+div.statwidget {
+  padding:0 0 1em 0;
+  margin-bottom:1em;
+  background:url(/images/dt/upowered/widget_bg.gif) bottom left;
+  width:550px;
+}
+div.statwidget h2 {
+  margin:0;
+  padding:0;
+  border:0;
+  color:#FFF;
+}
+div.statwidget div.stattitle {
+  background:url(/images/dt/upowered/widget_top.gif) #706F73 no-repeat;
+  padding:4px 8px;
+}
+div.statwidget div.statcontainer {
+}
+div.statwidget div.statcontent {
+  position:relative;
+  padding:0;
+  margin:8px 8px 0 8px;
+  background:#706F73;
+  height:16px;
+}
+div.statwidget div.statprogress {
+  background:url(/images/dt/upowered/progress_bg.gif) #e32 repeat-x;
   position:absolute;
   top:0;
   left:0;
-  background-color:#e32;
+  z-index:2;
   height:100%;
 }
 div.statwidget div.statgoal {
-  position:absolute;
-  right:4px;
-  font-size:0.75em;
-  color:#000;
-  padding:0 4px;
+  position:relative;
+  margin:auto;
+  text-align:center;
+  z-index:3;
+  font-size:0.6875em;
+  color:#FFF;
+  padding-bottom:1px;
 }

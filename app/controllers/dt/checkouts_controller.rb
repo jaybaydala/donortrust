@@ -21,6 +21,7 @@ class Dt::CheckoutsController < DtApplicationController
       format.html {
         if @cart.subscription?
           @valid = validate_order
+          @order.credit_card_payment = @cart.total
           @saved = @order.save if @valid
           session[:order_id] = @order.id if @saved
           redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[2]) and return 
@@ -66,6 +67,10 @@ class Dt::CheckoutsController < DtApplicationController
     before_billing if current_step == "billing"
     respond_to do |format|
       format.html {
+        if @cart.subscription? && CHECKOUT_STEPS.index(current_step) < 2
+          flash[:notice] = "You only need to enter your Payment Information for monthly giving."
+          redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])
+        end
         @current_nav_step = current_step
         render :action => current_step
       }

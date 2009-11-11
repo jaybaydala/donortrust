@@ -65,7 +65,7 @@ class TaxReceiptPDFProxy
     i0 = _pdf.image image_file(duplicate)
     x = 227
     font_size = 8
-    _pdf.add_text(x+14, 639, receipt.id_display, font_size)    
+    _pdf.add_text(x+18, 639, receipt.id_display, font_size)    
     if receipt.gift != nil
       _pdf.add_text(x, 625, number_to_currency(receipt.gift.amount), font_size)
       _pdf.add_text(x, 598, receipt.gift.created_at.to_s(), font_size)

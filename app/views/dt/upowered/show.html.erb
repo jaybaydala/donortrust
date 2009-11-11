@@ -7,15 +7,26 @@
 <%= RedCloth.new(sanitize(@page.content)).to_html %>
 <%- end -%>
 
-<p>
-  <strong>This will start a monthly $5 subscription:</strong>
-  <%= link_to "Give", dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
-</p>
-<%- if @cart && !@cart.empty? -%>
-<p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
-<%- end -%>
+<div class="statwidget clearfix">
+  <div class="stattitle">
+    <h2>Progress</h2>
+  </div>
+  <div class="statcontainer clearfix">
+    <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
+    <%= render :partial => "dt/statistic_widgets/statistic_widget", :collection => @progress_widgets %>
+  </div>
+</div>
 
-<%= render @statistic_widgets %>
+<div class="statwidget clearfix">
+  <div class="stattitle">
+    <h2>2010 UEnd Targets</h2>
+  </div>
+  <div class="statcontainer clearfix">
+    <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
+    <%= render @statistic_widgets %>
+  </div>
+</div>
+
 
 <% @staff = User.find_all_by_staff(true) %>
 <% if @staff.length > 0 %>
@@ -28,35 +39,68 @@
 <%= render :partial => "dt/pages/wall", :locals => { :postable => @page } if @page %>
 
 <%- content_for :sidebar do -%>
-
+  
   <div style="background:#DDD;border:1px solid #999;padding:1em 0.5em;margin-bottom:1em;text-align:center;color:#000;">
     <%= link_to "Join the movement", dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
   </div>
-
+  <%- if @cart && !@cart.empty? -%>
+  <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
+  <%- end -%>
+  
   <p>
     <a class="addthis_button" href="http://addthis.com/bookmark.php?v=250&amp;pub=xa-4af1a69520cb1c35"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
     <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4af1a69520cb1c35"></script>
   </p>
-
+  
   <p>
     <%= link_to image_tag("dt/feed_icon.gif", :alt => "", :style => "vertical-align:middle;"), "http://www.uend.org/blog/feed/" %>
     Get Updates
   </p>
   
-  <p>
-    <%= link_to "Follow on Twitter", "http://twitter.com/jaybaydala" %>
-  </p>
-
-  <p>
-    <%= link_to "Join our Facebook Page", "http://www.facebook.com/pages/uend-Foundation/239989860463" %>
-  </p>
+  <div style="margin-bottom:1em">
+    <script type="text/javascript" src="http://widgets.twimg.com/j/2/widget.js"></script>
+    <script type="text/javascript">
+    new TWTR.Widget({
+      version: 2,
+      type: 'profile',
+      rpp: 2,
+      interval: 6000,
+      width: 'auto',
+      height: 300,
+      theme: {
+        shell: {
+          background: '#706f73',
+          color: '#111111'
+        },
+        tweets: {
+          background: '#FFFFFF',
+          color: '#111111',
+          links: '#ed3329'
+        }
+      },
+      features: {
+        scrollbar: false,
+        loop: false,
+        live: false,
+        hashtags: true,
+        timestamp: true,
+        avatars: false,
+        behavior: 'all'
+      }
+    }).render().setUser('UEnd_org').start();
+    </script>
+  </div>
+  
+  <div style="margin-bottom:1em;">
+    <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script><script type="text/javascript">FB.init("fcce8cac158fe58c03ce07ca88c15d56");</script><fb:fan profile_id="239989860463" stream="0" connections="10" width="300"></fb:fan><div style="font-size:8px; padding-left:10px"><a href="http://www.uend.org/">uend: Foundation</a> on Facebook</div>
+  </div>
 
   <%- if @page_sidebar -%>
   <h2>Updates from UEnd:</h2>
   <%= RedCloth.new(sanitize(@page_sidebar.content)).to_html %>
   <%- end -%>
 
-  <p>
-    <%= link_to "Our Blog", "http://www.uend.org/blog/blog" %>
-  </p>
+  <div>
+    <%= link_to image_tag("dt/promos/blog-promo-sidebar.gif", :alt => "Read Our Blog"), "http://www.uend.org/blog/blog" %>
+  </div>
 <%- end -%>
