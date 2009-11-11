@@ -162,7 +162,17 @@ class DonortrustMailer < ActionMailer::Base
     content_type "text/html"
     body render_message('gift_remind.text.html.rhtml', body_data)
   end
-
+  
+  def upowered_email_subscription(email_subscription)
+    from "upowered@uend.org"
+    recipients email_subscription.email
+    subject 'U:Powered campaign updates'
+    sent_on Time.now
+    body[:unsubscribe_url] = unsubscribe_dt_upowered_email_subscribe_url(email_subscription.code, :host => HTTP_HOST)
+    body[:upowered_url] = dt_upowered_url(:host => HTTP_HOST)
+    body[:subscription] = email_subscription
+  end
+  
   def tax_receipt(receipt)
     content_type "text/plain"
     recipients  "\"#{receipt.first_name} #{receipt.last_name}\" <#{receipt.email}>"
@@ -194,18 +204,19 @@ TXT
     return false
   end
   protected
-  def user_setup_email(user)
-    @subject    = "Welcome to DonorTrust!"
-    recipients  user.full_name.empty? ? "#{user.email}" : "\"#{user.full_name}\" <#{user.email}>"
-    from        "The Uend: Team <info@uend.org>"
-    sent_on     Time.now
-  end
+    def user_setup_email(user)
+      @subject    = "Welcome to DonorTrust!"
+      recipients  user.full_name.empty? ? "#{user.email}" : "\"#{user.full_name}\" <#{user.email}>"
+      from        "The Uend: Team <info@uend.org>"
+      sent_on     Time.now
+    end
 
-  def gift_setup_email(gift)
-    content_type "text/html"
-    recipients  gift.to_name? ? "\"#{gift.to_name}\" <#{gift.to_email}>" : "#{gift.to_email}"
-    # from        (gift.name? ? "#{gift.name} " : "") << "<info@uend.org>"
-    from        "\"Uend: Team on behalf of " << (gift.name? ? "#{gift.name} " : "") << "\" <#{gift.email}>"
-    sent_on     Time.now
-  end
+    def gift_setup_email(gift)
+      content_type "text/html"
+      recipients  gift.to_name? ? "\"#{gift.to_name}\" <#{gift.to_email}>" : "#{gift.to_email}"
+      # from        (gift.name? ? "#{gift.name} " : "") << "<info@uend.org>"
+      from        "\"Uend: Team on behalf of " << (gift.name? ? "#{gift.name} " : "") << "\" <#{gift.email}>"
+      sent_on     Time.now
+    end
+  
 end

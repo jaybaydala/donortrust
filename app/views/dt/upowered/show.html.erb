@@ -53,11 +53,10 @@
   </p>
   
   <p>
-    <%= link_to image_tag("dt/feed_icon.gif", :alt => "", :style => "vertical-align:middle;"), "http://www.uend.org/blog/feed/" %>
-    Get Updates
+    <%= render :partial => "dt/upowered_email_subscribes/form" %>
   </p>
   
-  <div style="margin-bottom:1em">
+  <div style="margin:1em 0;">
     <script type="text/javascript" src="http://widgets.twimg.com/j/2/widget.js"></script>
     <script type="text/javascript">
     new TWTR.Widget({
@@ -95,6 +94,11 @@
     <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script><script type="text/javascript">FB.init("fcce8cac158fe58c03ce07ca88c15d56");</script><fb:fan profile_id="239989860463" stream="0" connections="10" width="300"></fb:fan><div style="font-size:8px; padding-left:10px"><a href="http://www.uend.org/">uend: Foundation</a> on Facebook</div>
   </div>
 
+  <p class="clearfix">
+    <%= link_to image_tag("dt/icons/email-icon.gif", :alt => "", :style => "float:left;padding-right:8px;"), "mailto:upowered@uend.org" %>
+    Share your questions and ideas
+  </p>
+  
   <%- if @page_sidebar -%>
   <h2>Updates from UEnd:</h2>
   <%= RedCloth.new(sanitize(@page_sidebar.content)).to_html %>

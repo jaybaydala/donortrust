@@ -1,0 +1,8 @@
+<%- @upowered_email_subscribe ||= UpoweredEmailSubscribe.new -%>
+<h2>Get updates</h2>
+<% form_for @upowered_email_subscribe, :url => dt_upowered_email_subscribes_path do |f| %>
+<div class="textsm clearfix">
+  <label for="">Email</label> <%= f.text_field :email %><br />
+  <%= submit_tag "Login", :class => "buttonsubmit" %>    
+</div>
+<%- end -%>

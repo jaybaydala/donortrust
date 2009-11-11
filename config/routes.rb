@@ -3,6 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.namespace(:dt) do |dt|
     dt.resource :upowered, :controller => "upowered"
+    dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
     dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart'
@@ -215,7 +216,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bus_secure_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_secure_actions"
   map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
   map.resources :users, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/users"
-  map.resources :statistic_widgets, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/statistic_widgets"
   map.resources :roles, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/roles"
   map.resources :administrations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/administrations"
   map.resources :collaborations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborations"
@@ -229,6 +229,11 @@ ActionController::Routing::Routes.draw do |map|
                 :controller => 'bus_admin/projects',
                 :active_scaffold => true,
                 :collection => { :pending_projects => :get}
+
+  map.resource :upowered, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/upowered", :member => { :report => :post, :send_email => :post }
+  map.resources :statistic_widgets, :active_scaffold => true, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/statistic_widgets"
+  map.resources :pages, :controller => "bus_admin/pages", :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
+
 
   # The priority is based upon order of creation: first created -> highest priority.
 
@@ -288,8 +293,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.populate_place_sector_places '/bus_admin/projects/populate_place_sector_places', :controller => 'bus_admin/place_sectors', :action => 'populate_place_sector_places'
 
-  map.resources :pages, :controller => "bus_admin/pages",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses",
     :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
   map.resources :frequency_types, :controller => "bus_admin/frequency_types",

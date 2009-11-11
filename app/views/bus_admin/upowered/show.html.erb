@@ -1,0 +1,9 @@
+<h1>UPowered Management</h1>
+<p>
+  <%= link_to "View/Change Statistic Widgets", bus_admin_statistic_widgets_path %>
+</p>
+
+<p>
+  <%= link_to "Send Update Email", send_email_bus_admin_upowered_path, :method => :post, :confirm => "Are you sure you want to send the update email?" %>
+  (<%= UpoweredEmailSubscribe.count %> current subscribers)
+</p>
