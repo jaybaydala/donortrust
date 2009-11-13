@@ -1,6 +1,20 @@
+<%-
+title = team_user[:title]
+user = team_user[:user]
+-%>
 <div class="staff_team_user">
-	  <div class="team_user_picture"><%= link_to image_tag(team_user.picture.url(:thumb)), dt_staff_path %></div>
-	  <div class="team_user_name">
-	    <%= link_to "#{team_user.first_name}<br />#{team_user.last_name}", dt_staff_path %>
+    <%- if user.blank? -%>
+	    <div class="team_user_picture"><%= link_to image_tag("/images/dt/icons/users/thumb/tbd.png"), dt_staff_path %></div>
+  	  <div class="team_user_name">
+  	    <%= link_to "TBD", dt_staff_path %>
+  	  </div>
+    <%- else -%>
+  	  <div class="team_user_picture"><%= link_to image_tag(user.picture.url(:thumb)), dt_staff_path %></div>
+  	  <div class="team_user_name">
+  	    <%= link_to "#{user.first_name}<br />#{user.last_name}", dt_staff_path %>
+  	  </div>
+	  <%- end -%>
+	  <div class="team_user_title">
+	   <%= title %>
 	  </div>
 </div>

@@ -1,21 +1,34 @@
-<div id="staff-<%= user.id %>" class="staff_user">
+<%-
+title = user[:title]
+staff_user = user[:user]
+-%>
+<div class="staff_user">
   <b class="rtop">
     <b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"</b>
   </b>
   <div class="staff_user_content clearfix">
-    <div class="user_details">
-      <div class="user_name"><%= user.name %></div>
-      <div class="user_title"><%= user.title %></div>
-      <div class="user_bio"><%= RedCloth.new(sanitize(user.bio)).to_html if user.bio %></div>
-      <%- if user.twitter -%>
-      <div class="user_twitter">Twitter: <a href="<%= user.twitter %>"><%= user.twitter %></a></div>
-      <%- end -%>
-      <%- if user.facebook -%>
-      <div class="user_facebook">Facebook: <a href="<%= user.facebook %>"><%= user.facebook %></a></div>
-      <%- end -%>
-
-    </div>
-    <div class="user_picture_normal"><%= image_tag(user.picture.url(:normal)) if user.picture %></div>
+    <%- if staff_user.blank? -%>
+      <div class="user_details">
+    	  <div class="user_name">TBD</div>
+    	  <div class="user_title">
+    	   <%= title %>
+    	  </div>
+    	</div>
+	    <div class="user_picture_normal"><%= image_tag("/images/dt/icons/users/normal/tbd.png") %></div>
+    <%- else -%>
+      <div class="user_details">
+        <div class="user_name"><%= staff_user.name %></div>
+        <div class="user_title"><%= staff_user.title %></div>
+        <div class="user_bio"><%= RedCloth.new(sanitize(staff_user.bio)).to_html if staff_user.bio %></div>
+        <%- if staff_user.twitter -%>
+          <div class="user_twitter">Twitter: <a href="<%= staff_user.twitter %>"><%= staff_user.twitter %></a></div>
+        <%- end -%>
+        <%- if staff_user.facebook -%>
+          <div class="user_facebook">Facebook: <a href="<%= staff_user.facebook %>"><%= staff_user.facebook %></a></div>
+        <%- end -%>
+      </div>
+      <div class="user_picture_normal"><%= image_tag(staff_user.picture.url(:normal)) if staff_user.picture %></div>
+    <%- end -%>
   </div>
   <b class="rbottom">
   <b class="r4"></b> <b class="r3"></b> <b class="r2"></b> <b class="r1"></b>

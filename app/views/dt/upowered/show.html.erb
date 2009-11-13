@@ -29,14 +29,21 @@
 
 
 <% if !@staff.nil? && @staff.length > 0 %>
-<div id="staff_users" class="clearfix">
-<h2>The UEnd Team</h2>
-<%= render :partial => "dt/staff/team_user", :collection => @staff %>
+<div class="statwidget clearfix">
+  <div class="stattitle">
+    <h2>The UEnd Team</h2>    
+  </div>
+  <div class="statcontainer clearfix">
+    <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
+    <div id="staff_users" class="clearfix">
+      <%= render :partial => "dt/staff/team_user", :collection => @staff %>
+    </div>
+  </div>
 </div>
 <%- end -%>
 
 
-<% if !@subscriptions.nil? && @subscriptions.length > 0 %>
+<%- if !@mosaic_users.blank? -%>
 <div class="statwidget clearfix">
   <div class="stattitle">
     <h2>Subscribers</h2>
@@ -44,7 +51,7 @@
   <div class="statcontainer clearfix">
     <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
     <div id="subscription_users">
-      <%= render :partial => "dt/upowered/subscription_user", :collection => @subscriptions %>
+      <%= render :partial => "dt/upowered/subscription_user", :collection => @mosaic_users %>
     </div>
   </div>
 </div>
@@ -82,7 +89,7 @@
       height: 300,
       theme: {
         shell: {
-          background: '#706f73',
+          background: '#DDDDDD',
           color: '#111111'
         },
         tweets: {
