@@ -47,3 +47,12 @@ div.statwidget div.statgoal {
   color:#FFF;
   padding-bottom:1px;
 }
+div#subscription_users{
+	padding:8px 8px 8px 8px;
+}
+div.subscription_user {
+	width:24px;
+	height:24px;
+	padding:2px;
+	float:left;
+}

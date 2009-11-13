@@ -28,11 +28,25 @@
 </div>
 
 
-<% @staff = User.find_all_by_staff(true) %>
-<% if @staff.length > 0 %>
+<% if !@staff.nil? && @staff.length > 0 %>
 <div id="staff_users" class="clearfix">
 <h2>The UEnd Team</h2>
 <%= render :partial => "dt/staff/team_user", :collection => @staff %>
+</div>
+<%- end -%>
+
+
+<% if !@subscriptions.nil? && @subscriptions.length > 0 %>
+<div class="statwidget clearfix">
+  <div class="stattitle">
+    <h2>Subscribers</h2>
+  </div>
+  <div class="statcontainer clearfix">
+    <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
+    <div id="subscription_users">
+      <%= render :partial => "dt/upowered/subscription_user", :collection => @subscriptions %>
+    </div>
+  </div>
 </div>
 <%- end -%>
 
