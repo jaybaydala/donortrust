@@ -8,6 +8,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   # belongs_to :project
   has_many :line_items, :class_name => "SubscriptionLineItem"
+  has_many :orders
   before_create :create_customer
   before_update :update_customer
   before_destroy :delete_customer

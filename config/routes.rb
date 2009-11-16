@@ -231,6 +231,7 @@ ActionController::Routing::Routes.draw do |map|
                 :collection => { :pending_projects => :get}
 
   map.resource :upowered, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/upowered", :member => { :report => :post, :send_email => :post }
+  map.resources :subscriptions, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/subscriptions"
   map.resources :statistic_widgets, :active_scaffold => true, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/statistic_widgets"
   map.resources :pages, :controller => "bus_admin/pages", :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
 

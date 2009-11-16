@@ -12,6 +12,7 @@ class Order < ActiveRecord::Base
   
   has_one :tax_receipt
   belongs_to :user
+  belongs_to :subscription
   validates_uniqueness_of :order_number
   before_create :generate_order_number
   
