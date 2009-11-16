@@ -4,7 +4,7 @@
 	  <span class="small_text">
 	    wrote <br /> on:
 	    <%= wall_post.created_at %> 
-	    <%= (' | ' + delete_icon(url_for([:dt, wall_post.postable, wall_post]))) if wall_post.owned? %>
+	    <%= (' | ' + delete_icon(url_for([:dt, wall_post.postable, wall_post]))) if wall_post.owned?(current_user) %>
 	  </span>
 	</h2>
 	<p>
