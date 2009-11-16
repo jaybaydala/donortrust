@@ -83,15 +83,15 @@ describe ActiveMerchant::Billing::IatsReoccuringGateway do
     before do
       @gateway.stub(:ssl_post).and_return(File.read(File.join(fixture_path, "iats", "iats_create_response.html")))
       response = @gateway.create_customer(@amount, @credit_card, @options)
-      @options[:customer_code] = response.params["customer_code"]
+      @customer_code = response.params["customer_code"]
       @gateway.stub(:ssl_post).and_return(File.read(File.join(fixture_path, "iats", "iats_purchase_response.html")))
     end
     it "should return a Response" do
-      response = @gateway.purchase_with_customer_code(@amount, @options[:customer_code], @options)
+      response = @gateway.purchase_with_customer_code(@amount, @customer_code, @options)
       response.class.should == ActiveMerchant::Billing::Response
     end
     it "should be successful" do
-      response = @gateway.purchase_with_customer_code(@amount, @options[:customer_code], @options)
+      response = @gateway.purchase_with_customer_code(@amount, @customer_code, @options)
       response.success?.should == true
       response.authorization.should_not be_blank
     end
