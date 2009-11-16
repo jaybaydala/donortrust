@@ -4,8 +4,8 @@ class WallPost < ActiveRecord::Base
 
   validates_length_of :wall_text, :within => 1...250
 
-  def owned?
-    self.author == current_user
+  def owned?(current_user)
+    self.author.id == current_user.id
   end
 
 end
