@@ -79,7 +79,7 @@ module ActiveMerchant #:nodoc:
       
       def update_customer(money, customer_code, credit_card, options = {})
         post = {}
-        add_customer_code(post, options)
+        add_customer_code(post, customer_code)
         add_amount(post, money, credit_card)
         add_invoice(post, options)
         add_credit_card(post, credit_card) if credit_card
@@ -94,13 +94,13 @@ module ActiveMerchant #:nodoc:
       
       def delete_customer(customer_code, options = {})
         post = {}
-        add_customer_code(post, options)
+        add_customer_code(post, customer_code)
         commit('delete', post)
       end
       
       def purchase_with_customer_code(money, customer_code, options = {})
         post = {}
-        add_customer_code(post, options)
+        add_customer_code(post, customer_code)
         add_total(post, money)
         add_invoice(post, options)
         commit('process', post)
@@ -130,8 +130,8 @@ module ActiveMerchant #:nodoc:
           end
         end
           
-        def add_customer_code(post, options)
-          post[:CustCode]  = options[:customer_code]
+        def add_customer_code(post, customer_code)
+          post[:CustCode]  = customer_code
         end
           
         def add_customer_data(post, options)
@@ -140,7 +140,7 @@ module ActiveMerchant #:nodoc:
         def add_subscription_data(post, options)
           post[:reoccurringStatus] = options[:reoccurring_status] ? "ON" : "OFF" # ON, OFF 
           post[:beginDate]         = options[:begin_date].strftime("%Y-%m-%d") # YYYY-MM-DD 
-          post[:endDate]           = options[:end_date].strftime("%Y-%m-%d") # YYYY-MM-DD 
+          post[:endDate]           = options[:end_date] ? options[:end_date].strftime("%Y-%m-%d") : "" # YYYY-MM-DD
           post[:scheduleType]      = options[:schedule_type] # MONTHLY, WEEKLY
           post[:scheduleDate]      = options[:schedule_date] # (monthly:1-31; Weekly:1-7). 
         end
