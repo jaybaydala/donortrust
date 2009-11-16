@@ -27,6 +27,7 @@ class Subscription < ActiveRecord::Base
 
   def self.create_from_cart_and_order(cart, order)
     subscription = self.new
+    subscription.user = order.user
     subscription.donor_type = order.donor_type
     subscription.title = order.title
     subscription.first_name = order.first_name
@@ -92,10 +93,35 @@ class Subscription < ActiveRecord::Base
     }
   end
 
+  def prepare_order
+    order = Order.new
+    order.user = self.user
+    order.donor_type = self.donor_type
+    order.title = self.title
+    order.first_name = self.first_name
+    order.last_name = self.last_name
+    order.company = self.company
+    order.address = self.address
+    order.address2 = self.address2
+    order.city = self.city
+    order.country = self.country
+    order.province = self.province
+    order.postal_code = self.postal_code
+    order.email = self.email
+
+    order.total = self.amount
+    order.credit_card_payment = order.total
+    order.tax_receipt_requested = self.tax_receipt_requested
+    order.subscription = self
+    order.save
+    order
+  end
+
   def process_payment
+    order = prepare_order
     purchase_options = { :invoice_id => order.id }
     logger.debug("purchase_options: #{purchase_options.inspect}")
-    response = gateway.purchase_with_customer_code(self.amount, self.customer_code, purchase_options)
+    response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
     if response.success?
       order.update_attributes({:authorization_result => response.authorization})
       order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
@@ -104,6 +130,7 @@ class Subscription < ActiveRecord::Base
         item.order_id = order.id
         item.save!
       end
+      order.update_attributes(:complete => true)
     else
       raise ActiveMerchant::Billing::Error.new(response.message)
     end
@@ -171,7 +198,7 @@ class Subscription < ActiveRecord::Base
     end
 
     def delete_customer
-      response = gateway.update_customer(self.customer_code)
+      response = gateway.delete_customer(self.customer_code)
       if !response.success?
         raise ActiveMerchant::Billing::Error.new(response.message)
       end
