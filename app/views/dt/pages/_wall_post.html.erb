@@ -1,0 +1,13 @@
+<div id="wall_post_<%= wall_post.id %>" class="wall_post">
+	<h2>
+	  <%= wall_post.author.full_name %>
+	  <span class="small_text">
+	    wrote <br /> on:
+	    <%= wall_post.created_at %> 
+	    <%= (' | ' + delete_icon(url_for([:dt, wall_post.postable, wall_post]))) if wall_post.owned? %>
+	  </span>
+	</h2>
+	<p>
+		<%= wall_post.wall_text %>
+	</p>
+</div>
