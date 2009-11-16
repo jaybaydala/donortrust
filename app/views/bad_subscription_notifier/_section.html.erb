@@ -1,0 +1,16 @@
+<% if show_attributes -%>
+[attributes]
+<% attrs = section.attributes -%>
+<% max = attrs.keys.max { |a,b| a.length <=> b.length } -%>
+<% attrs.keys.sort.each do |attr| -%>
+* <%= "%-*s: %s" % [max.length, attr, attrs[attr].to_yaml.sub(/^---\s*/m, "").gsub(/\n/, "\n  ").strip] %>
+<% end -%>
+<% end -%>
+
+<% if show_instance_variables -%>
+[instance variables]
+<% section.instance_variables.sort.each do |variable| -%>
+<%- next if variable == "@attributes" -%>
+* <%= variable %>: <%= section.instance_variable_get(variable).inspect %>
+<%- end -%>
+<% end -%>

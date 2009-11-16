@@ -1,0 +1,6 @@
+A <%= @exception.class %> occurred in :
+
+  <%= @exception.message %>
+  <%= @backtrace.first %>
+
+<%= @sections.map { |section| render(:partial => "section", :locals => {:section => section, :show_attributes => true, :show_instance_variables => true}) }.join %>
