@@ -27,7 +27,7 @@ div.statwidget div.statcontent {
   position:relative;
   padding:0;
   margin:8px 8px 0 8px;
-  background:#DDD;
+  background:#AAA;
   height:16px;
 }
 div.statwidget div.statprogress {
@@ -44,7 +44,7 @@ div.statwidget div.statgoal {
   text-align:center;
   z-index:3;
   font-size:0.6875em;
-  color:#000;
+  color:#FFF;
   padding-bottom:1px;
 }
 div#subscription_users{
