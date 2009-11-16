@@ -9,7 +9,7 @@
 
 <div class="statwidget clearfix">
   <div class="stattitle">
-    <h2>Progress</h2>
+    <h2>U:Powered Progress</h2>
   </div>
   <div class="statcontainer clearfix">
     <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
@@ -19,7 +19,7 @@
 
 <div class="statwidget clearfix">
   <div class="stattitle">
-    <h2>2010 UEnd Targets</h2>
+    <h2>2010 Targets</h2>
   </div>
   <div class="statcontainer clearfix">
     <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
@@ -69,12 +69,17 @@
   <%- end -%>
   
   <p>
-    <a class="addthis_button" href="http://addthis.com/bookmark.php?v=250&amp;pub=xa-4af1a69520cb1c35"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
+    <%= link_to image_tag("dt/buttons/lg-share-en.gif", :alt => "Bookmark and Share"), "http://addthis.com/bookmark.php?v=250&amp;pub=xa-4af1a69520cb1c35", :class=>'addthis_button' %>
     <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4af1a69520cb1c35"></script>
   </p>
   
   <p>
     <%= render :partial => "dt/upowered_email_subscribes/form" %>
+  </p>
+
+  <p class="clearfix" style="margin:1em 0;">
+    <%= link_to image_tag("dt/icons/email-icon.gif", :alt => "", :style => "float:left;padding-right:8px;"), "mailto:upowered@uend.org" %>
+    Share your questions and ideas
   </p>
   
   <%= render :partial => 'twitter' %>
@@ -84,11 +89,6 @@
     <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script><script type="text/javascript">FB.init("fcce8cac158fe58c03ce07ca88c15d56");</script><fb:fan profile_id="239989860463" stream="0" connections="10" width="300"></fb:fan><div style="font-size:8px; padding-left:10px"><a href="http://www.uend.org/">uend: Foundation</a> on Facebook</div>
     -->
   </div>
-
-  <p class="clearfix">
-    <%= link_to image_tag("dt/icons/email-icon.gif", :alt => "", :style => "float:left;padding-right:8px;"), "mailto:upowered@uend.org" %>
-    Share your questions and ideas
-  </p>
   
   <%- if @page_sidebar -%>
   <h2>Updates from UEnd:</h2>

@@ -48,7 +48,7 @@
 .r4{margin: 0 1px; height: 2px}
 
 #staff_users {
-	padding: 2px; 
+	padding: 0 24px; 
 }
 
 #staff_users h2{
@@ -56,11 +56,11 @@
 }
 
 .staff_team_user {
-	width:100px;
+	width:95px;
 	float:left;
 	text-align:center;
 	font-size:0.75em;
-	padding:8px 4px 8px 4px;
+	padding:8px 2px 8px 2px;
 }
 
 .staff_team_user a {

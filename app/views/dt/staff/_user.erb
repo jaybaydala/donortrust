@@ -21,7 +21,16 @@ staff_user = user[:user]
         <div class="user_title"><%= staff_user.title %></div>
         <div class="user_bio"><%= RedCloth.new(sanitize(staff_user.bio)).to_html if staff_user.bio %></div>
         <%- if staff_user.twitter -%>
-          <div class="user_twitter">Twitter: <a href="<%= staff_user.twitter %>"><%= staff_user.twitter %></a></div>
+          <div class="user_twitter">Twitter: 
+          <%= 
+            if staff_user.twitter.slice(0,4) == 'http'
+              twitter_link = staff_user.twitter
+            else
+              twitter_link = "http://twitter.com/#{staff_user.twitter.gsub(/^@/, '')}"
+            end
+            link_to(twitter_link, twitter_link)
+          %>
+          </a></div>
         <%- end -%>
         <%- if staff_user.facebook -%>
           <div class="user_facebook">Facebook: <a href="<%= staff_user.facebook %>"><%= staff_user.facebook %></a></div>
