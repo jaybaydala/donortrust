@@ -33,6 +33,30 @@ class Order < ActiveRecord::Base
     "**** **** **** #{card_number.to_s.rjust(4, " ")[-4, 4].strip}"
   end
   
+  # for member signup
+  attr_accessor :password, :password_confirmation, :terms_of_use
+  def create_user_from_order
+    if self.password && !self.user
+      user = build_user_from_order
+      user.save
+      user
+    end
+  end
+  def build_user_from_order
+    user = User.new
+    user.login = self.email
+    user.display_name = "#{self.first_name} #{self.last_name[0, 1]}"
+    user.address = self.address
+    user.city = self.city
+    user.province = self.province
+    user.postal_code = self.postal_code
+    user.country = self.country
+    user.password = self.password
+    user.password_confirmation = self.password_confirmation
+    user.terms_of_use = self.terms_of_use
+    user
+  end
+  
   # card number temporarily held in tmp_card_number
   attr_accessor :full_card_number
   def card_number=(number)
@@ -81,15 +105,24 @@ class Order < ActiveRecord::Base
     "#{expiry_month.to_s.rjust(2, "0")}/#{expiry_year}"
   end
   
-  def validate_billing(cart_items)
-    if tax_receipt_needed?
-      
+  def validate_billing(cart)
+    cart_items = cart.items
+    if cart.subscription? || tax_receipt_needed?
+      unless self.user
+        user = build_user_from_order
+        user.errors.full_messages.each{|msg| self.errors.add_to_base(msg) } unless user.valid?
+      end
       required_fields = %w(donor_type address city postal_code province country email)
-      if self.donor_type? && self.donor_type == self.class.corporate_donor
-        required_fields << "company"
-      else
+      if cart.subscription?
         required_fields << "first_name"
         required_fields << "last_name"
+      else
+        if self.donor_type? && self.donor_type == self.class.corporate_donor
+          required_fields << "company"
+        else
+          required_fields << "first_name"
+          required_fields << "last_name"
+        end
       end
       errors.add_on_blank(required_fields)
     end
@@ -116,7 +149,8 @@ class Order < ActiveRecord::Base
   def pledge_account_balance=(val)
     @pledge_account_balance = BigDecimal.new(val.to_s)
   end
-  def validate_payment(cart_items)
+  def validate_payment(cart)
+    cart_items = cart.items
     errors.add(:account_balance_payment, "cannot be more than your current account balance") if @account_balance && @account_balance > 0 && account_balance_payment? && account_balance_payment > @account_balance
     errors.add(:gift_card_payment, "cannot be more than your current gift card balance") if @gift_card_balance && @gift_card_balance > 0 && gift_card_payment? && gift_card_payment > @gift_card_balance
     errors.add(:pledge_account_payment, "cannot be more than your current pledge account balance") if @pledge_account_balance && @pledge_account_balance > 0 && pledge_account_payment? && pledge_account_payment > @pledge_account_balance
@@ -141,10 +175,10 @@ class Order < ActiveRecord::Base
     @minimum_credit_payment
   end
   
-  def validate_confirmation(cart_items)
+  def validate_confirmation(cart)
     # run through everything just to make sure...
-    validate_payment(cart_items)
-    validate_billing(cart_items)
+    validate_payment(cart)
+    validate_billing(cart)
     errors.empty?
   end
   
@@ -249,7 +283,7 @@ class Order < ActiveRecord::Base
   end
   
   def tax_receipt_needed?
-    self.credit_card_payment?
+    self.tax_receipt_requested? && self.credit_card_payment?
   end
   
   def generate_order_number

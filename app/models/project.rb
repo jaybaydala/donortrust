@@ -39,7 +39,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :causes
 
   has_and_belongs_to_many :campaigns
-
+  
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
 
   # ultrasphinx indexer configuration
@@ -477,6 +477,10 @@ class Project < ActiveRecord::Base
 
   def self.total_money_raised
     Project.find(:all).inject(0) { |sum, p| p.dollars_raised.nil? ? sum : sum + p.dollars_raised }.to_f
+  end
+
+  def self.fully_funded(conditions = nil)
+    all(:conditions => conditions, :include => :investments).select{|project| project.current_need <= 0 }
   end
 
   def self.total_costs

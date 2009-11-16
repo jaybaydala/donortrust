@@ -68,8 +68,8 @@ class Dt::CheckoutsController < DtApplicationController
     respond_to do |format|
       format.html {
         if @cart.subscription? && CHECKOUT_STEPS.index(current_step) < 2
-          flash[:notice] = "You only need to enter your Payment Information for monthly giving."
-          redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[0])
+          flash[:notice] = "You only need to enter your Billing Information for monthly giving."
+          redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[2]) and return
         end
         @current_nav_step = current_step
         render :action => current_step
@@ -183,11 +183,11 @@ class Dt::CheckoutsController < DtApplicationController
         # no model validation to happen here
         @valid = true
       when "payment"
-        @valid = @order.validate_payment(@cart.items)
+        @valid = @order.validate_payment(@cart)
       when "billing"
-        @valid = @order.validate_billing(@cart.items)
+        @valid = @order.validate_billing(@cart)
       when "confirm"
-        @valid = @order.validate_confirmation(@cart.items)
+        @valid = @order.validate_confirmation(@cart)
     end
     @valid
   end
@@ -236,31 +236,16 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def do_billing
-    # check if they want an account
-    if params[:create_account]
-      @user = User.new do |u|
-        u.login = params[:order][:email]
-        u.first_name = params[:order][:first_name]
-        u.last_name = params[:order][:last_name]
-        u.display_name = params[:order][:company]
-        u.address = params[:order][:address]
-        u.city = params[:order][:city]
-        u.province = params[:order][:province]
-        u.postal_code = params[:order][:postal_code]
-        u.country = params[:order][:country]
-        u.password = params[:password]
-        u.password_confirmation = params[:password_confirmation]
-        u.terms_of_use = params[:terms_of_use]
+    if @cart.subscription? && !logged_in?
+      user = @order.create_user_from_order
+      if user
+        @order.user = user
+        self.current_user = user
+        flash[:notice] = "Your user has been created and you are now logged in"
       end
-      @valid = @user.valid?
-      if @valid && @user.valid?
-        flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address. This order will automatically be associated with your new account - you can finish the account activation process after checking out.'
-        # create the account
-        @user.save
-        # and add the new user_id to the @order
-        @order.user = @user
-      end
-    elsif !logged_in?
+    end
+      
+    if !logged_in?
       flash.now[:notice] = "A user with your email address (#{@order.email}) already exists. To have this order associated with your account, login below and continue your checkout." if User.find_by_login(@order.email)
     end
   end

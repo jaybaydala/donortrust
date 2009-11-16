@@ -52,6 +52,9 @@ class Subscription < ActiveRecord::Base
     subscription.end_date = Date.today + 10.years
     subscription.schedule_type = "MONTHLY"
     subscription.schedule_date = Date.today.day
+    
+    subscription.tax_receipt_requested = order.tax_receipt_requested
+    
     subscription.save!
 
     cart.items.each do |cart_line_item|

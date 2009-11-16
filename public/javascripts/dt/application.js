@@ -59,6 +59,9 @@ Ajax.Responders.register({
 
 var DonorType = {
 	change: function() {
+	  if ($('order_donor_type_personal').hasClassName("subscription")) {
+	    return;
+	  }
 		if ($('order_donor_type_personal').checked) {
 			DonorType.personal();
 		} else {
