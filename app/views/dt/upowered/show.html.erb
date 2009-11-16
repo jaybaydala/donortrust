@@ -77,42 +77,12 @@
     <%= render :partial => "dt/upowered_email_subscribes/form" %>
   </p>
   
-  <div style="margin:1em 0;">
-    <script type="text/javascript" src="http://widgets.twimg.com/j/2/widget.js"></script>
-    <script type="text/javascript">
-    new TWTR.Widget({
-      version: 2,
-      type: 'profile',
-      rpp: 2,
-      interval: 6000,
-      width: 'auto',
-      height: 300,
-      theme: {
-        shell: {
-          background: '#DDDDDD',
-          color: '#111111'
-        },
-        tweets: {
-          background: '#FFFFFF',
-          color: '#111111',
-          links: '#ed3329'
-        }
-      },
-      features: {
-        scrollbar: false,
-        loop: false,
-        live: false,
-        hashtags: true,
-        timestamp: true,
-        avatars: false,
-        behavior: 'all'
-      }
-    }).render().setUser('UEnd_org').start();
-    </script>
-  </div>
+  <%= render :partial => 'twitter' %>
   
   <div style="margin-bottom:1em;">
+    <!--
     <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script><script type="text/javascript">FB.init("fcce8cac158fe58c03ce07ca88c15d56");</script><fb:fan profile_id="239989860463" stream="0" connections="10" width="300"></fb:fan><div style="font-size:8px; padding-left:10px"><a href="http://www.uend.org/">uend: Foundation</a> on Facebook</div>
+    -->
   </div>
 
   <p class="clearfix">

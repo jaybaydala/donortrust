@@ -1,0 +1,33 @@
+  <div style="margin:1em 0;">
+    <script type="text/javascript" src="http://widgets.twimg.com/j/2/widget.js"></script>
+    <script type="text/javascript">
+    new TWTR.Widget({
+      version: 2,
+      type: 'profile',
+      rpp: 2,
+      interval: 6000,
+      width: 'auto',
+      height: 300,
+      theme: {
+        shell: {
+          background: '#DDDDDD',
+          color: '#111111'
+        },
+        tweets: {
+          background: '#FFFFFF',
+          color: '#111111',
+          links: '#ed3329'
+        }
+      },
+      features: {
+        scrollbar: false,
+        loop: false,
+        live: false,
+        hashtags: true,
+        timestamp: true,
+        avatars: false,
+        behavior: 'all'
+      }
+    }).render().setUser('UEnd_org').start();
+    </script>
+  </div>
