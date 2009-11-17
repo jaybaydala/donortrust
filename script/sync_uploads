@@ -17,7 +17,7 @@ servers = config.find_servers(:roles => :web)
 
 i_am = `whoami`.strip
 
-%w(uploaded_pictures).each do |folder|
+%w(uploaded_pictures pictures).each do |folder|
   dest = File.join(shared_path, "system")
   src = File.join(dest, folder)
   dest = File.join(dest, "")
