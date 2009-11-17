@@ -56,3 +56,22 @@ div.subscription_user {
 	padding:2px;
 	float:left;
 }
+#sidebar input#subscribe_button {
+	float:right;
+	margin:2px;
+}
+
+.sidebarbox {
+	background:#DDD;
+	border:1px solid #999;
+	padding:0;
+	margin-bottom:1em;
+}
+
+.sidebarbox p, .sidebarbox h2, .sidebarbox form {
+	padding:6px 8px 6px 8px;
+}
+
+#sidebar .sidebarbox input[type="text"] {
+	width:210px;
+}

@@ -1,4 +1,4 @@
-<%- content_for :html_title do -%>UEnd.org – the first completely U:Powered Non-Profit<%- end -%>
+<%- content_for :html_title do -%>The first fully U:Powered Non-Profit<%- end -%>
 <%- content_for :head do -%>
 <%= stylesheet_link_tag "upowered" %>
 <%- end -%>
@@ -19,7 +19,7 @@
 
 <div class="statwidget clearfix">
   <div class="stattitle">
-    <h2>2010 Targets</h2>
+    <h2><%= Time.now.year %> Targets</h2>
   </div>
   <div class="statcontainer clearfix">
     <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
@@ -61,17 +61,16 @@
 
 <%- content_for :sidebar do -%>
   
-  <div style="background:#DDD;border:1px solid #999;padding:1em 0.5em;margin-bottom:1em;text-align:center;color:#000;">
-    <%= link_to "Join the movement", dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
-  </div>
+  <div class="sidebarbox">
+    <div style="text-align:center;	padding:1em 0.5em 2em 0.5em;"><%= link_to "Join the movement", dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %></div>
   <%- if @cart && !@cart.empty? -%>
   <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
   <%- end -%>
   
-  <p>
+  <div>
     <%= link_to image_tag("dt/buttons/lg-share-en.gif", :alt => "Bookmark and Share"), "http://addthis.com/bookmark.php?v=250&amp;pub=xa-4af1a69520cb1c35", :class=>'addthis_button' %>
     <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4af1a69520cb1c35"></script>
-  </p>
+  </div>
   
   <p>
     <%= render :partial => "dt/upowered_email_subscribes/form" %>
@@ -81,19 +80,23 @@
     <%= link_to image_tag("dt/icons/email-icon.gif", :alt => "", :style => "float:left;padding-right:8px;"), "mailto:upowered@uend.org" %>
     <span style="font-weight:bold;font-size:100%;"><%= link_to "Share your questions and ideas", "mailto:upowered@uend.org" %></span>
   </p>
-  
-  <%= render :partial => 'twitter' %>
-  
-  <div style="margin-bottom:1em;">
-    <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script><script type="text/javascript">FB.init("fcce8cac158fe58c03ce07ca88c15d56");</script><fb:fan profile_id="239989860463" stream="0" connections="10" width="232" height="250"></fb:fan><div style="font-size:8px; padding:4px 0 4px 10px;border-bottom:1px solid #94A3C4;border-left:1px solid #94A3C4;border-right:1px solid #94A3C4;"><a href="http://www.uend.org/">uend: Foundation</a> on Facebook</div>
   </div>
   
+  
+  <div class="sidebarbox">
   <%- if @page_sidebar -%>
   <h2>Updates from UEnd:</h2>
   <%= RedCloth.new(sanitize(@page_sidebar.content)).to_html %>
   <%- end -%>
 
   <div>
-    <%= link_to image_tag("dt/promos/blog-promo-sidebar.gif", :alt => "Read Our Blog"), "http://www.uend.org/blog/blog" %>
+    <%= link_to image_tag("dt/promos/blog-promo-sidebar-grey.gif", :alt => "Read Our Blog"), "http://www.uend.org/blog/blog" %>
+  </div>
+  </div>
+  
+  <%= render :partial => 'twitter' %>
+  
+  <div style="margin-bottom:1em;">
+    <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script><script type="text/javascript">FB.init("fcce8cac158fe58c03ce07ca88c15d56");</script><fb:fan profile_id="239989860463" stream="0" connections="10" width="232" height="250"></fb:fan><div style="font-size:8px; padding:4px 0 4px 10px;border-bottom:1px solid #94A3C4;border-left:1px solid #94A3C4;border-right:1px solid #94A3C4;"><a href="http://www.uend.org/">uend: Foundation</a> on Facebook</div>
   </div>
 <%- end -%>

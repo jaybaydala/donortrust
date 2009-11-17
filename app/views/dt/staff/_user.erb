@@ -28,12 +28,12 @@ staff_user = user[:user]
             else
               twitter_link = "http://twitter.com/#{staff_user.twitter.gsub(/^@/, '')}"
             end
-            link_to(twitter_link, twitter_link)
+            link_to(twitter_link, twitter_link, :target => "_blank")
           %>
           </a></div>
         <%- end -%>
         <%- if staff_user.facebook -%>
-          <div class="user_facebook">Facebook: <a href="<%= staff_user.facebook %>"><%= staff_user.facebook %></a></div>
+          <div class="user_facebook">Facebook: <%= link_to( staff_user.facebook, staff_user.facebook, :target => "_blank") %></div>
         <%- end -%>
       </div>
       <div class="user_picture_normal"><%= image_tag(staff_user.picture.url(:normal)) if staff_user.picture %></div>
