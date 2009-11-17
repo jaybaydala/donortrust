@@ -18,13 +18,13 @@
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
     <fieldset>
       <legend>Billing and Tax Receipt Information</legend>
-      <div class="notes clearfix">
-        <h5>Billing and Receipt Information</h5>
-        <p>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.</p>
-      </div>
       <ol>
         <li>
           <fieldset>
+            <div class="notes clearfix" style="width:380px;">
+              <h5>Tax Receipts</h5>
+              <p>If you don&#x27;t require a tax-receipt for your donation it will significantly help our organization - it lessens our restrictions according to Revenue Canada and lets us build the organization. If you would like a tax-receipt we are very happy to provide it. You choose. Thanks for thinking about it!</p>
+            </div>
             <legend>Tax Receipt Requested</legend>
             <ol>
               <li>
@@ -37,13 +37,19 @@
         <li>
           <fieldset>
             <legend>What kind of donor are you?</legend>
+            <div class="notes">
+              <h5>Billing and Receipt Information</h5>
+              <p>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.</p>
+            </div>
             <ol>
               <li><label for="order_donor_type_personal"><%= f.radio_button :donor_type, "personal", :class => "#{"subscription" if @cart.subscription?}" %> Personal</label></li>
               <li><label for="order_donor_type_corporate"><%= f.radio_button :donor_type, "corporate", :class => "#{"subscription" if @cart.subscription?}" %> Corporate</label></li>
             </ol>
           </fieldset>
         </li>
-        <li class="personal"><label for="order_title">Title</label> <%= f.select :title, titles.unshift("") %></li>
+        <li class="personal">
+          <label for="order_title">Title</label> <%= f.select :title, titles.unshift("") %>
+        </li>
         <li class="personal"><label for="order_first_name"><%= form_required if @order.credit_card_payment? %>First Name</label> <%= f.text_field :first_name %></li>
         <li class="personal"><label for="order_last_name"><%= form_required if @order.credit_card_payment? %>Last Name</label> <%= f.text_field :last_name %></li>
         <li><label for="order_company"><span id="companyrequired"<% unless @order.donor_type == "company" %> style="display:none;"<% end %>><%= form_required %></span>Company</label> <%= f.text_field :company %></li>
@@ -59,7 +65,7 @@
     <%- if @cart.subscription? && !logged_in? -%>
   	<fieldset>
   	  <legend>Acccount Signup</legend>
-  	  <div class="textsm">In order to be able to manage your subscription, you need to sign up for an account or, if you already have a Uend account, please login from the sidebar.</div>
+  	  <div class="textsm">In order to be able to manage your monthly giving, you need to sign up for an account or, if you already have a UEnd: account, please login from the sidebar.</div>
       <ol>
         <li>
           <%= f.label :password, "#{form_required} Password" %>
