@@ -2,6 +2,7 @@
 title = team_user[:title]
 user = team_user[:user]
 -%>
+<%- cache (user.nil? ? "team_user-#{title}" : user.cache_key) do -%>
 <div class="staff_team_user">
     <%- if user.blank? -%>
 	    <div class="team_user_picture"><%= image_tag "/images/dt/icons/users/thumb/tbd.png", :alt=>"" %></div>
@@ -16,3 +17,4 @@ user = team_user[:user]
 	   <%= title %>
 	  </div>
 </div>
+<%- end -%>

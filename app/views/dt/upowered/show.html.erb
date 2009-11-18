@@ -4,7 +4,9 @@
 <%- end -%>
 
 <%- if @page -%>
+<%- cache @page.cache_key do -%>
 <%= RedCloth.new(sanitize(@page.content)).to_html %>
+<%- end -%>
 <%- end -%>
 
 <div class="statwidget clearfix">
@@ -96,13 +98,14 @@
       <b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"</b>
     </b>
   <div class="sidebarbox">
+    <%- cache @rss_sidebar.entries.first.date_published do -%>
     <%- if @rss_sidebar && @rss_sidebar.entries.first -%>
       <h2>Updates from UEnd:</h2>
       <h3><%= @rss_sidebar.entries.first.title %></h3>
       <p class="dateStamp"><%= @rss_sidebar.entries.first.date_published.to_time.strftime("%b %d %Y %H:%I %p") %></p>
       <div><%= @rss_sidebar.entries.first.content %></div>
     <%- end -%>
-
+    <%- end -%>
     <div>
       <%= link_to image_tag("dt/promos/blog-promo-sidebar-grey.gif", :alt => "Read Our Blog"), "http://www.uend.org/blog/blog" %>
     </div>
