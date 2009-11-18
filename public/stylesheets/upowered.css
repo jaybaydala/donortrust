@@ -63,13 +63,15 @@ div.subscription_user {
 
 .sidebarbox {
 	background:#DDD;
-	border:1px solid #999;
-	padding:0;
-	margin-bottom:1em;
+	border-left:1px solid #999;
+	border-right:1px solid #999;
+	padding:0 0 1em 0;
+	margin:0em;
 }
 
 .sidebarbox p, .sidebarbox h2, .sidebarbox h3, .sidebarbox form {
 	padding:0 8px;
+	margin:0 0 .25em 0;
 }
 .sidebarbox h3 {margin:0;}
 .dateStamp {
@@ -81,3 +83,15 @@ div.subscription_user {
 #sidebar .sidebarbox input[type="text"] {
 	width:210px;
 }
+
+#sidebar .share_link {
+	text-decoration:none;
+}
+
+#sidebar .rtop,#sidebar .rbottom{display:block; background:#FFF;}
+#sidebar .rtop b, #sidebar .rbottom b{display: block; background:#DDD; height: 1px; overflow: hidden;}
+#sidebar .rtop .r1{margin: 0 5px;border-right:1px solid #999;border-left:1px solid #999;border-right:1px solid #999;border-top:1px solid #999;}
+#sidebar .rbottom .r1{margin: 0 5px;border-right:1px solid #999;border-left:1px solid #999;border-right:1px solid #999;border-bottom:1px solid #999;margin-bottom:1em;}
+#sidebar .r2{margin: 0 3px;border-left:1px solid #999;border-right:1px solid #999;}
+#sidebar .r3{margin: 0 2px;border-left:1px solid #999;border-right:1px solid #999;}
+#sidebar .r4{margin: 0 1px; height: 2px;border-left:1px solid #999;border-right:1px solid #999;}

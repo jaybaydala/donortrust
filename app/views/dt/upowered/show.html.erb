@@ -64,7 +64,10 @@
   <div style="margin-bottom:1em;">
     <%= link_to image_tag("dt/upowered/upowered_button-sidebar.gif", :alt => "join u:powered - it's a whole new way of providing operational funding to a non-profit organization &rdquo;"), dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
   </div>
-  
+  <div>
+    <b class="rtop">
+      <b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"</b>
+    </b>
   <div class="sidebarbox" style="padding-top:0.5em;">
     <%- if @cart && !@cart.empty? -%>
     <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
@@ -81,11 +84,17 @@
 
     <p class="clearfix" style="margin:1em 0;">
       <%= link_to image_tag("dt/icons/email-icon.gif", :alt => "", :style => "float:left;padding-right:8px;"), "mailto:upowered@uend.org" %>
-      <span style="font-weight:bold;font-size:100%;"><%= link_to "Share your questions and ideas", "mailto:upowered@uend.org" %></span>
+      <span style="font-weight:bold;font-size:100%;"><%= link_to "Share your questions and ideas", "mailto:upowered@uend.org", :class => 'share_link' %></span>
     </p>
   </div>
+  <b class="rbottom">
+  <b class="r4"></b> <b class="r3"></b> <b class="r2"></b> <b class="r1"></b>
+  </b></div>
   
-  
+  <div>
+    <b class="rtop">
+      <b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"</b>
+    </b>
   <div class="sidebarbox">
     <%- if @rss_sidebar && @rss_sidebar.entries.first -%>
       <h2>Updates from UEnd:</h2>
@@ -98,6 +107,9 @@
       <%= link_to image_tag("dt/promos/blog-promo-sidebar-grey.gif", :alt => "Read Our Blog"), "http://www.uend.org/blog/blog" %>
     </div>
   </div>
+  <b class="rbottom">
+  <b class="r4"></b> <b class="r3"></b> <b class="r2"></b> <b class="r1"></b>
+  </b></div>
   
   <%= render :partial => 'twitter' %>
   
