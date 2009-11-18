@@ -3,45 +3,45 @@ class CampaignsMailer < ActionMailer::Base
   def campaign_approved(campaign)
     setup
     recipients campaign.creator.full_email_address
-    subject "Uend: Campaign approved"
+    subject "UEnd: Campaign approved"
     body :campaign => campaign, :host => HTTP_HOST
   end
   def campaign_declined(campaign)
     setup
     recipients campaign.creator.full_email_address
-    subject "Uend: Campaign declined"
+    subject "UEnd: Campaign declined"
     body :campaign => campaign, :host => HTTP_HOST
   end
 
   def team_approved(campaign, team)
     setup
     recipients team.leader.full_email_address
-    subject "Uend: Team approved"
+    subject "UEnd: Team approved"
     body :campaign => campaign, :team => team, :host => HTTP_HOST
   end
   def team_declined(campaign, team)
     setup
     recipients team.leader.full_email_address
-    subject "Uend: Team declined"
+    subject "UEnd: Team declined"
     body :campaign => campaign, :team => team, :host => HTTP_HOST
   end
   
   def participant_approved(campaign, team, participant)
     setup
     recipients team.leader.full_email_address
-    subject "Uend: Participation approved"
+    subject "UEnd: Participation approved"
     body :campaign => campaign, :team => team, :participant => participant, :host => HTTP_HOST
   end
   def participant_declined(campaign, team, participant)
     setup
     recipients team.leader.full_email_address
-    subject "Uend: Participation declined"
+    subject "UEnd: Participation declined"
     body :campaign => campaign, :team => team, :participant => participant, :host => HTTP_HOST
   end
 
   protected
   def setup
-    from "The Uend: Team <info@uend.org>"
+    from "The UEnd Team <info@uend.org>"
     sent_on Time.now
   end
 end
