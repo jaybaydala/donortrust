@@ -39,6 +39,7 @@ class Order < ActiveRecord::Base
     if self.password && !self.user
       user = build_user_from_order
       user.save
+      user.activate
       user
     end
   end

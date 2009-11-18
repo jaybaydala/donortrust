@@ -55,8 +55,12 @@ class Dt::InvestmentsController < DtApplicationController
 
     respond_to do |format|
       if @valid
-        flash[:notice] = "Your Investment has been added to your cart."
-        format.html { redirect_to dt_cart_path }
+        if @cart.subscription?
+          format.html { redirect_to dt_cart_path(:skip_cart => 1) }
+        else
+          flash[:notice] = "Your Investment has been added to your cart."
+          format.html { redirect_to dt_cart_path }
+        end
       else
         flash.now[:error] = "There was a problem adding the Investment to your cart. Please review your information and try again."
         format.html { render :action => 'new' }

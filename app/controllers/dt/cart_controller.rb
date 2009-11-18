@@ -6,7 +6,7 @@ class Dt::CartController < DtApplicationController
     @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 10)
     respond_to do |format|
       format.html {
-        if @cart.subscription?
+        if @cart.subscription? && !params[:skip_cart].blank?
           redirect_to new_dt_checkout_path and return
         end
         unless params[:sidebar].nil?
