@@ -10,8 +10,8 @@ class Partner < ActiveRecord::Base
   has_many      :measures, :dependent => :destroy
   has_many      :contacts
 
-  has_many      :campaign_limits
-  has_many      :campaigns, :through => :campaign_limits
+  has_many      :partner_limits
+  has_many      :campaigns, :through => :partner_limits
 
   has_many      :partner_payments, :dependent => :destroy
 
