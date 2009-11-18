@@ -35,12 +35,12 @@
           </fieldset>
         </li>
         <li>
+          <div class="notes">
+            <h5>Billing and Receipt Information</h5>
+            <p>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.</p>
+          </div>
           <fieldset>
             <legend>What kind of donor are you?</legend>
-            <div class="notes">
-              <h5>Billing and Receipt Information</h5>
-              <p>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.</p>
-            </div>
             <ol>
               <li><label for="order_donor_type_personal"><%= f.radio_button :donor_type, "personal", :class => "#{"subscription" if @cart.subscription?}" %> Personal</label></li>
               <li><label for="order_donor_type_corporate"><%= f.radio_button :donor_type, "corporate", :class => "#{"subscription" if @cart.subscription?}" %> Corporate</label></li>
