@@ -63,7 +63,7 @@ class Dt::WallPostsController < DtApplicationController
   private
   def authorized?
     @wall_post = WallPost.find(params[:id])
-    @wall_post.owned? || @wall_post.postable.owned?
+    @wall_post.owned?(current_user) || @wall_post.postable.owned?(current_user)
   end
 
 end
