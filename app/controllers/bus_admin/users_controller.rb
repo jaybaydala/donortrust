@@ -3,6 +3,8 @@ class BusAdmin::UsersController < ApplicationController
   before_filter :login_required, :check_authorization
   #access_control :DEFAULT => 'cf_admin' 
   include BusAdmin::UsersHelper
+  include UploadSyncHelper
+  after_filter :sync_uploads, :only => [:create, :update, :destroy]
    
   active_scaffold do |config|
     
@@ -11,10 +13,10 @@ class BusAdmin::UsersController < ApplicationController
   #  config.columns[:administrated_projects].form_ui = :select
   #  config.columns[:projects].form_ui = :select
   #  config.actions.exclude :create
-    config.columns = [ :first_name, :last_name, :login, :country, :roles, :staff, :title, :twitter, :facebook]
+    config.columns = [ :first_name, :last_name, :login, :country, :roles, :staff, :title, :twitter, :facebook. :bio, :picture]
     config.columns[:roles].form_ui = :select 
     config.list.columns = [:first_name, :last_name, :login, :roles, :staff]
-    config.update.columns = [:first_name, :last_name, :login, :display_name, :address,  :city, :province, :country, :postal_code, :administrations, :staff, :title, :twitter, :facebook]
+    config.update.columns = [:first_name, :last_name, :login, :display_name, :address,  :city, :province, :country, :postal_code, :administrations, :staff, :title, :twitter, :facebook, :bio, :picture]
     config.columns[:administrations].label = "Roles"    
   end
  
