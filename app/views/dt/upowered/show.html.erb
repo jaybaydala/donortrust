@@ -61,8 +61,11 @@
 
 <%- content_for :sidebar do -%>
   
-  <div class="sidebarbox">
-    <div style="text-align:center;	padding:1em 0.5em 2em 0.5em;"><%= link_to "Join the movement", dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %></div>
+  <div>
+    <%= link_to image_tag("dt/upowered/upowered_button-sidebar.gif", :alt => "join u:powered - it's a whole new way of providing operational funding to a non-profit organization &rdquo;"), dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
+  </div>
+  
+  <div class="sidebarbox" style="padding-top:0.5em;">
   <%- if @cart && !@cart.empty? -%>
   <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
   <%- end -%>
@@ -84,14 +87,16 @@
   
   
   <div class="sidebarbox">
-  <%- if @page_sidebar -%>
-  <h2>Updates from UEnd:</h2>
-  <%= RedCloth.new(sanitize(@page_sidebar.content)).to_html %>
-  <%- end -%>
+    <%- if @rss_sidebar && @rss_sidebar.entries.first -%>
+      <h2>Updates from UEnd:</h2>
+      <h3><%= @rss_sidebar.entries.first.title %></h3>
+      <p class="dateStamp"><%= @rss_sidebar.entries.first.date_published.to_time.strftime("%b %d %Y %H:%I %p") %></p>
+      <div><%= @rss_sidebar.entries.first.content %></div>
+    <%- end -%>
 
-  <div>
-    <%= link_to image_tag("dt/promos/blog-promo-sidebar-grey.gif", :alt => "Read Our Blog"), "http://www.uend.org/blog/blog" %>
-  </div>
+    <div>
+      <%= link_to image_tag("dt/promos/blog-promo-sidebar-grey.gif", :alt => "Read Our Blog"), "http://www.uend.org/blog/blog" %>
+    </div>
   </div>
   
   <%= render :partial => 'twitter' %>

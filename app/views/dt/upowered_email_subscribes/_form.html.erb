@@ -1,7 +1,8 @@
 <%- @upowered_email_subscribe ||= UpoweredEmailSubscribe.new -%>
 <h2>Get Progress Updates</h2>
 <% form_for @upowered_email_subscribe, :url => dt_upowered_email_subscribes_path do |f| %>
-<div class="textsm clearfix"><%= f.text_field :email, :value=>"enter email here", :onfocus=>"if(this.value=='enter email here')this.value='';", :onblur=>"if(this.value=='')this.value='enter email here';" %><br />
-  <%= submit_tag "Subscribe", :class => "buttonsubmit", :id => "subscribe_button" %>    
+<div class="textsm clearfix">
+  <%= f.text_field :email, :value=>"enter email here", :onfocus => "if(this.value=='enter email here')this.value='';", :onblur => "if(this.value=='')this.value='enter email here';", :style => "width:135px;" %>
+  <%= submit_tag "Subscribe", :id => "subscribe_button" %>    
 </div>
 <%- end -%>

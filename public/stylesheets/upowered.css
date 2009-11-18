@@ -68,8 +68,14 @@ div.subscription_user {
 	margin-bottom:1em;
 }
 
-.sidebarbox p, .sidebarbox h2, .sidebarbox form {
-	padding:6px 8px 6px 8px;
+.sidebarbox p, .sidebarbox h2, .sidebarbox h3, .sidebarbox form {
+	padding:0 8px;
+}
+.sidebarbox h3 {margin:0;}
+.dateStamp {
+  font-size:0.6875em;
+  font-style:italic;
+  padding:0;
 }
 
 #sidebar .sidebarbox input[type="text"] {
