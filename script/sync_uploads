@@ -1,31 +1,29 @@
 #!/usr/bin/env ruby
 require File.dirname(__FILE__) + '/../config/boot'
-require File.join("config", "environment")
+# require File.join("config", "environment")
 
-require 'capistrano'
-config = Capistrano::Configuration.new
-# load the standard recipe definition
-config.load "standard"
-# load the application recipe definitions
-config.load(File.join(RAILS_ROOT, "config", "deploy.rb"))
-config.load(File.join(RAILS_ROOT, "config", "deploy", "#{ENV['RAILS_ENV']}.rb"))
+# NEED TO REQUIRE environment TO USE RAILS_DEFAULT_LOGGER!
 
-# grab the capistrano info that we need
-shared_path = config.fetch(:shared_path, File.expand_path(File.dirname(__FILE__) + '/../../../shared'))
-user = config.fetch(:user, "dtrust")
-servers = config.find_servers(:roles => :web)  
+shared_path = File.expand_path(File.dirname(__FILE__) + '/../../../shared')
+# RAILS_DEFAULT_LOGGER.info "shared_path: #{shared_path}"
+user = "dtrust"
+# RAILS_DEFAULT_LOGGER.info "user: #{user}"
+servers = ["205.206.170.8"]
+# RAILS_DEFAULT_LOGGER.info "servers: #{servers}"
 
 i_am = `whoami`.strip
 
-%w(uploaded_pictures pictures).each do |folder|
+%w(uploaded_pictures).each do |folder|
   dest = File.join(shared_path, "system")
   src = File.join(dest, folder)
   dest = File.join(dest, "")
+  # RAILS_DEFAULT_LOGGER.info "src: #{src}; dest: #{dest}"
   # find the web server(s) and copy everything there
   # using rsync because it's fast and will add/remove as necessary
   servers.each do |server|
     cmd = "/usr/bin/rsync -rpq -e ssh #{src} #{user}@#{server}:#{dest}"
     cmd = "sudo -u #{user} #{cmd}" if i_am == "root"
+    # RAILS_DEFAULT_LOGGER.info "#{cmd}"
     system(cmd)
   end
 end
