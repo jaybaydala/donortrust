@@ -95,3 +95,7 @@ div.subscription_user {
 #sidebar .r2{margin: 0 3px;border-left:1px solid #999;border-right:1px solid #999;}
 #sidebar .r3{margin: 0 2px;border-left:1px solid #999;border-right:1px solid #999;}
 #sidebar .r4{margin: 0 1px; height: 2px;border-left:1px solid #999;border-right:1px solid #999;}
+
+div.staff_team_user {
+  min-height:125px;
+}
