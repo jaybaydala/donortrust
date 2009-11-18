@@ -1,10 +1,12 @@
 namespace :subscriptions do
   desc "Run all the subscriptions for today. Can also pass a parseable FORDATE environment variable"
   task :process_daily => :environment do
+    puts "[#{Time.now.utc.to_s}] Processing daily subscriptions"
     date = defined?(FORDATE) ? Date.parse(FORDATE) : Date.today
     day_of_month = date.day
     day_of_month = (Time.days_in_month(date.month)..day_of_month) if Time.days_in_month(date.month) < day_of_month
     subscriptions = Subscription.all(:conditions => ["(end_date IS NULL OR end_date >= ?) AND schedule_date IN (?)", Time.now.beginning_of_day, day_of_month])
+    puts "[#{Time.now.utc.to_s}] #{subscriptions.size} subscriptions found to process. Processing..."
     subscriptions.each do |subscription|
       begin
         Subscription.transaction do
