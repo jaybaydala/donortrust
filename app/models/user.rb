@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
   has_attached_file :picture, 
                     :styles => { :tiny => "24x24#",:thumb => "48x48#", :normal=>"72x72#" }, 
                     :default_style => :normal,
+                    :url => "/images/uploaded_pictures/:attachment/:id/:style/:filename",
                     :default_url => "/images/dt/icons/users/:style/missing.png"
   
 
