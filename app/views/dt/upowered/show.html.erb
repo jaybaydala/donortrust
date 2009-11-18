@@ -61,28 +61,28 @@
 
 <%- content_for :sidebar do -%>
   
-  <div>
+  <div style="margin-bottom:1em;">
     <%= link_to image_tag("dt/upowered/upowered_button-sidebar.gif", :alt => "join u:powered - it's a whole new way of providing operational funding to a non-profit organization &rdquo;"), dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
   </div>
   
   <div class="sidebarbox" style="padding-top:0.5em;">
-  <%- if @cart && !@cart.empty? -%>
-  <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
-  <%- end -%>
+    <%- if @cart && !@cart.empty? -%>
+    <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
+    <%- end -%>
   
-  <div>
-    <%= link_to image_tag("dt/buttons/lg-share-en.gif", :alt => "Bookmark and Share"), "http://addthis.com/bookmark.php?v=250&amp;pub=xa-4af1a69520cb1c35", :class=>'addthis_button' %>
-    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4af1a69520cb1c35"></script>
-  </div>
+    <div>
+      <%= link_to image_tag("dt/buttons/lg-share-en.gif", :alt => "Bookmark and Share"), "http://addthis.com/bookmark.php?v=250&amp;pub=xa-4af1a69520cb1c35", :class=>'addthis_button' %>
+      <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4af1a69520cb1c35"></script>
+    </div>
   
-  <p>
-    <%= render :partial => "dt/upowered_email_subscribes/form" %>
-  </p>
+    <p>
+      <%= render :partial => "dt/upowered_email_subscribes/form" %>
+    </p>
 
-  <p class="clearfix" style="margin:1em 0;">
-    <%= link_to image_tag("dt/icons/email-icon.gif", :alt => "", :style => "float:left;padding-right:8px;"), "mailto:upowered@uend.org" %>
-    <span style="font-weight:bold;font-size:100%;"><%= link_to "Share your questions and ideas", "mailto:upowered@uend.org" %></span>
-  </p>
+    <p class="clearfix" style="margin:1em 0;">
+      <%= link_to image_tag("dt/icons/email-icon.gif", :alt => "", :style => "float:left;padding-right:8px;"), "mailto:upowered@uend.org" %>
+      <span style="font-weight:bold;font-size:100%;"><%= link_to "Share your questions and ideas", "mailto:upowered@uend.org" %></span>
+    </p>
   </div>
   
   

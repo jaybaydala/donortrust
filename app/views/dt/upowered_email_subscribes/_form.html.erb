@@ -2,7 +2,7 @@
 <h2>Get Progress Updates</h2>
 <% form_for @upowered_email_subscribe, :url => dt_upowered_email_subscribes_path do |f| %>
 <div class="textsm clearfix">
-  <%= f.text_field :email, :value=>"enter email here", :onfocus => "if(this.value=='enter email here')this.value='';", :onblur => "if(this.value=='')this.value='enter email here';", :style => "width:135px;" %>
+  <%= f.text_field :email, :value=>"enter email here", :onfocus => "if(this.value=='enter email here')this.value='';", :onblur => "if(this.value=='')this.value='enter email here';" %>
   <%= submit_tag "Subscribe", :id => "subscribe_button" %>    
 </div>
 <%- end -%>
