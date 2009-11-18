@@ -311,7 +311,7 @@ module ActiveMerchant #:nodoc:
             when "process"
               URL + "trams/custcodeauthresult.pro"
           end
-          test? ? @url.sub(/^https/, "http") : url
+          test? ? @url.sub(/^https/, "http") : @url
         end
           
         def post_data(action, parameters = {})
