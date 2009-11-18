@@ -41,7 +41,7 @@ class CampaignsMailer < ActionMailer::Base
 
   protected
   def setup
-    from "The UEnd Team <info@uend.org>"
+    from "info@uend.org"
     sent_on Time.now
   end
 end

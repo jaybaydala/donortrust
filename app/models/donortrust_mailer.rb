@@ -49,7 +49,7 @@ class DonortrustMailer < ActionMailer::Base
   def wishlist_mail(share, project_ids)
     content_type "text/html"
     recipients  share.to_name ? "\"#{share.to_name}\" <#{share.to_email}>" : "#{share.to_email}"
-    from        "The UEnd Team <info@uend.org>"
+    from        "info@uend.org"
     sent_on     Time.now
     subject     'Your friend wanted you to see their UEnd: Wishlist.'
     headers     "Reply-To" => share.name? ? "\"#{share.name}\" <#{share.email}>" : share.email
@@ -63,7 +63,7 @@ class DonortrustMailer < ActionMailer::Base
   def invitation_mail(invitation)
     content_type "text/html"
     recipients  invitation.to_name ? "\"#{invitation.to_name}\" <#{invitation.to_email}>" : "#{invitation.to_email}"
-    from        invitation.user.full_name.empty? ? invitation.user.email : "#{invitation.user.full_name}<#{invitation.user.email}>"
+    from        invitation.user.email
     sent_on     Time.now
     subject     "You have been invited to join the \"#{invitation.group.name}\" group at Uend"
     url = dt_group_url(:host => HTTP_HOST, :id => invitation.group_id)
@@ -75,7 +75,7 @@ class DonortrustMailer < ActionMailer::Base
   def share_mail(share)
     content_type "text/html"
     recipients  share.to_name ? "\"#{share.to_name}\" <#{share.to_email}>" : "#{share.to_email}"
-    from        "The UEnd Team <info@uend.org>"
+    from        "info@uend.org"
     sent_on     Time.now
     subject     'Your friend thought you would like this.'
     headers     "Reply-To" => share.name? ? "\"#{share.name}\" <#{share.email}>" : share.email
@@ -97,7 +97,7 @@ class DonortrustMailer < ActionMailer::Base
   def gift_confirm(gift)
     content_type "text/html"
     recipients  "\"#{gift.first_name} #{gift.last_name}\" <#{gift.email}>"
-    from        "The UEnd Team <info@uend.org>"
+    from        "info@uend.org"
     sent_on     Time.now
     subject "Your gift has been created and is ready for opening"
     amount = number_to_currency(gift.amount)
@@ -112,7 +112,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def gift_notify(gift)
     recipients  "\"#{gift.first_name} #{gift.last_name}\" <#{gift.email}>"
-    from        "The UEnd Team <info@uend.org>"
+    from        "info@uend.org"
     sent_on     Time.now
     subject "Your UEnd: gift has been opened"
     content_type "text/html"
@@ -121,8 +121,8 @@ class DonortrustMailer < ActionMailer::Base
   end
 
   def new_place_notify(place)
-    recipients  "The UEnd Team <info@uend.org>"
-    from        "The UEnd Team <info@uend.org>"
+    recipients  "info@uend.org"
+    from        "info@uend.org"
     sent_on     Time.now
     subject 	"A new place has been created"
     body 	"The new place #{place.name} was created in the country #{place.country.name}. Please approve or delete it."
@@ -131,7 +131,7 @@ class DonortrustMailer < ActionMailer::Base
  def gift_resendPDF(gift)
     content_type "text/html"
     recipients  "\"#{gift.first_name} #{gift.last_name}\" <#{gift.email}>"
-    from        "The UEnd Team <info@uend.org>"
+    from        "info@uend.org"
     sent_on     Time.now
     subject "Resolved Problem viewing Gift Card"
     body "<p>We have resolved a problem with the ability to view the PDF gift cards that were attached to your gift confirmation.  Please find attached the gift card for your gift to #{ gift.to_name }  </p><p>All the best to you this holiday season,<br />The UEnd: Team</p>"
@@ -145,7 +145,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def gift_expiry_notifier(gift)
     recipients  gift.name? ? "\"#{gift.name}\" <#{gift.email}>" : "#{gift.email}"
-    from "The UEnd Team <info@uend.org>"
+    from "info@uend.org"
     sent_on Time.now
     subject 'You gave a UEnd: gift that hasn\'t been opened!'
     headers "Reply-To" => gift.to_name? ? "\"#{gift.to_name}\" <#{gift.to_email}>" : gift.to_email
@@ -176,7 +176,7 @@ class DonortrustMailer < ActionMailer::Base
   def tax_receipt(receipt)
     content_type "text/plain"
     recipients  "\"#{receipt.first_name} #{receipt.last_name}\" <#{receipt.email}>"
-    from        "The UEnd Team <info@uend.org>"
+    from        "info@uend.org"
     sent_on     Time.now
     subject "UEnd: Tax Receipt"
     body = <<-TXT
@@ -207,7 +207,7 @@ TXT
     def user_setup_email(user)
       @subject    = "Welcome to DonorTrust!"
       recipients  user.full_name.empty? ? "#{user.email}" : "\"#{user.full_name}\" <#{user.email}>"
-      from        "The UEnd Team <info@uend.org>"
+      from        "info@uend.org"
       sent_on     Time.now
     end
 
