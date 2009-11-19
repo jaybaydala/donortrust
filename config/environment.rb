@@ -81,7 +81,7 @@ Rails::Initializer.run do |config|
   
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-  config.active_record.observers = :user_observer, :tax_receipt_observer, :searchbar_sweeper
+  config.active_record.observers = :user_observer, :tax_receipt_observer, :searchbar_sweeper, :upowered_sweeper
   
   # Add vendor/gems into the load path so we can unpack gems and keep them local
   #config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir|
