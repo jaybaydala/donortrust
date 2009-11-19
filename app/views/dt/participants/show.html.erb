@@ -44,7 +44,7 @@
 		</div>
 
 		<div class="campaign-sidebar-box metrics">
-			<%= render :partial => 'participant_facts',  :locals => {:@participant => @participant} %>
+			<%= render :partial => 'participant_facts',  :locals => {:participant => @participant} %>
 		</div>
 
 		<% if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>

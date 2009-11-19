@@ -68,7 +68,7 @@ class Participant < ActiveRecord::Base
   end
 
   def name
-    self.user.full_name
+    self.user.full_name if self.user_id? && self.user
   end
 
 #  def validate
