@@ -30,13 +30,7 @@ module OrderHelper
     @order = Order.new(params[:order])
     @order.account_balance = current_user.balance if logged_in?
     @order.gift_card_balance = session[:gift_card_balance] if session[:gift_card_balance]
-    if logged_in?
-      %w(first_name last_name address city province postal_code country).each do |c|
-        @order.write_attribute(c, current_user.read_attribute(c)) unless @order.attribute_present?(c)
-      end
-      @order.email = current_user.login
-      @order.user = current_user
-    end
+    load_user_data_into_order
     @order.total = @cart.total
     ############
     # THE GIFT_CARD_PAYMENT AND CREDIT_CARD_PAYMENT SHOULD ONLY BE SET ONCE
@@ -60,6 +54,7 @@ module OrderHelper
     @order = find_order unless @order
     @cart = find_cart unless @cart
     return nil unless @order && @cart
+    load_user_data_into_order
     @order.attributes = params[:order]
     @order.total = @cart.total
     # add in the pledge_account_balance
@@ -68,5 +63,15 @@ module OrderHelper
     end
     @order.user = current_user if logged_in?
     @order
+  end
+  
+  def load_user_data_into_order
+    if logged_in?
+      %w(first_name last_name address city province postal_code country).each do |c|
+        @order.write_attribute(c, current_user.read_attribute(c)) unless @order.attribute_present?(c)
+      end
+      @order.email = current_user.login unless @order.email?
+      @order.user = current_user unless @order.user_id? && @order.user
+    end
   end
 end
