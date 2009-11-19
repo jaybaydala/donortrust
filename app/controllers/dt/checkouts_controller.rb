@@ -238,7 +238,7 @@ class Dt::CheckoutsController < DtApplicationController
   def do_billing
     if @cart.subscription? && !logged_in?
       user = @order.create_user_from_order
-      if user
+      if user && !user.new_record?
         @order.user = user
         self.current_user = user
         flash[:notice] = "Your user has been created and you are now logged in"
