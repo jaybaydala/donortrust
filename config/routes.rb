@@ -260,7 +260,7 @@ ActionController::Routing::Routes.draw do |map|
     :controller => "bus_admin/place_flickr_images",
     :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :list => :get }
   map.resources :project_flickr_images, :path_prefix => "/bus_admin",
-    :controller => "bus_admin/project_flickr_images",
+    :controller => "bus_admin/project_flickr_images", :member => {:delete => :delete}, 
     :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
   map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
   map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
