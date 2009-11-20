@@ -1,1 +1,1 @@
-<li><strong><%= milestone_date(milestone.target_date) %>: <%= milestone.name %></strong> - <%= milestone.description %></li>
+<%- if milestone.target_date? -%><li><strong><%= milestone_date(milestone.target_date) %>: <%= milestone.name %></strong> - <%= milestone.description %></li><%- end -%>
