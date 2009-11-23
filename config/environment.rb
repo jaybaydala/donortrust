@@ -37,6 +37,7 @@ Rails::Initializer.run do |config|
   # bad bots
   config.gem "ruby-recaptcha"
   config.gem "paperclip", :source => "http://gemcutter.org"
+  config.gem 'youtube-g', :lib => 'youtube_g', :source => "http://gemcutter.org"
   
   
   #calendar_date_select
