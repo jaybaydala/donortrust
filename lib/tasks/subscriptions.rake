@@ -5,7 +5,7 @@ namespace :subscriptions do
     date = defined?(FORDATE) ? Date.parse(FORDATE) : Date.today
     day_of_month = date.day
     day_of_month = (Time.days_in_month(date.month)..day_of_month) if Time.days_in_month(date.month) < day_of_month
-    subscriptions = Subscription.all(:conditions => ["(end_date IS NULL OR end_date >= ?) AND schedule_date IN (?)", Time.now.beginning_of_day, day_of_month])
+    subscriptions = Subscription.all(:conditions => ["(end_date IS NULL OR end_date >= ?) AND schedule_date IN (?) AND created_at NOT LIKE ?", Time.now.beginning_of_day, day_of_month, "#{Date.today.to_s(:db)}%"])
     puts "[#{Time.now.utc.to_s}] #{subscriptions.size} subscriptions found to process. Processing..."
     subscriptions.each do |subscription|
       begin
