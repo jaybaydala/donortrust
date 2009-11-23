@@ -35,12 +35,7 @@ class Dt::ProjectsController < DtApplicationController
     @project = Project.find_public(params[:id])
     @page_title = @project.name
     @rss_feed = last_rss_entry(@project.rss_url) if @project && @project.rss_url
-    @flickr_images = @project.project_flickr_images.paginate({:page => params[:flickr_page], :per_page => 12})
-    @youtube_videos = @project.project_you_tube_videos.paginate({:page => params[:youtube_page], :per_page => 6})
-    # What is youtube_videos_size used for? 
-    @youtube_videos_size = @project.project_you_tube_videos.size if @project.project_you_tube_videos
     @budget_items = @project.budget_items
-    #@rss_feed.clean! if @rss_feed # sanitize the html
     @organization = @project.partner
     respond_to do |format|
       format.html
