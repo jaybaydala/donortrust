@@ -68,7 +68,7 @@ module OrderHelper
   def load_user_data_into_order
     if logged_in?
       %w(first_name last_name address city province postal_code country).each do |c|
-        @order.write_attribute(c, current_user.read_attribute(c)) unless @order.attribute_present?(c)
+        @order[c.to_sym] = current_user[c] if @order.read_attribute(c).blank? && !current_user[c].blank?
       end
       @order.email = current_user.login unless @order.email?
       @order.user = current_user unless @order.user_id? && @order.user
