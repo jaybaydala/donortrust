@@ -90,7 +90,7 @@ module Dt::ProjectsHelper
         "WHERE pr.project_status_id IN (2,4) AND pr.deleted_at is NULL AND p.id != 4 " +
         "AND p.partner_status_id = 1 GROUP BY p.id ORDER BY p.name ASC")
     @partners.each do |p|
-      output << link_to("#{truncate(p.name,20)} (#{(p.count)})", search_dt_projects_path+"?partner_selected=1&partner_id=#{p.id}") if p.count.to_i>0
+      output << link_to("#{truncate(p.name, :length => 20)} (#{(p.count)})", search_dt_projects_path+"?partner_selected=1&partner_id=#{p.id}") if p.count.to_i>0
     end
 
     if limit && limit < @partners.size
