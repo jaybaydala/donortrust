@@ -1,5 +1,5 @@
 <% long_view ||=  false %>
-<% if (not participant.nil?) && (not participant.pending? or current_user.cf_admin? or participant.user == participant.team.leader) %>
+<% if (not participant.nil?) && (not participant.pending? or participant.user == participant.team.leader or (logged_in? && current_user.cf_admin?) ) %>
 	<% if long_view %>
 		<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %> participant_long_view clearfix" style="min-height:60px;">
 			<div class="participant_long_display_picture">
