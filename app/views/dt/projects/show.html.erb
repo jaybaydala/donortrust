@@ -3,7 +3,10 @@
 <%= render(:partial => 'project_header', :object => @projects) %>
 
 <div class="project-content">
-	<%= flickr_slider %>
+  <% cache "#{@project.cache_key}-flickrsidebar" do %>
+    <%- @flickr_images = @project.project_flickr_images.all -%>
+    <%= render :partial  => 'flickr_slider' unless @flickr_images.blank? %>
+	<% end %>
 	<%= @project.description %>
 </div>
 <div class='project-sidebar'>
@@ -22,7 +25,7 @@
 					<%= render :partial => 'project_financial_data' %>
 				</div>
 			</div>
-		<% end%>
+		<% end %>
 
 		<% if @project.partner %>
 			<div class="accordion-toggle">Implementing Organization</div>    
@@ -117,8 +120,8 @@
 			<% else %>
 				<h2>There are no key measures available.</h2>
 			<% end %>
-		
 		</div>
+		
 		<div id='project_stories' style='display:none;'>
 			<% if @project.rss_url && @rss_feed %>
 				<h2>Stories from the field</h2>
@@ -128,6 +131,8 @@
 			<% end %>		
 		</div>
 
+    <%- cache "#{@project.cache_key}-flickr" do -%>
+    <%- @flickr_images = @project.project_flickr_images.paginate({:page => params[:flickr_page], :per_page => 12}) -%>
 		<div id='project_photos' style='display:none'>
 			<% if @flickr_images.size > 0 %>
 				<h2>Project Photos</h2>
@@ -137,7 +142,10 @@
 				<h2>There are no photos available.</h2>
 			<% end %>
 		</div>
+		<%- end -%>
 
+    <%- cache "#{@project.cache_key}-youtube" do -%>
+    <%- @youtube_videos = @project.project_you_tube_videos.paginate({:page => params[:youtube_page], :per_page => 6}) -%>
 		<div id='project_videos' style='display:none;'>
 			<% if @youtube_videos.size > 0 %>
 				<h2>Project Videos</h2>
@@ -147,6 +155,7 @@
 				<h2>There are no videos available.</h2>
 			<% end %>
 		</div>
+		<% end %>
 	</div>
 </div>
 

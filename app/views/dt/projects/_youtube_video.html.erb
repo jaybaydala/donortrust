@@ -1,8 +1,8 @@
-<% 
-  yt = RubyTube.new("BayCH1FukEw") 
-  video = yt.get_video(youtube_video.you_tube_id)
-%>
-
-<%= video.embed.to_s %>
-
+<%-
+# yt = RubyTube.new("BayCH1FukEw") 
+# video = yt.get_video(youtube_video.you_tube_id)
+ytclient = YouTubeG::Client.new
+video = ytclient.video_by(youtube_video.you_tube_id)
+-%>
+<%= video.embed_html %>
 <hr />
