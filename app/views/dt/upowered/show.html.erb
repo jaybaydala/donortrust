@@ -93,6 +93,7 @@
   <b class="r4"></b> <b class="r3"></b> <b class="r2"></b> <b class="r1"></b>
   </b></div>
   
+  <%- if @rss_sidebar -%>
   <div>
     <b class="rtop">
       <b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"</b>
@@ -113,6 +114,7 @@
   <b class="rbottom">
   <b class="r4"></b> <b class="r3"></b> <b class="r2"></b> <b class="r1"></b>
   </b></div>
+  <%- end -%>
   
   <%= render :partial => 'twitter' %>
   

@@ -4,7 +4,10 @@ class Dt::UpoweredController < DtApplicationController
   def show
     @page = Page.find_by_permalink("upowered")
     # @page_sidebar = Page.find_by_permalink("upowered_sidebar")
-    @rss_sidebar = last_rss_entry("http://upowered.uend.tag.ca/?feed=rss2")
+    begin
+      @rss_sidebar = last_rss_entry("http://upowered.uend.org/?feed=rss2")
+    rescue Exception
+    end
     @progress_widgets = StatisticWidget.all(:order => :position, :conditions => ["active=?",true], :limit => 2)
     @statistic_widgets = StatisticWidget.all(:order => :position, :conditions => ["active=? AND id NOT IN(?)", true, @progress_widgets.map(&:id)])
     user_titles = [
