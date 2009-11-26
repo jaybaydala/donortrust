@@ -12,12 +12,22 @@ class Subscription < ActiveRecord::Base
   before_create :create_customer
   before_update :update_customer
   before_destroy :delete_customer
-  attr_accessor :full_card_number
   
+  validates_presence_of :donor_type, :first_name, :last_name, :address, :city, :province, :postal_code, :country, :email
+  validates_format_of :email, :message => "isn't a valid email address", :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+  validate do |s|
+    s.errors.add(:end_date, "must be set into the future") unless s.end_date > Date.today
+    unless s.credit_card.valid?
+      credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
+      s.errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
+    end
+  end
+
+  attr_accessor :full_card_number
   def card_number=(number)
     @full_card_number = number
     write_attribute(:card_number, number) # clears it if it's nil
-    write_attribute(:card_number, number.to_s[-4, 4]) if number # loads it back up if it's not
+    write_attribute(:card_number, number.to_s.rjust(4, " ")[-4, 4].strip) if number # loads it back up if it's not
   end
   
   def card_number
@@ -135,6 +145,20 @@ class Subscription < ActiveRecord::Base
       raise ActiveMerchant::Billing::Error.new(response.message)
     end
   end
+  
+  def end_subscription
+    Subscription.transaction do
+      begin
+        column = self.connection.quote_column_name('end_date')
+        value = self.connection.quote(Date.today.to_s(:db))
+        self.class.update_all("#{column} = #{value}", { :id => self.id })
+        delete_customer
+      rescue ActiveMerchant::Billing::Error => exception
+        return false
+      end
+      true
+    end
+  end
 
   private
     def create_customer
@@ -169,24 +193,25 @@ class Subscription < ActiveRecord::Base
     end
   
     def update_customer
-      logger.debug("Entering Subscription::create_customer")
+      logger.debug("Entering Subscription::update_customer")
       logger.debug("credit_card: #{credit_card.inspect}")
       logger.debug("credit_card valid: #{credit_card.valid?}")
       logger.debug("credit_card errors: #{credit_card.errors.inspect}")
+
+      purchase_options = {
+                            :reoccurring_status => self.reoccurring_status,
+                            :begin_date => self.begin_date,
+                            :end_date => self.end_date,
+                            :schedule_type => self.schedule_type,
+                            :schedule_date => self.schedule_date,
+                            :billing_address => billing_address, 
+                            :customer_code => self.customer_code,
+                            :invoice_id => self.id
+                          }
+      logger.debug("purchase_options: #{purchase_options.inspect}")
+
       if credit_card.valid?
-        # purchase the amount
         logger.debug("attributes: #{self.attributes.inspect}")
-        purchase_options = {
-                              :reoccurring_status => self.reoccurring_status,
-                              :begin_date => self.begin_date,
-                              :end_date => self.end_date,
-                              :schedule_type => self.schedule_type,
-                              :schedule_date => self.schedule_date,
-                              :billing_address => billing_address, 
-                              :customer_code => self.customer_code,
-                              :invoice_id => self.id
-                            }
-        logger.debug("purchase_options: #{purchase_options.inspect}")
         response = gateway.update_customer(amount*100, self.customer_code, credit_card, purchase_options)
         if !response.success?
           raise ActiveMerchant::Billing::Error.new(response.message)

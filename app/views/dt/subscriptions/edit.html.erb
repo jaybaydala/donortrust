@@ -1,0 +1,102 @@
+<%- content_for :html_title do -%>Monthly Giving<%- end -%>
+<%- content_for :page_title do -%>Monthly Giving for <%= current_user.name %><%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+
+<%= error_messages_for :subscription %>
+<% form_for [:dt, @subscription] do |f| %>
+<div class="userform">
+
+  <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+  <fieldset>
+    <legend>Monthly Giving Information</legend>
+    <ol>
+      <li>
+        <%= f.label :end_date %>
+        <%= f.date_select :end_date, {:start_year => @subscription.begin_date.year, :order => [:month, :day, :year]}, {:style => "width:90px;"} %>
+      </li>
+    </ol>
+    
+  </fieldset>
+  <fieldset>
+    <legend>Billing and Tax Receipt Information</legend>
+    <ol>
+      <li>
+        <fieldset>
+          <div class="notes clearfix" style="width:380px;">
+            <h5>Tax Receipts</h5>
+            <p>If you don&#x27;t require a tax-receipt for your donation it will significantly help our organization - it lessens our restrictions according to Revenue Canada and lets us build the organization. If you would like a tax-receipt we are very happy to provide it. You choose. Thanks for thinking about it!</p>
+          </div>
+          <legend>Tax Receipt Requested</legend>
+          <ol>
+            <li>
+              <%= f.check_box :tax_receipt_requested %>
+              <%= f.label :tax_receipt_requested, "Please provide me with a tax receipt", :class => "left inline", :style => "margin-left:0;" %>
+            </li>
+          </ol>
+        </fieldset>
+      </li>
+      <li>
+        <div class="notes">
+          <h5>Billing and Receipt Information</h5>
+          <p>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.</p>
+        </div>
+        <fieldset>
+          <legend>What kind of donor are you?</legend>
+          <ol>
+            <li><label for="subscription_donor_type_personal"><%= f.radio_button :donor_type, "personal" %> Personal</label></li>
+            <li><label for="subscription_donor_type_corporate"><%= f.radio_button :donor_type, "corporate" %> Corporate</label></li>
+          </ol>
+        </fieldset>
+      </li>
+      <li class="personal">
+        <label for="subscription_title">Title</label> <%= f.select :title, titles.unshift("") %>
+      </li>
+      <li class="personal"><label for="subscription_first_name"><%= form_required %>First Name</label> <%= f.text_field :first_name %></li>
+      <li class="personal"><label for="subscription_last_name"><%= form_required %>Last Name</label> <%= f.text_field :last_name %></li>
+      <li><label for="subscription_company">Company</label> <%= f.text_field :company %></li>
+      <li><label for="subscription_address"><%= form_required %>Street Address</label> <%= f.text_field :address %></li>
+      <li><label for="subscription_address2">Street Address 2</label> <%= f.text_field :address2 %></li>
+      <li><label for="subscription_city"><%= form_required %>City</label> <%= f.text_field :city %></li>
+      <li><label for="subscription_province"><%= form_required %>Province/State</label> <%= f.text_field :province %></li>
+      <li><label for="subscription_postal_code"><%= form_required %>Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
+      <li><label for="subscription_country"><%= form_required %>Country</label> <%= f.select :country, country_select_options %></li>
+      <li><label for="subscription_email"><%= form_required %>Email</label> <%= f.text_field :email %></li>
+    </ol>
+  </fieldset>
+
+  <div id="credit_card_details">
+    <fieldset>
+      <legend>Credit Card Information</legend>
+      <div class="textsm" style="font-size:0.75em;margin-top:1em;"><strong>Credit Card Details</strong></div>
+      <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+      <div class="notes">
+        <h5>Credit Card Details</h5>
+        <p>To change your monthly giving information, please re-enter your credit card (or enter a new one).</p>
+        <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
+      </div>
+      <ol class="clearfix">
+        <li><label for="subscription_card_number" class="wide"><%= form_required %>Credit Card Number</label> <%= f.text_field :card_number, :maxlength => 16 %></li>
+        <li>
+          <label for="subscription_cvv" class="wide"><%= form_required %>Card Security Number (CVV)</label> <%= f.text_field :cvv, :maxlength => 5, :size => 5, :style => "width:auto;" %>
+          <div class="note" style="margin-left:125px;">This is final 3 digits on the back of your card.</div>
+        </li>
+        <li><label for="subscription_expiry_month" class="wide"><%= form_required %>Card Expiry</label> 
+          <div id="card_expiry">
+          <%= f.select("expiry_month", expiry_months, { :include_blank => true }, { :style => 'width:auto;' }) -%>
+          / 
+          <%= f.select("expiry_year", expiry_years, { :include_blank => true }, {:style => 'width:auto;' }) %> 
+          </div>
+        </li>
+        <li><label for="subscription_cardholder_name" class="wide"><%= form_required %>Cardholder Name</label> <%= f.text_field :cardholder_name %></li>
+      </ol>
+    </fieldset>
+  </div>
+</div>
+<div class="checkoutbuttons clearfix">
+  <%= submit_tag 'Update my Information' %>
+</div>
+<% end %>
+
+<%- content_for :sidebar do -%>
+  <%= dt_profile_sidebar %>
+<%- end -%>

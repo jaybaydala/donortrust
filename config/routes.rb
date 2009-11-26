@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart'
     dt.resource :checkout
+    dt.resources :subscriptions
     dt.resources :pages do |page|
       page.resources :wall_posts
     end

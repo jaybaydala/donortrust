@@ -1,0 +1,22 @@
+<tr style="background-color:<%= cycle("transparent", "#EEE") %>;">
+  <td>
+    <%= subscription.line_items.map{|li| content_tag("div", link_to(li.item.project.name, dt_project_path(li.item.project))) } %>
+  </td>
+  <td>
+    <%= number_to_currency(subscription.amount) %>
+  </td>
+  <td>
+    <%= subscription.begin_date.strftime("%b %d, %Y") %>
+  </td>
+  <td>
+    <%= subscription.end_date.strftime("%b %d, %Y") %>
+  </td>
+  <td align="right">
+    <%- if subscription.end_date > Date.today -%>
+    <%= link_to "Update", edit_dt_subscription_path(subscription) %> | 
+    <%= link_to "End now", dt_subscription_path(subscription), :method => :delete, :confirm => "Are you sure you want to end the subscription now?" %>
+    <%- else -%>
+    <p><strong>Completed</strong></p>
+    <%- end -%>
+  </td>
+</tr>

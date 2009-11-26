@@ -1,0 +1,23 @@
+<%- content_for :html_title do -%>Monthly Giving<%- end -%>
+<%- content_for :page_title do -%>Monthly Giving for <%= current_user.name %><%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+
+<% if @subscriptions.empty? -%>
+<div class="highlight">
+	<p>You have not set up any monthly giving yet.</p>
+	<p>Get started by supporting <%= link_to "U:Powered", dt_upowered_path %>.</p>
+</div>
+<% else -%>
+<div id="transaction-list">
+  <table style="width:100%;">
+  <tr>
+    <th align="left">Project(s)</th>
+    <th align="left">Amount</th>
+    <th align="left">Start Date</th>
+    <th align="left">End Date</th>
+    <th align="right">Actions</th>
+  </tr>
+  <%= render @subscriptions %>
+  </table>
+</div>
+<% end -%>

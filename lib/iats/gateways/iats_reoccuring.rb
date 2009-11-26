@@ -114,8 +114,9 @@ module ActiveMerchant #:nodoc:
         
         def add_amount(post, money, credit_card="1")
           if test?
-            credit_card.number = "success" unless %w(1 2 3 success failure error 4111111111111111).include?(credit_card.number)
-            case credit_card.number.to_s
+            credit_card_number = credit_card ? credit_card.number : credit_card
+            credit_card_number = "success" unless %w(1 2 3 success failure error 4111111111111111).include?(credit_card_number)
+            case credit_card_number.to_s
             when "4111111111111111"
               post[:Amount1] = amount(money) # manual tests
             when "2", "failure"

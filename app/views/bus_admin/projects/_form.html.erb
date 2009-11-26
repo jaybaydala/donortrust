@@ -1,6 +1,6 @@
 <%= error_messages_for :project %>
 
-<% form_for :project, :url => bus_admin_project_path(@project), :html => {:method => method, :id => 'project-form'} do |f| %> 
+<% form_for [:bus_admin, @project], :html => {:id => 'project-form'} do |f| %> 
 
 <div id="stylized">
 	<ul class="tabnav top">
