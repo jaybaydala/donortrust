@@ -59,7 +59,7 @@ class Dt::SessionsController < DtApplicationController
           #and the user redirected to the GroundSpring page
           unless requires_us_tax_receipt?
             flash[:notice] = "Logged in successfully"
-            format.html { redirect_back_or_default(:controller => '/dt/accounts', :action => 'index') }
+            format.html { redirect_back_or_default(:controller => '/dt/home', :action => 'index') }
           else
             #The user has indicated that they want a US tax receipt,
             #so clear out the session variable and
@@ -92,7 +92,7 @@ class Dt::SessionsController < DtApplicationController
     cookies.delete :dt_login_name
     reset_session
     flash[:notice] = "You have been logged out."
-    redirect_back_or_default(:controller => '/dt/accounts', :action => 'index')
+    redirect_back_or_default(:controller => '/dt/home', :action => 'index')
   end
   
   protected
