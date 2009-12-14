@@ -215,7 +215,8 @@ TXT
       content_type "text/html"
       recipients  gift.to_name? ? "\"#{gift.to_name}\" <#{gift.to_email}>" : "#{gift.to_email}"
       # from        (gift.name? ? "#{gift.name} " : "") << "<info@uend.org>"
-      from        "\"UEnd: Team on behalf of " << (gift.name? ? "#{gift.name} " : "") << "\" <#{gift.email}>"
+      # from        "\"UEnd: Team on behalf of " << (gift.name? ? "#{gift.name} " : "") << "\" <#{gift.email}>"
+      from        "#{gift.email}"
       sent_on     Time.now
     end
   
