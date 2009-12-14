@@ -99,7 +99,7 @@
       <b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"</b>
     </b>
   <div class="sidebarbox">
-    <%- cache @rss_sidebar.entries.first.date_published do -%>
+    <%- cache "upowered_blog-#{@rss_sidebar.entries.first.date_published}" do -%>
     <%- if @rss_sidebar && @rss_sidebar.entries.first -%>
       <h2>Updates from UEnd:</h2>
       <h3><%= @rss_sidebar.entries.first.title %></h3>
