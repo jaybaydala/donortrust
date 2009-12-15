@@ -35,7 +35,7 @@ document.observe("dom:loaded", function() {
 			new Effect.Highlight(s,{delay:2,duration:1,startcolor:'#FFFFDD',endcolor:'#FFFFFF',restorecolor:'#FFFFFF'})
 		});
 	}
-	if (giftform = $('giftform')) {
+	if ($('giftform')) {
 	  if ($('gift_send_email_now').checked || $('gift_send_email_false').checked) {
 	    $('gift_send_at').hide();
 	  } else {
