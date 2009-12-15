@@ -124,11 +124,11 @@
     </div>
     <ol>
       <li><label for="gift_notify_giver" class="left"><%= f.check_box :notify_giver %>Let me know this gift is used or not used</label></li>
-      <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "$('gift_send_at').hide();", :checked => "checked" %> Email my gift now</label></li>
-      <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Schedule my gift delivery</label></li>
+      <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "if($(this.id).checked) $('gift_send_at').hide();", :checked => "checked" %> Email my gift now</label></li>
+      <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "if($(this.id).checked)$('gift_send_at').show();" %> Schedule my gift delivery</label></li>
       <li>
         <label class="left">
-          <%= f.radio_button :send_email, false, :onchange => "$('gift_send_at').hide();" %> Don't email my gift 
+          <%= f.radio_button :send_email, false, :onchange => "if($(this.id).checked) $('gift_send_at').hide();" %> Don't email my gift 
           <div style="margin-left:2em;">(I&rsquo;ll print the ecard and deliver it myself)</div>
         </label>
       </li>
