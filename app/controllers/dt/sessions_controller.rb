@@ -74,9 +74,9 @@ class Dt::SessionsController < DtApplicationController
           @activated = false
           session[:tmp_user] = u.id
           flash.now[:error] = "A confirmation email has been sent to your login email address"
-        elsif u && u.expired?
-          @expired = true
-          flash.now[:error] = "Your account has expired."
+        # elsif u && u.expired?
+        #   @expired = true
+        #   flash.now[:error] = "Your account has expired."
         else
           flash.now[:error] = "Either your username or password are incorrect"
         end
