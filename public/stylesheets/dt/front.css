@@ -39,6 +39,17 @@
 	margin: 10px 0px 0px 0px;
 }
 
+.support-badge-home {
+	border:#999 1px solid;
+	padding:8px;
+	margin:50px 0 8px 0;
+	background:#EEE;
+	text-align:center;
+}
+
+.support-badge-home p {
+	margin: 0 0 0 0;
+}
 
 .support-badge {
 	border:#999 2px solid;
