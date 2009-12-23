@@ -46,7 +46,7 @@ class Order < ActiveRecord::Base
   def build_user_from_order
     user = User.new
     user.login = self.email
-    user.display_name = "#{self.first_name} #{self.last_name[0, 1]}"
+    user.display_name = "#{self.first_name} #{self.last_name.to_s[0, 1]}"
     user.address = self.address
     user.city = self.city
     user.province = self.province
