@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace(:dt) do |dt|
     dt.resource :upowered, :controller => "upowered"
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
+    dt.resource :christmasfuture, :controller => 'christmasfuture'
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
     dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart'
