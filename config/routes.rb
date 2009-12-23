@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :upowered, :controller => "upowered"
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
     dt.resource :christmasfuture, :controller => 'christmasfuture'
+    dt.resource :support_badges, :controller => 'support_badges'
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
     dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart'

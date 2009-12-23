@@ -38,3 +38,16 @@
 	float: right;
 	margin: 10px 0px 0px 0px;
 }
+
+
+.support-badge {
+	border:#999 2px solid;
+	padding:16px;
+	margin:16px auto;
+	background:#EEE;
+}
+
+.support-badge .badge-image{
+	text-align:center;
+	padding:0 0 8px 0;
+}
