@@ -184,6 +184,7 @@ class Order < ActiveRecord::Base
   end
   
   def run_transaction
+    logger.debug("Entering run_transaction")
     if credit_card.valid?
       if File.exists?("#{RAILS_ROOT}/config/iats.yml")
         config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
@@ -200,7 +201,8 @@ class Order < ActiveRecord::Base
       
       # purchase the amount
       purchase_options = {:billing_address => billing_address, :invoice_id => self.order_number}
-      response = gateway.purchase(total*100, credit_card, purchase_options)
+      logger.debug("Transacting purchase for #{self.credit_card_payment.to_s}")
+      response = gateway.purchase(self.credit_card_payment*100, credit_card, purchase_options)
       if response.success?
         self.update_attributes({:authorization_result => response.authorization})
         create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
