@@ -236,7 +236,7 @@ class Dt::CheckoutsController < DtApplicationController
   end
   
   def do_billing
-    if @cart.subscription? && !logged_in?
+    if !logged_in? && (@cart.subscription? || @order.tax_receipt_requested?)
       user = @order.create_user_from_order
       if user && !user.new_record?
         @order.user = user

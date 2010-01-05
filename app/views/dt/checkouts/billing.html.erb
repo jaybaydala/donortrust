@@ -62,10 +62,14 @@
         <li><label for="order_email"><%= form_required %>Email</label> <%= f.text_field :email %></li>
       </ol>
     </fieldset>
-    <%- if @cart.subscription? && !logged_in? -%>
-  	<fieldset>
-  	  <legend>Acccount Signup</legend>
-  	  <div class="textsm">In order to be able to manage your monthly giving, you need to sign up for an account or, if you already have a UEnd: account, please login from the sidebar.</div>
+    <%- if !logged_in? -%>
+    <fieldset>
+      <legend>Account Signup</legend>
+      <%- if @cart.subscription? -%>
+        <div class="textsm">In order to be able to manage your monthly giving, you need to sign up for an account or, if you already have a UEnd: account, please login from the sidebar.</div>
+      <%- else -%>
+        <div class="textsm">If you would like to be provided with a tax receipt, you need to sign up for an account or, if you already have a UEnd: account, please login from the sidebar.</div>
+      <%- end -%>
       <ol>
         <li>
           <%= f.label :password, "#{form_required} Password" %>
@@ -75,7 +79,7 @@
           <%= f.label :password_confirmation, "#{form_required} Confirm Password" %>
           <%= f.password_field :password_confirmation %>
         </li>
-  	    <li>
+        <li>
           <%= f.check_box :terms_of_use %>
           <%= f.label :terms_of_use, render(:partial => 'dt/shared/form_required') + 'I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree', :class => "left inline" %>
         </li>
