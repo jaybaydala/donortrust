@@ -1,11 +1,11 @@
 namespace :subscriptions do
   desc "Run all the subscriptions for today. Can also pass a parseable FORDATE environment variable"
   task :process_daily => :environment do
-    puts "[#{Time.now.utc.to_s}] Processing daily subscriptions"
-    date = defined?(FORDATE) ? Date.parse(FORDATE) : Date.today
+    date = defined?(ENV['FORDATE']) ? Date.parse(ENV['FORDATE']) : Date.today
+    puts "[#{Time.now.utc.to_s}] Processing daily subscriptions for #{date.to_s(:db)}"
     day_of_month = date.day
-    day_of_month = (Time.days_in_month(date.month)..day_of_month) if Time.days_in_month(date.month) < day_of_month
-    subscriptions = Subscription.all(:conditions => ["(end_date IS NULL OR end_date >= ?) AND schedule_date IN (?) AND created_at NOT LIKE ?", Time.now.beginning_of_day, day_of_month, "#{Date.today.to_s(:db)}%"])
+    day_of_month = (day_of_month..31) if day_of_month < 31 && day_of_month == Time.days_in_month(date.month)
+    subscriptions = Subscription.all(:conditions => ["begin_date < ? && (end_date IS NULL OR end_date >= ?) AND schedule_date IN (?)", date, date, day_of_month])
     puts "[#{Time.now.utc.to_s}] #{subscriptions.size} subscriptions found to process.#{' Processing...' if subscriptions.size > 0}"
     good_subscriptions = subscriptions.select do |subscription|
       begin
@@ -15,10 +15,11 @@ namespace :subscriptions do
         true
       rescue ActiveMerchant::Billing::Error => exception
         send_exception(subscription)
-        # BadSubscriptionNotifier.deliver_exception_notification(exception, subscription)
+        false
       end
     end
     send_notification(good_subscriptions) # unless good_subscriptions.blank?
+    puts "[#{Time.now.utc.to_s}] #{good_subscriptions.size} out of #{subscriptions.size} subscriptions were successfully processed." if subscriptions.size > 0
   end
   
   task :test_exception_email => :environment do
@@ -46,15 +47,16 @@ namespace :subscriptions do
   def send_message(subject, body)
     require 'pony'
     smtp_config = ActionMailer::Base.smtp_settings
-    smtp_options = {
-      :host     => smtp_config[:address],
-      :port     => smtp_config[:port] || 587,
-      :user     => smtp_config[:user_name],
-      :password => smtp_config[:password],
-      :auth     => smtp_config[:authentication], # :plain, :login, :cram_md5, no auth by default
-      :domain   => smtp_config[:domain], # the HELO domain provided by the client to the server
-      :tls => true
-    }
+    smtp_options = {}
+    smtp_options[:host]     = smtp_config[:address] if smtp_config[:address]
+    smtp_options[:port]     = smtp_config[:port] if smtp_config[:port]
+    smtp_options[:user]     = smtp_config[:user_name] if smtp_config[:user_name]
+    smtp_options[:password] = smtp_config[:password] if smtp_config[:password]
+    # :plain, :login, :cram_md5, no auth by default
+    smtp_options[:auth]     = smtp_config[:authentication] if smtp_config[:authentication]
+    # the HELO domain provided by the client to the server
+    smtp_options[:domain]   = smtp_config[:domain] if smtp_config[:domain]
+    smtp_options[:tls] = true unless Rails.env == "production"
     # RAILS_DEFAULT_LOGGER.debug("SMTP options: #{smtp_options.inspect}")
     Pony.mail(:subject => subject, 
       :body => body, 
