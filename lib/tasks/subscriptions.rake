@@ -6,59 +6,62 @@ namespace :subscriptions do
     day_of_month = date.day
     day_of_month = (Time.days_in_month(date.month)..day_of_month) if Time.days_in_month(date.month) < day_of_month
     subscriptions = Subscription.all(:conditions => ["(end_date IS NULL OR end_date >= ?) AND schedule_date IN (?) AND created_at NOT LIKE ?", Time.now.beginning_of_day, day_of_month, "#{Date.today.to_s(:db)}%"])
-    puts "[#{Time.now.utc.to_s}] #{subscriptions.size} subscriptions found to process. Processing..."
-    subscriptions.each do |subscription|
+    puts "[#{Time.now.utc.to_s}] #{subscriptions.size} subscriptions found to process.#{' Processing...' if subscriptions.size > 0}"
+    good_subscriptions = subscriptions.select do |subscription|
       begin
         Subscription.transaction do
           subscription.process_payment
         end
+        true
       rescue ActiveMerchant::Billing::Error => exception
-        
+        send_exception(subscription)
         # BadSubscriptionNotifier.deliver_exception_notification(exception, subscription)
       end
     end
+    send_notification(good_subscriptions) # unless good_subscriptions.blank?
+  end
+  
+  task :test_exception_email => :environment do
+    send_exception(Subscription.last)
+    puts "test exception email sent"
+  end
+  task :test_notification_email => :environment do
+    send_notification(Subscription.all(:limit => 5))
+    puts "test notification email sent"
+  end
+  
+  def send_notification(subscriptions)
+    subject = "[UEnd] #{subscriptions.size} Subscriptions were processed"
+    body = ""
+    body += subscriptions.map{|s| s.attributes.to_yaml }.join("\n")
+    send_message(subject, body)
+  end
+  
+  def send_exception(subscription)
+    subject = "[UEnd] Subscription Processing Error"
+    body = subscription.attributes.to_yaml
+    send_message(subject, body)
+  end
+
+  def send_message(subject, body)
+    require 'pony'
+    smtp_config = ActionMailer::Base.smtp_settings
+    smtp_options = {
+      :host     => smtp_config[:address],
+      :port     => smtp_config[:port] || 587,
+      :user     => smtp_config[:user_name],
+      :password => smtp_config[:password],
+      :auth     => smtp_config[:authentication], # :plain, :login, :cram_md5, no auth by default
+      :domain   => smtp_config[:domain], # the HELO domain provided by the client to the server
+      :tls => true
+    }
+    # RAILS_DEFAULT_LOGGER.debug("SMTP options: #{smtp_options.inspect}")
+    Pony.mail(:subject => subject, 
+      :body => body, 
+      :to   => "tim@tag.ca", 
+      :from => "subscriptions@uend.org", 
+      :via  => :smtp, 
+      :smtp => smtp_options
+    )
   end
 end
-
-# require "action_mailer"
-# class BadSubscriptionNotifier < ActionMailer::Base
-#   @@sender_address = %(support@christmasfuture.com)
-#   cattr_accessor :sender_address
-# 
-#   @@exception_recipients = ["sysadmin@pivotib.com"] #, "info@christmasfuture.org"]
-#   cattr_accessor :exception_recipients
-# 
-#   @@email_prefix = "[SUBSCRIPTION ERROR] "
-#   cattr_accessor :email_prefix
-# 
-#   self.template_root = "#{File.dirname(__FILE__)}/../../app/views"
-# 
-#   def self.reloadable?() false end
-# 
-#   def exception_notification(exception, subscription, data={})
-#     content_type "text/plain"
-# 
-#     subject    "#{email_prefix} Subscription #{subscription.id}#process_payment (#{exception.class}) #{exception.message.inspect}"
-# 
-#     recipients exception_recipients
-#     from       sender_address
-#     
-#     sections = [subscription, subscription.user]
-#     body       data.merge({ :exception => exception,
-#                   :backtrace => sanitize_backtrace(exception.backtrace),
-#                   :rails_root => rails_root, :data => data,
-#                   :sections => sections })
-#   end
-#   
-#   private
-# 
-#     def sanitize_backtrace(trace)
-#       re = Regexp.new(/^#{Regexp.escape(rails_root)}/)
-#       trace.map { |line| Pathname.new(line.gsub(re, "[RAILS_ROOT]")).cleanpath.to_s }
-#     end
-# 
-#     def rails_root
-#       @rails_root ||= Pathname.new(RAILS_ROOT).cleanpath.to_s
-#     end
-#   
-# end

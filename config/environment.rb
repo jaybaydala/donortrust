@@ -34,6 +34,7 @@ Rails::Initializer.run do |config|
   config.gem "color-tools", :lib => "color"
   # scheduling
   config.gem 'javan-whenever', :lib => false, :version => ">=0.3.0", :source => 'http://gems.github.com'
+  config.gem 'pony', :lib => false
   # bad bots
   config.gem "ruby-recaptcha"
   config.gem "paperclip", :source => "http://gemcutter.org"
