@@ -46,8 +46,8 @@ class Dt::ProjectsController < DtApplicationController
     begin
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render_404 and return
     end
+    return render_404 unless @project
     @page_title = "Project Details | #{@project.name}"
     @action_js = "http://simile.mit.edu/timeline/api/timeline-api.js"
     respond_to do |format|
@@ -59,8 +59,8 @@ class Dt::ProjectsController < DtApplicationController
     begin
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render_404 and return
     end
+    return render_404 unless @project
     @community = @project.community
     @page_title = "#{@community.name} | #{@project.name}"
 
@@ -76,8 +76,8 @@ class Dt::ProjectsController < DtApplicationController
     begin
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render_404 and return
     end
+    return render_404 unless @project
     @nation = @project.nation
     @page_title = "#{@nation.name} | #{@project.name}"
     @mdgs = MillenniumGoal.find(:all)
@@ -90,8 +90,8 @@ class Dt::ProjectsController < DtApplicationController
     begin
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render_404 and return
     end
+    return render_404 unless @project
     @organization = @project.partner if @project.partner_id?
     @page_title = "#{@organization.name} | #{@project.name}"
     respond_to do |format|
@@ -103,8 +103,8 @@ class Dt::ProjectsController < DtApplicationController
     begin
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render_404 and return
     end
+    return render_404 unless @project
     @public_groups = @project.public_groups.paginate({:page => params[:page], :per_page => 10})
     @page_title = "Connect | #{@project.name}"
 
@@ -119,8 +119,8 @@ class Dt::ProjectsController < DtApplicationController
       @project = Project.find_public(params[:id])
       @cause = Cause.find(params[:cause_id]) if params[:cause_id]
     rescue ActiveRecord::RecordNotFound
-      render_404 and return
     end
+    return render_404 unless @project
     respond_to do |format|
       format.html {render :action => 'cause', :layout => 'dt/plain'}
     end
@@ -130,8 +130,8 @@ class Dt::ProjectsController < DtApplicationController
     begin
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
-      render_404 and return
     end
+    return render_404 unless @project
     respond_to do |format|
       format.html
     end
@@ -156,6 +156,7 @@ class Dt::ProjectsController < DtApplicationController
 
   def timeline
     @project = Project.find(params[:id])
+    return render_404 unless @project
     @milestones = @project.milestones(:include => :tasks)
     @tasks = @project.tasks  #Task.find(:all, :joins=>['INNER Join milestones on tasks.milestone_id = milestones.id'], :conditions=> ['milestones.project_id = ?', @id])
     render :partial => 'timeline'
