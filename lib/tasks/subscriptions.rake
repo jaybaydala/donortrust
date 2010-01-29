@@ -60,7 +60,7 @@ namespace :subscriptions do
     # RAILS_DEFAULT_LOGGER.debug("SMTP options: #{smtp_options.inspect}")
     Pony.mail(:subject => subject, 
       :body => body, 
-      :to   => "tim@tag.ca", 
+      :to   => "info@uend.org,tim@tag.ca", 
       :from => "subscriptions@uend.org", 
       :via  => :smtp, 
       :smtp => smtp_options
