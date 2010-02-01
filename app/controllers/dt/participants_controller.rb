@@ -23,7 +23,7 @@ class Dt::ParticipantsController < DtApplicationController
     @participant = Participant.find(params[:id]) unless params[:id].nil?
     @participant = Participant.find_by_short_name(params[:short_name]) if @participant.nil? && !params[:short_name].nil?
     # old participant records still exist when a campaign/team gets deleted. A participant must belong to a team and a campaign
-    unless @participant && @participant.team && @participant.team.campaign
+    unless @participant && @participant.user && @participant.team && @participant.team.campaign
       flash[:notice] = 'That campaign / participant could not be found. Please choose a current campaign.'
       redirect_to dt_campaigns_path and return
     end
