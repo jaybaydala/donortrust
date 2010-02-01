@@ -11,6 +11,12 @@ set :mongrel_clean, true
 
 set :rails_version, "v2.3.4" unless variables[:rails_version]
 
+before "deploy:asset_folder_fix", "deploy:remove_uploaded_pictures_folder"
+after "deploy:update_code", "deploy:configure_stuff"
+after "deploy:start", "deploy:start_admin"
+after "deploy:stop", "deploy:stop_admin"
+after "deploy:restart", "deploy:restart_admin"
+
 namespace :deploy do
 
   task :cold do
@@ -25,22 +31,12 @@ namespace :deploy do
   task :restart,  :roles => :app do mongrel.cluster.restart end
   
   # donortrust hooks
-  task :after_update_code do
+  task :configure_stuff do
     configure_iats
     asset_folder_fix
     insert_google_stats
     configure_ultrasphinx
     update_crontab
-  end
-
-  task :after_start do
-    start_admin
-  end
-  task :after_stop do
-    stop_admin
-  end
-  task :after_restart do
-    restart_admin
   end
 
   task :configure_iats do
@@ -49,12 +45,12 @@ namespace :deploy do
     sudo "chown #{user}:#{group} #{iats_conf} && chmod a+r #{iats_conf}"
   end
   
-  task :before_asset_folder_fix do
+  task :remove_uploaded_pictures_folder, :roles => :web do
     # uploaded pictures
     uploaded_pictures_path = "#{latest_release}/public/images/uploaded_pictures"
     send(run_method, "rm -f #{uploaded_pictures_path} && ln -s #{shared_path}/system/uploaded_pictures #{uploaded_pictures_path}")
   end
-  task :asset_folder_fix , :roles => :web do
+  task :asset_folder_fix, :roles => :web do
     # to be defined by multistage deployment files
   end
   task :insert_google_stats, :roles => :app do
@@ -102,10 +98,10 @@ desc <<-DESC
 Check the status of all mongrel processes
 DESC
 task :status,  :roles => :app do mongrel.cluster.status end
-task :after_status , :roles => :admin do
+after "status", "admin_status"
+task :admin_status , :roles => :admin do
   send(run_method, "#{mongrel_rails} cluster::status -C #{mongrel_admin_conf}")
 end
-
 
 # THESE ARE TO HELP MOVE THE PRODUCTION DB TO YOUR DEV ENVIRONMENT
 # to use, do this: `rake db:production_data_refresh`
