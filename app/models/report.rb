@@ -1,14 +1,7 @@
-require 'csv'
 class Report < ActiveRecord::Base
-      attr_accessor :gift, :start_date, :end_date
+  attr_accessor :report_type, :gift, :start_date, :end_date
 
-      def initialize(attributes = nil)
-      	  @gift = 'gift_report'
-	  puts "Initialization run"
-      end
+  def initialize(attributes = {})
+    @report_type = attributes[:report_type] || 'gift_report'
+  end
 end
-   
-   
-
-  
-  

@@ -1,4 +1,3 @@
-require 'csv'
 require 'fastercsv'
 
 class BusAdmin::ReportsController < ApplicationController
@@ -24,10 +23,11 @@ class BusAdmin::ReportsController < ApplicationController
       redirect_to('/bus_admin/reports') and return
     end
 
-    selected_report = params[:report][:gift] ||= "gift_report";
+    report = Report.new(params[:report])
+    report_type = params[:report][:report_type] ||= "gift_report";
 
     case
-    when selected_report == "gift_report":
+    when report_type == "gift_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM gifts 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
@@ -36,7 +36,7 @@ class BusAdmin::ReportsController < ApplicationController
        @results = Gift.find_by_sql(sqlString)
        export(@results, "Gift")
 
-    when selected_report == "deposit_report":
+    when report_type == "deposit_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM deposits 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
@@ -45,7 +45,7 @@ class BusAdmin::ReportsController < ApplicationController
        @results = Deposit.find_by_sql(sqlString)
         export(@results, "Deposit")
 
-    when selected_report == "investment_report":
+    when report_type == "investment_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM investments 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
@@ -54,7 +54,7 @@ class BusAdmin::ReportsController < ApplicationController
        @results = Investment.find_by_sql(sqlString)
         export(@results, "Investment")
 
-    when selected_report == "pledge_report":
+    when report_type == "pledge_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM pledges 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
@@ -63,7 +63,7 @@ class BusAdmin::ReportsController < ApplicationController
        @results = Pledge.find_by_sql(sqlString)
         export(@results, "Pledge")
 
-    when selected_report == "project_breakdown":
+    when report_type == "project_breakdown":
       sqlString = "SELECT PA.name AS partner_name, P.id, P.name, sum(I.amount) AS total_investment, P.total_cost 
                    FROM projects AS P INNER JOIN investments AS I INNER JOIN partners as PA
                    ON I.project_id = P.id
@@ -84,6 +84,12 @@ class BusAdmin::ReportsController < ApplicationController
 
       send_csv_data(csv_string)
 
+    when report_type == "order_report"
+      @orders = Order.all(
+        :conditions => ["complete=? AND created_at BETWEEN ? AND ?", true, @start_date.beginning_of_day, @end_date.end_of_day],
+        :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges]
+      )
+      send_csv_data(render_to_string(:action => "orders", :layout => false), "order_report")
     else
       # TODO: What should happen here? Raise an exception?
     end
@@ -105,11 +111,11 @@ class BusAdmin::ReportsController < ApplicationController
   end
 
   private
-  def send_csv_data(csv_string)
+  def send_csv_data(csv_string, filename = "project")
     headers['Cache-Control'] = 'private'
     send_data csv_string,
       :type => 'text/csv; charset=iso-8859-1; header=present',
-      :disposition => "attachment; filename=project.csv"
+      :disposition => "attachment; filename=#{filename}.csv"
   end
    
   private 

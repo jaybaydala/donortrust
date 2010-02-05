@@ -23,11 +23,12 @@
 			%> 
 			
 		    <ul>
-		      Gift Report <%= f.radio_button :gift, 'gift_report' %> | 
-          Deposit Report <%= f.radio_button :gift, 'deposit_report' %> | 
-          Investment Report <%= f.radio_button :gift, 'investment_report' %> | 
-          Pledge Report <%= f.radio_button :gift, 'pledge_report' %> |
-          Project Breakdown <%= f.radio_button :gift, 'project_breakdown' %>
+          <li>Order Report <%= f.radio_button :report_type, 'order_report' %></li>
+          <li>Gift Report <%= f.radio_button :report_type, 'gift_report' %></li>
+          <li>Deposit Report <%= f.radio_button :report_type, 'deposit_report' %></li>
+          <li>Investment Report <%= f.radio_button :report_type, 'investment_report' %></li>
+          <li>Pledge Report <%= f.radio_button :report_type, 'pledge_report' %></li>
+          <li>Project Breakdown <%= f.radio_button :report_type, 'project_breakdown' %></li>
 			</ul>
 	  </div>
 	</fieldset>
