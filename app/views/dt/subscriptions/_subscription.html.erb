@@ -1,6 +1,18 @@
 <tr style="background-color:<%= cycle("transparent", "#EEE") %>;">
   <td>
-    <%= subscription.line_items.map{|li| content_tag("div", link_to(li.item.project.name, dt_project_path(li.item.project))) } %>
+    <%= 
+      subscription.line_items.map do |li|
+        if li.item.class == Investment
+          content_tag("div", link_to(li.item.project.name, dt_project_path(li.item.project)))
+        elsif li.item.class == Gift
+          content_tag("div", "Gift to #{li.item.to_name || li.item.to_email}")
+        elsif li.item.class == Deposit
+          content_tag("div", "Deposit")
+        elsif li.item.class == Pledge
+          content_tag("div", "Pledge")
+        end
+      end 
+    %>
   </td>
   <td>
     <%= number_to_currency(subscription.amount) %>
