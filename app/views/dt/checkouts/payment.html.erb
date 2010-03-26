@@ -43,7 +43,9 @@
           <%= hidden_field_tag :pledge_account_balance, pledge_account.balance %>
         </li>
       <%- end -%>
+        <% @order.credit_card_payment= @order.minimum_credit_payment(@cart.items)   %>
       <% if minimum_credit_payment = @order.minimum_credit_payment(@cart.items) %>
+        <% @order.credit_card_payment= @order.minimum_credit_payment(@cart.items)   %>
         <% if !gift_card_payment? %>
           <li>
             <label class="left" style="font-style:italic;">Your minimum Credit Card payment: <%= number_to_currency(minimum_credit_payment) %></label>
@@ -83,8 +85,8 @@
   </fieldset>
 </div>
 <div class="checkoutbuttons clearfix">
-  <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "support") %>
-  <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_3.png", :alt => 'Proceed to Step 3' %>
+ <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "support") %>
+ <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_3.png", :alt => 'Proceed to Step 3' %>
 </div>
 <% end %>
 
