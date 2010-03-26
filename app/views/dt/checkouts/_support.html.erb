@@ -2,7 +2,7 @@
 <div class="userform">
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
 
-  <% if Project.admin_project %>
+ <% if Project.admin_project %>
   <fieldset>
     <legend>Support Uend:</legend>
     
@@ -26,7 +26,7 @@
           <div>
             <label>&nbsp; &nbsp;</label>
             <%= text_field_tag "fund_cf_amount_calculated", nil, :disabled => "disabled" %>
-            <%= hidden_field_tag "cart_total", (cart_cf_investment ? @cart.total - cart_cf_investment.amount : @cart.total) %>
+            <%= hidden_field_tag "cart_total", ( cart_cf_investment ? @cart.total - cart_cf_investment.amount : @cart.total) %>
           </div>
         </div>
       </li>
