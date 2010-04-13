@@ -27,7 +27,7 @@ namespace :deploy do
   symlink the images, stylesheets and javascripts to current_path
   DESC
   task :asset_folder_fix , :roles => :web do
-    %w( stylesheets javascripts images/uploaded_pictures ).each do |dir|
+    %w( stylesheets system javascripts images/uploaded_pictures ).each do |dir|
       asset_path = "#{latest_release}/public/#{dir}"
       server_path = "/var/www/staging.uend.org/#{dir}"
       send(run_method, "rm -f #{server_path}")
