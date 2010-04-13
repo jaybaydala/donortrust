@@ -11,7 +11,7 @@ set :mongrel_clean, true
 
 set :rails_version, "v2.3.4" unless variables[:rails_version]
 
-before "deploy:asset_folder_fix", "deploy:remove_uploaded_pictures_folder"
+# before "deploy:asset_folder_fix", "deploy:remove_uploaded_pictures_folder"
 after "deploy:update_code", "deploy:configure_stuff"
 after "deploy:start", "deploy:start_admin"
 after "deploy:stop", "deploy:stop_admin"
@@ -32,17 +32,21 @@ namespace :deploy do
   
   # donortrust hooks
   task :configure_stuff do
-    configure_iats
+    link_configs
     asset_folder_fix
     insert_google_stats
     configure_ultrasphinx
     update_crontab
   end
 
-  task :configure_iats do
+  task :link_configs do
     set :iats_conf, "#{latest_release}/config/iats.yml"
-    sudo "cp #{shared_path}/system/iats.yml #{iats_conf}"
-    sudo "chown #{user}:#{group} #{iats_conf} && chmod a+r #{iats_conf}"
+    # sudo "cp #{shared_path}/config/iats.yml #{iats_conf}"
+    # sudo "chown #{user}:#{group} #{iats_conf} && chmod a+r #{iats_conf}"
+    sudo "ln -s #{shared_path}/config/iats.yml #{iats_conf}"
+    
+    set :recaptcha_conf, "#{latest_release}/config/initializers/recaptcha_vars.rb"
+    sudo "ln -s #{shared_path}/config/recaptcha_vars.rb #{recaptcha_conf}"
   end
   
   task :remove_uploaded_pictures_folder, :roles => :web do

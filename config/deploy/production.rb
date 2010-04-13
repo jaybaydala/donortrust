@@ -35,10 +35,10 @@ namespace :deploy do
   end
 
   desc <<-DESC
-  symlink the images, stylesheets and javascripts to current_path
+  symlink the images, system, stylesheets and javascripts to current_path
   DESC
   task :asset_folder_fix , :roles => :web do
-    %w( stylesheets javascripts images/uploaded_pictures).each do |dir|
+    %w( stylesheets system javascripts images/uploaded_pictures).each do |dir|
       asset_path = "#{latest_release}/public/#{dir}"
       server_path = "/var/www/blog.christmasfuture.org/wordpress/#{dir}"
       send(run_method, "rm -f #{server_path}")
