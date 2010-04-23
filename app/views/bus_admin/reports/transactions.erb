@@ -53,8 +53,13 @@ FasterCSV.generate do |csv|
         campaign = pledge.campaign
         campaign ||= pledge.team.campaign if pledge.team
         campaign ||= pledge.participant.team.campaign if pledge.participant && pledge.participant.team && pledge.participant.team.campaign
-        data << campaign.name
-        data << campaign.id
+        if campaign
+          data << campaign.name
+          data << campaign.id
+        else
+          data << ""
+          data << ""
+        end
       end
       if order.investments[row_index].nil?
         data << "" # Investment amount
