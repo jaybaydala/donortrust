@@ -1,0 +1,75 @@
+<%=
+FasterCSV.generate do |csv|
+  # - Date of tx
+  # - Amount of Tx
+  # - Name of transactor (if available)
+  # - Type of tx (gift card purchase, donation to a project (either for someone (gift card with project on it) or for myself (straight donation), deposit, pledge)
+  # - If donation: to what project # and Project name and implementing partner
+  # - If a pledge - to what campaign
+  
+  # name, email, city) - when they started/stopped - current total that they've given
+  csv << ["Order ID", "Completed at", "Amount", "User Name", "User ID", "Gift Card Payment", "Gift Card Payment ID", 
+          "Pledge Account Payment", "Pledge Account Payment ID", "Account Balance Payment", "Credit Card Payment", 
+          "CC Auth Result", "Deposit(s)", "Gift(s)", "Gift nr", "Pledge(s)", "Pledge Campaign Name", "Pledge Campaign ID", 
+          "Investment", "Investment Project Name", "Investment Project ID", "Investment Partner"]
+  @orders.each do |order|
+		rows = [order.investments.count, order.deposits.count, order.gifts.count, order.pledges.count].max
+		(0..rows-1).each do |row_index|
+      if row_index == 0
+        data = []
+        data << order.id
+        data << order.updated_at.strftime("%b %d, %Y")
+        data << number_to_currency(order.total)
+        data << (order.user_id? && order.user ? order.user.name : "")
+        data << (order.user_id? && order.user ? order.user.id : "")
+        data << number_to_currency(order.gift_card_payment)
+        data << order.gift_card_payment_id
+        data << number_to_currency(order.pledge_account_payment)
+        data << order.pledge_account_payment_id
+        data << number_to_currency(order.account_balance_payment)
+        data << number_to_currency(order.credit_card_payment)
+        data << order.authorization_result
+      else
+        data = [order.id, "", "", "", "", "", "", "", "", "", "", ""]
+      end
+      if order.deposits[row_index].nil?
+        data << ""
+      else
+        data << number_to_currency(order.deposits[row_index].amount)
+      end
+      if order.gifts[row_index].nil?
+        data << ""
+      else
+        data << number_to_currency(order.gifts[row_index].amount)
+      end
+      data << "" # Gift NR - what is this?
+      if order.pledges[row_index].nil?
+        data << "" # pledge amount
+        data << "" # pledge campaign
+        data << "" # pledge campaign ID
+      else
+        pledge = order.pledges[row_index]
+        data << number_to_currency(pledge.amount)
+        campaign = pledge.campaign
+        campaign ||= pledge.team.campaign if pledge.team
+        campaign ||= pledge.participant.team.campaign if pledge.participant && pledge.participant.team && pledge.participant.team.campaign
+        data << campaign.name
+        data << campaign.id
+      end
+      if order.investments[row_index].nil?
+        data << "" # Investment amount
+        data << "" # Investment project name
+        data << "" # Investment project id
+        data << "" # Investment partner
+      else
+        investment = order.investments[row_index]
+        data << number_to_currency(investment.amount)
+        data << investment.project.name
+        data << investment.project.id
+        data << investment.project.partner.name
+      end
+      csv << data
+		end
+  end
+end
+%>

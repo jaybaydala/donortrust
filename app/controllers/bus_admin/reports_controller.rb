@@ -90,6 +90,13 @@ class BusAdmin::ReportsController < ApplicationController
         :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges]
       )
       send_csv_data(render_to_string(:action => "orders", :layout => false), "order_report")
+    when report_type == "transaction_report"
+      @orders = Order.all(
+        :conditions => ["complete=? AND created_at BETWEEN ? AND ?", true, @start_date.beginning_of_day, @end_date.end_of_day],
+        :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges]
+      )
+      # render :action => "transactions", :layout => false
+      send_csv_data(render_to_string(:action => "transactions", :layout => false), "transaction_report")
     else
       # TODO: What should happen here? Raise an exception?
     end

@@ -1,36 +1,37 @@
 <% form_for :report, Report.new, :url=>{:controller=>'reports', :action=>'process_report'}, :html => { :multipart => true } do |f| -%>
-  	<fieldset>
-		<legend>Report</legend>	      
-		<% if (flash[:error]) then %>
-		   <div class="errorExplanation">Error: <%= flash[:error] %></div>
-		<% end %>
-		<div id="report_start_date">
-			<ul class="row" style="padding-top:10px; padding-bottom:10px;">		
-		     	<li>Select a Start Date</li>
-		    </ul>
-			<%= f.date_select :start_date,
-			   :order => [:month, :day, :year], 
-	           :start_year => 2005, 
-	           :end_year => Time.now.year
-			%>    		      
-		 	<ul>
-		    	<li>Select a Report End Date</li>
-		    </ul>
-	        <%= f.date_select :end_date, 
-	           :order => [:month, :day, :year], 
-	           :start_year => 2007, 
-	           :end_year => Time.now.year
-			%> 
-			
-		    <ul>
+    <fieldset>
+    <legend>Report</legend>        
+    <% if (flash[:error]) then %>
+       <div class="errorExplanation">Error: <%= flash[:error] %></div>
+    <% end %>
+      <div id="report_start_date">
+        <ul class="row" style="padding-top:10px;">
+          <li>Select a Report Start Date</li>
+        </ul>
+        <%= f.date_select :start_date,
+          :order => [:month, :day, :year], 
+          :start_year => 2005, 
+          :end_year => Time.now.year
+        %>
+
+        <ul class="row" style="padding-top:10px;">
+          <li>Select a Report End Date</li>
+        </ul>
+        <%= f.date_select :end_date, 
+           :order => [:month, :day, :year], 
+           :start_year => 2007, 
+           :end_year => Time.now.year
+        %>
+        <ul>
+          <li>Transaction Report <%= f.radio_button :report_type, 'transaction_report' %></li>
           <li>Order Report <%= f.radio_button :report_type, 'order_report' %></li>
           <li>Gift Report <%= f.radio_button :report_type, 'gift_report' %></li>
           <li>Deposit Report <%= f.radio_button :report_type, 'deposit_report' %></li>
           <li>Investment Report <%= f.radio_button :report_type, 'investment_report' %></li>
           <li>Pledge Report <%= f.radio_button :report_type, 'pledge_report' %></li>
           <li>Project Breakdown <%= f.radio_button :report_type, 'project_breakdown' %></li>
-			</ul>
-	  </div>
-	</fieldset>
-    <%= submit_tag 'Submit' %>
+      </ul>
+    </div>
+  </fieldset>
+  <%= submit_tag 'Submit' %>
 <% end %>
