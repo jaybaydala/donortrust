@@ -1,5 +1,5 @@
 class Team < ActiveRecord::Base
-  after_save :make_uploads_world_readable
+  # after_save :make_uploads_world_readable
   # associations
   belongs_to :campaign
   belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
@@ -37,7 +37,6 @@ class Team < ActiveRecord::Base
                 :versions => { :thumb => "100x100", :full => "200x200"  },
                 :filename => proc{|inst, orig, ext| "team_#{inst.id}.#{ext}"},
                 :store_dir => "uploaded_pictures/team_pictures"
-
   validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
   IMAGE_SIZES = {
@@ -165,10 +164,10 @@ class Team < ActiveRecord::Base
   end
 
   private
-  def make_uploads_world_readable
-    return if picture.nil?
-    list = self.picture.versions.map {|version, image| image.path }
-    list << self.picture.path
-    FileUtils.chmod_R(0644, list) unless list.empty?
-  end
+  # def make_uploads_world_readable
+  #   return if picture.nil?
+  #   list = self.picture.versions.map {|version, image| image.path }
+  #   list << self.picture.path
+  #   FileUtils.chmod_R(0644, list) unless list.empty?
+  # end
 end

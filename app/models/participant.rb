@@ -1,5 +1,5 @@
 class Participant < ActiveRecord::Base
-  after_save :make_uploads_world_readable
+  # after_save :make_uploads_world_readable
   belongs_to :user
   belongs_to :team
   belongs_to :campaign
@@ -69,7 +69,7 @@ class Participant < ActiveRecord::Base
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png) # the last 2 for IE
 
 
-  validates_presence_of :user, :team, :campaign
+  validates_presence_of :user_id, :team_id#, :campaign_id
   validates_numericality_of :goal, :allow_nil => true
   validates_uniqueness_of :user_id, :scope => :team_id, :message => 'currently logged in is already a member of this team'
 
@@ -146,9 +146,10 @@ class Participant < ActiveRecord::Base
     logger.debug "UnpaidParticipant: #{unpaid_participant.inspect}"
     
     participant = Participant.new
-    [:team_id, :user_id, :short_name, :pending, :private, :about_participant, :picture, :goal].each do |attr|
+    [:team_id, :user_id, :short_name, :pending, :private, :about_participant, :goal].each do |attr|
       participant[attr] = unpaid_participant[attr]
     end
+    participant.image = File.open(unpaid_participant.image.path, 'r')
     participant.save!
     unpaid_participant.destroy
     logger.debug "Participant created: #{participant.inspect}"
@@ -156,10 +157,10 @@ class Participant < ActiveRecord::Base
   end
   
   private
-  def make_uploads_world_readable
-    return if picture.nil?
-    list = self.picture.versions.select {|version, image| File.exists?(image.path) }.map{|v| v[1].path}
-    list << self.picture.path if File.exists?(self.picture.path)
-    FileUtils.chmod_R(0644, list) unless list.empty?
-  end
+  # def make_uploads_world_readable
+  #   return if picture.nil?
+  #   list = self.picture.versions.select {|version, image| File.exists?(image.path) }.map{|v| v[1].path}
+  #   list << self.picture.path if File.exists?(self.picture.path)
+  #   FileUtils.chmod_R(0644, list) unless list.empty?
+  # end
 end
