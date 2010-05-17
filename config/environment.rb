@@ -21,6 +21,7 @@ Rails::Initializer.run do |config|
   config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net/"
   config.gem "calendar_date_select"
   config.gem "activemerchant", :lib => "active_merchant"
+  config.gem "searchlogic"
   # RSS Feed parsing
   config.gem "simple-rss"
   config.gem "feed-normalizer"
