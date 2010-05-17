@@ -33,7 +33,27 @@ class User < ActiveRecord::Base
                     :default_style => :normal,
                     :url => "/images/uploaded_pictures/:attachment/:id/:style/:filename",
                     :default_url => "/images/dt/icons/users/:style/missing.png"
-  
+
+  IMAGE_SIZES = {
+    :large => {:width => 500, :height => 500, :modifier => ">"},
+    :normal => {:width => 72, :height => 72, :modifier => "#"},
+    :thumb => {:width => 48, :height => 48, :modifier => "#"},
+    :tiny => {:width => 24, :height => 24, :modifier => "#"}
+  }
+  has_attached_file :image, :styles => Hash[ *IMAGE_SIZES.collect{|k,v| [k, "#{v[:width]}x#{v[:height]}#{v[:modifier]}"] }.flatten ], 
+    :whiny_thumbnails => true,
+    :default_style => :normal,
+    :convert_options => { 
+      :all => "-strip" # strips metadata from images, removing potentially private info
+    },
+    :default_url => "/images/dt/icons/users/:style/missing.png",
+    :storage => :s3,
+    :bucket => "uend-images-#{Rails.env}",
+    :path => ":class/:attachment/:id/:basename-:style.:extension",
+    :s3_credentials => File.join(Rails.root, "config", "aws.yml")
+  validates_attachment_size :image, :less_than => 10.megabyte
+  validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png) # the last 2 for IE
+
 
   # Virtual attribute for the unencrypted password"
   attr_accessor :password
