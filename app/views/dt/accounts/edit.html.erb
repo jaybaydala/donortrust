@@ -21,7 +21,7 @@
 
 	<fieldset>
 	  <legend>Your Identity</legend>
-	  <%= image_tag(@user.picture.url, :alt => "") if @user.picture? %>
+	  <%= image_tag(@user.image.url, :alt => "") if @user.image? %>
 	  <% if @user.under_thirteen? %>
       <div class="textsm personalinfo">You must enter a display name that will be used to identify you on our website.</div>
       <div class="textsm">Please enter a display name for your child that is not personally identifiable</div>
@@ -36,8 +36,8 @@
 			  <%= f.text_field :display_name %>
 			</li>
 			<li>
-			  <%= f.label :picture %>
-			  <%= f.file_field :picture %>
+			  <%= f.label :image %>
+			  <%= f.file_field :image %>
 			</li>
 			<li>
 			  <%= f.label :bio %>

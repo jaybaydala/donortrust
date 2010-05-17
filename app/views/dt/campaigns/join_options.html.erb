@@ -4,7 +4,7 @@
 
 <div class="campaign-join-options">
 	<div style="float:right">
-		<%= image_tag @campaign.picture.full.url,:class => :full_picture if @campaign.picture? %>
+		<%= image_tag @campaign.image.url(:full), :class => :full_picture if @campaign.image? %>
 	</div>
 
 	<h2>What type of participant are you?</h2>

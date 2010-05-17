@@ -16,7 +16,7 @@
   </div>
   <div style="margin-top:0.5em;">
     <div class="campaign-picture">
-      <%= image_tag @campaign.picture.full.url,:class => :full_picture if @campaign.picture? %>
+      <%= image_tag @campaign.image.url(:full), :class => :full_picture if @campaign.image? %>
     </div>
     <%= @campaign.description %>
   </div>

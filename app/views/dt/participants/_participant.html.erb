@@ -3,8 +3,8 @@
 	<% if long_view %>
 		<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %> participant_long_view clearfix" style="min-height:60px;">
 			<div class="participant_long_display_picture">
-				<%= image_tag participant.picture.thumb.url, :class => :participant_thumbnail unless participant.picture == nil %>
-				<%= image_tag 'dt/icons/participant_placeholder_icon_48x48.jpg', :class => :participant_thumbnail unless participant.picture != nil %>
+				<%= image_tag participant.image.url(:thumb), :class => :participant_thumbnail if participant.image? %>
+				<%= image_tag 'dt/icons/participant_placeholder_icon_48x48.jpg', :class => :participant_thumbnail unless participant.image? %>
 			</div>
 			<%= link_to image_tag("/images/dt/buttons/sponsor_participant.png", :alt => "Sponsor this Participant", 
 						:title => "Sponsor this Participant"), new_dt_participant_pledge_path(participant), :style => "float:right;" if controller.action_name != "search" && @can_sponsor_participant %>

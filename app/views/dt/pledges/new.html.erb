@@ -22,18 +22,18 @@
 
 <% if @participant != nil %>
 	<div class="participant-picture">
-		<%= image_tag @participant.picture.thumb.url, :class => :full_picture if @participant.picture? %>			
-		<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.picture? %>
+		<%= image_tag @participant.image.url(:thumb), :class => :full_picture if @participant.image? %>
+		<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.image? %>
 	</div>
 <% elsif @team != nil %>
 	<div class="team-picture">
-		<%= image_tag @team.picture.thumb.url, :class => :full_picture if @team.picture? %>			
-		<%= image_tag 'dt/icons/team_placeholder_icon_125x75.jpg', :class => :thumbnail unless @team.picture? %>
+		<%= image_tag @team.image.url(:thumb), :class => :full_picture if @team.image? %>
+		<%= image_tag 'dt/icons/team_placeholder_icon_125x75.jpg', :class => :thumbnail unless @team.image? %>
 	</div>
 <% elsif @campaign != nil %>
 	<div class="campaign-picture" style="float:right;">
-		<%= image_tag @campaign.picture.thumb.url, :class => :full_picture if @campaign.picture? %>			
-		<% image_tag 'dt/icons/campaign_placeholder_icon_72x72.jpg', :class => :thumbnail unless @campaign.picture? %>
+		<%= image_tag @campaign.image.url(:thumb), :class => :full_picture if @campaign.image? %>
+		<% image_tag 'dt/icons/campaign_placeholder_icon_72x72.jpg', :class => :thumbnail unless @campaign.image? %>
 	</div>
 <% end %>
 <div id="pledge_form" class="campaign_form">

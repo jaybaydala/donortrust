@@ -12,7 +12,7 @@
 				<strong>Fundraising Goal:</strong> $ <%= campaign.fundraising_goal %>, 
 				<strong>Raised to Date:</strong> $ <%= campaign.funds_raised %>
 			
-				<%= image_tag campaign.picture.thumb.url, :class => :thumbnail if campaign.picture? %>
+				<%= image_tag campaign.image.url(:thumb), :class => :thumbnail if campaign.image? %>
 				<div>
 					<%= summarize_html(campaign.description, 200, true) %>
 				</div>
@@ -32,7 +32,7 @@
 				<li class="detail"><strong>Event Date:</strong><%= campaign.event_date %></li>
 			</ul>
 			<p>
-				<%= image_tag campaign.picture.thumb.url, :class => :thumbnail if campaign.picture? %>
+				<%= image_tag campaign.image.thumb(:url), :class => :thumbnail if campaign.image? %>
 				<%= campaign.description %>
 			</p>
 

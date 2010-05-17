@@ -9,12 +9,12 @@ staff_user = user[:user]
   <div class="staff_user_content clearfix">
     <%- if staff_user.blank? -%>
       <div class="user_details">
-    	  <div class="user_name">TBD</div>
-    	  <div class="user_title">
-    	   <%= title %>
-    	  </div>
-    	</div>
-	    <div class="user_picture_normal"><%= image_tag("/images/dt/icons/users/normal/tbd.png") %></div>
+        <div class="user_name">TBD</div>
+        <div class="user_title">
+          <%= title %>
+        </div>
+      </div>
+      <div class="user_picture_normal"><%= image_tag("/images/dt/icons/users/normal/tbd.png") %></div>
     <%- else -%>
       <div class="user_details">
         <div class="user_name"><%= staff_user.name %></div>
@@ -36,7 +36,7 @@ staff_user = user[:user]
           <div class="user_facebook">Facebook: <%= link_to( staff_user.facebook, staff_user.facebook, :target => "_blank") %></div>
         <%- end -%>
       </div>
-      <div class="user_picture_normal"><%= image_tag(staff_user.picture.url(:normal)) if staff_user.picture %></div>
+      <div class="user_picture_normal"><%= image_tag(staff_user.image.url(:normal)) if staff_user.image? %></div>
     <%- end -%>
   </div>
   <b class="rbottom">

@@ -16,7 +16,7 @@
       <li class="detail"><strong>Event Date: </strong><%= admin_campaign.event_date%></li>
     </ul>
     <p>
-      <%= image_tag admin_campaign.picture.thumb.url, :class => :thumbnail if admin_campaign.picture? %>
+      <%= image_tag admin_campaign.image.url(:thumb), :class => :thumbnail if admin_campaign.image? %>
       <%= admin_campaign.description %>
     </p>
   

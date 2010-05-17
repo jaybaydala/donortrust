@@ -24,8 +24,8 @@
 		</div>
 		<p>
 			<div class="participant-picture clearfix">
-				<%= image_tag @participant.picture.full.url, :class => :full_picture if @participant.picture? %>			
-				<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.picture? %>
+				<%= image_tag @participant.image.url(:full), :class => :full_picture if @participant.image? %>
+				<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.image? %>
 			</div>
 			<%= @participant.about_participant%>
 		</p>

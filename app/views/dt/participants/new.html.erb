@@ -2,14 +2,14 @@
 
 <% if @team.generic? %>
 	<div class="campaign-picture" style="float:right;padding-top:-50px;">
-		<%= image_tag @team.campaign.picture.thumb.url, :class => :thumbnail if @team.campaign.picture? %>			
-		<% image_tag 'dt/icons/campaign_placeholder_icon_72x72.jpg', :class => :thumbnail unless @team.campaign.picture? %>
+		<%= image_tag @team.campaign.image.url(:thumb), :class => :thumbnail if @team.campaign.image? %>
+		<% image_tag 'dt/icons/campaign_placeholder_icon_72x72.jpg', :class => :thumbnail unless @team.campaign.image? %>
 	</div>
 <% else %>
 	<h1>Join <%= link_to(@team.name, dt_team_path(@team)) %></h1>
 	<div class="team-picture" style="float:right;margin-top:-50px;">
-		<%= image_tag @team.picture.thumb.url, :class => :thumbnail if @team.picture? %>			
-		<%= image_tag 'dt/icons/team_placeholder_icon_125x75.jpg', :class => :thumbnail unless @team.picture? %>
+		<%= image_tag @team.image.url(:thumb), :class => :thumbnail if @team.image? %>
+		<%= image_tag 'dt/icons/team_placeholder_icon_125x75.jpg', :class => :thumbnail unless @team.image? %>
 	</div>
 	<div>
 		<span>You're about to become a team member of <%= @team.name %></span>
@@ -89,7 +89,7 @@
 			$ <%= f.text_field :goal %>
 			
 			<label>Upload your photo (must be less than 500kb). You can upload the photo later by editing your profile.</label>
-			<%= upload_column_field :participant,  :picture  %>
+			<%= f.file_field :image %>
 
 			<% unless @team.campaign.fee_amount.nil? %>
 			  <div id="fee-warning-text">

@@ -1,8 +1,8 @@
 <% if not team.generic? and not team.pending?%>
 	<div id="team_<%= team.id %>" class="<%= cycle('row_even','row_odd') %> clearfix">
 		<div class="team_long_display_picture">
-			<%= image_tag team.picture.thumb.url, :class => :thumbnail unless team.picture == nil %>
-			<%= image_tag 'dt/icons/team_placeholder_icon_75x45.jpg', :class => :thumbnail unless team.picture != nil %>
+			<%= image_tag team.image.url(:thumb), :class => :thumbnail if team.image? %>
+			<%= image_tag 'dt/icons/team_placeholder_icon_75x45.jpg', :class => :thumbnail unless team.image? %>
 		</div>
 		<div class="team_details team_long_view">
 			<% if controller.action_name == 'search' %>

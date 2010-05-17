@@ -4,7 +4,7 @@
 
 <div id="intro">
   <h2>My Information</h2>
-  <div><%= image_tag(@user.picture.url) if @user.picture %></div>
+  <div><%= image_tag(@user.image.url) if @user.image? %></div>
   <% unless @user.bio.nil? %><%= RedCloth.new(sanitize(@user.bio)).to_html %><% end %>
 </div>
 
