@@ -22,10 +22,14 @@ class CopyImagesToS3ViaPaperclip < ActiveRecord::Migration
   end
   
   def self.copy_picture(record)
-    if record.picture? && File.exists?(record.picture.path)
+    if !record.image? && record.picture? && File.exists?(record.picture.path)
       say "- #{record.class}##{record.id} uploading"
       record.image = File.open(record.picture.path, "r")
       record.save
+    else
+      say "- #{record.class}##{record.id} ALREADY uploaded" if record.image?
+      say "- #{record.class}##{record.id} has no picture" if !record.picture?
+      say "- #{record.class}##{record.id} has NO PICTURE FILE" if record.picture? && !File.exists?(record.picture.path)
     end
   end
 end
