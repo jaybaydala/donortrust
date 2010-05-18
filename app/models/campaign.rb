@@ -90,7 +90,7 @@ class Campaign < ActiveRecord::Base
                 :versions => { :thumb => "75x75", :full => "150x150"  },
                 :filename => proc{|inst, orig, ext| "campaign_#{inst.id}.#{ext}"},
                 :store_dir => "uploaded_pictures/campaign_pictures"
-  validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
+  # validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
   IMAGE_SIZES = {
     :full => {:width => 150, :height => 150, :modifier => ">"},

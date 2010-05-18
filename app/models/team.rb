@@ -37,7 +37,7 @@ class Team < ActiveRecord::Base
                 :versions => { :thumb => "100x100", :full => "200x200"  },
                 :filename => proc{|inst, orig, ext| "team_#{inst.id}.#{ext}"},
                 :store_dir => "uploaded_pictures/team_pictures"
-  validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
+  # validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
   IMAGE_SIZES = {
     :full => {:width => 200, :height => 200, :modifier => ">"},
