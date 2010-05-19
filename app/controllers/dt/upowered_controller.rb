@@ -24,7 +24,7 @@ class Dt::UpoweredController < DtApplicationController
       @staff = user_titles.inject([]) do |staff, title| 
         user = User.find_by_title_and_staff(title, true)
         staff << { :title => title, :user => user }
-      end  
-      @mosaic_users = Subscription.all(:order => 'rand()', :limit => 57, :include => :user, :conditions => "user_id IS NOT NULL").map(&:user)
+      end
+      @mosaic_users = Subscription.all(:order => 'rand()', :limit => 57, :include => :user, :select => "DISTINCT user_id", :conditions => "user_id IS NOT NULL").map(&:user)
   end
 end

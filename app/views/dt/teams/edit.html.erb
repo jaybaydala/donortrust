@@ -16,8 +16,8 @@
 	  <div id="errors" style="display:none;">		</div>
 		<label>Share a little about the team (this information will be made public)</label>
 		<%= fckeditor_textarea( "team", "description", :toolbarSet=> 'uEnd', :height => 200 ) %> 
-		<label>Upload a team image smaller than 500 kb.  If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
-		<%= f.file_field :team, :image  %>
+		<label>Upload a team image smaller than 1MB.  If you don't upload one a default image will be used for you.  You can also come back and upload your photo later.</label>
+		<%= f.file_field :image  %>
 		
 		<label>What is your team fundraising goal?</label>
 		<span class="small_text">$ </span><%= f.text_field :goal %>

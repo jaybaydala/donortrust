@@ -203,7 +203,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def has_registration_fee?
-    fee_amount.nil? == false
+    fee_amount.to_f > 0
   end
 
   def teams_full?

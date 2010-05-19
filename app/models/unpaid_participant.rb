@@ -4,7 +4,7 @@ class UnpaidParticipant < ActiveRecord::Base
                 :versions => { :thumb => "100x100", :full => "200x200"  },
                 :filename => proc{|inst, orig, ext| "participant_#{inst.id}.#{ext}"},
                 :store_dir => "uploaded_pictures/participant_pictures"
-  validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
+  # validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
   IMAGE_SIZES = {
     :full => {:width => 200, :height => 200, :modifier => ">"},
@@ -23,5 +23,17 @@ class UnpaidParticipant < ActiveRecord::Base
     :s3_credentials => File.join(Rails.root, "config", "aws.yml")
   validates_attachment_size :image, :less_than => 1.megabyte
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png) # the last 2 for IE
-                
+
+  def self.build_from_participant(participant)
+    self.new( 
+      :user_id => participant.user_id, 
+      :team_id => participant.team_id,
+      :short_name => participant.short_name,
+      :pending => participant.pending,
+      :private => participant.private,
+      :about_participant => participant.about_participant,
+      :image => participant.image,
+      :goal => participant.goal 
+    )
+  end
 end

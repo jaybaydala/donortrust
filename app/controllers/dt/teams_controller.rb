@@ -104,38 +104,32 @@ class Dt::TeamsController < DtApplicationController
     @team.leader = current_user
     @team.pending = @campaign.require_team_authorization?
     @team.generic = false
+    @team.goal ||= 0
 
-    @team.goal = 0 if @team.goal ==nil
+    if @team.save
+      @participant = Participant.new
+      @participant.team = @team
+      @participant.user = current_user
+      @participant.pending = false
+      @participant.goal = 0
+      @participant.short_name = @team.short_name + '_participant'
 
-    #validation pulled here to only run on create
-    if((Team.find_by_user_id_and_campaign_id(current_user.id,@campaign.id) != nil) && (@campaign.user_id != current_user.id))
-      flash[:notice] = "You have already created a team for this campaign and cannot create another one."
-    else
-      if @team.save
-        @participant = Participant.new
-        @participant.team = @team
-        @participant.user = current_user
-        @participant.pending = false
-        @participant.goal = 0
-        @participant.short_name = @team.short_name + '_participant'
-
-        if @participant.save
-  	  if (@team.campaign.default_team.has_user?(current_user))
-	    @team.campaign.default_team.participant_for_user(current_user).destroy
-	  end
-
-          if @team.pending
-            flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
-          else
-            flash[:notice] = 'Team was successfully created.'
-          end
-          redirect_to(dt_team_path(@team))
-        else
-          flash[:notice] = 'There was an error creating your team.'
+      if @participant.save
+        if (@team.campaign.default_team.has_user?(current_user))
+          @team.campaign.default_team.participant_for_user(current_user).destroy
         end
+
+        if @team.pending
+          flash[:notice] = 'Team was successfully created, you will be contacted once it has been approved.'
+        else
+          flash[:notice] = 'Team was successfully created.'
+        end
+        redirect_to(dt_team_path(@team))
       else
-        render :action => "new"
+        flash[:notice] = 'There was an error creating your team.'
       end
+    else
+      render :action => "new"
     end
   end
 

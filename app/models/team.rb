@@ -32,6 +32,7 @@ class Team < ActiveRecord::Base
   validates_presence_of :goal
   validates_presence_of :leader
   validates_numericality_of :goal
+  validates_uniqueness_of :user_id, :scope => :campaign_id, :message => "You have already created a team for this campaign and cannot create another one."
 
   image_column  :picture,
                 :versions => { :thumb => "100x100", :full => "200x200"  },

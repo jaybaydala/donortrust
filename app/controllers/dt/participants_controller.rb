@@ -220,29 +220,26 @@ class Dt::ParticipantsController < DtApplicationController
 
       if @team.campaign.has_registration_fee? and not @participant.has_paid_registration_fee? #there is something wrong with this
         @current_step = "payment"
+        
+        unpaid_participant = UnpaidParticipant.build_from_participant(@participant)
+        unpaid_participant.image = params[:participant][:image]
 
-        unpaid_participant = UnpaidParticipant.new( :user_id => @participant.user_id, 
-                                                    :team_id => @participant.team_id,
-                                                    :short_name => @participant.short_name,
-                                                    :pending => @participant.pending,
-                                                    :private => @participant.private,
-                                                    :about_participant => @participant.about_participant,
-                                                    :image => @participant.image,
-                                                    :goal => @participant.goal )
-
-        if @participant.errors.empty?
+        if @participant.valid?
           
-          if unpaid_participant.errors.empty? && unpaid_participant.save
+          if unpaid_participant.valid?
+            unpaid_participant.save
           else
-            flash[:notice] = "Filesize for profile photo is too big.  Please use one under 500k."
+            # flash[:notice] = "Filesize for profile photo is too big.  Please use one under 1MB."
+            flash[:notice] = unpaid_participant.errors.full_messages.join("<br />")
             redirect_to :action => "new", :team_id => @team.id and return
           end
           
         else
-          flash[:notice] = "Filesize for profile photo is too big.  Please use one under 500k."
-          redirect_to :action => "new", :team_id => @team.id and return
+          # flash[:notice] = "Filesize for profile photo is too big.  Please use one under 1MB."
+          # redirect_to :action => "new", :team_id => @team.id and return
+          render :action => 'new' and return
         end
-
+        
         #create the item
         registration_fee = RegistrationFee.new
         registration_fee.amount = @team.campaign.fee_amount
@@ -516,11 +513,11 @@ class Dt::ParticipantsController < DtApplicationController
         # no model validation to happen here
         @valid = true
       when "payment"
-        @valid = @order.validate_payment(@cart.items)
+        @valid = @order.validate_payment(@cart)
       when "billing"
-        @valid = @order.validate_billing(@cart.items)
+        @valid = @order.validate_billing(@cart)
       when "confirm"
-        @valid = @order.validate_confirmation(@cart.items)
+        @valid = @order.validate_confirmation(@cart)
     end
     @valid
   end

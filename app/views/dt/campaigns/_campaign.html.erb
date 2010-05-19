@@ -32,7 +32,7 @@
 				<li class="detail"><strong>Event Date:</strong><%= campaign.event_date %></li>
 			</ul>
 			<p>
-				<%= image_tag campaign.image.thumb(:url), :class => :thumbnail if campaign.image? %>
+				<%= image_tag campaign.image.url(:thumb), :class => :thumbnail if campaign.image? %>
 				<%= campaign.description %>
 			</p>
 
