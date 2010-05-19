@@ -227,7 +227,7 @@ class Dt::ParticipantsController < DtApplicationController
                                                     :pending => @participant.pending,
                                                     :private => @participant.private,
                                                     :about_participant => @participant.about_participant,
-                                                    :image => File.open(@participant.image.path, "r"),
+                                                    :image => @participant.image,
                                                     :goal => @participant.goal )
 
         if @participant.errors.empty?
