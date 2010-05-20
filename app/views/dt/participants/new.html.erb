@@ -91,16 +91,16 @@
 			<label>Upload your photo (must be less than 1MB). You can upload the photo later by editing your profile.</label>
 			<%= f.file_field :image %>
 
-			<% unless @team.campaign.fee_amount.nil? %>
+			<% if @team.campaign.has_registration_fee? %>
 			  <div id="fee-warning-text">
 			    <p style="margin-top:1em;">
 			      <strong>To help cover administration costs, a fee of $<%= @team.campaign.fee_amount.to_s + " " + @team.campaign.fee_currency %> is required to join <%= @team.campaign.name %>.</strong>
 			    </p>
 			  </div>
-			  <span class="join"><h1><%= f.submit 'Proceed to Checkout'%></h1></span>
+			  <div><span class="join"><%= f.submit 'Proceed to Checkout'%></span></div>
 			  
 			<% else %>
-			  <span class="join"><h1><%= f.submit 'Join'%></h1></span>
+			  <div><span class="join"><%= f.submit 'Complete Registration'%></span></div>
 			<% end %>
 		</fieldset>
 	<% end %>
