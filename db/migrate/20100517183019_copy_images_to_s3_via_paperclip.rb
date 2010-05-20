@@ -2,35 +2,41 @@ class CopyImagesToS3ViaPaperclip < ActiveRecord::Migration
   def self.up
     
     say_with_time "Updating User Images..." do
-      User.all.each do |user| 
-        if user.picture? && !user.image?
-          say "- #{user.class}##{user.id} uploading"
-          user.image = user.picture
-        else
-          say "- #{user.class}##{user.id}" if !user.picture?
-          say "- #{user.class}##{user.id} ALREADY uploaded" if user.image?
-        end
+      User.picture_file_name_not_null.each do |r|
+        path = File.join("uploaded_pictures", "pictures", r.id.to_s, "original")
+        copy_picture(r, path, r.picture_file_name)
       end
+      # path = File.join(Rails.root, "public", "system", "uploaded_pictures", "pictures")
+      # User.picture_file_name_not_null.each do |user|
+      #   filepath = File.join(path, u.id.to_s, "original", u.picture_file_name)
+      #   if user.picture? && File.exists?(filepath)
+      #     say "- #{user.class}##{user.id} uploading"
+      #     user.image = user.picture
+      #   else
+      #     say "- #{user.class}##{user.id}" if !user.picture?
+      #     say "- #{user.class}##{user.id} ALREADY uploaded" if user.image?
+      #   end
+      # end
     end
     say_with_time "Updating Campaign Images..." do
-      Campaign.all.each{|r| copy_picture(r, "uploaded_pictures/campaign_pictures") }
+      Campaign.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/campaign_pictures", r.picture.filename) }
     end
     say_with_time "Updating Team Images..." do
-      Team.all.each{|r| copy_picture(r, "uploaded_pictures/team_pictures") }
+      Team.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/team_pictures", r.picture.filename) }
     end
     say_with_time "Updating Participant Images..." do
-      Participant.all.each{|r| copy_picture(r, "uploaded_pictures/participant_pictures") }
+      Participant.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/participant_pictures", r.picture.filename) }
     end
     say_with_time "Updating Unpaid Participant Images..." do
-      UnpaidParticipant.all.each{|r| copy_picture(r, "uploaded_pictures/participant_pictures") }
+      UnpaidParticipant.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/participant_pictures", r.picture.filename) }
     end
   end
 
   def self.down
   end
   
-  def self.copy_picture(record, path)
-    file_path = File.join(Rails.root, "public", "system", path, record.picture.filename) if record.picture?
+  def self.copy_picture(record, path, filename)
+    file_path = File.join(Rails.root, "public", "system", path, filename) if record.picture?
     if record.picture? && File.exists?(file_path)# && !record.image?
       say "- #{record.class}##{record.id} uploading"
       record.image = File.open(file_path, "r")
