@@ -47,6 +47,7 @@ namespace :deploy do
     
     set :recaptcha_conf, "#{latest_release}/config/initializers/recaptcha_vars.rb"
     sudo "ln -s #{shared_path}/config/recaptcha_vars.rb #{recaptcha_conf}"
+    sudo "ln -s #{shared_path}/config/aws.yml #{latest_release}/config/aws.yml"
   end
   
   task :remove_uploaded_pictures_folder, :roles => :web do
