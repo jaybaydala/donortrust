@@ -4,6 +4,6 @@ class AddAllocatedFlagToCampaign < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :campaigs, :funds_allocated
+    remove_column :campaigns, :funds_allocated
   end
 end
