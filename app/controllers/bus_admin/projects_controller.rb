@@ -434,6 +434,23 @@ class BusAdmin::ProjectsController < ApplicationController
     render :inline => "<%= auto_complete_result @items, 'name' %>"
   end
 
+  def clean_text(description)
+      pdescription = description.strip_tags
+      pdescription = pdescription.gsub("&rsquo;","'")
+      pdescription = pdescription.gsub("&quote;", "\"")
+      pdescription = pdescription.gsub("&amp;","&")
+      pdescription = pdescription.gsub("&lt;", "<")
+      pdescription = pdescription.gsub("&gt;", ">")
+      pdescription = pdescription.gsub("&tilde;", "~")
+      pdescription = pdescription.gsub("&sbquo;", ",")
+      pdescription = pdescription.gsub("&lsquo", "`")
+      pdescription = pdescription.gsub("&ndash;", "-")
+      pdescription = pdescription.gsub("&mdash;", "--")
+      pdescription = pdescription.gsub("&nbsp;", " ")
+      pdescription = pdescription.gsub("&ldquo;", "\"")
+      description = pdescription
+  end
+ 
   def create_subagreement
     project = Project.find(params[:id])
     today = Time.now.to_formatted_s(:long)
@@ -450,13 +467,26 @@ class BusAdmin::ProjectsController < ApplicationController
     pdf.text "<b>Project Location</b>: #{project.place.name}, #{project.country.name}"
     pdf.text "<b>Project Sector(s)</b>: " + project.sectors.collect{|c| c.name}.join(", ")
     pdf.text "\n"
-
+    
     if project.contact
       pdf.text "<b>PM Name & Contact Info</b>: #{project.contact.last_name}, #{project.contact.first_name}"
       pdf.text "\n"
     end
+     # pdescription = project.description.strip_tags
+     # pdescription = pdescription.gsub("&rsquo;","'")
+     # pdescription = pdescription.gsub("&quote;", "\"")
+     # pdescription = pdescription.gsub("&amp;","&")
+     # pdescription = pdescription.gsub("&lt;", "<")
+     # pdescription = pdescription.gsub("&gt;", ">")
+     # pdescription = pdescription.gsub("&tilde;", "~")
+     # pdescription = pdescription.gsub("&sbquo;", ",")
+     # pdescription = pdescription.gsub("&lsquo", "`")
+     # pdescription = pdescription.gsub("&ndash;", "-")
+     # pdescription = pdescription.gsub("&mdash;", "--")
+     # pdescription = pdescription.gsub("&nbsp;", " ")
+     # pdescription = pdescription.gsub("&ldquo;", "\"")
 
-      pdf.text "<b>Project Description</b>:\n#{project.description.strip_tags}"
+      pdf.text "<b>Project Description</b>:\n#{clean_text(project.description)}"
       pdf.text "\n"
 
     pdf.text "<b>Project Funds</b>: CAN$#{project.total_cost}"
@@ -467,7 +497,7 @@ class BusAdmin::ProjectsController < ApplicationController
     if project.milestones.size >0
       pdf.text "<b>Project Plan</b>:\n"
       project.milestones.each do |m|
-        pdf.text "<i>#{m.target_date.to_formatted_s(:long) if m.target_date} - #{m.name}</i>:\n#{m.description}"
+        pdf.text "<i>#{m.target_date.to_formatted_s(:long) if m.target_date} - #{m.name}</i>:\n#{clean_text(m.description)}"
       end
       pdf.text "\n"
     end
@@ -475,13 +505,13 @@ class BusAdmin::ProjectsController < ApplicationController
     if project.budget_items.size >0
       pdf.text "<b>Project Funding Schedule</b>: "
       project.budget_items.each do |b|
-        pdf.text "- #{b.description} - #{b.cost}"
+        pdf.text "- #{clean_text(b.description)} - #{b.cost}"
       end
       pdf.text "\n"
     end
 
     if project.meas_eval_plan
-      pdf.text "<b>Measurement & Evaluation Plan</b>:\n#{project.meas_eval_plan.strip_tags}"
+      pdf.text "<b>Measurement & Evaluation Plan</b>:\n#{clean_text(project.meas_eval_plan.strip_tags)}"
       pdf.text "\n"
     end
 
@@ -493,7 +523,7 @@ class BusAdmin::ProjectsController < ApplicationController
     pdf.text "\n"
 
     if project.intended_outcome
-      pdf.text "<b>Project Outcomes</b>:\n#{project.intended_outcome.strip_tags}"
+      pdf.text "<b>Project Outcomes</b>:\n#{clean_text(project.intended_outcome.strip_tags)}"
       pdf.text "\n"
     end
     pdf.text "\n"
