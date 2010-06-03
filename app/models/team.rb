@@ -98,8 +98,8 @@ class Team < ActiveRecord::Base
     self.participants.each do |p|
       p.pledges.each do |pledge|
         if pledge.paid
-	  total = total + pledge.amount
-	end
+      	  total = total + pledge.amount
+      	end
       end
     end
 
@@ -125,6 +125,10 @@ class Team < ActiveRecord::Base
 
   def active_participants
     Participant.find_all_by_team_id_and_pending(self.id, false)
+  end
+  
+  def active_and_current_participants
+    Participant.find(:all, :conditions => {:team_id => self.id, :pending => false, :active => true})
   end
 
   def participant_for_user(user)

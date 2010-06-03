@@ -39,6 +39,7 @@ Rails::Initializer.run do |config|
   # bad bots
   config.gem "ruby-recaptcha"
   config.gem "paperclip", :source => "http://gemcutter.org"
+  config.gem "aws-s3", :lib => 'aws/s3'
   config.gem 'youtube-g', :lib => 'youtube_g', :source => "http://gemcutter.org"
   # plugin dependencies  (install before rake will work)
   # config.gem 'packet'

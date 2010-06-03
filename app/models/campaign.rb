@@ -211,7 +211,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def percentage_done
-    raised= ((self.funds_raised.to_f/self.fundraising_goal.to_f)*100).round(0).to_i
+    raised = ((self.funds_raised.to_f/self.fundraising_goal.to_f)*100).round(0).to_i
     "#{raised} %"
   end
 
@@ -274,6 +274,10 @@ class Campaign < ActiveRecord::Base
 
   def participating?(user)
     participants.include?(user)
+  end
+  
+  def active_participants
+    Participant.find_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = 0 AND p.active = 1",self.id])
   end
 
   def not_pending_participants

@@ -25,7 +25,7 @@
 						participant_details = "Team Leader of #{link_to(participant.team.name, dt_team_path(participant.team))}, a team in #{link_to(participant.team.campaign.name, dt_campaign_path(participant.team.campaign))}"
 					end
 				else
-					if not participant.team.generic?
+					unless participant.team.generic?
 						participant_details = "Member of #{link_to(participant.team.name, dt_team_path(participant.team))}, a team in #{link_to(participant.team.campaign.name, dt_campaign_path(participant.team.campaign))}"
 					end
 				end
@@ -34,26 +34,38 @@
 			<div class="participant_details"><%= participant_details %></div>			
 			<div class="participant_details"></div>
 		</div>
-	<% else %>
+	<% else # list view %>
 		<% if (!participant.pending && !participant.team.pending) || (controller.controller_name =="teams") %>
 			<div id="participant_<%= participant.id %>"  class="<%= cycle('row_even','row_odd') %>">
 			  <p>
 				  <span class="participant_list_view">
 						<%= link_to participant.name, dt_participant_path(participant) %>
-						<% if participant.team.generic? %>				
-							<% if participant.user == participant.team.leader %>
-								(Campaign Organizer)
-							<% end %>
-						<% else %>
-							<% if controller.controller_name != 'teams' %>
-								<%= participant.user == participant.team.leader ? "(Team Admin":"(Team Member" %>
-								- <%= link_to(participant.team.name, dt_team_path(participant.team)) %>)
+						<% unless participant.active %>
+							previously raised $ <%= participant.funds_raised %> while
+							<% if participant.team.generic? %>
+								not in a team.
+							<% elsif controller.controller_name =="teams" %>
+								in this team.
 							<% else %>
-								<%= participant.user == participant.team.leader ? "(Team Admin)":"(Team Member)" %>
+								in <%= link_to(participant.team.name, dt_team_path(participant.team)) %>.
 							<% end %>
 						<% end %>
-						$ <%= participant.funds_raised %> raised.
-					  <%= delete_icon(dt_participant_path(participant)) if (current_user!=:false && participant.funds_raised == 0 && (current_user.cf_admin? || participant.team.owned?) && participant.user != participant.team.leader) %>
+						<% if participant.active %>
+							<% if participant.team.generic? %>				
+								<% if participant.user == participant.team.leader %>
+									(Campaign Organizer)
+								<% end %>
+							<% else %>
+								<%= participant.user == participant.team.leader ? "(Team Admin" : "(Team Member" %>
+								<% if controller.controller_name != 'teams' %>
+									- <%= link_to(participant.team.name, dt_team_path(participant.team)) %>)
+								<% else %> 
+									)
+								<% end %>
+							<% end %>						
+							$ <%= participant.funds_raised %> raised.
+						<% end %>
+					  <%= delete_icon(dt_participant_path(participant)) if (current_user != :false && participant.funds_raised == 0 && (current_user.cf_admin? || participant.team.owned?) && participant.user != participant.team.leader) %>
 				  </span>
 				</p>
 			</div>

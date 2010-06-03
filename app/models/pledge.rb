@@ -25,14 +25,14 @@ class Pledge < ActiveRecord::Base
       return false
     end
       
-    if not team.nil?
-      if not team.campaign.valid?
+    if team
+      unless team.campaign.valid?
         return false
       end
     end
       
-    if not campaign.nil? 
-      if not campaign.valid?
+    if campaign
+      unless campaign.valid?
         return false
       end
     end

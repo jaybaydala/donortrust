@@ -39,7 +39,7 @@ class Dt::PledgesController < DtApplicationController
     error_redirect_path = ""
 
     #decide what type of pledge it is and only fill in the appropriate field!
-    #this is very important so that records are propperly tied as people move
+    #this is very important so that records are properly tied as people move
     #around
     if(params[:participant_id] != nil)
       @participant = Participant.find(params[:participant_id])
