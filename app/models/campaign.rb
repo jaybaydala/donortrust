@@ -239,9 +239,9 @@ class Campaign < ActiveRecord::Base
     country == 'United States'
   end
 
-  #check if the current user is the owner of this campaign
-  def owned?
-    current_user != nil ? self.creator == current_user : false;
+  # Check for ownership of this campaign
+  def owned?(user_to_check = current_user)
+    user_to_check ? self.creator == user_to_check : false
   end
 
   def activate!

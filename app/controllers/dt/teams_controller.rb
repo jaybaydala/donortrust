@@ -19,18 +19,8 @@ class Dt::TeamsController < DtApplicationController
     store_location
     
     participant = Participant.find(:first, :conditions => {:team_id => @team.id, :user_id => current_user.id})
-    @can_leave_team = participant && participant.can_leave_team?
-
-    @can_join_team = true
-    if @team.campaign.has_participant(current_user)
-      if !@team.campaign.default_team.has_user?(current_user)
-        @can_join_team = false
-      end
-    end
-    @can_join_team = false if @team.has_user?(current_user)
-    @can_join_team = false if @team.campaign.owned?
-    @can_join_team = false if @campaign.start_date > Time.now.utc
-    @can_join_team = false if @campaign.raise_funds_till_date < Time.now.utc
+    @can_leave_team = (current_user != :false) && participant && participant.can_leave_team?
+    @can_join_team = (current_user == :false) || current_user.can_join_team?(@team)
 
     @participants = Participant.paginate_by_team_id_and_pending @team.id, false, :page => params[:participant_page], :per_page => 10
     if(params[:participant_page] != nil)
@@ -181,8 +171,6 @@ class Dt::TeamsController < DtApplicationController
   end
   
   def leave
-    @team = Team.find(:first, :conditions => {:id => params[:id]})
-
     unless @team.campaign.valid?
       flash[:notice] = "this campaign has ended"
       redirect_to dt_team_path(@team)
@@ -212,7 +200,8 @@ class Dt::TeamsController < DtApplicationController
         @team.campaign.default_team.participants.create :user_id => participant.user_id,
                                                         :short_name => participant.short_name,  
                                                         :about_participant => participant.about_participant,
-                                                        :active => true
+                                                        :active => true,
+                                                        :pending => @team.campaign.default_team.require_authorization
       end
     else
       #print a notice that the user does not exist in the team
@@ -300,11 +289,4 @@ class Dt::TeamsController < DtApplicationController
     @team = Team.find(params[:id]) unless params[:id].blank?
     @team = Team.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
   end
-
-  # def check_if_in_team
-  #   find_campaign
-  #   if @campaign.participating?(current_user)
-  # 
-  #   end
-  # end
 end

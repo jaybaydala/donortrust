@@ -287,6 +287,53 @@ class User < ActiveRecord::Base
   def participation
     @participation = Participant.find_by_sql(["SELECT p.* from participants p WHERE p.user_id = ?", self.id])
   end
+  
+  def find_participant_in_campaign(campaign)
+    Participant.find(:first, 
+                     :conditions => {:user_id => self.id, 
+                                     :team_id => campaign.teams.collect(&:id), 
+                                     :active => true})
+  end
+  
+  def can_join_team?(team_to_join)
+    # Avoid rejoining current team
+    return false if team_to_join.has_user?(self)
+    # Cannot join this team if they are active in another team in this campaign
+    active_team_participant = Participant.find(:first, 
+                                               :conditions => {:user_id => self.id, 
+                                                               :team_id => team_to_join.campaign.teams.collect(&:id), 
+                                                               :active => true})
+    return false if active_team_participant and active_team_participant.team != team_to_join.campaign.default_team
+    # Campaign creators cannot move teams
+    return false if team_to_join.campaign.owned?(self)
+    # Cannot move around unless funds are still being raised
+    return false if team_to_join.campaign.start_date > Time.now.utc or team_to_join.campaign.raise_funds_till_date < Time.now.utc
+    
+    return true
+  end
+  
+  # Attempt to join the default team, returns true if they end up in that team
+  def move_to_default_team_in(campaign)
+    default_team = campaign.default_team
+    
+    # Deactivate user from active teams in this campaign
+    active_participants = Participant.find(:all, 
+                                           :conditions => {:user_id => self.id, 
+                                                           :team_id => campaign.teams.collect(&:id), 
+                                                           :active => true})
+    active_participants.each {|p| p.update_attribute(:active, false)}
+    
+    # Find or create the default participant in this campaign
+    default_participant = Participant.find(:first, :conditions => {:user_id => self.id,
+                                                                   :team_id => default_team.id})
+    default_participant ||= Participant.new :user_id => self.id,
+                                            :team_id => default_team.id,
+                                            :pending => false,
+                                            :short_name => active_participants.first.short_name,
+                                            :about_participant => active_participants.first.about_participant
+    default_participant.active = true
+    default_participant.save
+  end
 
 
   protected

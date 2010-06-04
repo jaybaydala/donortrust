@@ -67,15 +67,27 @@ class Dt::ParticipantsController < DtApplicationController
 
   def new
     store_location
-    @participant = Participant.new
     
-    if not @team.campaign.valid?
-      flash[:notice] = "The campaign is not currently active, you are not able to join or leave teams."
-      redirect_to dt_team_path(@team)
+    # Switch back to this team if previously a member and allowed to join again
+    if (current_user != :false) and (@participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.id)) and current_user.can_join_team?(@team)
+      default_participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.campaign.default_team.id)
+      default_participant && default_participant.update_attribute(:active, false)
+      @participant.update_attribute(:active, true)
+      
+      flash[:notice] = 'Team joined successfully'
+      redirect_to(dt_team_path(@team))
+      return
     end
+    
+    @participant = Participant.new
 
     if (current_user == :false)
       return
+    end
+    
+    unless @team.campaign.valid?
+      flash[:notice] = "The campaign is not currently active, you are not able to join or leave teams."
+      redirect_to dt_team_path(@team)
     end
 
     @participant.user = current_user
@@ -91,12 +103,24 @@ class Dt::ParticipantsController < DtApplicationController
     end
     
     if (campaign != nil)
-      #if they are check and see if they are in the default team
+      # If they are check and see if they are in the default team
       if (campaign.default_team.has_user?(current_user))
         @participant = campaign.default_team.participant_for_user(current_user)
-        @participant.team_id = @team.id
-        @participant.save
-
+        # Deactivate user in default team and add them to the new team
+        # Note: This does not allow the user to change their profile upon joining
+        if @participant.active
+          @participant.update_attribute(:active, false)
+          @participant.save
+          Particpant.create(:user_id => current_user.id,
+                            :team_id => @team.id,
+                            :short_name => @participant.short_name,
+                            :about_participant => @participant.about_participant,
+                            :image_file_name => @participant.image_file_name,
+                            :image_content_type => @participant.image_content_type,
+                            :image_file_size => @participant.image_file_size,
+                            :active => true)
+        end
+        
         flash[:notice] = 'Team joined successfully'
         redirect_to(dt_team_path(@team))
       else
@@ -116,7 +140,7 @@ class Dt::ParticipantsController < DtApplicationController
         else
           flash[:notice] = "You are already taking part in the " + @team.campaign.name +
                            " campaign. This is your campaign page."
-          redirect_to dt_participant_path(existing_participant) 
+          redirect_to dt_participant_path(existing_participant)
         end
       end
     end
@@ -125,6 +149,7 @@ class Dt::ParticipantsController < DtApplicationController
   def create
     
     @participant = Participant.new(params[:participant])
+    @participant.active = true
     
     if not @team.nil?
       if not @team.campaign.valid?
@@ -198,23 +223,14 @@ class Dt::ParticipantsController < DtApplicationController
       @participant.user = current_user
     end
 
-    if @team.require_authorization
-      @participant.pending = true
-    else
-      @participant.pending = false
-    end
+    @participant.pending = @team.require_authorization
 
     #if the user was part of the default team, remove them from that team and put them in this one
     if (@team.campaign.default_team.has_user?(current_user)) then
       default_participant = @team.campaign.default_team.participant_for_user(current_user)
-      default_participant.team_id = @team.id
+      default_participant.update_attribute(:active, false)
       
-      if default_participant.save
-        redirect_to dt_participant_path(@participant) and return
-      else
-        render :action => 'new' and return
-      end
-
+      redirect_to dt_participant_path(@participant) and return
     else
       @participant.team_id = @team.id
 
@@ -440,16 +456,14 @@ class Dt::ParticipantsController < DtApplicationController
 
   # assign participant to generic team and approve
   def decline
-    assign_participant_to_generic_team(params[:id])
-    if @participant.approve!
-      flash[:notice] = "#{@participant.name} assigned to #{@campaign.name} with with no team."
-      redirect_to manage_dt_team_path(@team)
+    if assign_participant_to_generic_team(params[:id])
+      flash[:notice] = "#{@participant.name} assigned to #{@participant.campaign.name} with no team."
       # send email to participant when approved
       CampaignsMailer.deliver_participant_declined(@participant.campaign, @participant.team, @participant)
     else
       flash[:notice] = "There was an error declining that participant, please try again."
     end
-
+    redirect_to manage_dt_team_path(@participant.team)
   end
 
   protected
@@ -487,10 +501,10 @@ class Dt::ParticipantsController < DtApplicationController
 
   private
   def assign_participant_to_generic_team(participant_id)
-    @participant = Participant.find(participant_id) unless participant_id == nil
-    @team = @participant.team
-    @campaign = @team.campaign
-    @participant.team = @campaign.generic_team
+    participant = Participant.find(participant_id) unless participant_id == nil
+    participant.user.move_to_default_team_in(participant.team.campaign)
+    @participant = participant.user.find_participant_in_campaign(participant.team.campaign)
+    @participant.team == @participant.team.campaign.default_team
   end
 
   attr_accessor :current_step
