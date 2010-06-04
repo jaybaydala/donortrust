@@ -139,6 +139,19 @@ class Participant < ActiveRecord::Base
     return false
   end
   
+  def can_leave_team?
+    # Must be active in a team to leave
+    return false unless active
+    # Cannot leave a team you created or currently lead
+    return false if team.owned? or team.leader == user
+    # Cannot leave the default team
+    return false if team == campaign.default_team
+    # Changing teams only matters while funds are being raised
+    return false if (campaign.start_date > Time.now.utc) or (campaign.raise_funds_till_date < Time.now.utc)
+    
+    return true
+  end
+  
   def self.create_from_unpaid_participant!(unpaid_participant_id)
     logger.debug "Creating a Participant from an UnpaidParticipant"
     unpaid_participant = UnpaidParticipant.find(unpaid_participant_id)

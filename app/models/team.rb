@@ -132,7 +132,8 @@ class Team < ActiveRecord::Base
   end
 
   def participant_for_user(user)
-    participants.find(:first, :conditions => {:user_id => user.id})
+    # Find the team that this user is actively participating in
+    participants.find(:first, :conditions => {:user_id => user.id, :active => true})
   end
 
   #############TODO##############
@@ -141,9 +142,8 @@ class Team < ActiveRecord::Base
   end
 
   def has_user?(user)
-    testUser = self.users.find(:first, :conditions => {:id => user.id})
-    
-    return (testUser != nil)
+    participant = participants.find(:first, :conditions => {:id => user.id, :active => true})
+    return (participant && participant.user)
   end
 
   def joinable?
