@@ -4,7 +4,7 @@ require 'bus_admin/millennium_goals_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::MillenniumGoalsController; def rescue_action(e) raise e end; end
 
-class BusAdmin::MillenniumGoalsControllerTest < Test::Unit::TestCase
+class BusAdmin::MillenniumGoalsControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_millennium_goals
 
   def setup

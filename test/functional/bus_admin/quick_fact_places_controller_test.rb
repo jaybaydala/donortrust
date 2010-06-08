@@ -4,7 +4,7 @@ require 'bus_admin/quick_fact_places_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::QuickFactPlacesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::QuickFactPlacesControllerTest < Test::Unit::TestCase
+class BusAdmin::QuickFactPlacesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_quick_fact_places
 
   def setup

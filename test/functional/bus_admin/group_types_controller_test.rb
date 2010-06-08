@@ -4,7 +4,7 @@ require 'bus_admin/group_types_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::GroupTypesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::GroupTypesControllerTest < Test::Unit::TestCase
+class BusAdmin::GroupTypesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_group_types
 
   def setup

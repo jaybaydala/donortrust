@@ -4,7 +4,7 @@ require 'bus_admin/quick_fact_sectors_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::QuickFactSectorsController; def rescue_action(e) raise e end; end
 
-class BusAdmin::QuickFactSectorsControllerTest < Test::Unit::TestCase
+class BusAdmin::QuickFactSectorsControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_quick_fact_sectors
 
   def setup

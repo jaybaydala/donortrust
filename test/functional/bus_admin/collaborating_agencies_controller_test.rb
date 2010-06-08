@@ -4,7 +4,7 @@ require 'bus_admin/collaborating_agencies_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::CollaboratingAgenciesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::CollaboratingAgenciesControllerTest < Test::Unit::TestCase
+class BusAdmin::CollaboratingAgenciesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_collaborating_agencies
 
   def setup

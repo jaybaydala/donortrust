@@ -4,7 +4,7 @@ require 'bus_admin/causes_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::CausesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::CausesControllerTest < Test::Unit::TestCase
+class BusAdmin::CausesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_causes
 
   def setup

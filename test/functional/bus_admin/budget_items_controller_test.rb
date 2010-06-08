@@ -4,7 +4,7 @@ require 'bus_admin/budget_items_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::BudgetItemsController; def rescue_action(e) raise e end; end
 
-class BusAdmin::BudgetItemsControllerTest < Test::Unit::TestCase
+class BusAdmin::BudgetItemsControllerTest < ActiveSupport::TestCase
   fixtures :budget_items
 
   def setup

@@ -8,7 +8,7 @@ require 'bus_admin/tasks_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::TasksController; def rescue_action(e) raise e end; end
 
-class BusAdmin::TasksControllerTest < Test::Unit::TestCase
+class BusAdmin::TasksControllerTest < ActiveSupport::TestCase
   fixtures :programs, :projects, :milestones, :tasks
 
   def setup

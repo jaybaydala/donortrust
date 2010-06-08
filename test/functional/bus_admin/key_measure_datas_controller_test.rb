@@ -4,7 +4,7 @@ require 'bus_admin/key_measure_datas_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::KeyMeasureDatasController; def rescue_action(e) raise e end; end
 
-class BusAdmin::KeyMeasureDatasControllerTest < Test::Unit::TestCase
+class BusAdmin::KeyMeasureDatasControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_key_measure_datas
 
   def setup

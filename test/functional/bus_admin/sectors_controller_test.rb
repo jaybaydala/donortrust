@@ -4,7 +4,7 @@ require 'bus_admin/sectors_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::SectorsController; def rescue_action(e) raise e end; end
 
-class BusAdmin::SectorsControllerTest < Test::Unit::TestCase
+class BusAdmin::SectorsControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_sectors
 
   def setup

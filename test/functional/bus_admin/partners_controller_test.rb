@@ -4,7 +4,7 @@ require 'bus_admin/partners_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::PartnersController; def rescue_action(e) raise e end; end
 
-class BusAdmin::PartnersControllerTest < Test::Unit::TestCase
+class BusAdmin::PartnersControllerTest < ActiveSupport::TestCase
   fixtures :partners
 
   def setup

@@ -4,7 +4,7 @@ require 'bus_admin/frequency_types_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::FrequencyTypesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::FrequencyTypesControllerTest < Test::Unit::TestCase
+class BusAdmin::FrequencyTypesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_frequency_types
 
   def setup

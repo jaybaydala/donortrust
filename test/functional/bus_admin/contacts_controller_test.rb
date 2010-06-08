@@ -4,7 +4,7 @@ require 'bus_admin/contacts_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::ContactsController; def rescue_action(e) raise e end; end
 
-class BusAdmin::ContactsControllerTest < Test::Unit::TestCase
+class BusAdmin::ContactsControllerTest < ActiveSupport::TestCase
   fixtures :contacts
 
   def setup

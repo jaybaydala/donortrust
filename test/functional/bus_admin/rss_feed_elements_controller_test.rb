@@ -4,7 +4,7 @@ require 'bus_admin/rss_feed_elements_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::RssFeedElementsController; def rescue_action(e) raise e end; end
 
-class BusAdmin::RssFeedElementsControllerTest < Test::Unit::TestCase
+class BusAdmin::RssFeedElementsControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_rss_feed_elements
 
   def setup

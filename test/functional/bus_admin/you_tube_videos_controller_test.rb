@@ -4,7 +4,7 @@ require 'bus_admin/you_tube_videos_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::YouTubeVideosController; def rescue_action(e) raise e end; end
 
-class BusAdmin::YouTubeVideosControllerTest < Test::Unit::TestCase
+class BusAdmin::YouTubeVideosControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_you_tube_videos
 
   def setup

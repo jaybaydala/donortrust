@@ -4,7 +4,7 @@ require 'bus_admin/users_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::UsersController; def rescue_action(e) raise e end; end
 
-class BusAdmin::UsersControllerTest < Test::Unit::TestCase
+class BusAdmin::UsersControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_users
 
   def setup

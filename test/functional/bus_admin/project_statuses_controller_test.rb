@@ -4,7 +4,7 @@ require 'bus_admin/project_statuses_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::ProjectStatusesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::ProjectStatusesControllerTest < Test::Unit::TestCase
+class BusAdmin::ProjectStatusesControllerTest < ActiveSupport::TestCase
   fixtures :project_statuses
 
   def setup

@@ -4,7 +4,7 @@ require 'bus_admin/programs_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::ProgramsController; def rescue_action(e) raise e end; end
 
-class BusAdmin::ProgramsControllerTest < Test::Unit::TestCase
+class BusAdmin::ProgramsControllerTest < ActiveSupport::TestCase
   fixtures :programs
 
   def setup

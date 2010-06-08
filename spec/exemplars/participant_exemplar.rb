@@ -5,4 +5,5 @@ class Participant < ActiveRecord::Base
   generator_for :goal => 100
   generator_for :campaign => Campaign.generate!
   generator_for :team => Team.generate!
+  generator_for :user => User.generate!
 end

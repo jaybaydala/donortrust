@@ -4,7 +4,7 @@ require 'bus_admin/rank_types_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::RankTypesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::RankTypesControllerTest < Test::Unit::TestCase
+class BusAdmin::RankTypesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_rank_types
 
   def setup

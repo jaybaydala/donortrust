@@ -4,7 +4,7 @@ require 'bus_admin/banner_images_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::BannerImagesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::BannerImagesControllerTest < Test::Unit::TestCase
+class BusAdmin::BannerImagesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_banner_images
 
   def setup
