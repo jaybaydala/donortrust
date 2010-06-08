@@ -143,7 +143,10 @@ ActionController::Routing::Routes.draw do |map|
     #Done with everything pretaining to campaigns
 
     dt.resources :give, :controller => 'give'
-  end
+  end  
+
+  # User campaign profiles
+  map.connect '/dt/profiles/:id', :controller => 'dt/profiles', :action => 'show'
 
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code.:format', :controller => 'dt/tax_receipts', :action => "show", :format => 'pdf'

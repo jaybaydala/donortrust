@@ -1,0 +1,31 @@
+<h1 class='user'><%= @user.display_name %></h1>
+<div id='left_sidebar'>
+	<div id='profile_image'>
+		<%= image_tag @user.image.url(:full), :class => :full_picture if @user.image? %>
+		<%= image_tag 'dt/icons/you-icon-orange.png', :class => :thumbnail unless @user.image? %>
+	</div>
+	<div id='profile_action_buttons'>
+		<%= action_button "Give a UEnd gift", "#" %>
+		<%= action_button "Ask for a UEnd gift", "#" %>
+		<%= action_button "Start a Group", "#" %>
+		<%= action_button "Start a Campaign", "#" %>
+	</div>
+	<!-- <div>Jay's Friends</div> -->
+</div>
+<div id='main_panel' class='clearfix'>
+	<!-- <div class='profile-status'>To Be Added</div> -->
+	<div id='profile_stats'>
+		<% @user.profile.statistics.each do |stat| %>
+			<div class='panel'><span class='value'><%= stat.first %></span> <span class='tagline'><%= stat.last %></span></div>
+		<% end %>
+	</div>
+	<div id='profile_campaigns'>
+		<h3><%= "#{@user.first_name}'s Campaigns" %></h3>
+		<ul>
+			<% @user.campaigns.each do |campaign| %>
+				<li><%= link_to campaign.name, dt_campaign_participant_path(campaign, @user.find_participant_in_campaign(campaign)) %></li>
+			<% end %>
+		</ul>
+	</div>
+	<!-- <div class='profile-posts'>To Be Added</div> -->
+</div>

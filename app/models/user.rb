@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :teams, :through => :participants
   has_many :participants
+  has_one :profile
   has_administrables :model => "Project"
   has_administrables :model => "Partner"
   has_attached_file :picture, 
@@ -281,7 +282,7 @@ class User < ActiveRecord::Base
     @campaigns = Campaign.find_by_sql([
       "SELECT c.* from campaigns c INNER JOIN teams t INNER JOIN participants p " +
       "ON c.id = t.campaign_id AND t.id = p.team_id "+
-      "WHERE p.user_id = ?", self.id])
+      "WHERE p.user_id = ? ORDER BY c.event_date DESC", self.id])
   end
 
   def participation
@@ -335,6 +336,10 @@ class User < ActiveRecord::Base
     default_participant.save
   end
 
+  def profile
+    @profile ||= Profile.find_or_create_by_user_id self.id
+    return @profile
+  end
 
   protected
     def validate
