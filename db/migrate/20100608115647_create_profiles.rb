@@ -4,6 +4,7 @@ class CreateProfiles < ActiveRecord::Migration
       t.integer :user_id
       t.string :short_name
       t.text :description
+      t.integer :non_uend_gifts, :default => 0
     end
   end
 

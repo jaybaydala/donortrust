@@ -15,17 +15,35 @@
 <div id='main_panel' class='clearfix'>
 	<!-- <div class='profile-status'>To Be Added</div> -->
 	<div id='profile_stats'>
-		<% @user.profile.statistics.each do |stat| %>
-			<div class='panel'><span class='value'><%= stat.first %></span> <span class='tagline'><%= stat.last %></span></div>
-		<% end %>
+		<%- @user.profile.statistics.each do |stat| -%>
+			<div class='panel'>
+				<%- if @user == current_user and stat[1] == "non-UEnd gifts" -%>
+				<div class='action_info_tab'>
+					<%= link_to_remote "+", :url => increase_gifts_dt_profile_path(@user), :update => 'gifts_value', :method => :get %>
+				</div>
+				<div class='below action_info_tab'>
+					<%= link_to_remote "-", :url => decrease_gifts_dt_profile_path(@user), :update => 'gifts_value', :method => :get %>
+				</div>
+				<span id='gifts_value' class='value'><%= stat.first %></span>
+				<span class='tagline'><%= stat.last %></span>
+				<%- else -%>
+				<span class='value'><%= stat.first %></span>
+				<span class='tagline'><%= stat.last %></span>
+				<%- end -%>
+			</div>
+		<%- end -%>
 	</div>
 	<div id='profile_campaigns'>
-		<h3><%= "#{@user.first_name}'s Campaigns" %></h3>
-		<ul>
-			<% @user.campaigns.each do |campaign| %>
-				<li><%= link_to campaign.name, dt_campaign_participant_path(campaign, @user.find_participant_in_campaign(campaign)) %></li>
-			<% end %>
-		</ul>
+		<h3><%= "#{@user.first_name}'s Campaigns" -%></h3>
+		<%- if @user.campaigns.size > 0 -%>
+			<ul>
+				<%- @user.campaigns.each do |campaign| -%>
+					<li><%= link_to campaign.name, dt_campaign_participant_path(campaign, @user.find_participant_in_campaign(campaign)) %></li>
+				<%- end -%>
+			</ul>
+		<%- else -%>
+			<p><%= @user.first_name %> has not participated in a campaign as yet.</p>
+		<%- end -%>
 	</div>
 	<!-- <div class='profile-posts'>To Be Added</div> -->
 </div>

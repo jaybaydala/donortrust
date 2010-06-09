@@ -36,6 +36,20 @@ h1.user {
 	margin: 3px 6px 3px 0;
 	padding-top: 2px;
 }
+#profile_stats .panel .action_info_tab {
+	position: absolute;
+	width: 20px;
+	height: 21px;
+	border-right: 1px solid rgb(103, 103, 103);
+	border-bottom: 1px solid rgb(103, 103, 103);
+	margin-top: -2px;
+	text-align: center;
+}
+#profile_stats .panel .action_info_tab.below {
+	margin-top: 20px;
+	height: 20px;
+}
+#profile_stats .panel .action_info_tab a { text-decoration: none; }
 #profile_stats .panel span {
 	display: block;
 	text-align: center;

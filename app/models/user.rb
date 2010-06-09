@@ -337,7 +337,7 @@ class User < ActiveRecord::Base
   end
 
   def profile
-    @profile ||= Profile.find_or_create_by_user_id self.id
+    @profile ||= Profile.find_or_create_by_user_id(self.id)
     return @profile
   end
 

@@ -4,9 +4,17 @@ class Profile < ActiveRecord::Base
   
   validates_presence_of :user
   
+  def decrease_gifts
+    update_attribute(:non_uend_gifts, non_uend_gifts - 1) if (self.non_uend_gifts > 0)
+  end
+  
+  def increase_gifts
+    update_attribute(:non_uend_gifts, non_uend_gifts + 1)
+  end
+  
   # Methods to calculate statistics
   def statistics
-    return [gifts_given, gifts_received, non_uend_gifts, people_impacted,
+    return [gifts_given, gifts_received, external_gifts, people_impacted,
             campaigns_completed, raised_towards_projects, people_told, gifts_refocused]
   end
   
@@ -21,15 +29,25 @@ class Profile < ActiveRecord::Base
     return [Gift.count(:all, :conditions => {:to_email => user.login}), "gifts received"]
   end
   
-  def non_uend_gifts
-    # TODO: This is a placeholder
-    @non_uend_gifts ||= 1614
-    return [@non_uend_gifts, "non-UEnd gifts"]
+  def external_gifts
+    # This value is updated by the user
+    return [non_uend_gifts, "non-UEnd gifts"]
   end
   
   def people_impacted
-    # TODO: This is a placeholder
-    return ["11,195", "people impacted"]
+    # This is calulated by taking the proportion contributed to each project
+    # by this user against the overall project need to determine the number
+    # of lives affected and totaling this amount for all projects
+    result = 0
+    investments_by_project = user.investments.group_by(&:project_id)
+    investments_by_project.each do |project_id, investments|
+      project = Project.find project_id
+      if project.lives_affected?
+        project_investment = investments.sum{|i| i.amount}
+        result += (project_investment * project.lives_affected / project.total_cost).floor.to_i
+      end
+    end
+    return [result, "people impacted"]
   end
   
   def campaigns_completed
@@ -40,8 +58,9 @@ class Profile < ActiveRecord::Base
   
   def raised_towards_projects
     # Sum the amounts for all this user's investments assigned to any project
-    raised_towards_projects = Investment.sum(:all, :conditions => ["user_id = ? AND project_id IS NOT NULL", self.user_id], :select => "amount")
-    return ["$ #{raised_towards_projects}", "towards projects"]
+    raised_towards_projects = Investment.sum(:all,  :select => "amount",
+                                             :conditions => ["user_id = ? AND project_id IS NOT NULL", self.user_id])
+    return [number_to_currency(raised_towards_projects), "towards projects"]
   end
   
   def people_told
@@ -49,10 +68,10 @@ class Profile < ActiveRecord::Base
   end
   
   def gifts_refocused
-    # This appears to be the proportion of gifts given to traditional gifts
+    # This is the proportion of gifts given through UEnd to all gifts incl. traditional gifts
     self.gifts_given # in case instance variable isn't populated
-    self.non_uend_gifts # in case instance variable isn't populated
-    gifts_refocused = (100.to_f * @gifts_given.to_f / @non_uend_gifts.to_f).floor
+    return ["0 %", "My Gifts Refocused"] if non_uend_gifts == 0
+    gifts_refocused = (100.to_f * @gifts_given.to_f / (non_uend_gifts.to_f + @gifts_given.to_f)).floor
     return ["#{gifts_refocused} %", "My Gifts Refocused"]
   end
   # end of statistics methods
