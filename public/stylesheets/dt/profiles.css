@@ -23,6 +23,11 @@ h1.user {
 	width: 200px;
 }
 
+#profile_bio {
+	font-size: 12px;
+	margin-bottom: 10px;
+}
+
 #profile_stats {
 	float: left;
 }

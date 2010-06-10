@@ -21,6 +21,15 @@ class Dt::ParticipantsController < DtApplicationController
     store_location
 
     @participant = Participant.find(params[:id]) unless params[:id].nil?
+    
+    # Inserting logic here to find first by the profile short name before trying the older participant short name
+    if @participant.nil? && !params[:short_name].nil? and !params[:short_campaign_name].nil?
+      @campaign = Campaign.find_by_short_name(params[:short_campaign_name])
+      
+      @profile = Profile.find_by_short_name(params[:short_name])
+      @participant = @profile.user.find_participant_in_campaign(@campaign) if @campaign
+    end
+    
     @participant = Participant.find_by_short_name(params[:short_name]) if @participant.nil? && !params[:short_name].nil?
     # old participant records still exist when a campaign/team gets deleted. A participant must belong to a team and a campaign
     unless @participant && @participant.user && @participant.team && @participant.team.campaign
@@ -51,18 +60,9 @@ class Dt::ParticipantsController < DtApplicationController
       redirect_to dt_campaigns_path and return
     end
 
-    @can_sponsor_participant = false
-    if not @participant.pending
-      if not @participant.team.pending
-        if not @campaign.pending
-          if @campaign.start_date.utc < Time.now.utc
-            if @campaign.raise_funds_till_date.utc > Time.now.utc
-              @can_sponsor_participant = true
-            end
-          end
-        end
-      end
-    end
+    @can_sponsor_participant = true if !@participant.pending && !@participant.team.pending &&
+                                       !@campaign.pending && (@campaign.start_date.utc < Time.now.utc) &&
+                                       (@campaign.raise_funds_till_date.utc > Time.now.utc)
   end
 
   def new

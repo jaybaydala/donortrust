@@ -13,7 +13,14 @@
 	<!-- <div>Jay's Friends</div> -->
 </div>
 <div id='main_panel' class='clearfix'>
-	<!-- <div class='profile-status'>To Be Added</div> -->
+	<div id='profile_bio'>
+		<h3>Profile</h3>
+		<%- if !@user.bio.blank? -%>
+		<%= @user.bio %>
+		<%- else -%>
+		<%= @user == current_user ? "You" : @user.display_name -%> has not provided a profile description.
+		<%- end -%>
+	</div>
 	<div id='profile_stats'>
 		<%- @user.profile.statistics.each do |stat| -%>
 			<div class='panel'>
@@ -38,7 +45,10 @@
 		<%- if @user.campaigns.size > 0 -%>
 			<ul>
 				<%- @user.campaigns.each do |campaign| -%>
-					<li><%= link_to campaign.name, dt_campaign_participant_path(campaign, @user.find_participant_in_campaign(campaign)) %></li>
+					<li class='<%= campaign.event_date < Time.now ? 'inactive' : 'active' %>'>
+						<%= link_to campaign.name, dt_campaign_participant_path(campaign, @user.find_participant_in_campaign(campaign)) %>
+						<span>(<%= campaign.event_date.to_date %>)</span>
+					</li>
 				<%- end -%>
 			</ul>
 		<%- else -%>
