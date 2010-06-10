@@ -16,6 +16,11 @@ class Dt::AccountsController < DtApplicationController
 
   # GET /dt/accounts/1
   def show
+    @user = User.find(params[:id])
+  end
+  
+  # GET /dt/accounts/1/transactions
+  def transactions
     @user = User.find(params[:id], :include => [:projects])
     @transactions = []
     @transactions << @user.gifts
@@ -27,7 +32,6 @@ class Dt::AccountsController < DtApplicationController
     @transactions = @transactions.paginate(:page => params[:tx_page], :per_page => 10)
 
     @participants = @user.participation
-    render :action => 'transactions' if params[:transactions] 
   end
 
   # GET /dt/accounts/new

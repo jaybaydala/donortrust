@@ -1,7 +1,7 @@
 <ul class="wide">
 <% if logged_in? %>
-<li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'show' && params['transactions'].nil? %>><%= link_to "Summary", dt_account_path(current_user) %></li>
-<li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['transactions'] %>><%= link_to "Transaction History", dt_account_path(current_user, :transactions => 1) %></li>
+<li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'show' %>><%= link_to "Summary", dt_account_path(current_user) %></li>
+<li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'transactions' %>><%= link_to "Transaction History", transactions_dt_account_path(current_user) %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/accounts' && params['action'] == 'edit' %>><%= link_to "Edit Profile", edit_dt_account_path(current_user) %></li>
 <li<%= ' class="current"' if params['controller'] == 'dt/subscriptions' %>><%= link_to "Monthly Giving", dt_subscriptions_path %></li>
 <% else %>

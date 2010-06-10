@@ -35,7 +35,11 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
     #dt.resources :my_wishlists, :controller => 'my_wishlists'
-    dt.resources :accounts, :controller => 'accounts', :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put } do |account|
+    dt.resources :accounts, :controller => 'accounts', :collection => { :activate => :get, 
+                                                                        :resend => :get, 
+                                                                        :reset => :get, 
+                                                                        :reset_password => :put },
+                                                       :member => { :transactions => :get } do |account|
       account.resources :deposits, :controller => 'deposits'
       account.resources :my_wishlists, :controller => 'my_wishlists', :collection => {:new_message => :get, :confirm => :post, :preview => :get, :send_message => :post}
       account.resources :tax_receipts, :controller => 'tax_receipts'

@@ -33,7 +33,7 @@
 			</ul>
 			<p>
 				<%= image_tag campaign.image.url(:thumb), :class => :thumbnail if campaign.image? %>
-				<%= campaign.description %>
+				<%= summarize_html(campaign.description, 320, true) %>
 			</p>
 
 			<ul class="details_list">
