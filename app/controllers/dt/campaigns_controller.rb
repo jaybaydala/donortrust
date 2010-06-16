@@ -168,7 +168,7 @@ class Dt::CampaignsController < DtApplicationController
       @team.description = @campaign.description
       @team.require_authorization = @campaign.require_team_authorization
       @team.goal_currency = @campaign.goal_currency
-      @team.image = File.open(@campaign.image, "r")
+      @team.image = @campaign.image
       @team.contact_email = @campaign.email
       @team.pending = false
       @team.generic = true
