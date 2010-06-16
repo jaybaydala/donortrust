@@ -237,7 +237,7 @@ class Subscription < ActiveRecord::Base
           gateway_login    = config["username"]
           gateway_password = config["password"]
         else
-          gateway_login, gateway_password = nil
+          gateway_login = gateway_password = nil
         end
     
         @gateway = ActiveMerchant::Billing::IatsReoccuringGateway.new(
