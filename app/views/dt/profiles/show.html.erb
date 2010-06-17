@@ -46,7 +46,7 @@
 			<ul>
 				<%- @user.campaigns.each do |campaign| -%>
 					<li class='<%= campaign.event_date < Time.now ? 'inactive' : 'active' %>'>
-						<%= link_to campaign.name, dt_campaign_participant_path(campaign, @user.find_participant_in_campaign(campaign).id) %>
+						<%= link_to campaign.name, dt_participant_path(@user.find_participant_in_campaign(campaign)) %>
 						<span>(<%= campaign.event_date.to_date %>)</span>
 					</li>
 				<%- end -%>

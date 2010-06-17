@@ -69,13 +69,13 @@ class Participant < ActiveRecord::Base
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png) # the last 2 for IE
 
 
-  validates_presence_of :user_id, :team_id#, :campaign_id
+  validates_presence_of :user_id, :team_id
   validates_numericality_of :goal, :allow_nil => true
   validates_uniqueness_of :user_id, :scope => :team_id, :message => 'currently logged in is already a member of this team'
 
-  validates_format_of :short_name, :with => /\w/
-  validates_length_of :short_name, :within => 3...60, :message => 'Short name must be between 3 and 60 characters'
-  validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
+  # validates_format_of :short_name, :with => /\w/
+  # validates_length_of :short_name, :within => 3...60, :message => 'Short name must be between 3 and 60 characters'
+  # validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
   
   def approve!
     self.update_attribute(:pending,false) ? true : false;

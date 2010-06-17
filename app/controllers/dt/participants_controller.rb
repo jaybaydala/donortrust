@@ -147,23 +147,12 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def create
-    
     @participant = Participant.new(params[:participant])
     @participant.active = true
     
-    if not @team.nil?
-      if not @team.campaign.valid?
-        flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
-        redirect_to dt_team_path(@team)
-      end
-      
-      #validating we have filled in the information that is required
-      logger.debug("Checking short name for save.")
-      if validate_short_name_of == false
-        flash[:notice] = "Errors in your profile URL. Please make sure you have one entered and that it is valid."
-        redirect_to :action => "new", :team_id => @team.id and return
-      end
-      
+    if @team.nil? and !@team.campaign.valid?
+      flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
+      render :action => 'new'
     end
     
     if current_user == :false
@@ -188,6 +177,11 @@ class Dt::ParticipantsController < DtApplicationController
           session[:tmp_user] = nil
           cookies[:dt_login_id] = self.current_user.id.to_s
           cookies[:dt_login_name] = self.current_user.name
+          
+          # Update the profile's instead of the participant's short name
+          unless @participant.short_name.blank?
+            current_user.profile.update_attributes(:short_name, @participant.short_name)
+          end
         else # Something went wrong with saving the user        
           
           # HACK! At this point, we know the user cannot be logged in (after all, they are trying to create new user details)
@@ -221,6 +215,10 @@ class Dt::ParticipantsController < DtApplicationController
       @participant.user = new_user
     else
       @participant.user = current_user
+      # Update the user profile if they specify a short name
+      if not @participant.short_name.blank? and current_user.profile.short_name.blank?
+        current_user.profile.update_attribute(:short_name, @participant.short_name) if Profile.find_all_by_short_name(@participant.short_name).size == 0
+      end
     end
 
     @participant.pending = @team.require_authorization
@@ -314,52 +312,34 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def validate_short_name_of
-    
     @valid = true
-    
     @errors = Array.new
     
     if params[:participant_short_name] == "" || params[:participant_short_name].nil?
-      logger.debug("other path")
       @short_name = @participant.short_name
     else
-      logger.debug("parameter path")
       @short_name = params[:participant_short_name]
-    end
-    
-    if params[:campaign_id] == "" || params[:campaign_id].nil?
-      @campaign_id = @team.campaign.id
-    else
-      @campaign_id = params[:campaign_id]
-    end  
+    end 
 
     if @short_name != nil
       @short_name.downcase!
       
-      if(@short_name =~ /\W/)
-        logger.debug("Invalid characters in shortname")
+      if @short_name =~ /\W/
         @errors.push('You may only use Alphanumeric Characters, hyphens, and underscores. This also means no spaces.')
         @valid = false;
       end
 
-      if(@short_name.length < 3)
+      if @short_name.length < 3
         logger.debug("Invalid length of shortname")
         @errors.push('The short name must be 3 characters or longer.')
         @valid = false
       end
 
-      participants_shortname_find = Participant.find_by_sql([
-        "SELECT p.* FROM participants p INNER JOIN teams t INNER JOIN campaigns c " +
-        "ON p.team_id = t.id AND t.campaign_id = c.id "+
-        "WHERE p.short_name = ? AND c.id = ?",@short_name, @campaign_id])
-
-      if(participants_shortname_find != nil && !participants_shortname_find.empty? )
-        logger.debug("Non unique shortname")
-        @errors.push('That short name has already been used, short names must be unique to each campaign.')
+      if Profile.find_all_by_short_name(@short_name).size > 0
+        @errors.push('That short name has already been used, short names must be unique.')
         @valid = false
       end
     else
-      logger.debug("Reserved characters in shortname")
       @errors.push('The short name may not contain any reserved characters such as ?')
       @valid = false
     end
