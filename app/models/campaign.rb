@@ -279,6 +279,10 @@ class Campaign < ActiveRecord::Base
   def active_participants
     Participant.find_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = 0 AND p.active = 1",self.id])
   end
+  
+  def active_and_current_participants
+    active_participants
+  end
 
   def not_pending_participants
     @participants = Participant.find_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = 0",self.id])

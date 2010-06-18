@@ -38,6 +38,22 @@ class CampaignsMailer < ActionMailer::Base
     subject "UEnd: Participation declined"
     body :campaign => campaign, :team => team, :participant => participant, :host => HTTP_HOST
   end
+  
+  def pledge_notification(pledge)
+    setup
+    if pledge.participant
+      recipients pledge.participant.user.full_email_address
+      campaign = pledge.participant.team.campaign
+    elsif pledge.team
+      recipients pledge.team.leader.full_email_address
+      campaign = pledge.team.campaign
+    elsif pledge.campaign
+      recipients pledge.campaign.creator.full_email_address
+      campaign = pledge.campaign
+    end
+    subject "Hot diggity-dog! You've been sponsored at UEnd:Poverty."
+    body :pledge => pledge, :campaign => campaign, :host => HTTP_HOST
+  end
 
   protected
   def setup

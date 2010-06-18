@@ -65,8 +65,8 @@ class Dt::PledgesController < DtApplicationController
         flash[:notice] = "Your Pledge has been added to your cart."
         format.html { redirect_to dt_cart_path }
       else
-        flash.now[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
-        format.html { redirect_to error_redirect_path }
+        flash[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
+        format.html { render :action => 'new' }
       end
     end
 
@@ -98,7 +98,7 @@ class Dt::PledgesController < DtApplicationController
       redirect_to dt_campaign_path(@campaign)
     end
     session[:return_to] = new_dt_participant_pledge_path(@participant)
-    @pledge = Pledge.new
+    @pledge = Pledge.new(:anonymous => !logged_in?)
   end
 
 end

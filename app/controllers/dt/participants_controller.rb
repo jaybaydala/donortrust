@@ -400,7 +400,7 @@ class Dt::ParticipantsController < DtApplicationController
       @campaign = @team.campaign
     end
 
-    participants_array = @participant_having_object.participants.collect
+    participants_array = @participant_having_object.active_and_current_participants
 
     @participants = participants_array.paginate :page => params[:page], :per_page => 20
   end
