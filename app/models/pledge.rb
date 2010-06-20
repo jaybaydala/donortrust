@@ -25,7 +25,7 @@ class Pledge < ActiveRecord::Base
   end
   
   def notification
-    if anonymous
+    if anonymous or (pledger.blank? and pledger_email.blank?)
       "anonymous"
     elsif public
       "public"

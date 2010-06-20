@@ -1,0 +1,14 @@
+<h2>Recent Pledges</h2>
+
+<%- pledges.each do |pledge| -%>
+<span class="small_text">
+	<%= pledge.created_at.strftime("%d-%m-%Y") %>:
+	<%= number_to_currency(pledge.amount) %> from 
+	<%- if pledge.notification == "anonymous" or 
+		    (pledge.notification == "personal" and (pledge.participant.user != current_user)) -%>
+	an anonymous donor
+	<%- else -%>
+		<%= pledge.user ? link_to(pledge.pledger, "/dt/profiles/#{pledge.user_id}") : pledge.pledger %>
+	<%- end -%>
+</span><br />
+<%- end -%>
