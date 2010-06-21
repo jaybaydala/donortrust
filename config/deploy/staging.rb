@@ -2,7 +2,7 @@ require 'config/environment'
 require 'capistrano/ext/multistage'
 require 'mongrel_cluster/recipes'
 set :application, "donortrust"
-set :repository,  "http://#{application}.rubyforge.org/svn/branches/2010_sprint/"
+set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
 
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}-staging.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}-staging_admin.yml"
