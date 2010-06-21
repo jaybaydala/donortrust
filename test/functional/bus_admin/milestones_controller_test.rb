@@ -4,7 +4,7 @@ require 'bus_admin/milestones_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::MilestonesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::MilestonesControllerTest < Test::Unit::TestCase
+class BusAdmin::MilestonesControllerTest < ActiveSupport::TestCase
   fixtures :milestones
 
   def setup

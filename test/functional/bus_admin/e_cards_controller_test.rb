@@ -4,7 +4,7 @@ require 'bus_admin/e_cards_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::ECardsController; def rescue_action(e) raise e end; end
 
-class BusAdmin::ECardsControllerTest < Test::Unit::TestCase
+class BusAdmin::ECardsControllerTest < ActiveSupport::TestCase
   fixtures :e_cards
   include AuthenticatedTestHelper
 

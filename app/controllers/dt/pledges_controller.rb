@@ -39,7 +39,7 @@ class Dt::PledgesController < DtApplicationController
     error_redirect_path = ""
 
     #decide what type of pledge it is and only fill in the appropriate field!
-    #this is very important so that records are propperly tied as people move
+    #this is very important so that records are properly tied as people move
     #around
     if(params[:participant_id] != nil)
       @participant = Participant.find(params[:participant_id])
@@ -65,8 +65,8 @@ class Dt::PledgesController < DtApplicationController
         flash[:notice] = "Your Pledge has been added to your cart."
         format.html { redirect_to dt_cart_path }
       else
-        flash.now[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
-        format.html { redirect_to error_redirect_path }
+        flash[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
+        format.html { render :action => 'new' }
       end
     end
 
@@ -98,7 +98,7 @@ class Dt::PledgesController < DtApplicationController
       redirect_to dt_campaign_path(@campaign)
     end
     session[:return_to] = new_dt_participant_pledge_path(@participant)
-    @pledge = Pledge.new
+    @pledge = Pledge.new(:anonymous => !logged_in?)
   end
 
 end

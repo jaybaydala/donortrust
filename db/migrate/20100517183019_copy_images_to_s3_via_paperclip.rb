@@ -1,34 +1,35 @@
 class CopyImagesToS3ViaPaperclip < ActiveRecord::Migration
   def self.up
-    
-    say_with_time "Updating User Images..." do
-      User.picture_file_name_not_null.each do |r|
-        path = File.join("uploaded_pictures", "pictures", r.id.to_s, "original")
-        copy_picture(r, path, r.picture_file_name)
+    if RAILS_ENV == 'production'
+      say_with_time "Updating User Images..." do
+        User.picture_file_name_not_null.each do |r|
+          path = File.join("uploaded_pictures", "pictures", r.id.to_s, "original")
+          copy_picture(r, path, r.picture_file_name)
+        end
+        # path = File.join(Rails.root, "public", "system", "uploaded_pictures", "pictures")
+        # User.picture_file_name_not_null.each do |user|
+        #   filepath = File.join(path, u.id.to_s, "original", u.picture_file_name)
+        #   if user.picture? && File.exists?(filepath)
+        #     say "- #{user.class}##{user.id} uploading"
+        #     user.image = user.picture
+        #   else
+        #     say "- #{user.class}##{user.id}" if !user.picture?
+        #     say "- #{user.class}##{user.id} ALREADY uploaded" if user.image?
+        #   end
+        # end
       end
-      # path = File.join(Rails.root, "public", "system", "uploaded_pictures", "pictures")
-      # User.picture_file_name_not_null.each do |user|
-      #   filepath = File.join(path, u.id.to_s, "original", u.picture_file_name)
-      #   if user.picture? && File.exists?(filepath)
-      #     say "- #{user.class}##{user.id} uploading"
-      #     user.image = user.picture
-      #   else
-      #     say "- #{user.class}##{user.id}" if !user.picture?
-      #     say "- #{user.class}##{user.id} ALREADY uploaded" if user.image?
-      #   end
-      # end
-    end
-    say_with_time "Updating Campaign Images..." do
-      Campaign.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/campaign_pictures", r.picture.filename) }
-    end
-    say_with_time "Updating Team Images..." do
-      Team.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/team_pictures", r.picture.filename) }
-    end
-    say_with_time "Updating Participant Images..." do
-      Participant.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/participant_pictures", r.picture.filename) }
-    end
-    say_with_time "Updating Unpaid Participant Images..." do
-      UnpaidParticipant.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/participant_pictures", r.picture.filename) }
+      say_with_time "Updating Campaign Images..." do
+        Campaign.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/campaign_pictures", r.picture.filename) }
+      end
+      say_with_time "Updating Team Images..." do
+        Team.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/team_pictures", r.picture.filename) }
+      end
+      say_with_time "Updating Participant Images..." do
+        Participant.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/participant_pictures", r.picture.filename) }
+      end
+      say_with_time "Updating Unpaid Participant Images..." do
+        UnpaidParticipant.picture_not_null.each{|r| copy_picture(r, "uploaded_pictures/participant_pictures", r.picture.filename) }
+      end
     end
   end
 

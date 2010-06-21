@@ -4,7 +4,7 @@ require 'bus_admin/quick_fact_partners_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::QuickFactPartnersController; def rescue_action(e) raise e end; end
 
-class BusAdmin::QuickFactPartnersControllerTest < Test::Unit::TestCase
+class BusAdmin::QuickFactPartnersControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_quick_fact_partners
 
   def setup

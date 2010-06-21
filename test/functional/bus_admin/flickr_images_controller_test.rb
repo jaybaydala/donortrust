@@ -4,7 +4,7 @@ require 'bus_admin/flickr_images_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::FlickrImagesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::FlickrImagesControllerTest < Test::Unit::TestCase
+class BusAdmin::FlickrImagesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_flickr_images
 
   def setup

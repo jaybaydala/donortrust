@@ -21,6 +21,15 @@ class Dt::ParticipantsController < DtApplicationController
     store_location
 
     @participant = Participant.find(params[:id]) unless params[:id].nil?
+    
+    # Inserting logic here to find first by the profile short name before trying the older participant short name
+    if @participant.nil? && !params[:short_name].nil? and !params[:short_campaign_name].nil?
+      @campaign = Campaign.find_by_short_name(params[:short_campaign_name])
+      
+      @profile = Profile.find_by_short_name(params[:short_name])
+      @participant = @profile.user.find_participant_in_campaign(@campaign) if @campaign
+    end
+    
     @participant = Participant.find_by_short_name(params[:short_name]) if @participant.nil? && !params[:short_name].nil?
     # old participant records still exist when a campaign/team gets deleted. A participant must belong to a team and a campaign
     unless @participant && @participant.user && @participant.team && @participant.team.campaign
@@ -51,31 +60,34 @@ class Dt::ParticipantsController < DtApplicationController
       redirect_to dt_campaigns_path and return
     end
 
-    @can_sponsor_participant = false
-    if not @participant.pending
-      if not @participant.team.pending
-        if not @campaign.pending
-          if @campaign.start_date.utc < Time.now.utc
-            if @campaign.raise_funds_till_date.utc > Time.now.utc
-              @can_sponsor_participant = true
-            end
-          end
-        end
-      end
-    end
+    @can_sponsor_participant = true if !@participant.pending && !@participant.team.pending &&
+                                       !@campaign.pending && (@campaign.start_date.utc < Time.now.utc) &&
+                                       (@campaign.raise_funds_till_date.utc > Time.now.utc)
   end
 
   def new
     store_location
-    @participant = Participant.new
     
-    if not @team.campaign.valid?
-      flash[:notice] = "The campaign is not currently active, you are not able to join or leave teams."
-      redirect_to dt_team_path(@team)
+    # Switch back to this team if previously a member and allowed to join again
+    if (current_user != :false) and (@participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.id)) and current_user.can_join_team?(@team)
+      default_participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.campaign.default_team.id)
+      default_participant && default_participant.update_attribute(:active, false)
+      @participant.update_attribute(:active, true)
+      
+      flash[:notice] = 'Team joined successfully'
+      redirect_to(dt_team_path(@team))
+      return
     end
+    
+    @participant = Participant.new
 
     if (current_user == :false)
       return
+    end
+    
+    unless @team.campaign.valid?
+      flash[:notice] = "The campaign is not currently active, you are not able to join or leave teams."
+      redirect_to dt_team_path(@team)
     end
 
     @participant.user = current_user
@@ -91,12 +103,24 @@ class Dt::ParticipantsController < DtApplicationController
     end
     
     if (campaign != nil)
-      #if they are check and see if they are in the default team
+      # If they are check and see if they are in the default team
       if (campaign.default_team.has_user?(current_user))
         @participant = campaign.default_team.participant_for_user(current_user)
-        @participant.team_id = @team.id
-        @participant.save
-
+        # Deactivate user in default team and add them to the new team
+        # Note: This does not allow the user to change their profile upon joining
+        if @participant.active
+          @participant.update_attribute(:active, false)
+          @participant.save
+          Particpant.create(:user_id => current_user.id,
+                            :team_id => @team.id,
+                            :short_name => @participant.short_name,
+                            :about_participant => @participant.about_participant,
+                            :image_file_name => @participant.image_file_name,
+                            :image_content_type => @participant.image_content_type,
+                            :image_file_size => @participant.image_file_size,
+                            :active => true)
+        end
+        
         flash[:notice] = 'Team joined successfully'
         redirect_to(dt_team_path(@team))
       else
@@ -116,29 +140,19 @@ class Dt::ParticipantsController < DtApplicationController
         else
           flash[:notice] = "You are already taking part in the " + @team.campaign.name +
                            " campaign. This is your campaign page."
-          redirect_to dt_participant_path(existing_participant) 
+          redirect_to dt_participant_path(existing_participant)
         end
       end
     end
   end
 
   def create
-    
     @participant = Participant.new(params[:participant])
+    @participant.active = true
     
-    if not @team.nil?
-      if not @team.campaign.valid?
-        flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
-        redirect_to dt_team_path(@team)
-      end
-      
-      #validating we have filled in the information that is required
-      logger.debug("Checking short name for save.")
-      if validate_short_name_of == false
-        flash[:notice] = "Errors in your profile URL. Please make sure you have one entered and that it is valid."
-        redirect_to :action => "new", :team_id => @team.id and return
-      end
-      
+    if @team.nil? and !@team.campaign.valid?
+      flash[:notice] = "The campaign has ended, you are not able to join or leave teams."
+      render :action => 'new'
     end
     
     if current_user == :false
@@ -163,6 +177,11 @@ class Dt::ParticipantsController < DtApplicationController
           session[:tmp_user] = nil
           cookies[:dt_login_id] = self.current_user.id.to_s
           cookies[:dt_login_name] = self.current_user.name
+          
+          # Update the profile's instead of the participant's short name
+          unless @participant.short_name.blank?
+            current_user.profile.update_attributes(:short_name, @participant.short_name)
+          end
         else # Something went wrong with saving the user        
           
           # HACK! At this point, we know the user cannot be logged in (after all, they are trying to create new user details)
@@ -196,25 +215,20 @@ class Dt::ParticipantsController < DtApplicationController
       @participant.user = new_user
     else
       @participant.user = current_user
+      # Update the user profile if they specify a short name
+      if not @participant.short_name.blank? and current_user.profile.short_name.blank?
+        current_user.profile.update_attribute(:short_name, @participant.short_name) if Profile.find_all_by_short_name(@participant.short_name).size == 0
+      end
     end
 
-    if @team.require_authorization
-      @participant.pending = true
-    else
-      @participant.pending = false
-    end
+    @participant.pending = @team.require_authorization
 
     #if the user was part of the default team, remove them from that team and put them in this one
     if (@team.campaign.default_team.has_user?(current_user)) then
       default_participant = @team.campaign.default_team.participant_for_user(current_user)
-      default_participant.team_id = @team.id
+      default_participant.update_attribute(:active, false)
       
-      if default_participant.save
-        redirect_to dt_participant_path(@participant) and return
-      else
-        render :action => 'new' and return
-      end
-
+      redirect_to dt_participant_path(@participant) and return
     else
       @participant.team_id = @team.id
 
@@ -298,52 +312,34 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def validate_short_name_of
-    
     @valid = true
-    
     @errors = Array.new
     
     if params[:participant_short_name] == "" || params[:participant_short_name].nil?
-      logger.debug("other path")
       @short_name = @participant.short_name
     else
-      logger.debug("parameter path")
       @short_name = params[:participant_short_name]
-    end
-    
-    if params[:campaign_id] == "" || params[:campaign_id].nil?
-      @campaign_id = @team.campaign.id
-    else
-      @campaign_id = params[:campaign_id]
-    end  
+    end 
 
     if @short_name != nil
       @short_name.downcase!
       
-      if(@short_name =~ /\W/)
-        logger.debug("Invalid characters in shortname")
+      if @short_name =~ /\W/
         @errors.push('You may only use Alphanumeric Characters, hyphens, and underscores. This also means no spaces.')
         @valid = false;
       end
 
-      if(@short_name.length < 3)
+      if @short_name.length < 3
         logger.debug("Invalid length of shortname")
         @errors.push('The short name must be 3 characters or longer.')
         @valid = false
       end
 
-      participants_shortname_find = Participant.find_by_sql([
-        "SELECT p.* FROM participants p INNER JOIN teams t INNER JOIN campaigns c " +
-        "ON p.team_id = t.id AND t.campaign_id = c.id "+
-        "WHERE p.short_name = ? AND c.id = ?",@short_name, @campaign_id])
-
-      if(participants_shortname_find != nil && !participants_shortname_find.empty? )
-        logger.debug("Non unique shortname")
-        @errors.push('That short name has already been used, short names must be unique to each campaign.')
+      if Profile.find_all_by_short_name(@short_name).size > 0
+        @errors.push('That short name has already been used, short names must be unique.')
         @valid = false
       end
     else
-      logger.debug("Reserved characters in shortname")
       @errors.push('The short name may not contain any reserved characters such as ?')
       @valid = false
     end
@@ -404,7 +400,7 @@ class Dt::ParticipantsController < DtApplicationController
       @campaign = @team.campaign
     end
 
-    participants_array = @participant_having_object.participants.collect
+    participants_array = @participant_having_object.active_and_current_participants
 
     @participants = participants_array.paginate :page => params[:page], :per_page => 20
   end
@@ -440,16 +436,14 @@ class Dt::ParticipantsController < DtApplicationController
 
   # assign participant to generic team and approve
   def decline
-    assign_participant_to_generic_team(params[:id])
-    if @participant.approve!
-      flash[:notice] = "#{@participant.name} assigned to #{@campaign.name} with with no team."
-      redirect_to manage_dt_team_path(@team)
+    if assign_participant_to_generic_team(params[:id])
+      flash[:notice] = "#{@participant.name} assigned to #{@participant.campaign.name} with no team."
       # send email to participant when approved
       CampaignsMailer.deliver_participant_declined(@participant.campaign, @participant.team, @participant)
     else
       flash[:notice] = "There was an error declining that participant, please try again."
     end
-
+    redirect_to manage_dt_team_path(@participant.team)
   end
 
   protected
@@ -487,10 +481,10 @@ class Dt::ParticipantsController < DtApplicationController
 
   private
   def assign_participant_to_generic_team(participant_id)
-    @participant = Participant.find(participant_id) unless participant_id == nil
-    @team = @participant.team
-    @campaign = @team.campaign
-    @participant.team = @campaign.generic_team
+    participant = Participant.find(participant_id) unless participant_id == nil
+    participant.user.move_to_default_team_in(participant.team.campaign)
+    @participant = participant.user.find_participant_in_campaign(participant.team.campaign)
+    @participant.team == @participant.team.campaign.default_team
   end
 
   attr_accessor :current_step

@@ -336,6 +336,9 @@ module DtApplicationHelper
     # Return summarized strings
     return summary
   end
-
+  
+  def action_button(text, link, options = {})
+    link_to text, link, options.merge(:class => 'action_button')
+  end
 
 end

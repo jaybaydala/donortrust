@@ -4,7 +4,7 @@ require 'bus_admin/key_measures_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::KeyMeasuresController; def rescue_action(e) raise e end; end
 
-class BusAdmin::KeyMeasuresControllerTest < Test::Unit::TestCase
+class BusAdmin::KeyMeasuresControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_key_measures
 
   def setup

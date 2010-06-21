@@ -69,13 +69,13 @@ class Participant < ActiveRecord::Base
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png) # the last 2 for IE
 
 
-  validates_presence_of :user_id, :team_id#, :campaign_id
+  validates_presence_of :user_id, :team_id
   validates_numericality_of :goal, :allow_nil => true
   validates_uniqueness_of :user_id, :scope => :team_id, :message => 'currently logged in is already a member of this team'
 
-  validates_format_of :short_name, :with => /\w/
-  validates_length_of :short_name, :within => 3...60, :message => 'Short name must be between 3 and 60 characters'
-  validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
+  # validates_format_of :short_name, :with => /\w/
+  # validates_length_of :short_name, :within => 3...60, :message => 'Short name must be between 3 and 60 characters'
+  # validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => '^Short name can only contain letters, numbers, and underscores.'
   
   def approve!
     self.update_attribute(:pending,false) ? true : false;
@@ -137,6 +137,19 @@ class Participant < ActiveRecord::Base
     end
 
     return false
+  end
+  
+  def can_leave_team?
+    # Must be active in a team to leave
+    return false unless active
+    # Cannot leave a team you created or currently lead
+    return false if team.owned? or team.leader == user
+    # Cannot leave the default team
+    return false if team == campaign.default_team
+    # Changing teams only matters while funds are being raised
+    return false if (campaign.start_date > Time.now.utc) or (campaign.raise_funds_till_date < Time.now.utc)
+    
+    return true
   end
   
   def self.create_from_unpaid_participant!(unpaid_participant_id)

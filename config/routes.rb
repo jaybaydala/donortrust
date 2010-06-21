@@ -35,7 +35,11 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
     #dt.resources :my_wishlists, :controller => 'my_wishlists'
-    dt.resources :accounts, :controller => 'accounts', :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put } do |account|
+    dt.resources :accounts, :controller => 'accounts', :collection => { :activate => :get, 
+                                                                        :resend => :get, 
+                                                                        :reset => :get, 
+                                                                        :reset_password => :put },
+                                                       :member => { :transactions => :get } do |account|
       account.resources :deposits, :controller => 'deposits'
       account.resources :my_wishlists, :controller => 'my_wishlists', :collection => {:new_message => :get, :confirm => :post, :preview => :get, :send_message => :post}
       account.resources :tax_receipts, :controller => 'tax_receipts'
@@ -64,77 +68,52 @@ ActionController::Routing::Routes.draw do |map|
      end
 
     # Campaign System
-    dt.resources :campaigns,  :collection => {          :update_address_details_for_country => :post,
-                                                        :update_team_config_options => :post,
-                                                        :admin => :get,
-                                                        :search => :get
-                                                        },
-                                      :new => {
-                                        :validate_short_name_of => :post
-                                      },
-                                      :member => {      :activate => :post,
-                                                        :manage => :get,
-                                                        :configure_filters_for => :get,
-                                                        :add_project_limit_to => :post,
-                                                        :remove_project_limit_from => :post,
-                                                        :add_place_limit_to => :post,
-                                                        :remove_place_limit_from => :post,
-                                                        :add_cause_limit_to => :post,
-                                                        :remove_cause_limit_from => :post,
-                                                        :add_partner_limit_to => :post,
-                                                        :remove_partner_limit_from => :post,
-                                                        :join => :get,
-                                                        :join_options => :get
-                                      }
-
-
-    dt.resources :teams,  :collection => {  :manage => :get,
-                                            :admin => :get
-                                           },
-                          :new => {
-                                        :validate_short_name_of => :post
-                          },
-                          :member => {  :join => :get,
-                                        :approve => :get,
-                                        :manage => :get,
-                                        :leave => :get
-                                      }
-
-    dt.resources :pledges
-
-    dt.resources :participants,
-                          :collection => { :admin => :get},
-                          :member => { :manage => :get,
-                                       :approve => :get,
-                                       :decline => :get
-                                    },
-                          :new => { :validate_short_name_of => :post}
-
-    dt.resources :campaigns do |campaigns|
-     campaigns.resources :wall_posts
-     campaigns.resources :news_items
-     campaigns.resources :teams
-     campaigns.resources :participants
-     campaigns.resources :pledges
+    dt.resources :campaigns, :collection => { :update_address_details_for_country => :post,
+                                              :update_team_config_options => :post,
+                                              :admin => :get,
+                                              :search => :get },
+                             :new =>        { :validate_short_name_of => :post },
+                             :member =>     { :activate => :post,
+                                              :manage => :get,
+                                              :configure_filters_for => :get,
+                                              :add_project_limit_to => :post,
+                                              :remove_project_limit_from => :post,
+                                              :add_place_limit_to => :post,
+                                              :remove_place_limit_from => :post,
+                                              :add_cause_limit_to => :post,
+                                              :remove_cause_limit_from => :post,  
+                                              :add_partner_limit_to => :post,
+                                              :remove_partner_limit_from => :post,
+                                              :join => :get,
+                                              :join_options => :get } do |campaigns|
+      campaigns.resources :wall_posts
+      campaigns.resources :news_items
+      campaigns.resources :teams
+      campaigns.resources :participants
+      campaigns.resources :pledges
     end
 
-    dt.resources :teams,  :collection => { :manage => :get
-                                           },
-                          :new => {
-                                        :validate_short_name_of => :post
-                          },
-                          :member => {  :join => :get,
-                                        :approve => :get
-                                      }
 
-    dt.resources :teams do |teams|
+    dt.resources :teams,  :collection =>  { :manage => :get,
+                                            :admin => :get },
+                          :new =>         { :validate_short_name_of => :post },
+                          :member =>      { :join => :get,
+                                            :approve => :get,
+                                            :manage => :get,
+                                            :leave => :get } do |teams|
         teams.resources :wall_posts
         teams.resources :news_items
         teams.resources :participants
         teams.resources :pledges
     end
 
-    dt.resources :participants do |participants|
+    dt.resources :pledges
+
+    dt.resources :participants, :collection => { :admin => :get },
+                                :member =>     { :manage => :get,
+                                                 :approve => :get,
+                                                 :decline => :get },
+                                :new => { :validate_short_name_of => :post} do |participants|
       participants.resources :wall_posts
       participants.resources :news_items
       participants.resources :pledges
@@ -143,6 +122,10 @@ ActionController::Routing::Routes.draw do |map|
     #Done with everything pretaining to campaigns
 
     dt.resources :give, :controller => 'give'
+    
+    # User campaign profiles
+    dt.resources :profiles, :only => 'show', :member => { :increase_gifts => :get,
+                                                          :decrease_gifts => :get }
   end
 
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'

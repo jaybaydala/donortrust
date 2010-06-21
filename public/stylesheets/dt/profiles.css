@@ -1,0 +1,82 @@
+/* Re-usable action buttons */
+#profile_action_buttons .action_button {
+	width: 142px;
+	height: 23px;
+	line-height: 23px;
+	float: left;
+	font-size: 12px;
+	font-weight: bold;
+	display: block;
+	background-image: url(/images/dt/buttons/campaign_action_button.png);
+	margin-bottom: 3px;
+	text-align: center;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+h1.user {
+	margin-bottom: 5px;
+	border-bottom: 1px solid rgb(103, 103, 103);
+}
+#left_sidebar {
+	float: left;
+	width: 200px;
+}
+
+#profile_bio {
+	font-size: 12px;
+	margin-bottom: 10px;
+}
+
+#profile_stats {
+	float: left;
+}
+
+#profile_stats .panel {
+	float: left;
+	width: 142px;
+	height: 40px;
+	background-color: rgb(221, 221, 221);
+	border: 1px solid rgb(103, 103, 103);
+	margin: 3px 6px 3px 0;
+	padding-top: 2px;
+}
+#profile_stats .panel .action_info_tab {
+	position: absolute;
+	width: 20px;
+	height: 21px;
+	border-right: 1px solid rgb(103, 103, 103);
+	border-bottom: 1px solid rgb(103, 103, 103);
+	margin-top: -2px;
+	text-align: center;
+}
+#profile_stats .panel .action_info_tab.below {
+	margin-top: 20px;
+	height: 20px;
+}
+#profile_stats .panel .action_info_tab a { text-decoration: none; }
+#profile_stats .panel span {
+	display: block;
+	text-align: center;
+}
+#profile_stats .value {
+	font-size: 14px;
+	color: rgb(232, 69, 36);
+}	
+#profile_stats .tagline {
+	font-size: 10px;
+}
+
+#main_panel {
+	float: left;
+	width: 600px;
+}
+
+#profile_campaigns li {
+	font-weight: bold;
+}
+
+#profile_campaigns {
+	padding-top: 10px;
+	clear: left;
+}

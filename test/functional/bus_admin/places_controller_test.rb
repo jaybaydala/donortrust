@@ -4,7 +4,7 @@ require 'bus_admin/places_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::PlacesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::PlacesControllerTest < Test::Unit::TestCase
+class BusAdmin::PlacesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_places
 
   def setup

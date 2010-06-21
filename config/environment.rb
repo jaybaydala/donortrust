@@ -39,8 +39,13 @@ Rails::Initializer.run do |config|
   # bad bots
   config.gem "ruby-recaptcha"
   config.gem "paperclip", :source => "http://gemcutter.org"
+  config.gem "aws-s3", :lib => 'aws/s3'
   config.gem 'youtube-g', :lib => 'youtube_g', :source => "http://gemcutter.org"
-  
+  # plugin dependencies  (install before rake will work)
+  # config.gem 'packet'
+  # config.gem 'xml-simple', :lib => 'xmlsimple'
+  # config.gem 'chronic'
+  ## Also remember ImageMagick and RMagick for your platform
   
   #calendar_date_select
   #config.gem "timcharper-calendar_date_select", :version => "1.11", :source => "http://gems.github.com", :lib => "gem_init"

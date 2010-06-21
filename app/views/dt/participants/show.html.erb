@@ -27,7 +27,7 @@
 				<%= image_tag @participant.image.url(:full), :class => :full_picture if @participant.image? %>
 				<%= image_tag 'dt/icons/participant_placeholder_icon_72x72.jpg', :class => :thumbnail unless @participant.image? %>
 			</div>
-			<%= @participant.about_participant%>
+			<%= @participant.user.bio %>
 		</p>
 	</div>
 	<div class="clearfix"></div>
@@ -45,6 +45,10 @@
 
 		<div class="campaign-sidebar-box metrics">
 			<%= render :partial => 'participant_facts',  :locals => {:participant => @participant} %>
+		</div>
+		
+		<div class="campaign-sidebar-box metrics">
+			<%= render :partial => 'participant_pledges',  :locals => {:pledges => @participant.pledges.reverse[0..15]} %>
 		</div>
 
 		<% if @participant.owned? || (current_user != :false && current_user.cf_admin?) %>

@@ -5,7 +5,7 @@ require 'bus_admin/deposits_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::DepositsController; def rescue_action(e) raise e end; end
   
-class DepositsControllerTest < Test::Unit::TestCase
+class DepositsControllerTest < ActiveSupport::TestCase
   fixtures :bus_accounts
   
   include AuthenticatedTestHelper

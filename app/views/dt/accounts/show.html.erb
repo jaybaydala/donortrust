@@ -1,54 +1,5 @@
-<%- content_for :html_title do -%>My Account<%- end -%>
+<%- content_for :html_title do -%>My Profile<%- end -%>
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
-<div id="intro">
-  <h2>My Information</h2>
-  <div><%= image_tag(@user.image.url) if @user.image? %></div>
-  <% unless @user.bio.nil? %><%= RedCloth.new(sanitize(@user.bio)).to_html %><% end %>
-</div>
-
-<div class="projectlist" id="project-list">
-  <h2>My Projects</h2>
-  <p>These are the investments you have made</p>
-	<% if @user.investments.size > 0 %>
-    <ul>
-      <%= render :partial => 'investment', :collection => @user.investments(:all, :order => 'created_at ASC') %>
-    </ul>
-	<% else %>
-	  <div class="highlight">
-	    <p>You have not invested in any projects.</p>
-	    <p><%= link_to "Find a project", dt_projects_path %> that you're interested in and click the &quot;Invest&quot; button beside it.</p>
-	  </div>
-	<% end %>
-</div>
-
-<div class="campaignlist" id="campaign-list">
-  <h2>My Campaign Participation</h2>
-  <p>This is a list of the campaigns you are involved with:</p>
-	<% if @participants.size > 0 %>
-    <ul>
-      <%= render :partial => 'participant', :collection => @participants %>
-    </ul>
-	<% else %>
-	  <div class="highlight">
-	    <p>You have not participated in any campaigns</p>
-	  </div>
-	<% end %>
-</div>
-
-<% if @user.tax_receipts.length > 0 -%>
-<h2 style="margin-top:10px;">Tax Receipts</h2>
-<div class="account-summary">
-	<div id="transaction-list">
-		<table style="width:100%;">
-		<tr><th>Investment</th><th>Date</th><th>Amount</th></tr>
-		<%= render :partial => "tax_receipt", :collection => @user.tax_receipts %>
-		</table>
-	</div>
-</div>
-<% end -%>
-
-<%- content_for :sidebar do -%>
-  <%= dt_profile_sidebar %>
-<%- end -%>
+<%= render :file => 'dt/profiles/show' %>

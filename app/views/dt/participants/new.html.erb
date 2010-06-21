@@ -64,12 +64,13 @@
  <% end %>
 
 		<fieldset>
-			<h2>Create your personal profile for this <%= @team.campaign.name %> so that people can support you:</h2>
+			<%- unless (current_user && !current_user.profile.short_name.blank?) -%>
+			<h2>Create your personal profile for <%= @team.campaign.name %> so that people can support you:</h2>
 			<label>Choose your profile URL:<%= form_required %>
-			<%= what_is_this?'short_name', "The short name is a small (10-20 characters) that will make 
+			<%= what_is_this? 'short_name', "The short name is a short (10-20 characters) name that will make 
 			it easier to share your profile page with others. It should not contain any spaces and should 
-			be concise so as to convey the central idea of your campaign. Also this name will be used to 
-			provide your profile with a Uend: URL. http://www.uend.org/dt/campaigns/#{@team.campaign.short_name}/ShortName" %>
+			be concise. Also this name will be used to provide your profile with a Uend: URL such as 
+			http://www.uend.org/dt/campaigns/#{@team.campaign.short_name}/ShortName" %>
 			</label>
     		<span class="small_text">http://www.uend.org/dt/<%= @team.campaign.short_name %>/participant/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
 
@@ -81,15 +82,18 @@
 			<%= show_spinner("Validating ") %>
 			<div id="errors" style="display:none;">
 			</div>
+			<%- end -%>
 
-			<label>Public Profile Information (eg. a little about yourself, your reasons for joining <%= @team.campaign.name %>: <%= form_required %></label>
-			<%= fckeditor_textarea( "participant", "about_participant", :toolbarSet=> 'uEndBasic', :height => 200 ) %> 
+			<!-- Removed in preference of using the user's bio			
+			<label>Public Profile Information (eg. a little about yourself, your reasons for joining <%#= @team.campaign.name %>: <%#= form_required %></label>
+			<%#= fckeditor_textarea( "participant", "about_participant", :toolbarSet=> 'uEndBasic', :height => 200 ) %> 
+			 -->
 			
 			<label>What is your personal fundraising goal? (optional, leave blank for no specific goal)</label>
 			$ <%= f.text_field :goal %>
 			
-			<label>Upload your photo (must be less than 1MB). You can upload the photo later by editing your profile.</label>
-			<%= f.file_field :image %>
+			<!-- <label>Upload your photo (must be less than 1MB). You can upload the photo later by editing your profile.</label>
+						<%= f.file_field :image %> -->
 
 			<% if @team.campaign.has_registration_fee? %>
 			  <div id="fee-warning-text">

@@ -375,10 +375,12 @@ div.links {
 }
 
 /* pledge form */
-#pledge_form span{
-	float: right;
-	font-size: 1.25em;
-	padding-top: 5px;
+#pledge_form .group {
+	/*font-size: 1.25em;*/
+	padding-top: 15px;
+}
+
+#pledger_details {
 }
 
 /* search */

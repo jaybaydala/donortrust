@@ -4,7 +4,7 @@ require 'bus_admin/quick_fact_types_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::QuickFactTypesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::QuickFactTypesControllerTest < Test::Unit::TestCase
+class BusAdmin::QuickFactTypesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_quick_fact_types
 
   def setup

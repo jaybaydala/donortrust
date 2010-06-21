@@ -1,7 +1,7 @@
 class Dt::TeamsController < DtApplicationController
 
   before_filter :find_campaign, :except => [:validate_short_name_of]
-  before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :activate], :except => [:validate_short_name_of, :index]
+  before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :leave, :activate], :except => [:validate_short_name_of, :index]
   before_filter :login_required, :except => [:show,:index]
   # before_filter :check_if_in_team
   include UploadSyncHelper
@@ -17,50 +17,10 @@ class Dt::TeamsController < DtApplicationController
   # GET /dt_teams/1.xml
   def show
     store_location
-
-    @can_join_team = true
-    @can_leave_team = true
-
-    if @team.campaign.has_participant(current_user)
-      if !@team.campaign.default_team.has_user?(current_user)
-        @can_join_team = false
-      end
-    end
-
-    if @team.has_user?(current_user)
-      @can_join_team = false
-    end
-
-    if @team.campaign.owned?
-      @can_join_team = false
-      @can_leave_team = false
-    end
-
-    if @team.owned?
-      @can_leave_team = false
-    end
-
-    if @campaign.start_date > Time.now.utc
-      @can_join_team = false
-      @can_leave_team = false
-    end
-
-    if @campaign.raise_funds_till_date < Time.now.utc
-      @can_join_team = false
-      @can_leave_team = false
-    end
-
-    if @team.leader == current_user 
-      @can_leave_team = false
-    end
-
-    if not @team.has_user?(current_user)
-      @can_leave_team = false
-    end
-
-    if @team == @team.campaign.default_team
-      @can_leave_team = false
-    end
+    
+    participant = Participant.find(:first, :conditions => {:team_id => @team.id, :user_id => current_user.id})
+    @can_leave_team = (current_user != :false) && participant && participant.can_leave_team?
+    @can_join_team = (current_user == :false) || current_user.can_join_team?(@team)
 
     @participants = Participant.paginate_by_team_id_and_pending @team.id, false, :page => params[:participant_page], :per_page => 10
     if(params[:participant_page] != nil)
@@ -211,9 +171,7 @@ class Dt::TeamsController < DtApplicationController
   end
   
   def leave
-    @team = Team.find(:first, :conditions => {:id => params[:id]})
-
-    if not @team.campaign.valid?
+    unless @team.campaign.valid?
       flash[:notice] = "this campaign has ended"
       redirect_to dt_team_path(@team)
     end
@@ -223,21 +181,28 @@ class Dt::TeamsController < DtApplicationController
       redirect_to dt_team_path(@team)
     end
 
-    if (@team.users.include?(current_user)) then
-      if (@team == @team.campaign.default_team) then
+    if (@team.users.include?(current_user))
+      
+      # Restrict participants from leaving the default team (thus, the campaign)
+      if (@team == @team.campaign.default_team)
         flash[:notice] = "You can not leave the campaign"
-	redirect_to dt_team_path(@team)
+	      redirect_to dt_team_path(@team)
       end
 
-      #get the campaign for this team and add this user to the default team 
+      # Deactivate the participant in their current team
       participant = @team.participant_for_user(current_user)
-      @team.campaign.default_team.participants << participant
-
-      #move all the pledges over to the new team
-      #current_user.pledges.each do |p|
-      #  p.team_id = @team.campaign.default_team.id
-      #  p.save
-      #end
+      participant.update_attribute :active, false
+      
+      # Put the participant in the default team
+      if (default_participant = @team.campaign.default_team.participants.find_by_user_id(participant.user_id))
+        default_participant.update_attribute :active, true
+      else
+        @team.campaign.default_team.participants.create :user_id => participant.user_id,
+                                                        :short_name => participant.short_name,  
+                                                        :about_participant => participant.about_participant,
+                                                        :active => true,
+                                                        :pending => @team.campaign.default_team.require_authorization
+      end
     else
       #print a notice that the user does not exist in the team
       flash[:notice] = "The user could not be found in the team"
@@ -324,11 +289,4 @@ class Dt::TeamsController < DtApplicationController
     @team = Team.find(params[:id]) unless params[:id].blank?
     @team = Team.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
   end
-
-  # def check_if_in_team
-  #   find_campaign
-  #   if @campaign.participating?(current_user)
-  # 
-  #   end
-  # end
 end

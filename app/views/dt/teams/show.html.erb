@@ -39,10 +39,11 @@
 
 	<%- content_for :sidebar do -%>
 		<div class="campaign-sidebar-box">
-		        <% if (@can_join_team) then %>
-			  <%= link_to(image_tag("/images/dt/buttons/join_this_team.png", :alt => "Join #{@team.name}",
+			<% if (@can_join_team) then %>
+			  <%= link_to(image_tag("/images/dt/buttons/join_this_team.png", 
+														:alt => "Join #{@team.name}",
                             :title => "Join #{@team.name}", :class => "campaign_action_button"), 
-			    new_dt_team_participant_path(@team)) if @team.joinable? %>
+			new_dt_team_participant_path(@team), :id => "join_this_team") if @team.joinable? %>
 			<% elsif (@can_leave_team) then %>
   			  <%= link_to(image_tag("/images/dt/buttons/leave_this_team.png", :alt => "Leave #{@team.name}", 
 			    :title => "Leave #{@team.name}", :class => "campaign_action_button"),

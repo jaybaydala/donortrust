@@ -211,7 +211,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def percentage_done
-    raised= ((self.funds_raised.to_f/self.fundraising_goal.to_f)*100).round(0).to_i
+    raised = ((self.funds_raised.to_f/self.fundraising_goal.to_f)*100).round(0).to_i
     "#{raised} %"
   end
 
@@ -239,9 +239,9 @@ class Campaign < ActiveRecord::Base
     country == 'United States'
   end
 
-  #check if the current user is the owner of this campaign
-  def owned?
-    current_user != nil ? self.creator == current_user : false;
+  # Check for ownership of this campaign
+  def owned?(user_to_check = current_user)
+    user_to_check ? self.creator == user_to_check : false
   end
 
   def activate!
@@ -274,6 +274,14 @@ class Campaign < ActiveRecord::Base
 
   def participating?(user)
     participants.include?(user)
+  end
+  
+  def active_participants
+    Participant.find_by_sql(["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = 0 AND p.active = 1",self.id])
+  end
+  
+  def active_and_current_participants
+    active_participants
   end
 
   def not_pending_participants

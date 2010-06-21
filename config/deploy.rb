@@ -3,7 +3,7 @@ require 'capistrano/ext/multistage'
 require 'mongrel_cluster/recipes'
 set :application, "donortrust"
 
-set :deploy_via, :remote_cache
+# set :deploy_via, :remote_cache
 
 set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"

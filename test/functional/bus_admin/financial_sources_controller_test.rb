@@ -4,7 +4,7 @@ require 'bus_admin/financial_sources_controller'
 # Re-raise errors caught by the controller.
 class BusAdmin::FinancialSourcesController; def rescue_action(e) raise e end; end
 
-class BusAdmin::FinancialSourcesControllerTest < Test::Unit::TestCase
+class BusAdmin::FinancialSourcesControllerTest < ActiveSupport::TestCase
   fixtures :bus_admin_financial_sources
 
   def setup

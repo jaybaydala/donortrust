@@ -11,13 +11,39 @@ class Pledge < ActiveRecord::Base
 
   validates_presence_of :amount
   validates_numericality_of :amount
+  validates_presence_of :pledger, :unless => Proc.new { |m| m.anonymous }
+  validates_format_of   :pledger_email, :unless => Proc.new { |m| m.anonymous }, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
 
   after_create :user_transaction_create
+  
+  attr_accessor :notification # anonymous, personal or public
 
   # set the reader methods for the columns dealing with currency
   # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
   def amount
     BigDecimal.new(read_attribute(:amount).to_s) unless read_attribute(:amount).nil?
+  end
+  
+  def notification
+    if anonymous or (pledger.blank? and pledger_email.blank?)
+      "anonymous"
+    elsif public
+      "public"
+    else
+      "personal"
+    end
+  end
+  
+  def notification=(t)
+    if t == "anonymous"
+      self.anonymous = true
+    elsif t == "personal"
+      self.anonymous = false
+      self.public = false
+    else # public
+      self.anonymous = false
+      self.public = true
+    end
   end
 
   def valid?
@@ -25,23 +51,17 @@ class Pledge < ActiveRecord::Base
       return false
     end
       
-    if not team.nil?
-      if not team.campaign.valid?
+    if team
+      unless team.campaign.valid?
         return false
       end
     end
       
-    if not campaign.nil? 
-      if not campaign.valid?
+    if campaign
+      unless campaign.valid?
         return false
       end
     end
-      
-    # if not participant.nil?
-    #   if not participant.team.campaign.valid?
-    #     return false
-    #   end
-    # end
   
     return super
   end

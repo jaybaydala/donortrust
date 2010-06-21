@@ -4,10 +4,10 @@
 <% if @participant.team.campaign.allow_multiple_teams? and not @participant.team.generic? %>
 	<span class="small_text">My Team: <%= link_to(@participant.team.name, dt_team_path(@participant.team)) %></span><br/>
 <% end %>
-<span class="small_text">Personal Goal: $ <%= @participant.goal if @participant.goal %></span><br/>
-<span class="small_text">&nbsp;&nbsp;Amount Raised: $ <%= @participant.funds_raised %></span><br/>
+<span class="small_text">Personal Goal: <%= number_to_currency(@participant.goal) if @participant.goal %></span><br/>
+<span class="small_text">&nbsp;&nbsp;Amount Raised: <%= number_to_currency(@participant.funds_raised) %></span><br/>
 <% if !@participant.team.generic %>
-	<span class="small_text">Team Goal: $ <%= @participant.team.goal if @participant.team.goal %></span><br/>
-	<span class="small_text">&nbsp;&nbsp;Amount Raised: $ <%= @participant.team.funds_raised %></span><br/>
+	<span class="small_text">Team Goal: <%= number_to_currency(@participant.team.goal) if @participant.team.goal %></span><br/>
+	<span class="small_text">&nbsp;&nbsp;Amount Raised: <%= number_to_currency(@participant.team.funds_raised) %></span><br/>
 <% end %>
 <span class="small_text">Percentage of Goal: <%= @participant.percentage_raised %><br/>

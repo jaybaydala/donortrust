@@ -22,3 +22,7 @@ config.action_mailer.delivery_method = :test
 config.gem "mocha"
 config.gem "shoulda"
 config.gem "rspec_hpricot_matchers"
+config.gem "rspec"
+config.gem "rspec-rails"
+config.gem "machinist"
+config.gem "faker"
