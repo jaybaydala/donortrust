@@ -19,7 +19,7 @@
 	photo = Flickr::Photo.new(img.photo_id.to_s)
 	%>
 	photos[<%=count%>] = "<%= photo.sizes[2]['source'] %>"
-	photoslink[<%=count%>]="<%=photo.url%>"
+	photoslink[<%=count%>]="http://flickr.com/photos/#{photo.owner.id}/#{photo.id}"
 
 	<%  count+=1 
 	end %>

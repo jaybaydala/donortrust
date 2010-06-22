@@ -22,7 +22,7 @@ count=0
   begin
     photo = Flickr::Photo.new(img.photo_id.to_s)
     photosource = photo.sizes[2]['source']
-    photolink = photo.url
+    photolink = "http://flickr.com/photos/#{photo.owner.id}/#{photo.id}"
   rescue
    # ignore the "Photo not found" error
   end

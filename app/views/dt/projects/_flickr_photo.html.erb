@@ -7,4 +7,4 @@ rescue
   # ignore Photo not Found error
 end
 -%>
-<%= link_to(image_tag(photo.sizes[0]['source'], :alt => photo.to_s), photo.url, :rel => 'blank') if photosource -%>
+<%= link_to(image_tag(photo.sizes[0]['source'], :alt => photo.to_s), "http://flickr.com/photos/#{photo.owner.id}/#{photo.id}", :rel => 'blank') if photosource -%>
