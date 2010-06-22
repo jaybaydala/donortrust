@@ -1,7 +1,7 @@
 <h1 class='user'><%= @user.display_name %></h1>
 <div id='left_sidebar'>
 	<div id='profile_image'>
-		<%= image_tag @user.image.url(:full), :class => :full_picture if @user.image? %>
+		<%= image_tag @user.image.url(:normal), :class => :full_picture if @user.image? %>
 		<%= image_tag 'dt/icons/you-icon-orange.png', :class => :thumbnail unless @user.image? %>
 	</div>
 	<div id='profile_action_buttons'>
