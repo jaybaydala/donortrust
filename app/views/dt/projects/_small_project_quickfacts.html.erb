@@ -1,8 +1,7 @@
 <ul>
   <% if @project.lives_affected? %><li><strong>Lives Affected:</strong> <%= @project.lives_affected %></li><% end %>
-  <li><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></li>
+  <% if @project.target_start_date? %><li><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></li><% end %>
   <li><strong>Funding Requirement:</strong> <%= number_to_currency(@project.total_cost) %></li>
   <li><strong>Raised:</strong> <%= number_to_currency(@project.dollars_raised) %></li>
   <li><strong>Current Need:</strong> <%= number_to_currency(@project.current_need) %></li>
-  
 </ul>
