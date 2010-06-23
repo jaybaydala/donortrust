@@ -4,7 +4,8 @@ class AllowParticipantsToSwitchTeams < ActiveRecord::Migration
     
     say "Making all current participants active"
     Participant.all.each do |p|
-      p.update_attribute :active, true
+      p.active = true
+      p.save
     end
   end
 
