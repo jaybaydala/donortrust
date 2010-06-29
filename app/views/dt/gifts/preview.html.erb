@@ -1,5 +1,8 @@
 <%= "<div class=\"error\">#{flash[:error]}</div>" if flash[:error] %>
 <% if @gift_mail %>
+<p>
+  This is a preview of the emailed ecard. You will also be provided a simplified printable version to allow you to personalize your card to your tastes.
+</p>
 <div><strong>From:</strong> <%= @gift_mail.from %></div>
 <div><strong>Subject:</strong> <%= @gift_mail.subject %></div>
 <div><strong>To:</strong> <%= @gift_mail.to %></div>
