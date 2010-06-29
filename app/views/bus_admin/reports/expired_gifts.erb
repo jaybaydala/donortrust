@@ -1,0 +1,46 @@
+<%=
+FasterCSV.generate do |csv|
+  # - Date of tx
+  # - Amount of Tx
+  # - Name of transactor (if available)
+  # - Type of tx (gift card purchase, donation to a project (either for someone (gift card with project on it) or for myself (straight donation), deposit, pledge)
+  # - If donation: to what project # and Project name and implementing partner
+  # - If a pledge - to what campaign
+  
+  # name, email, city) - when they started/stopped - current total that they've given
+  column_names = ["id", "amount", "name", "email", "to_name", "to_email", "message", "project_id", 'project_name', 
+                  "pickup_code", "picked_up_at", "send_email", "send_at", "sent_at", "user_id", "users_name", "order_id", 
+                  "notify_giver", "balance", "promotion_id", "user_ip_addr", "created_at", "updated_at"]
+  csv << column_names.map{|c| c.titleize }
+  
+  @gifts.each do |gift|
+      data = []
+      data << gift.id
+      data << number_to_currency(gift.total)
+      data << gift.name
+      data << gift.email
+      data << gift.to_name
+      data << gift.to_email
+      data << gift.message
+      data << gift.project_id
+      data << (gift.project_id? && gift.project ? gift.project.name : "")
+      data << gift.pickup_code
+      data << gift.picked_up_at
+      data << gift.send_email
+      data << gift.send_at
+      data << gift.sent_at
+      data << gift.user_id
+      data << (gift.user_id? && gift.user ? gift.user.name : "")
+      data << gift.order_id
+      data << gift.notify_giver
+      data << number_to_currency(gift.balance)
+      data << gift.promotion_id
+      data << gift.user_ip_addr
+      data << gift.created_at
+      data << gift.updated_at
+
+      csv << data
+    end
+  end
+end
+%>

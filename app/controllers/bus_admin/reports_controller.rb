@@ -36,14 +36,19 @@ class BusAdmin::ReportsController < ApplicationController
        @results = Gift.find_by_sql(sqlString)
        export(@results, "Gift")
 
+
+    when report_type == "expired_gifts_report":
+      @gifts = Gift.all(:conditions => ["sent_at < ? AND picked_up_at IS NULL AND created_at BETWEEN ? AND ?", 30.days.ago, @start_date.beginning_of_day, @end_date.end_of_day])
+      send_csv_data(render_to_string(:action => "expired_gifts", :layout => false), "expired_gifts_report")
+
     when report_type == "deposit_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM deposits 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
                    AND DATE(created_at) < '" + midnight_string_on_the_day_after(@end_date) + "'
                    GROUP BY DATE(created_at)"
-       @results = Deposit.find_by_sql(sqlString)
-        export(@results, "Deposit")
+      @results = Deposit.find_by_sql(sqlString)
+      export(@results, "Deposit")
 
     when report_type == "investment_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
@@ -51,8 +56,8 @@ class BusAdmin::ReportsController < ApplicationController
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
                    AND DATE(created_at) < '" + midnight_string_on_the_day_after(@end_date) + "'
                    GROUP BY DATE(created_at)"
-       @results = Investment.find_by_sql(sqlString)
-        export(@results, "Investment")
+      @results = Investment.find_by_sql(sqlString)
+      export(@results, "Investment")
 
     when report_type == "pledge_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
@@ -60,8 +65,8 @@ class BusAdmin::ReportsController < ApplicationController
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
                    AND DATE(created_at) < '" + midnight_string_on_the_day_after(@end_date) + "'
                    GROUP BY DATE(created_at)"
-       @results = Pledge.find_by_sql(sqlString)
-        export(@results, "Pledge")
+      @results = Pledge.find_by_sql(sqlString)
+      export(@results, "Pledge")
 
     when report_type == "project_breakdown":
       sqlString = "SELECT PA.name AS partner_name, P.id, P.name, sum(I.amount) AS total_investment, P.total_cost 
@@ -86,6 +91,12 @@ class BusAdmin::ReportsController < ApplicationController
 
     when report_type == "order_report"
       @orders = Order.all(
+        :conditions => ["complete=? AND created_at BETWEEN ? AND ?", true, @start_date.beginning_of_day, @end_date.end_of_day],
+        :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges]
+      )
+      send_csv_data(render_to_string(:action => "orders", :layout => false), "order_report")
+    when report_type == "allocations_order_report"
+      @orders = User.find_by_login("info@christmasfuture.org").orders.all(
         :conditions => ["complete=? AND created_at BETWEEN ? AND ?", true, @start_date.beginning_of_day, @end_date.end_of_day],
         :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges]
       )

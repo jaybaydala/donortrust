@@ -25,7 +25,9 @@
         <ul>
           <li>Transaction Report <%= f.radio_button :report_type, 'transaction_report' %></li>
           <li>Order Report <%= f.radio_button :report_type, 'order_report' %></li>
+          <li>Order Report (by Allocations User) <%= f.radio_button :report_type, 'allocations_order_report' %></li>
           <li>Gift Report <%= f.radio_button :report_type, 'gift_report' %></li>
+          <li>Expired Gift Report <%= f.radio_button :report_type, 'expired_gifts_report' %></li>
           <li>Deposit Report <%= f.radio_button :report_type, 'deposit_report' %></li>
           <li>Investment Report <%= f.radio_button :report_type, 'investment_report' %></li>
           <li>Pledge Report <%= f.radio_button :report_type, 'pledge_report' %></li>
