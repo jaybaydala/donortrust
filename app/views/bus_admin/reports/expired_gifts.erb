@@ -14,33 +14,32 @@ FasterCSV.generate do |csv|
   csv << column_names.map{|c| c.titleize }
   
   @gifts.each do |gift|
-      data = []
-      data << gift.id
-      data << number_to_currency(gift.total)
-      data << gift.name
-      data << gift.email
-      data << gift.to_name
-      data << gift.to_email
-      data << gift.message
-      data << gift.project_id
-      data << (gift.project_id? && gift.project ? gift.project.name : "")
-      data << gift.pickup_code
-      data << gift.picked_up_at
-      data << gift.send_email
-      data << gift.send_at
-      data << gift.sent_at
-      data << gift.user_id
-      data << (gift.user_id? && gift.user ? gift.user.name : "")
-      data << gift.order_id
-      data << gift.notify_giver
-      data << number_to_currency(gift.balance)
-      data << gift.promotion_id
-      data << gift.user_ip_addr
-      data << gift.created_at
-      data << gift.updated_at
+    data = []
+    data << gift.id
+    data << number_to_currency(gift.amount)
+    data << gift.name
+    data << gift.email
+    data << gift.to_name
+    data << gift.to_email
+    data << gift.message
+    data << gift.project_id
+    data << (gift.project_id? && gift.project ? gift.project.name : "")
+    data << gift.pickup_code
+    data << gift.picked_up_at
+    data << gift.send_email
+    data << gift.send_at
+    data << gift.sent_at
+    data << gift.user_id
+    data << (gift.user_id? && gift.user ? gift.user.name : "")
+    data << gift.order_id
+    data << gift.notify_giver
+    data << number_to_currency(gift.balance)
+    data << gift.promotion_id
+    data << gift.user_ip_addr
+    data << gift.created_at
+    data << gift.updated_at
 
-      csv << data
-    end
+    csv << data
   end
 end
 %>
