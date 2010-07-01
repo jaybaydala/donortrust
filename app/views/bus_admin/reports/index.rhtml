@@ -5,35 +5,69 @@
        <div class="errorExplanation">Error: <%= flash[:error] %></div>
     <% end %>
       <div id="report_start_date">
-        <ul class="row" style="padding-top:10px;">
-          <li>Select a Report Start Date</li>
+        <ul>
+          <li>
+            <%= f.radio_button :report_type, 'transaction_report' %>
+            Transaction Report 
+          </li>
+          <li>
+            <%= f.radio_button :report_type, 'order_report' %>
+            Order Report 
+          </li>
+          <li>
+            <%= f.radio_button :report_type, 'allocations_order_report' %>
+            Order Report (by Allocations User) 
+          </li>
+          <li>
+            <%= f.radio_button :report_type, 'gift_report' %>
+            Gift Report
+          </li>
+          <li>
+            <%= f.radio_button :report_type, 'expired_gifts_report' %>
+            Expired Gift Report 
+            <div>(The date range finds gifts that were created within that range that HAVE SINCE expired)</div>
+          </li>
+          <li>
+            <%= f.radio_button :report_type, 'deposit_report' %>
+            Deposit Report
+          </li>
+          <li>
+            <%= f.radio_button :report_type, 'investment_report' %>
+            Investment Report
+          </li>
+          <li>
+            <%= f.radio_button :report_type, 'pledge_report' %>
+            Pledge Report
+          </li>
+          <li>
+            <%= f.radio_button :report_type, 'project_breakdown' %>
+            Project Breakdown
+          </li>
         </ul>
-        <%= f.date_select :start_date,
-          :order => [:month, :day, :year], 
-          :start_year => 2005, 
-          :end_year => Time.now.year
-        %>
 
         <ul class="row" style="padding-top:10px;">
-          <li>Select a Report End Date</li>
+          <li>
+              <%= f.date_select :start_date,
+              :order => [:month, :day, :year], 
+              :start_year => 2005, 
+              :end_year => Time.now.year
+            %>
+            Report Start Date
+          </li>
         </ul>
-        <%= f.date_select :end_date, 
-           :order => [:month, :day, :year], 
-           :start_year => 2007, 
-           :end_year => Time.now.year
-        %>
-        <ul>
-          <li>Transaction Report <%= f.radio_button :report_type, 'transaction_report' %></li>
-          <li>Order Report <%= f.radio_button :report_type, 'order_report' %></li>
-          <li>Order Report (by Allocations User) <%= f.radio_button :report_type, 'allocations_order_report' %></li>
-          <li>Gift Report <%= f.radio_button :report_type, 'gift_report' %></li>
-          <li>Expired Gift Report <%= f.radio_button :report_type, 'expired_gifts_report' %></li>
-          <li>Deposit Report <%= f.radio_button :report_type, 'deposit_report' %></li>
-          <li>Investment Report <%= f.radio_button :report_type, 'investment_report' %></li>
-          <li>Pledge Report <%= f.radio_button :report_type, 'pledge_report' %></li>
-          <li>Project Breakdown <%= f.radio_button :report_type, 'project_breakdown' %></li>
-      </ul>
-    </div>
-  </fieldset>
+        
+
+        <ul class="row" style="padding-top:10px;">
+          <li>
+            <%= f.date_select :end_date, 
+               :order => [:month, :day, :year], 
+               :start_year => 2007, 
+               :end_year => Time.now.year
+            %>
+            Report End Date
+          </li>
+        </ul>
+      </div>
+    </fieldset>
   <%= submit_tag 'Submit' %>
 <% end %>
