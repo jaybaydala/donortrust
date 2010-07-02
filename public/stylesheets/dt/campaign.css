@@ -101,10 +101,15 @@ h2.campaign a {
 	padding: 5px;
 	width: auto;	
 }
-.campaign-sidebar-box a{
+.campaign-sidebar-box a {
 	color: #E84524;
 	font-size: 12px;
 	text-decoration: none;	
+}
+/* Overrides heights and scrolling for pledges */
+.campaign-sidebar-box.pledges {
+	height: 200px;
+	overflow-y: auto;
 }
 
 .metrics {
@@ -185,8 +190,6 @@ span.small_text{
 	padding: 2px;
 }
 
-
-
 .icon {
 	vertical-align: middle;
 	border: 0px;
@@ -246,33 +249,33 @@ span.small_text{
 	text-decoration: none;
 }
 
-.filter_even{
+.filter_even {
 	border-bottom: 1px solid gray;
 	background-color: #ddd;
 	padding: 5px;
 }
 
-.filter_odd{
+.filter_odd {
 	border-bottom: 1px solid gray;
 	padding: 5px;
 }
 
-.row_even{
+.row_even {
 	border-bottom: 1px solid gray;
 	padding: 5px;
 }
 
-.row_odd{
+.row_odd {
 	border-bottom: 1px solid gray;
 	background-color: #efefef;
 	padding: 5px;
 }
 
-.row_odd p{
+.row_odd p {
 	margin: 0px;
 }
 
-.row_even p{
+.row_even p {
 	margin: 0px;
 }
 
