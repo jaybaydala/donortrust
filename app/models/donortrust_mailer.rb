@@ -119,6 +119,15 @@ class DonortrustMailer < ActionMailer::Base
     amount = number_to_currency(gift.amount)
     body "<p>The gift you gave to #{gift.to_name} &lt;#{gift.to_email}&gt; has been opened! With your generous gift of #{amount}, we're one gift closer to changing the world...for good. </p><p>All the best to you this holiday season,<br />The UEnd: Team</p>"
   end
+  
+  def gift_request(requestee_profile, requester)
+    recipients  "\"#{requestee_profile.user.first_name} #{requestee_profile.user.last_name}\" <#{requestee_profile.user.email}>"
+    from        "\"#{requester.first_name} #{requester.last_name}\" <#{requester.email}>"
+    sent_on     Time.now
+    content_type "text/html"
+    subject "What I Really Want..."
+    body "<p>Hi.</p><p>In case you were wondering what I wanted for a gift, I thought I'd let you know... a UEnd gift card! That way we can still do the 'gift' thing and we can both feel awesome... AND we make others feel awesome as well! I get to put the funds towards a poverty-ending project of my choice. What an incredible gift that would be.</p><p>Thank you! Just go to <a href=\"http://www.uend.org/dt/\">www.uend.org</a> and click GIVE.</p>"
+  end
 
   def new_place_notify(place)
     recipients  "info@uend.org"

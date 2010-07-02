@@ -6,7 +6,7 @@
 	</div>
 	<div id='profile_action_buttons'>
 		<%= action_button "Give a UEnd gift", dt_give_index_path %>
-		<%#= action_button "Ask for a UEnd gift", "#" %>
+		<%= action_button_remote "Ask for a UEnd gift", {:url => request_gift_dt_profile_path(@user), :method => :get} if @user != current_user and current_user != :false %>
 		<%#= action_button "Start a Group", "#" %>
 		<%= action_button "Start a Campaign", new_dt_campaign_path if (current_user == @user) and @user.is_cf_admin? %>
 	</div>

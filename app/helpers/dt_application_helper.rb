@@ -341,4 +341,8 @@ module DtApplicationHelper
     link_to text, link, options.merge(:class => 'action_button')
   end
 
+  def action_button_remote(text, link, options = {})
+    link_to_remote text, link, options.merge(:class => 'action_button')
+  end
+
 end

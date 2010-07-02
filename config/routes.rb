@@ -125,7 +125,8 @@ ActionController::Routing::Routes.draw do |map|
     
     # User campaign profiles
     dt.resources :profiles, :only => 'show', :member => { :increase_gifts => :get,
-                                                          :decrease_gifts => :get }
+                                                          :decrease_gifts => :get,
+                                                          :request_gift => :get }
   end
 
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
