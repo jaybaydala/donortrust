@@ -26,7 +26,8 @@ class Profile < ActiveRecord::Base
   
   def gifts_received
     # Match this user's email with the recipient of the gifts e-mail
-    return [Gift.count(:all, :conditions => {:to_email => user.login}), "gifts received"]
+    @gifts_received ||= Gift.count(:all, :conditions => {:to_email => user.login})
+    return [@gifts_received, "gifts received"]
   end
   
   def external_gifts
@@ -69,9 +70,11 @@ class Profile < ActiveRecord::Base
   
   def gifts_refocused
     # This is the proportion of gifts given through UEnd to all gifts incl. traditional gifts
-    self.gifts_given # in case instance variable isn't populated
     return ["0 %", "My Gifts Refocused"] if non_uend_gifts == 0
-    gifts_refocused = (100.to_f * @gifts_given.to_f / (non_uend_gifts.to_f + @gifts_given.to_f)).floor
+    self.gifts_given    # in case instance variable isn't populated
+    self.gifts_received # in case instance variable isn't populated
+    total_gifts = @gifts_given.to_f + @gifts_received.to_f
+    gifts_refocused = (100.to_f * total_gifts / (non_uend_gifts.to_f + total_gifts)).floor
     return ["#{gifts_refocused} %", "My Gifts Refocused"]
   end
   # end of statistics methods
