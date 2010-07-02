@@ -22,7 +22,7 @@ class Dt::TeamsController < DtApplicationController
     @can_leave_team = (current_user != :false) && participant && participant.can_leave_team?
     @can_join_team = (current_user == :false) || current_user.can_join_team?(@team)
 
-    @participants = Participant.paginate_by_team_id_and_pending @team.id, false, :page => params[:participant_page], :per_page => 10
+    @participants = Participant.paginate_by_team_id_and_pending_and_active @team.id, false, true, :page => params[:participant_page], :per_page => 10
     if(params[:participant_page] != nil)
       render :partial => 'participants'
     end
@@ -70,13 +70,16 @@ class Dt::TeamsController < DtApplicationController
       @participant = Participant.new
       @participant.team = @team
       @participant.user = current_user
+      @participant.active = true
       @participant.pending = false
       @participant.goal = 0
-      @participant.short_name = @team.short_name + '_participant'
+      @participant.short_name = current_user.profile.short_name || @team.short_name + '_participant'
 
       if @participant.save
         if (@team.campaign.default_team.has_user?(current_user))
-          @team.campaign.default_team.participant_for_user(current_user).destroy
+          old_participant = @team.campaign.default_team.participant_for_user(current_user)
+          old_participant.active = false
+          old_participant.save
         end
 
         if @team.pending

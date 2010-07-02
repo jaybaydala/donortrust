@@ -109,16 +109,17 @@ class Dt::ParticipantsController < DtApplicationController
         # Deactivate user in default team and add them to the new team
         # Note: This does not allow the user to change their profile upon joining
         if @participant.active
-          @participant.update_attribute(:active, false)
+          Participant.create(:user_id => current_user.id,
+                             :team_id => @team.id,
+                             :short_name => @participant.short_name,
+                             :about_participant => @participant.about_participant,
+                             :image_file_name => @participant.image_file_name,
+                             :image_content_type => @participant.image_content_type,
+                             :image_file_size => @participant.image_file_size,
+                             :active => true,
+                             :pending => @team.require_authorization)
+          @participant.active = false
           @participant.save
-          Particpant.create(:user_id => current_user.id,
-                            :team_id => @team.id,
-                            :short_name => @participant.short_name,
-                            :about_participant => @participant.about_participant,
-                            :image_file_name => @participant.image_file_name,
-                            :image_content_type => @participant.image_content_type,
-                            :image_file_size => @participant.image_file_size,
-                            :active => true)
         end
         
         flash[:notice] = 'Team joined successfully'
