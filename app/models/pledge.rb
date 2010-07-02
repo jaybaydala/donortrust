@@ -14,7 +14,7 @@ class Pledge < ActiveRecord::Base
   validates_presence_of :pledger, :unless => Proc.new { |m| m.anonymous }
   validates_format_of   :pledger_email, :unless => Proc.new { |m| m.anonymous }, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
 
-  after_create :user_transaction_create
+  after_create :user_transaction_create, :deliver_notification
   
   attr_accessor :notification # anonymous, personal or public
 
@@ -76,5 +76,9 @@ class Pledge < ActiveRecord::Base
     end
 
     return nil
+  end
+  
+  def deliver_notification
+    CampaignsMailer.deliver_pledge_notification self
   end
 end
