@@ -142,7 +142,7 @@ class Team < ActiveRecord::Base
   end
 
   def has_user?(user)
-    participant = participants.find(:first, :conditions => {:id => user.id, :active => true})
+    participant = participants.find(:first, :conditions => {:user_id => user.id, :active => true})
     return (participant && participant.user)
   end
 
