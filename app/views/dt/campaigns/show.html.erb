@@ -35,15 +35,14 @@
 
 <% if @campaign.allow_multiple_teams%>
   <div id="teams">
-    <% content ="" %>
-    <% puts "Value in display text for @can_create_team: " + @can_create_team.to_s %>
-    <% if @can_create_team then %>
-      <% content = " | " + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) %>
-    <% end %>
-    <% if @can_join_team then %>
-      <% content = content + " | " + link_to('Join a Team', dt_campaign_teams_path(@campaign)) %>
-    <% end %>
-    <%= campaign_h2_header(' '+link_to("Teams",dt_campaign_teams_path(@campaign)) + content,'teams_container')%>
+    <%- content = "" -%>
+    <%- if @can_create_team then -%>
+      <%- content = " | " + link_to('Create a Team', new_dt_campaign_team_path(@campaign)) -%>
+    <%- end -%>
+    <%- if @can_join_team then -%>
+      <%- content = content + " | " + link_to('Join a Team', dt_campaign_teams_path(@campaign)) -%>
+    <%- end -%>
+    <%= campaign_h2_header(' '+link_to("Teams",dt_campaign_teams_path(@campaign)) + content,'teams_container') -%>
 
     <div id="teams_container" class='row_container'>
       <%= render :partial => 'teams' %>

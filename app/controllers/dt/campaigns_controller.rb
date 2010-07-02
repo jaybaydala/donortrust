@@ -45,13 +45,13 @@ class Dt::CampaignsController < DtApplicationController
     @can_join_campaign = true
 
     #a user that is not logged in can not create a team
-    if (current_user == false)
+    if (current_user == :false)
       @can_create_team = false
     end
 
     if (@campaign.default_team.participant_for_user(current_user).nil? || 
        @campaign.default_team.participant_for_user(current_user).pending)
-      @can_create_team = false;
+      @can_create_team = false
     end
 
     if (@campaign.has_registration_fee? && !@campaign.default_team.has_user?(current_user))
@@ -70,6 +70,7 @@ class Dt::CampaignsController < DtApplicationController
     if @campaign.has_participant(current_user)
       if !@campaign.default_team.has_user?(current_user)
         @can_join_team = false
+      else
 	      @can_create_team = false
       end
 
