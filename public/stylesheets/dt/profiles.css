@@ -34,12 +34,15 @@ h1.user {
 
 #profile_stats .panel {
 	float: left;
-	width: 142px;
+	width: 141px;
 	height: 40px;
 	background-color: rgb(221, 221, 221);
 	border: 1px solid rgb(103, 103, 103);
 	margin: 3px 6px 3px 0;
 	padding-top: 2px;
+	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
 }
 #profile_stats .panel .action_info_tab {
 	position: absolute;
