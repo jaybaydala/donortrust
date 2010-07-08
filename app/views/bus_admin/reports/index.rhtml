@@ -11,6 +11,10 @@
             Transaction Report 
           </li>
           <li>
+            <%= f.radio_button :report_type, 'pledge_report' %>
+            Pledge Report
+          </li>
+          <li>
             <%= f.radio_button :report_type, 'order_report' %>
             Order Report 
           </li>
@@ -19,8 +23,8 @@
             Order Report (by Allocations User) 
           </li>
           <li>
-            <%= f.radio_button :report_type, 'gift_report' %>
-            Gift Report
+            <%= f.radio_button :report_type, 'gift_average_report' %>
+            Gift Report (Average)
           </li>
           <li>
             <%= f.radio_button :report_type, 'expired_gifts_report' %>
@@ -28,16 +32,16 @@
             <div>(The date range finds gifts that were created within that range that HAVE SINCE expired)</div>
           </li>
           <li>
-            <%= f.radio_button :report_type, 'deposit_report' %>
-            Deposit Report
+            <%= f.radio_button :report_type, 'deposit_average_report' %>
+            Deposit Report (Average)
           </li>
           <li>
-            <%= f.radio_button :report_type, 'investment_report' %>
-            Investment Report
+            <%= f.radio_button :report_type, 'investment_average_report' %>
+            Investment Report (Average)
           </li>
           <li>
-            <%= f.radio_button :report_type, 'pledge_report' %>
-            Pledge Report
+            <%= f.radio_button :report_type, 'pledge_average_report' %>
+            Pledge Report (Average)
           </li>
           <li>
             <%= f.radio_button :report_type, 'project_breakdown' %>

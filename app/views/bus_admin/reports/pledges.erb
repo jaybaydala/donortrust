@@ -1,0 +1,31 @@
+<%=
+FasterCSV.generate do |csv|
+  column_names = ["id", "Participant ID", "Participant shortname", "Team ID", "Team", "Campaign ID", "Campaign", 
+                  "order_id", "user_id", "amount", "paid", "released", "created_at", "updated_at", 
+                  "admin_user_id", "anonymous", "pledger"]
+  csv << column_names.map{|c| c.titleize }
+  
+  @pledges.each do |pledge|
+    data = []
+    data << pledge.id
+    data << pledge.participant_id
+    data << (pledge.participant ? pledge.participant.short_name : "" )
+    data << pledge.team_id
+    data << (pledge.team ? pledge.team.name : "" )
+    data << pledge.campaign_id
+    data << (pledge.campaign ? pledge.campaign.name : "" )
+    data << pledge.order_id
+    data << pledge.user_id
+    data << number_to_currency(pledge.amount)
+    data << pledge.paid
+    data << pledge.released
+    data << pledge.created_at
+    data << pledge.updated_at
+    data << pledge.admin_user_id
+    data << pledge.anonymous
+    data << pledge.pledger
+
+    csv << data
+  end
+end
+%>

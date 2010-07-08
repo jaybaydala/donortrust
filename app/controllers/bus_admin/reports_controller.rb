@@ -27,7 +27,7 @@ class BusAdmin::ReportsController < ApplicationController
     report_type = params[:report][:report_type] ||= "gift_report";
 
     case
-    when report_type == "gift_report":
+    when report_type == "gift_average_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM gifts 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
@@ -41,7 +41,7 @@ class BusAdmin::ReportsController < ApplicationController
       @gifts = Gift.all(:conditions => ["sent_at < ? AND picked_up_at IS NULL AND created_at BETWEEN ? AND ?", 30.days.ago, @start_date.beginning_of_day, @end_date.end_of_day])
       send_csv_data(render_to_string(:action => "expired_gifts", :layout => false), "expired_gifts_report")
 
-    when report_type == "deposit_report":
+    when report_type == "deposit_average_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM deposits 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
@@ -50,7 +50,7 @@ class BusAdmin::ReportsController < ApplicationController
       @results = Deposit.find_by_sql(sqlString)
       export(@results, "Deposit")
 
-    when report_type == "investment_report":
+    when report_type == "investment_average_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM investments 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
@@ -59,7 +59,7 @@ class BusAdmin::ReportsController < ApplicationController
       @results = Investment.find_by_sql(sqlString)
       export(@results, "Investment")
 
-    when report_type == "pledge_report":
+    when report_type == "pledge_average_report":
       sqlString = "SELECT DATE(created_at) As Date, SUM(amount) As Total, Round(avg(amount),2) as Average, COUNT(*) as Transactions 
                    FROM pledges 
                    WHERE DATE(created_at) >= '" + midnight_string_on(@start_date) + "' 
@@ -101,6 +101,12 @@ class BusAdmin::ReportsController < ApplicationController
         :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges]
       )
       send_csv_data(render_to_string(:action => "orders", :layout => false), "order_report")
+    when report_type == "allocations_deposit_report"
+      @deposits = User.find_by_login("info@christmasfuture.org").deposits.all(
+        :conditions => ["created_at BETWEEN ? AND ?", @start_date.beginning_of_day, @end_date.end_of_day],
+        :include => [:user, :gift, :order]
+      )
+      send_csv_data(render_to_string(:action => "orders", :layout => false), "allocations_deposit_report")
     when report_type == "transaction_report"
       @orders = Order.all(
         :conditions => ["complete=? AND created_at BETWEEN ? AND ?", true, @start_date.beginning_of_day, @end_date.end_of_day],
@@ -108,6 +114,12 @@ class BusAdmin::ReportsController < ApplicationController
       )
       # render :action => "transactions", :layout => false
       send_csv_data(render_to_string(:action => "transactions", :layout => false), "transaction_report")
+    when report_type == "pledge_report"
+      @pledges = Pledge.all(
+        :conditions => ["created_at BETWEEN ? AND ?", @start_date.beginning_of_day, @end_date.end_of_day],
+        :include => [:team, :campaign]
+      )
+      send_csv_data(render_to_string(:action => "pledges", :layout => false), "pledge_report")
     else
       # TODO: What should happen here? Raise an exception?
     end
