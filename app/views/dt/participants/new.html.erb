@@ -64,7 +64,7 @@
  <% end %>
 
 		<fieldset>
-			<%- unless (current_user && !current_user.profile.short_name.blank?) -%>
+			<%- unless (current_user != :false && !current_user.profile.short_name.blank?) -%>
 			<h2>Create your personal profile for <%= @team.campaign.name %> so that people can support you:</h2>
 			<label>Choose your profile URL:<%= form_required %>
 			<%= what_is_this? 'short_name', "The short name is a short (10-20 characters) name that will make 
