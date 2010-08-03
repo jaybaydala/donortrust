@@ -41,8 +41,8 @@
 	<% form_for([:dt, form_for_var, @pledge]) do |f| %>		
 		<div class="group">I would like to give	$<%= f.text_field :amount, :style => "width:160px;" %></div>
 		<div class="group">
-			<%- hide_method = %Q{if ($('pledger_details') && $('pledger_details').visible()) Effect.toggle('pledger_details', 'blind'); } -%>
-			<%- show_method = %Q{if ($('pledger_details') && !$('pledger_details').visible()) Effect.toggle('pledger_details', 'blind'); } -%>
+			<%- hide_method = %Q{if ($('pledger_details') && $('pledger_details').visible()) Effect.toggle('pledger_details', 'blind', { duration : 0.5 }); } -%>
+			<%- show_method = %Q{if ($('pledger_details') && !$('pledger_details').visible()) Effect.toggle('pledger_details', 'blind', { duration : 0.5 }); } -%>
 			<%= f.radio_button(:notification, "anonymous", :onchange => hide_method ) %> anonymously <br />
 			<%= f.radio_button(:notification, "personal", :onchange => show_method ) %> personally <br />
 			<%= f.radio_button(:notification, "public", :onchange => show_method ) %> publicly <%= what_is_this? 'notification', %Q{Sponsoring a participant anonymously will not record your details at all. A personal pledge will identify you to the participant only, while a public pledge will recognize your contribution to everyone when viewing this participant's sponsorships.} %>
