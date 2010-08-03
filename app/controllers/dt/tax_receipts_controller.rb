@@ -14,7 +14,9 @@ class Dt::TaxReceiptsController < DtApplicationController
     end
     respond_to do |format|
       format.html {
-        unless @receipt
+        if @receipt
+          render :text => dt_tax_receipt_path(@receipt, @receipt.view_code, :format => :pdf)
+        else
           flash[:notice] = "We are sorry, but you can only download your own receipts."
           redirect_to(:controller => 'dt/accounts', :action => 'show', :id => current_user.id) and return if logged_in?
           redirect_to(dt_projects_path) and return
@@ -30,7 +32,6 @@ class Dt::TaxReceiptsController < DtApplicationController
 
   def authorized?
     return false unless logged_in?
-    receipt = TaxReceipt.find(params[:id])
-    current_user.id == receipt.user.id ? true : false
+    current_user.id == @receipt.user.id
   end
 end

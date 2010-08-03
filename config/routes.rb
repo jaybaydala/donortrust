@@ -130,7 +130,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
-  map.dt_tax_receipt '/dt/tax_receipts/:id/:code.:format', :controller => 'dt/tax_receipts', :action => "show", :format => 'pdf'
+  map.dt_tax_receipt '/dt/tax_receipts/:id/:code.:format', :controller => 'dt/tax_receipts', :action => "show"
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
