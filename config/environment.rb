@@ -110,8 +110,6 @@ GROUNDSPRING_URL = 'https://secure.groundspring.org/dn/index.php?aid=21488'
 
 ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:dt_default => "%b %e, %Y")
 
-require 'deliver_to_admins_only'
-
 class Flickr
   DT_KEY = "dce9d80477ea833b9dd029bc5f0eceea"
   def initialize_with_key(api_key=nil, email=nil, password=nil)
