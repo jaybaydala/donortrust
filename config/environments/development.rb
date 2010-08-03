@@ -18,13 +18,3 @@ config.action_mailer.raise_delivery_errors = false
 ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache"
 
 ActionMailer::Base.delivery_method = :test
-
-# ActionMailer::Base.delivery_method = :smtp
-# ActionMailer::Base.smtp_settings = {
-#   :address         => 'slice.christmasfuture.org',
-#   :authentication  => :plain,
-#   :user_name       => 'smtpuser',
-#   :password        => '$authsmtp&',
-#   :port            => 587,
-#   :domain          => "192.168.1.1"
-# }
