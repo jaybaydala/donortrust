@@ -47,7 +47,7 @@ class TaxReceiptPDFProxy
   end
 
   def filename
-    return "CFTaxReceipt-#{@receipt.id_display}.pdf"
+    return "UEndTaxReceipt-#{@receipt.id_display}.pdf"
   end
   
   def image_file(duplicate)
@@ -133,7 +133,7 @@ class GiftPDFProxy
   end
   
   def filename
-    return "ChristmasFuture printable gift card.pdf"
+    return "UEnd printable gift card.pdf"
   end
   
   protected
@@ -155,7 +155,7 @@ class GiftPDFProxy
       _pdf.pointer = 90
       _pdf.text("This #{number_to_currency(@gift.amount)} gift is being directed to a project:", {:font_size => 10}.merge(right_pane_boundaries))
       _pdf.select_font "Helvetica"
-      project_text = "#{@gift.project.name}\nhttp://www.christmasfuture.org/dt/project/#{@gift.project_id}"
+      project_text = "#{@gift.project.name}\nhttp://www.uend.org/dt/project/#{@gift.project_id}"
       _pdf.text(project_text, {:font_size => 10}.merge(right_pane_boundaries))
     end
     return _pdf
