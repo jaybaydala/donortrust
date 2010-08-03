@@ -11,12 +11,21 @@ class Pledge < ActiveRecord::Base
 
   validates_presence_of :amount
   validates_numericality_of :amount
-  validates_presence_of :pledger, :unless => Proc.new { |m| m.anonymous }
-  validates_format_of   :pledger_email, :unless => Proc.new { |m| m.anonymous }, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
+  validates_presence_of :pledger, :pledger_email, :unless => Proc.new { |m| m.anonymous }
+  validates_format_of   :pledger_email, :unless => Proc.new { |m| m.anonymous }, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address", :if => Proc.new{|m| m.pledger_email?}
 
   after_create :user_transaction_create, :deliver_notification
   
   attr_accessor :notification # anonymous, personal or public
+  
+  HUMAN_ATTRIBUTES = {
+    :pledger => "Name",
+    :pledger_email => "Email"
+  }
+
+  def self.human_attribute_name(attr)  
+    HUMAN_ATTRIBUTES[attr.to_sym] || super  
+  end
 
   # set the reader methods for the columns dealing with currency
   # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
@@ -25,9 +34,9 @@ class Pledge < ActiveRecord::Base
   end
   
   def notification
-    if anonymous or (pledger.blank? and pledger_email.blank?)
+    if self.anonymous?
       "anonymous"
-    elsif public
+    elsif self.public?
       "public"
     else
       "personal"
