@@ -1,25 +1,32 @@
 <% content_for :body_id do %>home<% end %>
 <%- content_for :html_title do -%>Home<%- end -%>
 <div id="howItWorks">
-   <object width="450" height="277"><param name="movie" value="http://www.youtube.com/v/XlzkaYwJ34E&amp;hl=en_US&amp;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/XlzkaYwJ34E&amp;hl=en_US&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="450" height="277"></embed></object>
+   <object width="450" height="277"><param name="movie" value="http://www.youtube.com/v/XlzkaYwJ34E&hl=en_US&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/XlzkaYwJ34E&hl=en_US&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="450" height="277"></embed>  </object>  </object>
 </div>
 
 <div>
   <div class="keyDifferentiatorText">
-    <h2>Time to start a new holiday tradition?</h2>      
-    <p>UEnd: (formerly ChristmasFuture) was launched to help inspire and empower North Americans to refocus a portion of their gift giving budget towards strategic and sustainable projects in the developing world - to help end extreme poverty.</p>
-    <p>Our website makes it easy for people to take a small percentage of their gift giving (over $1 trillion U.S. is spent during the Christmas season alone) and redirect it towards the eradication of extreme poverty. Gift givers can send an online gift card to friends, families or co-workers. The gift recipient then allocates their gift money towards a poverty intervention project that interests them. Or people can give directly.</p>
-    <p>This new way to give puts the power of change into everyone's hands. And it creates a connection between the developed world and the developing world by changing the way people think about giving.</p>
+    <h1>Time to Gift Different?</h1>      
+    <p>UEnd.org empowers <b>U</b> to <b>END</b> extreme poverty by gifting different.</p>
+
+    <p>It's simple - just send or ask for an online gift card. Involve friends, family, or co-workers...heck, even your enemies. The recipient then puts that gift card towards a project they choose.</p>
+
+    <p>If we redirect only 5% of gifts, that's enough cash to end extreme poverty in about 15 years. More importantly, it's enough people envisioning a different world to make it happen.</p>
+
+   <p>No more frustrated hopes that governerments, organizations, or otheres will do what's right. You get to do it. You get to end extreme poverty.</p>
+
+   <p>Join the tribe that's ending extreme poverty. Gift different.</p>
+
   </div>
+  
   <div class="support-badge-home">
-    <p>Show your support by adding a <a href="/dt/support_badges">Support Badge</a> to your website or blog.<a href="/dt/support_badges"><img src="/images/dt/support_badges/isuend_110w35h.png" width="110" height="35" alt="Isuend 110w35h" /></a>&nbsp;&nbsp;&nbsp;<a href="/dt/support_badges"><img src="/images/dt/support_badges/wsuend_110w35.png" width="110" height="35" alt="Wsuend 110w35" /></a></p>
+  <p>Show your support by adding a <a href="/dt/support_badges">Support Badge</a> to your website or blog.<a href="/dt/support_badges"><img src="/images/dt/support_badges/isuend_110w35h.png" width="110" height="35" alt="Isuend 110w35h" /></a>&nbsp;&nbsp;&nbsp;<a href="/dt/support_badges"><img src="/images/dt/support_badges/wsuend_110w35.png" width="110" height="35" alt="Wsuend 110w35" /></a></p>
   </div>
 </div>
   
 <%- content_for :sidebar do -%>
-  <div><a href="/about-us/faqs/#investment"><img src="/images/dt/promos/guarantee_promo.jpg" class="right_side_banner" alt="100% Investment Guarantee - 100% of your investments go to the projects you choose."/></a></div>
-  <div><a href="/dt/give"><img src="/images/dt/buttons/give_btn_150.png" id="frontGiveButton" /></a> </div>
-  <div><a href="/dt/gifts/open"><img src="/images/dt/buttons/receive_btn_150.png" id="frontReceiveButton" /></a></div>
-  <div><a href="/dt/OneYoga2010"><img src="/images/dt/buttons/OneYoga-Logo.gif" width="300" height="128" /></a></div>
-  <div><%= link_to image_tag("dt/upowered/upowered_button.gif", :alt => "join u:powered - it's a whole new way of providing operational funding to a non-profit organization &rdquo;"), dt_upowered_path %></div>
+  <%= link_to image_tag("dt/upowered/upowered_button.gif", :alt => "join u:powered - it's a whole new way of providing operational funding to a non-profit organization &rdquo;"), dt_upowered_path %>
+  <a href="/about-us/faqs/#investment"><img src="/images/dt/promos/guarantee_promo.jpg" class="right_side_banner" alt="100% Investment Guarantee - 100% of your investments go to the projects you choose."/></a>
+  <a href="/dt/give"><img src="/images/dt/buttons/give_btn_150.png" id="frontGiveButton" /></a> 
+  <a href="/dt/gifts/open"><img src="/images/dt/buttons/receive_btn_150.png" id="frontReceiveButton" /></a>
 <%- end -%>
