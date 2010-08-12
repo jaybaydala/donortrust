@@ -10,17 +10,16 @@ set :mongrel_clean, true
 set :mongrel_rails, "mongrel_rails"
 
 set :stage, "staging"
-set :deploy_to, "/home/dtrust/#{application}_staging"
-set :user, "dtrust"
-set :group, "dtrust"
-set :rails_env, "staging"
-set :slice1, "205.206.170.8"
-set :slice2, "205.206.170.9"
-role :app, slice2
-role :admin, slice2
-role :web, slice1
-role :db, slice2, :primary => true
-role :schedule, slice2
+set :deploy_to, "/home/uend/#{application}_staging"
+set :user, "ideaca"
+set :group, "user"
+set :rails_env, "development"
+set :hypnos, "10.100.5.26"
+role :app, hypnos
+role :admin, hypnos
+role :web, hypnos
+role :db, hypnos, :primary => true
+role :schedule, hypnos
 
 namespace :deploy do
   desc <<-DESC
