@@ -14,7 +14,7 @@ set :deploy_to, "/home/uend/#{application}_staging"
 set :user, "ideaca"
 set :group, "user"
 set :rails_env, "development"
-set :hypnos, "10.100.5.26"
+set :hypnos, "10.100.5.226"
 role :app, hypnos
 role :admin, hypnos
 role :web, hypnos
