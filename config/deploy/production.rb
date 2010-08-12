@@ -10,17 +10,16 @@ set :mongrel_clean, true
 set :mongrel_rails, "mongrel_rails"
 
 set :stage, "production"
-set :deploy_to, "/home/dtrust/#{application}"
-set :user, "dtrust"
-set :group, "dtrust"
+set :deploy_to, "/home/uend/#{application}"
+set :user, "ideaca"
+set :group, "mongrel"
 set :rails_env, "production"
-set :slice1, "205.206.170.8"
-set :slice2, "205.206.170.9"
-role :app, slice2
-role :admin, slice2
-role :web, slice1
-role :db, slice2, :primary => true
-role :schedule, slice2
+set algea, "10.100.5.229"
+role :app, algea
+role :admin, algea
+role :web, algea
+role :db, algea, :primary => true
+role :schedule, algea
 
 namespace :deploy do
   task :insert_google_stats, :roles => :app do
