@@ -9,9 +9,9 @@ development:
 staging:
   adapter: mysql
   database: donortrust_staging2
-  username: dt_stager
-  password: donor99truDB
-  host: 10.100.5.215
+  username: root
+  password: p0verty!
+  host: 127.0.0.1
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
