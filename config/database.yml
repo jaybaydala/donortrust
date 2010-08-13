@@ -8,7 +8,7 @@ development:
 
 staging:
   adapter: mysql
-  database: donortrust_staging2
+  database: donortrust_staging
   username: root
   password: p0verty!
   host: 127.0.0.1
