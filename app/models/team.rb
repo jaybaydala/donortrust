@@ -50,13 +50,13 @@ class Team < ActiveRecord::Base
     :convert_options => { 
       :all => "-strip" # strips metadata from images, removing potentially private info
     },
-    :default_url => "/images/dt/icons/users/:style/missing.png",
+    :default_url => "/images/dt/icons/users/#{:style}/missing.png",
     :storage => :s3,
     :bucket => "uend-images-#{Rails.env}",
     :path => ":class/:attachment/:id/:basename-:style.:extension",
     :s3_credentials => File.join(Rails.root, "config", "aws.yml")
-  validates_attachment_size :image, :less_than => 1.megabyte
-  validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png) # the last 2 for IE
+  validates_attachment_size :image, :less_than => 1.megabyte,  :unless => Proc.new {|model| model.image }
+  validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png),  :unless => Proc.new {|model| model.image } # the last 2 for IE
 
 
   validates_format_of :short_name, :with => /\w/

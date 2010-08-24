@@ -3,7 +3,8 @@ development:
   # database: donortrust_development
   database: donortrust_development
   username: root
-  password: p0verty!
+  password:
+  #password: p0verty!
   host: 127.0.0.1
 
 staging:

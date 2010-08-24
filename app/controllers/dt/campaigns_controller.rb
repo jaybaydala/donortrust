@@ -150,6 +150,7 @@ class Dt::CampaignsController < DtApplicationController
   # POST /campaigns
   # POST /campaigns.xml
   def create
+    
     @campaign = Campaign.new(params[:campaign])
     @campaign.campaign_type_id = params[:campaign_type][:id]
     @campaign.creator = current_user
@@ -179,6 +180,7 @@ class Dt::CampaignsController < DtApplicationController
         @participant.pending = false
         @participant.goal = 0
         @participant.short_name = @campaign.short_name + '_participant'
+        @participant.image = @team.image
 
         @campaign.default_team_id = @team.id
         @campaign.save
