@@ -169,7 +169,7 @@ class Dt::CampaignsController < DtApplicationController
       @team.description = @campaign.description
       @team.require_authorization = @campaign.require_team_authorization
       @team.goal_currency = @campaign.goal_currency
-      @team.image = @campaign.image
+      @team.image = @campaign.image if @campaign.image?
       @team.contact_email = @campaign.email
       @team.pending = false
       @team.generic = true
@@ -180,7 +180,7 @@ class Dt::CampaignsController < DtApplicationController
         @participant.pending = false
         @participant.goal = 0
         @participant.short_name = @campaign.short_name + '_participant'
-        @participant.image = @team.image
+        @participant.image = @team.image if @team.image?
 
         @campaign.default_team_id = @team.id
         @campaign.save
@@ -543,11 +543,11 @@ class Dt::CampaignsController < DtApplicationController
       if (current_user == :false)
         flash[:notice] = "You must be logged in to view this page."
         redirect_to dt_login_path
-	return false
+        return false
       end
 
-      @campaign = Campaign.find(params[:id])
-      if @campaign.creator != current_user and not current_user.is_cf_admin?
+      @campaign = Campaign.find(params[:id]) if params[:id]
+      if @campaign && @campaign.creator != current_user and not current_user.is_cf_admin?
         flash[:notice] = 'You are not authorized to view this page.'
         redirect_to dt_campaign_path(@campaign)
       end
