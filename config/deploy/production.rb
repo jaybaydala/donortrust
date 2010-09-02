@@ -10,11 +10,13 @@ set :mongrel_clean, true
 set :mongrel_rails, "mongrel_rails"
 
 set :stage, "production"
-set :deploy_to, "/home/uend/#{application}"
+set :rails_env, "production"
+set :deploy_to, "/home/uend/#{application}_#{rails_env}"
 set :user, "ideaca"
 set :group, "mongrel"
-set :rails_env, "production"
-set algea, "10.100.5.229"
+set :port, 422
+# set :algea, "10.100.5.229"
+set :algea, "www.uend.org"
 role :app, algea
 role :admin, algea
 role :web, algea
