@@ -110,9 +110,10 @@ class Campaign < ActiveRecord::Base
     :bucket => "uend-images-#{Rails.env}",
     :path => ":class/:attachment/:id/:basename-:style.:extension",
     :s3_credentials => File.join(Rails.root, "config", "aws.yml")
-  validates_attachment_size :image, :less_than => 1.megabyte
-  validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png) # the last 2 for IE
-
+  validates_attachment_size :image, :less_than => 1.megabyte, 
+    :if => Proc.new {|c| c.image_file_name? }
+  validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png), # the last 2 for IE
+    :if => Proc.new {|c| c.image_file_name? }
 
 
   def before_validation
