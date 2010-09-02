@@ -18,7 +18,7 @@ Rails::Initializer.run do |config|
   
   # Specify gems that this application depends on.
   # They can then be installed with "rake gems:install" on new installations.
-  config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
+  config.gem "will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
   config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net/"
   config.gem "calendar_date_select"
   config.gem "activemerchant", :lib => "active_merchant"
@@ -35,7 +35,7 @@ Rails::Initializer.run do |config|
   config.gem "transaction-simple", :lib => "transaction/simple"
   config.gem "color-tools", :lib => "color"
   # scheduling
-  config.gem 'javan-whenever', :lib => false, :version => ">=0.3.0", :source => 'http://gems.github.com'
+  config.gem 'whenever', :lib => false, :version => ">=0.3.0", :source => 'http://gems.github.com'
   config.gem 'pony', :lib => false
   # bad bots
   config.gem "ruby-recaptcha"
