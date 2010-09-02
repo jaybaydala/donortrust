@@ -1,5 +1,6 @@
 # Learn more: http://github.com/javan/whenever
-set :cron_log, "#{RAILS_ROOT}/log/cron.log"
+# set :cron_log, "#{RAILS_ROOT}/log/cron.log"
+set :output, File.expand_path("#{__FILE__}/../log/cron.log")
 
 # We're using some weird times in here just to keep from collisions. 
 # The server can probably handle multiple of these at a time, but it doesn't hurt to spread it out either
