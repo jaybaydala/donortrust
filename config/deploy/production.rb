@@ -4,7 +4,7 @@ require 'mongrel_cluster/recipes'
 set :application, "donortrust"
 set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
 
-set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
+set :mongrel_conf, "/etc/mongrel_cluster/uend.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
 set :mongrel_clean, true
 set :mongrel_rails, "mongrel_rails"

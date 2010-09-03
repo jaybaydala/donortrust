@@ -13,9 +13,9 @@ set :rails_version, "v2.3.4" unless variables[:rails_version]
 
 # before "deploy:asset_folder_fix", "deploy:remove_uploaded_pictures_folder"
 after "deploy:update_code", "deploy:configure_stuff"
-after "deploy:start", "deploy:start_admin"
-after "deploy:stop", "deploy:stop_admin"
-after "deploy:restart", "deploy:restart_admin"
+# after "deploy:start", "deploy:start_admin"
+# after "deploy:stop", "deploy:stop_admin"
+# after "deploy:restart", "deploy:restart_admin"
 
 namespace :deploy do
 
