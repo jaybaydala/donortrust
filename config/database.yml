@@ -29,7 +29,7 @@ production:
   database: donortrust_production
   username: donortrust_prod
   password: donor99truDB
-  host: 10.100.5.215
+  host: localhost
 
 cucumber:
   <<: *test
