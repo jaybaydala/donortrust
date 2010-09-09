@@ -65,7 +65,7 @@ class Dt::PledgesController < DtApplicationController
         flash[:notice] = "Your Pledge has been added to your cart."
         format.html { redirect_to dt_cart_path }
       else
-        flash[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
+        flash.now[:error] = "There was a problem adding the Pledge to your cart. Please review your information and try again."
         format.html { render :action => 'new' }
       end
     end
