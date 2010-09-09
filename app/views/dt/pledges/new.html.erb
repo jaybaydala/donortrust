@@ -48,12 +48,12 @@
 			<%= f.radio_button(:notification, "public", :onchange => show_method ) %> publicly <%= what_is_this? 'notification', %Q{Sponsoring a participant anonymously will not record your details at all. A personal pledge will identify you to the participant only, while a public pledge will recognize your contribution to everyone when viewing this participant's sponsorships.} %>
 		</div>
 		
-		<%- unless logged_in? -%>
+		
 		<div id="pledger_details" class="group" style="display: <%= @pledge.notification == "anonymous" ? "none" : "block" %>">
 			<%= f.label :pledger, "Name #{form_required}" -%><%= f.text_field :pledger %><br />
 			<%= f.label :pledger_email, "E-mail #{form_required}" -%><%= f.text_field :pledger_email %>
 		</div>
-		<%- end -%>
+		
 		<div style="clear: right;"></div>
 		<span><%= f.submit 'Sponsor'%></span>
 	<% end %>
