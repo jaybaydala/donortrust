@@ -14,7 +14,7 @@ namespace :subscriptions do
         end
         true
       rescue ActiveMerchant::Billing::Error => exception
-        send_exception(subscription)
+        send_exception(subscription, exception)
         false
       end
     end
@@ -23,7 +23,7 @@ namespace :subscriptions do
   end
   
   task :test_exception_email => :environment do
-    send_exception(Subscription.last)
+    send_exception(Subscription.last, Exception.new("This is a test exception"))
     puts "test exception email sent"
   end
   task :test_notification_email => :environment do
@@ -38,9 +38,9 @@ namespace :subscriptions do
     send_message(subject, body)
   end
   
-  def send_exception(subscription)
+  def send_exception(subscription, exception)
     subject = "[UEnd] Subscription Processing Error"
-    body = subscription.attributes.to_yaml
+    body = "#{exception.message}\n\n#{subscription.attributes.to_yaml}"
     send_message(subject, body)
   end
 
@@ -60,7 +60,8 @@ namespace :subscriptions do
     # RAILS_DEFAULT_LOGGER.debug("SMTP options: #{smtp_options.inspect}")
     Pony.mail(:subject => subject, 
       :body => body, 
-      :to   => ["info@uend.org", "tim@tag.ca", "jay.baydala@uend.org"], 
+      # :to   => ["info@uend.org", "tim@tag.ca", "jay.baydala@uend.org"], 
+      :to   => ["tim@tag.ca"], 
       :from => "subscriptions@uend.org", 
       :via  => :smtp, 
       :smtp => smtp_options
