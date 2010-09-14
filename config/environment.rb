@@ -37,6 +37,7 @@ Rails::Initializer.run do |config|
   # scheduling
   config.gem 'whenever', :lib => false, :version => ">=0.3.0", :source => 'http://gems.github.com'
   config.gem 'pony', :lib => false
+  config.gem 'mail', :lib => false
   # bad bots
   config.gem "ruby-recaptcha"
   config.gem "paperclip", :source => "http://gemcutter.org"
