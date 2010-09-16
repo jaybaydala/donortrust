@@ -21,5 +21,5 @@ ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache"
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
   :address => '127.0.0.1',
-  :domain  => '192.168.1.1'
+  :domain  => 'uend.org'
 }
