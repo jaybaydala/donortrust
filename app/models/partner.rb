@@ -79,34 +79,21 @@ class Partner < ActiveRecord::Base
   end
 
   def get_number_of_projects
-    return Project.find(:all, :conditions => "partner_id = " + id.to_s).size
+    return self.projects.count
   end
 
   def get_number_of_programs
-    return Program.find(:all, :conditions => "id = " + id.to_s).size
+    return self.programs.count
   end
 
   def get_total_costs
-    projects = Project.find(:all, :conditions => ['partner_id = ? AND project_status_id in (?)', id.to_s, [2,4]])
-
-    total_cost = 0
-    projects.each do |project|
-      if project.total_cost != nil
-         total_cost += project.total_cost
-      end
-    end
-    return total_cost
+    self.projects.sum(:total_cost, :conditions => { :project_status_id => ProjectStatus.public_ids } )
   end
 
   def get_total_raised
-    projects = Project.find(:all, :conditions => ['partner_id = ? AND project_status_id in (?)', id.to_s, [2,4]])
-    total_raised = 0
-    projects.each do |project|
-      if project.dollars_raised != nil
-        total_raised += project.dollars_raised
-      end
+    @get_total_raised ||= self.projects(:include => [:investments], :conditions => { :project_status_id => ProjectStatus.public_ids } ).inject(0) do |sum, p| 
+      sum+= BigDecimal.new(p.dollars_raised.to_s)
     end
-    return total_raised
   end
 
   def get_total_percent_raised
