@@ -476,11 +476,11 @@ class Project < ActiveRecord::Base
   end
 
   def self.total_money_raised
-    Project.find(:all).inject(0) { |sum, p| p.dollars_raised.nil? ? sum : sum + p.dollars_raised }.to_f
+    Project.find(:all, :include => [:investments]).inject(0) { |sum, p| sum += BigDecimal.new(p.dollars_raised.to_s) }
   end
 
   def self.fully_funded(conditions = nil)
-    all(:conditions => conditions, :include => :investments).select{|project| project.current_need <= 0 }
+    all(:conditions => conditions, :include => [:investments]).select{|project| project.current_need <= 0 }
   end
 
   def self.total_costs
