@@ -40,7 +40,7 @@ namespace :subscriptions do
   
   def send_exception(subscription, exception)
     subject = "[UEnd] Subscription Processing Error"
-    body = "#{exception.message}\n\n#{subscription.attributes.to_yaml}"
+    body = "#{exception.message}\n#{exception.backtrace}\n\n#{subscription.attributes.to_yaml}"
     send_message(subject, body)
   end
 
@@ -60,8 +60,7 @@ namespace :subscriptions do
     # RAILS_DEFAULT_LOGGER.debug("SMTP options: #{smtp_options.inspect}")
     Pony.mail(:subject => subject, 
       :body => body, 
-      # :to   => ["info@uend.org", "tim@tag.ca", "jay.baydala@uend.org"], 
-      :to   => ["tim@tag.ca"], 
+      :to   => ["info@uend.org", "tim@tag.ca", "jay.baydala@uend.org"], 
       :from => "subscriptions@uend.org", 
       :via  => :smtp, 
       :smtp => smtp_options
