@@ -79,7 +79,7 @@ class BusAdmin::ProjectsController < ApplicationController
   # called for GET on bus_admin/project
   def index
     if current_user.cf_admin?
-      @projects = Project.find(:all)
+      @projects = Project.all(:include => [:partner, :program, :project_status, :pending_project])
     else
       @projects = current_user.administrated_projects
     end
