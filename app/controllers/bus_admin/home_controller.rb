@@ -17,11 +17,11 @@ class BusAdmin::HomeController < ApplicationController
   end
   
   def cf_home
-    @all_partners = Partner.find(:all)
+    @all_partners = Partner.find(:all, :include => [ {:projects => :investments} ])
     @total_partners = @all_partners.size 
-    @all_projects = Project.find(:all)#get_projects 
+    @all_projects = Project.find(:all, :include => [ :investments ])
     @total_projects = @all_projects.size
-    @all_programs = Program.find(:all)
+    @all_programs = Program.find(:all, :include => [ {:projects => :investments} ])
     @total_programs = @all_programs.size 
     @total_money_raised = Project.total_money_raised #total_money_raised
     @total_project_costs = Project.total_costs
