@@ -163,8 +163,7 @@ class Project < ActiveRecord::Base
     end
 
     def find_public(*args)
-      valid_project_status_ids = ProjectStatus.public_ids
-      with_scope :find => { :conditions => { :project_status_id => valid_project_status_ids }} do
+      with_scope :find => { :conditions => { :project_status_id => ProjectStatus.public_ids }} do
         find *args
       end
     end
