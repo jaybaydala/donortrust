@@ -30,26 +30,11 @@ class Program < ActiveRecord::Base
   end
   
   def get_total_costs
-    projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
-    total_cost = 0
-    projects.each do |project|
-      if project.total_cost != nil
-        total_cost += project.total_cost
-      end
-    end
-    return total_cost
+    @get_total_costs ||= self.projects.inject(0) {|sum, p| sum += BigDecimal.new(p.total_cost.to_s) }
   end
   
-  def get_total_raised    
-    projects = Project.find(:all, :conditions => "program_id = " + id.to_s)    
-    total_raised = 0
-    projects.each do |project|
-       if project.dollars_raised != nil
-        total_raised += project.dollars_raised
-        
-      end
-    end
-    return total_raised
+  def get_total_raised
+    @get_total_raised ||= self.projects.all(:include => :investments).inject(0){|sum, p| sum += BigDecimal.new(p.dollars_raised.to_s) }
   end
   
   def get_total_days_remaining
