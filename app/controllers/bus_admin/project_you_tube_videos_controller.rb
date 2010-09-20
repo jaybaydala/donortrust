@@ -10,17 +10,14 @@ class BusAdmin::ProjectYouTubeVideosController < ApplicationController
   # GET /bus_admin_project_you_tube_videos
   # GET /bus_admin_project_you_tube_videos.xml
   def index
-    
     @project_id = params[:id]
     if params[:id]
       @project = Project.find_by_id(params[:id])
     else
       @project = Project.find(:first)  
     end
-    @you_tube_videos = ProjectYouTubeVideo.find(:all, :conditions => "project_id = " + params[:id].to_s)
-    
+    @you_tube_videos = @project.project_you_tube_video.all
     @you_tube_video_pages, @you_tube_videos = paginate_array(params[:video_page], @you_tube_videos, 20)
-
     [@project, @you_tube_videos, @you_tube_video_pages, @project_id]
     
     respond_to do |format|
