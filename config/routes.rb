@@ -237,16 +237,16 @@ ActionController::Routing::Routes.draw do |map|
   #
   #
   # take that REST
-  map.resources :place_you_tube_videos, :path_prefix => "/bus_admin",
+  map.resources :place_you_tube_videos, :path_prefix => "/bus_admin", :active_scaffold => true,
     :controller => "bus_admin/place_you_tube_videos",
     :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :videos => :post,:preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post, :list => :get }
-  map.resources :project_you_tube_videos, :path_prefix => "/bus_admin",
+  map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :active_scaffold => true,
     :controller => "bus_admin/project_you_tube_videos",
     :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :videos => :post, :preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
-  map.resources :place_flickr_images, :path_prefix => "/bus_admin",
+  map.resources :place_flickr_images, :path_prefix => "/bus_admin", :active_scaffold => true,
     :controller => "bus_admin/place_flickr_images",
     :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :list => :get }
-  map.resources :project_flickr_images, :path_prefix => "/bus_admin",
+  map.resources :project_flickr_images, :path_prefix => "/bus_admin", :active_scaffold => true,
     :controller => "bus_admin/project_flickr_images", :member => {:delete => :delete}, 
     :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
   map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
