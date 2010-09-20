@@ -103,7 +103,7 @@ end
 # require recaptcha_file if File.exists?(recaptcha_file)
 
 # set up the Exception Notifier plugin
-ExceptionNotifier.exception_recipients = %w(sysadmin@pivotib.com info@uend.org)
+ExceptionNotifier.exception_recipients = %w(tim@tag.ca info@uend.org)
 ExceptionNotifier.sender_address = %(support@christmasfuture.com)
 ExceptionNotifier.email_prefix = "[DT ERROR] "
 
