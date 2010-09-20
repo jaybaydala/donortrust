@@ -142,7 +142,7 @@ class Subscription < ActiveRecord::Base
       end
       order.update_attributes(:complete => true)
     else
-      raise ActiveMerchant::Billing::Error.new(response.message)
+      raise ActiveMerchant::Billing::Error.new(response.inspect)
     end
   end
   
