@@ -18,39 +18,6 @@ Rails::Initializer.run do |config|
   
   # Specify gems that this application depends on.
   # They can then be installed with "rake gems:install" on new installations.
-  config.gem "will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
-  config.gem "RedCloth", :lib => "redcloth", :source => "http://code.whytheluckystiff.net/"
-  config.gem "calendar_date_select"
-  config.gem "activemerchant", :lib => "active_merchant"
-  config.gem "searchlogic"
-  # RSS Feed parsing
-  config.gem "simple-rss"
-  config.gem "feed-normalizer"
-  config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
-  config.gem "nokogiri"
-  # social application gems
-  config.gem "flickr"
-  # pdf creation gems
-  config.gem "pdf-writer", :lib => "pdf/writer"
-  config.gem "transaction-simple", :lib => "transaction/simple"
-  config.gem "color-tools", :lib => "color"
-  # scheduling
-  config.gem 'whenever', :lib => false, :version => ">=0.3.0", :source => 'http://gems.github.com'
-  config.gem 'pony', :lib => false
-  config.gem 'mail', :lib => false
-  # bad bots
-  config.gem "ruby-recaptcha"
-  config.gem "paperclip", :source => "http://gemcutter.org"
-  config.gem "aws-s3", :lib => 'aws/s3'
-  config.gem 'youtube-g', :lib => 'youtube_g', :source => "http://gemcutter.org"
-  # plugin dependencies  (install before rake will work)
-  # config.gem 'packet'
-  # config.gem 'xml-simple', :lib => 'xmlsimple'
-  # config.gem 'chronic'
-  ## Also remember ImageMagick and RMagick for your platform
-  
-  #calendar_date_select
-  #config.gem "timcharper-calendar_date_select", :version => "1.11", :source => "http://gems.github.com", :lib => "gem_init"
   
   # Only load the plugins named here, in the order given. By default, all plugins
   # in vendor/plugins are loaded in alphabetical order.

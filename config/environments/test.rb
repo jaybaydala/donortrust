@@ -19,10 +19,3 @@ config.action_mailer.delivery_method = :test
 
 # require test-spec gem in test environment only
 # config.gem "test-spec", :version => ">= 0.9.0", :lib => 'test/spec'
-config.gem "mocha"
-config.gem "shoulda"
-config.gem "rspec_hpricot_matchers"
-config.gem "rspec"
-config.gem "rspec-rails"
-config.gem "machinist"
-config.gem "faker"
