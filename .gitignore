@@ -1,6 +1,7 @@
 .DS_Store
 log/*.log
 rerun.txt
+config/aws.yml
 config/database.yml
 development_structure.sql
 db/schema.rb
