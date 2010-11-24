@@ -194,7 +194,7 @@ class Order < ActiveRecord::Base
         gateway_login, gateway_password = nil
       end
       
-      gateway = ActiveMerchant::Billing::IatsGateway.new(
+      gateway = ActiveMerchant::Billing::Base.gateway('iats').new(
         :login    => gateway_login,	
         :password => gateway_password
       )
@@ -311,16 +311,17 @@ class Order < ActiveRecord::Base
   end
 
   protected
-  def credit_payments
-    total = BigDecimal.new("0")
-    total += credit_card_payment if credit_card_payment?
-    total += gift_card_payment if gift_card_payment?
-    total
-  end
+    def credit_payments
+      total = BigDecimal.new("0")
+      total += credit_card_payment if credit_card_payment?
+      total += gift_card_payment if gift_card_payment?
+      total
+    end
   
   private
-  def strip_dollar_sign(val)
-    val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
-    val
-  end
+    def strip_dollar_sign(val)
+      val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
+      val
+    end
+    
 end
