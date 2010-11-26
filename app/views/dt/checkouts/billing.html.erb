@@ -5,7 +5,7 @@
 <%- content_for :html_title do -%>Checkout<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
-<h2>Step 3 of 4 - Billing Information</h2>
+<h2>Step 2 of 3 - Billing Information</h2>
 
 <%= render :partial => "subscription" %>
 
@@ -119,7 +119,7 @@
 
 <div class="checkoutbuttons clearfix">
   <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "payment") %>
-  <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_4.png", :alt => 'Proceed to Step 4' %>
+  <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_3.png", :alt => 'Proceed to Step 3' %>
 </div>
 <% end %>
 

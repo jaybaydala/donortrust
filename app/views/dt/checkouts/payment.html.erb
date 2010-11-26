@@ -5,12 +5,12 @@
 <%- content_for :html_title do -%>Checkout<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
-<h2>Step 2 of 4 - Payment Details</h2>
+<h2>Step 1 of 3 - Payment Details</h2>
 
 <%= render :partial => "subscription" %>
 
 <%= error_messages_for :order %>
-<% form_for(:order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform", :method => :put}) do |f| %>
+<% form_for(:order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform", :method => ( @order.new_record? ? :post : :put )}) do |f| %>
 <%= hidden_field_tag "step", "payment" %>
 <div class="userform">
   <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
@@ -86,7 +86,7 @@
 </div>
 <div class="checkoutbuttons clearfix">
  <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "support") %>
- <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_3.png", :alt => 'Proceed to Step 3' %>
+ <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_2.png", :alt => 'Proceed to Step 2' %>
 </div>
 <% end %>
 

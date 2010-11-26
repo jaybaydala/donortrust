@@ -1,4 +1,19 @@
 document.observe("dom:loaded", function() {
+	// cart optional donation
+	if ($("edit_donation_form")) {
+		if ($("cart_line_item_percentage").getValue() != '') {
+			$("cart_line_item_amount").hide();
+		}
+		$("cart_line_item_percentage").observe("change", function(e) {
+			var el = event.element();
+			if (el.getValue() == '') {
+				$("cart_line_item_amount").show();
+			} else {
+				$("cart_line_item_amount").hide();
+			}
+		});
+	}
+
 	// Final submit page
 	if ($("orderform") && $('step') && $('step').value == "confirm") {
 		new CheckoutSubmit("orderform", "checkout-submitbuttons");

@@ -3,12 +3,12 @@
   <%-
     link_item = true
     nav_info = {
-      "support" => ["Step 1. Support uend ", edit_dt_checkout_path(:step => "support")],
-      "payment" => ["Step 2. Payment Details ", edit_dt_checkout_path(:step => "payment")], 
-      "billing" => ["Step 3. Billing Info ", edit_dt_checkout_path(:step => "billing")], 
-      "confirm" => ["Step 4. Confirmation ", edit_dt_checkout_path(:step => "confirm")]
+      # "support" => ["Step 1. Support uend ", edit_dt_checkout_path(:step => "support")],
+      "payment" => ["Step 1. Payment Details ", edit_dt_checkout_path(:step => "payment")], 
+      "billing" => ["Step 2. Billing Info ", edit_dt_checkout_path(:step => "billing")], 
+      "confirm" => ["Step 3. Confirmation ", edit_dt_checkout_path(:step => "confirm")]
       }
-    ["support", "payment", "billing", "confirm"].each do |key|
+    Dt::CheckoutsController::CHECKOUT_STEPS.each do |key|
       current = (@current_nav_step ? false : true) if key.empty?
       current = (@current_nav_step == key ? true : false) unless key.empty?
       link_item = false if current

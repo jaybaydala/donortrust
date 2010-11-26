@@ -5,7 +5,7 @@
 <%- content_for :html_title do -%>Confirm Checkout<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
-<h2>Step 4 of 4 - Confirm your details</h2>
+<h2>Step 3 of 3 - Confirm your details</h2>
 
 <%= render :partial => "subscription" %>
 
@@ -43,7 +43,7 @@
     <% end %>
   </fieldset>
   
-  <% if cart_cf_investment %>
+  <% if cart_org_investment %>
   <fieldset>
     <legend>Support Uend:</legend>
     <p>100% of your funds go to the project(s) you select.</p>

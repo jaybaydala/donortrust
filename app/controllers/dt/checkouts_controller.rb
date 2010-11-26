@@ -10,7 +10,7 @@ class Dt::CheckoutsController < DtApplicationController
   helper_method :gift_card_payment?
   helper_method :summed_account_balances
   
-  CHECKOUT_STEPS = ["support", "payment", "billing", "confirm"]
+  CHECKOUT_STEPS = ["payment", "billing", "confirm"]
   
   def new
     redirect_to(edit_dt_checkout_path) and return if find_order
@@ -24,10 +24,10 @@ class Dt::CheckoutsController < DtApplicationController
           @order.credit_card_payment = @cart.total
           @saved = @order.save if @valid
           session[:order_id] = @order.id if @saved
-          redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[2]) and return 
+          redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[1]) and return 
         end
         @current_nav_step = current_step
-        render :action => "new" 
+        render :action => CHECKOUT_STEPS[0]
       }
     end
   end
@@ -48,7 +48,7 @@ class Dt::CheckoutsController < DtApplicationController
     respond_to do |format|
       format.html {
         if @saved
-          @current_step = CHECKOUT_STEPS[2] if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
+          @current_step = CHECKOUT_STEPS[1] if params[:unallocated_gift] == "1" || params[:admin_gift] == "1"
           redirect_to edit_dt_checkout_path(:step => next_step) and return
         end
         @current_nav_step = current_step
@@ -67,9 +67,9 @@ class Dt::CheckoutsController < DtApplicationController
     before_billing if current_step == "billing"
     respond_to do |format|
       format.html {
-        if @cart.subscription? && CHECKOUT_STEPS.index(current_step) < 2
+        if @cart.subscription? && CHECKOUT_STEPS.index(current_step) < 1
           flash[:notice] = "You only need to enter your Billing Information for monthly giving."
-          redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[2]) and return
+          redirect_to edit_dt_checkout_path(:step => CHECKOUT_STEPS[1]) and return
         end
         @current_nav_step = current_step
         render :action => current_step
