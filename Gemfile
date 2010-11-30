@@ -3,6 +3,11 @@ gem 'rails', '2.3.5'
 gem 'rack'
 gem 'mysql'
 
+gem 'capistrano'
+gem 'capistrano-ext'
+gem 'mongrel'
+gem 'mongrel_cluster'
+
 gem 'activemerchant', :require => 'active_merchant'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'calendar_date_select'
