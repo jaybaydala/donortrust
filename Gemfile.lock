@@ -127,7 +127,7 @@ GEM
       rake (>= 0.8.3)
     rake (0.8.7)
     redgreen (1.2.2)
-    rmagick (2.13.1)
+    rmagick (2.12.2)
     rspec (1.3.1)
     rspec-rails (1.3.3)
       rack (>= 1.0.0)
@@ -194,7 +194,7 @@ DEPENDENCIES
   rack
   rails (= 2.3.5)
   redgreen
-  rmagick
+  rmagick (= 2.12.2)
   rspec (< 2.0)
   rspec-rails (< 2.0)
   rspec_hpricot_matchers

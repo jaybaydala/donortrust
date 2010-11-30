@@ -23,7 +23,7 @@ gem 'paperclip'
 gem 'pdf-writer', :require => 'pdf/writer'
 gem 'pony', :require => false
 gem 'RedCloth', :require => 'redcloth'
-gem 'rmagick'
+gem 'rmagick', '2.12.2'
 gem 'ruby-recaptcha'
 gem 'searchlogic'
 gem 'simple-rss'
