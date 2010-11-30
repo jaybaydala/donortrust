@@ -16,7 +16,7 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 <tr>
   <td<%= bg %>><div id="depositTransaction-<%= transaction.id %>" class="depositTransaction"><strong><%= transaction_type %></strong>
     <%= (transaction.order_id)?" (Order ##{transaction.order_id})":"" %> 
-	</div>
+  </div>
   <% if transaction.gift_id %> 
     (<%= "a gift from #{transaction.gift.name}" %>
     <% if transaction.gift.project_id %>to the &quot;<%= link_to transaction.gift.project.name, dt_project_path(transaction.gift.project.id) %>&quot; Project<% end %>)
@@ -35,7 +35,7 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 <% when "Investment" -%>
 <tr>
   <td<%= bg %>><div id="investmentTransaction-<%= transaction.id %>" class="investmentTransaction">
-  	<strong><%= transaction_type %></strong>
+    <strong><%= transaction_type %></strong>
   <%= (transaction.order_id)?" (Order ##{transaction.order_id})":"" %> 
   </div> 
   <% if transaction.gift_id %>(<%= "a gift from #{transaction.gift.name}" %>)<% end %>
@@ -46,22 +46,24 @@ bg = transaction_counter % 2 == 1 ? ' style="background:#EEE"' : ''
 <% when "Pledge" -%>
 <tr>
   <td<%= bg %>><div id="investmentTransaction-<%= transaction.id %>" class="investmentTransaction">
-  	<strong><%= transaction_type %></strong>
+    <strong><%= transaction_type %></strong>
   <%= (transaction.order_id)?" (Order ##{transaction.order_id})":"" %> 
   </div> 
   <% if !transaction.participant_id %>
-  	<% if !transaction.team_id %>
-  		a pledge to <%= link_to(transaction.campaign.name,dt_campaign_path(transaction.campaign)) %>
-  	<% else %>
-  		a pledge to <%= link_to(transaction.team.name,dt_team_path(transaction.team)) %>, 
-  		a team participating in <%= link_to(transaction.team.campaign.name, dt_campaign_path(transaction.team.campaign)) %>
-  	<% end %>
+    <% if !transaction.team_id %>
+      a pledge to <%= link_to(transaction.campaign.name,dt_campaign_path(transaction.campaign)) %>
+    <% else %>
+      a pledge to <%= link_to(transaction.team.name, dt_team_path(transaction.team)) %>, 
+      a team participating in <%= link_to(transaction.team.campaign.name, dt_campaign_path(transaction.team.campaign)) %>
+    <% end %>
   <% else %>
-  	a pledge to <%= link_to(transaction.participant.name,dt_participant_path(transaction.participant)) %> 
-  	participating in <%= link_to(transaction.participant.team.campaign.name, dt_campaign_path(transaction.participant.team.campaign)) %>
-  	<% if !transaction.participant.team.generic %>
-  		as a member of <%= link_to(transaction.participant.team.name, dt_team_path(transaction.participant.team)) %>
-  	<% end %>
+    a pledge to <%= link_to(transaction.participant.name, dt_participant_path(transaction.participant)) %>
+    <%- if transaction.participant.team_id? && transaction.participant.team -%>
+      participating in <%= link_to(transaction.participant.team.campaign.name, dt_campaign_path(transaction.participant.team.campaign)) %>
+      <% if !transaction.participant.team.generic %>
+        as a member of <%= link_to(transaction.participant.team.name, dt_team_path(transaction.participant.team)) %>
+      <% end %>
+    <% end %>
   <% end %>
   </td>
   <td<%= bg %>><%= date %></td>
