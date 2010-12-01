@@ -55,7 +55,7 @@ GEM
     cucumber-rails (0.3.2)
       cucumber (>= 0.8.0)
     culerity (0.2.12)
-    daemons (1.1.0)
+    daemons (1.0.10)
     database_cleaner (0.6.0)
     diff-lcs (1.1.2)
     email_spec (0.6.4)
@@ -173,6 +173,7 @@ DEPENDENCIES
   color-tools
   cucumber (>= 0.9.4)
   cucumber-rails (>= 0.3.2)
+  daemons (= 1.0.10)
   database_cleaner (>= 0.5.2)
   email_spec (< 1.0)
   factory_girl
