@@ -36,7 +36,7 @@ class Order < ActiveRecord::Base
   # for member signup
   attr_accessor :password, :password_confirmation, :terms_of_use
   def create_user_from_order
-    if self.password && !self.user
+    if self.password.present? && !self.user
       user = build_user_from_order
       user.save
       user.activate
