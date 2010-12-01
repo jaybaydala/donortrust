@@ -36,6 +36,7 @@ class Order < ActiveRecord::Base
   # for member signup
   attr_accessor :password, :password_confirmation, :terms_of_use
   def create_user_from_order
+logger.info self.password.inspect
     if self.password.present? && !self.user
       user = build_user_from_order
       user.save
@@ -151,6 +152,7 @@ class Order < ActiveRecord::Base
     @pledge_account_balance = BigDecimal.new(val.to_s)
   end
   def validate_payment(cart)
+logger.info cart.inspect
     cart_items = cart.items
     errors.add(:account_balance_payment, "cannot be more than your current account balance") if @account_balance && @account_balance > 0 && account_balance_payment? && account_balance_payment > @account_balance
     errors.add(:gift_card_payment, "cannot be more than your current gift card balance") if @gift_card_balance && @gift_card_balance > 0 && gift_card_payment? && gift_card_payment > @gift_card_balance
@@ -162,6 +164,7 @@ class Order < ActiveRecord::Base
     errors.add(:account_balance_payment, "must be a positive number") if self.account_balance_payment? && self.account_balance_payment < 0
     errors.add(:pledge_account_payment, "must be a positive number") if self.pledge_account_payment? && self.pledge_account_payment < 0
     errors.add(:credit_card_payment, "must be a positive number") if self.credit_card_payment? && self.credit_card_payment < 0
+logger.info errors.full_messages.inspect
     errors.empty?
   end
 
