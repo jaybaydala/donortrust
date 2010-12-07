@@ -17,8 +17,17 @@
 			<%= f.check_box :active %>
 		</li>
 		<li>
+		  <%= f.label :template %>
+			<%= f.text_field :template %>
+		</li>
+		<li>
+		  <%= f.label :layout %>
+			<%= f.text_field :layout %>
+		</li>
+		<li>
 		  <%= f.label :content %><br />
-      <%= fckeditor_textarea("page", "content", :toolbarSet => 'uEnd', :height => 500, :width =>450 ) %> 
+		  <%= f.text_area :content, :rows => 40, :cols => 100 %>
+      <%# fckeditor_textarea("page", "content", :toolbarSet => 'uEnd', :height => 500, :width =>450 ) %> 
 		</li>
 		<li>
 		  <%= submit_tag "Save", :class => 'buttonsubmit' %>
