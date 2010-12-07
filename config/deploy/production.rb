@@ -1,21 +1,9 @@
-require 'config/environment'
-require 'capistrano/ext/multistage'
-require 'mongrel_cluster/recipes'
-set :application, "donortrust"
-set :repository,  "http://#{application}.rubyforge.org/svn/trunk/"
-
 set :mongrel_conf, "/etc/mongrel_cluster/uend.yml"
-set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
-set :mongrel_clean, true
-set :mongrel_rails, "mongrel_rails"
+set :mongrel_admin_conf, "/etc/mongrel_cluster/uend_admin.yml"
 
 set :stage, "production"
 set :rails_env, "production"
-set :deploy_to, "/home/uend/#{application}_#{rails_env}"
-set :user, "ideaca"
-set :group, "mongrel"
-set :port, 422
-# set :algea, "10.100.5.229"
+set :deploy_to, "/home/uend/apps/#{application}_#{rails_env}"
 set :algea, "www.uend.org"
 role :app, algea
 role :admin, algea
@@ -23,18 +11,8 @@ role :web, algea
 role :db, algea, :primary => true
 role :schedule, algea
 
-namespace :deploy do
-  task :insert_google_stats, :roles => :app do
-    stats = <<-JS
-      <script type="text/javascript">
-      _uacct = "UA-832237-2";
-      urchinTracker();
-      </script>
-    JS
-    layout = "#{latest_release}/app/views/layouts/dt_application.html.erb" 
-    run "sed -i 's?<!--googlestats-->?#{stats}?' #{layout}" 
-  end
 
+namespace :deploy do
   desc <<-DESC
   symlink the images, system, stylesheets and javascripts to current_path
   DESC

@@ -1,17 +1,31 @@
 require 'config/environment'
 require 'capistrano/ext/multistage'
 require 'mongrel_cluster/recipes'
+set :bundle_without, [:development, :test, :cucumber]
+require "bundler/capistrano"
+
 set :application, "donortrust"
 
-# set :deploy_via, :remote_cache
+set :stages, %w( staging production )
+set :default_stage, "staging"
 
-set :mongrel_conf, "/etc/mongrel_cluster/#{application}.yml"
-set :mongrel_admin_conf, "/etc/mongrel_cluster/#{application}_admin.yml"
+set :repository,  "git@github.com:jaybaydala/donortrust.git"
+set :branch, "master"
+
+set :scm, :git
+set :deploy_via, :remote_cache
+set :git_enable_submodules, 1
+
+default_run_options[:pty] = true
+ssh_options[:forward_agent] = true
+set :port, 422
+
 set :mongrel_clean, true
+set :mongrel_rails, "mongrel_rails"
 
-set :rails_version, "v2.3.4" unless variables[:rails_version]
+set :user, "ideaca"
+set :group, "users"
 
-# before "deploy:asset_folder_fix", "deploy:remove_uploaded_pictures_folder"
 after "deploy:update_code", "deploy:configure_stuff"
 # after "deploy:start", "deploy:start_admin"
 # after "deploy:stop", "deploy:stop_admin"
@@ -34,40 +48,17 @@ namespace :deploy do
   task :configure_stuff do
     link_configs
     asset_folder_fix
-    insert_google_stats
     configure_ultrasphinx
     update_crontab
   end
 
   task :link_configs do
-    set :iats_conf, "#{latest_release}/config/iats.yml"
-    # sudo "cp #{shared_path}/config/iats.yml #{iats_conf}"
-    # sudo "chown #{user}:#{group} #{iats_conf} && chmod a+r #{iats_conf}"
-    sudo "ln -s #{shared_path}/config/iats.yml #{iats_conf}"
-    
-    set :recaptcha_conf, "#{latest_release}/config/initializers/recaptcha_vars.rb"
-    sudo "ln -s #{shared_path}/config/recaptcha_vars.rb #{recaptcha_conf}"
-    sudo "ln -s #{shared_path}/config/aws.yml #{latest_release}/config/aws.yml"
+    run "ln -nfs #{shared_path}/config/iats.yml #{latest_release}/config/iats.yml"
+    run "ln -nfs #{shared_path}/config/aws.yml #{latest_release}/config/aws.yml"
+    run "ln -nfs #{shared_path}/config/recaptcha_vars.rb #{latest_release}/config/initializers/recaptcha_vars.rb"
+    run "rm -f #{release_path}/config/database.yml && ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
   
-  task :remove_uploaded_pictures_folder, :roles => :web do
-    # uploaded pictures
-    uploaded_pictures_path = "#{latest_release}/public/images/uploaded_pictures"
-    send(run_method, "rm -f #{uploaded_pictures_path} && ln -s #{shared_path}/system/uploaded_pictures #{uploaded_pictures_path}")
-  end
-  task :asset_folder_fix, :roles => :web do
-    # to be defined by multistage deployment files
-  end
-  task :insert_google_stats, :roles => :app do
-    # to be defined by multistage deployment files
-  end
-
-  task :setup_mongrel_cluster do
-    sudo "cp #{current_path}/config/mongrel_cluster.yml #{mongrel_conf}"
-    sudo "chown mongrel:www-data #{mongrel_conf}"
-    sudo "chmod g+w #{mongrel_conf}"
-  end 
-
   desc <<-DESC
   Configure Ultrasphinx for deployment environment
   DESC
@@ -77,10 +68,20 @@ namespace :deploy do
     end
   end 
   
+  task :asset_folder_fix, :roles => :web do
+    # to be defined by multistage deployment files
+  end
+
   desc "Update the crontab file"
   task :update_crontab, :roles => :schedule do
     run "cd #{release_path} && whenever --set environment=#{rails_env} --update-crontab #{application}"
   end
+
+  task :setup_mongrel_cluster do
+    sudo "cp #{current_path}/config/mongrel_cluster.yml #{mongrel_conf}"
+    sudo "chown mongrel:www-data #{mongrel_conf}"
+    sudo "chmod g+w #{mongrel_conf}"
+  end 
 
   task :start_admin , :roles => :admin do
     cmd = "#{mongrel_rails} cluster::start -C #{mongrel_admin_conf}"
