@@ -1,7 +1,7 @@
 <tr id="optional_donation" class="optional">
   <td colspan="2">
     <p>Optional donation to Uend Operational Costs</p>
-    <p><small><a href="#">How UEnd uses donations</a></small></p>
+    <p><small><%= link_to "How UEnd uses donations", dt_page_path("donations"), :onclick => "window.open('#{dt_page_path("donations")}', 'donations', 'width=960,height=640,scrollbars'); return false;" %></small></p>
     <%#= render :partial => "dt/cart/#{partial_name}", :locals => { :line_item => line_item } %>
   </td>
   <td class="numeric money">
