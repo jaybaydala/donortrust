@@ -15,28 +15,23 @@
   <%- page_title = yield :page_title -%>
   <%- page_title = html_title if page_title.nil? || page_title.empty? -%>
 <div id="container">
-  <div id="main"> 
-    <div id="content">
-      <div id="header" class="clearfix">
-        <div id="logo" style="left:15px;" class="clearfix"><a href="/"><img src="/images/dt/brand_elements/cf_headerlogo.gif" width="203" height="50" alt="Uend: - Give a &hellip;damn" /></a></div>
-      </div>
-      <div id="contentcontainer">
-        <div id="content-plain<%= "wide" unless sidebar %>-wrapper">
-          <div id="content">
-            <h1><%= page_title %></h1>
-            <%= yield %>
-          </div>
-        </div>
+  <%= render :file => "dt/shared/head" %>
 
-        <%- if sidebar -%>
-        <div id="sidebar-plain-wrapper">
-          <div id="sidebar">
-            <%= sidebar %>
-          </div>
-        </div>
-        <%- end -%>
+  <div id="contentcontainer" class="clearfix">
+    <h1 id="pagetitle"><%= page_title %></h1>
+    <div id="content<%= "wide" unless sidebar %>-wrapper">
+      <div id="content">
+        <%= yield %>
       </div>
     </div>
+  
+    <%- if sidebar -%>
+    <div id="sidebar-wrapper">
+      <div id="sidebar">
+        <%= sidebar %>
+      </div>
+    </div>
+    <%- end -%>
   </div>
 </div>
 </body>
