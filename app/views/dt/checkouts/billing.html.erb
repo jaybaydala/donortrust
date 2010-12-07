@@ -5,7 +5,7 @@
 <%- content_for :html_title do -%>Checkout<%- end -%>
 <%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
-<h2>Step 3 of 4 - Billing Information</h2>
+<h2>Step 2 of 3 - Billing Information</h2>
 
 <%= render :partial => "subscription" %>
 
@@ -17,23 +17,8 @@
   <% if @order.credit_card_payment? %>
     <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
     <fieldset>
-      <legend>Billing and Tax Receipt Information</legend>
+      <legend>Billing Information</legend>
       <ol>
-        <li>
-          <fieldset>
-            <div class="notes clearfix" style="width:380px;">
-              <h5>Tax Receipts</h5>
-              <p>If you don&#x27;t require a tax-receipt for your donation it will significantly help our organization - it lessens our restrictions according to Revenue Canada and lets us build the organization. If you would like a tax-receipt we are very happy to provide it. You choose. Thanks for thinking about it!</p>
-            </div>
-            <legend>Tax Receipt Requested</legend>
-            <ol>
-              <li>
-                <%= f.check_box :tax_receipt_requested %>
-                <%= f.label :tax_receipt_requested, "Please provide me with a tax receipt", :class => "left inline", :style => "margin-left:0;" %>
-              </li>
-            </ol>
-          </fieldset>
-        </li>
         <li>
           <div class="notes">
             <h5>Billing and Receipt Information</h5>
@@ -62,6 +47,28 @@
         <li><label for="order_email"><%= form_required %>Email</label> <%= f.text_field :email %></li>
       </ol>
     </fieldset>
+    
+    <fieldset>
+      <legend>Tax Receipt Information</legend>
+      <ol>
+        <li>
+          <fieldset>
+            <div class="notes clearfix" style="width:380px;">
+              <h5>Tax Receipts</h5>
+              <p>If you don&#x27;t require a tax-receipt for your donation it will significantly help our organization - it lessens our restrictions according to Revenue Canada and lets us build the organization. If you would like a tax-receipt we are very happy to provide it. You choose. Thanks for thinking about it!</p>
+            </div>
+            <legend>Tax Receipt Requested</legend>
+            <ol>
+              <li>
+                <%= f.check_box :tax_receipt_requested %>
+                <%= f.label :tax_receipt_requested, "Please provide me with a tax receipt", :class => "left inline", :style => "margin-left:0;" %>
+              </li>
+            </ol>
+          </fieldset>
+        </li>
+      </ol>
+    </fieldset>
+    
     <%- if !logged_in? -%>
     <fieldset>
       <legend>Account Signup</legend>
@@ -86,6 +93,7 @@
       </ol>
     </fieldset>
     <%- end -%>
+    
     <div id="credit_card_details">
       <fieldset>
         <legend>Credit Card Information</legend>
@@ -119,7 +127,7 @@
 
 <div class="checkoutbuttons clearfix">
   <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "payment") %>
-  <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_4.png", :alt => 'Proceed to Step 4' %>
+  <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_3.png", :alt => 'Proceed to Step 3' %>
 </div>
 <% end %>
 

@@ -1,0 +1,20 @@
+<h1>Your Donation Counts!</h1>
+<p>
+  UEnd takes no cut of any gifts or investments you make through our site.<br />
+  We ask for a donation to help us cover our costs.
+</p>
+
+<div class="userform" id="edit_donation_form">
+<% form_for [:dt, @cart, @donation], :url => dt_cart_donation_path do |f| %>
+  <ol>
+    <li>
+      <%= f.label :percentage, "Your donation" %>
+      <%= f.select :percentage, @cart.percentage_options %>
+      <%= f.text_field :amount, :value => number_with_precision(@donation.item.amount, :precision => 2), :style => "width:40px;" %>
+    </li>
+    <li>
+      <%= f.submit "Save" %>
+    </li>
+  </ol>
+<% end %>
+</div>

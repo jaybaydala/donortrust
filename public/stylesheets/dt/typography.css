@@ -5,6 +5,9 @@ body {
   background:#FFF;
   font-family:Verdana, Arial, Helvetica, sans-serif;
 }
+small {
+  font-size:0.875em;
+}
 
 a:link, a:visited {
   text-decoration: underline;

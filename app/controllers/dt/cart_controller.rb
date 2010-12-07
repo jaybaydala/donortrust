@@ -3,7 +3,7 @@ class Dt::CartController < DtApplicationController
   include OrderHelper
   before_filter :find_cart
   def show
-    @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 10)
+    @cart_items = @cart.items.all(:conditions => ['donation != ?', true]).paginate(:page => params[:cart_page], :per_page => 10)
     respond_to do |format|
       format.html {
         if @cart.subscription? && !params[:skip_cart].blank?

@@ -1,0 +1,11 @@
+<tr id="optional_donation" class="optional">
+  <td colspan="2">
+    <p>Optional donation to Uend Operational Costs</p>
+    <p><small><a href="#">How UEnd uses donations</a></small></p>
+    <%#= render :partial => "dt/cart/#{partial_name}", :locals => { :line_item => line_item } %>
+  </td>
+  <td class="numeric money">
+    <%= link_to "Edit", edit_dt_cart_donation_path, :id => "edit_donation" %>
+    <%= number_to_currency(@cart.donation.item.amount) %>
+  </td>
+</tr>

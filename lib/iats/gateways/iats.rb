@@ -20,12 +20,12 @@ module ActiveMerchant #:nodoc:
       # *	Dollar Amount 3.00 OK: 678594;
       # *	Dollar Amount 4.00 REJ: 15;
       # *	Dollar Amount 5.00 REJ: 15;
-      # *	Dollar Amount 6.00 OK: 678594:X;
-      # *	Dollar Amount 7.00 OK: 678594:y;
-      # *	Dollar Amount 8.00 OK: 678594:A;
-      # *	Dollar Amount 9.00 OK: 678594:Z;
-      # *	Dollar Amount 10.00 OK: 678594:N;
-      # *	Dollar Amount 15.00, if CVV2=1234 OK: 678594:Y; if there is no CVV2: REJ: 19
+      # *	Dollar Amount 6.00 OK: 678594:;
+      # *	Dollar Amount 7.00 OK: 678594:;
+      # *	Dollar Amount 8.00 OK: 678594:;
+      # *	Dollar Amount 9.00 OK: 678594:;
+      # *	Dollar Amount 10.00 OK: 678594:;
+      # *	Dollar Amount 15.00, if CVV2=1234 OK: 678594:; if there is no CVV2: REJ: 19
       # *	Dollar Amount 16.00 REJ: 2;
       # *	Other Amount REJ: 15. 
       

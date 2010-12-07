@@ -1,6 +1,6 @@
 #cart table, table#cart {
     width:100%;
-    border:1px #999 solid;
+    border-top:1px #999 solid;
     border-collapse:separate;
 }
 #cart h5 {
@@ -9,7 +9,6 @@
     margin:0;
 }
 #cart th, #cart td {
-    border-right:1px #CCC solid;
     padding:2px 4px;
 }
 #cart th {
@@ -19,8 +18,7 @@
     text-align:left;
     font-weight:bold;
 }
-#cart td {
-}
+#cart td { border-top:1px solid #333; padding:1em 0; }
 #cart td p {
   margin:0;
 }
@@ -29,17 +27,19 @@
     font-size:.75em;
 }
 #cart th.money, #cart td.money {
-    font-style:italic;
-    font-weight:bold;
-    color:#444;
+    color:#000;
 }
-#cart tr.footer td {
-    background-color:#CCC;
+#cart tr.optional td {
+    text-align:right;
+}
+#cart tr.total td, #cart tr.footer td {
+    background-color:#FFF;
     border-top:1px #999 solid;
-    border-bottom:1px #999 solid;
 }
+#cart tr.total td { background-color:#EEE;color:#E42;font-weight:normal;font-size:1.1em; }
 #cart tr.odd td {}
-#cart tr.even td { background-color:#EEE;}
+#cart tr.even td { background-color:#EEE; }
+
 #cart div.thumbnail {
     overflow:hidden;
     width:50px;

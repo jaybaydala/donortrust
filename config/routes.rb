@@ -8,7 +8,9 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :support_badges, :controller => 'support_badges'
     dt.resource :search, :controller => 'search', :collection => { :bar => :get }
     dt.resource :search_groups, :controller => 'search_groups'
-    dt.resource :cart, :controller => 'cart'
+    dt.resource :cart, :controller => 'cart' do |cart|
+      cart.resource :donation
+    end
     dt.resource :checkout
     dt.resources :subscriptions
     dt.resources :pages do |page|

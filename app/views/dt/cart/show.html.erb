@@ -18,8 +18,8 @@
     <%= will_paginate @cart_items, :param_name => 'cart_page', :renderer => 'RemoteLinkRenderer' , :remote => {:update => "cartcontainer"} %>
     <table cellpadding="0" cellspacing="0">
       <colgroup>
-        <col style="width:5%;" />
         <col style="width:75%;" />
+        <col style="width:5%;" />
         <col style="width:20%;" />
       </colgroup>
       <tr>
@@ -28,23 +28,32 @@
         <th class="numeric">Amount</th>
       </tr>
       <%= render :partial => "line_item", :collection => @cart_items %>
-      <tr class="footer">
-        <td class="numeric money" colspan="2"><div style="float:left;text-align:left;width:100px;font-weight:normal;font-style:normal;"><%= link_to "Clear Cart", dt_cart_path, :confirm => "Are you sure you want to empty your entire cart?", :method => :delete %></div>
-          <div>Cart Total</div></td>
+      
+      <%= render :partial => "dt/donations/cart" %>
+      
+      <tr class="total">
+        <td class="numeric money" colspan="2">
+          <div style="display:none;float:left;text-align:left;width:100px;font-weight:normal;font-style:normal;"><%= link_to "Clear Cart", dt_cart_path, :confirm => "Are you sure you want to empty your entire cart?", :method => :delete %></div>
+          <div>Cart Total</div>
+        </td>
         <td class="numeric money"><%= number_to_currency(@cart.total) %></td>
       </tr>
     </table>
     <%= will_paginate @cart_items, :param_name => 'cart_page', :renderer => 'RemoteLinkRenderer' , :remote => {:update => "cartcontainer"} %>
     <% end %>
   </div>
-  <div style="margin-top:1em;" class="clearfix">
-    <%= link_to "<span>Add a Gift Card</span>", new_dt_gift_path, :class => "button-add_gift_card" %>
-    <%= link_to "<span>Give to a Project</span>", dt_projects_path, :class => "button-give_project" %>
-    <%= link_to "<span>Add a Deposit</span>", new_dt_account_deposit_path(current_user), :class => "button-add_deposit" %>
-  </div>
   <div class="clearfix">
-    <% unless @cart.empty? %><%= link_to "<span>Checkout</span>", new_dt_checkout_path, :class => "button-checkout" %><% end %>
+    <div style="margin-top:1em;float:left" class="clearfix">
+      <div><%= link_to "<span>Add a Gift Card</span>", new_dt_gift_path, :class => "button-add_gift_card" %></div>
+      <div><%= link_to "<span>Give to a Project</span>", dt_projects_path, :class => "button-give_project" %></div>
+      <div><%= link_to "<span>Add a Deposit</span>", new_dt_account_deposit_path(current_user), :class => "button-add_deposit" %></div>
+    </div>
+    <div style="margin-top:1em;float:right" class="clearfix">
+      <% unless @cart.empty? %><%= link_to "<span>Checkout</span>", new_dt_checkout_path, :class => "button-checkout" %><% end %>
+    </div>
   </div>
+
+
 </div>
 <%- content_for :sidebar do -%>
 	<%= dt_profile_sidebar %>

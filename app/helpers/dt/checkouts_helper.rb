@@ -7,9 +7,9 @@ module Dt::CheckoutsHelper
     render :file => "dt/checkouts/checkout_nav"
   end
   
-  def cart_cf_investment
+  def cart_org_investment
     return nil unless @cart && Project.admin_project
-    @cart_cf_investment ||= @cart.items.detect{|item| item.class == Investment && item.project_id == Project.admin_project.id && item.checkout_investment? }
+    @cart_org_investment ||= @cart.items.detect{|item| item.class == Investment && item.project_id == Project.admin_project.id && item.checkout_investment? }
   end
   
   def expiry_months
