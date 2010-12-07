@@ -15,6 +15,10 @@ end
   end
 end
 
+every 4.hours do
+  rake "-s rake ultrasphinx:index:main"
+end
+
 every 1.day, :at => '6:50am' do
   rake "-s scheduler:account_reminder"
 end
