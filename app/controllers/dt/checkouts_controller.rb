@@ -257,10 +257,6 @@ class Dt::CheckoutsController < DtApplicationController
   def do_confirm
     if @valid
       Order.transaction do
-        # remove the donation if it's a $0 amounnt since that makes an invalid investment
-        if @cart.donation && @cart.donation.item.amount == 0
-          @cart.donation.destroy
-        end
         # process the credit card - should handle an exception here
         # if no exception, we're all good.
         # if there is, we should render the payment template and show the errors...
@@ -274,6 +270,10 @@ class Dt::CheckoutsController < DtApplicationController
         # params[:order][:tmp_card_number] = nil
         if transaction_successful
           @cart.update_attribute(:order_id, @order.id)
+          # remove the donation if it's a $0 amounnt since that makes an invalid investment
+          if @cart.donation && @cart.donation.item.amount == 0
+            @cart.donation.destroy
+          end
           # auto-push the send_at dates into the future, wherever necessary, to avoid silly validation errors
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now)) }
           # save the cart items into the db via the association
