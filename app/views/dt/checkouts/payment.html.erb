@@ -79,7 +79,7 @@
         <label>Put on My Credit Card:</label> 
         $<%= f.text_field :credit_card_payment, :value => number_with_precision(@order.credit_card_payment, :precision => 2) %>
       </li>
-      <%- if current_user.cf_admin? -%>
+      <%- if logged_in? && current_user.cf_admin? -%>
         <li class="event">
           <label>Offline Fund Payment:</label> 
           $<%= f.text_field :offline_fund_payment, :value => number_with_precision(@order.offline_fund_payment, :precision => 2) %>

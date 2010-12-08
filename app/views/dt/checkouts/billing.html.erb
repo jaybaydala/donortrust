@@ -123,7 +123,7 @@
   <% else %>
     <p>You are not paying with a credit card. No billing information is required.</p>
   <% end %>
-  <%- if current_user.cf_admin? -%>
+  <%- if logged_in? && current_user.cf_admin? -%>
     <fieldset>
       <legend>Administrative Order Notes</legend>
       <ol class="clearfix">
