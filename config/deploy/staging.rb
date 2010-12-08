@@ -7,7 +7,7 @@ set :mongrel_clean, true
 set :mongrel_rails, "mongrel_rails"
 
 set :scm, :git
-set :deploy_via, :remote_cache
+set :deploy_via, :checkout
 set :git_enable_submodules, 1
 
 default_run_options[:pty] = true
