@@ -13,6 +13,7 @@ Event.observe(window, 'load', function() {
 		account_total.update_payments();
 	}
 });
+
 var AccountTotal = Class.create();
 AccountTotal.prototype = {
 	form: null,
@@ -20,6 +21,7 @@ AccountTotal.prototype = {
 	account_balance_field: 'account_balance',
 	account_payment_field: 'order_account_balance_payment',
 	credit_card_payment_field: 'order_credit_card_payment',
+	offline_fund_payment_field: 'order_offline_fund_payment',
 	cart_total_field: 'cart_total', 
 	total_field: 'total', // this is the total currently being paid
 	payment_required_field: 'payment_required', 

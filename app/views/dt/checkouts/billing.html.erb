@@ -123,6 +123,17 @@
   <% else %>
     <p>You are not paying with a credit card. No billing information is required.</p>
   <% end %>
+  <%- if current_user.cf_admin? -%>
+    <fieldset>
+      <legend>Administrative Order Notes</legend>
+      <ol class="clearfix">
+        <li>
+          <%= f.label :notes %>
+          <%= f.text_area :notes, :rows => 6, :cols => 40 %>
+        </li>
+      </ol>
+    </fieldset>
+  <%- end -%>
 </div>
 
 <div class="checkoutbuttons clearfix">

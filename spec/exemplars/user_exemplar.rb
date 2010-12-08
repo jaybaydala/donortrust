@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   end
   generator_for :first_name, "First"
   generator_for :last_name, "Last"
+  generator_for :display_name, "First L."
   generator_for :country, "Canada"
   generator_for :password, "password"
   generator_for :password_confirmation, "password"

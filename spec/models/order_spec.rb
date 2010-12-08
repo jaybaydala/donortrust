@@ -245,7 +245,11 @@ describe Order do
       end
       
       describe "with an offline_fund_payment and no credit_card" do
-        before do
+        before do 
+          @user = User.generate
+          @user.save
+          @user.stub(:cf_admin?).and_return(true)
+          @order.user = @user
           @order.credit_card_payment = 0
           @order.offline_fund_payment = @order.total
         end
@@ -261,6 +265,27 @@ describe Order do
           @order.errors.should be_empty
         end
 
+        context "with no user" do
+          before do
+            @order.user = nil
+          end
+          
+          it "should automatically set the offline_fund_payment to nil" do
+            @order.offline_fund_payment = @order.total
+            @order.offline_fund_payment.should be_nil
+          end
+        end
+
+        context "with a non-admin user" do
+          before do
+            @user.stub(:cf_admin?).and_return(false)
+          end
+          
+          it "should automatically set the offline_fund_payment to nil" do
+            @order.offline_fund_payment = @order.total
+            @order.offline_fund_payment.should be_nil
+          end
+        end
       end
     end
     

@@ -84,9 +84,15 @@ class Order < ActiveRecord::Base
   def gift_card_payment=(val)
     write_attribute(:gift_card_payment, strip_dollar_sign(val))
   end
+  def offline_fund_payment=(val)
+    val = nil if self.user.blank?
+    val = nil if self.user && !self.user.cf_admin?
+    write_attribute(:offline_fund_payment, (val.nil? ? val : strip_dollar_sign(val)) )
+  end
   def total=(val)
     write_attribute(:total, strip_dollar_sign(val))
   end
+  
   # set the reader methods for the columns dealing with currency
   # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
   def account_balance_payment
