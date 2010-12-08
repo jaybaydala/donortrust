@@ -257,6 +257,10 @@ class Dt::CheckoutsController < DtApplicationController
   def do_confirm
     if @valid
       Order.transaction do
+        # remove the donation if it's a $0 amounnt since that makes an invalid investment
+        if @cart.donation && @cart.donation.item.amount == 0
+          @cart.donation.destroy
+        end
         # process the credit card - should handle an exception here
         # if no exception, we're all good.
         # if there is, we should render the payment template and show the errors...
