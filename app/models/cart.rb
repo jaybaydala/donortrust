@@ -101,8 +101,12 @@ class Cart < ActiveRecord::Base
 
   private
     def add_admin_project_investment
-      if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?
-        self.add_donation( Investment.new(:project => Project.admin_project, :amount => 1) )
+      if subscription?
+        self.donation.destroy if self.donation.present?
+      else
+        if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?
+          self.add_donation( Investment.new(:project => Project.admin_project, :amount => 1) )
+        end
       end
     end
 
