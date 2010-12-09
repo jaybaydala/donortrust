@@ -233,6 +233,10 @@ class User < ActiveRecord::Base
     self.roles.include?(Role.find_by_title('cf_admin'))
   end
 
+  def role?(role_name)
+    self.roles.include?(Role.find_by_title(role_name.to_s))
+  end
+
   # Returns true if the user has just been activated.
   def recently_activated?
     @activated
