@@ -230,11 +230,15 @@ class User < ActiveRecord::Base
   end
 
   def cf_admin?
-    self.roles.include?(Role.find_by_title('cf_admin'))
+    role?(:cf_admin)
   end
 
   def role?(role_name)
     self.roles.include?(Role.find_by_title(role_name.to_s))
+  end
+
+  def superuser?
+    role?(:superuser)
   end
 
   # Returns true if the user has just been activated.

@@ -16,7 +16,7 @@ class BusAdmin::UsersController < ApplicationController
   end
 
  def sudo
-   if current_user.role?(:superuser)
+   if current_user.superuser?
      @user = User.find(params[:id])
      session[:user] = @user.id
      current_user = @user
