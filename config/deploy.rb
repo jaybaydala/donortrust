@@ -71,7 +71,7 @@ namespace :deploy do
 
   desc "Update the crontab file"
   task :update_crontab, :roles => :schedule do
-    run "cd #{release_path} && whenever --set environment=#{rails_env} --update-crontab #{application}"
+    run "cd #{latest_release} && whenever --set environment=#{rails_env} --update-crontab #{application}"
   end
 
   task :setup_mongrel_cluster do

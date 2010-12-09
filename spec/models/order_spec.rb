@@ -243,6 +243,50 @@ describe Order do
           total = @items.inject(0){|sum, deposit| sum + (deposit.class == Deposit ? deposit.amount : 0) }
         end
       end
+      
+      describe "with an offline_fund_payment and no credit_card" do
+        before do 
+          @user = User.generate
+          @user.save
+          @user.stub(:cf_admin?).and_return(true)
+          @order.user = @user
+          @order.credit_card_payment = 0
+          @order.offline_fund_payment = @order.total
+        end
+        
+        it "should validate_payment" do
+          @order.validate_payment(@cart)
+          @order.errors.should be_empty
+        end
+
+        it "should still validate_payment even if there's an account balance" do
+          @order.account_balance = 100
+          @order.validate_payment(@cart)
+          @order.errors.should be_empty
+        end
+
+        context "with no user" do
+          before do
+            @order.user = nil
+          end
+          
+          it "should automatically set the offline_fund_payment to nil" do
+            @order.offline_fund_payment = @order.total
+            @order.offline_fund_payment.should be_nil
+          end
+        end
+
+        context "with a non-admin user" do
+          before do
+            @user.stub(:cf_admin?).and_return(false)
+          end
+          
+          it "should automatically set the offline_fund_payment to nil" do
+            @order.offline_fund_payment = @order.total
+            @order.offline_fund_payment.should be_nil
+          end
+        end
+      end
     end
     
     describe "checking credit card validity" do

@@ -84,9 +84,15 @@ class Order < ActiveRecord::Base
   def gift_card_payment=(val)
     write_attribute(:gift_card_payment, strip_dollar_sign(val))
   end
+  def offline_fund_payment=(val)
+    val = nil if self.user.blank?
+    val = nil if self.user && !self.user.cf_admin?
+    write_attribute(:offline_fund_payment, (val.nil? ? val : strip_dollar_sign(val)) )
+  end
   def total=(val)
     write_attribute(:total, strip_dollar_sign(val))
   end
+  
   # set the reader methods for the columns dealing with currency
   # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
   def account_balance_payment
@@ -152,16 +158,20 @@ class Order < ActiveRecord::Base
   end
   def validate_payment(cart)
     cart_items = cart.items
+    # validations for available balances
     errors.add(:account_balance_payment, "cannot be more than your current account balance") if @account_balance && @account_balance > 0 && account_balance_payment? && account_balance_payment > @account_balance
     errors.add(:gift_card_payment, "cannot be more than your current gift card balance") if @gift_card_balance && @gift_card_balance > 0 && gift_card_payment? && gift_card_payment > @gift_card_balance
     errors.add(:pledge_account_payment, "cannot be more than your current pledge account balance") if @pledge_account_balance && @pledge_account_balance > 0 && pledge_account_payment? && pledge_account_payment > @pledge_account_balance
-    errors.add_to_base("Please ensure you're paying the full amount.") if total_payments < total
-    errors.add_to_base("You only need to pay the cart total.") if total_payments > total
-    errors.add_to_base("You must pay at least #{number_to_currency(minimum_credit_payment(cart_items))} from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
+    # check validity of the basic numbers
     errors.add(:gift_card_payment, "must be a positive number") if self.gift_card_payment? && self.gift_card_payment < 0
     errors.add(:account_balance_payment, "must be a positive number") if self.account_balance_payment? && self.account_balance_payment < 0
     errors.add(:pledge_account_payment, "must be a positive number") if self.pledge_account_payment? && self.pledge_account_payment < 0
     errors.add(:credit_card_payment, "must be a positive number") if self.credit_card_payment? && self.credit_card_payment < 0
+    errors.add(:offline_fund_payment, "must be a positive number") if self.offline_fund_payment? && self.offline_fund_payment < 0
+    # check validity of totals
+    errors.add_to_base("Please ensure you're paying the full amount.") if total_payments < total
+    errors.add_to_base("You only need to pay the cart total.") if total_payments > total
+    errors.add_to_base("You must pay at least #{number_to_currency(minimum_credit_payment(cart_items))} from a credit card and/or gift card.") if minimum_credit_payment(cart_items) && minimum_credit_payment(cart_items) > credit_payments
     errors.empty?
   end
 
@@ -173,6 +183,7 @@ class Order < ActiveRecord::Base
     else
       @minimum_credit_payment = total
     end
+    @minimum_credit_payment -= offline_fund_payment if offline_fund_payment?
     @minimum_credit_payment
   end
   
@@ -307,6 +318,7 @@ class Order < ActiveRecord::Base
     total += gift_card_payment if gift_card_payment?
     total += account_balance_payment if account_balance_payment?
     total += pledge_account_payment if pledge_account_payment?
+    total += offline_fund_payment if offline_fund_payment?
     total
   end
 

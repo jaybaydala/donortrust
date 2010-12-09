@@ -36,6 +36,7 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(edit_dt_checkout_path) and return if find_order
     @current_step = CHECKOUT_STEPS[0]
     @order = initialize_new_order
+    @order.attributes = params[:order]
     paginate_cart
     if !params[:unallocated_gift].nil? && !params[:admin_gift].nil? && !params[:directed_gift].nil?
       gift = Gift.find(session[:gift_card_id])
@@ -197,10 +198,10 @@ class Dt::CheckoutsController < DtApplicationController
     case current_step
       when "support"
         do_support
-      when "billing"
-        do_billing
       when "payment"
         do_payment
+      when "billing"
+        do_billing
       when "confirm"
         do_confirm
     end
