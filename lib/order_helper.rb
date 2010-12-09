@@ -42,7 +42,7 @@ module OrderHelper
       # set the credit card payment
       unless @order.credit_card_payment?
         unless logged_in? && @order.account_balance && (@order.account_balance > 0)
-          @order.credit_card_payment = @order.gift_card_payment? ? @order.total - @order.gift_card_payment - @order.offline_fund_payment : @order.total
+          @order.credit_card_payment = @order.gift_card_payment? ? @order.total - BigDecimal.new(@order.gift_card_payment.to_s) - BigDecimal.new(@order.offline_fund_payment.to_s) : @order.total
           @order.credit_card_payment = 0 if @order.credit_card_payment? && @order.credit_card_payment < 0
         end
       end
