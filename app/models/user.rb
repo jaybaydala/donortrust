@@ -59,6 +59,7 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password"
   attr_accessor :password
   attr_accessor :terms_of_use
+  attr_protected :superuser
 
   validates_presence_of     :login
   validates_presence_of     :password,                   :if => :password_required?
@@ -235,10 +236,6 @@ class User < ActiveRecord::Base
 
   def role?(role_name)
     self.roles.include?(Role.find_by_title(role_name.to_s))
-  end
-
-  def superuser?
-    role?(:superuser)
   end
 
   # Returns true if the user has just been activated.
