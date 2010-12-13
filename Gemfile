@@ -49,5 +49,6 @@ group :test, :cucumber do
   gem 'mocha'
   gem 'redgreen'
   gem 'rspec_hpricot_matchers'
+  gem 'ruby-debug'
   gem 'shoulda'
 end
