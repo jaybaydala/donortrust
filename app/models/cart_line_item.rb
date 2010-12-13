@@ -38,7 +38,7 @@ class CartLineItem < ActiveRecord::Base
     def set_amount_for_auto_calculation
       if self.auto_calculate_amount? && self.item.present?
         cart = Cart.find(cart_id)
-        self.item_attributes[:amount] = cart.calculate_percentage_amount(self.percentage)
+        self.item_attributes["amount"] = cart.calculate_percentage_amount(self.percentage)
       end
     end
 

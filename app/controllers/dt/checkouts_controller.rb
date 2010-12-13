@@ -271,10 +271,14 @@ class Dt::CheckoutsController < DtApplicationController
         # params[:order][:tmp_card_number] = nil
         if transaction_successful
           @cart.update_attribute(:order_id, @order.id)
-          # remove the donation if it's a $0 amounnt since that makes an invalid investment
-          if @cart.donation && @cart.donation.item.amount == 0
+          # remove the donation if it's a $0 amount since that makes an invalid investment
+          # also remove it if this is a directed gift (a gift card redemption)
+          if @cart.donation && self.directed_gift? || @cart.donation.item.amount == 0
             @cart.donation.destroy
+            @cart.reload
+            @cart.items.reload
           end
+
           # auto-push the send_at dates into the future, wherever necessary, to avoid silly validation errors
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now)) }
           # save the cart items into the db via the association
@@ -364,9 +368,7 @@ class Dt::CheckoutsController < DtApplicationController
   
   def directed_gift
     @directed_gift = false
-    return true if (params[:unallocated_gift].nil? || params[:unallocated_gift].empty?) && 
-                   (params[:admin_gift].nil? || params[:admin_gift].empty?) && 
-                   (params[:directed_gift].nil? || params[:directed_gift].empty?)
+    return true if !self.directed_gift?
     @cart = find_cart
     if params[:unallocated_gift] == "1"
       project = Project.unallocated_project
@@ -386,7 +388,6 @@ class Dt::CheckoutsController < DtApplicationController
     @investment.user_ip_addr = request.remote_ip
 
     @valid_investment = @investment.valid?
-
 
     if @valid_investment
       @directed_gift = true
@@ -409,6 +410,10 @@ class Dt::CheckoutsController < DtApplicationController
     exception_data :additional_data
     def additional_data
       { :cart => @cart }
+    end
+
+    def directed_gift?
+      params[:unallocated_gift].present? || params[:admin_gift].present? || params[:directed_gift].present?
     end
 
 end
