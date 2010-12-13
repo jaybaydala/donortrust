@@ -295,7 +295,25 @@ class Order < ActiveRecord::Base
       order
     end
   end
-  
+
+  def self.transfer_balance(from_user, to_user)
+    if from_user.balance > 0
+      Order.transaction do
+        order = Order.new
+        order.user = from_user
+        order.first_name = from_user.first_name
+        order.last_name = from_user.last_name
+        order.email = from_user.login
+        order.account_balance_payment = from_user.balance
+        order.transfer = true
+        order.deposits.build(:amount => from_user.balance, :user => to_user)
+        order.save!
+        order.update_attribute(:complete, true)
+      end
+    end
+    order || false
+  end
+
   def tax_receipt_needed?
     self.tax_receipt_requested? && self.credit_card_payment?
   end
