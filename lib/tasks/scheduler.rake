@@ -12,7 +12,18 @@ namespace :scheduler do
     # puts @users.map(&:last_logged_in_at)
     puts "[#{Time.now.utc.to_s}] Old Account Reminder Emails Sent: #{@users.size} [#{@users.map(&:id).join(', ')}]"
   end
+
+  desc "Process stale accounts"
+  task :process_stale_accounts => :environment do
+    puts "[#{Time.now.utc.to_s}] Checking for Old Accounts to process"
+    @expired_by = 1.year.ago
+    @expired_users = []
+    @expired_users = User.expired.all.select{|user| user.balance > 0 }
+    @expired_users.each {|user| user.expire_account_balance }
+    puts "[#{Time.now.utc.to_s}] Expired Account Emails Sent: #{@expired_users.size} [#{@expired_users.map(&:id).join(', ')}]"
+  end
   
+
   desc "Send scheduled gifts"
   task :gift_mailer => :environment do
     puts "[#{Time.now.utc.to_s}] Checking for scheduled Gifts to Email"
