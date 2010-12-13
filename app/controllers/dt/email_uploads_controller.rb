@@ -7,7 +7,11 @@ class Dt::EmailUploadsController < DtApplicationController
   end
   
   def create
-    emails = EmailParser.new(params[:email_upload][:email_file]).parse_upload
+    emails = if params[:email_upload] && params[:email_upload][:email_file]
+      EmailParser.new(params[:email_upload][:email_file]).parse_upload
+    else
+      []
+    end
     responds_to_parent do
       render :update do |page|
         if emails.empty?
