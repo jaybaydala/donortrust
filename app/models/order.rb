@@ -309,9 +309,9 @@ class Order < ActiveRecord::Base
         order.deposits.build(:amount => from_user.balance, :user => to_user)
         order.save!
         order.update_attribute(:complete, true)
+        order
       end
     end
-    order || false
   end
 
   def tax_receipt_needed?
