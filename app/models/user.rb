@@ -54,6 +54,11 @@ class User < ActiveRecord::Base
     :s3_credentials => File.join(Rails.root, "config", "aws.yml")
   validates_attachment_size :image, :less_than => 10.megabyte,  :unless => Proc.new {|model| model.image }
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png),:unless => Proc.new {|model| model.image } # the last 2 for IE
+  
+  named_scope :expired, proc{|expired_on|
+    expired_on ||= 1.year.ago
+    { :conditions => ["last_logged_in_at IS NOT NULL AND last_logged_in_at <= ?", expired_on] }
+  }
 
 
   # Virtual attribute for the unencrypted password"
@@ -262,6 +267,20 @@ class User < ActiveRecord::Base
 
   def send_account_reminder
     DonortrustMailer.deliver_account_expiry_reminder(self)
+  end
+
+  def expire_account_balance
+    if self.balance > 0
+      # find the allocations user and move the balance to them
+      allocations_user_id = ApplicationSetting.find_by_slug("allocations_user").value
+      if allocations_user_id.present? && User.exists?(allocations_user_id)
+        User.transaction do
+          allocations_user = User.find(allocations_user_id)
+          order = Order.transfer_balance(self, allocations_user)
+          DonortrustMailer.deliver_account_expiry_processed(self) if order && !order.new_record?
+        end
+      end
+    end
   end
 
   def is_cf_admin?
