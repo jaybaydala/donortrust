@@ -12,6 +12,8 @@ set :default_stage, "staging"
 set :repository,  "git@github.com:jaybaydala/donortrust.git"
 set :branch, "master"
 
+set :keep_releases, 5
+
 set :scm, :git
 set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
