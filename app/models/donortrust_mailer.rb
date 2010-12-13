@@ -45,6 +45,14 @@ class DonortrustMailer < ActionMailer::Base
     subject  "Your UEnd: account"
     body :user => user, :host => HTTP_HOST, :url => dt_projects_url(:host => HTTP_HOST)
   end
+
+  def account_expiry_processed(user)
+    recipients  "info@uend.org"
+    from        "info@uend.org"
+    sent_on     Time.now
+    subject  "Expired UEnd: account"
+    body :user => user, :host => HTTP_HOST, :url => dt_projects_url(:host => HTTP_HOST)
+  end
   
   def wishlist_mail(share, project_ids)
     content_type "text/html"
