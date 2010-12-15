@@ -5,11 +5,11 @@ class Dt::UpoweredController < DtApplicationController
     @page = Page.find_by_permalink("upowered")
     # @page_sidebar = Page.find_by_permalink("upowered_sidebar")
     begin
-     if RAILS_ENV == "production"
-      @rss_sidebar = last_rss_entry("http://upowered.uend.org/?feed=rss2")
-     else
-      @rss_sidebar = last_rss_entry("http://upowered-test.uend.org/?feed=rss2")
-     end
+      if Rails.env == "production"
+        @rss_sidebar = last_rss_entry("http://upowered-test.uend.org/?feed=rss2")
+      else
+        @rss_sidebar = last_rss_entry("http://upowered.uend.org/?feed=rss2")
+      end
     rescue Exception
     end
     @progress_widgets = StatisticWidget.all(:order => :position, :conditions => ["active=?",true], :limit => 2)
