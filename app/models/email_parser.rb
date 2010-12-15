@@ -20,7 +20,7 @@ class EmailParser
       rescue TMail::SyntaxError
         @errors << email
       else
-          @emails << email unless @emails.detect{|e| e.address == email.address }
+        @emails << email unless @emails.detect{|e| e.address == email.address }
       end
     end  
     @emails
