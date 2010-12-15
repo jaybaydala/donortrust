@@ -16,7 +16,6 @@ namespace :scheduler do
   desc "Process stale accounts"
   task :process_stale_accounts => :environment do
     puts "[#{Time.now.utc.to_s}] Checking for Old Accounts to process"
-    @expired_by = 1.year.ago
     @expired_users = []
     @expired_users = User.expired.all.select{|user| user.balance > 0 }
     @expired_users.each {|user| user.expire_account_balance }
