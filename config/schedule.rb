@@ -20,7 +20,7 @@ every 4.hours do
 end
 
 every 1.day, :at => '3:50am' do
-  rake "-s scheduler:process_stale_accounts"
+  rake "--trace scheduler:process_stale_accounts"
 end
 
 every 1.day, :at => '6:50am' do
