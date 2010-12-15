@@ -29,6 +29,7 @@ set :user, "ideaca"
 set :group, "users"
 
 after "deploy:update_code", "deploy:configure_stuff"
+after "deploy:restart", "deploy:cleanup"
 
 namespace :deploy do
 
