@@ -12,13 +12,14 @@ class Dt::EmailUploadsController < DtApplicationController
     else
       []
     end
+    
     responds_to_parent do
       render :update do |page|
         if emails.empty?
           page << "$('uploadnotification').innerHTML = '<div class=\"notice\">Please add a file to upload!</div>';"
           page << "$('uploadnotification').highlight();"
         else
-          emails.collect!{|email| helpers.escape_javascript(email.to_s) }
+          emails.map!(&:to_s)
           page << "emails = '';"
           page << "if($('recipients').value != '') emails += $('recipients').value + ', ';"
           page << "emails += '#{emails.join(',\n')}';"
@@ -29,15 +30,4 @@ class Dt::EmailUploadsController < DtApplicationController
       end
     end
   end
-
-  protected
-    def helpers
-      Helper.instance
-    end
-
-    class Helper
-      include Singleton
-      include ActionView::Helpers::JavaScriptHelper
-      include ActionView::Helpers::TextHelper
-    end
 end
