@@ -6,7 +6,7 @@ set :output, File.expand_path("#{__FILE__}/../log/cron.log")
 # The server can probably handle multiple of these at a time, but it doesn't hurt to spread it out either
 
 every 15.minutes do
-  rake "-s scheduler:gift_mailer"
+  rake "--trace scheduler:gift_mailer"
 end
 
 %w(42 22 2).each do |at|

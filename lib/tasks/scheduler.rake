@@ -22,7 +22,6 @@ namespace :scheduler do
     @expired_users.each {|user| user.expire_account_balance }
     puts "[#{Time.now.utc.to_s}] Expired Account Emails Sent: #{@expired_users.size} [#{@expired_users.map(&:id).join(', ')}]"
   end
-  
 
   desc "Send scheduled gifts"
   task :gift_mailer => :environment do
