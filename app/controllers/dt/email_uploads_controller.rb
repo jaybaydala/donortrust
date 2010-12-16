@@ -8,7 +8,7 @@ class Dt::EmailUploadsController < DtApplicationController
   
   def create
     emails = if params[:email_upload] && params[:email_upload][:email_file]
-      EmailParser.new(params[:email_upload][:email_file]).parse_upload
+      EmailParser.new(params[:email_upload][:email_file], params[:email_upload][:remove_dups] == '1').parse_upload
     else
       []
     end

@@ -6,9 +6,14 @@
         <li>
           <label for="email_upload_email_file" class="left" style="width:99%;">
             Upload File <%= f.file_field :email_file %>
-            <%= submit_tag 'Upload File' %>
           </label>
           <div class="note" style="margin:0;">We support importing contacts in the CSV file format (Comma Separated Values). For best results, please use a CSV file produced by Outlook, Outlook Express, Yahoo!, or Hotmail. For Apple Address Book, there is a useful utility called "<a href="http://www.google.com/search?q=a+to+g" target="_blank">A to G</a>".</div>
+        </li>
+        <li>
+          <label for="email_upload_remove_dups" class="left" style="width:99%;">
+            <%= submit_tag 'Upload File' %>
+            <%= f.check_box :remove_dups, { :checked => "checked" } %> Remove Duplicate Emails
+          </label>
         </li>
       </ol>
     </fieldset>  

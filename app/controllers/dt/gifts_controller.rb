@@ -84,7 +84,7 @@ class Dt::GiftsController < DtApplicationController
     if params[:recipients] && !params[:recipients].empty?
       @gifts = []
       @errors = []
-      email_parser = EmailParser.new(params[:recipients])
+      email_parser = EmailParser.new(params[:recipients], params[:remove_dups] == '1')
       email_parser.parse_list
       if email_parser.errors.empty?
         email_parser.emails.each do |email|
