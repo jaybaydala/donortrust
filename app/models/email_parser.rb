@@ -2,7 +2,8 @@ require 'faster_csv'
 require 'tmail'
 class EmailParser
   attr_reader :emails, :data, :errors
-  def initialize(file_or_data)
+  def initialize(file_or_data, remove_dups = true)
+    @remove_dups = remove_dups
     @emails = []
     @errors = []
     
@@ -20,7 +21,11 @@ class EmailParser
       rescue TMail::SyntaxError
         @errors << email
       else
-        @emails << email unless @emails.detect{|e| e.address == email.address }
+        if @remove_dups
+          @emails << email unless @emails.detect{|e| e.address == email.address }
+        else
+          @emails << email
+        end
       end
     end  
     @emails
@@ -31,7 +36,11 @@ class EmailParser
       begin
         email = TMail::Address.parse(email)      
         if valid?(email.address)
-          @emails << email unless @emails.detect{|e| e.address == email.address }
+          if @remove_dups
+            @emails << email unless @emails.detect{|e| e.address == email.address }
+          else
+            @emails << email
+          end
         else
           @errors << email.address.to_s
         end
