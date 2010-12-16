@@ -38,7 +38,7 @@
       <%- end -%>
       <%- if pledge_account -%>
         <li>
-          <label class="left" style="font-style:italic;">Your Current <%= pledge_account.campaign.name %> Pledge Account Balance: <%= number_to_currency(pledge_account.balance) %></label>
+          <label class="left" style="font-style:italic;">Your Current Pledge Account Balance <%= " for #{pledge_account.campaign.name}" if pledge_account && pledge_account.campaign %>: <%= number_to_currency(pledge_account.balance) %></label>
           <%= f.hidden_field :pledge_account_payment_id, :value => pledge_account.id %>
           <%= hidden_field_tag :pledge_account_balance, pledge_account.balance %>
         </li>

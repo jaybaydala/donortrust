@@ -1,4 +1,4 @@
 <li>
-  <label>Take from my <%= pledge_account.campaign.name %> Pledge Account:</label> 
+  <label>Take from my Pledge Account<%= " for #{pledge_account.campaign.name}" if pledge_account && pledge_account.campaign %>:</label> 
   $<%= f.text_field :pledge_account_payment, :value => number_with_precision(@order.pledge_account_payment, 2) %>
 </li>
