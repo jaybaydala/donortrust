@@ -9,6 +9,10 @@
 	<% end %>
 </div>
 
+<%- if @search.size.blank? -%>
+  <p>We couldn't find any results for those search terms. <%= link_to "Please try another search", dt_projects_path %>.</p>
+<%- end -%>
+
 <% if @search.size > 0 %>
 
 <div id="subnav" style="padding-left:0;">
