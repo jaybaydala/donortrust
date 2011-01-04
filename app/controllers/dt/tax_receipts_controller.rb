@@ -23,6 +23,7 @@ class Dt::TaxReceiptsController < DtApplicationController
         end
       }
       format.pdf {
+        raise ActiveRecord::RecordNotFound unless @receipt
         pdf = create_pdf_proxy(@receipt)
         send_data pdf.render, :filename => pdf.filename, :type => "application/pdf"
         pdf.post_render
