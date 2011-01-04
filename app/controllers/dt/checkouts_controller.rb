@@ -271,13 +271,10 @@ class Dt::CheckoutsController < DtApplicationController
         # params[:order][:tmp_card_number] = nil
         if transaction_successful
           @cart.update_attribute(:order_id, @order.id)
-          # remove the donation if it's a $0 amount since that makes an invalid investment
-          # also remove it if this is a directed gift (a gift card redemption)
-          if @cart.donation && self.directed_gift? || @cart.donation.item.amount == 0
-            @cart.donation.destroy
-            @cart.reload
-            @cart.items.reload
-          end
+          # remove the donation if this is a directed gift (a gift card redemption)
+          remove_cart_donation if self.directed_gift? && @cart.donation
+          # remove the donation if it's a $0 donation amount since that makes an invalid investment
+          remove_cart_donation if @cart.donation && (@cart.donation.item.blank? || (@cart.donation.item.present? && @cart.donation.item.amount == 0))
 
           # auto-push the send_at dates into the future, wherever necessary, to avoid silly validation errors
           @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now)) }
@@ -402,6 +399,12 @@ class Dt::CheckoutsController < DtApplicationController
   end
 
   protected
+    def remove_cart_donation
+      @cart.donation.destroy
+      @cart.reload
+      @cart.items.reload
+    end
+
     def paginate_cart
       @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
     end
