@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :news_comments
-  map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
   map.namespace(:dt) do |dt|
     dt.resource :upowered, :controller => "upowered"
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
@@ -130,6 +128,9 @@ ActionController::Routing::Routes.draw do |map|
                                                           :decrease_gifts => :get,
                                                           :request_gift => :get }
   end
+
+  map.resources :news_comments
+  map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
 
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code.:format', :controller => 'dt/tax_receipts', :action => "show"
@@ -273,6 +274,17 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
   map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
   map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners'
+
+  #
+  # Campaigns
+  #
+  map.resources :campaigns, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/campaigns', :member => { :close => :put }
+  map.resources :teams, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/teams'
+  map.resources :participants, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/participants'
+  map.resources :campaign_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/campaign_types'
+  map.resources :cause_limits, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/cause_limits'
+  map.resources :place_limits, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/place_limits'
+  map.resources :partner_limits, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/partner_limits'
 
   #
   # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
