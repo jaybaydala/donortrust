@@ -22,6 +22,9 @@ class Dt::AccountsController < DtApplicationController
   # GET /dt/accounts/1/transactions
   def transactions
     @user = User.find(params[:id], :include => [:projects])
+    if @user != current_user
+      redirect_to transactions_dt_account_path(current_user) and return
+    end
     @transactions = []
     @transactions << @user.gifts
     @transactions << @user.investments
