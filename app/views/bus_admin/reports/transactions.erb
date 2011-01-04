@@ -10,8 +10,8 @@ FasterCSV.generate do |csv|
   # name, email, city) - when they started/stopped - current total that they've given
   csv << ["Order ID", "Completed at", "Amount", "User Name", "User ID", "Gift Card Payment", "Gift Card Payment ID", 
           "Pledge Account Payment", "Pledge Account Payment ID", "Account Balance Payment", "Offline Fund Payment", "Credit Card Payment", 
-          "CC Auth Result", "Deposit(s)", "Gift(s)", "Gift Card ID", "Pledge(s)", "Pledge Campaign Name", "Pledge Campaign ID", 
-          "Investment", "Investment Project Name", "Investment Project ID", "Investment Partner", "Notes"]
+          "CC Auth Result", "Notes", "Deposit(s)", "Gift(s)", "Gift Card ID", "Pledge(s)", "Pledge Campaign Name", "Pledge Campaign ID", 
+          "Investment", "Investment Project Name", "Investment Project ID", "Investment Partner"]
   @orders.each do |order|
     rows = [order.investments.count, order.deposits.count, order.gifts.count, order.pledges.count].max
     (0..rows-1).each do |row_index|
@@ -32,7 +32,7 @@ FasterCSV.generate do |csv|
         data << order.authorization_result
         data << order.notes
       else
-        data = [order.id, "", "", "", "", "", "", "", "", "", "", ""]
+        data = [order.id, "", "", "", "", "", "", "", "", "", "", "", "", ""]
       end
       if order.deposits[row_index].nil?
         data << ""
