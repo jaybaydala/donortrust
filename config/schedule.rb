@@ -16,7 +16,7 @@ end
 end
 
 every 4.hours do
-  rake "-s rake ultrasphinx:index:main"
+  rake "-s ultrasphinx:index"
 end
 
 every 1.day, :at => '3:50am' do
