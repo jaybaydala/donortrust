@@ -22,7 +22,7 @@ describe Dt::DepositsController do
     controller.stub!(:current_user).and_return(@user)
     controller.stub!(:logged_in?).and_return(true)
     
-    @deposit = mock_model(Deposit)
+    @deposit = Factory.build(:deposit)
     Deposit.stub!(:new).and_return(@deposit)
   end
 
@@ -85,8 +85,9 @@ describe Dt::DepositsController do
     describe "valid deposit" do
       before do
         @deposit.should_receive(:valid?).any_number_of_times.and_return(true)
-        @cart = Cart.new
+        @cart = Cart.create
         Cart.stub!(:new).and_return(@cart)
+        Cart.stub!(:create).and_return(@cart)
       end
       
       it "should find_cart" do

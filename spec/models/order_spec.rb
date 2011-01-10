@@ -7,6 +7,10 @@ describe Order do
     @order = Order.new(:email => "user@example.com")
   end
   
+  it "should create an order properly with default values" do
+    Order.create! Factory.build(:order).attributes
+  end
+  
   it "should initialize with donor_type == 'personal'" do
     @order.donor_type.should == Order.personal_donor
   end
