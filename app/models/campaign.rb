@@ -1,104 +1,47 @@
 class Campaign < ActiveRecord::Base
-  # after_save :make_uploads_world_readable
-  belongs_to :campaign_type
-  belongs_to :creator, :class_name => 'User', :foreign_key => 'user_id'
-
-  # wall posts
-  has_many :wall_posts, :as =>:postable, :dependent => :destroy
-
-  # news items
-  has_many :news_items, :as =>:postable, :dependent => :destroy
-
-  has_many :teams, :dependent => :destroy
-  has_many :participants, :through => :teams
-
-  has_and_belongs_to_many :projects
-
-  has_many :place_limits
-  has_many :places, :through => :place_limits
-
-  has_many :cause_limits
-  has_many :causes, :through => :cause_limits
-
-  has_many :partner_limits
-  has_many :partners, :through => :partner_limits
-
-  has_many :pledges
-  has_many :investments
-
-  has_one :default_team, :dependent => :destroy, :class_name => "Team"
-
   attr_accessor :use_user_email
 
-  def update_attributes(attributes=nil)
-    projects.clear    
-    super
-  end
+  after_create :create_default_team
 
-  is_indexed :fields=> [
-      {:field => 'name', :sortable => true},
-      {:field => 'description'},
-      {:field => 'city'},
-      {:field => 'province'},
-      {:field => 'country'}
-    ], 
-    :delta => true, 
-    :include => [
-          {:class_name => 'Team',
-            :field => 'teams.name',
-            :as => 'team_name',
-            :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"
-           },
-           {
-             :class_name=> 'Team',
-             :field => 'teams1.short_name',
-             :as => 'team_short_name',
-             :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"
-           },
-           {
-             :class_name => 'Team',
-             :field => 'teams2.description',
-             :as => 'team_description',
-             :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"
-           }
-          ]
+  belongs_to :campaign_type
+  belongs_to :creator, :class_name => 'User', :foreign_key => 'user_id'
+  has_and_belongs_to_many :projects
+  has_many :cause_limits
+  has_many :causes, :through => :cause_limits
+  has_many :investments
+  has_many :news_items, :as => :postable, :dependent => :destroy
+  has_many :participants, :through => :teams
+  has_many :place_limits
+  has_many :places, :through => :place_limits
+  has_many :partner_limits
+  has_many :partners, :through => :partner_limits
+  has_many :pledges
+  has_many :teams, :dependent => :destroy
+  has_many :wall_posts, :as =>:postable, :dependent => :destroy
+  has_one :default_team, :dependent => :destroy, :class_name => "Team"
 
-  #validations
-  validates_presence_of :name, :campaign_type, :description, :fundraising_goal, :creator, :short_name
-  # validates_presence_of :country, :province, :postalcode
-
-  #Deal with postal code in terms of Canada
   validates_format_of :postalcode, :with => /(\D\d){3}/, :if => :in_canada?, :allow_blank => true, :message => "In Canada the proper format for postal code is: A9A9A9, Where A is a leter between A-Z and 9 is a number between 0 - 9."
-  validates_length_of :postalcode, :is => 6, :if => :in_canada?, :allow_blank => true
-
-  #Deal with Zip code in terms of USA
-  validates_numericality_of :postalcode, :if => :in_usa?, :allow_blank => true, :message => "Zip codes must be a number."
-  validates_length_of :postalcode, :is => 5, :if => :in_usa?, :allow_blank => true
-
-  validates_uniqueness_of :short_name, :message => "the short name is not unique"
   validates_format_of :short_name, :with => /\w/, :message => "the short name must start with an alphabetic character (a-z)"
-  validates_length_of :short_name, :within => 4...60
   validates_format_of :short_name, :with => /^[a-zA-Z0-9_]+$/, :message => "Short name can only contain letters, numbers, and underscores."
-
-  validates_length_of :name, :within => 4..255
+  validates_length_of :postalcode, :is => 5, :if => :in_usa?, :allow_blank => true
   validates_length_of :description, :minimum => 10
-
+  validates_length_of :name, :within => 4..255
+  validates_length_of :short_name, :within => 4...60
+  validates_length_of :postalcode, :is => 6, :if => :in_canada?, :allow_blank => true
   validates_numericality_of :fundraising_goal, :fee_amount, :greater_than_or_equal_to => 0, :allow_nil => true
+  validates_numericality_of :postalcode, :if => :in_usa?, :allow_blank => true, :message => "Zip codes must be a number."
   validates_numericality_of :max_number_of_teams, :max_size_of_teams, :max_participants, :fee_amount, :greater_than_or_equal_to => 0, :only_integer => true, :allow_nil => true
+  validates_presence_of :name, :campaign_type, :description, :fundraising_goal, :creator, :short_name
+  validates_uniqueness_of :short_name, :message => "the short name is not unique"
 
   image_column  :picture,
                 :versions => { :thumb => "75x75", :full => "150x150"  },
                 :filename => proc{|inst, orig, ext| "campaign_#{inst.id}.#{ext}"},
                 :store_dir => "uploaded_pictures/campaign_pictures"
-                
-                
-  # validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
-
   IMAGE_SIZES = {
     :full => {:width => 150, :height => 150, :modifier => ">"},
     :thumb => {:width => 75, :height => 75, :modifier => ">"}
   }
-  
   has_attached_file :image, :styles => Hash[ *IMAGE_SIZES.collect{|k,v| [k, "#{v[:width]}x#{v[:height]}#{v[:modifier]}"] }.flatten ], 
     :whiny_thumbnails => true,
     :default_style => :normal,
@@ -114,7 +57,35 @@ class Campaign < ActiveRecord::Base
     :if => Proc.new {|c| c.image_file_name? }
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png), # the last 2 for IE
     :if => Proc.new {|c| c.image_file_name? }
-
+  is_indexed :delta => true, 
+  :fields => [
+    {:field => 'name', :sortable => true},
+    {:field => 'description'},
+    {:field => 'city'},
+    {:field => 'province'},
+    {:field => 'country'}
+  ], 
+  
+  :include => [
+    {
+      :class_name => 'Team',
+      :field => 'teams.name',
+      :as => 'team_name',
+      :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"
+    },
+    {
+      :class_name=> 'Team',
+      :field => 'teams1.short_name',
+      :as => 'team_short_name',
+      :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"
+    },
+    {
+      :class_name => 'Team',
+      :field => 'teams2.description',
+      :as => 'team_description',
+      :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"
+    }
+  ]
 
   def before_validation
     if use_user_email == "1"
@@ -130,46 +101,33 @@ class Campaign < ActiveRecord::Base
     self.postalcode = postalcode.sub(' ', '') if not postalcode.blank? # remove any spaces.
   end
 
-  def valid?
-    if errors.count > 0
-      puts "Errors: " + errors.full_messages.to_s
-    end
-
-    return super
+  def update_attributes(attributes=nil)
+    projects.clear
+    super
   end
 
   def can_be_closed?(current_user=nil)
-    if not current_user.nil?
-      if current_user != :false
-        if owned?(current_user)
-          if not funds_allocated
-            if Time.now.utc > raise_funds_till_date.utc
-              if Time.now.utc < allocate_funds_by_date.utc
-                return true
-              end
-            end
-          end
+    if current_user.present? && owned?(current_user) && !funds_allocated
+      if Time.now.utc > raise_funds_till_date.utc
+        if Time.now.utc < allocate_funds_by_date.utc
+          return true
         end
       end
     end
-
     return false
+  end
+  
+  def close
+    
   end
 
   def validate
-    errors.add('start_date',"must be before the event date.")if start_date > event_date
-    errors.add('start_date',"must be before the \"Raise Funds Till\" date.")if start_date > raise_funds_till_date
-    errors.add('allocate_funds_by_date',"must be after the \"Raise Funds Till\" date.")if allocate_funds_by_date < raise_funds_till_date
-    errors.add('email',"Must provide an email to use for contact." ) if email == ""
-
-    if in_canada?
-      errors.add('postalcode',"Is not correct for your province") if postalcode? && !postalcode_matches_province?
-    end
-
-    if in_usa?
-      errors.add('postalcode',"Is not correct for your state") if postalcode? && !zipcode_matches_state?
-    end
-
+    errors.add('start_date',"must be before the event date.") if start_date > event_date
+    errors.add('start_date',"must be before the \"Raise Funds Till\" date.") if start_date > raise_funds_till_date
+    errors.add('allocate_funds_by_date',"must be after the \"Raise Funds Till\" date.") if allocate_funds_by_date < raise_funds_till_date
+    errors.add('email',"Must provide an email to use for contact." ) if email.blank?
+    errors.add('postalcode',"Is not correct for your province") if in_canada? && postalcode? && !postalcode_matches_province?
+    errors.add('postalcode',"Is not correct for your state") if in_usa? && postalcode? && !zipcode_matches_state?
   end
 
   def has_project?(project)
@@ -178,14 +136,7 @@ class Campaign < ActiveRecord::Base
         return true
       end
     end
-
     return false
-  end
-
-  def after_save
-    if not self.allow_multiple_teams? # if only one team is allowed build the container team.
-      Team.create :name => self.name, :short_name => self.short_name, :description => self.description, :campaign_id => self.id, :contact_email => self.email, :user_id => self.user_id, :pending => 0
-    end
   end
 
   def funds_raised
@@ -342,10 +293,9 @@ class Campaign < ActiveRecord::Base
       (zipArray[postalcode.chars.first.to_i] =~ province) != nil
     end
 
-    # def make_uploads_world_readable
-    #   return if picture.nil?
-    #   list = self.picture.versions.map {|version, image| image.path }
-    #   list << self.picture.path
-    #   FileUtils.chmod_R(0644, list) unless list.empty?
-    # end
+    def create_default_team
+      unless self.allow_multiple_teams? # if only one team is allowed build the container team.
+        self.teams.create(:name => self.name, :short_name => self.short_name, :description => self.description, :goal => self.fundraising_goal, :contact_email => self.email, :user_id => self.user_id, :pending => 0)
+      end
+    end
 end
