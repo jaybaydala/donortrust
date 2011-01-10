@@ -138,10 +138,10 @@ class Campaign < ActiveRecord::Base
     return super
   end
 
-  def can_be_closed?
+  def can_be_closed?(current_user=nil)
     if not current_user.nil?
       if current_user != :false
-        if owned?
+        if owned?(current_user)
           if not funds_allocated
             if Time.now.utc > raise_funds_till_date.utc
               if Time.now.utc < allocate_funds_by_date.utc
