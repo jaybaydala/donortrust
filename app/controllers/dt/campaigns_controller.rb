@@ -28,7 +28,7 @@ class Dt::CampaignsController < DtApplicationController
     @user_in_campaign = user_in_campaign(current_user)
 
     #determine if the user can close the campaign
-    @can_close_campaign = @campaign.can_be_closed?
+    @can_close_campaign = @campaign.can_be_closed?(current_user)
 
     @can_sponsor_participant = false
     if @campaign.start_date.utc < Time.now.utc
@@ -243,22 +243,21 @@ class Dt::CampaignsController < DtApplicationController
     #get the total amount that we have to allocate
     total_funds = @campaign.funds_raised
 
-    projects_to_contribute_to = Array.new
+    projects_to_contribute_to = []
 
-    if not @campaign.projects.empty?
-      @campaign.projects.each do |p|
-          projects_to_contribute_to.push(p)
-      end
-    else
+    if @campaign.projects.empty?
       projects_to_contribute_to.push(Project.find(:all, :conditions => "id not in (10,11)"))
+    else
+      @campaign.projects.each do |p|
+        projects_to_contribute_to.push(p)
+      end
     end
 
     puts "We are going to allocate #{total_funds}"
 
     unallocated_funds = total_funds
     project_contributions = {}
-    fully_allocated_projects = Array.new
-
+    fully_allocated_projects = []
     while unallocated_funds > 0
       amount_per_project = unallocated_funds / projects_to_contribute_to.size
       puts "Attempting to allocate " + amount_per_project.to_s + " to each project"
