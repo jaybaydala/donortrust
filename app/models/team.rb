@@ -3,6 +3,7 @@ class Team < ActiveRecord::Base
   # associations
   belongs_to :campaign
   belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
+  belongs_to :user
 
   has_many :participants
   has_many :users, :through => :participants

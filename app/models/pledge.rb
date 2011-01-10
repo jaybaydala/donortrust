@@ -4,6 +4,7 @@ class Pledge < ActiveRecord::Base
   belongs_to :participant
   belongs_to :team
   belongs_to :campaign
+  belongs_to :order
   belongs_to :user
   has_one :pledge_deposit
 
