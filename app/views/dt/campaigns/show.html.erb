@@ -77,7 +77,9 @@
       <li><%= link_to('Manage Campaign', manage_dt_campaign_path(@campaign)) %></li>
       <li><%= link_to('Edit Campaign Profile', edit_dt_campaign_path(@campaign)) %></li>
       <li><%= link_to('Post News to your Campaign', manage_dt_campaign_path(@campaign)+"#news") %></li>
-      <li><%= link_to('Close Campaign', dt_campaign_path(@campaign) + "/close", :confirm => "By closing this campaign you will allocate all the funds raised to the projects you have selected on the project profile screen.  Are you sure you want to close this campaign?\n*NOTE* This action can not be undone") if @can_close_campaign %></li>
+      <li><%= @campaign.can_be_closed?(current_user).inspect %></li>
+
+      <li><%= link_to('Close Campaign', dt_campaign_path(@campaign) + "/close", :confirm => "By closing this campaign you will allocate all the funds raised to the projects you have selected on the project profile screen.  Are you sure you want to close this campaign?\n*NOTE* This action can not be undone") if @campaign.can_be_closed?(current_user) %></li>
     </ul>
   </div>
 <% end %>
