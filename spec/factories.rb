@@ -1,26 +1,11 @@
 require 'factory_girl'
 
-Factory.sequence :campaign_short_name do |n|
-  "campaign_short_name_#{n}"
-end
-
-Factory.sequence :participant_short_name do |n|
-  "participant_short_name_#{n}"
-end
-Factory.sequence :team_short_name do |n|
-  "team_short_name_#{n}"
-end
-
 Factory.sequence :email do |n|
   "email#{n}@example.com"
 end
-Factory.define :user do |u|
-  u.login { Factory.next(:email) }
-  u.password 'Secret123'
-  u.password_confirmation 'Secret123'
-  u.terms_of_use '1'
-  u.display_name { Faker::Name.name }
-  u.country 'Canada'
+
+Factory.sequence :campaign_short_name do |n|
+  "campaign_short_name_#{n}"
 end
 
 Factory.define :campaign do |a|
@@ -46,6 +31,11 @@ Factory.define :campaign_type do |a|
   a.has_teams { [true, false].rand }
 end
 
+Factory.define :contact do |c|
+  c.first_name { Faker::Name.first_name }
+  c.last_name { Faker::Name.last_name }
+end
+
 Factory.define :deposit do |d|
   d.amount 100
   d.association :user, :factory => :user
@@ -69,6 +59,10 @@ Factory.define :order do |o|
   o.cvv 989
 end
 
+
+Factory.sequence :participant_short_name do |n|
+  "participant_short_name_#{n}"
+end
 Factory.define :participant do |p|
   p.association :team, :factory => :team
   p.association :user, :factory => :user
@@ -80,6 +74,48 @@ Factory.define :participant do |p|
   p.active true
 end
 
+Factory.define :partner do |p|
+  p.name { "#{Faker::Lorem.words(3).join(" ")} Partner"}
+  p.description "Partner description"
+  p.association :partner_status
+end
+
+Factory.sequence :partner_status_name do |n|
+  "PartnerStatusName#{n}"
+end
+
+Factory.define :partner_status do |p|
+  p.name { Factory.next(:partner_status_name) }
+  p.description "Partner Status Description"
+end
+
+Factory.define :place do |p|
+  p.name { "#{Faker::Lorem.words(5).join(" ")} Place"}
+  p.association :place_type
+end
+
+Factory.define :place_type do |p|
+  p.name { "#{Faker::Lorem.words(5).join(" ")} PlaceType"}
+end
+
+Factory.define :program do |p|
+  p.name { "#{Faker::Lorem.words(5).join(" ")} Program"}
+  p.association :contact
+end
+
+Factory.define :project do |p|
+  p.name { "#{Faker::Lorem.words(5).join(" ")} Project"}
+  p.target_start_date Time.now
+  p.total_cost 25000
+  p.association :partner
+  p.association :place
+  p.association :program
+  p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
+end
+
+Factory.sequence :team_short_name do |n|
+  "team_short_name_#{n}"
+end
 Factory.define :team do |t|
   t.association :campaign, :factory => :campaign
   t.association :user, :factory => :user
@@ -92,4 +128,13 @@ Factory.define :team do |t|
   t.description { Faker::Lorem.paragraph }
   t.goal 500
   t.goal_currency "CAD"
+end
+
+Factory.define :user do |u|
+  u.login { Factory.next(:email) }
+  u.password 'Secret123'
+  u.password_confirmation 'Secret123'
+  u.terms_of_use '1'
+  u.display_name { Faker::Name.name }
+  u.country 'Canada'
 end
