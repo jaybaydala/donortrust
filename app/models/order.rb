@@ -43,6 +43,7 @@ class Order < ActiveRecord::Base
       user
     end
   end
+
   def build_user_from_order
     user = User.new
     user.login = self.email
@@ -57,7 +58,7 @@ class Order < ActiveRecord::Base
     user.terms_of_use = self.terms_of_use
     user
   end
-  
+
   # card number temporarily held in tmp_card_number
   attr_accessor :full_card_number
   def card_number=(number)
