@@ -13,13 +13,19 @@ class PledgeAccount < ActiveRecord::Base
   end
   def self.generate_user_campaign_account(user, campaign)
     existing_account = PledgeAccount.find(:first, :conditions => ["campaign_id=? AND user_id=? AND team_id IS NULL", campaign, user])
-    return existing_account unless existing_account.nil?
+    return existing_account if existing_account.present?
     pledge_account = PledgeAccount.create
     pledge_account.campaign = campaign
     pledge_account.user = user
     pledge_account.balance = Pledge.sum(:amount, :conditions => ["campaign_id=? and admin_user_id=?", campaign.id, user.id])
     # TODO - add to balance using a calculated Pledge.owner method
-    pledge_account.save
+    pledge_account.save!
     pledge_account
+  end
+  
+  def self.create_from_campaign!(campaign)
+    existing_account = PledgeAccount.find(:first, :conditions => ["campaign_id=? AND user_id=?", campaign, campaign.creator])
+    return existing_account if existing_account.present?
+    pledge_account = PledgeAccount.create!(:campaign => campaign, :user => campaign.creator, :balance => campaign.funds_raised)
   end
 end
