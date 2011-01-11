@@ -19,6 +19,7 @@ class Campaign < ActiveRecord::Base
   has_many :teams, :dependent => :destroy
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
   has_one :default_team, :dependent => :destroy, :class_name => "Team"
+  has_one :pledge_account
 
   validates_format_of :postalcode, :with => /(\D\d){3}/, :if => :in_canada?, :allow_blank => true, :message => "In Canada the proper format for postal code is: A9A9A9, Where A is a leter between A-Z and 9 is a number between 0 - 9."
   validates_format_of :short_name, :with => /\w/, :message => "the short name must start with an alphabetic character (a-z)"
@@ -118,7 +119,44 @@ class Campaign < ActiveRecord::Base
   end
   
   def close
-    
+    Order.transaction do
+      pledge_account = PledgeAccount.create_from_campaign!(self)
+      unless pledge_account.new_record?
+        cart = Cart.create!(:user_id => self.creator.id)
+        funds_left = pledge_account.balance
+        funds_per_project = (pledge_account.balance / projects_for_contribution.size).round(2)
+        projects_for_contribution.each do |p|
+          funds_for_this_project = funds_left > funds_per_project ? funds_per_project : funds_left
+          investment_amount = p.current_need > funds_for_this_project ? funds_for_this_project : p.current_need
+          funds_left = funds_left - investment_amount
+          # this uses our potential leftover penny up for odd numbers of projects
+          if funds_left == BigDecimal.new('0.01')
+            investment_amount += BigDecimal.new('0.01')
+            funds_left = 0
+          end
+          cart.add_item(Investment.new(:amount => investment_amount, :project => p, :user => self.creator))
+        end
+        if funds_left > 0
+          cart.add_item(Deposit.new(:amount => funds_left, :user => User.allocations_user))
+        end
+
+        order = Order.new({
+          :first_name => self.creator.first_name,
+          :last_name => self.creator.last_name,
+          :email => self.creator.email,
+          :user => self.creator,
+          :pledge_account_payment => pledge_account.balance,
+          :pledge_account_payment_id => pledge_account.id,
+          :complete => true
+        })
+        order.investments = cart.investments.select{|i| i.amount.present? }
+        order.deposits = cart.deposits.select{|i| i.amount.present? }
+        order.total = order.investments.inject(0){|sum, i| sum + i.amount }
+        order.validate_confirmation(cart)
+        order.save!
+        return order
+      end
+    end
   end
 
   def validate
@@ -140,15 +178,11 @@ class Campaign < ActiveRecord::Base
   end
 
   def funds_raised
-    total = 0;
-    for pledge in self.pledges
-      if pledge.paid
-        total = total + pledge.amount
-      end
+    total = self.pledges.inject(0) do |sum, pledge|
+      sum = sum + ( pledge.paid? ? pledge.amount : 0)
     end
-
-    self.teams.each do |t|
-      total = total + t.funds_raised
+    total = self.teams.inject(total) do |sum, t|
+      sum = sum + t.funds_raised
     end
 
     total
@@ -297,5 +331,20 @@ class Campaign < ActiveRecord::Base
       unless self.allow_multiple_teams? # if only one team is allowed build the container team.
         self.teams.create(:name => self.name, :short_name => self.short_name, :description => self.description, :goal => self.fundraising_goal, :contact_email => self.email, :user_id => self.user_id, :pending => 0)
       end
+    end
+    
+    def projects_for_contribution
+      projects_for_contribution = if self.projects.empty?
+        admin_projects = [Project.admin_project, Project.unallocated_project].compact
+        conditions = []
+        if admin_projects.present?
+          conditions << 'id not in (?)'
+          conditions << admin_projects.map(&:id)
+        end
+        Project.all(:conditions => conditions)
+      else
+        self.projects
+      end
+      projects_for_contribution = projects_for_contribution.select{|p| p.current_need > 0 }
     end
 end
