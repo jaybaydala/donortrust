@@ -6,6 +6,7 @@ class Pledge < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :order
   belongs_to :user
+  belongs_to :admin_user, :class_name => 'User'
   has_one :pledge_deposit
 
   has_one :user_transaction, :as => :tx
