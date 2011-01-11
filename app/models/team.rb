@@ -12,6 +12,7 @@ class Team < ActiveRecord::Base
   has_many :news_items, :as =>:postable, :dependent => :destroy
 
   has_many :pledges
+  has_one :pledge_account
 
   attr_accessor :use_user_email
 

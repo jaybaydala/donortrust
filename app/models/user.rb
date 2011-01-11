@@ -111,6 +111,10 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest("--#{salt}--#{password}--")
   end
 
+  def self.allocations_user
+    find_by_login('info@uend.org')
+  end
+
   def name
     return "#{self.first_name} #{self.last_name[0,1]}." if self.display_name.blank?
     self.display_name
