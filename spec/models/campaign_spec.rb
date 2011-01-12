@@ -12,14 +12,14 @@ describe Campaign do
   it "should create a default team if multiple teams are not allowed" do
     expect {
       Factory(:campaign, :allow_multiple_teams => false)
-    }.to change { Team.count }
+    }.to change { Team.count }.by(1)
   end
   
   describe "closing a completed campaign" do
     before do
       @allocations_user = Factory(:user)
       User.stub(:allocations_user).and_return(@allocations_user)
-      @projects = (1..4).map{ Factory(:project) }
+      @projects = (1..3).map{ Factory(:project) }
       @campaign = Factory(:campaign, :allow_multiple_teams => false)
       @campaign.projects = @projects
       @pledge_order = Factory(:order, :complete => true, :total => @campaign.fundraising_goal)
@@ -52,9 +52,20 @@ describe Campaign do
     end
     it "should split the amount evenly between available projects" do
       do_close
-      @campaign.projects.each do |p|
-        
-        @order.investments.find_by_project_id(p).amount.should == (@campaign.reload.funds_raised/@campaign.projects.count).round(2)
+      funds_left = @campaign.reload.funds_raised
+      max_per_project = (@campaign.reload.funds_raised/@campaign.projects.count).round(2)
+      project_investments ||= {}
+      # spread the funds out in the projects - this accounts for forgotten pennies
+      while funds_left > 0
+        @campaign.projects.each do |p|
+          project_investments[p.id] ||= 0
+          investment_amount = max_per_project < funds_left ? max_per_project : funds_left
+          project_investments[p.id] += investment_amount
+          funds_left -= investment_amount
+        end
+      end
+      project_investments.each do |project_id, amount|  
+        @order.investments.find_by_project_id(project_id).amount.should == amount
       end
     end
     it "should use the total amount in the Investments" do
@@ -68,7 +79,7 @@ describe Campaign do
         @full_project = @projects.first
         @full_project.stub(:current_need).and_return(0)
       end
-
+  
       it "shouldn't add an Investment to that project" do
         do_close
         Investment.find_by_project_id(@full_project).should be_nil

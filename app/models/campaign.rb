@@ -122,23 +122,42 @@ class Campaign < ActiveRecord::Base
     Order.transaction do
       pledge_account = PledgeAccount.create_from_campaign!(self)
       unless pledge_account.new_record?
-        cart = Cart.create!(:user_id => self.creator.id)
+        # this feels really cheesy to me somehow
         funds_left = pledge_account.balance
         funds_per_project = (pledge_account.balance / projects_for_contribution.size).round(2)
-        projects_for_contribution.each do |p|
-          funds_for_this_project = funds_left > funds_per_project ? funds_per_project : funds_left
-          investment_amount = p.current_need > funds_for_this_project ? funds_for_this_project : p.current_need
-          funds_left = funds_left - investment_amount
-          # this uses our potential leftover penny up for odd numbers of projects
-          if funds_left == BigDecimal.new('0.01')
-            investment_amount += BigDecimal.new('0.01')
+        transactions = []
+        possible_projects = projects_for_contribution
+        while funds_left > 0
+          possible_projects.each do |p|
+            # set up an initial blank transaction if one doesn't exist yet
+            transaction = transactions.detect{|i| i.project == p }
+            unless transaction
+              transaction = Investment.new(:amount => 0, :project => p, :user => self.creator)
+              transactions << transaction
+            end
+            # if the project doesn't need funding, skip and remove it (include amount that we're investing in this process)
+            if p.current_need - transaction.amount <= 0
+              possible_projects.delete(p)
+              next
+            end
+            # calculate the investment amount - no larger than the current funds_left
+            max_funds_for_this_project = funds_left > funds_per_project ? funds_per_project : funds_left
+            investment_amount = (p.current_need - transaction.amount) > max_funds_for_this_project ? max_funds_for_this_project : p.current_need - transaction.amount
+            # add to the amount (but no higher than the current need)
+            transaction.amount += investment_amount
+            # reduce the funds_left
+            funds_left = funds_left - investment_amount
+          end
+          # add a deposit for any leftovers
+          if possible_projects.blank? && funds_left > 0
+            transactions << Deposit.new(:amount => funds_left, :user => User.allocations_user)
             funds_left = 0
           end
-          cart.add_item(Investment.new(:amount => investment_amount, :project => p, :user => self.creator))
         end
-        if funds_left > 0
-          cart.add_item(Deposit.new(:amount => funds_left, :user => User.allocations_user))
-        end
+        
+        # put the transactions in the cart
+        cart = Cart.create!(:user_id => self.creator.id)
+        transactions.each{|i| cart.add_item(i) }
 
         order = Order.new({
           :first_name => self.creator.first_name,
