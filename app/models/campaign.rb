@@ -180,6 +180,7 @@ class Campaign < ActiveRecord::Base
         end
         order.validate_confirmation(cart)
         order.save!
+        self.update_attribute(:funds_allocated, true)
         return order
       end
     end

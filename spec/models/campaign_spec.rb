@@ -26,6 +26,10 @@ describe Campaign do
       @pledge_order.pledges.create!(:team => @campaign.default_team, :amount => @campaign.fundraising_goal, :pledger => Faker::Name.name, :pledger_email => Faker::Internet.email, :admin_user => @campaign.creator, :paid => true)
     end
     
+    it "should mark funds_allocated as true" do
+      do_close
+      @campaign.funds_allocated.should be_true
+    end
     it "should create a new PledgeAccount" do
       expect { do_close }.to change { PledgeAccount.count }.by(1)
     end
