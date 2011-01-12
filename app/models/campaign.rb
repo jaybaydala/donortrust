@@ -171,6 +171,13 @@ class Campaign < ActiveRecord::Base
         order.investments = cart.investments.select{|i| i.amount.present? }
         order.deposits = cart.deposits.select{|i| i.amount.present? }
         order.total = order.investments.inject(0){|sum, i| sum + i.amount }
+        order.notes = ""
+        if order.investments.present?
+          order.notes += "Investments: #{order.investments.map{|i| "#{i.project.name}: #{i.amount}"}.join(', ')}\n"
+        end
+        if order.deposits.present?
+          order.notes += "Deposit: #{order.deposits.map{|d| "#{d.user.full_name}: #{d.amount}"}.join(', ')}\n"
+        end
         order.validate_confirmation(cart)
         order.save!
         return order
