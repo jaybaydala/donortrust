@@ -112,7 +112,9 @@ class User < ActiveRecord::Base
   end
 
   def self.allocations_user
-    find_by_login('info@uend.org')
+    # find the allocations user and move the balance to them
+    allocations_user_id = ApplicationSetting.find_by_slug("allocations_user") ? ApplicationSetting.find_by_slug("allocations_user").value : nil
+    allocations_user_id.present? && User.exists?(allocations_user_id) ? User.find(allocations_user_id) : nil
   end
 
   def name
@@ -275,11 +277,9 @@ class User < ActiveRecord::Base
 
   def expire_account_balance
     if self.balance > 0
-      # find the allocations user and move the balance to them
-      allocations_user_id = ApplicationSetting.find_by_slug("allocations_user").value
-      if allocations_user_id.present? && User.exists?(allocations_user_id)
+      allocations_user = self.class.allocations_user
+      if allocations_user
         User.transaction do
-          allocations_user = User.find(allocations_user_id)
           order = Order.transfer_balance(self, allocations_user)
           DonortrustMailer.deliver_account_expiry_processed(self) if order && !order.new_record?
         end
