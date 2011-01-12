@@ -15,7 +15,7 @@ describe Campaign do
     }.to change { Team.count }.by(1)
   end
   
-  describe "closing a completed campaign" do
+  describe "when closing a completed campaign" do
     before do
       @allocations_user = Factory(:user)
       User.stub(:allocations_user).and_return(@allocations_user)
@@ -95,7 +95,7 @@ describe Campaign do
         @projects.each{|p| p.stub(:current_need).and_return(200) }
         @leftover_balance = 1000 - (@projects.count * 200)
       end
-      it "should Deposit the remaining money into the Allocations user account" do
+      it "should create a Deposit" do
         expect { do_close }.to change { Deposit.count }.by(1)
       end
       it "puts all the remaining balance in the deposit" do
