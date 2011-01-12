@@ -118,7 +118,7 @@ class Campaign < ActiveRecord::Base
     return false
   end
   
-  def close
+  def close!
     Order.transaction do
       pledge_account = PledgeAccount.create_from_campaign!(self)
       unless pledge_account.new_record?

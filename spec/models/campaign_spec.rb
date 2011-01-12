@@ -120,7 +120,7 @@ describe Campaign do
     end
     
     def do_close
-      @order = @campaign.close
+      @order = @campaign.close!
     end
   end
 end
