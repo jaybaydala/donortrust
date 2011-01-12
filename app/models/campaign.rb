@@ -119,7 +119,7 @@ class Campaign < ActiveRecord::Base
   end
   
   def close!
-    return if self.funds_allocated?
+    return if self.funds_allocated? || self.funds_raised == 0
     Order.transaction do
       pledge_account = PledgeAccount.create_from_campaign!(self)
       unless pledge_account.new_record?
