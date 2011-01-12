@@ -119,6 +119,7 @@ class Campaign < ActiveRecord::Base
   end
   
   def close!
+    return if self.funds_allocated?
     Order.transaction do
       pledge_account = PledgeAccount.create_from_campaign!(self)
       unless pledge_account.new_record?
@@ -156,8 +157,9 @@ class Campaign < ActiveRecord::Base
         end
         
         # put the transactions in the cart
-        cart = Cart.create!(:user_id => self.creator.id)
-        transactions.each{|i| cart.add_item(i) }
+        cart = Cart.create!(:user_id => self.creator.id, :add_optional_donation => false)
+        transactions.each{|t| cart.add_item(t) if t.amount.present? && t.amount > 0 }
+        
 
         order = Order.new({
           :first_name => self.creator.first_name,
@@ -168,9 +170,9 @@ class Campaign < ActiveRecord::Base
           :pledge_account_payment_id => pledge_account.id,
           :complete => true
         })
-        order.investments = cart.investments.select{|i| i.amount.present? }
-        order.deposits = cart.deposits.select{|i| i.amount.present? }
-        order.total = order.investments.inject(0){|sum, i| sum + i.amount }
+        order.investments = cart.investments.select{|t| t.amount.present? && BigDecimal.new(t.amount.to_s) > 0 }
+        order.deposits = cart.deposits.select{|t| t.amount.present? && BigDecimal.new(t.amount.to_s) > 0 }
+        order.total = cart.total
         order.notes = ""
         if order.investments.present?
           order.notes += "Investments: #{order.investments.map{|i| "#{i.project.name}: #{i.amount}"}.join(', ')}\n"
