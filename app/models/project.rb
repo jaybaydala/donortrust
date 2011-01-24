@@ -445,6 +445,10 @@ class Project < ActiveRecord::Base
     BigDecimal.new(self.total_cost.to_s) - BigDecimal.new(self.dollars_raised.to_s)
   end
 
+  def current_need_including(num)
+    current_need - BigDecimal.new(num.to_s)
+  end
+
   def dollars_raised
     investments(true).inject(0){|raised, investment| raised += investment.amount }
   end
