@@ -18,7 +18,9 @@ describe Campaign do
   describe "when closing a completed campaign" do
     before do
       @allocations_user = Factory(:user)
+      @campaign_allocations_user = Factory(:user)
       User.stub(:allocations_user).and_return(@allocations_user)
+      User.stub(:campaign_allocations_user).and_return(@campaign_allocations_user)
       @projects = (1..3).map{ Factory(:project) }
       @campaign = Factory(:campaign, :allow_multiple_teams => false)
       @campaign.projects = @projects
@@ -54,21 +56,36 @@ describe Campaign do
       do_close
       @order.investments.each{|i| i.user.should == @campaign.creator }
     end
-    it "should split the amount evenly between available projects" do
+    # it "should split the amount evenly between available projects" do
+    #   do_close
+    #   funds_left = @campaign.reload.funds_raised
+    #   max_per_project = (@campaign.reload.funds_raised/@campaign.projects.count).round(2)
+    #   project_investments ||= {}
+    #   # spread the funds out in the projects - this accounts for forgotten pennies
+    #   while funds_left > 0
+    #     @campaign.projects.each do |p|
+    #       project_investments[p.id] ||= 0
+    #       investment_amount = max_per_project < funds_left ? max_per_project : funds_left
+    #       project_investments[p.id] += investment_amount
+    #       funds_left -= investment_amount
+    #     end
+    #   end
+    #   project_investments.each do |project_id, amount|  
+    #     @order.investments.find_by_project_id(project_id).amount.should == amount
+    #   end
+    # end
+    it "should fully fund each project in order" do
       do_close
       funds_left = @campaign.reload.funds_raised
-      max_per_project = (@campaign.reload.funds_raised/@campaign.projects.count).round(2)
       project_investments ||= {}
-      # spread the funds out in the projects - this accounts for forgotten pennies
-      while funds_left > 0
-        @campaign.projects.each do |p|
-          project_investments[p.id] ||= 0
-          investment_amount = max_per_project < funds_left ? max_per_project : funds_left
-          project_investments[p.id] += investment_amount
-          funds_left -= investment_amount
-        end
+      @campaign.projects.each do |p|
+        break if funds_left == 0
+        # if the projects current need is less than our funds, add that amount and loop
+        investment_amount = p.current_need < funds_left ? p.current_need : funds_left
+        project_investments[p.id] = investment_amount
+        funds_left -= investment_amount
       end
-      project_investments.each do |project_id, amount|  
+      project_investments.each do |project_id, amount|
         @order.investments.find_by_project_id(project_id).amount.should == amount
       end
     end

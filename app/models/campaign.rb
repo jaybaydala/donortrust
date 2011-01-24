@@ -118,48 +118,30 @@ class Campaign < ActiveRecord::Base
     return false
   end
   
-  def close!
+  def close!(attribute_to_campaign_owner = false)
     return if self.funds_allocated? || self.funds_raised == 0
     Order.transaction do
+      user = attribute_to_campaign_owner == true ? self.creator : User.campaign_allocations_user
       pledge_account = PledgeAccount.create_from_campaign!(self)
       unless pledge_account.new_record?
         # this feels really cheesy to me somehow
         funds_left = pledge_account.balance
-        funds_per_project = (pledge_account.balance / projects_for_contribution.size).round(2)
-        transactions = []
         possible_projects = projects_for_contribution
-        while funds_left > 0
-          possible_projects.each do |p|
-            # set up an initial blank transaction if one doesn't exist yet
-            transaction = transactions.detect{|i| i.project == p }
-            unless transaction
-              transaction = Investment.new(:amount => 0, :project => p, :user => self.creator)
-              transactions << transaction
-            end
-            # if the project doesn't need funding, skip and remove it (include amount that we're investing in this process)
-            if p.current_need - transaction.amount <= 0
-              possible_projects.delete(p)
-              next
-            end
-            # calculate the investment amount - no larger than the current funds_left
-            max_funds_for_this_project = funds_left > funds_per_project ? funds_per_project : funds_left
-            investment_amount = (p.current_need - transaction.amount) > max_funds_for_this_project ? max_funds_for_this_project : p.current_need - transaction.amount
-            # add to the amount (but no higher than the current need)
-            transaction.amount += investment_amount
-            # reduce the funds_left
-            funds_left = funds_left - investment_amount
-          end
-          # add a deposit for any leftovers
-          if possible_projects.blank? && funds_left > 0
-            transactions << Deposit.new(:amount => funds_left, :user => User.allocations_user)
-            funds_left = 0
-          end
+        transactions = []
+        possible_projects.each do |p|
+          break if funds_left <= 0
+          investment_amount = p.current_need < funds_left ? p.current_need : funds_left
+          transactions << Investment.new(:amount => investment_amount, :project => p, :user => self.creator)
+          funds_left -= investment_amount
         end
-        
+        if funds_left > 0
+          transactions << Deposit.new(:amount => funds_left, :user => User.allocations_user)
+          funds_left = 0
+        end
+
         # put the transactions in the cart
         cart = Cart.create!(:user_id => self.creator.id, :add_optional_donation => false)
         transactions.each{|t| cart.add_item(t) if t.amount.present? && t.amount > 0 }
-        
 
         order = Order.new({
           :first_name => self.creator.first_name,
@@ -173,7 +155,7 @@ class Campaign < ActiveRecord::Base
         order.investments = cart.investments.select{|t| t.amount.present? && BigDecimal.new(t.amount.to_s) > 0 }
         order.deposits = cart.deposits.select{|t| t.amount.present? && BigDecimal.new(t.amount.to_s) > 0 }
         order.total = cart.total
-        order.notes = ""
+        order.notes = "Transactions for the &quot;#{self.name} (#{self.id})&quot; Campaign closing:<br />\n"
         if order.investments.present?
           order.notes += "Investments: #{order.investments.map{|i| "#{i.project.name}: #{i.amount}"}.join(', ')}\n"
         end
