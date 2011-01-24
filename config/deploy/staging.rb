@@ -1,5 +1,5 @@
 set :repository,  "git@github.com:jaybaydala/donortrust.git"
-set :branch, "master"
+set :branch, "staging"
 
 set :mongrel_conf, "/etc/mongrel_cluster/uend_staging.yml"
 set :mongrel_admin_conf, "/etc/mongrel_cluster/uend_staging_admin.yml"
