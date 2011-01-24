@@ -117,6 +117,11 @@ class User < ActiveRecord::Base
     allocations_user_id.present? && User.exists?(allocations_user_id) ? User.find(allocations_user_id) : nil
   end
 
+  def self.campaign_allocations_user
+    allocations_user_id = ApplicationSetting.find_by_slug("campaign_allocations_user") ? ApplicationSetting.find_by_slug("campaign_allocations_user").value : nil
+    allocations_user_id.present? && User.exists?(allocations_user_id) ? User.find(allocations_user_id) : nil
+  end
+
   def name
     return "#{self.first_name} #{self.last_name[0,1]}." if self.display_name.blank?
     self.display_name
