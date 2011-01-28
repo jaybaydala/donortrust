@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
   end
 
   def self.campaign_allocations_user
-    allocations_user_id = ApplicationSetting.find_by_slug("campaign_allocations_user") ? ApplicationSetting.find_by_slug("campaign_allocations_user").value : nil
+    allocations_user_id = ApplicationSetting.find_by_slug("allocations_user") ? ApplicationSetting.find_by_slug("allocations_user").value : nil
     allocations_user_id.present? && User.exists?(allocations_user_id) ? User.find(allocations_user_id) : nil
   end
 
