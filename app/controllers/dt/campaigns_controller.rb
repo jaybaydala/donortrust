@@ -234,111 +234,12 @@ class Dt::CampaignsController < DtApplicationController
   end
 
   def close
-
-    if @campaign.funds_allocated
+    if @campaign.funds_allocated?
       flash[:notice] = "Funds have already been allocated for this campaign, you can not allocate them again"
-      redirect_to dt_campaigns_path and return
-    end
-
-    #get the total amount that we have to allocate
-    total_funds = @campaign.funds_raised
-
-    projects_to_contribute_to = []
-
-    if @campaign.projects.empty?
-      projects_to_contribute_to.push(Project.find(:all, :conditions => "id not in (10,11)"))
     else
-      @campaign.projects.each do |p|
-        projects_to_contribute_to.push(p)
-      end
+      @campaign.close!
+      flash[:notice] = "Funds successfully allocated out to selected projects and campaign archived."
     end
-
-    puts "We are going to allocate #{total_funds}"
-
-    unallocated_funds = total_funds
-    project_contributions = {}
-    fully_allocated_projects = []
-    while unallocated_funds > 0
-      amount_per_project = unallocated_funds / projects_to_contribute_to.size
-      puts "Attempting to allocate " + amount_per_project.to_s + " to each project"
-
-      projects_to_contribute_to.each do |project|
-        #if the project does not exist then create an entry with no money in it
-        if project_contributions[project.id].nil?
-          project_contributions[project.id] = 0
-        end
-
-        if project.current_need < project_contributions[project.id] + amount_per_project
-          project_contributions[project.id] = project_contributions[project.id] + project.current_need
-          unallocated_funds = unallocated_funds - project.current_need
-
-          #remove the project from the array
-          puts "Project " + project.name + " fulfilled, removing from array"
-          fully_allocated_projects.push project
-          #projects_to_contribute_to.delete(project)
-
-          puts "allocated #{project.current_need} to project_id: #{project.id}"
-        else
-          project_contributions[project.id] = project_contributions[project.id] + amount_per_project
-          
-          unallocated_funds = unallocated_funds - amount_per_project
-          puts "allocated #{amount_per_project} to project_id: #{project.id}"
-        end
-
-      end
-
-      #delete the projects that are fully allocated from the array
-      fully_allocated_projects.each do |fa_project|
-        if projects_to_contribute_to.include?(fa_project)
-          projects_to_contribute_to.delete(fa_project)
-        end
-      end
-
-      if ((projects_to_contribute_to.empty? and unallocated_funds > 0) or 
-           ((unallocated_funds / projects_to_contribute_to.size) < 0.01))
-           
-        puts "No more programs to contribute to"
-        project_contributions[11] ||= 0
-
-        project_contributions[11] = project_contributions[11] + unallocated_funds
-        unallocated_funds = 0
-
-      end
-    end
-
-    puts "keys: " + project_contributions.inspect
-
-    #check and see if there are any differences between the allocated and the available and assign the difference
-    if project_contributions.values.inject {|sum, value| sum + value.truncate(2)} < total_funds
-      project_contributions[11] = project_contributions[11] + total_funds - project_contributions.values.inject {|sum, value| sum + value.truncate(2)}
-
-    elsif project_contributions.values.sum > total_funds
-      puts "the values are out of whach"
-      project_contributions[project_contributions.keys.first] = project_contributions[project_contributions.keys.first] - (project_contributions - total_funds)
-    end
-
-    #allocate all the contributions to their projects via investments
-    project_contributions.keys.each do |key|
-      #if the value is zero loop and start again
-      if project_contributions[key] == 0
-        next
-      end
-
-      project = Project.find(key)
-
-      investment = Investment.new
-      investment.project_id = key
-      investment.campaign_id = @campaign.id
-      investment.amount = project_contributions[key]
-
-      puts "allocating #{investment.amount} to #{project.name} (project_id: #{project.id})"      
-      project.investments << investment
-    end
-
-    @campaign.funds_allocated = true
-    @campaign.save
-
-    flash[:notice] = "Funds successfully allocated out to selected projects and campaign archived."
     redirect_to dt_campaigns_path
   end
 
