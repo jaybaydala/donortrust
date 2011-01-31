@@ -26,7 +26,10 @@
   float: left;
 }
 .keyDifferentiatorText {
-  /* padding: 0px 0px 10px 75px; */
+  padding:6px 0 0 0;
+}
+.keyDifferentiatorText h2 {
+  margin-top:0;
 }
 
 /* Right Column Stuff */
