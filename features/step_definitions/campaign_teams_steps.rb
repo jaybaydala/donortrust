@@ -1,14 +1,14 @@
 Given /^a campaign with short name "([^\"]*)" exists$/ do |short_name|
-  @campaign = Campaign.make :short_name => short_name
+  @campaign = Factory(:campaign, :short_name => short_name)
 end
 
 Given /^the campaign has a team with short name "([^\"]*)"$/ do |short_name|
-  @team = Team.make :campaign => @campaign, :short_name => short_name
+  @team = Factory(:team, :campaign => @campaign, :short_name => short_name)
 end
 
 Given /^I am logged in as a registered user$/ do
   visit path_to("the home page")
-  @current_user = User.make
+  @current_user = Factory(:user)
   visit path_to("the login page")
   fill_in("login", :with => @current_user.login)
   fill_in("password", :with => "secret")
