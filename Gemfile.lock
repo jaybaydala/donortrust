@@ -83,14 +83,11 @@ GEM
     json (1.4.6)
     json_pure (1.4.6)
     linecache (0.43)
-    machinist (1.0.6)
     mail (2.2.1)
       activesupport (>= 2.3.4)
       mime-types
       treetop (>= 1.4.5)
     mime-types (1.16)
-    mocha (0.9.9)
-      rake
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -190,9 +187,7 @@ DEPENDENCIES
   feed-normalizer
   flickr
   hpricot
-  machinist
   mail
-  mocha
   mongrel
   mongrel_cluster
   mysql

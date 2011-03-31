@@ -1,4 +1,4 @@
-source :gemcutter
+source 'http://rubygems.org'
 gem 'rails', '2.3.5'
 gem 'rack'
 gem 'mysql'
@@ -42,12 +42,10 @@ group :test, :cucumber do
 
   gem 'autotest'
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
-  gem 'database_cleaner', '>=0.5.2', :require => false
-  gem 'email_spec', '< 1.0', :require => false
+  gem 'database_cleaner', '>=0.5.2'
+  gem 'email_spec', '< 1.0'
   gem 'faker'
   gem 'factory_girl'
-  gem 'machinist'
-  gem 'mocha'
   gem 'redgreen'
   gem 'rspec_hpricot_matchers'
   gem 'ruby-debug'
