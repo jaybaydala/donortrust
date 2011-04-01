@@ -11,7 +11,7 @@ end
 
 Factory.define :campaign do |a|
   a.email { Faker::Internet.email }
-  a.name { Faker::Comopany.bs + " Campaign" }
+  a.name { Faker::Company.bs + " Campaign" }
   a.campaign_type { |ct| ct.association(:campaign_type) }
   a.creator {|u| u.association(:user) }
   a.description { Faker::Lorem.paragraph }
