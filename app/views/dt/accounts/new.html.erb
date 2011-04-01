@@ -3,41 +3,41 @@
 <%- content_for :head do -%><%= javascript_include_tag "dt/accounts" %><%- end -%>
 
 <p>To sign up, enter your information in the spaces below.</p>
-	
+  
 <%= error_messages_for :user %>
-<% form_for(:user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform", :multipart => true}) do |f| %>
+<% form_for(@user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform", :multipart => true}) do |f| %>
 <div class="userform">
   <fieldset>
     <legend>Age Verification</legend>
     <p class="textsm">Please select the checkbox if you are under 13 years of age. Uend: is committed to your privacy and safety. See our <%= link_to "Privacy Policy", "/privacy", :rel => "blank" %> for more information.</p>
     <ol>
-		    <li>
+        <li>
         <%= f.check_box :under_thirteen, :onclick => 'Account.toggle_personal_info(this.checked);' %> 
         <%= label :user, :under_thirteen, "I am under 13 years old", :class => "left inline" %>
       </li>
-		  </ol>
+      </ol>
   </fieldset>
 
-	<fieldset>
-		<legend class="header">Login/Email</legend>
+  <fieldset>
+    <legend class="header">Login/Email</legend>
       <%# Users no longer have to activate via a sent email when they sign up
       <div class="notes">
         <h5>Email Address</h5>
         <p>After you sign up, we will send you an email to verify your address, after which you can log in.</p>
       </div>
       %>
-		<div class="textsm underThirteen" style="display:none;">Please have your parent sign you up using their valid email address.</div>
-		<ol>
-  		<li>
+    <div class="textsm underThirteen" style="display:none;">Please have your parent sign you up using their valid email address.</div>
+    <ol>
+      <li>
       <%= label_for_required_field :user, :login, "Login/Email" %>
       <%= f.text_field :login %>
     </li>
-		</ol>
-	</fieldset>
+    </ol>
+  </fieldset>
 
-	<fieldset>
-	  <legend>Your Identity</legend>
-	  <div class="textsm personalinfo">You must enter a display name that will be used to identify you on our website. You may also choose to give us your first and last name which will be used to personalize our communication with you.</div>
+  <fieldset>
+    <legend>Your Identity</legend>
+    <div class="textsm personalinfo">You must enter a display name that will be used to identify you on our website. You may also choose to give us your first and last name which will be used to personalize our communication with you.</div>
   <div class="textsm underThirteen" style="display:none;">Please enter a display name for your child that is not personally identifiable</div>
   <ol>
     <li class="personalinfo">
@@ -63,59 +63,59 @@
   </ol>
   </fieldset>
 
-	<fieldset>
-	  <legend>Password</legend>
-		<div class="textsm">Please provide a password. It must be longer than 4 characters and try to make it something you'll remember.</div>
-	  <ol>
-		  <li>
+  <fieldset>
+    <legend>Password</legend>
+    <div class="textsm">Please provide a password. It must be longer than 4 characters and try to make it something you'll remember.</div>
+    <ol>
+      <li>
      <%= label_for_required_field :user, :password, "Password" %>
      <%= f.password_field :password %>
     </li>
-		  <li>
+      <li>
      <%= label_for_required_field :user, :password_confirmation, "Confirm Password" %>
      <%= f.password_field :password_confirmation %>
     </li>
-	  </ol>
+    </ol>
   </fieldset>
 
-	<fieldset class="personalinfo">
-	  <legend>Personal Details</legend>
-		<div class="textsm">The following fields (except Country) are optional.</div>
-  	<ol>
-  		<li>
-     <%= label :user, :address %>
-     <%= f.text_field :address %>
-    </li>
-  		<li>
-     <%= label :user, :city %>
-     <%= f.text_field :city %>
-    </li>
-  		<li style="clear:left;">
-     <%= label :user, :province, "Province/State" %>
-     <%= f.text_field :province, :size => 2, :maxlength => 2, :style => 'width:auto;' %>
-    </li>
-  		<li style="clear:left;">
-     <%= label :user, :postal_code, "Postal/Zip Code" %>
-     <%= f.text_field :postal_code, :size => 10, :maxlength => 10, :style => 'width:auto;' %>
-    </li>
-  		<li style="clear:left;">
-     <%= label_for_required_field :user, :country, "Country" %>
-     <%= f.select :country, country_select_options, :style => 'width:auto;' %>
-    </li>
-  	</ol>
-  </fieldset>
-	<fieldset>
-	  <legend>Terms of Service</legend>
+  <fieldset class="personalinfo">
+    <legend>Personal Details</legend>
+    <div class="textsm">The following fields (except Country) are optional.</div>
     <ol>
-		    <li>
+    <li>
+      <%= label :user, :address %>
+      <%= f.text_field :address %>
+    </li>
+    <li>
+      <%= label :user, :city %>
+      <%= f.text_field :city %>
+    </li>
+    <li style="clear:left;">
+      <%= label :user, :province, "Province/State" %>
+      <%= f.text_field :province, :size => 2, :maxlength => 2, :style => 'width:auto;' %>
+    </li>
+    <li style="clear:left;">
+      <%= label :user, :postal_code, "Postal/Zip Code" %>
+      <%= f.text_field :postal_code, :size => 10, :maxlength => 10, :style => 'width:auto;' %>
+    </li>
+    <li style="clear:left;">
+      <%= label_for_required_field :user, :country, "Country" %>
+      <%= f.select :country, country_select_options, :style => 'width:auto;' %>
+    </li>
+    </ol>
+  </fieldset>
+  <fieldset>
+    <legend>Terms of Service</legend>
+    <ol>
+        <li>
         <%= f.check_box :terms_of_use %>
         <%= label :user, :terms_of_use, render(:partial => 'dt/shared/form_required') + 'I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree', :class => "left inline" %>
       </li>
-		  </ol>
+      </ol>
   </fieldset>
 
-	<div id="buttonSignUp"><%= submit_tag 'Create Account', :class => 'buttonsubmit' %></div>
-	<%= render :partial => 'dt/shared/form_requirednote' %>
+  <div id="buttonSignUp"><%= submit_tag 'Create Account', :class => 'buttonsubmit' %></div>
+  <%= render :partial => 'dt/shared/form_requirednote' %>
 
 </div>
 <% end -%>
