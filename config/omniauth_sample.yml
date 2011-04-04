@@ -1,0 +1,9 @@
+facebook:
+  app_id: APP_ID
+  app_secret: APP_SECRET
+twitter:
+  consumer_key: CONSUMER_KEY
+  consumer_secret: CONSUMER_SECRET
+linked_in:
+  consumer_key: CONSUMER_KEY
+  consumer_secret: CONSUMER_SECRET
