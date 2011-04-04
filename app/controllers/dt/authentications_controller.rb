@@ -1,4 +1,4 @@
-class AuthenticationsController < ApplicationController
+class Dt::AuthenticationsController < DtApplicationController
   def index
   end
 
