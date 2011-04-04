@@ -1,5 +1,5 @@
 
-ENV['RAILS_ENV'] ||= "development"
+# ENV['RAILS_ENV'] ||= "development"
 
 namespace :ultrasphinx do  
 
