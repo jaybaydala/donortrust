@@ -1,5 +1,19 @@
 ActionController::Routing::Routes.draw do |map|
   map.namespace(:dt) do |dt|
+    dt.resources :authentications
+    dt.auth_callback "/auth/:provider/callback", :controller => "authentications", :action => "create"
+    dt.auth_failure "/auth/failure", :controller => "authentications", :action => "failure"
+    dt.resources :accounts, 
+      :controller => 'accounts', 
+      :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put },
+      :member => { :transactions => :get } do |account|
+      account.resources :deposits, :controller => 'deposits'
+      account.resources :my_wishlists, :controller => 'my_wishlists', :collection => {:new_message => :get, :confirm => :post, :preview => :get, :send_message => :post}
+      account.resources :tax_receipts, :controller => 'tax_receipts'
+      account.resources :account_memberships, :controller => 'account_memberships'
+    end
+    dt.resource :session, :controller => 'sessions'
+
     dt.resource :upowered, :controller => "upowered"
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
     dt.resource :christmasfuture, :controller => 'christmasfuture'
@@ -35,17 +49,6 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
     #dt.resources :my_wishlists, :controller => 'my_wishlists'
-    dt.resources :accounts, :controller => 'accounts', :collection => { :activate => :get, 
-                                                                        :resend => :get, 
-                                                                        :reset => :get, 
-                                                                        :reset_password => :put },
-                                                       :member => { :transactions => :get } do |account|
-      account.resources :deposits, :controller => 'deposits'
-      account.resources :my_wishlists, :controller => 'my_wishlists', :collection => {:new_message => :get, :confirm => :post, :preview => :get, :send_message => :post}
-      account.resources :tax_receipts, :controller => 'tax_receipts'
-      account.resources :account_memberships, :controller => 'account_memberships'
-    end
-    dt.resource :session, :controller => 'sessions'
     dt.resources :gifts, :controller => 'gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :get }
     dt.resource :email_upload, :controller => 'email_uploads'
     dt.resources :groups, :controller=> 'groups' do |groups|
