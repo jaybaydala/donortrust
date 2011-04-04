@@ -20,6 +20,7 @@ gem 'flickr'
 gem 'hpricot'
 gem 'mail', :require => false
 gem 'nokogiri'
+gem 'omniauth'
 gem 'packet'
 gem 'paperclip'
 gem 'pdf-writer', :require => 'pdf/writer'
