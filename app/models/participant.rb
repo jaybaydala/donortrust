@@ -44,12 +44,6 @@ class Participant < ActiveRecord::Base
     ]
 
 
-  image_column  :picture,
-                :versions => { :thumb => "100x100", :full => "200x200"  },
-                :filename => proc{|inst, orig, ext| "participant_#{inst.id}.#{ext}"},
-                :store_dir => "uploaded_pictures/participant_pictures"
-  # validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
-
   IMAGE_SIZES = {
     :full => {:width => 200, :height => 200, :modifier => ">"},
     :thumb => {:width => 100, :height => 100, :modifier => ">"}
@@ -168,12 +162,4 @@ class Participant < ActiveRecord::Base
     logger.debug "Participant created: #{participant.inspect}"
     participant
   end
-  
-  private
-  # def make_uploads_world_readable
-  #   return if picture.nil?
-  #   list = self.picture.versions.select {|version, image| File.exists?(image.path) }.map{|v| v[1].path}
-  #   list << self.picture.path if File.exists?(self.picture.path)
-  #   FileUtils.chmod_R(0644, list) unless list.empty?
-  # end
 end
