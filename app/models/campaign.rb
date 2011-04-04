@@ -35,10 +35,6 @@ class Campaign < ActiveRecord::Base
   validates_presence_of :name, :campaign_type, :description, :fundraising_goal, :creator, :short_name
   validates_uniqueness_of :short_name, :message => "the short name is not unique"
 
-  image_column  :picture,
-                :versions => { :thumb => "75x75", :full => "150x150"  },
-                :filename => proc{|inst, orig, ext| "campaign_#{inst.id}.#{ext}"},
-                :store_dir => "uploaded_pictures/campaign_pictures"
   IMAGE_SIZES = {
     :full => {:width => 150, :height => 150, :modifier => ">"},
     :thumb => {:width => 75, :height => 75, :modifier => ">"}
