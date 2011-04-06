@@ -53,10 +53,14 @@ namespace :deploy do
   end
 
   task :link_configs do
+    # config
     run "ln -nfs #{shared_path}/config/iats.yml #{latest_release}/config/iats.yml"
     run "ln -nfs #{shared_path}/config/aws.yml #{latest_release}/config/aws.yml"
-    run "ln -nfs #{shared_path}/config/recaptcha_vars.rb #{latest_release}/config/initializers/recaptcha_vars.rb"
     run "rm -f #{release_path}/config/database.yml && ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/omniauth.yml #{latest_release}/config/omniauth.yml"
+    # initializers
+    run "ln -nfs #{shared_path}/config/initializers/mongrel.rb #{latest_release}/config/initializers/mongrel.rb"
+    run "ln -nfs #{shared_path}/config/initializers/recaptcha_vars.rb #{latest_release}/config/initializers/recaptcha_vars.rb"
   end
   
   desc <<-DESC
