@@ -67,7 +67,7 @@ class Dt::AccountsController < DtApplicationController
         # by clicking on a link in an email  
         #flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address.'
         #format.html { redirect_to(:controller => '/dt/accounts', :action => 'index') }
-        format.html { redirect_to(:controller => '/dt/accounts', :action =>'activate', :id => @user.activation_code) }
+        format.html { redirect_to(:controller => '/dt/accounts', :action =>'index' }
 
         format.xml  { head :created, :location => dt_accounts_url }
       else
