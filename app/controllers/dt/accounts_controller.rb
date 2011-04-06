@@ -42,6 +42,10 @@ class Dt::AccountsController < DtApplicationController
     @page_title = "Create My Account"
     redirect_back_or_default(:action => 'index') if logged_in?
     @user = User.new
+    if session[:omniauth]
+      @user.apply_omniauth(session[:omniauth])
+      @user.valid?
+    end
   end
 
   # GET /dt/accounts/1;edit
@@ -56,6 +60,7 @@ class Dt::AccountsController < DtApplicationController
     @user = User.new(params[:user])
     respond_to do |format|
       if @saved = @user.save
+        session[:omniauth] = nil
         session[:tmp_user] = @user.id
 
         # See Bug #23790 in rubyforge; users no longer have to activate themselves 
