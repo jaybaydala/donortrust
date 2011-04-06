@@ -3,4 +3,12 @@ class Authentication < ActiveRecord::Base
   
   validates_presence_of :user_id, :uid, :provider
   validates_uniqueness_of :uid, :scope => :provider
+  
+  def provider_name
+    if provider == 'open_id'
+      "OpenID"
+    else
+      provider.titleize
+    end
+  end
 end
