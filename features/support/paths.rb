@@ -10,6 +10,8 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/dt'
+    when /the new account page/
+      new_dt_account_path
     when /the sign up page/
       '/dt/signup'
     when /redisplayed sign up page/
@@ -18,6 +20,8 @@ module NavigationHelpers
       '/dt/login'
     when /the redisplayed login page/
       '/dt/session'
+    when /the authentications page/
+      dt_authentications_path
     when /the (.*) team page/
       dt_team_path(Team.find_by_short_name($1))
     when /the (.*) campaign page/
