@@ -42,13 +42,3 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 end
-
-# set up the Exception Notifier plugin
-ExceptionNotifier.exception_recipients = %w(tim@tag.ca info@uend.org)
-ExceptionNotifier.sender_address = %(support@christmasfuture.com)
-ExceptionNotifier.email_prefix = "[DT ERROR] "
-
-#The url to the GroundSpring US donations page
-GROUNDSPRING_URL = 'https://secure.groundspring.org/dn/index.php?aid=21488'
-
-ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:dt_default => "%b %e, %Y")
