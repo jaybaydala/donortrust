@@ -6,19 +6,16 @@ class Dt::AuthenticationsController < DtApplicationController
   def create
     omniauth = request.env["omniauth.auth"]
     authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
-puts current_user.inspect
-    if current_user && authentication.nil?
+    if !authentication && logged_in?
       authentication = current_user.apply_omniauth(omniauth)
       authentication.save!
-      puts authentication.new_record?
-      flash[:notice] = "Authentication successful."
+      flash[:notice] = "Signed in successfully."
       redirect_to dt_authentications_url
     elsif authentication
       flash[:notice] = "Signed in successfully."
       current_user = authentication.user
       redirect_to dt_account_url(current_user)
     else
-      puts "HITHERE3"
       user = User.new
       user.apply_omniauth(omniauth)
       if user.save

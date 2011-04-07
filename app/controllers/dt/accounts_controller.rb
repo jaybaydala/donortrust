@@ -45,6 +45,7 @@ class Dt::AccountsController < DtApplicationController
     if session[:omniauth]
       @user.apply_omniauth(session[:omniauth])
       @user.valid?
+      render :action => 'new_via_authentication' and return
     end
   end
 
@@ -58,19 +59,20 @@ class Dt::AccountsController < DtApplicationController
   # POST /dt/accounts.xml
   def create
     @user = User.new(params[:user])
+    @user.apply_omniauth(session[:omniauth]) if session[:omniauth]
     respond_to do |format|
       if @saved = @user.save
         session[:omniauth] = nil
         session[:tmp_user] = @user.id
-
         # See Bug #23790 in rubyforge; users no longer have to activate themselves 
         # by clicking on a link in an email  
         #flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address.'
+        self.current_user = @user
+        flash[:notice] = "Signed in successfully."
         format.html { redirect_to(:controller => '/dt/accounts', :action =>'index') }
-
         format.xml  { head :created, :location => dt_accounts_url }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => (session[:omniauth] ? 'new_via_authentication' : 'new') }
         #format.js
         format.xml  { render :xml => @user.errors.to_xml }
       end
