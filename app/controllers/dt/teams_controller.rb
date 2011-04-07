@@ -19,8 +19,8 @@ class Dt::TeamsController < DtApplicationController
     store_location
     
     participant = Participant.find(:first, :conditions => {:team_id => @team.id, :user_id => current_user.id})
-    @can_leave_team = (current_user != :false) && participant && participant.can_leave_team?
-    @can_join_team = (current_user == :false) || current_user.can_join_team?(@team)
+    @can_leave_team = logged_in? && participant && participant.can_leave_team?
+    @can_join_team = !logged_in? || current_user.can_join_team?(@team)
 
     @participants = Participant.paginate_by_team_id_and_pending_and_active @team.id, false, true, :page => params[:participant_page], :per_page => 10
     if(params[:participant_page] != nil)

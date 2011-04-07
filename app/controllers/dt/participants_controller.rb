@@ -69,7 +69,7 @@ class Dt::ParticipantsController < DtApplicationController
     store_location
     
     # Switch back to this team if previously a member and allowed to join again
-    if (current_user != :false) and (@participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.id)) and current_user.can_join_team?(@team)
+    if logged_in? and (@participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.id)) and current_user.can_join_team?(@team)
       default_participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.campaign.default_team.id)
       default_participant && default_participant.update_attribute(:active, false)
       @participant.update_attribute(:active, true)
@@ -81,7 +81,7 @@ class Dt::ParticipantsController < DtApplicationController
     
     @participant = Participant.new
 
-    if (current_user == :false)
+    unless logged_in?
       return
     end
     
@@ -156,7 +156,7 @@ class Dt::ParticipantsController < DtApplicationController
       render :action => 'new'
     end
     
-    if current_user == :false
+    unless logged_in?
       # If the user is not logged in check the user details that have been 
       # passed through in the params. Use the details to 
       # create a new account

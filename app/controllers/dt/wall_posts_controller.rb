@@ -9,7 +9,7 @@ class Dt::WallPostsController < DtApplicationController
   def index
     @wall_posts = WallPost.find(:all)
     respond_to do |format|
-      format.html { render :layout => :false}# index.html.erb
+      format.html { render :layout => false}# index.html.erb
       format.xml  { render :xml => @dt_wall_posts }
     end
   end

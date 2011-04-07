@@ -23,7 +23,7 @@
    # same time, so if they are not logged in offer them the opportunity to login 
    # or register %>
 
- <% if current_user == :false %>
+ <% unless logged_in? %>
 
   <h2>You are not currently logged in.</h2>
   <p>If you have already have an account with us please <%= link_to 'login now', dt_login_path %>.</p>
@@ -64,7 +64,7 @@
  <% end %>
 
 		<fieldset>
-			<%- unless (current_user != :false && !current_user.profile.short_name.blank?) -%>
+			<%- unless (logged_in? && !current_user.profile.short_name.blank?) -%>
 			<h2>Create your personal profile for <%= @team.campaign.name %> so that people can support you:</h2>
 			<label>Choose your profile URL:<%= form_required %>
 			<%= what_is_this? 'short_name', "The short name is a short (10-20 characters) name that will make 

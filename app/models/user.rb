@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
   validates_length_of       :login,    :within => 3..100
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
-  validates_uniqueness_of   :activation_code, :allow_nil => :true
+  validates_uniqueness_of   :activation_code, :allow_nil => true
   #MP Dec. 14, 2007 - Added to support the US tax receipt functionality
   #Going forward, it would be good to ensure that users have a country.
   validates_presence_of :country, :on => :create, :unless => :under_thirteen?
