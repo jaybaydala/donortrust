@@ -102,7 +102,7 @@
 
         <td  colspan="2" align="right">
           <%= link_to "Back to CF", :controller => 'dt/accounts', :action => 'index'%>
-          <% if session[:user_id] and session[:user_d] != :false %>
+          <% if session[:user_id] %>
             <span style="color: #666; font-weight: bold; text-align: right;">Logged in as: <%= User.find(session[:user_id]).login + " " %>
             </span>
             

@@ -18,17 +18,17 @@
 		<div class="campaign-search-checkboxes hidden">
 			<%= check_box_tag 'search_type[]', 
 				'Participant', 
-				(params[:search_type] ? params[:search_type].include?('Participant') : ((controller.controller_name == "participants" || controller.controller_name == "campaigns") ? true:false)),
+				(params[:search_type] ? params[:search_type].include?('Participant') : ((controller.controller_name == "participants" || controller.controller_name == "campaigns") ? true : false)),
   			{ :id => "search_type-users" }
 			%>Users
 			<%= check_box_tag 'search_type[]',
 				'Team', 
-				(params[:search_type] ? params[:search_type].include?('Team') : ((controller.controller_name == "teams" || controller.controller_name == "campaigns") ? true:false)),
+				(params[:search_type] ? params[:search_type].include?('Team') : ((controller.controller_name == "teams" || controller.controller_name == "campaigns") ? true : false)),
   			{ :id => "search_type-teams" }
 			%>Teams
 			<%= check_box_tag 'search_type[]', 
 			'Campaign' ,
-			(params[:search_type] ? params[:search_type].include?('Campaign') : ((controller.controller_name == "campaigns") ? true:false)),
+			(params[:search_type] ? params[:search_type].include?('Campaign') : ((controller.controller_name == "campaigns") ? true : false)),
 			{ :id => "search_type-campaigns" }
 			%>Campaigns
 		 </div>

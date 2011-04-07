@@ -96,7 +96,7 @@
         <td width="60" rowspan="2">&nbsp;</td>
 
         <td  colspan="2" align="right">
-          <% if session[:user_id] and session[:user_d] != :false %>
+          <% if session[:user_id] %>
             <span style="color: #666; font-weight: bold; text-align: right;">Logged in as: <%= BusUser.find(session[:user_id]).login + " " %>
             </span>
             

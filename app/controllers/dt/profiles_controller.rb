@@ -27,7 +27,7 @@ class Dt::ProfilesController < DtApplicationController
   def request_gift
     respond_to do |format|
       format.js do
-        if @user != current_user and current_user != :false
+        if @user != current_user and logged_in?
           DonortrustMailer.deliver_gift_request(@profile, current_user)
           render :update do |page|
             page.alert "An e-mail has been sent letting them know what you want!"

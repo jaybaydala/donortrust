@@ -45,9 +45,7 @@ class Dt::CampaignsController < DtApplicationController
     @can_join_campaign = true
 
     #a user that is not logged in can not create a team
-    if (current_user == :false)
-      @can_create_team = false
-    end
+    @can_create_team = false unless logged_in?
 
     if (@campaign.default_team.participant_for_user(current_user).nil? || 
        @campaign.default_team.participant_for_user(current_user).pending)
@@ -119,7 +117,7 @@ class Dt::CampaignsController < DtApplicationController
   end
 
   def user_in_campaign(user)
-    result = :false
+    result = false
 
     @campaign.teams.each do |t|
       result = result || t.has_user?(user)
@@ -440,7 +438,7 @@ class Dt::CampaignsController < DtApplicationController
 
   private
     def is_authorized?
-      if (current_user == :false)
+      unless logged_in?
         flash[:notice] = "You must be logged in to view this page."
         redirect_to dt_login_path
         return false

@@ -13,8 +13,8 @@ class Dt::GroupsController < DtApplicationController
   end
 
   def index
-    @groups = Group.find :all, :conditions => {:featured => :true, :private => :false}
-    @groups = Group.find :all, :conditions => {:private => :false} if @groups.empty?
+    @groups = Group.find :all, :conditions => {:featured => true, :private => false}
+    @groups = Group.find :all, :conditions => {:private => false} if @groups.empty?
     respond_to do |format|
       format.html # index.rhtml
     end
