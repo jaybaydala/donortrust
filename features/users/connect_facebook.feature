@@ -9,6 +9,5 @@ Background: logged in
 @omniauth_test
 Scenario: Connect to facebook
   When I authenticate with Facebook
-  And I allow donortrust access to my facebook account
   Then I should be on the authentications page
   And I should see "Facebook" within the listed authentications

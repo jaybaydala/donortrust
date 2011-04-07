@@ -14,6 +14,8 @@ module NavigationHelpers
       new_dt_account_path
     when /the accounts page/
       dt_accounts_path
+    when /my account page/
+      dt_account_path(current_user)
     when /the sign up page/
       '/dt/signup'
     when /redisplayed sign up page/

@@ -9,7 +9,6 @@ Background: not logged in
 @omniauth_test
 Scenario: Signup via facebook connect
   When I authenticate with Facebook
-  And I allow donortrust access to my facebook account
   Then I should be on the new account page
   When I select "Canada" from "Country"
   And I check "user_terms_of_use"
