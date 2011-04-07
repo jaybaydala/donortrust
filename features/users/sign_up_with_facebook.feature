@@ -6,9 +6,16 @@ So that I don't have to remember another login
 Background: not logged in
   Given I am not authenticated
 
-@wip @omniauth_test
+@omniauth_test
 Scenario: Signup via facebook connect
   When I authenticate with Facebook
   And I allow donortrust access to my facebook account
   Then I should be on the new account page
-  Then show me the page
+  When I select "Canada" from "Country"
+  And I check "user_terms_of_use"
+  And I press "Complete Registration"
+  Then I should be on the accounts page
+  And I should see "Signed in successfully"
+  And I should see "Welcome, sterrym"
+  When I go to the authentications page
+  Then I should see "Facebook" within the listed authentications

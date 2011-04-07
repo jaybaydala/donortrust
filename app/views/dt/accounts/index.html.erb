@@ -9,7 +9,7 @@
 <ul>
   <li>Track <%= link_to "gifts", new_dt_gift_path %> to your friends and family </li>
   <li>Track <%= link_to "projects", dt_projects_path %> you've given to</li>
-  <li><%= link_to("Deposit", new_dt_account_deposit_path(current_user)) %> into your account to make giving easy</li>
+  <li><%= logged_in? ? link_to("Deposit", new_dt_account_deposit_path(current_user.id)) : "Deposit" %> into your account to make giving easy</li>
   <li>View your <%= logged_in? ? link_to("Account Summary", dt_account_path(current_user)) : "Account Summary" %></li>
 </ul>
 

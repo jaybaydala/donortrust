@@ -12,6 +12,8 @@ module NavigationHelpers
       '/dt'
     when /the new account page/
       new_dt_account_path
+    when /the accounts page/
+      dt_accounts_path
     when /the sign up page/
       '/dt/signup'
     when /redisplayed sign up page/
