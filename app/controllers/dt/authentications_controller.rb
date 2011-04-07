@@ -13,14 +13,14 @@ class Dt::AuthenticationsController < DtApplicationController
       redirect_to dt_authentications_url
     elsif authentication
       flash[:notice] = "Signed in successfully."
-      current_user = authentication.user
+      self.current_user = authentication.user
       redirect_to dt_account_url(current_user)
     else
       user = User.new
       user.apply_omniauth(omniauth)
       if user.save
         flash[:notice] = "Signed in successfully."
-        current_user = user
+        self.current_user = user
         redirect_to dt_account_url(current_user)
       else
         flash[:notice] = "Please fill out the following missing information."
