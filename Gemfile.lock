@@ -221,6 +221,7 @@ GEM
       hoe (>= 1.1.7)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
+    watchr (0.7)
     whenever (0.6.2)
       aaronh-chronic (>= 0.3.9)
       activesupport (>= 2.3.4)
@@ -279,6 +280,7 @@ DEPENDENCIES
   shoulda
   simple-rss
   transaction-simple
+  watchr
   whenever (>= 0.3.0)
   will_paginate
   xml-simple

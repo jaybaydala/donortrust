@@ -55,4 +55,5 @@ group :test, :cucumber do
   gem 'rspec_hpricot_matchers'
   gem 'ruby-debug'
   gem 'shoulda'
+  gem 'watchr'
 end
