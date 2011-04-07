@@ -13,7 +13,7 @@ class Dt::AuthenticationsController < DtApplicationController
     elsif current_user
       current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
       flash[:notice] = "Authentication successful."
-      redirect_to authentications_url
+      redirect_to dt_authentications_url
     else
       user = User.new
       user.apply_omniauth(omniauth)
@@ -23,7 +23,7 @@ class Dt::AuthenticationsController < DtApplicationController
         redirect_to current_user
       else
         session[:omniauth] = omniauth
-        redirect_to new_account_url
+        redirect_to new_dt_account_url
       end
     end
   end
@@ -32,7 +32,7 @@ class Dt::AuthenticationsController < DtApplicationController
     @authentication = current_user.authentications.find(params[:id])
     @authentication.destroy
     flash[:notice] = "Successfully deleted #{@authentication.provider} authentication."
-    redirect_to authentications_url
+    redirect_to dt_authentications_url
   end
 
   def failure
