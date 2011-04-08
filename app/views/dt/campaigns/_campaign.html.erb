@@ -31,6 +31,7 @@
 				<li class="detail"><strong>Start Date:</strong><%= campaign.start_date %></li>
 				<li class="detail"><strong>Event Date:</strong><%= campaign.event_date %></li>
 			</ul>
+      
 			<p>
 				<%= image_tag campaign.image.url(:thumb), :class => :thumbnail if campaign.image? %>
 				<%= summarize_html(campaign.description, 320, true) %>
@@ -51,6 +52,8 @@
 					</p>
 				</div>
 			<% end %>
+			<div style="width:250px;float:right;"><iframe src="http://www.facebook.com/plugins/like.php?href=<%= CGI::escape(dt_campaign_url(campaign)) %>&amp;layout=standard&amp;show_faces=false&amp;width=250&amp;action=like&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:250px; height:35px;" allowTransparency="true"></iframe></div>
+
 			<% if show_admin == true%>
 				<div class="campaign_admin">
 					<h2 class='admin'><span style="color:#000">Admin</span> |
