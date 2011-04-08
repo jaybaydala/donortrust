@@ -28,6 +28,19 @@ class User < ActiveRecord::Base
   has_many :teams, :through => :participants
   has_many :participants
   has_one :profile
+  
+  define_completeness_scoring do
+    check :first_name,   lambda { |u| u.first_name? },   :medium
+    check :last_name,    lambda { |u| u.last_name? },    :medium
+    check :display_name, lambda { |u| u.display_name? }, :medium
+    check :bio,          lambda { |u| u.bio? },          :low
+    check :image,        lambda { |u| u.image? },        :high
+    check :address,      lambda { |u| u.address? },      :low
+    check :city,         lambda { |u| u.city? },         :low
+    check :province,     lambda { |u| u.province? },     :low
+    check :postal_code,  lambda { |u| u.postal_code? },  :low
+    check :country,      lambda { |u| u.country? },      :high
+  end
   has_administrables :model => "Project"
   has_administrables :model => "Partner"
   has_attached_file :picture, 
