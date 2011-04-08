@@ -17,6 +17,14 @@
               <li><%= link_to "Cart", dt_cart_path %> </li>
             <%- end -%>
           </ul>
+          <%- if logged_in? -%>
+          <div style="width:250px;text-align:left;">
+            Profile completeness: currently <%= current_user.percent_complete.to_i %>%
+            <div style="background:#CCC;width:100%;border:1px solid #666;height:8px;">
+              <div style="background:#E84525;width:<%= current_user.percent_complete.to_i %>%;height:8px;"></div>
+            </div>
+          </div>
+          <% end %>
           <% if session[:gift_card_balance] %>
           <ul id="giftcard-balance">
             <li><strong><%= link_to "Gift Card Balance", open_dt_gifts_path %></strong>: <%=h number_to_currency(session[:gift_card_balance]) %></li>
