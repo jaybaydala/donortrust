@@ -1,0 +1,9 @@
+<% content_for :nav do %>
+<ul id="nav" class="wide">
+  <li<%= ' class="current"' if current_nav?('iend') %>><%= link_to "Public Profile", dt_iend_path(current_user) %></li>
+  <li<%= ' class="current"' if current_nav?('users', 'edit') %>><%= link_to "Profile", edit_dt_user_path(current_user) %></li>
+  <li<%= ' class="current"' if current_nav?('users', 'edit_password') %>><%= link_to "Password", edit_password_dt_user_path(current_user) %></li>
+  <li<%= ' class="current"' if current_nav?('authentications') %>><%= link_to "Sign-in Options", dt_authentications_path %></li>
+  <li<%= ' class="current"' if current_nav?('') %>><%= link_to "Preferences", "#" %></li>
+</ul>
+<% end %>

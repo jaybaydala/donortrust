@@ -4,6 +4,15 @@ module DtApplicationHelper
   def recaptcha_available?
     !RCC_PUB.nil? && !RCC_PRIV.nil?
   end
+
+  def current_nav?(controllers, actions=nil)
+    current = false
+    if (actions.present? && [*actions].flatten.include?(action_name) && [*controllers].flatten.include?(controller_name)) ||
+      (actions.blank? && [*controllers].flatten.include?(controller_name))
+      current = true
+    end
+    current
+  end
   
   def ssl_protocol
     return 'https://' if ENV['RAILS_ENV'] == 'production'

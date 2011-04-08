@@ -49,12 +49,6 @@ class Dt::AccountsController < DtApplicationController
     end
   end
 
-  # GET /dt/accounts/1;edit
-  def edit
-    redirect_to(:action => 'index') unless authorized?
-    @user = User.find(params[:id])
-  end
-
   # POST /dt/accounts
   # POST /dt/accounts.xml
   def create
@@ -77,6 +71,12 @@ class Dt::AccountsController < DtApplicationController
         format.xml  { render :xml => @user.errors.to_xml }
       end
     end
+  end
+
+  # GET /dt/accounts/1;edit
+  def edit
+    redirect_to(:action => 'index') unless authorized?
+    @user = User.find(params[:id])
   end
 
   # PUT /dt/accounts/1
@@ -182,7 +182,7 @@ class Dt::AccountsController < DtApplicationController
 
   protected
   # protect the show/edit/update methods so you can only update/view your own record
-  def authorized?(user = current_user())
+  def authorized?(user = self.current_user)
     if ['show', 'edit', 'update'].include?(action_name)
        return false unless logged_in? && params[:id] && current_user.id == params[:id].to_i
     end

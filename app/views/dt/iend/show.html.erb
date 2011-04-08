@@ -1,0 +1,63 @@
+<% content_for :html_title do %>iEnd:Poverty - <%= @user.name %><% end %>
+
+<%= render 'dt/iend/nav' if current_user == @user %>
+
+<h1 class='user'><%= @user.display_name %></h1>
+<div id='left_sidebar'>
+	<div id='profile_image'>
+		<%= image_tag @user.image.url(:normal), :class => :full_picture if @user.image? %>
+		<%= image_tag 'dt/icons/you-icon-orange.png', :class => :thumbnail unless @user.image? %>
+	</div>
+	<div id='profile_action_buttons'>
+		<%= action_button "Give a UEnd gift", dt_give_index_path %>
+		<%= action_button_remote "Ask for a UEnd gift", {:url => request_gift_dt_profile_path(@user), :method => :get} if @user != current_user and logged_in? %>
+		<%#= action_button "Start a Group", "#" %>
+		<%= action_button "Start a Campaign", new_dt_campaign_path if (current_user == @user) and @user.is_cf_admin? %>
+	</div>
+	<!-- <div>Jay's Friends</div> -->
+</div>
+<div id='main_panel' class='clearfix'>
+	<div id='profile_bio'>
+		<h3>Profile</h3>
+		<%- if !@user.bio.blank? -%>
+		<%= @user.bio %>
+		<%- else -%>
+		<%= @user == current_user ? "You have" : "#{@user.display_name} has" -%> not provided a profile description.
+		<%- end -%>
+	</div>
+	<div id='profile_stats'>
+		<%- @user.profile.statistics.each do |stat| -%>
+			<div class='panel'>
+				<%- if @user == current_user and stat[1] == "non-UEnd gifts" -%>
+				<div class='action_info_tab'>
+					<%= link_to_remote "+", :url => increase_gifts_dt_profile_path(@user), :update => 'gifts_value', :method => :get %>
+				</div>
+				<div class='below action_info_tab'>
+					<%= link_to_remote "-", :url => decrease_gifts_dt_profile_path(@user), :update => 'gifts_value', :method => :get %>
+				</div>
+				<span id='gifts_value' class='value'><%= stat.first %></span>
+				<span class='tagline'><%= stat.last %></span>
+				<%- else -%>
+				<span class='value'><%= stat.first %></span>
+				<span class='tagline'><%= stat.last %></span>
+				<%- end -%>
+			</div>
+		<%- end -%>
+	</div>
+	<div id='profile_campaigns'>
+		<h3><%= "#{@user.first_name}'s Campaigns" -%></h3>
+		<%- if @user.campaigns.size > 0 -%>
+			<ul>
+				<%- @user.campaigns.each do |campaign| -%>
+					<li class='<%= campaign.event_date < Time.now ? 'inactive' : 'active' %>'>
+						<%= link_to campaign.name, dt_participant_path(@user.find_participant_in_campaign(campaign)) %>
+						<span>(<%= campaign.event_date.to_date %>)</span>
+					</li>
+				<%- end -%>
+			</ul>
+		<%- else -%>
+			<p><%= @user.first_name %> has not participated in a campaign as yet.</p>
+		<%- end -%>
+	</div>
+	<!-- <div class='profile-posts'>To Be Added</div> -->
+</div>

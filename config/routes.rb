@@ -12,6 +12,8 @@ ActionController::Routing::Routes.draw do |map|
       account.resources :tax_receipts, :controller => 'tax_receipts'
       account.resources :account_memberships, :controller => 'account_memberships'
     end
+    dt.resources :users, :member => { :edit_password => :get }
+    dt.resources :iend, :controller => 'iend'
     dt.resource :session, :controller => 'sessions'
 
     dt.resource :upowered, :controller => "upowered"

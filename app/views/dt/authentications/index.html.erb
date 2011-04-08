@@ -1,4 +1,5 @@
 <%- content_for :html_title do -%>Sign In Options<%- end -%>
+<%= render 'dt/iend/nav' %>
 
 <% if @authentications %>
   <% unless @authentications.empty? %>
@@ -15,7 +16,7 @@
       <div class="clear"></div>
     </div>
   <% end %>
-  <p><strong>Add another service to sign in with:</strong></p>
+  <p><strong>Add a service to sign in with:</strong></p>
 <% else %>
   <p><strong>Sign in through one of these services:</strong></p>
 <% end %>
