@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   has_administrables :model => "Project"
   has_administrables :model => "Partner"
   has_attached_file :picture, 
-                    :styles => { :tiny => "24x24#",:thumb => "48x48#", :normal=>"72x72#" }, 
+                    :styles => { :tiny => "24x24#", :thumb => "48x48#", :normal=>"72x72#" }, 
                     :default_style => :normal,
                     :url => "/images/uploaded_pictures/:attachment/:id/:style/:filename",
                     :default_url => "/images/dt/icons/users/:style/missing.png"
@@ -399,6 +399,7 @@ class User < ActiveRecord::Base
       self.display_name = omniauth['user_info']['nickname'] unless self.display_name?
       self.first_name   = omniauth['user_info']['first_name'] unless self.first_name?
       self.last_name    = omniauth['user_info']['last_name'] unless self.last_name?
+      self.image = open(omniauth['user_info']['image'].sub(/type=square/, 'type=large')) unless self.image? || omniauth['user_info']['image'].blank?
     end
   
     def validate
