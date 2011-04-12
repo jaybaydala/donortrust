@@ -4,7 +4,10 @@
         </div>
         
         <div id="loginbug">
-          <%= link_to image_tag('dt/authentications/facebook_32.png', :alt => "Login with Facebook"), '/dt/auth/facebook' %>
+          <div id="facebooklogin">
+            <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), '/dt/auth/facebook' %></div>
+            <%= link_to 'Login using facebook', '/dt/auth/facebook' %>
+          </div>
           <ul>
             <%- if logged_in? -%>
               <li>Welcome, <%= h(current_user.name) %> | </li>
