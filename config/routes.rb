@@ -142,6 +142,7 @@ ActionController::Routing::Routes.draw do |map|
   map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
   map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
   map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
+  map.dt_home  '/dt/home',  :controller => 'dt/home'
   map.dt_request_us_tax_receipt '/dt/request_us_tax_receipt', :controller => 'dt/sessions', :action => 'request_us_tax_receipt'
 
 
