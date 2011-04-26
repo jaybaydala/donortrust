@@ -33,7 +33,7 @@ module ActiveMerchant #:nodoc:
       # * Dollar Amount 16.00 REJ: 2;
       # * Other Amount REJ: 15. 
       
-      URL = 'https://www.iats.ticketmaster.com/'
+      URL = 'https://www.iatspayments.com/'
       
       self.default_currency = "CAD"
 
@@ -50,7 +50,7 @@ module ActiveMerchant #:nodoc:
       self.supported_cardtypes = [:visa, :master]
       
       # The homepage URL of the gateway
-      self.homepage_url = 'http://www.iats.ticketmaster.com/'
+      self.homepage_url = 'http://www.iatspayments.com/'
       
       # The name of the gateway
       self.display_name = 'IATS, International Automated Transactions Service - Reoccuring Payments'
