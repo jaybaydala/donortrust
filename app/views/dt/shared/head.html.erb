@@ -4,7 +4,7 @@
         </div>
         
         <div id="loginbug">
-          <% unless logged_in? && current_user.authentications.count(:conditions => ["provider=?", :facebook]) > 0 %>
+          <% unless logged_in? && current_user.authentications.count(:conditions => ["provider=?", 'facebook']) > 0 %>
           <div id="facebooklogin">
             <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), '/dt/auth/facebook' %></div>
             <%= link_to 'Login using facebook', '/dt/auth/facebook' %>
@@ -24,7 +24,7 @@
           </ul>
           <%- if logged_in? -%>
           <div style="width:250px;text-align:left;">
-            Profile completeness: currently <%= current_user.percent_complete.to_i %>%
+            <%= link_to "Profile completeness", edit_dt_user_path(current_user) %>: currently <%= current_user.percent_complete.to_i %>%
             <div style="background:#CCC;width:100%;border:1px solid #666;height:8px;">
               <div style="background:#E84525;width:<%= current_user.percent_complete.to_i %>%;height:8px;"></div>
             </div>
