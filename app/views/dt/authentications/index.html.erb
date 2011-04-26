@@ -4,7 +4,7 @@
 <% if @authentications %>
   <% unless @authentications.empty? %>
     <p><strong>You have signed in with these services:</strong></p>
-    <div class="authentications">
+    <div class="authentications clearfix">
       <% for authentication in @authentications %>
         <div class="authentication">
           <%= image_tag "dt/authentications/#{authentication.provider}_32.png", :size => "32x32" %>
@@ -13,7 +13,6 @@
           <%= link_to "X", [:dt, authentication], :confirm => 'Are you sure you want to remove this authentication option?', :method => :delete, :class => "remove" %>
         </div>
       <% end %>
-      <div class="clear"></div>
     </div>
   <% end %>
   <p><strong>Add a service to sign in with:</strong></p>
@@ -21,11 +20,12 @@
   <p><strong>Sign in through one of these services:</strong></p>
 <% end %>
 
-<a href="/auth/facebook" class="auth_provider">
-  <%= image_tag "dt/authentications/facebook_64.png", :size => "64x64", :alt => "Facebook" %>
-  Facebook
-</a>
-<div class="clear"></div>
+<div class="clearfix">
+  <a href="/auth/facebook" class="auth_provider">
+    <%= image_tag "dt/authentications/facebook_64.png", :size => "64x64", :alt => "Facebook" %>
+    Facebook
+  </a>
+</div>
 
 <% unless logged_in? %>
   <p>
