@@ -25,8 +25,7 @@
       <ul>
         <li><%= link_to "Find a project to donate to", dt_projects_path %></li>
         <% if Project.unallocated_project %><li><%= link_to "Let Uend: figure it out", new_dt_investment_path(:unallocated_gift => 1) %></li><% end %>
-        <li><%= link_to "Deposit it into my account", new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) %></li>
-        <% if Project.admin_project %><li><%= link_to "Donate it to Uend:'s Operational budget", new_dt_investment_path(:admin_gift => 1) %></li><% end %>
+        <% if Project.admin_project %><li><%= link_to "Donate it to UEnd's Operational budget", new_dt_investment_path(:admin_gift => 1) %></li><% end %>
       </ul>
     </div>
     <div class="textsm">Note: if you choose to do nothing, your gift will expire 30 days after it was sent, which is just like choosing &quot;Let Uend: figure it out&quot;</div>
