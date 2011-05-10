@@ -27,3 +27,7 @@ Given /^I am an authenticated user$/ do
   Given "I fill in \"Password\" with \"Secret123\""
   Given "I press \"Login\""
 end
+
+Then /^a user account should exist for the email "(.*)"$/ do |email|
+  User.find_by_login!(email)
+end

@@ -16,6 +16,11 @@ module NavigationHelpers
       dt_accounts_path
     when /my account page/
       dt_account_path(current_user)
+    when /my cart page/
+      dt_cart_path
+    when /the order confirmation page/
+      # @order ||= Order.last
+      dt_checkout_path
     when /the sign up page/
       '/dt/signup'
     when /redisplayed sign up page/
