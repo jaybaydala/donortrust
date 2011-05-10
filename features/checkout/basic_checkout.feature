@@ -33,7 +33,6 @@ Scenario: Successful checkout with fewest options
   And I should see "Thank you for helping to change the world."
   And my order should be complete
 
-@wip
 Scenario: Successful checkout with signup
   Given I am on my cart page
   And I follow "Checkout"
