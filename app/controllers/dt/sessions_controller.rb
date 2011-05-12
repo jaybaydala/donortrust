@@ -40,8 +40,13 @@ class Dt::SessionsController < DtApplicationController
     self.current_user = User.authenticate(params[:login], params[:password])
     respond_to do |format|
       if logged_in?
-        current_user.update_attributes(:last_logged_in_at => Time.now)
+        current_user.update_attribute(:last_logged_in_at, Time.now)
         session[:tmp_user] = nil
+         if session[:omniauth]
+           authentication = current_user.apply_omniauth(session[:omniauth])
+           authentication.save
+           session[:omniauth] = nil
+         end
         if params[:remember_me] == "1"
           self.current_user.remember_me
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
@@ -59,7 +64,7 @@ class Dt::SessionsController < DtApplicationController
           #and the user redirected to the GroundSpring page
           unless requires_us_tax_receipt?
             flash[:notice] = "Logged in successfully"
-            format.html { redirect_back_or_default(:controller => '/dt/home', :action => 'index') }
+            format.html { redirect_back_or_default(dt_home_path) }
           else
             #The user has indicated that they want a US tax receipt,
             #so clear out the session variable and

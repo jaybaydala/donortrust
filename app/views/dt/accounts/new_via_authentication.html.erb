@@ -1,9 +1,19 @@
 <%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
-<%- content_for :html_title do -%>Sign Up<%- end -%>
+<%- content_for :html_title do -%>Complete your <%= session[:omniauth]['provider'] %> registration<%- end -%>
 <%- content_for :head do -%><%= javascript_include_tag "dt/accounts" %><%- end -%>
 
+
+<h2>Already have a UEnd account? Login:</h2>
+<% form_for(:user, :url => dt_session_url(:protocol =>  ssl_protocol), :html => { :name => 'loginform' }) do |f| %>
+  <div class="textsm clearfix">
+    <label for="login">Username/Email</label> <%= text_field_tag 'login' %><br />
+    <label for="password">Password</label> <%= password_field_tag 'password' %><br />
+    <label><%= check_box_tag "remember_me" %> Remember Me</label><br />
+    <%= submit_tag "Link #{session[:omniauth]['provider']} profile", :class => "buttonsubmit" %>
+  </div>
+<% end %>
+
 <p>To complete your registration, please enter your information in the spaces below.</p>
-  
 <% form_for(@user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform", :multipart => true}) do |f| %>
 <div class="userform">
   <fieldset>
@@ -67,7 +77,3 @@
 
 </div>
 <% end -%>
-
-<%- content_for :sidebar do -%>
-  <%= render :file => "dt/accounts/profile_sidebar" %>
-<%- end -%>
