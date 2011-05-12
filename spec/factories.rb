@@ -43,6 +43,23 @@ Factory.define :deposit do |d|
   d.association :user, :factory => :user
 end
 
+Factory.define :gift do |g|
+  email = Faker::Internet.email
+  to_email = Faker::Internet.email
+  g.amount 100
+  g.email { email }
+  g.email_confirmation { email }
+  g.to_email { to_email }
+  g.to_email_confirmation { to_email }
+  g.send_at { 1.day.from_now }
+end
+
+Factory.define :investment do |i|
+  i.amount 100
+  i.association :project, :factory => :project
+end
+
+
 Factory.define :order do |o|
   o.first_name { Faker::Name.first_name }
   o.last_name { Faker::Name.last_name }
@@ -113,6 +130,11 @@ Factory.define :project do |p|
   p.association :place
   p.association :program
   p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
+end
+
+Factory.define :project_status do |p|
+  p.name { "#{Faker::Lorem.words(5).join(" ")} Project Status"}
+  p.description { Faker::Lorem.sentence }
 end
 
 Factory.sequence :team_short_name do |n|
