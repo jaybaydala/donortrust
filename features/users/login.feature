@@ -7,7 +7,7 @@ Feature: Sign in
     Given I am an authenticated user
     Then I should see "Logged in successfully"
     And I should be on the home page
-  
+
   Scenario: Invalid login credentials
     Given I signed up as "testing@example.com" with password "secretpass"
     When I go to the login page

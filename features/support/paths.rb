@@ -9,7 +9,7 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/dt'
+      '/dt/home'
     when /the new account page/
       new_dt_account_path
     when /the accounts page/
