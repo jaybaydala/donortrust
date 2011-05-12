@@ -1,4 +1,5 @@
-<% unless logged_in? %>
+<% hide_login ||= false %>
+<% if !logged_in? && !hide_login %>
   <h2>Already a user? Login:</h2>
   <% form_for(:user, :url => dt_session_url(:protocol =>  ssl_protocol), :html => { :name => 'loginform' }) do |f| %>
     <% store_location %>
