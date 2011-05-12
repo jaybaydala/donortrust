@@ -1,6 +1,6 @@
 def run_specs
   puts "Running specs"
-  system "bundle exec spec"
+  system "bundle exec spec spec"
   puts
 end
 
@@ -17,7 +17,7 @@ end
 
 def run_features
   puts "Running default features"
-  system "bundle exec cucumber --require features"
+  system "bundle exec cucumber --require features --profile rerun"
   puts
 end
 

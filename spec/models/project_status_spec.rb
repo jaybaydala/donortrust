@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ProjectStatus do
   before do
-    @project_status = ProjectStatus.generate!
+    @project_status = Factory(:project_status)
   end
   
   it "should validate the presence of name" do
@@ -17,8 +17,8 @@ describe ProjectStatus do
   
   describe "class methods" do
     before do
-      @project_status_active = ProjectStatus.generate!(:name => "Active")
-      @project_status_completed = ProjectStatus.generate!(:name => "Completed")
+      @project_status_active = Factory(:project_status, { :name => "Active" })
+      @project_status_completed = Factory(:project_status, { :name => "Completed" })
     end
     describe "started method" do
       it "should return the first Active ProjectStatus record" do
