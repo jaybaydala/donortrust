@@ -17,3 +17,4 @@ tmp*
 .bundle
 capybara*.html
 public/system/*
+donortrust.tmproj
