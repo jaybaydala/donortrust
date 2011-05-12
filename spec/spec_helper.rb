@@ -5,9 +5,6 @@ require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environ
 require 'spec/autorun'
 require 'spec/rails'
 
-# Activates Machinist for data generation
-require File.expand_path(File.dirname(__FILE__) + "/blueprints")
-
 # Uncomment the next line to use webrat's matchers
 #require 'webrat/integrations/rspec-rails'
 
