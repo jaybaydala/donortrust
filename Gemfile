@@ -39,10 +39,8 @@ gem 'youtube-g', :require => 'youtube_g'
 
 group :test, :cucumber do
   gem 'cucumber-rails', '>=0.3.2', :require => false
-  gem 'cucumber', '>=0.9.4', :require => false
   gem 'rspec-rails', '< 2.0'
-  gem 'rspec', '< 2.0'
-
+  
   gem 'autotest'
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
   gem 'database_cleaner', '>=0.5.2', :require => false
