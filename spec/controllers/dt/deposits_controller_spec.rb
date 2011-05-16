@@ -23,7 +23,9 @@ describe Dt::DepositsController do
     controller.stub!(:logged_in?).and_return(true)
     
     @deposit = Factory.build(:deposit)
-    Deposit.stub!(:new).and_return(@deposit)
+    @cart = Factory(:cart)
+    Cart.stub!(:create).and_return(@cart)
+    Cart.stub!(:find).and_return(@cart)
   end
 
   describe "new action" do
@@ -69,6 +71,7 @@ describe Dt::DepositsController do
     before do
       @deposit.stub!(:user_ip_addr=).and_return(true)
       @deposit.stub!(:valid?).and_return(true)
+      Deposit.stub(:new).and_return(@deposit)
     end
     
     it "should redirect to dt_cart_path" do
@@ -85,17 +88,15 @@ describe Dt::DepositsController do
     describe "valid deposit" do
       before do
         @deposit.should_receive(:valid?).any_number_of_times.and_return(true)
-        @cart = Cart.create
-        Cart.stub!(:new).and_return(@cart)
-        Cart.stub!(:create).and_return(@cart)
       end
       
       it "should find_cart" do
-        controller.should_receive(:find_cart).and_return(@cart)
+        Cart.should_receive(:create).and_return(@cart)
         do_request
       end
 
       it "should @cart.add_item" do
+        Deposit.stub(:new).and_return(@deposit)
         @cart.should_receive(:add_item).with(@deposit).and_return([@deposit])
         do_request
       end
@@ -113,7 +114,7 @@ describe Dt::DepositsController do
 
     describe "invalid deposit" do
       before do
-        @deposit.should_receive(:valid?).and_return(false)
+        @deposit.stub!(:valid?).and_return(false)
       end
       
       it "should render the new template" do
@@ -123,16 +124,15 @@ describe Dt::DepositsController do
     end
     
     def do_request
-      post "create", :account_id => @user.id
+      post "create", :account_id => @user.id, :deposit => @deposit.attributes.delete_if{|d| d.nil?}
     end
   end
 
   describe "edit action" do
     before do
-      @deposit.stub!(:kind_of?).and_return(true)
-      @cart = Cart.new
-      @cart.stub!(:items).and_return([@deposit])
-      Cart.stub!(:new).and_return(@cart)
+      @cart_items = mock()
+      @cart_items.stub(:find).and_return(Factory(:cart_line_item, :item => @deposit))
+      @cart.stub(:items).and_return(@cart_items)
     end
     
     it "should render the edit template" do
@@ -141,18 +141,20 @@ describe Dt::DepositsController do
     end
     
     it "should load the cart" do
-      controller.should_receive(:find_cart).and_return(@cart)
+      Cart.should_receive(:create).and_return(@cart)
       do_request
     end
     
     it "should load the item from the cart" do
-      @cart.should_receive(:items).twice.and_return([@deposit])
+      @cart.should_receive(:items).twice.and_return(@cart_items)
       do_request
-      assigns[:deposit].should == @deposit
+      assigns[:deposit].attributes.should eql(@deposit.attributes)
     end
     
     it "should redirect if the item at id/index isn't the right type of object" do
-      @cart.should_receive(:items).and_return([Investment.new])
+      items = mock()
+      items.should_receive(:find).and_return(Factory(:cart_line_item, :item => Factory.build(:investment)))
+      @cart.should_receive(:items).and_return(items)
       do_request
       response.should redirect_to(dt_cart_path)
     end
@@ -164,13 +166,10 @@ describe Dt::DepositsController do
 
   describe "update action" do
     before do
-      @deposit.stub!(:kind_of?).and_return(true)
-      @deposit.stub!(:attributes=).and_return(true)
-      @deposit.stub!(:user_ip_addr=).and_return(true)
-      @deposit.stub!(:valid?).and_return(true)
-      @cart = Cart.new
-      @cart.stub!(:items).and_return([@deposit])
-      Cart.stub!(:new).and_return(@cart)
+      @cart.add_item(@deposit)
+      @cart_items = @cart.items
+      @cart_items.each {|ci| ci.stub(:item).and_return(@deposit) }
+      @cart.stub(:items).and_return(@cart_items)
     end
     
     it "should redirect to dt_cart_path" do
@@ -179,12 +178,12 @@ describe Dt::DepositsController do
     end
     
     it "should load the cart" do
-      controller.should_receive(:find_cart).and_return(@cart)
+      Cart.should_receive(:create).and_return(@cart)
       do_request
     end
     
     it "should load the item from the cart" do
-      @cart.should_receive(:items).twice.and_return([@deposit])
+      @cart.should_receive(:items).twice.and_return(@cart_items)
       do_request
       assigns[:deposit].should == @deposit
     end
@@ -200,20 +199,20 @@ describe Dt::DepositsController do
     end
     
     it "should redirect and not update cart if the item at id/index isn't the right type of object" do
-      @cart.should_receive(:items).and_return([Investment.new])
+      @cart.should_receive(:items).and_return([ Factory(:cart_line_item, :item => Investment.new) ])
       @cart.should_not_receive(:update_item)
       do_request
       response.should redirect_to(dt_cart_path)
     end
     
     it "should render the edit template if !valid?" do
-      @deposit.should_receive(:valid?).and_return(false)
+      @deposit.stub(:valid?).and_return(false)
       do_request
       response.should render_template("edit")
     end
 
     def do_request
-      put 'update', :account_id => @user, :id => 0, :deposit => {:amount => 50}
+      put 'update', {:controller => 'dt/deposits', :action => :update, :account_id => @user.id, :id => @cart_items.last.id, :deposit => {:amount => 50} }
     end
   end
 
