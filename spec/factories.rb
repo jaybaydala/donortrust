@@ -27,10 +27,17 @@ Factory.define :campaign do |a|
   a.allocate_funds_by_date { 3.months.from_now }
 end
 
-
 Factory.define :campaign_type do |a|
   a.name { Faker::Lorem.words(5).join(' ') + " CampaignType" }
   a.has_teams { [true, false].rand }
+end
+
+Factory.define :cart do |c|
+end
+
+Factory.define :cart_line_item do |c|
+  c.cart {|c| c.association(:cart) }
+  c.item { [ Factory.build(:investment), Factory.build(:gift) ].rand }
 end
 
 Factory.define :contact do |c|
