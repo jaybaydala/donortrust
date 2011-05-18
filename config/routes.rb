@@ -127,7 +127,7 @@ ActionController::Routing::Routes.draw do |map|
 
     #Done with everything pretaining to campaigns
 
-    dt.resources :give, :controller => 'give'
+    dt.resource :give, :controller => 'give'
     
     # User campaign profiles
     dt.resources :profiles, :only => 'show', :member => { :increase_gifts => :get,
