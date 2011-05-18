@@ -39,6 +39,6 @@ class Dt::AuthenticationsController < DtApplicationController
 
   def failure
     flash[:notice] = "Sorry, we couldn't log you in"
-    redirect_to root_url
+    redirect_to dt_home_url
   end
 end
