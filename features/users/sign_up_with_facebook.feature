@@ -16,11 +16,12 @@ Scenario: Signup via facebook connect
   And I press "Complete Registration"
   Then I should be on the accounts page
   And I should see "Signed in successfully"
-  And I should see "Welcome, sterrym"
+  And I should see "Welcome, timg"
   When I go to the authentications page
   Then I should see "Facebook" within the listed authentications
+  And my birthday should be stored in my account
 
-@omniauth_test
+@omniauth_test @wip
 Scenario: Signup via facebook connect with an existing account
   Given the following users exist:
     | login              |
@@ -34,3 +35,4 @@ Scenario: Signup via facebook connect with an existing account
   Then I should see "Logged in successfully"
   When I go to the authentications page
   Then I should see "Facebook" within the listed authentications
+  And my birthday should be stored in my account

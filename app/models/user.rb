@@ -399,7 +399,8 @@ class User < ActiveRecord::Base
       self.display_name = omniauth['user_info']['nickname'] unless self.display_name?
       self.first_name   = omniauth['user_info']['first_name'] unless self.first_name?
       self.last_name    = omniauth['user_info']['last_name'] unless self.last_name?
-      self.image = open(omniauth['user_info']['image'].sub(/type=square/, 'type=large')) unless self.image? || omniauth['user_info']['image'].blank?
+      self.image        = open(omniauth['user_info']['image'].sub(/type=square/, 'type=large')) unless self.image? || omniauth['user_info']['image'].blank?
+      self.birthday     = omniauth['extra']['user_hash']['birthday'].to_date if omniauth['extra']['user_hash']['birthday'].present? && !self.birthday?
     end
   
     def validate

@@ -43,8 +43,8 @@ class Dt::SessionsController < DtApplicationController
         current_user.update_attribute(:last_logged_in_at, Time.now)
         session[:tmp_user] = nil
          if session[:omniauth]
-           authentication = current_user.apply_omniauth(session[:omniauth])
-           authentication.save
+           current_user.apply_omniauth(session[:omniauth])
+           current_user.save # save the authentication and profile updates
            session[:omniauth] = nil
          end
         if params[:remember_me] == "1"
