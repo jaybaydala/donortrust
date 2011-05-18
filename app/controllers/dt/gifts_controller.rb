@@ -38,6 +38,7 @@ class Dt::GiftsController < DtApplicationController
     @gift = Gift.new(:e_card => @ecards.first)
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
+    @gift.name = current_user.full_name if !@gift.name? && logged_in?
     
     if params[:project_id] && @project = Project.find(params[:project_id]) 
       if @project.fundable?
@@ -56,13 +57,8 @@ class Dt::GiftsController < DtApplicationController
         @gift.promotion = promotion
       end
       # Otherwise, someone has tried to hack the query string with any old rubbish
-
     end
 
-    if logged_in?
-      @gift.write_attribute("email", current_user.email) unless @gift.email?
-      @gift.write_attribute("name", current_user.full_name) unless @gift.name?
-    end
     respond_to do |format|
       format.html {
         unless logged_in? && current_user.in_country?(CANADA)
@@ -254,45 +250,42 @@ class Dt::GiftsController < DtApplicationController
   end
 
   protected
-  def load_ecards 
-    @ecards = ECard.find(:all, :order => :id)
-    @ecards.unshift(@ecards.delete_at(2)) unless @ecards.empty? # changing the default image
-  end
-  
-  def fix_date_params!
-    params[:gift].delete_if{ |key,value| key.to_s[0,8] == "send_at(" }
-  end
-  def add_user_to_params
-    unless params[:gift].nil?
-      params[:gift][:user] = current_user if logged_in?
+    def load_ecards 
+      @ecards = ECard.find(:all, :order => :id)
+      @ecards.unshift(@ecards.delete_at(2)) unless @ecards.empty? # changing the default image
     end
-  end
-  
-  
-  
-  def gift_params
-    gift_params = {}
-    gift_params = gift_params.merge(params[:gift]) if params[:gift]
-    normalize_send_at!(gift_params)
-    gift_params
-  end
-  
-  
-  
-  def normalize_send_at!(gift_params)
-    delete_send_at = false
-    (1..5).each do |x|
-      delete_send_at = true if gift_params["send_at(#{x}i)"] == '' || !gift_params["send_at(#{x}i)"]
+
+    def fix_date_params!
+      params[:gift].delete_if{ |key,value| key.to_s[0,8] == "send_at(" }
     end
-    if delete_send_at
-      (1..5).each do |x|
-        gift_params.delete("send_at(#{x}i)")
+
+    def add_user_to_params
+      unless params[:gift].nil?
+        params[:gift][:user] = current_user if logged_in?
       end
     end
-  end
-  
-  # this does the actually time-shifting for scheduling the gift?
-  def set_time_zone
-    Time.zone = params[:time_zone] if params[:time_zone]
-  end
+
+    def gift_params
+      gift_params = {}
+      gift_params = gift_params.merge(params[:gift]) if params[:gift]
+      normalize_send_at!(gift_params)
+      gift_params
+    end
+
+    def normalize_send_at!(gift_params)
+      delete_send_at = false
+      (1..5).each do |x|
+        delete_send_at = true if gift_params["send_at(#{x}i)"] == '' || !gift_params["send_at(#{x}i)"]
+      end
+      if delete_send_at
+        (1..5).each do |x|
+          gift_params.delete("send_at(#{x}i)")
+        end
+      end
+    end
+
+    # this does the actually time-shifting for scheduling the gift?
+    def set_time_zone
+      Time.zone = params[:time_zone] if params[:time_zone]
+    end
 end
