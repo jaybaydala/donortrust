@@ -5,12 +5,16 @@
 
 <h2>Already have a UEnd account? Login:</h2>
 <% form_for(:user, :url => dt_session_url(:protocol =>  ssl_protocol), :html => { :name => 'loginform' }) do |f| %>
-  <div class="textsm clearfix">
-    <label for="login">Username/Email</label> <%= text_field_tag 'login' %><br />
-    <label for="password">Password</label> <%= password_field_tag 'password' %><br />
-    <label><%= check_box_tag "remember_me" %> Remember Me</label><br />
-    <%= submit_tag "Link #{session[:omniauth]['provider']} profile", :class => "buttonsubmit" %>
-  </div>
+<div class="userform">
+  <fieldset>
+    <ol class="clearfix">
+      <li><label for="login">Username/Email</label> <%= text_field_tag 'login' %><br /></li>
+      <li><label for="password">Password</label> <%= password_field_tag 'password' %><br /></li>
+      <li><label><%= check_box_tag "remember_me" %> Remember Me</label><br /></li>
+      <li><%= submit_tag "Link #{session[:omniauth]['provider']} profile", :class => "buttonsubmit" %></li>
+    </ol>
+  </fieldset>
+</div>
 <% end %>
 
 <p>To complete your registration, please enter your information in the spaces below.</p>
