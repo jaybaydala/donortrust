@@ -12,15 +12,14 @@ class Dt::InvestmentsController < DtApplicationController
     @investment = Investment.new( params[:investment] )
     @investment.project_id = params[:project_id] if params[:project_id]
     # load the unallocated_project if no other project is loaded
-    @investment.project = Project.unallocated_project if (Project.unallocated_project && !@investment.project)
-    @project = @investment.project if @investment.project
+    @investment.project = Project.unallocated_project unless @investment.project.present?
+    @project = @investment.project
     # Is this investment being made as a result of a promotion?
     if params[:promotion_id]
       promotion = Promotion.find(params[:promotion_id])
       if !promotion.nil?
         @investment.promotion = promotion
       end
-      # Otherwise, someone has tried to hack the query string with any old rubbish
     end
 
     respond_to do |format|
