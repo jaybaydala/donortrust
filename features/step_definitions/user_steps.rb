@@ -31,3 +31,9 @@ end
 Then /^a user account should exist for the email "(.*)"$/ do |email|
   User.find_by_login!(email)
 end
+
+Then /^my birthday should be stored in my account$/ do
+  @user ||= @current_user || User.last
+  @user.birthday.should_not be_nil
+end
+
