@@ -137,6 +137,7 @@ Factory.define :project do |p|
   p.association :place
   p.association :program
   p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
+  p.slug nil
 end
 
 Factory.define :project_status do |p|
