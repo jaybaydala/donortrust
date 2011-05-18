@@ -10,7 +10,7 @@ end
 
 Given /^that I have completed the checkout process$/ do
   steps %Q{
-    Given that I have added a $10 investment to my cart
+    Given that I am on the dt cart page
     And I follow "Checkout"
     And I press "Proceed to Step 2"
     And I fill in "First Name" with "John"
