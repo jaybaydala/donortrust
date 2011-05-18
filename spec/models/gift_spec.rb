@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Gift do
   before do
-    @gift = Gift.generate!
+    @gift = Factory(:gift)
   end
   
   it "should create a gift" do
-    lambda{ Gift.generate! }.should change(Gift, :count).by(1)
+    lambda{ Factory(:gift) }.should change(Gift, :count).by(1)
   end
   
   describe "validations" do
@@ -60,7 +60,7 @@ describe Gift do
       @gift.balance.should == @gift.amount
     end
     it "should be nil if a project is selected" do
-      @gift.project = Project.generate!
+      @gift.project = Factory(:project)
       @gift.save
       @gift.balance.should be_nil
     end
@@ -73,15 +73,16 @@ describe Gift do
 
   describe "send_at" do
     it "should allow future dates on creation" do
-      @gift = Gift.generate(:send_at => 1.day.from_now)
+      @gift = Factory(:gift, :send_at => 1.day.from_now)
       @gift.errors.on(:send_at).should be_nil
     end
-    it "should allow future dates on creation" do
-      @gift = Gift.generate(:send_at => Time.now - 1)
+    it "should not allow past dates on creation" do
+      @gift = Factory.build(:gift, :send_at => Time.now - 1)
+      @gift.valid?
       @gift.errors.on(:send_at).should_not be_nil
     end
     it "should allow future or past dates on update" do
-      @gift = Gift.generate
+      @gift = Factory(:gift)
       @gift.update_attributes(:send_at => Time.now - 1).should be_true
       @gift.update_attributes(:send_at => Time.now + 10).should be_true
     end
@@ -102,9 +103,9 @@ describe Gift do
   
   describe "find_unopened_gifts" do
     it "should only find gifts with a pickup_code and that hasn't been sent" do
-      @picked_up = Gift.generate!
+      @picked_up = Factory(:gift)
       @picked_up.pickup
-      @sent = Gift.generate!
+      @sent = Factory(:gift)
       @sent.send_gift_mail
       # Gift.find_unopened_gifts.should == [@gift]
       Gift.find_unopened_gifts.each do |gift|
@@ -136,7 +137,7 @@ describe Gift do
   
   describe "with a project" do
     before do
-      @project = Project.generate!
+      @project = Factory(:project)
       @project.update_attributes(:total_cost => 100)
       @project.stub!(:dollars_raised).and_return(90)
     end
