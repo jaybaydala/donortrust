@@ -5,7 +5,7 @@ So that I can be kept up to date on UEnd information
 
 Background: logged in
   Given I am an authenticated user
-  And I have already allowed access to my facebook account
+  And I have allowed access to my facebook account
   And I am not currently authenticated
 
 @omniauth_test
