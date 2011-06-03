@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.root :controller => 'dt/home', :action => 'index'
   map.namespace(:dt) do |dt|
     dt.resources :authentications
     dt.auth_callback "/auth/:provider/callback", :controller => "authentications", :action => "create"
