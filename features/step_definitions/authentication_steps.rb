@@ -2,7 +2,7 @@ When /^I authenticate with (.*)$/ do |provider|
   visit dt_auth_callback_path(provider.to_sym)
 end
 
-Given /^I have already allowed access to my (.*) account$/ do |provider|
+Given /^I have allowed access to my (.*) account$/ do |provider|
   visit dt_auth_callback_path(provider.to_sym)
 end
 
