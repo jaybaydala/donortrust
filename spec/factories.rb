@@ -28,7 +28,7 @@ Factory.define :campaign do |a|
 end
 
 Factory.define :campaign_type do |a|
-  a.name { Faker::Lorem.words(5).join(' ') + " CampaignType" }
+  a.name { Faker::Lorem.words(6).join(' ') + " CampaignType" }
   a.has_teams { [true, false].rand }
 end
 
@@ -63,7 +63,7 @@ end
 
 Factory.define :investment do |i|
   i.amount 100
-  i.association :project, :factory => :project
+  i.association :project#, :factory => :project
 end
 
 
@@ -116,21 +116,21 @@ Factory.define :partner_status do |p|
 end
 
 Factory.define :place do |p|
-  p.name { "#{Faker::Lorem.words(5).join(" ")} Place"}
+  p.name { "#{Faker::Lorem.words(6).join(" ")} Place"}
   p.association :place_type
 end
 
 Factory.define :place_type do |p|
-  p.name { "#{Faker::Lorem.words(5).join(" ")} PlaceType"}
+  p.name { "#{Faker::Lorem.words(6).join(" ")} PlaceType"}
 end
 
 Factory.define :program do |p|
-  p.name { "#{Faker::Lorem.words(5).join(" ")} Program"}
+  p.name { "#{Faker::Lorem.words(6).join(" ")} Program"}
   p.association :contact
 end
 
 Factory.define :project do |p|
-  p.name { "#{Faker::Lorem.words(5).join(" ")} Project"}
+  p.name { "#{Faker::Lorem.words(6).join(" ")} Project"}
   p.target_start_date Time.now
   p.total_cost 25000
   p.association :partner
@@ -140,9 +140,61 @@ Factory.define :project do |p|
   p.slug nil
 end
 
+Factory.define :admin_project, :class => Project do |p|
+  p.slug "admin"
+  p.name { "#{Faker::Lorem.words(6).join(" ")} Project"}
+  p.target_start_date 1.year.ago
+  p.total_cost 10000000
+  p.association :partner
+  p.association :place
+  p.association :program
+  p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
+end
+
+Factory.define :unallocated_project, :class => Project do |p|
+  p.slug "unallocated"
+  p.name { "#{Faker::Lorem.words(6).join(" ")} Project"}
+  p.target_start_date 1.year.ago
+  p.total_cost 10000000
+  p.association :partner
+  p.association :place
+  p.association :program
+  p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
+end
+
 Factory.define :project_status do |p|
-  p.name { "#{Faker::Lorem.words(5).join(" ")} Project Status"}
+  p.name { "#{Faker::Lorem.words(6).join(" ")} Project Status"}
   p.description { Faker::Lorem.sentence }
+end
+
+Factory.define :subscription do |s|
+  s.donor_type "personal"
+  s.first_name { Faker::Name.first_name }
+  s.last_name { Faker::Name.last_name }
+  s.email { Faker::Internet.email }
+  s.address { Faker::Address.street_address }
+  s.city 'Calgary'
+  s.province 'AB'
+  s.postal_code 'T2Y 3N2'
+  s.country 'Canada'
+  s.begin_date { Date.today }
+  s.schedule_type "MONTHLY"
+  s.schedule_date {|s| s.begin_date.day }
+  s.end_date {|s| s.begin_date + 10.years }
+  s.card_number 4111111111111111
+  s.expiry_month "01"
+  s.expiry_year Date.today.year + 1
+  s.cardholder_name { Faker::Name.name }
+  s.customer_code "12345"
+  s.amount 5
+  s.cvv 989
+end
+
+Factory.define :subscription_line_item do |s|
+  Project.admin_project || Factory(:admin_project)
+  s.item_type "Investment"
+  s.item_attributes { Factory.build(:investment, :amount => 5, :project => Project.admin_project).attributes }
+  s.association :subscription
 end
 
 Factory.sequence :team_short_name do |n|
