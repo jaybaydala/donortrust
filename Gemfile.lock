@@ -219,6 +219,7 @@ GEM
     shoulda (2.11.3)
     simple-rss (1.2.3)
     term-ansicolor (1.0.5)
+    timecop (0.3.5)
     transaction-simple (1.4.0)
       hoe (>= 1.1.7)
     treetop (1.4.9)
@@ -280,6 +281,7 @@ DEPENDENCIES
   searchlogic
   shoulda
   simple-rss
+  timecop
   transaction-simple
   watchr
   whenever (>= 0.3.0)
