@@ -17,8 +17,8 @@ describe ProjectStatus do
   
   describe "class methods" do
     before do
-      @project_status_active = Factory(:project_status, { :name => "Active" })
-      @project_status_completed = Factory(:project_status, { :name => "Completed" })
+      @project_status_active = ProjectStatus.active || Factory(:project_status, { :name => "Active" })
+      @project_status_completed = ProjectStatus.completed || Factory(:project_status, { :name => "Completed" })
     end
     describe "started method" do
       it "should return the first Active ProjectStatus record" do

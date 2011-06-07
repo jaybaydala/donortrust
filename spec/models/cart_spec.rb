@@ -2,13 +2,13 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Cart do
   before do
-    @cart = Cart.create!
+    @cart = Cart.create!(:add_optional_donation => false)
     @gift = mock_model(Gift, :attributes => Factory.build(:gift).attributes, :valid? => true)
     @deposit = mock_model(Deposit, :attributes => Factory.build(:deposit).attributes, :valid? => true)
     @investment = mock_model(Investment, :attributes => Factory.build(:investment).attributes, :valid? => true)
   end
   
-  it "should start with an empty items array" do
+  it "should start empty" do
     @cart.items.should == []
   end
   

@@ -48,7 +48,7 @@ class Cart < ActiveRecord::Base
   end
 
   def empty?
-    self.items.empty?
+    self.items_without_donation.empty?
   end
 
   def gifts
@@ -91,8 +91,12 @@ class Cart < ActiveRecord::Base
     @total ||= self.items.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end
 
+  def items_without_donation
+    self.items.find_all_by_donation([false, nil])
+  end
+
   def total_without_donation
-    @total_without_donation ||= self.items.find_all_by_donation([false, nil]).inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
+    @total_without_donation ||= items_without_donation.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end
 
   def update_item(id, item)
