@@ -19,6 +19,10 @@ every 4.hours do
   rake "-s ultrasphinx:index"
 end
 
+every 1.month do
+  runner 'Subscription.notify_impending_card_expirations'
+end
+
 every 1.day, :at => '3:50am' do
   rake "--trace scheduler:process_stale_accounts"
 end
