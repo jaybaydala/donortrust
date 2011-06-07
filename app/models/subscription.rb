@@ -134,7 +134,7 @@ class Subscription < ActiveRecord::Base
     response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
     if response.success?
       order.update_attributes({:authorization_result => response.authorization})
-      order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
+      # order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
       self.line_items.each do |line_item|
         item = line_item.item
         item.order_id = order.id
