@@ -189,6 +189,16 @@ class DonortrustMailer < ActionMailer::Base
     body[:upowered_url] = dt_upowered_url(:host => HTTP_HOST)
     body[:subscription] = email_subscription
   end
+
+  def impending_subscription_card_expiration_notice(subscription)
+    from "upowered@uend.org"
+    recipients subscription.email
+    subject 'UPowered: Impending credit card expiry'
+    sent_on Time.now
+    body[:subscription] = subscription
+    body[:edit_upowered_url] = edit_dt_subscription_url(subscription, :host => HTTP_HOST)
+  end
+
   
   def tax_receipt(receipt)
     content_type "text/plain"

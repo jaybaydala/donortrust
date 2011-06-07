@@ -35,6 +35,12 @@ class Subscription < ActiveRecord::Base
     read_attribute(:card_number)
   end
 
+  def self.notify_impending_card_expirations
+    Subscription.all(:conditions => ['expiry_month = ? AND expiry_year = ?', Date.today.month, Date.today.year]).each do |subscription|
+      DonortrustMailer.deliver_impending_subscription_card_expiration_notice(subscription)
+    end
+  end
+
   def self.create_from_cart_and_order(cart, order)
     subscription = self.new
     subscription.user = order.user
@@ -157,6 +163,24 @@ class Subscription < ActiveRecord::Base
         return false
       end
       true
+    end
+  end
+
+  def create_yearly_tax_receipt(year = Date.today.year-1)
+    total = self.orders.all(:conditions => ['created_at LIKE ?', "#{year}%"]).inject(0) do |sum, order|
+      sum += order.tax_receipt_needed? ? order.total : 0
+    end
+    TaxReceipt.create! do |t|
+      t.first_name   = self.first_name
+      t.last_name    = self.last_name
+      t.email        = self.email
+      t.address      = self.address
+      t.city         = self.city
+      t.province     = self.province
+      t.postal_code  = self.postal_code
+      t.country      = self.country
+      t.user_id      = self.user_id
+      t.total        = total
     end
   end
 
