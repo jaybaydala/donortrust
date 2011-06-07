@@ -25,7 +25,11 @@ class TaxReceipt < ActiveRecord::Base
   def id_display
     return id.to_s.rjust(10,'0') if id
   end
-  
+
+  def total=(val)
+    @total = BigDecimal.new(val.to_s)
+  end
+
   def total
     unless @total
       if order
