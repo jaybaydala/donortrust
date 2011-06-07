@@ -16,7 +16,7 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :donor_type, :first_name, :last_name, :address, :city, :province, :postal_code, :country, :email
   validates_format_of :email, :message => "isn't a valid email address", :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validate do |s|
-    s.errors.add(:end_date, "must be set into the future") unless s.end_date > Date.today
+    s.errors.add(:end_date, "must be set into the future") unless s.end_date? && s.end_date > Date.today
     unless s.credit_card.valid?
       credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
       s.errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
