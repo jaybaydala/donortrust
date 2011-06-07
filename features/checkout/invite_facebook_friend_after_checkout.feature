@@ -7,7 +7,6 @@ Background: logged in
   Given I am an authenticated user
   And I have allowed access to my facebook account
 
-
 @pending
 Scenario: Invite friends after checkout
   Given that I have added a $10 investment to my cart

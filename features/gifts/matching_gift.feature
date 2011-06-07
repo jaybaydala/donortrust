@@ -29,6 +29,6 @@ Scenario: From open to checkout payment options
   When I have added a $50 investment to my cart
   And I am on my cart page
   And I follow "Checkout"
-  Then the field "order_gift_card_payment" shoudl contain 25
+  Then the field "order_gift_card_payment" should contain 25
   Then the field "order_credit_card_payment" should contain 25
   
