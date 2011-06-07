@@ -1,6 +1,6 @@
 Before do
-  Project.create!(:name => Faker::Lorem.words.join(' '), :slug => 'unallocated')
-  Project.create!(:name => Faker::Lorem.words.join(' '), :slug => 'admin')
+  Project.unallocated_project || Factory.build(:unallocated_project).save
+  Project.admin_project || Factory.build(:admin_project).save
 end
 
 Before do
