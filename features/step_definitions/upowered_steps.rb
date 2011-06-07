@@ -20,7 +20,7 @@ Given /^all of my subscriptions have run successfully$/ do
   end
 end
 
-Given /^my|the subscription credit card expiry date is (\d\d)\/(\d\d\d\d)$/ do |month, year|
+Given /^(?:my|the) subscription credit card expiry date is (\d\d)\/(\d\d\d\d)$/ do |month, year|
   @subscription.update_attributes(:expiry_month => month.to_i, :expiry_year => year.to_i)
 end
 

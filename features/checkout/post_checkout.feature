@@ -9,6 +9,7 @@ Background: Load Cart
   Given that I have added a $25 investment to my cart
   And that I have added a $10 gift to my cart
 
+@pending
 Scenario: Show an activity summary
   When I have completed the checkout process
   Then I should see "Gift" within ".gift"
@@ -16,11 +17,13 @@ Scenario: Show an activity summary
   And I should see "Investment" within ".investment"
   And I should see "$25" within ".investment"
 
+@pending
 Scenario: Facebook login
   Given that I am not currently authenticated
   When I have completed the checkout process
   Then I should see "Login with facebook"
 
+@pending
 Scenario: Facebook connect
   Given that I am an authenticated user
   When I have completed the checkout process

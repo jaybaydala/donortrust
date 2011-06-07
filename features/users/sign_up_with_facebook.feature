@@ -14,14 +14,14 @@ Scenario: Signup via facebook connect
   When I select "Canada" from "Country"
   And I check "user_terms_of_use"
   And I press "Complete Registration"
-  Then I should be on the accounts page
+  Then I should be on the dt give page
   And I should see "Signed in successfully"
   And I should see "Welcome, timg"
   When I go to the authentications page
   Then I should see "Facebook" within the listed authentications
   And my birthday should be stored in my account
 
-@omniauth_test @wip
+@omniauth_test
 Scenario: Signup via facebook connect with an existing account
   Given the following users exist:
     | login              |
