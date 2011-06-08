@@ -23,10 +23,9 @@ Scenario: Monthly Thank yous
   Then I should see "UPowered: Thank you!" in the email subject
   And I should see "Your UPowered subscription has run successfully" in the email body
 
-@pending
 Scenario: Monthly Warning on failure
-  Given it is the date January February 15, 2011
-  And my subscription failed
+  Given it is the date January February 15, 2010
+  And my subscription has failed
   Then the subscriber should receive an email
   When I open the email
   Then I should see "UPowered: Subcription Problem" in the email subject

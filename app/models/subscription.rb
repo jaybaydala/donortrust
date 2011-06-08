@@ -147,7 +147,9 @@ class Subscription < ActiveRecord::Base
         item.save!
       end
       order.update_attributes(:complete => true)
+      DonortrustMailer.deliver_subscription_thanks(subscription)
     else
+      DonortrustMailer.deliver_subscription_failure(subscription)
       raise ActiveMerchant::Billing::Error.new(response.inspect)
     end
   end

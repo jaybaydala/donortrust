@@ -15,6 +15,18 @@ Given /^(?:all of )?my subscriptions? ha(?:ve|s)? run successfully$/ do
         item.save!
       end
       order.update_attributes(:complete => true)
+      DonortrustMailer.deliver_subscription_thanks(@subscription)
+    end
+    current_date += 1.month
+  end
+end
+
+Given /^(?:all of )?my subscriptions? ha(?:ve|s)? failed$/ do
+  @subscription ||= Subscription.last
+  current_date = @subscription.begin_date
+  while current_date < Date.today
+    Timecop.travel(current_date) do
+      DonortrustMailer.deliver_subscription_failure(@subscription)
     end
     current_date += 1.month
   end
