@@ -15,6 +15,23 @@ Scenario: Yearly tax Receipt
   When the system generates my UPowered tax receipt
   Then the UPowered tax receipt should total $60
 
+Scenario: Monthly Thank yous
+  Given it is the date February 15, 2010
+  And my subscription has run successfully
+  Then the subscriber should receive an email
+  When I open the email
+  Then I should see "UPowered: Thank you!" in the email subject
+  And I should see "Your UPowered subscription has run successfully" in the email body
+
+@pending
+Scenario: Monthly Warning on failure
+  Given it is the date January February 15, 2011
+  And my subscription failed
+  Then the subscriber should receive an email
+  When I open the email
+  Then I should see "UPowered: Subcription Problem" in the email subject
+  And I should see "We just tried to run your UPowered subscription and ran into a problem with your credit card" in the email body
+
 Scenario: Card expiry warning
   Given the subscription credit card expiry date is 06/2011
   And it is the date June 1, 2011
