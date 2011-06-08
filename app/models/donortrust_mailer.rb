@@ -190,6 +190,14 @@ class DonortrustMailer < ActionMailer::Base
     body[:subscription] = email_subscription
   end
 
+  def subscription_thanks(order)
+    from "upowered@uend.org"
+    recipients order.email
+    subject 'UPowered: Thank you!'
+    sent_on Time.now
+    body[:order] = order
+  end
+
   def impending_subscription_card_expiration_notice(subscription)
     from "upowered@uend.org"
     recipients subscription.email

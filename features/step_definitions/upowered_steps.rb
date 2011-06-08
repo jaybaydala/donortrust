@@ -3,7 +3,7 @@ Given /^I have a current \$(\d+) UPowered subscription added on ([^$]+)$/ do |am
   @subscription_line_item = Factory(:subscription_line_item, { :subscription => @subscription, :item_type => "Investment", :item_attributes => Factory.build(:investment, :amount => amount, :project => Project.admin_project).attributes })
 end
 
-Given /^all of my subscriptions have run successfully$/ do
+Given /^(?:all of )?my subscriptions? ha(?:ve|s)? run successfully$/ do
   @subscription ||= Subscription.last
   current_date = @subscription.begin_date
   while current_date < Date.today
