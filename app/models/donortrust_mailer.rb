@@ -190,12 +190,21 @@ class DonortrustMailer < ActionMailer::Base
     body[:subscription] = email_subscription
   end
 
-  def subscription_thanks(order)
+  def subscription_thanks(subscription)
     from "upowered@uend.org"
-    recipients order.email
+    recipients subscription.email
     subject 'UPowered: Thank you!'
     sent_on Time.now
-    body[:order] = order
+    body[:subscription] = subscription
+  end
+
+  def subscription_failure(subscription)
+    from "upowered@uend.org"
+    recipients subscription.email
+    subject 'UPowered: Subcription Problem'
+    sent_on Time.now
+    body[:subscription] = subscription
+    body[:edit_upowered_url] = edit_dt_subscription_url(subscription, :host => HTTP_HOST)
   end
 
   def impending_subscription_card_expiration_notice(subscription)
@@ -207,7 +216,6 @@ class DonortrustMailer < ActionMailer::Base
     body[:edit_upowered_url] = edit_dt_subscription_url(subscription, :host => HTTP_HOST)
   end
 
-  
   def tax_receipt(receipt)
     content_type "text/plain"
     recipients  "\"#{receipt.first_name} #{receipt.last_name}\" <#{receipt.email}>"
