@@ -9,6 +9,14 @@ Factory.sequence :campaign_short_name do |n|
   "campaign_short_name_#{n}"
 end
 
+Factory.define :authentication do |a|
+  a.user {|u| u.association(:user) }
+  providers = %w(facebook twitter)
+  a.provider { providers[rand(providers.size)] }
+  a.uid "1234567890"
+  a.token "120975612957171-98|10fbe127b6e5759ba86ec26d.1-7dud923oe397642366|F6j8tWNKHYJMpJ5Ug5EVreYt5VY"
+end
+
 Factory.define :campaign do |a|
   a.email { Faker::Internet.email }
   a.name { Faker::Company.bs + " Campaign" }
