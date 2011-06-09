@@ -214,6 +214,15 @@ div.buttonsubmit a.large:hover {
 	float:right;
 }
 
+input.fb {
+  background: #5B74A8;
+  border: 1px solid gray;
+  border-color: #29447E #29447E #1A356E;
+  color: white;
+  font-weight: bold;
+  padding: 4px 6px;
+}
+
 /*
 LOGIN FORM
 ==========*/
