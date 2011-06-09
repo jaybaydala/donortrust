@@ -265,6 +265,7 @@ DEPENDENCIES
   mongrel_cluster
   mysql
   nokogiri
+  oauth2
   omniauth
   packet
   paperclip

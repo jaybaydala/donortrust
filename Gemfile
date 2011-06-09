@@ -21,6 +21,7 @@ gem 'flickr'
 gem 'hpricot'
 gem 'mail', :require => false
 gem 'nokogiri'
+gem 'oauth2'
 gem 'omniauth'
 gem 'packet'
 gem 'paperclip'
