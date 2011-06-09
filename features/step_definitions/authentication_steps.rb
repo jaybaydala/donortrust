@@ -1,3 +1,7 @@
+Given /^I have authenticated with (.*)/ do |provider|
+  visit dt_auth_callback_path(provider.to_sym)
+end
+
 When /^I authenticate with (.*)$/ do |provider|
   visit dt_auth_callback_path(provider.to_sym)
 end
