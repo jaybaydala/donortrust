@@ -1,0 +1,16 @@
+<% if logged_in? && current_user.authentications.facebook.present? %>
+<div class="userform">
+  <% form_for Facebook.new(current_user), :url => dt_facebook_posts_url, :html => { :id => "facebook_post", :class => "new_facebook_post", :method => :post } do |f| %>
+  <fieldset>
+    <legend>Share on Facebook:</legend>
+    <ol>
+      <li><%= f.text_area :message, :cols => 80, :rows => 1, :class => "autogrow", :style => "width:100%;" %></li>
+      <li>
+        <%= f.submit "Share", :class => "fb right" %>
+      </li>
+    </ol>
+    <%= hidden_field_tag :return_to, request.url %>
+  </fieldset>
+  <% end %>
+</div>
+<% end %>

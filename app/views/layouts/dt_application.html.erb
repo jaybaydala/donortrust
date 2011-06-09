@@ -32,8 +32,10 @@
 <%- sidebar = yield :sidebar -%>
 <%- bottom_content = yield :bottom_content -%>
 
-  <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-  <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  <div id="flashes">
+    <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+    <% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
+  </div>
 
   <% if nav %><h1 id="pagetitle"><%= page_title %></h1><% end %>
   
@@ -102,5 +104,11 @@
 		}
 	</script> 
 <% end %>
+
+<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js", 'dt/jquery.autogrow', 'dt/jquery_application' %>
+<script type="text/javascript">
+$.noConflict();
+</script>
+
 </body>
 </html>
