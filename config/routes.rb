@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     dt.resources :deposits, :controller => 'deposits'
     dt.resources :users, :member => { :edit_password => :get }
+    dt.resources :facebook_posts
     dt.resources :iend, :controller => 'iend'
     dt.resource :session, :controller => 'sessions'
 
