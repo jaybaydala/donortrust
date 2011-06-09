@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   extend HasAdministrables
   #acts_as_versioned
   acts_as_paranoid_versioned
-  has_many :authentications
+  has_many :authentications, :dependent => :destroy
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
