@@ -1,5 +1,7 @@
 class Facebook
   attr_accessor :user
+  # post params
+  attr_accessor :message, :picture, :link, :name, :caption, :description, :source
 
   def initialize(user)
     raise ArgumentError, 'You must pass a user' unless user.class == User
@@ -8,6 +10,9 @@ class Facebook
 
   def post(params={})
     request :post, "/#{uid}/feed", normalize_params(params, %w(message picture link name caption description source))
+  end
+
+  def to_param
   end
 
   def access_token
