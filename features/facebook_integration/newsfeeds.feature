@@ -7,7 +7,7 @@ Feature: FB newsfeeds
 Background:
   Given I am an authenticated user
 
-@pending @omniauth_test
+@omniauth_test
 Scenario: Post-checkout
   Given I have authenticated with facebook
   And that I have added a $10 gift to my cart

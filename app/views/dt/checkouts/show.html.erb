@@ -1,5 +1,7 @@
 <%- content_for :html_title do -%>Checkout Complete!<%- end -%>
 
+<%= render :partial => 'dt/facebook_posts/form' %>
+
 <% if @order.is_registration then %>
 <p>
 You have successfully joined 
