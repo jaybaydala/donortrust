@@ -31,9 +31,9 @@ module NavigationHelpers
       '/dt/session'
     when /the authentications page/
       dt_authentications_path
-    when /the (.*) team page/
+    when /the "(.*)" team page/
       dt_team_path(Team.find_by_short_name($1))
-    when /the (.*) campaign page/
+    when /the "(.*)" campaign page/
       dt_campaign_path(Campaign.find_by_short_name($1))
 
     # Add more mappings here.

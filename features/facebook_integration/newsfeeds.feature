@@ -21,9 +21,9 @@ Scenario: On my profile
   And I am on the my account page
   Then I should see the facebook newsfeed post widget
 
-@pending @omniauth_test
-Scenario: Creating a campaign
-  Given I have authenticated with facebook
-  And I am on the new dt campaign page
-  When I create a new campaign
-  Then I should see the facebook newsfeed post widget
+# THIS DOESN'T REALLY MAKE SENSE SINCE ONLY ADMINS CAN CURRENTLY CREATE A CAMPAIGN
+# @wip @omniauth_test
+# Scenario: Creating a campaign
+#   Given I have authenticated with facebook
+#   When I create a new campaign
+#   Then I should see the facebook newsfeed post widget
