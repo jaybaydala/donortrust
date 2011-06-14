@@ -46,3 +46,8 @@
     margin:0 6px 6px 0;
     float:left;
 }
+
+
+table.activity_summary { margin-bottom:1em; }
+table.activity_summary th { border-bottom:1px solid #000; }
+table.activity_summary td { border-bottom:1px solid #999; }
