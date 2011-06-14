@@ -32,7 +32,11 @@ class Order < ActiveRecord::Base
   def card_number_concealed
     "**** **** **** #{card_number.to_s.rjust(4, " ")[-4, 4].strip}"
   end
-  
+
+  def line_items
+    @line_items ||= self.gifts + self.investments + self.pledges + self.deposits
+  end
+
   # for member signup
   attr_accessor :password, :password_confirmation, :terms_of_use
   def create_user_from_order
