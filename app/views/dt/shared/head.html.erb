@@ -4,8 +4,8 @@
         </div>
         
         <div id="loginbug">
-          <% unless logged_in? && current_user.authentications.count(:conditions => ["provider=?", 'facebook']) > 0 %>
-          <div id="facebooklogin">
+          <% if !logged_in? || current_user.authentications.facebook.count > 0 %>
+          <div class="facebooklogin">
             <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), '/dt/auth/facebook' %></div>
             <%= link_to 'Login using facebook', '/dt/auth/facebook' %>
           </div>
