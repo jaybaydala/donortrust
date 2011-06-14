@@ -1,4 +1,4 @@
-Given /^that I have removed the optional donation$/ do
+Given /^I have removed the optional donation$/ do
   steps %Q{
     Given I am on the dt cart page
     Then show me the page
@@ -8,7 +8,9 @@ Given /^that I have removed the optional donation$/ do
   }
 end
 
-Given /^that I have completed the checkout process$/ do
+
+
+Given /^I have completed the checkout process$/ do
   steps %Q{
     Given I am on the dt cart page
     And I follow "Checkout"
