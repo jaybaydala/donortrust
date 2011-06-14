@@ -1,0 +1,17 @@
+<h2>Activity Summary</h2>
+<table border="0" cellpadding="4" cellspacing="0" class="activity_summary">
+<colgroup>
+  <col style="width:80%;" />
+  <col style="width:20%;" />
+</colgroup>
+<tr>
+  <th class="textsm" style="text-align:left;">Item</th>
+  <th class="textsm" style="text-align:right;">Amount</th>
+</tr>
+<% @order.line_items.each do |line_item| %>
+<% content_tag_for :tr, line_item do %>
+  <td class="textsm" style="text-align:left;"><%= line_item.class.class_name.singularize %></td>
+  <td class="textsm" style="text-align:right;"><%= number_to_currency(line_item.amount) %></td>
+<% end %>
+<% end %>
+</table>
