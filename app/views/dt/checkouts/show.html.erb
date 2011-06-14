@@ -1,6 +1,15 @@
 <%- content_for :html_title do -%>Checkout Complete!<%- end -%>
 
+<% if !logged_in? || current_user.authentications.facebook.count == 0 %>
+<div class="facebooklogin">
+  <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), '/dt/auth/facebook' %></div>
+  <%= link_to (logged_in? ? 'Connect via facebook' : 'Login with facebook'), '/dt/auth/facebook' %>
+</div>
+<% end %>
 <%= render :partial => 'dt/facebook_posts/form' %>
+
+
+<%= render :partial => "order_summary" %>
 
 <% if @order.is_registration then %>
 <p>
