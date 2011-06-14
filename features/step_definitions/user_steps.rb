@@ -37,3 +37,12 @@ Then /^my birthday should be stored in my account$/ do
   @user.birthday.should_not be_nil
 end
 
+Then /^my contact information should be updated to match the checkout data$/ do
+  @user ||= @current_user || User.last
+  @user.reload
+  @user.address.should eql "123 Avenue Road"
+  @user.city.should eql "Calgary"
+  @user.province.should eql "AB"
+  @user.postal_code.should eql "T2Y 3N2"
+  @user.country.should eql "Canada"
+end
