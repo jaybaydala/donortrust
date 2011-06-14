@@ -3,19 +3,20 @@ require 'active_merchant'
 require 'iats/gateways/iats'
 ActiveMerchant::Billing::Base.mode = RAILS_ENV == "production" ? :production : :test
 class Order < ActiveRecord::Base
+  validates_uniqueness_of :order_number
+
+  belongs_to :user
+  belongs_to :subscription
   has_many :investments
   has_many :gifts
   has_many :deposits
-  
   has_many :pledges # added by joe
   has_one :registration_fee
-  
   has_one :tax_receipt
-  belongs_to :user
-  belongs_to :subscription
-  validates_uniqueness_of :order_number
+
   before_create :generate_order_number
-  
+  after_save :update_user_information
+
   def initialize(params = nil)
     super
     self.donor_type ||= self.class.personal_donor
@@ -358,5 +359,17 @@ class Order < ActiveRecord::Base
       val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
       val
     end
-    
+
+    def update_user_information
+      if self.complete? && user = self.user
+        user.first_name ||= self.first_name
+        user.last_name ||= self.last_name
+        user.address ||= self.address
+        user.city ||= self.city
+        user.province ||= self.province
+        user.postal_code ||= self.postal_code
+        user.country ||= self.country
+        user.save
+      end
+    end
 end
