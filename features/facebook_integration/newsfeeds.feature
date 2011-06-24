@@ -10,8 +10,8 @@ Background:
 @omniauth_test
 Scenario: Post-checkout
   Given I have authenticated with facebook
-  And that I have added a $10 gift to my cart
-  And that I have completed the checkout process
+  And I have added a $10 gift to my cart
+  And I have completed the checkout process
   Then I should be on the order confirmation page
   And I should see the facebook newsfeed post widget
 
