@@ -7,11 +7,11 @@ class Dt::CheckoutsController < DtApplicationController
   helper_method :current_step
   helper_method :next_step
   helper_method :account_payment?
-  helper_method :gift_card_payment?
+  helper_method :gift_card_balance?
   helper_method :summed_account_balances
-  
+
   CHECKOUT_STEPS = ["payment", "billing", "confirm"]
-  
+
   def new
     redirect_to(edit_dt_checkout_path) and return if find_order
     @current_step = CHECKOUT_STEPS[0]
@@ -31,7 +31,7 @@ class Dt::CheckoutsController < DtApplicationController
       }
     end
   end
-  
+
   def create
     redirect_to(edit_dt_checkout_path) and return if find_order
     @current_step = CHECKOUT_STEPS[0]
@@ -57,7 +57,7 @@ class Dt::CheckoutsController < DtApplicationController
       }
     end
   end
-  
+
   def edit
     @order = find_order
     paginate_cart
@@ -77,7 +77,7 @@ class Dt::CheckoutsController < DtApplicationController
       }
     end
   end
-  
+
   def update
     @order = find_order
     paginate_cart
@@ -122,7 +122,7 @@ class Dt::CheckoutsController < DtApplicationController
       }
     end
   end
-  
+
   def show
     @order = Order.find_by_order_number(params[:order_number]) if params[:order_number]
     @directed_gift = params[:directed_gift] ? true : false
@@ -133,7 +133,7 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to edit_dt_checkout_path and return unless @order.complete?
     redirect_to dt_cart_path and return unless session[:order_number] && session[:order_number].include?(params[:order_number].to_i)
   end
-  
+
   def destroy
     @cart = find_cart
     @order = find_order
@@ -153,14 +153,14 @@ class Dt::CheckoutsController < DtApplicationController
     logged_in? and current_user.balance.to_f > 0
   end
   
-  def gift_card_payment?
+  def gift_card_balance?
     session[:gift_card_balance] && session[:gift_card_balance].to_f > 0
   end
   
   def summed_account_balances
     balance = 0
     balance += current_user.balance if account_payment?
-    balance += session[:gift_card_balance] if gift_card_payment?
+    balance += session[:gift_card_balance] if gift_card_balance?
     balance
   end
   
