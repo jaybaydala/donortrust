@@ -6,8 +6,8 @@ Feature: Post-checkout
 We want to give some options to the user on their order "thank you" screen.
 
 Background: Load Cart
-  Given that I have added a $25 investment to my cart
-  And that I have added a $10 gift to my cart
+  Given I have added a $25 investment to my cart
+  And I have added a $10 gift to my cart
 
 Scenario: Show an activity summary
   When I have completed the checkout process
