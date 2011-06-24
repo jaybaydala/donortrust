@@ -20,16 +20,16 @@
     <p>
       Please enter your payment details below. 
       <% if account_payment? %>Since you have an account with Uend: you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>.<% end %>
-      Deposits to your account must be paid on your credit card<%= " or gift card" if gift_card_payment? %>.
+      Deposits to your account must be paid on your credit card<%= " or gift card" if gift_card_balance? %>.
     </p>
     <ol>
-      <% if gift_card_payment? %>
+      <%- if gift_card_balance? -%>
         <li>
           <label class="left" style="font-style:italic;">
-            Your Current Gift Card Balance: <%= number_to_currency(session[:gift_card_balance]) %>
+            Your Current Gift Card Balance: <%= number_to_currency(Gift.find(session[:gift_card_id]).balance) %>
           </label>
         </li>
-      <% end %>
+      <%- end -%>
       <%- if account_payment? -%>
         <li>
           <label class="left" style="font-style:italic;">Your Current Account Balance: <%= number_to_currency(current_user.balance) %></label>
@@ -43,15 +43,12 @@
           <%= hidden_field_tag :pledge_account_balance, pledge_account.balance %>
         </li>
       <%- end -%>
-        <% @order.credit_card_payment= @order.minimum_credit_payment(@cart.items)   %>
-      <% if minimum_credit_payment = @order.minimum_credit_payment(@cart.items) %>
-        <% @order.credit_card_payment= @order.minimum_credit_payment(@cart.items)   %>
-        <% if !gift_card_payment? %>
-          <li>
-            <label class="left" style="font-style:italic;">Your minimum Credit Card payment: <%= number_to_currency(minimum_credit_payment) %></label>
-            <div class="note" style="margin-left:0;">You must pay at least this amount from your credit card to pay for your cart balance.</div>
-          </li>
-        <% end %>
+      <% if !gift_card_balance? && minimum_credit_payment = @order.minimum_credit_payment(@cart.items) %>
+        <% @order.credit_card_payment = @order.minimum_credit_payment(@cart.items) %> %>
+        <li>
+          <label class="left" style="font-style:italic;">Your minimum Credit Card payment: <%= number_to_currency(minimum_credit_payment) %></label>
+          <div class="note" style="margin-left:0;">You must pay at least this amount from your credit card to pay for your cart balance.</div>
+        </li>
       <% end %>
     </ol>
     <ol class="clearfix" id="payment">
