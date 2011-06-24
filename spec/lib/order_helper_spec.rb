@@ -37,12 +37,13 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
 
   describe "find_order" do
     it "should return an order if the session[:order_id] is a valid record" do
+      Order.should_receive(:exists?).with(@session[:order_id]).and_return(true)
       Order.should_receive(:find).with(@session[:order_id]).and_return(@order)
       controller.find_order
     end
 
     it "should return nil if the session[:order_id] is not a valid record" do
-      Order.should_receive(:find).with(@session[:order_id]).and_return(nil)
+      Order.should_receive(:exists?).with(@session[:order_id]).and_return(false)
       controller.find_order
     end
   end
@@ -73,7 +74,8 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
       controller.initialize_new_order
     end
     it "should set the gift_card_balance attribute to the session[:gift_card_balance]" do
-      controller.session[:gift_card_balance] = 50
+      gift = Factory(:gift, :amount => 50)
+      controller.session[:gift_card_id] = gift.id
       @order.should_receive(:gift_card_balance=).with(50).and_return(false)
       controller.initialize_new_order
     end
@@ -107,6 +109,8 @@ describe OrderHelperControllerSpec, "including OrderHelper", :type => :controlle
       controller.stub!(:params).and_return({:order => {}})
       @cart.stub!(:total).and_return(100)
       @order = Order.create!(:amount => @cart.total, :email => "orderer@example.com")
+      Order.stub(:exists?).and_return(true)
+      Order.stub(:find).and_return(@order)
     end
 
     it "should load params[:order] into @order.attributes" do
