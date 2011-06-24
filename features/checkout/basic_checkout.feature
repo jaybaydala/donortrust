@@ -5,8 +5,8 @@ So that I can help to end poverty
 Through the purchase of gifts and investments
 
 Background: 
-  Given that I have added a $10 investment to my cart
-  And that I have added a $10 gift to my cart
+  Given I have added a $10 investment to my cart
+  And I have added a $10 gift to my cart
   #And that I have removed the optional donation
 
 Scenario: Successful checkout with fewest options
