@@ -111,7 +111,7 @@ describe Dt::CheckoutsController do
         before do
           @order.total = @cart.total
           @gift_card = Factory(:gift, :amount => @order.total + 1, :balance => @order.total + 1)
-          session[:gift_card_balance] = @gift_card.balance
+          session[:gift_card_id] = @gift_card.id
         end
         it "should set gift_card_payment to order.total when the user has no balance" do
           @gift_card.update_attributes(:amount => @order.total + 1, :balance => @order.total + 1)
@@ -147,7 +147,6 @@ describe Dt::CheckoutsController do
       describe "with a gift card" do
         before do
           @gift_card = Factory(:gift, :amount => @order.total - 1)
-          session[:gift_card_balance] = @gift_card.balance
           session[:gift_card_id] = @gift_card.id
         end
         it "should set gift_card_payment to gift_card_balance when the user has no balance and has a gift card" do
@@ -204,7 +203,7 @@ describe Dt::CheckoutsController do
       it "should redirect to dt_checkout_path if it's valid and complete" do
         controller.should_receive(:validate_order).and_return(true)
         controller.stub!(:do_action).and_return(true)
-        @order.should_receive(:complete?).and_return(true)
+        @order.should_receive(:complete?).any_number_of_times.and_return(true)
         do_request
         response.should redirect_to(dt_checkout_path(:order_number => @order.order_number))
       end
@@ -290,7 +289,6 @@ describe Dt::CheckoutsController do
           before do
             @gift_card = Factory(:gift, :amount => @cart.total)
             session[:gift_card_id] = @gift_card.id
-            session[:gift_card_balance] = @gift_card.balance
             @order.credit_card_payment = 0
             @order.total = @cart.total
             @order.gift_card_balance = @gift_card.balance

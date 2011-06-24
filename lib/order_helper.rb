@@ -15,29 +15,24 @@ module OrderHelper
     @cart.update_attribute(:subscription, params[:subscription]) if params[:subscription]
     @cart
   end
-  
+
   def find_order
-    begin
-      # need to check if there's an existing order for the session. If so, grab it and load it
-      Order.find(session[:order_id])
-    rescue
-      return nil
-    end
+    Order.exists?(session[:order_id]) ? Order.find(session[:order_id]) : nil
   end
-  
+
   def initialize_new_order
     @cart = find_cart unless @cart
     @order = Order.new(params[:order])
     @order.account_balance = current_user.balance if logged_in?
-    @order.gift_card_balance = session[:gift_card_balance] if session[:gift_card_balance]
+    @order.gift_card_balance = Gift.find(session[:gift_card_id]).balance if session[:gift_card_id]
     load_user_data_into_order
     @order.total = @cart.total
     ############
     # THE GIFT_CARD_PAYMENT AND CREDIT_CARD_PAYMENT SHOULD ONLY BE SET ONCE
     # set the gift card payment
     unless @order.total_payments == @order.total
-      if session[:gift_card_balance] && session[:gift_card_balance] > 0 && !@order.gift_card_payment?
-        @order.gift_card_payment = @order.total && session[:gift_card_balance] > @order.total ? @order.total : session[:gift_card_balance]
+      if session[:gift_card_id] && Gift.find(session[:gift_card_id]).balance > 0 && !@order.gift_card_payment?
+        @order.gift_card_payment = @order.total && Gift.find(session[:gift_card_id]).balance > @order.total ? @order.total : Gift.find(session[:gift_card_id]).balance
       end
       # set the credit card payment
       unless @order.credit_card_payment?
@@ -49,7 +44,7 @@ module OrderHelper
     end
     @order
   end
-  
+
   def initialize_existing_order
     @order = find_order unless @order
     @cart = find_cart unless @cart
@@ -64,7 +59,7 @@ module OrderHelper
     @order.user = current_user if logged_in?
     @order
   end
-  
+
   def load_user_data_into_order
     if logged_in?
       %w(first_name last_name address city province postal_code country).each do |column_name|
