@@ -13,15 +13,14 @@ Feature: Matching Gifts
   So that I can double our impact
 
 Background:
-  Given that I am an authenticated user
+  Given I am an authenticated user
   And I have received a $25 gift
    
-@pending
 Scenario: From open to checkout payment options
-  Given I am on the open dt gift page
-  And I fill in "Pickup Code:" with my gift code
+  Given I am on the open dt gifts page
+  And I fill in "Pickup Code:" with my gift pickup code
   And I press "open your gift"
-  Then I should be on the open dt gift page
+  Then I should be on the open dt gifts page
   And I should have a $25 gift card balance
   And I should see "Your friend gave you a gift to help end global poverty. Match your friends gift to double the impact."
   When I follow "Match your friends gift"
@@ -29,6 +28,5 @@ Scenario: From open to checkout payment options
   When I have added a $50 investment to my cart
   And I am on my cart page
   And I follow "Checkout"
-  Then the field "order_gift_card_payment" should contain 25
-  Then the field "order_credit_card_payment" should contain 25
-  
+  Then the "order_gift_card_payment" field should contain "25"
+  Then the "order_credit_card_payment" field should contain "32.50"

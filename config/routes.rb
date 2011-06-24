@@ -54,7 +54,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :investments, :controller => 'investments'
     dt.resources :place_searches, :controller => 'place_searches'
     #dt.resources :my_wishlists, :controller => 'my_wishlists'
-    dt.resources :gifts, :controller => 'gifts', :collection => { :open => :get, :preview => :get }, :member => { :unwrap => :get }
+    dt.resources :gifts, :controller => 'gifts', :collection => { :open => :get, :preview => :get, :match => :put }, :member => { :unwrap => :get }
     dt.resource :email_upload, :controller => 'email_uploads'
     dt.resources :groups, :controller=> 'groups' do |groups|
       groups.resources :memberships, :controller => 'groups/memberships', :member => { :promote => :put, :demote => :put }

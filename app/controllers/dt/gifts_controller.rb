@@ -213,7 +213,14 @@ class Dt::GiftsController < DtApplicationController
       }
     end
   end
-  
+
+  def match
+    @gift = Gift.find(session[:gift_card_id])
+    session[:gift_card_balance] = @gift.balance * 2
+    session[:gift_matched] = true
+    
+  end
+
   def unwrap
     @gift = Gift.validate_pickup(params[:code], params[:id])
     unless @gift

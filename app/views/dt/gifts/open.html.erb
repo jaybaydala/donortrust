@@ -15,6 +15,10 @@
     </p>
   <% else %>
     <% if @opening_now %>
+      <% unless session[:gift_matched] %>
+        <p>Your friend gave you a gift to help end global poverty. <%= link_to "Match your friends gift", match_dt_gifts_path, :method => :put %> to double the impact.</p>
+      <% end %>
+    
       <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
       <p>Now that you've opened your gift, you have some options. You can:</p>
     <% else %>
