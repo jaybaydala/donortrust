@@ -1,0 +1,15 @@
+<%= render :partial => 'layouts/shared/head' %>
+<body id="home">
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+  <div class="container" id="carousel-container">
+    <%= yield :carousel %>
+  </div>
+  <div class="container clearfix" id="main">
+    <div class="span-18 prepend-top append-bottom last">
+      <%= yield %>
+    </div>
+  </div>
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>
