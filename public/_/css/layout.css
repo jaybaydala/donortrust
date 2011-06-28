@@ -1,0 +1,78 @@
+body { background-color:#000; }
+.content { background:#333; margin:auto; position:relative; width:1015px; }
+/* header */
+#top { background-color:#333; padding: 20px 0 18px 0; position:relative; }
+#logo { margin:0 0 0 75px; padding:0; }
+#logo, #logo a { display:block; height:33px; width:244px; }
+#logo a { background:url(/images/logo.png) no-repeat transparent; text-indent:-9999px; }
+#account { color:#FFF; position:absolute; right:20px; top:12px; }
+#account a { color:#FFF; text-decoration:none; }
+#account a:hover,
+#account a:active { color:#9CF; text-decoration:underline; }
+#social { padding-left:36px; }
+#social img { vertical-align:text-bottom; }
+#nav { margin:auto; padding-bottom:2px; width:788px; }
+header nav { background-color:#360; }
+header nav.content{ background-color:#360; }
+/* footer */
+footer.content { background-color:transparent; padding-top:24px; }
+footer.content ul { margin:0 0 1em; padding:0; list-style:none; }
+footer a { color:#CCC; text-decoration:none; }
+footer a:hover,
+footer a:active { text-decoration:underline; }
+#rail { background-color:#484848; padding:16px 10px; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+#copyright { text-align:center; }
+
+/* PROJECTS
+-----------*/
+#projects {}
+#projects header nav { background:url(/images/projects/projects-bg.jpg) no-repeat; }
+#projects header nav { background:url(/images/projects/projects-bg.jpg) no-repeat; }
+#projects-header { background:url(/images/projects/projects-bg.jpg) 0 -52px no-repeat; height:169px; position:relative; }
+#project-search-terms { list-style:none; margin:0; padding:0; }
+#project-search-terms li { float:left; margin-right:5px; }
+#project-search-terms li.term { border:1px solid #666; text-transform:uppercase; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+#project-search-terms li a { display:block; color:#FFF; padding:4px 8px; text-decoration:none; }
+#project-search-terms li.term a { background:url(/images/projects/search-x.gif) 4px 3px no-repeat; padding-left:26px; }
+#project-filters ul { border-top:1px solid #666; list-style:none; max-height:140px; margin:4px 0 0 0; overflow:auto; padding:4px 0 0 0; }
+#project-filters li { font-size:0.916em; }
+#project-filters a { color:#FFF; display:block; padding:3px 8px; text-decoration:none; }
+#project-filters a:hover,
+#project-filters a:active { background-color:#663; }
+.project-module { background:#FFF; color:#000; font: 12px/14px Georgia, Times, "Times New Roman", serif; height:284px; text-align:center; width:199px; -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius:5px; }
+.project-module-top { background:#b3241b; color:#FFF; height:120px; margin-bottom:18px; width:199px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
+.project-livesaffected-num { font-size:30px; line-height:28px; padding:30px 0 18px 0; }
+.project-livesaffected { font-size:14px; font-style:italic; }
+.project-place { font-weight:bold; margin:0 12px 12px 12px; }
+.project-title { margin:0 12px 12px 12px; }
+.project-like { margin:0 12px 12px 12px; }
+.project-like a { color:#000; text-decoration:none; }
+.project-like img { vertical-align:bottom; }
+.project-progress { font-size:10px; text-transform:uppercase; }
+.project-progress-bar { border:1px solid #CCC; height:13px; margin:4px 12px 16px 12px; position:relative; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
+.project-progress-fg { background:#b3241b; height:13px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:6px; -webkit-border-bottom-left-radius:6px; -moz-border-radius-topleft:6px; -moz-border-radius-bottomleft:6px; border-top-left-radius:6px; border-bottom-left-radius:6px; }
+#project-header { background:#390; }
+#project-header a { color:#9CF; text-decoration:none; }
+#project-header .back-to-projects { position:absolute; right:20px; top:0; }
+#project-nav { padding:1.5em 0 8px 0; margin:0 20px; }
+#project-like { font-size:1.16em; }
+#project-like a { color:#FFF; text-decoration:none; }
+#project-progress { background:url(/images/projects/progress-bg.png) repeat-x transparent; height:13px; position:relative; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
+#project-progress-fg { background:url(/images/projects/progress-fg.png) repeat-x transparent; height:12px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:6px; -webkit-border-bottom-left-radius:6px; -moz-border-radius-topleft:6px; -moz-border-radius-bottomleft:6px; border-top-left-radius:6px; border-bottom-left-radius:6px; }
+.lives-affected { font-family:Georgia, Times, "Times New Roman", serif; font-size:1.3em; margin:2em 0; }
+.project-description { margin-bottom:3em; }
+.project-description p { font-family:Georgia, Times, "Times New Roman", serif; font-size:1.3em; }
+h1.project-title { padding-bottom:2em; border-bottom:1px solid #666; margin-bottom:1em; }
+#project-footer { }
+#project-footer ul { list-style:none; margin:8px 0 0 0; padding:0; }
+
+/* SHADOWS
+----------*/
+.shadowbottom { -moz-box-shadow: 0 0 7px #333; -webkit-box-shadow: 0 0 7px #333; box-shadow: 0 0 7px #333; }
+
+/* BORDERS
+----------*/
+.border-top { border-top: 1px solid #CCC;}
+.border-right { border-right: 1px solid #CCC;}
+.border-bottom { border-bottom: 1px solid #CCC;}
+.border-left { border-left: 1px solid #CCC;}
