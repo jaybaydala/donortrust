@@ -7,6 +7,7 @@ h3.plain,
 h4.plain, 
 h5.plain,
 .plain { font-family: Helmet, Freesans, sans-serif; }
+.serif { font-family: Georgia, Times, "Times New Roman", serif; }
 
 h1 {font-size:2em;line-height:1;margin-bottom:0.5em;}
 h2 {font-size:1.8em;margin-bottom:0.75em;}

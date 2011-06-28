@@ -1,40 +1,54 @@
-<% content_for :body_id do %>home<% end %>
-<%- content_for :html_title do -%>Home<%- end -%>
-<div id="howItWorks">
-  <iframe title="YouTube video player" width="450" height="366" src="http://www.youtube.com/embed/o8UCw-9AMHM" frameborder="0" allowfullscreen></iframe>
+<% content_for :carousel do %>
+  <div id="carousel-wrapper">
+    <div id="carousel">
+      <% @carousel_items.each do |carousel_item| %>
+      <div class="carousel-item">
+        <div class="carousel-content">
+          <%= image_tag carousel_item.title_image.url(), :alt => '' %>
+          <%= carousel_item.content %>
+        </div>
+        <div class="carousel-image">
+          <% if carousel_item.code? %>
+            <%= carousel_item.code %>
+          <% else %>
+            <%= image_tag carousel_item.image.url, :alt => '' %>
+          <% end %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+    <div id="carousel-pager">
+      <a href="#" id="carousel-prev">Previous</a>
+      <span id="carousel-pager-items"></span>
+      <a href="#" id="carousel-next">Next</a>
+    </div>
+  </div>
+<% end %>
+
+<div style="text-align:center;">
+  <h1><img src="/images/home/the_gift_connection.png" width="288" height="23" alt="The Gift Connection"></h1>
+  <p style="font-size:24px;margin-bottom:12px;" class="serif">If we were all to redirect a mere 5% of the billions of dollars that we already spend each year on gifts, there would be enough to eliminate extreme poverty in about 15 years.</p>
+  <p style="margin-bottom:36px;">Know someone who wants to end extreme poverty? <%= link_to "Find the right gift here. &gt;", dt_give_path %></p>
+  
+  <p><img src="/images/home/look_what_your_gifts_have_done.png" width="465" height="23" alt="Look what your gifts have done so far..."></p>
+  
 </div>
 
-
-<div>
-  <div class="keyDifferentiatorText">
-    <h1>YOU can help to END extreme poverty. </h1>
-    <h2>How? Gift different.</h2>
-    <p>It&rsquo;s really pretty simple. If we were all to redirect a mere 5% of the billions of dollars that we already spend each year on gifts,&nbsp; there would be enough to eliminate extreme poverty in about 15 years.</p>
-    <p>UEnd makes it possible for you to refocus a portion of your gift-spending toward ending extreme poverty. </p>
-    <p><strong>Just give or ask to receive an online gift card.</strong> It can be given directly to projects that promote sustainable, long-term change and empower those in the developing world to help themselves.</p>
-    <p>So go ahead &ndash; take a look through our list of <%= link_to 'projects', dt_projects_path %>, or just click <%= link_to 'give a gift', '/dt/give' %>. </p>
-  </div>
-
-  
-  <div class="support-badge-home">
-    <p>Show your support by adding a <a href="/dt/support_badges">Support Badge</a> to your website or blog.<a href="/dt/support_badges"><img src="/images/dt/support_badges/isuend_110w35h.png" width="110" height="35" alt="Isuend 110w35h" /></a>&nbsp;&nbsp;&nbsp;<a href="/dt/support_badges"><img src="/images/dt/support_badges/wsuend_110w35.png" width="110" height="35" alt="Wsuend 110w35" /></a></p>
-  </div>
-</div>
-  
-<%- content_for :sidebar do -%>
-  <div style="text-align:right;margin-bottom:0.5em;">
-    <span class="st_sharethis" displayText="ShareThis"></span>
-  </div>
-  <iframe src="http://www.facebook.com/plugins/like.php?href=<%= CGI::escape(dt_home_url) %>&amp;layout=standard&amp;show_faces=false&amp;width=300&amp;action=like&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:35px;" allowTransparency="true"></iframe>
-  
-  <a href="/about-us/faqs/#investment"><img src="/images/dt/promos/guarantee_promo.jpg" class="right_side_banner" alt="100% Investment Guarantee - 100% of your investments go to the projects you choose."/></a>
-  <a href="/dt/give"><img src="/images/dt/buttons/give_btn_150.png" id="frontGiveButton" /></a> 
-  <a href="/dt/gifts/open"><img src="/images/dt/buttons/receive_btn_150.png" id="frontReceiveButton" /></a>
-  <%= link_to image_tag("dt/upowered/upowered_button.gif", :alt => "join u:powered - it's a whole new way of providing operational funding to a non-profit organization &rdquo;"), dt_upowered_path %>
-  <a href="http://www.industrymailout.com/Industry/Subscribe.aspx?m=3929"><img src="/images/dt/promos/newsletter_promo.gif" id="frontReceiveButton" /></a>
-<%- end -%>
-
-
-<%- content_for :head do -%>
-  <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher:'fd46a353-7fa7-4a39-9c35-642884259e51'});</script>
-<%- end -%>
+<% content_for :javascript do -%>
+  <%= javascript_include_tag '/_/js/jquery.cycle.all.min.js' %>
+  <script type="text/javascript">
+  //<![CDATA[
+  $(function() {
+    $('#carousel').cycle({
+      activePagerClass: 'current',
+      pause: 1,
+      pager: '#carousel-pager-items',
+      pagerAnchorBuilder: function(index, el) {
+        return '<a href="#">' + (index+1) + "</a>\n";
+      },
+      width:'100%'
+    });
+  });
+  //]]>
+  </script>
+<%- end %>

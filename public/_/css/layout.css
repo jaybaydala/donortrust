@@ -13,7 +13,7 @@ body { background-color:#000; }
 #social img { vertical-align:text-bottom; }
 #nav { margin:auto; padding-bottom:2px; width:788px; }
 header nav { background-color:#360; }
-header nav.content{ background-color:#360; }
+header nav.content { background-color:#360; }
 /* footer */
 footer.content { background-color:transparent; padding-top:24px; }
 footer.content ul { margin:0 0 1em; padding:0; list-style:none; }
@@ -22,6 +22,21 @@ footer a:hover,
 footer a:active { text-decoration:underline; }
 #rail { background-color:#484848; padding:16px 10px; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 #copyright { text-align:center; }
+
+/* HOME
+-------*/
+#home header nav.content { width:auto; }
+#carousel-container { background-color:#360; padding:0; position:relative; width:auto; }
+#carousel-wrapper { position:relative; margin:auto; width:1015px; }
+#carousel { margin:auto; height:350px; width:100%; }
+.carousel-item { height:350px; width:1015px; }
+#carousel-pager { position:absolute; bottom:16px; left:48px; }
+#carousel-pager a { background:url(/images/home/carousel-pager.png) 0 0 no-repeat; display:block; float:left; height:24px; padding:0 4px; text-indent:-9999px; width:13px; }
+#carousel-pager a:hover,
+#carousel-pager a.current { background-position:0 -24px; }
+#carousel-pager a#carousel-prev { background:url(/images/home/carousel-prev.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
+#carousel-pager a#carousel-next { background:url(/images/home/carousel-next.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
+#home #main { background-color:#FFF; color:#333; }
 
 /* PROJECTS
 -----------*/
