@@ -1,0 +1,43 @@
+/* NAVIGATION
+-------------*/
+/* main nav */
+#nav { list-style:none; }
+#nav li { float:left; }
+#nav li,
+#nav li a { background-repeat:no-repeat; background-position:0 0; background-color:transparent; display:block; height:50px; text-indent:-9999px; }
+#nav li a:link,
+#nav li a:visited { background-position:0 0; }
+#nav li.current a, 
+#nav li a:hover,
+#nav li a:active { background-position:0 -50px; }
+#nav-give a { background-image:url('/images/nav/give.png'); width:70px; }
+#nav-poverty a { background-image:url('/images/nav/poverty.png'); width:99px; }
+#nav-projects a { background-image:url('/images/nav/projects.png'); width:106px; }
+#nav-campaigns a { background-image:url('/images/nav/campaigns.png'); width:118px; }
+#nav-videos_media a { background-image:url('/images/nav/videos_media.png'); width:141px; }
+#nav-about_us a { background-image:url('/images/nav/about_us.png'); width:105px; }
+#nav-blog a { background-image:url('/images/nav/blog.png'); width:73px; }
+#nav-iend a { background-image:url('/images/nav/iend.png'); width:76px; }
+/* subnav */
+nav.subnav { font-size:1.16em; }
+nav.subnav ol { list-style:none; }
+nav.subnav a:link,
+nav.subnav a:visited { color:#FFF; text-decoration:none; }
+nav.subnav a:hover,
+nav.subnav a:active { color:#6CF; text-decoration:underline; }
+nav.subnav li.current a:hover,
+nav.subnav li.current a:active { text-decoration:underline; }
+nav.subnav li.current a { color:#6CF; text-decoration:none; }
+nav.subnav li { float:left; }
+nav.subnav li:after { content: "\00A0\00A0\00A0\007C\00A0\00A0\00A0"; }
+/* sectionnav */
+#sectionnav { bottom:0; position:absolute; }
+#sectionnav ol { list-style:none; margin:0; padding:0; }
+#sectionnav li { display:block; float:left; }
+#sectionnav a { display:block; padding:9px 16px; margin-right:24px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
+#sectionnav a:link,
+#sectionnav a:visited { color:#FFF; text-decoration:none; }
+#sectionnav li.current a:link,
+#sectionnav li.current a:visited,
+#sectionnav a:hover,
+#sectionnav a:active { background:url(/images/nav/sectionnav-bg.gif) repeat-x #333; color:#FFF; text-decoration:none; }
