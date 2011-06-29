@@ -14,6 +14,23 @@ module DtApplicationHelper
     current
   end
   
+  def show_title?
+    true
+  end
+
+  def title(str)
+    content_for(:title) { str.to_s }
+  end
+
+  def html_title(str)
+    content_for(:html_title) { str.to_s }
+  end
+  
+  def content_for?(name)
+    ivar = "@content_for_#{name}"
+    instance_variable_get(ivar).present?
+  end
+
   def ssl_protocol
     return 'https://' if ENV['RAILS_ENV'] == 'production'
     'http://'
