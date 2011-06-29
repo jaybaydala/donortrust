@@ -26,11 +26,11 @@ class Place < ActiveRecord::Base
 
   acts_as_textiled :description
   
-  is_indexed :fields => [
-    {:field => 'name', :sortable => true},
-    {:field => 'parent_id', :as => 'continent'}
-    ], 
-    :delta => true
+  # is_indexed :fields => [
+  #     {:field => 'name', :sortable => true},
+  #     {:field => 'parent_id', :as => 'continent'}
+  #   ], 
+  #   :delta => true
 
   
   def Place.getParentString(place)

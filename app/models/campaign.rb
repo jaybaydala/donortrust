@@ -54,35 +54,34 @@ class Campaign < ActiveRecord::Base
     :if => Proc.new {|c| c.image_file_name? }
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png), # the last 2 for IE
     :if => Proc.new {|c| c.image_file_name? }
-  is_indexed :delta => true, 
-  :fields => [
-    {:field => 'name', :sortable => true},
-    {:field => 'description'},
-    {:field => 'city'},
-    {:field => 'province'},
-    {:field => 'country'}
-  ], 
-  
-  :include => [
-    {
-      :class_name => 'Team',
-      :field => 'teams.name',
-      :as => 'team_name',
-      :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"
-    },
-    {
-      :class_name=> 'Team',
-      :field => 'teams1.short_name',
-      :as => 'team_short_name',
-      :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"
-    },
-    {
-      :class_name => 'Team',
-      :field => 'teams2.description',
-      :as => 'team_description',
-      :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"
-    }
-  ]
+  # is_indexed :delta => true, 
+  #   :fields => [
+  #     {:field => 'name', :sortable => true},
+  #     {:field => 'description'},
+  #     {:field => 'city'},
+  #     {:field => 'province'},
+  #     {:field => 'country'}
+  #   ], 
+  #   :include => [
+  #     {
+  #       :class_name => 'Team',
+  #       :field => 'teams.name',
+  #       :as => 'team_name',
+  #       :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"
+  #     },
+  #     {
+  #       :class_name=> 'Team',
+  #       :field => 'teams1.short_name',
+  #       :as => 'team_short_name',
+  #       :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"
+  #     },
+  #     {
+  #       :class_name => 'Team',
+  #       :field => 'teams2.description',
+  #       :as => 'team_description',
+  #       :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"
+  #     }
+  #   ]
 
   def before_validation
     if use_user_email == "1"
