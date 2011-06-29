@@ -16,13 +16,13 @@ class Team < ActiveRecord::Base
 
   attr_accessor :use_user_email
 
-  is_indexed :fields=> [
-      {:field => 'short_name', :sortable => true},
-      {:field => 'description'},
-      {:field => 'name', :sortable => true}
-    ], 
-    :delta => true, 
-    :conditions => "teams.generic=0 AND teams.pending=0"
+  # is_indexed :fields=> [
+  #     {:field => 'short_name', :sortable => true},
+  #     {:field => 'description'},
+  #     {:field => 'name', :sortable => true}
+  #   ], 
+  #   :delta => true, 
+  #   :conditions => "teams.generic=0 AND teams.pending=0"
 
 
   # validations
