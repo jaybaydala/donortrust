@@ -42,6 +42,46 @@ class Project < ActiveRecord::Base
   
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
 
+  named_scope :total_cost_between, lambda {|min, max|
+    { :conditions => ["total_cost BETWEEN ? AND ?", min.to_i, max.to_i] }
+  }
+  named_scope :public, lambda { { :conditions => { :project_status_id => ProjectStatus.public_ids } } }
+  named_scope :current, lambda {
+    {
+      :conditions => [
+        "#{Project.quoted_table_name}.project_status_id IN (?) AND #{Project.quoted_table_name}.partner_id IN (?)", 
+        ProjectStatus.public.map(&:id), 
+        Partner.find(:all, :select => "id", :conditions => ["partner_status_id=?", PartnerStatus.active.id]).map(&:id)
+      ]
+      
+    }
+  }
+
+  define_index do
+    # fields
+    indexes :name, :sortable => true
+    indexes :id, :as => :project_id
+    indexes description
+    indexes note
+    indexes created_at
+    indexes country_id
+    
+    indexes total_cost, :sortable => true
+    indexes partner(:name), :as => :partner_name
+    indexes country(:name), :as => :country_name
+    indexes sectors(:name), :as => :sector_name
+
+    # attributes
+    has :id
+    has :name
+    has created_at
+    has updated_at
+    has sectors(:id), :as => :sector_ids
+    has country_id
+    has partner(:id), :as => :partner_id
+    has total_cost
+  end
+
   # ultrasphinx indexer configuration
   #sphinx
   # is_indexed :fields => [
@@ -280,8 +320,8 @@ class Project < ActiveRecord::Base
 
 
     def featured_projects
-      projects = Project.find_public(:all, :conditions => { :featured => true })
-      projects = Project.find_public(:all, :joins=>"INNER JOIN partners ON projects.partner_id = partners.id", :conditions => "partners.partner_status_id IN (1,3)", :limit => 3, :order => 'RAND()') if projects.size == 0
+      projects = Project.current.all(:conditions => { :featured => true })
+      projects = Project.current.all(:limit => 3, :order => 'RAND()') if projects.size == 0
       projects
     end
   end
