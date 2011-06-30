@@ -32,6 +32,7 @@ gem 'rmagick', '2.12.2'
 gem 'ruby-recaptcha'
 gem 'searchlogic'
 gem 'simple-rss'
+gem 'thinking-sphinx', :require => 'thinking_sphinx'
 gem 'transaction-simple', :require => 'transaction/simple'
 gem 'whenever', '>=0.3.0', :require => false
 gem 'will_paginate', :require => 'will_paginate'
