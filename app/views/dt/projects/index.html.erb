@@ -1,63 +1,30 @@
-<%- content_for :html_title do -%>Projects<%- end -%>
-<%- content_for :page_title do -%>Project Search:<%- end -%>
+<% title(params[:search].blank? ? 'Featured Projects' : 'Project Search') %>
 
-<div class="project-search-home">
-  <div class="projects-search-box">
-    <div>
-      <% form_tag(search_dt_projects_path,{:id => 'project_search', :method => :get, :onsubmit => "if($('keywords').value=='Search'){ $('keywords').value='';}"} ) do %>
-        <%= text_field_tag 'keywords', (params[:keywords].nil? ? 'Search' : params[:keywords]), 
-          :title => 'Search', 
-          :size => 65 ,
-          :onblur =>"if(!this.value) this.value='Search';", 
-          :onfocus => "if(this.value=='Search') this.value='';"
-          %>
-        <span id="searchsubmit">
-          <%= submit_tag '', 
-          :id => 'simple_search_submit', 
-          :class => 'submitreplace'
-          %>
-        </span>
-        <p class="search-example-text">Search by location, cause, or name. eg. "women education africa" <br />
-          Or try our <%= link_to 'Advanced Search', advancedsearch_dt_projects_path %>
-        </p>
-      <% end -%>
-    </div>
-  </div>
-  
-  <h2> Or search projects by:</h2>
-  <div class='predefined-searches'>
-    <div class="predefined-search-list" id='list-by-sectors'>
-      <h3>Cause/Sector</h3>
-      <%= sectors_projects(20) %>
-    </div>  
-    <div class="predefined-search-list" id ='list-by-country'>
-      <h3>Country</h3>
-      <%= countries_with_project_counts(20) %>
-    </div>
-    <div class="predefined-search-list" id ='list-by-partner'>
-      <h3>Partner</h3>
-      <%= partners_with_projects_count(20) %>
-    </div>
-    <div class="predefined-search-list" id ='list-by-total-cost'>
-      <h3>Total Cost</h3>
-      <%= total_cost_with_project_count(0,5000) %>
-      <%= total_cost_with_project_count(5001,10000) %>
-      <%= total_cost_with_project_count(10001,15000) %>
-      <%= total_cost_with_project_count(15001,20000) %>
-      <%= total_cost_with_project_count(20001,50000) %>
-      <%= total_cost_with_project_count(50001,100000) %>
-      <%= total_cost_with_project_count(100000,500000) %>
-    </div>
-  </div>
+<%= @projects.total_entries %> found
 
-  <div class='clearfix'></div>
-  
-  <div id="featured-projects">
-    <h2>Featured Projects:</h2>
-    
-    <div class="project-list">
-      <%= render :partial => '/dt/projects/featured_project', :collection => @projects if @projects %>
+<%= will_paginate %>
+<div class="clearfix">
+<% @projects.each_with_index do |project, i| %>
+<div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
+  <article id="project-1" class="project-module">
+    <div class="project-module-top">
+      <div class="project-livesaffected-num"><%= project.lives_affected %></div>
+      <div class="project-livesaffected">lives affected plus yours</div>
     </div>
-  </div>
+    <div class="project-place"><%= Place.find(project.country_id).name %></div>
+    <div class="project-title"><%= truncate(project.name, :length => 48) %></div>
+    <div class="project-like">
+      <a href="#"><img src="/images/nav/like-black.png" width="21" height="27" alt=""> Like</a>
+    </div>
+    <div class="project-progress">
+      <div class="plain">Funding Progress</div>
+      <div class="project-progress-bar">
+        <div class="project-progress-fg" style="width:<%= project.get_percent_raised %>%"></div>
+      </div>
+    </div>
+  </article>
+</div>
+<% end %>
 </div>
 
+<%= will_paginate %>
