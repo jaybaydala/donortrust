@@ -9,6 +9,9 @@ class PartnerStatus < ActiveRecord::Base
 
   validates_length_of :description, :maximum => 250
 
+  def self.active
+    find(:first, :conditions => ["name LIKE ?", "Active"])
+  end
 
   def partner_count
     return partners.count

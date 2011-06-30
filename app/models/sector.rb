@@ -9,6 +9,23 @@ class Sector < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  named_scope :with_active_projects, lambda {
+    {
+      :joins => :projects, 
+      :group => "#{quoted_table_name}.id", 
+      :conditions => [
+        "projects.project_status_id IN (?) AND projects.partner_id IN (?)", 
+        ProjectStatus.public.map(&:id),
+        Partner.find(:all, :select => "id", :conditions => ["partner_status_id=?", PartnerStatus.active.id]).map(&:id)
+      ]
+    }
+  }
+  named_scope :ordered_desc_by_projects, lambda {
+    {
+      :select => "#{quoted_table_name}.*, count(projects_sectors.sector_id) as projects_count",
+      :order => "projects_count DESC"
+    }
+  }
 
   #ultrasphinx indexer
 
