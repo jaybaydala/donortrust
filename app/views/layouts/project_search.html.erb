@@ -17,20 +17,20 @@
     </div>
   </section>
 
-  <% if @search_terms.present? %>
+  <% if params[:search].present? %>
   <section class="container prepend-top">
     <ul id="project-search-terms">
-      <% @search_terms.each do |search_term| %>
-        <li class="term"><a href="#"><%= search_term %></a></li>
+      <% search_records.each do |facet, records| %>
+        <%= render :partial => "search_term", :collection => records, :locals => { :facet => facet } %>
       <% end %>
-      <li><a href="#"> | &nbsp; Clear all</a></li>
+      <li><%= link_to "| &nbsp; Clear all", dt_projects_path %></li>
     </ul>
   </section>
   <% end %>
 
   <div class="container prepend-top">
     <aside class="span-3" id="project-filters">
-      <h2 class="plain">Choose</h2>
+      <h2 class="plain border-bottom">Choose</h2>
       <div class="project-filter">
         CAUSE/SECTOR
         <ul>
@@ -59,7 +59,7 @@
         TOTAL COST
         <ul>
           <% [[0, 5000], [5001, 10000], [10001, 15000], [15001, 20000], [20001, 50000], [50001, 100000], [100001, 500000]].each do |range| %>
-            <li><%= search_query_with_term(:total_cost, range).inspect %> <%= link_to "#{number_to_currency(range.first)} - #{number_to_currency(range.last)} (#{ Project.search_count(:with => search_query_with_term(:total_cost, range)) })", dt_projects_path(:search => search_query_with_term(:total_cost, range)) %></li>
+            <li><%= link_to "#{number_to_currency(range.first, :precision => 0)} - #{number_to_currency(range.last, :precision => 0)} (#{ Project.search_count(:with => search_query_with_term(:total_cost, range)) })", dt_projects_path(:search => search_query_with_term(:total_cost, range.join(','))) %></li>
           <% end %>
         </ul>
       </div>
