@@ -1,15 +1,21 @@
-<% title(params[:search].blank? ? 'Featured Projects' : 'Project Search') %>
+<% title(params[:search].blank? ? 'Featured Projects' : nil ) %>
 
-<%= @projects.total_entries %> found
-
-<%= will_paginate %>
+<div id="project-search-summary" class="border-bottom">
+  <%= @projects.total_entries %> found
+  <%= will_paginate %>
+</div>
 <div class="clearfix">
 <% @projects.each_with_index do |project, i| %>
 <div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
   <article id="project-1" class="project-module">
     <div class="project-module-top">
-      <div class="project-livesaffected-num"><%= project.lives_affected %></div>
-      <div class="project-livesaffected">lives affected plus yours</div>
+      <% if project.lives_affected? %>
+        <div class="project-livesaffected-num"><%= number_with_delimiter(project.lives_affected) %></div>
+        <div class="project-livesaffected">lives affected plus yours</div>
+      <% else %>
+        <div class="project-livesaffected-num"><%= number_to_currency(project.total_cost, :precision => 0) %></div>
+        <div class="project-livesaffected">total cost</div>
+      <% end %>
     </div>
     <div class="project-place"><%= Place.find(project.country_id).name %></div>
     <div class="project-title"><%= truncate(project.name, :length => 48) %></div>
