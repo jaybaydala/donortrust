@@ -16,7 +16,7 @@ Scenario: Signup via facebook connect
   And I press "Complete Registration"
   Then I should be on the dt give page
   And I should see "Signed in successfully"
-  And I should see "Welcome, timg"
+  And I should see "Account Settings"
   When I go to the authentications page
   Then I should see "Facebook" within the listed authentications
   And my birthday should be stored in my account
