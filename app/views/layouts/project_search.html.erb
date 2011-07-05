@@ -19,6 +19,7 @@
 
   <% if params[:search].present? %>
   <section class="container prepend-top">
+    <%= render :partial => 'layouts/shared/flashes' %>
     <ul id="project-search-terms">
       <% search_records.each do |facet, records| %>
         <%= render :partial => "search_term", :collection => records, :locals => { :facet => facet } %>
