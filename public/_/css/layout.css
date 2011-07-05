@@ -22,6 +22,8 @@ footer a:hover,
 footer a:active { text-decoration:underline; }
 #rail { background-color:#484848; padding:16px 10px; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 #copyright { text-align:center; }
+#flashes .notice,
+#flashes .error { background: #EEE; border: 1px solid #EC3012; color: #222; padding: 4px 8px; }
 
 /* HOME
 -------*/
