@@ -126,15 +126,6 @@ button {width: auto; overflow: visible;}
 
 /* Ok, this is where the fun starts.
 -------------------------------------------------------------------------------*/
-/* new Linux- and Windows-friendly sans-serif font stack: http://mky.be/fontstack */
-body {font-family: Helmet, Freesans, sans-serif;}
-
-/* we like off-black for text */
-body, select, input, textarea {color: #FFF;}
-
-a {color: #6CF;}
-a:hover {color: #6cf;}
-
 /* Custom text-selection colors (remove any text shadows: twitter.com/miketaylr/status/12228805301) */
 ::-moz-selection{background: #06c; color: #fff; text-shadow: none;}
 ::selection {background: #06c; color: #fff; text-shadow: none;} 

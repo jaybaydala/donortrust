@@ -1,29 +1,4 @@
-<% content_for :carousel do %>
-  <div id="carousel-wrapper">
-    <div id="carousel">
-      <% @carousel_items.each do |carousel_item| %>
-      <div class="carousel-item">
-        <div class="carousel-content">
-          <%= image_tag carousel_item.title_image.url(), :alt => '' %>
-          <%= carousel_item.content %>
-        </div>
-        <div class="carousel-image">
-          <% if carousel_item.code? %>
-            <%= carousel_item.code %>
-          <% else %>
-            <%= image_tag carousel_item.image.url, :alt => '' %>
-          <% end %>
-        </div>
-      </div>
-      <% end %>
-    </div>
-    <div id="carousel-pager">
-      <a href="#" id="carousel-prev">Previous</a>
-      <span id="carousel-pager-items"></span>
-      <a href="#" id="carousel-next">Next</a>
-    </div>
-  </div>
-<% end %>
+<%= render :partial => 'carousel' %>
 
 <div style="text-align:center;">
   <h1><img src="/images/home/the_gift_connection.png" width="288" height="23" alt="The Gift Connection"></h1>
@@ -32,23 +7,128 @@
   
   <p><img src="/images/home/look_what_your_gifts_have_done.png" width="465" height="23" alt="Look what your gifts have done so far..."></p>
   
+  <div class="shadow-top">
+    Numbers are updated as we know more.
+  </div>
+  <div id="statistics" class="clearfix">
+    <div class="statistic span-4">
+      <%= number_with_delimiter(Gift.count) %>
+      <div><img src="/images/home/gifts.png" width="38" height="12" alt="Gifts"></div>
+    </div>
+    <div class="statistic span-4">
+      <%= number_to_currency(Order.complete.sum(:total), :precision => 0) %>
+      <div><img src="/images/home/dollars.png" width="60" height="12" alt="Dollars"></div>
+    </div>
+    <div class="statistic span-3">
+      <%= number_with_delimiter(Project.count) %>
+      <div><img src="/images/home/projects.png" width="67" height="12" alt="Projects"></div>
+    </div>
+    <div class="statistic span-3">
+      <%= number_with_delimiter(Place.countries_with_active_projects.count) %>
+      <div><img src="/images/home/countries.png" width="74" height="12" alt="Countries"></div>
+    </div>
+    <div class="statistic span-4 last">
+      <%= number_with_delimiter(Project.sum(:lives_affected) + Order.count) %>
+      <div><img src="/images/home/people_impacted.png" width="122" height="12" alt="People Impacted"></div>
+    </div>
+  </div>
+  <div class="shadow-bottom"></div>
 </div>
 
-<% content_for :javascript do -%>
-  <%= javascript_include_tag '/_/js/jquery.cycle.all.min.js' %>
-  <script type="text/javascript">
-  //<![CDATA[
-  $(function() {
-    $('#carousel').cycle({
-      activePagerClass: 'current',
-      pause: 1,
-      pager: '#carousel-pager-items',
-      pagerAnchorBuilder: function(index, el) {
-        return '<a href="#">' + (index+1) + "</a>\n";
-      },
-      width:'100%'
-    });
-  });
-  //]]>
-  </script>
-<%- end %>
+<section id="signups" class="clearfix">
+  <div class="span-10 border">
+    <div style="width:220px;margin-right:22px;float:left;text-align:right; ">
+      <img src="/images/home/newsletter_signup.png" width="200" height="19" alt="Newsletter Signup"><br>
+      <div style="margin-top:8px;">
+        <img src="/images/home/button-sign_up.png" width="66" height="22" alt="Sign Up">
+      </div>
+    </div>
+    <div style="width:260px;float:left;">
+      <big><strong class="loud">Expand your poverty world view.</strong><br>
+      Helpful insights, reports from the field and events delivered to your inbox.</big>
+    </div>
+  </div>
+  <div class="span-8 last">
+    <div style="padding-left:30px; position:relative">
+      <img src="/images/home/open_your_gift.png" width="360" height="17" alt="Open Your Gift. End Extreme Poverty">
+      <div style="margin-top:8px;">
+        Enter your pickup code
+        <% form_for :gift, :url => open_dt_gifts_path, :html => { :method => :get } do |f| %>
+          <%= text_field_tag :code, :style => "width:210px;" %>
+          <%= image_submit_tag "/images/home/button-open.png" %>
+          <div style="position:absolute;top:20px;left:280px;"><img src="/images/home/gift_outlines.png" width="39" height="43" alt=""></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="uend_provides">
+  <%= link_to image_tag('/images/home/uend_poverty_provides.png', :alt => "UEnd Poverty provides gift options to empower people like you to end extreme poverty tailored to your interests. Learn More"), dt_give_path, :title => "Give" %>
+</section>
+
+<section id="unique" class="prepend-1 append-1">
+  <div style="text-align:center;padding-bottom:12px;"><img src="/images/home/what_makes_uend_unique.png" width="371" height="25" alt="What Makes Uend Unique?"></div>
+  <div class="clearfix row">
+    <article class="span-8">
+      <div class="span-3">
+        <img src="/images/home/icon-100_percent.png" width="149" height="73" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>No Hidden Overhead Costs</h3>
+        <p>100% of your gift goes to the project you choose. Our operating costs are funded privately and through u:powered. Learn More</p>
+      </div>
+    </article>
+    <article class="span-8 last">
+      <div class="span-3">
+        <img src="/images/home/icon_you.png" width="108" height="131" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>Powered by You</h3>
+        <p>We exist to connect reputable grassroots partners with people passionate about ending poverty. Our site provides the tools and information for you to make an informed choice with a lasting outcome. Learn More</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="clearfix row">
+    <article class="span-8">
+      <div class="span-3">
+        <img src="/images/home/icon-integrated_development.png" width="154" height="96" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>Integrated Development </h3>
+        <p>To create sustainable change and an end to extreme poverty, our partners work with local assets to develop a solution that is tailored to that community&#x27;s specific needs. Learn More</p>
+      </div>
+    </article>
+    <article class="span-8 last">
+      <div class="span-3">
+        <img src="/images/home/icon-less_bureaucracy.png" width="154" height="88" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>Less Bureaucracy</h3>
+        <p>We work directly with our partners and communities to ensure dollars are closer-to-the-ground where they have the most impact, instead of being tied up in bureaucratic processes. Learn More</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="clearfix row">
+    <article class="span-8">
+      <div class="span-3">
+        <img src="/images/home/icon-transparency.png" width="149" height="124" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>High Transparency</h3>
+        <p>Your money won&rsquo;t disappear into a catch-all distribution fund. Regular Proof of Impact (POI) updates are provided. Budget, outcomes, and funding progress are listed for every project. Learn More</p>
+      </div>
+    </article>
+    <article class="span-8 last">
+      <div class="span-3">
+        <img src="/images/home/icon-choice.png" width="150" height="133" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>More Choice</h3>
+        <p>Ending extreme poverty is a complex challenge. UEnd offers projects focused on a variety of causes and development sectors so you can pick your favourite projects and causes. Learn More</p>
+      </div>
+    </article>
+  </div>
+</section>

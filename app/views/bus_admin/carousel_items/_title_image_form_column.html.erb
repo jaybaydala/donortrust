@@ -1,0 +1,3 @@
+<dt><label>Title Image</label></dt>
+<dd><%= file_field :record, :title_image %></dd>
+<dd><%= image_tag(@record.title_image.url, :alt => "", :width => 120) if @record.title_image? %></dd>

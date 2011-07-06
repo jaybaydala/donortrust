@@ -138,7 +138,12 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :news_comments
-  map.resources :loads, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/loads"
+  
+  map.namespace :bus_admin do |ba|
+    ba.resources :content_snippets, :active_scaffold => true
+    ba.resources :loads, :active_scaffold => true
+  end
+  
 
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code.:format', :controller => 'dt/tax_receipts', :action => "show"
@@ -218,6 +223,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :roles, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/roles"
   map.resources :administrations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/administrations"
   map.resources :collaborations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborations"
+  map.resources :carousel_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/carousel_items"
   map.resources :permissions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/permissions"
   map.resources :authorized_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_actions"
   map.resources :authorized_controllers, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_controllers"

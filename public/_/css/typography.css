@@ -1,13 +1,27 @@
-html {font-size:100.01%;}
-body {font-size:75%;}
-h1, h2, h3, h4, h5 {font-family: Georgia, Times, "Times New Roman", serif; font-weight:normal;color:#FFF;}
+/* new Linux- and Windows-friendly sans-serif font stack: http://mky.be/fontstack */
+html { font-size:100.01%; }
+body { font-family: Helmet, Freesans, sans-serif; font-size:75%; }
+body, select, input, textarea { color: #FFF; }
+body.white, 
+.white select, 
+.white input, 
+.white textarea { color:#333; }
+h1, h2, h3, h4, h5 { font-family:Georgia,Times,"Times New Roman",serif; font-weight:normal; color:#FFF; }
 h1.plain, 
 h2.plain, 
 h3.plain, 
 h4.plain, 
 h5.plain,
 .plain { font-family: Helmet, Freesans, sans-serif; }
-.serif { font-family: Georgia, Times, "Times New Roman", serif; }
+.serif { font-family:Georgia,Times,"Times New Roman",serif; }
+.white h1, 
+.white h2, 
+.white h3, 
+.white h4, 
+.white h5 { color:#390; }
+
+a {color: #6CF;}
+a:hover {color: #6cf;}
 
 h1 {font-size:2em;line-height:1;margin-bottom:0.5em;}
 h2 {font-size:1.8em;margin-bottom:0.75em;}
@@ -20,6 +34,7 @@ p {margin:0 0 1.5em;}
 p .left {margin:1.5em 1.5em 1.5em 0;padding:0;}
 .right {float:right !important;}
 p .right {margin:1.5em 0 1.5em 1.5em;padding:0;}
+.center { text-align:center; }
 blockquote {margin:1.5em;color:#CCC;font-style:italic;}
 strong, dfn {font-weight:bold;}
 em, dfn {font-style:italic;}
@@ -39,11 +54,13 @@ th, td, caption {padding:4px 10px 4px 5px;}
 tbody tr:nth-child(even) td, tbody tr.even td {background:#e5ecf9;}
 tfoot {font-style:italic;}
 caption {background:#eee;}
+big { font-size:1.3em }
 .small {font-size:.8em;margin-bottom:1.875em;line-height:1.875em;}
 .large {font-size:1.2em;line-height:2.5em;margin-bottom:1.25em;}
+.larger {font-size:1.3em;line-height:2.5em;margin-bottom:1.25em;}
 .hide {display:none;}
 .quiet {color:#666;}
-.loud {color:#000;}
+.loud {color:#69C;}
 .highlight {background:#ff0;}
 .added {background:#060;color:#fff;}
 .removed {background:#900;color:#fff;}

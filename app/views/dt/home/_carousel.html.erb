@@ -1,0 +1,52 @@
+<% content_for :carousel do %>
+  <div id="carousel-wrapper">
+    <div id="carousel">
+      <% @carousel_items.each do |carousel_item| %>
+      <div class="carousel-item">
+        <% if carousel_item.title_image_only? %>
+          <%= image_tag carousel_item.title_image.url, :alt => carousel_item.title %>
+        <% else %>
+          <div class="carousel-content">
+            <%= image_tag carousel_item.title_image.url, :alt => carousel_item.title %>
+            <div class="carousel-text"><%= carousel_item.content %></div>
+          </div>
+          <% if carousel_item.code? || carousel_item.image? %>
+          <div class="carousel-image">
+            <% if carousel_item.code? %>
+              <%= carousel_item.code %>
+            <% else %>
+              <%= image_tag carousel_item.image.url, :alt => '' %>
+            <% end %>
+          </div>
+          <% end %>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+    <div id="carousel-pager">
+      <a href="#" id="carousel-prev">Previous</a>
+      <span id="carousel-pager-items"></span>
+      <a href="#" id="carousel-next">Next</a>
+    </div>
+  </div>
+<% end %>
+<% content_for :javascript do -%>
+  <%= javascript_include_tag '/_/js/jquery.cycle.all.min.js' %>
+  <script type="text/javascript">
+  //<![CDATA[
+  $(function() {
+    $('#carousel').cycle({
+      activePagerClass: 'current',
+      next: "#carousel-next",
+      prev: "#carousel-prev",
+      pause: 1,
+      pager: '#carousel-pager-items',
+      pagerAnchorBuilder: function(index, el) {
+        return '<a href="#">' + (index+1) + "</a>\n";
+      },
+      width:'100%'
+    });
+  });
+  //]]>
+  </script>
+<%- end %>
