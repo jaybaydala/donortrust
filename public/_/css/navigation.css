@@ -1,7 +1,7 @@
 /* NAVIGATION
 -------------*/
 /* main nav */
-#nav { list-style:none; }
+#nav { list-style:none; z-index:2; }
 #nav li { float:left; }
 #nav li,
 #nav li a { background-repeat:no-repeat; background-position:0 0; background-color:transparent; display:block; height:50px; text-indent:-9999px; }

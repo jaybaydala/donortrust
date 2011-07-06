@@ -1,25 +1,34 @@
-<%- content_for :html_title do %>Discover a new way to give<% end -%>
+<%- content_for :html_title do %>Three ways to give<% end -%>
 
-<div class="indented" style="margin-top:1em;">
-  <h1>I want to:</h1>
+<% content_for :top_content do %>
+<h1 style="padding:32px 0;" class="center"><img src="/images/titles/three_ways_to_give.png" width="482" height="45" alt="Three Ways To Give"></h1>
+<div class="shadow-bottom"></div>
+<% end %>
+
+<div class="clearfix prepend-top">
+  <article class="prepend-1 span-4 append-1">
+    <h2><%= link_to image_tag("/images/give/uforward.png", :alt => 'U:forward - Pay it forward as a gift.'), new_dt_gift_path %></h2>
+    <%= content_snippet_for(:uforward_description) %>
+  </article>
+  <article class="span-4 append-1">
+    <h2><%= link_to image_tag("/images/give/udirect-generic.png", :alt => 'U:direct - Give directly to this project.'), dt_projects_path %></h2>
+    <%= content_snippet_for(:udirect_description) %>
+  </article>
+  <article class="span-4 append-2 last">
+    <h2><%= link_to image_tag("/images/give/upowered.png", :alt => 'U:powered - Fund UEnd operations.'), dt_upowered_path %></h2>
+    <%= content_snippet_for(:upowered_description) %>
+  </article>
+</div>
+
+<!--
+<div class="prepend-top">
   <ul class="arrow">
     <li><%= link_to("Give a gift card (let the recipient choose a project)", new_dt_gift_path) %></li>
     <li><%= link_to("Give to a project on behalf of someone", dt_projects_path) %></li>
     <li><%= link_to("Give directly to a project", dt_projects_path) %></li>
     <li><%= link_to("Let Uend: choose a project for me (donations will go towards project, not operations)", new_dt_investment_path(:project_id => unallocated_project.id)) %></li>
     <li><%= link_to("Give to Uend:'s Operational Budget", new_dt_investment_path(:project_id => 10)) %></li>
-    <li><a onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;" href="/dt/investments?investment%5Bamount%5D=5&project_id=10&subscription=1">Join u:powered - $5/month to build the org that ends poverty</a>
-</li>
+    <li><a onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;" href="/dt/investments?investment%5Bamount%5D=5&project_id=10&subscription=1">Join u:powered - $5/month to build the org that ends poverty</a></li>
   </ul>
 </div>
-
-
-<% content_for :sidebar do %>  
-  <div style="margin-top:1em;">
-    <h3>
-      <img src = "/images/dt/icons/you-icon-orange.png" style ="float: left; padding-right: 5px;"/>
-      Support projects that help communities climb out of extreme poverty.
-    </h3>
-  </div>
-  <%= dt_short_profile_sidebar %>
-<% end %>
+-->

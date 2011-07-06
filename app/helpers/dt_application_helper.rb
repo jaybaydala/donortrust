@@ -13,6 +13,11 @@ module DtApplicationHelper
     end
     current
   end
+
+  def content_snippet_for(slug)
+    content_snippet = ContentSnippet.find_by_slug(slug.to_s)
+    ContentSnippet.find_by_slug(slug.to_s).body if content_snippet.present?
+  end
   
   def show_title?
     true

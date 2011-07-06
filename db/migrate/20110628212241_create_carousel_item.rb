@@ -1,6 +1,7 @@
 class CreateCarouselItem < ActiveRecord::Migration
   def self.up
     create_table :carousel_items do |t|
+      t.string :title
       t.string :title_image_file_name
       t.string :title_image_content_type
       t.integer :title_image_file_size

@@ -1,7 +1,12 @@
 body { background-color:#000; }
 .content { background:#333; margin:auto; position:relative; width:1015px; }
+.white .content { background:#FFF; }
+footer.content,
+.white footer.content { background:transparent; }
+
 /* header */
 #top { background-color:#333; padding: 20px 0 18px 0; position:relative; }
+#top .content { background:transparent; }
 #logo { margin:0 0 0 75px; padding:0; }
 #logo, #logo a { display:block; height:33px; width:244px; }
 #logo a { background:url(/images/logo.png) no-repeat transparent; text-indent:-9999px; }
@@ -12,8 +17,9 @@ body { background-color:#000; }
 #social { padding-left:36px; }
 #social img { vertical-align:text-bottom; }
 #nav { margin:auto; padding-bottom:2px; width:788px; }
-header nav { background-color:#360; }
-header nav.content { background-color:#360; }
+header nav,
+header nav.content,
+.white header nav.content { background-color:#360; }
 /* footer */
 footer.content { background-color:transparent; padding-top:24px; }
 footer.content ul { margin:0 0 1em; padding:0; list-style:none; }
@@ -24,6 +30,9 @@ footer a:active { text-decoration:underline; }
 #copyright { text-align:center; }
 #flashes .notice,
 #flashes .error { background: #EEE; border: 1px solid #EC3012; color: #222; padding: 4px 8px; }
+.white .shadow-top { background:url(/images/home/shadow-top.png) no-repeat; color:#999; font-size:11px; height:18px; padding-top:8px; }
+.white .shadow-bottom { background:url(/images/home/shadow-bottom.png) no-repeat; color:#999; font-size:11px; height:13px; }
+
 
 /* HOME
 -------*/
@@ -31,14 +40,25 @@ footer a:active { text-decoration:underline; }
 #carousel-container { background-color:#360; padding:0; position:relative; width:auto; }
 #carousel-wrapper { position:relative; margin:auto; width:1015px; }
 #carousel { margin:auto; height:350px; width:100%; }
-.carousel-item { height:350px; width:1015px; }
-#carousel-pager { position:absolute; bottom:16px; left:48px; }
+.carousel-item { height:350px; position:relative; width:1015px; }
+.carousel-content { font:18px Georgia, Times, "Times New Roman", serif; margin:48px 0 0 75px; width:400px; }
+.carousel-text { margin-top:24px; width:370px; }
+.carousel-text a { color:#FC0; font:14px Arial, Helvetica, sans-serif; text-decoration:none; }
+.carousel-image { position:absolute; left:420px; top:0;}
+#carousel-pager { position:absolute; bottom:16px; left:48px; z-index:99; }
 #carousel-pager a { background:url(/images/home/carousel-pager.png) 0 0 no-repeat; display:block; float:left; height:24px; padding:0 4px; text-indent:-9999px; width:13px; }
 #carousel-pager a:hover,
 #carousel-pager a.current { background-position:0 -24px; }
 #carousel-pager a#carousel-prev { background:url(/images/home/carousel-prev.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
 #carousel-pager a#carousel-next { background:url(/images/home/carousel-next.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
 #home #main { background-color:#FFF; color:#333; }
+#home #statistics { border-bottom:3px solid #390; border-top:2px solid #390; padding-bottom:24px; }
+#home .statistic { background:url(/images/home/statistic_border.png) top right no-repeat; font:42px/28px Georgia,Times,"Times New Roman",serif; padding-top:24px; padding-bottom:0px; text-align:center; }
+#home .statistic.last { background:none; }
+#signups { padding:42px 0; }
+#unique { margin-top:36px; font-size:16px; }
+#unique h3 { margin-bottom:4px; }
+#unique .row { margin:24px 0; }
 
 /* PROJECTS
 -----------*/

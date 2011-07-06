@@ -17,6 +17,8 @@ class Order < ActiveRecord::Base
   before_create :generate_order_number
   after_save :update_user_information
 
+  named_scope :complete, :conditions => { :complete => true }
+
   def initialize(params = nil)
     super
     self.donor_type ||= self.class.personal_donor

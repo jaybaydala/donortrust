@@ -1,21 +1,31 @@
 <%= render :partial => 'layouts/shared/head' %>
-<body>
+<body class="white">
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
   <div class="content append-bottom">
     <div class="container">
-      <article class="prepend-1 span-14">
+      <section id="top_content">
         <%= render :partial => 'layouts/shared/flashes' %>
-        <%= yield %>
-      </article>
-      <aside class="span-3 last">
-        <div id="rail">
-          <%= render :partial => 'layouts/shared/newsletter' %>
-
-          <%= yield :sidebar %>
-        </div>
-      </aside>
+        <%= yield :top_content %>
+      </section>
+    </div>
+    <div class="container">
+      <% if content_for? :sidebar %>
+        <article class="prepend-1 span-14">
+          <%= yield %>
+        </article>
+        <aside class="span-3 last">
+          <div id="rail">
+            <%= render :partial => 'layouts/shared/newsletter' %>
+            <%= yield :sidebar %>
+          </div>
+        </aside>
+      <% else %>
+        <article class="prepend-1 span-17 last">
+          <%= yield %>
+        </article>
+      <% end %>
     </div>
   </div>
 
