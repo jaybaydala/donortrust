@@ -54,9 +54,9 @@
       <div style="margin-top:8px;">
         Enter your pickup code
         <% form_for :gift, :url => open_dt_gifts_path, :html => { :method => :get } do |f| %>
-          <%= text_field_tag :code, :style => "width:210px;" %>
+          <%= text_field_tag :code, '', :style => "width:210px;" %>
           <%= image_submit_tag "/images/home/button-open.png" %>
-          <div style="position:absolute;top:20px;left:280px;"><img src="/images/home/gift_outlines.png" width="39" height="43" alt=""></div>
+          <div style="position:absolute;top:22px;left:320px;"><img src="/images/home/gift_outlines.png" width="39" height="43" alt=""></div>
         <% end %>
       </div>
     </div>

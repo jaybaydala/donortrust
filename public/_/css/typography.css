@@ -21,7 +21,10 @@ h5.plain,
 .white h5 { color:#390; }
 
 a {color: #6CF;}
-a:hover {color: #6cf;}
+a:hover {color: #6Cf;}
+
+.white a { color:#39F; }
+.white a:hover { color:#39F; }
 
 h1 {font-size:2em;line-height:1;margin-bottom:0.5em;}
 h2 {font-size:1.8em;margin-bottom:0.75em;}
