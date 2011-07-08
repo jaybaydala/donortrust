@@ -1,9 +1,5 @@
 <% title(params[:search].blank? ? 'Featured Projects' : nil ) %>
 
-<div id="project-search-summary" class="border-bottom">
-  <%= @projects.total_entries %> found
-  <%= will_paginate %>
-</div>
 <div class="clearfix">
 <% @projects.each_with_index do |project, i| %>
 <div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
@@ -17,15 +13,23 @@
         <div class="project-livesaffected">total cost</div>
       <% end %>
     </div>
-    <div class="project-place"><%= Place.find(project.country_id).name %></div>
-    <div class="project-title"><%= truncate(project.name, :length => 48) %></div>
+    <div class="project-place"><%= link_to Place.find(project.country_id).name, nation_dt_project_path(project) %></div>
+    <div class="project-name"><%= link_to truncate(project.name, :length => 48), dt_project_path(project) %></div>
     <div class="project-like">
-      <a href="#"><img src="/images/nav/like-black.png" width="21" height="27" alt=""> Like</a>
+      <a href="#"><img src="/images/nav/like-grey.png" width="21" height="27" alt=""> Like</a>
     </div>
-    <div class="project-progress">
-      <div class="plain">Funding Progress</div>
+    <div class="project-module-bottom clearfix">
       <div class="project-progress-bar">
         <div class="project-progress-fg" style="width:<%= project.get_percent_raised %>%"></div>
+      </div>
+      <div class="detail">
+        <%= project.get_percent_raised.to_i %>%<br> Funded
+      </div>
+      <div class="detail">
+        <%= number_to_currency(project.total_cost, :precision => 0) %><br> Cost
+      </div>
+      <div class="detail">
+        <%= number_with_delimiter(Gift.count(:conditions => ["project_id=?", project.id])) %><br> Gifts
       </div>
     </div>
   </article>

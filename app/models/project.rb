@@ -60,24 +60,24 @@ class Project < ActiveRecord::Base
   define_index do
     # fields
     indexes :name, :sortable => true
-    indexes :id, :as => :project_id
     indexes description
     indexes note
-    indexes created_at
-    indexes country_id
     
     indexes partner(:name), :as => :partner_name
     indexes country(:name), :as => :country_name
     indexes sectors(:name), :as => :sector_name
 
     # attributes
-    has :id
+    has :id, :as => :project_id
     has :name
     has created_at
     has updated_at
-    has sectors(:id), :as => :sector_ids
-    has country_id
-    has partner(:id), :as => :partner_id
+    has sectors(:id),   :as => :sector_ids
+    has sectors(:name), :as => :sector_names
+    has country(:id),   :as => :country_id
+    has country(:name), :as => :country_name
+    has partner(:id),   :as => :partner_id
+    has partner(:name), :as => :partner_name
     has "CAST(total_cost AS UNSIGNED)", :type => :integer, :as => :total_cost
     
     # global conditions

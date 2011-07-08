@@ -1,22 +1,22 @@
+<% content_for :header do %>
+<section class="container" id="projects-header">
+  <nav id="sectionnav">
+    <ol class="clearfix">
+      <li><a href="#">Choose a Cause</a></li>
+      <li><a href="#">Our Partners</a></li>
+      <li><a href="#">What is Proof of Impact?</a></li>
+      <li><a href="#">u:powered</a></li>
+    </ol>
+  </nav>
+</section>
+<% end %>
+
 <%= render :partial => 'layouts/shared/head' %>
 <body id="projects">
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
 <div class="content prepend-top append-bottom">
-  <section class="container" id="projects-header">
-    <div class="span-18 last">
-      <nav id="sectionnav">
-        <ol class="clearfix">
-          <li><a href="#">Choose a Cause</a></li>
-          <li><a href="#">Our Partners</a></li>
-          <li><a href="#">What is Proof of Impact?</a></li>
-          <li><a href="#">u:powered</a></li>
-        </ol>
-      </nav>
-    </div>
-  </section>
-
   <% if params[:search].present? %>
   <section class="container prepend-top">
     <%= render :partial => 'layouts/shared/flashes' %>
@@ -67,6 +67,22 @@
     </aside>
     <article class="span-12">
       <%= content_tag(:h1, yield(:title), :class => "clearfix") if show_title? %>
+      
+      <% if params[:search].present? %>
+      <div id="project-search-summary" class="border-bottom clearfix">
+        <% form_tag dt_projects_url, :method => :get, :id => "project_search_tools" do %>
+          Sort by: <%= select_tag :order, options_for_select([["Added", 'created_at'], ["Total Cost", 'total_cost'], ["Country", 'country_name'], ["Partner", 'partner_name']], params[:order]) %> &nbsp; 
+          Display: <%= select_tag :per_page, options_for_select([ '18', '36', '54' ], params[:per_page]) %>
+          <% params[:search].each do |facet, vals| %>
+            <% vals.each do |v| %>
+              <%= hidden_field_tag "search[#{facet}][]", v %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%#= "#{@projects.total_entries} found" %> 
+        <%= will_paginate %>
+      </div>
+      <% end %>
       
       <%= yield %>
     </article>

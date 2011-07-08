@@ -3,14 +3,14 @@
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
-  <div class="content append-bottom">
+  <div class="content">
     <div class="container">
       <section id="top_content">
         <%= render :partial => 'layouts/shared/flashes' %>
         <%= yield :top_content %>
       </section>
     </div>
-    <div class="container">
+    <div class="container prepend-top">
       <% if content_for? :sidebar %>
         <article class="prepend-1 span-14">
           <%= yield %>

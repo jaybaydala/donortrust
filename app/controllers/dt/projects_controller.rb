@@ -17,7 +17,11 @@ class Dt::ProjectsController < DtApplicationController
       @projects = Project.current.paginate(:conditions => { :featured => true }, :page => params[:page], :per_page => 18)
       @projects = Project.current.paginate(:limit => 3, :order => 'RAND()', :page => params[:page], :per_page => 18) if @projects.size == 0
     else
-      @projects = Project.search :with => search_query_prepared, :page => params[:page], :per_page => 18, :populate => true
+      @projects = Project.search :with => search_query_prepared, 
+        :page     => params[:page], 
+        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i), 
+        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym), 
+        :populate => true
     end
     respond_to do |format|
       format.html { render :action => "index", :layout => "project_search"}
