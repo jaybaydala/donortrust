@@ -4,6 +4,7 @@ log/*.pid
 db/sphinx
 rerun.txt
 config/aws.yml
+config/flickr.yml
 config/database.yml
 config/omniauth.yml
 development_structure.sql
