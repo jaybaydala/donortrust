@@ -1,0 +1,13 @@
+<div class="clearfix append-bottom">
+  <div class="span-4 append-bottom" style="border-bottom:1px dotted #999;">
+    <% if @project.target_start_date? %><div style="margin-bottom:8px;"><strong>Target Start Date:</strong> <%= @project.target_start_date.strftime("%B %d, %Y") %></div><% end %>
+    <div><strong>Location:</strong> <%= render "location" %></div>
+  </div>
+  <div class="span-4 prepend-1 last">
+    <div id="project-progress" style="margin-bottom:8px;">
+      <div id="project-progress-fg" style="width:<%= @project.get_percent_raised %>%;"></div>
+    </div>
+    <div><%= number_to_currency(@project.total_cost, :precision => 0) %> total cost</div>
+    <div><%= number_to_currency(@project.current_need, :precision => 0) %> still required</div>
+  </div>
+</div>

@@ -9,7 +9,8 @@ class Dt::ProjectsController < DtApplicationController
   helper_method :search_query
   helper_method :search_query_with_term
   helper_method :search_query_without_term
-
+  layout "projects"
+  
   @monkey_patch_flag = false
 
   def index

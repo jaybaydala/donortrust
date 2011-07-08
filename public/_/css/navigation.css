@@ -30,6 +30,7 @@ nav.subnav li.current a:active { text-decoration:underline; }
 nav.subnav li.current a { color:#6CF; text-decoration:none; }
 nav.subnav li { float:left; }
 nav.subnav li:after { content: "\00A0\00A0\00A0\007C\00A0\00A0\00A0"; }
+nav.subnav li.last:after { content: ""; }
 /* sectionnav */
 #sectionnav { bottom:0; position:absolute; }
 #sectionnav ol { list-style:none; margin:0; padding:0; }
