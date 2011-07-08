@@ -148,6 +148,11 @@ Factory.define :project do |p|
   p.slug nil
 end
 
+Factory.define :project_flickr_image do |p|
+  p.association :project
+  p.photo_id 3700894878
+end
+
 Factory.define :admin_project, :class => Project do |p|
   p.slug "admin"
   p.name { "#{Faker::Lorem.words(6).join(" ")} Project"}
