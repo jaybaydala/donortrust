@@ -82,8 +82,8 @@ GEM
       simple-rss (>= 1.1)
     ffi (0.6.3)
       rake (>= 0.8.7)
-    flickr (1.0.2)
-      xml-simple (>= 1.0.7)
+    flickraw (0.8.4)
+      json (>= 1.1.1)
     gem_plugin (0.2.3)
     gherkin (2.2.9)
       json (~> 1.4.6)
@@ -264,7 +264,7 @@ DEPENDENCIES
   fakeweb
   fastercsv
   feed-normalizer
-  flickr
+  flickraw
   hpricot
   launchy
   mail

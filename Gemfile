@@ -17,7 +17,7 @@ gem 'completeness-fu', '0.5.2'
 gem 'daemons', '1.0.10'
 gem 'fastercsv'
 gem 'feed-normalizer'
-gem 'flickr'
+gem 'flickraw'
 gem 'hpricot'
 gem 'mail', :require => false
 gem 'nokogiri'
