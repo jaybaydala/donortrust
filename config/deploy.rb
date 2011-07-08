@@ -54,6 +54,7 @@ namespace :deploy do
 
   task :link_configs do
     # config
+    run "ln -nfs #{shared_path}/config/flickr.yml #{latest_release}/config/flickr.yml"
     run "ln -nfs #{shared_path}/config/iats.yml #{latest_release}/config/iats.yml"
     run "ln -nfs #{shared_path}/config/aws.yml #{latest_release}/config/aws.yml"
     run "rm -f #{release_path}/config/database.yml && ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
