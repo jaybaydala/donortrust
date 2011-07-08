@@ -38,22 +38,22 @@ footer a:active { text-decoration:underline; }
 /* HOME
 -------*/
 #home #headercontent { width:auto; }
-#carousel-container { background-color:#360; padding:0; position:relative; width:auto; }
-#carousel-wrapper { position:relative; margin:auto; width:1015px; }
-#carousel { margin:auto; height:350px; width:100%; }
-.carousel-item { height:350px; position:relative; width:1015px; }
-.carousel-content { font:18px Georgia, Times, "Times New Roman", serif; margin:48px 0 0 75px; width:400px; }
-.carousel-text { color:#FFF; margin-top:24px; width:370px; }
-.carousel-text a,
-.white .carousel-text a { color:#FC0; font:14px Arial, Helvetica, sans-serif; text-decoration:none; }
-.carousel-image { position:absolute; left:420px; top:0;}
-#carousel-pager { position:absolute; bottom:16px; left:48px; z-index:99; }
-#carousel-pager a { background:url(/images/home/carousel-pager.png) 0 0 no-repeat; display:block; float:left; height:24px; padding:0 4px; text-indent:-9999px; width:13px; }
-#carousel-pager a:hover,
-#carousel-pager a.current { background-position:0 -24px; }
-#carousel-pager a#carousel-prev { background:url(/images/home/carousel-prev.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
-#carousel-pager a#carousel-next { background:url(/images/home/carousel-next.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
-#home #main,
+#home #carousel-container { background-color:#360; padding:0; position:relative; width:auto; }
+#home #carousel-wrapper { position:relative; margin:auto; width:1015px; }
+#home #carousel { margin:auto; height:350px; width:100%; }
+#home .carousel-item { height:350px; position:relative; width:1015px; }
+#home .carousel-content { font:18px Georgia, Times, "Times New Roman", serif; margin:48px 0 0 75px; width:400px; }
+#home .carousel-text { color:#FFF; margin-top:24px; width:370px; }
+#home .carousel-text a,
+#home .white .carousel-text a { color:#FC0; font:14px Arial, Helvetica, sans-serif; text-decoration:none; }
+#home .carousel-image { position:absolute; left:420px; top:0;}
+#home #carousel-pager { position:absolute; bottom:16px; left:48px; z-index:99; }
+#home #carousel-pager a { background:url(/images/home/carousel-pager.png) 0 0 no-repeat; display:block; float:left; height:24px; padding:0 4px; text-indent:-9999px; width:13px; }
+#home #carousel-pager a:hover,
+#home #carousel-pager a.current { background-position:0 -24px; }
+#home #carousel-pager a#carousel-prev { background:url(/images/home/carousel-prev.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
+#home #carousel-pager a#carousel-next { background:url(/images/home/carousel-next.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
+#home #home #main,
 .white #main { background-color:#FFF; color:#333; }
 #home #statistics { border-bottom:3px solid #390; border-top:2px solid #390; padding-bottom:24px; }
 #home .statistic { background:url(/images/home/statistic_border.png) top right no-repeat; font:42px/28px Georgia,Times,"Times New Roman",serif; padding-top:24px; padding-bottom:0px; text-align:center; }
@@ -100,7 +100,7 @@ footer a:active { text-decoration:underline; }
 .project-progress-fg { background:#C00; height:8px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:4px; -webkit-border-bottom-left-radius:4px; -moz-border-radius-topleft:4px; -moz-border-radius-bottomleft:4px; border-top-left-radius:4px; border-bottom-left-radius:4px; }
 .project-module-bottom { background:#f8f8f8; border-top:1px solid #e0e0e0; bottom:0; color:#666; font-size:10px; height:42px; padding:10px 12px; position:absolute; width:175px;  -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-left-radius:5px; border-bottom-right-radius:5px }
 .project-module .detail { float:left; width:58px; }
-#project-header { background:#390; }
+#project-header { background:#390; position:relative; }
 #project-header a { color:#9CF; text-decoration:none; }
 #project-header .back-to-projects { position:absolute; right:20px; top:0; }
 #project-nav { padding:1.5em 0 8px 0; margin:0 20px; }
@@ -112,6 +112,9 @@ footer a:active { text-decoration:underline; }
 .project-description { margin-bottom:3em; }
 .project-description p { font-family:Georgia, Times, "Times New Roman", serif; font-size:1.3em; }
 h1.project-title { padding-bottom:2em; border-bottom:1px solid #666; margin-bottom:1em; }
+#project-carousel { margin-bottom:1.5em; height:320px; overflow:hidden; width:480px; }
+#project-carousel a,
+#project-carousel img { width:100%; }
 #project-footer { }
 #project-footer ul { list-style:none; margin:8px 0 0 0; padding:0; }
 

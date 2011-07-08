@@ -1,0 +1,1 @@
+<%= [(@project.place ? link_to(@project.place.name, community_dt_project_path(@project)) : nil), (@project.country ? link_to(@project.country.name, nation_dt_project_path(@project)) : nil)].compact.join(', ') %>

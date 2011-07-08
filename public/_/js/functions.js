@@ -6,6 +6,8 @@ $(document).ready(function (){
   $("#project_search_tools select").change(function() {
     $(this).parent().submit();
   });
+  $("#project-carousel").cycle({ pause:1, width:$("#project-carousel").width()+'px' });
+  console.log($("#project-carousel").height());
 });
 
 

@@ -6,15 +6,31 @@ class ProjectFlickrImage < ActiveRecord::Base
       me.errors.add :project_id, 'does not exist'
     end
   end
-  
+
   def exists?
     @exists ||= !!info
   end
-  
+
+  def info
+    begin
+      @info ||= self.flickr.photos.getInfo(:photo_id => self.photo_id)
+    rescue
+      nil
+    end
+  end
+
+  def description
+    @description ||= info["description"] if exists?
+  end
+
+  def title
+    @title ||= info["title"] if exists?
+  end
+
   def owner
     @owner ||= { :nsid => info["owner"]["nsid"], :username => info["owner"]["username"], :realname => info["owner"]["realname"] } if exists?
   end
-  
+
   def square
     @square ||= get_size('square')
   end
@@ -42,14 +58,6 @@ class ProjectFlickrImage < ActiveRecord::Base
   protected
     def flickr
       @flickr ||= FlickRaw::Flickr.new
-    end
-
-    def info
-      begin
-        @info ||= self.flickr.photos.getInfo(:photo_id => self.photo_id)
-      rescue
-        nil
-      end
     end
 
     def get_size(desired_size)
