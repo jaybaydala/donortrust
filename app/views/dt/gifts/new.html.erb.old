@@ -1,0 +1,162 @@
+<%- content_for :head do -%>
+  <%= stylesheet_link_tag "dt/cart" %>
+  <%= javascript_include_tag "dt/ecards" %>
+  <%= javascript_include_tag "dt/charcount" %>
+  <script type="text/javascript">Event.observe(window, 'load', function(){makeItCount('gift_message', 1000)});</script>
+<%- end -%>
+<%- content_for :html_title do -%>Give!<%- end -%>
+<%- content_for :page_title do -%>Experience a new way to give.<%- end -%>
+<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
+
+<%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %>
+
+<%= render :partial => 'dt/give/us_tax_receipt' %>
+
+<%= error_messages_for :gift %>
+
+<% form_for(:gift, :url => dt_gifts_path, :html => {:id => "giftform", :name => "giftform"}) do |f| %>
+
+<%= f.hidden_field 'promotion_id', :id => "promotion_id" %>
+
+<div class="userform">
+  <h2>Your Gift Information</h2>
+  <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+  <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
+    <p style="margin:0;">If you have <strong>several similar gifts</strong> to give, don't forget to <strong>check out our Bulk giving</strong> below!</p>
+  </div>
+
+  <fieldset>
+    <legend>Choose a Gift Type</legend>
+    <ol class="clearfix">
+      <li>
+        <label class="left"><strong>Thanks for giving a gift using Uend:. You've chosen to:</strong></label>
+        <% if @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give <%= link_to(@gift.project.name, dt_project_path(@gift.project)) %> as a gift</label><% end %>
+        <label class="left"><%= f.radio_button "project_id", nil %> Give a gift card (let the recipient a choose a project)</label>
+        <% unless @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give a project as a gift &nbsp; &#8250; <%= link_to("choose a project", dt_projects_path) %></label><% end %>
+        <%= hidden_field_tag("project_id", @gift.project_id) if @gift.project_id %>
+      </li>
+    </ol>
+  </fieldset>
+
+  <fieldset>
+    <legend>1. Enter Your Information</legend>
+    <ol>
+      <li><label for="gift_name">Name</label> <%= f.text_field :name %></li>
+      <li><label for="gift_email"><em>*</em> Email</label> <%= f.text_field :email %></li>
+      <li><label for="gift_email_confirmation"><em>*</em>Retype Email</label> <%= f.text_field :email_confirmation, :value => (logged_in? && @gift.email? ? @gift.email : nil) %></li>
+    </ol>
+  </fieldset>
+  
+  <fieldset>
+    <legend>2. Recipient Information</legend>
+    <div id="individual"<%= " style=\"display:none;\"" if params[:recipients] && !params[:recipients].blank? %>>
+      <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
+        <p style="margin:0;">
+          If you have more than one gift to give, <strong><%= link_to "try our bulk giving", "javascript:void(0);", :onclick => "$('individual').toggle();$('bulk').toggle();" %></strong>! 
+          <a href="javascript:void(0);" onclick="$('whats-this').toggle();">What's this?</a>
+        </p>
+        <div id="whats-this" style="display:none;margin-top:8px;border:1px solid #DDD;background:#FFF;padding:4px;">You can send gift cards with the same message and amount to multiple people at once. After, if you want to edit one of the indivdual bulk gifts (change the personal message, delivery time, or amount), you can do so in the cart.</div>
+      </div>
+      <ol>
+        <li><label for="gift_to_name">Name</label> <%= f.text_field :to_name %></li>
+        <li><label for="gift_to_email"><em>*</em> Email</label> <%= f.text_field :to_email %></li>
+        <li><label for="gift_to_email_confirmation"><em>*</em>Retype Email</label> <%= f.text_field :to_email_confirmation %></li>
+      </ol>
+    </div>
+    <div id="bulk"<%= " style=\"display:none;\"" unless params[:recipients] && !params[:recipients].blank? %>>
+      <div class="highlight" style="border:1px #EED solid;padding:2px;margin-bottom:4px;">
+        <p style="margin:0;"><%= link_to "Return to individual gift giving", "javascript:void(0);", :onclick => "$('individual').toggle();$('bulk').toggle();$('recipients').value='';" %></p>
+      </div>
+      
+      <%= render :partial => "bulk_gifts", :locals => {:f => f} %>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>3. Gift Details</legend>
+    <ol class="clearfix">
+      <li>
+        <label for="gift_amount">Gift Amount <br />for each recipient</label> $<%= f.text_field :amount %>
+        <div class="note" style="padding-left:.5em;">Example: $100</div>
+      </li>
+      <li>
+        <% if @ecards.empty? %>
+        <label for="gift_message" class="left">Your personal message to the recipient(s):</label>
+        <%= f.text_area :message, :rows => 6, :cols => 35 %>
+        <% else %>
+        <div class="columns">
+          <div class="left" style="width:150px;">
+            <label class="left">Ecard Image:</label>
+            <div id="medImgWrap">
+              <div class="medImg"><%= image_tag url_for_file_column(@ecards[0], "medium"), :id => 'mediumEcard', :alt => '' %></div>
+              <div style="color:#333;"><em>Selected Image</em></div>
+            </div>
+            <%= f.hidden_field 'e_card_id', :id => "e_card_id" %>
+          </div>
+          <div class="right" style="width:370px;">
+            <label for="gift_message" class="left">Your personal message to the recipient(s):</label>
+            <%= f.text_area :message, :rows => 6, :cols => 35 %>
+            <div class="note" style="margin:0;">Your message is limited to 1000 characters</div>
+            <div id="counter-gift_message"></div>
+          </div>
+        </div>
+        <% end %>
+      </li>
+      <% unless @ecards.empty? %>
+      <li>
+        <div id="ecardPreview" style="display:none;" class="clearfix">
+          <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
+          <%= button_to_function "Preview your ecard &raquo;", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
+        </div>
+      </li>
+      <li>
+        <div>Please select an image from the Ecard Gallery:</div>
+        <%= render :file => "dt/ecards/content" %>
+      </li>
+      <% end %>
+    </ol>
+  </fieldset>
+
+  <fieldset>
+    <legend>4. Gift Delivery</legend>
+    <div class="notes">
+      <h5>Gift Delivery</h5>
+      <p>Gifts that remain unopened or unclaimed for 30 days will automatically be invested in one of our projects. If you choose, we can send both you and the recipient multiple email reminders before unclaimed gifts are invested.</p>
+    </div>
+    <ol>
+      <li><label for="gift_notify_giver" class="left"><%= f.check_box :notify_giver %>Let me know this gift is used or not used</label></li>
+      <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "if($(this.id).checked) $('gift_send_at').hide();", :checked => "checked" %> Email my gift now</label></li>
+      <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "if($(this.id).checked)$('gift_send_at').show();" %> Schedule my gift delivery</label></li>
+      <li>
+        <label class="left">
+          <%= f.radio_button :send_email, false, :onchange => "if($(this.id).checked) $('gift_send_at').hide();" %> Don't email my gift 
+          <div style="margin-left:2em;">(I&rsquo;ll print the ecard and deliver it myself)</div>
+        </label>
+      </li>
+      <li id="gift_send_at"<%= " style=\"display:none;\"" unless @gift.send_email? %>>
+        <label class="left" for="gift_send_at_2i">Select a date &amp; time to email your gift ecard</label>
+        <div id="gift_send_at_select">
+          <%= f.datetime_select :send_at, 
+            :order          => [:month, :day, :year, :hour, :minute], 
+            :start_year     => Time.now.year, 
+            :end_year       => Time.now.year+1, 
+            :discard_second => true, 
+            :minute_step    => 30,
+            :default        => 1.hour.from_now,
+            :include_blank  => true %>
+          <%= select_tag :time_zone, time_zone_options_for_select(Time.zone.name, ActiveSupport::TimeZone.us_zones) %>
+        </div>
+      </li>
+    </ol>
+  </fieldset>
+  
+  <div style="float:right;" class="clearfix"><%= submit_tag 'Add to Cart', :class => 'buttonsubmit', :id => "giftsubmit" %></div>
+
+</div>
+<% end %>
+
+<%- content_for :sidebar do -%>
+  <%= render :file => "dt/cart/summary" %>
+  <%= dt_profile_sidebar %>
+<%- end -%>
