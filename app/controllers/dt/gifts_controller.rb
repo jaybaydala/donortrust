@@ -44,31 +44,27 @@ class Dt::GiftsController < DtApplicationController
       if @project.fundable?
         @gift.project = @project
       else
-        flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
-        redirect_to dt_project_path(@project) and return
+        flash.now[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
       end
     end
-    
+
     # Is this gift being given as a result of a promotion?    
-    if params[:promotion_id]
-      promotion = Promotion.find(params[:promotion_id])
-      
-      if !promotion.nil?
-        @gift.promotion = promotion
-      end
-      # Otherwise, someone has tried to hack the query string with any old rubbish
+    if params[:promotion_id] && Promotion.exists?(params[:promotion_id])
+      @gift.promotion_id = params[:promotion_id]
     end
 
     respond_to do |format|
       format.html {
-        unless logged_in? && current_user.in_country?(CANADA)
-          # MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
-          # layout of the Gift page. If the user's country is nil, not Canada or they're not logged_in,
-          # use the layout that allows for US donations.
-          render :layout => 'us_receipt_layout'
-        else 
-          render :action => 'new'
-        end
+        # TG - JULY 12, 2011 - no need for a separate layout. Moved a snippet into the view page
+        # 
+        # unless logged_in? && current_user.in_country?(CANADA)
+        #   # MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
+        #   # layout of the Gift page. If the user's country is nil, not Canada or they're not logged_in,
+        #   # use the layout that allows for US donations.
+        #   render :layout => 'us_receipt_layout'
+        # else 
+        #   render :action => 'new'
+        # end
       }
       format.js
     end
