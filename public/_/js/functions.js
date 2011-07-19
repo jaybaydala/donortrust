@@ -14,6 +14,11 @@ $(document).ready(function (){
     $('#e_card-preview img').attr("src", $(this).attr("data_url"));
     $("#gift_e_card_id").attr("value", $(this).attr("data_id"));
   });
+  $("#gift_preview").click(function() {
+    var form = $(this).closest("form");
+    window.open($(this).attr("href") + '?' + $(form).serialize(), "giftpreview", 'width=600,height=450,location=0')
+    return false;
+  });
 });
 
 /* optional triggers
