@@ -123,9 +123,9 @@ h1.project-title { padding-bottom:2em; border-bottom:1px solid #666; margin-bott
 #e_card-preview img { border:1px solid #ccc; }
 #e_card-selection img:hover { cursor:pointer; }
 div.buttons { margin-bottom:0.75em; }
-div.buttons a.bigbutton { background:url(/images/give/btn-blue.png) no-repeat; color:#FFF; display:block; float:left; font-size:18px; font-weight:bold; height:41px; padding:9px 0 0 10px; margin:0 12px 0 0; width:140px; }
+div.buttons a.bigbutton { background:url(/images/give/btn-blue.png) no-repeat; color:#FFF; display:block; float:left; font-size:18px; font-weight:bold; height:41px; padding:9px 0 0 10px; margin:0 12px 0 0; text-decoration:none; width:140px; }
 div.buttons a.bigbutton.black { background:url(/images/give/btn-black.png) no-repeat; }
-#formnav { border-bottom:1px solid #333; color:#333; margin-bottom:36px; padding:24px 0 12px 0; position:relative; }
+#formnav { border-bottom:1px solid #333; color:#333; margin-bottom:36px; padding:24px 0 8px 0; position:relative; }
 #formnav ul { margin:0; padding:0; }
 #formnav ul,
 #formnav li { list-style:none; position:relative; }
@@ -133,6 +133,7 @@ div.buttons a.bigbutton.black { background:url(/images/give/btn-black.png) no-re
 
 /* SHADOWS
 ----------*/
+.pageshadow { background:url(/images/layout/page_shadow.png) no-repeat; }
 .shadowbottom { -moz-box-shadow: 0 0 7px #333; -webkit-box-shadow: 0 0 7px #333; box-shadow: 0 0 7px #333; }
 
 /* BORDERS
