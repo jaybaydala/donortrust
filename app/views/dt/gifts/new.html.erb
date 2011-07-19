@@ -80,3 +80,7 @@
   <% end %>
 <% end %>
 <%= render :partial => "dt/shared/form_requirednote" %>
+
+<% content_for :javascript do %>
+  <%= javascript_tag("$('#giftform').formnav();") %>
+<% end %>

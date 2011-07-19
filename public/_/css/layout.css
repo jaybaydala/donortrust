@@ -122,6 +122,14 @@ h1.project-title { padding-bottom:2em; border-bottom:1px solid #666; margin-bott
 -------*/
 #e_card-preview img { border:1px solid #ccc; }
 #e_card-selection img:hover { cursor:pointer; }
+div.buttons { margin-bottom:0.75em; }
+div.buttons a.bigbutton { background:url(/images/give/btn-blue.png) no-repeat; color:#FFF; display:block; float:left; font-size:18px; font-weight:bold; height:41px; padding:9px 0 0 10px; margin:0 12px 0 0; width:140px; }
+div.buttons a.bigbutton.black { background:url(/images/give/btn-black.png) no-repeat; }
+#formnav { border-bottom:1px solid #333; color:#333; margin-bottom:36px; padding:24px 0 12px 0; position:relative; }
+#formnav ul { margin:0; padding:0; }
+#formnav ul,
+#formnav li { list-style:none; position:relative; }
+#formnav li.current { font-weight:bold; }
 
 /* SHADOWS
 ----------*/

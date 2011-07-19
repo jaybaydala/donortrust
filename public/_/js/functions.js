@@ -14,12 +14,7 @@ $(document).ready(function (){
     $('#e_card-preview img').attr("src", $(this).attr("data_url"));
     $("#gift_e_card_id").attr("value", $(this).attr("data_id"));
   });
-
-  // if ($('#giftform').length > 0) {
-  //   $('#giftform>fieldset.inputs').hide();
-  // }
 });
-
 
 /* optional triggers
 $(window).load(function() {
