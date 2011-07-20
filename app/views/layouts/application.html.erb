@@ -1,5 +1,5 @@
 <%= render :partial => 'layouts/shared/head' %>
-<body class="white">
+<body>
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
@@ -12,7 +12,8 @@
     </div>
     <div class="container prepend-top">
       <% if content_for? :sidebar %>
-        <article class="prepend-1 span-14">
+        <article class="prepend-2 span-13 pageshadow">
+          <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
           <%= yield %>
         </article>
         <aside class="span-3 last">
@@ -23,6 +24,7 @@
         </aside>
       <% else %>
         <article class="span-14 prepend-2 append-2 last pageshadow">
+          <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
           <%= yield %>
         </article>
       <% end %>
