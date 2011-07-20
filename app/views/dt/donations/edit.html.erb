@@ -5,16 +5,16 @@
 </p>
 
 <div class="userform" id="edit_donation_form">
-<% form_for [:dt, @cart, @donation], :url => dt_cart_donation_path do |f| %>
-  <ol>
-    <li>
+<% semantic_form_for [:dt, @cart, @donation], :url => dt_cart_donation_path do |f| %>
+  <% f.inputs do %>
+    <% content_tag :li, :class => "numeric required" do %>
       <%= f.label :percentage, "Your donation" %>
-      <%= f.select :percentage, @cart.percentage_options %>
-      <%= f.text_field :amount, :value => number_with_precision(@donation.item.amount, :precision => 2), :style => "width:40px;" %>
-    </li>
-    <li>
-      <%= f.submit "Save" %>
-    </li>
-  </ol>
+      <%= f.select :percentage, @cart.percentage_options %> 
+      <%= f.text_field :amount, :value => number_with_precision(@donation.item.amount, :precision => 2), :style => "width:3em;" %>
+    <% end %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button "Save" %>
+  <% end %>
 <% end %>
 </div>
