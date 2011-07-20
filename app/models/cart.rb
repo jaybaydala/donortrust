@@ -72,7 +72,7 @@ class Cart < ActiveRecord::Base
       percentage_description = percentage == 0 ? "Not Now" : "#{percentage}%"
       [ "#{number_to_currency(calculate_percentage_amount(percentage))} (#{percentage_description})", percentage]
     end
-    percentage_options.push(["Other amount - #{number_to_currency(self.donation.item.amount)}", ""])
+    percentage_options.push(["Other amount (#{number_to_currency(self.donation.item.amount)})", ""])
   end
 
   def pledges
