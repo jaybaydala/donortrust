@@ -130,7 +130,6 @@ div.buttons a.bigbutton.black { background:url(/images/give/btn-black.png) no-re
 #formnav ul,
 #formnav li { list-style:none; position:relative; }
 #formnav li.current { font-weight:bold; }
-
 #dialog iframe { border:0; height:99%; width:100%; }
 
 /* SHADOWS
