@@ -1,12 +1,12 @@
 /* new Linux- and Windows-friendly sans-serif font stack: http://mky.be/fontstack */
 html { font-size:100.01%; }
 body { font-family: Helmet, Freesans, sans-serif; font-size:75%; }
-body, select, input, textarea { color: #FFF; }
-body.white, 
-.white select, 
-.white input, 
-.white textarea { color:#333; }
-h1, h2, h3, h4, h5 { font-family:Georgia,Times,"Times New Roman",serif; font-weight:normal; color:#FFF; }
+body, select, input, textarea { color: #333; }
+body.dark, 
+.dark select, 
+.dark input, 
+.dark textarea { color:#333; }
+h1, h2, h3, h4, h5 { font-family:Georgia,Times,"Times New Roman",serif; font-weight:normal; color:#390; }
 h1.plain, 
 h2.plain, 
 h3.plain, 
@@ -14,17 +14,17 @@ h4.plain,
 h5.plain,
 .plain { font-family: Helmet, Freesans, sans-serif; }
 .serif { font-family:Georgia,Times,"Times New Roman",serif; }
-.white h1, 
-.white h2, 
-.white h3, 
-.white h4, 
-.white h5 { color:#390; }
+.dark h1, 
+.dark h2, 
+.dark h3, 
+.dark h4, 
+.dark h5 { color:#FFF; }
 
-a {color: #6CF;}
-a:hover {color: #6Cf;}
+a {color: #39F;}
+a:hover {color: #39F;}
 
-.white a { color:#39F; }
-.white a:hover { color:#39F; }
+.dark a { color:#6CF; }
+.dark a:hover { color:#6CF; }
 
 h1 {font-size:2em;line-height:1;margin-bottom:0.5em;}
 h2 {font-size:1.8em;margin-bottom:0.75em;}
@@ -54,7 +54,8 @@ table {margin-bottom:1.4em;width:100%;}
 th {font-weight:bold;}
 thead th {background:#c3d9ff;}
 th, td, caption {padding:4px 10px 4px 5px;}
-tbody tr:nth-child(even) td, tbody tr.even td {background:#e5ecf9;}
+/* tbody tr:nth-child(even) td, */
+tbody tr.even td {background:#e5ecf9;}
 tfoot {font-style:italic;}
 caption {background:#eee;}
 big { font-size:1.3em }
@@ -64,6 +65,8 @@ big { font-size:1.3em }
 .hide {display:none;}
 .green {color:#690;}
 .quiet {color:#666;}
+.dark {color:#333;}
+.black {color:#000;}
 .loud {color:#69C;}
 .highlight {background:#ff0;}
 .added {background:#060;color:#fff;}

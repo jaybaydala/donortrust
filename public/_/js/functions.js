@@ -3,13 +3,17 @@
 
 /* trigger when page is ready */
 $(document).ready(function (){
+  // project search
   $("#project_search_tools select").change(function() {
     $(this).parent().submit();
   });
+
+  // project page
   if ($('#project-carousel').length > 0) {
     $("#project-carousel").cycle({ pause:1, width:$("#project-carousel").width()+'px' });
   }
 
+  // gift form
   $('#e_card-selection img').click(function() {
     $('#e_card-preview img').attr("src", $(this).attr("data_url"));
     $("#gift_e_card_id").attr("value", $(this).attr("data_id"));
@@ -29,6 +33,16 @@ $(document).ready(function (){
       open: function() { $(".remove_header_class .ui-widget-header").removeClass("ui-widget-header"); },
       modal: true
     });
+  });
+  
+  // donation form
+  if ($('#cart_line_item_percentage').val() != '') $('#cart_line_item_amount').hide();
+  $("#cart_line_item_percentage").change(function() {
+    if ($(this).val() == '') {
+      $("#cart_line_item_amount").show();
+    } else {
+      $("#cart_line_item_amount").hide();
+    }
   });
 });
 
