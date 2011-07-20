@@ -14,10 +14,25 @@ $(document).ready(function (){
     $('#e_card-preview img').attr("src", $(this).attr("data_url"));
     $("#gift_e_card_id").attr("value", $(this).attr("data_id"));
   });
-  $("#gift_preview").click(function() {
+  $("#gift_preview").click(function(event) {
+    event.preventDefault();
     var form = $(this).closest("form");
-    window.open($(this).attr("href") + '?' + $(form).serialize(), "giftpreview", 'width=600,height=450,location=0')
-    return false;
+    if ($("#dialog").length == 0) {
+      // $('body').append($('<div id="dialog-overlay">').addClass('ui-widget-overlay').hide());
+      $('body').append($('<div id="dialog">').append('<iframe>').hide());
+    }
+    var href = $(this).attr("href") + '?' + $(form).serialize();
+    $('#dialog iframe').attr('src', href);
+    $("#dialog").dialog({ 
+      width:600, 
+      height:450, 
+      title:'Ecard Preview',
+      modal: true//,
+      // open: function(event, ui) { $('#dialog-overlay').show() },
+      // close: function(event, ui) { $('#dialog-overlay').hide() }
+    });
+    
+    // window.open($(this).attr("href") + '?' + $(form).serialize(), "giftpreview", 'width=600,height=450,location=0')
   });
 });
 

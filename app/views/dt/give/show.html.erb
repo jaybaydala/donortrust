@@ -2,11 +2,10 @@
 
 <% content_for :top_content do %>
 <h1 style="padding:32px 0;" class="center"><img src="/images/titles/three_ways_to_give.png" width="482" height="45" alt="Three Ways To Give"></h1>
-<div class="shadow-bottom"></div>
 <% end %>
 
 <div class="clearfix prepend-top">
-  <article class="prepend-1 span-4 append-1">
+  <article class="span-4 append-1">
     <h2><%= link_to image_tag("/images/give/uforward.png", :alt => 'U:forward - Pay it forward as a gift.'), new_dt_gift_path %></h2>
     <%= content_snippet_for(:uforward_description) %>
   </article>
@@ -14,7 +13,7 @@
     <h2><%= link_to image_tag("/images/give/udirect-generic.png", :alt => 'U:direct - Give directly to this project.'), dt_projects_path %></h2>
     <%= content_snippet_for(:udirect_description) %>
   </article>
-  <article class="span-4 append-2 last">
+  <article class="span-4 last">
     <h2><%= link_to image_tag("/images/give/upowered.png", :alt => 'U:powered - Fund UEnd operations.'), dt_upowered_path %></h2>
     <%= content_snippet_for(:upowered_description) %>
   </article>
