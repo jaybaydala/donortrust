@@ -5,7 +5,7 @@ body, select, input, textarea { color: #333; }
 body.dark, 
 .dark select, 
 .dark input, 
-.dark textarea { color:#333; }
+.dark textarea { color:#FFF; }
 h1, h2, h3, h4, h5 { font-family:Georgia,Times,"Times New Roman",serif; font-weight:normal; color:#390; }
 h1.plain, 
 h2.plain, 
