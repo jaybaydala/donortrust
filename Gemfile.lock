@@ -237,7 +237,6 @@ GEM
       hoe (>= 1.1.7)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
-    validation_reflection (0.3.8)
     watchr (0.7)
     whenever (0.6.2)
       aaronh-chronic (>= 0.3.9)
@@ -300,7 +299,6 @@ DEPENDENCIES
   thinking-sphinx
   timecop
   transaction-simple
-  validation_reflection (= 0.3.8)
   watchr
   whenever (>= 0.3.0)
   will_paginate
