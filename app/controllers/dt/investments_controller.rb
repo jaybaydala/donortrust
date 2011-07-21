@@ -60,7 +60,6 @@ class Dt::InvestmentsController < DtApplicationController
           format.html { redirect_to dt_cart_path }
         end
       else
-        flash.now[:error] = "There was a problem adding the Investment to your cart. Please review your information and try again."
         format.html { render :action => 'new' }
       end
     end

@@ -44,6 +44,15 @@ $(document).ready(function (){
       $("#cart_line_item_amount").hide();
     }
   });
+  
+  // investment form
+  $("#investmentform").each(function() {
+    var form = $(this);
+    var submit = $('input[type=submit]', $(this));
+    var button = $("<a>").addClass('bigbutton').click(function() { form.submit() }).html(submit.attr('value'));
+    submit.after(button).hide();
+  });
+  
 });
 
 /* optional triggers
