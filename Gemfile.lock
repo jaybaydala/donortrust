@@ -84,10 +84,10 @@ GEM
       rake (>= 0.8.7)
     flickraw (0.8.4)
       json (>= 1.1.1)
-    formtastic (1.2.2)
+    formtastic (1.2.4)
       actionpack (>= 2.3.7)
       activesupport (>= 2.3.7)
-      i18n (>= 0.4.0)
+      i18n (~> 0.4)
     gem_plugin (0.2.3)
     gherkin (2.2.9)
       json (~> 1.4.6)
@@ -97,7 +97,7 @@ GEM
       rake (>= 0.8.7)
       rubyforge (>= 2.0.4)
     hpricot (0.8.3)
-    i18n (0.5.0)
+    i18n (0.6.0)
     json (1.4.6)
     json_pure (1.4.6)
     launchy (0.4.0)
@@ -237,6 +237,7 @@ GEM
       hoe (>= 1.1.7)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
+    validation_reflection (0.3.8)
     watchr (0.7)
     whenever (0.6.2)
       aaronh-chronic (>= 0.3.9)
@@ -270,7 +271,7 @@ DEPENDENCIES
   fastercsv
   feed-normalizer
   flickraw
-  formtastic
+  formtastic (< 2)
   hpricot
   launchy
   mail
@@ -299,6 +300,7 @@ DEPENDENCIES
   thinking-sphinx
   timecop
   transaction-simple
+  validation_reflection (< 1)
   watchr
   whenever (>= 0.3.0)
   will_paginate
