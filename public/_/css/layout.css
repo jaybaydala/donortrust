@@ -125,7 +125,7 @@ div.buttons { margin-bottom:0.75em; }
 a.bigbutton { background:url(/images/give/btn-blue.png) no-repeat; color:#FFF; display:block; float:left; font-size:18px; font-weight:bold; height:41px; padding:9px 0 0 10px; margin:0 12px 6px 0; text-decoration:none; text-transform:lowercase; width:140px; }
 a.bigbutton.black { background:url(/images/give/btn-black.png) no-repeat; }
 a.bigbutton:hover,
-a.bigbutton:active { color:#EEE; }
+a.bigbutton:active { color:#FAFAFA; cursor:pointer; }
 #formnav { border-bottom:1px solid #333; color:#333; margin-bottom:36px; padding:0 0 8px 0; position:relative; }
 #formnav ul { margin:0; padding:0; }
 #formnav ul,
