@@ -16,7 +16,7 @@ db/schema.rb
 *~
 *.orig
 tmp*
-.rvmrc
+#.rvmrc
 .bundle
 capybara*.html
 public/system/*
