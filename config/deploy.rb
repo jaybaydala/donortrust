@@ -32,18 +32,18 @@ set :use_sudo, false
 set :user, "ideaca"
 set :group, "users"
 
-before "deploy:update_code", "thinking_sphinx:stop"
-after "deploy:update_code", "thinking_sphinx:configure_and_start"
+before "deploy:update_code", "thinking_sphinx_deployment:stop"
 after "deploy:update_code", "deploy:configure_stuff"
+after "deploy:configure_stuff", "thinking_sphinx_deployment:configure_and_start"
 after "deploy:restart", "deploy:cleanup"
 
-namespace :thinking_sphinx do
+namespace :thinking_sphinx_deployment do
   task :stop, :roles => :app do
     thinking_sphinx.stop
   end
 
   task :configure_and_start, :roles => :app do
-    symlink_sphinx_indexes
+    # symlink_sphinx_indexes
     thinking_sphinx.configure
     thinking_sphinx.start
   end
