@@ -12,7 +12,7 @@
     </div>
     <div class="container prepend-top">
       <% if content_for? :sidebar %>
-        <article class="prepend-2 span-13 pageshadow">
+        <article class="prepend-2 span-13<%= ' pageshadow' if content_for?(:top_content) %>">
           <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
           <%= yield %>
         </article>
@@ -23,7 +23,7 @@
           </div>
         </aside>
       <% else %>
-        <article class="span-14 prepend-2 append-2 last pageshadow">
+        <article class="span-14 prepend-2 append-2 last<%= ' pageshadow' if content_for?(:top_content) %>">
           <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
           <%= yield %>
         </article>
