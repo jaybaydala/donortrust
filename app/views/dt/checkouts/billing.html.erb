@@ -1,152 +1,52 @@
 <%- content_for :head do -%>
-<%= stylesheet_link_tag 'dt/cart' %>
-<%= javascript_include_tag "dt/checkout" %>
+  <%#= stylesheet_link_tag 'dt/cart' %>
+  <%#= javascript_include_tag "dt/checkout" %>
 <%- end -%>
-<%- content_for :html_title do -%>Checkout<%- end -%>
-<%- content_for :nav do -%><%= checkout_nav %><%- end -%>
 
-<h2>Step 2 of 3 - Billing Information</h2>
-
-<%= render :partial => "subscription" %>
-
-<%= error_messages_for :order %>
-<%= error_messages_for :user %>
-<% form_for(:order, :url => dt_checkout_path, :html => {:id => "billingform", :name => "billingform", :method => :put}) do |f| %>
-<%= hidden_field_tag "step", "billing" %>
-<div class="userform">
-  <% if @order.credit_card_payment? %>
-    <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
-    <fieldset>
-      <legend>Billing Information</legend>
-      <ol>
-        <li>
-          <div class="notes">
-            <h5>Billing and Receipt Information</h5>
-            <p>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.</p>
-          </div>
-          <fieldset>
-            <legend>What kind of donor are you?</legend>
-            <ol>
-              <li><label for="order_donor_type_personal"><%= f.radio_button :donor_type, "personal", :class => "#{"subscription" if @cart.subscription?}" %> Personal</label></li>
-              <li><label for="order_donor_type_corporate"><%= f.radio_button :donor_type, "corporate", :class => "#{"subscription" if @cart.subscription?}" %> Corporate</label></li>
-            </ol>
-          </fieldset>
-        </li>
-        <li class="personal">
-          <label for="order_title">Title</label> <%= f.select :title, titles.unshift("") %>
-        </li>
-        <li class="personal"><label for="order_first_name"><%= form_required if @order.credit_card_payment? %>First Name</label> <%= f.text_field :first_name %></li>
-        <li class="personal"><label for="order_last_name"><%= form_required if @order.credit_card_payment? %>Last Name</label> <%= f.text_field :last_name %></li>
-        <li><label for="order_company"><span id="companyrequired"<% unless @order.donor_type == "company" %> style="display:none;"<% end %>><%= form_required %></span>Company</label> <%= f.text_field :company %></li>
-        <li><label for="order_address"><%= form_required if @order.credit_card_payment? %>Street Address</label> <%= f.text_field :address %></li>
-        <li><label for="order_address2">Street Address 2</label> <%= f.text_field :address2 %></li>
-        <li><label for="order_city"><%= form_required if @order.credit_card_payment? %>City</label> <%= f.text_field :city %></li>
-        <li><label for="order_province"><%= form_required if @order.credit_card_payment? %>Province/State</label> <%= f.text_field :province %></li>
-        <li><label for="order_postal_code"><%= form_required if @order.credit_card_payment? %>Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
-        <li><label for="order_country"><%= form_required if @order.credit_card_payment? %>Country</label> <%= f.select :country, country_select_options %></li>
-        <li><label for="order_email"><%= form_required %>Email</label> <%= f.text_field :email %></li>
-      </ol>
-    </fieldset>
-    
-    <fieldset>
-      <legend>Tax Receipt Information</legend>
-      <ol>
-        <li>
-          <fieldset>
-            <div class="notes clearfix" style="width:380px;">
-              <h5>Tax Receipts</h5>
-              <p>If you don&#x27;t require a tax-receipt for your donation it will significantly help our organization - it lessens our restrictions according to Revenue Canada and lets us build the organization. If you would like a tax-receipt we are very happy to provide it. You choose. Thanks for thinking about it!</p>
-            </div>
-            <legend>Tax Receipt Requested</legend>
-            <ol>
-              <li>
-                <%= f.check_box :tax_receipt_requested %>
-                <%= f.label :tax_receipt_requested, "Please provide me with a tax receipt", :class => "left inline", :style => "margin-left:0;" %>
-              </li>
-            </ol>
-          </fieldset>
-        </li>
-      </ol>
-    </fieldset>
-    
-    <%- if !logged_in? -%>
-    <fieldset>
-      <legend>Account Signup</legend>
-      <%- if @cart.subscription? -%>
-        <div class="textsm">In order to be able to manage your monthly giving, you need to sign up for an account or, if you already have a UEnd: account, please login from the sidebar.</div>
-      <%- else -%>
-        <div class="textsm">If you would like to be provided with a tax receipt, you need to sign up for an account or, if you already have a UEnd: account, please login from the sidebar.</div>
-      <%- end -%>
-      <ol>
-        <li>
-          <%= f.label :password, "#{form_required} Password" %>
-          <%= f.password_field :password %>
-        </li>
-        <li>
-          <%= f.label :password_confirmation, "#{form_required} Confirm Password" %>
-          <%= f.password_field :password_confirmation %>
-        </li>
-        <li>
-          <%= f.check_box :terms_of_use %>
-          <%= f.label :terms_of_use, render(:partial => 'dt/shared/form_required') + 'I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree', :class => "left inline" %>
-        </li>
-      </ol>
-    </fieldset>
-    <%- end -%>
-    
-    <div id="credit_card_details">
-      <fieldset>
-        <legend>Credit Card Information</legend>
-        <div class="textsm" style="font-size:0.75em;margin-top:1em;"><strong>Credit Card Details</strong></div>
-        <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
-        <div class="notes">
-          <h5>Credit Card Details</h5>
-          <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
-        </div>
-        <ol class="clearfix">
-          <li><label for="order_card_number" class="wide"><%= form_required %>Credit Card Number</label> <%= f.text_field :card_number, :maxlength => 16 %></li>
-          <li>
-            <label for="order_cvv" class="wide"><%= form_required %>Card Security Number (CVV)</label> <%= f.text_field :cvv, :maxlength => 5, :size => 5, :style => "width:auto;" %>
-            <div class="note" style="margin-left:125px;">This is final 3 digits on the back of your card.</div>
-          </li>
-          <li><label for="order_expiry_month" class="wide"><%= form_required %>Card Expiry</label> 
-            <div id="card_expiry">
-            <%= f.select("expiry_month", expiry_months, { :include_blank => true }, { :style => 'width:auto;' }) -%>
-            / 
-            <%= f.select("expiry_year", expiry_years, { :include_blank => true }, {:style => 'width:auto;' }) %> 
-            </div>
-          </li>
-          <li><label for="order_cardholder_name" class="wide"><%= form_required %>Cardholder Name</label> <%= f.text_field :cardholder_name %></li>
-        </ol>
-      </fieldset>
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-16 prepend-2 last">
+      <img src="/images/give/icon-cash_register.png" width="93" height="79" alt="">
     </div>
-  <% else %>
-    <p>You are not paying with a credit card. No billing information is required.</p>
-  <% end %>
-  <%- if logged_in? && current_user.cf_admin? -%>
-    <fieldset>
-      <legend>Administrative Order Notes</legend>
-      <ol class="clearfix">
-        <li>
-          <%= f.label :notes %>
-          <%= f.text_area :notes, :rows => 6, :cols => 40 %>
-        </li>
-      </ol>
-    </fieldset>
-  <%- end -%>
-</div>
-
-<div class="checkoutbuttons clearfix">
-  <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "payment") %>
-  <%= image_submit_tag "/images/dt/nav_elements/proceed_to_step_3.png", :alt => 'Proceed to Step 3' %>
-</div>
+  </div>
 <% end %>
 
-<%- content_for :sidebar do -%>
-  <h2><%= link_to "My Cart", dt_checkout_path, :method => :delete %></h2>
-  <%= render :file => "dt/cart/sidebar" %>  
-  <%= render :file => "dt/accounts/profile_sidebar" %>  
-  <%= render :partial => 'dt/checkouts/verisign' %>
-<%- end -%>
+<% html_title("Checkout") %>
+<%= checkout_nav %>
+
+<div class="span-9 append-1">
+  <%= render :partial => "subscription" %>
+  <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put}) do |f| %>
+    <%= hidden_field_tag "step", "billing" %>
+    <% if @order.credit_card_payment? %>
+      <% f.inputs "Billing Information" do %>
+        <li>
+          Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.
+        </li>
+        <%= f.input :tax_receipt_requested, :label => 'Please provide me with a tax receipt.' %>
+        <%= f.input :donor_type, :as => :radio, :collection => [['This is a personal donation', 'personal'], ['I am a corporate donor', 'corporate']] %>
+        <%= f.input :first_name %>
+        <%= f.input :last_name %>
+        <%= f.input :email, :as => :email %>
+        <%= f.input :company %>
+        <%= f.input :address, :label => 'Street Address' %>
+        <%= f.input :address2, :label => 'Street Address 2' %>
+        <%= f.input :city %>
+        <%= f.input :province, :label => 'Province/State' %>
+        <%= f.input :postal_code, :label => 'Postal/Zip Code' %>
+        <%= f.input :country, :as => :select, :collection => country_select_options %>
+        <%= f.input :billing_step, :as => :hidden, :value => 1 %>
+      <% end %>
+      <% f.buttons do %>
+        <%= link_to "back", dt_cart_path, :class => "bigbutton black" %>
+        <%= f.commit_button "next" %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+<div class="span-4 last quiet">
+  <h3>Not requesting a tax receipt can help too.</h3>
+  <p>If you don&#x27;t require a tax-receipt for your donation it will significantly help our organization - it lessens our restrictions according to Revenue Canada and lets us build the organization. If you would like a tax-receipt we are very happy to provide it. You choose. Thanks for thinking about it!</p>
+</div>
 
 <% content_for :google_analytics_path do %>/checkout/billing.html<% end %>
