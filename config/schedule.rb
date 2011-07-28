@@ -15,8 +15,8 @@ end
   end
 end
 
-every 4.hours do
-  rake "-s ultrasphinx:index"
+every 5.minutes do
+  rake "-s thinking_sphinx:index"
 end
 
 every 1.month do
