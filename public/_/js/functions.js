@@ -46,11 +46,11 @@ $(document).ready(function (){
   });
   
   // investment form
-  $("#investmentform").each(function() {
+  $("#investmentform, #paymentform, #billingform").each(function() {
     var form = $(this);
     var submit = $('input[type=submit]', $(this));
     var button = $("<a>").addClass('bigbutton').click(function() { form.submit() }).html(submit.attr('value'));
-    submit.after(button).hide();
+    submit.before(button).hide();
   });
   
 });
