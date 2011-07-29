@@ -1,8 +1,3 @@
-<%- content_for :head do -%>
-  <%#= stylesheet_link_tag 'dt/cart' %>
-  <%#= javascript_include_tag "dt/checkout" %>
-<%- end -%>
-
 <% content_for :top_content do %>
   <div class="clearfix prepend-top" style="position:relative;">
     <div class="span-16 prepend-2 last">
@@ -17,30 +12,34 @@
 <div class="span-9 append-1">
   <%= render :partial => "subscription" %>
   <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put}) do |f| %>
+    <%= f.semantic_errors :order %>
     <%= hidden_field_tag "step", "billing" %>
-    <% if @order.credit_card_payment? %>
-      <% f.inputs "Billing Information" do %>
-        <li>
-          Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.
-        </li>
-        <%= f.input :tax_receipt_requested, :label => 'Please provide me with a tax receipt.' %>
-        <%= f.input :donor_type, :as => :radio, :collection => [['This is a personal donation', 'personal'], ['I am a corporate donor', 'corporate']] %>
-        <%= f.input :first_name %>
-        <%= f.input :last_name %>
-        <%= f.input :email, :as => :email %>
-        <%= f.input :company %>
-        <%= f.input :address, :label => 'Street Address' %>
-        <%= f.input :address2, :label => 'Street Address 2' %>
-        <%= f.input :city %>
-        <%= f.input :province, :label => 'Province/State' %>
-        <%= f.input :postal_code, :label => 'Postal/Zip Code' %>
-        <%= f.input :country, :as => :select, :collection => country_select_options %>
-        <%= f.input :billing_step, :as => :hidden, :value => 1 %>
-      <% end %>
-      <% f.buttons do %>
-        <%= link_to "back", dt_cart_path, :class => "bigbutton black" %>
-        <%= f.commit_button "next" %>
-      <% end %>
+    <% f.inputs "Billing Information" do %>
+      <%= f.input :billing_step, :as => :hidden, :input_html => { :value => 1 } %>
+      <li>
+        <% if @order.credit_card_payment? %>
+          Please enter the personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.
+        <% else %>
+          Please enter your personal information to be associated with your order. If applicable, your name, address, and email will also be used to create an electronic tax receipt.
+        <% end %>
+      </li>
+      <%= f.input :tax_receipt_requested, :label => 'Please provide me with a tax receipt.' %>
+      <%= f.input :donor_type, :as => :radio, :collection => [['This is a personal donation', 'personal'], ['I am a corporate donor', 'corporate']] %>
+      <%= f.input :first_name %>
+      <%= f.input :last_name %>
+      <%= f.input :email, :as => :email %>
+      <%= f.input :company %>
+      <%= f.input :address, :label => 'Street Address' %>
+      <%= f.input :address2, :label => 'Street Address 2' %>
+      <%= f.input :city %>
+      <%= f.input :province, :label => 'Province/State' %>
+      <%= f.input :postal_code, :label => 'Postal/Zip Code' %>
+      <%= f.input :country, :as => :select, :collection => country_select_options %>
+      <%= f.input :billing_step, :as => :hidden, :value => 1 %>
+    <% end %>
+    <% f.buttons do %>
+      <%= link_to("back", edit_dt_checkout_path(:step => "payment_options"), :class => "bigbutton black") if @checkout_steps.include?('payment_options') %>
+      <%= f.commit_button "next" %>
     <% end %>
   <% end %>
 </div>

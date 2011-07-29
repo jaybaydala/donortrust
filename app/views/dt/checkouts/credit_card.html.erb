@@ -1,0 +1,38 @@
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-16 prepend-2 last">
+      <img src="/images/give/icon-cash_register.png" width="93" height="79" alt="">
+    </div>
+  </div>
+<% end %>
+
+<% html_title("Checkout") %>
+<%= checkout_nav %>
+
+<div class="span-9 append-1">
+  <%= render :partial => "subscription" %>
+  <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put}) do |f| %>
+    <%= f.semantic_errors :order %>
+    <%= hidden_field_tag "step", "credit_card" %>
+    <% f.inputs "Credit Card Details" do %>
+      <li>
+        <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
+      </li>
+      <%= f.input :cardholder_name %>
+      <%= f.input :card_number, :label => "Credit Card Number", :input_html => { :maxlength => 16 } %>
+      <%= f.input :cvv, :label => "Card Security Number (CVV)", :hint => "This is final 3 digits on the back of your card.", :input_html => { :maxlength => 5, :size => "5", :style => "width:auto;" } %>
+      <li class="select optional" id="order_expiry_month_input">
+        <%= f.label :expiry_month, "Card Expiry"  %>
+        <%= f.select :expiry_month, expiry_months, { :include_blank => true }, { :style => "width:auto;" } %>
+        <%= f.label :expiry_year, "/", :style => "display:inline;"  %>
+        <%= f.select :expiry_year, expiry_years, { :include_blank => true }, { :style => "width:auto;" } %>
+      </li>
+    <% end %>
+
+    <% f.buttons do %>
+      <%= link_to("back", edit_dt_checkout_path(:step => @checkout_steps.include?("account_signup") ? "account_signup": "billing"), :class => "bigbutton black") %>
+      <%= f.commit_button "next" %>
+    <% end %>
+  <% end %>
+</div>
+<%= render :partial => 'dt/shared/form_requirednote' %>
