@@ -16,7 +16,6 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns/1
   # GET /campaigns/1.xml
   def show
-    store_location
     @campaign = Campaign.find(params[:id]) unless params[:id].blank?
     @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
 
@@ -422,13 +421,11 @@ class Dt::CampaignsController < DtApplicationController
     if ['new', 'create'].include?(action_name) && !logged_in?
       flash[:notice] = "You must have an account to create a campaign, Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
-      store_location
       respond_to do |accepts|
         accepts.html { redirect_to dt_login_path and return }
       end
     elsif ['manage','edit'].include?(action_name) && !logged_in?
       flash[:notice] = "You must be logged in to manage your team profile or details"
-      store_location
       respond_to do |accepts|
         accepts.html { redirect_to dt_login_path and return }
       end

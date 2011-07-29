@@ -33,7 +33,6 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def new
-    store_location
     load_ecards
     @gift = Gift.new(:e_card => @ecards.first)
     @gift.send_email = nil # so we can preselect "now" for delivery
@@ -179,7 +178,6 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def open
-    store_location
     @gift = Gift.validate_pickup(params[:code]) if params[:code]
     respond_to do |format|
       format.html {

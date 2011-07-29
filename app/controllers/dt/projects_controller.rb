@@ -2,7 +2,6 @@ class Dt::ProjectsController < DtApplicationController
   include RssParser
   before_filter :project_id_to_session, :only=>[:facebook_login]
   before_filter :require_facebook_login, :only=>[:facebook_login]
-  before_filter :store_location, :except=>[:facebook_login, :get_videos, :finish_facebook_login, :timeline]
   before_filter :search_query
   helper "dt/groups"
   helper_method :search_records

@@ -1,5 +1,4 @@
 class Dt::MyWishlistsController < DtApplicationController
-  before_filter :store_location
   before_filter :login_required
   
   def initialize

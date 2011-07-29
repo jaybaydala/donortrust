@@ -1,5 +1,4 @@
 class Dt::UpoweredController < DtApplicationController
-  before_filter :store_location
   include RssParser
   def show
     @page = Page.find_by_permalink("upowered")

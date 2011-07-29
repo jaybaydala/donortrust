@@ -16,8 +16,6 @@ class Dt::TeamsController < DtApplicationController
   # GET /dt_teams/1
   # GET /dt_teams/1.xml
   def show
-    store_location
-    
     participant = Participant.find(:first, :conditions => {:team_id => @team.id, :user_id => current_user.id})
     @can_leave_team = logged_in? && participant && participant.can_leave_team?
     @can_join_team = !logged_in? || current_user.can_join_team?(@team)
@@ -263,13 +261,11 @@ class Dt::TeamsController < DtApplicationController
     if ['join', 'new', 'create'].include?(action_name) && !logged_in?
       flash[:notice] = "You must have an account to create a team in this campaign.  Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
-      store_location
       respond_to do |accepts|
         accepts.html { redirect_to dt_login_path and return }
       end
     elsif ['manage','edit'].include?(action_name) && !logged_in?
       flash[:notice] = "You must be logged in to manage your team profile or details. Please log in."
-      store_location
       respond_to do |accepts|
         accepts.html { redirect_to dt_login_path and return }
       end

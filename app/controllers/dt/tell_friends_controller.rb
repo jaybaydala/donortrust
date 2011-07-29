@@ -27,7 +27,6 @@ class Dt::TellFriendsController < DtApplicationController
   end
   
   def new
-    store_location
     @share = Share.new
     @ecards = ECard.find(:all, :order => :id)
     @action_js = "dt/ecards"

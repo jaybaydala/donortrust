@@ -11,7 +11,6 @@ class Dt::BulkGiftsController < DtApplicationController
   end
   
   def new
-    store_location
     find_cart
     @gift = Gift.new( gift_params )
     @gift.send_email = nil # so we can preselect "now" for delivery
