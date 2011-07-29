@@ -2,7 +2,6 @@
 <% if !logged_in? && !hide_login %>
   <h2>Already a user? Login:</h2>
   <% form_for(:user, :url => dt_session_url(:protocol =>  ssl_protocol), :html => { :name => 'loginform' }) do |f| %>
-    <% store_location %>
     <div class="textsm clearfix">
       <label for="login">Username/Email</label> <%= text_field_tag 'login', nil, :tabindex => 1 %><br />
       <label for="password">Password</label> <%= password_field_tag 'password', nil, :tabindex => 2 %><br />
