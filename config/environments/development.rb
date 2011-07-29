@@ -19,3 +19,10 @@ config.action_mailer.raise_delivery_errors = false
 ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache"
 
 ActionMailer::Base.delivery_method = :test
+
+if File.exists?(Rails.root.join('tmp', 'debug.txt'))
+  require 'ruby-debug'
+  Debugger.wait_connection = true
+  Debugger.start_remote
+  File.delete(Rails.root.join('tmp', 'debug.txt'))
+end
