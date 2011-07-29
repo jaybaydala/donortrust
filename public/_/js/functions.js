@@ -34,7 +34,7 @@ $(document).ready(function (){
       modal: true
     });
   });
-  
+
   // donation form
   if ($('#cart_line_item_percentage').val() != '') $('#cart_line_item_amount').hide();
   $("#cart_line_item_percentage").change(function() {
@@ -44,15 +44,24 @@ $(document).ready(function (){
       $("#cart_line_item_amount").hide();
     }
   });
-  
-  // investment form
-  $("#investmentform, #paymentform, #billingform").each(function() {
+
+  // form submit replacements
+  $("#investmentform, #paymentform, #billingform, #loginform, #facebook_post").each(function() {
     var form = $(this);
     var submit = $('input[type=submit]', $(this));
     var button = $("<a>").addClass('bigbutton').click(function() { form.submit() }).html(submit.attr('value'));
     submit.before(button).hide();
   });
-  
+
+  // checkout
+  if ($.fn.calculate_payment_required) {
+    $("#payment_options").calculate_payment_required({ total_field: '#order_total' });
+  }
+
+  // simple autogrow
+  if ($.fn.autoGrow) {
+    $('textarea.autogrow').autoGrow();
+  }
 });
 
 /* optional triggers
