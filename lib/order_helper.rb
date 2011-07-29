@@ -23,6 +23,7 @@ module OrderHelper
   def initialize_new_order
     @cart = find_cart unless @cart
     @order = Order.new(params[:order])
+    @order.cart = @cart
     @order.account_balance = current_user.balance if logged_in?
     @order.gift_card_balance = Gift.find(session[:gift_card_id]).balance if session[:gift_card_id]
     load_user_data_into_order
