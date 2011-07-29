@@ -2,7 +2,6 @@ class Dt::GroupsController < DtApplicationController
   include GroupPermissions
   before_filter :login_required, :except => [ :index, :show ]
   before_filter :load_membership, :except => [ :index, :new, :create ]
-  before_filter :store_location
   helper 'dt/places'
   helper 'dt/get_involved'
   helper_method :current_member

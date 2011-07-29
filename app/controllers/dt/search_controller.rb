@@ -1,6 +1,5 @@
 class Dt::SearchController < DtApplicationController
   helper "dt/projects"
-  before_filter :store_location, :except=>[:bar]
   def show
     @projects = Project.find_public(:all, search_options)
     @projects = place_filter(@projects) if params[:place_id] && Place.exists?(params[:place_id])

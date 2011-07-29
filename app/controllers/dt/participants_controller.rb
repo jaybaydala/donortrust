@@ -18,8 +18,6 @@ class Dt::ParticipantsController < DtApplicationController
   helper_method :summed_account_balances
 
   def show
-    store_location
-
     @participant = Participant.find(params[:id]) unless params[:id].nil?
     
     # Inserting logic here to find first by the profile short name before trying the older participant short name
@@ -66,8 +64,6 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def new
-    store_location
-    
     # Switch back to this team if previously a member and allowed to join again
     if logged_in? and (@participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.id)) and current_user.can_join_team?(@team)
       default_participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.campaign.default_team.id)
@@ -452,13 +448,11 @@ class Dt::ParticipantsController < DtApplicationController
     if ['join', 'create'].include?(action_name) && !logged_in?
       flash[:notice] = "You must have an account to join this campaign as a participant. Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
-      store_location
       respond_to do |accepts|
         accepts.html { redirect_to dt_login_path and return }
       end
     elsif ['manage'].include?(action_name) && !logged_in?
       flash[:notice] = "You must be logged in to manage your participant account.  Please log in."
-      store_location
       respond_to do |accepts|
         accepts.html { redirect_to dt_login_path and return }
       end
