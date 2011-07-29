@@ -37,7 +37,7 @@ class Dt::SessionsController < DtApplicationController
 
   def create
     return unless request.post?
-    self.current_user = User.authenticate(params[:login], params[:password])
+    self.current_user = User.authenticate(params[:user][:login], params[:user][:password])
     respond_to do |format|
       if logged_in?
         current_user.update_attribute(:last_logged_in_at, Time.now)
@@ -47,7 +47,7 @@ class Dt::SessionsController < DtApplicationController
            current_user.save # save the authentication and profile updates
            session[:omniauth] = nil
          end
-        if params[:remember_me] == "1"
+        if params[:user][:remember_me] == "1"
           self.current_user.remember_me
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
         end
@@ -74,8 +74,8 @@ class Dt::SessionsController < DtApplicationController
           end
         end
       else
-        u = User.find(:first, :conditions => {:login => params[:login] })
-        if u && u.authenticated?(params[:password])
+        u = User.find(:first, :conditions => {:login => params[:user][:login] })
+        if u && u.authenticated?(params[:user][:password])
           @activated = false
           session[:tmp_user] = u.id
           flash.now[:error] = "A confirmation email has been sent to your login email address"
