@@ -1,0 +1,70 @@
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-16 prepend-2 last">
+      <img src="/images/give/icon-cash_register.png" width="93" height="79" alt="">
+    </div>
+  </div>
+<% end %>
+
+<% html_title("Checkout") %>
+<%= checkout_nav %>
+
+<%= render :partial => "subscription" %>
+
+<p>
+  Please enter your payment details below. 
+  <% if account_payment? %>Since you have an account with Uend: you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>.<% end %>
+  Deposits to your account must be paid on your credit card<%= " or gift card" if gift_card_balance? %>.
+</p>
+
+<% if gift_card_balance? %><p>Your Current Gift Card Balance: <%= number_to_currency(Gift.find(session[:gift_card_id]).balance) %></p><% end %>
+
+<% semantic_form_for :order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform", :method => ( @order.new_record? ? :post : :put )} do |f| %>
+  <%= hidden_field_tag "step", "payment_options" %>
+  <% f.inputs do %>
+    <%= f.input :payment_options_step, :as => :hidden, :input_html => { :value => 1 } %>
+    <%- if account_payment? -%>
+      <li>
+        Your Current Account Balance: <%= number_to_currency(current_user.balance) %>
+        <%= hidden_field_tag :account_balance, current_user.balance %>
+      </li>
+    <%- end -%>
+    <%- if pledge_account -%>
+      <li>
+        Your Current Pledge Account Balance <%= " for #{pledge_account.campaign.name}" if pledge_account && pledge_account.campaign %>: <%= number_to_currency(pledge_account.balance) %>
+        <%= f.hidden_field :pledge_account_payment_id, :value => pledge_account.id %>
+        <%= hidden_field_tag :pledge_account_balance, pledge_account.balance %>
+      </li>
+    <%- end -%>
+    <% if !gift_card_balance? && @order.minimum_credit_payment %>
+      <% @order.credit_card_payment = @order.minimum_credit_payment %>
+      <li>
+        Your minimum Credit Card payment: <%= number_to_currency(@order.minimum_credit_payment) %>
+        <p class="inline-hints">You must pay at least this amount from your credit card to pay for your cart balance.</p>
+      </li>
+    <% end %>
+    <%= f.input :total, :as => :hidden %>
+  <% end %>
+
+  <% f.inputs "Payment Options", :id => "payment_options" do %>
+    <%= f.input :gift_card_payment, :label => "Take from my Gift Card", :input_html => {:value => number_with_precision(@order.gift_card_payment, :precision => 2)} if session[:gift_card_balance] && session[:gift_card_balance] > 0 %>
+    <%= f.input :account_balance_payment, :label => "Take from my Account", :input_html => {:value => number_with_precision(@order.account_balance_payment, :precision => 2)} if logged_in? && current_user.balance > 0 %>
+    <%= f.input :pledge_account_payment, :label => "Take from my Pledge Account#{ "for" + pledge_account.campaign.name if pledge_account && pledge_account.campaign}", :input_html => {:value => number_with_precision(@order.pledge_account_payment, 2)} if pledge_account %>
+    <%= f.input :credit_card_payment, :label => "Put on my Credit Card", :input_html => {:value => number_with_precision(@order.credit_card_payment, :precision => 2)} %>
+    <%= f.input :offline_fund_payment, :label => "Offline Fund Payment", :input_html => {:value => number_with_precision(@order.offline_fund_payment, :precision => 2)} if logged_in? && current_user.cf_admin? %>
+  <% end %>
+
+  <% f.buttons do %>
+    <%= link_to "back to cart", dt_cart_path, :class => "bigbutton black" %>
+    <%= submit_tag "next" %>
+  <% end %>
+<% end %>
+
+
+<%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
+
+<% content_for :google_analytics_path do %>/checkout/payment.html<% end %>
+
+<% content_for :javascript do %>
+  <%= javascript_include_tag "/_/js/jquery.calculate_payment_required.js" %>
+<% end %>
