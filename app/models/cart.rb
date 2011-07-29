@@ -3,6 +3,7 @@ class Cart < ActiveRecord::Base
   before_save :check_subscription
   after_save :add_admin_project_investment
   has_many :items, :class_name => "CartLineItem"
+  has_one :order
 
   def add_donation(item, percentage=nil)
     if valid_item?(item)
