@@ -145,6 +145,12 @@ a.bigbutton:active { color:#FAFAFA; cursor:pointer; }
 #cart .numeric { font-size:18px; text-align:right; }
 #cart .total td { border-top:2px solid #333; padding:24px 0 18px 0; }
 
+/* Checkout
+-----------*/
+#payment_required_container { background:#DDD; padding:8px; width:330px; }
+.boxshadow #payment_required_container { -moz-box-shadow: 2px 2px 4px #666; -webkit-box-shadow: 2px 2px 4px #666; box-shadow: 2px 2px 4px #666; }
+.borderradius #payment_required_container { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
+
 /* SHADOWS
 ----------*/
 .pageshadow { background:url(/images/layout/page_shadow.png) no-repeat; padding-top:24px; }
