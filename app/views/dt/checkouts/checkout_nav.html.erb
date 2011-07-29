@@ -4,13 +4,13 @@
       <%-
       link_item = true
       nav_info = {
-          "payment" => "Payment Details ", 
+          "payment_options" => "Payment Options ", 
           "billing" => "Billing Information ", 
           "account_signup" => "Account Signup ", 
           "credit_card" => "Credit Card Details",
           "receipt" => "Transaction Receipt"
         }
-      Dt::CheckoutsController::CHECKOUT_STEPS.each do |key|
+      @checkout_steps.each do |key|
         current = (@current_nav_step ? false : true) if key.empty?
         current = (@current_nav_step == key ? true : false) unless key.empty?
         link_item = false if current
@@ -19,7 +19,7 @@
       <li class="span-2<%= ' current' if current %>"><%= title %></li>
       <%- end -%>
       
-      <li class="span-4 <%= "prepend-#{(10 - Dt::CheckoutsController::CHECKOUT_STEPS.size*2)}" %> last" style="text-align:right;font-size:18px;">
+      <li class="span-4 <%= "prepend-#{(10 - @checkout_steps.size*2)}" %> last" style="text-align:right;font-size:18px;">
         <strong>Cart Total: <%= number_to_currency(@cart.total) %></strong>
       </li>
     </ul>
