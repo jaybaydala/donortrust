@@ -12,8 +12,6 @@
   <% f.buttons do %>
     <%= f.commit_button "Login" %>
     <%= f.input :remember_me, :as => :boolean %>
-    <%= f.input :foo, :as => :hidden %>
-    
     <%= hidden_field_tag(:return_to, params[:return_to]) if params[:return_to] %>
   <% end %>
 <% end %>

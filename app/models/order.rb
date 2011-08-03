@@ -15,16 +15,16 @@ class Order < ActiveRecord::Base
   has_one :tax_receipt
 
   validates_presence_of :cart
-  validates_presence_of :donor_type,  :if => :billing_info_required?, :unless => :payment_options_step
-  validates_presence_of :first_name,  :if => lambda {|r| r.billing_info_required? && (r.cart.subscription? || r.personal_donor?) }, :unless => :payment_options_step
-  validates_presence_of :last_name,   :if => lambda {|r| r.billing_info_required? && (r.cart.subscription? || r.personal_donor?) }, :unless => :payment_options_step
-  validates_presence_of :company,     :if => lambda {|r| r.billing_info_required? && r.corporate_donor? }, :unless => :payment_options_step
-  validates_presence_of :address,     :if => :billing_info_required?, :unless => :payment_options_step
-  validates_presence_of :city,        :if => :billing_info_required?, :unless => :payment_options_step
-  validates_presence_of :postal_code, :if => :billing_info_required?, :unless => :payment_options_step
-  validates_presence_of :province,    :if => :billing_info_required?, :unless => :payment_options_step
-  validates_presence_of :country,     :if => :billing_info_required?, :unless => :payment_options_step
-  validates_presence_of :email, :unless => :payment_options_step
+  validates_presence_of :first_name,  :if => lambda {|r| r.billing_info_required? && (r.cart.subscription? || r.personal_donor?) }
+  validates_presence_of :last_name,   :if => lambda {|r| r.billing_info_required? && (r.cart.subscription? || r.personal_donor?) }
+  validates_presence_of :company,     :if => lambda {|r| r.billing_info_required? && r.corporate_donor? }
+  validates_presence_of :donor_type,  :if => :billing_info_required?
+  validates_presence_of :address,     :if => :billing_info_required?
+  validates_presence_of :city,        :if => :billing_info_required?
+  validates_presence_of :postal_code, :if => :billing_info_required?
+  validates_presence_of :province,    :if => :billing_info_required?
+  validates_presence_of :country,     :if => :billing_info_required?
+  validates_presence_of :email, :unless => lambda {|r| r.upowered_step || r.payment_options_step }
   validates_format_of   :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_uniqueness_of :order_number
   validates_numericality_of :account_balance_payment, :allow_nil => true
@@ -50,9 +50,10 @@ class Order < ActiveRecord::Base
   end
 
   before_create :generate_order_number
+  before_save :add_upowered_to_cart
   after_save :update_user_information
 
-  attr_accessor :payment_options_step, :billing_step, :account_signup_step, :credit_card_step, :receipt_step
+  attr_accessor :upowered_step, :payment_options_step, :billing_step, :account_signup_step, :credit_card_step, :receipt_step, :upowered
 
   named_scope :complete, :conditions => { :complete => true }
 
@@ -285,7 +286,7 @@ class Order < ActiveRecord::Base
   end
 
   def billing_info_required?
-    self.cart.subscription? || tax_receipt_requested?
+    (self.cart.subscription? || tax_receipt_requested?) && (!payment_options_step && !upowered_step)
   end
 
   def credit_card(use_iats=true)
@@ -392,7 +393,29 @@ class Order < ActiveRecord::Base
   end
 
   protected
-  
+
+    def add_upowered_to_cart
+      if self.upowered.present? && Project.admin_project
+        if cart.subscription?
+          cart_item = cart.subscription
+          if self.upowered["amount"].present?
+            cart_item.amount = upowered["amount"]
+            cart_item.subscription = true
+            cart_item.save
+          else
+            cart_item.destroy
+          end
+        else
+          investment = Investment.new( self.upowered )
+          investment.project = Project.admin_project
+          investment.user = self.user
+          cart_item = cart.add_item(investment)
+          cart_item.update_attribute(:subscription, true) if cart_item
+        end
+        cart_item
+      end
+    end
+
     def credit_payments
       total = BigDecimal.new("0")
       total += credit_card_payment if credit_card_payment?

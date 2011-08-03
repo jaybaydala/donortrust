@@ -51,7 +51,7 @@ class Dt::CheckoutsController < DtApplicationController
           redirect_to edit_dt_checkout_path(:step => next_step) and return
         end
         @current_nav_step = current_step
-        render :action => "new"
+        render :action => @checkout_steps[0]
       }
     end
   end
@@ -62,10 +62,10 @@ class Dt::CheckoutsController < DtApplicationController
     before_action
     respond_to do |format|
       format.html {
-        if @cart.subscription? && @checkout_steps.index(current_step) < 1
-          flash[:notice] = "You only need to enter your Billing Information for monthly giving."
-          redirect_to edit_dt_checkout_path(:step => @checkout_steps[1]) and return
-        end
+        # if @cart.subscription? && @checkout_steps.index(current_step) < 1
+        #   flash[:notice] = "You only need to enter your Billing Information for monthly giving."
+        #   redirect_to edit_dt_checkout_path(:step => @checkout_steps[1]) and return
+        # end
         @current_nav_step = current_step
         render :action => current_step
       }
@@ -84,6 +84,7 @@ class Dt::CheckoutsController < DtApplicationController
       flash[:error] = "<strong>There was an error processing your credit card:</strong><br />#{err.message}"
     end
     @saved = @order.save if @valid
+    @cart.items.reload # just in case we remove/add any items in the @order.save call
     respond_to do |format|
       format.html{
         redirect_to edit_dt_checkout_path(:step => "credit_card") and return if @billing_error
@@ -216,7 +217,11 @@ class Dt::CheckoutsController < DtApplicationController
       end
     end
   
-    def do_confirm
+    def do_credit_card
+      do_transaction
+    end
+  
+    def do_transaction
       if @valid
         Order.transaction do
           # process the credit card - should handle an exception here
@@ -377,6 +382,7 @@ class Dt::CheckoutsController < DtApplicationController
     protected
       def set_checkout_steps
         @checkout_steps = []
+        @checkout_steps << 'upowered'
         @checkout_steps << 'payment_options' if logged_in? && (current_user.balance > 0 || current_user.cf_admin?)
         @checkout_steps << 'billing'
         @checkout_steps << 'account_signup' unless logged_in?

@@ -1,0 +1,34 @@
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-16 prepend-2 last">
+      <img src="/images/give/icon-cash_register.png" width="93" height="79" alt="">
+    </div>
+  </div>
+<% end %>
+
+<% html_title("Checkout") %>
+<%= checkout_nav %>
+
+<div class="span-8 append-1">
+  <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => ( @order.new_record? ? :post : :put )}) do |f| %>
+    <%= f.semantic_errors :order %>
+    <%= hidden_field_tag "step", "upowered" %>
+
+    <% f.inputs :for => [:upowered, (@cart.subscription? ? @cart.subscription.item : Investment.new(:amount => 5))] do |upowered_form| %>
+      <%= f.input :upowered_step, :as => :hidden, :input_html => { :value => 1 } %>
+      <%= upowered_form.input :amount, :as => :radio, :collection => [["$5.00", 5.0], ["$10.00", 10.0], ["$25.00", 25.0], ["$100.00", 100.0], ["no thanks", '']] %>
+    <% end %>
+
+    <% f.buttons do %>
+      <%= link_to "back to cart", dt_cart_path, :class => "bigbutton black" %>
+      <%= f.commit_button "next" %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="span-5 last quiet">
+  <h3><img src="/images/give/title-upowered.png" width="223" height="68" alt="U:powered"></h3>
+  <p>For the monthly price of a cup of coffee, help fund the organization that's ending poverty</p>
+</div>
+
+<% content_for :google_analytics_path do %>/checkout/upowered<% end %>

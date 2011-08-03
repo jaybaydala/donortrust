@@ -44,6 +44,7 @@ class Subscription < ActiveRecord::Base
 
   def self.create_from_order(order)
     subscription = self.new
+    # billing info
     subscription.order = order
     subscription.user = order.user
     subscription.donor_type = order.donor_type
@@ -58,28 +59,26 @@ class Subscription < ActiveRecord::Base
     subscription.province = order.province
     subscription.postal_code = order.postal_code
     subscription.email = order.email
-
+    # tax receipt
+    subscription.tax_receipt_requested = order.tax_receipt_requested
+    # credit card info
     subscription.card_number = order.card_number
     subscription.cvv = order.cvv
     subscription.expiry_month = order.expiry_month
     subscription.expiry_year = order.expiry_year
-
+    # total
     subscription.amount = order.total
-
+    # subscription details
     subscription.reoccurring_status = false # we will do the reoccurring manually - see config/schedules.rb
     subscription.begin_date = Date.today
     subscription.end_date = Date.today + 10.years
     subscription.schedule_type = "MONTHLY"
     subscription.schedule_date = Date.today.day
-    
-    subscription.tax_receipt_requested = order.tax_receipt_requested
-    
+    # save!
     subscription.save!
-
-    order.cart.items.each do |cart_line_item|
-      subscription.line_items.create(:item_type => cart_line_item.item_type, :item_attributes => cart_line_item.item_attributes)
-    end
-    
+    # add cart subcription line_item to the line_items
+    subscription_line_item = order.cart.subscription
+    subscription.line_items.create(:item_type => subscription_line_item.item_type, :item_attributes => subscription_line_item.item_attributes)
     subscription
   end
 

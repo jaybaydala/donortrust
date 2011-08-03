@@ -1,6 +1,5 @@
 class Cart < ActiveRecord::Base
   attr_reader :total
-  before_save :check_subscription
   after_save :add_admin_project_investment
   has_many :items, :class_name => "CartLineItem"
   has_one :order
@@ -16,22 +15,15 @@ class Cart < ActiveRecord::Base
 
   def add_item(item)
     if valid_item?(item)
-      i = self.items.build({:item => item})
-      i.item = item
-      i.save!
+      line_item = self.items.build({:item => item})
+      line_item.item = item
+      line_item.save!
+      line_item
     end
   end
 
   def calculate_percentage_amount(percentage)
     BigDecimal.new(self.total_without_donation.to_s) * (BigDecimal.new(percentage.to_s)/100)
-  end
-
-  def check_subscription
-    if subscription? && subscription_changed?
-      items.each do |line_item|
-        line_item.destroy unless line_item.item_type == "Investment"
-      end
-    end
   end
 
   def donation
@@ -58,6 +50,10 @@ class Cart < ActiveRecord::Base
 
   def investments
     self.items.select{|item| item.item_type == "Investment" }.map(&:item)
+  end
+
+  def items_without_donation
+    self.items.find_all_by_donation([false, nil])
   end
 
   def minimum_credit_card_payment
@@ -88,16 +84,20 @@ class Cart < ActiveRecord::Base
     self.items.find(id).destroy
   end
 
-  def total
-    @total ||= self.items.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
+  def subscription?
+    items.any?{|item| item.subscription? }
   end
 
-  def items_without_donation
-    self.items.find_all_by_donation([false, nil])
+  def subscription
+    items.detect{|item| item.subscription? }
+  end
+
+  def total
+    self.items.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end
 
   def total_without_donation
-    @total_without_donation ||= items_without_donation.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
+    items_without_donation.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end
 
   def update_item(id, item)
@@ -106,7 +106,7 @@ class Cart < ActiveRecord::Base
 
   private
     def add_admin_project_investment
-      if subscription? || add_optional_donation.blank?
+      if add_optional_donation.blank?
         self.donation.destroy if self.donation.present?
       elsif add_optional_donation?
         if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?
