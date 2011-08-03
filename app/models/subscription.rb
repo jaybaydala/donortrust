@@ -5,6 +5,7 @@ require 'iats/gateways/iats_reoccuring'
 ActiveMerchant::Billing::Base.mode = Rails.env == "production" ? :production : :test
 
 class Subscription < ActiveRecord::Base
+  belongs_to :order
   belongs_to :user
   # belongs_to :project
   has_many :line_items, :class_name => "SubscriptionLineItem"
@@ -41,8 +42,9 @@ class Subscription < ActiveRecord::Base
     end
   end
 
-  def self.create_from_cart_and_order(cart, order)
+  def self.create_from_order(order)
     subscription = self.new
+    subscription.order = order
     subscription.user = order.user
     subscription.donor_type = order.donor_type
     subscription.title = order.title
@@ -74,7 +76,7 @@ class Subscription < ActiveRecord::Base
     
     subscription.save!
 
-    cart.items.each do |cart_line_item|
+    order.cart.items.each do |cart_line_item|
       subscription.line_items.create(:item_type => cart_line_item.item_type, :item_attributes => cart_line_item.item_attributes)
     end
     

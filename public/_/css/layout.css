@@ -35,8 +35,9 @@ footer a:hover,
 footer a:active { text-decoration:underline; }
 #copyright { text-align:center; }
 
+
 /* HOME
--------*/
+-----------*/
 #home #headercontent { width:auto; }
 #home #carousel-container { background-color:#360; padding:0; position:relative; width:auto; }
 #home #carousel-wrapper { position:relative; margin:auto; width:1015px; }
@@ -133,23 +134,33 @@ a.bigbutton:active { color:#FAFAFA; cursor:pointer; }
 #formnav li.current { font-weight:bold; }
 #dialog iframe { border:0; height:99%; width:100%; }
 
-/* Cart
+/* CART
 -------*/
-#cart .line_item_row td { border-bottom:1px solid #333; padding:18px 0; }
-#cart .line_item { font-size:18px; font-weight:bold; float:left; padding-right:10px; }
-#cart .line_item.small { font-size:14px; margin-bottom:0; }
-#cart .controls { font-size:14px; padding:4px 0 0 18px; float:left; }
-#cart .controls a { color:#6CF; text-decoration:none; }
+#cart .line_item_row td,
+#receipt .line_item_row td { border-bottom:1px solid #333; padding:18px 0; }
+#cart .line_item,
+#receipt .line_item { font-size:18px; font-weight:bold; float:left; padding-right:10px; }
+#cart .line_item.small,
+#receipt .line_item.small { font-size:14px; margin-bottom:0; }
+#cart .controls,
+#receipt .controls { font-size:14px; padding:4px 0 0 18px; float:left; }
+#cart .controls a,
+#receipt .controls a { color:#6CF; text-decoration:none; }
 #cart .controls a:hover,
-#cart .controls a:active { text-decoration:underline; }
-#cart .numeric { font-size:18px; text-align:right; }
-#cart .total td { border-top:2px solid #333; padding:24px 0 18px 0; }
+#cart .controls a:active,
+#receipt .controls a:hover,
+#receipt .controls a:active { text-decoration:underline; }
+#cart .numeric,
+#receipt .numeric { font-size:18px; text-align:right; }
+#cart .total td,
+#receipt .total td { border-top:2px solid #333; padding:24px 0 18px 0; }
 
-/* Checkout
+/* CHECKOUT
 -----------*/
 #payment_required_container { background:#DDD; padding:8px; width:330px; }
 .boxshadow #payment_required_container { -moz-box-shadow: 2px 2px 4px #666; -webkit-box-shadow: 2px 2px 4px #666; box-shadow: 2px 2px 4px #666; }
 .borderradius #payment_required_container { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
+#receipt { font-size:18px; }
 
 /* SHADOWS
 ----------*/
@@ -162,3 +173,22 @@ a.bigbutton:active { color:#FAFAFA; cursor:pointer; }
 .border-right { border-right: 1px solid #CCC;}
 .border-bottom { border-bottom: 1px solid #CCC;}
 .border-left { border-left: 1px solid #CCC;}
+
+/* AUTHENTICATIONS
+------------------*/
+.authentications { margin-bottom: 30px; }
+.authentication { background-color: #EEE; border: solid 1px #999; float: left; padding: 5px 10px; position: relative; margin-right: 10px; -moz-border-radius: 8px; -webkit-border-radius: 8px; }
+.authentication .remove { color: #333; font-size: 10px; padding: 2px 4px; position: absolute; right: 3px; text-decoration: none; top: 3px; }
+.authentication .remove:hover { background-color: #777; color: #FFF; -moz-border-radius: 7px; -webkit-border-radius: 7px; }
+.authentication img { float: left; }
+.authentication .provider, .authentication .uid { margin-left: 38px; margin-right: 20px; }
+.authentication .provider { font-weight: bold; }
+.authentication .uid { color: #666; font-size: 11px; }
+.auth_provider img { display: block; }
+.auth_provider { float: left; font-size:0.75em; margin-bottom: 10px; margin-right: 20px; text-decoration: none; text-align: center; }
+
+/* FACEBOOK LOGIN
+=================*/
+.facebooklogin { background:#5C6893; border:#2f354b 1px solid; font-size:12px; height:24px; margin-bottom:4px; text-align:center; width:160px; }
+.facebooklogin .img { float:left; height:24px; width:24px; }
+.facebooklogin a { color:#FFF; display:block; text-decoration:none; height:24px; line-height:2.1; }

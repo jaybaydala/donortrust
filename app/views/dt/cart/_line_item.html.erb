@@ -24,7 +24,7 @@ end
 -%>
 <tr class="line_item_row">
   <td>
-    <%= render :partial => "dt/cart/#{partial_name}", :locals => { :line_item => line_item } %>
+    <%= render :partial => "dt/cart/#{partial_name}", :locals => { :item => line_item.item } %>
     <div class="<%= partial_name %>controls controls">
       <%= edit_link %>
       <%= link_to "Delete", dt_cart_path(:id => line_item.id), :confirm => "Are you sure you want to remove this item from your cart?", :method => :delete %>

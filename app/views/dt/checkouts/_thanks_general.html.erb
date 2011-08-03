@@ -1,0 +1,10 @@
+<h2 class="plain dark">Thank you for helping to change the world.</h2>
+<p>Extreme poverty can end in our lifetime. Your choice to refocus <strong><%= number_to_currency(@order.total) %></strong> to development projects will help make lasting and sustainable change in people's lives.</p>
+
+<% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
+<p>We also thank you for supporting the Uend: Foundation directly!</p>
+<% end %>
+
+<% if !@order.is_registration %>
+  <p>You can now return to the <%= link_to "Homepage", root_path %> or download any item(s) that you may have below.</p>
+<% end %>
