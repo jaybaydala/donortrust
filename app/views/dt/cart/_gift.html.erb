@@ -1,6 +1,8 @@
 <div class="gift line_item">
-  <%= line_item.item.project_id? ? "Project Gift" : "Gift Card" %> to <a href="mailto:<%=h line_item.item.to_email %>"><%=h(line_item.item.to_name || line_item.item.to_email.sub(/@.*/, '')) %></a>
-  <% if line_item.item.project_id? && line_item.item.project %>
-    <p><%= link_to line_item.item.project.name, dt_project_path(line_item.item.project_id) %></p>
+  <% if item.project_id? && item.project %>
+    <%= link_to item.project.name, dt_project_path(item.project_id) %>
+  <% else %>
+    Gift Card
   <% end %>
+  <br><span class="small" style="font-weight:normal">To: <a href="mailto:<%=h item.to_email %>"><%=h(item.to_name || item.to_email.sub(/@.*/, '')) %></a></span>
 </div>

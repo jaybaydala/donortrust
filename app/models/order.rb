@@ -11,6 +11,7 @@ class Order < ActiveRecord::Base
   has_many :deposits
   has_many :pledges # added by joe
   has_one :registration_fee
+  has_one :subscription
   has_one :tax_receipt
 
   validates_presence_of :cart
@@ -101,6 +102,23 @@ class Order < ActiveRecord::Base
 
   def line_items
     @line_items ||= self.gifts + self.investments + self.pledges + self.deposits
+  end
+
+  def multiline_address
+    @multiline_address = []
+    @multiline_address << address if address?
+    @multiline_address << address2 if address2?
+    @multiline_address << sprintf("%s, %s %s", city, province, postal_code) if city? && province? && postal_code?
+    @multiline_address << country if @multiline_address.present? && country?
+    @multiline_address
+  end
+
+  def name
+    if corporate_donor?
+      self.company
+    else
+      "#{title} #{self.first_name} #{self.last_name}"
+    end
   end
 
   # for member signup

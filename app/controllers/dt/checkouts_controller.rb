@@ -2,9 +2,10 @@ require 'order_helper'
 class Dt::CheckoutsController < DtApplicationController
   helper "dt/places"
   include OrderHelper
+  before_filter :initialize_existing_order, :only => [:edit, :update]
   before_filter :directed_gift, :only => :update
   before_filter :cart_empty?, :except => :show
-  before_filter :set_checkout_steps, :except => :show
+  before_filter :set_checkout_steps#, :except => :show
   helper_method :current_step
   helper_method :next_step
   helper_method :account_payment?
@@ -15,7 +16,6 @@ class Dt::CheckoutsController < DtApplicationController
     redirect_to(edit_dt_checkout_path) and return if find_order
     @current_step = @checkout_steps[0]
     @order = initialize_new_order
-    paginate_cart
     respond_to do |format|
       format.html {
         if @cart.subscription?
@@ -36,7 +36,6 @@ class Dt::CheckoutsController < DtApplicationController
     @current_step = @checkout_steps[0]
     @order = initialize_new_order
     @order.attributes = params[:order]
-    paginate_cart
     if !params[:unallocated_gift].nil? && !params[:admin_gift].nil? && !params[:directed_gift].nil?
       gift = Gift.find(session[:gift_card_id])
     end
@@ -58,12 +57,9 @@ class Dt::CheckoutsController < DtApplicationController
   end
 
   def edit
-    @order = find_order
-    paginate_cart
     redirect_to(new_dt_checkout_path) and return unless @order
     redirect_to(edit_dt_checkout_path(:step => @checkout_steps[0])) and return unless current_step
-    initialize_existing_order
-    before_payment if current_step == "payment"
+    before_action
     respond_to do |format|
       format.html {
         if @cart.subscription? && @checkout_steps.index(current_step) < 1
@@ -77,10 +73,8 @@ class Dt::CheckoutsController < DtApplicationController
   end
 
   def update
-    @order = find_order
     redirect_to(new_dt_checkout_path) and return unless @order
     redirect_to(edit_dt_checkout_path(:step => @checkout_steps[0])) and return unless current_step
-    initialize_existing_order
     @valid = validate_order
     begin
       do_action
@@ -103,7 +97,7 @@ class Dt::CheckoutsController < DtApplicationController
             flash[:error] = "You have more items in your cart than your gift card can cover. Please go through the normal checkout process - you can still use the balance of your gift card when you checkout."
             redirect_to edit_dt_checkout_path(:step => @checkout_steps[0]) and return
           end
-          before_payment if next_step == "payment"
+          before_action(next_step)
           @current_nav_step = next_step
           # redirect_to edit_dt_checkout_path(:step => next_step) and return
           render :action => next_step and return
@@ -123,9 +117,10 @@ class Dt::CheckoutsController < DtApplicationController
     if @directed_gift
       @project = @order.investments.first.project
     end
-    redirect_to dt_cart_path and return unless @order
+    @current_nav_step = current_step
+    redirect_to dt_cart_path and return unless @order.present?
     redirect_to edit_dt_checkout_path and return unless @order.complete?
-    redirect_to dt_cart_path and return unless session[:order_number] && session[:order_number].include?(params[:order_number].to_i)
+    # redirect_to dt_cart_path and return unless session[:order_number] && session[:order_number].include?(params[:order_number].to_i)
   end
 
   def destroy
@@ -160,6 +155,7 @@ class Dt::CheckoutsController < DtApplicationController
   
     attr_accessor :current_step
     def current_step
+      @current_step = @checkout_steps.last if 'show' == self.action_name
       if @current_step.nil?
         @current_step = nil unless params[:step]
         @current_step = params[:step] if params[:step] && @checkout_steps.include?(params[:step])
@@ -186,21 +182,14 @@ class Dt::CheckoutsController < DtApplicationController
       @order.valid?
     end
 
+    def before_action(step=current_step)
+      self.send("before_#{step}".to_sym) if self.respond_to?("before_#{step}".to_sym)
+    end
+
     def do_action
       logger.debug("current_step: #{current_step}")
-      case current_step
-        when "payment_options"
-          @order.payment_options_step = true
-        when "billing"
-          @order.billing_step = true
-          do_billing
-        when "account_signup"
-          @order.account_signup_step = true
-        when "credit_card"
-          @order.credit_card_step = true
-      end
-      do_confirm
-
+      @order.send("#{current_step}_step=".to_sym, true) if @order.respond_to?("#{current_step}_step=".to_sym)
+      self.send("do_#{current_step}".to_sym) if self.respond_to?("do_#{current_step}".to_sym)
     end
 
     def before_payment
@@ -212,7 +201,7 @@ class Dt::CheckoutsController < DtApplicationController
       @order.cardholder_name = nil
     end
 
-    def do_billing
+    def do_account_signup
       if !logged_in? && (@cart.subscription? || @order.tax_receipt_requested?)
         user = @order.create_user_from_order
         if user && !user.new_record?
@@ -234,7 +223,7 @@ class Dt::CheckoutsController < DtApplicationController
           # if no exception, we're all good.
           # if there is, we should render the payment template and show the errors...
           if @cart.subscription?
-            @subscription = Subscription.create_from_cart_and_order(@cart, @order)
+            @subscription = Subscription.create_from_order(@order)
             @order.update_attribute(:subscription_id, @subscription.id)
           end
           transaction_successful = @order.credit_card_payment? ? @order.run_transaction : true
@@ -242,7 +231,6 @@ class Dt::CheckoutsController < DtApplicationController
           # @order.update_attribute(:tmp_card_number, nil) if @order.tmp_card_number?
           # params[:order][:tmp_card_number] = nil
           if transaction_successful
-            @cart.update_attribute(:order_id, @order.id)
             # remove the donation if this is a directed gift (a gift card redemption)
             remove_cart_donation if self.directed_gift? && @cart.donation
             # remove the donation if it's a $0 donation amount since that makes an invalid investment
@@ -374,10 +362,6 @@ class Dt::CheckoutsController < DtApplicationController
       @cart.donation.destroy
       @cart.reload
       @cart.items.reload
-    end
-
-    def paginate_cart
-      @cart_items = @cart.items.paginate(:page => params[:cart_page], :per_page => 5)
     end
 
     ExceptionNotifier.sections << "cart"

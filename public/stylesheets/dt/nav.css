@@ -195,9 +195,3 @@ form#search {
 #loginbug #rss img {
   vertical-align:middle;
 }
-
-/* FACEBOOK LOGIN
-=================*/
-.facebooklogin { background:#5C6893;border:#2f354b 1px solid;font-size:11px;height:24px;margin-bottom:4px;text-align:center;width:160px; }
-.facebooklogin .img {float:left;height:24px;width:24px;}
-.facebooklogin a { color:#FFF;display:block;text-decoration:none;height:24px;line-height:2.2; }

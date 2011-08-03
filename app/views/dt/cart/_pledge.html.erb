@@ -1,10 +1,10 @@
 <div class="pledge">
   <h5><strong>Pledge</strong></h5>
-  <% if line_item.item.participant != nil %>
-    <p>Pledge for <%= link_to(line_item.item.participant.user.full_name, dt_participant_path(line_item.item.participant)) %>'s participation in <%= link_to(line_item.item.participant.team.campaign.name, dt_campaign_path(line_item.item.participant.team.campaign)) %></p>
-  <% elsif line_item.item.team != nil %>
-    <p>Pledge towards <%= link_to(line_item.item.team.name, dt_team_path(line_item.item.team.name)) %> (a team participating in <%= link_to(line_item.item.team.campaign.name, dt_campaign_path(line_item.item.team.campaign)) %>)</p>
+  <% if item.participant != nil %>
+    <p>Pledge for <%= link_to(item.participant.user.full_name, dt_participant_path(item.participant)) %>'s participation in <%= link_to(item.participant.team.campaign.name, dt_campaign_path(item.participant.team.campaign)) %></p>
+  <% elsif item.team != nil %>
+    <p>Pledge towards <%= link_to(item.team.name, dt_team_path(item.team.name)) %> (a team participating in <%= link_to(item.team.campaign.name, dt_campaign_path(item.team.campaign)) %>)</p>
   <% else %>
-    <p>Pledge towards <%= link_to(line_item.item.campaign.name, dt_campaign_path(line_item.item.campaign)) %>
+    <p>Pledge towards <%= link_to(item.campaign.name, dt_campaign_path(item.campaign)) %>
   <% end %>
 </div>

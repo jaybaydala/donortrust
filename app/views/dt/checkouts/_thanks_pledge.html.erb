@@ -1,0 +1,20 @@
+<p>
+  Thank you for supporting 
+  <%- if @order.pledges.size == 1 -%>
+    <%= @order.pledges.first.participant.user.full_name %>.
+  <%- else -%>
+    <% 
+      participants = @order.pledges.map(&:participant)
+      last_participant = participants.pop
+      @participant_list = participants.map{|p| p.user.full_name}.join(", ")
+      @participant_list += "and #{last_participant.user.full_name}"
+    %>
+    <%= @participant_list %>.
+  <%- end -%>
+  100% of your <%= number_to_currency(@order.total) %> donation will go to development projects that are making lasting and sustainable change in people's lives.
+</p>
+<% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
+<p>We also thank you for supporting the Uend: Foundation directly!</p>
+<% end %>
+
+<p>You can now return to <%= link_to @order.pledges.first.participant.team.campaign.name, dt_campaign_path(@order.pledges.first.participant.team.campaign) %> or download any item(s) that you may have below.</p>

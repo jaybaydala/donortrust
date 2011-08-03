@@ -1,0 +1,10 @@
+<p>
+  You have successfully joined 
+  <%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %>. 
+  This fee will be used to support costs associated with running 
+  <%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %> 
+  and this website.<br /><br />
+  Click here to return to the 
+  <%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %>
+  homepage.
+</p>
