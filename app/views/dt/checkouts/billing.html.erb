@@ -39,6 +39,8 @@
     <% end %>
     <% f.buttons do %>
       <%= link_to("back", edit_dt_checkout_path(:step => "payment_options"), :class => "bigbutton black") if @checkout_steps.include?('payment_options') %>
+      <%= link_to("back", edit_dt_checkout_path(:step => "upowered"), :class => "bigbutton black") if !@checkout_steps.include?('payment_options') && @checkout_steps.include?("upowered") %>
+      <%= link_to("back to cart", dt_cart_path, :class => "bigbutton black") unless @checkout_steps.include?('payment_options') || @checkout_steps.include?('upowered') %>
       <%= f.commit_button "next" %>
     <% end %>
   <% end %>

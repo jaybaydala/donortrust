@@ -19,7 +19,7 @@
 
 <% if gift_card_balance? %><p>Your Current Gift Card Balance: <%= number_to_currency(Gift.find(session[:gift_card_id]).balance) %></p><% end %>
 
-<% semantic_form_for :order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform", :method => ( @order.new_record? ? :post : :put )} do |f| %>
+<% semantic_form_for @order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform", :method => ( @order.new_record? ? :post : :put )} do |f| %>
   <%= hidden_field_tag "step", "payment_options" %>
   <% f.inputs do %>
     <%= f.input :payment_options_step, :as => :hidden, :input_html => { :value => 1 } %>
@@ -55,7 +55,11 @@
   <% end %>
 
   <% f.buttons do %>
-    <%= link_to "back to cart", dt_cart_path, :class => "bigbutton black" %>
+    <% if @checkout_steps.include?('upowered') %>
+      <%= link_to("back", edit_dt_checkout_path(:step => "payment_options"), :class => "bigbutton black") %>
+    <% else %>
+      <%= link_to "back to cart", dt_cart_path, :class => "bigbutton black" %>
+    <% end %>
     <%= submit_tag "next" %>
   <% end %>
 <% end %>
