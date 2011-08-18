@@ -12,7 +12,10 @@ class Dt::SessionsController < DtApplicationController
   def new
     @page_title = "Login"
     respond_to do |format|
-      format.html { redirect_back_or_default(dt_account_path(current_user)) if logged_in? }
+      format.html {
+        redirect_back_or_default(dt_account_path(current_user)) if logged_in?
+        render :action => :new, :layout => false if request.xhr?
+      }
     end
   end
 

@@ -1,21 +1,37 @@
 <%- content_for :html_title do -%>Sign-in<%- end -%>
-<%- content_for :head do -%><%= javascript_include_tag "dt/accounts" %><%- end -%>
 
-<%= render :partial => 'dt/accounts/inactive' if @activated === false %>
+<div<%= raw ' style="margin:18px;"' if request.xhr? %>>
+  <%= render :partial => 'dt/accounts/inactive' if @activated === false %>
 
-<p>To sign in, enter your username (your email address) and password below.</p>
-<% semantic_form_for :user, :url => dt_session_path(:protocol =>  ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
-  <% f.inputs do %>
-    <%= f.input :login, :label => "Username/Email" %>
-    <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", reset_dt_accounts_path) %>
-  <% end %>
-  <% f.buttons do %>
-    <%= f.commit_button "Login" %>
-    <%= f.input :remember_me, :as => :boolean %>
-    <%= hidden_field_tag(:return_to, params[:return_to]) if params[:return_to] %>
-  <% end %>
-<% end %>
-<p>
-  <%= link_to "Click here to create an account", dt_signup_path %><br />
-  Registration is FREE and takes only a moment.
-</p>
+  <div class="clearfix">
+    <div class="span-6 append-1">
+      <h2 class="plain">Login</h2>
+
+      <div class="facebooklogin">
+        <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), '/dt/auth/facebook' %></div>
+        <%= link_to 'Login using facebook', '/dt/auth/facebook' %>
+      </div>
+
+      <% semantic_form_for :user, :url => dt_session_path(:protocol =>  ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
+        <% f.inputs do %>
+          <%= f.input :login, :label => "Username/Email" %>
+          <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", reset_dt_accounts_path) %>
+          <%= f.input :remember_me, :as => :boolean %>
+        <% end %>
+        <% f.buttons do %>
+          <%= f.commit_button "Login" %>
+          <%= hidden_field_tag(:return_to, params[:return_to]) if params[:return_to] %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="span-5 prepend-1 border-left">
+      <h2 class="plain">New to UEnd?</h2>
+      <p>
+        Follow your projects or set up a campaign.
+      </p>
+      <p>
+        <%= link_to 'Join Us', new_dt_account_path, :class => 'smallbutton' %>
+      </p>
+    </div>
+  </div>
+</div>
