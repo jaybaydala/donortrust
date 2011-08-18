@@ -35,6 +35,9 @@ $(document).ready(function (){
     });
   });
 
+  // login link
+  $("#loginlink").colorbox();
+
   // donation form
   if ($('#cart_line_item_percentage').val() != '') $('#cart_line_item_amount').hide();
   $("#cart_line_item_percentage").change(function() {
@@ -45,11 +48,18 @@ $(document).ready(function (){
     }
   });
 
-  // form submit replacements
-  $("#investmentform, #paymentform, #billingform, #loginform, #facebook_post").each(function() {
+  // form submit replacements - big buttons
+  $("#investmentform, #paymentform, #billingform").each(function() {
     var form = $(this);
     var submit = $('input[type=submit]', $(this));
     var button = $("<a>").addClass('bigbutton').click(function() { form.submit() }).html(submit.attr('value'));
+    submit.before(button).hide();
+  });
+  // form submit replacements - small buttons
+  $("#loginform, #facebook_post").each(function() {
+    var form = $(this);
+    var submit = $('input[type=submit]', $(this));
+    var button = $("<a>").addClass('smallbutton').click(function() { form.submit() }).html(submit.attr('value'));
     submit.before(button).hide();
   });
 
