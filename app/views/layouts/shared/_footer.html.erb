@@ -2,9 +2,9 @@
     <div class="container">
       <div class="span-2 prepend-2 append-1">
         <ul>
-          <li><strong>End Poverty</strong></li>
+          <li><strong><%= link_to "End Poverty", dt_give_path %></strong></li>
           <li><%= link_to "u:forward", new_dt_gift_path %></li>
-          <li><%= link_to "u:powered", dt_upowered_pat %></li>
+          <li><%= link_to "u:powered", dt_upowered_path %></li>
           <li><%= link_to "u:direct", new_dt_investment_path %></li>
         </ul>
       </div>
@@ -12,20 +12,28 @@
       <div class="span-2 append-1">
         <ul>
           <li><strong>Poverty Insight</strong></li>
-          <li><a href="#">Newsletter</a></li>
+          <li><a href="http://www.industrymailout.com/Industry/Subscribe.aspx?m=3929">Newsletter</a></li>
+        </ul>
+        
+        <ul>
+          <li><strong>General Info</strong></li>
+          <li><a href="/terms-of-use">Terms of Use</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/help">Help</a></li>
         </ul>
       </div>
 
       <div class="span-2 append-1">
         <ul>
-          <li><strong>About us</strong></li>
-          <li><a href="#">What we do</a></li>
-          <li><a href="#">Our partners</a></li>
-          <li><a href="#">Proof of Impact</a></li>
-          <li><a href="#">FAQs</a></li>
-          <li><a href="#">Terms of Use</a></li>
-          <li><a href="#">Privacy</a></li>
-          <li><a href="#">Help</a></li>
+          <li><strong><a href="/about-us">About us</a></strong></li>
+          <li><a href="/about-us/mission">Mission</a></li>
+          <li><a href="/about-us/financials">Financials</a></li>
+          <li><a href="/about-us/proof-of-impact">Funding</a></li>
+          <li><a href="/about-us/board-members">Board Members</a></li>
+          <li><a href="/about-us/founders-journey">Founder's Journey</a></li>
+          <li><a href="/about-us/staff-volunteers">Staff &amp; Volunteers</a></li>
+          <li><a href="/about-us/friends-respect">Friends &amp; Respect</a></li>
+          <li><a href="/about-us/faqs">FAQs</a></li>
         </ul>
       </div>
 
