@@ -9,6 +9,7 @@ gem 'mongrel'
 gem 'mongrel_cluster'
 
 gem 'activemerchant', :require => 'active_merchant'
+gem 'awesome_nested_set'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'calendar_date_select'
 gem 'chronic'

@@ -21,6 +21,8 @@ GEM
     after_commit (1.0.10)
       activerecord (< 3.0.0, >= 1.15.6)
     autotest (4.4.5)
+    awesome_nested_set (1.4.4)
+      activerecord (>= 1.1)
     aws-s3 (0.6.2)
       builder
       mime-types
@@ -253,6 +255,7 @@ DEPENDENCIES
   RedCloth
   activemerchant
   autotest
+  awesome_nested_set
   aws-s3
   calendar_date_select
   capistrano
