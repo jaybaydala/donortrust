@@ -23,7 +23,7 @@ header #nav.content,
 .dark header #nav.content { background-color:#360; }
 #rail { background-color:#484848; padding:16px 10px; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 #flashes .notice,
-#flashes .error { background: #EEE; border: 1px solid #EC3012; color: #222; padding: 4px 8px; }
+#flashes .error { background: #EEE; border: 1px solid #EC3012; color: #222; margin-bottom:12px; padding: 4px 8px; }
 .shadow-top { background:url(/images/home/shadow-top.png) no-repeat; color:#999; font-size:11px; height:18px; padding-top:8px; }
 .shadow-bottom { background:url(/images/home/shadow-bottom.png) no-repeat; color:#999; font-size:11px; height:13px; }
 
