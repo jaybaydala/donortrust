@@ -13,7 +13,7 @@
           <ul>
             <%- if logged_in? -%>
               <li>Welcome, <%= h(current_user.name) %> | </li>
-              <li><%= link_to "iEnd Profile", dt_iend_path(current_user) %> | </li>
+              <li><%= link_to "iEnd Profile", iend_user_path(current_user) %> | </li>
               <li><%= link_to "Cart", dt_cart_path %> | </li>
               <li><%= link_to 'Logout', dt_logout_url(:protocol => ssl_protocol) %></li>
             <%- else -%>
