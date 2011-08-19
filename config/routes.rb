@@ -140,12 +140,6 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :news_comments
-  
-  map.namespace :bus_admin do |ba|
-    ba.resources :content_snippets, :active_scaffold => true
-    ba.resources :loads, :active_scaffold => true
-  end
-  
 
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
   map.dt_tax_receipt '/dt/tax_receipts/:id/:code.:format', :controller => 'dt/tax_receipts', :action => "show"
@@ -155,10 +149,10 @@ ActionController::Routing::Routes.draw do |map|
   map.dt_home  '/dt/home',  :controller => 'dt/home'
   map.dt_request_us_tax_receipt '/dt/request_us_tax_receipt', :controller => 'dt/sessions', :action => 'request_us_tax_receipt'
 
-
   map.connect '/dt', :controller => 'dt/home'
   map.connect 'dt/campaigns/:id/close', :controller => 'dt/campaigns', :action => 'close'
   map.connect 'dt/participants/:id/activate', :controller => 'dt/participants', :action => 'activate'
+  
 
   # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
@@ -180,162 +174,151 @@ ActionController::Routing::Routes.draw do |map|
   map.recover_record 'bus_admin/measures/recover_record', :controller => 'bus_admin/measures', :action => 'recover_record'
   map.inactive_records 'bus_admin/measures/inactive_records', :controller => 'bus_admin/measures', :action => 'inactive_records'
   map.inactive_records 'bus_admin/causes/inactive_records', :controller => 'bus_admin/causes', :action => 'inactive_records'
+
+
+  map.namespace :bus_admin do |ba|
+    ba.resources :content_snippets, :active_scaffold => true
+    ba.resources :loads, :active_scaffold => true
+    ba.resources :reports
+    ba.resources :deposits
+    ba.resources :group_gifts
+    ba.resources :expired_gifts, :collection => {:unwrap => :post}
+    ba.resources :unallocated_investments, :collection => {:unallocate => :post}
+    ba.resources :banner_images, :active_scaffold => true
+    ba.resources :rank_values, :active_scaffold => true
+    ba.resources :load, :controller => "bus_admin/load", :collection => {:loads => :post}
+    ba.resources :gifts, :active_scaffold => true, :collection => {:change_email => :post}
+    ba.resources :loads, :collection => {:loads => :post}
+    ba.resources :sent, :controller => "bus_admin/sent"
+    ba.resources :add_to_group, :controller => "bus_admin/add_to_group", :collection => {:add_to_groups => :post}
+    ba.resources :budget_items, :active_scaffold => true
+    ba.resources :financial_sources, :active_scaffold => true
+    ba.resources :collaborating_agencies, :active_scaffold => true
+    ba.resources :e_cards, :active_scaffold => true
+    ba.resources :promotions, :active_scaffold => true
+    ba.resources :place_sectors, :active_scaffold => true
+    ba.resources :ranks, :active_scaffold => true
+    ba.resources :quick_fact_partners, :active_scaffold => true
+    ba.resources :quick_fact_groups, :active_scaffold => true
+    ba.resources :quick_fact_sectors, :active_scaffold => true
+    ba.resources :quick_fact_places, :active_scaffold => true
+    ba.resources :quick_facts, :active_scaffold => true
+    ba.resources :comments, :active_scaffold => true
+
+    ba.resources :key_measures, :active_scaffold => true
+    ba.resources :key_measure_datas, :active_scaffold => true
+
+    ba.resources :bus_security_levels, :active_scaffold => true
+    ba.resources :bus_user_types, :active_scaffold => true
+    ba.resources :bus_secure_actions, :active_scaffold => true
+    ba.resources :bus_security_levels, :active_scaffold => true
+    ba.resources :users, :active_scaffold => true, :member => { :sudo => :put }
+    ba.resources :roles, :active_scaffold => true
+    ba.resources :administrations, :active_scaffold => true
+    ba.resources :collaborations, :active_scaffold => true
+    ba.resources :carousel_items, :active_scaffold => true
+    ba.resources :permissions, :active_scaffold => true
+    ba.resources :authorized_actions, :active_scaffold => true
+    ba.resources :authorized_controllers, :active_scaffold => true
+    # bus_admin project resources and routes
+    ba.resources :projects, 
+                  :controller => 'bus_admin/projects',
+                  :active_scaffold => true,
+                  :collection => { :pending_projects => :get}
+
+    ba.resource :upowered, :member => { :report => :post, :send_email => :post }
+    ba.resources :application_settings, :active_scaffold => true
+    ba.resources :subscriptions
+    ba.resources :statistic_widgets, :active_scaffold => true
+    ba.resources :pages, :active_scaffold => true
+
+
+    # The priority is based upon order of creation: first created -> highest priority.
+
+    #
+    # RSS Feed Resources
+    #
+    ba.resources :rss
+    ba.resources :rss_feed_elements, :active_scaffold => true
+    ba.resources :rss_feeds, :active_scaffold => true
+
+    #
+    # Media Resources Specifically You Tube and Flickr Resources
+    #
+    #
+    # take that REST
+    ba.resources :place_you_tube_videos, :active_scaffold => true,
+      :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :videos => :post,:preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post, :list => :get }
+    ba.resources :project_you_tube_videos, :active_scaffold => true,
+      :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :videos => :post, :preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
+    ba.resources :place_flickr_images, :active_scaffold => true,
+      :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :list => :get }
+    ba.resources :project_flickr_images, :active_scaffold => true, :member => {:delete => :delete}, 
+      :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
+    ba.resources :welcome, :controller => "bus_admin/welcome"
+    ba.resources :home, :controller => "bus_admin/home"
+
+    ba.resources :measures, :active_scaffold => true
+
+    ba.resources :millennium_goals, :active_scaffold => true
+    ba.resources :sectors, :active_scaffold => true
+    ba.resources :causes, :active_scaffold => true
+
+    #
+    # Geographical Resources
+    #
+    ba.resources :places, :active_scaffold => true
+
+    #
+    # Contacts
+    #
+    ba.resources :contacts, :active_scaffold => true
+    ba.resources :partners, :active_scaffold => true
+
+    #
+    # Campaigns
+    #
+    ba.resources :campaigns, :active_scaffold => true, :member => { :close => :put }
+    ba.resources :teams, :active_scaffold => true
+    ba.resources :participants, :active_scaffold => true
+    ba.resources :campaign_types, :active_scaffold => true
+    ba.resources :cause_limits, :active_scaffold => true
+    ba.resources :place_limits, :active_scaffold => true
+    ba.resources :partner_limits, :active_scaffold => true
+
+    #
+    # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
+    #
+    ba.resources :project_statuses, :active_scaffold => true
+    ba.resources :milestone_statuses, :active_scaffold => true
+    ba.resources :frequency_types, :active_scaffold => true
+    ba.resources :partner_statuses, :active_scaffold => true
+    ba.resources :partner_types, :active_scaffold => true
+    ba.resources :group_types, :active_scaffold => true
+    ba.resources :place_types, :active_scaffold => true
+    ba.resources :rank_types, :active_scaffold => true
+    ba.resources :quick_fact_types, :active_scaffold => true
+
+    ba.resources :programs, :active_scaffold => true
+    ba.resources :milestones, :active_scaffold => true
+    ba.resources :tasks, :active_scaffold => true
+    ba.resources :measures
+    ba.resources :accounts, :active_scaffold => true
+    ba.resources :groups, :active_scaffold => true
+    ba.resources :bus_account, :active_scaffold => true, :controller => "bus_admin/bus_account"
+  end
+
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
-
-  # bus_admin resources
-  map.resources :reports, :path_prefix => "/bus_admin", :controller => "bus_admin/reports"
   map.process_report 'bus_admin/reports/process_report', :controller => 'bus_admin/reports', :action => 'process_report'
-  map.resources :deposits, :path_prefix => "/bus_admin", :controller => "bus_admin/deposits"
   map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'
-  map.resources :group_gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/group_gifts"
-  map.resources :expired_gifts,  :path_prefix => "/bus_admin", :controller => "bus_admin/expired_gifts", :collection => {:unwrap => :post}
-  map.resources :unallocated_investments,  :path_prefix => "/bus_admin", :controller => "bus_admin/unallocated_investments", :collection => {:unallocate => :post}
-  map.resources :banner_images, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/banner_images"
-  map.resources :rank_values, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_values"
-  map.resources :load,  :path_prefix => "/bus_admin", :controller => "bus_admin/load", :collection => {:loads => :post}
-  map.resources :gifts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/gifts", :collection => {:change_email => :post}
-  map.resources :loads,  :path_prefix => "/bus_admin", :controller => "bus_admin/loads", :collection => {:loads => :post}
-  map.resources :sent,  :path_prefix => "/bus_admin", :controller => "bus_admin/sent"
-  map.resources :add_to_group,  :path_prefix => "/bus_admin", :controller => "bus_admin/add_to_group", :collection => {:add_to_groups => :post}
-  map.resources :budget_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/budget_items"
-  map.resources :financial_sources, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/financial_sources"
-  map.resources :collaborating_agencies, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborating_agencies"
-  map.resources :e_cards, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/e_cards"
-  map.resources :promotions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/promotions"
-  map.resources :place_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_sectors"
   map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
-  map.resources :ranks, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/ranks"
-  map.resources :quick_fact_partners, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_partners"
-  map.resources :quick_fact_groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_groups"
-  map.resources :quick_fact_sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_sectors"
-  map.resources :quick_fact_places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_places"
-  map.resources :quick_facts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_facts"
-  map.resources :comments, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/comments"
   map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'
-
-  map.resources :key_measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measures"
-  map.resources :key_measure_datas, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/key_measure_datas"
   map.add_measure 'bus_admin/key_measures/add_measure', :controller => 'bus_admin/key_measures', :action => 'add_measure'
-
-  map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
-  map.resources :bus_user_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_user_types"
-  map.resources :bus_secure_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_secure_actions"
-  map.resources :bus_security_levels, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_security_levels"
-  map.resources :users, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/users", :member => { :sudo => :put }
-  map.resources :roles, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/roles"
-  map.resources :administrations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/administrations"
-  map.resources :collaborations, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/collaborations"
-  map.resources :carousel_items, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/carousel_items"
-  map.resources :permissions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/permissions"
-  map.resources :authorized_actions, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_actions"
-  map.resources :authorized_controllers, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/authorized_controllers"
-  # bus_admin project resources and routes
-  map.resources :projects, 
-                :path_prefix => "/bus_admin", 
-                :name_prefix => 'bus_admin_', 
-                :controller => 'bus_admin/projects',
-                :active_scaffold => true,
-                :collection => { :pending_projects => :get}
-
-  map.resource :upowered, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/upowered", :member => { :report => :post, :send_email => :post }
-  map.resources :application_settings, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/application_settings", :active_scaffold => true
-  map.resources :subscriptions, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/subscriptions"
-  map.resources :statistic_widgets, :active_scaffold => true, :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :controller => "bus_admin/statistic_widgets"
-  map.resources :pages, :controller => "bus_admin/pages", :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-
-
-  # The priority is based upon order of creation: first created -> highest priority.
-
-  #
-  # RSS Feed Resources
-  #
-  map.resources :rss
-  map.resources :rss_feed_elements, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rss_feed_elements"
-  map.resources :rss_feeds, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rss_feeds"
-
-  #
-  # Media Resources Specifically You Tube and Flickr Resources
-  #
-  #
-  # take that REST
-  map.resources :place_you_tube_videos, :path_prefix => "/bus_admin", :active_scaffold => true,
-    :controller => "bus_admin/place_you_tube_videos",
-    :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :videos => :post,:preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post, :list => :get }
-  map.resources :project_you_tube_videos, :path_prefix => "/bus_admin", :active_scaffold => true,
-    :controller => "bus_admin/project_you_tube_videos",
-    :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :videos => :post, :preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
-  map.resources :place_flickr_images, :path_prefix => "/bus_admin", :active_scaffold => true,
-    :controller => "bus_admin/place_flickr_images",
-    :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :list => :get }
-  map.resources :project_flickr_images, :path_prefix => "/bus_admin", :active_scaffold => true,
-    :controller => "bus_admin/project_flickr_images", :member => {:delete => :delete}, 
-    :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
-  map.resources :welcome, :path_prefix => "/bus_admin", :controller => "bus_admin/welcome"
-  map.resources :home, :path_prefix => "/bus_admin", :controller => "bus_admin/home"
   map.home_update_partner 'bus_admin/home/update_partner', :controller => 'bus_admin/home', :action => 'update_partner'
-
-  map.resources :measures, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/measures"
-
-  map.resources :millennium_goals, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/millennium_goals"
-  map.resources :sectors, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/sectors"
-  map.resources :causes, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/causes"
-
-  #
-  # Geographical Resources
-  #
-  map.resources :places, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/places"
-
-  #
-  # Contacts
-  #
-  map.resources :contacts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/contacts'
   map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
-  map.resources :partners, :active_scaffold => true,  :path_prefix => '/bus_admin', :controller => 'bus_admin/partners'
-
-  #
-  # Campaigns
-  #
-  map.resources :campaigns, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/campaigns', :member => { :close => :put }
-  map.resources :teams, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/teams'
-  map.resources :participants, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/participants'
-  map.resources :campaign_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/campaign_types'
-  map.resources :cause_limits, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/cause_limits'
-  map.resources :place_limits, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/place_limits'
-  map.resources :partner_limits, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => 'bus_admin/partner_limits'
-
-  #
-  # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
-  #
-  map.resources :project_statuses, :controller => "bus_admin/project_statuses",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-
   map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
-
   map.populate_place_sector_places '/bus_admin/projects/populate_place_sector_places', :controller => 'bus_admin/place_sectors', :action => 'populate_place_sector_places'
 
-  map.resources :milestone_statuses, :controller => "bus_admin/milestone_statuses",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :frequency_types, :controller => "bus_admin/frequency_types",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :partner_statuses, :controller => "bus_admin/partner_statuses",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :partner_types, :controller => "bus_admin/partner_types",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :group_types, :controller => "bus_admin/group_types",
-    :name_prefix => 'bus_admin_', :path_prefix => "/bus_admin", :active_scaffold => true
-  map.resources :place_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/place_types"
-  map.resources :rank_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/rank_types"
-  map.resources :quick_fact_types, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/quick_fact_types"
-
-  map.resources :programs, :controller => "bus_admin/programs",
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :milestones, :controller => "bus_admin/milestones",
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :tasks, :controller => "bus_admin/tasks",
-    :path_prefix => "/bus_admin", :name_prefix => 'bus_admin_', :active_scaffold => true
-  map.resources :measures
-  map.resources :accounts, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/accounts"
-  map.resources :groups, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/groups"
 
   #easier routes for restful_authentication
   map.bob '/bus_admin/bob', :controller => 'bus_admin/project_statuses', :action => 'bob'
@@ -344,7 +327,6 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/bus_admin/logout', :controller => 'bus_admin/bus_account', :action => 'logout'
   map.index '/bus_admin/index', :controller => 'bus_admin/bus_account', :action => 'index'
   map.get_actions '/bus_admin/bus_user_types/get_actions', :controller => 'bus_admin/bus_user_types', :action =>'get_actions'
-  map.resources :bus_account, :active_scaffold => true, :path_prefix => "/bus_admin", :controller => "bus_admin/bus_account"
   map.change_password '/bus_admin/change_password', :controller => 'bus_admin/bus_account', :action =>'change_password'
   map.show_encryption '/bus_admin/bus_account/show_encryption', :controller =>'bus_admin/bus_account',:action =>'show_encryption'
   map.change_password_now '/bus_admin/bus_account/change_password_now', :controller => 'bus_admin/bus_account', :action =>'change_password_now'
@@ -394,13 +376,6 @@ ActionController::Routing::Routes.draw do |map|
   map.show_campaign_participant '/dt/:short_campaign_name/team/:team_short_name/participant/:short_name', :controller => 'dt/participants', :action => 'show'
   map.show_campaign_participant '/dt/:short_campaign_name/participant/:short_name', :controller => 'dt/participants', :action => 'show'
 
-  # Install the default route as the lowest priority.
-  #map.connect "*anything",
-  #            :controller => 'dt/projects'
-  # HPD these should not be used / exist when using 'full' RESTful structure
-  #map.connect ':controller/:action/:id.:format'
-  #map.connect ':controller/:action/:id'
-
 	# TODO: Is this the right way to route the iframe?
 	map.connect '/bus_admin/projects/embedded_budget_items/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_budget_items'
 	map.connect '/bus_admin/projects/embedded_milestones/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_milestones'
@@ -412,4 +387,5 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.connect '/bus_admin/places_for_approval', :controller => 'bus_admin/places', :action => 'places_for_approval'
 
+  map.connect "*path", :controller => 'dt/pages', :action => "show"
 end
