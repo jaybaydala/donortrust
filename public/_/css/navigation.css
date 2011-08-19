@@ -21,8 +21,10 @@
 /* subnav */
 nav.subnav { font-size:1.16em; }
 nav.subnav ol { list-style:none; }
+.dark nav.subnav a:link,
+.dark nav.subnav a:visited { color:#FFF; text-decoration:none; }
 nav.subnav a:link,
-nav.subnav a:visited { color:#FFF; text-decoration:none; }
+nav.subnav a:visited { color:#39F; text-decoration:none; }
 nav.subnav a:hover,
 nav.subnav a:active { color:#6CF; text-decoration:underline; }
 nav.subnav li.current a:hover,

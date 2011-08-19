@@ -12,6 +12,12 @@
         <%= link_to 'Login using facebook', '/dt/auth/facebook' %>
       </div>
 
+      <div class="googlelogin">
+        <div class="img"><%= link_to image_tag('dt/authentications/google_24.png', :size => "24x24", :alt => ""), '/dt/auth/google' %></div>
+        <%= link_to 'Login using google', '/dt/auth/google' %>
+      </div>
+      
+
       <% semantic_form_for :user, :url => dt_session_path(:protocol =>  ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
         <% f.inputs do %>
           <%= f.input :login, :label => "Username/Email" %>
