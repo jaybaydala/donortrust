@@ -1,5 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'dt/home', :action => 'index'
+  map.namespace(:iend) do |dt|
+    dt.resources :users
+  end
   map.namespace(:dt) do |dt|
     dt.resources :authentications
     dt.auth_callback "/auth/:provider/callback", :controller => "authentications", :action => "create"
@@ -16,7 +19,6 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :deposits, :controller => 'deposits'
     dt.resources :users, :member => { :edit_password => :get }
     dt.resources :facebook_posts
-    dt.resources :iend, :controller => 'iend'
     dt.resource :session, :controller => 'sessions'
 
     dt.resource :upowered, :controller => "upowered"

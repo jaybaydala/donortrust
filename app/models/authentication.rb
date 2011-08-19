@@ -6,6 +6,7 @@ class Authentication < ActiveRecord::Base
 
   named_scope :facebook, :conditions => { :provider => "facebook" }
   named_scope :twitter, :conditions => { :provider => "twitter" }
+  named_scope :google, :conditions => { :provider => "google" }
 
   def provider_name
     if provider == 'open_id'

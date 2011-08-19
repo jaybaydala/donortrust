@@ -1,6 +1,6 @@
 <% content_for :html_title do %>iEnd:Poverty - <%= @user.name %><% end %>
 
-<%= render 'dt/iend/nav' if current_user == @user %>
+<%= render 'iend/users/nav' if current_user == @user %>
 
 <h1 class='user'><%= @user.display_name %></h1>
 <div id='left_sidebar'>

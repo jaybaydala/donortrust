@@ -5,6 +5,7 @@ class Dt::AuthenticationsController < DtApplicationController
 
   def create
     omniauth = request.env["omniauth.auth"]
+    logger.debug omniauth.to_yaml
     authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
     if !authentication && logged_in?
       authentication = current_user.apply_omniauth(omniauth)

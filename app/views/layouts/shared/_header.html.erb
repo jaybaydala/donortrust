@@ -4,7 +4,7 @@
       <h1 id="logo"><a href="/">uEnd:poverty</a></h1>
       <article id="account">
         <% if logged_in? %>
-          <%= link_to "Account Settings", "#" %> | 
+          <%= link_to "Account Settings", iend_user_path(current_user) %> | 
           <%= link_to "Cart", dt_cart_path %> | 
           <%= link_to "Logout", dt_logout_path %>
         <% else %>
@@ -29,7 +29,7 @@
         <li id="nav-campaigns"><%= link_to "Campaigns", dt_campaigns_path %></li>
         <li id="nav-about_us"><a href="#">About Us</a></li>
         <li id="nav-blog"><a href="#">Blog</a></li>
-        <li id="nav-iend"><a href="#">iEnd</a></li>
+        <li id="nav-iend"><%= link_to "iEnd", iend_user_path(current_user) %></li>
       </ol>
     </nav>
     <%= yield :header %>

@@ -1,5 +1,5 @@
 <%- content_for :html_title do -%>Sign In Options<%- end -%>
-<%= render 'dt/iend/nav' %>
+<%= render 'iend/users/nav' %>
 
 <% if @authentications %>
   <% unless @authentications.empty? %>
@@ -21,10 +21,19 @@
 <% end %>
 
 <div class="clearfix">
-  <a href="/auth/facebook" class="auth_provider">
-    <%= image_tag "dt/authentications/facebook_64.png", :size => "64x64", :alt => "Facebook" %>
-    Facebook
-  </a>
+  <% %w(facebook google).each do |provider| %>
+  <% if current_user.authentications.find_by_provider(provider) %>
+    <div class="auth_provider">
+      <%= image_tag "dt/authentications/#{provider}_64.png", :size => "64x64", :alt => provider.titleize %>
+      Already using <%= provider.titleize %>
+    </div>
+  <% else %>
+    <a href="/auth/<%= provider %>" class="auth_provider">
+      <%= image_tag "dt/authentications/#{provider}_64.png", :size => "64x64", :alt => provider.titleize %>
+      <%= provider.titleize %>
+    </a>
+  <% end %>
+  <% end %>
 </div>
 
 <% unless logged_in? %>
