@@ -6,7 +6,7 @@
     <nav class="breadcrumbs">
       <ol>
       <% @page.self_and_ancestors.each do |page| %>
-        <li><%= @page == page ? page.title : link_to(page.title, page.link) %></li>
+        <li><%= @page == page ? page.title : link_to(page.title, page.absolute_path) %></li>
       <% end %>
       </ol>
     </nav>
@@ -16,7 +16,7 @@
     <nav class="subnav">
       <ol>
       <% @page.children.each do |page| %>
-        <li><%= link_to page.title, page.link %></li>
+        <li><%= link_to page.title, page.absolute_path %></li>
       <% end %>
       </ol>
     </nav>
