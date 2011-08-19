@@ -9,9 +9,6 @@ class Dt::PagesController < ApplicationController
 
   protected
     def find_page_by_path
-      @page = Page.find_by_permalink(params[:path].pop)
-      params[:path].each do |permalink|
-        @page = nil unless @page.is_descendant_of?(Page.find_by_permalink(permalink))
-      end
+      @page = Page.find_by_path(params[:path].join('/'))
     end
 end
