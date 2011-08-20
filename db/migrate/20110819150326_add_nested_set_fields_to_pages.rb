@@ -3,6 +3,8 @@ class AddNestedSetFieldsToPages < ActiveRecord::Migration
     add_column :pages, :parent_id, :integer
     add_column :pages, :lft, :integer
     add_column :pages, :rgt, :integer
+    Page.reset_column_information
+    Page.rebuild!
   end
 
   def self.down
