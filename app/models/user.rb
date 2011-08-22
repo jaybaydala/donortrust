@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
 
 
   # Virtual attribute for the unencrypted password"
-  attr_accessor :password
+  attr_accessor :password, :current_password
   attr_accessor :terms_of_use
   attr_protected :superuser
 
@@ -94,7 +94,7 @@ class User < ActiveRecord::Base
   #MP Dec. 14, 2007 - Added to support the US tax receipt functionality
   #Going forward, it would be good to ensure that users have a country.
   validates_presence_of :country, :on => :create, :unless => :under_thirteen?
-  validates_presence_of :display_name
+  validates_presence_of :display_name, :on => :update
 
   before_save :encrypt_password
   # removed activation_code and added auto-activate
