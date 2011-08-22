@@ -15,49 +15,49 @@ class DtApplicationController < ActionController::Base
   # session :session_key => '_donortrustfe_session_id'
   
   protected
-  def ssl_filter
-    if ssl_available?
-      if !request.ssl? && ssl_required? 
-        flash.keep
-        redirect_to url_for(params.merge({:protocol => 'https://'})) and return false
-      end
-      if request.ssl? && !ssl_required? 
-        flash.keep
-        redirect_to url_for(params.merge({:protocol => 'http://'})) and return false
+    def ssl_filter
+      if ssl_available?
+        if !request.ssl? && ssl_required? 
+          flash.keep
+          redirect_to url_for(params.merge({:protocol => 'https://'})) and return false
+        end
+        if request.ssl? && !ssl_required? 
+          flash.keep
+          redirect_to url_for(params.merge({:protocol => 'http://'})) and return false
+        end
       end
     end
-  end
   
-  def ssl_available?
-    return 'production' == ENV['RAILS_ENV'] ? true : false
-  end
-  
-  #MP - Dec 14, 2007
-  #Added to support the us tax receipt functionality
-  #allows us to set a value indicating that the user has requested
-  #a US tax receipt. If the value is false, the session variable is
-  #cleared, otherwise it is set to true
-  def requires_us_tax_receipt(value)
-    if value
-      session[:requires_us_tax_receipt] = value
-    else
-      session[:requires_us_tax_receipt] = nil unless session[:requires_us_tax_receipt].nil?
+    def ssl_available?
+      return 'production' == ENV['RAILS_ENV'] ? true : false
     end
-  end
   
-  #MP - Dec 14, 2007
-  #Added to support the us tax receipt functionality
-  #If the user has indicated that they want a US tax 
-  #receipt, the session variable will be true,
-  #otherwise it should be nil.
-  def requires_us_tax_receipt?
-    return session[:requires_us_tax_receipt] unless session[:requires_us_tax_receipt].nil?
-    false
-  end
+    #MP - Dec 14, 2007
+    #Added to support the us tax receipt functionality
+    #allows us to set a value indicating that the user has requested
+    #a US tax receipt. If the value is false, the session variable is
+    #cleared, otherwise it is set to true
+    def requires_us_tax_receipt(value)
+      if value
+        session[:requires_us_tax_receipt] = value
+      else
+        session[:requires_us_tax_receipt] = nil unless session[:requires_us_tax_receipt].nil?
+      end
+    end
+  
+    #MP - Dec 14, 2007
+    #Added to support the us tax receipt functionality
+    #If the user has indicated that they want a US tax 
+    #receipt, the session variable will be true,
+    #otherwise it should be nil.
+    def requires_us_tax_receipt?
+      return session[:requires_us_tax_receipt] unless session[:requires_us_tax_receipt].nil?
+      false
+    end
 
-  def ssl_required?
-    false
-  end
+    def ssl_required?
+      false
+    end
 
   private
 
