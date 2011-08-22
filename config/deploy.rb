@@ -43,9 +43,12 @@ namespace :thinking_sphinx_deployment do
   end
 
   task :configure_and_start, :roles => :app do
-    # symlink_sphinx_indexes
-    thinking_sphinx.configure
+    symlink_sphinx_indexes
     thinking_sphinx.start
+  end
+
+  task :symlink_sphinx_indexes, :roles => :app do
+    run "rm -rf #{release_path}/db/sphinx && ln -nfs #{shared_path}/sphinx #{release_path}/db/sphinx"
   end
 end
 
