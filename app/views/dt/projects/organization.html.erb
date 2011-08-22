@@ -31,13 +31,15 @@
 	<div><%= @organization.business_model %></div>
 	<% end %>
 </div>
-<div class='project-sidebar'>
-  <%= render :partial => 'related_projects' %>
 
+<% content_for :project_sidebar do %>
+  <%= render :partial => 'related_projects' %>
+  <% if @organization.quick_fact_partners.size > 0 %>
   <div class="quickfacts">
     <h2>Quick Facts</h2>
     <ul>
       <%= render :partial => 'quickfact_organization', :collection => @organization.quick_fact_partners %>
     </ul>
   </div>
-</div>
+  <% end %>
+<% end %>
