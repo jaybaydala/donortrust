@@ -196,7 +196,7 @@ class Dt::GiftsController < DtApplicationController
             cookies[:gift_card_balance] = @gift.balance.to_s
             redirect_to dt_projects_path and return if params[:find] == "1"
             redirect_to new_dt_investment_path(:unallocated_gift => 1) and return if params[:unallocated_gift] == "1"
-            redirect_to new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) and return if params[:deposit] == "1"
+            redirect_to new_iend_user_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) and return if params[:deposit] == "1"
             redirect_to new_dt_investment_path(:admin_gift => 1) and return if params[:admin_gift] == "1"
           end
         elsif session[:gift_card_id]

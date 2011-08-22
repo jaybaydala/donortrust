@@ -1,5 +1,5 @@
 <%- content_for :html_title do -%>My Account<%- end -%>
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <%- if @transactions.total_entries > 0 -%>
@@ -18,7 +18,7 @@
 	<%- else -%>
 	<div class="highlight">
 		<p>You have not made any transactions in your account yet.</p>
-		<p>Get started by <%= link_to "depositing money", new_dt_account_deposit_path(:account_id => current_user.id) %> into your account. You can use this money to Invest in projects and give Gifts to your friends and family.</p>
+		<p>Get started by <%= link_to "depositing money", new_iend_user_deposit_path(:account_id => current_user.id) %> into your account. You can use this money to Invest in projects and give Gifts to your friends and family.</p>
 	</div>
 	<%- end -%>
 </div>

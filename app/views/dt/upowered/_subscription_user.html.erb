@@ -1,6 +1,6 @@
 <% if  !:tiny.nil? && !subscription_user.nil? %>
 <div class="subscription_user">
-	  <div class="subscription_user_picture"><%= link_to image_tag(subscription_user.image.url(:tiny)), dt_account_path(subscription_user) %>
+	  <div class="subscription_user_picture"><%= link_to image_tag(subscription_user.image.url(:tiny)), iend_user_path(subscription_user) %>
           </div>
 </div>
 <% end %>

@@ -6,7 +6,7 @@
 <%- end -%>
 <%- content_for :html_title do -%>Give!<%- end -%>
 <%- content_for :page_title do -%>Experience a new way to give.<%- end -%>
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 <%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
 
 <%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %>

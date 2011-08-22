@@ -1,10 +1,10 @@
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 <%- content_for :html_title do -%>Sign Up<%- end -%>
 <%- content_for :head do -%><%= javascript_include_tag "dt/accounts" %><%- end -%>
 
 <p>To sign up, enter your information in the spaces below.</p>
   
-<% semantic_form_for(@user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform", :multipart => true}) do |f| %>
+<% semantic_form_for(@user, :url => iend_users_path, :html => {:id => "signupform", :name => "signupform", :multipart => true}) do |f| %>
   <%= f.semantic_errors :user %>
   <% f.inputs "Age Verification" do %>
     <li><p class="textsm">Please select the checkbox if you are under 13 years of age. Uend: is committed to your privacy and safety. See our <%= link_to "Privacy Policy", "/privacy", :rel => "blank" %> for more information.</p></li>

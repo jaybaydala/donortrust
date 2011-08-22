@@ -242,9 +242,9 @@ context "Dt::Accounts handling GET /dt/accounts/resend" do
     get :resend
   end
   
-  specify "should redirect to /dt/accounts" do
+  specify "should redirect to /iend/users" do
     do_get
-    should.redirect dt_accounts_path()
+    should.redirect iend_users_path
   end
   
   specify "should send an email to session[:tmp_user] if not logged_in?" do

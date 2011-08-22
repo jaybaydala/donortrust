@@ -3,8 +3,8 @@ class Dt::SessionsController < DtApplicationController
   def show
     respond_to do |format|
       format.html {
-        redirect_to(dt_accounts_path) and return unless logged_in?
-        redirect_to(dt_account_path(current_user))
+        redirect_to(iend_users_path) and return unless logged_in?
+        redirect_to(iend_user_path(current_user))
       }
     end
   end
@@ -12,7 +12,7 @@ class Dt::SessionsController < DtApplicationController
   def new
     respond_to do |format|
       format.html {
-        redirect_back_or_default(dt_account_path(current_user)) if logged_in?
+        redirect_back_or_default(iend_user_path(current_user)) if logged_in?
         render :action => :new, :layout => false if request.xhr?
       }
     end
@@ -57,7 +57,7 @@ class Dt::SessionsController < DtApplicationController
         cookies[:login_name] = self.current_user.name
         if current_user.change_password?
           flash[:notice] = "Please change your password to something you'll remember"
-          format.html { redirect_to edit_dt_account_path(current_user) }
+          format.html { redirect_to edit_iend_user_path(current_user) }
         else
           #MP - Dec 14, 2007
           #Added to support the us tax receipt functionality

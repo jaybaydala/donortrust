@@ -59,16 +59,12 @@ module DtApplicationHelper
     @image = '/images/dt/feature_graphics/giftUSTax130.jpg'
   end
 
-  def dt_account_nav
-    render :file => 'dt/accounts/account_nav'
+  def iend_user_nav
+    render :partia => 'iend/shared/nav'
   end
 
   def dt_get_involved_nav
     render :file => 'dt/groups/get_involved_nav'
-  end
-
-  def dt_footer
-    render :file => 'dt/shared/footer'
   end
 
   def dt_profile_sidebar

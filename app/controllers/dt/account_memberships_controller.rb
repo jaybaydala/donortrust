@@ -14,7 +14,7 @@ class Dt::AccountMembershipsController < DtApplicationController
     @membership.destroy
     respond_to do |format|
       flash[:notice] = "You have left the &quot;#{@membership.group.name}&quot; group."
-      format.html { redirect_to dt_account_memberships_path(params[:group_id]) }
+      format.html { redirect_to iend_user_memberships_path(params[:group_id]) }
     end
   end
 end
