@@ -315,6 +315,11 @@ class User < ActiveRecord::Base
     return self.roles.include?(Role.find_by_title('cf_admin'))
   end
 
+  def role?(role)
+    !!self.roles.find_by_title(role.to_s)
+  end
+  alias :has_role? :role?
+
   # class method to avoid nil object check
   def self.is_user_cf_admin?(user)
     return Role.find_by_title('cf_admin').users.include?(user)
