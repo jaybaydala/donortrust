@@ -18,9 +18,8 @@ footer.content,
 #social img { vertical-align:text-bottom; }
 #nav ol { margin:auto; padding-bottom:2px; width:788px; }
 header { min-width:1015px; position:relative; }
-header #nav,
-header #nav.content,
-.dark header #nav.content { background-color:#360; }
+header #nav { background-color:#360; }
+header .extended #nav { background-color:transparent; }
 #rail { background-color:#484848; padding:16px 10px; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 #flashes .notice,
 #flashes .error { background: #EEE; border: 1px solid #EC3012; color: #222; margin-bottom:12px; padding: 4px 8px; }
@@ -36,6 +35,12 @@ footer a:hover,
 footer a:active { text-decoration:underline; }
 #copyright { text-align:center; }
 
+/* GLOBAL
+-----------*/
+#headercontent { width:auto; }
+#headercontent.extended { background:url(/images/layout/header_bg.png) no-repeat; height:220px; width:1015px; }
+#headerextended { color:#FFF; font-family:'Ubuntu-Light',Helmet,Freesans,sans-serif; font-size:30px; margin-top:36px; text-align:center; }
+#headerextended h1 { color:#FFF; font-family:'Ubuntu-Medium',Helmet,Freesans,sans-serif; font-size:42px; font-weight:bold; margin:0; padding:0; }
 
 /* HOME
 -----------*/

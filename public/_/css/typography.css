@@ -32,13 +32,13 @@ h3 {font-size:1.5em;line-height:1;margin-bottom:1em;}
 h4 {font-size:1.25em;line-height:1.25;margin-bottom:1.25em;}
 h5 {font-size:1em;font-weight:bold;margin-bottom:1.5em;}
 h1 img, h2 img, h3 img, h4 img, h5 img, h6 img {margin:0;}
-p {margin:0 0 1.5em;}
+p {margin:0; padding:0 0 1.5em;}
 .left {float:left !important;}
-p .left {margin:1.5em 1.5em 1.5em 0;padding:0;}
+p .left {padding:1.5em 1.5em 1.5em 0;}
 .right {float:right !important;}
-p .right {margin:1.5em 0 1.5em 1.5em;padding:0;}
+p .right {padding:1.5em 0 1.5em 1.5em;}
 .center { text-align:center; }
-blockquote {margin:1.5em;color:#CCC;font-style:italic;}
+blockquote {padding:1.5em;color:#CCC;font-style:italic;}
 strong, dfn {font-weight:bold;}
 em, dfn {font-style:italic;}
 sup, sub {line-height:0;}

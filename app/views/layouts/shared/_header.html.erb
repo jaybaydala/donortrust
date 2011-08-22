@@ -20,7 +20,7 @@
       </article>
     </div>
   </section>
-  <div id="headercontent" class="content">
+  <div id="headercontent" class="content<%= ' extended' if content_for?(:header) %>">
     <nav id="nav">
       <ol>
         <li id="nav-give"<%= ' class="current"' if controller_name == 'give' %>><%= link_to "Give", dt_give_path %></li>
@@ -29,9 +29,11 @@
         <li id="nav-campaigns"><%= link_to "Campaigns", dt_campaigns_path %></li>
         <li id="nav-about_us"<%= ' class="current"' if params[:path] && params[:path].first == 'about-us' %>><a href="/about-us">About Us</a></li>
         <li id="nav-blog"><a href="http://blog.uend.org">Blog</a></li>
-        <li id="nav-iend"><%= link_to "iEnd", "#" %></li>
+        <li id="nav-iend"><%= link_to "iEnd", iend_path %></li>
       </ol>
     </nav>
-    <%= yield :header %>
+    <%- if content_for?(:header) -%>
+    <div id="headerextended"><%= yield :header %></div>
+    <%- end -%>
   </div>
 </header>
