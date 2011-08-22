@@ -1,0 +1,11 @@
+<%- content_for :html_title do %>Password Reset<% end -%>
+
+<%= render 'iend/shared/header' %>
+
+<% semantic_form_for(:password_reset, :url => iend_password_resets_path) do |f| %>
+  <% f.inputs "Reset Password" do %>
+    <%= f.input :login, :label => "Username/Email", :hint => 'To reset your password, enter your username (your email address).' %>
+    <%= f.commit_button "Reset Password" %>
+  <% end %>
+<% end %>
+
