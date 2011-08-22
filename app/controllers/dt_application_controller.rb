@@ -8,6 +8,8 @@ class DtApplicationController < ActionController::Base
   include ExceptionNotifiable
   helper_method :ssl_available?
 
+  # http auth for staging
+  before_filter :authenticate_via_http
   # "remember me" functionality
   before_filter :login_from_cookie, :ssl_filter
   
@@ -15,6 +17,14 @@ class DtApplicationController < ActionController::Base
   # session :session_key => '_donortrustfe_session_id'
   
   protected
+    def authenticate_via_http
+      if Rails.env.staging?
+        authenticate_or_request_with_http_basic do |username, password|
+          username == "staging" && password == "endpoverty!"
+        end
+      end
+    end
+
     def ssl_filter
       if ssl_available?
         if !request.ssl? && ssl_required? 
