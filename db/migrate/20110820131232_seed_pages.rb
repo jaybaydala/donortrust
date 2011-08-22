@@ -7,7 +7,6 @@ class SeedPages < ActiveRecord::Migration
   end
 
   def self.down
-    Page.delete_all
-    # raise ActiveRecord::IrreversibleMigration
+    raise ActiveRecord::IrreversibleMigration
   end
 end
