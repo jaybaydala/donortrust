@@ -1,6 +1,7 @@
 class Iend::UsersController < DtApplicationController
   before_filter :restrict_no_user, :only => [ :new, :create ]
-  before_filter :restrict_current_user, :only => [ :edit, :update ]
+  before_filter :restrict_current_user, :only => [ :edit, :update, :edit_password ]
+  helper "dt/places"
   
   def show
     @user = User.find(params[:id])
@@ -38,10 +39,20 @@ class Iend::UsersController < DtApplicationController
 
   def update
     @user = User.find(params[:id])
+    if params[:user][:current_password].present?
+      params[:user][:password] = nil unless current_user.authenticated?(params[:user][:current_password])
+    else
+      params[:user][:password] = nil unless params[:user][:current_password].present?
+    end
+    @user.change_password = false
     @saved = @user.update_attributes(params[:user])
     respond_to do |format|
       if @saved
-        flash[:notice] = 'Your account was successfully updated.'
+        flash[:notice] = if params[:user][:current_user].present?
+          'Your new password was saved.'
+        else
+          'Your account was successfully updated.'
+        end
         format.html { redirect_to [:iend, current_user] }
       else
         format.html { render :action => "edit" }
@@ -49,9 +60,13 @@ class Iend::UsersController < DtApplicationController
     end
   end
 
+  def edit_password
+    @user = User.find(params[:id])
+  end
+
   protected
     def restrict_no_user
-      redirect_to(iend_user_path(current_user)) unless logged_in?
+      redirect_to([:iend, current_user]) if logged_in?
     end
 
     def restrict_current_user
