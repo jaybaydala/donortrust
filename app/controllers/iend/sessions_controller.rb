@@ -1,4 +1,4 @@
-class Dt::SessionsController < DtApplicationController
+class Iend::SessionsController < DtApplicationController
 
   def show
     respond_to do |format|
