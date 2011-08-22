@@ -67,7 +67,7 @@ context "Dt::MyWishlists handling GET /dt/my_wishlists" do
   
   specify "should redirect to login if !logged_in" do
     get :index
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 
   specify "should redirect to account index if logged_in" do
@@ -84,7 +84,7 @@ context "Dt::MyWishlists handling GET /dt/my_wishlists;new" do
   
   specify "should redirect to login if !logged_in" do
     do_get
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 
   specify "should not redirect to login if logged_in" do
@@ -134,7 +134,7 @@ context "Dt::MyWishlists handling POST /dt/my_wishlists" do
 
   specify "should get redirected if !logged_in?" do
     do_post
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
   
   specify "should not allow a user into another users wishlist" do
@@ -164,7 +164,7 @@ context "Dt::MyWishlists handling DELETE /dt/my_wishlists" do
 
   specify "should get redirected if !logged_in?" do
     do_delete
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
 
   specify "should not allow a user into another users wishlist" do

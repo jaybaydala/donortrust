@@ -118,7 +118,7 @@ context "Dt::Groups::MembershipsController handling create" do
   
   specify "should redirect to /dt/login when not logged in" do
     create_membership
-    should.redirect dt_login_path()
+    should.redirect login_path()
   end
 
   specify "should redirect to group home when logged in" do
@@ -167,7 +167,7 @@ context "Dt::Groups::MembershipsController handling PUT /dt/groups/1/memberships
 
   specify "shouldn't be able to promote if !logged_in" do
     put :promote, :group_id => @group.id, :id => @member.id
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
   
   specify "a founder should be able to promote a member to admin" do
@@ -214,7 +214,7 @@ context "Dt::Groups::MembershipsController handling PUT /dt/groups/1/memberships
 
   specify "shouldn't be able to demote if !logged_in" do
     put :demote, :group_id => @group.id, :id => @member.id
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
   
   specify "a founder should be able to demote an admin to member" do

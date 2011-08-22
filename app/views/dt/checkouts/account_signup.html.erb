@@ -18,9 +18,9 @@
       <%= f.input :account_signup_step, :as => :hidden, :input_html => { :value => 1 } %>
       <li>
         <%- if @cart.subscription? -%>
-          <div class="textsm">In order to be able to manage your monthly giving, you need to sign up for an account or, if you already have a UEnd: account, <%= link_to "please login", dt_login_path(:return_to => edit_dt_checkout_path(:step => next_step)) %>.</div>
+          <div class="textsm">In order to be able to manage your monthly giving, you need to sign up for an account or, if you already have a UEnd: account, <%= link_to "please login", login_path(:return_to => edit_dt_checkout_path(:step => next_step)) %>.</div>
         <%- else -%>
-          <div class="textsm">If you would like to be provided with a tax receipt, you need to sign up for an account or, if you already have a UEnd: account, <%= link_to "please login", dt_login_path(:return_to => edit_dt_checkout_path(:step => next_step)) %>.</div>
+          <div class="textsm">If you would like to be provided with a tax receipt, you need to sign up for an account or, if you already have a UEnd: account, <%= link_to "please login", login_path(:return_to => edit_dt_checkout_path(:step => next_step)) %>.</div>
         <%- end -%>
       </li>
       <%= f.input :password %>

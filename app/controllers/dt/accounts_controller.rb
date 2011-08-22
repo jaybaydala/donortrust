@@ -174,7 +174,7 @@ class Dt::AccountsController < DtApplicationController
     end
     respond_to do |format|
       format.html {
-        redirect_to dt_login_path and return if @user && saved
+        redirect_to login_path and return if @user && saved
         flash[:error] = "We could not find that login. Did you try your email address?"
         render :action => 'reset'
       }

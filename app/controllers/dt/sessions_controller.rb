@@ -33,7 +33,7 @@ class Dt::SessionsController < DtApplicationController
       #redirect them to the login page.
       requires_us_tax_receipt(true)
       respond_to do |format|
-        format.html {redirect_to dt_login_url}
+        format.html {redirect_to login_url}
       end
     end
   end
@@ -54,8 +54,8 @@ class Dt::SessionsController < DtApplicationController
           self.current_user.remember_me
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
         end
-        cookies[:dt_login_id] = self.current_user.id.to_s
-        cookies[:dt_login_name] = self.current_user.name
+        cookies[:login_id] = self.current_user.id.to_s
+        cookies[:login_name] = self.current_user.name
         if current_user.change_password?
           flash[:notice] = "Please change your password to something you'll remember"
           format.html { redirect_to edit_dt_account_path(current_user) }
@@ -67,7 +67,7 @@ class Dt::SessionsController < DtApplicationController
           #and the user redirected to the GroundSpring page
           unless requires_us_tax_receipt?
             flash[:notice] = "Logged in successfully"
-            format.html { redirect_back_or_default(dt_home_path) }
+            format.html { redirect_back_or_default(home_path) }
           else
             #The user has indicated that they want a US tax receipt,
             #so clear out the session variable and
@@ -96,8 +96,8 @@ class Dt::SessionsController < DtApplicationController
   def destroy
     self.current_user.forget_me if logged_in?
     cookies.delete :auth_token
-    cookies.delete :dt_login_id
-    cookies.delete :dt_login_name
+    cookies.delete :login_id
+    cookies.delete :login_name
     reset_session
     flash[:notice] = "You have been logged out."
     redirect_back_or_default(:controller => '/dt/home', :action => 'index')

@@ -16,7 +16,7 @@
 <% if @order.tax_receipt %>
   <h2 class="plain dark">Tax Receipt</h2>
   <div class="clearfix">
-    <p>A tax receipt has been emailed to you. You can <%= link_to "download a duplicate tax receipt", dt_tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf) %> right here.</p>
+    <p>A tax receipt has been emailed to you. You can <%= link_to "download a duplicate tax receipt", tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf) %> right here.</p>
   </div>
 <% end %>
 

@@ -48,7 +48,7 @@
   <% unless @controller.class == Dt::CheckoutsController %>
   <div class="projectactions" style="display:none">
     <ul>
-      <li class="blueblock"><%= link_to "Make a Deposit", logged_in? ? new_dt_account_deposit_path(current_user.id) : dt_login_path %></li>
+      <li class="blueblock"><%= link_to "Make a Deposit", logged_in? ? new_dt_account_deposit_path(current_user.id) : login_path %></li>
       <li class="blueblock"><%= link_to "Invest in a project", new_dt_investment_path %></li>
       <li class="blueblock"><%= link_to "Give a Gift", new_dt_gift_path %></li>
     </ul>

@@ -39,7 +39,7 @@
 <% unless logged_in? %>
   <p>
     <strong>Don't use these services?</strong>
-    <%= link_to "Sign up", dt_signup_path %> or
-    <%= link_to "Login", dt_login_path %> with a password.
+    <%= link_to "Sign up", signup_path %> or
+    <%= link_to "Login", login_path %> with a password.
   </p>
 <% end %>

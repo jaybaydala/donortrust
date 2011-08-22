@@ -107,7 +107,7 @@ class Dt::Groups::MembershipsController < DtApplicationController
           flash[:notice] = "You do not have permissions to access that page"
           redirect_to dt_memberships_path(@group)
         else
-          redirect_to dt_login_path
+          redirect_to login_path
         end
       end
     end

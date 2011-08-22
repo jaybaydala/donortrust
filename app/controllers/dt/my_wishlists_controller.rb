@@ -110,7 +110,7 @@ class Dt::MyWishlistsController < DtApplicationController
   def access_denied
     respond_to do |accepts|
       accepts.html do
-        redirect_to dt_login_path and return if !logged_in?
+        redirect_to login_path and return if !logged_in?
         redirect_to dt_project_path(params[:project_id]) and return if params[:project_id]
         redirect_to dt_projects_path and return
       end

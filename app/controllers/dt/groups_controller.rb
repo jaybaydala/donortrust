@@ -124,7 +124,7 @@ class Dt::GroupsController < DtApplicationController
   def access_denied
     if ['new', 'create'].include?(action_name) 
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     end
     if ['edit', 'update', 'destroy'].include?(action_name) && logged_in?
