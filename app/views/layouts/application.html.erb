@@ -1,5 +1,5 @@
 <%= render :partial => 'layouts/shared/head' %>
-<body>
+<body<% if content_for?(:body_id) %> id="<%= yield :body_id %>"<% end %>>
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
