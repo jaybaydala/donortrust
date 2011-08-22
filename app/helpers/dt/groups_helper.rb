@@ -5,8 +5,8 @@ module Dt::GroupsHelper
     group.memberships.find_by_user_id(user) if user
   end
 
-  def dt_account_nav
-    render :file => 'dt/accounts/account_nav'
+  def iend_user_nav
+    render :file => 'iend/shared/nav'
   end
   
   def group_types

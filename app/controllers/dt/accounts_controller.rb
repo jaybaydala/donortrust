@@ -23,7 +23,7 @@ class Dt::AccountsController < DtApplicationController
   def transactions
     @user = User.find(params[:id], :include => [:projects])
     if @user != current_user
-      redirect_to transactions_dt_account_path(current_user) and return
+      redirect_to transactions_iend_user_path(current_user) and return
     end
     @transactions = []
     @transactions << @user.gifts
@@ -65,7 +65,7 @@ class Dt::AccountsController < DtApplicationController
         self.current_user = @user
         flash[:notice] = "Signed in successfully."
         format.html { redirect_to(dt_give_path) }
-        format.xml  { head :created, :location => dt_accounts_url }
+        format.xml  { head :created, :location => iend_users_url }
       else
         format.html { render :action => (session[:omniauth] ? 'new_via_authentication' : 'new') }
         #format.js
@@ -103,7 +103,7 @@ class Dt::AccountsController < DtApplicationController
         else
           flash[:notice] = 'Account was successfully updated.'
         end
-        format.html { redirect_to dt_accounts_url() }
+        format.html { redirect_to iend_users_url() }
         #format.js
         format.xml  { head :ok }
       else
@@ -153,7 +153,7 @@ class Dt::AccountsController < DtApplicationController
     end
     DonortrustMailer.deliver_user_change_notification(user) if user && user.activation_code
     flash[:notice] = "We have resent the activation email to your login email address"
-    redirect_to dt_accounts_url()
+    redirect_to iend_users_url()
   end
 
   def reset

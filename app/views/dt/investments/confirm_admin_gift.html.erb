@@ -1,5 +1,5 @@
 <%- content_for :html_title do -%>Donate it to Uend:'s Operational budget<%- end -%>
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 
 <div class="userform">
   <% form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'put' })  do |f|%>

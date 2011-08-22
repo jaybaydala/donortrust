@@ -6,7 +6,7 @@ class Dt::MyWishlistsController < DtApplicationController
   end
   
   def index
-    redirect_to dt_account_path(current_user.id)
+    redirect_to iend_user_path(current_user.id)
   end
   
   def new
@@ -32,7 +32,7 @@ class Dt::MyWishlistsController < DtApplicationController
     @wishlist = MyWishlist.find(params[:id]) if params[:id]
     deleted = MyWishlist.destroy(params[:id]) if @wishlist
     flash[:notice] = "You have removed the project from your wishlist" if deleted
-    redirect_to dt_account_my_wishlists_path(:account_id => @wishlist.user)
+    redirect_to iend_user_my_wishlists_path(:account_id => @wishlist.user)
   end
   
   def new_message

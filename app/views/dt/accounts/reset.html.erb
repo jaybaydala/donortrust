@@ -1,8 +1,8 @@
 <%- content_for :html_title do %>Password Reset<% end -%>
-<%- content_for :nav do %><%= dt_account_nav %><% end -%>
+<%- content_for :nav do %><%= iend_user_nav %><% end -%>
 
 <%= render :partial => 'dt/accounts/inactive' if @activated === false %>
-<% form_tag(reset_password_dt_accounts_path, :method => :put, :name => 'resetform', :id => 'resetform' ) do %>
+<% form_tag(reset_password_iend_users_path, :method => :put, :name => 'resetform', :id => 'resetform' ) do %>
   <div class="userform">
     <fieldset>
       <legend>To reset your password, enter your username (your email address) below.</legend>

@@ -70,15 +70,15 @@ context "Dt::Sessions handling GET dt/session requests" do
   include DtAuthenticatedTestHelper
   fixtures :users
   
-  specify "should redirect_to dt_accounts_path unless logged_in?" do
+  specify "should redirect_to iend_users_path unless logged_in?" do
     get :show
-    should.redirect dt_accounts_path
+    should.redirect iend_users_path
   end
 
-  specify "should redirect_to dt_accounts_path unless logged_in?" do
+  specify "should redirect_to iend_users_path unless logged_in?" do
     login_as :quentin
     get :show
-    should.redirect dt_account_path(users(:quentin))
+    should.redirect iend_user_path(users(:quentin))
   end
 end
 

@@ -1,4 +1,4 @@
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 <%- content_for :html_title do -%>Complete your <%= session[:omniauth]['provider'] %> registration<%- end -%>
 <%- content_for :head do -%><%= javascript_include_tag "dt/accounts" %><%- end -%>
 
@@ -13,7 +13,7 @@
 <% semantic_form_for :user, :url => dt_session_path(:protocol =>  ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
   <% f.inputs do %>
     <%= f.input :login, :label => "Username/Email" %>
-    <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", reset_dt_accounts_path) %>
+    <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", reset_iend_users_path) %>
     <%= f.input :remember_me, :as => :boolean %>
   <% end %>
   <% f.buttons do %>
@@ -24,7 +24,7 @@
 
 <h2>Complete your registration</h2>
 <p>To complete your registration, please enter your information in the spaces below.</p>
-<% semantic_form_for(@user, :url => dt_accounts_path, :html => {:id => "signupform", :name => "signupform", :multipart => true}) do |f| %>
+<% semantic_form_for(@user, :url => iend_users_path, :html => {:id => "signupform", :name => "signupform", :multipart => true}) do |f| %>
   <%= f.semantic_errors :user %>
   <% f.inputs do %>
     <%= f.input :login, :label => "Login/Email" %>

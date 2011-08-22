@@ -21,7 +21,7 @@
       <% semantic_form_for :user, :url => dt_session_path(:protocol =>  ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
         <% f.inputs do %>
           <%= f.input :login, :label => "Username/Email" %>
-          <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", reset_dt_accounts_path) %>
+          <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", reset_iend_users_path) %>
           <%= f.input :remember_me, :as => :boolean %>
         <% end %>
         <% f.buttons do %>
@@ -36,7 +36,7 @@
         Follow your projects or set up a campaign.
       </p>
       <p>
-        <%= link_to 'Join Us', new_dt_account_path, :class => 'smallbutton' %>
+        <%= link_to 'Join Us', new_iend_user_path, :class => 'smallbutton' %>
       </p>
     </div>
   </div>

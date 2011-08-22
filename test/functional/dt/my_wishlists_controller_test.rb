@@ -73,7 +73,7 @@ context "Dt::MyWishlists handling GET /dt/my_wishlists" do
   specify "should redirect to account index if logged_in" do
     login_as(:quentin)
     get :index, :account_id => users(:quentin).id
-    should.redirect dt_account_path(users(:quentin).id)
+    should.redirect iend_user_path(users(:quentin).id)
   end
 end
 

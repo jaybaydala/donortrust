@@ -11,7 +11,7 @@
     </p>
     <p>
       <%= link_to "Associate this gift with my account", unwrap_dt_gift_path(@gift.id, :code => @gift.pickup_code) %>
-      Don't have an account? <%= link_to "Create one here", new_dt_account_path %>.
+      Don't have an account? <%= link_to "Create one here", new_iend_user_path %>.
     </p>
   <% else %>
     <% if @opening_now %>

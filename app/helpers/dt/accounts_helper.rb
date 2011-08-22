@@ -1,5 +1,5 @@
 module Dt::AccountsHelper
-  def dt_account_nav
-    render :file => 'dt/accounts/account_nav'
+  def iend_user_nav
+    render :file => 'iend/shared/nav'
   end
 end
