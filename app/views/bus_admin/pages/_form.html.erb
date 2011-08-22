@@ -5,7 +5,11 @@
     <%= f.input :title %>
     <%= f.input :permalink, :hint => "Leave blank and the system will generate a permalink for you" %>
     <%= f.input :active %>
-    <%= f.input :content, :input_html => { :rows => 40, :cols => 100 } %>
+    <li class="text required" id="page_content_input">
+      <%= f.label :content, raw('Content<abbr title="required">*</abbr>') %>
+      <%= fckeditor_textarea( "page", "content", :toolbarSet => 'uEnd', :height => 500) %> 
+    </li>
+    <%#= f.input :content, :input_html => { :rows => 40, :cols => 100 } %>
   <% end %>
   <% f.inputs "Meta" do %>
     <%= f.input :template, :hint => "Allows for a custom template - only use if you know what this does" %>
