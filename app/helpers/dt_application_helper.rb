@@ -60,7 +60,7 @@ module DtApplicationHelper
   end
 
   def iend_user_nav
-    render :partia => 'iend/shared/nav'
+    render :partial => 'iend/shared/nav'
   end
 
   def dt_get_involved_nav
