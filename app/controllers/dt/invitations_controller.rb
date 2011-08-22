@@ -64,7 +64,7 @@ class Dt::InvitationsController < DtApplicationController
   
   protected
     def access_denied
-      redirect_to dt_login_path and return unless logged_in?
+      redirect_to login_path and return unless logged_in?
     end
 
     def emails(email_list)

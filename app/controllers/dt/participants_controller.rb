@@ -172,8 +172,8 @@ class Dt::ParticipantsController < DtApplicationController
           self.current_user = User.authenticate(new_user.login, new_user.password)
           current_user.update_attributes(:last_logged_in_at => Time.now)
           session[:tmp_user] = nil
-          cookies[:dt_login_id] = self.current_user.id.to_s
-          cookies[:dt_login_name] = self.current_user.name
+          cookies[:login_id] = self.current_user.id.to_s
+          cookies[:login_name] = self.current_user.name
           
           # Update the profile's instead of the participant's short name
           unless @participant.short_name.blank?
@@ -449,12 +449,12 @@ class Dt::ParticipantsController < DtApplicationController
       flash[:notice] = "You must have an account to join this campaign as a participant. Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     elsif ['manage'].include?(action_name) && !logged_in?
       flash[:notice] = "You must be logged in to manage your participant account.  Please log in."
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     end
     super

@@ -15,10 +15,10 @@
               <li>Welcome, <%= h(current_user.name) %> | </li>
               <li><%= link_to "iEnd Profile", iend_user_path(current_user) %> | </li>
               <li><%= link_to "Cart", dt_cart_path %> | </li>
-              <li><%= link_to 'Logout', dt_logout_url(:protocol => ssl_protocol) %></li>
+              <li><%= link_to 'Logout', logout_url(:protocol => ssl_protocol) %></li>
             <%- else -%>
-              <li><%= link_to 'Login', dt_login_path %> | </li>
-              <li><%= link_to 'Create Account', dt_signup_path %> | </li>
+              <li><%= link_to 'Login', login_path %> | </li>
+              <li><%= link_to 'Create Account', signup_path %> | </li>
               <li><%= link_to "Cart", dt_cart_path %> </li>
             <%- end -%>
           </ul>

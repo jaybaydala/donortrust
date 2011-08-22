@@ -109,7 +109,7 @@ context "Dt::Accounts handling GET /dt/accounts/1" do
   
   specify "should redirect to :signin if not logged_in?" do
     do_get
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
 
   specify "should redirect to dt/accounts/id when logged_in? as different user" do
@@ -445,7 +445,7 @@ context "Dt::Accounts handling GET /dt/accounts/1/edit" do
   
   specify "should redirect to signin if not logged in" do
     do_get
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 
   specify "should redirect if trying to edit other than current_user" do
@@ -504,7 +504,7 @@ context "Dt::Accounts handling PUT /dt/accounts/1/update" do
   specify "should redirect to signin if not logged_in?" do
     @user = User.find(1)
     put :update, { :id => @user.id, :user => { :login => @user.login } }
-    should.redirect_to dt_login_path
+    should.redirect_to login_path
   end
 
   specify "should not redirect to signin if logged_in?" do
@@ -604,11 +604,11 @@ context "Dt::Accounts handling PUT /dt/accounts/1/reset_password" do
     flash[:error].should.not.be.nil
   end  
   
-  specify "a valid login should reset the password, send an email, redirect to dt_login_path and contain a flash[:notice]" do
+  specify "a valid login should reset the password, send an email, redirect to login_path and contain a flash[:notice]" do
     put :reset_password, :login => 'quentin@example.com'
     assigns(:user).password.should.not.be nil
     @emails.length.should.equal 1
-    should.redirect dt_login_path
+    should.redirect login_path
     flash[:notice].should.not.be nil
   end
 end

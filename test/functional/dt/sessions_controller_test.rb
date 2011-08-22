@@ -23,7 +23,7 @@ context "Dt::Sessions US tax requests" do
   
   specify "should set requires_us_tax_receipt to true if user not logged in and redirect to login page" do
     get :request_us_tax_receipt
-    should.redirect dt_login_url
+    should.redirect login_url
   end
   
   specify "should redirect to us tax page if user logged in" do
@@ -194,8 +194,8 @@ context "Dt::Sessions handling POST dt/session requests" do
   specify "should set a cookie with current_user.id" do
     do_post
     get :new
-    cookies['dt_login_id'].should.equal ["1"]
-    cookies['dt_login_name'].should.equal ["Quentin T."]
+    cookies['login_id'].should.equal ["1"]
+    cookies['login_name'].should.equal ["Quentin T."]
   end
 
   protected
@@ -230,11 +230,11 @@ context "Dt::Sessions handling logout requests" do
     @response.cookies["auth_token"].should.equal []
   end
 
-  specify "should delete dt_login cookie on logout" do
+  specify "should delete login cookie on logout" do
     login_as :quentin
     get :destroy
-    @response.cookies["dt_login_id"].should.equal []
-    @response.cookies["dt_login_name"].should.equal []
+    @response.cookies["login_id"].should.equal []
+    @response.cookies["login_name"].should.equal []
   end
 
 end

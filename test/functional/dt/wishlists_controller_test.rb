@@ -43,7 +43,7 @@ context "Dt::Wishlists handling GET /dt/wishlists/new" do
   
   specify "should redirect if not logged_in" do
     get :new
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 
   specify "should redirect to projects if no project_id is provided" do
@@ -81,7 +81,7 @@ context "Dt::Wishlists handling POST /dt/wishlists" do
 
   specify "should redirect if not logged_in" do
     do_post
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 
   specify "should redirect to projects if no project_id is provided" do

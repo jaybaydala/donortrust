@@ -10,7 +10,7 @@ class Dt::FacebookPostsController < ApplicationController
       message = @reply ? "Your message has been posted to <a href=\"http://www.facebook.com/\">your facebook account</a>" : "We could not post your message"
       format.html {
         flash[:notice] = message
-        redirect_to(params[:return_to] ? params[:return_to] : dt_home_path)
+        redirect_to(params[:return_to] ? params[:return_to] : home_path)
       }
       format.js { flash.now[:notice] = message }
     end

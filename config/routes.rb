@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resource :iend, :controller => "iend"
   map.namespace(:iend) do |dt|
-    dt.resources :users
+    dt.resources :users, :except => :index
   end
 
   map.namespace(:dt) do |dt|
@@ -145,12 +145,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :news_comments
 
   map.change_campaign_display_panel '/dt/campaigns/:id/change_panel/:panel', :controller => 'dt/campaigns', :action => 'change_display_panel'
-  map.dt_tax_receipt '/dt/tax_receipts/:id/:code.:format', :controller => 'dt/tax_receipts', :action => "show"
-  map.dt_signup '/dt/signup', :controller => 'dt/accounts', :action => 'new'
-  map.dt_login  '/dt/login',  :controller => 'dt/sessions', :action => 'new'
-  map.dt_logout '/dt/logout', :controller => 'dt/sessions', :action => 'destroy'
-  map.dt_home  '/dt/home',  :controller => 'dt/home'
-  map.dt_request_us_tax_receipt '/dt/request_us_tax_receipt', :controller => 'dt/sessions', :action => 'request_us_tax_receipt'
+  map.tax_receipt '/dt/tax_receipts/:id/:code.:format', :controller => 'dt/tax_receipts', :action => "show"
+  map.signup '/signup', :controller => 'iend/users', :action => 'new'
+  map.login  '/login',  :controller => 'iend/sessions', :action => 'new'
+  map.logout '/logout', :controller => 'iend/sessions', :action => 'destroy'
+  map.home  '/home',  :controller => 'dt/home'
+  map.request_us_tax_receipt '/dt/request_us_tax_receipt', :controller => 'dt/sessions', :action => 'request_us_tax_receipt'
 
   map.connect '/dt', :controller => 'dt/home'
   map.connect 'dt/campaigns/:id/close', :controller => 'dt/campaigns', :action => 'close'

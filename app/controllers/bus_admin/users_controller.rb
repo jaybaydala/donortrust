@@ -20,8 +20,8 @@ class BusAdmin::UsersController < ApplicationController
      @user = User.find(params[:id])
      session[:user] = @user.id
      current_user = @user
-     cookies[:dt_login_id] = @user.id.to_s
-     cookies[:dt_login_name] = @user.name
+     cookies[:login_id] = @user.id.to_s
+     cookies[:login_name] = @user.name
      flash[:notice] = "You are now acting as #{current_user.login}. You'll need to logout and log back in as yourself to change back"
      redirect_to(:controller => '/dt/home', :action => 'index')
    else

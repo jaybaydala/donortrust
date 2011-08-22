@@ -262,12 +262,12 @@ class Dt::TeamsController < DtApplicationController
       flash[:notice] = "You must have an account to create a team in this campaign.  Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     elsif ['manage','edit'].include?(action_name) && !logged_in?
       flash[:notice] = "You must be logged in to manage your team profile or details. Please log in."
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     end
     super

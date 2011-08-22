@@ -59,7 +59,7 @@ context "Dt::Invitations handling GET /dt/invitations;new" do
   
   specify "should redirect to login if !logged_in" do
     get :new, :group_id => 1
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 end
 
@@ -71,7 +71,7 @@ context "Dt::Invitations handling POST /dt/invitations" do
   specify "should redirect to login if !logged_in" do
     i = invitation_params
     post :create, :group_id => i[:group_id], :invitation => i
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 
   specify "should create an invitation" do
@@ -156,7 +156,7 @@ context "Dt::Invitations handling PUT /dt/invitations" do
   
   specify "should redirect to login if !logged_in" do
     do_update(create_invitation)
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 
   specify "should error if logged_in, group is private and no invitations match your email/login" do

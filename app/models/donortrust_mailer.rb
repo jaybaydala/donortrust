@@ -13,7 +13,7 @@ class DonortrustMailer < ActionMailer::Base
   def us_deposit_notification(user)
     user_setup_email(user)
     subject "Your donation has been processed."
-    body :user => user, :host => HTTP_HOST, :url => dt_login_url(:host => HTTP_HOST)
+    body :user => user, :host => HTTP_HOST, :url => login_url(:host => HTTP_HOST)
   end
   
   def user_signup_notification(user)
@@ -37,7 +37,7 @@ class DonortrustMailer < ActionMailer::Base
   def user_password_reset(user)
     user_setup_email(user)
     subject  "Your UEnd: password has been reset"
-    body :user => user, :host => HTTP_HOST, :url => dt_login_url(:host => HTTP_HOST)
+    body :user => user, :host => HTTP_HOST, :url => login_url(:host => HTTP_HOST)
   end
 
   def account_expiry_reminder(user)
