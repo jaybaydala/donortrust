@@ -45,7 +45,11 @@ nav.subnav a:hover,
 nav.subnav a:active { color:#6CF; text-decoration:underline; }
 nav.subnav li.current a:hover,
 nav.subnav li.current a:active { text-decoration:underline; }
-nav.subnav li.current a { color:#6CF; text-decoration:none; }
+nav.subnav li.current a,
+.dark nav.subnav li.current a:hover,
+.dark nav.subnav li.current a:active { text-decoration:underline; }
+.dark nav.subnav li.current a { color:#6CF; text-decoration:none; }
+
 nav.subnav li { float:left; }
 nav.subnav li:after { content: "\00A0\00A0\00A0\007C\00A0\00A0\00A0"; }
 nav.subnav li.last:after,
