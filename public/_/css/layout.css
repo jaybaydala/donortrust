@@ -17,7 +17,7 @@ footer.content,
 #social { padding-left:36px; }
 #social img { vertical-align:text-bottom; }
 #nav ol { margin:auto; padding-bottom:2px; width:788px; }
-header { position:relative; }
+header { min-width:1015px; position:relative; }
 header #nav,
 header #nav.content,
 .dark header #nav.content { background-color:#360; }
@@ -40,7 +40,7 @@ footer a:active { text-decoration:underline; }
 /* HOME
 -----------*/
 #home #headercontent { width:auto; }
-#home #carousel-container { background-color:#360; padding:0; position:relative; width:auto; }
+#home #carousel-container { background-color:#360; padding:0; min-width:1015px; position:relative; width:auto; }
 #home #carousel-wrapper { position:relative; margin:auto; width:1015px; }
 #home #carousel { margin:auto; height:350px; width:100%; }
 #home .carousel-item { height:350px; position:relative; width:1015px; }
