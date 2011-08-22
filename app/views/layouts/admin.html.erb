@@ -178,10 +178,12 @@
         <td width="163">&nbsp;</td>
 
         <td width="57">
-          <select name="site" size="-1" onchange ="textLinkRedirector(this.value)">
+          <select name="site" size="-1" onchange ="if (this.value) textLinkRedirector(this.value)">
             <option value="">Manage...</option>
             <option value="<%= bus_admin_upowered_path %>">UPowered</option>
             <option value="<%= bus_admin_pages_path %>">Pages</option>
+            <option value="<%= bus_admin_content_snippets_path %>">Content Snippets</option>
+            <option value="">--</option>
             <option value="/bus_admin/collaborating_agencies">Agencies</option>
             <option value="/bus_admin/application_settings">Application Settings</option>
             <option value="/bus_admin/contacts">Contacts</option>
