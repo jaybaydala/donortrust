@@ -28,7 +28,7 @@ form.formtastic fieldset > ol > li fieldset .indent { padding-left:22px; }
 
 /* LEGENDS
 --------------------------------------------------------------------------------------------------*/
-form.formtastic legend { color:#333; font-size:30px; font-weight:normal; padding-bottom:24px; }
+form.formtastic legend { color:#333; font-size:24px; font-weight:normal; padding-bottom:24px; }
 
 /* FIELDSETS & LISTS
 --------------------------------------------------------------------------------------------------*/
