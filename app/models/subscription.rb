@@ -24,6 +24,8 @@ class Subscription < ActiveRecord::Base
     end
   end
 
+  named_scope :current, lambda { { :conditions => ['begin_date < ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
+
   attr_accessor :full_card_number
   def card_number=(number)
     @full_card_number = number
