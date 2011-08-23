@@ -1,7 +1,6 @@
 <% content_for :html_title do %>iEnd:Poverty - <%= @user.name %><% end %>
 
 <%= render 'iend/shared/header' %>
-<%= iend_user_nav if current_user == @user %>
 
 <% if params[:public].present? || current_user != @user %>
   <%= render 'public' %>
