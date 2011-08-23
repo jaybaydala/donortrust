@@ -27,7 +27,7 @@
         <li id="nav-give"<%= ' class="current"' if controller_name == 'give' %>><%= link_to "Give", dt_give_path %></li>
         <li id="nav-poverty"<%= ' class="current"' if params[:path] && params[:path].first == 'poverty' %>><a href="/poverty">Poverty</a></li>
         <li id="nav-projects"><%= link_to "Projects", dt_projects_path %></li>
-        <li id="nav-campaigns"><%= link_to "Campaigns", dt_campaigns_path %></li>
+        <!-- <li id="nav-campaigns"><%= link_to "Campaigns", dt_campaigns_path %></li> -->
         <li id="nav-about_us"<%= ' class="current"' if params[:path] && params[:path].first == 'about-us' %>><a href="/about-us">About Us</a></li>
         <li id="nav-blog"><a href="http://blog.uend.org">Blog</a></li>
         <li id="nav-iend"><%= link_to "iEnd", iend_path %></li>
