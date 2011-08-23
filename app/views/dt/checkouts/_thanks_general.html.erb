@@ -1,4 +1,4 @@
-<h2 class="plain dark">Thank you for helping to change the world.</h2>
+<h2>Thank you for helping to change the world.</h2>
 <p>Extreme poverty can end in our lifetime. Your choice to refocus <strong><%= number_to_currency(@order.total) %></strong> to development projects will help make lasting and sustainable change in people's lives.</p>
 
 <% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
