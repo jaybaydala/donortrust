@@ -21,16 +21,9 @@
       <%- end -%>
       <li class="span-4 <%= "prepend-#{(10 - @checkout_steps.size*2)}" %> last" style="text-align:right;font-size:18px;">
         <%- if @cart.present? -%>
-        <strong>Cart Total: <%= number_to_currency(@cart.total) %></strong>
+          <strong>Cart Total: <%= number_to_currency(@cart.total) %></strong>
         <%- else -%>
-        <% if !logged_in? || current_user.authentications.facebook.blank? %>
-        <div class="clearfix">
-          <div class="facebooklogin">
-            <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), '/dt/auth/facebook' %></div>
-            <%= link_to (logged_in? ? 'Connect via facebook' : 'Login with facebook'), '/dt/auth/facebook' %>
-          </div>
-        </div>
-        <% end %>
+          <%= render 'iend/authentications/authentications' %>
         <%- end -%>
       </li>
     </ul>

@@ -4,12 +4,7 @@
         </div>
         
         <div id="loginbug">
-          <% if !logged_in? || current_user.authentications.facebook.count > 0 %>
-          <div class="facebooklogin">
-            <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), '/dt/auth/facebook' %></div>
-            <%= link_to 'Login using facebook', '/dt/auth/facebook' %>
-          </div>
-          <% end %>
+          <%= render 'iend/authentications/authentications' %>
           <ul>
             <%- if logged_in? -%>
               <li>Welcome, <%= h(current_user.name) %> | </li>
