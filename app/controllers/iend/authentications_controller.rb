@@ -1,4 +1,4 @@
-class Dt::AuthenticationsController < DtApplicationController
+class Iend::AuthenticationsController < DtApplicationController
   def index
     @authentications = current_user.authentications if current_user
   end
@@ -11,7 +11,7 @@ class Dt::AuthenticationsController < DtApplicationController
       authentication = current_user.apply_omniauth(omniauth)
       authentication.save!
       flash[:notice] = "Signed in successfully."
-      redirect_to dt_authentications_url
+      redirect_to iend_authentications_url
     elsif authentication
       flash[:notice] = "Signed in successfully."
       self.current_user = authentication.user
@@ -35,7 +35,7 @@ class Dt::AuthenticationsController < DtApplicationController
     @authentication = current_user.authentications.find(params[:id])
     @authentication.destroy
     flash[:notice] = "Successfully deleted #{@authentication.provider} authentication."
-    redirect_to dt_authentications_url
+    redirect_to iend_authentications_url
   end
 
   def failure

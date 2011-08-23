@@ -1,0 +1,8 @@
+<% if !logged_in? || current_user.authentications.facebook.blank? %>
+<div class="clearfix">
+  <div class="facebooklogin">
+    <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), auth_path(:facebook) %></div>
+    <%= link_to (logged_in? ? 'Connect via facebook' : 'Login with facebook'), auth_path(:facebook) %>
+  </div>
+</div>
+<% end %>
