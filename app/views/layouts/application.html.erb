@@ -3,14 +3,14 @@
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
-  <div class="content">
+  <div id="maincontentarea" class="content">
     <div class="container">
       <section id="top_content">
         <%= render :partial => 'layouts/shared/flashes' %>
         <%= yield :top_content %>
       </section>
     </div>
-    <div class="container prepend-top">
+    <div class="container prepend-top" style="padding-bottom:36px;">
       <% if content_for? :sidebar %>
         <article class="prepend-2 span-13<%= ' pageshadow' if content_for?(:top_content) %>">
           <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>

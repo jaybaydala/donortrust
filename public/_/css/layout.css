@@ -36,12 +36,15 @@ footer a:hover,
 footer a:active { text-decoration:underline; }
 #copyright { text-align:center; }
 
+.borderradius #maincontentarea { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
+
 /* GLOBAL
 -----------*/
 #headercontent { width:auto; }
 #headercontent.extended { background:url(/images/layout/header_bg.png) no-repeat; height:220px; width:1015px; }
 #headerextended .feature { color:#FFF; font-family:'Ubuntu-Light',Helmet,Freesans,sans-serif; font-size:30px; margin-top:36px; text-align:center; }
 #headerextended .feature h1 { color:#FFF; font-family:'Ubuntu-Medium',Helmet,Freesans,sans-serif; font-size:42px; font-weight:bold; margin:0; padding:0; }
+
 
 /* HOME
 -----------*/
@@ -61,7 +64,8 @@ footer a:active { text-decoration:underline; }
 #home #carousel-pager a.current { background-position:0 -24px; }
 #home #carousel-pager a#carousel-prev { background:url(/images/home/carousel-prev.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
 #home #carousel-pager a#carousel-next { background:url(/images/home/carousel-next.png) no-repeat; display:block; height:24px; text-indent:-9999px; width:25px; }
-#main { background-color:#FFF; color:#333; }
+#home #main { background-color:#FFF; color:#333; }
+.borderradius #home #main { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
 #home #statistics { border-bottom:3px solid #390; border-top:2px solid #390; padding-bottom:24px; }
 #home .statistic { background:url(/images/home/statistic_border.png) top right no-repeat; font:42px/28px Georgia,Times,"Times New Roman",serif; padding-top:24px; padding-bottom:0px; text-align:center; }
 #home .statistic.last { background:none; }
@@ -102,11 +106,11 @@ footer a:active { text-decoration:underline; }
 .project-organization { font-family: Helmet, Freesans, sans-serif; font-size:10px; margin:0 12px 6px 12px; }
 #projects .project-place a,
 #projects .project-name a,
-#projects .project-organization a { color:#39F; }
+#projects .project-organization a { color:#06C; }
 .project-like { margin:0 12px 12px 12px; }
 .project-like a { color:#999; text-decoration:none; }
 .project-like img { vertical-align:bottom; }
-.project-progress-bar { border:1px solid #CCC; height:8px; margin:0 0 10px 0; position:relative; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
+.project-progress-bar { border:1px solid #CCC; height:8px; margin:0 0 4px 0; position:relative; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 .project-progress-fg { background:#C00; height:8px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:4px; -webkit-border-bottom-left-radius:4px; -moz-border-radius-topleft:4px; -moz-border-radius-bottomleft:4px; border-top-left-radius:4px; border-bottom-left-radius:4px; }
 .project-module-bottom { background:#f8f8f8; border-top:1px solid #e0e0e0; bottom:0; color:#666; font-size:10px; height:42px; padding:10px 12px; position:absolute; width:175px;  -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-left-radius:5px; border-bottom-right-radius:5px }
 .project-module .detail { float:left; width:58px; }
