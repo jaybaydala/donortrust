@@ -8,7 +8,7 @@
   <%= will_paginate @tax_receipts, :param_name => 'page' %>
   <div id="transaction-list">
     <table style="width:100%;">
-    <tr><th>Date</th><th>Amount</th></tr>
+    <tr><th>Description</th><th>&nbsp;</th><th>Date</th><th>Amount</th></tr>
     <%= render @tax_receipts %>
     </table>
   </div>
