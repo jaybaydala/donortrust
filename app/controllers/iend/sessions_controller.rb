@@ -87,7 +87,7 @@ class Iend::SessionsController < DtApplicationController
         else
           flash.now[:error] = "Either your username or password are incorrect"
         end
-        format.html { render :action => "new" }
+        format.html { render :action => 'new' }
       end
     end
   end
