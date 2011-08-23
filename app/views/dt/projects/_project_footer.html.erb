@@ -1,18 +1,20 @@
 <div id="project-footer" class="span-14 prepend-1 last">
   <div class="border-bottom" style="margin-bottom:1em;">
-    <div class="back-to-projects"><%= link_to image_tag("/images/projects/btn-back_to_projects-grey.png", :alt => ""), dt_projects_path, :title => "Back to Projects" %></div>
+    <div class="back-to-projects"><%= link_to image_tag("/images/projects/btn-back_to_projects-grey.png", :alt => "", :style => "display:block;"), dt_projects_path, :title => "Back to Projects" %></div>
   </div>
   <% if @project.partner.projects.current.count > 1 %>
     <div>
-      OTHER PROJECTS BY:<br>
+      OTHER PROJECTS BY:
       <strong><%= link_to @project.partner.name, organization_dt_project_path(@project) %></strong>
     </div>
-    <ul>
-      <% @project.partner.projects.current.each do |project| %>
-        <% content_tag_for :li, project do %>
-          <%= link_to project.name, dt_project_path(project) %>
+    <div class="smaller">
+      <ul>
+        <% @project.partner.projects.current.each do |project| %>
+          <% content_tag_for :li, project do %>
+            <%= link_to project.name, dt_project_path(project) %>
+          <% end %>
         <% end %>
-      <% end %>
-    </ul>
+      </ul>
+    </div>
   <% end %>
 </div>

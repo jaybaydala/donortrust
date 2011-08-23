@@ -3,7 +3,7 @@
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
-  <div class="content">
+  <div id="maincontentarea" class="content append-large-bottom">
     <section id="top_content" class="container">
       <%= render :partial => 'layouts/shared/flashes' %>
       <%= render 'project_nav' %>
@@ -30,8 +30,7 @@
       </aside>
       
     </section>
-    
-
+  </div>
 <%= render :partial => 'layouts/shared/footer' %>
 </div>
 <%= render :partial => 'layouts/shared/tail' %>

@@ -33,6 +33,7 @@ footer.content ul { margin:0 0 1em; padding:0; list-style:none; }
 footer strong a,
 .dark footer strong a { color:#FFF; text-decoration:none; }
 footer { color:#FFF; }
+.dark footer a,
 footer a { color:#CCC; text-decoration:none; }
 footer a:hover,
 footer a:active { text-decoration:underline; }
