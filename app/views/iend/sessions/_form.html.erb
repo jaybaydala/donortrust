@@ -1,0 +1,11 @@
+<% semantic_form_for :user, :url => iend_session_path(:protocol => ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
+  <% f.inputs do %>
+    <%= f.input :login, :label => "Username/Email" %>
+    <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", new_iend_password_reset_path) %>
+    <%= f.input :remember_me, :as => :boolean %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button (session[:omniauth].present? ? "Link #{session[:omniauth]['provider']} profile" : "Login") %>
+    <%= hidden_field_tag(:return_to, params[:return_to]) if params[:return_to] %>
+  <% end %>
+<% end %>

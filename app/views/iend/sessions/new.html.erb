@@ -1,5 +1,7 @@
 <%- content_for :html_title do -%>Sign-in<%- end -%>
 
+<%= render 'iend/shared/header' %>
+
 <div<%= raw ' style="margin:18px;"' if request.xhr? %>>
   <%= render :partial => 'dt/accounts/inactive' if @activated === false %>
 
@@ -7,28 +9,8 @@
     <div class="span-6 append-1">
       <h2 class="plain">Login</h2>
 
-      <div class="facebooklogin">
-        <div class="img"><%= link_to image_tag('dt/authentications/facebook_24.png', :size => "24x24", :alt => ""), '/dt/auth/facebook' %></div>
-        <%= link_to 'Login using facebook', '/dt/auth/facebook' %>
-      </div>
-
-      <div class="googlelogin">
-        <div class="img"><%= link_to image_tag('dt/authentications/google_24.png', :size => "24x24", :alt => ""), '/dt/auth/google' %></div>
-        <%= link_to 'Login using google', '/dt/auth/google' %>
-      </div>
-      
-
-      <% semantic_form_for :user, :url => dt_session_path(:protocol =>  ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
-        <% f.inputs do %>
-          <%= f.input :login, :label => "Username/Email" %>
-          <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", reset_iend_users_path) %>
-          <%= f.input :remember_me, :as => :boolean %>
-        <% end %>
-        <% f.buttons do %>
-          <%= f.commit_button "Login" %>
-          <%= hidden_field_tag(:return_to, params[:return_to]) if params[:return_to] %>
-        <% end %>
-      <% end %>
+      <%= render 'iend/authentications/authentications' unless session[:omniauth] %>
+      <%= render 'form' %>
     </div>
     <div class="span-5 prepend-1 border-left">
       <h2 class="plain">New to UEnd?</h2>
