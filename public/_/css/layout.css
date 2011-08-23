@@ -87,7 +87,7 @@ footer a:active { text-decoration:underline; }
 #project-filters ul { border-top:1px solid #666; list-style:none; margin:4px 0 0 0; overflow:auto; padding:4px 0 0 0; }
 #project-filters ul.limit-height { max-height:120px; }
 #project-filters li { font-size:0.916em; }
-#project-filters a { color:#FFF; display:block; margin-bottom:1px; padding:3px 8px; text-decoration:none; }
+#project-filters a { color:#FFF; display:block; margin-bottom:1px; padding:2px 3px; text-decoration:none; }
 #project-filters a:hover,
 #project-filters a:active { background-color:#663; }
 .project-filter { margin-bottom:1.25em; }
