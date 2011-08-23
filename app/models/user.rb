@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
   has_many :administrations
   has_many :orders
   has_many :subscriptions
+  has_many :preferred_sectors
+  has_many :sectors, :through => :preferred_sectors
   has_many :teams, :through => :participants
   has_many :participants
   has_one :profile
@@ -168,6 +170,11 @@ class User < ActiveRecord::Base
 
   def self.find_by_full_name(full_name)
     User.all.detect{|user| user.full_name == full_name }
+  end
+
+  def projects_funded
+    # orders.
+    []
   end
 
   def partner
