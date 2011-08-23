@@ -2,7 +2,8 @@
   <article class="span-14"> 
     <nav class="subnav clearfix">
       <ol>
-        <li<%= ' class="current"' if current_nav?('iend') %>><%= link_to "Public Profile", iend_user_path(current_user, :public => 1) %></li>
+        <li<%= ' class="current"' if current_nav?('users', 'show') && params[:public].blank? %>><%= link_to "Profile", iend_user_path(current_user) %></li>
+        <li<%= ' class="current"' if current_nav?('users', 'show') && params[:public].present? %>><%= link_to "Public Profile", iend_user_path(current_user, :public => 1) %></li>
         <li<%= ' class="current"' if current_nav?('users', 'edit') %>><%= link_to "Edit Profile", edit_iend_user_path(current_user) %></li>
         <li<%= ' class="current"' if current_nav?('users', 'edit_password') %>><%= link_to "Password", edit_password_iend_user_path(current_user) %></li>
         <li<%= ' class="current"' if current_nav?('authentications') %>><%= link_to "Sign-in Options", iend_authentications_path %></li>
