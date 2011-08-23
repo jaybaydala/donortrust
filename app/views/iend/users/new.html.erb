@@ -1,0 +1,30 @@
+<% content_for :html_title do %>iEnd:Poverty - Sign Up<% end %>
+
+<%= render 'iend/shared/header' %>
+
+<div class="clearfix">
+  <div class="span-6">
+    <h1 class="plain">Sign Up</h1>
+    <%= image_tag "iend/iend_benefits.png", :alt => '' %>
+  </div>
+  <div class="span-8 last">
+    <p>Already a member? <%= link_to "Login", login_path %></p>
+
+    <%= render "form" %>
+  </div>
+</div>
+
+<% content_for :javascript do %>
+  <% javascript_tag do %>
+  $(document).ready(function (){
+    $("#user_under_thirteen").change(function() {
+      if (this.checked) {
+        $("#under-thirteen").show()
+      } else {
+        $("#under-thirteen").hide()
+      }
+    });
+    $("#user_under_thirteen").change();
+  });
+  <% end %>
+<% end %>

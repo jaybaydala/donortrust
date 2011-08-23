@@ -1,0 +1,35 @@
+<%- content_for :html_title do -%>Edit My Profile<%- end -%>
+
+<%= render 'iend/shared/header' %>
+<%= iend_user_nav %>
+
+<% semantic_form_for([:iend, @user], :html => { :id => "userform", :name => "userform", :multipart => true}) do |f| %>
+  <% f.inputs "Login/Email" do %>
+    <%= f.input :login, :hint => 'If you need to change your email address, please use a valid alternate email address.' %>
+  <% end %>
+  <% f.inputs "Your Identity" do %>
+    <% if @user.image? %><li><%= image_tag(@user.image.url, :alt => "") %></li><% end %>
+    <%
+      display_name_note = if @user.under_thirteen?
+        "Please enter a display name for your child that is not personally identifiable"
+      else
+        "You must enter a display name that will be used to identify you on our website. You may also choose to give us your first and last name which will be used to personalize our communication with you."
+      end
+    %>
+    <%= f.input :first_name unless @user.under_thirteen? %>
+    <%= f.input :last_name unless @user.under_thirteen? %>
+    <%= f.input :display_name, :hint => display_name_note %>
+    <%= f.input :country, :collection => country_select_options %>
+    <%= f.input :image, :as => :file %>
+    <%= f.input :bio, :input_html => { :rows => 8, :cols => 40 } %>
+  <% end %>
+  <% f.inputs "Personal Details" do %>
+    <li>The following fields are optional but will help your checkouts to go faster.</li>
+    <%= f.input :city %>
+    <%= f.input :province %>
+    <%= f.input :postal_code %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button %>
+  <% end %>
+<% end %>
