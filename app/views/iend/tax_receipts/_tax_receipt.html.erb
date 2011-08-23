@@ -12,6 +12,7 @@
       <%= render :partial => 'iend/orders/deposit', :locals => { :deposit => tax_receipt.deposit } %>
     <% end %>
   </td>
+  <td><%= link_to "Download", tax_receipt_path(tax_receipt.id, tax_receipt.view_code, :format => :pdf) %></td>
   <td class="datetime"><%= tax_receipt.updated_at.strftime('%b %d, %Y %H:%M') %></td>
   <td class="currency">
     <% if tax_receipt.order %>
