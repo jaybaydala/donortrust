@@ -36,7 +36,7 @@ nav.breadcrumbs li.first:before,
 nav.breadcrumbs li:first-child:before { content: ""; }
 /* subnav */
 nav.subnav { font-size:1em; }
-nav.subnav ol { list-style:none; }
+nav.subnav ol { list-style:none; margin:0; padding:0; }
 .dark nav.subnav a:link,
 .dark nav.subnav a:visited { color:#FFF; text-decoration:none; }
 nav.subnav a:link,
