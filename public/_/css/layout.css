@@ -92,8 +92,9 @@ footer a:active { text-decoration:underline; }
 #project-search-summary .pagination { float:right; text-align:right; width:40%; }
 #project-search-summary .pagination a { color:#EEE; }
 #project-filters { font-size:12px; }
-#project-filters ul { border-top:1px solid #666; list-style:none; margin:4px 0 0 0; overflow:auto; padding:4px 0 0 0; }
-#project-filters ul.limit-height { max-height:120px; }
+#project-filters ul { border-top:1px solid #666; list-style:none; margin:4px 0 0 0; padding:4px 0 0 0; }
+.no-touch #project-filters ul { overflow:auto; }
+.no-touch #project-filters ul.limit-height { max-height:120px; }
 #project-filters li { font-size:0.916em; }
 #project-filters a { color:#FFF; display:block; margin-bottom:1px; padding:2px 3px; text-decoration:none; }
 #project-filters a:hover,
