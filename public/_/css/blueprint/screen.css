@@ -210,6 +210,7 @@ input.span-18, textarea.span-18 {width:963px;}
 .push-1, .push-2, .push-3, .push-4, .push-5, .push-6, .push-7, .push-8, .push-9, .push-10, .push-11, .push-12, .push-13, .push-14, .push-15, .push-16, .push-17, .push-18 {float:left;position:relative;}
 div.prepend-top, .prepend-top {padding-top:1.5em;}
 div.append-bottom, .append-bottom {padding-bottom:1.5em;}
+div.append-large-bottom, .append-large-bottom { padding-bottom:64px; }
 .box {padding:1.5em;margin-bottom:1.5em;background:#e5eCf9;}
 hr {background:#ddd;color:#ddd;clear:both;float:none;width:100%;height:1px;margin:0 0 17px;border:none;}
 hr.space {background:#fff;color:#fff;visibility:hidden;}

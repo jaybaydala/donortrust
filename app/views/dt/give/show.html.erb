@@ -14,15 +14,15 @@
 <div class="clearfix prepend-top">
   <article class="span-4 append-1">
     <h2><%= link_to image_tag("/images/give/uforward.png", :alt => 'U:forward - Pay it forward as a gift.'), new_dt_gift_path %></h2>
-    <%= content_snippet_for(:uforward_description) %>
+    <div class="serif"><%= content_snippet_for(:uforward_description) %></div>
   </article>
   <article class="span-4 append-1">
     <h2><%= link_to image_tag("/images/give/udirect-generic.png", :alt => 'U:direct - Give directly to this project.'), dt_projects_path %></h2>
-    <%= content_snippet_for(:udirect_description) %>
+    <div class="serif"><%= content_snippet_for(:udirect_description) %></div>
   </article>
   <article class="span-4 last">
     <h2><%= link_to image_tag("/images/give/upowered.png", :alt => 'U:powered - Fund UEnd operations.'), dt_upowered_path %></h2>
-    <%= content_snippet_for(:upowered_description) %>
+    <div class="serif"><%= content_snippet_for(:upowered_description) %></div>
   </article>
 </div>
 
