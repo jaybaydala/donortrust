@@ -4,7 +4,8 @@ class Iend::UsersController < DtApplicationController
   helper "dt/places"
   
   def show
-    @user = User.find(params[:id])
+    @user = current_user if params[:id] == 'current'
+    @user ||= User.find(params[:id])
   end
 
   def new
@@ -34,7 +35,8 @@ class Iend::UsersController < DtApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = current_user if params[:id] == 'current'
+    @user ||= User.find(params[:id])
   end
 
   def update
@@ -61,7 +63,8 @@ class Iend::UsersController < DtApplicationController
   end
 
   def edit_password
-    @user = User.find(params[:id])
+    @user = current_user if params[:id] == 'current'
+    @user ||= User.find(params[:id])
   end
 
   protected
@@ -70,6 +73,6 @@ class Iend::UsersController < DtApplicationController
     end
 
     def restrict_current_user
-      redirect_to(logged_in? ? iend_user_path(current_user) : iend_path) unless params[:id].to_i == current_user.id
+      redirect_to(logged_in? ? iend_user_path(current_user) : iend_path) unless params[:id] == 'current' || params[:id].to_i == current_user.id
     end
 end
