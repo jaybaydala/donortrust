@@ -20,6 +20,10 @@ module DtApplicationHelper
       content_tag(:p, ContentSnippet.find_by_slug(slug.to_s).body_formatted)
     end
   end
+
+  def auth_path(provider)
+    "/auth/#{provider.to_s}"
+  end
   
   def show_title?
     true
