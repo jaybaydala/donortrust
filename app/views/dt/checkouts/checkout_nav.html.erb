@@ -22,8 +22,6 @@
       <li class="span-4 <%= "prepend-#{(10 - @checkout_steps.size*2)}" %> last" style="text-align:right;font-size:18px;">
         <%- if @cart.present? -%>
           <strong>Cart Total: <%= number_to_currency(@cart.total) %></strong>
-        <%- else -%>
-          <%= render 'iend/authentications/authentications' %>
         <%- end -%>
       </li>
     </ul>
