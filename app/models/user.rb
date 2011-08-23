@@ -173,8 +173,10 @@ class User < ActiveRecord::Base
   end
 
   def projects_funded
-    # orders.
-    []
+    unless @projects_funded
+      @projects_funded = Project.find(self.orders.map(&:line_items).flatten.select{|li| li.respond_to?(:project_id) && li.project_id }.map(&:project_id).uniq)
+    end
+    @projects_funded
   end
 
   def partner
