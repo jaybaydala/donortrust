@@ -23,12 +23,18 @@
     <%= f.input :image, :as => :file %>
     <%= f.input :bio, :input_html => { :rows => 8, :cols => 40 } %>
   <% end %>
+
   <% f.inputs "Personal Details" do %>
     <li>The following fields are optional but will help your checkouts to go faster.</li>
     <%= f.input :city %>
     <%= f.input :province %>
     <%= f.input :postal_code %>
   <% end %>
+
+  <% f.inputs "Preferred Poverty Sectors" do %>
+    <%= f.input :sector_ids, :as => :check_boxes, :collection => preferred_sector_options %>
+  <% end %>
+
   <% f.buttons do %>
     <%= f.commit_button %>
   <% end %>
