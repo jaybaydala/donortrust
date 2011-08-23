@@ -17,9 +17,11 @@
       <p>
         Follow your projects or set up a campaign.
       </p>
-      <p>
+      <p class="clearfix">
         <%= link_to 'Join Us', new_iend_user_path, :class => 'smallbutton' %>
       </p>
+      
+      <%= render 'iend/authentications/signups' unless session[:omniauth] %>
     </div>
   </div>
 </div>
