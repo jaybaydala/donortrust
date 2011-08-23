@@ -31,6 +31,7 @@ footer.content { background-color:transparent; padding-top:24px; }
 footer.content ul { margin:0 0 1em; padding:0; list-style:none; }
 footer strong a,
 .dark footer strong a { color:#FFF; text-decoration:none; }
+footer { color:#FFF; }
 footer a { color:#CCC; text-decoration:none; }
 footer a:hover,
 footer a:active { text-decoration:underline; }
@@ -67,8 +68,8 @@ footer a:active { text-decoration:underline; }
 #home #main { background-color:#FFF; color:#333; }
 .borderradius #home #main { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
 #home #statistics { border-bottom:3px solid #390; border-top:2px solid #390; padding-bottom:24px; }
-#home .statistic { background:url(/images/home/statistic_border.png) top right no-repeat; font:42px/28px Georgia,Times,"Times New Roman",serif; padding-top:24px; padding-bottom:0px; text-align:center; }
-#home .statistic.last { background:none; }
+#home .statistic { background:url(/images/home/statistic_border.png) top right no-repeat; font:42px/28px Georgia,Times,"Times New Roman",serif; padding-top:24px; padding-bottom:0px; padding-right:7px; margin-right:8px; text-align:center; }
+#home .statistic.last { background:none; padding-right:0; margin-right:0; }
 #signups { padding:42px 0; }
 #unique { margin-top:36px; font-size:16px; }
 #unique h3 { margin-bottom:4px; }
