@@ -36,5 +36,8 @@
     <%- if content_for?(:header) -%>
     <div id="headerextended"><%= yield :header %></div>
     <%- end -%>
+    <%- if content_for?(:project_header) -%>
+    <div id="projectheaderextended"><%= yield :project_header %></div>
+    <%- end -%>
   </div>
 </header>

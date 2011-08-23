@@ -125,9 +125,9 @@ footer a:active { text-decoration:underline; }
 #project-like a { color:#FFF; text-decoration:none; }
 #project-progress { background:url(/images/projects/progress-bg.png) repeat-x transparent; height:13px; position:relative; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
 #project-progress-fg { background:url(/images/projects/progress-fg.png) repeat-x transparent; height:12px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:6px; -webkit-border-bottom-left-radius:6px; -moz-border-radius-topleft:6px; -moz-border-radius-bottomleft:6px; border-top-left-radius:6px; border-bottom-left-radius:6px; }
-.lives-affected { font-family:Georgia, Times, "Times New Roman", serif; font-size:1.3em; margin:2em 0; }
+.lives-affected { font-family:Georgia, Times, "Times New Roman", serif; margin:2em 0; }
 .project-description { margin-bottom:3em; }
-.project-description p { font-family:Georgia, Times, "Times New Roman", serif; font-size:1.3em; }
+.project-description p { font-family:Georgia, Times, "Times New Roman", serif; }
 h1.project-title { padding-bottom:2em; border-bottom:1px solid #666; margin-bottom:1em; }
 #project-carousel { margin-bottom:1.5em; height:320px; overflow:hidden; width:480px; }
 #project-carousel a,
