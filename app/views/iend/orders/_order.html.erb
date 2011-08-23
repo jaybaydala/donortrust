@@ -1,0 +1,11 @@
+<% content_tag_for :tr, order, :class => cycle(:odd, :even) do %>
+  <td>
+    <%= render :partial => 'iend/orders/gift', :collection => order.gifts %>
+    <%= render :partial => 'iend/orders/investment', :collection => order.investments %>
+    <%= render :partial => 'iend/orders/deposit', :collection => order.deposits %>
+    <%= render :partial => 'iend/orders/pledge', :collection => order.pledges %>
+    <%= render :partial => 'iend/orders/registration_fee', :locals => { :registration_fee => order.registration_fee } if order.registration_fee.present? %>
+  </td>
+  <td class="datetime"><%= order.updated_at.strftime('%b %d, %Y %H:%M') %></td>
+  <td class="currency"><%= number_to_currency(order.total) %></td>
+<% end %>

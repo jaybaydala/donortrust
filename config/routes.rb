@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
     iend.resources :users, :except => :index, :member => { :edit_password => :get }
     iend.resources :password_resets, :only => [:new, :create]
     iend.resources :authentications
+    iend.resources :orders, :only => :index
   end
 
   map.namespace(:dt) do |dt|
