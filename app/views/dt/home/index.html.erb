@@ -29,7 +29,7 @@
       <div><img src="/images/home/projects.png" width="67" height="12" alt="Projects"></div>
     </div>
     <div class="statistic span-3">
-      <%= number_with_delimiter(Place.countries_with_active_projects.count) %>
+      <%= number_with_delimiter(Place.countries_with_active_projects.all.size) %>
       <div><img src="/images/home/countries.png" width="74" height="12" alt="Countries"></div>
     </div>
     <div class="statistic span-4 last">
