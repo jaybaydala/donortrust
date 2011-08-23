@@ -1,0 +1,6 @@
+<% if investment.present? %>
+  <% div_for investment do %>
+    <strong>Investment:</strong> <%= link_to investment.project.name, dt_project_path(investment.project_id) %>
+    for <%= number_to_currency(investment.amount) %>
+  <% end %>
+<% end %>
