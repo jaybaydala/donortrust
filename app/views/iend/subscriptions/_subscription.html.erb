@@ -1,0 +1,14 @@
+<% content_tag_for :tr, subscription, :class => cycle(:odd, :even) do %>
+  <td>
+    <%= render :partial => 'iend/orders/investment', :collection => subscription.line_items.map(&:item) %>
+  </td>
+  <td class="datetime"><%= subscription.begin_date.strftime('%b %d, %Y') %></td>
+  <td class="datetime"><%= subscription.end_date.strftime('%b %d, %Y') %></td>
+  <td class="currency">
+    <%= number_to_currency(subscription.amount) %>
+  </td>
+  <td class="currency">
+    <%= link_to "Update", edit_iend_subscription_path(subscription) %> |
+    <%= link_to "End Now", iend_subscription_path(subscription), :method => :delete, :confirm => "Are you sure you want to end the subscription now?" %>
+  </td>
+<% end %>

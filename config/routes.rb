@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
     iend.resources :authentications
     iend.resources :orders, :only => :index
     iend.resources :tax_receipts, :only => :index
+    iend.resources :subscriptions
   end
 
   map.namespace(:dt) do |dt|
@@ -31,13 +32,10 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
     dt.resource :christmasfuture, :controller => 'christmasfuture'
     dt.resource :support_badges, :controller => 'support_badges'
-    dt.resource :search, :controller => 'search', :collection => { :bar => :get }
-    dt.resource :search_groups, :controller => 'search_groups'
     dt.resource :cart, :controller => 'cart' do |cart|
       cart.resource :donation
     end
     dt.resource :checkout
-    dt.resources :subscriptions
     dt.resources :pages do |page|
       page.resources :wall_posts
     end
