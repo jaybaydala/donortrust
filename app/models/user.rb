@@ -143,6 +143,8 @@ class User < ActiveRecord::Base
     case omniauth['provider']
     when 'facebook'
       self.apply_omniauth_for_facebook(omniauth)
+    when 'google'
+      self.apply_omniauth_for_google(omniauth)
     end
     authentication_attributes = {:provider => omniauth['provider'], :uid => omniauth['uid']}
     authentication_attributes[:token] = omniauth['credentials']['token'] if omniauth['credentials'].present? && omniauth['credentials']['token'].present?
@@ -416,7 +418,13 @@ class User < ActiveRecord::Base
       self.image        = open(omniauth['user_info']['image'].sub(/type=square/, 'type=large')) unless self.image? || omniauth['user_info']['image'].blank?
       self.birthday     = omniauth['extra']['user_hash']['birthday'].to_date if omniauth['extra']['user_hash']['birthday'].present? && !self.birthday?
     end
-  
+
+    def apply_omniauth_for_google(omniauth)
+      self.login        = omniauth['user_info']['email'] unless self.login?
+      self.first_name   = omniauth['user_info']['first_name'] unless self.first_name?
+      self.last_name    = omniauth['user_info']['last_name'] unless self.last_name?
+    end
+
     def validate
       if under_thirteen?
         errors.add("first_name", "cannot be included") unless first_name.blank?
