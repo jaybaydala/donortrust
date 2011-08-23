@@ -16,7 +16,7 @@ footer.content,
 #account a:active { color:#9CF; text-decoration:underline; }
 #social { padding-left:36px; }
 #social img { vertical-align:text-bottom; }
-#nav ol { margin:auto; padding-bottom:2px; width:788px; }
+#nav ol { margin:auto; padding-bottom:2px; width:529px; }/*788px*/
 header { min-width:1015px; position:relative; }
 header #nav { background-color:#360; }
 header .extended #nav { background-color:transparent; }
