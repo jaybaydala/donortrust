@@ -1,5 +1,3 @@
-OmniAuth.config.path_prefix = '/dt/auth'
-
 omniauth_config = YAML.load_file(Rails.root.join('config', 'omniauth.yml'))
 
 # require 'omniauth'

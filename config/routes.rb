@@ -1,15 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'dt/home', :action => 'index'
-  
+
+  map.auth_callback "/auth/:provider/callback", :controller => "iend/authentications", :action => "create"
+  map.auth_failure "/auth/failure", :controller => "iend/authentications", :action => "failure"
+
   map.resource :iend, :controller => "iend"
-  map.namespace(:iend) do |dt|
-    dt.resources :users, :except => :index
+  map.namespace(:iend) do |iend|
+    iend.resource :session, :controller => 'sessions'
+    iend.resources :users, :except => :index, :member => { :edit_password => :get }
+    iend.resources :password_resets, :only => [:new, :create]
+    iend.resources :authentications
   end
 
   map.namespace(:dt) do |dt|
-    dt.resources :authentications
-    dt.auth_callback "/auth/:provider/callback", :controller => "authentications", :action => "create"
-    dt.auth_failure "/auth/failure", :controller => "authentications", :action => "failure"
     dt.resources :accounts, 
       :controller => 'accounts', 
       :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put },
@@ -20,9 +23,7 @@ ActionController::Routing::Routes.draw do |map|
       account.resources :account_memberships, :controller => 'account_memberships'
     end
     dt.resources :deposits, :controller => 'deposits'
-    dt.resources :users, :member => { :edit_password => :get }
     dt.resources :facebook_posts
-    dt.resource :session, :controller => 'sessions'
 
     dt.resource :upowered, :controller => "upowered"
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
