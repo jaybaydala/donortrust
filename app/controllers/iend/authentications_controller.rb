@@ -9,9 +9,10 @@ class Iend::AuthenticationsController < DtApplicationController
     authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
     if !authentication && logged_in?
       authentication = current_user.apply_omniauth(omniauth)
+      current_user.save # save the authentication and profile updates
       authentication.save!
       flash[:notice] = "Signed in successfully."
-      redirect_to iend_authentications_url
+      redirect_to request.env["omniauth.origin"].present? ? request.env["omniauth.origin"] : iend_authentications_url
     elsif authentication
       flash[:notice] = "Signed in successfully."
       self.current_user = authentication.user
