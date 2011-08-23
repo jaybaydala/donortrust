@@ -54,6 +54,9 @@ nav.subnav li { float:left; }
 nav.subnav li:after { content: "\00A0\00A0\00A0\007C\00A0\00A0\00A0"; }
 nav.subnav li.last:after,
 nav.subnav li:last-child:after { content: ""; }
+
+#iend-nav { margin-bottom:12px; }
+
 /* sectionnav */
 #sectionnav { bottom:0; position:absolute; }
 #sectionnav ol { list-style:none; margin:0; padding:0; }
