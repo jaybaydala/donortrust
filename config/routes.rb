@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
     iend.resources :password_resets, :only => [:new, :create]
     iend.resources :authentications
     iend.resources :orders, :only => :index
+    iend.resources :tax_receipts, :only => :index
   end
 
   map.namespace(:dt) do |dt|
