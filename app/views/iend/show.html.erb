@@ -1,6 +1,6 @@
 <% content_for :bodyid do %>iend<% end %>
 
-<%= render 'iend/header' %>
+<%= render 'iend/shared/header' %>
 
 <% content_for :top_content do %>
   <div class="prepend-top prepend-2">
@@ -15,8 +15,8 @@
   </div>
   <div class="span-7 last">
     <div class="buttongroup clearfix">
-      <%= link_to "Join", login_path, :class => "bigbutton" %>
-      <%= link_to "Signup", signup_path, :class => "bigbutton" %>
+      <%= link_to "Join", signup_path, :class => "bigbutton" %>
+      <%= link_to "Sign In", login_path, :class => "bigbutton" %>
     </div>
   </div>
 </section>
