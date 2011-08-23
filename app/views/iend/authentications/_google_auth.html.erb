@@ -1,8 +1,9 @@
+<%- signup ||= false -%>
 <% if !logged_in? || current_user.authentications.google.count > 0 %>
 <div class="clearfix">
   <div class="googlelogin">
     <div class="img"><%= link_to image_tag('dt/authentications/google_24.png', :size => "24x24", :alt => ""), auth_path(:google) %></div>
-    <%= link_to 'Login using google', auth_path(:google) %>
+    <%= link_to (logged_in? || signup ? 'Connect via google' : 'Login with google'), auth_path(:google) %>
   </div>
 </div>
 <% end %>
