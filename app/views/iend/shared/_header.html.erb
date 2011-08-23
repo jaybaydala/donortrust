@@ -3,4 +3,12 @@
     <h1>iEnd</h1>
     <p>I will end:poverty</p>
   </div>
+  <nav id="sectionnav">
+    <ol>
+      <li<%= ' class="current"' if controller_name == 'iend' %>><%= link_to "Getting started", iend_path %></li>
+      <% if logged_in? %>
+      <li<%= ' class="current"' unless controller_name == 'iend' %>><%= link_to "Profile", [:iend, current_user] %></li>
+      <% end %>
+    </ol>
+  </nav>
 <% end %>
