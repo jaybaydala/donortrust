@@ -17,7 +17,7 @@ footer.content,
 #social { padding-left:36px; }
 #social img { vertical-align:text-bottom; }
 #nav ol { margin:auto; padding-bottom:2px; width:529px; }/*788px*/
-header { min-width:1015px; position:relative; }
+header { font-size:12px; min-width:1015px; position:relative; }
 header #nav { background-color:#360; }
 header .extended #nav { background-color:transparent; }
 #rail { background-color:#484848; padding:16px 10px; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
@@ -27,6 +27,7 @@ header .extended #nav { background-color:transparent; }
 .shadow-bottom { background:url(/images/home/shadow-bottom.png) no-repeat; color:#999; font-size:11px; height:13px; }
 
 /* footer */
+footer { font-size:12px; }
 footer.content { background-color:transparent; padding-top:24px; }
 footer.content ul { margin:0 0 1em; padding:0; list-style:none; }
 footer strong a,
