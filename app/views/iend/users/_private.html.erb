@@ -1,1 +1,49 @@
-private profile
+<% html_title("#{@user.first_name} #{@user.last_name}") %>
+
+<h1><%= "#{image_tag(@user.image.url, :alt => '') if @user.image? && File.exists?(@user.image.url)} #{@user.first_name} #{@user.last_name}" %></h1>
+<p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
+
+<%= iend_user_nav %>
+
+<div class="clearfix">
+  <div class="span-4">
+    <!-- <aside id="utogether" class="profile-summarybox">
+          
+        </aside> -->
+    <aside class="profile-summarybox">
+      <div class="icon">
+        <%= image_tag 'give/sidebar-uforward.png', :alt => "U:Forward" %><br>
+        Pay it forward as a gift.
+      </div>
+      <div class="summary">
+        <div style="margin-bottom:4px;">Gifts given: <%= @user.gifts.count %></div>
+        <div style="margin-bottom:4px;">Gifts received: <%= @user.orders.count(:conditions => "gift_card_payment_id IS NOT NULL")  %></div>
+        <div style="margin-bottom:4px;"><%= link_to "Give a gift", new_dt_gift_path %></div>
+      </div>
+    </aside>
+
+    <aside class="profile-summarybox">
+      <div class="icon">
+        <%= image_tag 'give/sidebar-udirect.png', :alt => "U:Direct" %><br>
+        Give directly to a project.
+      </div>
+      <div class="summary">
+        <div style="margin-bottom:4px;">Projects funded: <%= @user.projects_funded.size %></div>
+        <div style="margin-bottom:4px;">Lives affected: <%= @user.projects_funded.size %></div>
+        <div style="margin-bottom:4px;"><%= link_to "Choose a project", dt_projects_path %></div>
+      </div>
+    </aside>
+  </div>
+  <div class="span-10 last">
+    paging
+    <div class="span-9 prepend-1 last">
+      projects
+    </div>
+  </div>
+</div>
+
+<%# @projects.each_with_index do |project, i| %>
+<div class="span-4 append-bottom<%#= ' last' if (i+1)%2 == 0 %>">
+  <%#= render :partial => 'project', :locals => { :project => project } %>
+</div>
+<%# end %>
