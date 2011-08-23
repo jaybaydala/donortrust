@@ -49,7 +49,7 @@ $(document).ready(function (){
   });
 
   // form submit replacements - big buttons
-  $("#investmentform, #paymentform, #billingform").each(function() {
+  $("#investmentform, #paymentform, #billingform, #signupform").each(function() {
     var form = $(this);
     var submit = $('input[type=submit]', $(this));
     var button = $("<a>").addClass('bigbutton').click(function() { form.submit() }).html(submit.attr('value'));
