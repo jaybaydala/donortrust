@@ -5,6 +5,8 @@ class Sector < ActiveRecord::Base
 
   has_many :causes
   has_many :quick_fact_sectors
+  has_many :preferred_sectors
+  has_many :users, :through => :preferred_sectors
 
   validates_presence_of :name
   validates_uniqueness_of :name
