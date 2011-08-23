@@ -1,15 +1,15 @@
-<% content_for :header do %>
-<section class="container" id="projects-header">
+<%- content_for :header do -%>
+<!-- <section class="container" id="projects-header">
   <nav id="sectionnav">
     <ol class="clearfix">
       <li><a href="#">Choose a Cause</a></li>
       <li><a href="#">Our Partners</a></li>
       <li><a href="#">What is Proof of Impact?</a></li>
-      <li><a href="#">u:powered</a></li>
+      <li><%= link_to "U:Powered", dt_upowered_path %></li>
     </ol>
   </nav>
-</section>
-<% end %>
+</section> -->
+<%- end -%>
 
 <%= render :partial => 'layouts/shared/head' %>
 <body id="projects" class="dark">
