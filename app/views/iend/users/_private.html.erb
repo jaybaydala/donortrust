@@ -29,7 +29,7 @@
       </div>
       <div class="summary">
         <div style="margin-bottom:4px;">Projects funded: <%= @user.projects_funded.size %></div>
-        <div style="margin-bottom:4px;">Lives affected: <%= @user.projects_funded.size %></div>
+        <div style="margin-bottom:4px;">Lives affected: <%= @user.projects_funded.inject(0){|sum,p| sum += p.lives_affected.to_i } %></div>
         <div style="margin-bottom:4px;"><%= link_to "Choose a project", dt_projects_path %></div>
       </div>
     </aside>
@@ -46,9 +46,16 @@
     </aside>
   </div>
   <div class="span-10 last">
-    paging
-    <div class="span-9 prepend-1 last">
-      projects
+    <h2>Your Projects</h2>
+    <!-- paging goes here -->
+    <div class="span-9 prepend-1 pageshadow-10 last">
+      <div class="clearfix">
+      <% @user.projects_funded.each_with_index do |project, i| %>
+        <div class="span-4 append-bottom<%= ' last' if (i+1)%2 == 0 %>">
+          <%= render :partial => 'dt/projects/project', :locals => { :project => project } %>
+        </div>
+      <% end %>
+      </div>
     </div>
   </div>
 </div>
