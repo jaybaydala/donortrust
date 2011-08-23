@@ -206,6 +206,7 @@ section.iend.spaced { padding:36px 0; }
 /* SHADOWS
 ----------*/
 .pageshadow { background:url(/images/layout/page_shadow.png) no-repeat; padding-top:24px; }
+.pageshadow-10 { background:url(/images/layout/page_shadow-10.png) no-repeat; padding-top:24px; }
 .shadowbottom { -moz-box-shadow: 0 0 7px #333; -webkit-box-shadow: 0 0 7px #333; box-shadow: 0 0 7px #333; }
 
 /* BORDERS
