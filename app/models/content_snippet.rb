@@ -5,7 +5,7 @@ class ContentSnippet < ActiveRecord::Base
   before_save :load_slug
 
   def body_formatted
-    self.body.gsub(/\n/, "<br>\n")
+    self.body.gsub(/\n/, "<br>\n").html_safe
   end
 
   private
