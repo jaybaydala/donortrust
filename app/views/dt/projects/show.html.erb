@@ -24,8 +24,10 @@
   </div>
   
   <p><strong>Implementing Organization</strong></p>
-  <p><strong><%= link_to @project.partner.name, organization_dt_project_path(@project) %></strong></p>
-  <div>
-    <%= @project.partner.description %>
+  <div class="smaller">
+    <p><strong><%= link_to @project.partner.name, organization_dt_project_path(@project) %></strong></p>
+    <div>
+      <%= @project.partner.description %>
+    </div>
   </div>
 <% end %>

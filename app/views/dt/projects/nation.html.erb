@@ -1,8 +1,5 @@
 <%- content_for :html_title do -%><%= @nation.name %><%- end -%>
 
-<% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
-<% if flash[:error] %><div class="error"><%= flash[:error] %></div><% end %>
-
 <%= render(:partial => 'project_header', :object => @projects) %>
 
 <div class="project-content">
@@ -16,7 +13,7 @@
     <h2>Quick Facts</h2>
     <ul>
       <%= render :partial => 'quickfact_place', :collection => @nation.quick_fact_places %>
-      <li class="blueblock"><%= link_to "Find other projects in this country", dt_search_path(:place_id => @nation.id) %></li>
+      <li class="blueblock"><%= link_to "Find other projects in this country", dt_projects_path(:search => { :country_id => [@nation.id] } ) %></li>
     </ul>
   </div>
   <% end -%>
