@@ -27,7 +27,7 @@ class Iend::UsersController < DtApplicationController
         session[:tmp_user] = @user.id
         self.current_user = @user
         flash[:notice] = "Signed in successfully."
-        format.html { redirect_to(dt_give_path) }
+        format.html { redirect_to(iend_path) }
       else
         format.html { render :action => (session[:omniauth] ? 'new_via_authentication' : 'new') }
       end
