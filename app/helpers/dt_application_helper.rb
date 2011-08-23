@@ -17,7 +17,7 @@ module DtApplicationHelper
   def content_snippet_for(slug)
     content_snippet = ContentSnippet.find_by_slug(slug.to_s)
     if content_snippet.present?
-      content_tag(:p, ContentSnippet.find_by_slug(slug.to_s).body_formatted)
+      content_tag(:div, ContentSnippet.find_by_slug(slug.to_s).body_formatted)
     end
   end
 
