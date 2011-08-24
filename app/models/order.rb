@@ -396,23 +396,7 @@ class Order < ActiveRecord::Base
 
     def add_upowered_to_cart
       if self.upowered.present? && Project.admin_project
-        if cart.subscription?
-          cart_item = cart.subscription
-          if self.upowered["amount"].present?
-            cart_item.amount = upowered["amount"]
-            cart_item.subscription = true
-            cart_item.save
-          else
-            cart_item.destroy
-          end
-        else
-          investment = Investment.new( self.upowered )
-          investment.project = Project.admin_project
-          investment.user = self.user
-          cart_item = cart.add_item(investment)
-          cart_item.update_attribute(:subscription, true) if cart_item
-        end
-        cart_item
+        cart.add_upowered(self.upowered["amount"], self.user)
       end
     end
 
