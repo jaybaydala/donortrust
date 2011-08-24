@@ -19,11 +19,13 @@ class Dt::CheckoutsController < DtApplicationController
     respond_to do |format|
       format.html {
         if @cart.subscription?
-          @valid = validate_order
           @order.credit_card_payment = @cart.total
+          @valid = validate_order
           @saved = @order.save if @valid
-          session[:order_id] = @order.id if @saved
-          redirect_to edit_dt_checkout_path(:step => @checkout_steps[1]) and return 
+          if @saved
+            session[:order_id] = @order.id
+            redirect_to edit_dt_checkout_path(:step => "billing") and return 
+          end
         end
         @current_nav_step = current_step
         render :action => @checkout_steps[0]
