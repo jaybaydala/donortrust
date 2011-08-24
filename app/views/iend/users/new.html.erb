@@ -1,15 +1,28 @@
 <% content_for :html_title do %>iEnd:Poverty - Sign Up<% end %>
 
-<%= render 'iend/shared/header' %>
+<% content_for :header do %>
+  <div class="feature">
+    <h1>End Global Poverty</h1>
+    <p>The world is changing. Gift Different</p>
+  </div>
+<% end %>
+
+<% content_for :top_content do %>
+  <div class="clearfix">
+    <div class="prepend-top prepend-2 span-6">
+      <h1>Join UEnd</h1>
+    </div>
+    <div class="span-8 last">
+      <div style="margin-top:3em;">Already a member? <%= link_to "Login", login_path %></div>
+    </div>
+  </div>
+<% end %>
 
 <div class="clearfix">
   <div class="span-6">
-    <h1 class="plain">Sign Up</h1>
     <%= image_tag "iend/iend_benefits.png", :alt => '' %>
   </div>
   <div class="span-8 last">
-    <p>Already a member? <%= link_to "Login", login_path %></p>
-
     <%= render "form" %>
   </div>
 </div>

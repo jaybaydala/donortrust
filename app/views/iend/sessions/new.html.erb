@@ -1,6 +1,19 @@
 <%- content_for :html_title do -%>Sign-in<%- end -%>
 
-<%= render 'iend/shared/header' %>
+<% content_for :header do %>
+  <div class="feature">
+    <h1>End Global Poverty</h1>
+    <p>The world is changing. Gift Different</p>
+  </div>
+<% end %>
+
+<% content_for :top_content do %>
+  <div class="clearfix">
+    <div class="prepend-top prepend-2 span-10">
+      <h1>Sign In</h1>
+    </div>
+  </div>
+<% end %>
 
 <div<%= raw ' style="margin:18px;"' if request.xhr? %>>
   <%= render :partial => 'dt/accounts/inactive' if @activated === false %>
