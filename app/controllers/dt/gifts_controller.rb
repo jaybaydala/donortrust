@@ -201,11 +201,10 @@ class Dt::GiftsController < DtApplicationController
     @gift = Gift.find(session[:gift_card_id])
     session[:gift_card_balance] = @gift.balance * 2
     session[:gift_matched] = true
-    
   end
 
   def unwrap
-    @gift = Gift.validate_pickup(params[:code], params[:id])
+    @gift = Gift.find(params[:id])
     unless @gift
       flash[:notice] = "We could not find that gift"
       redirect_to :action => 'open' and return
