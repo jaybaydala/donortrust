@@ -1,0 +1,23 @@
+<%= render :partial => 'layouts/shared/head' %>
+<body<% if content_for?(:body_id) %> id="<%= yield :body_id %>"<% end %>>
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+
+  <div id="maincontentarea" class="content">
+    <div class="container">
+      <section id="top_content">
+        <%= yield :top_content %>
+      </section>
+    </div>
+    <div class="container prepend-top append-large-bottom">
+      <article class="span-16 prepend-1 append-1 last<%= ' pageshadow' if content_for?(:top_content) %>">
+        <%= render :partial => 'layouts/shared/flashes' %>
+        <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
+        <%= yield %>
+      </article>
+    </div>
+  </div>
+
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>
