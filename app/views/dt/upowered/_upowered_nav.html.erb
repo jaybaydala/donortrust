@@ -1,0 +1,15 @@
+<% content_for :top_content do %>
+<section id="project-nav" class="container border-bottom append-bottom">
+  <article class="span-10 append-1">
+    <nav class="subnav">
+      <ol>
+        <li id="project-nav-overview"<%= ' class="current"' if params[:action] == 'show' %>><%= link_to "Overview", dt_upowered_path %></li>
+        <li id="project-nav-new" class="last <%= ' current' if params[:action] == 'new' %>"><%= link_to "Get Started", new_dt_upowered_path %></li>
+      </ol>
+    </nav>
+  </article>
+  <!-- <aside id="project-like" class="span-4 prepend-1">
+      <a href="#"><img src="/images/like.png" width="21" height="27" alt="Like"> Like This</a>
+    </aside> -->
+</section>
+<% end %>
