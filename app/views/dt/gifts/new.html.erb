@@ -25,6 +25,12 @@
   <% end %>
 
   <% f.inputs "Gift Details" do %>
+    <%
+      options = []
+      options << ["Let the recipient choose how they want to direct the gift", ""]
+      options << [raw("to a project I've chosen - #{link_to @project.name, [:dt, @project]}"), @project.id] if @project
+    %>
+    <%= f.input :project_id, :label => "How would you like to direct your gift?", :as => :radio, :collection => options %>
     <%= f.input :amount, :label => 'Gift Amount', :hint => "Example: $100" %>
     <li>
       <%= f.label :e_card_id, 'Choose an ecard image from the options below.' %>
