@@ -7,10 +7,10 @@
           <%= link_to "Account Settings", iend_user_path(current_user) %> | 
           <% if current_user.role?(:cf_admin) %><%= link_to "Admin", bus_admin_home_path %> | <% end %>
           <%= link_to "Cart", dt_cart_path %> | 
-          <%= link_to "Logout", logout_path(:protocol => ssl_protocol) %>
+          <%= link_to "Logout", logout_url(:protocol => ssl_protocol) %>
         <% else %>
           <%= link_to "Cart", dt_cart_path %> | 
-          <%= link_to "Login", login_path(:return_to => request.url), :id => "loginlink" %>
+          <%= link_to "Login", login_url(:protocol => ssl_protocol, :return_to => request.url) %>
         <% end %>
         <%= " | #{number_to_currency(session[:gift_card_balance])}" if session[:gift_card_balance] %>
         <span id="social">
