@@ -1,0 +1,14 @@
+<% content_for :top_content do %>
+  <div class="prepend-top prepend-2"><h1>OPEN YOUR GIFT</h1></div>
+<% end %>
+
+<p><%= @gift.name || @gift.email %> has sent you a Project Gift for <%= number_to_currency( @gift.amount ) %>!</p>
+<p>
+  This is the project they chose to give the gift to:<br />
+  <%= link_to @gift.project.name, dt_project_path(@gift.project) %><br />
+  Follow the link to learn more about the project.
+</p>
+<p>
+  <%= link_to "Associate this gift with my account", unwrap_dt_gift_path(@gift.id, :code => @gift.pickup_code) %>
+  Don't have an account? <%= link_to "Create one here", new_iend_user_path %>.
+</p>
