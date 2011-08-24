@@ -5,6 +5,7 @@
 
 
 <% semantic_form_for([:dt, @investment], :html => {:id => "investmentform"}) do |f| %>
+  <%= f.semantic_errors :investment %>
   <% f.inputs "Your Investment" do %>
     <%
       options = []

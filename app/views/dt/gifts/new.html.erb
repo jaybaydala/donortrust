@@ -12,6 +12,7 @@
 <% end %>
 
 <% semantic_form_for [:dt, @gift], :html => { :id => "giftform" } do |f| %>
+  <%= f.semantic_errors :gift %>
   <% f.inputs 'Your Information' do %>
     <%= f.input :name %>
     <%= f.input :email, :label => "Email", :as => :email %>
