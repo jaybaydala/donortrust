@@ -1,0 +1,20 @@
+<%- content_for :project_sidebar do -%>
+  <div><%= link_to image_tag('/images/give/upowered.png', :alt => ''), new_dt_upowered_path, :title => "U:Powered - Fund UEnd operations." %></div>
+
+  <!-- <div class="lives-affected">
+      <span style="font-size:3em"><%= number_with_delimiter(@project.lives_affected.to_i) %></span><br>
+      <em>lives are affected<br>
+      by this project</em>
+    </div> -->
+
+  <p><strong>Implementing Organization</strong></p>
+  <div class="smaller">
+    <p><strong><%= link_to @project.partner.name, organization_dt_project_path(@project) %></strong></p>
+    <div>
+      <%= @project.partner.description %>
+    </div>
+  </div>
+
+
+  <%= render :partial => 'social' %>
+<%- end -%>

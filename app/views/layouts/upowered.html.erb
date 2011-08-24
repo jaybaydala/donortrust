@@ -1,0 +1,39 @@
+<%= render :partial => 'layouts/shared/head' %>
+<body class="dark">
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+
+  <div id="maincontentarea" class="content append-large-bottom">
+    <section id="top_content" class="container">
+      <%= render :partial => 'layouts/shared/flashes' %>
+      <%= yield :top_content %>
+    </section>
+    <section class="container prepend-top">
+      <div class="span-15 clearfix">
+        <article class="prepend-1 span-9 prepend-top clear">
+          <%= yield %>
+        </article>
+
+        <aside class="span-4 prepend-1 last">
+          <%= yield :project_sidebar %>
+        </aside>
+
+        <div id="project-footer" class="span-14 prepend-1 last">
+          <div class="border-bottom" style="margin-bottom:1em;">
+            <div class="back-to-projects"><%= link_to image_tag("/images/projects/btn-back_to_projects-grey.png", :alt => "", :style => "display:block;"), dt_projects_path, :title => "Back to Projects" %></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="span-3 last">
+        <div id="rail">
+          <%= render :partial => 'layouts/shared/newsletter' %>
+          <%= yield :sidebar %>
+        </div>
+      </aside>
+      
+    </section>
+  </div>
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>

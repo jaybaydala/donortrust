@@ -1,124 +1,47 @@
 <%- content_for :html_title do -%>The first fully U:Powered Non-Profit<%- end -%>
-<%- content_for :head do -%>
-<%= stylesheet_link_tag "upowered" %>
-<%- end -%>
 
-<%- if @page -%>
-<%- cache @page.cache_key do -%>
-<%= RedCloth.new(sanitize(@page.content)).to_html %>
-<%- end -%>
-<%- end -%>
+<%= render :partial => "upowered_nav" %>
 
-<div class="statwidget clearfix">
-  <div class="stattitle">
-    <h2>U:Powered Progress</h2>
+<%= image_tag "give/title-upowered-white.png", :alt => "U:Powered" %>
+<h1 class="project-title">UEnd:Foundation Operations Funding</h1>
+
+<div class="clearfix append-bottom smaller">
+  <div class="span-4 append-bottom" style="border-bottom:1px dotted #999;">
+    <div><strong>U:Powered Progress</strong></div>
+    <div class="project-progress" style="margin-top:8px;">
+      <div class="project-progress-fg" style="width:<%= (Subscription.current.count.to_f/10000.to_f)*100 %>%;"></div>
+    </div>
+    <div><%= number_with_delimiter(Subscription.current.count) %>/10,000 contributors</div>
+    <div class="project-progress" style="margin-top:8px;">
+      <div class="project-progress-fg" style="width:24%;"></div>
+    </div>
+    <div>24% of organization built</div>
   </div>
-  <div class="statcontainer clearfix">
-    <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
-    <%= render :partial => "dt/statistic_widgets/statistic_widget", :collection => @progress_widgets %>
+  <div class="span-4 prepend-1 last">
+    <div><strong><%= Time.now.year %> Targets</strong></div>
+    <div class="project-progress" style="margin-top:8px;">
+      <div class="project-progress-fg" style="width:24%;"></div>
+    </div>
+    <div><%= number_to_currency Investment.dollars_raised(["created_at LIKE ?", "#{Time.now.year}%"]), :precision => 0 %>/$300,000 dollars to projects</div>
+    
+    <div class="project-progress" style="margin-top:8px;">
+      <div class="project-progress-fg" style="width:<%= (Project.fully_funded.size.to_f/100.to_f)*100 %>%;"></div>
+    </div>
+    <div><%= number_to_currency Investment.dollars_raised(["created_at LIKE ?", "#{Time.now.year}%"]), :precision => 0 %>/100 fully funded projects</div>
+
+    <div class="project-progress" style="margin-top:8px;">
+      <div class="project-progress-fg" style="width:<%= ((Investment.count(:conditions => ["created_at LIKE ? AND gift_id IS NULL", "#{Time.now.year}%"]) + Gift.count(:conditions => ["created_at LIKE ?", "#{Time.now.year}%"])).to_f/15000.to_f)*100 %>%;"></div>
+    </div>
+    <div><%= number_with_delimiter Investment.count(:conditions => ["created_at LIKE ? AND gift_id IS NULL", "#{Time.now.year}%"]) + Gift.count(:conditions => ["created_at LIKE ?", "#{Time.now.year}%"]) %>/15000 gifts &amp; investments</div>
   </div>
 </div>
 
-<div class="statwidget clearfix">
-  <div class="stattitle">
-    <h2><%= Time.now.year %> Targets</h2>
-  </div>
-  <div class="statcontainer clearfix">
-    <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
-    <%= render @statistic_widgets %>
+<div class="project-description">
+  <%= render 'dt/projects/project_images' %>
+  
+  <div class="project-description">
+    <%= @project.description %>
   </div>
 </div>
 
-
-<% if !@staff.nil? && @staff.length > 0 %>
-<div class="statwidget clearfix">
-  <div class="stattitle">
-    <h2>The UEnd Team</h2>    
-  </div>
-  <div class="statcontainer clearfix">
-    <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
-    <div id="staff_users" class="clearfix">
-      <%= render :partial => "dt/staff/team_user", :collection => @staff %>
-    </div>
-  </div>
-</div>
-<%- end -%>
-
-
-<%- if !@mosaic_users.blank? -%>
-<div class="statwidget clearfix">
-  <div class="stattitle">
-    <h2>Subscribers</h2>
-  </div>
-  <div class="statcontainer clearfix">
-    <div><%= image_tag "dt/upowered/widget_bodytop.gif" %></div>
-    <div id="subscription_users">
-      <%= render :partial => "dt/upowered/subscription_user", :collection => @mosaic_users %>
-    </div>
-  </div>
-</div>
-<%- end -%>
-
-<%= render :partial => "dt/pages/wall", :locals => { :postable => @page } if @page %>
-
-<%- content_for :sidebar do -%>
-  
-  <div style="margin-bottom:1em;">
-    <%= link_to image_tag("dt/upowered/upowered_button-sidebar.gif", :alt => "join u:powered - it's a whole new way of providing operational funding to a non-profit organization &rdquo;"), dt_investments_path(:investment => { :amount => 5 }, :subscription => 1, :project_id => Project.admin_project.id), :method => :post %>
-  </div>
-  <div>
-    <b class="rtop">
-      <b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"</b>
-    </b>
-  <div class="sidebarbox" style="padding-top:0.5em;">
-    <%- if @cart && !@cart.empty? -%>
-    <p>Please note: adding this to your cart will remove all other items. If you want, you can <%= link_to "pay for your current cart first", dt_cart_path %>.</p>
-    <%- end -%>
-  
-    <div>
-      <%= link_to image_tag("dt/buttons/lg-share-en.gif", :alt => "Bookmark and Share"), "http://addthis.com/bookmark.php?v=250&amp;pub=xa-4af1a69520cb1c35", :class=>'addthis_button' %>
-      <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4af1a69520cb1c35"></script>
-    </div>
-  
-    <p>
-      <%= render :partial => "dt/upowered_email_subscribes/form" %>
-    </p>
-
-    <p class="clearfix" style="margin:1em 0;">
-      <%= link_to image_tag("dt/icons/email-icon.gif", :alt => "", :style => "float:left;padding-right:8px;"), "mailto:upowered@uend.org" %>
-      <span style="font-weight:bold;font-size:100%;"><%= link_to "Share your questions and ideas", "mailto:upowered@uend.org", :class => 'share_link' %></span>
-    </p>
-  </div>
-  <b class="rbottom">
-  <b class="r4"></b> <b class="r3"></b> <b class="r2"></b> <b class="r1"></b>
-  </b></div>
-  
-  <%- if @rss_sidebar -%>
-  <div>
-    <b class="rtop">
-      <b class="r1"></b> <b class="r2"></b> <b class="r3"></b> <b class="r4"</b>
-    </b>
-  <div class="sidebarbox">
-    <%- cache "upowered_blog-#{@rss_sidebar.entries.first.date_published}" do -%>
-    <%- if @rss_sidebar && @rss_sidebar.entries.first -%>
-      <h2>Updates from UEnd:</h2>
-      <h3><%= @rss_sidebar.entries.first.title %></h3>
-      <p class="dateStamp"><%= @rss_sidebar.entries.first.date_published.to_time.strftime("%b %d %Y %H:%I %p") %></p>
-      <div><%= @rss_sidebar.entries.first.content %></div>
-    <%- end -%>
-    <%- end -%>
-    <div>
-      <%= link_to image_tag("dt/promos/blog-promo-sidebar-grey.gif", :alt => "Read Our Blog"), "http://www.uend.org/blog/blog" %>
-    </div>
-  </div>
-  <b class="rbottom">
-  <b class="r4"></b> <b class="r3"></b> <b class="r2"></b> <b class="r1"></b>
-  </b></div>
-  <%- end -%>
-  
-  <%= render :partial => 'twitter' %>
-  
-  <div style="margin-bottom:1em;">
-    <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US" type="text/javascript"></script><script type="text/javascript">FB.init("fcce8cac158fe58c03ce07ca88c15d56");</script><fb:fan profile_id="239989860463" stream="0" connections="10" width="232" height="250"></fb:fan><div style="font-size:8px; padding:4px 0 4px 10px;border-bottom:1px solid #94A3C4;border-left:1px solid #94A3C4;border-right:1px solid #94A3C4;"><a href="http://www.uend.org/">uend: Foundation</a> on Facebook</div>
-  </div>
-<%- end -%>
+<%= render :partial => 'upowered_project_sidebar' %>
