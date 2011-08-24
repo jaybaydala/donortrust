@@ -7,7 +7,7 @@
           <%= link_to "Account Settings", iend_user_path(current_user) %> | 
           <% if current_user.role?(:cf_admin) %><%= link_to "Admin", bus_admin_home_path %> | <% end %>
           <%= link_to "Cart", dt_cart_path %> | 
-          <%= link_to "Logout", logout_path %>
+          <%= link_to "Logout", logout_path(:protocol => ssl_protocol) %>
         <% else %>
           <%= link_to "Cart", dt_cart_path %> | 
           <%= link_to "Login", login_path(:return_to => request.url), :id => "loginlink" %>
