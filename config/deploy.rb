@@ -86,3 +86,18 @@ namespace :deploy do
     run "cd #{latest_release} && whenever --set environment=#{rails_env} --update-crontab #{application}"
   end
 end
+
+
+namespace :web do
+  task :disable do
+    on_rollback { run "rm #{shared_path}/system/maintenance.html" }
+    template = File.read(File.join(File.dirname(__FILE__), "..", "public", "maintenance.rhtml"))
+    puts template
+    # put result, "#{shared_path}/system/maintenance.html", :mode => 0644
+    # upload(, "#{shared_path}/system/maintenance.html"
+  end
+
+  task :enable, :roles => :web, :except => { :no_release => true } do
+    run "rm #{shared_path}/system/maintenance.html"
+  end
+end
