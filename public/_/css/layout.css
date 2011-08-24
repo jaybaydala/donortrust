@@ -21,10 +21,15 @@ header { font-size:12px; min-width:1015px; position:relative; }
 header #nav { background-color:#360; }
 header .extended #nav { background-color:transparent; }
 #rail { background-color:#484848; padding:16px 10px; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
-#flashes .notice,
-#flashes .error { background: #EEE; border: 1px solid #EC3012; color: #222; margin-bottom:12px; padding: 4px 8px; }
+#flashes .notice { background:url(/images/icons/notice-alert.png) 12px 8px no-repeat #360; color: #FFF; margin-bottom:1em; padding: 24px 24px 24px 88px; }
+#flashes .error { background:url(/images/icons/notice-alert.png) 12px 8px no-repeat #F60; color: #FFF; margin-bottom:1em; padding: 24px 24px 24px 88px; }
+.borderradius #flashes .notice,
+.borderradius #flashes .error { -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; }
+
 .shadow-top { background:url(/images/home/shadow-top.png) no-repeat; color:#999; font-size:11px; height:18px; padding-top:8px; }
 .shadow-bottom { background:url(/images/home/shadow-bottom.png) no-repeat; color:#999; font-size:11px; height:13px; }
+
+#top_content h1 { font-family: Helmet, Freesans, sans-serif; font-size:36px; margin:0; padding:0; }
 
 /* footer */
 footer { font-size:12px; }
