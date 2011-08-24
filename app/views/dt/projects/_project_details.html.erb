@@ -4,8 +4,8 @@
     <div><strong>Location:</strong> <%= render "location" %></div>
   </div>
   <div class="span-4 prepend-1 last">
-    <div id="project-progress" style="margin-bottom:8px;">
-      <div id="project-progress-fg" style="width:<%= @project.get_percent_raised %>%;"></div>
+    <div class="project-progress" style="margin-bottom:8px;">
+      <div class="project-progress-fg" style="width:<%= @project.get_percent_raised %>%;"></div>
     </div>
     <div><%= number_to_currency(@project.total_cost, :precision => 0) %> total cost</div>
     <div><%= number_to_currency(@project.current_need, :precision => 0) %> still required</div>
