@@ -30,7 +30,7 @@
         <!-- <li id="nav-campaigns"><%= link_to "Campaigns", dt_campaigns_path %></li> -->
         <li id="nav-about_us"<%= ' class="current"' if params[:path] && params[:path].first == 'about-us' %>><a href="/about-us">About Us</a></li>
         <li id="nav-blog"><a href="http://blog.uend.org">Blog</a></li>
-        <li id="nav-iend"><%= link_to "iEnd", iend_path %></li>
+        <li id="nav-iend"><%= link_to "iEnd", (logged_in? ? iend_user_path(:current) : iend_path) %></li>
       </ol>
     </nav>
     <%- if content_for?(:header) -%>
