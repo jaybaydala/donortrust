@@ -2,7 +2,7 @@
 <%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 
 <div class="userform">
-  <% form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'put' })  do |f|%>
+  <% semantic_form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'put' })  do |f|%>
     <fieldset>
       <legend>You are choosing to donate your gift card balance directly to Uend:'s Operational budget</legend>
       <p>Is this what you want to do?</p>
