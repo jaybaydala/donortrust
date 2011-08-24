@@ -21,7 +21,7 @@
       <div><img src="/images/home/gifts.png" width="38" height="12" alt="Gifts"></div>
     </div>
     <div class="statistic span-4">
-      <%= number_to_currency(Order.complete.sum(:total) + 367000, :precision => 0) %>
+      <%= number_to_currency(Order.complete.sum(:total), :precision => 0) %>
       <div><img src="/images/home/dollars.png" width="60" height="12" alt="Dollars"></div>
     </div>
     <div class="statistic span-3">
