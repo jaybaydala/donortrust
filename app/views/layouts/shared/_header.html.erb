@@ -5,7 +5,7 @@
       <article id="account">
         <% if logged_in? %>
           <%= link_to "Account Settings", iend_user_path(current_user) %> | 
-          <% if current_user.role?(:cf_admin) %><%= link_to "Admin", '/bus_admin' %> | <% end %>
+          <% if current_user.role?(:cf_admin) %><%= link_to "Admin", bus_admin_home_path %> | <% end %>
           <%= link_to "Cart", dt_cart_path %> | 
           <%= link_to "Logout", logout_path %>
         <% else %>
