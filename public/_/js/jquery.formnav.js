@@ -15,12 +15,12 @@
       var build_nav_elements = function() {
         var fieldsets = $(settings['fieldset_selector'], $(form));
         var titles = $.map(fieldsets, function(fieldset) {
-          return $('legend', fieldset).text();
+          return $('>legend', fieldset).text();
         });
         var list = $('<ul>');
         $.each(titles, function(i, title) {
           var li = $('<li>').attr('id', 'formnav-' + i).addClass("span-2").text(title);
-          if (current && $('legend', current).text() == title) {
+          if (current && $('>legend', current).text() == title) {
             li.addClass("current");
             if (i > 0) document.location.hash = 'formnav-'+i;
             else document.location.hash = '';
