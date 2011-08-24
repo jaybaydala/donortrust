@@ -40,7 +40,7 @@ class Iend::AuthenticationsController < DtApplicationController
   end
 
   def failure
-    flash[:notice] = "Sorry, we couldn't log you in"
+    flash[:error] = "Sorry, we couldn't log you in"
     redirect_to home_url
   end
 end
