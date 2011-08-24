@@ -22,6 +22,26 @@ class Cart < ActiveRecord::Base
     end
   end
 
+  def add_upowered(amount, user)
+    if self.subscription?
+      cart_item = self.subscription
+      if amount.present?
+        cart_item.amount = amount
+        cart_item.subscription = true
+        cart_item.save
+      else
+        cart_item.destroy
+      end
+    else
+      investment = Investment.new( :amount => amount )
+      investment.project = Project.admin_project
+      investment.user = user
+      cart_item = self.add_item(investment)
+      cart_item.update_attribute(:subscription, true) if cart_item
+    end
+    cart_item
+  end
+
   def calculate_percentage_amount(percentage)
     BigDecimal.new(self.total_without_donation.to_s) * (BigDecimal.new(percentage.to_s)/100)
   end
