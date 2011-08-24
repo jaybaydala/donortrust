@@ -39,7 +39,7 @@ class DtApplicationController < ActionController::Base
     end
   
     def ssl_available?
-      return 'production' == ENV['RAILS_ENV'] ? true : false
+      return Rails.env.production?
     end
   
     #MP - Dec 14, 2007
