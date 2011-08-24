@@ -1,5 +1,6 @@
 <article id="project-1" class="project-module">
   <div class="project-module-top">
+    <a href="<%= dt_project_path(project) %>">
     <% if project.lives_affected? %>
       <div class="project-livesaffected-num"><%= number_with_delimiter(project.lives_affected) %></div>
       <div class="project-livesaffected">lives affected plus yours</div>
@@ -7,6 +8,7 @@
       <div class="project-livesaffected-num"><%= number_to_currency(project.total_cost, :precision => 0) %></div>
       <div class="project-livesaffected">total cost</div>
     <% end %>
+    </a>
   </div>
   <div class="project-place"><%= link_to Place.find(project.country_id).name, nation_dt_project_path(project) %></div>
   <div class="project-name"><%= link_to truncate(project.name, :length => 48), dt_project_path(project) %></div>
