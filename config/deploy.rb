@@ -33,7 +33,8 @@ set :user, "ideaca"
 set :group, "users"
 
 before "deploy:update_code", "thinking_sphinx_deployment:stop"
-after "deploy:update_code", "deploy:configure_stuff"
+after "deploy:update_code", "deploy:link_configs"
+after "deploy:update", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
 after "deploy:configure_stuff", "thinking_sphinx_deployment:configure_and_start"
 after "deploy:restart", "deploy:cleanup"
 
@@ -48,7 +49,7 @@ namespace :thinking_sphinx_deployment do
   end
 
   task :symlink_sphinx_indexes, :roles => :app do
-    run "rm -rf #{release_path}/db/sphinx && ln -nfs #{shared_path}/sphinx #{release_path}/db/sphinx"
+    run "rm -rf #{latest_release}/db/sphinx && ln -nfs #{shared_path}/sphinx #{latest_release}/db/sphinx"
   end
 end
 
@@ -83,7 +84,7 @@ namespace :deploy do
   
   desc "Update the crontab file"
   task :update_crontab, :roles => :schedule do
-    run "cd #{latest_release} && whenever --set environment=#{rails_env} --update-crontab #{application}"
+    run "cd #{latest_release} bundle exec whenever --set environment=#{rails_env} --update-crontab #{application}"
   end
 end
 
@@ -91,9 +92,8 @@ end
 namespace :web do
   task :disable do
     on_rollback { run "rm #{shared_path}/system/maintenance.html" }
-    template = File.read(File.join(File.dirname(__FILE__), "..", "public", "maintenance.rhtml"))
-    puts template
-    # put result, "#{shared_path}/system/maintenance.html", :mode => 0644
+    template = File.read(File.join(File.dirname(__FILE__), "..", "public", "maintenance.html"))
+    put template, "#{shared_path}/system/maintenance.html", :mode => 0644
     # upload(, "#{shared_path}/system/maintenance.html"
   end
 
