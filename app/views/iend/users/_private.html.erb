@@ -49,7 +49,7 @@
     <h2 style="margin-left:12px;">Your Projects</h2>
     <!-- paging goes here -->
     <div class="span-9 prepend-1 pageshadow-10 last">
-      <div class="clearfix">
+      <div class="clearfix" id="projects">
       <% @user.projects_funded.each_with_index do |project, i| %>
         <div class="span-4 append-bottom<%= ' last' if (i+1)%2 == 0 %>">
           <%= render :partial => 'dt/projects/project', :locals => { :project => project } %>
