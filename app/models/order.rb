@@ -14,9 +14,9 @@ class Order < ActiveRecord::Base
   has_one :subscription
   has_one :tax_receipt
 
-  validates_presence_of :cart
-  validates_presence_of :first_name,  :if => lambda {|r| r.billing_info_required? && (r.cart.subscription? || r.personal_donor?) }
-  validates_presence_of :last_name,   :if => lambda {|r| r.billing_info_required? && (r.cart.subscription? || r.personal_donor?) }
+  # validates_presence_of :cart
+  validates_presence_of :first_name,  :if => lambda {|r| r.billing_info_required? && ((r.cart && r.cart.subscription?) || r.personal_donor?) }
+  validates_presence_of :last_name,   :if => lambda {|r| r.billing_info_required? && ((r.cart && r.cart.subscription?) || r.personal_donor?) }
   validates_presence_of :company,     :if => lambda {|r| r.billing_info_required? && r.corporate_donor? }
   validates_presence_of :donor_type,  :if => :billing_info_required?
   validates_presence_of :address,     :if => :billing_info_required?
@@ -37,7 +37,7 @@ class Order < ActiveRecord::Base
       order.validate_payment
     end
     if order.account_signup_step
-      if self.cart.subscription? || tax_receipt_needed?
+      if (self.cart && self.cart.subscription?) || tax_receipt_needed?
         unless self.user
           user = build_user_from_order
           user.errors.full_messages.each{|msg| self.errors.add_to_base(msg) } unless user.valid?
@@ -286,7 +286,7 @@ class Order < ActiveRecord::Base
   end
 
   def billing_info_required?
-    (self.cart.subscription? || tax_receipt_requested?) && (!payment_options_step && !upowered_step)
+    ((self.cart && self.cart.subscription?) || tax_receipt_requested?) && (!payment_options_step && !upowered_step)
   end
 
   def credit_card(use_iats=true)
