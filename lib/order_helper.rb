@@ -12,7 +12,6 @@ module OrderHelper
       session[:cart_id] = @cart.id
     end
     @cart.update_attribute(:user_id, current_user.id) if !@cart.user_id && logged_in?
-    @cart.update_attribute(:subscription, params[:subscription]) if params[:subscription]
     @cart
   end
 
