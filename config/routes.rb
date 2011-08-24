@@ -312,66 +312,51 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :bus_account, :active_scaffold => true, :controller => "bus_admin/bus_account"
   end
 
-  # map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
-  # map.process_report 'bus_admin/reports/process_report', :controller => 'bus_admin/reports', :action => 'process_report'
-  # map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'
-  # map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
-  # map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'
-  # map.add_measure 'bus_admin/key_measures/add_measure', :controller => 'bus_admin/key_measures', :action => 'add_measure'
-  # map.home_update_partner 'bus_admin/home/update_partner', :controller => 'bus_admin/home', :action => 'update_partner'
-  # map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
-  # map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
-  # map.populate_place_sector_places '/bus_admin/projects/populate_place_sector_places', :controller => 'bus_admin/place_sectors', :action => 'populate_place_sector_places'
-
-
-  #easier routes for restful_authentication
-  # map.bob '/bus_admin/bob', :controller => 'bus_admin/project_statuses', :action => 'bob'
-  # map.signup '/bus_admin/signup', :controller => 'bus_admin/bus_account', :action => 'signup'
-  # map.login '/bus_admin/login', :controller => 'bus_admin/bus_account', :action => 'login'
-  # map.logout '/bus_admin/logout', :controller => 'bus_admin/bus_account', :action => 'logout'
-  # map.index '/bus_admin/index', :controller => 'bus_admin/bus_account', :action => 'index'
-  # map.get_actions '/bus_admin/bus_user_types/get_actions', :controller => 'bus_admin/bus_user_types', :action =>'get_actions'
-  # map.change_password '/bus_admin/change_password', :controller => 'bus_admin/bus_account', :action =>'change_password'
-  # map.show_encryption '/bus_admin/bus_account/show_encryption', :controller =>'bus_admin/bus_account',:action =>'show_encryption'
-  # map.change_password_now '/bus_admin/bus_account/change_password_now', :controller => 'bus_admin/bus_account', :action =>'change_password_now'
-  # #map.display_pending '/bus_admin/display_pending', :controller => 'bus_admin/partners', :action =>'display_pending'
-  # map.home '/bus_admin/index', :controller => 'bus_admin/home', :action=> 'index'
-  # map.pending_projects 'bus_admin/pending_projects', :controller => 'bus_admin/projects', :action => 'pending_projects'
-  # map.show_pending_project 'bus_admin/show_pending_projects', :controller => 'bus_admin/projects', :action => 'show_pending_project'
-  # map.report 'bus_admin/report', :controller => 'bus_admin/projects', :action => 'report'
-  # map.kpi_report 'bus_admin/_kpi_report', :controller => 'bus_admin/projects', :action => 'kpi_report'
+  # bus_admin reports
+  map.process_report 'bus_admin/reports/process_report', :controller => 'bus_admin/reports', :action => 'process_report'
+  map.report 'bus_admin/report', :controller => 'bus_admin/projects', :action => 'report'
   # map.report 'bus_admin/individual_report', :controller => 'bus_admin/projects', :action => 'individual_report'
-  # map.byProject 'bus_admin/_timeline_json', :controller => 'bus_admin/projects', :action => 'byProject'
-  # map.showProjectTimeline 'bus_admin/_showProjectTimeline', :controller => 'bus_admin/projects', :action => 'showProjectTimeline'
-  # map.stats 'bus_admin/stats', :controller => 'bus_admin/stats', :action => 'index'
-
-  # map.auto_complete_for_place_name  '/auto_complete_for_place_name', :controller => 'bus_admin/projects', :action => 'auto_complete_for_place_name'
-  # map.update_location 'bus_admin/_update_location', :controller => 'bus_admin/projects', :action => 'update_location'
-  # map.update_partner 'bus_admin/_update_partner', :controller => 'bus_admin/projects', :action => 'update_partner'
-  # map.update_sectors 'bus_admin/_update_sectors', :controller => 'bus_admin/projects', :action => 'update_sectors'
-  # map.create_subagreement 'bus_admin/_create_subagreement', :controller => 'bus_admin/projects', :action => 'create_subagreement'
-  # map.delete_pending 'bus_admin/_delete_pending', :controller => 'bus_admin/projects', :action => 'delete_pending'
-  # map.project_auto_update 'bus_admin/_auto_update', :controller => 'bus_admin/projects', :action => 'auto_update'
-
   # map.report 'bus_admin/report_partners', :controller => 'bus_admin/partners', :action => 'report_partners'
   # map.report 'bus_admin/individual_report_partners', :controller => 'bus_admin/partners', :action => 'individual_report_partners'
-  # map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
-  # map.resend 'bus_admin/resend', :controller => 'bus_admin/gifts', :action => 'resend'
-  # map.resend_gift 'bus_admin/resend_gift', :controller => 'bus_admin/gifts', :action => 'resend_gift'
-
-  # map.display_inline_report 'bus_admin/display_inline_report', :controller => 'bus_admin/projects', :action => 'display_inline_report'
   # map.report 'bus_admin/individual_report_inline', :controller => 'bus_admin/projects', :action => 'individual_report_inline'
+
+  map.bob '/bus_admin/bob', :controller => 'bus_admin/project_statuses', :action => 'bob'
+
+  # bus_admin projects
+  map.auto_complete_for_place_name  '/auto_complete_for_place_name', :controller => 'bus_admin/projects', :action => 'auto_complete_for_place_name'
+  map.byProject 'bus_admin/_timeline_json', :controller => 'bus_admin/projects', :action => 'byProject'
+  map.create_subagreement 'bus_admin/_create_subagreement', :controller => 'bus_admin/projects', :action => 'create_subagreement'
+  map.delete_pending 'bus_admin/_delete_pending', :controller => 'bus_admin/projects', :action => 'delete_pending'
+  map.export_to_csv 'bus_admin/export_to_csv', :controller => 'bus_admin/projects', :action => 'export_to_csv'
+  map.kpi_report 'bus_admin/_kpi_report', :controller => 'bus_admin/projects', :action => 'kpi_report'
+  map.pending_projects 'bus_admin/pending_projects', :controller => 'bus_admin/projects', :action => 'pending_projects'
+  map.populate_project_places '/bus_admin/projects/populate_project_places', :controller => 'bus_admin/projects', :action => 'populate_project_places'
+  map.project_auto_update 'bus_admin/_auto_update', :controller => 'bus_admin/projects', :action => 'auto_update'
+  map.show_pending_project 'bus_admin/show_pending_projects', :controller => 'bus_admin/projects', :action => 'show_pending_project'
+  map.showProjectTimeline 'bus_admin/_showProjectTimeline', :controller => 'bus_admin/projects', :action => 'showProjectTimeline'
+  map.update_location 'bus_admin/_update_location', :controller => 'bus_admin/projects', :action => 'update_location'
+  map.update_partner 'bus_admin/_update_partner', :controller => 'bus_admin/projects', :action => 'update_partner'
+  map.update_sectors 'bus_admin/_update_sectors', :controller => 'bus_admin/projects', :action => 'update_sectors'
+
+  # bus_admin gifts
+  map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'
+  map.resend 'bus_admin/resend', :controller => 'bus_admin/gifts', :action => 'resend'
+  map.resend_gift 'bus_admin/resend_gift', :controller => 'bus_admin/gifts', :action => 'resend_gift'
+
+  # bus_admin assorted
+  map.add_measure 'bus_admin/key_measures/add_measure', :controller => 'bus_admin/key_measures', :action => 'add_measure'
+  map.feedback 'bus_admin/feedback', :controller => 'bus_admin/comments', :action => 'feedback'
+  map.home_update_partner 'bus_admin/home/update_partner', :controller => 'bus_admin/home', :action => 'update_partner'
+  map.populate_contact_places '/bus_admin/contacts/populate_contact_places', :controller => 'bus_admin/contacts', :action => 'populate_contact_places'
+  map.populate_place_sector_places '/bus_admin/projects/populate_place_sector_places', :controller => 'bus_admin/place_sectors', :action => 'populate_place_sector_places'
+  map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
+  map.stats 'bus_admin/stats', :controller => 'bus_admin/stats', :action => 'index'
   # map.note 'bus_admin/show_note', :controller => 'bus_admin/partners', :action => 'show_note'
-  # map.note_project 'bus_admin/show_project_note', :controller => 'bus_admin/projects', :action => 'show_project_note'
-  # map.note_program 'bus_admin/show_program_note', :controller => 'bus_admin/programs', :action => 'show_program_note'
-  # map.reset_password 'bus_admin/reset_password', :controller => 'bus_admin/bus_account', :action => 'reset_password'
-  # map.reset_password_now 'bus_admin/reset_password_now', :controller => 'bus_admin/bus_account', :action => 'reset_password_now'
-  # map.request_temporary_password 'bus_admin/request_temporary_password', :controller => 'bus_admin/bus_account', :action => 'request_temporary_password'
 
-  # map.pending_projects 'bus_admin/pending_projects', :controller => 'bus_admin/projects', :action => 'pending_projects'
-
+  map.bus_admin_home '/bus_admin/index', :controller => 'bus_admin/home', :action => 'index'
   map.connect '/bus_admin', :controller => 'bus_admin/home'
 
+  # dt campaigns
   map.show_campaign '/dt/:short_name', :controller => 'dt/campaigns', :action => 'show'
   map.show_campaign_team '/dt/:short_campaign_name/team/:short_name', :controller => 'dt/teams', :action => 'show'
   map.show_campaign_group '/dt/:short_campaign_name/group/:short_name', :controller => 'dt/teams', :action => 'show'
@@ -379,15 +364,15 @@ ActionController::Routing::Routes.draw do |map|
   map.show_campaign_participant '/dt/:short_campaign_name/team/:team_short_name/participant/:short_name', :controller => 'dt/participants', :action => 'show'
   map.show_campaign_participant '/dt/:short_campaign_name/participant/:short_name', :controller => 'dt/participants', :action => 'show'
 
-	# TODO: Is this the right way to route the iframe?
-	map.connect '/bus_admin/projects/embedded_budget_items/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_budget_items'
-	map.connect '/bus_admin/projects/embedded_milestones/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_milestones'
-	map.connect '/bus_admin/projects/embedded_key_measures/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_key_measures'
-	map.connect '/bus_admin/projects/embedded_you_tube_videos/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_you_tube_videos'
-	map.connect '/bus_admin/projects/embedded_collaborations/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_collaborations'
-	map.connect '/bus_admin/projects/embedded_flickr_images/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_flickr_images'
-	map.connect '/bus_admin/projects/embedded_financial_sources/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_financial_sources'
-	map.connect '/bus_admin/places_for_approval', :controller => 'bus_admin/places', :action => 'places_for_approval'
+  # TODO: Is this the right way to route the iframe?
+  map.connect '/bus_admin/projects/embedded_budget_items/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_budget_items'
+  map.connect '/bus_admin/projects/embedded_milestones/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_milestones'
+  map.connect '/bus_admin/projects/embedded_key_measures/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_key_measures'
+  map.connect '/bus_admin/projects/embedded_you_tube_videos/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_you_tube_videos'
+  map.connect '/bus_admin/projects/embedded_collaborations/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_collaborations'
+  map.connect '/bus_admin/projects/embedded_flickr_images/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_flickr_images'
+  map.connect '/bus_admin/projects/embedded_financial_sources/:project_id', :controller => 'bus_admin/projects', :action => 'embedded_financial_sources'
+  map.connect '/bus_admin/places_for_approval', :controller => 'bus_admin/places', :action => 'places_for_approval'
 
   map.connect "*path", :controller => 'dt/pages', :action => "show"
 end
