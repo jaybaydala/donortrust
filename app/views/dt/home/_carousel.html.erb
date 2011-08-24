@@ -4,18 +4,21 @@
       <% @carousel_items.each do |carousel_item| %>
       <div class="carousel-item">
         <% if carousel_item.title_image_only? %>
-          <%= image_tag carousel_item.title_image.url, :alt => carousel_item.title %>
+          <%= "<a href=\"#{carousel_item.link}\">" if carousel_item.link? %><%= image_tag carousel_item.title_image.url, :alt => carousel_item.title %><%= "</a>" if carousel_item.link? %>
         <% else %>
           <div class="carousel-content">
-            <%= image_tag carousel_item.title_image.url, :alt => carousel_item.title %>
-            <div class="carousel-text"><%= carousel_item.content %></div>
+            <%= "<a href=\"#{carousel_item.link}\">" if carousel_item.link? %><%= image_tag carousel_item.title_image.url, :alt => carousel_item.title %><%= "</a>" if carousel_item.link? %>
+            <div class="carousel-text">
+              <%= carousel_item.content %>
+              <% if carousel_item.link? && carousel_item.link_text? %><div><a href="<%= carousel_item.link %>"><%= carousel_item.link_text.html_safe %></a></div><% end %>
+            </div>
           </div>
           <% if carousel_item.code? || carousel_item.image? %>
           <div class="carousel-image">
             <% if carousel_item.code? %>
               <%= carousel_item.code %>
             <% else %>
-              <%= image_tag carousel_item.image.url, :alt => '' %>
+              <%= "<a href=\"#{carousel_item.link}\">" if carousel_item.link? %><%= image_tag carousel_item.image.url, :alt => '' %><%= "</a>" if carousel_item.link? %>
             <% end %>
           </div>
           <% end %>
