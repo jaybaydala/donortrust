@@ -43,8 +43,7 @@ module DtApplicationHelper
   end
 
   def ssl_protocol
-    return 'https://' if ENV['RAILS_ENV'] == 'production'
-    'http://'
+    Rails.env.production? ? 'https://' : 'http://'
   end
   
   def dt_head
