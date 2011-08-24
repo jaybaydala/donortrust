@@ -1,7 +1,8 @@
 set :rails_env, "production"
 set :stage, "production"
+set :branch, "staging"
 set :rvm_ruby_string, "ree@#{application}_#{rails_env}"
-set :deploy_to, "/home/uend/apps/#{application}_#{rails_env}"
+set :deploy_to, "/var/www/apps/#{application}_#{rails_env}"
 
 set :algea, "www.uend.org"
 role :app, algea
