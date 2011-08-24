@@ -25,10 +25,8 @@ header .extended #nav { background-color:transparent; }
 #flashes .error { background:url(/images/icons/notice-alert.png) 12px 8px no-repeat #F60; color: #FFF; margin-bottom:1em; padding: 24px 24px 24px 88px; }
 .borderradius #flashes .notice,
 .borderradius #flashes .error { -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; }
-
 .shadow-top { background:url(/images/home/shadow-top.png) no-repeat; color:#999; font-size:11px; height:18px; padding-top:8px; }
 .shadow-bottom { background:url(/images/home/shadow-bottom.png) no-repeat; color:#999; font-size:11px; height:13px; }
-
 #top_content h1 { font-family: Helmet, Freesans, sans-serif; font-size:36px; margin:0; padding:0; }
 
 /* footer */
@@ -52,7 +50,6 @@ footer a:active { text-decoration:underline; }
 #headercontent.extended { background:url(/images/layout/header_bg.png) no-repeat; height:220px; width:1015px; }
 #headerextended .feature { color:#FFF; font-family:'Ubuntu-Light',Helmet,Freesans,sans-serif; font-size:30px; margin-top:36px; text-align:center; }
 #headerextended .feature h1 { color:#FFF; font-family:'Ubuntu-Medium',Helmet,Freesans,sans-serif; font-size:42px; font-weight:bold; margin:0; padding:0; }
-
 
 /* HOME
 -----------*/
@@ -193,6 +190,16 @@ section.iend.spaced { padding:36px 0; }
 .borderradius .profile-summarybox .icon { -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
 .profile-summarybox .summary { background:url(/images/give/sidebar_summary-bg.png) repeat-x #390; border:1px solid #CCC; margin-bottom:16px; padding:12px;}
 .borderradius .profile-summarybox .summary { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
+
+/* GIFTS
+----------*/
+#gift-outline { background-color:#360; height:78px; }
+#gift-outline img { position:absolute; left:39px; top:18px; }
+#open_gift-description { background:url(/images/give/open-bg.png) repeat-x #390; color:#FFF; padding:48px 0 30px; }
+#open_gift-description .step { font-size:30px; text-align:right; height:2.25em; }
+#open_gift-description .description { text-transform:uppercase; }
+.borderradius #gift-outline { -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
+.borderradius #open_gift-description { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
 
 /* CART
 ----------*/

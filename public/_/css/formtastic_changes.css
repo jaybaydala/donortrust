@@ -143,10 +143,10 @@ form.formtastic fieldset > ol > li#user_sector_ids_input fieldset legend { displ
 form.formtastic fieldset > ol > li#user_sector_ids_input fieldset ol li label { display:block; font-size:11px; text-align:center; }
 form.formtastic fieldset > ol > li#user_sector_ids_input fieldset ol li label input { display:block; margin:0 auto 0.25em auto; }
 
-form#giftpickupform {}
+form#giftpickupform { margin-top:18px; }
 form#giftpickupform fieldset > ol > li { margin:0; padding:0; }
-form#giftpickupform fieldset > ol > li label { font-size:12px; font-weight:normal; margin:0; padding:0; }
+form#giftpickupform fieldset > ol > li label { font-size:14px; font-weight:normal; margin:0; padding:0; }
 form#giftpickupform fieldset > ol > li.string { float:left; }
-form#giftpickupform fieldset > ol > li.string input { font-size:12px; width:200px; }
+form#giftpickupform fieldset > ol > li.string input { font-size:16px; width:200px; }
 form#giftpickupform fieldset > ol > li.commit input,
-form#giftpickupform fieldset > ol > li.commit a { margin:1.2em 0 0 0.5em; }
+form#giftpickupform fieldset > ol > li.commit a { margin:1.5em 0 0 0.5em; }
