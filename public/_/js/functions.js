@@ -56,7 +56,7 @@ $(document).ready(function (){
     submit.before(button).hide();
   });
   // form submit replacements - small buttons
-  $("#loginform, #facebook_post").each(function() {
+  $("#loginform, #facebook_post, #giftpickupform").each(function() {
     var form = $(this);
     var submit = $('input[type=submit]', $(this));
     var button = $("<a>").addClass('smallbutton').click(function() { form.submit() }).html(submit.attr('value'));
