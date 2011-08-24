@@ -16,14 +16,14 @@ class Iend::AuthenticationsController < DtApplicationController
     elsif authentication
       flash[:notice] = "Signed in successfully."
       self.current_user = authentication.user
-      redirect_to iend_user_url(current_user)
+      redirect_to request.env["omniauth.origin"].present? ? request.env["omniauth.origin"] : iend_user_url(current_user)
     else
       user = User.new
       user.apply_omniauth(omniauth)
       if user.save
         flash[:notice] = "Signed in successfully."
         self.current_user = user
-        redirect_to iend_user_url(current_user)
+        redirect_to request.env["omniauth.origin"].present? ? request.env["omniauth.origin"] : iend_user_url(current_user)
       else
         flash[:notice] = "Please fill out the following missing information."
         session[:omniauth] = omniauth
