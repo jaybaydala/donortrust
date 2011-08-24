@@ -3,62 +3,23 @@
 <%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 <%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
 
-<%= error_messages_for :investment %>
-<% form_for(:investment, :url => dt_investment_path(:id => params[:id]), :html => {:id => "investmentform", :name => "investmentform", :method => :put}) do |f| %>
 
-<%= f.hidden_field 'promotion_id', :id => "promotion_id" %>
-
-<p>Please enter your personal information.</p>
-<div class="userform">
-  <fieldset>
-    <legend>Please specify how you would like your investment to be allocated:</legend>
-    <ol>
-      <li>
-        <% if unallocated_project %>
-        <label class="left"><%= f.radio_button "project_id", unallocated_project.id %><%= unallocated_project.name %></label>
-        <% if @investment.project_id == unallocated_project.id %><div class="note">
-          If this is not what you want, you can <%= link_to "find a different project", dt_projects_path %> to invest in.
-        </div><% end %>
-        <% elsif !@project %>
-        <div class="note"><%= link_to("you must choose a project", dt_projects_path) %></div>
-        <% end %>
-      </li>
-      <% if @project %><li>
-        <label class="left"><%= f.radio_button "project_id", ( @project.id? ? @project.id : 0 ) %>to a project I've chosen</label>
-        <div class="note" style="margin-left:1.6em;">&#8250; <%= @project.id? ? link_to(@project.name, dt_project_path(@project)) : link_to("choose another project", dt_projects_path) %></div>
-        <%= hidden_field_tag :project_id, @project.id %>
-      </li><% end %>
-    </ol>
-  </fieldset>
-
-  <fieldset>
-    <legend>Your Investment</legend>
-    <ol>
-      <li>
-        <label for="investment_amount" style="width:135px;"><%= render :partial => 'dt/shared/form_required' %>Investment Amount</label> $<%= f.text_field :amount, :value => number_with_precision(@investment.amount, 2) %>
-        <div class="note" style="margin-left:150px;">Example: $100</div>
-      </li>
-    </ol>
-  </fieldset>
-  
-  <% if logged_in? && @project && @project.group_project?(current_user) %>
-  <fieldset>
-    <legend>Group Wishlist</legend>
-    <p><%= render :partial => 'dt/shared/form_required' %>You have the option to invest on behalf of one of your groups, would you like to do this now?</p>
-    <ol>
-      <li><label class="left"><%= f.radio_button :group_id, '' %>Not at this time.</label></li>
-      <% for g in current_user.groups %>
-      <li><label class="left"><%= f.radio_button :group_id, g.id %><%= g.name %></label></li>
-      <% end %>
-    </ol>
-  </fieldset>
+<% semantic_form_for([:dt, @investment], :html => {:id => "investmentform"}) do |f| %>
+  <% f.inputs "Your Investment" do %>
+    <%
+      options = []
+      options << [unallocated_project.name, unallocated_project.id] if unallocated_project
+      options << [raw("to a project I've chosen - #{link_to @project.name, [:dt, @project]}"), @project.id] if @project && (!unallocated_project || @project.id != unallocated_project.id)
+      hint = unallocated_project && @project.id == unallocated_project.id ? raw("If this is not what you want, you can #{link_to 'find a different project', [:dt, :projects]}.") : nil
+    %>
+    <%= f.input :project_id, :label => "How would you like to direct your investment?", :as => :radio, :collection => options, :hint => hint %>
+    <%= f.input :amount, :label => "Investment Amount", :hint => "Example: $100" %>
+    <%= f.input :promotion_id, :as => :hidden %>
   <% end %>
-
-  <div style="float:right;" class="clearfix"><%= submit_tag 'Update Investment', :class => 'buttonsubmit' %></div>
-</div>
+  
+  <% f.buttons do %>
+    <%= f.commit_button "Update" %>
+  <% end %>
 <% end %>
 
-<%- content_for :sidebar do -%>
-  <%= render :file => "dt/cart/summary" %>
-  <%= dt_profile_sidebar %>
-<%- end -%>
+<%= render :partial => "dt/shared/form_requirednote" %>
