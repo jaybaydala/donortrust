@@ -1,4 +1,4 @@
-<% semantic_form_for :user, :url => iend_session_path(:protocol => ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
+<% semantic_form_for :user, :url => iend_session_url(:protocol => ssl_protocol), :html => { :name => 'loginform', :id => 'loginform' } do |f| %>
   <% f.inputs do %>
     <%= f.input :login, :label => "Username/Email" %>
     <%= f.input :password, :as => :password, :hint => link_to("Forgot your password?", new_iend_password_reset_path) %>
