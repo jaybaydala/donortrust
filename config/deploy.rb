@@ -84,7 +84,7 @@ namespace :deploy do
   
   desc "Update the crontab file"
   task :update_crontab, :roles => :schedule do
-    run "cd #{latest_release} bundle exec whenever --set environment=#{rails_env} --update-crontab #{application}"
+    run "cd #{latest_release} && bundle exec whenever --set environment=#{rails_env} --update-crontab #{application}"
   end
 end
 
