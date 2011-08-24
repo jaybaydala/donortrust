@@ -6,7 +6,7 @@ when "Gift"
 when "Investment"
   if line_item.subscription?
     partial_name = "subscription"
-    edit_link = link_to "Edit", edit_dt_investment_path(line_item.id)
+    edit_link = link_to "Edit", new_dt_upowered_path
   else
     partial_name = "investment"
     edit_link = link_to "Edit", edit_dt_investment_path(line_item.id)
