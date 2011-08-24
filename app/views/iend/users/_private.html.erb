@@ -1,6 +1,6 @@
 <% html_title("#{@user.first_name} #{@user.last_name}") %>
 
-<h1><%= "#{image_tag(@user.image.url, :alt => '') if @user.image? && File.exists?(@user.image.url)} #{@user.first_name} #{@user.last_name}" %></h1>
+<h1><%= "#{image_tag(@user.image.url, :alt => '') if @user.image?} #{@user.first_name} #{@user.last_name}" %></h1>
 <p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
 
 <%= iend_user_nav %>

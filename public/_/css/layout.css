@@ -104,14 +104,14 @@ footer a:active { text-decoration:underline; }
 .project-module a { color:#39F; text-decoration:none; }
 .project-module a:hover { color:#4AF; }
 .project-module-top { background:#b3241b; color:#FFF; font-family:Georgia,Times,"Times New Roman",serif; height:120px; margin-bottom:18px; text-align:center; width:199px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
-.project-module-top a:link,
-.project-module-top a:visited,
-.project-module-top a:hover,
-.project-module-top a:active,
-.dark .project-module-top a:link,
-.dark .project-module-top a:visited,
-.dark .project-module-top a:hover,
-.dark .project-module-top a:active { color:#FFF; text-decoration:none; }
+.project-module .project-module-top a:link,
+.project-module .project-module-top a:visited,
+.project-module .project-module-top a:hover,
+.project-module .project-module-top a:active,
+.dark .project-module .project-module-top a:link,
+.dark .project-module .project-module-top a:visited,
+.dark .project-module .project-module-top a:hover,
+.dark .project-module .project-module-top a:active { color:#FFF; text-decoration:none; }
 .project-livesaffected-num { font-size:30px; line-height:28px; padding:30px 0 18px 0; }
 .project-livesaffected { font-size:14px; font-style:italic; }
 .project-place { font-weight:bold; margin:0 12px 6px 12px; }

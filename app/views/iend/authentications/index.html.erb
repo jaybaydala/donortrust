@@ -27,7 +27,7 @@
   <% if current_user.authentications.find_by_provider(provider) %>
     <div class="auth_provider">
       <%= image_tag "dt/authentications/#{provider}_64.png", :size => "64x64", :alt => provider.titleize %>
-      Already using <%= provider.titleize %>
+      Already added
     </div>
   <% else %>
     <a href="/auth/<%= provider %>" class="auth_provider">
