@@ -13,6 +13,7 @@
       <article class="span-16 prepend-1 append-1 last<%= ' pageshadow' if content_for?(:top_content) %>">
         <%= render :partial => 'layouts/shared/flashes' %>
         <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
+        <div id="fb-root"></div>
         <%= yield %>
       </article>
     </div>
