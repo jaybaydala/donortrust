@@ -24,13 +24,19 @@ class Dt::InvestmentsController < DtApplicationController
 
     respond_to do |format|
       format.html {
-        if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:unallocated_gift] && !params[:unallocated_gift].empty?
+        if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:unallocated_gift].present?
+          # remove the auto-tip for directed gifts
+          @cart.update_attributes(:add_optional_donation => false)
           render :action => 'confirm_unallocated_gift' and return 
         end
-        if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:directed_gift] && !params[:directed_gift].empty?
+        if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:directed_gift].present?
+          # remove the auto-tip for directed gifts
+          @cart.update_attributes(:add_optional_donation => false)
           render :action => 'confirm_directed_gift' and return
         end
-        if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:admin_gift] && !params[:admin_gift].empty?
+        if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:admin_gift].present?
+          # remove the auto-tip for directed gifts
+          @cart.update_attributes(:add_optional_donation => false)
           render :action => 'confirm_admin_gift' and return
         end
         if @project && @project != Project.unallocated_project && !@project.fundable?
