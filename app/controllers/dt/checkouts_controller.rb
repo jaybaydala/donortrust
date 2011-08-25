@@ -42,7 +42,7 @@ class Dt::CheckoutsController < DtApplicationController
       gift = Gift.find(session[:gift_card_id])
     end
     @valid = validate_order
-    do_action if params[:unallocated_gift].nil? && params[:admin_gift].nil? && params[:directed_gift].nil?
+    do_action if params[:unallocated_gift].blank? && params[:admin_gift].blank? && params[:directed_gift].blank?
     @saved = @order.save if @valid
     # save our order_id in the session
     session[:order_id] = @order.id if @saved
@@ -215,7 +215,7 @@ class Dt::CheckoutsController < DtApplicationController
       end
       
       if !logged_in?
-        flash.now[:notice] = "A user with your email address (#{@order.email}) already exists. To have this order associated with your account, login below and continue your checkout." if User.find_by_login(@order.email)
+        flash.now[:notice] = "A user with your email address (#{@order.email}) already exists. To have this order associated with your account, login and continue your checkout." if User.find_by_login(@order.email)
       end
     end
   
@@ -332,13 +332,13 @@ class Dt::CheckoutsController < DtApplicationController
   
     def directed_gift
       @directed_gift = false
-      return true if !self.directed_gift?
+      return true unless self.directed_gift?
       @cart = find_cart
-      if params[:unallocated_gift] == "1"
+      if params[:unallocated_gift].present?
         project = Project.unallocated_project
-      elsif params[:admin_gift] == "1"
+      elsif params[:admin_gift].present?
         project = Project.admin_project
-      elsif params[:directed_gift] == "1"
+      elsif params[:directed_gift].present?
         project = Project.find(params[:gift_project]);
       end
       if @cart.items.detect {|item| item.class == Investment && item.project == project && item.amount == Gift.find(session[:gift_card_id]).balance}
@@ -355,7 +355,6 @@ class Dt::CheckoutsController < DtApplicationController
 
       if @valid_investment
         @directed_gift = true
-        @current_step = 'confirm'
         @cart.add_item(@investment)
         @order = initialize_new_order
         @valid = validate_order
