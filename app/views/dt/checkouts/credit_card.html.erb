@@ -15,23 +15,27 @@
     <%= f.semantic_errors :order %>
     <%= hidden_field_tag "step", "credit_card" %>
     <% f.inputs "Credit Card Details" do %>
-      <li>
-        <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
-      </li>
-      <%= f.input :cardholder_name %>
-      <%= f.input :card_number, :label => "Credit Card Number", :input_html => { :maxlength => 16 } %>
-      <%= f.input :cvv, :label => "Card Security Number (CVV)", :hint => "This is final 3 digits on the back of your card.", :input_html => { :maxlength => 5, :size => "5", :style => "width:auto;" } %>
-      <li class="select optional" id="order_expiry_month_input">
-        <%= f.label :expiry_month, "Card Expiry"  %>
-        <%= f.select :expiry_month, expiry_months, { :include_blank => true }, { :style => "width:auto;" } %>
-        <%= f.label :expiry_year, "/", :style => "display:inline;"  %>
-        <%= f.select :expiry_year, expiry_years, { :include_blank => true }, { :style => "width:auto;" } %>
-      </li>
+      <% if @order.credit_card_payment? && @order.credit_card_payment > 0 %>
+        <li>
+          <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
+        </li>
+        <%= f.input :cardholder_name %>
+        <%= f.input :card_number, :label => "Credit Card Number", :input_html => { :maxlength => 16 } %>
+        <%= f.input :cvv, :label => "Card Security Number (CVV)", :hint => "This is final 3 digits on the back of your card.", :input_html => { :maxlength => 5, :size => "5", :style => "width:auto;" } %>
+        <li class="select optional" id="order_expiry_month_input">
+          <%= f.label :expiry_month, "Card Expiry"  %>
+          <%= f.select :expiry_month, expiry_months, { :include_blank => true }, { :style => "width:auto;" } %>
+          <%= f.label :expiry_year, "/", :style => "display:inline;"  %>
+          <%= f.select :expiry_year, expiry_years, { :include_blank => true }, { :style => "width:auto;" } %>
+        </li>
+      <% else %>
+        <li><p>Since you are not paying by credit card, please simply press the &ldquo;Finish&rdquo; button to complete your order</p></li>
+      <% end %>
     <% end %>
 
     <% f.buttons do %>
       <%= link_to("back", edit_dt_checkout_path(:step => @checkout_steps.include?("account_signup") ? "account_signup": "billing"), :class => "bigbutton black") %>
-      <%= f.commit_button "next" %>
+      <%= f.commit_button "finish" %>
     <% end %>
   <% end %>
 </div>
