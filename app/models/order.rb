@@ -39,7 +39,7 @@ class Order < ActiveRecord::Base
     if order.account_signup_step
       if (order.cart && order.cart.subscription?) || order.tax_receipt_needed?
         unless order.user
-          user = build_user_from_order
+          user = order.build_user_from_order
           user.errors.full_messages.each{|msg| self.errors.add_to_base(msg) } unless user.valid?
         end
       end
