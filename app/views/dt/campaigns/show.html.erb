@@ -54,7 +54,7 @@
 </div>
 
 <%- content_for :sidebar do -%>
-<iframe src="http://www.facebook.com/plugins/like.php?href=<%= CGI::escape(dt_campaign_url(campaign)) %>&amp;layout=standard&amp;show_faces=false&amp;width=230&amp;action=like&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:230px; height:35px;" allowTransparency="true"></iframe>
+<iframe src="http://www.facebook.com/plugins/like.php?href=<%= CGI::escape(dt_campaign_url(@campaign)) %>&amp;layout=standard&amp;show_faces=false&amp;width=230&amp;action=like&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:230px; height:35px;" allowTransparency="true"></iframe>
 
 <div class="campaign-sidebar-box">
   <%= 
