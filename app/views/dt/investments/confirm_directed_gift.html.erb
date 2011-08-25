@@ -1,5 +1,4 @@
 <%- content_for :html_title do -%>Confirmation of giving my entire gift card balance<%- end -%>
-<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 
 <div class="userform">
   <% semantic_form_for(:investment,  :url => dt_checkout_url(:protocol => ssl_protocol), :html => {:method => 'put' })  do |f|%>
