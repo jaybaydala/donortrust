@@ -17,6 +17,7 @@ $(document).ready(function (){
   $('#e_card-selection img').click(function() {
     $('#e_card-preview img').attr("src", $(this).attr("data_url"));
     $("#gift_e_card_id").attr("value", $(this).attr("data_id"));
+    $("#share_e_card_id").attr("value", $(this).attr("data_id"));
   });
   $("#gift_preview").click(function(event) {
     event.preventDefault();
@@ -49,7 +50,7 @@ $(document).ready(function (){
   });
 
   // form submit replacements - big buttons
-  $("#investmentform, #paymentform, #billingform, #signupform, #userform, #upoweredform").each(function() {
+  $("#investmentform, #paymentform, #billingform, #signupform, #userform, #upoweredform, #tellfriendform").each(function() {
     var form = $(this);
     var submit = $('input[type=submit]', $(this));
     var button = $("<a>").addClass('bigbutton').click(function() { form.submit() }).html(submit.attr('value'));
