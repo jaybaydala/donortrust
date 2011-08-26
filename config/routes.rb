@@ -70,7 +70,7 @@ ActionController::Routing::Routes.draw do |map|
       groups.resources :wall_messages, :controller => 'groups/wall_messages'
     end
     dt.resources :wishlists, :controller=> 'wishlists'
-    dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :confirm => :post, :preview => :get }
+    dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :preview => :get }
     dt.resources :mdgs, :controller=> 'mdgs'
     
     dt.resource :staff, :controller => 'staff'
