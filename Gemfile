@@ -28,6 +28,7 @@ gem 'packet'
 gem 'paperclip'
 gem 'pdf-writer', :require => 'pdf/writer'
 gem 'pony', :require => false
+gem 'rack-rewrite', :require => 'rack/rewrite'
 gem 'RedCloth', :require => 'redcloth'
 gem 'rmagick', '2.12.2'
 gem 'ruby-recaptcha'
