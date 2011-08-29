@@ -190,11 +190,11 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :unallocated_investments, :collection => {:unallocate => :post}
     ba.resources :banner_images, :active_scaffold => true
     ba.resources :rank_values, :active_scaffold => true
-    ba.resources :load, :controller => "bus_admin/load", :collection => {:loads => :post}
+    ba.resources :load, :controller => "load", :collection => {:loads => :post}
     ba.resources :gifts, :active_scaffold => true, :collection => {:change_email => :post}
     ba.resources :loads, :collection => {:loads => :post}
-    ba.resources :sent, :controller => "bus_admin/sent"
-    ba.resources :add_to_group, :controller => "bus_admin/add_to_group", :collection => {:add_to_groups => :post}
+    ba.resources :sent, :controller => "sent"
+    ba.resources :add_to_group, :controller => "add_to_group", :collection => {:add_to_groups => :post}
     ba.resources :budget_items, :active_scaffold => true
     ba.resources :financial_sources, :active_scaffold => true
     ba.resources :collaborating_agencies, :active_scaffold => true
@@ -226,7 +226,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :authorized_controllers, :active_scaffold => true
     # bus_admin project resources and routes
     ba.resources :projects, 
-                  :controller => 'bus_admin/projects',
+                  :controller => 'projects',
                   :active_scaffold => true,
                   :collection => { :pending_projects => :get}
 
@@ -259,8 +259,8 @@ ActionController::Routing::Routes.draw do |map|
       :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :list => :get }
     ba.resources :project_flickr_images, :active_scaffold => true, :member => {:delete => :delete}, 
       :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
-    ba.resources :welcome, :controller => "bus_admin/welcome"
-    ba.resources :home, :controller => "bus_admin/home"
+    ba.resources :welcome, :controller => "welcome"
+    ba.resources :home, :controller => "home"
 
     ba.resources :measures, :active_scaffold => true
 
@@ -309,7 +309,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :measures
     ba.resources :accounts, :active_scaffold => true
     ba.resources :groups, :active_scaffold => true
-    ba.resources :bus_account, :active_scaffold => true, :controller => "bus_admin/bus_account"
+    ba.resources :bus_account, :active_scaffold => true, :controller => "bus_account"
   end
 
   # bus_admin reports
