@@ -6,7 +6,17 @@ RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+require 'rack/rewrite' # apparently bundler hasn't required it just yet...
+
 Rails::Initializer.run do |config|
+  config.middleware.insert_before(Rack::Lock, Rack::Rewrite) do
+    r301 '/dt/accounts', '/iend'
+    r301 '/dt/accounts/new', '/iend/users/new'
+    r301 %r{/blog/?.*}, 'http://blog.uend.org/'
+    # rewrite '/blog/Example_Path', '/foo'
+    # r302 '/wiki/Another_Example', '/bar'
+    # r301 %r{/wiki/(\w+)_\w+}, '/$1'
+  end
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
