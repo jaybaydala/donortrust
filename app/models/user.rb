@@ -152,8 +152,13 @@ class User < ActiveRecord::Base
   end
 
   def name
-    return "#{self.first_name} #{self.last_name[0,1]}." if self.display_name.blank?
-    self.display_name
+    if self.display_name.blank?
+      name = self.first_name.to_s
+      name << " #{self.last_name[0,1]}" if self.last_name?
+      name
+    else
+      self.display_name.to_s
+    end
   end
 
   def fullname_login
