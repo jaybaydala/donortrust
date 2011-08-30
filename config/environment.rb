@@ -12,6 +12,7 @@ Rails::Initializer.run do |config|
   config.middleware.insert_before(Rack::Lock, Rack::Rewrite) do
     r301 '/dt/accounts', '/iend'
     r301 '/dt/accounts/new', '/iend/users/new'
+    r301 '/dt/accounts/reset', '/iend/password_resets'
     r301 %r{/blog/?.*}, 'http://blog.uend.org/'
     # rewrite '/blog/Example_Path', '/foo'
     # r302 '/wiki/Another_Example', '/bar'
