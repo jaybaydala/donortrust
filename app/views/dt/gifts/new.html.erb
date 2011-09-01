@@ -98,7 +98,7 @@
 <% content_for :javascript do %>
   <%= javascript_include_tag('/_/js/jquery.limit_input.js') %>
   <% javascript_tag do %>
-    $('#giftform').formnav();
+    // $('#giftform').formnav();
     $('#gift_message').limit_input({ limit:1000, id_result: 'gift_message_count' });
   <% end %>
 <% end %>
