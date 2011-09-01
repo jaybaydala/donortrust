@@ -1,0 +1,10 @@
+<% div_for gift do %>
+  <strong>Gift:</strong>
+  <% if gift.project_id? && gift.project %>
+   <%= gift.project_id %>
+  <% else %>
+    Gift Card
+  <% end %>
+  to <a href="mailto:<%=h gift.to_email %>"><%=h(gift.to_name || gift.to_email.sub(/@.*/, '')) %></a>
+  for <%= number_to_currency(gift.amount) %>
+<% end %>

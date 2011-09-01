@@ -35,10 +35,6 @@ class Campaign < ActiveRecord::Base
   validates_presence_of :name, :campaign_type, :description, :fundraising_goal, :creator, :short_name
   validates_uniqueness_of :short_name, :message => "the short name is not unique"
 
-  image_column  :picture,
-                :versions => { :thumb => "75x75", :full => "150x150"  },
-                :filename => proc{|inst, orig, ext| "campaign_#{inst.id}.#{ext}"},
-                :store_dir => "uploaded_pictures/campaign_pictures"
   IMAGE_SIZES = {
     :full => {:width => 150, :height => 150, :modifier => ">"},
     :thumb => {:width => 75, :height => 75, :modifier => ">"}
@@ -58,35 +54,34 @@ class Campaign < ActiveRecord::Base
     :if => Proc.new {|c| c.image_file_name? }
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/gif image/png image/pjpeg image/x-png), # the last 2 for IE
     :if => Proc.new {|c| c.image_file_name? }
-  is_indexed :delta => true, 
-  :fields => [
-    {:field => 'name', :sortable => true},
-    {:field => 'description'},
-    {:field => 'city'},
-    {:field => 'province'},
-    {:field => 'country'}
-  ], 
-  
-  :include => [
-    {
-      :class_name => 'Team',
-      :field => 'teams.name',
-      :as => 'team_name',
-      :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"
-    },
-    {
-      :class_name=> 'Team',
-      :field => 'teams1.short_name',
-      :as => 'team_short_name',
-      :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"
-    },
-    {
-      :class_name => 'Team',
-      :field => 'teams2.description',
-      :as => 'team_description',
-      :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"
-    }
-  ]
+  # is_indexed :delta => true, 
+  #   :fields => [
+  #     {:field => 'name', :sortable => true},
+  #     {:field => 'description'},
+  #     {:field => 'city'},
+  #     {:field => 'province'},
+  #     {:field => 'country'}
+  #   ], 
+  #   :include => [
+  #     {
+  #       :class_name => 'Team',
+  #       :field => 'teams.name',
+  #       :as => 'team_name',
+  #       :association_sql => "LEFT JOIN (teams) ON (teams.campaign_id=campaigns.id)"
+  #     },
+  #     {
+  #       :class_name=> 'Team',
+  #       :field => 'teams1.short_name',
+  #       :as => 'team_short_name',
+  #       :association_sql => "LEFT JOIN (teams as teams1) ON (teams1.campaign_id=campaigns.id)"
+  #     },
+  #     {
+  #       :class_name => 'Team',
+  #       :field => 'teams2.description',
+  #       :as => 'team_description',
+  #       :association_sql => "LEFT JOIN (teams as teams2) ON (teams2.campaign_id=campaigns.id)"
+  #     }
+  #   ]
 
   def before_validation
     if use_user_email == "1"

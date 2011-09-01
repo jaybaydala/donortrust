@@ -8,7 +8,7 @@ class BusAdmin::PagesController < ApplicationController
   end
   
   def index
-    @pages = Page.all(:order => "title")
+    @pages = Page.all(:order => :lft)
   end
   
   def new

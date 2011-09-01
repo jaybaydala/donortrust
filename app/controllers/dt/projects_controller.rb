@@ -2,36 +2,33 @@ class Dt::ProjectsController < DtApplicationController
   include RssParser
   before_filter :project_id_to_session, :only=>[:facebook_login]
   before_filter :require_facebook_login, :only=>[:facebook_login]
-  before_filter :store_location, :except=>[:facebook_login, :get_videos, :finish_facebook_login, :timeline]
+  before_filter :search_query
   helper "dt/groups"
-
+  helper_method :search_records
+  helper_method :search_query
+  helper_method :search_query_with_term
+  helper_method :search_query_without_term
+  layout "projects"
+  
   @monkey_patch_flag = false
 
-  def initialize
-    @topnav = 'projects'
-  end
-
   def index
-    store_location
-    @page_title = 'Featured Projects'
-    @projects = Project.featured_projects
+    if params[:search].blank?
+      @projects = Project.current.paginate(:conditions => { :featured => true }, :page => params[:page], :per_page => 18)
+      @projects = Project.current.paginate(:limit => 3, :order => 'RAND()', :page => params[:page], :per_page => 18) if @projects.size == 0
+    else
+      @projects = Project.search :with => search_query_prepared, 
+        :page     => params[:page], 
+        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i), 
+        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym), 
+        :populate => true
+    end
     respond_to do |format|
-      format.html
+      format.html { render :action => "index", :layout => "project_search"}
     end
   end
 
-  # for sitemap.xml google sitemap functionality for projects
-  #def sitemap
-  #  @projects = Project.find_public(:all)
-  #  respond_to do |format|
-  #    format.xml {
-  #      render :file => "#{RAILS_ROOT}/app/views/dt/projects/sitemap.rxml"
-  #    }
-  #  end
-  #end
-
   def show
-    store_location
     @project = Project.find_public(params[:id])
     @page_title = @project.name
     @rss_feed = last_rss_entry(@project.rss_url) if @project && @project.rss_url
@@ -167,83 +164,6 @@ class Dt::ProjectsController < DtApplicationController
     render :layout => false
   end
 
-  # Ultrasphinx search - First apply filters, then, depending on sorting mode, do the ultrasphinx search
-  def search
-    @query = params[:keywords].nil? ?  "" : params[:keywords]
-
-    # prepare filters
-    filters = apply_filters
-
-    # do the search itself
-    ultrasphinx_search(filters)
-    params[:filter] = false;
-
-    respond_to do |format|
-      format.html { render :partial => 'dt/projects/search_results', :layout => 'layouts/dt_application'}
-    end
-  end
-
-  # advanced search with ultrasphinx.
-  def advancedsearch
-    params[:filter] = true;
-  end
-
-
-  # populates the country select using the continent_id
-  def add_countries
-    projects = Project.find_public(:all, :conditions => ["continent_id=?", params[:continent_id].to_i])
-    @countries = [[ 'All ...', '']]
-    projects.each do |project|
-      sum = 0
-      projects.each do |pj|
-        sum += 1 if project.country_id==pj.country_id
-      end
-      name = "#{!project.country_id.nil? ? project.nation.name : project.place.country.name} (#{sum})"
-      @countries << [name, project.country_id]
-    end
-    @countries.uniq!
-    respond_to do |format|
-      format.js {
-        render :update do |page|
-          page.replace_html "country_id_container", :partial => "select_countries"
-        end
-      }
-    end
-  end
-  helper_method :add_countries
-
-  # populates the cause select using the sector_id
-  def add_causes
-    # pega todas causas com sector_id
-    # pra cada causa, veja quantos projetos
-    @causes = [['All ...', '']]
-    #@search = Ultrasphinx::Search.new(:class_names => ['Project'], :per_page => Project.count, :filters => {:sector_id => params[:sector_id].to_i })
-    #@search.run
-    #causes = Cause.find_by_sector_id(params[:sector_id]) if params[:sector_id]
-    sector = Sector.find(params[:sector_id].to_i)
-    sector.causes.each do |cause|
-    if cause.sector.id==sector.id && cause.projects.size>0
-        @causes << ["#{cause.name} (#{cause.projects.size})", cause.id]
-      end
-    end
-    @causes
-
-
-    #@search.results.each do |cause|
-    #  if cause.projects.size>0
-    #    @causes << ["#{cause.name} (#{cause.projects.size})", cause.id]
-    #  end
-    #end
-    respond_to do |format|
-      format.js {
-        render :update do |page|
-          page.replace_html "cause_id_container", :partial => "select_causes"
-        end
-      }
-    end
-  end
-  helper_method :add_causes
-
   def get_videos
     begin
       @project = Project.find_public(params[:id])
@@ -266,189 +186,89 @@ class Dt::ProjectsController < DtApplicationController
 
 
   protected
-
-  def apply_filters
-    filters = Hash.new
-    # partner
-    if params[:partner_selected]
-      if !params[:partner_id].nil? && !params[:partner_id].empty?
-        filters.merge!({:partner_id => params[:partner_id].to_i})
-      end
+    def search_facets
+      %w(sector_ids country_id partner_id total_cost)
     end
 
-    # cause
-    if params[:cause_selected]
-      if !params[:cause_id].nil? && !params[:cause_id].empty?
-        filters.merge!({:cause_id => params[:cause_id].to_i} )
-      end
-    end
-
-    # sector (don't worry about cause_selected)
-    if params[:cause_selected]
-      if !params[:sector_id].nil? && !params[:sector_id].empty?
-        #filters.merge!({:sector_id => params[:sector_id].to_i} )
-        sel_projects_sector = []
-        sel_projects_sector = Project.find_public( :all, :joins => [:sectors], :conditions => "sectors.id=#{params[:sector_id]}")
-      end
-    end
-
-    # total_cost
-    if params[:funding_req_selected]
-      if (!params[:funding_req_min].nil? && !params[:funding_req_min].empty?)|| (!params[:funding_req_max].nil? && !params[:funding_req_max].empty?)
-
-        if !params[:funding_req_max].nil? && !params[:funding_req_max].empty?
-
-          if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
-            filters.merge!(:total_cost => params[:funding_req_min].to_f..params[:funding_req_max].to_f)
-          else
-            filters.merge!(:total_cost => 0..params[:funding_req_max].to_f)
+    def search_records
+      if @search_records.nil?
+        @search_records = {}
+        search_query.each do |facet, terms|
+          facet = facet.to_sym
+          case facet
+          when :sector_ids
+            records = Sector.find(terms)
+          when :partner_id
+            records = Partner.find(terms)
+          when :country_id
+            records = Place.find(terms)
+          when :total_cost
+            records = terms.map{|term| term.split(',') }
           end
+          @search_records[facet] = records
+        end
+      end
+      @search_records
+    end
 
-        else
-          if !params[:funding_req_min].nil? && !params[:funding_req_min].empty?
-            filters.merge!(:total_cost => params[:funding_req_min].to_f..Float::MAX.to_f)
+    def search_query
+      search_query = params[:search].present? ? params[:search].dup : {}
+      search_facets.each do |term|
+        term = term.to_sym
+        search_query[term] ||= []
+        search_query[term].uniq!
+      end
+      search_query
+    end
+
+    def search_query_prepared
+      search_query_prepared = search_query.delete_if{|f,t| t.blank? }
+      if search_query_prepared[:total_cost].present?
+        total_costs = search_query_prepared[:total_cost].map{|t| t.split(',') }.flatten.map(&:to_i)
+        search_query_prepared[:total_cost] = (total_costs.min..total_costs.max) 
+      end
+      search_query_prepared
+    end
+
+    def search_query_with_term(facet, term)
+      facet = facet.to_sym
+      query = self.search_query
+      query[facet] << term unless query[facet].include?(term.to_s)
+      query.delete_if{|f,t| t.blank? }
+      query
+    end
+
+    def search_query_without_term(facet, term)
+      query = self.search_query
+      query[facet.to_sym].delete(term.to_s)
+      query.delete_if{|f,t| t.blank? }
+      query
+    end
+
+    def project_id_to_session
+      session[:project_id] = params[:id]
+    end
+
+    def integrate_facebook
+      if @project.place and @project.place.facebook_group_id?
+        @fb_group_available = true
+        @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
+        if fbsession and fbsession.is_valid?:
+          gid = @project.place.facebook_group_id
+          @fbid = fbsession.users_getLoggedInUser()
+          begin
+            @fb_group = fbsession.groups_get(:gids=>gid)
+            @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
+            members_results = fbsession.groups_getMembers(:gid=>gid)
+            # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
+            member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
+            members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
+            @fb_members = members.paginate({:page => params[:fb_page], :per_page => 24})
+            @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
+          rescue
+            @fb_group_available = false
           end
-
         end
       end
     end
-
-    #fully funded
-    if !params[:fully_funded].nil? && ! params[:fully_funded].empty?
-      @search = Ultrasphinx::Search.new(:class_names => 'Project', :per_page => Project.count)
-      @search.run
-      projects = @search.results
-      sel_ff_projects =[]
-      projects.each do |project|
-        sel_ff_projects << project if project.current_need.to_f<=0.0
-      end
-      if !sel_ff_projects.nil?
-        ids = []
-        sel_ff_projects.each do |project|
-          ids << project.created_at
-        end
-        filters.merge!(:created_at => ids)
-      end
-    end
-
-    if params[:location_selected]
-      if !params[:country_id].nil? && !params[:country_id].empty?
-        sel_projects = []
-        sel_projects = Project.find_public( :all, :conditions => "country_id=#{params[:country_id]}")
-      elsif !params[:continent_id].nil? && !params[:continent_id].empty?
-          sel_projects = []
-          sel_projects = Project.find_public( :all, :conditions => "continent_id=#{params[:continent_id]}")
-      end
-
-    end
-
-    # Project Status Filter
-    if params[:project_status_selected]
-      if !params[:project_status_id].nil? && !params[:project_status_id].empty?
-        filters.merge!({:project_status_id => params[:project_status_id].to_i})
-      end
-    end
-
-    # monkey patch to easily and quickly search for location
-    unless sel_projects.nil?
-      ids = []
-      sel_projects.each do |project|
-        ids << project.id
-      end
-      filters.merge!(:project_id => ids)
-      #filters.merge!(:created_at => ids)
-    end
-
-    # monkey patch to fix sector results
-    unless sel_projects_sector.nil?
-      ids = []
-      sel_projects_sector.each do |project|
-        ids << project.id
-      end
-
-      filters.merge!(:project_id => ids )
-    end
-
-    return filters
-  end
-
-
-
-  def ultrasphinx_search(filters)
-
-    if params[:order].nil?
-
-      @search = Ultrasphinx::Search.new(:query => @query,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending', :filters =>filters, :per_page => 5, :page => (params[:page].nil? ? '1': params[:page]  ))
-      Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
-        :before_match => '<strong style="background-color:yellow;">',
-        :after_match => '</strong>',
-        :chunk_separator => "...",
-        :limit => 256,
-        :around => 3,
-        :sort_mode => 'relevance' ,
-        :weights => {'name' => 10.0, 'place_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
-        :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
-        })
-
-        @search.excerpt
-
-    else
-        # order results
-        order_map = {
-              "newest" => "created_at",
-              "target_start_date" => "target_start_date",
-              "total_cost" => "total_cost",
-              "partner_name" => "partner_name",
-              "place_name" => "place_name"
-        }
-
-        order = order_map[params[:order]] if order_map.has_key?(params[:order])
-        @search = Ultrasphinx::Search.new(:query => @query,:filters =>filters,:class_names => ['Project'], :sort_by => 'project_status_id',:sort_mode => 'ascending',:sort_by => order, :sort_mode => 'ascending',  :per_page => 5,  :page => (params[:page].nil? ? '1': params[:page]  ) )
-        Ultrasphinx::Search.excerpting_options = HashWithIndifferentAccess.new({
-          :before_match => '<strong style="background-color:yellow;">',
-          :after_match => '</strong>',
-          :chunk_separator => "...",
-          :limit => 256,
-          :around => 3,
-          :weights => {'name' => 10.0, 'place_name'=> 8.0, 'description' => 7.0, 'meas_eval_plan' => 4.0},
-          :content_methods => [['name'], ['description'], ['meas_eval_plan'], ['places_name']]
-          })
-          @search.excerpt
-
-    end
-  end
-
-
-
-
-  def project_id_to_session
-    logger.debug '#####################'
-    logger.debug 'FACEBOOK PROJECT_ID'
-    logger.debug session[:project_id]
-    session[:project_id] = params[:id]
-    logger.debug session[:project_id]
-  end
-
-  def integrate_facebook
-    if @project.place and @project.place.facebook_group_id?
-      @fb_group_available = true
-      @facebook_group_link = "http://www.facebook.com/group.php?gid=#{@project.place.facebook_group_id}"
-      if fbsession and fbsession.is_valid?:
-        gid = @project.place.facebook_group_id
-        @fbid = fbsession.users_getLoggedInUser()
-        begin
-          @fb_group = fbsession.groups_get(:gids=>gid)
-          @fb_user = fbsession.users_getInfo(:uids=>@fbid, :fields=>["name"]).user_list[0]
-          members_results = fbsession.groups_getMembers(:gid=>gid)
-          # weird! api seems to have bug: cannot do member.uid from group results, have to jump thru hoops
-          member_ids = members_results.search("//uid").map{|uidNode| uidNode.inner_html.to_i}
-          members = fbsession.users_getInfo(:uids=>member_ids, :fields=>["name","pic_square", "pic", "pic_small"]).user_list
-          @fb_members = members.paginate({:page => params[:fb_page], :per_page => 24})
-          @fb_user_in_group = true if member_ids.find{ |id| Integer(@fbid.to_s)==id}
-        rescue
-          @fb_group_available = false
-        end
-      end
-    end
-  end
 end

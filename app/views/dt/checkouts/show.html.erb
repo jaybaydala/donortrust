@@ -1,74 +1,42 @@
-<%- content_for :html_title do -%>Checkout Complete!<%- end -%>
-
-<% if @order.is_registration then %>
-<p>
-You have successfully joined 
-<%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %>
-. This fee will be used to support costs associated with running 
-<%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %> 
-and this website.<br />
-<br />
-Click here to return to the 
-<%= link_to(@order.registration_fee.participant.campaign.name, dt_campaign_path(@order.registration_fee.participant.campaign)) %>
-homepage.
-</p>
-
-<% elsif @directed_gift %>
-  <%- content_for :page_title do -%>Thank you for helping to end extreme poverty.<%- end -%>
-  <p>You just gave <strong><%= number_to_currency(@order.total) %></strong> to <strong><%= link_to @project.name, dt_project_path(@project) %></strong>! Thank you.</p>
-  
-  <a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/buttons/tellFriend_lgrey2.gif"></a>
-
-  <% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
-  <p>We also thank you for supporting the Uend: Foundation directly!</p>
-  <% end %>
-
-  <% if !@order.is_registration %>
-    <p>You can now return to the <%= link_to "Homepage", "/dt/" %> or download any item(s) that you may have below.</p>
-  <% end %>
-
-<% elsif @order.pledges.size > 0 %>
-  <p>
-    Thank you for supporting 
-    <%- if @order.pledges.size == 1 -%>
-      <%= @order.pledges.first.participant.user.full_name %>.
-    <%- else -%>
-      <% 
-        participants = @order.pledges.map(&:participant)
-        last_participant = participants.pop
-        @participant_list = participants.map{|p| p.user.full_name}.join(", ")
-        @participant_list += "and #{last_participant.user.full_name}"
-      %>
-      <%= @participant_list %>.
-    <%- end -%>
-    100% of your <%= number_to_currency(@order.total) %> donation will go to development projects that are making lasting and sustainable change in people's lives.
-  </p>
-  <% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
-  <p>We also thank you for supporting the Uend: Foundation directly!</p>
-  <% end %>
-
-  <p>You can now return to <%= link_to @order.pledges.first.participant.team.campaign.name, dt_campaign_path(@order.pledges.first.participant.team.campaign) %> or download any item(s) that you may have below.</p>
-<% else %>
-  <%- content_for :page_title do -%>Thank you for helping to change the world.<%- end -%>
-  <p>Extreme poverty can end in our lifetime. Your choice to refocus <strong><%= number_to_currency(@order.total) %></strong> to development projects will help make lasting and sustainable change in people's lives.</p>
-
-  <% if @order.investments.find(:first, :conditions => {:project_id => Project.admin_project.id}) %>
-  <p>We also thank you for supporting the Uend: Foundation directly!</p>
-  <% end %>
-
-  <% if !@order.is_registration %>
-    <p>You can now return to the <%= link_to "Homepage", "/dt/" %> or download any item(s) that you may have below.</p>
-  <% end %>
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-16 prepend-2 last">
+      <img src="/images/give/icon-cash_register.png" width="93" height="79" alt="">
+    </div>
+  </div>
 <% end %>
 
+<% html_title("Checkout Receipt") %>
+<%= checkout_nav %>
 
-<% if @order.tax_receipt %>
-<h2>Tax Receipt</h2>
+<!-- this is to get around a really odd webkit bug -->
+<div>&nbsp;</div>
 
-<div class="clearfix">
-  <p>A tax receipt has been emailed to you. You can also download a duplicate tax receipt right here.</p>
-  <div><%= link_to "Download Tax Receipt", dt_tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf), :class => "large" %></div>
+<div style="width:162px;float:right">
+  <%= render 'iend/authentications/authentications' %>
 </div>
+
+
+<%= render :partial => "order_summary" %>
+<% if @order.tax_receipt %>
+  <h2 class="">Tax Receipt</h2>
+  <div class="clearfix">
+    <p>A tax receipt has been emailed to you. You can <%= link_to "download a duplicate tax receipt", tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf) %> right here.</p>
+  </div>
+<% end %>
+
+<h2>Facebook</h2>
+<%= render :partial => 'dt/facebook_posts/form' %>
+
+<% if @order.is_registration then %>
+  <%= render :partial => 'thanks_registration' %>
+
+<% elsif @directed_gift %>
+  <%= render :partial => 'thanks_directed' %>
+<% elsif @order.pledges.size > 0 %>
+  <%= render :partial => 'thanks_pledge' %>
+<% else %>
+  <%= render :partial => 'thanks_general' %>
 <% end %>
 
 <% unless @order.gifts.empty? %>
@@ -85,10 +53,5 @@ homepage.
     </div>
   <% end %>
 <% end %>
-
-<%- content_for :sidebar do -%>
-  <%= render :file => "dt/accounts/profile_sidebar" %>  
-  <%= render :partial => 'dt/checkouts/verisign' %>
-<%- end -%>
 
 <% content_for :google_analytics_path do %>/checkout/complete.html<% end %>

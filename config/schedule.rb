@@ -1,3 +1,7 @@
+# to consider for later...
+# job_type :rake, "cd :path && RAILS_ENV=:environment bundle exec rake :task :output"
+# set :output, {:error => 'log/cron_error.log', :standard => 'log/cron.log'}
+
 # Learn more: http://github.com/javan/whenever
 # set :cron_log, "#{RAILS_ROOT}/log/cron.log"
 set :output, File.expand_path("#{__FILE__}/../log/cron.log")
@@ -15,8 +19,12 @@ end
   end
 end
 
-every 4.hours do
-  rake "-s ultrasphinx:index"
+every 30.minutes do
+  rake "-s thinking_sphinx:index"
+end
+
+every 1.month do
+  runner 'Subscription.notify_impending_card_expirations'
 end
 
 every 1.day, :at => '3:50am' do

@@ -1,39 +1,139 @@
-<% content_for :body_id do %>home<% end %>
-<%- content_for :html_title do -%>Home<%- end -%>
-<div id="howItWorks">
-  <iframe title="YouTube video player" width="450" height="366" src="http://www.youtube.com/embed/o8UCw-9AMHM" frameborder="0" allowfullscreen></iframe>
+<%= render :partial => 'carousel' %>
+
+<div class="clearfix">
+  <a href="http://twitter.com/share" class="twitter-share-button" data-text="Giving is it's own reward. Ending extreme poverty is a major, freakin' bonus!" data-count="horizontal" data-via="uend_org">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+  <fb:like href="http://www.uend.org" send="true" width="450" show_faces="true" action="like" font="arial"></fb:like>
 </div>
 
-
-<div>
-  <div class="keyDifferentiatorText">
-    <h1>YOU can help to END extreme poverty. </h1>
-    <h2>How? Gift different.</h2>
-    <p>It&rsquo;s really pretty simple. If we were all to redirect a mere 5% of the billions of dollars that we already spend each year on gifts,&nbsp; there would be enough to eliminate extreme poverty in about 15 years.</p>
-    <p>UEnd makes it possible for you to refocus a portion of your gift-spending toward ending extreme poverty. </p>
-    <p><strong>Just give or ask to receive an online gift card.</strong> It can be given directly to projects that promote sustainable, long-term change and empower those in the developing world to help themselves.</p>
-    <p>So go ahead &ndash; take a look through our list of <%= link_to 'projects', dt_projects_path %>, or just click <%= link_to 'give a gift', '/dt/give' %>. </p>
-  </div>
-
+<div style="text-align:center;">
+  <h1><img src="/images/home/the_gift_connection.png" width="288" height="23" alt="The Gift Connection"></h1>
+  <p style="font-size:24px;padding-bottom:12px;" class="serif">If we were all to redirect a mere 5% of the billions of dollars that we already spend each year on gifts, there would be enough to eliminate extreme poverty in about 15 years.</p>
+  <p style="margin-bottom:36px;">Know someone who wants to end extreme poverty? <%= link_to "Find the right gift here. &gt;", dt_give_path %></p>
   
-  <div class="support-badge-home">
-    <p>Show your support by adding a <a href="/dt/support_badges">Support Badge</a> to your website or blog.<a href="/dt/support_badges"><img src="/images/dt/support_badges/isuend_110w35h.png" width="110" height="35" alt="Isuend 110w35h" /></a>&nbsp;&nbsp;&nbsp;<a href="/dt/support_badges"><img src="/images/dt/support_badges/wsuend_110w35.png" width="110" height="35" alt="Wsuend 110w35" /></a></p>
+  <p><img src="/images/home/look_what_your_gifts_have_done.png" width="465" height="23" alt="Look what your gifts have done so far..."></p>
+  
+  <div class="shadow-top">
+    Numbers are updated as we know more.
   </div>
+  <div id="statistics" class="clearfix">
+    <div class="statistic span-4">
+      <%= number_with_delimiter(Gift.count + Investment.count) %>
+      <div><img src="/images/home/gifts.png" width="38" height="12" alt="Gifts"></div>
+    </div>
+    <div class="statistic span-4">
+      <%= number_to_currency(Order.complete.sum(:total), :precision => 0) %>
+      <div><img src="/images/home/dollars.png" width="60" height="12" alt="Dollars"></div>
+    </div>
+    <div class="statistic span-3">
+      <%= number_with_delimiter(Project.count) %>
+      <div><img src="/images/home/projects.png" width="67" height="12" alt="Projects"></div>
+    </div>
+    <div class="statistic span-3">
+      <%= number_with_delimiter(Place.countries_with_active_projects.all.size) %>
+      <div><img src="/images/home/countries.png" width="74" height="12" alt="Countries"></div>
+    </div>
+    <div class="statistic span-4 last">
+      <%= number_with_delimiter(Project.sum(:lives_affected) + Order.count) %>
+      <div><img src="/images/home/people_impacted.png" width="122" height="12" alt="People Impacted"></div>
+    </div>
+  </div>
+  <div class="shadow-bottom"></div>
 </div>
-  
-<%- content_for :sidebar do -%>
-  <div style="text-align:right;">
-    <span class="st_sharethis" displayText="ShareThis"></span>
+
+<section id="signups" class="clearfix">
+  <div class="span-10 border">
+    <div style="width:220px;margin-right:22px;float:left;text-align:right; ">
+      <img src="/images/home/newsletter_signup.png" width="200" height="19" alt="Newsletter Signup"><br>
+      <div style="margin-top:8px;">
+        <a href="http://www.industrymailout.com/Industry/Subscribe.aspx?m=3929"><img src="/images/home/button-sign_up.png" width="66" height="22" alt="Sign Up"></a>
+      </div>
+    </div>
+    <div style="width:260px;float:left;">
+      <strong class="loud">Expand your poverty world view.</strong><br>
+      Helpful insights, reports from the field and events delivered to your inbox.
+    </div>
   </div>
-  
-  <a href="/about-us/faqs/#investment"><img src="/images/dt/promos/guarantee_promo.jpg" class="right_side_banner" alt="100% Investment Guarantee - 100% of your investments go to the projects you choose."/></a>
-  <a href="/dt/give"><img src="/images/dt/buttons/give_btn_150.png" id="frontGiveButton" /></a> 
-  <a href="/dt/gifts/open"><img src="/images/dt/buttons/receive_btn_150.png" id="frontReceiveButton" /></a>
-  <%= link_to image_tag("dt/upowered/upowered_button.gif", :alt => "join u:powered - it's a whole new way of providing operational funding to a non-profit organization &rdquo;"), dt_upowered_path %>
-  <a href="http://www.industrymailout.com/Industry/Subscribe.aspx?m=3929"><img src="/images/dt/promos/newsletter_promo.gif" id="frontReceiveButton" /></a>
-<%- end -%>
+  <div class="span-8 last">
+    <div style="padding-left:30px; position:relative">
+      <img src="/images/home/open_your_gift.png" width="360" height="17" alt="Open Your Gift. End Extreme Poverty">
+      <div style="margin-top:8px;">
+        Enter your pickup code
+        <% form_for :gift, :url => open_dt_gifts_path, :html => { :method => :get } do |f| %>
+          <%= text_field_tag :code, '', :style => "width:210px;" %>
+          <%= image_submit_tag "/images/home/button-open.png" %>
+          <div style="position:absolute;top:26px;right:56px;"><img src="/images/home/gift_outlines.png" width="39" height="43" alt=""></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
 
+<section id="uend_provides">
+  <%= link_to image_tag('/images/home/uend_poverty_provides.png', :alt => "UEnd Poverty provides gift options to empower people like you to end extreme poverty tailored to your interests. "), dt_give_path, :title => "Give" %>
+</section>
 
-<%- content_for :head do -%>
-  <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher:'fd46a353-7fa7-4a39-9c35-642884259e51'});</script>
-<%- end -%>
+<section id="unique" class="prepend-1 append-1">
+  <div style="text-align:center;padding-bottom:12px;"><img src="/images/home/what_makes_uend_unique.png" width="371" height="25" alt="What Makes Uend Unique?"></div>
+  <div class="clearfix row">
+    <article class="span-8">
+      <div class="span-3">
+        <img src="/images/home/icon-100_percent.png" width="149" height="73" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>No Hidden Overhead Costs</h3>
+        <div class="serif">100% of your gift goes to the project you choose. Our operating costs are funded privately and through u:powered. </div>
+      </div>
+    </article>
+    <article class="span-8 last">
+      <div class="span-3">
+        <img src="/images/home/icon_you.png" width="108" height="131" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>Powered by You</h3>
+        <div class="serif">We exist to connect reputable grassroots partners with people passionate about ending poverty. Our site provides the tools and information for you to make an informed choice with a lasting outcome. </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="clearfix row">
+    <article class="span-8">
+      <div class="span-3">
+        <img src="/images/home/icon-integrated_development.png" width="154" height="96" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>Integrated Development </h3>
+        <div class="serif">To create sustainable change and an end to extreme poverty, our partners work with local assets to develop a solution that is tailored to that community&#x27;s specific needs. </div>
+      </div>
+    </article>
+    <article class="span-8 last">
+      <div class="span-3">
+        <img src="/images/home/icon-less_bureaucracy.png" width="154" height="88" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>Less Bureaucracy</h3>
+        <div class="serif">We work directly with our partners and communities to ensure dollars are closer-to-the-ground where they have the most impact, instead of being tied up in bureaucratic processes. </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="clearfix row">
+    <article class="span-8">
+      <div class="span-3">
+        <img src="/images/home/icon-transparency.png" width="149" height="124" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>High Transparency</h3>
+        <div class="serif">Your money won&rsquo;t disappear into a catch-all distribution fund. Regular Proof of Impact (POI) updates are provided. Budget, outcomes, and funding progress are listed for every project. </div>
+      </div>
+    </article>
+    <article class="span-8 last">
+      <div class="span-3">
+        <img src="/images/home/icon-choice.png" width="150" height="133" alt="">
+      </div>
+      <div class="span-4 append-1 last">
+        <h3>More Choice</h3>
+        <div class="serif">Ending extreme poverty is a complex challenge. UEnd offers projects focused on a variety of causes and development sectors so you can pick your favourite projects and causes. </div>
+      </div>
+    </article>
+  </div>
+</section>

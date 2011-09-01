@@ -1,8 +1,8 @@
 class Cart < ActiveRecord::Base
   attr_reader :total
-  before_save :check_subscription
   after_save :add_admin_project_investment
   has_many :items, :class_name => "CartLineItem"
+  has_one :order
 
   def add_donation(item, percentage=nil)
     if valid_item?(item)
@@ -15,22 +15,35 @@ class Cart < ActiveRecord::Base
 
   def add_item(item)
     if valid_item?(item)
-      i = self.items.build({:item => item})
-      i.item = item
-      i.save!
+      line_item = self.items.build({:item => item})
+      line_item.item = item
+      line_item.save!
+      line_item
     end
+  end
+
+  def add_upowered(amount, user)
+    if self.subscription?
+      cart_item = self.subscription
+      if amount.present?
+        cart_item.amount = amount
+        cart_item.subscription = true
+        cart_item.save
+      else
+        cart_item.destroy
+      end
+    else
+      investment = Investment.new( :amount => amount )
+      investment.project = Project.admin_project
+      investment.user = user
+      cart_item = self.add_item(investment)
+      cart_item.update_attribute(:subscription, true) if cart_item
+    end
+    cart_item
   end
 
   def calculate_percentage_amount(percentage)
     BigDecimal.new(self.total_without_donation.to_s) * (BigDecimal.new(percentage.to_s)/100)
-  end
-
-  def check_subscription
-    if subscription? && subscription_changed?
-      items.each do |line_item|
-        line_item.destroy unless line_item.item_type == "Investment"
-      end
-    end
   end
 
   def donation
@@ -48,7 +61,7 @@ class Cart < ActiveRecord::Base
   end
 
   def empty?
-    self.items.empty?
+    self.items_without_donation.empty?
   end
 
   def gifts
@@ -57,6 +70,10 @@ class Cart < ActiveRecord::Base
 
   def investments
     self.items.select{|item| item.item_type == "Investment" }.map(&:item)
+  end
+
+  def items_without_donation
+    self.items.find_all_by_donation([false, nil])
   end
 
   def minimum_credit_card_payment
@@ -72,7 +89,7 @@ class Cart < ActiveRecord::Base
       percentage_description = percentage == 0 ? "Not Now" : "#{percentage}%"
       [ "#{number_to_currency(calculate_percentage_amount(percentage))} (#{percentage_description})", percentage]
     end
-    percentage_options.push(["Other amount - #{number_to_currency(self.donation.item.amount)}", ""])
+    percentage_options.push(["Other amount (#{number_to_currency(self.donation.item.amount)})", ""])
   end
 
   def pledges
@@ -87,12 +104,20 @@ class Cart < ActiveRecord::Base
     self.items.find(id).destroy
   end
 
+  def subscription?
+    items.any?{|item| item.subscription? }
+  end
+
+  def subscription
+    items.detect{|item| item.subscription? }
+  end
+
   def total
-    @total ||= self.items.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
+    self.items.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end
 
   def total_without_donation
-    @total_without_donation ||= self.items.find_all_by_donation([false, nil]).inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
+    items_without_donation.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end
 
   def update_item(id, item)
@@ -101,7 +126,7 @@ class Cart < ActiveRecord::Base
 
   private
     def add_admin_project_investment
-      if subscription? || add_optional_donation.blank?
+      if add_optional_donation.blank?
         self.donation.destroy if self.donation.present?
       elsif add_optional_donation?
         if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?

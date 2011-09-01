@@ -1,0 +1,6 @@
+<% if deposit.present? %>
+  <% div_for deposit do %>
+    <strong>Deposit:</strong>
+    <%= number_to_currency(deposit.amount) %>
+  <% end %>
+<% end %>

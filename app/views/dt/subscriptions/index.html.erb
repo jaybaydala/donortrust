@@ -1,6 +1,6 @@
 <%- content_for :html_title do -%>Monthly Giving<%- end -%>
 <%- content_for :page_title do -%>Monthly Giving for <%= current_user.name %><%- end -%>
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 
 <% if @subscriptions.empty? -%>
 <div class="highlight">

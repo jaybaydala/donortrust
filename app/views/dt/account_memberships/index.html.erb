@@ -1,5 +1,5 @@
 <%- content_for :html_title do %>My Groups<% end -%>
-<%- content_for :nav do %><%= dt_account_nav %><% end -%>
+<%- content_for :nav do %><%= iend_user_nav %><% end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 

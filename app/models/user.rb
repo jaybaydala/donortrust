@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   extend HasAdministrables
   #acts_as_versioned
   acts_as_paranoid_versioned
+  has_many :authentications, :dependent => :destroy
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
@@ -24,13 +25,28 @@ class User < ActiveRecord::Base
   has_many :administrations
   has_many :orders
   has_many :subscriptions
+  has_many :preferred_sectors
+  has_many :sectors, :through => :preferred_sectors
   has_many :teams, :through => :participants
   has_many :participants
   has_one :profile
+  
+  define_completeness_scoring do
+    check :first_name,   lambda { |u| u.first_name? },   :medium
+    check :last_name,    lambda { |u| u.last_name? },    :medium
+    check :display_name, lambda { |u| u.display_name? }, :medium
+    check :bio,          lambda { |u| u.bio? },          :low
+    check :image,        lambda { |u| u.image? },        :high
+    check :address,      lambda { |u| u.address? },      :low
+    check :city,         lambda { |u| u.city? },         :low
+    check :province,     lambda { |u| u.province? },     :low
+    check :postal_code,  lambda { |u| u.postal_code? },  :low
+    check :country,      lambda { |u| u.country? },      :high
+  end
   has_administrables :model => "Project"
   has_administrables :model => "Partner"
   has_attached_file :picture, 
-                    :styles => { :tiny => "24x24#",:thumb => "48x48#", :normal=>"72x72#" }, 
+                    :styles => { :tiny => "24x24#", :thumb => "48x48#", :normal=>"72x72#" }, 
                     :default_style => :normal,
                     :url => "/images/uploaded_pictures/:attachment/:id/:style/:filename",
                     :default_url => "/images/dt/icons/users/:style/missing.png"
@@ -62,7 +78,7 @@ class User < ActiveRecord::Base
 
 
   # Virtual attribute for the unencrypted password"
-  attr_accessor :password
+  attr_accessor :password, :current_password
   attr_accessor :terms_of_use
   attr_protected :superuser
 
@@ -76,14 +92,16 @@ class User < ActiveRecord::Base
   validates_length_of       :login,    :within => 3..100
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address"
-  validates_uniqueness_of   :activation_code, :allow_nil => :true
+  validates_uniqueness_of   :activation_code, :allow_nil => true
   #MP Dec. 14, 2007 - Added to support the US tax receipt functionality
   #Going forward, it would be good to ensure that users have a country.
   validates_presence_of :country, :on => :create, :unless => :under_thirteen?
-  validates_presence_of     :display_name
+  validates_presence_of :display_name, :on => :update
 
   before_save :encrypt_password
-  before_create :make_activation_code
+  # removed activation_code and added auto-activate
+  # before_create :make_activation_code
+  before_create :set_activated_at
   before_update :login_change
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -102,7 +120,6 @@ class User < ActiveRecord::Base
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   def self.authenticate(login, password)
     u = find :first, :conditions => ['login = ? and activated_at IS NOT NULL', login] # need to get the salt
-    # u && u.authenticated?(password) && u.expired? == false ? u : nil
     u && u.authenticated?(password) ? u : nil
   end
 
@@ -122,32 +139,51 @@ class User < ActiveRecord::Base
     allocations_user_id.present? && User.exists?(allocations_user_id) ? User.find(allocations_user_id) : nil
   end
 
-  def name
-    return "#{self.first_name} #{self.last_name[0,1]}." if self.display_name.blank?
-    self.display_name
+  def apply_omniauth(omniauth)
+    case omniauth['provider']
+    when 'facebook'
+      self.apply_omniauth_for_facebook(omniauth)
+    when 'google'
+      self.apply_omniauth_for_google(omniauth)
+    end
+    authentication_attributes = {:provider => omniauth['provider'], :uid => omniauth['uid']}
+    authentication_attributes[:token] = omniauth['credentials']['token'] if omniauth['credentials'].present? && omniauth['credentials']['token'].present?
+    authentications.build(authentication_attributes)
   end
 
-   def fullname_login
+  def name
+    if self.display_name.blank?
+      name = self.first_name.to_s
+      name << " #{self.last_name[0,1]}" if self.last_name?
+      name
+    else
+      self.display_name.to_s
+    end
+  end
+
+  def fullname_login
     "#{self.first_name} #{self.last_name}          (#{self.login})"
   end
 
   def full_name
-   if under_thirteen? || self.first_name.blank?
-     self.display_name
-   elsif self.last_name.blank?
-     self.first_name
-   else
-     "#{self.first_name} #{self.last_name}"
-   end
+    if under_thirteen? || self.first_name.blank?
+      self.display_name
+    elsif self.last_name.blank?
+      self.first_name
+    else
+      "#{self.first_name} #{self.last_name}"
+    end
   end
 
   def self.find_by_full_name(full_name)
-    User.find(:all).each do |user|
-      if (user.full_name == full_name)
-        return user
-      end
+    User.all.detect{|user| user.full_name == full_name }
+  end
+
+  def projects_funded
+    unless @projects_funded
+      @projects_funded = Project.find(self.orders.map(&:line_items).flatten.select{|li| li.respond_to?(:project_id) && li.project_id }.map(&:project_id).uniq)
     end
-    return nil;
+    @projects_funded
   end
 
   def partner
@@ -159,10 +195,9 @@ class User < ActiveRecord::Base
   #If the user's country is nil, or the specified country is nil, or the
   #user's country doesn't match the specified country, this method returns
   #false. Otherwise, it returns true.
-  def in_country?(country)
-    if self.country.nil? || country.nil? ||
-      (self.country.downcase != country.downcase)
-          return false
+  def in_country?(country_check)
+    if self.country.nil? || country_check.nil? || (self.country.downcase != country_check.downcase)
+      return false
     else
       return true
     end
@@ -296,6 +331,11 @@ class User < ActiveRecord::Base
     return self.roles.include?(Role.find_by_title('cf_admin'))
   end
 
+  def role?(role)
+    !!self.roles.find_by_title(role.to_s)
+  end
+  alias :has_role? :role?
+
   # class method to avoid nil object check
   def self.is_user_cf_admin?(user)
     return Role.find_by_title('cf_admin').users.include?(user)
@@ -375,6 +415,21 @@ class User < ActiveRecord::Base
   end
 
   protected
+    def apply_omniauth_for_facebook(omniauth)
+      self.login        = omniauth['user_info']['email'] unless self.login?
+      self.display_name = omniauth['user_info']['nickname'] unless self.display_name?
+      self.first_name   = omniauth['user_info']['first_name'] unless self.first_name?
+      self.last_name    = omniauth['user_info']['last_name'] unless self.last_name?
+      self.image        = open(omniauth['user_info']['image'].sub(/type=square/, 'type=large')) unless self.image? || omniauth['user_info']['image'].blank?
+      self.birthday     = omniauth['extra']['user_hash']['birthday'].to_date if omniauth['extra']['user_hash']['birthday'].present? && !self.birthday?
+    end
+
+    def apply_omniauth_for_google(omniauth)
+      self.login        = omniauth['user_info']['email'] unless self.login?
+      self.first_name   = omniauth['user_info']['first_name'] unless self.first_name?
+      self.last_name    = omniauth['user_info']['last_name'] unless self.last_name?
+    end
+
     def validate
       if under_thirteen?
         errors.add("first_name", "cannot be included") unless first_name.blank?
@@ -409,7 +464,7 @@ class User < ActiveRecord::Base
     end
 
     def password_required?
-      crypted_password.blank? || !password.blank?
+      authentications.empty? && (crypted_password.blank? || password.present?)
     end
 
     def make_activation_code
@@ -420,6 +475,10 @@ class User < ActiveRecord::Base
       end
       # if we get here, it's being used, so try again
       make_activation_code
+    end
+
+    def set_activated_at
+      self.activated_at = Time.now
     end
 
     def self.generate_activation_code

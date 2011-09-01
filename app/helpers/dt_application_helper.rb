@@ -4,10 +4,46 @@ module DtApplicationHelper
   def recaptcha_available?
     !RCC_PUB.nil? && !RCC_PRIV.nil?
   end
+
+  def current_nav?(controllers, actions=nil)
+    current = false
+    if (actions.present? && [*actions].flatten.include?(action_name) && [*controllers].flatten.include?(controller_name)) ||
+      (actions.blank? && [*controllers].flatten.include?(controller_name))
+      current = true
+    end
+    current
+  end
+
+  def content_snippet_for(slug)
+    content_snippet = ContentSnippet.find_by_slug(slug.to_s)
+    if content_snippet.present?
+      content_tag(:p, ContentSnippet.find_by_slug(slug.to_s).body_formatted)
+    end
+  end
+
+  def auth_path(provider)
+    "/auth/#{provider.to_s}"
+  end
   
+  def show_title?
+    true
+  end
+
+  def title(str)
+    content_for(:title) { str.to_s }
+  end
+
+  def html_title(str)
+    content_for(:html_title) { str.to_s }
+  end
+  
+  def content_for?(name)
+    ivar = "@content_for_#{name}"
+    instance_variable_get(ivar).present?
+  end
+
   def ssl_protocol
-    return 'https://' if ENV['RAILS_ENV'] == 'production'
-    'http://'
+    Rails.env.production? ? 'https://' : 'http://'
   end
   
   def dt_head
@@ -26,16 +62,12 @@ module DtApplicationHelper
     @image = '/images/dt/feature_graphics/giftUSTax130.jpg'
   end
 
-  def dt_account_nav
-    render :file => 'dt/accounts/account_nav'
+  def iend_user_nav
+    render :partial => 'iend/shared/nav'
   end
 
   def dt_get_involved_nav
     render :file => 'dt/groups/get_involved_nav'
-  end
-
-  def dt_footer
-    render :file => 'dt/shared/footer'
   end
 
   def dt_profile_sidebar

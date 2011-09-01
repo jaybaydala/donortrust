@@ -13,7 +13,7 @@ class DonortrustMailer < ActionMailer::Base
   def us_deposit_notification(user)
     user_setup_email(user)
     subject "Your donation has been processed."
-    body :user => user, :host => HTTP_HOST, :url => dt_login_url(:host => HTTP_HOST)
+    body :user => user, :host => HTTP_HOST, :url => login_url(:host => HTTP_HOST)
   end
   
   def user_signup_notification(user)
@@ -37,7 +37,7 @@ class DonortrustMailer < ActionMailer::Base
   def user_password_reset(user)
     user_setup_email(user)
     subject  "Your UEnd: password has been reset"
-    body :user => user, :host => HTTP_HOST, :url => dt_login_url(:host => HTTP_HOST)
+    body :user => user, :host => HTTP_HOST, :url => login_url(:host => HTTP_HOST)
   end
 
   def account_expiry_reminder(user)
@@ -189,7 +189,33 @@ class DonortrustMailer < ActionMailer::Base
     body[:upowered_url] = dt_upowered_url(:host => HTTP_HOST)
     body[:subscription] = email_subscription
   end
-  
+
+  def subscription_thanks(subscription)
+    from "upowered@uend.org"
+    recipients subscription.email
+    subject 'UPowered: Thank you!'
+    sent_on Time.now
+    body[:subscription] = subscription
+  end
+
+  def subscription_failure(subscription)
+    from "upowered@uend.org"
+    recipients subscription.email
+    subject 'UPowered: Subcription Problem'
+    sent_on Time.now
+    body[:subscription] = subscription
+    body[:edit_upowered_url] = edit_dt_subscription_url(subscription, :host => HTTP_HOST)
+  end
+
+  def impending_subscription_card_expiration_notice(subscription)
+    from "upowered@uend.org"
+    recipients subscription.email
+    subject 'UPowered: Impending credit card expiry'
+    sent_on Time.now
+    body[:subscription] = subscription
+    body[:edit_upowered_url] = edit_dt_subscription_url(subscription, :host => HTTP_HOST)
+  end
+
   def tax_receipt(receipt)
     content_type "text/plain"
     recipients  "\"#{receipt.first_name} #{receipt.last_name}\" <#{receipt.email}>"

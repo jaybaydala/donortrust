@@ -99,7 +99,7 @@ context "Dt::Groups::NewsController handling GET /dt/groups/1/messages" do
   specify "should redirect to /login when not logged in and @group.private?" do
     @group.expects(:private?).returns(true)
     do_get
-    should.redirect dt_login_path()
+    should.redirect login_path()
   end
 
   specify "should not redirect unless @group.private?" do

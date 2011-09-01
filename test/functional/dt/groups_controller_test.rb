@@ -106,7 +106,7 @@ context "Dt::GroupsController handling GET /dt/groups;new" do
 
   specify "should redirect to /login when not logged in" do
     do_get
-    should.redirect dt_login_path()
+    should.redirect login_path()
   end
 
   specify "should get new" do
@@ -137,7 +137,7 @@ context "Dt::GroupsController handling POST /dt/groups;create" do
 
   specify "should redirect to /login when not logged in" do
     create_group({}, false)
-    should.redirect dt_login_path()
+    should.redirect login_path()
   end
 
   specify "should create group" do
@@ -193,24 +193,24 @@ context "Dt::GroupsController handling GET /dt/groups/1" do
 
   specify "should not redirect when not logged in" do
     do_get
-    should.not.redirect dt_login_path()
+    should.not.redirect login_path()
   end
 
   specify "should not redirect if group is private and you are not a member" do
-    @group = Group.create(:name => 'test', :private => :true, :group_type_id => 1)
+    @group = Group.create(:name => 'test', :private => true, :group_type_id => 1)
     do_get(@group.id)
     should.not.redirect
   end
 
   specify "should not show group nav if group if private and you are not a member" do
     login_as :quentin
-    @group = Group.create(:name => 'test', :private => :true, :group_type_id => 1)
+    @group = Group.create(:name => 'test', :private => true, :group_type_id => 1)
     do_get(@group.id)
     page.should.not.select ".pageNav"
   end
 
   specify "if an invitation exists, should show an accept/decline form" do
-    @group = Group.create(:name => 'test', :private => :true, :group_type_id => 1)
+    @group = Group.create(:name => 'test', :private => true, :group_type_id => 1)
     @group.memberships.create(:user_id => users(:tim).id, :membership_type => Membership.founder)
     @group.invitations.create(:user_id => users(:tim).id, :to_email => users(:quentin).email)
     login_as :quentin
@@ -249,7 +249,7 @@ context "Dt::GroupsController handling GET /dt/groups/1;edit" do
 
   specify "should redirect to /dt/login when not logged in" do
     do_get
-    should.redirect dt_login_path()
+    should.redirect login_path()
   end
 
   specify "should get edit" do
@@ -267,7 +267,7 @@ context "Dt::GroupsController handling PUT /dt/groups/1" do
   
   specify "should redirect to /login when not logged in" do
     put :update, :id => 1, :group => { :name => 'new name' }
-    should.redirect dt_login_path()
+    should.redirect login_path()
   end
 
   specify "should update group" do
@@ -284,7 +284,7 @@ context "Dt::GroupsController handling DELETE /dt/groups/1" do
   
   specify "should redirect to /login when not logged in" do
     delete :destroy, :id => 1
-    should.redirect dt_login_path
+    should.redirect login_path
   end
 
   specify "should destroy group" do

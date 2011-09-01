@@ -4,9 +4,9 @@ describe PledgeAccount do
   before(:each) do
     @valid_attributes = {
       :balance => "9.99",
-      :campaign => Campaign.generate!,
+      :campaign => Factory(:campaign),
       :team => nil,
-      :user => User.generate!
+      :user => Factory(:user)
     }
   end
 

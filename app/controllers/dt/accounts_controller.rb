@@ -23,7 +23,7 @@ class Dt::AccountsController < DtApplicationController
   def transactions
     @user = User.find(params[:id], :include => [:projects])
     if @user != current_user
-      redirect_to transactions_dt_account_path(current_user) and return
+      redirect_to transactions_iend_user_path(current_user) and return
     end
     @transactions = []
     @transactions << @user.gifts
@@ -42,35 +42,42 @@ class Dt::AccountsController < DtApplicationController
     @page_title = "Create My Account"
     redirect_back_or_default(:action => 'index') if logged_in?
     @user = User.new
-  end
-
-  # GET /dt/accounts/1;edit
-  def edit
-    redirect_to(:action => 'index') unless authorized?
-    @user = User.find(params[:id])
+    if session[:omniauth]
+      @user.apply_omniauth(session[:omniauth])
+      @user.valid?
+      render :action => 'new_via_authentication' and return
+    end
   end
 
   # POST /dt/accounts
   # POST /dt/accounts.xml
   def create
     @user = User.new(params[:user])
+    @user.apply_omniauth(session[:omniauth]) if session[:omniauth]
+    @saved = @user.save
     respond_to do |format|
-      if @saved = @user.save
+      if @saved
+        session[:omniauth] = nil
         session[:tmp_user] = @user.id
-
         # See Bug #23790 in rubyforge; users no longer have to activate themselves 
         # by clicking on a link in an email  
         #flash[:notice] = 'Thanks for signing up! An activation email has been sent to your email address.'
-        #format.html { redirect_to(:controller => '/dt/accounts', :action => 'index') }
-        format.html { redirect_to(:controller => '/dt/accounts', :action =>'activate', :id => @user.activation_code) }
-
-        format.xml  { head :created, :location => dt_accounts_url }
+        self.current_user = @user
+        flash[:notice] = "Signed in successfully."
+        format.html { redirect_to(dt_give_path) }
+        format.xml  { head :created, :location => iend_users_url }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => (session[:omniauth] ? 'new_via_authentication' : 'new') }
         #format.js
         format.xml  { render :xml => @user.errors.to_xml }
       end
     end
+  end
+
+  # GET /dt/accounts/1;edit
+  def edit
+    redirect_to(:action => 'index') unless authorized?
+    @user = User.find(params[:id])
   end
 
   # PUT /dt/accounts/1
@@ -96,7 +103,7 @@ class Dt::AccountsController < DtApplicationController
         else
           flash[:notice] = 'Account was successfully updated.'
         end
-        format.html { redirect_to dt_accounts_url() }
+        format.html { redirect_to iend_users_url() }
         #format.js
         format.xml  { head :ok }
       else
@@ -146,7 +153,7 @@ class Dt::AccountsController < DtApplicationController
     end
     DonortrustMailer.deliver_user_change_notification(user) if user && user.activation_code
     flash[:notice] = "We have resent the activation email to your login email address"
-    redirect_to dt_accounts_url()
+    redirect_to iend_users_url()
   end
 
   def reset
@@ -167,7 +174,7 @@ class Dt::AccountsController < DtApplicationController
     end
     respond_to do |format|
       format.html {
-        redirect_to dt_login_path and return if @user && saved
+        redirect_to login_path and return if @user && saved
         flash[:error] = "We could not find that login. Did you try your email address?"
         render :action => 'reset'
       }
@@ -176,7 +183,7 @@ class Dt::AccountsController < DtApplicationController
 
   protected
   # protect the show/edit/update methods so you can only update/view your own record
-  def authorized?(user = current_user())
+  def authorized?(user = self.current_user)
     if ['show', 'edit', 'update'].include?(action_name)
        return false unless logged_in? && params[:id] && current_user.id == params[:id].to_i
     end

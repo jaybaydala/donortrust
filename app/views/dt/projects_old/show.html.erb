@@ -1,0 +1,16 @@
+<% content_for :header do %>
+  <div id="project-header">
+    <div class="span-10 border">
+      <h1><%= truncate(@project.name, :length => 40) %></h1>
+      <div>CAUSE/SECTOR: </div>
+    </div>
+    <div class="span-8 last">
+      <div class="back"><%= link_to image_tag('/images/projects/btn-back_to_projects-green.png', :alt => ''), dt_projects_path, :title => "Back to Projects" %></div>
+      <div>PROJECT BY:</div>
+      <div>
+        <%= @project.place.name if @project.place %><br>
+        <%= [(@project.place ? link_to(@project.place.name, community_dt_project_path(@project)) : nil), (@project.country ? link_to(@project.country.name, nation_dt_project_path(@project)) : nil)].compact.join(', ') %>
+      </div>
+    </div>
+  </div>
+<% end %>

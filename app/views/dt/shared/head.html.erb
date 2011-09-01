@@ -4,17 +4,27 @@
         </div>
         
         <div id="loginbug">
+          <%= render 'iend/authentications/authentications' %>
           <ul>
             <%- if logged_in? -%>
-              <li>Welcome, <%= link_to h(current_user.name), dt_account_path(current_user) %> | </li>
+              <li>Welcome, <%= h(current_user.name) %> | </li>
+              <li><%= link_to "iEnd Profile", iend_user_path(current_user) %> | </li>
               <li><%= link_to "Cart", dt_cart_path %> | </li>
-              <li><%= link_to 'Logout', dt_logout_url(:protocol => ssl_protocol) %></li>
+              <li><%= link_to 'Logout', logout_url(:protocol => ssl_protocol) %></li>
             <%- else -%>
-              <li><%= link_to 'Login', dt_login_path %> | </li>
-              <li><%= link_to 'Create Account', dt_signup_path %> | </li>
+              <li><%= link_to 'Login', login_path %> | </li>
+              <li><%= link_to 'Create Account', signup_path %> | </li>
               <li><%= link_to "Cart", dt_cart_path %> </li>
             <%- end -%>
           </ul>
+          <%- if logged_in? -%>
+          <div style="width:250px;text-align:left;">
+            <%= link_to "Profile completeness", edit_dt_user_path(current_user) %>: currently <%= current_user.percent_complete.to_i %>%
+            <div style="background:#CCC;width:100%;border:1px solid #666;height:8px;">
+              <div style="background:#E84525;width:<%= current_user.percent_complete.to_i %>%;height:8px;"></div>
+            </div>
+          </div>
+          <% end %>
           <% if session[:gift_card_balance] %>
           <ul id="giftcard-balance">
             <li><strong><%= link_to "Gift Card Balance", open_dt_gifts_path %></strong>: <%=h number_to_currency(session[:gift_card_balance]) %></li>

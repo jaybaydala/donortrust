@@ -9,12 +9,31 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/dt'
+      '/dt/home'
+    when /the new account page/
+      new_dt_account_path
+    when /the accounts page/
+      dt_accounts_path
+    when /my account page/
+      dt_account_path(current_user)
+    when /my cart page/
+      dt_cart_path
+    when /the order confirmation page/
+      # @order ||= Order.last
+      dt_checkout_path
+    when /the sign up page/
+      '/dt/signup'
+    when /redisplayed sign up page/
+      '/dt/accounts'
     when /the login page/
       '/dt/login'
-    when /the (.*) team page/
+    when /the redisplayed login page/
+      '/dt/session'
+    when /the authentications page/
+      dt_authentications_path
+    when /the "(.*)" team page/
       dt_team_path(Team.find_by_short_name($1))
-    when /the (.*) campaign page/
+    when /the "(.*)" campaign page/
       dt_campaign_path(Campaign.find_by_short_name($1))
 
     # Add more mappings here.

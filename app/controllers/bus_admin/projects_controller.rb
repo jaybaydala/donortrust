@@ -127,7 +127,7 @@ class BusAdmin::ProjectsController < ApplicationController
         end
       end
     else
-      redirect_to home_path
+      redirect_to bus_admin_home_path
     end
   end
 
@@ -165,7 +165,7 @@ class BusAdmin::ProjectsController < ApplicationController
         format.html
       end
     else
-      redirect_to home_path
+      redirect_to bus_admin_home_path
     end
   end
 

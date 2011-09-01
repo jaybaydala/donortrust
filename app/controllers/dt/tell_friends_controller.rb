@@ -27,8 +27,8 @@ class Dt::TellFriendsController < DtApplicationController
   end
   
   def new
-    store_location
-    @share = Share.new
+    load_ecards
+    @share = Share.new(:e_card => @ecards.first)
     @ecards = ECard.find(:all, :order => :id)
     @action_js = "dt/ecards"
     if params[:project_id]
@@ -44,6 +44,7 @@ class Dt::TellFriendsController < DtApplicationController
   end
 
   def create
+    load_ecards
     @shares = []
     @share = Share.new( params[:share] )
     @share.user_id = current_user if logged_in?
@@ -54,13 +55,13 @@ class Dt::TellFriendsController < DtApplicationController
       @shares << @share
       @unsaved << @share.to_email unless saved
     end
-    if params[:to_emails]
-      emails(params[:to_emails]).each do |email|
+    if params[:share] && params[:share][:to_emails]
+      emails(params[:share][:to_emails]).each do |email|
         @s = Share.new(@share.attributes)
         @s.to_email = email
-        saved = @s.save
+        @s.save
         @shares << @s
-        @unsaved << @s.to_email unless saved
+        @unsaved << @s.to_email if @s.new_record?
       end
     end
     @noemails = true if @shares.empty?
@@ -79,50 +80,13 @@ class Dt::TellFriendsController < DtApplicationController
           format.html { render :action => "new" }
         end
       else
-        format.html { render :action => "confirm" }
-      end
-    end
-  end
-
-  def confirm
-    @shares = []
-    @share = Share.new( params[:share] )
-    @ecards = ECard.find(:all, :order => :id)
-    @project = Project.find(@share.project_id) if @share.project_id? && @share.project_id != 0
-    @action_js = "dt/ecards"
-
-    @invalid_emails = []
-    if params[:share] && params[:share][:to_email]
-      @shares << @share
-      @invalid_emails << @share.to_email unless @share.valid?
-    end
-    if params[:to_emails]
-      emails(params[:to_emails]).each do |email|
-        @s = Share.new(@share.attributes)
-        @s.to_email = email
-        valid = @s.valid?
-        @shares << @s
-        @invalid_emails << @s.to_email unless @s.valid?
-      end
-    end
-    if (!params[:share] || !params[:share][:to_email]) && params[:to_emails]
-      @share = @shares.first if @shares.first
-      valid = @share.valid?
-    end
-    @noemails = true if @shares.empty?
-
-    respond_to do |format|
-      if @invalid_emails.empty? && !@noemails
-        format.html { render :action => "confirm" }
-      else
-        flash.now[:error] = "Emails could not be created for the following email addresses: #{@invalid_emails.join(', ')}" unless @invalid_emails.empty?
-        flash.now[:error] = "You need to include at least one email" if @noemails
         format.html { render :action => "new" }
       end
     end
   end
 
   def preview
+    load_ecards
     @share = Share.new( params[:share] )
     
     # there are a couple of necessary field just for previewing
@@ -140,9 +104,12 @@ class Dt::TellFriendsController < DtApplicationController
   protected
 
     def emails(email_list)
-      emails = email_list.class == String ? email_list.split(%r{,\s*}) : email_list
-      emails.collect! { |email| email.strip }
-      emails
+      email_list.to_s.split(%r{,\s*}).collect{|email| email.strip}
+    end
+
+    def load_ecards 
+      @ecards = ECard.find(:all, :order => :id)
+      @ecards.unshift(@ecards.delete_at(2)) unless @ecards.empty? # changing the default image
     end
 
 end

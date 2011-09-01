@@ -5,9 +5,6 @@ require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environ
 require 'spec/autorun'
 require 'spec/rails'
 
-# Activates Machinist for data generation
-require File.expand_path(File.dirname(__FILE__) + "/blueprints")
-
 # Uncomment the next line to use webrat's matchers
 #require 'webrat/integrations/rspec-rails'
 
@@ -23,8 +20,6 @@ Spec::Runner.configure do |config|
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 
-  config.include RspecHpricotMatchers
-  
   # == Fixtures
   #
   # You can declare fixtures for each example_group like this:
@@ -46,7 +41,7 @@ Spec::Runner.configure do |config|
   #
   # == Mock Framework
   #
-  # RSpec uses it's own mocking framework by default. If you prefer to
+  # RSpec uses its own mocking framework by default. If you prefer to
   # use mocha, flexmock or RR, uncomment the appropriate line:
   #
   # config.mock_with :mocha

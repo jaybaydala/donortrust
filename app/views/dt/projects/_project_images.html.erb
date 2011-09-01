@@ -1,0 +1,7 @@
+<% if @project.project_flickr_images.count > 0 %>
+<div id="project-carousel">
+  <% @project.project_flickr_images.select{|image| image.exists? && image.medium_640.present? }.each do |project_image| %>
+    <%= link_to image_tag(project_image.medium_640[:source], :alt => project_image.description), FlickRaw.url_photopage(project_image.info), :title => project_image.title %>
+  <% end %>
+</div>
+<% end %>

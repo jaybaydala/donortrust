@@ -1,6 +1,6 @@
 class Dt::GiveController < DtApplicationController
 
-  def index
+  def show
   end
 
 end

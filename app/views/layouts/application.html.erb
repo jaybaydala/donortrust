@@ -1,0 +1,39 @@
+<%= render :partial => 'layouts/shared/head' %>
+<body<% if content_for?(:body_id) %> id="<%= yield :body_id %>"<% end %>>
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+
+  <div id="maincontentarea" class="content">
+    <div class="container">
+      <section id="top_content">
+        <%= yield :top_content %>
+      </section>
+    </div>
+    <div class="container prepend-top append-large-bottom">
+      <% if content_for? :sidebar %>
+        <article class="prepend-2 span-13<%= ' pageshadow' if content_for?(:top_content) %>">
+          <%= render :partial => 'layouts/shared/flashes' %>
+          <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
+          <div id="fb-root"></div>
+          <%= yield %>
+        </article>
+        <aside class="span-3 last">
+          <div id="rail">
+            <%= render :partial => 'layouts/shared/newsletter' %>
+            <%= yield :sidebar %>
+          </div>
+        </aside>
+      <% else %>
+        <article class="span-14 prepend-2 append-2 last<%= ' pageshadow' if content_for?(:top_content) %>">
+          <%= render :partial => 'layouts/shared/flashes' %>
+          <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
+          <div id="fb-root"></div>
+          <%= yield %>
+        </article>
+      <% end %>
+    </div>
+  </div>
+
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>

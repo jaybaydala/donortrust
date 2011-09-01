@@ -1,5 +1,5 @@
 module Dt::SessionsHelper
-  def dt_account_nav
-    render :file => 'dt/accounts/account_nav'
+  def iend_user_nav
+    render :partial => 'iend/shared/nav'
   end
 end

@@ -1,0 +1,68 @@
+<%- content_for :nav do -%><%= render 'dt/iend/nav' %><%- end -%>
+<%- content_for :html_title do -%>Edit My Profile<%- end -%>
+<%- content_for :head do -%><%= javascript_include_tag "dt/accounts" %><%- end -%>
+
+<%= error_messages_for :user %>
+<% form_for([:iend, @user], :html => { :method => 'put', :id => "userform", :name => "userform", :multipart => true}) do |f| -%>
+<div class="userform">
+
+	<fieldset>
+		<legend class="header">Login/Email</legend>
+	  <% if @user.under_thirteen? %>
+		<div class="textsm">If you need to change your email address, please have your parent use their alternate valid email address.</div>
+		<% else %>
+		<div class="textsm">If you need to change your email address, please use a valid alternate email address.</div>
+		<% end %>
+		<ol>
+  		<li><label for="login"><%= render :partial => 'dt/shared/form_required' %>Login/Email</label><%= f.text_field :login %></li>
+		</ol>
+	</fieldset>
+
+	<fieldset>
+	  <legend>Your Identity</legend>
+	  <%= image_tag(@user.image.url, :alt => "") if @user.image? %>
+	  <% if @user.under_thirteen? %>
+      <div class="textsm personalinfo">You must enter a display name that will be used to identify you on our website.</div>
+      <div class="textsm">Please enter a display name for your child that is not personally identifiable</div>
+    <% else %>
+      <div class="textsm personalinfo">You must enter a display name that will be used to identify you on our website. You may also choose to give us your first and last name which will be used to personalize our communication with you.</div>
+	  <% end %>
+		<ol>
+			<% unless @user.under_thirteen? %><li><label for="user_first_name">First Name</label> <%= f.text_field :first_name %></li><% end %>
+			<% unless @user.under_thirteen? %><li><label for="user_last_name">Last Name</label> <%= f.text_field :last_name %></li><% end %>
+			<li>
+			  <%= label_for_required_field :user, :display_name, "Display Name" %>
+			  <%= f.text_field :display_name %>
+			</li>
+			<li>
+			  <%= f.label :image %>
+			  <%= f.file_field :image %>
+			</li>
+			<li>
+			  <%= f.label :bio %>
+			  <%= f.text_area :bio, :rows => 8, :cols => 40 %>
+			</li>
+		</ol>
+	</fieldset>
+
+	<% unless @user.under_thirteen? %>
+	<fieldset>
+	  <legend>Personal Details</legend>
+		<div class="textsm">The following fields are optional.</div>
+		<ol>
+			<li class="formInput"><label for="user_address">Address</label> <%= f.text_field :address %></li>
+			<li><label for="user_city">City</label> <%= f.text_field :city %></li>
+			<li><label for="user_province">Province/State</label> <%= f.text_field :province %></li>
+			<li><label for="user_postal_code">Postal/Zip Code</label> <%= f.text_field :postal_code %></li>
+			<li><label for="user_country">Country</label> <%= f.text_field :country %></li>
+		</ol>
+	</fieldset>
+  <% end %>
+  
+	<%= submit_tag 'Update Profile', :class => 'buttonsubmit' %>
+</div>
+<% end -%>
+
+<%- content_for :sidebar do -%>
+  <%= dt_profile_sidebar %>
+<%- end -%>

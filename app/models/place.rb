@@ -11,6 +11,7 @@ class Place < ActiveRecord::Base
   belongs_to :sector
   has_many :quick_fact_places
   has_many :projects
+  has_many :country_projects, :foreign_key => "country_id", :class_name => "Project"
   has_many :place_sectors
   has_many :groups
   has_many :place_flickr_images
@@ -26,11 +27,26 @@ class Place < ActiveRecord::Base
 
   acts_as_textiled :description
   
-  is_indexed :fields => [
-    {:field => 'name', :sortable => true},
-    {:field => 'parent_id', :as => 'continent'}
-    ], 
-    :delta => true
+  named_scope :countries_with_active_projects, lambda {
+    {
+      :joins => :country_projects,
+      :select => "#{quoted_table_name}.*, count(projects.country_id) as projects_count",
+      :group => "#{quoted_table_name}.id", 
+      :order => "projects_count DESC", 
+      :conditions => [
+        "#{Project.quoted_table_name}.country_id=#{quoted_table_name}.id AND #{Project.quoted_table_name}.project_status_id IN (?) AND #{Project.quoted_table_name}.partner_id IN (?)", 
+        ProjectStatus.public.map(&:id), 
+        Partner.find(:all, :select => "id", :conditions => ["partner_status_id=?", PartnerStatus.active.id]).map(&:id)
+      ]
+    }
+  }
+  named_scope :discluding_canada, :conditions => ["places.name != ?", "Canada"]
+  
+  # is_indexed :fields => [
+  #     {:field => 'name', :sortable => true},
+  #     {:field => 'parent_id', :as => 'continent'}
+  #   ], 
+  #   :delta => true
 
   
   def Place.getParentString(place)

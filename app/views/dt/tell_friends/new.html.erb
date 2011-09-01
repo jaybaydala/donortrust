@@ -3,89 +3,67 @@
 <%- end -%>
 <%- content_for :html_title do %>Tell a Friend<% end -%>
 
+<% content_for :top_content do %>
+<div class="prepend-top prepend-2"><h1>Spread the word. And the good.</h1></div>
+<% end %>
 
-  <h2>Spread the word. And the good.</h2>
-  <%= error_messages_for :share %>
-  <% form_for(:share, :url => confirm_dt_tell_friends_path, :html => {:id => "tellfriendform", :name => "tellfriendform"}) do |f| %>
-  <p>You recently got involved in helping change the world with Uend:. The world has a lot of people - six billion plus - all of which need to be involved if we're going to eradicate extreme poverty. It is with this goal in mind that we humbly ask you to pass your story (and Uend:'s) on to a friend. Or two. Or six billion.</p>
+  <p>You recently got involved in helping change the world with UEnd. The world has a lot of people - six billion plus - all of which need to be involved if we're going to eradicate extreme poverty. It is with this goal in mind that we humbly ask you to pass your story (and UEnd's) on to a friend. Or two. Or six billion.</p>
   <p>Thanks again for getting involved.</p>
-  <p>After selecting an image from the E-card Gallery in the right column, please enter your personal information in the form below.</p>
-  <div class="userform">
 
-    <fieldset>
-      <legend>Is there a project you'd like to share?</legend>
-      <div class="projectactions">
-        <ol>
-          <li class="textsm" style="margin-bottom:0px;"><%= f.radio_button "project_id", "" %>no, I just want to share about Uend:</li>
-          <li class="textsm"><%= f.radio_button "project_id", ( @share.project_id? ? @share.project_id : 0 ) %>a specific project &nbsp;&nbsp; &#8250; <%= @share.project_id? && @share.project ? link_to(@share.project.name, dt_project_path(@share.project)) : link_to("choose project", dt_projects_path) %></li>
-        </ol>
-      </div>
-    </fieldset>
+  <% semantic_form_for(@share, :url => dt_tell_friends_path, :html => {:id => "tellfriendform", :name => "tellfriendform"}) do |f| %>
+    <%= f.semantic_errors :share %>
+    <% f.inputs do %>
+      <%
+        options = []
+        options << [raw("a specific project &#8250; #{link_to 'choose project', dt_projects_path}"), ""] if !@project
+        options << [raw("a specific project &#8250; #{link_to @project.name, [:dt, @project]}"), @project.id] if @project
+        options << ["no, I just want to share about UEnd", ""]
+      %>
+      <%= f.input :project_id, :label => "Is there a project you'd like to share?", :as => :radio, :collection => options %>
+    <% end %>
 
-    <fieldset class="fieldset">
-      <legend>Sender Information</legend>
-      <ol>
-        <li><label for="share_name">From (Name)</label><%= f.text_field :name %></li>
-        <li><label for="share_email"><em>*</em>From (Email)</label><%= f.text_field :email %></li>
-        <li><label for="share_email_confirmation"><em>*</em>Retype Email</label><%= f.text_field :email_confirmation %></li>
-      </ol>
-    <%= render :partial => 'dt/shared/form_requirednote' %>
-    </fieldset>
+    <% f.inputs "Sender Information" do %>
+      <%= f.input :name %>
+      <%= f.input :email %>
+      <%= f.input :email_confirmation %>
+    <% end %>
 
-    <fieldset id="multiSender">
-      <legend>Email Recipient(s)</legend>
-      <p class="textsm">Please, separate multiple emails using a comma when sending to multiple people</p>
-      <ol>
-        <li>
-          <label for="to_emails">Email(s)</label>
-          <%= text_area_tag :to_emails, nil, :id => 'to_emails', :cols => 35, :rows => 3 %>
-        </li>
-      </ol>
-    </fieldset>
-      
-    <fieldset id="textInput">
-      <ol class="clearfix">
-        <li>
-          <% if @ecards.empty? %>
-          <label for="share_message" class="left">Your personal message to the recipient(s):</label>
-          <%= f.text_area :message, :rows => 6, :cols => 35 %>
-          <% else %>
-          <div class="columns">
-            <div class="left" style="width:150px;">
-              <label class="left">Ecard Image:</label>
-              <div id="medImgWrap">
-                <div class="medImg"><%= image_tag url_for_file_column(@ecards[0], "medium"), :id => 'mediumEcard', :alt => '' %></div>
-                <div style="color:#333;"><em>Selected Image</em></div>
-              </div>
-              <%= f.hidden_field 'e_card_id', :id => "e_card_id" %>
-            </div>
-            <div class="right" style="width:370px;">
-              <label for="gift_message" class="left">Your personal message to the recipient(s):</label>
-              <%= f.text_area :message, :rows => 6, :cols => 35 %>
-              <div class="note" style="margin:0;">Your message is limited to 1000 characters</div>
-              <div id="counter-gift_message"></div>
-            </div>
+    <% f.inputs "Email Recipient(s)" do %>
+      <%= f.input :to_emails, :as => :text, :input_html => { :cols => 35, :rows => 3 }, :hint => 'Separate multiple emails using a comma when sending to multiple people' %>
+    <% end %>
+    
+    <% f.inputs "Message Details" do %>
+      <%= f.input :message, :as => :text, :input_html => { :cols => 35, :rows => 6 } %>
+      <li>
+        <%= f.label :e_card_id, 'Choose an ecard image from the options below.' %>
+        <%= f.hidden_field :e_card_id %>
+        <div class="clearfix" style="padding-top:12px;">
+          <div class="span-3" id="e_card-preview">
+            <%= image_tag url_for_file_column(@share.e_card, 'medium'), :alt => '' %>
           </div>
-          <% end %>
-        </li>
-        <% unless @ecards.empty? %>
-        <li>
-          <div id="ecardPreview" style="display:none;" class="clearfix">
-            <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
-            <%= button_to_function "Preview your ecard &raquo;", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
+          <div class="span-7" id="e_card-selection">
+            <p style="padding-bottom:8px;">
+              <img src="/images/nav/arrow-back.png" width="13" height="15" alt="" style="vertical-align:bottom;"> 
+              This is the image selected to appear on your card.
+            </p>
+            <% @ecards.each do |ecard| %>
+              <%= image_tag url_for_file_column(ecard, 'small'), :data_id => ecard.id, :data_url => url_for_file_column(ecard, 'medium'), :alt => '', :style => "padding:0 8px 4px 0" %>
+            <% end %>
           </div>
-        </li>
-        <li>
-          <div>Please select an image from the Ecard Gallery:</div>
-          <%= render :file => "dt/ecards/content" %>
-        </li>
-        <% end %>
-      </ol>
-    </fieldset>
+        </div>
+      </li>
+    <% end %>
 
-    <%= submit_tag 'Confirm', :class => 'buttonsubmit' %>
+    <% f.inputs do %>
+      <li>
+        <%= get_captcha %>
+      </li>
+    <% end %>
+
+    <% f.buttons do %>
+      <%= f.commit_button "Share" %>
+    <% end %>
     <%= render :partial => 'dt/shared/form_requirednote' %>
-  </div>
   <% end %>
 
   

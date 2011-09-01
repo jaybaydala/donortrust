@@ -16,13 +16,13 @@ class Team < ActiveRecord::Base
 
   attr_accessor :use_user_email
 
-  is_indexed :fields=> [
-      {:field => 'short_name', :sortable => true},
-      {:field => 'description'},
-      {:field => 'name', :sortable => true}
-    ], 
-    :delta => true, 
-    :conditions => "teams.generic=0 AND teams.pending=0"
+  # is_indexed :fields=> [
+  #     {:field => 'short_name', :sortable => true},
+  #     {:field => 'description'},
+  #     {:field => 'name', :sortable => true}
+  #   ], 
+  #   :delta => true, 
+  #   :conditions => "teams.generic=0 AND teams.pending=0"
 
 
   # validations
@@ -35,12 +35,6 @@ class Team < ActiveRecord::Base
   validates_presence_of :leader
   validates_numericality_of :goal
   validates_uniqueness_of :user_id, :scope => :campaign_id, :message => "You have already created a team for this campaign and cannot create another one."
-
-  image_column  :picture,
-                :versions => { :thumb => "100x100", :full => "200x200"  },
-                :filename => proc{|inst, orig, ext| "team_#{inst.id}.#{ext}"},
-                :store_dir => "uploaded_pictures/team_pictures"
-  # validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
   IMAGE_SIZES = {
     :full => {:width => 200, :height => 200, :modifier => ">"},

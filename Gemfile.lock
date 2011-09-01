@@ -12,12 +12,17 @@ GEM
       activesupport (>= 2.3.2)
       braintree (>= 2.0.0)
       builder (>= 2.0.0)
-    activerecord (2.3.5)
-      activesupport (= 2.3.5)
-    activeresource (2.3.5)
-      activesupport (= 2.3.5)
-    activesupport (2.3.5)
+    activerecord (2.3.11)
+      activesupport (= 2.3.11)
+    activeresource (2.3.11)
+      activesupport (= 2.3.11)
+    activesupport (2.3.11)
+    addressable (2.2.4)
+    after_commit (1.0.10)
+      activerecord (< 3.0.0, >= 1.15.6)
     autotest (4.4.5)
+    awesome_nested_set (1.4.4)
+      activerecord (>= 1.1)
     aws-s3 (0.6.2)
       builder
       mime-types
@@ -48,6 +53,9 @@ GEM
     color (1.4.1)
     color-tools (1.3.0)
     columnize (0.3.2)
+    completeness-fu (0.5.2)
+      activerecord (>= 2.3.3)
+    configuration (1.2.0)
     cucumber (0.9.4)
       builder (~> 2.1.2)
       diff-lcs (~> 1.1.2)
@@ -58,19 +66,30 @@ GEM
       cucumber (>= 0.8.0)
     culerity (0.2.12)
     daemons (1.0.10)
-    database_cleaner (0.6.0)
+    database_cleaner (0.6.7)
     diff-lcs (1.1.2)
-    email_spec (0.6.4)
+    email_spec (0.6.6)
+      rspec
     factory_girl (1.3.2)
     faker (0.3.1)
+    fakeweb (1.3.0)
+    faraday (0.6.1)
+      addressable (~> 2.2.4)
+      multipart-post (~> 1.1.0)
+      rack (>= 1.1.0, < 2)
+    fastercsv (1.5.4)
     fastthread (1.0.7)
     feed-normalizer (1.5.2)
       hpricot (>= 0.6)
       simple-rss (>= 1.1)
     ffi (0.6.3)
       rake (>= 0.8.7)
-    flickr (1.0.2)
-      xml-simple (>= 1.0.7)
+    flickraw (0.8.4)
+      json (>= 1.1.1)
+    formtastic (1.2.4)
+      actionpack (>= 2.3.7)
+      activesupport (>= 2.3.7)
+      i18n (~> 0.4)
     gem_plugin (0.2.3)
     gherkin (2.2.9)
       json (~> 1.4.6)
@@ -80,6 +99,7 @@ GEM
       rake (>= 0.8.7)
       rubyforge (>= 2.0.4)
     hpricot (0.8.3)
+    i18n (0.6.0)
     json (1.4.6)
     json_pure (1.4.6)
     linecache (0.43)
@@ -96,7 +116,11 @@ GEM
     mongrel_cluster (1.0.5)
       gem_plugin (>= 0.2.3)
       mongrel (>= 1.0.2)
+    multi_json (1.0.3)
+    multi_xml (0.2.2)
+    multipart-post (1.1.3)
     mysql (2.8.1)
+    net-ldap (0.2.2)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -104,7 +128,44 @@ GEM
     net-ssh (2.0.23)
     net-ssh-gateway (1.0.1)
       net-ssh (>= 1.99.1)
-    nokogiri (1.4.4)
+    nokogiri (1.4.7)
+    oa-basic (0.2.6)
+      oa-core (= 0.2.6)
+      rest-client (~> 1.6.0)
+    oa-core (0.2.6)
+    oa-enterprise (0.2.6)
+      addressable (= 2.2.4)
+      net-ldap (~> 0.2.2)
+      nokogiri (~> 1.4.2)
+      oa-core (= 0.2.6)
+      pyu-ruby-sasl (~> 0.0.3.1)
+      rubyntlm (~> 0.1.1)
+    oa-more (0.2.6)
+      multi_json (~> 1.0.0)
+      oa-core (= 0.2.6)
+      rest-client (~> 1.6.0)
+    oa-oauth (0.2.6)
+      faraday (~> 0.6.1)
+      multi_json (~> 1.0.0)
+      multi_xml (~> 0.2.2)
+      oa-core (= 0.2.6)
+      oauth (~> 0.4.0)
+      oauth2 (~> 0.4.1)
+    oa-openid (0.2.6)
+      oa-core (= 0.2.6)
+      rack-openid (~> 1.3.1)
+      ruby-openid-apps-discovery (~> 1.2.0)
+    oauth (0.4.5)
+    oauth2 (0.4.1)
+      faraday (~> 0.6.1)
+      multi_json (>= 0.0.5)
+    omniauth (0.2.6)
+      oa-basic (= 0.2.6)
+      oa-core (= 0.2.6)
+      oa-enterprise (= 0.2.6)
+      oa-more (= 0.2.6)
+      oa-oauth (= 0.2.6)
+      oa-openid (= 0.2.6)
     packet (0.1.15)
     paperclip (2.3.5)
       activerecord
@@ -115,7 +176,12 @@ GEM
     polyglot (0.3.1)
     pony (1.1)
       mail (> 2.0)
-    rack (1.0.1)
+    pyu-ruby-sasl (0.0.3.3)
+    rack (1.1.2)
+    rack-openid (1.3.1)
+      rack (>= 1.1.0)
+      ruby-openid (>= 2.1.8)
+    rack-rewrite (1.1.0)
     rack-test (0.5.6)
       rack (>= 1.0)
     rails (2.3.5)
@@ -127,20 +193,27 @@ GEM
       rake (>= 0.8.3)
     rake (0.8.7)
     redgreen (1.2.2)
+    rest-client (1.6.3)
+      mime-types (>= 1.16)
+    riddle (1.3.3)
     rmagick (2.12.2)
-    rspec (1.3.1)
-    rspec-rails (1.3.3)
+    rspec (1.3.2)
+    rspec-rails (1.3.4)
       rack (>= 1.0.0)
-      rspec (= 1.3.1)
+      rspec (~> 1.3.1)
     rspec_hpricot_matchers (1.0)
     ruby-debug (0.10.4)
       columnize (>= 0.1)
       ruby-debug-base (~> 0.10.4.0)
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
+    ruby-openid (2.1.8)
+    ruby-openid-apps-discovery (1.2.0)
+      ruby-openid (>= 2.1.7)
     ruby-recaptcha (1.0.2)
     rubyforge (2.0.4)
       json_pure (>= 1.1.7)
+    rubyntlm (0.1.1)
     rubyzip (0.9.4)
     searchlogic (2.4.27)
       activerecord (>= 2.0.0)
@@ -152,10 +225,17 @@ GEM
     shoulda (2.11.3)
     simple-rss (1.2.3)
     term-ansicolor (1.0.5)
+    thinking-sphinx (1.4.6)
+      activerecord (< 3.0.0, >= 1.15.6)
+      after_commit (>= 1.0.7)
+      riddle (>= 1.3.3)
+    timecop (0.3.5)
     transaction-simple (1.4.0)
       hoe (>= 1.1.7)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
+    validation_reflection (0.3.8)
+    watchr (0.7)
     whenever (0.6.2)
       aaronh-chronic (>= 0.3.9)
       activesupport (>= 2.3.4)
@@ -170,6 +250,7 @@ DEPENDENCIES
   RedCloth
   activemerchant
   autotest
+  awesome_nested_set
   aws-s3
   calendar_date_select
   capistrano
@@ -177,7 +258,7 @@ DEPENDENCIES
   capybara (< 0.4)
   chronic
   color-tools
-  cucumber (>= 0.9.4)
+  completeness-fu (= 0.5.2)
   cucumber-rails (>= 0.3.2)
   daemons (= 1.0.10)
   database_cleaner (>= 0.5.2)
@@ -185,22 +266,24 @@ DEPENDENCIES
   factory_girl
   faker
   feed-normalizer
-  flickr
+  flickraw
+  formtastic (< 2)
   hpricot
   mail
   mongrel
   mongrel_cluster
   mysql
   nokogiri
+  omniauth (~> 0.2.6)
   packet
   paperclip
   pdf-writer
   pony
   rack
-  rails (= 2.3.5)
+  rack-rewrite
+  rails (= 2.3.11)
   redgreen
   rmagick (= 2.12.2)
-  rspec (< 2.0)
   rspec-rails (< 2.0)
   rspec_hpricot_matchers
   ruby-debug
@@ -208,7 +291,11 @@ DEPENDENCIES
   searchlogic
   shoulda
   simple-rss
+  thinking-sphinx
+  timecop
   transaction-simple
+  validation_reflection (< 1)
+  watchr
   whenever (>= 0.3.0)
   will_paginate
   xml-simple

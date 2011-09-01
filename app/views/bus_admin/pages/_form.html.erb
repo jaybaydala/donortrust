@@ -1,36 +1,21 @@
 <%= error_messages_for :page %>
-<% form_for @page, :url => (@page.new_record? ? bus_admin_pages_path : bus_admin_page_path(@page)), :html => {:method => (@page.new_record? ? :post : :put), :id => 'page-form'} do |f| %> 
-
-<fieldset>
-	<legend>Page Information</legend>
-	<ol class="form">
-		<li>
-		  <%= f.label :title %>
-			<%= f.text_field :title %>
-		</li>
-		<li>
-		  <%= f.label :permalink %>
-			<%= f.text_field :permalink %>
-		</li>
-		<li>
-		  <%= f.label :active %>
-			<%= f.check_box :active %>
-		</li>
-		<li>
-		  <%= f.label :template %>
-			<%= f.text_field :template %>
-		</li>
-		<li>
-		  <%= f.label :layout %>
-			<%= f.text_field :layout %>
-		</li>
-		<li>
-		  <%= f.label :content %><br />
-		  <%= f.text_area :content, :rows => 40, :cols => 100 %>
-      <%# fckeditor_textarea("page", "content", :toolbarSet => 'uEnd', :height => 500, :width =>450 ) %> 
-		</li>
-		<li>
-		  <%= submit_tag "Save", :class => 'buttonsubmit' %>
-		</li>
-  </ol>
+<% semantic_form_for [:bus_admin, @page], :html => { :id => 'page-form' } do |f| %> 
+  <% f.inputs "Page Information" do %>
+    <%= f.input :parent_id, :as => :select, :collection => nested_set_options(Page, @page) {|i| "#{'–' * i.level} #{i.title}" }, :include_blank => true %>
+    <%= f.input :title %>
+    <%= f.input :permalink, :hint => "Leave blank and the system will generate a permalink for you" %>
+    <%= f.input :active %>
+    <li class="text required" id="page_content_input">
+      <%= f.label :content, raw('Content<abbr title="required">*</abbr>') %>
+      <%= fckeditor_textarea( "page", "content", :toolbarSet => 'uEnd', :height => 500) %> 
+    </li>
+    <%#= f.input :content, :input_html => { :rows => 40, :cols => 100 } %>
+  <% end %>
+  <% f.inputs "Meta" do %>
+    <%= f.input :template, :hint => "Allows for a custom template - only use if you know what this does" %>
+    <%= f.input :layout, :hint => "Allows for a custom layout - only use if you know what this does" %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button %>
+  <% end %>
 <% end %>

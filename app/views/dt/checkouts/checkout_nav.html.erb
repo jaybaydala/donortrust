@@ -1,20 +1,29 @@
-<ul class="wide">
-  <li><strong><%= link_to "Checkout: ", "javascript:void(0);" %></strong></li>
-  <%-
-    link_item = true
-    nav_info = {
-      # "support" => ["Step 1. Support uend ", edit_dt_checkout_path(:step => "support")],
-      "payment" => ["Step 1. Payment Details ", edit_dt_checkout_path(:step => "payment")], 
-      "billing" => ["Step 2. Billing Info ", edit_dt_checkout_path(:step => "billing")], 
-      "confirm" => ["Step 3. Confirmation ", edit_dt_checkout_path(:step => "confirm")]
-      }
-    Dt::CheckoutsController::CHECKOUT_STEPS.each do |key|
-      current = (@current_nav_step ? false : true) if key.empty?
-      current = (@current_nav_step == key ? true : false) unless key.empty?
-      link_item = false if current
-      title = nav_info[key][0]
-      link = nav_info[key][1]
-  -%>
-  <li<%= ' class="current"' if current %>><%= link_to(title, link_item ? link : "javascript:void(0);" ) %></li>
-  <%- end -%>
-</ul>
+<div class="span-14 last prepend-top clearfix">
+  <nav id="formnav" class="clearfix">
+    <ul>
+      <%-
+      link_item = true
+      nav_info = {
+          "payment_options" => "Payment &nbsp; &nbsp; Options ", 
+          "upowered" => "Join &nbsp; &nbsp; UPowered ", 
+          "billing" => "Billing Information ", 
+          "account_signup" => "Account Signup ", 
+          "credit_card" => "Credit Card Details",
+          "receipt" => "Transaction Receipt"
+        }
+      @checkout_steps.each do |key|
+        current = (@current_nav_step ? false : true) if key.empty?
+        current = (@current_nav_step == key ? true : false) unless key.empty?
+        link_item = false if current
+        title = nav_info[key]
+      -%>
+      <li class="span-2<%= ' current' if current %>"><%= title %></li>
+      <%- end -%>
+      <li class="span-4 <%= "prepend-#{(10 - @checkout_steps.size*2)}" %> last" style="text-align:right;font-size:18px;">
+        <%- if @cart.present? -%>
+          <strong>Cart Total: <%= number_to_currency(@cart.total) %></strong>
+        <%- end -%>
+      </li>
+    </ul>
+  </nav>
+</div>
