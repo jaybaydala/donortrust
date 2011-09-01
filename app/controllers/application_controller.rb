@@ -139,14 +139,14 @@ class ApplicationController < ActionController::Base
 
     def render_404
       respond_to do |type|
-        type.html { render :template => "dt/shared/errors/error404", :layout => "dt_application", :status => "404" }
+        type.html { render :template => "dt/shared/errors/error404", :layout => "application", :status => "404" }
         type.all  { render :nothing => true, :status => "404 Not Found" }
       end
     end
 
     def render_500
       respond_to do |type|
-        type.html { render :template => "dt/shared/errors/error", :layout => "dt_application", :status => "500" }
+        type.html { render :template => "dt/shared/errors/error", :layout => "application", :status => "500" }
         type.all  { render :nothing => true, :status => "500 Error" }
       end
     end

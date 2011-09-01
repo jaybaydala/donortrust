@@ -1,0 +1,22 @@
+<% html_title("Join U:Powered") %>
+
+<%= render :partial => "upowered_nav" %>
+
+<%= image_tag "give/title-upowered-white.png", :alt => "U:Powered" %>
+<h1 class="project-title">UEnd:Foundation Operations Funding</h1>
+
+<p>For the monthly price of a cup of coffee, help fund the organization that's ending poverty.</p>
+
+<% semantic_form_for(@investment, :url => dt_upowered_path, :html => {:id => "upoweredform"} ) do |f| %>
+  <%= f.semantic_errors :investment %>
+
+  <% f.inputs do %>
+    <%= f.input :amount, :as => :radio, :collection => [["$5.00", 5.0], ["$10.00", 10.0], ["$25.00", 25.0], ["$100.00", 100.0]] %>
+  <% end %>
+
+  <% f.buttons do %>
+    <%= f.commit_button "Join" %>
+  <% end %>
+<% end %>
+
+<%= render :partial => 'upowered_project_sidebar' %>

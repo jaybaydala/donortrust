@@ -1,5 +1,4 @@
 class Dt::MyWishlistsController < DtApplicationController
-  before_filter :store_location
   before_filter :login_required
   
   def initialize
@@ -7,7 +6,7 @@ class Dt::MyWishlistsController < DtApplicationController
   end
   
   def index
-    redirect_to dt_account_path(current_user.id)
+    redirect_to iend_user_path(current_user.id)
   end
   
   def new
@@ -33,7 +32,7 @@ class Dt::MyWishlistsController < DtApplicationController
     @wishlist = MyWishlist.find(params[:id]) if params[:id]
     deleted = MyWishlist.destroy(params[:id]) if @wishlist
     flash[:notice] = "You have removed the project from your wishlist" if deleted
-    redirect_to dt_account_my_wishlists_path(:account_id => @wishlist.user)
+    redirect_to iend_user_my_wishlists_path(:account_id => @wishlist.user)
   end
   
   def new_message
@@ -111,7 +110,7 @@ class Dt::MyWishlistsController < DtApplicationController
   def access_denied
     respond_to do |accepts|
       accepts.html do
-        redirect_to dt_login_path and return if !logged_in?
+        redirect_to login_path and return if !logged_in?
         redirect_to dt_project_path(params[:project_id]) and return if params[:project_id]
         redirect_to dt_projects_path and return
       end

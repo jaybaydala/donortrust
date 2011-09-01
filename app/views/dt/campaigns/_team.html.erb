@@ -4,7 +4,7 @@
 		<p>
 			<%= link_to team.name, dt_team_path(team) %> - <%= team.active_and_current_participants.size %> members 
 			<%= (" - " + link_to('Approve!',approve_dt_team_path(team))) if (team.pending? && (!team.owned? || current_user.is_cf_admin?)) %>
-			<% if current_user != :false %>
+			<% if logged_in? %>
   			  <% if current_user.cf_admin? then %>
 			    <%= delete_icon(dt_team_path(team)) %>
 

@@ -1,0 +1,9 @@
+Hello,
+
+We noticed that the credit card we have in our system for your UPowered subscription is due to expire in <%= @subscription.expiry_month.to_s.rjust(2, '0') %>/<%= @subscription.expiry_year %>.
+
+To keep your subscription uninterrupted, we would appreciate if you could update your card. Just visit this address and you'll be good to go.
+<%= @edit_upowered_url %>
+
+Thanks!
+The UEnd Team

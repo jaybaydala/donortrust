@@ -1,67 +1,8 @@
 <%- content_for :html_title do -%>Open your gift. Change the world.<%- end -%>
-<%- content_for :page_title do -%>Receive<%- end -%>
 
-<% if @gift -%>
-  <% if @gift.project_id? %>
-    <p><%= @gift.name || @gift.email %> has sent you a Project Gift for <%= number_to_currency( @gift.amount ) %>!</p>
-    <p>
-      This is the project they chose to give the gift to:<br />
-      <%= link_to @gift.project.name, dt_project_path(@gift.project) %><br />
-      Follow the link to learn more about the project.
-    </p>
-    <p>
-      <%= link_to "Associate this gift with my account", unwrap_dt_gift_path(@gift.id, :code => @gift.pickup_code) %>
-      Don't have an account? <%= link_to "Create one here", new_dt_account_path %>.
-    </p>
-  <% else %>
-    <% if @opening_now %>
-      <p><%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>!</p>
-      <p>Now that you've opened your gift, you have some options. You can:</p>
-    <% else %>
-      <p>Your current Gift Card Balance is <%= number_to_currency( @gift.balance ) %>.</p>
-      <p>To use your gift, you have some options. You can:</p>
-    <% end %>
-    <div class="gift-options">
-      <ul>
-        <li><%= link_to "Find a project to donate to", dt_projects_path %></li>
-        <% if Project.unallocated_project %><li><%= link_to "Let Uend: figure it out", new_dt_investment_path(:unallocated_gift => 1) %></li><% end %>
-        <li><%= link_to "Deposit it into my account", new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) %></li>
-        <% if Project.admin_project %><li><%= link_to "Donate it to Uend:'s Operational budget", new_dt_investment_path(:admin_gift => 1) %></li><% end %>
-      </ul>
-    </div>
-    <div class="textsm">Note: if you choose to do nothing, your gift will expire 30 days after it was sent, which is just like choosing &quot;Let Uend: figure it out&quot;</div>
-  <% end %>
-<% else -%>
-  <h2>Open your gift. Change the world.</h2>
-
-  <h3>How it works:</h3>
-    <ol>
-      <li>Open your gift</li>
-      <li>Find a project you want to support</li>
-      <li>Give to the project using gift card balance</li>  
-    </ol>  
-
-  <%= error_messages_for :pickup %>
-  <% form_for(:pickup, :url => open_dt_gifts_path, :html => {:method => :get, :id => "giftform", :name => "giftform"}) do |f| %>
-  <div class="userform clearfix">
-    <fieldset style="border:0;">
-      <ol>
-        <li><h3><label class="left" for="code">Pickup Code:</label></h3></li>
-        <li>
-          <%= text_field_tag :code %>
-          <%= submit_tag 'open your gift', :style => 'font-size: 14px;' %>
-        </li>
-      </ol>
-    </fieldset>
-  </div>
-  
-  <% end -%>
-<% end -%>
-
-<% content_for :sidebar do %>  
-  <p style="color:#000;">
-    <img src="/images/dt/icons/recipient-icon-yellow.png" alt="" style="float:left;padding-right:5px;" />
-    <strong>Open your gift and support projects that help communities climb out of extreme poverty.</strong>
-  </p>
-  <%= dt_short_profile_sidebar %>
+<% if @gift %>
+  <%= render :partial => 'opened_gift' unless @gift.project_id? %>
+  <%= render :partial => 'opened_project_gift' if @gift.project_id? %>
+<% else %>
+  <%= render :partial => 'open' %>
 <% end %>

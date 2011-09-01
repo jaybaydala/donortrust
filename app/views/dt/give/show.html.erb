@@ -1,0 +1,40 @@
+<%- content_for :html_title do %>Three ways to give<% end -%>
+
+<% content_for :header do %>
+  <div class="feature">
+    <h1>Give</h1>
+    <p>A gift can change more than one life</p>
+  </div>
+<% end %>
+
+<% content_for :top_content do %>
+  <h1 style="padding:32px 0 0 0;" class="center"><img src="/images/titles/three_ways_to_give.png" width="482" height="45" alt="Three Ways To Give"></h1>
+<% end %>
+
+<div class="clearfix prepend-top">
+  <article class="span-4 append-1">
+    <h2><%= link_to image_tag("/images/give/uforward.png", :alt => 'U:forward - Pay it forward as a gift.'), new_dt_gift_path %></h2>
+    <div class="serif"><%= content_snippet_for(:uforward_description) %></div>
+  </article>
+  <article class="span-4 append-1">
+    <h2><%= link_to image_tag("/images/give/udirect-generic.png", :alt => 'U:direct - Give directly to this project.'), dt_projects_path %></h2>
+    <div class="serif"><%= content_snippet_for(:udirect_description) %></div>
+  </article>
+  <article class="span-4 last">
+    <h2><%= link_to image_tag("/images/give/upowered.png", :alt => 'U:powered - Fund UEnd operations.'), dt_upowered_path %></h2>
+    <div class="serif"><%= content_snippet_for(:upowered_description) %></div>
+  </article>
+</div>
+
+<!--
+<div class="prepend-top">
+  <ul class="arrow">
+    <li><%= link_to("Give a gift card (let the recipient choose a project)", new_dt_gift_path) %></li>
+    <li><%= link_to("Give to a project on behalf of someone", dt_projects_path) %></li>
+    <li><%= link_to("Give directly to a project", dt_projects_path) %></li>
+    <li><%= link_to("Let Uend: choose a project for me (donations will go towards project, not operations)", new_dt_investment_path(:project_id => unallocated_project.id)) %></li>
+    <li><%= link_to("Give to Uend:'s Operational Budget", new_dt_investment_path(:project_id => 10)) %></li>
+    <li><a onclick="var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit();return false;" href="/dt/investments?investment%5Bamount%5D=5&project_id=10&subscription=1">Join u:powered - $5/month to build the org that ends poverty</a></li>
+  </ul>
+</div>
+-->

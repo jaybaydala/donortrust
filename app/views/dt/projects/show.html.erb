@@ -1,161 +1,34 @@
-<%- content_for :html_title do -%><%= @project.partner.name %>: <%= @project.name %><%- end -%>
+<% html_title(@project.name) %>
+<%= render 'project_header' %>
 
-<%= render(:partial => 'project_header', :object => @projects) %>
+<h1 class="project-title"><%= @project.name %></h1>
 
-<div class="project-content">
-  <% cache "#{@project.cache_key}-flickrsidebar" do %>
-    <%- @flickr_images = @project.project_flickr_images.all -%>
-    <%= render :partial  => 'flickr_slider' unless @flickr_images.blank? %>
-	<% end %>
-	<%= @project.description %>
-</div>
-<div class='project-sidebar'>
-	<div id="project-accordion" class="accordion">		
-		<div class="accordion-toggle">Quick Facts</div>    
-		<div class="accordion-content">
-			<div class="quickfacts">
-				<%= render :partial => 'small_project_quickfacts' %>
-			</div>
-		</div>    
+<%= render :partial => 'project_details' %>
 
-		<% if @budget_items%>
-			<div class="accordion-toggle">Financial Data</div>    
-			<div class="accordion-content">
-				<div class="quickfacts">
-					<%= render :partial => 'project_financial_data' %>
-				</div>
-			</div>
-		<% end %>
-
-		<% if @project.partner %>
-			<div class="accordion-toggle">Implementing Organization</div>    
-			<div class="accordion-content">
-				<div class="quickfacts">
-					<ul>
-						<li><strong>Organization:</strong> <%= link_to(@organization.name, organization_dt_project_path(@project) )%></li>
-						<li><strong>Description:</strong> <%= truncate(@organization.description.gsub(/<\/?[^>]*>/, ""), 280) %> <%= link_to "Read more&hellip;", organization_dt_project_path(@organization.id) %></li>
-					</ul>
-				</div>
-			</div>
-		<% end %>
-	</div>
-	<div class="project-sidebar-buttons">
-		<% if @project.fundable? %>
-			<%= image_tag("/images/dt/buttons/give.gif", :alt => 'Give', :title => 'Give', :onclick => "Element.toggle('give-disambiguation-box-#{@project.id}');")%>
-		<% end %>
-		<a href="/dt/tell_friends/new?project_id=<%=@project.id%>"><img src="/images/dt/buttons/tellFriend_lgrey2.gif"></a>
-		<div id='give-disambiguation-box-<%= @project.id %>' class="give-disambiguation-box" style="display:none;">
-		  <ul class="arrow">
-				<li><%= link_to("Give to this project directly", new_dt_investment_path(:project_id => @project.id)) %></li>
-				<li><%= link_to("Give to this project on behalf of someone", new_dt_gift_path(:project_id => @project)) %></li>
-				<% if session[:gift_card_balance] %>
-				<li><%= link_to("Give my entire Gift Card Balance to this project", new_dt_investment_path(:project_id => @project, :directed_gift => 1)) %></li>
-				<% end %>
-			</ul>
-		</div>
-	</div>
-	
+<div class="project-description">
+  <%= render 'project_images' %>
+  
+  <div class="project-description">
+    <%= @project.description %>
+  </div>
 </div>
 
 
-<%= javascript_tag "document.observe('dom:loaded', function(){ accordion = new Accordion('project-accordion', 1);})"%>
+<% content_for :project_sidebar do %>
+  <div><%= link_to image_tag('/images/give/uforward.png', :alt => ''), new_dt_gift_path(:project_id => @project.id), :title => "U:forward - pay it forward as a gift." %></div>
+  <div><%= link_to image_tag('/images/give/udirect.png', :alt => ''), new_dt_investment_path(:project_id => @project.id), :title => "U:direct - Give directly to this project." %></div>
 
-<div class="project-details">
-	<div class ="detail-tabs clearfix">
-		<ul id='ul-project' class="left-tabs clearfix">
-			<li class="detail-tab" id='intended-li'><a href="#intended" class="nav-tab" onclick="tab_select( $('intended-li'), $('intended_outcome') );"><span>Intended Outcome</span></a></li>
-			<li class="detail-tab" id='project-li'><a href="#home" class="nav-tab" onclick="tab_select( $('project-li'), $('project_plan') );"><span>Project Plan</span></a></li>
-			<li class="detail-tab" id='measurable-li'><a href="#measurable" class="nav-tab" onclick="tab_select( $('measurable-li'), $('measurable_feedback') );"><span>Measurable Feedback</span></a></li>
-			<li class="detail-tab" id='stories-li'><a href="#stories" class="nav-tab" onclick="tab_select( $('stories-li'), $('project_stories') );"><span>Stories</span></a></li>
-			<li class="detail-tab" id='photos-li' onclick="tab_select( $('photos-li'), $('project_photos') );"><a href="#photos" class="nav-tab" ><span>Photos</span></a></li>
-			<li class="detail-tab" id='videos-li' onclick="tab_select( $('videos-li'), $('project_videos') );">
-				<%= link_to_remote '<span>Videos</span>',
-					:url  => {:controller => :projects, :action => 'get_videos', :id => @project.id},
-					:method => :get,
-					:before   => %(Element.show("ajax_busy")),
-					:success  => %(Element.hide("ajax_busy")),
-					:html => {:id => @project.id, :class=>'nav-tab'}
-			%>
-			</li>
-			<%= javascript_tag "document.observe('dom:loaded', function(){  init_tab();})"%>
-		</ul>
-	</div>
-	<div class="detail-content">
-		<%= show_spinner() %>
-		<!-- intended outcome -->
-		<div id='intended_outcome' style='display:none'>
-			<% if @project.intended_outcome? %>
-				<div>
-					<%= @project.intended_outcome %>
-				</div>
-			<% else %>
-				<h2>There is no intended outcome data available.</h2>
-			<% end %>
-
-		</div>
-
-		<div id='project_plan' style='display:none;'>
-			<% if !@project.milestones.empty? && !@project.target_start_date.nil? %>
-			  <ul>
-				<%= render :partial => 'milestone', :collection => @project.milestones%>
-				</ul>
-			<% else %>
-				<h2>There is no project plan data available.</h2>
-			<% end %>  
-		</div>
-
-		<div id='measurable_feedback' style='display:none;'>
-			<% if @project.meas_eval_plan? %>
-				<div>
-					<h2>Measurable Feedback Reporting Plan:</h2>
-					<%= @project.meas_eval_plan %>
-				</div>
-			<% end %>
-		
-			<% if @project.key_measures.size > 0 %>
-				<h2>Measurements and Evaluations</h2>
-				<div class="key_measures">
-					<%= render :partial => 'key_measure', :collection => @project.key_measures %>
-				</div>
-			<% else %>
-				<h2>There are no key measures available.</h2>
-			<% end %>
-		</div>
-		
-		<div id='project_stories' style='display:none;'>
-			<% if @project.rss_url && @rss_feed %>
-				<h2>Stories from the field</h2>
-				<%= render :partial => 'blog' %>
-			<% else %>
-			  <h2>No stories available for this project yet</h2>
-			<% end %>		
-		</div>
-
-    <%- cache "#{@project.cache_key}-flickr" do -%>
-    <%- @flickr_images = @project.project_flickr_images.paginate({:page => params[:flickr_page], :per_page => 12}) -%>
-		<div id='project_photos' style='display:none'>
-			<% if @flickr_images.size > 0 %>
-				<h2>Project Photos</h2>
-				<%= will_paginate @flickr_images, :param_name => 'flickr_page' %>
-				<%= render :partial => 'flickr_photo', :collection => @flickr_images %>
-			<% else %>
-				<h2>There are no photos available.</h2>
-			<% end %>
-		</div>
-		<%- end -%>
-
-    <%- cache "#{@project.cache_key}-youtube" do -%>
-    <%- @youtube_videos = @project.project_you_tube_videos.paginate({:page => params[:youtube_page], :per_page => 6}) -%>
-		<div id='project_videos' style='display:none;'>
-			<% if @youtube_videos.size > 0 %>
-				<h2>Project Videos</h2>
-				<%= will_paginate @youtube_videos, :param_name => 'youtube_page' %>
-				<%= render :partial => 'youtube_video', :collection => @youtube_videos %>
-			<% else %>
-				<h2>There are no videos available.</h2>
-			<% end %>
-		</div>
-		<% end %>
-	</div>
-</div>
-
+  <div class="lives-affected">
+    <span style="font-size:3em"><%= number_with_delimiter(@project.lives_affected.to_i) %></span><br>
+    <em>lives are affected<br>
+    by this project</em>
+  </div>
+  
+  <p><strong>Implementing Organization</strong></p>
+  <div class="smaller">
+    <p><strong><%= link_to @project.partner.name, organization_dt_project_path(@project) %></strong></p>
+    <div>
+      <%= @project.partner.description %>
+    </div>
+  </div>
+<% end %>

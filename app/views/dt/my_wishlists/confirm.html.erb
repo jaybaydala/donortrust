@@ -1,8 +1,8 @@
 <%- content_for :html_title do %>Tell a Friend Confirmation<% end -%>
-<%- content_for :nav do %><%= dt_account_nav if logged_in? %><% end -%>
+<%- content_for :nav do %><%= iend_user_nav if logged_in? %><% end -%>
 
   <%= error_messages_for :share %>
-  <% form_for(:share, :url => send_message_dt_account_my_wishlists_path(:account_id => current_user), :html => {:id => "wishlistform", :name => "wishlistform"}) do |f| %>
+  <% form_for(:share, :url => send_message_iend_user_my_wishlists_path(:account_id => current_user), :html => {:id => "wishlistform", :name => "wishlistform"}) do |f| %>
   <p>Please review your information.</p>
   <div class="userform">
     <%= f.hidden_field 'e_card_id', :id => 'e_card_id' %>
@@ -42,6 +42,6 @@
         <div id="medImgWrap">
           <div class="medImg"><%= image_tag(url_for_file_column(@share.e_card, "medium"), :alt => '') if @share.e_card_id? && @share.e_card %></div>
         </div>
-        <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('wishlistform'));window.open('<%= preview_dt_account_my_wishlists_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
+        <div id="ecardPreview" style="display:none;"><input type="button" value="Preview your email" id="ecard_preview" onclick="var params=Form.serialize($('wishlistform'));window.open('<%= preview_iend_user_my_wishlists_path() %>?' + params, 'preview', 'width=800,height=440,resizable=1,scrollbars=1');" class="buttonsubmit" style="margin-left:0;" /></div>
       </div>  
   <% end %>

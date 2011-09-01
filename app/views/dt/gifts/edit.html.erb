@@ -1,147 +1,103 @@
-<%- content_for :head do -%>
-  <%= stylesheet_link_tag "dt/cart" %>
-  <%= javascript_include_tag "dt/ecards" %>
-  <%= javascript_include_tag "dt/charcount" %>
-  <script type="text/javascript">Event.observe(window, 'load', function(){makeItCount('gift_message', 1000)});</script>
-<%- end -%>
-<%- content_for :html_title do -%>Give!<%- end -%>
-<%- content_for :page_title do -%>Experience a new way to give.<%- end -%>
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
-<%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
+<% html_title("U:forward") %>
 
-<%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %>
-
-<%= error_messages_for :gift %>
-
-<% form_for(:gift, :url => dt_gift_path(:id => params[:id]), :html => {:id => "giftform", :name => "giftform", :method => :put}) do |f| %>
-
-<%= f.hidden_field 'promotion_id', :id => "promotion_id" %>
-
-<div class="userform">
-  <h2>Your Gift Information</h2>
-  <%= render :partial => 'dt/shared/form_requirednote', :locals => { :style => 'margin-bottom:0px;' } %>
-
-  <fieldset>
-    <legend>Choose a Gift Type</legend>
-    <ol class="clearfix">
-      <li>
-        <label class="left"><strong>Thanks for giving a gift using Uend:. You've chosen to:</strong></label>
-        <% if @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give <%= link_to(@gift.project.name, dt_project_path(@gift.project)) %> as a gift</label><% end %>
-        <label class="left"><%= f.radio_button "project_id", nil %> Give a gift card (let the recipient a choose a project)</label>
-        <% unless @gift.project_id? && @gift.project %><label class="left"><%= f.radio_button "project_id", ( @gift.project_id || 0 ) %> Give a project as a gift &nbsp; &#8250; <%= link_to("choose a project", dt_projects_path) %></label><% end %>
-        <%= hidden_field_tag("project_id", @gift.project_id) if @gift.project_id %>
-      </li>
-    </ol>
-  </fieldset>
-
-  <fieldset>
-    <legend>1. Enter Your Information</legend>
-    <ol>
-      <li><label for="gift_name">Name</label> <%= f.text_field :name %></li>
-      <li><label for="gift_email"><em>*</em> Email</label> <%= f.text_field :email %></li>
-      <li><label for="gift_email_confirmation"><em>*</em>Retype Email</label> <%= f.text_field :email_confirmation, :value => (logged_in? && @gift.email? ? @gift.email : nil) %></li>
-    </ol>
-  </fieldset>
-  
-  <fieldset>
-    <legend>2. Recipient Information</legend>
-    <div id="individual">
-      <div class="notes clearfix">
-        <h5>Recipient Information</h5>
-        <p>His/her name, as you would like it to appear on the ecard.</p>
-      </div>
-      <ol>
-        <li><label for="gift_to_name">Name</label> <%= f.text_field :to_name %></li>
-        <li><label for="gift_to_email"><em>*</em> Email</label> <%= f.text_field :to_email %></li>
-        <li><label for="gift_to_email_confirmation"><em>*</em>Retype Email</label> <%= f.text_field :to_email_confirmation %></li>
-      </ol>
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-11 prepend-2">
+      <h1><img src="/images/give/title-uforward.png" width="258" height="66" alt="U:forward"></h1>
     </div>
-  </fieldset>
-
-  <fieldset>
-    <legend>3. Gift Details</legend>
-    <ol class="clearfix">
-      <li>
-        <label for="gift_amount">Gift Amount</label> $<%= f.text_field :amount %>
-        <div class="note" style="padding-left:.5em;">Example: $100</div>
-      </li>
-      <li>
-        <% if @ecards.empty? %>
-        <label for="gift_message" class="left">Your personal message to the recipient(s):</label>
-        <%= f.text_area :message, :rows => 6, :cols => 35 %>
-        <% else %>
-        <div class="columns">
-          <div class="left" style="width:150px;">
-            <label class="left">Ecard Image:</label>
-            <div id="medImgWrap">
-              <div class="medImg"><%= image_tag url_for_file_column(@ecards[0], "medium"), :id => 'mediumEcard', :alt => '' %></div>
-              <div style="color:#333;"><em>Selected Image</em></div>
-            </div>
-            <%= f.hidden_field 'e_card_id', :id => "e_card_id" %>
-          </div>
-          <div class="right" style="width:370px;">
-            <label for="gift_message" class="left">Your personal message to the recipient(s):</label>
-            <%= f.text_area :message, :rows => 6, :cols => 35 %>
-            <div class="note" style="margin:0;">Your message is limited to 1000 characters</div>
-            <div id="counter-gift_message"></div>
-          </div>
-        </div>
-        <% end %>
-      </li>
-      <% unless @ecards.empty? %>
-      <li>
-        <div id="ecardPreview" style="display:none;" class="clearfix">
-          <%= hidden_field_tag "gift[preview]", 1, :id => "gift_preview" %>
-          <%= button_to_function "Preview your ecard &raquo;", "window.open('#{preview_dt_gifts_path}?' + Form.serialize($('giftform')), 'preview', 'width=800,height=440,resizable=1,scrollbars=1')", :class => "buttonsubmit" %>
-        </div>
-      </li>
-      <li>
-        <div>Please select an image from the Ecard Gallery:</div>
-        <%= render :file => "dt/ecards/content" %>
-      </li>
-      <% end %>
-    </ol>
-  </fieldset>
-
-  <fieldset>
-    <legend>4. Gift Delivery</legend>
-    <div class="notes">
-      <h5>Gift Delivery</h5>
-      <p>Gifts that remain unopened or unclaimed for 30 days will automatically be invested in one of our projects. If you choose, we can send both you and the recipient multiple email reminders before unclaimed gifts are invested.</p>
+    <div class="span-5 last">
+      <h4 class="plain" style="bottom:0; position:absolute;"><em><strong>Pay it forward as a gift.</strong></em></h4>
     </div>
-    <ol>
-      <li><label for="gift_notify_giver" class="left"><%= f.check_box :notify_giver %>Let me know this gift is used or not used</label></li>
-      <li><label class="left"><%= f.radio_button :send_email, "now", :onchange => "$('gift_send_at').hide();", :checked => "checked" %> Email my gift now</label></li>
-      <li><label class="left"><%= f.radio_button :send_email, true, :onchange => "$('gift_send_at').show();" %> Schedule my gift delivery</label></li>
-      <li>
-        <label class="left">
-          <%= f.radio_button :send_email, false, :onchange => "$('gift_send_at').hide();" %> Don't email my gift 
-          <div style="margin-left:2em;">(I&rsquo;ll print the ecard and deliver it myself)</div>
-        </label>
-      </li>
-      <li id="gift_send_at"<%= " style=\"display:none;\"" unless @gift.send_email? %>>
-        <label class="left" for="gift_send_at_2i">Select a date &amp; time to email your gift ecard</label>
-        <div id="gift_send_at_select">
-          <%= f.datetime_select :send_at, 
-            :order          => [:month, :day, :year, :hour, :minute], 
-            :start_year     => Time.now.year, 
-            :end_year       => Time.now.year+1, 
-            :discard_second => true, 
-            :minute_step    => 30,
-            :default        => 1.hour.from_now,
-            :include_blank  => true %>
-          <%= select_tag :time_zone, time_zone_options_for_select(Time.zone.name, ActiveSupport::TimeZone.us_zones) %>
-        </div>
-      </li>
-    </ol>
-  </fieldset>
-  
-  <div style="float:right;" class="clearfix"><%= submit_tag 'Add to Cart', :class => 'buttonsubmit', :id => "giftsubmit" %></div>
-
-</div>
+  </div>
 <% end %>
 
-<%- content_for :sidebar do -%>
-  <%= render :file => "dt/cart/summary" %>
-  <%= dt_profile_sidebar %>
-<%- end -%>
+<% semantic_form_for [:dt, @gift], :url => dt_gift_path(:id => params[:id]), :html => { :id => "giftform", :method => :put } do |f| %>
+  <%= f.semantic_errors :gift %>
+  <% f.inputs 'Your Information' do %>
+    <%= f.input :name %>
+    <%= f.input :email, :label => "Email", :as => :email %>
+    <%= f.input :email_confirmation, :label => "Retype Email", :as => :email %>
+  <% end %>
+
+  <% f.inputs "Recipient's Information" do %>
+    <%= f.input :to_name, :label => "Name" %>
+    <%= f.input :to_email, :label => "Email", :as => :email %>
+    <%= f.input :to_email_confirmation, :label => "Retype Email", :as => :email %>
+  <% end %>
+
+  <% f.inputs "Gift Details" do %>
+    <%
+      options = []
+      options << ["Let the recipient choose how they want to direct the gift", ""]
+      options << [raw("to a project I've chosen - #{link_to @project.name, [:dt, @project]}"), @project.id] if @project
+    %>
+    <%= f.input :project_id, :label => "How would you like to direct your gift?", :as => :radio, :collection => options %>
+    <%= f.input :amount, :label => 'Gift Amount', :hint => "Example: $100" %>
+    <li>
+      <%= f.label :e_card_id, 'Choose an ecard image from the options below.' %>
+      <%= f.hidden_field :e_card_id %>
+      <div class="clearfix" style="padding-top:12px;">
+        <div class="span-3" id="e_card-preview">
+          <%= image_tag url_for_file_column(@gift.e_card, 'medium'), :alt => '' %>
+        </div>
+        <div class="span-7" id="e_card-selection">
+          <p style="padding-bottom:8px;">
+            <img src="/images/nav/arrow-back.png" width="13" height="15" alt="" style="vertical-align:bottom;"> 
+            This is the image selected to appear on your card.
+          </p>
+          <% @ecards.each do |ecard| %>
+            <%= image_tag url_for_file_column(ecard, 'small'), :data_id => ecard.id, :data_url => url_for_file_column(ecard, 'medium'), :alt => '', :style => "padding:0 8px 4px 0" %>
+          <% end %>
+        </div>
+      </div>
+    </li>
+    <%# use this for the character counter - $("#gift_message + p.inline-hints span.count") %>
+    <%= f.input :message, :label => 'Type your personal message to the recipient.', :hint => raw('<span id="gift_message_count"></span>') %>
+    <li>
+      <div class="buttons">
+        <%= link_to "preview", preview_dt_gifts_path, :class => "bigbutton", :id => "gift_preview", :target => "_blank" %>
+      </div>
+    </li>
+  <% end %>
+
+  <% f.inputs "Gift Delivery" do %>
+    <%= f.input :notify_giver, :label => "Let me know when this gift is used" %>
+    <li class="radio">
+      <fieldset>
+        <ol style="padding-left:0;width:auto;">
+          <li><label for="gift_send_email_now"><%= f.radio_button :send_email, "now" %> Email my gift right away</label></li>
+          <li>
+            <label for="gift_send_email_true"><%= f.radio_button :send_email, true %> Schedule my gift delivery</label>
+          </li>
+          <li>
+            <div class="indent">
+              <p class="inline-hint">Select a date &amp; time to send your gift ecard.</p>
+              <%= f.datetime_select :send_at, 
+                :order          => [:month, :day, :year, :hour, :minute], 
+                :start_year     => Time.now.year, 
+                :end_year       => Time.now.year+1, 
+                :discard_second => true, 
+                :minute_step    => 30,
+                :default        => 1.hour.from_now,
+                :include_blank  => true %><br>
+              <%= select_tag :time_zone, time_zone_options_for_select(Time.zone.name, ActiveSupport::TimeZone.us_zones) %>
+            </div>
+          </li>
+          <li><label for="gift_send_email_false"><%= f.radio_button :send_email, false %> Don't email my gift <div class="indent">(I'll print and deliver the card myself)</div></label></li>
+        </ol>
+      </fieldset>
+    </li>
+  <% end %>
+
+  <% f.buttons do %>
+    <%= f.commit_button "Save" %>
+  <% end %>
+<% end %>
+<%= render :partial => "dt/shared/form_requirednote" %>
+
+<% content_for :javascript do %>
+  <%= javascript_include_tag('/_/js/jquery.limit_input.js') %>
+  <% javascript_tag do %>
+    $('#gift_message').limit_input({ limit:1000, id_result: 'gift_message_count' });
+  <% end %>
+<% end %>

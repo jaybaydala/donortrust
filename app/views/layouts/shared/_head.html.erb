@@ -1,0 +1,29 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!-- the "no-js" class is for Modernizr. -->
+<head id="www-uend-ord" data-template-set="html5-reset">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title><%= content_for?(:html_title) ? yield(:html_title) : yield(:title)  %><%= " | " if content_for?(:html_title) || content_for?(:title) %>uEnd:poverty</title>
+  <meta name="title" content="uEnd:">
+  <meta name="description" content="UEnd makes it possible for you to refocus a portion of your gift-spending toward ending extreme poverty.">
+  <meta name="google-site-verification" content="">
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu:300,500" type="text/css">
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/smoothness/jquery-ui.css" type="text/css">
+  <link rel="stylesheet" href="/_/css/style.css">
+  <link rel="stylesheet" href="/_/css/aggregate.css">
+  <link rel="stylesheet" href="/_/css/blueprint/screen.css" type="text/css" media="screen, projection">
+  <link rel="stylesheet" href="/_/css/colorbox.css" type="text/css">
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/_/css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+  <%= yield :styles %>
+  <script src="/_/js/modernizr-1.7.min.js"></script>
+  <%= yield :head %>
+</head>

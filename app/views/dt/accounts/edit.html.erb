@@ -1,10 +1,10 @@
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 <%- content_for :html_title do -%>Edit My Profile<%- end -%>
 <%- content_for :head do -%><%= javascript_include_tag "dt/accounts" %><%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <%= error_messages_for :user %>
-<% form_for(:user, :url => dt_account_path(@user), :html => { :method => 'put', :id => "userform", :name => "userform", :multipart => true}) do |f| -%>
+<% form_for(:user, :url => iend_user_path(@user), :html => { :method => 'put', :id => "userform", :name => "userform", :multipart => true}) do |f| -%>
 <div class="userform">
 
 	<fieldset>

@@ -1,6 +1,6 @@
 <%- content_for :html_title do -%>Accounts<%- end -%>
 <%- content_for :page_title do -%>Welcome<% if logged_in? %> <%= @current_user.name %><% end %>! The future is here.<%- end -%>
-<%- content_for :nav do -%><%= dt_account_nav %><%- end -%>
+<%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 
 <p>Thank you for joining this growing movement, which will help to make extreme poverty a thing of the past</p>
@@ -9,8 +9,8 @@
 <ul>
   <li>Track <%= link_to "gifts", new_dt_gift_path %> to your friends and family </li>
   <li>Track <%= link_to "projects", dt_projects_path %> you've given to</li>
-  <li><%= link_to("Deposit", new_dt_account_deposit_path(current_user)) %> into your account to make giving easy</li>
-  <li>View your <%= logged_in? ? link_to("Account Summary", dt_account_path(current_user)) : "Account Summary" %></li>
+  <li><%= logged_in? ? link_to("Deposit", new_iend_user_deposit_path(current_user.id)) : "Deposit" %> into your account to make giving easy</li>
+  <li>View your <%= logged_in? ? link_to("Account Summary", iend_user_path(current_user)) : "Account Summary" %></li>
 </ul>
 
 <% unless cart_empty? %><%= link_to "<span>Return To Your Cart</span>", dt_cart_path, :class => "button-return_to_cart" %><% end %>

@@ -33,47 +33,27 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def new
-    store_location
     load_ecards
     @gift = Gift.new(:e_card => @ecards.first)
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
+    @gift.name = current_user.full_name if !@gift.name? && logged_in?
     
     if params[:project_id] && @project = Project.find(params[:project_id]) 
       if @project.fundable?
         @gift.project = @project
       else
-        flash[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
-        redirect_to dt_project_path(@project) and return
+        flash.now[:notice] = "The &quot;#{@project.name}&quot; is fully funded. Please choose another project."
       end
     end
-    
+
     # Is this gift being given as a result of a promotion?    
-    if params[:promotion_id]
-      promotion = Promotion.find(params[:promotion_id])
-      
-      if !promotion.nil?
-        @gift.promotion = promotion
-      end
-      # Otherwise, someone has tried to hack the query string with any old rubbish
-
+    if params[:promotion_id] && Promotion.exists?(params[:promotion_id])
+      @gift.promotion_id = params[:promotion_id]
     end
 
-    if logged_in?
-      @gift.write_attribute("email", current_user.email) unless @gift.email?
-      @gift.write_attribute("name", current_user.full_name) unless @gift.name?
-    end
     respond_to do |format|
-      format.html {
-        unless logged_in? && current_user.in_country?(CANADA)
-          # MP Dec 14, 2007 - In order to support US donations, this was added to switch out the
-          # layout of the Gift page. If the user's country is nil, not Canada or they're not logged_in,
-          # use the layout that allows for US donations.
-          render :layout => 'us_receipt_layout'
-        else 
-          render :action => 'new'
-        end
-      }
+      format.html {}
       format.js
     end
   end
@@ -187,7 +167,6 @@ class Dt::GiftsController < DtApplicationController
   end
   
   def open
-    store_location
     @gift = Gift.validate_pickup(params[:code]) if params[:code]
     respond_to do |format|
       format.html {
@@ -206,7 +185,7 @@ class Dt::GiftsController < DtApplicationController
             cookies[:gift_card_balance] = @gift.balance.to_s
             redirect_to dt_projects_path and return if params[:find] == "1"
             redirect_to new_dt_investment_path(:unallocated_gift => 1) and return if params[:unallocated_gift] == "1"
-            redirect_to new_dt_account_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) and return if params[:deposit] == "1"
+            redirect_to new_iend_user_deposit_path(current_user, :deposit => {:amount => number_to_currency(@gift.amount)}) and return if params[:deposit] == "1"
             redirect_to new_dt_investment_path(:admin_gift => 1) and return if params[:admin_gift] == "1"
           end
         elsif session[:gift_card_id]
@@ -217,9 +196,15 @@ class Dt::GiftsController < DtApplicationController
       }
     end
   end
-  
+
+  def match
+    @gift = Gift.find(session[:gift_card_id])
+    session[:gift_card_balance] = @gift.balance * 2
+    session[:gift_matched] = true
+  end
+
   def unwrap
-    @gift = Gift.validate_pickup(params[:code], params[:id])
+    @gift = Gift.find(params[:id])
     unless @gift
       flash[:notice] = "We could not find that gift"
       redirect_to :action => 'open' and return
@@ -254,45 +239,42 @@ class Dt::GiftsController < DtApplicationController
   end
 
   protected
-  def load_ecards 
-    @ecards = ECard.find(:all, :order => :id)
-    @ecards.unshift(@ecards.delete_at(2)) unless @ecards.empty? # changing the default image
-  end
-  
-  def fix_date_params!
-    params[:gift].delete_if{ |key,value| key.to_s[0,8] == "send_at(" }
-  end
-  def add_user_to_params
-    unless params[:gift].nil?
-      params[:gift][:user] = current_user if logged_in?
+    def load_ecards 
+      @ecards = ECard.find(:all, :order => :id)
+      @ecards.unshift(@ecards.delete_at(2)) unless @ecards.empty? # changing the default image
     end
-  end
-  
-  
-  
-  def gift_params
-    gift_params = {}
-    gift_params = gift_params.merge(params[:gift]) if params[:gift]
-    normalize_send_at!(gift_params)
-    gift_params
-  end
-  
-  
-  
-  def normalize_send_at!(gift_params)
-    delete_send_at = false
-    (1..5).each do |x|
-      delete_send_at = true if gift_params["send_at(#{x}i)"] == '' || !gift_params["send_at(#{x}i)"]
+
+    def fix_date_params!
+      params[:gift].delete_if{ |key,value| key.to_s[0,8] == "send_at(" }
     end
-    if delete_send_at
-      (1..5).each do |x|
-        gift_params.delete("send_at(#{x}i)")
+
+    def add_user_to_params
+      unless params[:gift].nil?
+        params[:gift][:user] = current_user if logged_in?
       end
     end
-  end
-  
-  # this does the actually time-shifting for scheduling the gift?
-  def set_time_zone
-    Time.zone = params[:time_zone] if params[:time_zone]
-  end
+
+    def gift_params
+      gift_params = {}
+      gift_params = gift_params.merge(params[:gift]) if params[:gift]
+      normalize_send_at!(gift_params)
+      gift_params
+    end
+
+    def normalize_send_at!(gift_params)
+      delete_send_at = false
+      (1..5).each do |x|
+        delete_send_at = true if gift_params["send_at(#{x}i)"] == '' || !gift_params["send_at(#{x}i)"]
+      end
+      if delete_send_at
+        (1..5).each do |x|
+          gift_params.delete("send_at(#{x}i)")
+        end
+      end
+    end
+
+    # this does the actually time-shifting for scheduling the gift?
+    def set_time_zone
+      Time.zone = params[:time_zone] if params[:time_zone]
+    end
 end

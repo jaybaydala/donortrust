@@ -18,8 +18,6 @@ class Dt::ParticipantsController < DtApplicationController
   helper_method :summed_account_balances
 
   def show
-    store_location
-
     @participant = Participant.find(params[:id]) unless params[:id].nil?
     
     # Inserting logic here to find first by the profile short name before trying the older participant short name
@@ -66,10 +64,8 @@ class Dt::ParticipantsController < DtApplicationController
   end
 
   def new
-    store_location
-    
     # Switch back to this team if previously a member and allowed to join again
-    if (current_user != :false) and (@participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.id)) and current_user.can_join_team?(@team)
+    if logged_in? and (@participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.id)) and current_user.can_join_team?(@team)
       default_participant = Participant.find_by_user_id_and_team_id(current_user.id, @team.campaign.default_team.id)
       default_participant && default_participant.update_attribute(:active, false)
       @participant.update_attribute(:active, true)
@@ -81,7 +77,7 @@ class Dt::ParticipantsController < DtApplicationController
     
     @participant = Participant.new
 
-    if (current_user == :false)
+    unless logged_in?
       return
     end
     
@@ -156,7 +152,7 @@ class Dt::ParticipantsController < DtApplicationController
       render :action => 'new'
     end
     
-    if current_user == :false
+    unless logged_in?
       # If the user is not logged in check the user details that have been 
       # passed through in the params. Use the details to 
       # create a new account
@@ -176,8 +172,8 @@ class Dt::ParticipantsController < DtApplicationController
           self.current_user = User.authenticate(new_user.login, new_user.password)
           current_user.update_attributes(:last_logged_in_at => Time.now)
           session[:tmp_user] = nil
-          cookies[:dt_login_id] = self.current_user.id.to_s
-          cookies[:dt_login_name] = self.current_user.name
+          cookies[:login_id] = self.current_user.id.to_s
+          cookies[:login_name] = self.current_user.name
           
           # Update the profile's instead of the participant's short name
           unless @participant.short_name.blank?
@@ -452,15 +448,13 @@ class Dt::ParticipantsController < DtApplicationController
     if ['join', 'create'].include?(action_name) && !logged_in?
       flash[:notice] = "You must have an account to join this campaign as a participant. Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
-      store_location
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     elsif ['manage'].include?(action_name) && !logged_in?
       flash[:notice] = "You must be logged in to manage your participant account.  Please log in."
-      store_location
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     end
     super

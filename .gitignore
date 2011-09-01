@@ -1,8 +1,13 @@
 .DS_Store
 log/*.log
+log/*.pid
+db/sphinx
 rerun.txt
 config/aws.yml
+config/flickr.yml
 config/database.yml
+config/omniauth.yml
+config/initializers/*_local.rb
 development_structure.sql
 db/schema.rb
 *.sqlite3
@@ -16,3 +21,4 @@ tmp*
 .bundle
 capybara*.html
 public/system/*
+donortrust.tmproj

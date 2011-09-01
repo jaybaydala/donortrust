@@ -76,7 +76,7 @@ context "WallMessagesController handling GET /" do
   specify "should redirect if group.private?" do
     @group.expects(:private?).returns(true)
     do_request
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
   
   specify "should not redirect if group.private? and current_user is a member" do
@@ -111,7 +111,7 @@ context "WallMessagesController handling GET /1" do
   specify "should redirect if group.private?" do
     @group.expects(:private?).returns(true)
     do_request
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
   
   specify "should not redirect if group.private? and current_user is a member" do
@@ -144,7 +144,7 @@ context "WallMessagesController handling GET /1/new" do
   specify "should redirect if group.private?" do
     @group.expects(:private?).returns(true)
     do_request
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
 
   specify "should redirect if current_user is not a member" do
@@ -230,7 +230,7 @@ context "WallMessagesController handling GET /1/edit" do
   specify "should redirect if group.private?" do
     @group.expects(:private?).returns(true)
     do_request
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
 
   specify "should redirect if current_user is not a member" do
@@ -275,7 +275,7 @@ context "WallMessagesController handling PUT /1" do
     @group.expects(:private?).returns(true)
     @wall_message.expects(:update_attributes).never
     do_request
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
 
   specify "should not save if current_user is not a member" do
@@ -338,7 +338,7 @@ context "WallMessagesController handling DELETE /1" do
     @group.expects(:private?).returns(true)
     @wall_message.expects(:destroy).never
     do_request
-    response.should.redirect dt_login_path
+    response.should.redirect login_path
   end
 
   specify "should destroy if current_user owns the wall post" do

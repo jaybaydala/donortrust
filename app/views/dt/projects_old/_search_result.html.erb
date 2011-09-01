@@ -1,0 +1,41 @@
+<% @project = search_result -%>
+<div id="projectInfo-<%= @project.id %>">
+  <div class="projectSearchResultHeader">
+		<div class='project-title'><%= link_to @project.name, dt_project_path(@project) %></div>
+		<div class="small-sector-images"><%= sector_images(@project.id) %></div>
+		<div class="searchResultLocationLink">
+		  <% if @project.community_id %><%= "#{link_to @project.community.name, community_dt_project_path(@project)}" %><%= ', ' if @project.nation_id?  %><% end %>
+			<%= (@project.nation_id)? "#{link_to @project.nation.name, nation_dt_project_path(@project)}": ""%>
+		</div>
+	</div>
+  <div class='project-content'>
+    <div class='project-pre-info'>
+      <% if @project.target_start_date? %>
+      <span><strong>Target Start Date:</strong> <%= @project.target_start_date.to_formatted_s(:long) %></span>
+      <% end %>
+      <% if @project.partner_id? && @project.partner %>
+      <span><strong>Organization:</strong> <%= link_to @project.partner.name, organization_dt_project_path(@project)%></span>
+      <% end %>
+    </div>
+    <p><strong>Project Description:</strong>
+      <% if (@project.short_description) && (@project.short_description!="") %>
+    		<%= @project.short_description %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
+      <% else %>
+    		<%= @project.summarized_description(60) %>&nbsp; &#8250; <%= link_to "Read more&hellip;", dt_project_path(@project.id) %>
+    	<% end%>
+    </p>
+    <p>
+      <span><strong>Project Status:</strong> <%= @project.project_status.name %> </span>
+    </p>
+  </div>
+
+  <div class="project-sidebar">
+    <iframe src="http://www.facebook.com/plugins/like.php?href=<%= CGI::escape(dt_project_url(featured_project)) %>&amp;layout=standard&amp;show_faces=false&amp;width=250&amp;action=like&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:250px; height:35px;" allowTransparency="true"></iframe>
+
+    <div class="searchResultsQuickfacts">
+      <%= project_quickfacts %>
+    </div>
+  </div>
+
+</div>
+<div style="clear:both;"></div>

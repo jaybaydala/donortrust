@@ -16,7 +16,6 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns/1
   # GET /campaigns/1.xml
   def show
-    store_location
     @campaign = Campaign.find(params[:id]) unless params[:id].blank?
     @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
 
@@ -45,9 +44,7 @@ class Dt::CampaignsController < DtApplicationController
     @can_join_campaign = true
 
     #a user that is not logged in can not create a team
-    if (current_user == :false)
-      @can_create_team = false
-    end
+    @can_create_team = false unless logged_in?
 
     if (@campaign.default_team.participant_for_user(current_user).nil? || 
        @campaign.default_team.participant_for_user(current_user).pending)
@@ -119,7 +116,7 @@ class Dt::CampaignsController < DtApplicationController
   end
 
   def user_in_campaign(user)
-    result = :false
+    result = false
 
     @campaign.teams.each do |t|
       result = result || t.has_user?(user)
@@ -424,15 +421,13 @@ class Dt::CampaignsController < DtApplicationController
     if ['new', 'create'].include?(action_name) && !logged_in?
       flash[:notice] = "You must have an account to create a campaign, Log in below, or "+
       "<a href='/dt/signup'>click here</a> to create an account."
-      store_location
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     elsif ['manage','edit'].include?(action_name) && !logged_in?
       flash[:notice] = "You must be logged in to manage your team profile or details"
-      store_location
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     end
     super
@@ -440,9 +435,9 @@ class Dt::CampaignsController < DtApplicationController
 
   private
     def is_authorized?
-      if (current_user == :false)
+      unless logged_in?
         flash[:notice] = "You must be logged in to view this page."
-        redirect_to dt_login_path
+        redirect_to login_path
         return false
       end
 

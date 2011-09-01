@@ -22,6 +22,19 @@ class Partner < ActiveRecord::Base
   #validates_presence_of :partner_type_id
   acts_as_textiled :description, :business_model, :funding_sources, :mission_statement, :philosophy_dev
 
+  named_scope :with_active_projects, lambda {
+    {
+      :joins => :projects,
+      :group => "#{quoted_table_name}.id", 
+      :conditions => [
+        "#{Project.quoted_table_name}.project_status_id IN (?) AND #{quoted_table_name}.partner_status_id =?", 
+        ProjectStatus.public.map(&:id), 
+        PartnerStatus.active.id
+      ]
+    }
+  }
+
+
   validate do |me|
     # In each of the 'unless' conditions, true means that the association is reloaded,
     # if it does not exist, nil is returned

@@ -1,0 +1,21 @@
+<%- content_for :html_title do %>Giving History<% end -%>
+
+<%= render 'iend/shared/header' %>
+<%= iend_user_nav %>
+
+
+<%- if @orders.length > 0 -%>
+  <%= will_paginate @orders, :param_name => 'page' %>
+  <div id="transaction-list">
+    <table style="width:100%;">
+    <tr><th>Description</th><th>Date</th><th>Amount</th></tr>
+    <%= render @orders %>
+    </table>
+  </div>
+  <%= will_paginate @orders, :param_name => 'page' %>
+<%- else -%>
+  <div class="highlight">
+    <p>We don't have a giving history yet.</p>
+    <p>You can <%= link_to "give", dt_give_path %> to get started.</p>
+  </div>
+<%- end -%>

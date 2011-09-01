@@ -1,0 +1,40 @@
+<%- content_for :html_title do -%>Sign-in<%- end -%>
+
+<% content_for :header do %>
+  <div class="feature">
+    <h1>End Global Poverty</h1>
+    <p>The world is changing. Gift Different</p>
+  </div>
+<% end %>
+
+<% content_for :top_content do %>
+  <div class="clearfix">
+    <div class="prepend-top prepend-2 span-10">
+      <h1>Sign In</h1>
+    </div>
+  </div>
+<% end %>
+
+<div<%= raw ' style="margin:18px;"' if request.xhr? %>>
+  <%= render :partial => 'dt/accounts/inactive' if @activated === false %>
+
+  <div class="clearfix">
+    <div class="span-6 append-1">
+      <h2 class="plain">Login</h2>
+
+      <%= render 'iend/authentications/authentications' unless session[:omniauth] %>
+      <%= render 'form' %>
+    </div>
+    <div class="span-5 prepend-1 border-left">
+      <h2 class="plain">New to UEnd?</h2>
+      <p>
+        Follow your projects or set up a campaign.
+      </p>
+      <p class="clearfix">
+        <%= link_to 'Join Us', new_iend_user_path, :class => 'smallbutton' %>
+      </p>
+      
+      <%= render 'iend/authentications/signups' unless session[:omniauth] %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<% content_for :bodyid do %>iend<% end %>
+
+<%= render 'iend/shared/header' %>
+
+
+<% if logged_in? %>
+  <%= render :partial => "getting_started" %>
+<% else %>
+  <%= render :partial => "signup_pitch" %>
+<% end %>

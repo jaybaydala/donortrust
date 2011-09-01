@@ -1,0 +1,35 @@
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-16 prepend-2 last">
+      <img src="/images/give/icon-cash_register.png" width="93" height="79" alt="">
+    </div>
+  </div>
+<% end %>
+
+<% html_title("Checkout") %>
+<%= checkout_nav %>
+
+<div class="span-9 append-1">
+  <%= render :partial => "subscription" %>
+  <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put}) do |f| %>
+    <%= f.semantic_errors :order %>
+    <%= hidden_field_tag "step", "account_signup" %>
+    <% f.inputs "Account Signup" do %>
+      <%= f.input :account_signup_step, :as => :hidden, :input_html => { :value => 1 } %>
+      <li>
+        <%- if @cart.subscription? -%>
+          <div class="textsm">In order to be able to manage your monthly giving, you need to sign up for an account or, if you already have a UEnd: account, <%= link_to "please login", login_path(:return_to => edit_dt_checkout_path(:step => next_step)) %>.</div>
+        <%- else -%>
+          <div class="textsm">If you would like to be provided with a tax receipt, you need to sign up for an account or, if you already have a UEnd: account, <%= link_to "please login", login_path(:return_to => edit_dt_checkout_path(:step => next_step)) %>.</div>
+        <%- end -%>
+      </li>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
+      <%= f.input :terms_of_use, :as => :boolean, :hint => raw('I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree') %>
+    <% end %>
+    <% f.buttons do %>
+      <%= link_to("back", edit_dt_checkout_path(:step => "billing"), :class => "bigbutton black") %>
+      <%= f.commit_button "next" %>
+    <% end %>
+  <% end %>
+</div>

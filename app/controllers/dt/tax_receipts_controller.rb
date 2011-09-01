@@ -15,7 +15,7 @@ class Dt::TaxReceiptsController < DtApplicationController
     respond_to do |format|
       format.html {
         if @receipt
-          render :text => dt_tax_receipt_path(@receipt, @receipt.view_code, :format => :pdf)
+          render :text => tax_receipt_path(@receipt, @receipt.view_code, :format => :pdf)
         else
           flash[:notice] = "We are sorry, but you can only download your own receipts."
           redirect_to(:controller => 'dt/accounts', :action => 'show', :id => current_user.id) and return if logged_in?

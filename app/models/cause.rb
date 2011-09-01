@@ -14,13 +14,13 @@ class Cause < ActiveRecord::Base
   acts_as_textiled :description
   
   #ultrasphinx indexer
-  is_indexed :fields => [
-    {:field => 'id', :as => 'cause_id'},
-    {:field => 'name', :sortable => true},
-    {:field => 'sector_id'},
-  ], 
-  :delta => true, 
-  :conditions => "causes.deleted_at IS NULL"
+  # is_indexed :fields => [
+  #     {:field => 'id', :as => 'cause_id'},
+  #     {:field => 'name', :sortable => true},
+  #     {:field => 'sector_id'},
+  #   ], 
+  #   :delta => true, 
+  #   :conditions => "causes.deleted_at IS NULL"
   
   
   def projects

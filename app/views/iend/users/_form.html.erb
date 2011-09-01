@@ -1,0 +1,14 @@
+<% semantic_form_for([:iend, @user], :html => {:id => "signupform", :name => "signupform" }) do |f| %>
+  <%= f.semantic_errors :user %>
+  <% f.inputs "Account Signup" do %>
+    <%= f.input :under_thirteen, :as => :boolean, :label => "I am under 13 years old", :hint => "Please select the checkbox if you are under 13 years of age. <br> Uend: is committed to your privacy and safety. See our #{link_to "Privacy Policy", "/privacy", :rel => "blank"} for more information.".html_safe %>
+    <%= f.input :login, :label => "Username/Email", :hint => '<span id="under-thirteen" style="display:none;">Please have your parent sign you up using their valid email address.</span>'.html_safe %>
+    <%= f.input :password %>
+    <%= f.input :password_confirmation, :label => "Confirm Password" %>
+    <%= f.input :country, :collection => country_select_options, :include_blank => true %>
+    <%= f.input :terms_of_use, :as => :boolean, :label => 'I have read the <a href="/terms-of-use" rel="blank">terms of use</a> and agree'.html_safe %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button "Join" %>
+  <% end %>
+<% end %>

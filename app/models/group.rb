@@ -22,7 +22,7 @@ class Group < ActiveRecord::Base
     #need to validate the presence of other featured groups
     #  there cannot be more than 5 featured groups
     if me.featured == true
-      if Group.count(:featured, :conditions => ["featured = ?", :true]) >= 5
+      if Group.count(:featured, :conditions => ["featured = ?", true]) >= 5
         me.errors.add "There are already 5 featured groups."
       end
     end

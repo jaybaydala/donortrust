@@ -25,10 +25,7 @@ class Dt::DepositsController < DtApplicationController
   
   def create
     @deposit = Deposit.new( deposit_params )
-    @deposit.user_ip_addr = request.remote_ip
-    
     @valid = @deposit.valid?
-    
     respond_to do |format|
       if @valid
         session[:deposit_params] = nil
@@ -76,6 +73,7 @@ class Dt::DepositsController < DtApplicationController
     deposit_params = {}
     deposit_params = deposit_params.merge(params[:deposit]) if params[:deposit]
     deposit_params[:user_id] = current_user.id
+    deposit_params[:user_ip_addr] = request.remote_ip
     deposit_params
   end
   

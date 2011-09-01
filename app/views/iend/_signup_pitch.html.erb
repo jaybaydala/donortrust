@@ -1,0 +1,57 @@
+<% content_for :top_content do %>
+  <div class="prepend-top prepend-2">
+    <h1 class="plain" style="font-size:36px;padding:0;margin:0;">RE-DIRECT GIFT SPENDING</h1>
+  </div>
+<% end %>
+
+
+<section class="iend clearfix border-bottom">
+  <div class="span-7 feature serif">
+    <p>If we were all to redirect a mere 5% of the billions of dollars that we already spend each year on gifts, there would be enough to eliminate extreme poverty in about 15 years.</p>
+  </div>
+  <div class="span-7 last">
+    <div class="buttongroup clearfix">
+      <%= link_to "Join", signup_path, :class => "bigbutton" %>
+      <%= link_to "Sign In", login_path, :class => "bigbutton" %>
+    </div>
+  </div>
+</section>
+
+<section class="iend clearfix border-bottom feature serif">
+  <div class="iend-progress clearfix">
+    <aside class="span-3 center">
+      <%= image_tag 'iend/icon-people_gift.png', :alt => "" %>
+    </aside>
+    <article class="span-4 border-right">
+      <h3><%= image_tag 'iend/our_progress.png', :alt => "Our Progress" %></h3>
+      <p>
+        <%= number_with_delimiter(Gift.count + Investment.count) %> gifts,<br>
+        totalling <%= number_to_currency(Order.sum(:total)) %><br>
+        affecting <%= number_with_delimiter(Project.sum(:lives_affected) + Order.count) %> people<br>
+        in <%= number_with_delimiter(Place.countries_with_active_projects.count) %> countries.
+      </p>
+    </article>
+    <aside class="span-3 center">
+      <%= image_tag 'iend/icon-upowered.png', :alt => "" %>
+    </aside>
+    <article class="span-4 last">
+      <h3><%= image_tag 'iend/upowered.png', :alt => "U:Powered" %></h3>
+      <p>
+        <%= Subscription.current.count %> monthly gifts,<br>
+        totalling <%= number_to_currency(Subscription.current.sum(:amount)) %><br>
+        affecting 3 people<br>
+        in Calgary, Canada
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="iend spaced clearfix border-bottom feature serif">
+  <div class="span-3 center">
+    <%= image_tag "home/icon-100_percent.png", :alt => '100%' %>
+  </div>
+  <div class="span-11 last">
+    <h2>No Hidden Overhead Costs</h2>
+    <p>100% of your gift goes to the project you choose. Our operating costs are funded privately and through u:powered.</p>
+  </div>
+</section>

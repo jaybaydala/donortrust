@@ -1,0 +1,17 @@
+<%= render :partial => 'layouts/shared/head' %>
+<body id="home">
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+  <div class="container" id="carousel-container">
+    <%= yield :carousel %>
+  </div>
+  <div class="container clearfix append-large-bottom" id="main">
+    <div class="span-18 prepend-top append-bottom last">
+      <%= render :partial => 'layouts/shared/flashes' %>
+      <div id="fb-root"></div>
+      <%= yield %>
+    </div>
+  </div>
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>

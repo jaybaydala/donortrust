@@ -1,0 +1,43 @@
+<header>
+  <section id="top" class="shadowbottom">
+    <div class="content">
+      <h1 id="logo"><a href="/">uEnd:poverty</a></h1>
+      <article id="account">
+        <% if logged_in? %>
+          <%= link_to "Account Settings", iend_user_path(current_user) %> | 
+          <% if current_user.role?(:cf_admin) %><%= link_to "Admin", bus_admin_home_path %> | <% end %>
+          <%= link_to "Cart", dt_cart_path %> | 
+          <%= link_to "Logout", logout_url(:protocol => ssl_protocol) %>
+        <% else %>
+          <%= link_to "Cart", dt_cart_path %> | 
+          <%= link_to "Login", login_url(:protocol => ssl_protocol, :return_to => request.url) %>
+        <% end %>
+        <%= " | #{number_to_currency(session[:gift_card_balance])}" if session[:gift_card_balance] %>
+        <span id="social">
+          <a href="http://blog.uend.org/"><img src="/images/icons/rss.png" width="18" height="18" alt="RSS"></a>
+          <a href="http://twitter.com/UEnd_org"><img src="/images/icons/twitter.png" width="18" height="18" alt="Twitter"></a>
+          <a href="http://www.facebook.com/uendfoundation"><img src="/images/icons/facebook.png" width="18" height="18" alt="Facebook"></a>
+        </span>
+      </article>
+    </div>
+  </section>
+  <div id="headercontent" class="content<%= ' extended' if content_for?(:header) %>">
+    <nav id="nav">
+      <ol>
+        <li id="nav-give"<%= ' class="current"' if controller_name == 'give' %>><%= link_to "Give", dt_give_path %></li>
+        <li id="nav-poverty"<%= ' class="current"' if params[:path] && params[:path].first == 'poverty' %>><a href="/poverty">Poverty</a></li>
+        <li id="nav-projects"><%= link_to "Projects", dt_projects_path %></li>
+        <!-- <li id="nav-campaigns"><%= link_to "Campaigns", dt_campaigns_path %></li> -->
+        <li id="nav-about_us"<%= ' class="current"' if params[:path] && params[:path].first == 'about-us' %>><a href="/about-us">About Us</a></li>
+        <li id="nav-blog"><a href="http://blog.uend.org">Blog</a></li>
+        <li id="nav-iend"><%= link_to "iEnd", (logged_in? ? iend_user_path(:current) : iend_path) %></li>
+      </ol>
+    </nav>
+    <%- if content_for?(:header) -%>
+    <div id="headerextended"><%= yield :header %></div>
+    <%- end -%>
+    <%- if content_for?(:project_header) -%>
+    <div id="projectheaderextended"><%= yield :project_header %></div>
+    <%- end -%>
+  </div>
+</header>

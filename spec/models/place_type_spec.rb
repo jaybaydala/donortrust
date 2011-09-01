@@ -2,12 +2,12 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PlaceType do
   before do
-    @place_type = PlaceType.generate!
+    @place_type = Factory(:place_type)
   end
   after do
   end
   it "should create a record" do
-    lambda{PlaceType.generate!}.should change(PlaceType, :count).by(1)
+    lambda{Factory(:place_type)}.should change(PlaceType, :count).by(1)
   end
   it "should validate_presence_of name" do
     @place_type.should validate_presence_of(:name)
@@ -19,7 +19,7 @@ describe PlaceType do
   describe "specific record methods" do
     %w[ continent country state district region city ].each do |pt|
       it "should find a #{pt}" do
-        PlaceType.send!(pt.to_s).should == PlaceType.find(:first, :conditions => ["name LIKE ?", pt])
+        PlaceType.send(pt.to_s).should == PlaceType.find(:first, :conditions => ["name LIKE ?", pt])
       end
     end
     it "should alias city as community" do

@@ -46,7 +46,7 @@ describe Order do
     before do
       @order.total = 100
       @cart = Cart.create
-      @items = [Gift.spawn(:amount => 25.0), Investment.spawn(:amount => 25.0), Deposit.spawn(:amount => 50.0)]
+      @items = [Factory.build(:gift, :amount => 25.0), Factory.build(:investment, :amount => 25.0), Factory.build(:deposit, :amount => 50.0)]
       @cart.stub(:items).and_return(@items)
       @order.card_number = "4111111111111111"
       @order.cardholder_name = "Spec Name"
@@ -107,7 +107,7 @@ describe Order do
   describe "validate_payment method" do
     before do
       @order.total = 100
-      @items = [Gift.spawn(:amount => 25.0), Investment.spawn(:amount => 25.0), Deposit.spawn(:amount => 50.0)]
+      @items = [Factory.build(:gift, :amount => 25.0), Factory.build(:investment, :amount => 25.0), Factory.build(:deposit, :amount => 50.0)]
       @cart = Cart.create
       @cart.stub(:items).and_return(@items)
     end
@@ -174,7 +174,7 @@ describe Order do
         before do
           @order.account_balance = BigDecimal.new("100")
           # we'll remove the deposit from the items so we don't have issues
-          @items = [Gift.spawn(:amount => 25.0), Investment.spawn(:amount => 25.0), Investment.spawn(:amount => 50.0)]
+          @items = [Factory.build(:gift, :amount => 25.0), Factory.build(:investment, :amount => 25.0), Factory.build(:investment, :amount => 50.0)]
           @cart.stub(:items).and_return(@items)
         end
         it "should add an error if you're not paying the full amount" do
@@ -250,7 +250,7 @@ describe Order do
       
       describe "with an offline_fund_payment and no credit_card" do
         before do 
-          @user = User.generate
+          @user = Factory(:user)
           @user.save
           @user.stub(:cf_admin?).and_return(true)
           @order.user = @user
@@ -374,7 +374,7 @@ describe Order do
       @order.expiry_month = 5
       @order.expiry_year = 1.year.from_now.year
       @order.total = 100
-      @items = [Gift.spawn(:amount => 25.0), Investment.spawn(:amount => 25.0), Deposit.spawn(:amount => 50.0)]
+      @items = [Factory.build(:gift, :amount => 25.0), Factory.build(:investment, :amount => 25.0), Factory.build(:deposit, :amount => 50.0)]
       @cart = Cart.create
       @cart.stub(:items).and_return(@items)
     end
@@ -542,7 +542,7 @@ describe Order do
   
   describe "create_order_with_investment_from_project_gift method" do
     before do
-      @gift = Gift.generate!(:project => Project.generate!)
+      @gift = Factory(:gift, :project => Factory(:project))
     end
     it "should do nothing for a gift card" do
       @gift.project = nil

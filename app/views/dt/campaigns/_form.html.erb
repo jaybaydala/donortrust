@@ -4,11 +4,11 @@
     <fieldset>
       <legend>Campaign Details</legend>
 
-      <label>Name <%= form_required %></label>
+      <%= f.label :name, "Name#{form_required}" %>
       <%= f.text_field :name, :maxlength => 50, :size => 50 %>
 
       <% if (@is_new) %>
-        <label>Short Name <%= form_required %></label>
+        <%= f.label :short_name, "Short Name#{form_required}" %>
         <span class="small_text">http://www.uend.org/dt/</span><%= f.text_field :short_name, :maxlength => 25, :size => 25 %>
         <%= what_is_this?'short_name', 'The short name is a small (10-20 characters) name to describe your campaign. It should not contain any spaces and should be concise so as to convey the central idea of your campaign. Also this name will be used to provide your campaign with a Uend: URL. http://www.uend.org/yourCampaignShortName'%>
         <%= observe_field :campaign_short_name, 
@@ -21,7 +21,7 @@
         </div>
       <% end %>
 
-      <label>Campaign type <%= form_required %></label>
+      <%= f.label :campaign_type, "Campaign Type#{form_required}" %>
       <%= collection_select :campaign_type, :id, CampaignType.find(:all), :id, :name %>
       <% 
         #TODO: Is this actually being used? Does it do anything?       
@@ -33,7 +33,7 @@
         end 
       %>
 
-      <label>Contact Email <%= form_required %></label>
+      <%= f.label :email, "Contact Email#{form_required}" %>
       <%# TODO: Rewrite this so that it's all part of one code block %>          
       <%# TODO: Any way of doing this without an if statement, i.e. only send :value through to the partial if @is_new is true %>          
       <% if (@is_new) %>
@@ -45,10 +45,10 @@
           <% f.check_box :use_user_email, :onclick => "Element.toggle('campaign_email');"%> 
       <% end  %>
 
-      <label>Upload a Campaign image smaller than 1MB (1024 KB). If you don't upload one a default image will be used for you. You can also come back and upload your photo later.</label>
+      <%= f.label :image, "Upload a Campaign image smaller than 1MB (1024 KB). If you don't upload one a default image will be used for you. You can also come back and upload your photo later." %>
       <%= f.file_field :image  %>
 
-      <label>Description <%= form_required %></label>
+      <%= f.label :description, "Description#{form_required}" %>
       <%= fckeditor_textarea( "campaign", "description", :toolbarSet=> 'uEnd', :height => 200 ) %> 
 
     </fieldset>
@@ -56,27 +56,26 @@
     <fieldset>
       <legend>Monetary Details</legend>
       
-      <label>Fundraising Goal <%= form_required %></label>
+      <%= f.label :fundraising_goal, "Fundraising Goal#{form_required}" %>
       <span class="small_text">CAD $</span><%= f.text_field :fundraising_goal %>
 
-      <label>Campaign Fee</label>
+      <%= f.label :fee_amount, "Campaign Fee" %>
       <span class="small_text">CAD $</span><%= f.text_field :fee_amount %>
-
     </fieldset>
 
     <fieldset>
-      <legend>Campaign Dates: <%= form_required %></legend>
+      <legend>Campaign Dates:</legend>
 
-      <label>Start of fundraising:</label>
+      <%= f.label :start_date, "Start of Fundraising#{form_required}" %>
       <%= f.datetime_select :start_date %>
 
-      <label>Event Date: <%= form_required %></label>
+      <%= f.label :event_date, "Event Date#{form_required}" %>
       <%= f.datetime_select :event_date %>
 
-      <label>Raise Funds Till: <%= form_required %></label>
+      <%= f.label :raise_funds_till_date, "Rause Funds Till#{form_required}" %>
       <%= f.datetime_select :raise_funds_till_date %>
 
-      <label>Allocate Funds By: <%= form_required %></label>
+      <%= f.label :allocate_funds_by_date, "Allocate Funds By#{form_required}" %>
       <%= f.datetime_select :allocate_funds_by_date %>
     </fieldset>
 
@@ -84,14 +83,14 @@
     <fieldset>
       <legend>Location</legend>
 
-      <label>Address <%= form_required %></label>
+      <%= f.label :address, "Address#{form_required}" %>
       <%= f.text_field :address %> <br />
       <%= f.text_field :address_2 %>
   
-      <label>City <%= form_required %></label>
+      <%= f.label :city, "City#{form_required}" %>
       <%= f.text_field :city %>
 
-      <label id="province">Province <%= form_required %></label>
+      <%= f.label :province, "Province#{form_required}" %>
       <% if (@is_new) %>
         <div id="province_holder">
           <%= province_selector(:campaign, :province)%>
@@ -101,7 +100,7 @@
           <%= f.text_field :province %>
       <% end  %>
       
-      <label>Country <%= form_required %></label>
+      <%= f.label :country, "Country#{form_required}" %>
       <%= f.country_select :country, ["Canada", "United States"]  %>
       <%= observe_field :campaign_country, 
                         :frequency => 0.25, 
@@ -109,7 +108,7 @@
                         :with => :country
       %>    
 
-      <label id="postal_code">Postal Code <%= form_required %></label>
+      <%= f.label :postalcode, "Postal Code#{form_required}" %>
       <%= f.text_field :postalcode %>
 
     </fieldset>
@@ -117,25 +116,25 @@
     <fieldset id="team_settings">
       <legend>Team Settings</legend>
 
-      <label>Require Authorization to Add Team</label>
+      <%= f.label :require_team_authorization, "Require Authorization to Add Team" %>
       <%= f.check_box :require_team_authorization %>
       
-      <label>Allow Multiple Teams</label>
+      <%= f.label :allow_multiple_teams, "Allow Multiple Teams" %>
       <%= f.check_box :allow_multiple_teams %>
       
-      <label>Maximum Number of Teams (optional, leave blank if no maximum)</label>
+      <%= f.label :max_number_of_teams, "Maximum Number of Teams (optional, leave blank if no maximum)" %>
       <%= f.text_field :max_number_of_teams, :maxlength => 4, :size => 10 %>
       
-      <label>Maximum Team Size (optional, leave blank if no maximum)</label>
+      <%= f.label :max_size_of_teams, "Maximum Team Size (optional, leave blank if no maximum)" %>
       <%= f.text_field :max_size_of_teams, :maxlength => 4, :size => 10 %>
       
-      <label>Maximum Number of Participants (optional, leave blank if no maximum)</label>
+      <%= f.label :max_participants, "Maximum Number of Participants (optional, leave blank if no maximum)" %>
       <%= f.text_field :max_participants, :maxlength => 7, :size => 10 %>
     </fieldset>
 
     <fieldset id="participant_settings" style="display:none;">
       <legend>Participant Settings</legend>
-      <label>Require Authorization to Join Campaign</label>
+      <%= f.label :require_team_authorization, "Require Authorization to Join Campaign" %>
       <%= f.check_box :require_team_authorization %>
     </fieldset>
 

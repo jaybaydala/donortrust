@@ -2,16 +2,13 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Cart do
   before do
-    @cart = Cart.new
-    @gift = mock_model(Gift)
-    @deposit = mock_model(Deposit)
-    @investment = mock_model(Investment)
-    @gift.stub!(:valid?).and_return(true)
-    @deposit.stub!(:valid?).and_return(true)
-    @investment.stub!(:valid?).and_return(true)
+    @cart = Cart.create!(:add_optional_donation => false)
+    @gift = mock_model(Gift, :attributes => Factory.build(:gift).attributes, :valid? => true)
+    @deposit = mock_model(Deposit, :attributes => Factory.build(:deposit).attributes, :valid? => true)
+    @investment = mock_model(Investment, :attributes => Factory.build(:investment).attributes, :valid? => true)
   end
   
-  it "should start with an empty items array" do
+  it "should start empty" do
     @cart.items.should == []
   end
   
@@ -21,9 +18,9 @@ describe Cart do
   
   describe "total" do
     it "should return the total of all the items" do
-      @gift.should_receive(:amount).and_return(100)
-      @investment.should_receive(:amount).and_return(25)
-      @deposit.should_receive(:amount).and_return(15)
+      @gift.attributes[:amount] = 100
+      @investment.attributes[:amount] = 25
+      @deposit.attributes[:amount] = 15
       @cart.add_item @gift
       @cart.add_item @investment
       @cart.add_item @deposit
@@ -46,15 +43,15 @@ describe Cart do
     
     it "should allow Gift items" do
       @cart.add_item @gift
-      @cart.items.last.class.should == Gift
+      @cart.items.last.item.class.should == Gift
     end
     it "should allow Investment items" do
       @cart.add_item @investment
-      @cart.items.last.class.should == Investment
+      @cart.items.last.item.class.should == Investment
     end
     it "should allow Deposit items" do
       @cart.add_item @deposit
-      @cart.items.last.class.should == Deposit
+      @cart.items.last.item.class.should == Deposit
     end
     it "should not allow Project items" do
       @project = mock_model(Project)
@@ -66,38 +63,47 @@ describe Cart do
   
   describe "update_item" do
     before do
-      @cart.stub!(:items).and_return([@gift, @investment, @deposit])
+      @cart_line_items = mock_model(CartLineItem)
+      @items = [
+        Factory(:cart_line_item, :item => @gift), 
+        Factory(:cart_line_item, :item => @investment), 
+        Factory(:cart_line_item, :item => @deposit)
+      ]
+      @cart_line_items.stub(:find).with(@items[0].id).and_return(@items[0])
+      @cart_line_items.stub(:find).with(@items[1].id).and_return(@items[1])
+      @cart_line_items.stub(:find).with(@items[2].id).and_return(@items[2])
+      @cart.stub!(:items).and_return(@cart_line_items)
     end
     it "should not allow an invalid item" do
       @gift.should_receive(:valid?).and_return(false)
       before_items = @cart.items.clone
-      @cart.update_item(0, @gift)
+      @cart.update_item(@items[0].id, @gift)
       @cart.items.should == before_items
     end
     
     it "should allow a valid item" do
       @gift.should_receive(:valid?).and_return(true)
-      @cart.update_item(0, @gift)
-      @cart.items[0].should == @gift
+      @cart.update_item(@items[0].id, @gift)
+      @cart.items.find(@items[0].id).item.attributes.should == @gift.attributes
     end
     
     it "should allow Gift items" do
-      @cart.update_item(0, @gift)
-      @cart.items[0].should == @gift
+      @cart.update_item(@items[0].id, @gift)
+      @cart.items.find(@items[0].id).item.attributes.should == @gift.attributes
     end
     it "should allow Investment items" do
-      @cart.update_item(1, @investment)
-      @cart.items[1].should == @investment
+      @cart.update_item(@items[1].id, @investment)
+      @cart.items.find(@items[1].id).item.attributes.should == @investment.attributes
     end
     it "should allow Deposit items" do
-      @cart.update_item(2, @deposit)
-      @cart.items[2].should == @deposit
+      @cart.update_item(@items[2].id, @deposit)
+      @cart.items.find(@items[2].id).item.attributes.should == @deposit.attributes
     end
     it "should not allow Project items" do
       @project = mock_model(Project)
       @project.stub!(:valid?).and_return(true)
-      @cart.update_item(0, @project)
-      @cart.items[0].should == @gift
+      @cart.update_item(@items[0].id, @project)
+      @cart.items.find(@items[0].id).item.attributes.should == @gift.attributes
     end
   end
   
@@ -109,18 +115,20 @@ describe Cart do
     end
 
     # by item array index?
-    it "should remove an item by array index" do
-      @cart.remove_item(1)
-      @cart.items.size.should == 2
-      @cart.items[0].class.should == Gift
-      @cart.items[1].class.should == Deposit
+    it "should remove an item by cart_line_item id" do
+      @cart.remove_item(@cart.items.second.id)
+      @cart.items.reload.size.should == 2
+      @cart.items.first.item.class.should == Gift
+      @cart.items.second.item.class.should == Deposit
     end
   end
   
   describe "minimum_credit_card_payment" do
     before do
-      @deposit1 = mock_model(Deposit, :amount => 50.0, :valid? => true)
-      @deposit2 = mock_model(Deposit, :amount => 60.0, :valid? => true)
+      @deposit1 = mock_model(Deposit, :amount => 50.0, :attributes => Factory.build(:deposit).attributes, :valid? => true)
+      @deposit2 = mock_model(Deposit, :amount => 60.0, :attributes => Factory.build(:deposit).attributes, :valid? => true)
+      @deposit1.attributes[:amount] = 50
+      @deposit2.attributes[:amount] = 60
       @cart.add_item(@deposit1)
       @cart.add_item(@deposit2)
       @cart.add_item(@gift)

@@ -18,37 +18,31 @@ class Participant < ActiveRecord::Base
   has_one :registration_fee
 
   has_many :deposits, :through => :pledges
-  is_indexed :fields=> [
-    {:field => 'short_name', :sortable => true},
-    {:field => 'about_participant'}
-    ], 
-    :delta => true, 
-    :include => [
-      {:association_name => 'user',
-        :field => 'users.first_name',
-        :as => 'user_first_name',
-        :association_sql => "LEFT JOIN (users) ON (participants.user_id=users.id)"
-        },
-        {
-          :association_name => 'user',
-          :field => 'users1.last_name',
-          :as => 'user_last_name',
-          :association_sql => "LEFT JOIN (users as users1) ON (participants.user_id=users1.id)"
-          },
-          {
-            :association_name => 'user',
-            :field => 'users2.display_name',
-            :as => 'user_display_name',
-            :association_sql => "LEFT JOIN (users as users2) ON (participants.user_id=users2.id)"
-          }
-    ]
+  # is_indexed :fields=> [
+  #   {:field => 'short_name', :sortable => true},
+  #   {:field => 'about_participant'}
+  #   ], 
+  #   :delta => true, 
+  #   :include => [
+  #     {:association_name => 'user',
+  #       :field => 'users.first_name',
+  #       :as => 'user_first_name',
+  #       :association_sql => "LEFT JOIN (users) ON (participants.user_id=users.id)"
+  #       },
+  #       {
+  #         :association_name => 'user',
+  #         :field => 'users1.last_name',
+  #         :as => 'user_last_name',
+  #         :association_sql => "LEFT JOIN (users as users1) ON (participants.user_id=users1.id)"
+  #         },
+  #         {
+  #           :association_name => 'user',
+  #           :field => 'users2.display_name',
+  #           :as => 'user_display_name',
+  #           :association_sql => "LEFT JOIN (users as users2) ON (participants.user_id=users2.id)"
+  #         }
+  #   ]
 
-
-  image_column  :picture,
-                :versions => { :thumb => "100x100", :full => "200x200"  },
-                :filename => proc{|inst, orig, ext| "participant_#{inst.id}.#{ext}"},
-                :store_dir => "uploaded_pictures/participant_pictures"
-  # validates_size_of :picture, :maximum => 500000, :message => "might be too big, must be smaller than 500kB!", :allow_nil => true
 
   IMAGE_SIZES = {
     :full => {:width => 200, :height => 200, :modifier => ">"},
@@ -168,12 +162,4 @@ class Participant < ActiveRecord::Base
     logger.debug "Participant created: #{participant.inspect}"
     participant
   end
-  
-  private
-  # def make_uploads_world_readable
-  #   return if picture.nil?
-  #   list = self.picture.versions.select {|version, image| File.exists?(image.path) }.map{|v| v[1].path}
-  #   list << self.picture.path if File.exists?(self.picture.path)
-  #   FileUtils.chmod_R(0644, list) unless list.empty?
-  # end
 end

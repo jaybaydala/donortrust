@@ -1,0 +1,35 @@
+<div id="receipt">
+  <h1 class="plain dark">Receipt</h1>
+
+  <p><%= @order.updated_at.strftime('%B %d, %Y') %></p>
+
+  <p><%= @order.name %><br><%= @order.email %></p>
+
+  <%- if @order.multiline_address.present? -%>
+  <p>
+    <%= @order.multiline_address.join("<br>") %>
+  </p>
+  <%- end -%>
+
+  <table border="0" cellpadding="4" cellspacing="0" class="activity_summary">
+  <colgroup>
+    <col style="width:85%;" />
+    <col style="width:15%;" />
+  </colgroup>
+  <% @order.line_items.each do |line_item| %>
+  <%#- partial_name = line_item.subscription? ? 'subscription' : line_item.class.to_s.underscore -%>
+  <%- partial_name = line_item.class.to_s.underscore -%>
+    <% content_tag_for :tr, line_item, :class => "line_item_row" do %>
+      <td class="textsm" style="text-align:left;">
+        <%= render :partial => "dt/cart/#{partial_name}", :locals => { :item => line_item } %>
+        <%#= line_item.class.class_name.singularize %>
+      </td>
+      <td class="textsm" style="text-align:right;"><%= number_to_currency(line_item.amount) %></td>
+    <% end %>
+  <% end %>
+  <tr class="total">
+    <td class="numeric">Total</td>
+    <td class="numeric"><%= number_to_currency @order.total %></td>
+  </tr>
+  </table>
+</div>

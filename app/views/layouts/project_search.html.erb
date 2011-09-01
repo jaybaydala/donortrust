@@ -1,0 +1,102 @@
+<%- content_for :header do -%>
+<!-- <section class="container" id="projects-header">
+  <nav id="sectionnav">
+    <ol class="clearfix">
+      <li><a href="#">Choose a Cause</a></li>
+      <li><a href="#">Our Partners</a></li>
+      <li><a href="#">What is Proof of Impact?</a></li>
+      <li><%= link_to "U:Powered", dt_upowered_path %></li>
+    </ol>
+  </nav>
+</section> -->
+<%- end -%>
+
+<%= render :partial => 'layouts/shared/head' %>
+<body id="projects" class="dark">
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+
+<div id="maincontentarea" class="content prepend-top append-large-bottom">
+  <% if params[:search].present? %>
+  <section class="container prepend-top">
+    <%= render :partial => 'layouts/shared/flashes' %>
+    <ul id="project-search-terms">
+      <% search_records.each do |facet, records| %>
+        <%= render :partial => "search_term", :collection => records, :locals => { :facet => facet } %>
+      <% end %>
+      <li><%= link_to "| &nbsp; Clear all", dt_projects_path %></li>
+    </ul>
+  </section>
+  <% end %>
+
+  <div class="container prepend-top">
+    <aside class="span-3" id="project-filters">
+      <h2 class="plain border-bottom">Choose</h2>
+      <div class="project-filter">
+        CAUSE/SECTOR
+        <ul>
+          <% Sector.with_active_projects.ordered_desc_by_projects.each do |sector| %>
+            <li><%= link_to "#{sector.name} (#{Project.search_count(:with => search_query_with_term(:sector_ids, sector.id))})", dt_projects_path(:search => search_query_with_term(:sector_ids, sector.id)) %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="project-filter">
+        LOCATION
+        <ul class="limit-height">
+          <% Place.discluding_canada.countries_with_active_projects.sort_by{|place| place.country_projects.count }.reverse.each do |country| %>
+            <li><%= link_to "#{country.name} (#{Project.search_count(:with => search_query_with_term(:country_id, country.id))})", dt_projects_path(:search => search_query_with_term(:country_id, country.id)) %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="project-filter">
+        PARTNER
+        <ul class="limit-height">
+          <% Partner.with_active_projects.all(:order => "name").each do |partner| %>
+            <li><%= link_to "#{partner.name} (#{Project.search_count(:with => search_query_with_term(:partner_id, partner.id))})", dt_projects_path(:search => search_query_with_term(:partner_id, partner.id)) %></li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="project-filter">
+        TOTAL COST
+        <ul>
+          <% [[0, 5000], [5001, 10000], [10001, 15000], [15001, 20000], [20001, 50000], [50001, 100000], [100001, 500000]].each do |range| %>
+            <li><%= link_to "#{number_to_currency(range.first, :precision => 0)} - #{number_to_currency(range.last, :precision => 0)} (#{ Project.search_count(:with => search_query_with_term(:total_cost, range)) })", dt_projects_path(:search => search_query_with_term(:total_cost, range.join(','))) %></li>
+          <% end %>
+        </ul>
+      </div>
+    </aside>
+    <article class="span-12">
+      <%= content_tag(:h1, yield(:title), :class => "clearfix") if show_title? && content_for?(:title) %>
+      
+      <% if params[:search].present? %>
+      <div id="project-search-summary" class="border-bottom clearfix">
+        <% form_tag dt_projects_url, :method => :get, :id => "project_search_tools" do %>
+          Sort by: <%= select_tag :order, options_for_select([["Added", 'created_at'], ["Total Cost", 'total_cost'], ["Country", 'country_name'], ["Partner", 'partner_name']], params[:order]) %> &nbsp; 
+          Display: <%= select_tag :per_page, options_for_select([ '18', '36', '54' ], params[:per_page]) %>
+          <% params[:search].each do |facet, vals| %>
+            <% vals.each do |v| %>
+              <%= hidden_field_tag "search[#{facet}][]", v %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%#= "#{@projects.total_entries} found" %> 
+        <%= will_paginate %>
+      </div>
+      <% end %>
+      
+      <div id="fb-root"></div>
+      <%= yield %>
+    </article>
+    <aside class="span-3 last">
+      <div id="rail">
+        <%= render :partial => 'layouts/shared/newsletter' %>
+
+        <%= yield :sidebar %>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>

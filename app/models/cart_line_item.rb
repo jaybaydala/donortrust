@@ -25,6 +25,10 @@ class CartLineItem < ActiveRecord::Base
     self.item = item
   end
 
+  def amount
+    item.amount
+  end
+
   def percentage
     val = read_attribute(:percentage)
     if self.auto_calculate_amount?

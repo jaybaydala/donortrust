@@ -5,7 +5,18 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 require 'fastercsv'
 
+require 'rack/rewrite' # apparently bundler hasn't required it just yet...
+
 Rails::Initializer.run do |config|
+  config.middleware.insert_before(Rack::Lock, Rack::Rewrite) do
+    r301 '/dt/accounts', '/iend'
+    r301 '/dt/accounts/new', '/iend/users/new'
+    r301 '/dt/accounts/reset', '/iend/password_resets'
+    r301 %r{/blog/?.*}, 'http://blog.uend.org/'
+    # rewrite '/blog/Example_Path', '/foo'
+    # r302 '/wiki/Another_Example', '/bar'
+    # r301 %r{/wiki/(\w+)_\w+}, '/$1'
+  end
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
@@ -65,49 +76,3 @@ Rails::Initializer.run do |config|
   #  File.directory?(lib = "#{dir}/lib") ? lib : dir
   #end
 end
-
-# recaptcha_file = File.join(RAILS_ROOT, "public", "system", "recaptcha_vars.rb")
-# require recaptcha_file if File.exists?(recaptcha_file)
-
-# set up the Exception Notifier plugin
-ExceptionNotifier.exception_recipients = %w(tim@tag.ca info@uend.org)
-ExceptionNotifier.sender_address = %(support@christmasfuture.com)
-ExceptionNotifier.email_prefix = "[DT ERROR] "
-
-#The url to the GroundSpring US donations page
-GROUNDSPRING_URL = 'https://secure.groundspring.org/dn/index.php?aid=21488'
-
-ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:dt_default => "%b %e, %Y")
-
-class Flickr
-  DT_KEY = "dce9d80477ea833b9dd029bc5f0eceea"
-  def initialize_with_key(api_key=nil, email=nil, password=nil)
-    api_key = Flickr::DT_KEY if api_key.nil?
-    initialize_without_key(api_key, email, password)
-    @host="http://api.flickr.com"
-    @activity_file='flickr_activity_cache.xml'
-  end
-  alias_method_chain :initialize, :key
-end
-
-class RubyTube
-  DT_KEY =  "BayCH1FukEw"
-  def initialize_with_key(api_key)
-    api_key = RubyTube::DT_KEY if api_key.nil?
-    initialize_without_key(api_key)
-  end
-  alias_method_chain :initialize, :key
-end
-
-require 'bleak_house' if ENV['BLEAK_HOUSE']
-
-#
-#unless '1.9'.respond_to?(:force_encoding)
-#  String.class_eval do
-#    begin
-#      remove_method :chars
-#    rescue NameError
-#      # OK
-#    end
-#  end
-#end

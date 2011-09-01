@@ -1,0 +1,36 @@
+--- 
+user_info: 
+  name: Tim Glen
+  urls: 
+    Facebook: http://www.facebook.com/timg
+    Website: 
+  nickname: timg
+  last_name: Glen
+  image: http://graph.facebook.com/643245366/picture?type=square
+  first_name: Tim
+  email: tim@example.com
+uid: "643245366"
+credentials: 
+  token: 190305024346813|10fbe127b6e5759ba86ec26d.1-643245366|F6j8tWNKHYJMpJ5Ug5EVreYt5VY
+extra: 
+  user_hash: 
+    name: Tim Glen
+    location: 
+      name: Guelph, Ontario
+      id: "106514426051396"
+    username: timg
+    timezone: -4
+    gender: male
+    id: "643245366"
+    birthday: 05/07/1976
+    last_name: Glen
+    updated_time: 2011-05-18T20:11:15+0000
+    verified: true
+    locale: en_US
+    hometown: 
+      name: Saskatoon, Saskatchewan
+      id: "115362478475254"
+    link: http://www.facebook.com/timg
+    email: tim@example.com
+    first_name: Tim
+provider: facebook

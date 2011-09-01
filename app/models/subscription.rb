@@ -5,6 +5,7 @@ require 'iats/gateways/iats_reoccuring'
 ActiveMerchant::Billing::Base.mode = Rails.env == "production" ? :production : :test
 
 class Subscription < ActiveRecord::Base
+  belongs_to :order
   belongs_to :user
   # belongs_to :project
   has_many :line_items, :class_name => "SubscriptionLineItem"
@@ -16,12 +17,14 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :donor_type, :first_name, :last_name, :address, :city, :province, :postal_code, :country, :email
   validates_format_of :email, :message => "isn't a valid email address", :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validate do |s|
-    s.errors.add(:end_date, "must be set into the future") unless s.end_date > Date.today
+    s.errors.add(:end_date, "must be set into the future") unless s.end_date? && s.end_date > Date.today
     unless s.credit_card.valid?
       credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
       s.errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
     end
   end
+
+  named_scope :current, lambda { { :conditions => ['begin_date < ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
 
   attr_accessor :full_card_number
   def card_number=(number)
@@ -35,8 +38,16 @@ class Subscription < ActiveRecord::Base
     read_attribute(:card_number)
   end
 
-  def self.create_from_cart_and_order(cart, order)
+  def self.notify_impending_card_expirations
+    Subscription.all(:conditions => ['expiry_month = ? AND expiry_year = ?', Date.today.month, Date.today.year]).each do |subscription|
+      DonortrustMailer.deliver_impending_subscription_card_expiration_notice(subscription)
+    end
+  end
+
+  def self.create_from_order(order)
     subscription = self.new
+    # billing info
+    subscription.order = order
     subscription.user = order.user
     subscription.donor_type = order.donor_type
     subscription.title = order.title
@@ -50,28 +61,26 @@ class Subscription < ActiveRecord::Base
     subscription.province = order.province
     subscription.postal_code = order.postal_code
     subscription.email = order.email
-
+    # tax receipt
+    subscription.tax_receipt_requested = order.tax_receipt_requested
+    # credit card info
     subscription.card_number = order.card_number
     subscription.cvv = order.cvv
     subscription.expiry_month = order.expiry_month
     subscription.expiry_year = order.expiry_year
-
+    # total
     subscription.amount = order.total
-
+    # subscription details
     subscription.reoccurring_status = false # we will do the reoccurring manually - see config/schedules.rb
     subscription.begin_date = Date.today
     subscription.end_date = Date.today + 10.years
     subscription.schedule_type = "MONTHLY"
     subscription.schedule_date = Date.today.day
-    
-    subscription.tax_receipt_requested = order.tax_receipt_requested
-    
+    # save!
     subscription.save!
-
-    cart.items.each do |cart_line_item|
-      subscription.line_items.create(:item_type => cart_line_item.item_type, :item_attributes => cart_line_item.item_attributes)
-    end
-    
+    # add cart subcription line_item to the line_items
+    subscription_line_item = order.cart.subscription
+    subscription.line_items.create(:item_type => subscription_line_item.item_type, :item_attributes => subscription_line_item.item_attributes)
     subscription
   end
 
@@ -134,14 +143,16 @@ class Subscription < ActiveRecord::Base
     response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
     if response.success?
       order.update_attributes({:authorization_result => response.authorization})
-      order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
+      # order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
       self.line_items.each do |line_item|
         item = line_item.item
         item.order_id = order.id
         item.save!
       end
       order.update_attributes(:complete => true)
+      DonortrustMailer.deliver_subscription_thanks(subscription)
     else
+      DonortrustMailer.deliver_subscription_failure(subscription)
       raise ActiveMerchant::Billing::Error.new(response.inspect)
     end
   end
@@ -157,6 +168,24 @@ class Subscription < ActiveRecord::Base
         return false
       end
       true
+    end
+  end
+
+  def create_yearly_tax_receipt(year = Date.today.year-1)
+    total = self.orders.all(:conditions => ['created_at LIKE ?', "#{year}%"]).inject(0) do |sum, order|
+      sum += order.tax_receipt_needed? ? order.total : 0
+    end
+    TaxReceipt.create! do |t|
+      t.first_name   = self.first_name
+      t.last_name    = self.last_name
+      t.email        = self.email
+      t.address      = self.address
+      t.city         = self.city
+      t.province     = self.province
+      t.postal_code  = self.postal_code
+      t.country      = self.country
+      t.user_id      = self.user_id
+      t.total        = total
     end
   end
 

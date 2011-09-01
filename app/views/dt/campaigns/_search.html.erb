@@ -19,15 +19,15 @@
 		<div class="campaign-search-checkboxes <%= 'hidden' if !showcheckboxes %>">
 			<%= check_box_tag 'search_type[]', 
 				'Participant', 
-				(params[:search_type] ? params[:search_type].include?('Participant') : ((controller.controller_name == "participants" || controller.controller_name == "campaigns") ? true:false))
+				(params[:search_type] ? params[:search_type].include?('Participant') : ((controller.controller_name == "participants" || controller.controller_name == "campaigns") ? true : false))
 			%>Users
 			<%= check_box_tag 'search_type[]',
 				'Team', 
-				(params[:search_type] ? params[:search_type].include?('Team') : ((controller.controller_name == "teams" || controller.controller_name == "campaigns") ? true:false))
+				(params[:search_type] ? params[:search_type].include?('Team') : ((controller.controller_name == "teams" || controller.controller_name == "campaigns") ? true : false))
 			%>Teams
 			<%= check_box_tag 'search_type[]', 
 			'Campaign' ,
-			(params[:search_type] ? params[:search_type].include?('Campaign') : ((controller.controller_name == "campaigns") ? true:false)) 
+			(params[:search_type] ? params[:search_type].include?('Campaign') : ((controller.controller_name == "campaigns") ? true : false)) 
 			%>Campaigns
 		 </div>
 	<% end%>

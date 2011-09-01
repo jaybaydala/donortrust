@@ -2,7 +2,6 @@ class Dt::GroupsController < DtApplicationController
   include GroupPermissions
   before_filter :login_required, :except => [ :index, :show ]
   before_filter :load_membership, :except => [ :index, :new, :create ]
-  before_filter :store_location
   helper 'dt/places'
   helper 'dt/get_involved'
   helper_method :current_member
@@ -13,8 +12,8 @@ class Dt::GroupsController < DtApplicationController
   end
 
   def index
-    @groups = Group.find :all, :conditions => {:featured => :true, :private => :false}
-    @groups = Group.find :all, :conditions => {:private => :false} if @groups.empty?
+    @groups = Group.find :all, :conditions => {:featured => true, :private => false}
+    @groups = Group.find :all, :conditions => {:private => false} if @groups.empty?
     respond_to do |format|
       format.html # index.rhtml
     end
@@ -125,7 +124,7 @@ class Dt::GroupsController < DtApplicationController
   def access_denied
     if ['new', 'create'].include?(action_name) 
       respond_to do |accepts|
-        accepts.html { redirect_to dt_login_path and return }
+        accepts.html { redirect_to login_path and return }
       end
     end
     if ['edit', 'update', 'destroy'].include?(action_name) && logged_in?

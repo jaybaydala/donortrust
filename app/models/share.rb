@@ -8,6 +8,7 @@ class Share < ActiveRecord::Base
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |share| share.project_id? && share.project_id != 0 }
   before_validation :trim_mailtos
   after_create :send_share_mail
+  attr_accessor :to_emails
   
   def send_share_mail
     if update_attributes(:sent_at => Time.now.utc)
