@@ -8,7 +8,7 @@
 
     return this.each(function() {
       if (options) { $.extend(settings, options); }
-      var current_index = (document.location.hash != '') ? document.location.hash.replace(/^#formnav-/,'') : 0 ;
+      var current_index = (document.location.hash != '') ? document.location.hash.replace(/^#formnav-/,'')-0 : 0 ;
       var current = $(settings['fieldset_selector'], $(this))[current_index];
       var form = $(this);
 
@@ -30,6 +30,12 @@
         list.append($('<li>').addClass("span-2").text('Cart'));
         $('#formnav').remove();
         $(form).before($('<nav>').addClass('clearfix').attr('id', 'formnav').append(list));
+        set_current_nav();
+      }
+
+      var set_current_nav = function() {
+        current_id = location.hash == '' ? '#formnav-0' : location.hash ;
+        $(current_id).addClass("current").siblings('.current').removeClass("current");
       }
 
       var next = function() {
@@ -76,14 +82,9 @@
       });
       build_nav_elements();
       
-      $(window).hashchange( function(){
-        var hash = location.hash;
-        current_index = hash ? hash.replace(/^#formnav-/, '') : 0 ;
-        var current = $(settings['fieldset_selector'], $(this))[current_index]
-        build_nav_elements($(this), $(current))
-        $(window).hashchange();
+      $(window).hashchange( function() {
+        set_current_nav();
       });
-      
     });
   };
 })(jQuery);
