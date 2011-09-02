@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-gem 'rails', '2.3.5'
+gem 'rails', '2.3.11'
 gem 'rack'
 gem 'mysql'
 
@@ -16,6 +16,7 @@ gem 'chronic'
 gem 'color-tools', :require => 'color'
 gem 'completeness-fu', '0.5.2'
 gem 'daemons', '1.0.10'
+gem 'fastercsv'
 gem 'feed-normalizer'
 gem 'formtastic', '< 2'
 gem 'flickraw'
@@ -47,10 +48,13 @@ group :test, :cucumber do
   
   gem 'autotest'
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
-  gem 'database_cleaner', '>=0.5.2'
+  gem 'database_cleaner', '>=0.5.2', :require => false
   gem 'email_spec', '< 1.0'
-  gem 'faker'
   gem 'factory_girl'
+  gem 'faker'
+  gem 'fakeweb'
+  gem 'launchy'
+  gem 'pickle'
   gem 'redgreen'
   gem 'rspec_hpricot_matchers'
   gem 'ruby-debug'
