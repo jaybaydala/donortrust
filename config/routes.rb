@@ -310,6 +310,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :accounts, :active_scaffold => true
     ba.resources :groups, :active_scaffold => true
     ba.resources :bus_account, :active_scaffold => true, :controller => "bus_account"
+    ba.resources :uploads, :active_scaffold => true
   end
 
   # bus_admin reports
