@@ -1,0 +1,32 @@
+<%- content_for :html_title do -%><%=h @page.title %><%- end -%>
+<% content_for :top_content do %>
+  <div class="span-14 prepend-2 append-2 prepend-top append-bottom">
+    <h1><%= @page.title %></h1>
+    <% unless @page.root? %>
+    <nav class="breadcrumbs">
+      <ol>
+      <% @page.self_and_ancestors.each do |page| %>
+        <li><%= @page == page ? page.title : link_to(page.title, page.absolute_path) %></li>
+      <% end %>
+      </ol>
+    </nav>
+    <% end %>
+
+    <% unless @page.leaf? %>
+    <nav class="subnav">
+      <ol>
+      <% @page.children.each do |page| %>
+        <li><%= link_to page.title, page.absolute_path %></li>
+      <% end %>
+      </ol>
+    </nav>
+    <% end %>
+  </div>
+<% end %>
+<div class="serif">
+  <%= @page.content %>
+</div>
+
+<div style="position:relative;left:128px;top:-64px;">
+  <img src="/images/layout/contact_map.gif" width="633" height="310" alt="">
+</div>
