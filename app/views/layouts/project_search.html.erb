@@ -52,7 +52,7 @@
         PARTNER
         <ul class="limit-height">
           <% Partner.with_active_projects.all(:order => "name").each do |partner| %>
-            <li><%= link_to "#{partner.name} (#{Project.search_count(:with => search_query_with_term(:partner_id, partner.id))})", dt_projects_path(:search => search_query_with_term(:partner_id, partner.id)) %></li>
+            <li><%= link_to "#{partner.name} (#{Project.search_count(:with => search_query_only_with_term(:partner_id, partner.id))})", dt_projects_path(:search => search_query_with_term(:partner_id, partner.id)) %></li>
           <% end %>
         </ul>
       </div>
