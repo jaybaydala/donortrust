@@ -6,6 +6,7 @@ class Dt::ProjectsController < DtApplicationController
   helper "dt/groups"
   helper_method :search_records
   helper_method :search_query
+  helper_method :search_query_only_with_term
   helper_method :search_query_with_term
   helper_method :search_query_without_term
   layout "projects"
@@ -228,6 +229,10 @@ class Dt::ProjectsController < DtApplicationController
         search_query_prepared[:total_cost] = (total_costs.min..total_costs.max) 
       end
       search_query_prepared
+    end
+
+    def search_query_only_with_term(facet, term)
+      { facet.to_sym => [ term ] }
     end
 
     def search_query_with_term(facet, term)
