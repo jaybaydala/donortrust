@@ -141,8 +141,12 @@ class Subscription < ActiveRecord::Base
     purchase_options = { :invoice_id => order.id }
     logger.debug("purchase_options: #{purchase_options.inspect}")
     response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
-    if response.success?
-      order.update_attributes({:authorization_result => response.authorization})
+    order.update_attributes({:authorization_result => response.authorization}) if response.success?
+    complete_payment(response.success?, order)
+  end
+
+  def complete_payment(successful, order)
+    if successful
       # order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
       self.line_items.each do |line_item|
         item = line_item.item
@@ -150,13 +154,13 @@ class Subscription < ActiveRecord::Base
         item.save!
       end
       order.update_attributes(:complete => true)
-      DonortrustMailer.deliver_subscription_thanks(subscription)
+      DonortrustMailer.deliver_subscription_thanks(self)
     else
-      DonortrustMailer.deliver_subscription_failure(subscription)
+      DonortrustMailer.deliver_subscription_failure(self)
       raise ActiveMerchant::Billing::Error.new(response.inspect)
     end
   end
-  
+
   def end_subscription
     Subscription.transaction do
       begin
