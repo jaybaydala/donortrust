@@ -9,13 +9,7 @@ Given /^(?:all of )?my subscriptions? ha(?:ve|s)? run successfully$/ do
   while current_date < Date.today
     Timecop.travel(current_date) do
       order = @subscription.prepare_order
-      @subscription.line_items.each do |line_item|
-        item = line_item.item
-        item.order_id = order.id
-        item.save!
-      end
-      order.update_attributes(:complete => true)
-      DonortrustMailer.deliver_subscription_thanks(@subscription)
+      @subscription.complete_payment(true, order)
     end
     current_date += 1.month
   end
@@ -26,7 +20,11 @@ Given /^(?:all of )?my subscriptions? ha(?:ve|s)? failed$/ do
   current_date = @subscription.begin_date
   while current_date < Date.today
     Timecop.travel(current_date) do
-      DonortrustMailer.deliver_subscription_failure(@subscription)
+      order = @subscription.prepare_order
+      begin
+        @subscription.complete_payment(false, order)
+      rescue Exception
+      end  
     end
     current_date += 1.month
   end
