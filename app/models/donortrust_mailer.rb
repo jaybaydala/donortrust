@@ -204,7 +204,7 @@ class DonortrustMailer < ActionMailer::Base
     subject 'UPowered: Subcription Problem'
     sent_on Time.now
     body[:subscription] = subscription
-    body[:edit_upowered_url] = edit_dt_subscription_url(subscription, :host => HTTP_HOST)
+    body[:edit_upowered_url] = edit_iend_subscription_url(subscription, :host => HTTP_HOST)
   end
 
   def impending_subscription_card_expiration_notice(subscription)
@@ -213,7 +213,7 @@ class DonortrustMailer < ActionMailer::Base
     subject 'UPowered: Impending credit card expiry'
     sent_on Time.now
     body[:subscription] = subscription
-    body[:edit_upowered_url] = edit_dt_subscription_url(subscription, :host => HTTP_HOST)
+    body[:edit_upowered_url] = edit_iend_subscription_url(subscription, :host => HTTP_HOST)
   end
 
   def tax_receipt(receipt)
