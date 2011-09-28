@@ -11,7 +11,6 @@ class Order < ActiveRecord::Base
   has_many :deposits
   has_many :pledges # added by joe
   has_one :registration_fee
-  has_one :subscription
   has_one :tax_receipt
 
   # validates_presence_of :cart
