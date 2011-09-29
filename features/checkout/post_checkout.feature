@@ -11,9 +11,7 @@ Background: Load Cart
 
 Scenario: Show an activity summary
   When I have completed the checkout process
-  Then I should see "Gift" within ".gift"
   And I should see "$10" within ".gift"
-  And I should see "Investment" within ".investment"
   And I should see "$25" within ".investment"
 
 Scenario: Save profile info
@@ -23,10 +21,10 @@ Scenario: Save profile info
 
 Scenario: Facebook login
   Given I have completed the checkout process
-  Then I should see "Login with facebook" within "#content"
+  Then I should see "Login with facebook" within "#maincontentarea"
 
 Scenario: Facebook connect
   Given I am an authenticated user
   And I am on my cart page
   When I have completed the checkout process
-  Then I should see "Connect via facebook" within "#content"
+  Then I should see "Connect via facebook" within "#maincontentarea"
