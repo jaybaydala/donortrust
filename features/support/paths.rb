@@ -26,11 +26,11 @@ module NavigationHelpers
     when /redisplayed sign up page/
       '/dt/accounts'
     when /the login page/
-      '/dt/login'
+      '/login'
     when /the redisplayed login page/
       '/dt/session'
     when /the authentications page/
-      dt_authentications_path
+      iend_authentications_path
     when /the "(.*)" team page/
       dt_team_path(Team.find_by_short_name($1))
     when /the "(.*)" campaign page/

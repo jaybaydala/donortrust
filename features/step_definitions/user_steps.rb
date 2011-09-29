@@ -10,7 +10,7 @@ end
 World(UserHelpers)
 
 Given /^I am not(?: currently)? authenticated$/ do
-  visit('/dt/logout') # ensure that at least
+  visit('/logout') # ensure that at least
 end
 
 Given /^I am logged in$/ do
