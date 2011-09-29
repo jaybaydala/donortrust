@@ -26,8 +26,12 @@ Given /^I have completed the checkout process$/ do
     And I select "Canada" from "Country"
     And I fill in "Email" with "john.smith@example.com"
     And I press "next"
-    # this is the login page
-    And I press "next"
+  }
+  # this is the signup screen - it doesn't show up if you're authenticated
+  unless @current_user
+    And "I press \"next\""
+  end
+  steps %Q{
     And I fill in "Credit card number" with "1"
     And I fill in "Card security number (CVV)" with "989"
     And I select "01" from "order_expiry_month"
