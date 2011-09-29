@@ -29,11 +29,11 @@
       <%= f.input :last_name %>
       <%= f.input :email, :as => :email %>
       <%= f.input :company %>
-      <%= f.input :address, :label => 'Street Address' %>
-      <%= f.input :address2, :label => 'Street Address 2' %>
+      <%= f.input :address, :label => 'Street address' %>
+      <%= f.input :address2, :label => 'Street address 2' %>
       <%= f.input :city %>
       <%= f.input :province, :label => 'Province/State' %>
-      <%= f.input :postal_code, :label => 'Postal/Zip Code' %>
+      <%= f.input :postal_code, :label => 'Postal/Zip code' %>
       <%= f.input :country, :as => :select, :collection => country_select_options %>
       <%= f.input :billing_step, :as => :hidden, :value => 1 %>
     <% end %>
