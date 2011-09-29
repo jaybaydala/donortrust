@@ -5,7 +5,7 @@
     <%= f.input :remember_me, :as => :boolean %>
   <% end %>
   <% f.buttons do %>
-    <%= f.commit_button (session[:omniauth].present? ? "Link #{session[:omniauth]['provider']} profile" : "Login") %>
+    <%= f.commit_button(session[:omniauth].present? ? "Link #{session[:omniauth]['provider']} profile" : "Login") %>
     <%= hidden_field_tag(:return_to, params[:return_to]) if params[:return_to] %>
   <% end %>
 <% end %>
