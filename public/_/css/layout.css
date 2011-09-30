@@ -229,6 +229,8 @@ section.iend.spaced { padding:36px 0; }
 .boxshadow #payment_required_container { -moz-box-shadow: 2px 2px 4px #666; -webkit-box-shadow: 2px 2px 4px #666; box-shadow: 2px 2px 4px #666; }
 .borderradius #payment_required_container { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
 #receipt { font-size:18px; }
+.sharing { background:#EEE; margin-bottom:1em; padding:1em; }
+.borderradius .sharing { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
 
 /* SHADOWS
 ----------*/
