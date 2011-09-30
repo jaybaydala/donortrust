@@ -28,10 +28,12 @@
 
 <%= render :partial => "upowered_share" %>
 
+<% if logged_in? && current_user.authentications.facebook.present? %>
 <div class="sharing">
   <h2>Facebook</h2>
   <%= render :partial => 'dt/facebook_posts/form' %>
 </div>
+<% end %>
 
 <% if @order.is_registration then %>
   <%= render :partial => 'thanks_registration' %>
