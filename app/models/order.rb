@@ -365,6 +365,10 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def includes_subscription?
+    !!Subscription.find_by_order_id(self.id)
+  end
+
   def tax_receipt_needed?
     self.tax_receipt_requested? && self.credit_card_payment?
   end
