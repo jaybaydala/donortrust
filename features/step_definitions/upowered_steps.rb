@@ -50,3 +50,10 @@ Then /^the subscriber should receive an email$/ do
   @subscription ||= Subscription.last
   Then "\"#{@subscription.email}\" should receive an email"
 end
+
+Then /^I should have (\d+) UPowered subscription for \$(\d+)$/ do |count, amount|
+  @user ||= User.last
+  debugger
+  @user.subscriptions.size.should eql(count)
+  @user.subscriptions.first.amount.should eql(amount)
+end
