@@ -29,6 +29,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :facebook_posts
 
     dt.resource :upowered, :controller => "upowered"
+    dt.resources :upowered_shares, :only => [ :create ]
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
     dt.resource :christmasfuture, :controller => 'christmasfuture'
     dt.resource :support_badges, :controller => 'support_badges'
