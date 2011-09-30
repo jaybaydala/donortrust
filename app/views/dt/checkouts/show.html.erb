@@ -31,7 +31,7 @@
 <% if logged_in? && current_user.authentications.facebook.present? %>
 <div class="sharing">
   <h2>Facebook</h2>
-  <%= render :partial => 'dt/facebook_posts/form' %>
+  <%= render :partial => 'dt/facebook_posts/form', :locals => { :message => "I just contributed to one of over 50 active poverty-ending projects with UEnd:Poverty – feels pretty great!\n#{root_url}"} %>
 </div>
 <% end %>
 
