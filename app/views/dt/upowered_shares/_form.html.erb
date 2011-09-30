@@ -1,5 +1,7 @@
 <%- 
-@upowered_share ||= UpoweredShare.new(:from_name => current_user.name, :from_email => current_user.login, :upowered_url => dt_upowered_url)
+from_name = @order ? "#{@order.first_name} #{@order.last_name}" : ( logged_in? ? current_user.name : nil)
+from_email = @order ? @order.email : ( logged_in? ? current_user.login : nil)
+@upowered_share ||= UpoweredShare.new(:from_name => from_name, :from_email => from_email, :upowered_url => dt_upowered_url)
 return_to ||= nil
 params[:return_to] = return_to if return_to.present?
 -%>
