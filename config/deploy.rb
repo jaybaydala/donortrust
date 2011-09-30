@@ -33,14 +33,16 @@ set :user, "ideaca"
 set :group, "users"
 
 before "deploy:update_code", "thinking_sphinx_deployment:stop"
-after "deploy:update_code", "deploy:link_configs"
+after "deploy:finalize_update", "deploy:link_configs"
 after "deploy:link_configs", "thinking_sphinx_deployment:configure_and_start"
 after "deploy:update", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
 after "deploy:restart", "deploy:cleanup"
 
 namespace :thinking_sphinx_deployment do
   task :stop, :roles => :app do
-    thinking_sphinx.stop
+    rails_env = fetch(:rails_env, "production")
+    rake = fetch(:rake, "rake")
+    run "if [ -d #{release_path} ]; then cd #{release_path}; else cd #{current_path}; fi; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:stop"
   end
 
   task :configure_and_start, :roles => :app do
