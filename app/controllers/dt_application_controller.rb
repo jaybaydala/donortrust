@@ -9,7 +9,7 @@ class DtApplicationController < ActionController::Base
   helper_method :ssl_available?
 
   # http auth for staging
-  # before_filter :authenticate_via_http
+  before_filter :authenticate_via_http
   # "remember me" functionality
   before_filter :login_from_cookie, :ssl_filter
   
