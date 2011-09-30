@@ -365,7 +365,7 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def includes_subscription?
+  def created_subscription?
     !!Subscription.find_by_order_id(self.id)
   end
 
