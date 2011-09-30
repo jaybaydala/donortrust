@@ -34,7 +34,7 @@ set :group, "users"
 
 before "deploy:update_code", "thinking_sphinx_deployment:stop"
 after "deploy:finalize_update", "deploy:link_configs"
-after "deploy:link_configs", "thinking_sphinx_deployment:configure_and_start"
+after "deploy:update", "thinking_sphinx_deployment:configure_and_start"
 after "deploy:update", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
 after "deploy:restart", "deploy:cleanup"
 
@@ -96,7 +96,6 @@ namespace :web do
     on_rollback { run "rm #{shared_path}/system/maintenance.html" }
     template = File.read(File.join(File.dirname(__FILE__), "..", "public", "maintenance.html"))
     put template, "#{shared_path}/system/maintenance.html", :mode => 0644
-    # upload(, "#{shared_path}/system/maintenance.html"
   end
 
   task :enable, :roles => :web, :except => { :no_release => true } do
