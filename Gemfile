@@ -37,7 +37,7 @@ gem 'simple-rss'
 gem 'thinking-sphinx', :require => 'thinking_sphinx'
 gem 'transaction-simple', :require => 'transaction/simple'
 gem 'validation_reflection', '< 1'
-gem 'whenever', '>=0.3.0', :require => false
+gem 'whenever', '~>0.7.0', :require => false
 gem 'will_paginate', :require => 'will_paginate'
 gem 'xml-simple'
 gem 'youtube-g', :require => 'youtube_g'

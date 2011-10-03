@@ -76,8 +76,10 @@ class Project < ActiveRecord::Base
     has sectors(:name), :as => :sector_names
     has country(:id),   :as => :country_id
     has country(:name), :as => :country_name
+    has country(:name), :as => :country_name_sort
     has partner(:id),   :as => :partner_id
     has partner(:name), :as => :partner_name
+    has partner(:name), :as => :partner_name_sort
     has "CAST(total_cost AS UNSIGNED)", :type => :integer, :as => :total_cost
     
     # global conditions

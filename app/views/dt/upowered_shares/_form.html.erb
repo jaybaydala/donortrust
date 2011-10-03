@@ -1,0 +1,31 @@
+<%- 
+from_name = @order ? "#{@order.first_name} #{@order.last_name}" : ( logged_in? ? current_user.name : nil)
+from_email = @order ? @order.email : ( logged_in? ? current_user.login : nil)
+@upowered_share ||= UpoweredShare.new(:from_name => from_name, :from_email => from_email, :upowered_url => dt_upowered_url)
+return_to ||= nil
+params[:return_to] = return_to if return_to.present?
+-%>
+<div class="sharing">
+  <h2>Share U:Powered with your friends</h2>
+  <% semantic_form_for [:dt, @upowered_share] do |f| %>
+    <% f.inputs do %>
+      <%= f.input :from_name %>
+      <%= f.input :from_email %>
+      <li class="string required" id="upowered_shared_to_input">
+        <%= f.label :to, "To<abbr title=\"required\">*</abbr>".html_safe %>
+        <div style="margin-bottom:2px;"><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[0] || "" %></div>
+        <div style="margin-bottom:2px;"><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[1] || "" %></div>
+        <div style="margin-bottom:2px;"><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[2] || "" %></div>
+        <div style="margin-bottom:2px;"><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[3] || "" %></div>
+        <div                           ><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[4] || "" %></div>
+        <p class="inline-hints">email addresses only, please</p>
+        <%= f.errors_on(:to) %>
+      </li>
+      <%= f.input :message, :as => :text, :input_html => { :rows => 5 } %>
+    <% end %>
+    <% f.buttons do %>
+      <%= f.commit_button "Send Message" %>
+    <% end %>
+    <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to].present? %>
+  <% end %>
+</div>

@@ -9,31 +9,33 @@
   <div class="span-4 append-bottom" style="border-bottom:1px dotted #999;">
     <div><strong>U:Powered Progress</strong></div>
     <div class="project-progress" style="margin-top:8px;">
-      <div class="project-progress-fg" style="width:<%= (Subscription.current.count.to_f/10000.to_f)*100 %>%;"></div>
+      <div class="project-progress-fg" style="width:<%= (Subscription.current.count.to_f/5000.to_f)*100 %>%;"></div>
     </div>
-    <div><%= number_with_delimiter(Subscription.current.count) %>/10,000 contributors</div>
+    <div><%= number_with_delimiter(Subscription.current.count) %>/5,000 contributors</div>
     <div class="project-progress" style="margin-top:8px;">
       <div class="project-progress-fg" style="width:24%;"></div>
     </div>
     <div>24% of organization built</div>
   </div>
-  <div class="span-4 prepend-1 last">
-    <div><strong><%= Time.now.year %> Targets</strong></div>
-    <div class="project-progress" style="margin-top:8px;">
-      <div class="project-progress-fg" style="width:24%;"></div>
-    </div>
-    <div><%= number_to_currency Investment.dollars_raised(["created_at LIKE ?", "#{Time.now.year}%"]), :precision => 0 %>/$300,000 dollars to projects</div>
-    
-    <div class="project-progress" style="margin-top:8px;">
-      <div class="project-progress-fg" style="width:<%= (Project.fully_funded.size.to_f/100.to_f)*100 %>%;"></div>
-    </div>
-    <div><%= number_to_currency Investment.dollars_raised(["created_at LIKE ?", "#{Time.now.year}%"]), :precision => 0 %>/100 fully funded projects</div>
+    <div class="span-4 prepend-1 last">
+      <!--
+      <div><strong><%= Time.now.year %> Targets</strong></div>
+      <div class="project-progress" style="margin-top:8px;">
+        <div class="project-progress-fg" style="width:24%;"></div>
+      </div>
+      <div><%= number_to_currency Investment.dollars_raised(["created_at LIKE ?", "#{Time.now.year}%"]), :precision => 0 %>/$300,000 dollars to projects</div>
+      
+      <div class="project-progress" style="margin-top:8px;">
+        <div class="project-progress-fg" style="width:<%= (Project.fully_funded.size.to_f/100.to_f)*100 %>%;"></div>
+      </div>
+      <div><%= number_to_currency Investment.dollars_raised(["created_at LIKE ?", "#{Time.now.year}%"]), :precision => 0 %>/100 fully funded projects</div>
 
-    <div class="project-progress" style="margin-top:8px;">
-      <div class="project-progress-fg" style="width:<%= ((Investment.count(:conditions => ["created_at LIKE ? AND gift_id IS NULL", "#{Time.now.year}%"]) + Gift.count(:conditions => ["created_at LIKE ?", "#{Time.now.year}%"])).to_f/15000.to_f)*100 %>%;"></div>
-    </div>
-    <div><%= number_with_delimiter Investment.count(:conditions => ["created_at LIKE ? AND gift_id IS NULL", "#{Time.now.year}%"]) + Gift.count(:conditions => ["created_at LIKE ?", "#{Time.now.year}%"]) %>/15000 gifts &amp; investments</div>
-  </div>
+      <div class="project-progress" style="margin-top:8px;">
+        <div class="project-progress-fg" style="width:<%= ((Investment.count(:conditions => ["created_at LIKE ? AND gift_id IS NULL", "#{Time.now.year}%"]) + Gift.count(:conditions => ["created_at LIKE ?", "#{Time.now.year}%"])).to_f/15000.to_f)*100 %>%;"></div>
+      </div>
+      <div><%= number_with_delimiter Investment.count(:conditions => ["created_at LIKE ? AND gift_id IS NULL", "#{Time.now.year}%"]) + Gift.count(:conditions => ["created_at LIKE ?", "#{Time.now.year}%"]) %>/15000 gifts &amp; investments</div>
+      -->
+    </div> 
 </div>
 
 <div class="project-description">

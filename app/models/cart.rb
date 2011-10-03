@@ -39,6 +39,7 @@ class Cart < ActiveRecord::Base
       cart_item = self.add_item(investment)
       cart_item.update_attribute(:subscription, true) if cart_item
     end
+    self.update_attributes(:add_optional_donation => false) if self.add_optional_donation?
     cart_item
   end
 

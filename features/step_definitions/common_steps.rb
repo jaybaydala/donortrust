@@ -1,6 +1,7 @@
 Before do
   Project.unallocated_project || Factory.build(:unallocated_project).save
   Project.admin_project || Factory.build(:admin_project).save
+  PartnerStatus.active || Factory.build(:partner_status, :name => "Active").save
 end
 
 Before do

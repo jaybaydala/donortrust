@@ -1,11 +1,21 @@
 <%= render :partial => 'carousel' %>
 
 <div class="clearfix">
+  <g:plusone size="medium"></g:plusone>
   <a href="http://twitter.com/share" class="twitter-share-button" data-text="Giving is it's own reward. Ending extreme poverty is a major, freakin' bonus!" data-count="horizontal" data-via="uend_org">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-  <fb:like href="http://www.uend.org" send="true" width="450" show_faces="true" action="like" font="arial"></fb:like>
+  <fb:like href="http://www.uend.org" send="true" width="450" show_faces="false" action="like" font="arial"></fb:like>
+  <% content_for :javascript do %>
+  <script type="text/javascript">
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+  <% end %>
 </div>
 
-<div style="text-align:center;">
+<div style="text-align:center;" class="prepend-top">
   <h1><img src="/images/home/the_gift_connection.png" width="288" height="23" alt="The Gift Connection"></h1>
   <p style="font-size:24px;padding-bottom:12px;" class="serif">If we were all to redirect a mere 5% of the billions of dollars that we already spend each year on gifts, there would be enough to eliminate extreme poverty in about 15 years.</p>
   <p style="margin-bottom:36px;">Know someone who wants to end extreme poverty? <%= link_to "Find the right gift here. &gt;", dt_give_path %></p>
