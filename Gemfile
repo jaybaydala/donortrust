@@ -23,7 +23,7 @@ gem 'flickraw'
 gem 'hpricot'
 gem 'mail', :require => false
 gem 'nokogiri'
-gem 'omniauth', '~> 0.2.6'
+gem 'omniauth', '~> 0.3.0'
 gem 'packet'
 gem 'paperclip'
 gem 'pdf-writer', :require => 'pdf/writer'
