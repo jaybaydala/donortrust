@@ -1,6 +1,7 @@
 omniauth_config = YAML.load_file(Rails.root.join('config', 'omniauth.yml'))
 
 # require 'omniauth'
+require 'oauth2'
 require 'openid/store/filesystem'
 ActionController::Dispatcher.middleware.use OmniAuth::Builder do
   provider(:facebook, omniauth_config['facebook']['app_id'], omniauth_config['facebook']['app_secret'], {
