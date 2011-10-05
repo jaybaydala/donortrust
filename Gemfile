@@ -46,7 +46,6 @@ group :test, :cucumber do
   gem 'cucumber-rails', '>=0.3.2', :require => false
   gem 'rspec-rails', '< 2.0'
   
-  gem 'autotest'
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
   gem 'database_cleaner', '>=0.5.2', :require => false
   gem 'email_spec', '< 1.0'
@@ -55,8 +54,6 @@ group :test, :cucumber do
   gem 'fakeweb'
   gem 'launchy'
   gem 'pickle'
-  gem 'redgreen'
-  gem 'rspec_hpricot_matchers'
   gem 'ruby-debug'
   gem 'shoulda'
   gem 'timecop'
