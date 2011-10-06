@@ -1,10 +1,10 @@
 class Cart < ActiveRecord::Base
   attr_reader :total
-  after_save :add_admin_project_investment
+  after_save :add_auto_tip
   has_many :items, :class_name => "CartLineItem"
   has_one :order
 
-  def add_donation(item, percentage=nil)
+  def add_tip(item, percentage=nil)
     if valid_item?(item)
       i = self.items.build({:item => item, :donation => true, :auto_calculate_amount => true})
       i.item = item
@@ -39,12 +39,13 @@ class Cart < ActiveRecord::Base
       cart_item = self.add_item(investment)
       cart_item.update_attribute(:subscription, true) if cart_item
     end
-    self.update_attributes(:add_optional_donation => false) if self.add_optional_donation?
     cart_item
   end
 
   def calculate_percentage_amount(percentage)
-    BigDecimal.new(self.total_without_donation.to_s) * (BigDecimal.new(percentage.to_s)/100)
+    total_to_calculate = BigDecimal.new(self.total_without_donation.to_s)
+    total_to_calculate = total_to_calculate - subscription.item.amount if subscription?
+    total_to_calculate * (BigDecimal.new(percentage.to_s)/100)
   end
 
   def donation
@@ -126,12 +127,12 @@ class Cart < ActiveRecord::Base
   end
 
   private
-    def add_admin_project_investment
+    def add_auto_tip
       if add_optional_donation.blank?
         self.donation.destroy if self.donation.present?
       elsif add_optional_donation?
         if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?
-          self.add_donation( Investment.new(:project => Project.admin_project, :amount => 1) )
+          self.add_tip( Investment.new(:project => Project.admin_project, :amount => 1) )
         end
       end
     end

@@ -11,15 +11,27 @@ We want users to have the UPowered option available in their cart by default
 So that they know that we need funding too
 
 Background:
-  Given I have added a $10 investment to my cart
+  Given I am on the new upowered page
+  And I choose "$5.00"
+  And I press "Join"
 
 Scenario: Checkout without changes
   Given I am on the dt cart page
   And I follow "Checkout"
   Then I should see "For the monthly price of a cup of coffee, help fund the organization that's ending poverty"
   When I press "next"
-  Then I should see "Cart Total: $15.00"
-  When I have completed the checkout process, signing up along the way
+  Then I should see "Cart Total: $5.00"
+  When I have completed the checkout process, maintaining my upowered, signing up along the way
+  Then I should have 1 UPowered subscription for $5
+
+Scenario: Checkout with $10 Investment
+  Given I have added a $10 investment to my cart
+  And I am on the dt cart page
+  When I follow "Checkout"
+  Then I should see "For the monthly price of a cup of coffee, help fund the organization that's ending poverty"
+  When I press "next"
+  Then I should see "Cart Total: $16.50"
+  When I have completed the checkout process, maintaining my upowered, signing up along the way
   Then I should have 1 UPowered subscription for $5
 
 @pending
@@ -33,6 +45,6 @@ Scenario: Checkout with adjustment
   And I should see a text field for a custom UPowered subscription
   When I choose $25
   And press "next"
-  Then I should see "Cart Total: $35.00"
+  Then I should see "Cart Total: $25.00"
   When I have completed the checkout process, signing up along the way
   Then I should have 1 UPowered subscription for $25

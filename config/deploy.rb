@@ -34,8 +34,8 @@ set :group, "users"
 
 before "deploy:update_code", "thinking_sphinx_deployment:stop"
 after "deploy:finalize_update", "deploy:link_configs"
-after "deploy:update", "thinking_sphinx_deployment:configure_and_start"
-after "deploy:update", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
+after "deploy:symlink", "thinking_sphinx_deployment:configure_and_start"
+after "deploy:symlink", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
 after "deploy:restart", "deploy:cleanup"
 
 namespace :thinking_sphinx_deployment do

@@ -23,7 +23,7 @@ gem 'flickraw'
 gem 'hpricot'
 gem 'mail', :require => false
 gem 'nokogiri'
-gem 'omniauth', '~> 0.2.6'
+gem 'omniauth', '~> 0.3.0'
 gem 'packet'
 gem 'paperclip'
 gem 'pdf-writer', :require => 'pdf/writer'
@@ -46,17 +46,16 @@ group :test, :cucumber do
   gem 'cucumber-rails', '>=0.3.2', :require => false
   gem 'rspec-rails', '< 2.0'
   
-  gem 'autotest'
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
   gem 'database_cleaner', '>=0.5.2', :require => false
   gem 'email_spec', '< 1.0'
   gem 'factory_girl'
   gem 'faker'
   gem 'fakeweb'
+  # gem 'guard-cucumber'
+  gem 'guard-rspec'
   gem 'launchy'
   gem 'pickle'
-  gem 'redgreen'
-  gem 'rspec_hpricot_matchers'
   gem 'ruby-debug'
   gem 'shoulda'
   gem 'timecop'
