@@ -52,6 +52,8 @@ group :test, :cucumber do
   gem 'factory_girl'
   gem 'faker'
   gem 'fakeweb'
+  # gem 'guard-cucumber'
+  gem 'guard-rspec'
   gem 'launchy'
   gem 'pickle'
   gem 'ruby-debug'
