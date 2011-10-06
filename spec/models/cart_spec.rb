@@ -148,4 +148,21 @@ describe Cart do
     @cart.add_item @gift
     @cart.empty?.should == false
   end
+
+  describe "calculate_percentage_amount" do
+    subject { Cart.create!(:add_optional_donation => true) }
+    let(:cart) { subject }
+    before do
+      Factory(:admin_project)
+      cart.add_item(Factory.build(:gift, :amount => 100))
+    end
+    
+    it "should have two line items" do
+      debugger
+      cart.items.size.should == 2
+    end
+    
+    its(:total) { should eql(115) }
+  end
+
 end
