@@ -18,6 +18,8 @@ module NavigationHelpers
       dt_account_path(current_user)
     when /my cart page/
       dt_cart_path
+    when /the new upowered page/
+      new_dt_upowered_path
     when /the order confirmation page/
       # @order ||= Order.last
       dt_checkout_path
