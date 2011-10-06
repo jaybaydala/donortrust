@@ -12,28 +12,26 @@ So that they know that we need funding too
 
 Background:
   Given I am on the new upowered page
-  Given I press "Join"
+  And I choose "$5.00"
+  And I press "Join"
 
 Scenario: Checkout without changes
   Given I am on the dt cart page
   And I follow "Checkout"
   Then I should see "For the monthly price of a cup of coffee, help fund the organization that's ending poverty"
   When I press "next"
-  Then show me the page
   Then I should see "Cart Total: $5.00"
-  When I have completed the checkout process, signing up along the way
+  When I have completed the checkout process, maintaining my upowered, signing up along the way
   Then I should have 1 UPowered subscription for $5
 
-Scenario: Checkout with 10 Investment
+Scenario: Checkout with $10 Investment
   Given I have added a $10 investment to my cart
   And I am on the dt cart page
-  Then show me the page
   When I follow "Checkout"
   Then I should see "For the monthly price of a cup of coffee, help fund the organization that's ending poverty"
   When I press "next"
-  Then show me the page
   Then I should see "Cart Total: $16.50"
-  When I have completed the checkout process, signing up along the way
+  When I have completed the checkout process, maintaining my upowered, signing up along the way
   Then I should have 1 UPowered subscription for $5
 
 @pending
