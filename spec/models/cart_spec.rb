@@ -148,4 +148,39 @@ describe Cart do
     @cart.add_item @gift
     @cart.empty?.should == false
   end
+
+  describe "calculate_percentage_amount" do
+    subject { Cart.create!(:add_optional_donation => true) }
+    let(:cart) { subject }
+    before do
+      Factory(:admin_project)
+      cart.add_item(Factory.build(:gift, :amount => 100))
+    end
+
+    it "should have two line items" do
+      cart.items.size.should == 2
+    end
+
+    its(:total) { should eql(115) }
+  end
+
+  describe "calculate_percentage_amount_upowered_item" do
+    subject { Cart.create!(:add_optional_donation => true) }
+    let(:cart) { subject }
+    before do
+      Factory(:admin_project)
+      user = Factory(:user)
+      cart.add_item(Factory.build(:gift, :amount => 100))
+      cart.add_upowered(20, user)
+      cart.reload
+    end
+
+    it "should have three line items" do
+      cart.items.size.should == 3
+    end
+
+    it "should calculate the tip on everything except the upowered entry" do
+      cart.total.should eql(135)
+    end
+  end
 end

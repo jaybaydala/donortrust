@@ -2,8 +2,8 @@ class CartLineItem < ActiveRecord::Base
   belongs_to :cart
   validates_presence_of :cart_id, :item
   serialize :item_attributes
-  before_save :set_amount_for_auto_calculation
-  after_save :update_auto_calculated_item
+  before_save :set_amount_for_auto_tip
+  after_save :update_auto_tip
   
   attr_accessor :item, :amount
   def item
@@ -39,18 +39,18 @@ class CartLineItem < ActiveRecord::Base
   end
 
   private
-    def set_amount_for_auto_calculation
+    def set_amount_for_auto_tip
       if self.auto_calculate_amount? && self.item.present?
         cart = Cart.find(cart_id)
         self.item_attributes["amount"] = cart.calculate_percentage_amount(self.percentage)
       end
     end
 
-    def update_auto_calculated_item
-      auto_calculated_line_item = self.class.find_by_cart_id_and_auto_calculate_amount(self.cart_id, true)
-      if auto_calculated_line_item && auto_calculated_line_item != self
+    def update_auto_tip
+      auto_tip = self.class.find_by_cart_id_and_auto_calculate_amount(self.cart_id, true)
+      if auto_tip && auto_tip != self
         # just touch the record to trigger the before_save on it
-        auto_calculated_line_item.touch
+        auto_tip.touch
       end
     end
 end
