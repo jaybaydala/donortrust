@@ -43,7 +43,9 @@ class Cart < ActiveRecord::Base
   end
 
   def calculate_percentage_amount(percentage)
-    BigDecimal.new(self.total_without_donation.to_s) * (BigDecimal.new(percentage.to_s)/100)
+    total_to_calculate = BigDecimal.new(self.total_without_donation.to_s)
+    total_to_calculate = total_to_calculate - subscription.item.amount if subscription?
+    total_to_calculate * (BigDecimal.new(percentage.to_s)/100)
   end
 
   def donation
