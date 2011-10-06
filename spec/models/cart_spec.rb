@@ -164,7 +164,7 @@ describe Cart do
     its(:total) { should eql(115) }
   end
 
-  describe "calculate_percentage_amount_upower_item" do
+  describe "calculate_percentage_amount_upowered_item" do
     subject { Cart.create!(:add_optional_donation => true) }
     let(:cart) { subject }
     before do
@@ -172,12 +172,15 @@ describe Cart do
       user = Factory(:user)
       cart.add_item(Factory.build(:gift, :amount => 100))
       cart.add_upowered(20, user)
+      cart.reload
     end
 
     it "should have three line items" do
       cart.items.size.should == 3
     end
 
-    its(:total) { should eql(135) }
+    it "should calculate the tip on everything except the upowered entry" do
+      cart.total.should eql(135)
+    end
   end
 end
