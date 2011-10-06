@@ -69,7 +69,7 @@ class Subscription < ActiveRecord::Base
     subscription.expiry_month = order.expiry_month
     subscription.expiry_year = order.expiry_year
     # total
-    subscription.amount = order.total
+    subscription.amount = order.subscription_item.amount
     # subscription details
     subscription.reoccurring_status = false # we will do the reoccurring manually - see config/schedules.rb
     subscription.begin_date = Date.today
