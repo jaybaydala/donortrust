@@ -14,8 +14,8 @@ class Order < ActiveRecord::Base
   has_one :tax_receipt
 
   # validates_presence_of :cart
-  validates_presence_of :first_name,  :if => lambda {|r| r.billing_info_required? && ((r.cart && r.cart.subscription?) || r.personal_donor?) }
-  validates_presence_of :last_name,   :if => lambda {|r| r.billing_info_required? && ((r.cart && r.cart.subscription?) || r.personal_donor?) }
+  validates_presence_of :first_name,  :if => lambda {|r| r.billing_info_required? && (r.includes_subscription? || r.personal_donor?) }
+  validates_presence_of :last_name,   :if => lambda {|r| r.billing_info_required? && (r.includes_subscription? || r.personal_donor?) }
   validates_presence_of :company,     :if => lambda {|r| r.billing_info_required? && r.corporate_donor? }
   validates_presence_of :donor_type,  :if => :billing_info_required?
   validates_presence_of :address,     :if => :billing_info_required?
@@ -36,7 +36,7 @@ class Order < ActiveRecord::Base
       order.validate_payment
     end
     if order.account_signup_step
-      if (order.cart && order.cart.subscription?) || order.tax_receipt_needed?
+      if order.includes_subscription? || order.tax_receipt_needed?
         unless order.user
           user = order.build_user_from_order
           user.errors.full_messages.each{|msg| order.errors.add_to_base(msg) } unless user.valid?
@@ -285,7 +285,7 @@ class Order < ActiveRecord::Base
   end
 
   def billing_info_required?
-    ((self.cart && self.cart.subscription?) || tax_receipt_requested?) && (!payment_options_step && !upowered_step)
+    (includes_subscription? || tax_receipt_requested?) && (!payment_options_step && !upowered_step)
   end
 
   def credit_card(use_iats=true)
@@ -367,6 +367,14 @@ class Order < ActiveRecord::Base
 
   def created_subscription?
     !!Subscription.find_by_order_id(self.id)
+  end
+
+  def includes_subscription?
+    self.cart && self.cart.subscription?
+  end
+
+  def subscription_item
+    self.cart.subscription.item if self.includes_subscription?
   end
 
   def tax_receipt_needed?
