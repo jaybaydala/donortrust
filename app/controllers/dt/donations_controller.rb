@@ -4,7 +4,6 @@ class Dt::DonationsController < DtApplicationController
   before_filter :load_donation
 
   def edit
-    logger.debug @donation.inspect
     respond_to do |format|
       format.html {
         redirect_to dt_cart_path and return unless @donation
@@ -33,7 +32,7 @@ class Dt::DonationsController < DtApplicationController
   
   private
     def load_donation
-      if @cart.donation && @cart.donation.item.kind_of?(Investment)
+      if @cart.donation && (@cart.donation.item.kind_of?(Tip) || @cart.donation.item.kind_of?(Investment))
         @donation = @cart.donation
         @donation.amount = @donation.item.amount
         @project = @donation.item.project if @donation.item.project_id?

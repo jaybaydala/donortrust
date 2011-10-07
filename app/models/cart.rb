@@ -132,12 +132,12 @@ class Cart < ActiveRecord::Base
         self.donation.destroy if self.donation.present?
       elsif add_optional_donation?
         if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?
-          self.add_tip( Investment.new(:project => Project.admin_project, :amount => 1) )
+          self.add_tip( Tip.new(:project => Project.admin_project, :amount => 1) )
         end
       end
     end
 
     def valid_item?(item)
-      [Gift, Investment, Deposit, Pledge, RegistrationFee].include?(item.class) && item.valid?
+      [Gift, Investment, Deposit, Pledge, RegistrationFee, Tip].include?(item.class) && item.valid?
     end
 end
