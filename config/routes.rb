@@ -6,13 +6,14 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :iend, :controller => "iend"
   map.namespace(:iend) do |iend|
-    iend.resource :session, :controller => 'sessions'
-    iend.resources :users, :except => :index, :member => { :edit_password => :get }
-    iend.resources :password_resets, :only => [:new, :create]
     iend.resources :authentications
     iend.resources :orders, :only => :index
-    iend.resources :tax_receipts, :only => :index
+    iend.resources :password_resets, :only => [:new, :create]
+    iend.resource :profile, :controller => 'iend_profiles'
+    iend.resource :session, :controller => 'sessions'
     iend.resources :subscriptions
+    iend.resources :tax_receipts, :only => :index
+    iend.resources :users, :except => :index, :member => { :edit_password => :get }
   end
 
   map.namespace(:dt) do |dt|
