@@ -2,14 +2,14 @@ class CreateIendProfiles < ActiveRecord::Migration
   def self.up
     create_table :iend_profiles do |t|
       t.references :user 
-      t.boolean :location
-      t.boolean :gifts_given
-      t.boolean :gifts_given_amount
-      t.boolean :gifts_received
-      t.boolean :number_of_projects_funded
-      t.boolean :amount_funded
-      t.boolean :lives_affected
-      t.boolean :list_projects_funded
+      t.boolean :location, :default => true
+      t.boolean :gifts_given, :default => true
+      t.boolean :gifts_given_amount, :default => true
+      t.boolean :gifts_received, :default => true
+      t.boolean :number_of_projects_funded, :default => true
+      t.boolean :amount_funded, :default => true
+      t.boolean :lives_affected, :default => true
+      t.boolean :list_projects_funded, :default => true
       
       t.timestamps
     end
