@@ -25,8 +25,8 @@ class Facebook
 
   private
     def request(action, path, params)
-      client = OAuth2::Client.new(app_id, app_secret, :site => 'https://graph.facebook.com/', :parse_json => true, :ssl => { :ca_path => "/etc/ssl/certs" })
-      client.request(action, path, params.merge({ :access_token => access_token }))
+      client = OAuth2::Client.new(app_id, app_secret, :site => 'https://graph.facebook.com/', :raise_errors => false, :parse => :query, :parse_json => true, :ssl => { :ca_path => "/etc/ssl/certs" })
+      client.request(action, path, :params => params.merge({ :access_token => access_token }))
     end
 
     def normalize_params(params, allowed_params)
