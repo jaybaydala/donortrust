@@ -1,0 +1,19 @@
+<% content_for :html_title do %>iEnd:Poverty - <%= current_user.name %><% end %>
+<%= render 'iend/shared/header' %>
+<%= iend_user_nav %>
+
+<% semantic_form_for @iend_profile, :url => iend_profile_path do |f| %>
+  <% f.inputs "Select what you would like to show in your profile" do %>
+    <%= f.input :location?, :label => "Your location", :as => :boolean %>
+    <%= f.input :gifts_given?, :as => :boolean %>
+    <%= f.input :gifts_given_amount?, :as => :boolean %>
+    <%= f.input :gifts_received?, :as => :boolean %>
+    <%= f.input :number_of_projects_funded?, :as => :boolean %>
+    <%= f.input :amount_funded?, :as => :boolean %>
+    <%= f.input :lives_affected?, :as => :boolean %>
+    <%= f.input :list_projects_funded?, :as => :boolean %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button "Update IEnd Profile" %>
+  <% end %>
+<% end %>
