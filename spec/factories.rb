@@ -231,6 +231,7 @@ Factory.define :user do |u|
   u.login { Factory.next(:email) }
   u.password 'Secret123'
   u.password_confirmation 'Secret123'
+  u.under_thirteen false
   u.terms_of_use '1'
   u.display_name { Faker::Name.name }
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }
