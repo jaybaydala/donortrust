@@ -161,7 +161,7 @@ Factory.define :admin_project, :class => Project do |p|
   p.association :partner
   p.association :place
   p.association :program
-  p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
+  p.project_status { ProjectStatus.active || Factory(:project_status, :name => "Active") }
 end
 
 Factory.define :unallocated_project, :class => Project do |p|
@@ -177,6 +177,16 @@ end
 
 Factory.define :project_status do |p|
   p.name { "#{Faker::Lorem.words(6).join(" ")} Project Status"}
+  p.description { Faker::Lorem.sentence }
+end
+
+Factory.define :project_status_active, :class => ProjectStatus do |p|
+  p.name "Active"
+  p.description { Faker::Lorem.sentence }
+end
+
+Factory.define :project_status_completed, :class => ProjectStatus do |p|
+  p.name "Completed"
   p.description { Faker::Lorem.sentence }
 end
 
