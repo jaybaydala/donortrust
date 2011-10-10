@@ -9,7 +9,7 @@ class Facebook
   end
 
   def post(params={})
-    request :post, "/#{uid}/feed?access_token=#{access_token}", normalize_params(params, %w(message picture link name caption description source))
+    request :post, "/#{uid}/feed", normalize_params(params, %w(message picture link name caption description source))
   end
 
   def to_param
@@ -26,7 +26,7 @@ class Facebook
   private
     def request(action, path, params)
       client = OAuth2::Client.new(app_id, app_secret, :site => 'https://graph.facebook.com/', :raise_errors => false, :parse => :query, :parse_json => true, :ssl => { :ca_path => "/etc/ssl/certs" })
-      client.request(action, path, params)
+      client.request(action, path, :params => params.merge({ :access_token => access_token }))
     end
 
     def normalize_params(params, allowed_params)
