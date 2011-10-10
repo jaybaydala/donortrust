@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
   has_many :teams, :through => :participants
   has_many :participants
   has_one :profile
+  has_one :iend_profile
   
   define_completeness_scoring do
     check :first_name,   lambda { |u| u.first_name? },   :medium
