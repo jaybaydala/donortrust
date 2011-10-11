@@ -48,15 +48,17 @@ group :test, :cucumber do
   
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
   gem 'database_cleaner', '>=0.5.2', :require => false
-  gem 'email_spec', '< 1.0'
+  gem 'email_spec', '< 1.0', :require => false
   gem 'factory_girl'
   gem 'faker'
   gem 'fakeweb'
   # gem 'guard-cucumber'
   gem 'guard-rspec'
+  # gem 'guard-spork'
   gem 'launchy'
   gem 'pickle'
   gem 'ruby-debug'
+  gem 'spork', '~> 0.8'
   gem 'shoulda'
   gem 'timecop'
   gem 'watchr'
