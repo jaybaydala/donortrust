@@ -252,11 +252,13 @@ class Dt::CheckoutsController < DtApplicationController
             @order.investments = @cart.investments
             @order.deposits = @cart.deposits
             @order.pledges = @cart.pledges
+            @order.tips = @cart.tips
             if logged_in?
               @order.gifts.each{|gift| gift.update_attribute(:user_id, current_user.id)}
               @order.investments.each{|investment| investment.update_attribute(:user_id, current_user.id)}
               @order.deposits.each{|deposit| deposit.update_attribute(:user_id, current_user.id)}
               @order.pledges.each{|pledge| pledge.update_attribute(:user_id, current_user.id)}
+              @order.tips.each{|tip| tip.update_attribute(:user_id, current_user.id)}
             end
 
             if @order.registration_fee_id? && @order.registration_fee
