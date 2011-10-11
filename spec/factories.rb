@@ -62,6 +62,8 @@ Factory.define :gift do |g|
   email = Faker::Internet.email
   to_email = Faker::Internet.email
   g.amount 100
+  g.name "John Sender"
+  g.to_name "John Receiver"
   g.email { email }
   g.email_confirmation { email }
   g.to_email { to_email }
@@ -76,6 +78,7 @@ end
 
 
 Factory.define :order do |o|
+  o.cart {|c| c.association(:cart) }
   o.first_name { Faker::Name.first_name }
   o.last_name { Faker::Name.last_name }
   o.email { Faker::Internet.email }
