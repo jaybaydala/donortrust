@@ -10,6 +10,7 @@ class Order < ActiveRecord::Base
   has_many :gifts
   has_many :deposits
   has_many :pledges # added by joe
+  has_many :tips
   has_one :registration_fee
   has_one :tax_receipt
 
@@ -101,7 +102,7 @@ class Order < ActiveRecord::Base
   end
 
   def line_items
-    @line_items ||= self.gifts + self.investments + self.pledges + self.deposits
+    @line_items ||= self.gifts + self.investments + self.pledges + self.deposits + self.tips
   end
 
   def multiline_address
