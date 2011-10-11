@@ -73,6 +73,10 @@ class Cart < ActiveRecord::Base
   def investments
     self.items.select{|item| item.item_type == "Investment" }.map(&:item)
   end
+  
+  def tips
+    self.items.select{|item| item.item_type == "Tip" }.map(&:item)
+  end
 
   def items_without_donation
     self.items.find_all_by_donation([false, nil])
@@ -132,6 +136,7 @@ class Cart < ActiveRecord::Base
         self.donation.destroy if self.donation.present?
       elsif add_optional_donation?
         if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?
+          logger.debug "auto adding tip"
           self.add_tip( Tip.new(:project => Project.admin_project, :amount => 1) )
         end
       end
