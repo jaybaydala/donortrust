@@ -1,6 +1,19 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Dt::CheckoutsController do
+  let(:investment) { Factory.build(:investment) }
+  let(:gift) { Factory.build(:gift) }
+  let(:cart_items) { [investment, gift] }
+  let(:user) { Factory(:user) }
+  let(:cart) { Cart.create! }
+  let(:order) { Factory(:order, :email => "user@example.com", :cart => cart, :credit_card_payment => 0) }
+  
+  before do
+    cart_items.each {|i| cart.add_item(i) }
+    order.total = cart.total
+    controller.stub!(:find_cart).and_return(cart)
+    controller.stub!(:find_order).and_return(order)
+  end
 
   it "should extend DtApplicationController" do
     controller.should be_kind_of(DtApplicationController)
@@ -15,20 +28,6 @@ describe Dt::CheckoutsController do
     it "should not respond to #{m}" do
       controller.should_not respond_to(m)
     end
-  end
-
-  let(:investment) { Factory.build(:investment) }
-  let(:gift) { Factory.build(:gift) }
-  let(:cart_items) { [investment, gift] }
-  let(:user) { Factory(:user) }
-  let(:cart) { cart = Cart.create! }
-  let(:order) { Factory(:order, :email => "user@example.com", :cart => cart, :credit_card_payment => 0) }
-  
-  before do
-    cart_items.each {|i| cart.add_item(i) }
-    order.total = cart.total
-    controller.stub!(:find_cart).and_return(cart)
-    controller.stub!(:find_order).and_return(order)
   end
   
   it "should define @checkout_steps as %w(upowered billing account_signup credit_card receipt)" do
