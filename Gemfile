@@ -54,7 +54,6 @@ group :test, :cucumber do
   gem 'fakeweb'
   # gem 'guard-cucumber'
   gem 'guard-rspec'
-  # gem 'guard-spork'
   gem 'launchy'
   gem 'pickle'
   gem 'ruby-debug'
