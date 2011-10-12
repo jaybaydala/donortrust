@@ -51,11 +51,6 @@ describe Dt::GiftsController do
       Gift.should_receive(:new).and_return(gift)
       new_request
     end
-    it "should redirect if the project is not fundable" do
-      project.should_receive(:fundable?).and_return(false)
-      new_request
-      response.should be_redirect
-    end
     it "should load params[:project_id] into the gift" do
       gift.should_receive(:project=).with(project)
       new_request
@@ -95,11 +90,11 @@ describe Dt::GiftsController do
         gift.should_receive(:email=).with(user.email).and_return(true)
         new_request
       end
-      it "should use the us_receipt_layout if current_user not in Canada" do
-        user.should_receive(:in_country?).and_return(false)
-        new_request
-        response.layout.should == 'layouts/us_receipt_layout'
-      end
+      # it "should use the us_receipt_layout if current_user not in Canada" do
+      #   user.should_receive(:in_country?).and_return(false)
+      #   new_request
+      #   response.layout.should == 'layouts/us_receipt_layout'
+      # end
     end
   end
 
