@@ -135,8 +135,7 @@ class Cart < ActiveRecord::Base
       if add_optional_donation.blank?
         self.donation.destroy if self.donation.present?
       elsif add_optional_donation?
-        if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?
-          logger.debug "auto adding tip"
+        if Project.admin_project && self.items.find_by_item_type('Tip').nil?
           self.add_tip( Tip.new(:project => Project.admin_project, :amount => 1) )
         end
       end
