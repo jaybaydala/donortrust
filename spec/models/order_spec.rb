@@ -145,7 +145,7 @@ describe Order do
 
       context "when we have a gift_card_balance and no account_balance" do
         before do
-          order.gift_card_balance = 100
+          order.gift_card_balance = order.total
         end
         it "should add an error if you're not paying the full amount" do
           order.gift_card_payment = order.total - 0.01
@@ -161,6 +161,7 @@ describe Order do
         it "should not error if you're trying to pay the total" do
           order.gift_card_payment = order.total
           order.validate_payment
+          debugger
           order.errors.should be_empty
         end
         it "should add an error to gift_card_payment if you try to pay more than the gift_card_balance" do

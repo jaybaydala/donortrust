@@ -10,7 +10,7 @@ end
 describe OrderHelperControllerSpec, :type => :controller do
   let(:cart) { Cart.create! }
   let(:order) { Factory(:order, :email => "user@example.com", :cart => cart, :credit_card_payment => 0) }
-  let(:session) { { :order_id => 1 } }
+  let(:session) { { :order_id => order.id } }
 
   before do
     Cart.stub(:create).and_return(cart)
@@ -34,10 +34,12 @@ describe OrderHelperControllerSpec, :type => :controller do
   end
 
   describe "find_order" do
+    before do
+      Order.stub(:exists?).and_return(true)
+    end
+
     it "should return an order if the session[:order_id] is a valid record" do
-      Order.should_receive(:exists?).with(session[:order_id]).and_return(true)
-      Order.should_receive(:find).with(session[:order_id]).and_return(order)
-      controller.send(:find_order)
+      controller.send(:find_order).should eql(order)
     end
 
     it "should return nil if the session[:order_id] is not a valid record" do
@@ -99,7 +101,6 @@ describe OrderHelperControllerSpec, :type => :controller do
       controller.stub!(:current_user).and_return(user)
       controller.stub!(:params).and_return({:order => {}})
       cart.stub!(:total).and_return(100)
-      order = Order.create!(:amount => cart.total, :email => "orderer@example.com")
       Order.stub(:exists?).and_return(true)
       Order.stub(:find).and_return(order)
     end
