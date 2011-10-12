@@ -17,7 +17,7 @@ class Sector < ActiveRecord::Base
       :group => "#{quoted_table_name}.id", 
       :conditions => [
         "projects.project_status_id IN (?) AND projects.partner_id IN (?)", 
-        ProjectStatus.public.map(&:id),
+        ProjectStatus.public_ids,
         Partner.find(:all, :select => "id", :conditions => ["partner_status_id=?", PartnerStatus.active.id]).map(&:id)
       ]
     }

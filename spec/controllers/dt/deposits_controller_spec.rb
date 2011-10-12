@@ -36,7 +36,7 @@ describe Dt::DepositsController do
     it "should require login" do
       controller.should_receive(:logged_in?).and_return(false)
       new_request
-      response.should redirect_to(dt_login_path)
+      response.should redirect_to(login_path)
     end
     it "should load the session[:deposit_params] into params[:deposit]" do
       controller.should_receive(:session).any_number_of_times.and_return({:deposit_params => {:amount => 100}})
@@ -47,11 +47,11 @@ describe Dt::DepositsController do
       Deposit.should_receive(:new).and_return(deposit)
       new_request
     end
-    it "should use the us_receipt_layout if current_user isn't in canada" do
-      user.should_receive(:in_country?).with('canada').and_return(false)
-      new_request
-      response.layout.should == 'layouts/us_receipt_layout'
-    end
+    # it "should use the us_receipt_layout if current_user isn't in canada" do
+    #   user.should_receive(:in_country?).with('canada').and_return(false)
+    #   new_request
+    #   response.layout.should == 'layouts/us_receipt_layout'
+    # end
   end
 
   describe 'create action' do
@@ -61,7 +61,7 @@ describe Dt::DepositsController do
     it "should require login" do
       controller.should_receive(:logged_in?).and_return(false)
       create_request
-      response.should redirect_to(dt_login_path)
+      response.should redirect_to(login_path)
     end
     context "valid deposit" do
       before do

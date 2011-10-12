@@ -32,7 +32,7 @@ describe ProjectStatus do
     end
     describe "public method" do
       it "should return the Active & Completed ProjectStatus records" do
-        ProjectStatus.public.should == [@project_status_active, @project_status_completed]
+        ProjectStatus.public_statuses.should == [@project_status_active, @project_status_completed]
       end
     end
     describe "public_ids method" do
