@@ -161,7 +161,6 @@ describe Order do
         it "should not error if you're trying to pay the total" do
           order.gift_card_payment = order.total
           order.validate_payment
-          debugger
           order.errors.should be_empty
         end
         it "should add an error to gift_card_payment if you try to pay more than the gift_card_balance" do
