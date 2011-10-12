@@ -1,8 +1,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Project do
+  before do
+    Factory(:project_status_active)
+    Factory(:project_status_completed)
+  end
+
   let(:project) { Factory(:project) }
-  subject { Factory(:project) }
+  subject { project }
 
   context "associations" do
     it { should belong_to(:project_status) }
@@ -57,7 +62,7 @@ describe Project do
   describe "financials" do
     before do
       project.update_attributes(:total_cost => 15000, :dollars_spent => 4000)
-      project.stub!(:dollars_raised).and_return(10000.25) # 4999.75 is current_need
+      project.stub(:dollars_raised).and_return(10000.25) # 4999.75 is current_need
     end
     
     it "should return total_need" do
@@ -76,10 +81,10 @@ describe Project do
   
   describe "fundable? method" do
     before do
-      project.stub!(:current_need).and_return(1)
       @project_status_marketing = Factory(:project_status, :name => "In Marketing")
-      @project_status_active = ProjectStatus.active || Factory(:project_status, :name => "Active")
-      @project_status_completed = ProjectStatus.completed || Factory(:project_status, :name => "Completed")
+      @project_status_active = ProjectStatus.active || Factory(:project_status_active)
+      @project_status_completed = ProjectStatus.completed || Factory(:project_status_completed)
+      project.stub(:current_need).and_return(1)
     end
     it "should be fundable if ProjectStatus is active" do
       project.update_attributes(:project_status => @project_status_active)
@@ -95,7 +100,7 @@ describe Project do
   
   describe "find_public method" do
     before do
-      project.stub!(:current_need).with(1)
+      project.stub(:current_need).with(1)
       @project_status_marketing = Factory(:project_status, :name => "In Marketing")
       @project_status_active = ProjectStatus.active || Factory(:project_status, :name => "Active")
       @project_status_completed = ProjectStatus.completed || Factory(:project_status, :name => "Completed")
@@ -118,7 +123,7 @@ describe Project do
   
   describe "dollars_raised method" do
     it "should add up the investments" do
-      project.stub!(:current_need).and_return(5000)
+      project.stub(:current_need).and_return(5000)
       project.investments = [Investment.new(:amount => 10), Investment.new(:amount => 25), Investment.new(:amount => 15)]
       project.dollars_raised.should == 50
     end

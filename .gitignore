@@ -21,4 +21,5 @@ tmp*
 .bundle
 capybara*.html
 public/system/*
+public/images/bus_admin/uploads/place
 donortrust.tmproj

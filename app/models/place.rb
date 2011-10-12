@@ -35,7 +35,7 @@ class Place < ActiveRecord::Base
       :order => "projects_count DESC", 
       :conditions => [
         "#{Project.quoted_table_name}.country_id=#{quoted_table_name}.id AND #{Project.quoted_table_name}.project_status_id IN (?) AND #{Project.quoted_table_name}.partner_id IN (?)", 
-        ProjectStatus.public.map(&:id), 
+        ProjectStatus.public_ids, 
         Partner.find(:all, :select => "id", :conditions => ["partner_status_id=?", PartnerStatus.active.id]).map(&:id)
       ]
     }

@@ -28,7 +28,7 @@ class Partner < ActiveRecord::Base
       :group => "#{quoted_table_name}.id", 
       :conditions => [
         "#{Project.quoted_table_name}.project_status_id IN (?) AND #{quoted_table_name}.partner_status_id =?", 
-        ProjectStatus.public.map(&:id), 
+        ProjectStatus.public_ids, 
         PartnerStatus.active.id
       ]
     }
