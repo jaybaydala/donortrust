@@ -10,6 +10,7 @@ class Order < ActiveRecord::Base
   has_many :gifts
   has_many :deposits
   has_many :pledges # added by joe
+  has_many :tips
   has_one :registration_fee
   has_one :tax_receipt
 
@@ -101,7 +102,7 @@ class Order < ActiveRecord::Base
   end
 
   def line_items
-    @line_items ||= self.gifts + self.investments + self.pledges + self.deposits
+    @line_items ||= self.gifts + self.investments + self.pledges + self.deposits + self.tips
   end
 
   def multiline_address
@@ -225,7 +226,7 @@ class Order < ActiveRecord::Base
     if (account_balance && account_balance > 0) || 
         (user_id? && user && user.balance > 0) || 
         (user_id? && user.pledge_accounts && user.pledge_accounts.inject(0){|sum,pa| sum+=pa.balance} > 0)
-      @minimum_credit_payment = cart_items.inject(0) {|sum, item| sum + (item.class == Deposit ? item.amount : 0) }
+      @minimum_credit_payment = cart_items.inject(0) {|sum, ci| sum + (ci.item.class == Deposit ? ci.item.amount : 0) }
     else
       @minimum_credit_payment = total
     end
@@ -236,7 +237,7 @@ class Order < ActiveRecord::Base
   def validate_confirmation
     # run through everything just to make sure...
     validate_payment
-    validate_billing
+    validate_credit_card
     errors.empty?
   end
 
@@ -329,11 +330,11 @@ class Order < ActiveRecord::Base
     first_name, last_name = gift.to_name.to_s.split(/ /, 2)
     Order.transaction do
       order = Order.create!(
+        :tax_receipt_requested => false,
         :first_name => first_name,
         :last_name => last_name,
         :email => gift.to_email,
         :total => gift.amount,
-        :order_number => Order.generate_order_number,
         :gift_card_payment => gift.amount,
         :gift_card_payment_id => gift.id,
         :complete => true

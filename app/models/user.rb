@@ -155,7 +155,9 @@ class User < ActiveRecord::Base
   def name
     if self.display_name.blank?
       name = self.first_name.to_s
-      name << " #{self.last_name[0,1]}" if self.last_name?
+      if self.last_name?
+        name << " #{self.last_name[0,1]}"
+      end
       name
     else
       self.display_name.to_s
