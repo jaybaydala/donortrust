@@ -10,6 +10,7 @@ class CreateIendProfiles < ActiveRecord::Migration
       t.boolean :amount_funded, :default => true
       t.boolean :lives_affected, :default => true
       t.boolean :list_projects_funded, :default => true
+      t.boolean :show_uend_amount, :default => true
       
       t.timestamps
     end
