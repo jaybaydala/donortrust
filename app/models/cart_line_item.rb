@@ -47,7 +47,7 @@ class CartLineItem < ActiveRecord::Base
     end
 
     def update_auto_tip
-      auto_tip = self.class.find_by_cart_id_and_auto_calculate_amount(self.cart_id, true)
+      auto_tip = self.class.find_by_cart_id_and_donation(self.cart_id, true)
       if auto_tip && auto_tip != self
         # just touch the record to trigger the before_save on it
         auto_tip.touch

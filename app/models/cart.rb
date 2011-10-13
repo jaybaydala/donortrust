@@ -73,6 +73,10 @@ class Cart < ActiveRecord::Base
   def investments
     self.items.select{|item| item.item_type == "Investment" }.map(&:item)
   end
+  
+  def tips
+    self.items.select{|item| item.item_type == "Tip" }.map(&:item)
+  end
 
   def items_without_donation
     self.items.find_all_by_donation([false, nil])
@@ -131,13 +135,13 @@ class Cart < ActiveRecord::Base
       if add_optional_donation.blank?
         self.donation.destroy if self.donation.present?
       elsif add_optional_donation?
-        if Project.admin_project && self.items.find_by_auto_calculate_amount(true).nil?
-          self.add_tip( Investment.new(:project => Project.admin_project, :amount => 1) )
+        if Project.admin_project && self.items.find_by_item_type('Tip').nil?
+          self.add_tip( Tip.new(:project => Project.admin_project, :amount => 1) )
         end
       end
     end
 
     def valid_item?(item)
-      [Gift, Investment, Deposit, Pledge, RegistrationFee].include?(item.class) && item.valid?
+      [Gift, Investment, Deposit, Pledge, RegistrationFee, Tip].include?(item.class) && item.valid?
     end
 end

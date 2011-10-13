@@ -237,6 +237,7 @@ GEM
       rubyzip
     shoulda (2.11.3)
     simple-rss (1.2.3)
+    spork (0.8.5)
     systemu (2.2.0)
     term-ansicolor (1.0.5)
     thinking-sphinx (1.4.6)
@@ -310,6 +311,7 @@ DEPENDENCIES
   searchlogic
   shoulda
   simple-rss
+  spork (~> 0.8)
   thinking-sphinx
   timecop
   transaction-simple
