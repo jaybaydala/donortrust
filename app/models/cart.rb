@@ -118,6 +118,18 @@ class Cart < ActiveRecord::Base
     items.detect{|item| item.subscription? }
   end
 
+  def has_tip?
+    !self.items.find_by_item_type('Tip').nil?
+  end
+
+  def tip_item
+    self.items.find_by_item_type('Tip')
+  end
+
+  def has_gift_card?
+    !self.items.find_by_item_type('Gift').nil?
+  end
+
   def total
     self.items.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end

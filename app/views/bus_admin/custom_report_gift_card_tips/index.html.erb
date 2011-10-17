@@ -3,21 +3,13 @@
     <legend>Gift Card Tips Report</legend>   
     <ul class="row">
       <li>
-          <%= f.date_select :start_date,
-          :order => [:month, :day, :year], 
-          :start_year => 2005, 
-          :end_year => Time.now.year
-        %>
+          <%= select_date @start_date, :prefix => 'start_date' %>
         Report Start Date
       </li>
     </ul>
     <ul class="row">
       <li>
-        <%= f.date_select :end_date, 
-           :order => [:month, :day, :year], 
-           :start_year => 2005, 
-           :end_year => Time.now.year
-        %>
+        <%= select_date @end_date, :prefix => 'end_date' %>
         Report End Date
       </li>
     </ul>
@@ -25,7 +17,33 @@
   </fieldset>     
 <% end %>
 
-<% if @data %>
-  <%= debug @data %>
+<% if @orders %>
+  <h1><%= @orders_with_tip.size %> out of <%= @orders.size %> gift card orders included a tip (<%= number_to_percentage @order_tip_percent %>)
+  <p>Gift card orders which did include a tip, tipped <%= number_to_percentage @overall_tip_percent %> (<%= number_to_currency @overall_average_tip_amount %>) on average.</p>
+  <h1>Orders with a tip</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Tip Amount</th>
+        <th>Order Total</th>
+        <th>Tip Percentage</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @orders_with_tip.each do |o| %>
+      <tr>
+        <td><%=h o.id %></td>
+        <td><%=h o.created_at.strftime("%B %d, %Y") %></td>
+        <td><%=h o.name %></td>
+        <td class="numeric money"><%= number_to_currency o.tip_item.amount %></td>
+        <td class="numeric money"><%= number_to_currency o.total %></td>
+        <td class="numeric"><%=h number_to_percentage o.tip_percent %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 <% end %>
 

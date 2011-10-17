@@ -378,6 +378,26 @@ class Order < ActiveRecord::Base
     self.cart.subscription.item if self.includes_subscription?
   end
 
+  def has_gift_card?
+    self.cart.has_gift_card?
+  end
+
+  def has_tip?
+    self.cart && self.cart.has_tip?
+  end
+
+  def tip_item
+    self.cart.tip_item
+  end
+
+  def tip_percent
+    if self.tip_item.present?
+      (self.tip_item.amount / self.total)*100
+    else
+      0
+    end
+  end
+
   def tax_receipt_needed?
     self.tax_receipt_requested? && self.credit_card_payment?
   end
