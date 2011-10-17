@@ -175,6 +175,20 @@ a.smallbutton:active,
 #formnav li.current { font-weight:bold; }
 #dialog iframe { border:0; height:99%; width:100%; }
 
+/* UPOWERED
+-----------*/
+#upowered-video { border-bottom:1px solid #666; padding-bottom:0.5em; }
+#upowered-youtube { display:block; }
+#upowered-spread_the_word { background:url(/images/upowered/bg-spread_the_word.png) no-repeat #333; margin-top:18px; padding:72px 12px 24px 12px; }
+.borderradius #upowered-spread_the_word { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
+#upowered-im_in img { display:block; }
+.boxshadow #upowered-im_in { box-shadow: 0px 5px 5px 0px #333; -webkit-box-shadow: 0px 5px 5px 0px #333; -moz-box-shadow: 0px 5px 5px 0px #333; }
+#upowered-social_kit { padding:14px 18px; }
+#upowered-social_kit a { font-weight:bold; text-decoration:none; }
+#upowered-im_in_box { background-color:#666; }
+.borderradius #upowered-im_in_box { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
+
+
 /* IEND
 ----------*/
 section.iend { margin-bottom:8px; padding-bottom:8px; }
