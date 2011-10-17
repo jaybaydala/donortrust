@@ -1,0 +1,31 @@
+<% form_for :custom_report_gift_card_tips, :url => bus_admin_custom_report_gift_card_tips_path, :html => { :method => :get } do |f| %>
+  <fieldset>
+    <legend>Gift Card Tips Report</legend>   
+    <ul class="row">
+      <li>
+          <%= f.date_select :start_date,
+          :order => [:month, :day, :year], 
+          :start_year => 2005, 
+          :end_year => Time.now.year
+        %>
+        Report Start Date
+      </li>
+    </ul>
+    <ul class="row">
+      <li>
+        <%= f.date_select :end_date, 
+           :order => [:month, :day, :year], 
+           :start_year => 2005, 
+           :end_year => Time.now.year
+        %>
+        Report End Date
+      </li>
+    </ul>
+    <%= submit_tag 'Submit' %>
+  </fieldset>     
+<% end %>
+
+<% if @data %>
+  <%= debug @data %>
+<% end %>
+
