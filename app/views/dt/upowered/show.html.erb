@@ -2,10 +2,12 @@
 
 <%= render :partial => "upowered_nav" %>
 
-<%= image_tag "give/title-upowered-white.png", :alt => "U:Powered" %>
-<h1 class="project-title">UEnd:Foundation Operations Funding</h1>
+<div id="upowered-video">
+  <iframe width="480" height="270" id="upowered-youtube" src="http://www.youtube.com/embed/jOAQhSxnuFY" frameborder="0" allowfullscreen></iframe>
+  <div><%= image_tag "upowered/r_you_in-banner.png", :alt => "For the price of a cup of coffee, you become a member of the U:Powered movement. 5000 people, $5 per month. R You In? Help fuel the machine ending poverty." %></div>
+</div>
 
-<div class="clearfix append-bottom smaller">
+<div class="clearfix prepend-top append-bottom smaller">
   <div class="span-4 append-bottom" style="border-bottom:1px dotted #999;">
     <div><strong>U:Powered Progress</strong></div>
     <div class="project-progress" style="margin-top:8px;">
@@ -18,31 +20,13 @@
     <div>24% of organization built</div>
   </div>
     <div class="span-4 prepend-1 last">
-      <!--
-      <div><strong><%= Time.now.year %> Targets</strong></div>
-      <div class="project-progress" style="margin-top:8px;">
-        <div class="project-progress-fg" style="width:24%;"></div>
-      </div>
-      <div><%= number_to_currency Investment.dollars_raised(["created_at LIKE ?", "#{Time.now.year}%"]), :precision => 0 %>/$300,000 dollars to projects</div>
-      
-      <div class="project-progress" style="margin-top:8px;">
-        <div class="project-progress-fg" style="width:<%= (Project.fully_funded.size.to_f/100.to_f)*100 %>%;"></div>
-      </div>
-      <div><%= number_to_currency Investment.dollars_raised(["created_at LIKE ?", "#{Time.now.year}%"]), :precision => 0 %>/100 fully funded projects</div>
-
-      <div class="project-progress" style="margin-top:8px;">
-        <div class="project-progress-fg" style="width:<%= ((Investment.count(:conditions => ["created_at LIKE ? AND gift_id IS NULL", "#{Time.now.year}%"]) + Gift.count(:conditions => ["created_at LIKE ?", "#{Time.now.year}%"])).to_f/15000.to_f)*100 %>%;"></div>
-      </div>
-      <div><%= number_with_delimiter Investment.count(:conditions => ["created_at LIKE ? AND gift_id IS NULL", "#{Time.now.year}%"]) + Gift.count(:conditions => ["created_at LIKE ?", "#{Time.now.year}%"]) %>/15000 gifts &amp; investments</div>
-      -->
+      <%= image_tag "upowered/upowered_benefits.png", :alt => "More Decision Power. The Inside Track. Proof you are changing the world." %>
     </div> 
 </div>
 
 <div class="project-description">
-  <%= render 'dt/projects/project_images' %>
-  
   <div class="project-description">
-    <%= @project.description %>
+    <%= unformatted_content_snippet_for(:upowered) %>
   </div>
 </div>
 
