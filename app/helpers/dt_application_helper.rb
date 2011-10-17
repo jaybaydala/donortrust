@@ -21,6 +21,13 @@ module DtApplicationHelper
     end
   end
 
+  def unformatted_content_snippet_for(slug)
+    content_snippet = ContentSnippet.find_by_slug(slug.to_s)
+    if content_snippet.present?
+      ContentSnippet.find_by_slug(slug.to_s).body
+    end
+  end
+
   def auth_path(provider)
     "/auth/#{provider.to_s}"
   end
