@@ -1,20 +1,32 @@
 <%- content_for :project_sidebar do -%>
-  <div><%= link_to image_tag('/images/give/upowered.png', :alt => ''), new_dt_upowered_path, :title => "U:Powered - Fund UEnd operations." %></div>
-
-  <!-- <div class="lives-affected">
-      <span style="font-size:3em"><%= number_with_delimiter(@project.lives_affected.to_i) %></span><br>
-      <em>lives are affected<br>
-      by this project</em>
-    </div> -->
-
-  <p><strong>Implementing Organization</strong></p>
-  <div class="smaller">
-    <p><strong><%= link_to @project.partner.name, organization_dt_project_path(@project) %></strong></p>
-    <div>
-      <%= @project.partner.description %>
-    </div>
+  <div id="upowered-im_in">
+  <%= link_to image_tag('/images/upowered/button-upowered_im_in.png', :alt => "U:Powered - I'm in"), new_dt_upowered_path, :title => "U:Powered - I'm in" %>
   </div>
+  <!-- <div id="upowered-im_in_box">
+    <div id="upowered-im_in">
+      <%= link_to image_tag('/images/upowered/button-upowered_im_in.png', :alt => "U:Powered - I'm in"), new_dt_upowered_path, :title => "U:Powered - I'm in" %>
+    </div>
+  
+    <div id="upowered-social_kit">
+      <small><a href="#">Download the UEnd Social Profile Kit</a> to update your Twitter and Facebook profile images.</small>
+    </div>
+  </div> -->
 
+  <div id="upowered-spread_the_word">
+    <a href="http://twitter.com/share" class="twitter-share-button" data-text="Giving is it's own reward. Ending extreme poverty is a major, freakin' bonus!" data-count="horizontal" data-via="uend_org">Tweet</a>
+    <g:plusone size="medium"></g:plusone>
+    <fb:like href="http://www.uend.org/dt/upowered" send="true" width="450" show_faces="false" action="like" font="arial"></fb:like>
+    <% content_for :javascript do %>
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script type="text/javascript">
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
+    </script>
+    <% end %>
+  </div>
 
   <%= render :partial => 'social' %>
 <%- end -%>
