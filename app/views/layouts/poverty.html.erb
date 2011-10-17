@@ -1,5 +1,7 @@
 <%= render :partial => 'layouts/shared/head' %>
 <body<% if content_for?(:body_id) %> id="<%= yield :body_id %>"<% end %>>
+<%= render :partial => "layouts/shared/facebook_api" %>
+
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
