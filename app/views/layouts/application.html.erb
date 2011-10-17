@@ -1,5 +1,7 @@
 <%= render :partial => 'layouts/shared/head' %>
 <body<% if content_for?(:body_id) %> id="<%= yield :body_id %>"<% end %>>
+<%= render :partial => "layouts/shared/facebook_api" %>
+
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
@@ -14,7 +16,6 @@
         <article class="prepend-2 span-13<%= ' pageshadow' if content_for?(:top_content) %>">
           <%= render :partial => 'layouts/shared/flashes' %>
           <% if content_for?(:title) %><h1 class="plain dark"><%= yield :title %></h1><% end %>
-          <div id="fb-root"></div>
           <%= yield %>
         </article>
         <aside class="span-3 last">
