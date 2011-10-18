@@ -130,6 +130,14 @@ class Cart < ActiveRecord::Base
     !self.items.find_by_item_type('Gift').nil?
   end
 
+  def gift_card_purchase_amount
+    total = 0
+    self.items.find_all_by_item_type('Gift').each do |gc|
+      total += gc.amount
+    end
+    total
+  end
+
   def total
     self.items.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end
