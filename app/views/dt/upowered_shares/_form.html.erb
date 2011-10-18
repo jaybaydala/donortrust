@@ -7,7 +7,7 @@ params[:return_to] = return_to if return_to.present?
 -%>
 <div class="sharing">
   <h2>Share U:Powered with your friends</h2>
-  <% semantic_form_for [:dt, @upowered_share] do |f| %>
+  <% semantic_form_for [:dt, @upowered_share], :url => dt_upowered_shares_url(:protocol => "http://") do |f| %>
     <% f.inputs do %>
       <%= f.input :from_name %>
       <%= f.input :from_email %>
@@ -17,7 +17,7 @@ params[:return_to] = return_to if return_to.present?
         <div style="margin-bottom:2px;"><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[1] || "" %></div>
         <div style="margin-bottom:2px;"><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[2] || "" %></div>
         <div style="margin-bottom:2px;"><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[3] || "" %></div>
-        <div                           ><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[4] || "" %></div>
+        <div style="margin-bottom:0px;"><%= f.text_field :to, :name => "upowered_share[to][]", :value => @upowered_share.to[4] || "" %></div>
         <p class="inline-hints">email addresses only, please</p>
         <%= f.errors_on(:to) %>
       </li>
