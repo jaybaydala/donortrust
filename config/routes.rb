@@ -241,6 +241,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :custom_report_gift_card_tips, :only => [ :index ]
     ba.resources :custom_report_gift_cards, :only => [ :index ]
     ba.resources :custom_report_carts, :only => [ :index ]
+    ba.resources :custom_report_projects, :only => [ :index ]
     ba.resources :custom_report_upowereds, :only => [ :index ]
 
 
