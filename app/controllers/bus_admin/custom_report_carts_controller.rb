@@ -1,4 +1,4 @@
-class BusAdmin::CustomReportGiftCardTipsController < ApplicationController
+class BusAdmin::CustomReportCartsController < ApplicationController
   layout 'admin'
   before_filter :login_required, :check_authorization
 
@@ -19,26 +19,21 @@ class BusAdmin::CustomReportGiftCardTipsController < ApplicationController
     @end_date = Date.today if !@end_date
 
     if @start_date && @end_date
-      orders = Order.find(:all, :include => {:cart => :items}, :conditions => ["created_at > ? AND created_at < ? ", @start_date, @end_date])
-      @orders_with_tip = []
-      @orders = []
-      @overall_tip_percent = 0
-      @overall_tip_amount = 0
-      orders.each do |o|
-        if o.has_gift_card?
-          @orders.push o
-          if o.has_tip?
-            @orders_with_tip.push o
-            @overall_tip_amount += o.tip_item.amount
-            @overall_tip_percent += o.tip_percent
+      @orders = Order.find(:all, :conditions => ["created_at > ? AND created_at < ? ", @start_date, @end_date])
+      carts = Cart.find(:all, :include => [:items, :order], :conditions => ["created_at > ? and created_at < ?", @start_date, @end_date])
+      @carts = []
+      @order_total = 0
+      @abandon_total = 0
+      carts.each do |c|
+        if c.total > 0
+          @carts.push c
+          if c.order.present?
+            @order_total += c.total
+          else
+            @abandon_total += c.total
           end
         end
       end
-
-      @overall_average_tip_amount = (@overall_tip_amount.to_f / @orders_with_tip.size)
-      @overall_tip_percent = (@overall_tip_percent / @orders_with_tip.size.to_f)
-      @order_tip_percent = (@orders_with_tip.size.to_f / @orders.size.to_f)*100
-
     end
   end
 end
