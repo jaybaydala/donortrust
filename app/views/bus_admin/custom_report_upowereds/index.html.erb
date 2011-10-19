@@ -19,7 +19,18 @@
 <% end %>
 
 <h1><%= @items.size %> donations were made to u:powered with a total of <%= number_to_currency @amount %></h1>
-
+<ul>
+  <li><%= @start_active_subscribers.size %> active subscriptions on <%= @start_date %></li>
+  <li><%= @end_active_subscribers.size %> active subscriptions on <%= @end_date %></li>
+  <li>
+    <% if @end_active_subscribers.size == @start_active_subscribers.size %>
+      No change
+    <% elsif @end_active_subscribers.size < @start_active_subscribers.size %>
+      Decrease of <%= @start_active_subscribers.size - @end_active_subscribers.size %>
+    <% else %>
+      Increase of <%= @end_active_subscribers.size - @start_active_subscribers.size %>
+    <% end %>
+</ul>
 <table>
 	<thead>
 		<tr>
