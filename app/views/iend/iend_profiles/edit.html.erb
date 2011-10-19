@@ -5,7 +5,8 @@
 <p><%= link_to "View your public profile &raquo;".html_safe, iend_user_path(:current, :public => 1) %></p>
 
 <% semantic_form_for @iend_profile, :url => iend_profile_path do |f| %>
-  <% f.inputs "Select what you would like to show in your profile" do %>
+  <% f.inputs "Select what you would like to show in your public profile" do %>
+    <li>All unchecked items will not be visible to the public.</li>
     <%= f.input :location?, :label => "Your location", :as => :boolean %>
     <%= f.input :gifts_given?, :as => :boolean %>
     <%= f.input :gifts_given_amount?, :as => :boolean %>
