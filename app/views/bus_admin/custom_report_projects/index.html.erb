@@ -6,15 +6,15 @@
   <li>Active to total number of projects: <%= number_to_percentage( (@active_projects.size.to_f / @all_projects.size.to_f) * 100 ) %></li>
 </ul>
 
-
 <table>
   <thead>
     <tr>
       <th>ID</th>
       <th>Project</th>
       <th>Status</th>
-      <th></th>
-      <th></th>
+      <th>Total Raised</th>
+      <th>Goal</th>
+      <th>Progress</th>
     </tr>
   </thead>
   <tbody>
@@ -23,8 +23,9 @@
         <td><%= p.id %></td>
         <td><%=h p.name %></td>
         <td><%=h p.project_status.name %></td>
-        <td></td>
-        <td></td>
+        <td><%= number_to_currency p.dollars_raised %></td>
+        <td><%= number_to_currency p.total_cost %></td>
+        <td><%= number_to_percentage p.get_percent_raised %></td>
       </tr>
     <% end %>
   </tbody>
