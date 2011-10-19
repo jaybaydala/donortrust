@@ -243,6 +243,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :custom_report_carts, :only => [ :index ]
     ba.resources :custom_report_projects, :only => [ :index ]
     ba.resources :custom_report_upowereds, :only => [ :index ]
+    ba.resources :custom_report_profiles, :only => [ :index ]
 
 
     # The priority is based upon order of creation: first created -> highest priority.
