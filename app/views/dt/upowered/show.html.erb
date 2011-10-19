@@ -11,13 +11,13 @@
   <div class="span-4 append-bottom" style="border-bottom:1px dotted #999;">
     <div><strong>U:Powered Progress</strong></div>
     <div class="project-progress" style="margin-top:8px;">
-      <div class="project-progress-fg" style="width:<%= (Subscription.current.count.to_f/5000.to_f)*100 %>%;"></div>
+      <div class="project-progress-fg" style="width:<%= number_with_precision (Subscription.current.count.to_f/5000.to_f)*100 %>%;"></div>
     </div>
     <div><%= number_with_delimiter(Subscription.current.count) %>/5,000 contributors</div>
     <div class="project-progress" style="margin-top:8px;">
-      <div class="project-progress-fg" style="width:24%;"></div>
+      <div class="project-progress-fg" style="width:<%= number_with_precision (Subscription.current.count.to_f/5000.to_f)*100 %>%;"></div>
     </div>
-    <div>24% of organization built</div>
+    <div><%= number_with_precision((Subscription.current.count.to_f/5000.to_f)*100, :precision => 1) %>% of organization built</div>
   </div>
     <div class="span-4 prepend-1 last">
       <%= image_tag "upowered/upowered_benefits.png", :alt => "More Decision Power. The Inside Track. Proof you are changing the world." %>
