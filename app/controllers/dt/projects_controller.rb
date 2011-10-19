@@ -58,8 +58,9 @@ class Dt::ProjectsController < DtApplicationController
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
     end
+    return render_404 unless @project
     @community = @project.community
-    return render_404 unless @project && @community
+    return render_404 unless @community
     @page_title = "#{@community.name} | #{@project.name}"
 
     @mdgs = MillenniumGoal.find(:all)
@@ -75,8 +76,9 @@ class Dt::ProjectsController < DtApplicationController
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
     end
+    return render_404 unless @project
     @nation = @project.nation
-    return render_404 unless @project && @nation
+    return render_404 unless @nation
     @page_title = "#{@nation.name} | #{@project.name}"
     @mdgs = MillenniumGoal.find(:all)
     respond_to do |format|
@@ -89,8 +91,9 @@ class Dt::ProjectsController < DtApplicationController
       @project = Project.find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
     end
+    return render_404 unless @project
     @organization = @project.partner if @project.partner_id?
-    return render_404 unless @project && @organization
+    return render_404 unless @organization
     @page_title = "#{@organization.name} | #{@project.name}"
     respond_to do |format|
       format.html
