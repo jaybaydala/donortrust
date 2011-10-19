@@ -29,6 +29,7 @@ class Project < ActiveRecord::Base
   has_many :collaborations
   has_many :ranks
   has_many :investments
+  has_many :tips
   has_many :gifts
   has_many :subscriptions
   has_many :key_measures
