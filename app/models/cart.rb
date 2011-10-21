@@ -90,6 +90,10 @@ class Cart < ActiveRecord::Base
     minimum
   end
 
+  def only_subscription?
+    self.items.delete_if(&:subscription?).delete_if{|i| i.item_type == "Tip" }.size == 0
+  end
+
   def percentage_options
     percentage_options = [20, 15, 10, 5, 0].map do |percentage|
       percentage_description = percentage == 0 ? "Not Now" : "#{percentage}%"
