@@ -354,7 +354,7 @@ ActionController::Routing::Routes.draw do |map|
   map.populate_place_sector_places '/bus_admin/projects/populate_place_sector_places', :controller => 'bus_admin/place_sectors', :action => 'populate_place_sector_places'
   map.recover_record 'bus_admin/causes/recover_record', :controller => 'bus_admin/causes', :action => 'recover_record'
   map.stats 'bus_admin/stats', :controller => 'bus_admin/stats', :action => 'index'
-  # map.note 'bus_admin/show_note', :controller => 'bus_admin/partners', :action => 'show_note'
+  map.note 'bus_admin/show_note', :controller => 'bus_admin/partners', :action => 'show_note'
 
   map.bus_admin_home '/bus_admin/index', :controller => 'bus_admin/home', :action => 'index'
   map.connect '/bus_admin', :controller => 'bus_admin/home'
