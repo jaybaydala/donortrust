@@ -31,6 +31,14 @@ module DtApplicationHelper
   def auth_path(provider)
     "/auth/#{provider.to_s}"
   end
+
+  def link_to_upload_file(link_text, upload_id)
+    if Upload.exists?(upload_id)
+      link_to(link_text, Upload.find(upload_id).file.url)
+    else
+      link_text
+    end
+  end
   
   def show_title?
     true
