@@ -1,7 +1,7 @@
 <p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
 <% form_for :custom_report_gift_card_tips, :url => bus_admin_custom_report_profiles_path, :html => { :method => :get } do |f| %>
   <fieldset>
-    <legend>Profiles Report</legend>   
+    <legend>Profiles Report</legend>
     <ul class="row">
       <li><%= select_date @start_date, :prefix => 'start_date' %> Report Start Date</li>
     </ul>
@@ -9,7 +9,7 @@
       <li><%= select_date @end_date, :prefix => 'end_date' %> Report End Date</li>
     </ul>
     <%= submit_tag 'Submit' %>
-  </fieldset>     
+  </fieldset>
 <% end %>
 
 <h1><%= @users.size %> Users were in the system before <%= @end_date %> of which <%= @num_profiles %> had a profile.</h1>
