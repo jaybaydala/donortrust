@@ -46,7 +46,7 @@ class Project < ActiveRecord::Base
   named_scope :total_cost_between, lambda {|min, max|
     { :conditions => ["total_cost BETWEEN ? AND ?", min.to_i, max.to_i] }
   }
-  named_scope :find_public, lambda { { :conditions => { :project_status_id => ProjectStatus.public_ids } } }
+  #named_scope :find_public, lambda { { :conditions => { :project_status_id => ProjectStatus.public_ids } } }
   named_scope :current, lambda {
     {
       :conditions => [
@@ -561,6 +561,12 @@ class Project < ActiveRecord::Base
       else
         f.save(false)
       end
+    end
+  end
+
+  def self.find_public(*args)
+    with_scope :find => { :conditions => { :project_status_id => ProjectStatus.public_ids }} do
+      find *args
     end
   end
 
