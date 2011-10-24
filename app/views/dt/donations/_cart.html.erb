@@ -1,4 +1,4 @@
-<%- if @cart.donation.present? -%>
+<%- if @cart.donation.present? && !@cart.only_subscription? -%>
 <tr id="optional_donation" class="optional line_item_row">
   <td>
     <div class="clearfix">
