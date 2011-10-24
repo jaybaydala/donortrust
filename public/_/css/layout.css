@@ -118,10 +118,12 @@ footer a:active { text-decoration:underline; }
 .project-livesaffected-num { font-size:30px; line-height:28px; padding:30px 0 18px 0; }
 .project-livesaffected { font-size:14px; font-style:italic; }
 .project-place { font-weight:bold; margin:0 12px 6px 12px; }
+.project-organization,
 .project-name { margin:0 12px; }
-.project-organization { font-family: Helmet, Freesans, sans-serif; font-size:10px; margin:0 12px 6px 12px; }
+.project-quick-give{ font-family: Helmet, Freesans, sans-serif; margin:0 12px 6px 12px; }
 #projects .project-place a,
 #projects .project-name a,
+#projects .project-quick-give a,
 #projects .project-organization a { color:#06C; }
 .project-like { margin:0 12px 12px 12px; }
 .project-like a { color:#999; text-decoration:none; }

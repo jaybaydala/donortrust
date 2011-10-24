@@ -13,6 +13,7 @@
   <div class="project-place"><%= link_to Place.find(project.country_id).name, nation_dt_project_path(project) %></div>
   <div class="project-name"><%= link_to truncate(project.name, :length => 48), dt_project_path(project) %></div>
   <div class="project-organization"><%= link_to "by #{project.partner.name}", organization_dt_project_path(project) %></div>
+  <div class="project-quick-give"><%= link_to "Give to this project", new_dt_investment_path(:project_id => project.id) %></div>
   <!-- <div class="project-like">
         <a href="#"><img src="/images/nav/like-grey.png" width="21" height="27" alt=""> Like</a>
       </div> -->
