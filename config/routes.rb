@@ -232,11 +232,19 @@ ActionController::Routing::Routes.draw do |map|
                   :active_scaffold => true,
                   :collection => { :pending_projects => :get}
 
-    ba.resource :upowered, :member => { :report => :post, :send_email => :post }
+    ba.resource :upowered, :controller => 'upowered', :member => { :report => :post, :send_email => :post }
     ba.resources :application_settings, :active_scaffold => true
     ba.resources :subscriptions
     ba.resources :statistic_widgets, :active_scaffold => true
     ba.resources :pages, :active_scaffold => true
+    ba.resources :custom_reports, :only => [ :index ]
+    ba.resources :custom_report_gift_card_tips, :only => [ :index ]
+    ba.resources :custom_report_gift_cards, :only => [ :index ]
+    ba.resources :custom_report_carts, :only => [ :index ]
+    ba.resources :custom_report_projects, :only => [ :index ]
+    ba.resources :custom_report_upowereds, :only => [ :index ]
+    ba.resources :custom_report_upowered_subscriptions, :only => [ :index ]
+    ba.resources :custom_report_profiles, :only => [ :index ]
 
 
     # The priority is based upon order of creation: first created -> highest priority.
