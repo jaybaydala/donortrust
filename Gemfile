@@ -5,8 +5,6 @@ gem 'mysql'
 
 gem 'capistrano'
 gem 'capistrano-ext'
-gem 'mongrel'
-gem 'mongrel_cluster'
 
 gem 'activemerchant', :require => 'active_merchant'
 gem 'awesome_nested_set'
