@@ -71,6 +71,10 @@ Factory.define :gift do |g|
   g.send_at { 1.day.from_now }
 end
 
+Factory.define :iend_profile do |i|
+  i.association :user, :factory => :user
+end
+
 Factory.define :investment do |i|
   i.amount 100
   i.association :project#, :factory => :project

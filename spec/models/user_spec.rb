@@ -219,7 +219,6 @@ describe User do
   end
 
   describe "full_name" do
-
     it "should return a user's display name when under 13" do
       user = create_user({:under_thirteen => 1})
       user.full_name.should == "DisplayName"
@@ -241,6 +240,25 @@ describe User do
     end
     
   end
+
+  describe "#iend_profile" do
+    subject { Factory(:user)}
+    its(:iend_profile) { should_not be_nil }
+    specify { subject.iend_profile.class.should == IendProfile }
+    context "existing user without an iend profile" do
+      before do
+        subject.iend_profile.destroy
+        subject.reload
+      end
+      its(:iend_profile) { should be_nil }
+      it "should create the iend_profile upon save" do
+        subject.touch
+        subject.iend_profile.should_not be_nil
+        subject.iend_profile.class.should == IendProfile
+      end
+    end
+  end
+
 
   def create_user(options = {})
     user = Factory.build(:user, { :login => 'login@example.com', :first_name => 'FirstName', :last_name => 'LastName', :display_name => 'DisplayName', :address => '4320 15 st', :city => 'Calgary', :province => 'Alberta', :country => 'Canada', :postal_code => 'T2T4B2', :remember_token => 'test', :remember_token_expires_at => 1.week.from_now, :activation_code => 'code', :activated_at => 1.year.ago, :last_logged_in_at => 1.month.ago }.merge(options))
