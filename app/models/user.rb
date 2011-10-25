@@ -100,6 +100,7 @@ class User < ActiveRecord::Base
   validates_presence_of :display_name, :on => :update
 
   before_save :encrypt_password
+  before_save :ensure_iend_profile
   # removed activation_code and added auto-activate
   # before_create :make_activation_code
   before_create :set_activated_at
@@ -464,6 +465,10 @@ class User < ActiveRecord::Base
       return if password.blank?
       self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
       self.crypted_password = encrypt(password)
+    end
+
+    def ensure_iend_profile
+      self.build_iend_profile unless self.iend_profile
     end
 
     def password_required?
