@@ -1,0 +1,11 @@
+<section id="iend-nav" class="clearfix append-bottom border-bottom"> 
+  <article class="span-14"> 
+    <nav class="subnav clearfix">
+      <ol>
+        <li<%= ' class="current"' if current_nav?('users', 'show') && params[:public].blank? %>><%= link_to "Profile", iend_user_path(current_user) %></li>
+        <li<%= ' class="current"' if current_nav?('iend_profiles') %>><%= link_to "iEnd Profile (public)", edit_iend_profile_path %></li>
+        <li<%= ' class="current"' if current_nav?('users', 'edit') %>><%= link_to "Edit Account", edit_iend_user_path(current_user) %></li>
+      </ol>
+    </nav>
+  </article> 
+</section>

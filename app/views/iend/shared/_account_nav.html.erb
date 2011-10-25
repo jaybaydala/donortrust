@@ -1,0 +1,13 @@
+<section id="iend-nav" class="clearfix append-bottom border-bottom"> 
+  <article class="span-14"> 
+    <nav class="subnav clearfix">
+      <ol>
+        <li<%= ' class="current"' if current_nav?('orders') %>><%= link_to "Giving History", iend_orders_path %></li>
+        <li<%= ' class="current"' if current_nav?('tax_receipts') %>><%= link_to "Tax Receipts", iend_tax_receipts_path %></li>
+        <li<%= ' class="current"' if current_nav?('subscriptions') %>><%= link_to "Monthly Giving", iend_subscriptions_path %></li>
+        <li<%= ' class="current"' if current_nav?('users', 'edit_password') %>><%= link_to "Change Password", edit_password_iend_user_path(current_user) %></li>
+        <li<%= ' class="current"' if current_nav?('authentications') %>><%= link_to "Sign-in Options", iend_authentications_path %></li>
+      </ol>
+    </nav>
+  </article> 
+</section>

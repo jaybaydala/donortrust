@@ -1,7 +1,7 @@
 <%- content_for :html_title do %>Monthly Giving<% end -%>
 
 <%= render 'iend/shared/header' %>
-<%= iend_user_nav %>
+<%= render :partial => 'iend/shared/account_nav' %>
 
 
 <%- if @subscriptions.length > 0 -%>
