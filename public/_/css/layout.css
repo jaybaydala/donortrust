@@ -117,14 +117,19 @@ footer a:active { text-decoration:underline; }
 .dark .project-module .project-module-top a:active { color:#FFF; text-decoration:none; }
 .project-livesaffected-num { font-size:30px; line-height:28px; padding:30px 0 18px 0; }
 .project-livesaffected { font-size:14px; font-style:italic; }
+#projects .project-info { height:62px; overflow:hidden; }
 .project-place { font-weight:bold; margin:0 12px 6px 12px; }
 .project-organization,
 .project-name { margin:0 12px; }
-.project-quick-give{ font-family: Helmet, Freesans, sans-serif; margin:0 12px 6px 12px; }
+.project-actions { margin:6px 12px; }
+.project-quick-give { float:left;}
+.project-quick-give a { background-color:#999; display:block; padding:5px 10px 4px 10px; }
+.borderradius .project-quick-give a { -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }
 #projects .project-place a,
 #projects .project-name a,
 #projects .project-quick-give a,
 #projects .project-organization a { color:#06C; }
+#projects .project-quick-give a { color:#FFF; }
 .project-like { margin:0 12px 12px 12px; }
 .project-like a { color:#999; text-decoration:none; }
 .project-like img { vertical-align:bottom; }
