@@ -14,5 +14,10 @@ class BusAdmin::CustomReportProfilesController < ApplicationController
     @users_created.each do |u|
       @num_profiles_created += 1 if u.profile.present?
     end
+
+    respond_to do |format|
+      format.csv { render_csv("profiles-#{@start_date}-#{@end_date}") }
+      format.html
+    end
   end
 end

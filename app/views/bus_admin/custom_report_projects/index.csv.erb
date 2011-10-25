@@ -1,0 +1,10 @@
+<%= FasterCSV.generate do |csv|
+  csv << [ 'ID', 'Name', 'Status', 'Total Raised', 'Goal', 'Progress']
+
+  @all_projects.each do |p|
+    total_raised = number_to_currency p.dollars_raised
+    goal = number_to_currency p.total_cost
+    progress = number_to_percentage p.get_percent_raised
+    csv << [ p.id, p.name, p.project_status.name, total_raised, goal, progress]
+  end
+end %>
