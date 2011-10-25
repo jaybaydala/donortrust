@@ -19,6 +19,10 @@ class BusAdmin::CustomReportCartsController < ApplicationController
           end
         end
       end
+      respond_to do |format|
+        format.csv { render_csv("carts-#{@start_date}-#{@end_date}") }
+        format.html
+      end
     end
   end
 end
