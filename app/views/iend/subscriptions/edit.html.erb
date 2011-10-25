@@ -1,7 +1,8 @@
 <%- content_for :html_title do -%>Monthly Giving<%- end -%>
 <%- content_for :page_title do -%>Monthly Giving for <%= current_user.name %><%- end -%>
 
-<%= iend_user_nav %>
+<%= render 'iend/shared/header' %>
+<%= render :partial => 'iend/shared/account_nav' %>
 
 <% semantic_form_for [:iend, @subscription] do |f| %>
   <%= f.semantic_errors :user %>
