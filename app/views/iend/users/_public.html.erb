@@ -60,19 +60,23 @@
       </aside>
     </div>
     <div class="span-10 last">
-      <% if @iend_profile.list_projects_funded? %>
-        <h2 style="margin-left:12px;">Their Projects</h2>
-        <!-- paging goes here -->
-        <div class="span-9 prepend-1 pageshadow-10 last">
-          <div class="clearfix" id="projects">
-          <% @user.projects_funded.each_with_index do |project, i| %>
-            <div class="span-4 append-bottom<%= ' last' if (i+1)%2 == 0 %>">
-              <%= render :partial => 'dt/projects/project', :locals => { :project => project } %>
-            </div>
-          <% end %>
+      <nav class="subnav append-bottom clearfix">
+        <ol>
+          <% if @iend_profile.list_projects_funded? %><li<%= ' class="current"' if current_nav?('users') %>><%= link_to "Projects", iend_user_path(@user) %></li><% end %>
+          <li<%= ' class="current"' if current_nav?('friends') %>><%= link_to "Friends", "#" %><%# iend_user_friends_path(@user) %></li>
+        </ol>
+      </nav>
+
+      <!-- paging goes here -->
+      <div class="span-9 prepend-1 pageshadow-10 last">
+        <div class="clearfix" id="projects">
+        <% @user.projects_funded.each_with_index do |project, i| %>
+          <div class="span-4 append-bottom<%= ' last' if (i+1)%2 == 0 %>">
+            <%= render :partial => 'dt/projects/project', :locals => { :project => project } %>
           </div>
+        <% end %>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 <% end %>
