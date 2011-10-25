@@ -1,5 +1,7 @@
 omniauth_config = YAML.load_file(Rails.root.join('config', 'omniauth.yml'))
 
+FACEBOOK_APP_ID = omniauth_config['facebook']['app_id'] if omniauth_config['facebook']
+
 # require 'omniauth'
 require 'oauth2'
 require 'openid/store/filesystem'
