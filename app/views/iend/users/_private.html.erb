@@ -60,16 +60,15 @@
         </div>
       <% end %>
       </div>
+      
+      <% if logged_in? && current_user.authentications.facebook.present? || true == true %>
+        <div class="sharing">
+          <h2>Facebook</h2>
+          <%= render :partial => 'dt/facebook_posts/form', :locals => { :message => "I’m all set up with a profile on UEnd.org and joining a group of people helping end poverty around the world…here I go!\n#{root_url(:protocol => 'http://')}", :cols => 45 } %>
+        </div>
+      <% end %>
+      
     </div>
   </div>
-  
-  <% if logged_in? && current_user.authentications.facebook.present? || true == true %>
-    <div class="span-8 prepend-1 last">
-      <div class="sharing">
-        <h2>Facebook</h2>
-        <%= render :partial => 'dt/facebook_posts/form', :locals => { :message => "I’m all set up with a profile on UEnd.org and joining a group of people helping end poverty around the world…here I go!\n#{root_url(:protocol => 'http://')}", :cols => 45 } %>
-      </div>
-    </div>
-  <% end %>
   
 </div>
