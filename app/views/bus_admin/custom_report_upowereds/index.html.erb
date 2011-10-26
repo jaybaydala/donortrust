@@ -1,7 +1,7 @@
 <p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
 <% form_for :custom_report_gift_card_tips, :url => bus_admin_custom_report_upowereds_path, :html => { :method => :get } do |f| %>
   <fieldset>
-    <legend>U:powered Report</legend>   
+    <legend>U:powered Report</legend>
     <ul class="row">
       <li>
           <%= select_date @start_date, :prefix => 'start_date' %>
@@ -15,7 +15,7 @@
       </li>
     </ul>
     <%= submit_tag 'Submit' %>
-  </fieldset>     
+  </fieldset>
 <% end %>
 
 <h1><%= @items.size %> donations were made to u:powered with a total of <%= number_to_currency @amount %></h1>
@@ -31,6 +31,7 @@
       Increase of <%= @end_active_subscribers.size - @start_active_subscribers.size %>
     <% end %>
 </ul>
+<%= link_to "Download CSV", {:format => :csv} %>
 <table>
 	<thead>
 		<tr>

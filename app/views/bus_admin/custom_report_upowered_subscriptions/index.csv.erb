@@ -1,0 +1,9 @@
+<%= FasterCSV.generate do |csv|
+  csv << [ 'ID', 'Name', 'Email', 'Amount', 'Start Date']
+
+  @current_subscriptions.each do |s|
+    name = s.first_name + " " + s.last_name
+    amount = number_to_currency s.amount
+    csv << [ s.id, name, s.email, amount, s.begin_date]
+  end
+end %>

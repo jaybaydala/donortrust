@@ -13,6 +13,7 @@
 <% end %>
 
 <h1><%= number_to_currency @total_added %> of new subscriptions were active in this date range</h1>
+<%= link_to "Download CSV", {:format => :csv} %>
 <table>
   <thead>
     <tr>
@@ -30,7 +31,7 @@
         <td><%=h s.first_name %> <%= s.last_name %></td>
         <td><%=h s.email %></td>
         <td><%= number_to_currency s.amount %></td>
-        <td><%= number_to_currency s.begin_date %></td>
+        <td><%= s.begin_date %></td>
       </tr>
     <% end %>
   </tbody>
