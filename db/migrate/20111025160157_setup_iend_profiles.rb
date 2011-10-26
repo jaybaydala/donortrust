@@ -1,7 +1,9 @@
 class SetupIendProfiles < ActiveRecord::Migration
   def self.up
-    # this should set up all the iend profiles automatically
-    User.all.each(&:touch)
+    # this sets up all the iend profiles with default settings
+    User.all(:include => :iend_profile).each do |u|
+      u.build_iend_profile unless u.iend_profile
+    end
   end
 
   def self.down
