@@ -379,6 +379,8 @@ class Order < ActiveRecord::Base
   end
 
   def has_gift_card?
+    return false if !self.cart.present?
+
     self.cart.has_gift_card?
   end
 
