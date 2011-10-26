@@ -25,5 +25,10 @@ class BusAdmin::CustomReportGiftCardTipsController < ApplicationController
       @order_tip_percent = (@orders_with_tip.size.to_f / @orders.size.to_f)*100
 
     end
+
+    respond_to do |format|
+      format.csv { render_csv("gift-card-tips-#{@start_date}-#{@end_date}") }
+      format.html
+    end
   end
 end

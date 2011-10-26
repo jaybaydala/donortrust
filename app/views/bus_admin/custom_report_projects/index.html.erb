@@ -5,7 +5,7 @@
   <li>Active to complete ratio: <%= number_to_percentage( (@active_projects.size.to_f / @complete_projects.size.to_f) * 100 ) %></li>
   <li>Active to total number of projects: <%= number_to_percentage( (@active_projects.size.to_f / @all_projects.size.to_f) * 100 ) %></li>
 </ul>
-
+<%= link_to "Download CSV", {:format => :csv} %>
 <table>
   <thead>
     <tr>

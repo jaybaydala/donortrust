@@ -15,5 +15,10 @@ class BusAdmin::CustomReportGiftCardsController < ApplicationController
       end
 
     end
+
+    respond_to do |format|
+      format.csv { render_csv("gift-cards-#{@start_date}-#{@end_date}") }
+      format.html
+    end
   end
 end

@@ -1,0 +1,10 @@
+<%= FasterCSV.generate do |csv|
+	csv << [ 'ID', 'Date', 'Name', 'Tip Amount', 'Order Total', 'Tip Percentage']
+
+  @orders_with_tip.each do |o|
+    tip_amount = number_to_currency o.tip_item.amount
+    total = number_to_currency o.total
+    percent = number_to_percentage o.tip_percent
+    csv << [ o.id, o.created_at.strftime("%Y-%m-%d"), o.name, tip_amount, total, percent ]
+  end
+end %>

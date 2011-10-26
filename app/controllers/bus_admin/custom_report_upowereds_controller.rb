@@ -12,6 +12,12 @@ class BusAdmin::CustomReportUpoweredsController < ApplicationController
 
       @start_active_subscribers = Subscription.find(:all, :conditions => ['begin_date < ? && (end_date IS NULL OR end_date >= ?)', @start_date, @start_date])
       @end_active_subscribers = Subscription.find(:all, :conditions => ['begin_date < ? && (end_date IS NULL OR end_date >= ?)', @end_date, @end_date])
+
+    end
+
+    respond_to do |format|
+      format.csv { render_csv("upowered-#{@start_date}-#{@end_date}") }
+      format.html
     end
   end
 end
