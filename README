@@ -1,6 +1,45 @@
 == Welcome to DonorTrust
 
-This file will contain all the readme info for the project.
+About this rails app:
 
-This comment is to confirm that I can check files in from RadRails - CM
-test
+To bootstrap:
+bundle install
+rake db:migrate
+
+* Cucumber based, BDD developed app
+- don't forget to use `rake db:test:prepare` before running any tests
+Running cucumber. One of:
+> `rake cucumber`
+> `bundle exec cucumber`
+RSpec usage - use `guard` for continuous testing
+> guard
+
+* Formtastic is used for all forms - http://github.com/justinfrench/formtastic
+* Models are all organized first by the following list, then alphabetically:
+  - constants
+  - includes
+  - validations
+  - relationships
+  - plugins
+  - nested
+  - attributes
+  - callbacks
+  - scopes
+  - class methods
+  - instance methods
+  - private methods
+* Controllers are RESTful (as much as possible) and organized as such:
+  - index
+  - show
+  - new
+  - create
+  - edit
+  - update
+  - destroy
+  - others (alphabetically)
+* Views are developed using:
+  - HTML5Reset - http://html5reset.org/
+  - Blueprint CSS - http://blueprintcss.org/ - specifically we are using an 18-column grid. Each column is 40px width with 15px gutters, totalling 990px wide.
+  - Formtastic for all forms - http://github.com/justinfrench/formtastic
+  - jQuery 1.6.x, JQuery UI 1.8.x, jQuery cycle (for cycle animations) and jQuery colorbox for lightboxing
+  
