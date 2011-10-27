@@ -13,4 +13,3 @@ Scenario: login Via facebook
   Given I am on the home page
   When I authenticate with facebook
   Then I should be on my account page
-  And I should see "My Profile"
