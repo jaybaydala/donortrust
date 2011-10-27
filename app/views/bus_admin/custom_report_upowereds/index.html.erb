@@ -45,11 +45,11 @@
   <tbody>
   <% @items.each do |i| %>
     <tr>
-      <td><%= i.order.id %></td>
+      <td><%= i.order.present? ? i.order.id : "-" %></td>
       <td><%=h i.created_at.strftime("%B %d, %Y") %></td>
-      <td><%=h i.order.name %></td>
+      <td><%=h i.name %></td>
       <td><%= number_to_currency i.amount %></td>
-      <td><%= number_to_currency i.order.total %></td>
+      <td><%= i.order.present? ? (number_to_currency i.order.total) : "-" %></td>
     </tr>
   <% end %>
   </tbody>

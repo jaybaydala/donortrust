@@ -18,7 +18,7 @@
   </fieldset>
 <% end %>
 
-<h1><%= @carts.size %> Carts started and <%= @orders.size %> Orders Placed</h1>
+<h1><%= @carts.size %> Carts started and <%= @orders_count %> Orders Placed</h1>
 <h2><%= number_to_currency @order_total %> was ordered and <%= number_to_currency @abandon_total %> was abandoned</h2>
 <%= link_to "Download CSV", {:format => :csv} %>
 <table>

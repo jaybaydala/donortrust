@@ -5,8 +5,8 @@ class BusAdmin::CustomReportUpoweredsController < ApplicationController
   def index
     if @start_date && @end_date
       @project = Project.admin_project
-      @items = @project.investments.find(:all, :include => [:order], :conditions => ["created_at > ? and created_at < ?", @start_date, @end_date])
-      @items += @project.tips.find(:all, :include => [:order], :conditions => ["created_at > ? and created_at < ?", @start_date, @end_date])
+      @items = @project.investments.find(:all, :include => [:order, :user], :conditions => ["created_at > ? and created_at < ?", @start_date, @end_date])
+      @items += @project.tips.find(:all, :include => [:order, :user], :conditions => ["created_at > ? and created_at < ?", @start_date, @end_date])
       @sum = @items.map { |i| i.amount }.sum
       @amount = @items.inject(0) {|sum, item| sum + item.amount}
 
