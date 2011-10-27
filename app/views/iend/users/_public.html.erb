@@ -1,13 +1,15 @@
 <% html_title("#{@user.first_name} #{@user.last_name}") %>
 
 <% if @iend_profile.present? %>
-  <h1>
-    <%= image_tag(@user.image.url, :alt => '') if @iend_profile.picture? && @user.image? %>
-    <%= @iend_profile.name? ? "#{@user.first_name} #{@user.last_name}" : 'Anonymous' %>
-  </h1>
-  <% if @iend_profile.location? %>
-    <p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
-  <% end %>
+  <div style="padding-bottom:0.5em;">
+    <h1>
+      <%= image_tag(@user.image.url, :alt => '') if @iend_profile.picture? && @user.image? %>
+      <%= @iend_profile.name? ? "#{@user.first_name} #{@user.last_name}" : 'Anonymous' %>
+    </h1>
+    <% if @iend_profile.location? %>
+      <p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
+    <% end %>
+  </div>
 
   <div class="clearfix">
     <div class="span-4">
