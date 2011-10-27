@@ -7,6 +7,11 @@ class Iend::IendProfilesController < DtApplicationController
 
   def update
     @iend_profile = current_user.iend_profile
-    @iend_profile.update_attributes(params[:iend_profile])
+    if @iend_profile.update_attributes(params[:iend_profile])
+      flash[:notice] = "We've updated your public iEnd profile"
+      redirect_to edit_iend_profile_path
+    else
+      render :action => "edit"
+    end
   end
 end
