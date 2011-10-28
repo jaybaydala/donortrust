@@ -4,7 +4,7 @@ class BusAdmin::CustomReportCartsController < ApplicationController
 
   def index
     if @start_date && @end_date
-      @orders = Order.find(:all, :conditions => ["created_at > ? AND created_at < ? ", @start_date, @end_date])
+      @orders_count = Order.count(:all, :conditions => ["created_at > ? AND created_at < ? ", @start_date, @end_date])
       carts = Cart.find(:all, :include => [:items, :order], :conditions => ["created_at > ? and created_at < ?", @start_date, @end_date])
       @carts = []
       @order_total = 0

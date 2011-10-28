@@ -58,13 +58,20 @@ class Investment < ActiveRecord::Base
     @checkout_investment = val ? true : false
   end
   alias_method :checkout_investment, :checkout_investment?
-  
+
+  def name
+    if self.user.present?
+      self.user.name
+    elsif self.order.present?
+      self.order.name
+    end
+  end
+
   protected
   def validate
     super
     errors.add("project_id", "is not a valid project") if project_id && project_id <= 0
     errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project && amount > project.current_need
   end
-  
-  
+
 end

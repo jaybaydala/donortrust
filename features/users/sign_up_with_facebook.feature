@@ -9,7 +9,7 @@ Background: not logged in
 @omniauth_test
 Scenario: Signup via facebook connect
   When I authenticate with Facebook
-  Then I should be on the new account page
+  Then I should be on my iend user page
   And I should see "Complete your facebook registration"
   When I select "Canada" from "Country"
   And I check "user_terms_of_use"
@@ -27,7 +27,7 @@ Scenario: Signup via facebook connect with an existing account
     | login              |
     | jsmith@example.com |
   When I authenticate with Facebook
-  Then I should be on the new account page
+  Then I should be on my iend user page
   And I should see "Already have a UEnd account? Login"
   When I fill in "login" with "jsmith@example.com"
   And I fill in "password" with "Secret123"

@@ -9,13 +9,11 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/dt/home'
+      '/home'
     when /the new account page/
-      new_dt_account_path
-    when /the accounts page/
-      dt_accounts_path
+      new_iend_account_path
     when /my account page/
-      dt_account_path(current_user)
+      iend_user_path(current_user)
     when /my cart page/
       dt_cart_path
     when /the new upowered page/
@@ -24,13 +22,15 @@ module NavigationHelpers
       # @order ||= Order.last
       dt_checkout_path
     when /the sign up page/
-      '/dt/signup'
+      '/signup'
     when /redisplayed sign up page/
-      '/dt/accounts'
+      new_iend_user_path
     when /the login page/
       '/login'
     when /the redisplayed login page/
-      '/dt/session'
+      iend_session_path
+    when /my|the iend user page/
+      iend_user_path(current_user)
     when /the authentications page/
       iend_authentications_path
     when /the "(.*)" team page/
