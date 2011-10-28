@@ -18,8 +18,8 @@ Background:
    
 Scenario: From open to checkout payment options
   Given I am on the open dt gifts page
-  And I fill in "Pickup Code:" with my gift pickup code
-  And I press "open your gift"
+  And I fill in "Enter your Pickup Code" with my gift pickup code
+  And I press "Open"
   Then I should be on the open dt gifts page
   And I should have a $25 gift card balance
   And I should see "Your friend gave you a gift to help end global poverty. Match your friends gift to double the impact."

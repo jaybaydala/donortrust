@@ -7,6 +7,7 @@ class Iend::UsersController < DtApplicationController
     @user = current_user if params[:id] == 'current'
     @user ||= User.find(params[:id])
     @iend_profile = @user.iend_profile
+    raise ActiveRecord::RecordNotFound if !@iend_profile && @user != current_user
   end
 
   def new
