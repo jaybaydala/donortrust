@@ -13,7 +13,7 @@ module NavigationHelpers
     when /the new account page/
       new_iend_account_path
     when /my account page/
-      iend_user_path(current_user)
+      iend_user_path(current_user || User.last)
     when /my cart page/
       dt_cart_path
     when /the new upowered page/
@@ -30,7 +30,7 @@ module NavigationHelpers
     when /the redisplayed login page/
       iend_session_path
     when /my|the iend user page/
-      iend_user_path(current_user)
+      iend_user_path(current_user || User.last)
     when /the authentications page/
       iend_authentications_path
     when /the "(.*)" team page/
