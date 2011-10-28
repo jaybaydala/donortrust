@@ -24,7 +24,7 @@ module NavigationHelpers
     when /the sign up page/
       '/signup'
     when /redisplayed sign up page/
-      new_iend_user_path
+      iend_users_path
     when /the login page/
       '/login'
     when /the redisplayed login page/
