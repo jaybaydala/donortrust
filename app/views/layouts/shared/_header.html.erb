@@ -12,7 +12,8 @@
           <%= link_to "Cart", dt_cart_path %> | 
           <%= link_to "Login", login_url(:protocol => ssl_protocol, :return_to => request.url) %>
         <% end %>
-        <%= " | #{number_to_currency(session[:gift_card_balance])}" if session[:gift_card_balance] %>
+        <%= " | #{link_to "Gift Card Balance", open_dt_gifts_path}: #{number_to_currency(session[:gift_card_balance])}" if session[:gift_card_balance] %>
+
         <span id="social">
           <a href="http://blog.uend.org/"><img src="/images/icons/rss.png" width="18" height="18" alt="RSS"></a>
           <a href="http://twitter.com/UEnd_org"><img src="/images/icons/twitter.png" width="18" height="18" alt="Twitter"></a>
