@@ -1,24 +1,24 @@
-class Campaign < ActiveRecord::Base
+class OldCampaign < ActiveRecord::Base
   attr_accessor :use_user_email
 
   after_create :create_default_team
 
-  belongs_to :campaign_type
+  belongs_to :old_campaign_type
   belongs_to :creator, :class_name => 'User', :foreign_key => 'user_id'
   has_and_belongs_to_many :projects
   has_many :cause_limits
   has_many :causes, :through => :cause_limits
   has_many :investments
   has_many :news_items, :as => :postable, :dependent => :destroy
-  has_many :participants, :through => :teams
+  has_many :old_participants, :through => :old_teams
   has_many :place_limits
   has_many :places, :through => :place_limits
   has_many :partner_limits
   has_many :partners, :through => :partner_limits
   has_many :pledges
-  has_many :teams, :dependent => :destroy
+  has_many :old_teams, :dependent => :destroy
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
-  has_one :default_team, :dependent => :destroy, :class_name => "Team"
+  has_one :default_team, :dependent => :destroy, :class_name => "OldTeam"
   has_one :pledge_account
 
   validates_format_of :postalcode, :with => /(\D\d){3}/, :if => :in_canada?, :allow_blank => true, :message => "In Canada the proper format for postal code is: A9A9A9, Where A is a leter between A-Z and 9 is a number between 0 - 9."

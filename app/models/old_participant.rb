@@ -1,8 +1,8 @@
-class Participant < ActiveRecord::Base
+class OldParticipant < ActiveRecord::Base
   # after_save :make_uploads_world_readable
   belongs_to :user
-  belongs_to :team
-  belongs_to :campaign
+  belongs_to :old_team
+  belongs_to :old_campaign
 
   attr_accessor :new_reg_login
   attr_accessor :new_reg_password

@@ -1,4 +1,4 @@
-class Dt::CampaignsController < DtApplicationController
+class Dt::OldCampaignsController < DtApplicationController
 
   before_filter :login_required, :only => [:create, :new, :edit, :destroy]
   before_filter :is_authorized?, :except => [:show, :index, :join, :new, :create, :admin, :search, :join_options];
@@ -10,14 +10,14 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns
   # GET /campaigns.xml
   def index
-    @campaigns = Campaign.find_all_by_pending(false)
+    @campaigns = OldCampaign.find_all_by_pending(false)
   end
 
   # GET /campaigns/1
   # GET /campaigns/1.xml
   def show
-    @campaign = Campaign.find(params[:id]) unless params[:id].blank?
-    @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
+    @campaign = OldCampaign.find(params[:id]) unless params[:id].blank?
+    @campaign = OldCampaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
 
     raise ActiveRecord::RecordNotFound if @campaign.nil?
 
@@ -98,7 +98,7 @@ class Dt::CampaignsController < DtApplicationController
     #@participants = Participant.paginate_by_campaign_id @campaign.id, :page => params[:page]
 
     #hack to get remote pagination working
-    @teams = Team.paginate_by_campaign_id_and_pending_and_generic @campaign.id,false,false, :page => params[:team_page], :per_page => 10
+    @teams = OldTeam.paginate_by_campaign_id_and_pending_and_generic @campaign.id,false,false, :page => params[:team_page], :per_page => 10
     if(params[:team_page] != nil)
       render :partial => 'teams'
     end
@@ -128,7 +128,7 @@ class Dt::CampaignsController < DtApplicationController
   # GET /campaigns/new
   # GET /campaigns/new.xml
   def new
-    @campaign = Campaign.new
+    @campaign = OldCampaign.new
     @is_new = true
 
     @all_projects = Project.find(:all)
@@ -137,7 +137,7 @@ class Dt::CampaignsController < DtApplicationController
 
   # GET /campaigns/1/edit
   def edit
-    @campaign = Campaign.find(params[:id])
+    @campaign = OldCampaign.find(params[:id])
     @is_new = false
     @all_projects = Project.all
 
@@ -148,7 +148,7 @@ class Dt::CampaignsController < DtApplicationController
   # POST /campaigns.xml
   def create
     
-    @campaign = Campaign.new(params[:campaign])
+    @campaign = OldCampaign.new(params[:campaign])
     @campaign.campaign_type_id = params[:campaign_type][:id]
     @campaign.creator = current_user
     @campaign.pending = true
@@ -157,7 +157,7 @@ class Dt::CampaignsController < DtApplicationController
     @is_new = true
 
     if @campaign.save
-      @team = Team.new
+      @team = OldTeam.new
       @team.goal = @campaign.fundraising_goal
       @team.campaign = @campaign
       @team.leader = current_user
@@ -172,7 +172,7 @@ class Dt::CampaignsController < DtApplicationController
       @team.generic = true
 
       if @team.save
-        @participant = Participant.new
+        @participant = OldParticipant.new
         @participant.team = @team
         @participant.user = @team.leader
         @participant.pending = false
@@ -205,7 +205,7 @@ class Dt::CampaignsController < DtApplicationController
   # PUT /campaigns/1
   # PUT /campaigns/1.xml
   def update
-    @campaign = Campaign.find(params[:id])
+    @campaign = OldCampaign.find(params[:id])
     @all_projects = Project.all
     respond_to do |format|
       if @campaign.update_attributes(params[:campaign])
@@ -226,7 +226,7 @@ class Dt::CampaignsController < DtApplicationController
   # DELETE /campaigns/1
   # DELETE /campaigns/1.xml
   def destroy
-    @campaign = Campaign.find(params[:id])
+    @campaign = OldCampaign.find(params[:id])
     @campaign.destroy
     redirect_to(dt_campaigns_path)
   end
@@ -242,18 +242,18 @@ class Dt::CampaignsController < DtApplicationController
   end
 
   def admin
-    @pending_campaigns = Campaign.find_all_by_pending(true)
-    @active_campaigns = Campaign.find_all_by_pending(false)
+    @pending_campaigns = OldCampaign.find_all_by_pending(true)
+    @active_campaigns = OldCampaign.find_all_by_pending(false)
     [@pending_campaigns, @active_camapaigns]
     render :layout => 'campaign_backend'
   end
 
   def main_page
-    @campaign = Campaign.find_by_short_name(params[:short_name])
+    @campaign = OldCampaign.find_by_short_name(params[:short_name])
   end
 
   def activate
-    @campaign = Campaign.find(params[:id])
+    @campaign = OldCampaign.find(params[:id])
 
     if @campaign.activate!
       CampaignsMailer.deliver_campaign_approved(@campaign)
@@ -262,21 +262,21 @@ class Dt::CampaignsController < DtApplicationController
       flash[:error] = "Campaign Not Activated"
     end
 
-    [@pending_campaigns = Campaign.find_all_by_pending(true), @active_campaigns = Campaign.find_all_by_pending(false)]
+    [@pending_campaigns = OldCampaign.find_all_by_pending(true), @active_campaigns = OldCampaign.find_all_by_pending(false)]
     render :action => :activate
   end
 
   def manage
-    @campaign = Campaign.find(params[:id])
+    @campaign = OldCampaign.find(params[:id])
 
     #hack to get remote pagination working
-    @teams = Team.paginate_by_campaign_id_and_pending_and_generic @campaign.id,false,false, :page => params[:team_page], :per_page => 10
+    @teams = OldTeam.paginate_by_campaign_id_and_pending_and_generic @campaign.id,false,false, :page => params[:team_page], :per_page => 10
     if(params[:team_page] != nil)
       render :partial => 'teams'
     end
 
-    @participants = Participant.paginate_by_sql ["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = ? AND t.pending = ?",@campaign.id,0,0], :page => params[:participant_page], :per_page => 10
-    team = Team.find_by_campaign_id_and_generic @campaign.id, true
+    @participants = OldParticipant.paginate_by_sql ["SELECT p.* FROM participants p, teams t WHERE p.team_id = t.id AND t.campaign_id = ? AND p.pending = ? AND t.pending = ?",@campaign.id,0,0], :page => params[:participant_page], :per_page => 10
+    team = OldTeam.find_by_campaign_id_and_generic @campaign.id, true
     puts team
     @pending_participants = @particpants
     # @pending_participants = Participant.find_by_team_id_and_pending team.id, true
@@ -292,7 +292,7 @@ class Dt::CampaignsController < DtApplicationController
   end
 
   def configure_filters_for
-    @campaign = Campaign.find(params[:id])
+    @campaign = OldCampaign.find(params[:id])
     if(params[:project_page] != nil)
       @projects = Project.paginate :page => params[:project_page], :per_page => 10
       render :partial => 'configure_project_filters'
@@ -309,13 +309,13 @@ class Dt::CampaignsController < DtApplicationController
 
   def add_project_limit_to
       @project_limit = ProjectLimit.create :project_id => params[:project_id], :campaign_id => params[:id]
-      [@campaign = Campaign.find(params[:id]), @errors = @project_limit.errors, @current_panel = 'project']
+      [@campaign = OldCampaign.find(params[:id]), @errors = @project_limit.errors, @current_panel = 'project']
       render :partial => 'project_filters'
   end
 
   def remove_project_limit_from
       @project_limit = ProjectLimit.find(params[:id])
-      @campaign = Campaign.find(@project_limit.campaign_id)
+      @campaign = OldCampaign.find(@project_limit.campaign_id)
       @project_limit.destroy
       [@campaign, @current_panel = 'project']
       render :partial => 'project_filters'
@@ -323,13 +323,13 @@ class Dt::CampaignsController < DtApplicationController
 
   def add_cause_limit_to
       @cause_limit = CauseLimit.create :cause_id => params[:cause_id], :campaign_id => params[:id]
-      [@campaign = Campaign.find(params[:id]), @errors = @cause_limit.errors, @current_panel = 'cause']
+      [@campaign = OldCampaign.find(params[:id]), @errors = @cause_limit.errors, @current_panel = 'cause']
       render :partial => 'project_filters'
   end
 
   def remove_cause_limit_from
       @cause_limit = CauseLimit.find(params[:id])
-      @campaign = Campaign.find(@cause_limit.campaign_id)
+      @campaign = OldCampaign.find(@cause_limit.campaign_id)
       @cause_limit.destroy
       [@campaign, @current_panel = 'cause']
       render :partial => 'project_filters'
@@ -337,13 +337,13 @@ class Dt::CampaignsController < DtApplicationController
 
   def add_place_limit_to
       @place_limit = PlaceLimit.create :place_id => params[:place_id], :campaign_id => params[:id]
-      [@campaign = Campaign.find(params[:id]), @errors = @place_limit.errors, @current_panel = 'place']
+      [@campaign = OldCampaign.find(params[:id]), @errors = @place_limit.errors, @current_panel = 'place']
       render :partial => 'project_filters'
   end
 
   def remove_place_limit_from
       @place_limit = PlaceLimit.find(params[:id])
-      @campaign = Campaign.find(@place_limit.campaign_id)
+      @campaign = OldCampaign.find(@place_limit.campaign_id)
       @place_limit.destroy
       [@campaign, @current_panel = 'place']
       render :partial => 'project_filters'
@@ -351,26 +351,26 @@ class Dt::CampaignsController < DtApplicationController
 
   def add_partner_limit_to
       @partner_limit = PartnerLimit.create :partner_id => params[:partner_id], :campaign_id => params[:id]
-      [@campaign = Campaign.find(params[:id]), @errors = @partner_limit.errors, @current_panel = 'partner']
+      [@campaign = OldCampaign.find(params[:id]), @errors = @partner_limit.errors, @current_panel = 'partner']
       render :partial => 'project_filters'
   end
 
   def remove_partner_limit_from
       @partner_limit = PartnerLimit.find(params[:id])
-      @campaign = Campaign.find(@partner_limit.campaign_id)
+      @campaign = OldCampaign.find(@partner_limit.campaign_id)
       @partner_limit.destroy
       [@campaign, @current_panel = 'partner']
       render :partial => 'project_filters'
   end
 
   def join
-    @team = Campaign.find(params[:id]).teams[0] # base team
+    @team = OldCampaign.find(params[:id]).teams[0] # base team
     redirect_to new_dt_team_participant_path(@team)
   end
 
   def join_options
-    @campaign = Campaign.find(params[:id]) unless params[:id].blank?
-    @campaign = Campaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
+    @campaign = OldCampaign.find(params[:id]) unless params[:id].blank?
+    @campaign = OldCampaign.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
   end
 
   def validate_short_name_of
@@ -388,7 +388,7 @@ class Dt::CampaignsController < DtApplicationController
         @errors.push('The short name must be 3 characters or longer.')
       end
 
-      if(Campaign.find_by_short_name(@short_name) != nil)
+      if(OldCampaign.find_by_short_name(@short_name) != nil)
         @errors.push('That short name has already been used, short names must be globally unique.')
       end
     else
@@ -400,7 +400,7 @@ class Dt::CampaignsController < DtApplicationController
   def search
     #['Campaign', 'Team','Participant']
     if params[:search_type].nil?
-      params[:search_type] = ['Campaign', 'Team','Participant']
+      params[:search_type] = ['OldCampaign', 'Team','Participant']
     end
     search_type = params[:search_type].each{|o|o.camelize}
     @search = Ultrasphinx::Search.new(:query => params[:keywords],:class_names => search_type, :per_page => 10, :page => (params[:page].nil? ? '1': params[:page]  ))
@@ -442,7 +442,7 @@ class Dt::CampaignsController < DtApplicationController
         return false
       end
 
-      @campaign = Campaign.find(params[:id]) if params[:id]
+      @campaign = OldCampaign.find(params[:id]) if params[:id]
       if @campaign && @campaign.creator != current_user and not current_user.is_cf_admin?
         flash[:notice] = 'You are not authorized to view this page.'
         redirect_to dt_campaign_path(@campaign)

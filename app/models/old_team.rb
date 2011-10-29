@@ -1,11 +1,11 @@
-class Team < ActiveRecord::Base
+class OldTeam < ActiveRecord::Base
   # after_save :make_uploads_world_readable
   # associations
-  belongs_to :campaign
+  belongs_to :old_campaign
   belongs_to :leader, :class_name => "User", :foreign_key => "user_id"
   belongs_to :user
 
-  has_many :participants
+  has_many :old_participants
   has_many :users, :through => :participants
 
   has_many :wall_posts, :as =>:postable, :dependent => :destroy
@@ -26,7 +26,7 @@ class Team < ActiveRecord::Base
 
 
   # validations
-  validates_presence_of :campaign
+  validates_presence_of :old_campaign
   validates_presence_of :contact_email
   validates_presence_of :name
   validates_presence_of :short_name
