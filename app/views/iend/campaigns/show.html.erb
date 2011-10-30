@@ -1,0 +1,28 @@
+<% content_for :html_title do %>iEnd:Poverty - <%=h @campaign.name %><% end %>
+
+<% content_for :header do %>
+  <div class="feature">
+    <h1>End Global Poverty</h1>
+    <p>The world is changing. Gift Different</p>
+  </div>
+<% end %>
+
+<% content_for :top_content do %>
+  <div class="clearfix">
+    <div class="prepend-top prepend-2">
+      <h1><%=h @campaign.name %></h1>
+      <% if @campaign.user == current_user %>
+      	<h6><%= link_to 'Edit', edit_iend_campaign_path(@campaign) %></h6>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="clearfix">
+  <div class="span-10">
+    <%= @campaign.description %>
+  </div>
+  <div class="span-4 last">
+    <%= render :partial => "teams" %>
+  </div>
+</div>

@@ -19,6 +19,16 @@ describe Campaign do
     @campaign.valid?.should == false
   end
 
+  it "should require a creator" do
+    @campaign.user = nil
+    @campaign.valid?.should == false
+  end
+
+  it "should require a url" do
+    @campaign.url = nil
+    @campaign.valid?.should == false
+  end
+
   it "should have one participant when the creator is set" do
     @campaign.participants.size.should == 1
   end

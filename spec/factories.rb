@@ -38,6 +38,7 @@ end
 Factory.define :campaign do |c|
   c.name { Faker::Company.bs + " Campaign" }
   c.association :user, :factory => :user
+  c.url { Faker::Company.name }
   c.description { Faker::Lorem.paragraph }
 end
 

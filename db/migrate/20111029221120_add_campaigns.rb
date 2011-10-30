@@ -4,10 +4,12 @@ class AddCampaigns < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.integer :user_id
-      t.integer :campaign_id
+      t.string :url
+      t.string :cached_slug
 
       t.timestamps
     end
+
   end
 
   def self.down

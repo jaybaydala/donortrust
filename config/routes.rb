@@ -7,6 +7,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :iend, :controller => "iend"
   map.namespace(:iend) do |iend|
     iend.resources :authentications
+    iend.resources :campaigns do |campaign|
+      campaign.resources :teams
+    end
     iend.resources :orders, :only => :index
     iend.resources :password_resets, :only => [:new, :create]
     iend.resource :profile, :controller => 'iend_profiles'

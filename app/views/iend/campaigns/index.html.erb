@@ -1,0 +1,5 @@
+<h1>Current Campaigns</h1>
+<h2><%= link_to "Create a new campaign", new_iend_campaign_path %></h2>
+<% @campaigns.each do |c| %>
+  <%= link_to c.name, iend_campaign_path(c) %><br />
+<% end %>
