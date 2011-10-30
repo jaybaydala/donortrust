@@ -17,7 +17,7 @@ Factory.define :authentication do |a|
   a.token "120975612957171-98|10fbe127b6e5759ba86ec26d.1-7dud923oe397642366|F6j8tWNKHYJMpJ5Ug5EVreYt5VY"
 end
 
-Factory.define :campaign do |a|
+Factory.define :old_campaign do |a|
   a.email { Faker::Internet.email }
   a.name { Faker::Company.bs + " Campaign" }
   a.campaign_type { |ct| ct.association(:campaign_type) }
@@ -33,6 +33,12 @@ Factory.define :campaign do |a|
   a.event_date { 1.month.from_now }
   a.raise_funds_till_date { 2.months.from_now }
   a.allocate_funds_by_date { 3.months.from_now }
+end
+
+Factory.define :campaign do |c|
+  c.name { Faker::Company.bs + " Campaign" }
+  c.association :user, :factory => :user
+  c.description { Faker::Lorem.paragraph }
 end
 
 Factory.define :campaign_type do |a|
@@ -104,7 +110,7 @@ end
 Factory.sequence :participant_short_name do |n|
   "participant_short_name_#{n}"
 end
-Factory.define :participant do |p|
+Factory.define :old_participant do |p|
   p.association :team, :factory => :team
   p.association :user, :factory => :user
   p.short_name { Factory.next(:participant_short_name) }
@@ -182,6 +188,11 @@ Factory.define :unallocated_project, :class => Project do |p|
   p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
 end
 
+Factory.define :participant do |p|
+  p.association :user, :factory => :user
+  p.association :campaign, :factory => :campaign
+end
+
 Factory.define :project_status do |p|
   p.name { "#{Faker::Lorem.words(6).join(" ")} Project Status"}
   p.description { Faker::Lorem.sentence }
@@ -227,10 +238,17 @@ Factory.define :subscription_line_item do |s|
   s.association :subscription
 end
 
+Factory.define :team do |t|
+  t.name { Faker::Name.name + " Team"}
+  t.description { Faker::Lorem.paragraph }
+  t.association :user, :factory => :user
+  t.association :campaign, :factory => :campaign
+end
+
 Factory.sequence :team_short_name do |n|
   "team_short_name_#{n}"
 end
-Factory.define :team do |t|
+Factory.define :old_team do |t|
   t.name { "#{Faker::Name.name} Team" }
   t.short_name { Factory.next(:team_short_name) }
   t.contact_email { Faker::Internet.email }
@@ -242,6 +260,11 @@ Factory.define :team do |t|
   t.pending false
   t.ok_to_contact true
   t.require_authorization false
+end
+
+Factory.define :team_membership do |tm|
+  tm.association :user, :factory => :user
+  tm.association :team, :factory => :team
 end
 
 Factory.define :user do |u|
