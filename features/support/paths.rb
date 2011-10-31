@@ -37,6 +37,11 @@ module NavigationHelpers
       dt_team_path(Team.find_by_short_name($1))
     when /the "(.*)" campaign page/
       dt_campaign_path(Campaign.find_by_short_name($1))
+    when /the "(.*)" iend campaign page/
+      @campaign = Campaign.find($1)
+      iend_campaign_path(@campaign)
+    when /the edit iend campaign page/
+      edit_iend_campaign_path(@campaign)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
