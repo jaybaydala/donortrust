@@ -18,15 +18,22 @@ Scenario: Create a new campaign
   Then I should be on the "test-campaign" iend campaign page
   And I should see "Your new campaign was created"
 
-@wip
 Scenario: Update an existing campaign
   Given I have created a campaign with a url of "my-campaign"
-  And I am on the "my-campaign" iend campagin page
+  And I go to the "my-campaign" iend campaign page
+  Then I should be on the "my-campaign" iend campaign page
   Then I should see "Edit"
-  And show me the page
   When I follow "Edit"
   Then I should be on the edit iend campaign page
   Given I fill in "Campaign Name" with "Updated Name"
   And I press "Update Campaign"
-  Then I should be on the iend campaign page
+  Then I should be on the "my-campaign" iend campaign page
   And I should see "Updated Name"
+
+Scenario: Remove an existing campaign
+  Given I have created a campaign with a url of "my-campaign"
+  And I am on the "my-campaign" iend campaign page
+  Then I should see "Remove"
+  When I follow "Remove"
+  Then I should be on the iend campaigns page
+  And I should see "Your campaign was removed"

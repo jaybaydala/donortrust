@@ -29,19 +29,16 @@ module NavigationHelpers
       '/login'
     when /the redisplayed login page/
       iend_session_path
-    when /my|the iend user page/
-      iend_user_path(current_user || User.last)
-    when /the authentications page/
-      iend_authentications_path
-    when /the "(.*)" team page/
-      dt_team_path(Team.find_by_short_name($1))
-    when /the "(.*)" campaign page/
-      dt_campaign_path(Campaign.find_by_short_name($1))
     when /the "(.*)" iend campaign page/
       @campaign = Campaign.find($1)
       iend_campaign_path(@campaign)
     when /the edit iend campaign page/
+      @campaign ||= Campaign.last
       edit_iend_campaign_path(@campaign)
+    when /my|the iend user page/
+      iend_user_path(current_user || User.last)
+    when /the authentications page/
+      iend_authentications_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

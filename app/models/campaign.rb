@@ -12,7 +12,6 @@ class Campaign < ActiveRecord::Base
   before_save :copy_slug
   after_save :set_creator_as_participant
 
-
   protected
     def copy_slug
       self.url = self.friendly_id

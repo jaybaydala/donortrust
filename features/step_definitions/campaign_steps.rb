@@ -1,3 +1,5 @@
-Given /^I have created a campaign with a url of "(.*)"$/ do |url|
-  @campaign = Factory(:campaign, :user => current_user, :url => url)
+Given /^I have created a campaign with a url of "([^\"]*)"$/ do |url|
+  @campaign = Factory(:campaign, :user => @user, :url => url)
+  @campaign.url = url
+  @campaign.save
 end
