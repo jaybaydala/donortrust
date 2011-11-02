@@ -9,6 +9,8 @@ config/database.yml
 config/omniauth.yml
 config/initializers/*_local.rb
 config/development.sphinx.conf
+config/test.sphinx.conf
+config/cucumber.sphinx.conf
 development_structure.sql
 db/schema.rb
 *.sqlite3

@@ -13,7 +13,7 @@ ActionController::Routing::Routes.draw do |map|
     iend.resource :session, :controller => 'sessions'
     iend.resources :subscriptions
     iend.resources :tax_receipts, :only => :index
-    iend.resources :users, :except => :index, :member => { :edit_password => :get }
+    iend.resources :users, :member => { :edit_password => :get }
   end
 
   map.namespace(:dt) do |dt|
