@@ -1,6 +1,15 @@
 <%- content_for :html_title do -%>iEnd<%- end -%>
 
 <%= render 'iend/shared/header' %>
-<%= render 'iend/users/nav' %>
 
-hithere
+<form method="get">
+  <div><label for="search">Search:</label> <input name="search" id="search" type="search" value="<%= params[:search] %>"> <input type="submit" value="Go"></div>
+</form>
+
+<ul class="results">
+<%- @profiles.each do |profile| -%>
+  <li><%= link_to profile.formatted_name, iend_user_path(profile.user) %></li>
+<%- end -%>
+</ul>
+
+<%= will_paginate @profiles %>

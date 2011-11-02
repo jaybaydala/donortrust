@@ -2,7 +2,20 @@ class Iend::UsersController < DtApplicationController
   before_filter :restrict_no_user, :only => [ :new, :create ]
   before_filter :restrict_current_user, :only => [ :edit, :update, :edit_password ]
   helper "dt/places"
-  
+
+  def index
+    if params[:search].blank?
+      @profiles = IendProfile.paginate(:page => params[:page], :per_page => 18)
+    else
+      @profiles = IendProfile.search params[:search],
+        :page     => params[:page],
+        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
+        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym),
+        :populate => true
+        # TODO Should we be able to search for iend profiles by name and receive Anonymous matches?
+    end
+  end
+
   def show
     @user = current_user if params[:id] == 'current'
     @user ||= User.find(params[:id])
@@ -77,4 +90,5 @@ class Iend::UsersController < DtApplicationController
     def restrict_current_user
       redirect_to(logged_in? ? iend_user_path(current_user) : iend_path) unless params[:id] == 'current' || params[:id].to_i == current_user.id
     end
+
 end
