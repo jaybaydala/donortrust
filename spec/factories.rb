@@ -112,7 +112,7 @@ Factory.sequence :participant_short_name do |n|
   "participant_short_name_#{n}"
 end
 Factory.define :old_participant do |p|
-  p.association :team, :factory => :team
+  p.association :team, :factory => :old_team
   p.association :user, :factory => :user
   p.short_name { Factory.next(:participant_short_name) }
   p.pending false
@@ -244,6 +244,7 @@ Factory.define :team do |t|
   t.description { Faker::Lorem.paragraph }
   t.association :user, :factory => :user
   t.association :campaign, :factory => :campaign
+  t.goal 50.00
 end
 
 Factory.sequence :team_short_name do |n|

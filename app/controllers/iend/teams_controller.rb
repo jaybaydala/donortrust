@@ -12,14 +12,16 @@ class Iend::TeamsController < DtApplicationController
 
   def new
     @team = Team.new(params[:team])
+    @team.campaign = Campaign.find(params[:campaign_id])
   end
 
   def create
     @team = Team.new(params[:team])
+    @team.campaign = Campaign.find(params[:campaign_id])
     @team.user = current_user
     if @team.save
       flash[:notice] = "Your new team was created"
-      redirect_to iend_team_path(@team)
+      redirect_to iend_campaign_team_path(@team.campaign, @team)
     else
       render :new
     end
@@ -32,7 +34,7 @@ class Iend::TeamsController < DtApplicationController
   def update
     if @team.update_attributes(params[:team])
       flash[:notice] = "Your changes have been saved"
-      redirect_to iend_team_path(@team)
+      redirect_to iend_team_path(@@team.campaign, @team)
     else
       render :edit
     end
@@ -56,7 +58,7 @@ class Iend::TeamsController < DtApplicationController
       @team = Team.find(params[:id])
       if @team.user != current_user
         flash[:error] = "You do not have permission to do that"
-        redirect_to iend_team_path(@team) and return
+        redirect_to iend_team_path(@team.campaign, @team) and return
       end
     end
 end
