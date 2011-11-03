@@ -3,15 +3,17 @@ class Iend::UsersController < DtApplicationController
   before_filter :restrict_current_user, :only => [ :edit, :update, :edit_password ]
   helper "dt/places"
 
+  helper_method :sector_toggle
+
   def index
-    if params[:search].blank?
+    @sectors = Sector.alphabetical
+    if params[:search].blank? && params[:sectors].blank?
       @profiles = IendProfile.paginate(:page => params[:page], :per_page => 18)
     else
-      @profiles = IendProfile.search params[:search],
+      @profiles = IendProfile.search params[:search], :with_all => prepare_with_all,
         :page     => params[:page],
         :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
-        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym),
-        :populate => true
+        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym)
         # TODO Should we be able to search for iend profiles by name and receive Anonymous matches?
     end
   end
@@ -89,6 +91,27 @@ class Iend::UsersController < DtApplicationController
 
     def restrict_current_user
       redirect_to(logged_in? ? iend_user_path(current_user) : iend_path) unless params[:id] == 'current' || params[:id].to_i == current_user.id
+    end
+
+    def prepare_with_all
+      return nil if sector_params_to_array.empty?
+      { :sector_ids => sector_params_to_array }
+    end
+
+    def sector_params_to_array
+      params[:sectors].try(:split, /\s|\+|,/)
+    end
+
+    def sector_toggle(sector_id)
+      (sector_params_to_array.to_a.include? sector_id.to_s) ? sector_remove(sector_id) : sector_add(sector_id)
+    end
+
+    def sector_add(sector_id)
+      sector_params_to_array.to_a.push(sector_id.to_s).uniq.join(' ')
+    end
+
+    def sector_remove(sector_id)
+      sector_params_to_array.to_a.reject{|a| a == sector_id.to_s}.join(' ')
     end
 
 end
