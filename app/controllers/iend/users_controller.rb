@@ -10,7 +10,9 @@ class Iend::UsersController < DtApplicationController
     if params[:search].blank? && params[:sectors].blank?
       @profiles = IendProfile.paginate(:page => params[:page], :per_page => 18)
     else
-      @profiles = IendProfile.search params[:search], :with_all => prepare_with_all,
+      @profiles = IendProfile.search params[:search],
+        :with_all => search_prepare_with_all,
+        :without  => search_prepare_without,
         :page     => params[:page],
         :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
         :order    => (params[:order].blank? ? :created_at : params[:order].to_sym)
@@ -93,8 +95,13 @@ class Iend::UsersController < DtApplicationController
       redirect_to(logged_in? ? iend_user_path(current_user) : iend_path) unless params[:id] == 'current' || params[:id].to_i == current_user.id
     end
 
-    def prepare_with_all
-      return nil if sector_params_to_array.empty?
+    def search_prepare_without
+      return nil if sector_params_to_array.nil? || sector_params_to_array.empty?
+      { :preferred_poverty_sectors => false }
+    end
+
+    def search_prepare_with_all
+      return nil if sector_params_to_array.nil? || sector_params_to_array.empty?
       { :sector_ids => sector_params_to_array }
     end
 

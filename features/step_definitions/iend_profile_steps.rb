@@ -39,6 +39,6 @@ Given /^the iend profile "([^"]*)" has a public name and private sectors$/ do |n
   first, last = name.split(' ')
   user = User.find_by_first_name_and_last_name(first, last)
   user.iend_profile.name = true
-  user.iend_profile.preferred_poverty_sectors = true
+  user.iend_profile.preferred_poverty_sectors = false
   user.iend_profile.save
 end

@@ -92,8 +92,8 @@ Feature: iEnd Profile Search
   # Make sectors private
 
   Scenario: Search by sector on private sector
-    # Given I am on the users page
-    # And the iend profile "Jimmy Rankin" has a public name and private sectors
-    # When I follow "Good Cause"
-    # Then I should not see "Jimmy Rankin" within ".results"
+    Given I am on the users page
+    And the iend profile "Jimmy Rankin" has a public name and private sectors
+    When I follow "Good Cause"
+    Then I should not see "Jimmy Rankin" within ".results"
 
