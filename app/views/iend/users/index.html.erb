@@ -3,9 +3,17 @@
 <%= render 'iend/shared/header' %>
 
 <form method="get">
-  <div><label for="search">Search:</label> <input name="search" id="search" type="search" value="<%= params[:search] %>"> <input type="submit" value="Go"></div>
+  <p><label for="search">Search:</label> <input name="search" id="search" type="search" value="<%= params[:search] %>"> <input type="submit" value="Go"> <input type="hidden" name="sectors" value="<%= params[:sectors] %>"></p>
 </form>
 
+<h2>Sectors:</h2>
+<ul class="sectors">
+  <% @sectors.each do |sector| %>
+    <li><%= link_to sector.name, iend_users_path(:sectors => sector_toggle(sector.id), :search => params[:search]) %></li>
+  <% end %>
+</ul>
+
+<h2>Profiles:</h2>
 <ul class="results">
 <%- @profiles.each do |profile| -%>
   <li><%= link_to profile.display_name, iend_user_path(profile.user) %></li>

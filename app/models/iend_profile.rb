@@ -8,6 +8,7 @@ class IendProfile < ActiveRecord::Base
     has user_id
     has created_at
     has updated_at
+    has user.preferred_sectors.sector_id, :as => :sector_ids
   end
 
   def display_name

@@ -31,11 +31,11 @@ Feature: iEnd Profile Search
     And I should see "Anonymous" within ".results"
 
   Scenario: Sector search on private name + location
-    # Given I am on the users page
-    # When I follow "Good Cause"
-    # Then I should not see "Jimmy Rankin" within ".results"
-    # And I should not see "Canada" within ".results"
-    # And I should see "Anonymous" within ".results"
+    Given I am on the users page
+    When I follow "Good Cause"
+    Then I should not see "Jimmy Rankin" within ".results"
+    And I should not see "Canada" within ".results"
+    And I should see "Anonymous" within ".results"
 
   # Make names public
 
@@ -57,11 +57,12 @@ Feature: iEnd Profile Search
     And I should not see "Rita Rankin" within ".results"
 
   Scenario: Search by sector on public name
-    # Given I am on the users page
-    # And the iend profile "Jimmy Rankin" has a public name
-    # When I follow "Good Cause"
-    # Then I should see "Jimmy Rankin" within ".results"
-    # And I should not see "Rita Rankin" within ".results"
+    Given I am on the users page
+    And the iend profile "Jimmy Rankin" has a public name
+    When I follow "Good Cause"
+    Then I should see "Jimmy Rankin" within ".results"
+    And I should not see "Rita Rankin" within ".results"
+    And I should not see "Anonymous" within ".results"
 
   # Make location public
 
@@ -82,11 +83,11 @@ Feature: iEnd Profile Search
     And I should not see "United States" within ".results"
 
   Scenario: Search by sector on public location
-    # Given I am on the users page
-    # And the iend profile "Jimmy Rankin" has a public location
-    # When I follow "Good Cause"
-    # Then I should see "Canada" within ".results"
-    # And I should not see "United States" within ".results"
+    Given I am on the users page
+    And the iend profile "Jimmy Rankin" has a public location
+    When I follow "Good Cause"
+    Then I should see "Canada" within ".results"
+    And I should not see "United States" within ".results"
 
   # Make sectors private
 
