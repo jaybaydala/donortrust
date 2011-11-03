@@ -15,12 +15,11 @@ class IendProfile < ActiveRecord::Base
   end
 
   def formatted_location
-    return [user.city, user.province, user.country].compact.delete_if{ |x| x.empty? }.join(', ') if location?
+    [user.city, user.province, user.country].compact.delete_if{ |x| x.empty? }.join(', ') if location?
   end
 
   def formatted_name
-    return user.full_name if name? && user.full_name.present?
-    "Anonymous"
+    (name? && user.full_name.present?) ? user.full_name : "Anonymous"
   end
 
 end
