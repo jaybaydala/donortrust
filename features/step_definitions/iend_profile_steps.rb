@@ -28,10 +28,17 @@ Given /^a clean slate$/ do
   end
 end
 
-Given /^the iend profile "([^"]*)" has a public location$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Given /^the iend profile "([^"]*)" has a public location$/ do |name|
+  first, last = name.split(' ')
+  user = User.find_by_first_name_and_last_name(first, last)
+  user.iend_profile.location = true
+  user.iend_profile.save
 end
 
-Given /^the iend profile "([^"]*)" has a public name and private sectors$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Given /^the iend profile "([^"]*)" has a public name and private sectors$/ do |name|
+  first, last = name.split(' ')
+  user = User.find_by_first_name_and_last_name(first, last)
+  user.iend_profile.name = true
+  user.iend_profile.preferred_poverty_sectors = true
+  user.iend_profile.save
 end

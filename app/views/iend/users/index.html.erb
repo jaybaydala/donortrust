@@ -8,7 +8,7 @@
 
 <ul class="results">
 <%- @profiles.each do |profile| -%>
-  <li><%= link_to profile.formatted_name, iend_user_path(profile.user) %></li>
+  <li><%= link_to profile.display_name, iend_user_path(profile.user) %></li>
 <%- end -%>
 </ul>
 

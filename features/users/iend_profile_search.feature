@@ -12,7 +12,7 @@ Feature: iEnd Profile Search
     And there is an iend profile named "Rita Rankin" from "United States" with poverty sector "Another Cause"
     And the iend profile indexes are processed
 
-  # Defaults to anonymous name + location
+  # Defaults to anonymous name + location, public sectors
 
   Scenario: Name search on private name
     Given I am on the users page
@@ -20,13 +20,15 @@ Feature: iEnd Profile Search
     And I press "Go"
     Then I should not see "Jimmy Rankin" within ".results"
     And I should not see "Rita Rankin" within ".results"
+    And I should see "Anonymous" within ".results"
 
   Scenario: Location search on private location
     Given I am on the users page
     When I fill in "Search" with "Canada"
     And I press "Go"
     Then I should not see "Jimmy Rankin" within ".results"
-    And I should not see "Rita Rankin" within ".results"
+    And I should not see "Canada" within ".results"
+    And I should see "Anonymous" within ".results"
 
   Scenario: Sector search on private name + location
     # Given I am on the users page
@@ -68,9 +70,8 @@ Feature: iEnd Profile Search
     And the iend profile "Jimmy Rankin" has a public location
     When I fill in "Search" with "Jimmy"
     And I press "Go"
-    Then I should see "Canada" within ".results"
+    Then I should see "Anonymous, Canada" within ".results"
     And I should not see "United States" within ".results"
-    And I should not see "Anonymous" within ".results"
 
   Scenario: Search by location on public location
     Given I am on the users page
