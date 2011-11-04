@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :preferred_sectors
   has_many :sectors, :through => :preferred_sectors
-  has_many :team_memberships
+  has_many :team_memberships, :dependent => :destroy
   has_many :teams, :through => :team_memberships
   has_one :profile
   has_one :iend_profile

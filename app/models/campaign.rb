@@ -1,8 +1,8 @@
 class Campaign < ActiveRecord::Base
   belongs_to :user
   has_and_belongs_to_many :sectors
-  has_many :participants
-  has_many :teams
+  has_many :participants, :dependent => :destroy
+  has_many :teams, :dependent => :destroy
   has_friendly_id :url, :use_slug => true
 
   validates_presence_of :name
