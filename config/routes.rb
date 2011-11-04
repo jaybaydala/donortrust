@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
     iend.resources :authentications
     iend.resources :campaigns do |campaign|
       campaign.resources :teams
+      campaign.resources :team_memberships, :only => [:create, :destroy]
     end
     iend.resources :orders, :only => :index
     iend.resources :password_resets, :only => [:new, :create]

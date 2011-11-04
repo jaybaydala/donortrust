@@ -44,6 +44,9 @@ module NavigationHelpers
     when /the newly created iend campaign team page/
       @team ||= Team.last
       iend_campaign_team_path(@team.campaign, @team)
+    when /the iend campaign team page/
+      @team ||= Teamlast
+      iend_campaign_team_path(@team.campaign, @team)
     when /my|the iend user page/
       iend_user_path(current_user || User.last)
     when /the authentications page/

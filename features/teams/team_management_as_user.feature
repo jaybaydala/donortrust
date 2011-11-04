@@ -7,7 +7,6 @@ Background:
   Given I am an authenticated user
   And there is an existing campaign
 
-@wip
 Scenario: Create a new team
   Given I am on the iend campaign page
   Then I should see "No Teams have been created yet"
@@ -22,11 +21,15 @@ Scenario: Create a new team
   And I should be a member of the team
   And I should see "Your new team was created"
 
-@wip
-Scenario: Try to join a second team for the same campaign
-  Given the campaign has 2 teams
+Scenario: Leave a team I am a member of
+  Given the campaign has 1 teams
   And I am a member of one of the teams
   And I am on the iend campaign page
-  When I go to the iend campaign team page for the other team
+  And I follow the team link
+  Then I should be on the iend campaign team page
   And I should not see "Join Team"
-
+  And I should see "Leave Team"
+  When I follow "Leave Team"
+  Then I should be on the iend campaign team page
+  And I should see "You have left the team"
+  And I should see "Join Team"

@@ -8,6 +8,7 @@ class Iend::TeamsController < DtApplicationController
 
   def show
     @team = Team.find(params[:id])
+    @user = current_user
   end
 
   def new
