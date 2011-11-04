@@ -96,29 +96,29 @@ class Iend::UsersController < DtApplicationController
     end
 
     def search_prepare_without
-      return nil if sector_params_to_array.nil? || sector_params_to_array.empty?
+      return nil if sector_params_array.nil? || sector_params_array.empty?
       { :preferred_poverty_sectors => false }
     end
 
     def search_prepare_with_all
-      return nil if sector_params_to_array.nil? || sector_params_to_array.empty?
-      { :sector_ids => sector_params_to_array }
+      return nil if sector_params_array.empty?
+      { :sector_ids => sector_params_array }
     end
 
-    def sector_params_to_array
-      params[:sectors].try(:split, /\s|\+|,/)
+    def sector_params_array
+      params[:sectors].try(:split, /\s|\+|,/).to_a
     end
 
     def sector_toggle(sector_id)
-      (sector_params_to_array.to_a.include? sector_id.to_s) ? sector_remove(sector_id) : sector_add(sector_id)
+      (sector_params_array.include? sector_id.to_s) ? sector_remove(sector_id) : sector_add(sector_id)
     end
 
     def sector_add(sector_id)
-      sector_params_to_array.to_a.push(sector_id.to_s).uniq.join(' ')
+      sector_params_array.push(sector_id.to_s).uniq.join(' ')
     end
 
     def sector_remove(sector_id)
-      sector_params_to_array.to_a.reject{|a| a == sector_id.to_s}.join(' ')
+      sector_params_array.reject{|a| a == sector_id.to_s}.join(' ')
     end
 
 end
