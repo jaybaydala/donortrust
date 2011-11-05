@@ -2,7 +2,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Team do
   before do
-    @team = Factory:team
+    @user = Factory.create(:user)
+    @campaign = Factory.create(:campaign, :user => @user)
+    @team = Factory.create(:team, :user => @user, :campaign => @campaign)
   end
 
   it { should belong_to(:user) }

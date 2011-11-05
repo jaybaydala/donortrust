@@ -10,8 +10,7 @@ class Campaign < ActiveRecord::Base
   validates_presence_of :user
   validates_presence_of :url
 
-  before_save :copy_slug
-  after_save :set_creator_as_participant
+  after_create :set_creator_as_participant
 
   def user_can_participate?(user)
     if self.users.include?(user) #already a member
@@ -33,10 +32,6 @@ class Campaign < ActiveRecord::Base
   end
 
   protected
-    def copy_slug
-      self.url = self.friendly_id
-    end
-
     def set_creator_as_participant
       Participant.create!(:user => self.user, :campaign => self)
     end
