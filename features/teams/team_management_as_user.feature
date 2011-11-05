@@ -6,6 +6,7 @@ So that I can help to end poverty
 Background:
   Given I am an authenticated user
   And there is an existing campaign
+  And I am a participant of the campaign
 
 Scenario: Create a new team
   Given I am on the iend campaign page

@@ -11,6 +11,11 @@
   <% end %>
 </ul>
 <% end %>
-<% if @team.user_can_join? @user %>
+<% if @team.user_can_join?(@user) %>
   <%= link_to "Join Team", iend_campaign_team_memberships_path(@team.campaign, :team_membership => { :user_id => @user.id, :team_id => @team.id }), :method => :post %>
+<% else %>
+  <p>You must be participating in this campaign to join the team.</p>
+  <% if @team.campaign.user_can_participate?(@user) %>
+    <p><%= link_to "Join this campaign", iend_campaign_participants_path(@team.campaign), :method => :post %></p>
+  <% end %>
 <% end %>

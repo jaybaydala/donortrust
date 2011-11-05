@@ -37,7 +37,7 @@ end
 
 Factory.define :campaign do |c|
   c.name { Faker::Company.bs + " Campaign" }
-  c.association :user, :factory => :user
+  c.user { |u| u.association(:user) }
   c.url { Factory.next(:campaign_short_name) }
   c.description { Faker::Lorem.paragraph }
 end
@@ -111,6 +111,12 @@ end
 Factory.sequence :participant_short_name do |n|
   "participant_short_name_#{n}"
 end
+
+Factory.define :participant do |p|
+  p.association :team, :factory => :team
+  p.association :user, :factory => :user
+end
+
 Factory.define :old_participant do |p|
   p.association :team, :factory => :old_team
   p.association :user, :factory => :user
@@ -187,11 +193,6 @@ Factory.define :unallocated_project, :class => Project do |p|
   p.association :place
   p.association :program
   p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
-end
-
-Factory.define :participant do |p|
-  p.association :user, :factory => :user
-  p.association :campaign, :factory => :campaign
 end
 
 Factory.define :project_status do |p|

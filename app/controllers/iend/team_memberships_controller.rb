@@ -32,7 +32,7 @@ class Iend::TeamMembershipsController < DtApplicationController
       @team_membership = TeamMembership.find(params[:id])
       if @team_membership.user != current_user
         flash[:error] = "You do not have permission to do that"
-        redirect_to iend_team_path(@team_membership.team.campaign, @team_membership.team) and return
+        redirect_to iend_campaign_team_path(@team_membership.team.campaign, @team_membership.team) and return
       end
     end
 end

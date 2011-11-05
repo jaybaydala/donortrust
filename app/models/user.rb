@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   #acts_as_versioned
   acts_as_paranoid_versioned
   has_many :authentications, :dependent => :destroy
+  has_many :campaigns, :through => :participants
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
@@ -20,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :pledge_accounts
   has_many :tax_receipts
   has_many :my_wishlists
+  has_many :participants, :dependent => :destroy
   has_many :projects, :through => :my_wishlists
   has_many :roles, :through => :administrations
   has_many :administrations
@@ -355,12 +357,12 @@ class User < ActiveRecord::Base
   #  return false
   #end
 
-  def campaigns
-    @campaigns = Campaign.find_by_sql([
-      "SELECT c.* from campaigns c INNER JOIN teams t INNER JOIN participants p " +
-      "ON c.id = t.campaign_id AND t.id = p.team_id "+
-      "WHERE p.user_id = ? ORDER BY c.event_date DESC", self.id])
-  end
+  # def campaigns
+  #   @campaigns = Campaign.find_by_sql([
+  #     "SELECT c.* from campaigns c INNER JOIN teams t INNER JOIN participants p " +
+  #     "ON c.id = t.campaign_id AND t.id = p.team_id "+
+  #     "WHERE p.user_id = ? ORDER BY c.event_date DESC", self.id])
+  # end
 
   def participation
     @participation = Participant.find_by_sql(["SELECT p.* from participants p WHERE p.user_id = ?", self.id])

@@ -8,6 +8,7 @@ class Iend::CampaignsController < DtApplicationController
 
   def show
     @campaign = Campaign.find(params[:id])
+    @user = current_user
   end
 
   def new

@@ -4,12 +4,18 @@ end
 
 Given /^the campaign has (\d+) teams$/ do |num_teams|
   num_teams.to_i.times do |i|
-    @team = Factory(:team, :campaign => @campaign)
+    creator = Factory.create(:user)
+    Participant.create(:campaign => @campaign, :user => creator)
+    @team = Factory(:team, :campaign => @campaign, :user => creator)
   end
   @campaign.teams.reload
 end
 
 Given /^I am a member of one of the teams$/ do
+  if !@team.campaign.users.reload.include?(@user)
+    Participant.create(:campaign => @team.campaign, :user => @user)
+    @team.campaign.users.reload
+  end
   Factory(:team_membership, :team => @team, :user => @user)
 end
 

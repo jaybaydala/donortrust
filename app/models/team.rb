@@ -6,16 +6,21 @@ class Team < ActiveRecord::Base
 
   validates_presence_of :name
   validates_numericality_of :goal, :greater_than => 0
-  validate :creator_can_join_team
+  validate_on_create :creator_can_join_team
 
   after_create :add_creator_as_member
 
   def user_can_join?(user)
-    teams = self.campaign.teams
+    teams = self.campaign.teams.reload
     teams.each do |t|
-      return false if t.users.include?(user)
+      if t.users.include?(user)
+        return false
+      end
     end
-    true
+    if !self.campaign.users.reload.include?(user)
+      return false
+    end
+    return true
   end
 
   protected
