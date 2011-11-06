@@ -35,7 +35,7 @@ class Iend::TeamsController < DtApplicationController
   def update
     if @team.update_attributes(params[:team])
       flash[:notice] = "Your changes have been saved"
-      redirect_to iend_team_path(@@team.campaign, @team)
+      redirect_to iend_campaign_team_path(@team.campaign, @team)
     else
       render :edit
     end

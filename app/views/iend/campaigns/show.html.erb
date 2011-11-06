@@ -21,11 +21,12 @@
 <div class="clearfix">
   <div class="span-10">
     <h1>Goal: <%= number_to_currency @campaign.goal %></h1>
-    <% @campaign.sectors.each do |sector| %>
-      <%= image_tag("/images/icons/#{sector.image_name(16)}", :alt => "#{sector.name}", :width => 16, :height => 16, :style => "vertical-align:bottom;") %>
-      <%= sector.name %>
-    <% end %>
-    <%= @campaign.description %>
+    <p>
+      <% @campaign.sectors.each do |sector| %>
+        <%= image_tag("/images/icons/#{sector.image_name(16)}", :alt => "#{sector.name}", :width => 16, :height => 16, :style => "vertical-align:bottom;") %><%= sector.name %>
+      <% end %>
+    </p>
+    <%= simple_format @campaign.description %>
   </div>
   <div class="span-4 last">
     <%= render :partial => "teams" %>
