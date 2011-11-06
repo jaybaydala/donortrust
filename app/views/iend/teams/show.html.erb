@@ -10,7 +10,7 @@
 <% content_for :top_content do %>
   <div class="clearfix">
     <div class="prepend-top prepend-2">
-      <h1>Team <%=h @team.name %> for <%=h @team.campaign.name %></h1>
+      <h1>Team "<%=h @team.name %>" for <%=h @team.campaign.name %></h1>
     </div>
   </div>
 <% end %>
@@ -18,6 +18,7 @@
 <div class="clearfix">
   <div class="span-10">
     <h3>Goal: <%=h number_to_currency @team.goal %></h3>
+    <p>Back to <%= link_to @team.campaign.name, iend_campaign_path(@team.campaign) %></p>
     <p><%=h @team.description %></p>
   </div>
   <div class="span-4 last">

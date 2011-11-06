@@ -12,7 +12,7 @@
     <div class="prepend-top prepend-2">
       <h1><%=h @campaign.name %></h1>
       <% if @campaign.user == current_user %>
-      	<h6><%= link_to 'Edit', edit_iend_campaign_path(@campaign) %> | <%= link_to 'Remove', iend_campaign_path(@campaign), :method => :delete, :confirm => "Are you sure you want to remove this campaign?" %></h6>
+        <h6><%= link_to 'Edit', edit_iend_campaign_path(@campaign) %> | <%= link_to 'Remove', iend_campaign_path(@campaign), :method => :delete, :confirm => "Are you sure you want to remove this campaign?" %></h6>
       <% end %>
     </div>
   </div>
@@ -20,10 +20,15 @@
 
 <div class="clearfix">
   <div class="span-10">
+    <h1>Goal: <%= number_to_currency @campaign.goal %></h1>
+    <% @campaign.sectors.each do |sector| %>
+      <%= image_tag("/images/icons/#{sector.image_name(16)}", :alt => "#{sector.name}", :width => 16, :height => 16, :style => "vertical-align:bottom;") %>
+      <%= sector.name %>
+    <% end %>
     <%= @campaign.description %>
   </div>
   <div class="span-4 last">
-    <%= render :partial => "participants" %>
     <%= render :partial => "teams" %>
+    <%= render :partial => "participants" %>
   </div>
 </div>

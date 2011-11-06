@@ -18,7 +18,7 @@ class TeamMembership < ActiveRecord::Base
     end
 
     def participant_in_campaign
-      if !self.team.campaign.users.include?(self.user)
+      if !self.team.campaign.users.reload.include?(self.user)
         errors.add(:user_id, "must be a participant of the campaign first")
       end
     end
