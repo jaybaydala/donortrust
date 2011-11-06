@@ -1,0 +1,7 @@
+<div class="campaign">
+  <h2><%= link_to campaign.name, iend_campaign_path(campaign) %></h2>
+  <h3>Goal: <%= number_to_currency campaign.goal %></h3>
+  <h4>Created by: <%= campaign.user.name %></h4>
+  <h4><%= pluralize campaign.users.size, 'Participant' %></h4>
+</div>
+
