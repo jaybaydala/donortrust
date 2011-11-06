@@ -213,6 +213,17 @@ section.iend.spaced { padding:36px 0; }
 .profile-summarybox .summary { background:url(/images/give/sidebar_summary-bg.png) repeat-x #E4E8EB; border:1px solid #CCC; margin-bottom:16px; padding:12px;}
 .borderradius .profile-summarybox .summary { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
 
+/* IEND CAMPAIGNS
+-------------*/
+.iend-campaigns .campaign {
+  height:150px;
+  padding:10px;
+  border:1px solid #666;
+  -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
+  box-shadow: 0px 5px 5px 0px #666; -webkit-box-shadow: 0px 5px 5px 0px #666; -moz-box-shadow: 0px 5px 5px 0px #666;
+}
+.iend-campaigns .campaign h4 {margin-bottom:0;}
+
 /* GIFTS
 ----------*/
 #gift-outline { background-color:#360; height:78px; }
