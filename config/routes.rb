@@ -232,7 +232,7 @@ ActionController::Routing::Routes.draw do |map|
                   :active_scaffold => true,
                   :collection => { :pending_projects => :get}
 
-    ba.resource :upowered, :controller => 'upowered', :member => { :report => :post, :send_email => :post }
+    ba.resource :upowered, :controller => "upowered", :member => { :report => :post, :send_email => :post }
     ba.resources :application_settings, :active_scaffold => true
     ba.resources :subscriptions
     ba.resources :statistic_widgets, :active_scaffold => true
