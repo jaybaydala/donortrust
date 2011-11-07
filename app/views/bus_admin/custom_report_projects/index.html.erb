@@ -1,0 +1,32 @@
+<p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
+
+<h1><%= @active_projects.size %> Active Projects and <%= @complete_projects.size %> Completed Projects out of <%= @all_projects.size %> Total Projects</h1>
+<ul>
+  <li>Active to complete ratio: <%= number_to_percentage( (@active_projects.size.to_f / @complete_projects.size.to_f) * 100 ) %></li>
+  <li>Active to total number of projects: <%= number_to_percentage( (@active_projects.size.to_f / @all_projects.size.to_f) * 100 ) %></li>
+</ul>
+<%= link_to "Download CSV", {:format => :csv} %>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Project</th>
+      <th>Status</th>
+      <th>Total Raised</th>
+      <th>Goal</th>
+      <th>Progress</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @all_projects.each do |p| %>
+      <tr>
+        <td><%= p.id %></td>
+        <td><%=h p.name %></td>
+        <td><%=h p.project_status.name %></td>
+        <td><%= number_to_currency p.dollars_raised %></td>
+        <td><%= number_to_currency p.total_cost %></td>
+        <td><%= number_to_percentage p.get_percent_raised %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

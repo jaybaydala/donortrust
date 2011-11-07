@@ -1,0 +1,38 @@
+<p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
+<% form_for :custom_report_upowered_subscriptions, :url => bus_admin_custom_report_upowered_subscriptions_path, :html => { :method => :get } do |f| %>
+  <fieldset>
+    <legend>u:powered Subscriptions Report</legend>
+    <ul class="row">
+      <li><%= select_date @start_date, :prefix => 'start_date' %> Report Start Date</li>
+    </ul>
+    <ul class="row">
+      <li><%= select_date @end_date, :prefix => 'end_date' %> Report End Date</li>
+    </ul>
+    <%= submit_tag 'Submit' %>
+  </fieldset>
+<% end %>
+
+<h1><%= number_to_currency @total_added %> of new subscriptions were active in this date range</h1>
+<%= link_to "Download CSV", {:format => :csv} %>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Amount</th>
+      <th>Start Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @current_subscriptions.each do |s| %>
+      <tr>
+        <td><%= s.id %></td>
+        <td><%=h s.first_name %> <%= s.last_name %></td>
+        <td><%=h s.email %></td>
+        <td><%= number_to_currency s.amount %></td>
+        <td><%= s.begin_date %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

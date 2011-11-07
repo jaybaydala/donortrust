@@ -6,13 +6,17 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :iend, :controller => "iend"
   map.namespace(:iend) do |iend|
-    iend.resource :session, :controller => 'sessions'
-    iend.resources :users, :except => :index, :member => { :edit_password => :get }
-    iend.resources :password_resets, :only => [:new, :create]
     iend.resources :authentications
     iend.resources :orders, :only => :index
-    iend.resources :tax_receipts, :only => :index
+    iend.resources :password_resets, :only => [:new, :create]
+    iend.resource :profile, :controller => 'iend_profiles'
+    iend.resource :session, :controller => 'sessions'
     iend.resources :subscriptions
+    iend.resources :tax_receipts, :only => :index
+    iend.resources :users, :except => :index, :member => { :edit_password => :get } do |user|
+      user.resources :friendships, :only => [:create], :member => {:accept => :get, :decline => :get}
+      user.resources :friends, :only => [:index]
+    end
   end
 
   map.namespace(:dt) do |dt|
@@ -231,11 +235,19 @@ ActionController::Routing::Routes.draw do |map|
                   :active_scaffold => true,
                   :collection => { :pending_projects => :get}
 
-    ba.resource :upowered, :member => { :report => :post, :send_email => :post }
+    ba.resource :upowered, :controller => 'upowered', :member => { :report => :post, :send_email => :post }
     ba.resources :application_settings, :active_scaffold => true
     ba.resources :subscriptions
     ba.resources :statistic_widgets, :active_scaffold => true
     ba.resources :pages, :active_scaffold => true
+    ba.resources :custom_reports, :only => [ :index ]
+    ba.resources :custom_report_gift_card_tips, :only => [ :index ]
+    ba.resources :custom_report_gift_cards, :only => [ :index ]
+    ba.resources :custom_report_carts, :only => [ :index ]
+    ba.resources :custom_report_projects, :only => [ :index ]
+    ba.resources :custom_report_upowereds, :only => [ :index ]
+    ba.resources :custom_report_upowered_subscriptions, :only => [ :index ]
+    ba.resources :custom_report_profiles, :only => [ :index ]
 
 
     # The priority is based upon order of creation: first created -> highest priority.

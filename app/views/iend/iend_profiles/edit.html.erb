@@ -1,0 +1,25 @@
+<% content_for :html_title do %>iEnd:Poverty - <%= current_user.name %><% end %>
+<%= render 'iend/shared/header' %>
+<%= iend_user_nav %>
+
+<p><%= link_to "View your public profile &raquo;".html_safe, iend_user_path(:current, :public => 1) %></p>
+
+<% semantic_form_for @iend_profile, :url => iend_profile_path do |f| %>
+  <% f.inputs "Select what you would like to show in your public profile" do %>
+    <li>All checked items will not be visible to the public. By default, we have kept your personal information private and made your giving information public.</li>
+    <%= f.input :name, :hint => "You will be shown as &quot;anonymous&quot; if this is left unchecked." %>
+    <%= f.input :picture, :hint => "#{link_to 'Edit your profile', edit_iend_user_path(:current)} to set your profile.".html_safe %>
+    <%= f.input :location, :label => "Your location", :hint => "Others can search based on your location if this is checked. #{link_to 'Edit your profile', edit_iend_user_path(:current)} to set your location.".html_safe %>
+    <%= f.input :preferred_poverty_sectors, :hint => "This will allow others to find people with common interests. #{link_to 'Edit your profile', edit_iend_user_path(:current)} to set your preferred poverty sectors.".html_safe %>
+    <%= f.input :gifts_given %>
+    <%= f.input :gifts_given_amount %>
+    <%= f.input :gifts_received %>
+    <%= f.input :number_of_projects_funded %>
+    <%= f.input :amount_funded %>
+    <%= f.input :lives_affected %>
+    <%= f.input :list_projects_funded %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button "Update iEnd Profile" %>
+  <% end %>
+<% end %>

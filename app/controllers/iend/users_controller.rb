@@ -6,6 +6,7 @@ class Iend::UsersController < DtApplicationController
   def show
     @user = current_user if params[:id] == 'current'
     @user ||= User.find(params[:id])
+    @iend_profile = @user.iend_profile
   end
 
   def new

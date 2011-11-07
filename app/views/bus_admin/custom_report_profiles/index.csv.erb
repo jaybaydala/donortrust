@@ -1,0 +1,8 @@
+<%= FasterCSV.generate do |csv|
+	csv << [ 'ID', 'Name', 'Email', 'Has Profile?']
+
+  @users_created.each do |u|
+    has_profile = u.profile.present? ? "Yes" : "No"
+    csv << [ u.id, u.name, u.email, has_profile]
+  end
+end %>

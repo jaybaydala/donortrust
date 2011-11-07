@@ -135,6 +135,41 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  def report_date_range
+    if session[:custom_report_start_date].present? && session[:custom_report_end_date].present?
+      @start_date = session[:custom_report_start_date]
+      @end_date = session[:custom_report_end_date]
+    end
+
+    if params[:start_date].present?
+      @start_date = Date.civil(params[:start_date][:year].to_i, params[:start_date][:month].to_i, params[:start_date][:day].to_i)
+      session[:custom_report_start_date] = @start_date
+      @end_date = Date.civil(params[:end_date][:year].to_i, params[:end_date][:month].to_i, params[:end_date][:day].to_i)
+      session[:custom_report_end_date] = @end_date
+    end
+
+    @start_date = Date.today if !@start_date
+    @end_date = Date.today if !@end_date
+  end
+
+  def render_csv(filename = nil)
+    filename ||= params[:action]
+    filename += '.csv'
+
+    if request.env['HTTP_USER_AGENT'] =~ /msie/i
+      headers['Pragma'] = 'public'
+      headers["Content-type"] = "text/plain"
+      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+      headers['Expires'] = "0"
+    else
+      headers["Content-Type"] ||= 'text/csv'
+      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
+    end
+
+    render :layout => false
+  end
+
   private
 
     def render_404

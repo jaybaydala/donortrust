@@ -29,6 +29,7 @@ class Project < ActiveRecord::Base
   has_many :collaborations
   has_many :ranks
   has_many :investments
+  has_many :tips
   has_many :gifts
   has_many :subscriptions
   has_many :key_measures
@@ -45,12 +46,12 @@ class Project < ActiveRecord::Base
   named_scope :total_cost_between, lambda {|min, max|
     { :conditions => ["total_cost BETWEEN ? AND ?", min.to_i, max.to_i] }
   }
-  named_scope :public, lambda { { :conditions => { :project_status_id => ProjectStatus.public_ids } } }
+  #named_scope :find_public, lambda { { :conditions => { :project_status_id => ProjectStatus.public_ids } } }
   named_scope :current, lambda {
     {
       :conditions => [
         "#{Project.quoted_table_name}.project_status_id IN (?) AND #{Project.quoted_table_name}.partner_id IN (?)", 
-        ProjectStatus.public.map(&:id), 
+        ProjectStatus.public_ids, 
         Partner.find(:all, :select => "id", :conditions => ["partner_status_id=?", PartnerStatus.active.id]).map(&:id)
       ]
       
@@ -206,12 +207,6 @@ class Project < ActiveRecord::Base
       @admin_project ||= Project.find_by_slug("admin")
     end
 
-    def find_public(*args)
-      with_scope :find => { :conditions => { :project_status_id => ProjectStatus.public_ids }} do
-        find *args
-      end
-    end
-
     def continents_and_countries
       if @continents_and_countries.nil?
         @continents_and_countries = []
@@ -229,7 +224,7 @@ class Project < ActiveRecord::Base
       continent_place_type = PlaceType.continent
       if @continents.nil?
         @continents = []
-        Project.find_public(:all, :include => :place).each do |project|
+        Project.find_public.all(:include => :place).each do |project|
           if project.community_id? && project.community
             project.place.ancestors.each do |ancestor|
               @continents << ancestor and break if ancestor.place_type_id == continent_place_type.id && !@continents.include?(ancestor) && ancestor.name != 'North America'
@@ -244,7 +239,7 @@ class Project < ActiveRecord::Base
     def continents_all
       if @continents.nil?
         @continents = []
-        Project.find_public(:all, :include => :place).each do |project|
+        Project.find_public.all(:include => :place).each do |project|
           if project.community_id? && project.community
             project.place.ancestors.each do |ancestor|
               @continents << ancestor and break if ancestor.place_type_id == 1 && !@continents.include?(ancestor)
@@ -260,7 +255,7 @@ class Project < ActiveRecord::Base
       country_place_type = PlaceType.country
       if @countries.nil?
         @countries = []
-        Project.find_public(:all, :include => :place).each do |project|
+        Project.find_public.all(:include => :place).each do |project|
           if project.community_id? && project.community
             project.place.ancestors.each do |ancestor|
               @countries << ancestor and break if ancestor.place_type_id == country_place_type.id && !@countries.include?(ancestor) && ancestor.name != 'Canada'
@@ -289,7 +284,7 @@ class Project < ActiveRecord::Base
     def causes
       if @causes.nil?
         @causes = []
-        Project.find_public(:all, :include => :causes).each do |project|
+        Project.find_public.all(:include => :causes).each do |project|
           project.causes.each do |cause|
             @causes << cause unless @causes.include?(cause)
           end
@@ -302,7 +297,7 @@ class Project < ActiveRecord::Base
     def sectors
       if @sectors.nil?
         @sectors = []
-        Project.find_public(:all, :include => :sectors).each do |project|
+        Project.find_public.all(:include => :sectors).each do |project|
           project.sectors.each do |sector|
             @sectors << sector unless @sectors.include?(sector)
           end
@@ -315,7 +310,7 @@ class Project < ActiveRecord::Base
     def partners
       if @partners.nil?
        @partners = []
-        Project.find_public(:all, :include => :partner, :order => 'partners.name').each do |project|
+        Project.find_public.all(:include => :partner, :order => 'partners.name').each do |project|
           @partners << project.partner unless @partners.include?(project.partner)
         end
       end
@@ -566,6 +561,12 @@ class Project < ActiveRecord::Base
       else
         f.save(false)
       end
+    end
+  end
+
+  def self.find_public(*args)
+    with_scope :find => { :conditions => { :project_status_id => ProjectStatus.public_ids }} do
+      find *args
     end
   end
 

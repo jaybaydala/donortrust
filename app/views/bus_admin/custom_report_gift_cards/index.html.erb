@@ -1,0 +1,48 @@
+<p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
+<% form_for :custom_report_gift_card_tips, :url => bus_admin_custom_report_gift_cards_path, :html => { :method => :get } do |f| %>
+  <fieldset>
+    <legend>Gift Cards Report</legend>
+    <ul class="row">
+      <li>
+          <%= select_date @start_date, :prefix => 'start_date' %>
+        Report Start Date
+      </li>
+    </ul>
+    <ul class="row">
+      <li>
+        <%= select_date @end_date, :prefix => 'end_date' %>
+        Report End Date
+      </li>
+    </ul>
+    <%= submit_tag 'Submit' %>
+  </fieldset>
+<% end %>
+
+<% if @orders.size > 0 %>
+
+  <h1><%= @orders.size %> Orders with Gift Cards totalling <%= number_to_currency @gift_card_total %></h1>
+  <%= link_to "Download CSV", {:format => :csv} %>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Gift Card Total</th>
+        <th>Order Total</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @orders.each do |o| %>
+      <tr>
+        <td><%=h o.id %></td>
+        <td><%=h o.created_at.strftime("%B %d, %Y") %></td>
+        <td><%=h o.name %></td>
+        <td class="numeric money"><%= number_to_currency o.cart.gift_card_purchase_amount %></td>
+        <td class="numeric money"><%= number_to_currency o.total %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+

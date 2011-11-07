@@ -1,0 +1,51 @@
+<p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
+<% form_for :custom_report_gift_card_tips, :url => bus_admin_custom_report_gift_card_tips_path, :html => { :method => :get } do |f| %>
+  <fieldset>
+    <legend>Gift Card Tips Report</legend>
+    <ul class="row">
+      <li>
+          <%= select_date @start_date, :prefix => 'start_date' %>
+        Report Start Date
+      </li>
+    </ul>
+    <ul class="row">
+      <li>
+        <%= select_date @end_date, :prefix => 'end_date' %>
+        Report End Date
+      </li>
+    </ul>
+    <%= submit_tag 'Submit' %>
+  </fieldset>
+<% end %>
+
+<% if @orders_with_tip.size > 0 %>
+  <h1><%= @orders_with_tip.size %> out of <%= @orders.size %> gift card orders included a tip (<%= number_to_percentage @order_tip_percent %>)
+  <p>Gift card orders which did include a tip, tipped <%= number_to_percentage @overall_tip_percent %> (<%= number_to_currency @overall_average_tip_amount %>) on average.</p>
+  <h1>Orders with a tip</h1>
+  <%= link_to "Download CSV", {:format => :csv} %>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Tip Amount</th>
+        <th>Order Total</th>
+        <th>Tip Percentage</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @orders_with_tip.each do |o| %>
+      <tr>
+        <td><%=h o.id %></td>
+        <td><%=h o.created_at.strftime("%B %d, %Y") %></td>
+        <td><%=h o.name %></td>
+        <td class="numeric money"><%= number_to_currency o.tip_item.amount %></td>
+        <td class="numeric money"><%= number_to_currency o.total %></td>
+        <td class="numeric"><%=h number_to_percentage o.tip_percent %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+

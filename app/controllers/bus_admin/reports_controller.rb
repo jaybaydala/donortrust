@@ -4,6 +4,7 @@ class BusAdmin::ReportsController < ApplicationController
   layout 'admin'
   before_filter :login_required, :check_authorization
   #access_control :DEFAULT => 'cf_admin'
+
   
   def process_report
     

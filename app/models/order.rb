@@ -226,7 +226,7 @@ class Order < ActiveRecord::Base
     if (account_balance && account_balance > 0) || 
         (user_id? && user && user.balance > 0) || 
         (user_id? && user.pledge_accounts && user.pledge_accounts.inject(0){|sum,pa| sum+=pa.balance} > 0)
-      @minimum_credit_payment = cart_items.inject(0) {|sum, item| sum + (item.class == Deposit ? item.amount : 0) }
+      @minimum_credit_payment = cart_items.inject(0) {|sum, ci| sum + (ci.item.class == Deposit ? ci.item.amount : 0) }
     else
       @minimum_credit_payment = total
     end
@@ -237,7 +237,7 @@ class Order < ActiveRecord::Base
   def validate_confirmation
     # run through everything just to make sure...
     validate_payment
-    validate_billing
+    validate_credit_card
     errors.empty?
   end
 
@@ -330,11 +330,11 @@ class Order < ActiveRecord::Base
     first_name, last_name = gift.to_name.to_s.split(/ /, 2)
     Order.transaction do
       order = Order.create!(
+        :tax_receipt_requested => false,
         :first_name => first_name,
         :last_name => last_name,
         :email => gift.to_email,
         :total => gift.amount,
-        :order_number => Order.generate_order_number,
         :gift_card_payment => gift.amount,
         :gift_card_payment_id => gift.id,
         :complete => true
@@ -376,6 +376,28 @@ class Order < ActiveRecord::Base
 
   def subscription_item
     self.cart.subscription.item if self.includes_subscription?
+  end
+
+  def has_gift_card?
+    return false if !self.cart.present?
+
+    self.cart.has_gift_card?
+  end
+
+  def has_tip?
+    self.cart && self.cart.has_tip?
+  end
+
+  def tip_item
+    self.cart.tip_item
+  end
+
+  def tip_percent
+    if self.tip_item.present?
+      (self.tip_item.amount / self.total)*100
+    else
+      0
+    end
   end
 
   def tax_receipt_needed?

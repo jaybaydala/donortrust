@@ -1,0 +1,42 @@
+<p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
+<% form_for :custom_report_gift_card_tips, :url => bus_admin_custom_report_profiles_path, :html => { :method => :get } do |f| %>
+  <fieldset>
+    <legend>Profiles Report</legend>
+    <ul class="row">
+      <li><%= select_date @start_date, :prefix => 'start_date' %> Report Start Date</li>
+    </ul>
+    <ul class="row">
+      <li><%= select_date @end_date, :prefix => 'end_date' %> Report End Date</li>
+    </ul>
+    <%= submit_tag 'Submit' %>
+  </fieldset>
+<% end %>
+
+<h1><%= @users.size %> Users were in the system before <%= @end_date %> of which <%= @num_profiles %> had a profile.</h1>
+
+<ul>
+  <li><%= @users_created.size %> Users were added between <%= @start_date %> and <%= @end_date %></li>
+  <li><%= @num_profiles_created %> of those new users created a profile</li>
+</ul>
+
+<%= link_to "Download CSV", {:format => :csv} %>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Profile?</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @users_created.each do |user| %>
+    <tr>
+      <td><%= user.id %></td>
+      <td><%= user.name %></td>
+      <td><%= user.email %></td>
+      <td><%= user.profile.present? ? "Yes" : "No" %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

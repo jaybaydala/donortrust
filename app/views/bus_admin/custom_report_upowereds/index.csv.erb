@@ -1,0 +1,9 @@
+<%= FasterCSV.generate do |csv|
+  csv << [ 'ID', 'Date', 'Name', 'Investment Amount', 'Order Total']
+
+  @items.each do |i|
+    investment_amount = number_to_currency i.amount
+    total = number_to_currency i.order.total
+    csv << [ i.id, i.created_at.strftime("%Y-%d-%M"), i.order.name, investment_amount, total]
+  end
+end %>
