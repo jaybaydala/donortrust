@@ -37,6 +37,8 @@ module NavigationHelpers
       dt_team_path(Team.find_by_short_name($1))
     when /the "(.*)" campaign page/
       dt_campaign_path(Campaign.find_by_short_name($1))
+    when /the users page/
+      iend_users_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
