@@ -2,7 +2,24 @@ class Iend::UsersController < DtApplicationController
   before_filter :restrict_no_user, :only => [ :new, :create ]
   before_filter :restrict_current_user, :only => [ :edit, :update, :edit_password ]
   helper "dt/places"
-  
+
+  helper_method :sector_toggle
+
+  def index
+    @sectors = Sector.alphabetical
+    if params[:search].blank? && params[:sectors].blank?
+      @profiles = IendProfile.paginate(:page => params[:page], :per_page => 18)
+    else
+      @profiles = IendProfile.search params[:search],
+        :with_all => search_prepare_with_all,
+        :without  => search_prepare_without,
+        :page     => params[:page],
+        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
+        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym)
+        # TODO Should we be able to search for iend profiles by name and receive Anonymous matches?
+    end
+  end
+
   def show
     @user = current_user if params[:id] == 'current'
     @user ||= User.find(params[:id])
@@ -77,4 +94,31 @@ class Iend::UsersController < DtApplicationController
     def restrict_current_user
       redirect_to(logged_in? ? iend_user_path(current_user) : iend_path) unless params[:id] == 'current' || params[:id].to_i == current_user.id
     end
+
+    def search_prepare_without
+      return nil if sector_params_array.nil? || sector_params_array.empty?
+      { :preferred_poverty_sectors => false }
+    end
+
+    def search_prepare_with_all
+      return nil if sector_params_array.empty?
+      { :sector_ids => sector_params_array }
+    end
+
+    def sector_params_array
+      params[:sectors].try(:split, /\s|\+|,/).to_a
+    end
+
+    def sector_toggle(sector_id)
+      (sector_params_array.include? sector_id.to_s) ? sector_remove(sector_id) : sector_add(sector_id)
+    end
+
+    def sector_add(sector_id)
+      sector_params_array.push(sector_id.to_s).uniq.join(' ')
+    end
+
+    def sector_remove(sector_id)
+      sector_params_array.reject{|a| a == sector_id.to_s}.join(' ')
+    end
+
 end
