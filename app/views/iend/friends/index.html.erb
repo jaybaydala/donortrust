@@ -1,0 +1,12 @@
+<%- content_for :html_title do %>Friends<% end -%>
+
+<%= render 'iend/shared/header' %>
+
+<%- unless @friends.blank? %>
+  <h3>Friends</h3>
+  <%- @friends.each do |friend| %>
+    <% display_string = friend.name.blank? ? friend.email : friend.name %>
+    <p><%= link_to display_string, iend_user_path(friend)%></p>
+  <% end %>
+<% end %>
+
