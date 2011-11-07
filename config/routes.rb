@@ -41,6 +41,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :pages do |page|
       page.resources :wall_posts
     end
+    dt.resources :feedbacks
 
     dt.resources :projects, :member => { :details => :get,
                                          :community => :get,
@@ -277,6 +278,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :millennium_goals, :active_scaffold => true
     ba.resources :sectors, :active_scaffold => true
     ba.resources :causes, :active_scaffold => true
+    ba.resources :site_feedback, :active_scaffold => true, :controller => 'feedbacks'
 
     #
     # Geographical Resources
