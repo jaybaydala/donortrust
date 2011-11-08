@@ -64,6 +64,9 @@ form.formtastic fieldset > ol > li p.inline-errors { color:#cc0000; margin:0.5em
 form.formtastic fieldset > ol > li ul.errors { color:#cc0000; margin:0.5em 0 0 0; list-style:square; }
 form.formtastic fieldset > ol > li ul.errors li { padding:0; border:none; display:list-item; }
 
+/* SEMANTIC ERRORS
+--------------------------------------------------------------------------------------------------*/
+form.formtastic ul.errors { margin-left:1.5em; }
 
 /* STRING, NUMERIC, PASSWORD, EMAIL, URL, PHONE & SEARCH OVERRIDES
 --------------------------------------------------------------------------------------------------*/
