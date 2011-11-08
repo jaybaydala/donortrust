@@ -1,4 +1,4 @@
-<% semantic_form_for @feedback, :class => "formtastic", :url => dt_feedbacks_path(:format => 'json') do |f| %>
+<% semantic_form_for @feedback, :html => { :class => "light" }, :url => dt_feedbacks_path(:format => 'json') do |f| %>
   <%= f.semantic_errors :gift %>
   <% f.inputs "Feedback" do %>
     <%= f.input :name %>
