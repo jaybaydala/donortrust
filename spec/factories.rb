@@ -253,3 +253,12 @@ Factory.define :user do |u|
   u.display_name { Faker::Name.name }
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }
 end
+
+Factory.define :feedback do |f|
+  f.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  f.email { Faker::Internet.email }
+  f.subject { Faker::Lorem.sentence }
+  f.message { Faker::Lorem.paragraph }
+end
+
+
