@@ -8,8 +8,6 @@ class Dt::FeedbacksController < ApplicationController
     respond_to do |format|
       if @feedback.save
         format.json { render :json => { :success => true } }
-        FeedbackMailer.deliver_feedback(@feedback.name, @feedback.email, @feedback.subject,
-                                        @feedback.message, @feedback.created_at)
       else
         # render_to_string(:partial => 'dt/feedbacks/_form') gave an error:
         # ActionView::MissingTemplate (Missing template _form.erb in view path ):
