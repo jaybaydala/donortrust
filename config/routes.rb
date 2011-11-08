@@ -79,6 +79,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :staff, :controller => 'staff'
     dt.resources :wall_posts
 
+    dt.resources :newsletter_signups
     dt.resources :news_items
     dt.resources :news_items do |news_items|
        news_items.resources :news_comments
@@ -233,7 +234,7 @@ ActionController::Routing::Routes.draw do |map|
                   :active_scaffold => true,
                   :collection => { :pending_projects => :get}
 
-    ba.resource :upowered, :controller => 'upowered', :member => { :report => :post, :send_email => :post }
+    ba.resource :upowered, :controller => "upowered", :member => { :report => :post, :send_email => :post }
     ba.resources :application_settings, :active_scaffold => true
     ba.resources :subscriptions
     ba.resources :statistic_widgets, :active_scaffold => true

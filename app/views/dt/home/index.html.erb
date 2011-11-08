@@ -55,7 +55,7 @@
     <div style="width:220px;margin-right:22px;float:left;text-align:right; ">
       <img src="/images/home/newsletter_signup.png" width="200" height="19" alt="Newsletter Signup"><br>
       <div style="margin-top:8px;">
-        <a href="http://www.industrymailout.com/Industry/Subscribe.aspx?m=3929"><img src="/images/home/button-sign_up.png" width="66" height="22" alt="Sign Up"></a>
+        <%= link_to image_tag("home/button-sign_up.png", :size => '66x22', :alt => "Sign up"), new_dt_newsletter_signup_path, :class => "newsletter_signup_link" %>
       </div>
     </div>
     <div style="width:260px;float:left;">
