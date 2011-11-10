@@ -14,9 +14,9 @@ ActionController::Routing::Routes.draw do |map|
     iend.resources :subscriptions
     iend.resources :tax_receipts, :only => :index
     iend.resources :users, :except => :index, :member => { :edit_password => :get } do |user|
-      user.resources :friendships, :only => [:create], :member => {:accept => :get, :decline => :get}
       user.resources :friends, :only => [:index]
     end
+    iend.resources :friendships, :only => [:create], :member => {:accept => :get, :decline => :get}
   end
 
   map.namespace(:dt) do |dt|
