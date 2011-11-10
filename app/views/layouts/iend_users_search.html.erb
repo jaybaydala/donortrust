@@ -10,9 +10,9 @@
   <% if params[:sectors].present? %>
   <section class="container prepend-top">
     <%= render :partial => 'layouts/shared/flashes' %>
-    <ul id="iend-search-sectors">
+    <ul id="iend-search-terms">
 <% Sector.find(sector_params_array).each do |sector| %>
-      <li><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :search => params[:search]) %></li>
+      <li class="term"><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :search => params[:search]) %></li>
 <% end %>
       <li><%= link_to "| &nbsp; Clear all", iend_users_path %></li>
     </ul>
