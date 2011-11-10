@@ -213,6 +213,14 @@ section.iend.spaced { padding:36px 0; }
 .profile-summarybox .summary { background:url(/images/give/sidebar_summary-bg.png) repeat-x #E4E8EB; border:1px solid #CCC; margin-bottom:16px; padding:12px;}
 .borderradius .profile-summarybox .summary { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
 
+#iend-search-filter { font-size:12px; }
+#iend-search-filter ul { border-top:1px solid #666; list-style:none; margin:4px 0 0 0; padding:4px 0 0 0; }
+#iend-search-filter li { font-size:0.916em; }
+#iend-search-filter a { color:#333; display:block; margin-bottom:1px; padding:2px 3px; text-decoration:none; }
+#iend-search-filter a:hover,
+#iend-search-filter a:active { background-color:#663; }
+.iend-search-filter { margin-bottom:1.25em; }
+
 /* GIFTS
 ----------*/
 #gift-outline { background-color:#360; height:78px; }
