@@ -17,10 +17,9 @@ class Iend::FriendshipsController < ApplicationController
 
   # Accepts a friendship
   def accept
-    friendship = current_user.friendships.find(params[:id])
-    if friendship
+    if friendship = current_user.inverse_friendships.find(params[:id])
       friendship.accept
-      redirect_to iend_user_path(friendship.friend)
+      redirect_to iend_user_path(friendship.user_id)
     else
       head :ok
     end
@@ -28,8 +27,9 @@ class Iend::FriendshipsController < ApplicationController
 
   # Declines a friendship
   def decline
-    friendship = current_user.friendships.find(params[:id])
-    friendship.destroy
+    if friendship = current_user.inverse_friendships.find(params[:id])
+      friendship.destroy
+    end
     redirect_to iend_user_path(current_user)
   end
 
