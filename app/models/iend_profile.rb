@@ -12,16 +12,20 @@ class IendProfile < ActiveRecord::Base
     has user.preferred_sectors.sector_id, :as => :sector_ids
   end
 
-  def display_name
-    [formatted_name, formatted_location].compact.delete_if{ |x| x.empty? }.join(', ')
-  end
+  # def display_name
+  #   [formatted_name, formatted_location].compact.delete_if{ |x| x.empty? }.join(', ')
+  # end
 
   def formatted_location
-    [user.city, user.province, user.country].compact.delete_if{ |x| x.empty? }.join(', ') if location?
+    [user.city, user.province].compact.delete_if{ |x| x.empty? }.join(', ') if location?
   end
 
   def formatted_name
     (name? && user.full_name.present?) ? user.full_name : "Anonymous"
+  end
+
+  def formatted_sectors
+    user.sectors.map(&:name).join(', ') if preferred_poverty_sectors?
   end
 
 end
