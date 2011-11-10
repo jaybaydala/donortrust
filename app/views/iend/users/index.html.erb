@@ -1,6 +1,6 @@
 <% title(params[:search].blank? && params[:sectors].blank? ? 'All Users' : nil ) %>
 
-<div class="clearfix">
+<div class="results clearfix">
 <% @profiles.each_with_index do |profile, i| %>
 <div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
   <%= render :partial => 'profile', :locals => { :profile => profile } %>

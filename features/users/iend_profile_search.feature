@@ -8,8 +8,8 @@ Feature: iEnd Profile Search
     Given I am an authenticated user
     And there is a poverty sector "Good Cause"
     And there is a poverty sector "Another Cause"
-    And there is an iend profile named "Jimmy Rankin" from "Canada" with poverty sector "Good Cause"
-    And there is an iend profile named "Rita Rankin" from "United States" with poverty sector "Another Cause"
+    And there is an iend profile named "Jimmy Rankin" from "NS" with poverty sector "Good Cause"
+    And there is an iend profile named "Rita Rankin" from "ME" with poverty sector "Another Cause"
     And the iend profile indexes are processed
 
   # Defaults to anonymous name + location, public sectors
@@ -24,17 +24,17 @@ Feature: iEnd Profile Search
 
   Scenario: Location search on private location
     Given I am on the users page
-    When I fill in "Search" with "Canada"
+    When I fill in "Search" with "NS"
     And I press "Go"
     Then I should not see "Jimmy Rankin" within ".results"
-    And I should not see "Canada" within ".results"
+    And I should not see "NS" within ".results"
     And I should see "Anonymous" within ".results"
 
   Scenario: Sector search on private name + location
     Given I am on the users page
     When I follow "Good Cause"
     Then I should not see "Jimmy Rankin" within ".results"
-    And I should not see "Canada" within ".results"
+    And I should not see "NS" within ".results"
     And I should see "Anonymous" within ".results"
 
   # Make names public
@@ -51,7 +51,7 @@ Feature: iEnd Profile Search
   Scenario: Search by location on public name
     Given I am on the users page
     And the iend profile "Jimmy Rankin" has a public name
-    When I fill in "Search" with "Canada"
+    When I fill in "Search" with "NS"
     And I press "Go"
     Then I should see "Jimmy Rankin" within ".results"
     And I should not see "Rita Rankin" within ".results"
@@ -71,23 +71,24 @@ Feature: iEnd Profile Search
     And the iend profile "Jimmy Rankin" has a public location
     When I fill in "Search" with "Jimmy"
     And I press "Go"
-    Then I should see "Anonymous, Canada" within ".results"
-    And I should not see "United States" within ".results"
+    Then I should see "Anonymous" within ".results"
+    And I should see "NS" within ".results"
+    And I should not see "ME" within ".results"
 
   Scenario: Search by location on public location
     Given I am on the users page
     And the iend profile "Jimmy Rankin" has a public location
-    When I fill in "Search" with "Canada"
+    When I fill in "Search" with "NS"
     And I press "Go"
-    Then I should see "Canada" within ".results"
-    And I should not see "United States" within ".results"
+    Then I should see "NS" within ".results"
+    And I should not see "ME" within ".results"
 
   Scenario: Search by sector on public location
     Given I am on the users page
     And the iend profile "Jimmy Rankin" has a public location
     When I follow "Good Cause"
-    Then I should see "Canada" within ".results"
-    And I should not see "United States" within ".results"
+    Then I should see "NS" within ".results"
+    And I should not see "ME" within ".results"
 
   # Make sectors private
 
