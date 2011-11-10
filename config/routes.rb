@@ -13,7 +13,10 @@ ActionController::Routing::Routes.draw do |map|
     iend.resource :session, :controller => 'sessions'
     iend.resources :subscriptions
     iend.resources :tax_receipts, :only => :index
-    iend.resources :users, :except => :index, :member => { :edit_password => :get }
+    iend.resources :users, :except => :index, :member => { :edit_password => :get } do |user|
+      user.resources :friends, :only => [:index]
+    end
+    iend.resources :friendships, :only => [:create], :member => {:accept => :get, :decline => :get}
   end
 
   map.namespace(:dt) do |dt|
