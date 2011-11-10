@@ -5,8 +5,6 @@ class Iend::UsersController < DtApplicationController
 
   helper_method :sector_toggle
 
-  layout "iend_users_search", :only => :index
-
   def index
     @sectors = Sector.alphabetical
     if params[:search].blank? && params[:sectors].blank?
@@ -19,6 +17,9 @@ class Iend::UsersController < DtApplicationController
         :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
         :order    => (params[:order].blank? ? :created_at : params[:order].to_sym)
         # TODO Should we be able to search for iend profiles by name and receive Anonymous matches?
+    end
+    respond_to do |format|
+      format.html { render :action => "index", :layout => "iend_users_search"}
     end
   end
 

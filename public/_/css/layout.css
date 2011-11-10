@@ -213,6 +213,9 @@ section.iend.spaced { padding:36px 0; }
 .profile-summarybox .summary { background:url(/images/give/sidebar_summary-bg.png) repeat-x #E4E8EB; border:1px solid #CCC; margin-bottom:16px; padding:12px;}
 .borderradius .profile-summarybox .summary { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
 
+/* IEND PROFILE SEARCH
+----------*/
+
 #iend-search-filter { font-size:12px; }
 #iend-search-filter ul { border-top:1px solid #666; list-style:none; margin:4px 0 0 0; padding:4px 0 0 0; }
 #iend-search-filter li { font-size:0.916em; }
@@ -220,6 +223,19 @@ section.iend.spaced { padding:36px 0; }
 #iend-search-filter a:hover,
 #iend-search-filter a:active { background-color:#663; }
 .iend-search-filter { margin-bottom:1.25em; }
+
+.profile-module { background:#FFF; color:#000; font: 12px/14px Arial,Helvetica,sans-serif; height:280px; position:relative; width:199px; -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius:5px; }
+.profile-module a { color:#39F; text-decoration:none; }
+.profile-module a:hover { color:#4AF; }
+.profile-module-top { background:#b3241b; color:#FFF; font-family:Georgia,Times,"Times New Roman",serif; height:100px; margin-bottom:18px; width:199px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
+.profile-module .profile-module-top a:link,
+.profile-module .profile-module-top a:visited,
+.profile-module .profile-module-top a:hover,
+.profile-module .profile-module-top a:active  { color:#FFF; text-decoration:none; }
+.profile-name { font-size:18px; line-height:24px; padding:16px 10px 0 10px; }
+.profile-location { font-size:12px; font-style:italic; padding:0 10px 10px 10px; }
+.profile-module-bottom { background: #f8f8f8; border-top: 1px solid #ececec; bottom: 0; color: #666; font-size: 10px; left: 0; position: absolute; height: 45px; width: 199px; -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-left-radius:5px; border-bottom-right-radius:5px; }
+.profile-module-bottom div { padding: 10px; }
 
 /* GIFTS
 ----------*/

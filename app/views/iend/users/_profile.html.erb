@@ -1,1 +1,11 @@
-  <p><%= link_to profile.display_name, iend_user_path(profile.user) %></p>
+  <article class="profile-module">
+    <div class="profile-module-top">
+      <a href="<%= iend_user_path(profile.id) %>">
+        <div class="profile-name"><%= profile.formatted_name %></div>
+        <div class="profile-location"><%= profile.formatted_location %></div>
+      </a>
+    </div>
+    <div class="profile-module-bottom">
+      <div>Preferred Poverty Sectors:<br><%= profile.formatted_sectors %></div>
+    </div>
+  </article>
