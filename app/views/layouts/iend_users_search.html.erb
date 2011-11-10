@@ -1,0 +1,57 @@
+<%= render :partial => 'layouts/shared/head' %>
+<body>
+<%= render :partial => "layouts/shared/facebook_api" %>
+
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+
+<div id="maincontentarea" class="content prepend-top append-large-bottom">
+
+
+  <div class="container prepend-top">
+    <aside class="span-3" id="iend-search-filters">
+      <form method="get">
+        <h2 class="plain border-bottom"><label for="search">Search</label></h2>
+        <p>
+          <input name="search" id="search" type="search" value="<%= params[:search] %>" placeholder="Name or Location">
+          <input type="submit" value="Go"> <input type="hidden" name="sectors" value="<%= params[:sectors] %>">
+        </p>
+      </form>
+      <h2 class="plain border-bottom">Choose</h2>
+      <div class="iend-search-filter">
+        CAUSE/SECTOR
+        <ul>
+<% @sectors.each do |sector| %>
+            <li><%= link_to sector.name, iend_users_path(:sectors => sector_toggle(sector.id), :search => params[:search]) %></li>
+<% end %>
+        </ul>
+      </div>
+    </aside>
+    <article class="span-12">
+      <%= content_tag(:h1, yield(:title), :class => "clearfix") if show_title? && content_for?(:title) %>
+      
+      <% if params[:search].present? %>
+      <div id="project-search-summary" class="border-bottom clearfix">
+        <% form_tag dt_projects_url, :method => :get, :id => "project_search_tools" do %>
+          Sort by: <%= select_tag :order, options_for_select([["Added", 'created_at'], ["Total Cost", 'total_cost'], ["Country", 'country_name'], ["Partner", 'partner_name']], params[:order]) %> &nbsp; 
+          Display: <%= select_tag :per_page, options_for_select([ '18', '36', '54' ], params[:per_page]) %>
+          <% params[:search].each do |facet, vals| %>
+            <% vals.each do |v| %>
+              <%= hidden_field_tag "search[#{facet}][]", v %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%#= "#{@projects.total_entries} found" %> 
+        <%= will_paginate %>
+      </div>
+      <% end %>
+      
+      <div id="fb-root"></div>
+      <%= yield %>
+    </article>
+  </div>
+</div>
+
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>

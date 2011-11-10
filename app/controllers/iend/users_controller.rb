@@ -5,6 +5,8 @@ class Iend::UsersController < DtApplicationController
 
   helper_method :sector_toggle
 
+  layout "iend_users_search", :only => :index
+
   def index
     @sectors = Sector.alphabetical
     if params[:search].blank? && params[:sectors].blank?
