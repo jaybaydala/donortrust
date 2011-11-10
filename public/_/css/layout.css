@@ -230,7 +230,7 @@ section.iend.spaced { padding:36px 0; }
 #iend-search-terms li a { display:block; color:#666; padding:4px 8px; text-decoration:none; }
 #iend-search-terms li.term a { background:url(/images/iend/search-x.gif) 4px 3px no-repeat; padding-left:26px; }
 
-.profile-module { background:#FFF; color:#000; font: 12px/14px Arial,Helvetica,sans-serif; height:280px; position:relative; width:199px; -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius:5px; }
+.profile-module { background:#FFF; color:#000; font: 12px/14px Arial,Helvetica,sans-serif; height:290px; position:relative; width:199px; -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius:5px; }
 .profile-module a { color:#39F; text-decoration:none; }
 .profile-module a:hover { color:#4AF; }
 .profile-module-top { background:#b3241b; color:#FFF; font-family:Georgia,Times,"Times New Roman",serif; height:100px; margin-bottom:18px; width:199px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
@@ -238,6 +238,11 @@ section.iend.spaced { padding:36px 0; }
 .profile-module .profile-module-top a:visited,
 .profile-module .profile-module-top a:hover,
 .profile-module .profile-module-top a:active  { color:#FFF; text-decoration:none; }
+.profile-button { float:right; margin-right: 5px; }
+.profile-button a { background-color:#999; display:block; padding:5px 10px 4px 10px; }
+.borderradius .profile-button a { -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }
+.profile-button a,
+.profile-button a:hover { color:#FFF; }
 .profile-name { font-size:18px; padding:16px 10px 2px 10px; }
 .profile-location { font-size:12px; font-style:italic; padding:2px 10px 10px 10px; }
 .profile-image { background: #d9928d; float: left; margin: 10px; }
