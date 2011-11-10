@@ -6,12 +6,9 @@ class Iend::FriendshipsController < ApplicationController
   # If the friendship exists, then resend the email
   def create
     friendship = current_user.friendships.find(:first, :conditions => ["friend_id = ?", params[:friend_id]])
-    if friendship
-      DonortrustMailer.deliver_friendship_request_email(friendship) if friendship.accepted?
-    else
-      friendship = current_user.friendships.create(:friend_id => params[:friend_id])
-      DonortrustMailer.deliver_friendship_request_email(friendship)
-    end
+    friendship ||= current_user.friendships.create(:friend_id => params[:friend_id])
+    DonortrustMailer.deliver_friendship_request_email(friendship) if friendship && !friendship.accepted?
+    flash[:notice] = "Your friendship request has been sent"
     redirect_to request.referrer
   end
 
@@ -19,6 +16,7 @@ class Iend::FriendshipsController < ApplicationController
   def accept
     if friendship = current_user.inverse_friendships.find(params[:id])
       friendship.accept
+      flash[:notice] = "You accepted the friendship request"
       redirect_to iend_user_path(friendship.user_id)
     else
       head :ok
@@ -30,6 +28,7 @@ class Iend::FriendshipsController < ApplicationController
     if friendship = current_user.inverse_friendships.find(params[:id])
       friendship.destroy
     end
+    flash[:notice] = "You declined the friendship request"
     redirect_to iend_user_path(current_user)
   end
 
