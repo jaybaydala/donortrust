@@ -14,7 +14,7 @@
   <div class="clearfix">
     <div class="span-4">
       <div class="profile-actions">
-        <%= display_add_as_friend_button %>
+        <%= link_to("+ Add as friend", iend_friendships_path(:friend_id => @user.id), :id => "add_as_friend", :method => :post, :class => "smallbutton") if show_add_friend_button?(@user) %>
       </div>
       
       <aside class="profile-summarybox">

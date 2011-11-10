@@ -8,7 +8,9 @@
         <div class="profile-location"><%= profile.formatted_location %></div>
       </a>
     </div>
-    <div class="profile-button"><%= link_to "Add Friend", iend_user_path(profile) %></div>
+    <% if show_add_friend_button?(profile.user) %>
+      <div class="profile-button"><%= link_to "Add Friend", iend_friendships_path(:friend_id => profile.id), :method => :post %></div>
+    <% end %>
 <%- if profile.lives_affected? -%>
     <div class="profile-data"><%= profile.lives_affected %> lives affected</div>
 <%- end -%>
