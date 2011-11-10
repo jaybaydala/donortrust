@@ -3,7 +3,7 @@ class Iend::UsersController < DtApplicationController
   before_filter :restrict_current_user, :only => [ :edit, :update, :edit_password ]
   helper "dt/places"
 
-  helper_method :sector_toggle
+  helper_method :sector_add, :sector_remove, :sector_params_array
 
   def index
     @sectors = Sector.alphabetical
@@ -112,9 +112,9 @@ class Iend::UsersController < DtApplicationController
       params[:sectors].try(:split, /\s|\+|,/).to_a
     end
 
-    def sector_toggle(sector_id)
-      (sector_params_array.include? sector_id.to_s) ? sector_remove(sector_id) : sector_add(sector_id)
-    end
+    # def sector_toggle(sector_id)
+    #   (sector_params_array.include? sector_id.to_s) ? sector_remove(sector_id) : sector_add(sector_id)
+    # end
 
     def sector_add(sector_id)
       sector_params_array.push(sector_id.to_s).uniq.join(' ')

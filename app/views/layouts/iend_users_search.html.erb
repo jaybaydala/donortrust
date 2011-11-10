@@ -7,7 +7,17 @@
 
 <div id="maincontentarea" class="content prepend-top append-large-bottom">
 
-<!-- TODO insert search current terms/facets for removal -->
+  <% if params[:sectors].present? %>
+  <section class="container prepend-top">
+    <%= render :partial => 'layouts/shared/flashes' %>
+    <ul id="iend-search-sectors">
+<% Sector.find(sector_params_array).each do |sector| %>
+      <li><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :search => params[:search]) %></li>
+<% end %>
+      <li><%= link_to "| &nbsp; Clear all", iend_users_path %></li>
+    </ul>
+  </section>
+  <% end %>
 
   <div class="container prepend-top">
     <aside class="span-3" id="iend-search-filters">
@@ -23,7 +33,7 @@
         CAUSE/SECTOR
         <ul>
 <% @sectors.each do |sector| %>
-            <li><%= link_to sector.name, iend_users_path(:sectors => sector_toggle(sector.id), :search => params[:search]) %></li>
+            <li><%= link_to sector.name, iend_users_path(:sectors => sector_add(sector.id), :search => params[:search]) %></li>
 <% end %>
         </ul>
       </div>

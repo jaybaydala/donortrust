@@ -234,7 +234,7 @@ section.iend.spaced { padding:36px 0; }
 .profile-module .profile-module-top a:active  { color:#FFF; text-decoration:none; }
 .profile-name { font-size:18px; line-height:24px; padding:16px 10px 0 10px; }
 .profile-location { font-size:12px; font-style:italic; padding:0 10px 10px 10px; }
-.profile-module-bottom { background: #f8f8f8; border-top: 1px solid #ececec; bottom: 0; color: #666; font-size: 10px; left: 0; position: absolute; height: 45px; width: 199px; -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-left-radius:5px; border-bottom-right-radius:5px; }
+.profile-module-bottom { background: #f8f8f8; border-top: 1px solid #ececec; bottom: 0; color: #666; font-size: 10px; left: 0; position: absolute; width: 199px; -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-left-radius:5px; border-bottom-right-radius:5px; }
 .profile-module-bottom div { padding: 10px; }
 
 /* GIFTS
