@@ -3,20 +3,22 @@ class Iend::UsersController < DtApplicationController
   before_filter :restrict_current_user, :only => [ :edit, :update, :edit_password ]
   helper "dt/places"
 
-  helper_method :sector_toggle
+  helper_method :sector_add, :sector_remove, :sector_params_array
 
   def index
     @sectors = Sector.alphabetical
-    if params[:search].blank? && params[:sectors].blank?
+    if params[:name].blank? && params[:sectors].blank?
       @profiles = IendProfile.paginate(:page => params[:page], :per_page => 18)
     else
-      @profiles = IendProfile.search params[:search],
+      @profiles = IendProfile.search params[:name],
         :with_all => search_prepare_with_all,
         :without  => search_prepare_without,
         :page     => params[:page],
         :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
         :order    => (params[:order].blank? ? :created_at : params[:order].to_sym)
-        # TODO Should we be able to search for iend profiles by name and receive Anonymous matches?
+    end
+    respond_to do |format|
+      format.html { render :action => "index", :layout => "iend_users_search"}
     end
   end
 
@@ -96,8 +98,10 @@ class Iend::UsersController < DtApplicationController
     end
 
     def search_prepare_without
-      return nil if sector_params_array.nil? || sector_params_array.empty?
-      { :preferred_poverty_sectors => false }
+      without = {}
+      without.merge!({ :preferred_poverty_sectors => false }) unless sector_params_array.nil? || sector_params_array.empty?
+      without.merge!({ :public_name => false }) if params[:name].present?
+      without
     end
 
     def search_prepare_with_all
@@ -107,10 +111,6 @@ class Iend::UsersController < DtApplicationController
 
     def sector_params_array
       params[:sectors].try(:split, /\s|\+|,/).to_a
-    end
-
-    def sector_toggle(sector_id)
-      (sector_params_array.include? sector_id.to_s) ? sector_remove(sector_id) : sector_add(sector_id)
     end
 
     def sector_add(sector_id)
