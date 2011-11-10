@@ -4,7 +4,7 @@ end
 
 Given /^there is an iend profile named "([^"]*)" from "([^"]*)" with poverty sector "([^"]*)"$/ do |name, location, sector|
   first, last = name.split(' ')
-  user = Factory(:user, :first_name => first, :last_name => last, :country => location)
+  user = Factory(:user, :first_name => first, :last_name => last, :province => location)
   user.sectors << Sector.find_by_name(sector)
   user.save
 end
