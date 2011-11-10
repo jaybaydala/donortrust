@@ -221,7 +221,7 @@ section.iend.spaced { padding:36px 0; }
 #iend-search-filter li { font-size:0.916em; }
 #iend-search-filter a { color:#333; display:block; margin-bottom:1px; padding:2px 3px; text-decoration:none; }
 #iend-search-filter a:hover,
-#iend-search-filter a:active { background-color:#663; }
+#iend-search-filter a:active { color: #fff; background-color:#663; }
 .iend-search-filter { margin-bottom:1.25em; }
 
 #iend-search-terms { font-size:12px; list-style:none; margin:0; padding:0; }
