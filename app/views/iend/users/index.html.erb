@@ -1,4 +1,4 @@
-<% title(params[:search].blank? && params[:sectors].blank? ? 'All Users' : nil ) %>
+<% title(params[:name].blank? && params[:sectors].blank? ? 'All Users' : nil ) %>
 
 <div class="results clearfix">
 <% @profiles.each_with_index do |profile, i| %>

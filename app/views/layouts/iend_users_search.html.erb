@@ -7,15 +7,15 @@
 
 <div id="maincontentarea" class="content prepend-top append-large-bottom">
 
-  <% if params[:sectors].present? || params[:search].present? %>
+  <% if params[:sectors].present? || params[:name].present? %>
   <section class="container prepend-top">
     <%= render :partial => 'layouts/shared/flashes' %>
     <ul id="iend-search-terms">
 <% Sector.find(sector_params_array).each do |sector| %>
-      <li class="term"><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :search => params[:search]) %></li>
+      <li class="term"><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :name => params[:name]) %></li>
 <% end %>
-<% if params[:search].present? %>
-      <li class="term"><%= link_to params[:search], iend_users_path(:sectors => params[:sectors], :search => nil) %></li>
+<% if params[:name].present? %>
+      <li class="term"><%= link_to params[:name], iend_users_path(:sectors => params[:sectors], :name => nil) %></li>
 <% end %>
       <li><%= link_to "| &nbsp; Clear all", iend_users_path %></li>
     </ul>
@@ -24,19 +24,21 @@
 
   <div class="container prepend-top">
     <aside class="span-3" id="iend-search-filter">
-      <form method="get">
-        <h2 class="plain border-bottom"><label for="search">Search</label></h2>
-        <p>
-          <input name="search" id="search" type="search" value="<%= params[:search] %>" placeholder="Name or Location">
-          <input type="submit" value="Go"> <input type="hidden" name="sectors" value="<%= params[:sectors] %>">
-        </p>
-      </form>
-      <h2 class="plain border-bottom">Choose</h2>
+      <h2 class="plain border-bottom">Search</h2>
+      <div class="iend-search-filter">
+        <form method="get">
+          <label for="name">NAME</label>
+          <p>
+            <input name="name" id="name" type="search" value="<%= params[:name] %>" placeholder="Name">
+            <input type="submit" value="Go"> <input type="hidden" name="sectors" value="<%= params[:sectors] %>">
+          </p>
+        </form>
+      </div>
       <div class="iend-search-filter">
         CAUSE/SECTOR
         <ul>
 <% @sectors.each do |sector| %>
-            <li><%= link_to sector.name, iend_users_path(:sectors => sector_add(sector.id), :search => params[:search]) %></li>
+            <li><%= link_to sector.name, iend_users_path(:sectors => sector_add(sector.id), :name => params[:name]) %></li>
 <% end %>
         </ul>
       </div>
