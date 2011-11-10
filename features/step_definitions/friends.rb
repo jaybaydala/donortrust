@@ -25,7 +25,7 @@ end
 
 Given /^"([^"]*)" has received a friendship request$/ do |arg1|
   Given "I visit a stranger's profile"
-  Given "I press \"add_as_friend\""
+  Given "I follow \"add_as_friend\""
 end
 
 Then /^initiator should receive (an|no|\d+) email$/ do |amount|

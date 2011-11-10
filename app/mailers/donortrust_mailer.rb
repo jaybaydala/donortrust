@@ -255,8 +255,8 @@ TXT
     recipients  @friend.email
     @subject    = "Friendship request"
     sent_on     Time.now
-    @accept_url = accept_iend_user_friendship_url(:user_id => @initiator.id, :id => @friendship.id, :host => HTTP_HOST)
-    @decline_url = decline_iend_user_friendship_url(:user_id => @initiator.id, :id => @friendship.id, :host => HTTP_HOST)
+    @accept_url = accept_iend_friendship_url(:id => @friendship.id, :host => HTTP_HOST)
+    @decline_url = decline_iend_friendship_url(:id => @friendship.id, :host => HTTP_HOST)
   end
  
   def friendship_acceptance_email(friendship)

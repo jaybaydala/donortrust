@@ -5,13 +5,13 @@ Background:
 
 Scenario: Add as friend button on stranger's profile
   When I visit a stranger's profile
-  Then I should see "Add as friend" button
+  Then I should see "Add as friend"
   When I visit my profile
   Then I should not see "Add as friend" button
 
-Scenario: When "Add as Friend" button is pressed
+Scenario: When "Add as Friend" link is followed
   When I visit a stranger's profile
-  And I press "add_as_friend"
+  And I follow "add_as_friend"
   Then a friendship should be created
   And the friendship status should be "unaccepted"
   And "stranger@email.com" should receive an email

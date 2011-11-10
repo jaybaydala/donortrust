@@ -253,3 +253,9 @@ Factory.define :user do |u|
   u.display_name { Faker::Name.name }
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }
 end
+
+Factory.define :friendship do |f|
+  f.association :user, :factory => :user
+  f.association :friend, :factory => :user
+  f.status false
+end
