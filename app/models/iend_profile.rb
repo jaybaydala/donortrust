@@ -20,8 +20,32 @@ class IendProfile < ActiveRecord::Base
     (name? && user.full_name.present?) ? user.full_name : "Anonymous"
   end
 
-  def formatted_sectors
+  def preferred_poverty_sectors
     user.sectors.map(&:name).join(', ') if preferred_poverty_sectors?
+  end
+
+  def lives_affected
+    user.projects_funded.inject(0){|sum,p| sum += p.lives_affected.to_i } if lives_affected?
+  end
+
+  def gifts_given
+    user.gifts.size if gifts_given?
+  end
+
+  def gifts_given_amount
+    user.gifts.sum(:amount) if gifts_given_amount?
+  end
+
+  def gifts_received
+    user.orders.count(:conditions => "gift_card_payment_id IS NOT NULL") if gifts_received?
+  end
+
+  def projects_funded
+    user.projects_funded.size if list_projects_funded?
+  end
+
+  def projects_funded_amount
+    user.investments.sum(:amount) if amount_funded?
   end
 
 end
