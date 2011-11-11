@@ -2,7 +2,15 @@ require 'pdf_proxy'
 
 class DonortrustMailer < ActionMailer::Base
   include PDFProxy
-  HTTP_HOST = (['staging', 'production'].include?(ENV['RAILS_ENV']) ? 'www.uend.org' : 'localhost:3000') if !const_defined?('HTTP_HOST')
+  if !const_defined?('HTTP_HOST')
+    HTTP_HOST = if Rails.env.staging?
+      'staging.uend.org'
+    elsif Rails.env.production?
+      'www.uend.org'
+    else
+      'localhost:3000'
+    end
+  end
 
   #MP - Dec. 14, 2007
   #Added to support US donations
