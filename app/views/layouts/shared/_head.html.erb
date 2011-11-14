@@ -28,6 +28,7 @@
   <meta property="og:type" content="non_profit">
   <meta property="og:url" content="<%= request.url %>">
   <meta property="fb:app_id" content="<%= Facebook.app_id %>">
+  <meta property="fb:admins" content="<%= Facebook.admins.join(',') %>"/>
   <% if content_for?(:og_title) || content_for?(:html_title) %><meta property="og:title" content="<%= content_for?(:og_title) ? yield(:og_title) : yield(:html_title) %>"><% end %>
   <% if content_for?(:og_image) %><meta property="og:image" content="<%= request.protocol + request.host_with_port + yield(:og_image) %>"><% end %>
   <% if content_for?(:og_description) %><meta property="og:description" content="<%= yield(:og_description) %>"><% end %>
