@@ -1,3 +1,24 @@
+Given /^I have a friendship(?: that I initiated)?$/ do
+  @initiator = current_user
+  @friend = Factory(:user, :login => "stranger@example.com")
+  @friendship = Factory(:friendship, :user => @initiator, :friend => @friend, :status => true)
+end
+
+Given /^I have a friendship that my friend initiated$/ do
+  @inverse_friend = Factory(:user)
+  @inverse_friendship = Factory(:friendship, :user => current_user, :friend => @friend, :status => true)
+end
+
+Then /^I should see my friend$/ do
+  Then "I should see \"#{@friend.name}\""
+end
+
+Then /^I should see all my friends$/ do
+  (current_user.friends + current_user.inverse_friends).each do |friend|
+    Then "I should see \"#{friend.name}\""
+  end
+end
+
 When /^I visit a stranger's profile$/ do
   @initiator = @user
   @stranger = Factory(:user, :login => "stranger@example.com")
@@ -15,7 +36,6 @@ end
 
 Then /^the friendship status should be "([^"]*)"$/ do |arg1|
   status = arg1 == "accepted" ? true : false
-  # debugger
   friendship = find_friendship(@initiator, @stranger)
   friendship.status.should == status
 end

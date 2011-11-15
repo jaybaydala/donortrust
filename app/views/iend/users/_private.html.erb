@@ -54,7 +54,13 @@
     
   </div>
   <div class="span-10 last">
-    <h2 style="margin-left:12px;">Your Projects</h2>
+    <nav class="subnav append-bottom clearfix">
+      <ol>
+        <li<%= ' class="current"' if current_nav?('users') %>><%= link_to "Projects", iend_user_path(@user) %></li>
+        <li<%= ' class="current"' if current_nav?('friends') %>><%= link_to "Friends", iend_user_friends_path(@user) %></li>
+      </ol>
+    </nav>
+    
     <!-- paging goes here -->
     <div class="span-9 prepend-1 pageshadow-10 last">
       <div class="clearfix" id="projects">
