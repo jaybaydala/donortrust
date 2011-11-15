@@ -36,4 +36,9 @@ Scenario: When "Decline" is clicked
   When I follow "decline" in the email
   Then the friendship status should be deleted
   Then the initiator should receive no email
-  
+
+Scenario: Should be able to see all my friendships
+  Given I have a friendship that I initiated
+  And I have a friendship that my friend initiated
+  When I go to my friends page
+  Then I should see all my friends

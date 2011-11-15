@@ -16,6 +16,8 @@ module NavigationHelpers
       iend_user_path(current_user || User.last)
     when /my cart page/
       dt_cart_path
+    when /my friends page/
+      iend_user_friends_path(current_user || User.last)
     when /the new upowered page/
       new_dt_upowered_path
     when /the order confirmation page/
