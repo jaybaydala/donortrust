@@ -12,6 +12,13 @@ class Iend::FriendshipsController < ApplicationController
     redirect_to request.referrer
   end
 
+  def destroy
+    @friendship = current_user.friendships.find(params[:id]) || current_user.inverse_friendships.find(params[:id])
+    @friendship.destroy
+    flash[:notice] = "Your friendship with #{@friendship.friend.full_name} has been removed"
+    redirect_to iend_user_friends_path(current_user)
+  end
+
   # Accepts a friendship
   def accept
     if friendship = current_user.inverse_friendships.find(params[:id])
