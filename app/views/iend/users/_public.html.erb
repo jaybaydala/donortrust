@@ -16,7 +16,7 @@
       <div class="profile-actions">
         <%= link_to("+ Add as friend", iend_friendships_path(:friend_id => @user.id), :id => "add_as_friend", :method => :post, :class => "smallbutton") if show_add_friend_button?(@user) %>
         <% if logged_in? && current_user.friends_with?(@user) %>
-          <%= link_to "Unfriend", iend_friendship_path(current_user.friendship_with(@user)), :method => :delete, :confirm => "Are you sure you want to unfriend \"#{@user.full_name}\"" %>
+          <%= link_to "Unfriend", iend_friendship_path(current_user.friendship_with(@user)), :method => :delete, :confirm => "Are you sure you want to unfriend \"#{@user.full_name}\"", :class => "smallbutton" %>
         <% end %>
       </div>
       
