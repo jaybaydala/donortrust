@@ -2,11 +2,23 @@
 
 <%= render 'iend/shared/header' %>
 
-<%- unless @friends.blank? %>
-  <h3>Friends</h3>
-  <%- @friends.each do |friend| %>
-    <% display_string = friend.name.blank? ? friend.email : friend.name %>
-    <p><%= link_to display_string, iend_user_path(friend)%></p>
-  <% end %>
+<h1><%= "#{image_tag(@user.image.url, :alt => '') if @user.image?} #{@user.first_name} #{@user.last_name}" %></h1>
+<p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
+
+<%= iend_user_nav %>
+
+
+<h3>Friends</h3>
+<%- if @friends.blank? %>
+  <p>Looks like you haven't made any friends yet. <%= link_to "Find some friends", iend_users_path %>!</p>
+<%- else -%>
+  <ol>
+    <%- @friends.each do |friend| %>
+      <% content_tag_for :li, friend do %>
+        <% if friend.image? %><%= image_tag friend.image.url(:thumb), :alt => '' %><% end %>
+        <%= link_to (friend.full_name.present? ? friend.full_name : friend.login), iend_user_path(friend)%>
+      <% end %>
+    <% end %>
+  </ol>
 <% end %>
 
