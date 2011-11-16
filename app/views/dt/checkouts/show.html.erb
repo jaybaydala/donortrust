@@ -12,10 +12,15 @@
 <!-- this is to get around a really odd webkit bug -->
 <div>&nbsp;</div>
 
-<div style="width:162px;float:right">
-  <%= render 'iend/authentications/authentications' %>
-</div>
+<div class="clearfix">
+  <div class="span-10">
+    <p><strong>Do you work for a company that does donation-matching?</strong><br> Double your impact by letting them know about this donation. Thanks!</p>
+  </div>
 
+  <div class="span-4 last">
+    <%= render 'iend/authentications/authentications' %>
+  </div>
+</div>
 
 <%= render :partial => "order_summary" %>
 
