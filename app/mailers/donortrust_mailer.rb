@@ -2,7 +2,15 @@ require 'pdf_proxy'
 
 class DonortrustMailer < ActionMailer::Base
   include PDFProxy
-  HTTP_HOST = (['staging', 'production'].include?(ENV['RAILS_ENV']) ? 'www.uend.org' : 'localhost:3000') if !const_defined?('HTTP_HOST')
+  if !const_defined?('HTTP_HOST')
+    HTTP_HOST = if Rails.env.staging?
+      'staging.uend.org'
+    elsif Rails.env.production?
+      'www.uend.org'
+    else
+      'localhost:3000'
+    end
+  end
 
   #MP - Dec. 14, 2007
   #Added to support US donations
@@ -246,6 +254,29 @@ TXT
   def in_mock_ajax?
     return false
   end
+ 
+  def friendship_request_email(friendship)
+    @friendship = friendship
+    @initiator  = friendship.user
+    @friend     = friendship.friend
+    from        "info@uend.org"
+    recipients  @friend.email
+    @subject    = "Friendship request"
+    sent_on     Time.now
+    @accept_url = accept_iend_friendship_url(:id => @friendship.id, :host => HTTP_HOST)
+    @decline_url = decline_iend_friendship_url(:id => @friendship.id, :host => HTTP_HOST)
+  end
+ 
+  def friendship_acceptance_email(friendship)
+    @friendship = friendship
+    @initiator  = friendship.user
+    @friend     = friendship.friend
+    from        "info@uend.org"
+    recipients  @initiator.email
+    @subject    = "Friendship request accepted"
+    sent_on     Time.now
+  end
+
   protected
     def user_setup_email(user)
       @subject    = "Welcome to DonorTrust!"
@@ -262,5 +293,4 @@ TXT
       from        "#{gift.email}"
       sent_on     Time.now
     end
-  
 end

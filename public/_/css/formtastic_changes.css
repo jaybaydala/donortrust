@@ -30,6 +30,7 @@ form.formtastic fieldset > ol > li fieldset .indent { padding-left:22px; }
 --------------------------------------------------------------------------------------------------*/
 form.formtastic legend { color:#333; font-size:24px; font-weight:normal; padding-bottom:24px; }
 .dark form.formtastic legend { color:#FFF; }
+form.formtastic.light legend { color:#000; }
 
 /* FIELDSETS & LISTS
 --------------------------------------------------------------------------------------------------*/
@@ -54,6 +55,7 @@ form.formtastic fieldset > ol > li fieldset ol li { padding:0; border:0; }
 /*form.formtastic fieldset > ol > li p.inline-hints { color:#666; margin:0.5em 0 0 25%; }*/
 form.formtastic fieldset > ol > li p.inline-hints { color:#666; margin:0.5em 0 0 0; }
 .dark form.formtastic fieldset > ol > li p.inline-hints { color:#CCC; }
+form.formtastic.light fieldset > ol > li p.inline-hints { color:#666; }
 
 
 /* INLINE ERRORS
