@@ -50,7 +50,7 @@ $(document).ready(function (){
   });
 
   // form submit replacements - big buttons
-  $("#investmentform, #paymentform, #billingform, #signupform, #userform, #upoweredform, #tellfriendform, form.upowered_share").each(function() {
+  $("#investmentform, #paymentform, #billingform, #signupform, #userform, #upoweredform, #tellfriendform, form.upowered_share, form.newsletter_signups").each(function() {
     var form = $(this);
     var submit = $('input[type=submit]', $(this));
     var button = $("<a>").addClass('bigbutton').click(function() { form.submit() }).html(submit.attr('value'));
@@ -73,6 +73,9 @@ $(document).ready(function (){
   if ($.fn.calculate_payment_required) {
     $("#payment_options").calculate_payment_required({ total_field: '#order_total' });
   }
+
+  // newsletter signup
+  $('a.newsletter_signup_link').colorbox();
 
   // simple autogrow
   if ($.fn.autoGrow) {

@@ -9,6 +9,12 @@ class Facebook
   end
 
   class << self
+    def admins
+      admins = %w(jaybaydala KMMO4)
+      admins.push('sterrym') unless Rails.env.production?
+      admins
+    end
+
     def app_credentials
       @@app_credentials ||= YAML.load_file(Rails.root.join('config', 'omniauth.yml'))['facebook'].symbolize_keys
     end

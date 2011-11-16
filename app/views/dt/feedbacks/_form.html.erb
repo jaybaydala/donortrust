@@ -1,0 +1,17 @@
+<% if @feedback %>
+<% semantic_form_for @feedback, :html => { :class => "light" }, :url => dt_feedbacks_path(:format => 'json') do |f| %>
+  <%= f.semantic_errors :gift %>
+  <% f.inputs "Feedback" do %>
+    <%= f.input :name %>
+    <%= f.input :email %>
+    <%= f.input :subject %>
+    <%= f.input :message, :as => :text, :input_html => { :rows => 4, :cols => 42 } %>
+  <% end %>
+
+  <% f.buttons do %>
+    <%= f.commit_button "Submit Feedback" %>
+    <%= image_tag 'spinner.gif', :id => 'spinner', :style => 'display:none' %>
+  <% end %>
+
+<% end %>
+<% end %>

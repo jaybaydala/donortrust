@@ -1,8 +1,15 @@
 development:
   port: 9312
+  query_log_file: 
 test:
   port: 9313
+  query_log_file: 
+cucumber:
+  port: 9313
+  query_log_file: 
 production:
   port: 9312
+  query_log_file: 
 staging:
   port: 9313
+  query_log_file: 

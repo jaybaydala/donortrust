@@ -1,6 +1,11 @@
-<%- content_for :html_title do -%>iEnd<%- end -%>
+<% title(params[:name].blank? && params[:sectors].blank? ? 'All Users' : nil ) %>
 
-<%= render 'iend/shared/header' %>
-<%= render 'iend/users/nav' %>
+<div class="results clearfix">
+<% @profiles.each_with_index do |profile, i| %>
+<div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
+  <%= render :partial => 'profile', :locals => { :profile => profile } %>
+</div>
+<% end %>
+</div>
 
-hithere
+<%= will_paginate @profiles %>
