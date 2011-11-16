@@ -13,6 +13,10 @@ Then /^I should see my friend$/ do
   Then "I should see \"#{@friend.name}\""
 end
 
+Then /^I should not see my friend$/ do
+  Then "I should not see \"#{@friend.name}\""
+end
+
 Then /^I should see all my friends$/ do
   (current_user.friends + current_user.inverse_friends).each do |friend|
     Then "I should see \"#{friend.name}\""
