@@ -4,7 +4,7 @@
   <div style="padding-bottom:0.5em;">
     <h1>
       <%= image_tag(@user.image.url, :alt => '') if @iend_profile.picture? && @user.image? %>
-      <%= @iend_profile.name? ? "#{@user.first_name} #{@user.last_name}" : 'Anonymous' %>
+      <%= @iend_profile.name? ? "#{@user.full_name}" : 'Anonymous' %>
     </h1>
     <% if @iend_profile.location? %>
       <p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
@@ -15,6 +15,9 @@
     <div class="span-4">
       <div class="profile-actions">
         <%= link_to("+ Add as friend", iend_friendships_path(:friend_id => @user.id), :id => "add_as_friend", :method => :post, :class => "smallbutton") if show_add_friend_button?(@user) %>
+        <% if logged_in? && current_user.friends_with?(@user) %>
+          <%= link_to "Unfriend", iend_friendship_path(current_user.friendship_with(@user)), :method => :delete, :confirm => "Are you sure you want to unfriend \"#{@user.full_name}\"" %>
+        <% end %>
       </div>
       
       <aside class="profile-summarybox">
