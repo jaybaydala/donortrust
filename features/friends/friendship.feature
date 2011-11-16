@@ -40,5 +40,5 @@ Scenario: When "Decline" is clicked
 Scenario: Should be able to see all my friendships
   Given I have a friendship that I initiated
   And I have a friendship that my friend initiated
-  When I go to my friends page
+  When I go to my friendships page
   Then I should see all my friends
