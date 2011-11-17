@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require File.expand_path('../../config/boot',  __FILE__)
+require 'erb'
+
+template = %q{module Donortrust
+  unless defined?(Donortrust::VERSION)
+    VERSION = '<%= @version %>'
+  end
+end
+}
+
+erb = ERB.new(template)
+@version = ARGV[0]
+output = erb.result
+
+File.open(Rails.root.join('config', 'initializers', 'version.rb'), 'w') do |f|
+  f.write output
+end
