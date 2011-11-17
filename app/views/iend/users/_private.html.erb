@@ -6,61 +6,13 @@
 <%= iend_user_nav %>
 
 <div class="clearfix">
-  <div class="span-4">
-    <div class="profile-actions">
-      <%= link_to "Find Friends", iend_users_path, :class => "smallbutton" %>
-    </div>
-    
-    <!-- <aside id="utogether" class="profile-summarybox">
-          
-        </aside> -->
-    <aside class="profile-summarybox">
-      <div class="icon">
-        <%= image_tag 'give/sidebar-uforward.png', :alt => "U:Forward" %><br>
-        Pay it forward as a gift.
-      </div>
-      <div class="summary">
-        <div style="margin-bottom:4px;">Gifts given: <%= @user.gifts.count %></div>
-        <div style="margin-bottom:4px;">Given as gifts: <%= number_to_currency(@user.gifts.inject(0){|sum, g| sum += g.amount }, :precision => 0) %></div>
-        <div style="margin-bottom:4px;">Gifts received: <%= @user.orders.count(:conditions => "gift_card_payment_id IS NOT NULL")  %></div>
-        <div style="margin-bottom:4px;"><%= link_to "Give a gift", new_dt_gift_path %></div>
-      </div>
-    </aside>
+  <%= render "iend/shared/private_sidebar" %>
 
-    <aside class="profile-summarybox">
-      <div class="icon">
-        <%= image_tag 'give/sidebar-udirect.png', :alt => "U:Direct" %><br>
-        Give directly to a project.
-      </div>
-      <div class="summary">
-        <div style="margin-bottom:4px;">Projects funded: <%= @user.projects_funded.size %></div>
-        <div style="margin-bottom:4px;">Amount given: <%= number_to_currency(@user.investments.inject(0){|sum,i| sum += i.amount }, :precision => 0) %></div>
-        <div style="margin-bottom:4px;">Lives affected: <%= @user.projects_funded.inject(0){|sum,p| sum += p.lives_affected.to_i } %></div>
-        <div style="margin-bottom:4px;"><%= link_to "Choose a project", dt_projects_path %></div>
-      </div>
-    </aside>
 
-    <aside class="profile-summarybox">
-      <div class="icon">
-        <%= image_tag 'give/sidebar-upowered.png', :alt => "U:Powered" %><br>
-        Fund UEnd Operations.
-      </div>
-      <div class="summary">
-        <div style="margin-bottom:4px;">Monthly giving: <%= number_to_currency(@user.subscriptions.sum(:amount)) %></div>
-        <div style="margin-bottom:4px;"><%= link_to "Join the Movement", dt_upowered_path %></div>
-      </div>
-    </aside>
-
-    
-  </div>
   <div class="span-10 last">
-    <nav class="subnav append-bottom clearfix">
-      <ol>
-        <li<%= ' class="current"' if current_nav?('users') %>><%= link_to "Projects", iend_user_path(@user) %></li>
-        <li<%= ' class="current"' if current_nav?('friends') %>><%= link_to "Friends", iend_user_friends_path(@user) %></li>
-      </ol>
-    </nav>
+    <%= render "iend/shared/public_profile_nav" %>
     
+    <h2 style="margin-left:12px;">Projects</h2>
     <!-- paging goes here -->
     <div class="span-9 prepend-1 pageshadow-10 last">
       <div class="clearfix" id="projects">

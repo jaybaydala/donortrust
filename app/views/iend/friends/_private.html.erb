@@ -1,0 +1,22 @@
+<h1><%= "#{image_tag(@user.image.url, :alt => '') if @user.image?} #{@user.first_name} #{@user.last_name}" %></h1>
+<p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
+
+<%= iend_user_nav %>
+
+<div class="clearfix">
+
+  <%= render "iend/shared/private_sidebar" %>
+
+  <div class="span-10 last">
+    
+    <%= render "iend/shared/public_profile_nav" %>
+    
+    <h2 style="margin-left:12px;">Friends</h2>
+    <%- if @friends.blank? %>
+      <p>Looks like you haven't made any friends yet. <%= link_to "Find some friends", iend_users_path %>!</p>
+    <%- else -%>
+      <%= render "friend_list" %>  
+    <%- end -%>
+  </div>
+  
+</div>
