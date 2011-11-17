@@ -2,11 +2,9 @@
 
 <%= render 'iend/shared/header' %>
 
-<%- unless @friends.blank? %>
-  <h3>Friends</h3>
-  <%- @friends.each do |friend| %>
-    <% display_string = friend.name.blank? ? friend.email : friend.name %>
-    <p><%= link_to display_string, iend_user_path(friend)%></p>
-  <% end %>
+<% if (params[:public].present? || current_user != @user) && !current_user.friends_with?(@user) %>
+  <%= render 'public' %>
+<% else %>
+  <%= render 'private' %>
 <% end %>
 
