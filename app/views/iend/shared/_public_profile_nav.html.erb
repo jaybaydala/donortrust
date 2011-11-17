@@ -1,0 +1,9 @@
+<nav class="subnav append-bottom clearfix">
+  <ol>
+    <% if @iend_profile.list_projects_funded? %>
+      <li<%= ' class="current"' if current_nav?('users') %>><%= link_to "Projects", iend_user_path(@user) %></li>
+    <% end %>
+    <li<%= ' class="current"' if current_nav?('friends') %>><%= link_to "Friends", iend_user_friends_path(@user) %></li>
+  </ol>
+</nav>
+

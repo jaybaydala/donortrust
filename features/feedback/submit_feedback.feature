@@ -15,13 +15,13 @@ Feature: Submit Feedback
     Then the last feedback record should have "email" value "testing@example.com"
     Then the last feedback record should have "subject" value "Subject123"
     Then the last feedback record should have "message" value "Message123"
-    #Then a feedback record should be created with name "Andrew Roth", email "testing@example.com", subject "Subject123", message "Message123" and resolved "false"
-    And I should receive an email
-    When I open the email
-    Then I should see "Andrew Roth" in the email body
-    Then I should see "testing@example.com" in the email body
-    Then I should see "Feedback: Subject123" in the email subject
-    Then I should see "Message123" in the email body
+    Then a feedback record should be created with name "Andrew Roth", email "testing@example.com", subject "Subject123", message "Message123" and resolved "false"
+    And "info@uend.org" should receive an email
+    When "info@uend.org" opens the email
+    Then they should see "Andrew Roth" in the email body
+    And they should see "testing@example.com" in the email body
+    And they should see "Feedback: Subject123" in the email subject
+    And they should see "Message123" in the email body
 
   Scenario: 
     Given I am logged in
