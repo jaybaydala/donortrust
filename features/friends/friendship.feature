@@ -6,7 +6,7 @@ Background:
 Scenario: Add as friend button on stranger's profile
   When I visit a stranger's profile
   Then I should see "Add as friend"
-  When I visit my profile
+  When I visit my "profile"
   Then I should not see "Add as friend" button
 
 Scenario: When "Add as Friend" link is followed
@@ -36,4 +36,8 @@ Scenario: When "Decline" is clicked
   When I follow "decline" in the email
   Then the friendship status should be deleted
   Then the initiator should receive no email
-  
+
+Scenario: Friends list
+  Given I am friends with "stranger@example.com"
+  And I visit my "friends list"
+  Then I should see "John Doe"
