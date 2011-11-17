@@ -35,3 +35,10 @@
     </div>
   </div>
 <% end %>
+
+<% content_for :sidebar do %>
+  <div class="sidebar_user_search">
+    <p class="smaller">Find users who have funded this project.</p>
+    <p><%= link_to "Find Users", iend_users_path(:project => @project), :class => 'smallbutton' %></p>
+  </div>
+<% end %>
