@@ -42,3 +42,32 @@ Given /^the iend profile "([^"]*)" has a public name and private sectors$/ do |n
   user.iend_profile.preferred_poverty_sectors = false
   user.iend_profile.save
 end
+
+
+
+Given /^there is a project named "([^"]*)"$/ do |name|
+  proj = Factory(:project, :name => name)
+  proj.save
+end
+
+Given /^there is an iend profile named "([^"]*)" who has invested in "([^"]*)"$/ do |name, project|
+  first, last = name.split(' ')
+  user = Factory(:user, :first_name => first, :last_name => last)
+  user.save
+  proj = Project.find_by_name(project)
+  inv = Factory(:investment, :project => proj)
+  inv.user = user
+  inv.save
+end
+
+Given /^I have searched iend profiles by the project "([^"]*)"$/ do |project|
+  proj = Project.find_by_name(project)
+  visit "/iend/users?project=#{proj.id}"
+end
+
+Given /^the iend profile "([^"]*)" chose not to list projects funded$/ do |name|
+  first, last = name.split(' ')
+  user = User.find_by_first_name_and_last_name(first, last)
+  user.iend_profile.list_projects_funded = false
+  user.iend_profile.save
+end
