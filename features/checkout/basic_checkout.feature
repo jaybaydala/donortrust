@@ -4,7 +4,7 @@ I want to be able to go through the checkout process
 So that I can help to end poverty
 Through the purchase of gifts and investments
 
-Background: 
+Background:
   Given I have added a $10 investment to my cart
   And I have added a $10 gift to my cart
   #And that I have removed the optional donation
@@ -27,6 +27,8 @@ Scenario: Successful checkout with fewest options
   And I press "next"
   Then I should see "Password"
   And I should see "Password confirmation"
+  When I press "next"
+  Then I should see "Order Summary"
   When I press "next"
   And I fill in "Credit card number" with "1"
   And I fill in "Card security number (CVV)" with "989"
@@ -55,6 +57,8 @@ Scenario: Successful checkout with signup
   And I fill in "order_password" with "Secret123"
   And I fill in "order_password_confirmation" with "Secret123"
   And I check "Terms of use"
+  And I press "next"
+  Then I should see "Order Summary"
   When I press "next"
   And I fill in "Credit card number" with "1"
   And I fill in "Card security number (CVV)" with "989"

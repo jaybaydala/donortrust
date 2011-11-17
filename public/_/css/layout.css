@@ -280,6 +280,7 @@ section.iend.spaced { padding:36px 0; }
 #receipt .controls a:hover,
 #receipt .controls a:active { text-decoration:underline; }
 #cart .numeric,
+#confirm .numeric,
 #receipt .numeric { font-size:18px; text-align:right; }
 #cart .total td,
 #receipt .total td { border-top:2px solid #333; padding:24px 0 18px 0; }

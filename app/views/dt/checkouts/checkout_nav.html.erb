@@ -7,7 +7,8 @@
           "payment_options" => "Payment &nbsp; &nbsp; Options ", 
           "upowered" => "Join &nbsp; &nbsp; UPowered ", 
           "billing" => "Billing Information ", 
-          "account_signup" => "Account Signup ", 
+          "account_signup" => "Account Signup ",
+          'confirm' => "Confirmation",
           "credit_card" => "Credit Card Details",
           "receipt" => "Transaction Receipt"
         }
@@ -19,7 +20,7 @@
       -%>
       <li class="span-2<%= ' current' if current %>"><%= title %></li>
       <%- end -%>
-      <li class="span-4 <%= "prepend-#{(10 - @checkout_steps.size*2)}" %> last" style="text-align:right;font-size:18px;">
+      <li class="span-2 <%= "prepend-#{(10 - @checkout_steps.size*2)}" %> last" style="text-align:right;font-size:18px;">
         <%- if @cart.present? -%>
           <strong>Cart Total: <%= number_to_currency(@cart.total) %></strong>
         <%- end -%>
