@@ -15,7 +15,7 @@ Feature: Submit Feedback
     Then the last feedback record should have "email" value "testing@example.com"
     Then the last feedback record should have "subject" value "Subject123"
     Then the last feedback record should have "message" value "Message123"
-    Then a feedback record should be created with name "Andrew Roth", email "testing@example.com", subject "Subject123", message "Message123" and resolved "false"
+    # Then a feedback record should be created with name "Andrew Roth", email "testing@example.com", subject "Subject123", message "Message123" and resolved "false"
     And "info@uend.org" should receive an email
     When "info@uend.org" opens the email
     Then they should see "Andrew Roth" in the email body

@@ -3,6 +3,14 @@ Feature: Authenticated users can add a friend
 Background:
   Given I am an authenticated user
 
+Scenario: Can find friends
+  Given the following users exist:
+    | first_name | last_name |
+    | Florence   | Bar       |
+  And I am on my account page
+  When I follow "Find Friends"
+  And I should see "Add Friend"
+
 Scenario: Add as friend button on stranger's profile
   When I visit a stranger's profile
   Then I should see "Add as friend"
