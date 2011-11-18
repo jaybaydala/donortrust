@@ -3,7 +3,7 @@
 <h1><%= "#{image_tag(@user.image.url, :alt => '') if @user.image?} #{@user.first_name} #{@user.last_name}" %></h1>
 <p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
 
-<%= iend_user_nav %>
+<%= iend_user_nav if @user == current_user %>
 
 <div class="clearfix">
   <%= render "iend/shared/private_sidebar" %>
