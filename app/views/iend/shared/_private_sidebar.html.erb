@@ -1,4 +1,10 @@
 <div class="span-4">
+  <%- if current_user == @user -%>
+    <div class="clearfix">
+      <%= link_to "Find Friends", iend_users_path, :class => "smallbutton" %>
+    </div>
+  <%- end -%>
+
   <!-- <aside id="utogether" class="profile-summarybox">
 
   </aside> -->
