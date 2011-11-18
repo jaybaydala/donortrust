@@ -9,7 +9,7 @@ class Iend::FriendshipsController < ApplicationController
     friendship ||= current_user.friendships.create(:friend_id => params[:friend_id])
     DonortrustMailer.deliver_friendship_request_email(friendship) if friendship && !friendship.accepted?
     flash[:notice] = "Your friendship request has been sent"
-    redirect_to request.referrer
+    redirect_to iend_user_path(friendship.friend)
   end
 
   def destroy
