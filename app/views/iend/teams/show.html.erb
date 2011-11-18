@@ -16,12 +16,13 @@
 <% end %>
 
 <div class="clearfix">
-  <div class="span-10">
+  <div class="span-11 dark-box">
     <h3>Goal: <%=h number_to_currency @team.goal %></h3>
     <p>Back to <%= link_to @team.campaign.name, iend_campaign_path(@team.campaign) %></p>
     <p><%= simple_format @team.description %></p>
   </div>
-  <div class="span-4 last">
-    <%= render :partial => 'team_members' %>
-  </div>
 </div>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'team_members' %>
+<% end %>

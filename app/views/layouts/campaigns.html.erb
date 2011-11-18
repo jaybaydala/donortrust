@@ -18,6 +18,7 @@
       <%= content_tag(:h1, yield(:title), :class => "clearfix") if show_title? && content_for?(:title) %>
 
       <div id="fb-root"></div>
+      <%= yield(:top_content) %>
       <%= yield %>
     </article>
     <aside class="span-3 last">

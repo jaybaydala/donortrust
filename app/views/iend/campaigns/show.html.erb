@@ -1,4 +1,5 @@
 <% content_for :html_title do %>iEnd:Poverty - <%=h @campaign.name %><% end %>
+<% content_for :title do %><%=h @campaign.name %><% end %>
 
 <% content_for :header do %>
   <div class="feature">
@@ -9,8 +10,7 @@
 
 <% content_for :top_content do %>
   <div class="clearfix">
-    <div class="prepend-top prepend-2">
-      <h1><%=h @campaign.name %></h1>
+    <div class="prepend-top">
       <% if @campaign.user == current_user %>
         <h6><%= link_to 'Edit', edit_iend_campaign_path(@campaign) %> | <%= link_to 'Remove', iend_campaign_path(@campaign), :method => :delete, :confirm => "Are you sure you want to remove this campaign?" %></h6>
       <% end %>
@@ -18,7 +18,7 @@
   </div>
 <% end %>
 
-<div class="clearfix">
+<div class="clearfix dark-box">
   <div class="span-10">
     <h1>Goal: <%= number_to_currency @campaign.goal %></h1>
     <p>

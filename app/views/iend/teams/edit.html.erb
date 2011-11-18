@@ -9,14 +9,12 @@
 
 <% content_for :top_content do %>
   <div class="clearfix">
-    <div class="prepend-top prepend-2">
+    <div class="prepend-top">
       <h1>Edit <%=h @team.name %></h1>
     </div>
   </div>
 <% end %>
 
 <div class="clearfix">
-  <div class="prepend-2">
-    <%= render "form" %>
-  </div>
+  <%= render "form" %>
 </div>

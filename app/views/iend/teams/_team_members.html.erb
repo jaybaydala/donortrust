@@ -1,4 +1,4 @@
-<%= pluralize @team.team_memberships.size, 'Member' %>
+<h3><%= pluralize @team.team_memberships.size, 'Member' %></h3>
 <% if @team.team_memberships.size > 0 %>
 <ul>
   <% @team.team_memberships.each do |tm| %>
