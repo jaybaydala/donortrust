@@ -1,0 +1,19 @@
+<% user = profile.user %>
+  <article class="profile-module">
+    <div class="profile-module-top">
+      <a href="<%= iend_user_path(profile.id) %>">
+        <div class="profile-image"><%= image_tag user.image.url(:thumb), :alt => "" %></div>
+        <div class="profile-name"><%= user.name %></div>
+        <div class="profile-location"><%= [user.city, user.province].compact.delete_if{ |x| x.empty? }.join(', ') %></div>
+      </a>
+    </div>
+    <div class="profile-data"><%= user.projects_funded.inject(0){|sum,p| sum += p.lives_affected.to_i } %> lives affected</div>
+    <div class="profile-data profile-data-space"><%= user.gifts.size %> gifts given</div>
+    <div class="profile-data"><%= number_to_currency(user.gifts.sum(:amount), :precision => 0) %> given in gifts</div>
+    <div class="profile-data"><%= user.orders.count(:conditions => "gift_card_payment_id IS NOT NULL") %> gifts received</div>
+    <div class="profile-data profile-data-space"><%= user.projects_funded.size %> projects funded</div>
+    <div class="profile-data"><%= number_to_currency(user.investments.sum(:amount), :precision => 0) %> given to projects</div>
+    <div class="profile-module-bottom">
+      <div>Preferred Poverty Sectors:<br><%= truncate(user.sectors.map(&:name).join(', '), :length => 35) %></div>
+    </div>
+  </article>
