@@ -1,7 +1,13 @@
-<div class="campaign">
-  <h2><%= link_to campaign.name, iend_campaign_path(campaign) %></h2>
-  <h3>Goal: <%= number_to_currency campaign.goal %></h3>
-  <h4>Created by: <%= campaign.user.name %></h4>
-  <h4><%= pluralize campaign.users.size, 'Participant' %></h4>
-</div>
-
+<article class="campaign">
+  <div class="campaign-top">
+    <h2><%= link_to campaign.name, iend_campaign_path(campaign) %></h2>
+    <h3>Goal: <%= number_to_currency campaign.goal %></h3>
+  </div>
+  <div class="campaign-info">
+    <h3>Raised:</h3>
+    <p>Created by: <%= campaign.user.name %></p>
+  </div>
+  <div class="campaign-bottom clearfix">
+    <p><%= pluralize campaign.users.size, 'Participant' %></p>
+  </div>
+</article>

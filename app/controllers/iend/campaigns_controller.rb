@@ -1,6 +1,7 @@
 class Iend::CampaignsController < DtApplicationController
   before_filter :require_user, :only => [ :new, :create ]
   before_filter :restrict_to_owner, :only => [ :edit, :update, :destroy ]
+  layout "campaigns"
 
   def index
     @campaigns = Campaign.all

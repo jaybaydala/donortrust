@@ -215,14 +215,18 @@ section.iend.spaced { padding:36px 0; }
 
 /* IEND CAMPAIGNS
 -------------*/
-.iend-campaigns .campaign {
-  height:150px;
-  padding:10px;
-  border:1px solid #666;
-  -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
-  box-shadow: 0px 5px 5px 0px #666; -webkit-box-shadow: 0px 5px 5px 0px #666; -moz-box-shadow: 0px 5px 5px 0px #666;
-}
-.iend-campaigns .campaign h4 {margin-bottom:0;}
+.campaign { background:#FFF; color:#000; font: 12px/14px Arial,Helvetica,sans-serif; height:300px; position:relative; width:199px; -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius:5px; }
+.campaign a { color:#39F; text-decoration:none; }
+.campaign a:hover { color:#4AF; }
+.campaign-top { background:#b3241b; color:#FFF; font-family:Georgia,Times,"Times New Roman",serif; height:120px; margin-bottom:18px; text-align:center; width:199px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
+.campaign .campaign-top h2 { padding: 1em 1em 0 1em;}
+.campaign .campaign-info h3 { color:#000; padding:0.5em 1em;}
+.campaign .campaign-info p { padding:0.5em 1em;}
+.campaign .campaign-top a:link,
+.campaign .campaign-top a:visited,
+.campaign .campaign-top a:hover,
+.campaign .campaign-top a:active { color:#FFF; text-decoration:none; }
+.campaign-bottom { background:#f8f8f8; border-top:1px solid #e0e0e0; bottom:0; color:#666; font-size:10px; height:42px; padding:10px 12px; position:absolute; width:175px;  -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-left-radius:5px; border-bottom-right-radius:5px }
 
 /* GIFTS
 ----------*/

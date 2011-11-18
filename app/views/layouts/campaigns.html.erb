@@ -1,0 +1,35 @@
+<%- content_for :header do -%>
+<%- end -%>
+
+<%= render :partial => 'layouts/shared/head' %>
+<body id="campaigns" class="dark">
+<%= render :partial => "layouts/shared/facebook_api" %>
+
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+
+<div id="maincontentarea" class="content prepend-top append-large-bottom">
+
+  <div class="container prepend-top">
+    <aside class="span-3" id="campaign-filters">
+      &nbsp;
+    </aside>
+    <article class="span-12">
+      <%= content_tag(:h1, yield(:title), :class => "clearfix") if show_title? && content_for?(:title) %>
+
+      <div id="fb-root"></div>
+      <%= yield %>
+    </article>
+    <aside class="span-3 last">
+      <div id="rail">
+        <%= render :partial => 'layouts/shared/newsletter' %>
+
+        <%= yield :sidebar %>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>

@@ -1,5 +1,7 @@
-<h1>Current Campaigns</h1>
+<% title(params[:search].blank? ? 'Featured Campaigns' : nil ) %>
+<div class="clearfix">
 <h2><%= link_to "Create a new campaign", new_iend_campaign_path %></h2>
+
 <div class="iend-campaigns">
   <% @campaigns.each_with_index do |c, i| %>
     <div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
