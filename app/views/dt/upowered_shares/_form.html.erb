@@ -7,6 +7,7 @@ params[:return_to] = return_to if return_to.present?
 -%>
 <div class="sharing">
   <h2>Share U:Powered with your friends</h2>
+  <div><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.uend.org/dt/upowered" data-text="For the price of a cup of coffee, you too can become a member of the U:Powered movement. R You In?" data-count="horizontal" data-via="uend_org">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script></div>
   <% semantic_form_for [:dt, @upowered_share], :url => dt_upowered_shares_url(:protocol => "http://") do |f| %>
     <% f.inputs do %>
       <%= f.input :from_name %>
