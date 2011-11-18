@@ -33,12 +33,18 @@
 
 <%= render :partial => "upowered_share" %>
 
-<% if logged_in? && current_user.authentications.facebook.present? %>
-<div class="sharing">
-  <h2>Facebook</h2>
-  <%= render :partial => 'dt/facebook_posts/form', :locals => { :message => "I just contributed to one of over 50 active poverty-ending projects with UEnd:Poverty – feels pretty great!\n#{root_url(:protocol => 'http://')}"} %>
-</div>
-<% end %>
+<% #if logged_in? && current_user.authentications.facebook.present? %>
+  <div class="sharing">
+    <h2>Facebook</h2>
+    <% if @order.gifts.present? %>
+      <%= render :partial => 'dt/facebook_posts/form', :locals => { :message => "I just gave a gift that will help end extreme poverty. Pretty cool, right? See how you can give a UEnd:Poverty gift card too\n#{root_url(:protocol => 'http://')}"} %>
+    <% elsif @order.gift_card_payment? %>
+      <%= render :partial => 'dt/facebook_posts/form', :locals => { :message => "I just got a UEnd:Poverty giftcard – now what poverty-ending project should I invest it in?\n#{root_url(:protocol => 'http://')}"} %>
+    <% else %>
+      <%= render :partial => 'dt/facebook_posts/form', :locals => { :message => "I just contributed to one of over 50 active poverty-ending projects with UEnd:Poverty – feels pretty great!\n#{root_url(:protocol => 'http://')}"} %>
+    <% end %>
+  </div>
+<% #end %>
 
 <% if @order.is_registration then %>
   <%= render :partial => 'thanks_registration' %>
@@ -64,6 +70,7 @@
       <div><%= link_to "Download Printable Card", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
     </div>
   <% end %>
+
 <% end %>
 
 <% content_for :google_analytics_path do %>/checkout/complete.html<% end %>

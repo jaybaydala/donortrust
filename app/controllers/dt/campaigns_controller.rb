@@ -170,6 +170,7 @@ class Dt::CampaignsController < DtApplicationController
       @team.contact_email = @campaign.email
       @team.pending = false
       @team.generic = true
+
       if @team.save
         @participant = Participant.new
         @participant.team = @team

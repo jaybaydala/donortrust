@@ -386,7 +386,9 @@ class Dt::CheckoutsController < DtApplicationController
       def set_checkout_steps
         @checkout_steps = []
         @checkout_steps << 'upowered'
-        @checkout_steps << 'payment_options' if logged_in? && (current_user.balance > 0 || current_user.cf_admin?)
+        if (logged_in? && (current_user.balance > 0 || current_user.cf_admin?)) || (session[:gift_card_balance] && session[:gift_card_balance] > 0)
+          @checkout_steps << 'payment_options' 
+        end
         @checkout_steps << 'billing'
         @checkout_steps << 'account_signup' unless logged_in?
         @checkout_steps << 'credit_card'

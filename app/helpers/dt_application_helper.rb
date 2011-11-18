@@ -78,7 +78,7 @@ module DtApplicationHelper
   end
 
   def iend_user_nav
-    render :partial => 'iend/shared/nav'
+    render :partial => 'iend/shared/iend_nav'
   end
 
   def dt_get_involved_nav
@@ -390,6 +390,12 @@ module DtApplicationHelper
 
   def action_button_remote(text, link, options = {})
     link_to_remote text, link, options.merge(:class => 'action_button')
+  end
+
+  def display_add_as_friend_button
+    if logged_in? && @user != current_user && !current_user.friends_with?(@user)
+      link_to "+ Add as friend", iend_friendships_path(:friend_id => @user.id), :id => "add_as_friend", :method => :post, :class => "smallbutton"
+    end
   end
 
 end

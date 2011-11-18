@@ -46,7 +46,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       selenium-webdriver (>= 0.0.3)
-    cgi_multipart_eof_fix (2.5.0)
     childprocess (0.1.4)
       ffi (~> 0.6.3)
     chronic (0.6.4)
@@ -78,7 +77,6 @@ GEM
       multipart-post (~> 1.1.0)
       rack (>= 1.1.0, < 2)
     fastercsv (1.5.4)
-    fastthread (1.0.7)
     feed-normalizer (1.5.2)
       hpricot (>= 0.6)
       simple-rss (>= 1.1)
@@ -90,7 +88,6 @@ GEM
       actionpack (>= 2.3.7)
       activesupport (>= 2.3.7)
       i18n (~> 0.4)
-    gem_plugin (0.2.3)
     gherkin (2.2.9)
       json (~> 1.4.6)
       term-ansicolor (~> 1.0.5)
@@ -118,14 +115,6 @@ GEM
       mime-types
       treetop (>= 1.4.5)
     mime-types (1.16)
-    mongrel (1.1.5)
-      cgi_multipart_eof_fix (>= 2.4)
-      daemons (>= 1.0.3)
-      fastthread (>= 1.0.1)
-      gem_plugin (>= 0.2.3)
-    mongrel_cluster (1.0.5)
-      gem_plugin (>= 0.2.3)
-      mongrel (>= 1.0.2)
     multi_json (1.0.3)
     multi_xml (0.4.1)
     multipart-post (1.1.3)
@@ -228,8 +217,9 @@ GEM
       json_pure (>= 1.1.7)
     rubyntlm (0.1.1)
     rubyzip (0.9.4)
-    searchlogic (2.4.27)
-      activerecord (>= 2.0.0)
+    searchlogic (2.5.6)
+      activerecord (~> 2.3.11)
+      activerecord (~> 2.3.11)
     selenium-webdriver (0.1.0)
       childprocess (= 0.1.4)
       ffi (~> 0.6.3)
@@ -237,6 +227,7 @@ GEM
       rubyzip
     shoulda (2.11.3)
     simple-rss (1.2.3)
+    spork (0.8.5)
     systemu (2.2.0)
     term-ansicolor (1.0.5)
     thinking-sphinx (1.4.6)
@@ -290,8 +281,6 @@ DEPENDENCIES
   hpricot
   launchy
   mail
-  mongrel
-  mongrel_cluster
   mysql
   nokogiri
   omniauth (~> 0.3.0)
@@ -310,6 +299,7 @@ DEPENDENCIES
   searchlogic
   shoulda
   simple-rss
+  spork (~> 0.8)
   thinking-sphinx
   timecop
   transaction-simple

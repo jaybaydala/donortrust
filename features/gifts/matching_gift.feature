@@ -18,8 +18,8 @@ Background:
    
 Scenario: From open to checkout payment options
   Given I am on the open dt gifts page
-  And I fill in "Pickup Code:" with my gift pickup code
-  And I press "open your gift"
+  And I fill in "Enter your Pickup Code" with my gift pickup code
+  And I press "Open"
   Then I should be on the open dt gifts page
   And I should have a $25 gift card balance
   And I should see "Your friend gave you a gift to help end global poverty. Match your friends gift to double the impact."
@@ -28,5 +28,6 @@ Scenario: From open to checkout payment options
   When I have added a $50 investment to my cart
   And I am on my cart page
   And I follow "Checkout"
-  Then the "order_gift_card_payment" field should contain "25"
-  Then the "order_credit_card_payment" field should contain "32.50"
+  And I press "next"
+  Then the "Take from my Gift Card" field should contain "25"
+  Then the "Put on my Credit Card" field should contain "32.50"

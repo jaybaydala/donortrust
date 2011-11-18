@@ -1,7 +1,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
 <script>window.jQuery || document.write("<script src='/_/js/jquery-1.6.1.min.js'>\x3C/script>")</script>
-<%= javascript_include_tag '/_/js/jquery.cycle.all.min.js', '/_/js/jquery.colorbox-min.js', '/_/js/jquery.hashchange.min.js', '/_/js/jquery.autogrow.js', '/_/js/jquery.formnav.js', '/_/js/functions.js' %>
+<%= javascript_include_tag '/_/js/jquery.cycle.all.min.js', '/_/js/jquery.colorbox-min.js', '/_/js/jquery.hashchange.min.js', '/_/js/jquery.autogrow.js', '/_/js/jquery.formnav.js', '/_/js/functions.js', '/_/js/jquery.feedbackBadge.min.js', 'feedback' %>
 
 <%= yield :javascript %>
 <script type="text/javascript">
@@ -15,5 +15,11 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
+
+<div style="display:none">
+  <div id="feedback_form"><%= render :partial => 'dt/feedbacks/form' %></div>
+</div>
+<%= link_to_function "", "", :id => "feedback-badge" %>
+
 </body>
 </html>

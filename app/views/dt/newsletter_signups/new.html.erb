@@ -1,0 +1,21 @@
+<div<%= ' style="padding:12px;"' if request.xhr? %>>
+  <% semantic_form_for :newsletter_signups, :url => "http://karogroup.createsend.com/t/r/s/iiuydd/", :html => { :class => "light", :method => :post } do |f| %>
+    <% f.inputs 'Newsletter Signup' do %>
+      <li class="string required">
+        <%= label_tag :name, 'Name<abbr title="required">*</abbr>'.html_safe %>
+        <%= text_field_tag 'cm-name', nil, :id => "name" %>
+      </li>
+      <li class="string required">
+        <%= label_tag "iiuydd-iiuydd", 'Email<abbr title="required">*</abbr>'.html_safe %>
+        <%= text_field_tag 'cm-iiuydd-iiuydd', nil, :id => "iiuydd-iiuydd" %>
+      </li>
+      <li class="string required">
+        <%= label_tag "country", 'Country<abbr title="required">*</abbr>'.html_safe %>
+        <%= text_field_tag 'cm-f-xydzh', nil, :id => "country" %>
+      </li>
+    <% end %>
+    <% f.buttons do %>
+      <%= f.commit_button "Subscribe" %>
+    <% end %>
+  <% end %>
+</div>

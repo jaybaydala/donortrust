@@ -1,0 +1,44 @@
+<p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
+<% form_for :custom_report_gift_card_tips, :url => bus_admin_custom_report_carts_path, :html => { :method => :get } do |f| %>
+  <fieldset>
+    <legend>Carts Report</legend>
+    <ul class="row">
+      <li>
+          <%= select_date @start_date, :prefix => 'start_date' %>
+        Report Start Date
+      </li>
+    </ul>
+    <ul class="row">
+      <li>
+        <%= select_date @end_date, :prefix => 'end_date' %>
+        Report End Date
+      </li>
+    </ul>
+    <%= submit_tag 'Submit' %>
+  </fieldset>
+<% end %>
+
+<h1><%= @carts.size %> Carts started and <%= @orders_count %> Orders Placed</h1>
+<h2><%= number_to_currency @order_total %> was ordered and <%= number_to_currency @abandon_total %> was abandoned</h2>
+<%= link_to "Download CSV", {:format => :csv} %>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Name</th>
+      <th>Amount</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @carts.each do |c| %>
+    <tr>
+      <td><%=h c.id %></td>
+      <td><%=h c.created_at.strftime("%B %d, %Y") %></td>
+      <td><%=h c.order.present? ? c.order.name : "" %></td>
+      <td class="numeric money"><%= number_to_currency c.total %></td>
+      <td><%= c.order.present? ? "Ordered" : "Abandoned" %></td>
+    </tr>
+  <% end %>
+</table>

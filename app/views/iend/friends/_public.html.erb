@@ -1,0 +1,18 @@
+<% if @iend_profile.present? %>
+
+  <%= render "iend/shared/profile_image" %>
+
+  <div class="clearfix">
+
+    <%= render "iend/shared/public_sidebar" %>
+    
+    <div class="span-10 last">
+
+      <%= render "iend/shared/public_profile_nav" %>
+
+      <%= render "friend_list" %>
+
+    </div>
+  </div>
+<% end %>
+

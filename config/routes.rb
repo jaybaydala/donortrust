@@ -6,13 +6,17 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :iend, :controller => "iend"
   map.namespace(:iend) do |iend|
-    iend.resource :session, :controller => 'sessions'
-    iend.resources :users, :except => :index, :member => { :edit_password => :get }
-    iend.resources :password_resets, :only => [:new, :create]
     iend.resources :authentications
     iend.resources :orders, :only => :index
-    iend.resources :tax_receipts, :only => :index
+    iend.resources :password_resets, :only => [:new, :create]
+    iend.resource :profile, :controller => 'iend_profiles'
+    iend.resource :session, :controller => 'sessions'
     iend.resources :subscriptions
+    iend.resources :tax_receipts, :only => :index
+    iend.resources :users, :member => { :edit_password => :get } do |user|
+      user.resources :friends, :only => [:index]
+    end
+    iend.resources :friendships, :only => [:create, :destroy], :member => {:accept => :get, :decline => :get}
   end
 
   map.namespace(:dt) do |dt|
@@ -40,6 +44,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :pages do |page|
       page.resources :wall_posts
     end
+    dt.resources :feedbacks
 
     dt.resources :projects, :member => { :details => :get,
                                          :community => :get,
@@ -77,6 +82,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :staff, :controller => 'staff'
     dt.resources :wall_posts
 
+    dt.resources :newsletter_signups
     dt.resources :news_items
     dt.resources :news_items do |news_items|
        news_items.resources :news_comments
@@ -236,6 +242,14 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :subscriptions
     ba.resources :statistic_widgets, :active_scaffold => true
     ba.resources :pages, :active_scaffold => true
+    ba.resources :custom_reports, :only => [ :index ]
+    ba.resources :custom_report_gift_card_tips, :only => [ :index ]
+    ba.resources :custom_report_gift_cards, :only => [ :index ]
+    ba.resources :custom_report_carts, :only => [ :index ]
+    ba.resources :custom_report_projects, :only => [ :index ]
+    ba.resources :custom_report_upowereds, :only => [ :index ]
+    ba.resources :custom_report_upowered_subscriptions, :only => [ :index ]
+    ba.resources :custom_report_profiles, :only => [ :index ]
 
 
     # The priority is based upon order of creation: first created -> highest priority.
@@ -268,6 +282,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :millennium_goals, :active_scaffold => true
     ba.resources :sectors, :active_scaffold => true
     ba.resources :causes, :active_scaffold => true
+    ba.resources :site_feedback, :active_scaffold => true, :controller => 'feedbacks'
 
     #
     # Geographical Resources

@@ -9,34 +9,42 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/dt/home'
+      '/home'
     when /the new account page/
-      new_dt_account_path
-    when /the accounts page/
-      dt_accounts_path
+      new_iend_account_path
     when /my account page/
-      dt_account_path(current_user)
+      iend_user_path(current_user || User.last)
     when /my cart page/
       dt_cart_path
+    when /my friendships page/
+      iend_user_friends_path(current_user || User.last)
+    when /my friend's page/
+      user = current_user || User.last
+      @friend ||= user.friends.first
+      iend_user_path(@friend)
     when /the new upowered page/
       new_dt_upowered_path
     when /the order confirmation page/
       # @order ||= Order.last
       dt_checkout_path
     when /the sign up page/
-      '/dt/signup'
+      '/signup'
     when /redisplayed sign up page/
-      '/dt/accounts'
+      iend_users_path
     when /the login page/
       '/login'
     when /the redisplayed login page/
-      '/dt/session'
+      iend_session_path
+    when /my|the iend user page/
+      iend_user_path(current_user || User.last)
     when /the authentications page/
       iend_authentications_path
     when /the "(.*)" team page/
       dt_team_path(Team.find_by_short_name($1))
     when /the "(.*)" campaign page/
       dt_campaign_path(Campaign.find_by_short_name($1))
+    when /the users page/
+      iend_users_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

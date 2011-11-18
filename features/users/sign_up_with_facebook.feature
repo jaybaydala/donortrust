@@ -9,12 +9,12 @@ Background: not logged in
 @omniauth_test
 Scenario: Signup via facebook connect
   When I authenticate with Facebook
-  Then I should be on the new account page
-  And I should see "Complete your facebook registration"
+  Then I should be on the new iend user page
+  And I should see "Complete Your Registration"
   When I select "Canada" from "Country"
-  And I check "user_terms_of_use"
-  And I press "Complete Registration"
-  Then I should be on the dt give page
+  And I check "I have read the terms of use and agree"
+  And I press "Join"
+  Then I should be on the iend page
   And I should see "Signed in successfully"
   And I should see "Account Settings"
   When I go to the authentications page
@@ -27,10 +27,10 @@ Scenario: Signup via facebook connect with an existing account
     | login              |
     | jsmith@example.com |
   When I authenticate with Facebook
-  Then I should be on the new account page
+  Then I should be on the new iend user page
   And I should see "Already have a UEnd account? Login"
-  When I fill in "login" with "jsmith@example.com"
-  And I fill in "password" with "Secret123"
+  When I fill in "Username/Email" with "jsmith@example.com" within "#user-login"
+  And I fill in "Password" with "Secret123" within "#user-login"
   And I press "Link facebook profile"
   Then I should see "Logged in successfully"
   When I go to the authentications page

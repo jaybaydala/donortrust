@@ -1,0 +1,56 @@
+<p><%= link_to "Back to reports", bus_admin_custom_reports_path %></p>
+<% form_for :custom_report_gift_card_tips, :url => bus_admin_custom_report_upowereds_path, :html => { :method => :get } do |f| %>
+  <fieldset>
+    <legend>U:powered Report</legend>
+    <ul class="row">
+      <li>
+          <%= select_date @start_date, :prefix => 'start_date' %>
+        Report Start Date
+      </li>
+    </ul>
+    <ul class="row">
+      <li>
+        <%= select_date @end_date, :prefix => 'end_date' %>
+        Report End Date
+      </li>
+    </ul>
+    <%= submit_tag 'Submit' %>
+  </fieldset>
+<% end %>
+
+<h1><%= @items.size %> donations were made to u:powered with a total of <%= number_to_currency @amount %></h1>
+<ul>
+  <li><%= @start_active_subscribers.size %> active subscriptions on <%= @start_date %></li>
+  <li><%= @end_active_subscribers.size %> active subscriptions on <%= @end_date %></li>
+  <li>
+    <% if @end_active_subscribers.size == @start_active_subscribers.size %>
+      No change
+    <% elsif @end_active_subscribers.size < @start_active_subscribers.size %>
+      Decrease of <%= @start_active_subscribers.size - @end_active_subscribers.size %>
+    <% else %>
+      Increase of <%= @end_active_subscribers.size - @start_active_subscribers.size %>
+    <% end %>
+</ul>
+<%= link_to "Download CSV", {:format => :csv} %>
+<table>
+	<thead>
+		<tr>
+			<th>Order ID</th>
+			<th>Created At</th>
+      <th>Name</th>
+      <th>Investment Amount</th>
+			<th>Order Total</th>
+		</tr>
+  </thead>
+  <tbody>
+  <% @items.each do |i| %>
+    <tr>
+      <td><%= i.order.present? ? i.order.id : "-" %></td>
+      <td><%=h i.created_at.strftime("%B %d, %Y") %></td>
+      <td><%=h i.name %></td>
+      <td><%= number_to_currency i.amount %></td>
+      <td><%= i.order.present? ? (number_to_currency i.order.total) : "-" %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

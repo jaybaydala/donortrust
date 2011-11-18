@@ -58,15 +58,34 @@ Factory.define :deposit do |d|
   d.association :user, :factory => :user
 end
 
+Factory.define :feedback do |f|
+  f.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  f.email { Faker::Internet.email }
+  f.subject { Faker::Lorem.sentence }
+  f.message { Faker::Lorem.paragraph }
+end
+
+Factory.define :friendship do |f|
+  f.association :user, :factory => :user
+  f.association :friend, :factory => :user
+  f.status false
+end
+
 Factory.define :gift do |g|
   email = Faker::Internet.email
   to_email = Faker::Internet.email
   g.amount 100
+  g.name "John Sender"
+  g.to_name "John Receiver"
   g.email { email }
   g.email_confirmation { email }
   g.to_email { to_email }
   g.to_email_confirmation { to_email }
   g.send_at { 1.day.from_now }
+end
+
+Factory.define :iend_profile do |i|
+  i.association :user, :factory => :user
 end
 
 Factory.define :investment do |i|
@@ -76,6 +95,7 @@ end
 
 
 Factory.define :order do |o|
+  o.cart {|c| c.association(:cart) }
   o.first_name { Faker::Name.first_name }
   o.last_name { Faker::Name.last_name }
   o.email { Faker::Internet.email }
@@ -161,7 +181,7 @@ Factory.define :admin_project, :class => Project do |p|
   p.association :partner
   p.association :place
   p.association :program
-  p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
+  p.project_status { ProjectStatus.active || Factory(:project_status, :name => "Active") }
 end
 
 Factory.define :unallocated_project, :class => Project do |p|
@@ -177,6 +197,16 @@ end
 
 Factory.define :project_status do |p|
   p.name { "#{Faker::Lorem.words(6).join(" ")} Project Status"}
+  p.description { Faker::Lorem.sentence }
+end
+
+Factory.define :project_status_active, :class => ProjectStatus do |p|
+  p.name "Active"
+  p.description { Faker::Lorem.sentence }
+end
+
+Factory.define :project_status_completed, :class => ProjectStatus do |p|
+  p.name "Completed"
   p.description { Faker::Lorem.sentence }
 end
 
@@ -231,6 +261,7 @@ Factory.define :user do |u|
   u.login { Factory.next(:email) }
   u.password 'Secret123'
   u.password_confirmation 'Secret123'
+  u.under_thirteen false
   u.terms_of_use '1'
   u.display_name { Faker::Name.name }
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }

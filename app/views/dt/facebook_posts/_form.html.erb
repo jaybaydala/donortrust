@@ -1,8 +1,10 @@
-<%- message ||= '' -%>
+<%- message ||= '' 
+cols ||= 80
+-%>
 <% if logged_in? && current_user.authentications.facebook.present? %>
   <% semantic_form_for Facebook.new(current_user), :url => dt_facebook_posts_url(:protocol => 'http://'), :html => { :id => "facebook_post", :class => "new_facebook_post", :method => :post } do |f| %>
     <% f.inputs do %>
-      <%= f.input :message, :label => "Share on Facebook", :as => :text, :input_html => { :value => message, :cols => 80, :rows => 1, :class => "autogrow" } %>
+      <%= f.input :message, :label => "Share on Facebook", :as => :text, :input_html => { :value => message, :cols => cols, :rows => 1, :class => "autogrow" } %>
     <% end %>
     <% f.buttons do %>
       <%= f.commit_button "Share" %>

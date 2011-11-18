@@ -1,3 +1,3 @@
 <div class="tip line_item">
-  <%= item.project ? link_to(item.project.name, dt_project_path(item.project_id)) : "Tip" %>
+  Tip<%= ": #{link_to(item.project.name, dt_project_path(item.project_id))}" if item.project %>
 </div>

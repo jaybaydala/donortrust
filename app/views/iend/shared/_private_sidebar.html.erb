@@ -1,0 +1,44 @@
+<div class="span-4">
+  <!-- <aside id="utogether" class="profile-summarybox">
+
+  </aside> -->
+  <aside class="profile-summarybox">
+  <div class="icon">
+    <%= image_tag 'give/sidebar-uforward.png', :alt => "U:Forward" %><br>
+    Pay it forward as a gift.
+  </div>
+  <div class="summary">
+    <div style="margin-bottom:4px;">Gifts given: <%= @user.gifts.count %></div>
+    <div style="margin-bottom:4px;">Given as gifts: <%= number_to_currency(@user.gifts.inject(0){|sum, g| sum += g.amount }, :precision => 0) %></div>
+    <div style="margin-bottom:4px;">Gifts received: <%= @user.orders.count(:conditions => "gift_card_payment_id IS NOT NULL")  %></div>
+    <div style="margin-bottom:4px;"><%= link_to "Give a gift", new_dt_gift_path %></div>
+  </div>
+  </aside>
+
+  <aside class="profile-summarybox">
+  <div class="icon">
+    <%= image_tag 'give/sidebar-udirect.png', :alt => "U:Direct" %><br>
+    Give directly to a project.
+  </div>
+  <div class="summary">
+    <div style="margin-bottom:4px;">Projects funded: <%= @user.projects_funded.size %></div>
+    <div style="margin-bottom:4px;">Amount given: <%= number_to_currency(@user.investments.inject(0){|sum,i| sum += i.amount }, :precision => 0) %></div>
+    <div style="margin-bottom:4px;">Lives affected: <%= @user.projects_funded.inject(0){|sum,p| sum += p.lives_affected.to_i } %></div>
+    <div style="margin-bottom:4px;"><%= link_to "Choose a project", dt_projects_path %></div>
+  </div>
+  </aside>
+
+  <aside class="profile-summarybox">
+  <div class="icon">
+    <%= image_tag 'give/sidebar-upowered.png', :alt => "U:Powered" %><br>
+    Fund UEnd Operations.
+  </div>
+  <div class="summary">
+    <div style="margin-bottom:4px;">Monthly giving: <%= number_to_currency(@user.subscriptions.sum(:amount)) %></div>
+    <div style="margin-bottom:4px;"><%= link_to "Join the Movement", dt_upowered_path %></div>
+  </div>
+  </aside>
+
+
+</div>
+

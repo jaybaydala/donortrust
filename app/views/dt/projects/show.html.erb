@@ -1,4 +1,7 @@
+<%- content_for :og_image do -%>/images/logo.png<%- end -%>
+<%- content_for :og_description do -%><%= @project.short_description %><%- end -%>
 <% html_title(@project.name) %>
+
 <%= render 'project_header' %>
 
 <h1 class="project-title"><%= @project.name %></h1>

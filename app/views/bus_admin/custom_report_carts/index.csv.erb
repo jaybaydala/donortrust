@@ -1,0 +1,10 @@
+<%= FasterCSV.generate do |csv|
+	csv << [ 'ID', 'Date', 'Name', 'Amount', 'Status']
+
+  @carts.each do |c|
+    name = c.order.present? ? c.order.name : ''
+    total = number_to_currency c.total
+    status = c.order.present? ? "Ordered" : "Abandoned"
+    csv << [ c.id, c.created_at.strftime("%Y-%m-%d"), name, total, status ]
+  end
+end %>

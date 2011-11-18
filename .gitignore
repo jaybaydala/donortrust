@@ -8,6 +8,9 @@ config/flickr.yml
 config/database.yml
 config/omniauth.yml
 config/initializers/*_local.rb
+config/development.sphinx.conf
+config/test.sphinx.conf
+config/cucumber.sphinx.conf
 development_structure.sql
 db/schema.rb
 *.sqlite3
@@ -21,4 +24,7 @@ tmp*
 .bundle
 capybara*.html
 public/system/*
+public/images/bus_admin/uploads/place
 donortrust.tmproj
+.rbenv-version
+vendor/bundle

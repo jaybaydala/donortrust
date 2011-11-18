@@ -1,1 +1,26 @@
-public profile
+<% if @iend_profile.present? %>
+  <% html_title(@iend_profile.name? ? "#{@user.first_name} #{@user.last_name}" : 'Anonymous') %>
+
+  <%= render "iend/shared/profile_image" %>
+
+  <div class="clearfix">
+    <%= render "iend/shared/public_sidebar" %>
+    
+    <div class="span-10 last">
+      <%= render "iend/shared/public_profile_nav" %>
+
+      <!-- paging goes here -->
+      <div class="span-9 prepend-1 pageshadow-10 last">
+        <div class="clearfix" id="projects">
+        <% @user.projects_funded.each_with_index do |project, i| %>
+          <div class="span-4 append-bottom<%= ' last' if (i+1)%2 == 0 %>">
+            <%= render :partial => 'dt/projects/project', :locals => { :project => project } %>
+          </div>
+        <% end %>
+        </div>
+        
+        <div class="fb-comments" data-href="<%= iend_user_path(@user) %>" data-num-posts="2" data-width="480"></div>
+      </div>
+    </div>
+  </div>
+<% end %>
