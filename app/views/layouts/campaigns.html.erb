@@ -15,6 +15,7 @@
       &nbsp;
     </aside>
     <article class="span-12">
+      <%= render :partial => 'layouts/shared/flashes' %>
       <%= content_tag(:h1, yield(:title), :class => "clearfix") if show_title? && content_for?(:title) %>
 
       <div id="fb-root"></div>
