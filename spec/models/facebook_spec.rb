@@ -47,7 +47,7 @@ describe Facebook do
     end
 
     it "should post the messages with the params" do
-      oauth_client.should_receive(:request).with(:post, "/#{facebook.uid}/feed", { :message => "hithere", :access_token => facebook.access_token })
+      oauth_client.should_receive(:request).with(:post, "/#{facebook.uid}/feed", { :params => { :message => "hithere", :access_token => facebook.access_token }})
       facebook.post(:message => "hithere")
     end
 
@@ -56,7 +56,7 @@ describe Facebook do
     end
 
     it "ignores non-valid params" do
-      oauth_client.should_receive(:request).with(:post, "/#{facebook.uid}/feed", { :message => "hithere", :access_token => facebook.access_token })
+      oauth_client.should_receive(:request).with(:post, "/#{facebook.uid}/feed", { :params => { :message => "hithere", :access_token => facebook.access_token }})
       facebook.post(:message => "hithere", :foo => 'bar', :baz => "que")
     end
   end

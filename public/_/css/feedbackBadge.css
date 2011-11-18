@@ -1,0 +1,64 @@
+/* The actual badge style to display on the left */
+
+/**
+* Enable this to display the badge on the left side
+*/
+#feedback-badge {
+	display:none;
+	background: url('/images/feedback_badge.png') no-repeat;
+	width:62px;
+	height: 124px;
+	margin-left:-25px;
+}
+
+#feedback-badge:hover {
+	margin-left:-23px;
+}
+
+#feedback-badge:active {
+	margin-left:-27px;
+}
+
+#feedback-badge span {
+	display: none;
+}
+
+/**
+* Enable this to display the badge on the right
+*/
+#feedback-badge{
+	display:none;
+	background: url('/images/feedback_badge_right.png') no-repeat;
+	width:62px;
+	height: 124px;
+	margin-right:-16px;
+	right: 0px;
+}
+
+#feedback-badge-right:hover {
+	margin-right:-14px;
+}
+
+#feedback-badge-right:active {
+	margin-right:-18px;
+}
+
+#feedback-badge-right span {
+	display: none;
+}
+
+
+/* The floating div */
+
+#popup {
+	position:absolute;
+	margin-top:15%;
+	margin-left:30%;
+	background: #fff;
+}
+
+#new_feedback {
+  padding-left: 20px;
+  padding-top: 20px;
+}
+

@@ -4,4 +4,6 @@
   insights, reports from the 
   field and events delivered 
   to your inbox.</p>
-  <div><a href="http://www.industrymailout.com/Industry/Subscribe.aspx?m=3929"><img src="/images/sidebar/btn-sign_up.png" width="66" height="22" alt="Btn Sign Up"></a></div>
+  <div>
+    <%= link_to image_tag("sidebar/btn-sign_up.png", :size => '66x22', :alt => "Sign up"), new_dt_newsletter_signup_path, :class => "newsletter_signup_link" %>
+  </div>

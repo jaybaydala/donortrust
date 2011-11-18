@@ -19,10 +19,10 @@ class ProjectStatus < ActiveRecord::Base
   def self.completed
     find(:first, :conditions => ["name LIKE ?", "Completed"])
   end
-  def self.public
+  def self.public_statuses
     find(:all, :conditions => ["name LIKE ? OR name LIKE ?", "Active", "Completed"])
   end
   def self.public_ids
-    self.public.map{|ps| ps.id }
+    self.public_statuses.map(&:id)
   end
 end

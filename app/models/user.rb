@@ -30,6 +30,12 @@ class User < ActiveRecord::Base
   has_many :teams, :through => :participants
   has_many :participants
   has_one :profile
+  has_one :iend_profile
+  
+  has_many :friendships
+  has_many :friends, :through => :friendships, :conditions => ["friendships.status = ?", true]
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"  
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user, :conditions => ["friendships.status = ?", true]
   
   define_completeness_scoring do
     check :first_name,   lambda { |u| u.first_name? },   :medium
@@ -99,6 +105,7 @@ class User < ActiveRecord::Base
   validates_presence_of :display_name, :on => :update
 
   before_save :encrypt_password
+  before_save :ensure_iend_profile
   # removed activation_code and added auto-activate
   # before_create :make_activation_code
   before_create :set_activated_at
@@ -154,7 +161,9 @@ class User < ActiveRecord::Base
   def name
     if self.display_name.blank?
       name = self.first_name.to_s
-      name << " #{self.last_name[0,1]}" if self.last_name?
+      if self.last_name?
+        name << " #{self.last_name[0,1]}"
+      end
       name
     else
       self.display_name.to_s
@@ -414,6 +423,14 @@ class User < ActiveRecord::Base
     return @profile
   end
 
+  def friends_with?(user)
+    friends.include?(user) || inverse_friends.include?(user)
+  end
+
+  def friendship_with(friend)
+    self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
+  end
+
   protected
     def apply_omniauth_for_facebook(omniauth)
       self.login        = omniauth['user_info']['email'] unless self.login?
@@ -461,6 +478,10 @@ class User < ActiveRecord::Base
       return if password.blank?
       self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
       self.crypted_password = encrypt(password)
+    end
+
+    def ensure_iend_profile
+      self.build_iend_profile unless self.iend_profile
     end
 
     def password_required?

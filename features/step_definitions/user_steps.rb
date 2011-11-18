@@ -28,6 +28,19 @@ Given /^I am an authenticated user$/ do
   Given "I press \"Login\""
 end
 
+Given /^I am (?:now )?authenticated as \"([^\"]+)\"$/ do |email|
+  Given "I am not authenticated"
+  @user = @current_user = User.find_by_login(email)
+  Given "I am on the login page"
+  Given "I fill in \"Username/Email\" with \"#{@user.login}\""
+  Given "I fill in \"Password\" with \"Secret123\""
+  Given "I press \"Login\""
+end
+
+When /^I authenticate as \"([^\"]+)\"$/ do |email|
+  Given "I am authenticated as \"#{email}\""
+end
+
 Then /^a user account should exist for the email "(.*)"$/ do |email|
   User.find_by_login!(email)
 end

@@ -12,6 +12,7 @@ class DtApplicationController < ActionController::Base
   before_filter :authenticate_via_http
   # "remember me" functionality
   before_filter :login_from_cookie, :ssl_filter
+  before_filter :new_feedback
   
   # Pick a unique cookie name to distinguish our session data from others'
   # session :session_key => '_donortrustfe_session_id'
@@ -67,6 +68,13 @@ class DtApplicationController < ActionController::Base
 
     def ssl_required?
       false
+    end
+
+    def new_feedback
+      @feedback = Feedback.new
+      if logged_in?
+        @feedback.attributes = { :email => current_user.email, :name => current_user.full_name }
+      end
     end
 
   private

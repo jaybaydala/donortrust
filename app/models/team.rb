@@ -128,6 +128,9 @@ class Team < ActiveRecord::Base
   end
 
   def participant_for_user(user)
+    if !user
+      return nil
+    end
     # Find the team that this user is actively participating in
     participants.find(:first, :conditions => {:user_id => user.id, :active => true})
   end
@@ -138,6 +141,9 @@ class Team < ActiveRecord::Base
   end
 
   def has_user?(user)
+    if !user
+      return false
+    end
     participant = participants.find(:first, :conditions => {:user_id => user.id, :active => true})
     return (participant && participant.user)
   end

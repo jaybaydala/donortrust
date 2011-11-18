@@ -1,0 +1,2 @@
+module Iend::FriendsHelper
+end

@@ -147,7 +147,7 @@ class Gift < ActiveRecord::Base
   end
   
   def validate_on_create
-    errors.add("send_at", "must be in the future") if send_at? && send_at.to_i <= Time.now.to_i
+    errors.add("send_at", "must be in the future") if send_at? && send_at <= Time.now
     super
   end
   

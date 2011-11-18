@@ -13,7 +13,7 @@ describe User do
   
   it "should create a user" do
     lambda {
-      create_user
+      Factory(:user)
     }.should change(User, :count).by(1)
   end
   
@@ -74,16 +74,16 @@ describe User do
     end
   end
   
-  describe "must have a display_name" do
+  describe "must have a display_name on update" do
     it "should require a display_name" do
-      lambda {
-        create_user :display_name => nil
-      }.should_not change(User, :count)
+      user = create_user :display_name => nil
+      user.update_attributes(:display_name => nil).should be_false
     end
     it "should allow a display_name if no first_name or last_name" do
       lambda {
-        create_user :display_name => "test", :first_name => nil, :last_name => nil
+        @user = create_user :display_name => "test", :first_name => nil, :last_name => nil
       }.should change(User, :count)
+      @user.update_attributes(:display_name => "test again").should be_true
     end
   end
   
@@ -219,7 +219,6 @@ describe User do
   end
 
   describe "full_name" do
-
     it "should return a user's display name when under 13" do
       user = create_user({:under_thirteen => 1})
       user.full_name.should == "DisplayName"
@@ -242,7 +241,28 @@ describe User do
     
   end
 
+  describe "#iend_profile" do
+    subject { Factory(:user)}
+    its(:iend_profile) { should_not be_nil }
+    specify { subject.iend_profile.class.should == IendProfile }
+    context "existing user without an iend profile" do
+      before do
+        subject.iend_profile.destroy
+        subject.reload
+      end
+      its(:iend_profile) { should be_nil }
+      it "should create the iend_profile upon save" do
+        subject.touch
+        subject.iend_profile.should_not be_nil
+        subject.iend_profile.class.should == IendProfile
+      end
+    end
+  end
+
+
   def create_user(options = {})
-    User.create({ :login => 'login@example.com', :first_name => 'FirstName', :last_name => 'LastName', :display_name => 'DisplayName', :address => '4320 15 st', :city => 'Calgary', :province => 'Alberta', :country => 'Canada', :postal_code => 'T2T4B2', :under_thirteen => 0, :crypted_password => '00742970dc9e6319f8019fd54864d3ea740f04b1', :salt => '7e3041ebc2fc05a40c60028e2c4901a81035d3cd', :created_at => '2006-10-16 13:14:40', :updated_at => '2007-10-16 13:14:40', :remember_token => 'test', :remember_token_expires_at => '2011-10-16 13:14:40', :activation_code => 'code', :activated_at => '2007-10-16 13:14:40', :last_logged_in_at => '2007-09-16 13:14:40', :terms_of_use => "1" }.merge(options))
+    user = Factory.build(:user, { :login => 'login@example.com', :first_name => 'FirstName', :last_name => 'LastName', :display_name => 'DisplayName', :address => '4320 15 st', :city => 'Calgary', :province => 'Alberta', :country => 'Canada', :postal_code => 'T2T4B2', :remember_token => 'test', :remember_token_expires_at => 1.week.from_now, :activation_code => 'code', :activated_at => 1.year.ago, :last_logged_in_at => 1.month.ago }.merge(options))
+    user.save
+    user
   end
 end

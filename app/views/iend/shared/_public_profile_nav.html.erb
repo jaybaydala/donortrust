@@ -1,0 +1,20 @@
+<div class="clearfix">
+  <div class="span-7">
+    <nav class="subnav append-bottom clearfix">
+      <ol>
+        <% if @iend_profile.list_projects_funded? %>
+          <li<%= ' class="current"' if current_nav?('users') %>><%= link_to "Projects", iend_user_path(@user) %></li>
+        <% end %>
+        <li<%= ' class="current"' if current_nav?('friends') %>><%= link_to "Friends", iend_user_friends_path(@user) %></li>
+      </ol>
+    </nav>
+  </div>
+  <div class="span-3 last">
+    <%- if current_user == @user -%>
+      <%= link_to "Find Friends", iend_users_path, :class => "smallbutton" %>
+    <%- end -%>
+    <%= display_add_as_friend_button %>
+    
+  </div>
+</div>
+
