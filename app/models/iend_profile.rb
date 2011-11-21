@@ -10,6 +10,8 @@ class IendProfile < ActiveRecord::Base
     has name, :as => :public_name
     has preferred_poverty_sectors
     has user.preferred_sectors.sector_id, :as => :sector_ids
+    has list_projects_funded
+    has user.investments.project_id, :as => :funded_project_ids
   end
 
   def formatted_location
