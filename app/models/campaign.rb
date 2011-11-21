@@ -31,6 +31,14 @@ class Campaign < ActiveRecord::Base
     return true
   end
 
+  def amount_raised
+    0.00
+  end
+
+  def total_donations
+    0.00
+  end
+
   protected
     def set_creator_as_participant
       Participant.create!(:user => self.user, :campaign => self)
