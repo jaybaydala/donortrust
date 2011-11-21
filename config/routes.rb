@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
     iend.resources :users, :member => { :edit_password => :get } do |user|
       user.resources :friends, :only => [:index]
     end
-    iend.resources :friendships, :only => [:create], :member => {:accept => :get, :decline => :get}
+    iend.resources :friendships, :only => [:create, :destroy], :member => {:accept => :get, :decline => :get}
   end
 
   map.namespace(:dt) do |dt|

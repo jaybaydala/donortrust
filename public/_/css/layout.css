@@ -154,6 +154,7 @@ h1.project-title { padding-bottom:2em; border-bottom:1px solid #666; margin-bott
 #project-carousel img { width:100%; }
 #project-footer { }
 #project-footer ul { list-style:none; margin:8px 0 0 0; padding:0; }
+#rail .sidebar_user_search { margin: 48px 0 0 0; }
 
 /* GIVE
 -------*/
@@ -231,10 +232,10 @@ section.iend.spaced { padding:36px 0; }
 #iend-search-terms li a { display:block; color:#666; padding:4px 8px; text-decoration:none; }
 #iend-search-terms li.term a { background:url(/images/iend/search-x.gif) 4px 3px no-repeat; padding-left:26px; }
 
-.profile-module { background:#FFF; color:#000; font: 12px/14px Arial,Helvetica,sans-serif; height:290px; position:relative; width:199px; -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius:5px; }
+.profile-module { background:#FFF; color:#000; font: 12px/14px Arial,Helvetica,sans-serif; height:242px; position:relative; width:199px; -moz-box-shadow:0 0 5px #000; -webkit-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius:5px; }
 .profile-module a { color:#39F; text-decoration:none; }
 .profile-module a:hover { color:#4AF; }
-.profile-module-top { background:#b3241b; color:#FFF; font-family:Georgia,Times,"Times New Roman",serif; height:100px; margin-bottom:18px; width:199px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
+.profile-module-top { background:#b3241b; color:#FFF; font-family:Georgia,Times,"Times New Roman",serif; height:68px; margin-bottom:18px; width:199px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
 .profile-module .profile-module-top a:link,
 .profile-module .profile-module-top a:visited,
 .profile-module .profile-module-top a:hover,

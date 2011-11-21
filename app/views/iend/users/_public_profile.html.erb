@@ -1,9 +1,9 @@
   <article class="profile-module">
     <div class="profile-module-top">
       <a href="<%= iend_user_path(profile.id) %>">
-<%- if profile.picture? && profile.user.image? -%>
-        <div class="profile-image"><%= image_tag profile.user.image.url(:normal), :alt => "" %></div>
-<%- end -%>
+        <%- if profile.picture? && profile.user.image? -%>
+          <div class="profile-image"><%= image_tag profile.user.image.url(:thumb), :alt => "" %></div>
+        <%- end -%>
         <div class="profile-name"><%= profile.formatted_name %></div>
         <div class="profile-location"><%= profile.formatted_location %></div>
       </a>

@@ -9,10 +9,6 @@
       <% if logged_in? %>
         <li<%= ' class="current"' if %w(users iend_profiles).include?(controller_name) && action_name != "edit_password" %>><%= link_to "Profile", [:iend, current_user] %></li>
         <li<%= ' class="current"' if !%w(iend users iend_profiles).include?(controller_name) || action_name == "edit_password" %>><%= link_to "My Account", iend_orders_path %></li>
-        <li<%= ' class="current"' if controller_name == "iend/friends" || action_name == "index" %>>
-          <% user = @user ? @user : current_user %>
-          <%= link_to "Friends", iend_user_friends_path(user) %>
-        </li>
       <% end %>
     </ol>
   </nav>
