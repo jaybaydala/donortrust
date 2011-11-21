@@ -7,15 +7,18 @@
 
 <div id="maincontentarea" class="content prepend-top append-large-bottom">
 
-  <% if params[:sectors].present? || params[:name].present? %>
+  <% if params[:sectors].present? || params[:name].present? || params[:project].present? %>
   <section class="container prepend-top">
     <%= render :partial => 'layouts/shared/flashes' %>
     <ul id="iend-search-terms">
 <% Sector.find(sector_params_array).each do |sector| %>
-      <li class="term"><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :name => params[:name]) %></li>
+      <li class="term"><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :name => params[:name], :project => params[:project]) %></li>
 <% end %>
 <% if params[:name].present? %>
-      <li class="term"><%= link_to params[:name], iend_users_path(:sectors => params[:sectors], :name => nil) %></li>
+      <li class="term"><%= link_to params[:name], iend_users_path(:sectors => params[:sectors], :name => nil, :project => params[:project]) %></li>
+<% end %>
+<% if params[:project].present? %>
+      <li class="term"><%= link_to Project.find(params[:project]).name, iend_users_path(:sectors => params[:sectors], :name => params[:name], :project => nil) %></li>
 <% end %>
       <li><%= link_to "| &nbsp; Clear all", iend_users_path %></li>
     </ul>
@@ -30,7 +33,7 @@
           <label for="name">NAME</label>
           <p>
             <input name="name" id="name" type="search" value="<%= params[:name] %>" placeholder="Name">
-            <input type="submit" value="Go"> <input type="hidden" name="sectors" value="<%= params[:sectors] %>">
+            <input type="submit" value="Go"> <input type="hidden" name="sectors" value="<%= params[:sectors] %>"> <input type="hidden" name="project" value="<%= params[:project] %>">
           </p>
         </form>
       </div>
@@ -38,7 +41,7 @@
         CAUSE/SECTOR
         <ul>
 <% @sectors.each do |sector| %>
-            <li><%= link_to sector.name, iend_users_path(:sectors => sector_add(sector.id), :name => params[:name]) %></li>
+            <li><%= link_to sector.name, iend_users_path(:sectors => sector_add(sector.id), :name => params[:name], :project => params[:project]) %></li>
 <% end %>
         </ul>
       </div>
