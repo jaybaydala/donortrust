@@ -32,24 +32,15 @@ set :use_sudo, false
 set :user, "ideaca"
 set :group, "users"
 
-before "deploy:update_code", "thinking_sphinx_deployment:stop"
-after "deploy:finalize_update", "deploy:link_configs"
-after "deploy:symlink", "thinking_sphinx_deployment:configure_and_start"
+after "deploy:update_code" do
+  deploy.link_configs
+  thinking_sphinx.symlink_sphinx_indexes
+  thinking_sphinx.restart
+end
 after "deploy:symlink", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
 after "deploy:restart", "deploy:cleanup"
 
-namespace :thinking_sphinx_deployment do
-  task :stop, :roles => :app do
-    rails_env = fetch(:rails_env, "production")
-    rake = fetch(:rake, "rake")
-    run "if [ -d #{release_path} ]; then cd #{release_path}; else cd #{current_path}; fi; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:stop"
-  end
-
-  task :configure_and_start, :roles => :app do
-    symlink_sphinx_indexes
-    thinking_sphinx.start
-  end
-
+namespace :thinking_sphinx do
   task :symlink_sphinx_indexes, :roles => :app do
     run "rm -rf #{latest_release}/db/sphinx && ln -nfs #{shared_path}/sphinx #{latest_release}/db/sphinx"
   end
@@ -77,7 +68,7 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/flickr.yml #{latest_release}/config/flickr.yml"
     run "ln -nfs #{shared_path}/config/iats.yml #{latest_release}/config/iats.yml"
     run "ln -nfs #{shared_path}/config/aws.yml #{latest_release}/config/aws.yml"
-    run "rm -f #{release_path}/config/database.yml && ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "rm -f #{release_path}/config/database.yml && ln -s #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
     run "ln -nfs #{shared_path}/config/omniauth.yml #{latest_release}/config/omniauth.yml"
     # initializers
     run "ln -nfs #{shared_path}/config/initializers/mongrel.rb #{latest_release}/config/initializers/mongrel.rb"

@@ -427,6 +427,10 @@ class User < ActiveRecord::Base
     friends.include?(user) || inverse_friends.include?(user)
   end
 
+  def friendship_with(friend)
+    self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
+  end
+
   protected
     def apply_omniauth_for_facebook(omniauth)
       self.login        = omniauth['user_info']['email'] unless self.login?

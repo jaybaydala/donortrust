@@ -56,6 +56,3 @@ if defined?(ActiveRecord::Base)
   rescue LoadError => ignore_if_database_cleaner_not_present
   end
 end
-
-require 'cucumber/thinking_sphinx/external_world'
-Cucumber::ThinkingSphinx::ExternalWorld.new

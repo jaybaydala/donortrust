@@ -1,9 +1,13 @@
-<% title(params[:name].blank? && params[:sectors].blank? ? 'All Users' : nil ) %>
+<% title(params[:name].blank? && params[:sectors].blank? && params[:project].blank? ? 'All Users' : nil ) %>
 
 <div class="results clearfix">
 <% @profiles.each_with_index do |profile, i| %>
 <div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
-  <%= render :partial => 'profile', :locals => { :profile => profile } %>
+  <% if logged_in? && current_user.friends_with?(profile.user) %>
+    <%= render :partial => 'private_profile', :locals => { :profile => profile } %>
+  <% else %>
+    <%= render :partial => 'public_profile', :locals => { :profile => profile } %>
+  <% end %>
 </div>
 <% end %>
 </div>
