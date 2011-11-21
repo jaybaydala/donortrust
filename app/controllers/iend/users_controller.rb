@@ -2,7 +2,26 @@ class Iend::UsersController < DtApplicationController
   before_filter :restrict_no_user, :only => [ :new, :create ]
   before_filter :restrict_current_user, :only => [ :edit, :update, :edit_password ]
   helper "dt/places"
-  
+
+  helper_method :sector_add, :sector_remove, :sector_params_array
+
+  def index
+    @sectors = Sector.alphabetical
+    if params[:name].blank? && params[:sectors].blank? && params[:project].blank?
+      @profiles = IendProfile.paginate(:page => params[:page], :per_page => 18)
+    else
+      @profiles = IendProfile.search params[:name],
+        :with_all => search_prepare_with_all,
+        :without  => search_prepare_without,
+        :page     => params[:page],
+        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
+        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym)
+    end
+    respond_to do |format|
+      format.html { render :action => "index", :layout => "iend_users_search"}
+    end
+  end
+
   def show
     @user = current_user if params[:id] == 'current'
     @user ||= User.find(params[:id])
@@ -77,4 +96,32 @@ class Iend::UsersController < DtApplicationController
     def restrict_current_user
       redirect_to(logged_in? ? iend_user_path(current_user) : iend_path) unless params[:id] == 'current' || params[:id].to_i == current_user.id
     end
+
+    def search_prepare_without
+      without = {}
+      without.merge!({ :preferred_poverty_sectors => false }) unless sector_params_array.nil? || sector_params_array.empty?
+      without.merge!({ :public_name => false }) if params[:name].present?
+      without.merge!({ :list_projects_funded => false }) if params[:project].present?
+      without
+    end
+
+    def search_prepare_with_all
+      with = {}
+      with.merge!({ :sector_ids => sector_params_array }) unless sector_params_array.empty?
+      with.merge!({ :funded_project_ids => params[:project] }) unless params[:project].nil?
+      with
+    end
+
+    def sector_params_array
+      params[:sectors].try(:split, /\s|\+|,/).to_a
+    end
+
+    def sector_add(sector_id)
+      sector_params_array.push(sector_id.to_s).uniq.join(' ')
+    end
+
+    def sector_remove(sector_id)
+      sector_params_array.reject{|a| a == sector_id.to_s}.join(' ')
+    end
+
 end

@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
   has_many :teams, :through => :team_memberships
   has_one :profile
   has_one :iend_profile
+  has_many :friendships
+  has_many :friends, :through => :friendships, :conditions => ["friendships.status = ?", true]
+  has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"  
+  has_many :inverse_friends, :through => :inverse_friendships, :source => :user, :conditions => ["friendships.status = ?", true]
 
   define_completeness_scoring do
     check :first_name,   lambda { |u| u.first_name? },   :medium
@@ -418,6 +422,14 @@ class User < ActiveRecord::Base
   def profile
     @profile ||= Profile.find_or_create_by_user_id(self.id)
     return @profile
+  end
+
+  def friends_with?(user)
+    friends.include?(user) || inverse_friends.include?(user)
+  end
+
+  def friendship_with(friend)
+    self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
   end
 
   protected

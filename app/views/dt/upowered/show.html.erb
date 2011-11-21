@@ -1,9 +1,11 @@
+<%- content_for :og_image do -%><%= path_to_image('/images/upowered/button-upowered_im_in.png') %><%- end -%>
+<%- content_for :og_description do -%>Since 100% of every UEnd donation goes to poverty-ending projects, we’re asking you to help fuel the machine and make it more powerful than ever.<%- end -%>
 <%- content_for :html_title do -%>The first fully U:Powered Non-Profit<%- end -%>
 
 <%= render :partial => "upowered_nav" %>
 
 <div id="upowered-video">
-  <iframe width="480" height="270" id="upowered-youtube" src="http://www.youtube.com/embed/jOAQhSxnuFY" frameborder="0" allowfullscreen></iframe>
+  <iframe width="480" height="270" id="upowered-youtube" src="http://www.youtube.com/embed/n6REfFiB_kE" frameborder="0" allowfullscreen></iframe>
   <div><%= image_tag "upowered/r_you_in-banner.png", :alt => "For the price of a cup of coffee, you become a member of the U:Powered movement. 5000 people, $5 per month. R You In? Help fuel the machine ending poverty." %></div>
 </div>
 
@@ -15,13 +17,14 @@
     </div>
     <div><%= number_with_delimiter(Subscription.current.count) %>/5,000 contributors</div>
     <div class="project-progress" style="margin-top:8px;">
-      <div class="project-progress-fg" style="width:<%= number_with_precision (Subscription.current.count.to_f/5000.to_f)*100 %>%;"></div>
+      <div class="project-progress-fg" style="width:24%;"></div>
     </div>
-    <div><%= number_with_precision((Subscription.current.count.to_f/5000.to_f)*100, :precision => 1) %>% of organization built</div>
+    <div>24% of organization built</div>
+    <div><small>(employees hired/employees needed)</small></div>
   </div>
     <div class="span-5 last">
       <%= image_tag "upowered/upowered_benefits.png", :alt => "More Decision Power. The Inside Track. Proof you are changing the world." %>
-    </div> 
+    </div>
 </div>
 
 <div class="project-description">

@@ -8,8 +8,8 @@
 <head id="www-uend-ord" data-template-set="html5-reset">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title><%= content_for?(:html_title) ? yield(:html_title) : yield(:title)  %><%= " | " if content_for?(:html_title) || content_for?(:title) %>uEnd:poverty</title>
-  <meta name="title" content="uEnd:">
+  <title><%= content_for?(:html_title) ? yield(:html_title) : yield(:title)  %><%= " | " if content_for?(:html_title) || content_for?(:title) %>UEnd:poverty</title>
+  <meta name="title" content="UEnd:Poverty">
   <meta name="description" content="UEnd makes it possible for you to refocus a portion of your gift-spending toward ending extreme poverty.">
   <meta name="google-site-verification" content="">
   <meta name="viewport" content="width=device-width, maximum-scale=1.0">
@@ -20,9 +20,18 @@
   <link rel="stylesheet" href="/_/css/aggregate.css">
   <link rel="stylesheet" href="/_/css/blueprint/screen.css" type="text/css" media="screen, projection">
   <link rel="stylesheet" href="/_/css/colorbox.css" type="text/css">
+  <link rel="stylesheet" href="/_/css/feedbackBadge.css" type="text/css">
   <!--[if lt IE 8]>
     <link rel="stylesheet" href="/_/css/blueprint/ie.css" type="text/css" media="screen, projection">
   <![endif]-->
+  <meta property="og:site_name" content="UEnd:Poverty">
+  <meta property="og:type" content="non_profit">
+  <meta property="og:url" content="<%= request.url %>">
+  <meta property="fb:app_id" content="<%= Facebook.app_id %>">
+  <meta property="fb:admins" content="<%= Facebook.admins.join(',') %>"/>
+  <% if content_for?(:og_title) || content_for?(:html_title) %><meta property="og:title" content="<%= content_for?(:og_title) ? yield(:og_title) : yield(:html_title) %>"><% end %>
+  <% if content_for?(:og_image) %><meta property="og:image" content="<%= request.protocol + request.host_with_port + yield(:og_image) %>"><% end %>
+  <% if content_for?(:og_description) %><meta property="og:description" content="<%= yield(:og_description) %>"><% end %>
   <%= yield :styles %>
   <script src="/_/js/modernizr-1.7.min.js"></script>
   <%= yield :head %>

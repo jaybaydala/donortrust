@@ -1,0 +1,37 @@
+  <article class="profile-module">
+    <div class="profile-module-top">
+      <a href="<%= iend_user_path(profile.id) %>">
+        <%- if profile.picture? && profile.user.image? -%>
+          <div class="profile-image"><%= image_tag profile.user.image.url(:thumb), :alt => "" %></div>
+        <%- end -%>
+        <div class="profile-name"><%= profile.formatted_name %></div>
+        <div class="profile-location"><%= profile.formatted_location %></div>
+      </a>
+    </div>
+    <% if show_add_friend_button?(profile.user) %>
+      <div class="profile-button"><%= link_to "Add Friend", iend_friendships_path(:friend_id => profile.id), :method => :post %></div>
+    <% end %>
+<%- if profile.lives_affected? -%>
+    <div class="profile-data"><%= profile.lives_affected %> lives affected</div>
+<%- end -%>
+<%- if profile.gifts_given? -%>
+    <div class="profile-data profile-data-space"><%= profile.gifts_given %> gifts given</div>
+<%- end -%>
+<%- if profile.gifts_given_amount? -%>
+    <div class="profile-data"><%= number_to_currency(profile.gifts_given_amount, :precision => 0) %> given in gifts</div>
+<%- end -%>
+<%- if profile.gifts_received? -%>
+    <div class="profile-data"><%= profile.gifts_received %> gifts received</div>
+<%- end -%>
+<%- if profile.list_projects_funded? -%>
+    <div class="profile-data profile-data-space"><%= profile.projects_funded %> projects funded</div>
+<%- end -%>
+<%- if profile.amount_funded? -%>
+    <div class="profile-data"><%= number_to_currency(profile.projects_funded_amount, :precision => 0) %> given to projects</div>
+<%- end -%>
+<%- if profile.preferred_poverty_sectors? && !profile.preferred_poverty_sectors.empty? -%>
+    <div class="profile-module-bottom">
+      <div>Preferred Poverty Sectors:<br><%= truncate(profile.preferred_poverty_sectors, :length => 35) %></div>
+    </div>
+<%- end -%>
+  </article>

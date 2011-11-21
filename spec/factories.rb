@@ -65,6 +65,19 @@ Factory.define :deposit do |d|
   d.association :user, :factory => :user
 end
 
+Factory.define :feedback do |f|
+  f.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  f.email { Faker::Internet.email }
+  f.subject { Faker::Lorem.sentence }
+  f.message { Faker::Lorem.paragraph }
+end
+
+Factory.define :friendship do |f|
+  f.association :user, :factory => :user
+  f.association :friend, :factory => :user
+  f.status false
+end
+
 Factory.define :gift do |g|
   email = Faker::Internet.email
   to_email = Faker::Internet.email

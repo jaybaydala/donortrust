@@ -16,6 +16,12 @@ module NavigationHelpers
       iend_user_path(current_user || User.last)
     when /my cart page/
       dt_cart_path
+    when /my friendships page/
+      iend_user_friends_path(current_user || User.last)
+    when /my friend's page/
+      user = current_user || User.last
+      @friend ||= user.friends.first
+      iend_user_path(@friend)
     when /the new upowered page/
       new_dt_upowered_path
     when /the order confirmation page/
@@ -51,6 +57,12 @@ module NavigationHelpers
       iend_user_path(current_user || User.last)
     when /the authentications page/
       iend_authentications_path
+    when /the "(.*)" team page/
+      dt_team_path(Team.find_by_short_name($1))
+    when /the "(.*)" campaign page/
+      dt_campaign_path(Campaign.find_by_short_name($1))
+    when /the users page/
+      iend_users_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

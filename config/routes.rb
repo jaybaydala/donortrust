@@ -18,7 +18,10 @@ ActionController::Routing::Routes.draw do |map|
     iend.resource :session, :controller => 'sessions'
     iend.resources :subscriptions
     iend.resources :tax_receipts, :only => :index
-    iend.resources :users, :except => :index, :member => { :edit_password => :get }
+    iend.resources :users, :member => { :edit_password => :get } do |user|
+      user.resources :friends, :only => [:index]
+    end
+    iend.resources :friendships, :only => [:create, :destroy], :member => {:accept => :get, :decline => :get}
   end
 
   map.namespace(:dt) do |dt|
@@ -46,6 +49,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :pages do |page|
       page.resources :wall_posts
     end
+    dt.resources :feedbacks
 
     dt.resources :projects, :member => { :details => :get,
                                          :community => :get,
@@ -83,6 +87,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :staff, :controller => 'staff'
     dt.resources :wall_posts
 
+    dt.resources :newsletter_signups
     dt.resources :news_items
     dt.resources :news_items do |news_items|
        news_items.resources :news_comments
@@ -237,7 +242,7 @@ ActionController::Routing::Routes.draw do |map|
                   :active_scaffold => true,
                   :collection => { :pending_projects => :get}
 
-    ba.resource :upowered, :controller => 'upowered', :member => { :report => :post, :send_email => :post }
+    ba.resource :upowered, :controller => "upowered", :member => { :report => :post, :send_email => :post }
     ba.resources :application_settings, :active_scaffold => true
     ba.resources :subscriptions
     ba.resources :statistic_widgets, :active_scaffold => true
@@ -282,6 +287,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :millennium_goals, :active_scaffold => true
     ba.resources :sectors, :active_scaffold => true
     ba.resources :causes, :active_scaffold => true
+    ba.resources :site_feedback, :active_scaffold => true, :controller => 'feedbacks'
 
     #
     # Geographical Resources

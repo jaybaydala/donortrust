@@ -1,0 +1,10 @@
+<%- content_for :html_title do %>Friends<% end -%>
+
+<%= render 'iend/shared/header' %>
+
+<% if (params[:public].present? || current_user != @user) && !current_user.friends_with?(@user) %>
+  <%= render 'public' %>
+<% else %>
+  <%= render 'private' %>
+<% end %>
+

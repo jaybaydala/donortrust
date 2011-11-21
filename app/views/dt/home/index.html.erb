@@ -1,3 +1,7 @@
+<%- content_for :og_title do -%>UEnd:Poverty<%- end -%>
+<%- content_for :og_image do -%><%= path_to_image('logo.png') %><%- end -%>
+<%- content_for :og_description do -%>If we were all to redirect a mere 5% of the billions of dollars that we already spend each year on gifts, there would be enough to eliminate extreme poverty in about 15 years.<%- end -%>
+
 <%= render :partial => 'carousel' %>
 
 <div class="clearfix">
@@ -55,7 +59,7 @@
     <div style="width:220px;margin-right:22px;float:left;text-align:right; ">
       <img src="/images/home/newsletter_signup.png" width="200" height="19" alt="Newsletter Signup"><br>
       <div style="margin-top:8px;">
-        <a href="http://www.industrymailout.com/Industry/Subscribe.aspx?m=3929"><img src="/images/home/button-sign_up.png" width="66" height="22" alt="Sign Up"></a>
+        <%= link_to image_tag("home/button-sign_up.png", :size => '66x22', :alt => "Sign up"), new_dt_newsletter_signup_path, :class => "newsletter_signup_link" %>
       </div>
     </div>
     <div style="width:260px;float:left;">

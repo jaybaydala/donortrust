@@ -29,6 +29,7 @@ class Sector < ActiveRecord::Base
       :order => "projects_count DESC"
     }
   }
+  named_scope :alphabetical, :order => 'name ASC'
 
   def image_name(size = nil)
     "sector-#{self.name.parameterize}#{size ? '-'+size.to_s : ''}.png"
