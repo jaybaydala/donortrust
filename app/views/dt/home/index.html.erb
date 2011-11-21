@@ -47,7 +47,7 @@
       <div><img src="/images/home/countries.png" width="74" height="12" alt="Countries"></div>
     </div>
     <div class="statistic span-4 last">
-      <%= number_with_delimiter(Project.sum(:lives_affected) + Order.count) %>
+      <%= number_with_delimiter(Project.current.all(:conditions => "lives_affected IS NOT NULL", :select => 'DISTINCT(place_id), lives_affected, partner_id', :order => "lives_affected DESC").sum(&:lives_affected) + Order.count) %>
       <div><img src="/images/home/people_impacted.png" width="122" height="12" alt="People Impacted"></div>
     </div>
   </div>
