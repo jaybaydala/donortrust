@@ -218,11 +218,11 @@ class Dt::CheckoutsController < DtApplicationController
         flash.now[:notice] = "A user with your email address (#{@order.email}) already exists. To have this order associated with your account, login and continue your checkout." if User.find_by_login(@order.email)
       end
     end
-  
+
     def do_credit_card
       do_transaction
     end
-  
+
     def do_transaction
       if @valid
         Order.transaction do
@@ -387,10 +387,11 @@ class Dt::CheckoutsController < DtApplicationController
         @checkout_steps = []
         @checkout_steps << 'upowered'
         if (logged_in? && (current_user.balance > 0 || current_user.cf_admin?)) || (session[:gift_card_balance] && session[:gift_card_balance] > 0)
-          @checkout_steps << 'payment_options' 
+          @checkout_steps << 'payment_options'
         end
         @checkout_steps << 'billing'
         @checkout_steps << 'account_signup' unless logged_in?
+        @checkout_steps << 'confirm'
         @checkout_steps << 'credit_card'
         @checkout_steps << 'receipt'
         @checkout_steps
