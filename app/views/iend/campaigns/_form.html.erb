@@ -1,0 +1,13 @@
+<% semantic_form_for([:iend, @campaign]) do |f| %>
+  <%= f.semantic_errors :campaign %>
+  <% f.inputs "Campaign" do %>
+    <%= f.input :name, :label => "Campaign Name" %>
+    <%= f.input :goal %>
+    <%= f.input :description %>
+    <%= f.input :sectors, :as => :check_boxes %>
+    <%= f.input :url, :hint => "your campaign will be accessible at http://uend.org/iend/campaigns/<your-text>" %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button %>
+  <% end %>
+<% end %>

@@ -1,0 +1,18 @@
+<article class="campaign">
+  <div class="campaign-top">
+    <h2><%= link_to campaign.name, iend_campaign_path(campaign) %></h2>
+    <h3>Goal: <%= number_to_currency campaign.goal %></h3>
+  </div>
+  <div class="campaign-info">
+    <p>Raised: <%= number_to_currency campaign.amount_raised %></p>
+    <p>Created by: <%= campaign.user.name %></p>
+    <p>Poverty Sectors:<br />
+      <%= campaign.sectors.map{ |sector| sector.name }.join(" | ") %>
+    </p>
+  </div>
+  <div class="campaign-bottom clearfix">
+    <p><%= pluralize campaign.teams.size, 'Team' %></p>
+    <p><%= pluralize campaign.users.size, 'Participant' %></p>
+    <p><%= number_to_currency campaign.total_donations %> Received</p>
+  </div>
+</article>
