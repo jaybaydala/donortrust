@@ -31,6 +31,7 @@ Given /^I have completed the checkout process, maintaining my upowered, signing 
     And I select "01" from "order_expiry_month"
     And I select "2018" from "order_expiry_year"
     And I fill in "Cardholder name" with "Jonathan Smith"
+    And I press "next"
     And I press "finish"
     Then I should be on the order confirmation page
     And a user account should exist for the email "john.smith@example.com"
@@ -42,7 +43,7 @@ Given /^I have completed the checkout process, signing up along the way$/ do
   steps %Q{
     Given I am on the dt cart page
     When I follow "Checkout"
-    And I choose "no thanks" 
+    And I choose "no thanks"
     And I press "next"
     And I check "Please provide me with a tax receipt"
     And I fill in "First name" with "John"
@@ -63,6 +64,7 @@ Given /^I have completed the checkout process, signing up along the way$/ do
     And I select "01" from "order_expiry_month"
     And I select "2018" from "order_expiry_year"
     And I fill in "Cardholder name" with "Jonathan Smith"
+    And I press "next"
     And I press "finish"
     Then I should be on the order confirmation page
     And a user account should exist for the email "john.smith@example.com"
@@ -75,7 +77,7 @@ Given /^I have completed the checkout process$/ do
   steps %Q{
     Given I am on the dt cart page
     When I follow "Checkout"
-    And I choose "no thanks" 
+    And I choose "no thanks"
     And I press "next"
     And I uncheck "Please provide me with a tax receipt"
     And I fill in "First name" with "John"
@@ -98,6 +100,7 @@ Given /^I have completed the checkout process$/ do
     And I select "01" from "order_expiry_month"
     And I select "2018" from "order_expiry_year"
     And I fill in "Cardholder name" with "Jonathan Smith"
+    And I press "next"
     And I press "finish"
     Then I should be on the order confirmation page
   }
