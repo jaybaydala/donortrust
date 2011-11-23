@@ -35,7 +35,7 @@
 
     <% f.buttons do %>
       <%= link_to("back", edit_dt_checkout_path(:step => @checkout_steps.include?("account_signup") ? "account_signup": "billing"), :class => "bigbutton black") %>
-      <%= f.commit_button "finish" %>
+      <%= f.commit_button "next" %>
     <% end %>
   <% end %>
 </div>

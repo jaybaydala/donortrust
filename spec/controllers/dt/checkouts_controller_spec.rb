@@ -30,9 +30,9 @@ describe Dt::CheckoutsController do
     end
   end
 
-  it "should define @checkout_steps as %w(upowered billing account_signup confirm credit_card receipt)" do
+  it "should define @checkout_steps as %w(upowered billing account_signup credit_card confirm receipt)" do
     post 'create', :order => {}
-    controller.instance_variable_get(:@checkout_steps).should == %w(upowered billing account_signup confirm credit_card receipt)
+    controller.instance_variable_get(:@checkout_steps).should == %w(upowered billing account_signup credit_card confirm receipt)
   end
 
   describe "create action" do
@@ -188,9 +188,9 @@ describe Dt::CheckoutsController do
         controller.should_receive(:do_credit_card)
         do_request
       end
-      it "next_step should be receipt" do
+      it "next_step should be confirm" do
         do_request
-        controller.send(:next_step).should == 'receipt'
+        controller.send(:next_step).should == 'confirm'
       end
 
       it "should redirect to dt_checkout_path if it's valid and complete" do
@@ -200,8 +200,15 @@ describe Dt::CheckoutsController do
         do_request
         response.should redirect_to(dt_checkout_path(:order_number => order.order_number))
       end
+    end
 
-      describe "do_credit_card method" do
+    describe "on the confirm step" do
+      before do
+        @step = "confirm"
+        order.stub!(:run_transaction).and_return(true)
+      end
+
+      describe "do_confirm method" do
         it "should process the credit card" do
           order.total = 10
           order.credit_card_payment = order.total
@@ -318,7 +325,7 @@ describe Dt::CheckoutsController do
           end
         end
       end
-      describe "do_credit_card method with invalid transaction" do
+      describe "do_confirm method with invalid transaction" do
         before do
           order.stub!(:run_transaction).and_return(false)
           order.total = 10

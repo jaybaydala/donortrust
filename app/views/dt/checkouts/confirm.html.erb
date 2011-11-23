@@ -27,6 +27,28 @@
     <%= @order.multiline_address.join("<br>") %>
   </p>
   <%- end -%>
+  <h2>Payment Information</h2>
+  <% if @order.account_balance_payment %>
+    <h3>Account Balance Payment:</h3>
+    <p><%= number_to_currency @order.account_balance_payment %></p>
+  <% end %>
+  <% if @order.credit_card_payment %>
+    <h3>Credit Card Payment:</h3>
+    <p><%= number_to_currency @order.credit_card_payment %></p>
+    <p>
+      Card Number: <%= @order.card_number_concealed %><br />
+      Expiration: <%= @order.card_expiry %>
+    </p>
+  <% end %>
+  <% if @order.gift_card_payment %>
+    <h3>Gift Card Payment:</h3>
+    <p><%= number_to_currency @order.gift_card_payment %></p>
+  <% end %>
+  <% if @order.total %>
+    <h3>Total:</h3>
+    <p><%= number_to_currency @order.total %></p>
+  <% end %>
+
   <table border="0" cellpadding="4" cellspacing="0" class="activity_summary">
   <colgroup>
     <col style="width:85%;" />
@@ -47,12 +69,14 @@
     <td class="numeric"><%= number_to_currency @order.total %></td>
   </tr>
   </table>
+
   <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put}) do |f| %>
     <%= f.semantic_errors :order %>
     <%= hidden_field_tag "step", "confirm" %>
+    <%= hidden_field_tag "card_number", @order.full_card_number %>
     <% f.inputs do %>
       <%= f.input :payment_options_step, :as => :hidden, :input_html => { :value => 1 } %>
-      <%= f.commit_button "next" %>
+      <%= f.commit_button "finish" %>
     <% end %>
   <% end %>
 </div>
