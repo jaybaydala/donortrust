@@ -6,6 +6,7 @@ class Order < ActiveRecord::Base
   belongs_to :cart
   belongs_to :subscription
   belongs_to :user
+  has_many :campaign_donations
   has_many :investments
   has_many :gifts
   has_many :deposits

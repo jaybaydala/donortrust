@@ -6,6 +6,7 @@ describe Campaign do
   end
 
   it { should belong_to(:user) }
+  it { should have_many(:campaign_donations) }
   it { should have_many(:participants) }
   it { should have_many(:teams) }
   it { should have_and_belong_to_many(:sectors) }
@@ -35,6 +36,17 @@ describe Campaign do
 
   it "should have the creator as a participant" do
     @campaign.participants.first.user.should == @campaign.user
+  end
+
+  it "should start with no amount raised" do
+    @campaign.amount_raised.should == 0
+  end
+
+  it "should add up the donations assigned to it" do
+    @campaign.campaign_donations.create!(:amount => 100)
+    @campaign.campaign_donations.create!(:amount => 150)
+
+    @campaign.amount_raised.should == 250
   end
 
 end

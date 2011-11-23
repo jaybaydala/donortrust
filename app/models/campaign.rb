@@ -1,6 +1,7 @@
 class Campaign < ActiveRecord::Base
   belongs_to :user
   has_and_belongs_to_many :sectors
+  has_many :campaign_donations, :dependent => :nullify
   has_many :participants, :dependent => :destroy
   has_many :teams, :dependent => :destroy
   has_many :users, :through => :participants
@@ -32,7 +33,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def amount_raised
-    0.00
+     self.campaign_donations.inject(0) {|sum, campaign_donation| sum + campaign_donation.amount}
   end
 
   def total_donations

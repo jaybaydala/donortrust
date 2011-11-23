@@ -1,6 +1,7 @@
 class Team < ActiveRecord::Base
   belongs_to :user
   belongs_to :campaign
+  has_many :campaign_donations, :dependent => :nullify
   has_many :team_memberships, :dependent => :destroy
   has_many :users, :through => :team_memberships
 
