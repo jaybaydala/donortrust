@@ -38,7 +38,7 @@ describe Dt::InvestmentsController do
       response.should render_template("new")
     end
     it "should not require login" do
-      controller.should_receive(:logged_in?).and_return(false)
+      controller.stub(:logged_in?).and_return(false)
       new_request
       response.should render_template("new")
     end

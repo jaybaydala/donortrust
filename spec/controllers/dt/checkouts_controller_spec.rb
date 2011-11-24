@@ -273,6 +273,7 @@ describe Dt::CheckoutsController do
         it "should not process a credit card when not paying from it" do
           order.stub!(:total).and_return(55)
           order.stub!(:credit_card_payment).and_return(0)
+          order.stub!(:credit_card_payment?).and_return(false)
           order.should_receive(:run_transaction).never
           do_request
         end
