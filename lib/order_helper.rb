@@ -51,7 +51,6 @@ module OrderHelper
     return nil unless @order && @cart
     load_user_data_into_order
     @order.attributes = params[:order]
-    @order.total = @cart.total
     # add in the pledge_account_balance
     if logged_in? && params[:order] && params[:order][:pledge_account_payment_id] && pledge_account = PledgeAccount.find(params[:order][:pledge_account_payment_id], :conditions => {:user_id => current_user})
       @order.pledge_account_balance = pledge_account.balance if pledge_account
