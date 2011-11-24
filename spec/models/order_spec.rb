@@ -3,11 +3,13 @@ require 'active_merchant'
 ActiveMerchant::Billing::Base.mode = :test
 
 describe Order do
-  let (:cart_items) { [Factory.build(:gift, :amount => 25.0), Factory.build(:investment, :amount => 25.0), Factory.build(:deposit, :amount => 50.0)] }
-  let(:cart) { Cart.create }
-  let(:order) { Order.new(:email => "user@example.com", :cart => cart, :total => cart.total) }
+  let(:cart_items) { [Factory.build(:gift, :amount => 25.0), Factory.build(:investment, :amount => 25.0), Factory.build(:deposit, :amount => 50.0)] }
+  let(:order) { Factory(:order, { :email => "user@example.com", :credit_card_payment => nil, :total => nil }) }
+  let(:cart) { order.cart }
+
   before do
     cart_items.each {|item| cart.add_item(item) }
+    order.reload
   end
 
   it "should create an order properly with default values" do
@@ -44,9 +46,40 @@ describe Order do
       order.gift_card_balance.should == 50
     end
   end
-  
+
+  context "adding and removing cart items" do
+    let(:investment) { Factory.build(:investment, :amount => 10) }
+
+    it "should increase the total when a cart item is added" do
+      expect do
+        cart.add_item(investment)
+      end.to change {order.reload.total}.by(10)
+    end
+
+    it "should increase the credit_card_payment when a cart item is added" do
+      expect do
+        cart.add_item(investment)
+      end.to change {order.reload.credit_card_payment}.by(10)
+    end
+
+    it "should decrease the total when a cart item is removed" do
+      item = cart.add_item(investment)
+      order.reload
+      expect do
+        cart.remove_item(item.id)
+      end.to change {order.reload.total}.by(-10)
+    end
+
+    it "should decrease the credit_card_payment when a cart item is removed" do
+      item = cart.add_item(investment)
+      order.reload
+      expect do
+        cart.remove_item(item.id)
+      end.to change {order.reload.credit_card_payment}.by(-10)
+    end
+  end
+
   describe "#billing_info_required? validations" do
-    # let(:order) { Order.new }
     context "when billing_info_required?" do
       before do
         subject.stub!(:billing_info_required?).and_return(true)
@@ -119,7 +152,6 @@ describe Order do
   describe "#validate_payment" do
     context "payment amount validations" do
       it "should not add any errors" do
-        order.credit_card_payment = order.total
         order.validate_payment
         order.errors.should be_empty
       end
@@ -145,6 +177,7 @@ describe Order do
 
       context "when we have a gift_card_balance and no account_balance" do
         before do
+          order.credit_card_payment = 0
           order.gift_card_balance = order.total
         end
         it "should add an error if you're not paying the full amount" do
@@ -179,7 +212,8 @@ describe Order do
           cart.empty!
           cart.reload
           cart_items.each {|item| cart.add_item(item) }
-          order.total = cart.total
+          order.reload
+          order.credit_card_payment = 0
         end
         it "should add an error if you're not paying the full amount" do
           order.account_balance_payment = order.total - 0.01
@@ -207,6 +241,7 @@ describe Order do
       
       context "with a gift_card_balance and account_balance" do
         before do
+          order.credit_card_payment = 0
           order.gift_card_balance = 100
           order.account_balance = 100
         end
@@ -422,7 +457,12 @@ describe Order do
       end
     end
   end
-  
+
+  describe "#valid_transaction?" do
+    specify { order.should_receive(:validate_payment); order.valid_transaction? }
+    specify { order.should_receive(:validate_credit_card); order.valid_transaction? }
+  end
+
   describe "#run_transaction" do
     before do
       @credit_card = ActiveMerchant::Billing::CreditCard.new(
@@ -436,6 +476,7 @@ describe Order do
       )
       # @credit_card.stub!(:valid?).and_return(true)
       order.stub!(:credit_card).and_return(@credit_card)
+      order.stub(:valid_transaction?).and_return(true)
       
       order.country = "Canada"
       order.order_number = 8118118118
@@ -456,7 +497,9 @@ describe Order do
     # *	Dollar Amount $15.00, if CVV2=1234 OK: 678594:; if there is no CVV2: REJ: 19
     # *	Dollar Amount $16.00 REJ: 2;
     # *	Other Amount REJ: 15.
-    
+
+    specify { order.should_receive(:valid_transaction?); order.run_transaction }
+
     it "should get a credit_card object" do
       order.should_receive(:credit_card).any_number_of_times.and_return(@credit_card)
       order.run_transaction

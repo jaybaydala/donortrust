@@ -27,7 +27,28 @@ describe Cart do
       @cart.total.should == 140.0
     end
   end
-  
+
+  context "when the cart belongs to an order (is in the checkout process)" do
+    let(:investment) { Factory.build(:investment, :amount => 10) }
+    let(:order) { Factory(:order, { :total => 0 }) }
+    subject { order.cart }
+    specify { order.total.should == 0 }
+    context "and an item is added to the cart" do
+      before do
+        item = subject.add_item(investment)
+        order.reload
+      end
+      specify { order.total.should == investment.amount }
+      context "and subsequently removed" do
+        before do
+          subject.empty!
+          order.reload
+        end
+        specify { order.reload.total.should == 0 }
+      end
+    end
+  end
+
   describe "add_item" do
     it "should not allow an invalid item" do
       @gift.should_receive(:valid?).and_return(false)

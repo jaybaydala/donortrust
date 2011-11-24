@@ -34,7 +34,8 @@ describe Dt::DepositsController do
       response.should render_template("new")
     end
     it "should require login" do
-      controller.should_receive(:logged_in?).and_return(false)
+      controller.stub(:logged_in?).and_return(false)
+      controller.stub(:current_user).and_return(nil)
       new_request
       response.should redirect_to(login_path)
     end
@@ -59,7 +60,8 @@ describe Dt::DepositsController do
       Deposit.stub(:new).and_return(deposit)
     end
     it "should require login" do
-      controller.should_receive(:logged_in?).and_return(false)
+      controller.stub(:logged_in?).and_return(false)
+      controller.stub(:current_user).and_return(nil)
       create_request
       response.should redirect_to(login_path)
     end
