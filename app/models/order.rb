@@ -51,6 +51,7 @@ class Order < ActiveRecord::Base
 
   before_create :generate_order_number
   before_save :add_upowered_to_cart
+  before_save :autoset_credit_card_payment
   after_save :update_user_information
 
   attr_accessor :upowered_step, :payment_options_step, :billing_step, :account_signup_step, :credit_card_step, :receipt_step, :upowered
@@ -175,17 +176,20 @@ class Order < ActiveRecord::Base
   # set some accessor methods
   def account_balance_payment=(val)
     write_attribute(:account_balance_payment, strip_dollar_sign(val))
+    autoset_credit_card_payment
   end
   def credit_card_payment=(val)
     write_attribute(:credit_card_payment, strip_dollar_sign(val))
   end
   def gift_card_payment=(val)
     write_attribute(:gift_card_payment, strip_dollar_sign(val))
+    autoset_credit_card_payment
   end
   def offline_fund_payment=(val)
     val = nil if self.user.blank?
     val = nil if self.user && !self.user.cf_admin?
     write_attribute(:offline_fund_payment, (val.nil? ? val : strip_dollar_sign(val)) )
+    autoset_credit_card_payment
   end
   def total=(val)
     write_attribute(:total, strip_dollar_sign(val))
@@ -241,9 +245,16 @@ class Order < ActiveRecord::Base
     errors.empty?
   end
 
+  def valid_transaction?
+    [:upowered_step=, :payment_options_step=, :billing_step=, :account_signup_step=, :credit_card_step=].each do |step|
+      self.send(step, true)
+    end
+    self.valid?
+  end
+
   def run_transaction
     logger.debug("Entering run_transaction")
-    if credit_card.valid?
+    if valid_transaction? && credit_card.valid?
       if File.exists?("#{RAILS_ROOT}/config/iats.yml")
         config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
         gateway_login    = config["username"]
@@ -445,6 +456,12 @@ class Order < ActiveRecord::Base
     def strip_dollar_sign(val)
       val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
       val
+    end
+
+    def autoset_credit_card_payment
+      if self.total_changed?
+        self.credit_card_payment = BigDecimal.new(self.total.to_s) - (self.total_payments - BigDecimal.new(self.credit_card_payment.to_s))
+      end
     end
 
     def update_user_information
