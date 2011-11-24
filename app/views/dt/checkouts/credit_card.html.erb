@@ -18,7 +18,9 @@
       <% if @order.credit_card_payment? && @order.credit_card_payment > 0 %>
         <li>
           <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
+          <p><strong><%= number_to_currency(@order.credit_card_payment) %> will be charged to your credit card.</strong></p>
         </li>
+        
         <%= f.input :cardholder_name %>
         <%= f.input :card_number, :label => "Credit card number", :input_html => { :maxlength => 16 } %>
         <%= f.input :cvv, :label => "Card security number (CVV)", :hint => "This is final 3 digits on the back of your card.", :input_html => { :maxlength => 5, :size => "5", :style => "width:auto;" } %>
