@@ -1,118 +1,82 @@
-<%- content_for :head do -%>
-<%= stylesheet_link_tag 'dt/cart' %>
-<%= javascript_include_tag "dt/checkout" %>
-<%- end -%>
-<%- content_for :html_title do -%>Confirm Checkout<%- end -%>
-<%- content_for :nav do -%><%= checkout_nav %><%- end -%>
-
-<h2>Step 3 of 3 - Confirm your details</h2>
-
-<%= render :partial => "subscription" %>
-
-<%= error_messages_for :order %>
-<% form_for(:order, :url => dt_checkout_path, :html => {:id => "orderform", :name => "orderform", :method => :put}) do |f| %>
-<%= hidden_field_tag "step", "confirm" %>
-<%= hidden_field_tag(:directed_gift, params[:directed_gift]) unless params[:directed_gift].nil? %>
-<%= hidden_field_tag :project_id, params[:project_id] %>
-<div class="userform">
-
-  <fieldset style="margin-top:1em;">
-    <legend>Billing and Tax Receipt Information</legend>
-    <% if @order.credit_card_payment? %>
-      <div class="notes clearfix">
-        <h5>Billing and Tax Receipt Information</h5>
-        <p>Please ensure this information is correct for your credit card transaction and tax receipt.</p>
-      </div>
-      <ol>
-        <li><label><strong>Donor Type</strong></label> <%=h @order.donor_type %></li>
-        <li><label><strong>Title</strong></label> <%=h @order.title %></li>
-        <li><label><strong>First Name</strong></label> <%=h @order.first_name %></li>
-        <li><label><strong>Last Name</strong></label> <%=h @order.last_name %></li>
-        <li><label><strong>Company</strong></label> <%=h @order.company %></li>
-        <li><label><strong>Street Address</strong></label> <%=h @order.address %></li>
-        <li><label><strong>Street Address 2</strong></label> <%=h @order.address2 %></li>
-        <li><label><strong>City</strong></label> <%=h @order.city %></li>
-        <li><label><strong>Province/State</strong></label> <%=h @order.province %></li>
-        <li><label><strong>Postal/Zip Code</strong></label> <%=h @order.postal_code %></li>
-        <li><label><strong>Country</strong></label> <%=h @order.country %></li>
-        <li><label><strong>Province</strong></label> <%=h @order.province %></li>
-        <li><label><strong>Email</strong></label> <%=h @order.email %></li>
-      </ol>
-    <% else %>
-      <p>You are not paying with a credit card. No billing information is required.</p>
-    <% end %>
-  </fieldset>
-  
-  <% if cart_org_investment %>
-  <fieldset>
-    <legend>Support Uend:</legend>
-    <p>100% of your funds go to the project(s) you select.</p>
-    <p>You have chosen to give <strong><%= number_to_currency(cart_cf_investment.amount) %></strong> to Uend: directly. Thank You!</p>
-  </fieldset>
-  <% end %>
-  
-  <fieldset>
-    <legend>Payment Summary</legend>
-    <ol>
-      <li class="odd"><label>Cart Total:</label> <%= number_to_currency(@cart.total) %><%= hidden_field_tag :total, @cart.total, :id => 'cart_total' %></li>
-      <% if @order.gift_card_payment? %>
-        <li>
-          <label>Gift Card Payment:</label> <%= number_to_currency(@order.gift_card_payment) %>
-          <div class="note" >After this transaction, your gift card balance will be <%= number_to_currency(session[:gift_card_balance] - @order.gift_card_payment) %>.</div>
-        </li>
-      <% end %>
-      <% if @order.account_balance_payment? %>
-        <li>
-          <label>Account Balance Payment:</label> <%= number_to_currency(@order.account_balance_payment) %>
-          <div class="note">After this transaction, your account balance will be <%= number_to_currency(current_user.balance - @order.account_balance_payment) %>.</div>
-        </li>
-      <% end %>
-      <% if pledge_account && @order.pledge_account_payment? %>
-        <li>
-          <label>Pledge Account Payment:</label> <%= number_to_currency(@order.pledge_account_payment) %>
-          <div class="note" >After this transaction, your pledge account balance will be <%= number_to_currency(pledge_account.balance - @order.pledge_account_payment) %>.</div>
-        </li>
-      <% end %>
-      <% if @order.credit_card_payment? %>
-        <li>
-          <label>Credit Card Payment:</label> <%= number_to_currency(@order.credit_card_payment) %>
-        </li>
-      <% end %>
-      <li id="totalfield">
-        <label>Total Paid:</label> <%= number_to_currency(@order.total) %>&nbsp;
-      </li>
-    </ol>
-    
-    <% if @order.credit_card_payment? %>
-    <div class="textsm" style="font-size:0.75em;margin-top:1em;"><strong>Credit Card Information</strong></div>
-    <div class="notes">
-      <h5>Credit Card Information</h5>
-      <p>Your credit card is processed on a secure server. We <strong>do not</strong> store any credit card information or details.</p>
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-16 prepend-2 last">
+      <img src="/images/give/icon-cash_register.png" width="93" height="79" alt="">
     </div>
-    <p>A balance of <strong><%= number_to_currency( @order.credit_card_payment) %></strong> will be charged to your credit card.</p>
-    <ol class="clearfix">
-      <li><label class="wide"><strong>Credit Card</strong></label><%=h @order.card_number_concealed %> <%= f.hidden_field :card_number, :value => @order.credit_card.number %><%# this sets the card_number temporarily back to the full value for processing %></li>
-      <li><label class="wide"><strong>Card Security Number (CVV)</strong></label> <%=h @order.cvv.gsub(/./, "*") if @order.cvv? %></li>
-      <li><label class="wide"><strong>Card Expiry</strong></label> <%=h @order.card_expiry %></li>
-      <li><label class="wide"><strong>Cardholder Name</strong></label> <%=h @order.cardholder_name %></li>
-    </ol>
-  <% end %>  
-  </fieldset>
-</div>
-<div class="checkoutbuttons clearfix" id="checkout-submitbuttons">
-  <%= link_to image_tag("/images/dt/nav_elements/go_back_a_step.png", :alt => "Go Back a Step"), edit_dt_checkout_path(:step => "billing") %>
-  <%= image_submit_tag "/images/dt/nav_elements/checkout.png", :alt => 'Complete Checkout' %>
-</div>
-<div id="please-wait" style="display:none;text-align:right;">
-  <%= image_tag "/images/dt/nav_elements/please_wait.gif", :alt => 'Please Wait...' %>
-</div>
+  </div>
 <% end %>
 
-<%- content_for :sidebar do -%>
-  <h2><%= link_to "My Cart", dt_checkout_path, :method => :delete %></h2>
-  <%= render :file => "dt/cart/sidebar" %>  
-  <%= render :file => "dt/accounts/profile_sidebar" %>  
-  <%= render :partial => 'dt/checkouts/verisign' %>
-<%- end -%>
+<% html_title("Checkout Confirmation") %>
+<%= checkout_nav %>
 
-<% content_for :google_analytics_path do %>/checkout/confirmation.html<% end %>
+<!-- this is to get around a really odd webkit bug -->
+<div>&nbsp;</div>
+
+<div style="width:162px;float:right">
+  <%= render 'iend/authentications/authentications' %>
+</div>
+
+
+<div id="confirm">
+  <h1 class="plain dark">Order Summary</h1>
+
+  <h2 class="plain dark">Payment Information</h2>
+  <% if @order.account_balance_payment %>
+    <h3 class="plain dark">Account Balance</h3>
+    <p><%= number_to_currency @order.account_balance_payment %></p>
+  <% end %>
+  <% if @order.credit_card_payment %>
+    <h3 class="plain dark">Credit Card</h3>
+    <p>
+      Amount: <%= number_to_currency @order.credit_card_payment %><br>
+      Card Name: <%= @order.cardholder_name %><br>
+      Card Number: <%= @order.card_number_concealed %><br>
+      Expiration: <%= @order.card_expiry %>
+    </p>
+  <% end %>
+  <% if @order.gift_card_payment? %>
+    <h3 class="plain dark">Gift Card</h3>
+    <p><%= number_to_currency @order.gift_card_payment %></p>
+  <% end %>
+
+  <h2 class="plain dark">Receipt Information</h2>
+  <p><%= @order.updated_at.strftime('%B %d, %Y') %></p>
+  <p><%= @order.name %><br><%= @order.email %></p>
+  <%- if @order.multiline_address.present? -%>
+  <p>
+    <%= @order.multiline_address.join("<br>") %>
+  </p>
+  <%- end -%>
+
+  <table border="0" cellpadding="4" cellspacing="0" class="activity_summary">
+  <colgroup>
+    <col style="width:85%;" />
+    <col style="width:15%;" />
+  </colgroup>
+  <% @order.cart.items.each do |line_item| %>
+  <%- partial_name = line_item.item.class.to_s.underscore -%>
+  <%- partial_name = 'subscription' if @order.created_subscription? && line_item.class == Investment && line_item.project == Project.admin_project -%>
+    <% content_tag_for :tr, line_item, :class => "line_item_row" do %>
+      <td class="textsm" style="text-align:left;">
+        <%= render :partial => "dt/cart/#{partial_name}", :locals => { :item => line_item.item } %>
+      </td>
+      <td class="textsm" style="text-align:right;"><%= number_to_currency(line_item.item.amount) %></td>
+    <% end %>
+  <% end %>
+  <tr class="total">
+    <td class="numeric">Total</td>
+    <td class="numeric"><%= number_to_currency @order.total %></td>
+  </tr>
+  </table>
+
+  <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put}) do |f| %>
+    <%= f.semantic_errors :order %>
+    <%= hidden_field_tag "step", "confirm" %>
+    <%= hidden_field_tag "card_number", @order.full_card_number %>
+    <% f.buttons do %>
+      <%= link_to("back", edit_dt_checkout_path(:step => "credit_card"), :class => "bigbutton black") %>
+      <%= f.commit_button "finish" %>
+      <%= f.input :payment_options_step, :as => :hidden, :input_html => { :value => 1 } %>
+    <% end %>
+  <% end %>
+</div>
