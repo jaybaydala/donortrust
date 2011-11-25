@@ -267,17 +267,24 @@ section.iend.spaced { padding:36px 0; }
 /* CART
 ----------*/
 #cart .line_item_row td,
+#confirm .line_item_row td,
 #receipt .line_item_row td { border-bottom:1px solid #333; padding:18px 0; }
 #cart .line_item,
+#confirm .line_item,
 #receipt .line_item { font-size:18px; font-weight:bold; float:left; padding-right:10px; }
 #cart .line_item.small,
+#confirm .line_item.small,
 #receipt .line_item.small { font-size:14px; margin-bottom:0; }
 #cart .controls,
+#confirm .controls,
 #receipt .controls { font-size:14px; padding:4px 0 0 18px; float:left; }
 #cart .controls a,
+#confirm .controls a,
 #receipt .controls a { color:#6CF; text-decoration:none; }
 #cart .controls a:hover,
 #cart .controls a:active,
+#confirm .controls a:hover,
+#confirm .controls a:active,
 #receipt .controls a:hover,
 #receipt .controls a:active { text-decoration:underline; }
 #cart .numeric,
@@ -291,6 +298,7 @@ section.iend.spaced { padding:36px 0; }
 #payment_required_container { background:#DDD; padding:8px; width:330px; }
 .boxshadow #payment_required_container { -moz-box-shadow: 2px 2px 4px #666; -webkit-box-shadow: 2px 2px 4px #666; box-shadow: 2px 2px 4px #666; }
 .borderradius #payment_required_container { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
+#confirm,
 #receipt { font-size:18px; }
 .sharing { background:#EEE; margin-bottom:1em; padding:1em; }
 .borderradius .sharing { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }

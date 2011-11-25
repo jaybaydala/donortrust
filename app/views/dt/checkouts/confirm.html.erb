@@ -20,6 +20,26 @@
 <div id="confirm">
   <h1 class="plain dark">Order Summary</h1>
 
+  <h2 class="plain dark">Payment Information</h2>
+  <% if @order.account_balance_payment %>
+    <h3 class="plain dark">Account Balance</h3>
+    <p><%= number_to_currency @order.account_balance_payment %></p>
+  <% end %>
+  <% if @order.credit_card_payment %>
+    <h3 class="plain dark">Credit Card</h3>
+    <p>
+      Amount: <%= number_to_currency @order.credit_card_payment %><br>
+      Card Name: <%= @order.cardholder_name %><br>
+      Card Number: <%= @order.card_number_concealed %><br>
+      Expiration: <%= @order.card_expiry %>
+    </p>
+  <% end %>
+  <% if @order.gift_card_payment? %>
+    <h3 class="plain dark">Gift Card</h3>
+    <p><%= number_to_currency @order.gift_card_payment %></p>
+  <% end %>
+
+  <h2 class="plain dark">Receipt Information</h2>
   <p><%= @order.updated_at.strftime('%B %d, %Y') %></p>
   <p><%= @order.name %><br><%= @order.email %></p>
   <%- if @order.multiline_address.present? -%>
@@ -27,27 +47,6 @@
     <%= @order.multiline_address.join("<br>") %>
   </p>
   <%- end -%>
-  <h2>Payment Information</h2>
-  <% if @order.account_balance_payment %>
-    <h3>Account Balance Payment:</h3>
-    <p><%= number_to_currency @order.account_balance_payment %></p>
-  <% end %>
-  <% if @order.credit_card_payment %>
-    <h3>Credit Card Payment:</h3>
-    <p><%= number_to_currency @order.credit_card_payment %></p>
-    <p>
-      Card Number: <%= @order.card_number_concealed %><br />
-      Expiration: <%= @order.card_expiry %>
-    </p>
-  <% end %>
-  <% if @order.gift_card_payment %>
-    <h3>Gift Card Payment:</h3>
-    <p><%= number_to_currency @order.gift_card_payment %></p>
-  <% end %>
-  <% if @order.total %>
-    <h3>Total:</h3>
-    <p><%= number_to_currency @order.total %></p>
-  <% end %>
 
   <table border="0" cellpadding="4" cellspacing="0" class="activity_summary">
   <colgroup>
@@ -74,9 +73,10 @@
     <%= f.semantic_errors :order %>
     <%= hidden_field_tag "step", "confirm" %>
     <%= hidden_field_tag "card_number", @order.full_card_number %>
-    <% f.inputs do %>
-      <%= f.input :payment_options_step, :as => :hidden, :input_html => { :value => 1 } %>
+    <% f.buttons do %>
+      <%= link_to("back", edit_dt_checkout_path(:step => "credit_card"), :class => "bigbutton black") %>
       <%= f.commit_button "finish" %>
+      <%= f.input :payment_options_step, :as => :hidden, :input_html => { :value => 1 } %>
     <% end %>
   <% end %>
 </div>
