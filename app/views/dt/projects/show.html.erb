@@ -37,8 +37,9 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <div class="sidebar_user_search">
-    <p class="smaller">Find users who have funded this project.</p>
-    <p><%= link_to "Find Users", iend_users_path(:project => @project), :class => 'smallbutton' %></p>
-  </div>
+  <dl class="sidebar_user_search">
+    <dt>User Search</dt>
+      <dd><%= link_to "Find users who have funded this project", iend_users_path(:project => @project) %></dd>
+      <dd><%= link_to "Find users who have funded projects in #{@project.country.name}", iend_users_path(:country => @project.country.id) %></dd>
+  </dl>
 <% end %>

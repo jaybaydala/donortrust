@@ -7,23 +7,26 @@
 
 <div id="maincontentarea" class="content prepend-top append-large-bottom">
 
-  <% if params[:sectors].present? || params[:name].present? || params[:project].present? %>
+<% if params[:sectors].present? || params[:name].present? || params[:project].present? || params[:country].present? %>
   <section class="container prepend-top">
     <%= render :partial => 'layouts/shared/flashes' %>
     <ul id="iend-search-terms">
 <% Sector.find(sector_params_array).each do |sector| %>
-      <li class="term"><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :name => params[:name], :project => params[:project]) %></li>
+      <li class="term"><%= link_to sector.name, iend_users_path(:sectors => sector_remove(sector.id), :name => params[:name], :project => params[:project], :country => params[:country]) %></li>
 <% end %>
 <% if params[:name].present? %>
-      <li class="term"><%= link_to params[:name], iend_users_path(:sectors => params[:sectors], :name => nil, :project => params[:project]) %></li>
+      <li class="term"><%= link_to params[:name], iend_users_path(:sectors => params[:sectors], :name => nil, :project => params[:project], :country => params[:country]) %></li>
 <% end %>
 <% if params[:project].present? %>
-      <li class="term"><%= link_to Project.find(params[:project]).name, iend_users_path(:sectors => params[:sectors], :name => params[:name], :project => nil) %></li>
+      <li class="term"><%= link_to Project.find(params[:project]).name, iend_users_path(:sectors => params[:sectors], :name => params[:name], :project => nil, :country => params[:country]) %></li>
+<% end %>
+<% if params[:country].present? %>
+      <li class="term"><%= link_to Place.find(params[:country]).name, iend_users_path(:sectors => params[:sectors], :name => params[:name], :project => params[:project], :country => nil) %></li>
 <% end %>
       <li><%= link_to "| &nbsp; Clear all", iend_users_path %></li>
     </ul>
   </section>
-  <% end %>
+<% end %>
 
   <div class="container prepend-top">
     <aside class="span-3" id="iend-search-filter">
@@ -41,7 +44,7 @@
         CAUSE/SECTOR
         <ul>
 <% @sectors.each do |sector| %>
-            <li><%= link_to sector.name, iend_users_path(:sectors => sector_add(sector.id), :name => params[:name], :project => params[:project]) %></li>
+            <li><%= link_to sector.name, iend_users_path(:sectors => sector_add(sector.id), :name => params[:name], :project => params[:project], :country => params[:country]) %></li>
 <% end %>
         </ul>
       </div>
