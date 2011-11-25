@@ -38,7 +38,7 @@
 
 <% content_for :sidebar do %>
   <dl class="sidebar_user_search">
-    <dt>User Search</dt>
+    <dt>Who else?</dt>
       <dd><%= link_to "Find users who have funded this project", iend_users_path(:project => @project) %></dd>
       <dd><%= link_to "Find users who have funded projects in #{@project.country.name}", iend_users_path(:country => @project.country.id) %></dd>
   </dl>
