@@ -213,13 +213,13 @@ class Dt::CheckoutsController < DtApplicationController
           flash[:notice] = "Your user has been created and you are now logged in"
         end
       end
-      
+
       if !logged_in?
         flash.now[:notice] = "A user with your email address (#{@order.email}) already exists. To have this order associated with your account, login and continue your checkout." if User.find_by_login(@order.email)
       end
     end
 
-    def do_credit_card
+    def do_confirm
       do_transaction
     end
 
@@ -247,7 +247,7 @@ class Dt::CheckoutsController < DtApplicationController
             @cart.gifts.each{|gift| gift.send_at = Time.now + 1.minute if gift.send_email? && (!gift.send_at? || (gift.send_at? && gift.send_at < Time.now)) }
             # save the cart items into the db via the association
             @cart.pledges.each{|pledge| pledge.update_attributes(:paid => true)}
-          
+
             @order.gifts = @cart.gifts
             @order.investments = @cart.investments
             @order.deposits = @cart.deposits
@@ -292,7 +292,7 @@ class Dt::CheckoutsController < DtApplicationController
               @pledge_account.save!
             end
             if !@pledge_account
-              @order.update_attributes(:pledge_account_payment => nil, :pledge_account_payment_id => nil) 
+              @order.update_attributes(:pledge_account_payment => nil, :pledge_account_payment_id => nil)
             end
 
             # mark the order as complete
@@ -391,8 +391,8 @@ class Dt::CheckoutsController < DtApplicationController
         end
         @checkout_steps << 'billing'
         @checkout_steps << 'account_signup' unless logged_in?
-        @checkout_steps << 'confirm'
         @checkout_steps << 'credit_card'
+        @checkout_steps << 'confirm'
         @checkout_steps << 'receipt'
         @checkout_steps
       end
