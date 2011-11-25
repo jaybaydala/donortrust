@@ -11,7 +11,7 @@
     
     <%= render "iend/shared/public_profile_nav" %>
     
-    <h2 style="margin-left:12px;">Friends</h2>
+    <h2>Friends</h2>
     <%- if @friends.blank? %>
       <p>Looks like you haven't made any friends yet. <%= link_to "Find some friends", iend_users_path %>!</p>
     <%- else -%>
