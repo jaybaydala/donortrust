@@ -154,7 +154,9 @@ h1.project-title { padding-bottom:2em; border-bottom:1px solid #666; margin-bott
 #project-carousel img { width:100%; }
 #project-footer { }
 #project-footer ul { list-style:none; margin:8px 0 0 0; padding:0; }
-#rail .sidebar_user_search { margin: 48px 0 0 0; }
+#rail .sidebar_user_search { font-size: 12px; margin: 3em 0 0 0; padding: 0; }
+#rail .sidebar_user_search dt { font-size: 14px; margin: 0; padding: 1em 0; text-transform: uppercase; }
+#rail .sidebar_user_search dd { margin: 0; padding: .5em 0; }
 
 /* GIVE
 -------*/

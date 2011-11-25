@@ -12,6 +12,8 @@ class IendProfile < ActiveRecord::Base
     has user.preferred_sectors.sector_id, :as => :sector_ids
     has list_projects_funded
     has user.investments.project_id, :as => :funded_project_ids
+    has location
+    has user.investments.project.country(:id), :as => :funded_country_ids
   end
 
   def formatted_location
