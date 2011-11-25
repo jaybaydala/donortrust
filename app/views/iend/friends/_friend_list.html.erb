@@ -1,13 +1,9 @@
-<!-- paging goes here -->
-<div class="span-9 prepend-1 last">
-  <div class="clearfix" id="friends">
-    <%- @friends.each_with_index do |friend, i| %>
-      <div class="span-4 append-bottom<%= ' last' if (i+1)%2 == 0 %>">
-        <% display_string = friend.name.blank? ? friend.email : friend.name %>
-        <p><%= link_to display_string, iend_user_path(friend)%></p>
-      </div>
-    <% end %>
-  </div>
-
+<div class="clearfix" id="friends">
+  <%- @friends.each_with_index do |friend, i| %>
+    <div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
+      <%= render :partial => 'iend/users/private_profile', :locals => { :profile => friend.iend_profile } %>
+    </div>
+  <% end %>
 </div>
+
 
