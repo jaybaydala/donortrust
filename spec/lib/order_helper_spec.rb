@@ -72,16 +72,18 @@ describe OrderHelperControllerSpec, :type => :controller do
       controller.send(:initialize_new_order)
     end
 
-    it "should set the credit_card_payment to order.total if !logged_in?" do
+    it "the credit_card_payment should be set to order.total if !logged_in?" do
       controller.stub!(:logged_in?).and_return(false)
-      order.should_receive(:credit_card_payment=).with(cart.total)
       controller.send(:initialize_new_order)
+      order.reload
+      order.credit_card_payment.should == order.total
     end
 
-    it "should set the credit_card_payment to order.total if logged_in? and 0 balance" do
+    it "the credit_card_payment should be set to order.total if logged_in? and 0 balance" do
       user.should_receive(:balance).and_return(0)
-      order.should_receive(:credit_card_payment=).with(cart.total)
       controller.send(:initialize_new_order)
+      order.reload
+      order.credit_card_payment.should == order.total
     end
 
     it "should not set the credit_card_payment to order.total if logged_in? and balance > 0" do
@@ -111,8 +113,9 @@ describe OrderHelperControllerSpec, :type => :controller do
     end
 
     it "should set the total to the cart total" do
-      order.should_receive(:total=).with(cart.total)
       controller.send(:initialize_existing_order)
+      order.reload
+      order.total.should == cart.total
     end
 
     it "should set the user to the current_user if logged_in?" do
