@@ -4,7 +4,7 @@ I want to be able to go through the checkout process
 So that I can help to end poverty
 Through the purchase of gifts and investments
 
-Background: 
+Background:
   Given I have added a $10 investment to my cart
   And I have added a $10 gift to my cart
   #And that I have removed the optional donation
@@ -33,6 +33,8 @@ Scenario: Successful checkout with fewest options
   And I select "01" from "order_expiry_month"
   And I select "2018" from "order_expiry_year"
   And I fill in "Cardholder name" with "Jonathan Smith"
+  When I press "next"
+  Then I should see "Order Summary"
   And I press "finish"
   Then I should be on the order confirmation page
   And I should see "Thank you for helping to change the world."
@@ -61,6 +63,8 @@ Scenario: Successful checkout with signup
   And I select "01" from "order_expiry_month"
   And I select "2018" from "order_expiry_year"
   And I fill in "Cardholder name" with "Jonathan Smith"
+  And I press "next"
+  Then I should see "Order Summary"
   And I press "finish"
   Then I should be on the order confirmation page
   And I should see "Thank you for helping to change the world."
