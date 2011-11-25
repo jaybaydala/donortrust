@@ -1,8 +1,9 @@
 class CampaignDonation < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :participant
   belongs_to :order
   belongs_to :campaign
   has_one :user_transaction, :as => :tx
+  has_one :user, :through => :participant
 
   def name
     if self.user.present?

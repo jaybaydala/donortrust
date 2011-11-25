@@ -1,0 +1,20 @@
+<% content_for :html_title do %>iEnd:Poverty - Donate to <%= @campaign.name %><% end %>
+
+<% content_for :header do %>
+  <div class="feature">
+    <h1>End Global Poverty</h1>
+    <p>The world is changing. Gift Different</p>
+  </div>
+<% end %>
+
+<% content_for :top_content do %>
+  <div class="clearfix">
+    <div class="prepend-top prepend-2">
+      <h1>Donate to <%= @campaign.name %></h1>
+    </div>
+  </div>
+<% end %>
+
+<div class="clearfix">
+  <%= render "form" %>
+</div>

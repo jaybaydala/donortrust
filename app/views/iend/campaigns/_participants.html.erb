@@ -4,7 +4,7 @@
     <ul>
       <% @campaign.participants.each do |p| %>
         <% content_tag :li do %>
-          <%=h p.user.name %>
+          <%=h p.user.name %> <%= link_to "Donate", '#' %>
           <% if p.user == @user %>
             <%= link_to "Leave Campaign", iend_campaign_participant_path(@campaign, p), :method => :delete, :confirm => "Are you sure you want to leave this campaign?" %>
           <% end %>

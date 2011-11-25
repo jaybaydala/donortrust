@@ -1,7 +1,6 @@
 class Team < ActiveRecord::Base
-  belongs_to :user
   belongs_to :campaign
-  has_many :campaign_donations, :dependent => :nullify
+  belongs_to :user
   has_many :team_memberships, :dependent => :destroy
   has_many :users, :through => :team_memberships
 
@@ -10,6 +9,10 @@ class Team < ActiveRecord::Base
   validate_on_create :creator_can_join_team
 
   after_create :add_creator_as_member
+
+  def total_donations
+    self.team_memberships
+  end
 
   def user_can_join?(user)
     teams = self.campaign.teams.reload

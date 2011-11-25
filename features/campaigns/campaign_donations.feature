@@ -9,7 +9,6 @@ Background:
   And the campaign has 2 teams
   And each team has 3 members
 
-@pending
 Scenario: Donate to a campaign
   Given I am on the iend campaign page
   Then I should see "Donate to this campaign"

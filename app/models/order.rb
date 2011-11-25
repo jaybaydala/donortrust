@@ -103,7 +103,7 @@ class Order < ActiveRecord::Base
   end
 
   def line_items
-    @line_items ||= self.gifts + self.investments + self.pledges + self.deposits + self.tips
+    @line_items ||= self.gifts + self.investments + self.pledges + self.deposits + self.tips + self.campaign_donations
   end
 
   def multiline_address

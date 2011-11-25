@@ -3,7 +3,7 @@
 <ul>
   <% @team.team_memberships.each do |tm| %>
     <% content_tag :li do %>
-      <%=h tm.user.name %>
+      <%=h tm.user.name %> <%= link_to "Donate", '#' %>
       <% if tm.user == @user %>
         <%= link_to "Leave Team", iend_campaign_team_membership_path(@team.campaign, tm), :method => :delete, :confirm => "Are you sure you want to leave this team?" %>
       <% end %>

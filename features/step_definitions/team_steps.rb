@@ -32,3 +32,11 @@ When /^I visit the iend campaign team page for the other team$/ do
     And I follow "#{@team.name}"
   }
 end
+
+Given /^each team has (\d+) members$/ do |num_members|
+  Team.all.each do |team|
+    num_members.to_i.times do |i|
+      Factory(:team_membership, :team => team)
+    end
+  end
+end
