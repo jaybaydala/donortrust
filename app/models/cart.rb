@@ -1,5 +1,4 @@
 class Cart < ActiveRecord::Base
-  attr_reader :total
   after_save :add_auto_tip
   has_many :items, :class_name => "CartLineItem"
   has_one :order
@@ -53,7 +52,7 @@ class Cart < ActiveRecord::Base
   end
 
   def deposits
-    self.items.select{|item| item.item_type == "Deposit" }.map(&:item)
+    self.items.all.select{|item| item.item_type == "Deposit" }.map(&:item)
   end
 
   def empty!
@@ -67,15 +66,15 @@ class Cart < ActiveRecord::Base
   end
 
   def gifts
-    self.items.select{|item| item.item_type == "Gift" }.map(&:item)
+    self.items.all.select{|item| item.item_type == "Gift" }.map(&:item)
   end
 
   def investments
-    self.items.select{|item| item.item_type == "Investment" }.map(&:item)
+    self.items.all.select{|item| item.item_type == "Investment" }.map(&:item)
   end
   
   def tips
-    self.items.select{|item| item.item_type == "Tip" }.map(&:item)
+    self.items.all.select{|item| item.item_type == "Tip" }.map(&:item)
   end
 
   def items_without_donation
@@ -84,14 +83,14 @@ class Cart < ActiveRecord::Base
 
   def minimum_credit_card_payment
     minimum = 0
-    self.items.each do |line_item|
+    self.items.all.each do |line_item|
       minimum += line_item.item.amount if line_item.item.class == Deposit
     end
     minimum
   end
 
   def only_subscription?
-    self.items.delete_if(&:subscription?).delete_if{|i| i.item_type == "Tip" }.size == 0
+    self.items.all.delete_if(&:subscription?).delete_if{|i| i.item_type == "Tip" }.size == 0
   end
 
   def percentage_options
@@ -103,11 +102,11 @@ class Cart < ActiveRecord::Base
   end
 
   def pledges
-    self.items.select{|item| item.item_type == "Pledge" }.map(&:item)
+    self.items.all.select{|item| item.item_type == "Pledge" }.map(&:item)
   end
 
   def registration_fees
-    self.items.select{|item| item.item_type == "RegistrationFee" }.map(&:item)
+    self.items.all.select{|item| item.item_type == "RegistrationFee" }.map(&:item)
   end
 
   def remove_item(id)
@@ -143,7 +142,7 @@ class Cart < ActiveRecord::Base
   end
 
   def total
-    self.items.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
+    self.items.all.inject(BigDecimal.new('0')){|sum, line_item| sum + BigDecimal.new(line_item.item.amount.to_s) }
   end
 
   def total_without_donation
@@ -152,6 +151,12 @@ class Cart < ActiveRecord::Base
 
   def update_item(id, item)
     self.items.find(id).update_attribute(:item, item) if valid_item?(item)
+  end
+
+  def update_order_total
+    if self.order
+      self.order.update_attribute(:total, self.total)
+    end
   end
 
   private
@@ -168,4 +173,5 @@ class Cart < ActiveRecord::Base
     def valid_item?(item)
       [Gift, Investment, Deposit, Pledge, RegistrationFee, Tip].include?(item.class) && item.valid?
     end
+
 end
