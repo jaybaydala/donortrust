@@ -7,7 +7,7 @@ class Iend::UsersController < DtApplicationController
 
   def index
     @sectors = Sector.alphabetical
-    if params[:name].blank? && params[:sectors].blank? && params[:project].blank?
+    if params[:name].blank? && params[:sectors].blank? && params[:project].blank? && params[:country].blank?
       @profiles = IendProfile.paginate(:page => params[:page], :per_page => 18)
     else
       @profiles = IendProfile.search params[:name],
@@ -102,6 +102,7 @@ class Iend::UsersController < DtApplicationController
       without.merge!({ :preferred_poverty_sectors => false }) unless sector_params_array.nil? || sector_params_array.empty?
       without.merge!({ :public_name => false }) if params[:name].present?
       without.merge!({ :list_projects_funded => false }) if params[:project].present?
+      without.merge!({ :location => false }) if params[:country].present?
       without
     end
 
@@ -109,6 +110,7 @@ class Iend::UsersController < DtApplicationController
       with = {}
       with.merge!({ :sector_ids => sector_params_array }) unless sector_params_array.empty?
       with.merge!({ :funded_project_ids => params[:project] }) unless params[:project].nil?
+      with.merge!({ :funded_country_ids => params[:country] }) unless params[:country].nil?
       with
     end
 
