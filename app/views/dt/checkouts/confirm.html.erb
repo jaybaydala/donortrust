@@ -53,7 +53,7 @@
     <col style="width:85%;" />
     <col style="width:15%;" />
   </colgroup>
-  <% @order.cart.items.each do |line_item| %>
+  <% @order.cart.all_items_donation_last.each do |line_item| %>
   <%- partial_name = line_item.item.class.to_s.underscore -%>
   <%- partial_name = 'subscription' if @order.created_subscription? && line_item.class == Investment && line_item.project == Project.admin_project -%>
     <% content_tag_for :tr, line_item, :class => "line_item_row" do %>
