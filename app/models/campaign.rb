@@ -33,11 +33,7 @@ class Campaign < ActiveRecord::Base
   end
 
   def amount_raised
-     self.campaign_donations.inject(0) {|sum, campaign_donation| sum + campaign_donation.amount}
-  end
-
-  def total_donations
-    0.00
+    self.campaign_donations.inject(0) {|sum, campaign_donation| sum + campaign_donation.amount}
   end
 
   protected
