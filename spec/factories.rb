@@ -292,3 +292,8 @@ Factory.define :user do |u|
   u.display_name { Faker::Name.name }
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }
 end
+
+Factory.define :country, :class => Place do |p|
+  p.name { "#{Faker::Address.country}" }
+  p.place_type_id 2
+end

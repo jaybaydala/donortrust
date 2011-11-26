@@ -7,7 +7,7 @@ describe Dt::CheckoutsController do
   let(:user) { Factory(:user) }
   let(:cart) { Cart.create! }
   let(:order) { Factory(:order, :email => "user@example.com", :cart => cart, :credit_card_payment => 0) }
-  
+
   before do
     cart_items.each {|i| cart.add_item(i) }
     order.total = cart.total
@@ -29,84 +29,84 @@ describe Dt::CheckoutsController do
       controller.should_not respond_to(m)
     end
   end
-  
-  it "should define @checkout_steps as %w(upowered billing account_signup credit_card receipt)" do
+
+  it "should define @checkout_steps as %w(upowered billing account_signup credit_card confirm receipt)" do
     post 'create', :order => {}
-    controller.instance_variable_get(:@checkout_steps).should == %w(upowered billing account_signup credit_card receipt)
+    controller.instance_variable_get(:@checkout_steps).should == %w(upowered billing account_signup credit_card confirm receipt)
   end
-  
+
   describe "create action" do
     before do
       Order.stub!(:new).and_return(order)
       controller.stub!(:find_order).and_return(nil)
       controller.stub!(:validate_order).and_return(true)
     end
-    
+
     it "should redirect to \"billing\" if no current_step" do
       do_request
       response.should redirect_to(edit_dt_checkout_path(:step => "billing"))
     end
-    
+
     it "should find_cart" do
       controller.should_receive(:find_cart).once.and_return(cart)
       do_request
     end
-    
+
     it "should find_order" do
       controller.should_receive(:find_order).at_least(:once).and_return(nil)
       do_request
     end
-    
+
     it "should redirect to edit action if an existing order is found" do
       controller.should_receive(:find_order).and_return(order)
       do_request
       response.should redirect_to(edit_dt_checkout_path)
     end
-    
+
     it "should initialize_new_order" do
       controller.should_receive(:initialize_new_order).and_return(order)
       do_request
     end
-    
+
     it "should redirect to edit action if an existing order is found" do
       controller.should_receive(:find_order).and_return(order)
       do_request
       response.should redirect_to(edit_dt_checkout_path)
     end
-  
+
     it "should validate the order" do
       controller.should_receive(:validate_order).and_return(true)
       do_request
     end
-  
+
     it "should save the order" do
       order.should_receive(:save).and_return(true)
       do_request
     end
-  
+
     it "should note save the order if it's not valid" do
       controller.should_receive(:validate_order).and_return(false)
       order.should_receive(:save).never
       do_request
     end
-    
+
     it "should put the order_id in the session" do
       do_request
       session[:order_id].should == order.id
     end
-  
+
     it "should not put the order_id in the session for an invalid order" do
       controller.should_receive(:validate_order).and_return(false)
       do_request
       session[:order_id].should == nil
     end
-  
+
     it "should render the upowered (first step) template if the order can't save" do
       order.should_receive(:save).and_return(false)
       do_request
       response.should render_template("upowered")
     end
-    
+
     describe "with a gift card" do
       describe "that has a balance larger than the total" do
         let(:gift_card) { Factory(:gift, :amount => order.total + 1, :balance => order.total + 1) }
@@ -167,7 +167,7 @@ describe Dt::CheckoutsController do
       post 'create', :order => params
     end
   end
-  
+
   describe "update action" do
     before do
       controller.stub!(:validate_order).and_return(true)
@@ -177,22 +177,22 @@ describe Dt::CheckoutsController do
       do_request
       response.should redirect_to(edit_dt_checkout_path(:step => "upowered"))
     end
-    
+
     describe "on the credit_card step" do
       before do
         @step = "credit_card"
         order.stub!(:run_transaction).and_return(true)
       end
-      
+
       it "should call do_credit_card" do
         controller.should_receive(:do_credit_card)
         do_request
       end
-      it "next_step should be receipt" do
+      it "next_step should be confirm" do
         do_request
-        controller.send(:next_step).should == 'receipt'
+        controller.send(:next_step).should == 'confirm'
       end
-      
+
       it "should redirect to dt_checkout_path if it's valid and complete" do
         controller.should_receive(:validate_order).and_return(true)
         controller.stub!(:do_action).and_return(true)
@@ -200,8 +200,15 @@ describe Dt::CheckoutsController do
         do_request
         response.should redirect_to(dt_checkout_path(:order_number => order.order_number))
       end
-      
-      describe "do_credit_card method" do
+    end
+
+    describe "on the confirm step" do
+      before do
+        @step = "confirm"
+        order.stub!(:run_transaction).and_return(true)
+      end
+
+      describe "do_confirm method" do
         it "should process the credit card" do
           order.total = 10
           order.credit_card_payment = order.total
@@ -273,6 +280,7 @@ describe Dt::CheckoutsController do
         it "should not process a credit card when not paying from it" do
           order.stub!(:total).and_return(55)
           order.stub!(:credit_card_payment).and_return(0)
+          order.stub!(:credit_card_payment?).and_return(false)
           order.should_receive(:run_transaction).never
           do_request
         end
@@ -318,7 +326,7 @@ describe Dt::CheckoutsController do
           end
         end
       end
-      describe "do_credit_card method with invalid transaction" do
+      describe "do_confirm method with invalid transaction" do
         before do
           order.stub!(:run_transaction).and_return(false)
           order.total = 10
