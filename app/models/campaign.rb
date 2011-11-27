@@ -7,11 +7,16 @@ class Campaign < ActiveRecord::Base
   has_many :users, :through => :participants
   has_friendly_id :url, :use_slug => true
 
+  validates_numericality_of :goal
   validates_presence_of :name
   validates_presence_of :user
   validates_presence_of :url
 
   after_create :set_creator_as_participant
+
+  def amount_raised
+    self.campaign_donations.inject(0) {|sum, campaign_donation| sum + campaign_donation.amount}
+  end
 
   def user_can_participate?(user)
     if self.users.include?(user) #already a member
@@ -30,10 +35,6 @@ class Campaign < ActiveRecord::Base
       end
     end
     return true
-  end
-
-  def amount_raised
-    self.campaign_donations.inject(0) {|sum, campaign_donation| sum + campaign_donation.amount}
   end
 
   protected

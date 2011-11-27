@@ -47,6 +47,9 @@ module NavigationHelpers
     when /the new iend campaign team page/
       @campaign ||= Campaign.last
       new_iend_campaign_team_path(@campaign)
+    when /the iend campaign campaign donations page/
+      @campaign ||= Campaign.last
+      new_iend_campaign_campaign_donation_path(@campaign)
     when /the newly created iend campaign team page/
       @team ||= Team.last
       iend_campaign_team_path(@team.campaign, @team)

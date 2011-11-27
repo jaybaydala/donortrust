@@ -20,10 +20,9 @@ Scenario: Donate to a campaign
   And I press "add to cart"
   Then I should be on the dt cart page
   When I have completed the checkout process
-  Then I should see "$100" within ".campaign-donation"
-  And I should see the team member name
+  Then I should see "$100" within ".campaign_donation"
+  And I should see the name of the team member I donated to
 
-@pending
 Scenario: Donate to a specific team member in a campaign
   Given I am on the iend campaign page
   And I follow the team link
@@ -39,5 +38,5 @@ Scenario: Donate to a specific team member in a campaign
   And I press "add to cart"
   Then I should be on the dt cart page
   When I have completed the checkout process
-  Then I should see "$100" within ".campaign-donation"
+  Then I should see "$100" within ".campaign_donation"
   And I should see the team member name

@@ -9,8 +9,16 @@
 
 <% content_for :top_content do %>
   <div class="clearfix">
-    <div class="prepend-top prepend-2">
-      <h1>Donate to <%= @campaign.name %></h1>
+    <div>
+    <% content_tag :h1 do %>
+      Donate to <%= @campaign.name %>
+      <% if @campaign_donation.participant.present? %>
+        through <%= @campaign_donation.participant.user.name %>
+        <% if @campaign_donation.participant.user.find_team_in_campaign(@campaign) %>
+          on Team: "<%= @campaign_donation.participant.user.find_team_in_campaign(@campaign).name %>"
+        <% end %>
+      <% end %>
+    <% end %>
     </div>
   </div>
 <% end %>

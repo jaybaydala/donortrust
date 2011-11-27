@@ -10,8 +10,16 @@ class Team < ActiveRecord::Base
 
   after_create :add_creator_as_member
 
+  def participants
+    participants = []
+    self.users.each do |u|
+      participants << u.find_participant_in_campaign(self.campaign)
+    end
+    participants
+  end
+
   def total_donations
-    self.team_memberships
+    self.participants.inject(0) {|sum, participant| sum + participant.amount_raised}
   end
 
   def user_can_join?(user)

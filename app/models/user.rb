@@ -371,14 +371,20 @@ class User < ActiveRecord::Base
   def participation
     @participation = Participant.find_by_sql(["SELECT p.* from participants p WHERE p.user_id = ?", self.id])
   end
-  
+
   def find_participant_in_campaign(campaign)
-    Participant.find(:first, 
-                     :conditions => {:user_id => self.id, 
-                                     :team_id => campaign.teams.collect(&:id), 
-                                     :active => true})
+    Participant.find(:first, :conditions => {:user_id => self.id, :campaign_id => campaign.id })
   end
-  
+
+  def find_team_in_campaign(campaign)
+    self.teams.each do |team|
+      if team.campaign == campaign
+        return team
+      end
+    end
+    nil
+  end
+
   def can_join_team?(team_to_join)
     # Avoid rejoining current team
     return false if team_to_join.has_user?(self)
