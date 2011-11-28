@@ -66,7 +66,7 @@ class Dt::BulkGiftsController < DtApplicationController
           format.html { redirect_to dt_cart_path }
         else
           @gift = @gifts.first unless @gifts.empty?
-          @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong><br /><strong>Please Note:</strong> the list must be separated by commas") unless email_parser.errors.empty?
+          @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong><br /><strong>Please Note:</strong> the list must be separated by new lines") unless email_parser.errors.empty?
           @project = @gift.project if @gift.project_id? && @gift.project
           load_ecards
           format.html { render :action => "new" }
