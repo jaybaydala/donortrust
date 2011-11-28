@@ -51,6 +51,25 @@ class EmailParser
     @emails
   end
 
+  def parse_lines
+    @data.split("\n").each do |email|
+      begin
+        email = TMail::Address.parse(email)
+        if valid?(email.address)
+          if @remove_dups
+            @emails << email unless @emails.detect{|e| e.address == email.address }
+          else
+            @emails << email
+          end
+        else
+          @errors << email.address.to_s
+        end
+      rescue TMail::SyntaxError
+        @errors << email.strip
+      end
+    end
+  end
+
   def self.parse_email(email)
     begin
       TMail::Address.parse(email)
