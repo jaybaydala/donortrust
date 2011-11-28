@@ -20,11 +20,11 @@ class Gift < ActiveRecord::Base
   validates_numericality_of :amount, :if => Proc.new { |gift| gift.amount? }
   validates_uniqueness_of :pickup_code, :allow_nil => true
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id? }
-  
+
   after_create :user_transaction_create, :tax_receipt_create
-  
-  attr_accessor :preview, :send_email_now
-  
+
+  attr_accessor :preview, :send_email_now, :to_emails
+
   def sum
     return credit_card ? 0 : super * -1
   end
