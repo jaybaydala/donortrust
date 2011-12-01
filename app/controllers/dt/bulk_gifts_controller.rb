@@ -14,8 +14,8 @@ class Dt::BulkGiftsController < DtApplicationController
     load_ecards
     @gift = Gift.new(:e_card => @ecards.first)
     @gift.send_email = nil # so we can preselect "now" for delivery
-    @gift.email = current_user.email if !@gift.email? && logged_in?
-    @gift.name = current_user.full_name if !@gift.name? && logged_in?
+    @gift.email      = current_user.email     if !@gift.email? && logged_in?
+    @gift.name       = current_user.full_name if !@gift.name?  && logged_in?
 
     if params[:project_id] && @project = Project.find(params[:project_id])
       if @project.fundable?
@@ -30,73 +30,49 @@ class Dt::BulkGiftsController < DtApplicationController
       @gift.promotion_id = params[:promotion_id]
     end
 
-    respond_to do |format|
-      format.html {}
-      format.js
-    end
   end
 
   def create
     @gift = Gift.new( params[:gift] )
     @gift.user_ip_addr = request.remote_ip
+    find_cart
     if params[:gift][:to_emails] && !params[:gift][:to_emails].empty?
-      @gifts = []
       @errors = []
-      email_parser = EmailParser.new(params[:gift][:to_emails], params[:remove_dups] == '1')
+      email_parser = EmailParser.new(params[:gift][:to_emails], true)
       email_parser.parse_lines
       if email_parser.errors.empty?
-        email_parser.emails.each do |email|
-          logger.debug("working on email #{email}")
-          gift = @gift.clone
-          gift.to_name = email.name
-          gift.to_email = email.address
-          gift.to_email_confirmation = email.address
-          @errors << gift unless gift.valid?
-          @gifts << gift
+        Gift.transaction do
+          emails = []
+          has_dup = false
+          email_parser.emails.each do |email|
+            gift = @gift.clone
+            gift.to_name               = email.name
+            gift.to_email              = email.address
+            gift.to_email_confirmation = email.address
+            if emails.include?(email.address)
+              if !has_dup
+                @gift.errors.add(:to_emails, 'must be unique')
+                has_dup = true
+              end
+              @errors << gift
+            elsif !gift.valid?
+              @errors << gift
+            else
+              @cart.add_item(gift)
+            end
+            emails << email.address
+          end
         end
+      end
+
+      if @errors.empty? && email_parser.errors.empty?
+        flash[:notice] = "Your Gifts have been added to your cart."
+        redirect_to dt_cart_path
       else
-        logger.debug "EMAIL parse error"
-      end
-
-      respond_to do |format|
-        if @errors.empty? && email_parser.errors.empty?
-          find_cart
-          @gifts.each{|gift| @cart.add_item(gift)}
-          flash[:notice] = "Your Gifts have been added to your cart."
-          format.html { redirect_to dt_cart_path }
-        else
-          @gift = @gifts.first unless @gifts.empty?
-          @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong><br /><strong>Please Note:</strong> the list must be separated by new lines") unless email_parser.errors.empty?
-          @project = @gift.project if @gift.project_id? && @gift.project
-          load_ecards
-          format.html { render :action => "new" }
-        end
-      end
-    else
-      begin
-        @valid = @gift.valid?
-      rescue ActiveRecord::MultiparameterAssignmentErrors
-        fix_date_params!
-        @gift = Gift.new( params[:gift] )
-        @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
-        @gift.user_ip_addr = request.remote_ip
-        @valid = false
-      end
-
-      respond_to do |format|
-        if @valid
-          @cart.add_item(@gift)
-          format.html {
-            flash[:notice] = "Your Gift has been added to your cart."
-            redirect_to dt_cart_path
-          }
-          format.js
-        else
-          @project = @gift.project if @gift.project_id? && @gift.project
-          load_ecards
-          format.html { render :action => "new" }
-          format.js
-        end
+        @gift.errors.add_to_base("There were some invalid email addresses in your recipient list. Please fix them to continue: <strong>#{email_parser.errors.join(', ')}</strong><br /><strong>Please Note:</strong> the list must be separated by new lines") unless email_parser.errors.empty?
+        @project = @gift.project if @gift.project.present?
+        load_ecards
+        render :action => "new"
       end
     end
   end
