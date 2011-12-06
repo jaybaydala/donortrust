@@ -4,7 +4,7 @@
 <%- content_for :head do -%><%= stylesheet_link_tag 'dt/cart' %><%- end -%>
 
 
-<% semantic_form_for([:dt, @investment], :html => {:id => "investmentform"}) do |f| %>
+<% semantic_form_for([:dt, @investment], :url => dt_investment_path(:id => params[:id]), :html => { :id => "investmentform", :method => :put }) do |f| %>
   <%= f.semantic_errors :investment %>
   <% f.inputs "Your Investment" do %>
     <%
