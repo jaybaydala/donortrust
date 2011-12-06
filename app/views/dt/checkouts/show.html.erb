@@ -24,8 +24,12 @@
 
 <%= render :partial => "order_summary" %>
 
+<% unless @order.gifts.empty? %>
+  <p class="clearfix"><%= link_to "Buy Another Gift", new_dt_gift_path, :class => "smallbutton" %></p>
+<% end %>
+
 <% if @order.tax_receipt %>
-  <h2 class="">Tax Receipt</h2>
+  <h2>Tax Receipt</h2>
   <div class="clearfix">
     <p>A tax receipt has been emailed to you. You can <%= link_to "download a duplicate tax receipt", tax_receipt_path(@order.tax_receipt, @order.tax_receipt.view_code, :format => :pdf) %> right here.</p>
   </div>
@@ -33,7 +37,7 @@
 
 <%= render :partial => "upowered_share" %>
 
-<% #if logged_in? && current_user.authentications.facebook.present? %>
+<% if logged_in? && current_user.authentications.facebook.present? %>
   <div class="sharing">
     <h2>Facebook</h2>
     <% if @order.gifts.present? %>
@@ -44,11 +48,10 @@
       <%= render :partial => 'dt/facebook_posts/form', :locals => { :message => "I just contributed to one of over 50 active poverty-ending projects with UEnd:Poverty – feels pretty great!\n#{root_url(:protocol => 'http://')}"} %>
     <% end %>
   </div>
-<% #end %>
+<% end %>
 
 <% if @order.is_registration then %>
   <%= render :partial => 'thanks_registration' %>
-
 <% elsif @directed_gift %>
   <%= render :partial => 'thanks_directed' %>
 <% elsif @order.pledges.size > 0 %>
@@ -58,21 +61,21 @@
 <% end %>
 
 <% unless @order.gifts.empty? %>
-  <%= link_to "Buy Another Gift", new_dt_gift_path, :class => "smallbutton" %>
-  <div class="clear"></div>
-  <h2>Gift(s)</h2>
-  <p>Your gift emails have been scheduled to be sent. The printable ecard(s) have been sent to you via email, but you can also download your printable ecard(s) here.</p>
+  <div class="clearfix">
+    <h2>Gift(s)</h2>
+    <div class="clearfix"><%= link_to "Buy Another Gift", new_dt_gift_path, :class => "smallbutton" %></div>
+    <p>Your gift emails have been scheduled to be sent. The printable ecard(s) have been sent to you via email, but you can also download your printable ecard(s) here.</p>
 
-  <% for gift in @order.gifts %>
-    <div class="clearfix">
-      <h3>Your gift to <%=h gift.to_name %> <%=h gift.to_email %></h3>
-      <blockquote style="margin-bottom:1em;">
-        <strong>Your message:</strong> <%=h gift.message %>
-      </blockquote>
-      <div><%= link_to "Download Printable Card", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
-    </div>
-  <% end %>
-
+    <% for gift in @order.gifts %>
+      <div class="clearfix">
+        <h3>Your gift to <%=h gift.to_name %> <%=h gift.to_email %></h3>
+        <blockquote style="margin-bottom:1em;">
+          <strong>Your message:</strong> <%=h gift.message %>
+        </blockquote>
+        <div><%= link_to "Download Printable Card", formatted_dt_gift_path(gift, :pdf, :code => gift.pickup_code), :class => "large" %></div>
+      </div>
+    <% end %>
+  </div>
 <% end %>
 
 <% content_for :google_analytics_path do %>/checkout/complete.html<% end %>
