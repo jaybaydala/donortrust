@@ -46,8 +46,8 @@ end
 
 
 Given /^there is a project named "([^"]*)"$/ do |name|
-  proj = Factory(:project, :name => name)
-  proj.save
+  @proj = Factory(:project, :name => name)
+  @proj.save
 end
 
 Given /^there is an iend profile named "([^"]*)" who has invested in "([^"]*)"$/ do |name, project|
@@ -69,5 +69,28 @@ Given /^the iend profile "([^"]*)" chose not to list projects funded$/ do |name|
   first, last = name.split(' ')
   user = User.find_by_first_name_and_last_name(first, last)
   user.iend_profile.list_projects_funded = false
+  user.iend_profile.save
+end
+
+
+
+Given /^there is a project named "([^"]*)" in the country "([^"]*)"$/ do |project, country|
+  Given "there is a project named \"#{project}\""
+  loc = Factory(:country, :name => country)
+  loc.save
+  @proj.country = loc
+  @proj.save
+end
+
+Given /^I have searched iend profiles by the country "([^"]*)"$/ do |country|
+  place = Place.find_by_name(country)
+  visit "/iend/users?country=#{place.id}"
+end
+
+Given /^the iend profile "([^"]*)" has a public location and name$/ do |name|
+  first, last = name.split(' ')
+  user = User.find_by_first_name_and_last_name(first, last)
+  user.iend_profile.name = true
+  user.iend_profile.location = true
   user.iend_profile.save
 end
