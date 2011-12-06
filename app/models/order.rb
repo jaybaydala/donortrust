@@ -194,7 +194,7 @@ class Order < ActiveRecord::Base
   def total=(val)
     write_attribute(:total, strip_dollar_sign(val))
   end
-  
+
   # set the reader methods for the columns dealing with currency
   # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
   def account_balance_payment
