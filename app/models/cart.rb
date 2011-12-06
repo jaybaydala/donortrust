@@ -72,13 +72,17 @@ class Cart < ActiveRecord::Base
   def investments
     self.items.all.select{|item| item.item_type == "Investment" }.map(&:item)
   end
-  
+
   def tips
     self.items.all.select{|item| item.item_type == "Tip" }.map(&:item)
   end
 
   def items_without_donation
     self.items.find_all_by_donation([false, nil])
+  end
+
+  def all_items_donation_last
+    self.items_without_donation << self.donation
   end
 
   def minimum_credit_card_payment
