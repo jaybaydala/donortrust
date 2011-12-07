@@ -6,15 +6,16 @@ class Iend::CampaignDonationsController < DtApplicationController
 
   def new
     @campaign_donation = @campaign.campaign_donations.build(params[:campaign_donation])
-    if !@campaign_donation.participant_id
-      @campaign_donation.participant_id = @campaign.participants.find(:first, :conditions => {:user_id => @campaign.user_id}).id
-    end
+    @team_members = [ ["Directly to this campaign", 0 ] ] + @campaign.participants.map{|p| [p.user.name, p.id]}
   end
 
   def create
     @campaign_donation = CampaignDonation.new( params[:campaign_donation] )
     @campaign_donation.user_id = current_user.id if logged_in?
     @campaign_donation.user_ip_addr = request.remote_ip
+    if @campaign_donation.participant_id == 0
+      @campaign_donation.participant_id = @campaign.participants.find(:first, :conditions => {:user_id => @campaign.user_id}).id
+    end
 
     @valid = @campaign_donation.valid?
     @cart.add_item(@campaign_donation) if @campaign_donation

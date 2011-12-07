@@ -3,7 +3,7 @@
   <% f.inputs "Donation Information" do %>
     <%= f.input :campaign_id, :as => :hidden %>
     <%= f.input :amount %>
-    <%= f.input :participant, :collection => @campaign.participants.map{|p| [p.user.name, p.id]}, :label => "Donate To:", :include_blank => false %>
+    <%= f.input :participant, :collection => @team_members, :label => "Donate To:", :include_blank => false %>
   <% end %>
   <% f.buttons do %>
     <%= f.commit_button "add to cart" %>
