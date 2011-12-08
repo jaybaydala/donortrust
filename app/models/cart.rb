@@ -65,6 +65,10 @@ class Cart < ActiveRecord::Base
     self.items_without_donation.empty?
   end
 
+  def campaign_donations
+    self.items.select{|item| item.item_type == "CampaignDonation"}.map(&:item)
+  end
+
   def gifts
     self.items.all.select{|item| item.item_type == "Gift" }.map(&:item)
   end
@@ -175,7 +179,7 @@ class Cart < ActiveRecord::Base
     end
 
     def valid_item?(item)
-      [Gift, Investment, Deposit, Pledge, RegistrationFee, Tip].include?(item.class) && item.valid?
+      [CampaignDonation, Gift, Investment, Deposit, Pledge, RegistrationFee, Tip].include?(item.class) && item.valid?
     end
 
 end

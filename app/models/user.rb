@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   #acts_as_versioned
   acts_as_paranoid_versioned
   has_many :authentications, :dependent => :destroy
+  has_many :campaigns, :through => :participants
   has_many :invitations
   has_many :memberships
   has_many :groups, :through => :memberships
@@ -20,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :pledge_accounts
   has_many :tax_receipts
   has_many :my_wishlists
+  has_many :participants, :dependent => :destroy
   has_many :projects, :through => :my_wishlists
   has_many :roles, :through => :administrations
   has_many :administrations
@@ -27,16 +29,15 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :preferred_sectors
   has_many :sectors, :through => :preferred_sectors
-  has_many :teams, :through => :participants
-  has_many :participants
+  has_many :team_memberships, :dependent => :destroy
+  has_many :teams, :through => :team_memberships
   has_one :profile
   has_one :iend_profile
-  
   has_many :friendships
   has_many :friends, :through => :friendships, :conditions => ["friendships.status = ?", true]
   has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"  
   has_many :inverse_friends, :through => :inverse_friendships, :source => :user, :conditions => ["friendships.status = ?", true]
-  
+
   define_completeness_scoring do
     check :first_name,   lambda { |u| u.first_name? },   :medium
     check :last_name,    lambda { |u| u.last_name? },    :medium
@@ -360,24 +361,30 @@ class User < ActiveRecord::Base
   #  return false
   #end
 
-  def campaigns
-    @campaigns = Campaign.find_by_sql([
-      "SELECT c.* from campaigns c INNER JOIN teams t INNER JOIN participants p " +
-      "ON c.id = t.campaign_id AND t.id = p.team_id "+
-      "WHERE p.user_id = ? ORDER BY c.event_date DESC", self.id])
-  end
+  # def campaigns
+  #   @campaigns = Campaign.find_by_sql([
+  #     "SELECT c.* from campaigns c INNER JOIN teams t INNER JOIN participants p " +
+  #     "ON c.id = t.campaign_id AND t.id = p.team_id "+
+  #     "WHERE p.user_id = ? ORDER BY c.event_date DESC", self.id])
+  # end
 
   def participation
     @participation = Participant.find_by_sql(["SELECT p.* from participants p WHERE p.user_id = ?", self.id])
   end
-  
+
   def find_participant_in_campaign(campaign)
-    Participant.find(:first, 
-                     :conditions => {:user_id => self.id, 
-                                     :team_id => campaign.teams.collect(&:id), 
-                                     :active => true})
+    Participant.find(:first, :conditions => {:user_id => self.id, :campaign_id => campaign.id })
   end
-  
+
+  def find_team_in_campaign(campaign)
+    self.teams.each do |team|
+      if team.campaign == campaign
+        return team
+      end
+    end
+    nil
+  end
+
   def can_join_team?(team_to_join)
     # Avoid rejoining current team
     return false if team_to_join.has_user?(self)
