@@ -1,0 +1,25 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+
+      // edge.create event gets fired after an item is liked.
+      window.fbAsyncInit = function(){
+          FB.Event.subscribe('edge.create',
+            function(response) { post_like_data(response, "facebook");}
+          );
+      };
+
+      // callback function for google +1 button
+      update_google_plus = function(response){post_like_data(response["href"], "google_plus");};
+
+      // Post the like data to project's like url
+      var post_like_data = function(url, network){
+          $.post('http://127.0.0.1:3000/dt/projects/65/like', {network: network},
+              function(data){
+                // data = project.to_json
+                // update total counter
+              }
+          );
+      };
+  });
+</script>
+

@@ -188,6 +188,13 @@ class Dt::ProjectsController < DtApplicationController
     end
   end
 
+  def like
+    @project = Project.find(params[:id])
+    # @project.like
+    # Do we need to store the social network (Google Plus or Facebook) as well? 
+    # render :json => @project
+    head :ok
+  end
 
   protected
     def search_facets
