@@ -72,8 +72,8 @@
   <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put}) do |f| %>
     <%= f.semantic_errors :order %>
     <%= hidden_field_tag "step", "confirm" %>
-    <%= hidden_field_tag "card_number", @order.full_card_number %>
     <% f.buttons do %>
+      <%= f.input :card_number, :as => :hidden, :input_html => { :value => @order.full_card_number } %>
       <%= link_to("back", edit_dt_checkout_path(:step => "credit_card"), :class => "bigbutton black") %>
       <%= f.commit_button "finish" %>
       <%= f.input :payment_options_step, :as => :hidden, :input_html => { :value => 1 } %>
