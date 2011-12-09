@@ -11,8 +11,8 @@ Background:
 
 Scenario: Donate to a campaign
   Given I am on the iend campaign page
-  Then I should see "Donate to this campaign"
-  When I follow "Donate to this campaign"
+  Then I should see "Donate now"
+  When I follow "Donate now"
   Then I should be on the iend campaign campaign donations page
   And I should see the campaign name
   When I fill in "Amount" with "100"

@@ -14,7 +14,7 @@ Scenario: Create a new team
   And I should see "Add a new team"
   When I follow "Add a new team"
   Then I should be on the new iend campaign team page
-  When I fill in "Name" with "My Awesome Team"
+  When I fill in "Team name" with "My Awesome Team"
   And I fill in "Description" with "Let's rails some money!"
   And I fill in "Goal" with "125.00"
   And I press "Create Team"

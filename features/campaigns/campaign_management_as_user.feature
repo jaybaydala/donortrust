@@ -14,6 +14,7 @@ Scenario: Create a new campaign
   When I fill in "Campaign Name" with "Test Campaign"
   And I fill in "Description" with "testing this out"
   And I fill in "Url" with "test campaign"
+  And I fill in "Goal" with "125.00"
   And I press "Create Campaign"
   Then I should be on the "test-campaign" iend campaign page
   And I should see "Your new campaign was created"
