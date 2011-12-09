@@ -8,16 +8,6 @@
   </div>
 <% end %>
 
-<% content_for :top_content do %>
-  <div class="clearfix">
-    <div>
-      <%= link_to "Donate to this campaign", new_iend_campaign_campaign_donation_path(@campaign) %>
-      <% if @campaign.user == current_user %>
-        <h6><%= link_to 'Edit', edit_iend_campaign_path(@campaign) %> | <%= link_to 'Remove', iend_campaign_path(@campaign), :method => :delete, :confirm => "Are you sure you want to remove this campaign?" %></h6>
-      <% end %>
-    </div>
-  </div>
-<% end %>
 
 <div class="clearfix dark-box">
   <div class="span-10">
@@ -29,9 +19,17 @@
       <% end %>
     </p>
     <%= simple_format @campaign.description %>
-  </div>
-  <div class="span-10">
+
     <%= render :partial => "teams" %>
     <%= render :partial => "participants" %>
+  </div>
+  <div class="span-4 last">
+    <% if @campaign.user == current_user %>
+      <div class="clearfix">
+        <%= link_to 'Edit Campaign', edit_iend_campaign_path(@campaign), :class => "smallbutton" %><br>
+        <%= link_to 'Remove Campaign', iend_campaign_path(@campaign), :class => "smallbutton", :method => :delete, :confirm => "Are you sure you want to remove this campaign?" %>
+      </div>
+    <% end %>
+    <%= link_to "Donate now", new_iend_campaign_campaign_donation_path(@campaign), :class => "bigbutton" %>
   </div>
 </div>

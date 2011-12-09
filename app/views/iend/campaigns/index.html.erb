@@ -1,6 +1,9 @@
-<% title(params[:search].blank? ? 'Featured Campaigns' : nil ) %>
+<% title(params[:search].blank? ? 'Campaigns' : nil ) %>
+<%= render 'iend/shared/header' %>
+
 <div class="clearfix">
-<h2><%= link_to "Create a new campaign", new_iend_campaign_path %></h2>
+  <%= link_to "Create a new campaign", new_iend_campaign_path, :class => "smallbutton", :style => "float:right" %>
+</div>
 
 <div class="iend-campaigns">
   <% @campaigns.each_with_index do |c, i| %>
