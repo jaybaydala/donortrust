@@ -1,0 +1,13 @@
+<% form_tag(dt_projects_path, :method => "get", :id => "project-search") do %>
+  <% search_query.delete_if{|f, t| t.blank? }.each do |field, value| %>
+    <% if value.class == Array %>
+      <% value.each do |v| %>
+        <%= hidden_field_tag("search[#{field}][]", v) %>
+      <% end %>
+    <% else %>
+      <%= hidden_field_tag("search[#{field}]", value) %>
+    <% end %>
+  <% end %>
+  <%= text_field_tag("search[search_text]") %>
+  <%= submit_tag("Search") %>
+<% end %>
