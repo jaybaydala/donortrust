@@ -9,7 +9,11 @@
       };
 
       // callback function for google +1 button
-      update_google_plus = function(response){post_like_data(response["href"], "google_plus");};
+      update_google_plus = function(response){
+        if(response["state"] == "on"){
+          post_like_data(response["href"], "google_plus");
+        }
+      };
 
       // Post the like data to project's like url
       var post_like_data = function(url, network){
