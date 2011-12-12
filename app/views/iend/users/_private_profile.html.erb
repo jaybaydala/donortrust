@@ -1,8 +1,12 @@
 <% user = profile.user %>
   <article class="profile-module">
     <div class="profile-module-top">
+      <div class="profile-image">
+        <a href="<%= profile.user.image.url(:large) %>" class="colorbox" title="<%= profile.formatted_name %>">
+          <%= image_tag profile.user.image.url(:thumb), :alt => "" %>
+        </a>
+      </div>
       <a href="<%= iend_user_path(profile.id) %>">
-        <div class="profile-image"><%= image_tag user.image.url(:thumb), :alt => "" %></div>
         <div class="profile-name"><%= user.name %></div>
         <div class="profile-location"><%= [user.city, user.province].compact.delete_if{ |x| x.empty? }.join(', ') %></div>
       </a>
