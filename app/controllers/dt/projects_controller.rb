@@ -8,6 +8,7 @@ class Dt::ProjectsController < DtApplicationController
   helper_method :search_query
   helper_method :search_query_only_with_term
   helper_method :search_query_with_term
+  helper_method :search_query_with_term_one_option
   helper_method :search_query_without_term
   layout "projects"
   
@@ -224,6 +225,9 @@ class Dt::ProjectsController < DtApplicationController
         search_query[term] ||= []
         search_query[term].uniq!
       end
+      if !search_query[:project_status_id].present?
+        search_query[:project_status_id] = [2]
+      end
       search_query
     end
 
@@ -238,6 +242,14 @@ class Dt::ProjectsController < DtApplicationController
 
     def search_query_only_with_term(facet, term)
       { facet.to_sym => [ term ] }
+    end
+
+    def search_query_with_term_one_option(facet, term)
+      facet        = facet.to_sym
+      query        = self.search_query
+      query[facet] = [term]
+      query.delete_if{ |f,t| t.blank? }
+      query
     end
 
     def search_query_with_term(facet, term)
