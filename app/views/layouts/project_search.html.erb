@@ -37,8 +37,8 @@
       <div class="project-filter">
         ACTIVE/FUNDED
         <ul>
-          <li><%= link_to "Active (#{Project.search_count(:with => search_query_only_with_term(:project_status_id, 2))})", dt_projects_path(:search => search_query_only_with_term(:project_status_id, 2)) %></li>
-          <li><%= link_to "Funded (#{Project.search_count(:with => search_query_only_with_term(:project_status_id, 4))})", dt_projects_path(:search => search_query_only_with_term(:project_status_id, 4)) %></li>
+          <li><%= link_to "Active (#{Project.search_count(:with => search_query_with_term_one_option(:project_status_id, 2))})", dt_projects_path(:search => search_query_with_term_one_option(:project_status_id, 2)) %></li>
+          <li><%= link_to "Funded (#{Project.search_count(:with => search_query_with_term_one_option(:project_status_id, 4))})", dt_projects_path(:search => search_query_with_term_one_option(:project_status_id, 4)) %></li>
         </ul>
       </div>
       <div class="project-filter">
