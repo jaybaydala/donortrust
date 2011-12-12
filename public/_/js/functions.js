@@ -75,7 +75,7 @@ $(document).ready(function (){
   }
 
   // newsletter signup
-  $('a.newsletter_signup_link').colorbox();
+  $('a.newsletter_signup_link, a.colorbox').colorbox();
 
   // simple autogrow
   if ($.fn.autoGrow) {
