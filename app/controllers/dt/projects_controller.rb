@@ -191,7 +191,7 @@ class Dt::ProjectsController < DtApplicationController
 
   protected
     def search_facets
-      %w(sector_ids country_id partner_id total_cost)
+      %w(sector_ids country_id partner_id total_cost project_status_id)
     end
 
     def search_records
@@ -208,6 +208,8 @@ class Dt::ProjectsController < DtApplicationController
             records = Place.find(terms)
           when :total_cost
             records = terms.map{|term| term.split(',') }
+          when :project_status_id
+            records = ProjectStatus.find(terms)
           end
           @search_records[facet] = records
         end
