@@ -20,7 +20,7 @@ end
 end
 
 every 30.minutes do
-  rake "-s thinking_sphinx:index"
+  rake "-s thinking_sphinx:reindex", :output => 'log/cron_search.log'
 end
 
 every 1.month do
