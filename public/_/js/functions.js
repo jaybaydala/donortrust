@@ -81,6 +81,9 @@ $(document).ready(function (){
   if ($.fn.autoGrow) {
     $('textarea.autogrow').autoGrow();
   }
+
+  // FB Invite Friends
+  $("#fb-invite_friends").click(function() { sendRequestViaMultiFriendSelector(); });
 });
 
 /* optional triggers

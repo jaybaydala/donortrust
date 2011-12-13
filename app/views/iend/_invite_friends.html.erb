@@ -1,0 +1,20 @@
+<h2>Invite Friends</h2>
+<div class="medium">
+  <%= content_snippet_for(:invite_your_friends) %>
+  <div class="plain">
+    <a href="javascript:void(0);" id="fb-invite_friends" class="bigbutton">Invite Friends</a>
+    <!-- <input type="button" onclick="sendRequestViaMultiFriendSelector(); return false;" value="Invite Friends" class="bigbutton" id="fb-invite_friends" /> -->
+  </div>
+</div>
+
+<% content_for :javascript do %>
+  <script>
+    function sendRequestViaMultiFriendSelector() {
+      FB.ui({method: 'send',
+        name: 'Uend Poverty',
+        description: 'UEnd Poverty provides gift options to empower people like you to end extreme poverty tailored to your interests.',
+        link: 'http://www.uend.org/iend/users/new'
+      });
+    }
+  </script>
+<% end %>
