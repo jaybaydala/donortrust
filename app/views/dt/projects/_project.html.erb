@@ -16,7 +16,9 @@
     <div class="project-organization"><%= link_to truncate("by #{project.partner.name}", :length => 28), organization_dt_project_path(project) %></div>
   </div>
   <div class="project-actions clearfix">
+    <% if project.fundable? %>
     <div class="project-quick-give"><%= link_to "Quick Give", new_dt_investment_path(:project_id => project.id) %></div>
+    <% end %>
     <!-- <div class="project-like">
           <a href="#"><img src="/images/nav/like-grey.png" width="21" height="27" alt=""> Like</a>
         </div> -->
