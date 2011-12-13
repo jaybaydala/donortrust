@@ -8,6 +8,7 @@ class Dt::ProjectsController < DtApplicationController
   helper_method :search_query
   helper_method :search_query_only_with_term
   helper_method :search_query_with_term
+  helper_method :search_query_with_term_one_option
   helper_method :search_query_without_term
   layout "projects"
   
@@ -191,7 +192,7 @@ class Dt::ProjectsController < DtApplicationController
 
   protected
     def search_facets
-      %w(sector_ids country_id partner_id total_cost)
+      %w(sector_ids country_id partner_id total_cost project_status_id)
     end
 
     def search_records
@@ -208,6 +209,8 @@ class Dt::ProjectsController < DtApplicationController
             records = Place.find(terms)
           when :total_cost
             records = terms.map{|term| term.split(',') }
+          when :project_status_id
+            records = ProjectStatus.find(terms)
           end
           @search_records[facet] = records
         end
@@ -221,6 +224,9 @@ class Dt::ProjectsController < DtApplicationController
         term = term.to_sym
         search_query[term] ||= []
         search_query[term].uniq!
+      end
+      if !search_query[:project_status_id].present?
+        search_query[:project_status_id] = [2]
       end
       search_query
     end
@@ -236,6 +242,14 @@ class Dt::ProjectsController < DtApplicationController
 
     def search_query_only_with_term(facet, term)
       { facet.to_sym => [ term ] }
+    end
+
+    def search_query_with_term_one_option(facet, term)
+      facet        = facet.to_sym
+      query        = self.search_query
+      query[facet] = [term]
+      query.delete_if{ |f,t| t.blank? }
+      query
     end
 
     def search_query_with_term(facet, term)
