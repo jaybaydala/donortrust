@@ -1,0 +1,35 @@
+<% content_for :html_title do %>iEnd:Poverty - <%=h @campaign.name %><% end %>
+<% content_for :title do %><%=h @campaign.name %><% end %>
+
+<% content_for :header do %>
+  <div class="feature">
+    <h1>End Global Poverty</h1>
+    <p>The world is changing. Gift Different</p>
+  </div>
+<% end %>
+
+<% content_for :top_content do %>
+  <div class="clearfix">
+    <div class="prepend-top">
+      <% if @campaign.user == current_user %>
+        <h6><%= link_to 'Edit', edit_iend_campaign_path(@campaign) %> | <%= link_to 'Remove', iend_campaign_path(@campaign), :method => :delete, :confirm => "Are you sure you want to remove this campaign?" %></h6>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="clearfix dark-box">
+  <div class="span-10">
+    <h1>Goal: <%= number_to_currency @campaign.goal %></h1>
+    <p>
+      <% @campaign.sectors.each do |sector| %>
+        <%= image_tag("/images/icons/#{sector.image_name(16)}", :alt => "#{sector.name}", :width => 16, :height => 16, :style => "vertical-align:bottom;") %><%= sector.name %>
+      <% end %>
+    </p>
+    <%= simple_format @campaign.description %>
+  </div>
+  <div class="span-4 last">
+    <%= render :partial => "teams" %>
+    <%= render :partial => "participants" %>
+  </div>
+</div>

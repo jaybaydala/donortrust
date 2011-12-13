@@ -1,0 +1,21 @@
+<h3><%= pluralize @team.team_memberships.size, 'Member' %></h3>
+<% if @team.team_memberships.size > 0 %>
+<ul>
+  <% @team.team_memberships.each do |tm| %>
+    <% content_tag :li do %>
+      <%=h tm.user.name %>
+      <% if tm.user == @user %>
+        <%= link_to "Leave Team", iend_campaign_team_membership_path(@team.campaign, tm), :method => :delete, :confirm => "Are you sure you want to leave this team?" %>
+      <% end %>
+    <% end %>
+  <% end %>
+</ul>
+<% end %>
+<% if @team.user_can_join?(@user) %>
+  <%= link_to "Join Team", iend_campaign_team_memberships_path(@team.campaign, :team_membership => { :user_id => @user.id, :team_id => @team.id }), :method => :post %>
+<% else %>
+  <% if @team.campaign.user_can_participate?(@user) %>
+    <p>You must be participating in this campaign to join the team.</p>
+    <p><%= link_to "Join this campaign", iend_campaign_participants_path(@team.campaign), :method => :post %></p>
+  <% end %>
+<% end %>

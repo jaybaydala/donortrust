@@ -1,9 +1,9 @@
 Given /^a campaign with short name "([^\"]*)" exists$/ do |short_name|
-  @campaign = Factory(:campaign, :short_name => short_name)
+  @campaign = Factory(:old_campaign, :short_name => short_name)
 end
 
 Given /^the campaign has a team with short name "([^\"]*)"$/ do |short_name|
-  @team = Factory(:team, :campaign => @campaign, :short_name => short_name)
+  @team = Factory(:team, :old_campaign => @campaign, :short_name => short_name)
 end
 
 Given /^I am logged in as a registered user$/ do
