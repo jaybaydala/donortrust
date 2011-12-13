@@ -1,13 +1,12 @@
 <article class="campaign">
   <div class="campaign-top">
     <h2><%= link_to campaign.name, iend_campaign_path(campaign) %></h2>
-    <h3>Goal: <%= number_to_currency campaign.goal %></h3>
+    <h3><%= link_to "Goal: #{number_to_currency(campaign.goal)}", iend_campaign_path(campaign) %></h3>
   </div>
   <div class="campaign-info">
     <p>Raised: <%= number_to_currency campaign.amount_raised %></p>
-    <p>Created by: <%= campaign.user.name %></p>
-    <p>Poverty Sectors:<br />
-      <%= campaign.sectors.map{ |sector| sector.name }.join(" | ") %>
+    <p>Created by: <%= link_to campaign.user.name, iend_user_path(campaign.user) %></p>
+    <p>Poverty Sectors: <%= campaign.sectors.map{ |sector| link_to(sector.name, dt_projects_path({ :search => { :sector_ids => [sector.id] }})) }.join(", ") %>
     </p>
   </div>
   <div class="campaign-bottom clearfix">
