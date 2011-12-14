@@ -17,9 +17,6 @@ describe Geolocation do
 	 			code = Geolocation.lookup(IPS[:CA])
 	 		}.should change(Geolocation, :count).by(1)
  		end
-  	it "should not lookup a country code if there is no ip" do
-  		Geolocation.lookup(nil)
-  	end
  		it "returns a CA country code for a Canadian IP" do
   		code = Geolocation.lookup(IPS[:CA])
   		code.should == 'CA'
