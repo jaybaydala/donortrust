@@ -271,3 +271,7 @@ Factory.define :country, :class => Place do |p|
   p.name { "#{Faker::Address.country}" }
   p.place_type_id 2
 end
+
+Factory.define :geolocation do |g|
+  g.ip_address '69.60.70.50'
+end
