@@ -431,6 +431,13 @@ class User < ActiveRecord::Base
     self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
   end
 
+  def friends_gifts_given_count() friends(:include => :gifts).collect{ |f| f.gifts.count }.sum end
+  def friends_gifts_given_amount() friends(:include => :gifts).collect{ |f| f.gifts.sum(:amount) }.sum end
+  def friends_gifts_received() friends.collect{ |f| f.orders.count(:conditions => "gift_card_payment_id IS NOT NULL") }.sum end
+  def friends_projects_funded() friends.collect{ |f| f.projects_funded.size }.sum end # projects_funded isn't a relation, might be tricky to do efficiently
+  def friends_projects_amount_funded() friends.collect{ |f| f.investments.sum(:amount) }.sum end
+  def friends_projects_lives_affected() friends.collect{ |f| f.projects_funded.inject(0){|sum,p| sum += p.lives_affected.to_i } }.sum end
+
   protected
     def apply_omniauth_for_facebook(omniauth)
       self.login        = omniauth['user_info']['email'] unless self.login?

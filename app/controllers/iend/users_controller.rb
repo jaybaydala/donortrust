@@ -26,6 +26,18 @@ class Iend::UsersController < DtApplicationController
     @user = current_user if params[:id] == 'current'
     @user ||= User.find(params[:id])
     @iend_profile = @user.iend_profile
+
+    @people_affected = @user.profile.people_impacted.first
+    @gifts_given_count = @user.gifts.count 
+    @gifts_given_amount = @user.gifts.sum(:amount)
+    @gifts_received = @user.orders.count(:conditions => "gift_card_payment_id IS NOT NULL")
+
+    @projects_funded = @user.projects_funded.size
+    @projects_amount_funded = @user.investments.sum(:amount)
+    @projects_lives_affected = @user.projects_funded.inject(0){|sum,p| sum += p.lives_affected.to_i }
+
+    @uend_amount = @user.subscriptions.sum(:amount)
+
     raise ActiveRecord::RecordNotFound if !@iend_profile && @user != current_user
   end
 
