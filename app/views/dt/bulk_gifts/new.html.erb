@@ -1,0 +1,103 @@
+<% html_title("U:forward") %>
+
+<% content_for :top_content do %>
+  <div class="clearfix prepend-top" style="position:relative;">
+    <div class="span-11 prepend-2">
+      <h1><img src="/images/give/title-uforward.png" width="258" height="66" alt="U:forward"></h1>
+    </div>
+    <div class="span-5 last">
+      <h4 class="plain" style="bottom:0; position:absolute;"><em><strong>Pay it forward as a gift.</strong></em></h4>
+    </div>
+  </div>
+<% end %>
+
+<% semantic_form_for [:dt, @gift], :url => dt_bulk_gifts_path, :html => { :id => "giftform" } do |f| %>
+  <%= f.semantic_errors :email, :email_confirmation, :to_emails, :amount, :send_at %>
+
+  <% f.inputs 'Your Information' do %>
+    <%= f.input :name %>
+    <%= f.input :email, :label => "Email", :as => :email %>
+    <%= f.input :email_confirmation, :label => "Retype Email", :as => :email %>
+  <% end %>
+
+  <% f.inputs "Recipients' Information" do %>
+    <%= f.input :to_emails, :label => "Email Addresses", :hint => "Add each email on a separate line", :as => :text %>
+  <% end %>
+
+  <% f.inputs "Gift Details" do %>
+    <%
+      options = []
+      options << ["Let the recipient choose how they want to direct the gift", ""]
+      options << [raw("to a project I've chosen - #{link_to @project.name, [:dt, @project]}"), @project.id] if @project
+    %>
+    <%= f.input :project_id, :label => "How would you like to direct your gift?", :as => :radio, :collection => options %>
+    <%= f.input :amount, :label => 'Gift Amount', :hint => "Example: $100" %>
+    <li>
+      <%= f.label :e_card_id, 'Choose an ecard image from the options below.' %>
+      <%= f.hidden_field :e_card_id %>
+      <div class="clearfix" style="padding-top:12px;">
+        <div class="span-3" id="e_card-preview">
+          <%= image_tag(url_for_file_column(@gift.e_card, 'medium'), :alt => '') if @gift.e_card_id? && @gift.e_card %>
+        </div>
+        <div class="span-7" id="e_card-selection">
+          <p style="padding-bottom:8px;">
+            <img src="/images/nav/arrow-back.png" width="13" height="15" alt="" style="vertical-align:bottom;">
+            This is the image selected to appear on your card.
+          </p>
+          <% @ecards.each do |ecard| %>
+            <%= image_tag url_for_file_column(ecard, 'small'), :data_id => ecard.id, :data_url => url_for_file_column(ecard, 'medium'), :alt => '', :style => "padding:0 8px 4px 0" %>
+          <% end %>
+        </div>
+      </div>
+    </li>
+    <%# use this for the character counter - $("#gift_message + p.inline-hints span.count") %>
+    <%= f.input :message, :label => 'Type your personal message to the recipients.', :hint => raw('<span id="gift_message_count"></span>') %>
+    <li>
+      <div class="buttons">
+        <%= link_to "preview", preview_dt_gifts_path, :class => "bigbutton", :id => "gift_preview", :target => "_blank" %>
+      </div>
+    </li>
+  <% end %>
+
+  <% f.inputs "Gift Delivery" do %>
+    <%= f.input :notify_giver, :label => "Let me know when these gifts are used" %>
+    <li class="radio">
+      <fieldset>
+        <ol style="padding-left:0;width:auto;">
+          <li><label for="gift_send_email_now"><%= f.radio_button :send_email, "now" %> Email my gifts right away</label></li>
+          <li>
+            <label for="gift_send_email_true"><%= f.radio_button :send_email, true %> Schedule my gift delivery</label>
+          </li>
+          <li>
+            <div class="indent">
+              <p class="inline-hint">Select a date &amp; time to send your gift ecards.</p>
+              <%= f.datetime_select :send_at,
+                :order          => [:month, :day, :year, :hour, :minute],
+                :start_year     => Time.now.year,
+                :end_year       => Time.now.year+1,
+                :discard_second => true,
+                :minute_step    => 30,
+                :default        => 1.hour.from_now,
+                :include_blank  => true %><br>
+              <%= select_tag :time_zone, time_zone_options_for_select(Time.zone.name, ActiveSupport::TimeZone.us_zones) %>
+            </div>
+          </li>
+          <li><label for="gift_send_email_false"><%= f.radio_button :send_email, false %> Don't email my gifts <div class="indent">(I'll print and deliver them myself)</div></label></li>
+        </ol>
+      </fieldset>
+    </li>
+  <% end %>
+
+  <% f.buttons do %>
+    <%= f.commit_button "Add to Cart" %>
+  <% end %>
+<% end %>
+<%= render :partial => "dt/shared/form_requirednote" %>
+
+<% content_for :javascript do %>
+  <%= javascript_include_tag('/_/js/jquery.limit_input.js') %>
+  <% javascript_tag do %>
+    $('#giftform').formnav();
+    $('#gift_message').limit_input({ limit:1000, id_result: 'gift_message_count' });
+  <% end %>
+<% end %>
