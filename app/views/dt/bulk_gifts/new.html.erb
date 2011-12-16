@@ -15,6 +15,7 @@
   <%= f.semantic_errors :email, :email_confirmation, :to_emails, :amount, :send_at %>
 
   <% f.inputs 'Your Information' do %>
+    <li><p>Just giving one gift? Use our <%= link_to "individual gift form", new_dt_gift_path(:project_id => params[:project_id]) %>.</p></li>
     <%= f.input :name %>
     <%= f.input :email, :label => "Email", :as => :email %>
     <%= f.input :email_confirmation, :label => "Retype Email", :as => :email %>
