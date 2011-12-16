@@ -259,6 +259,34 @@ describe User do
     end
   end
 
+  it "should have friends" do
+    # make u1 have u2 and u3 as friends, and set up project gifts and funded amounts
+    u1 = Factory(:user)
+    u2 = Factory(:user)
+    u3 = Factory(:user)
+    p = Factory(:project, :lives_affected => 20)
+    friend_u1_u2 = Factory(:friendship, :user => u1, :friend => u2, :status => true)
+    friend_u1_u3 = Factory(:friendship, :user => u1, :friend => u3, :status => true)
+
+    # set up data for the first friend
+    o = Factory(:order, :user => u2)
+    Factory(:gift, :user => u2, :order => o, :project => p, :amount => 200)
+    Factory(:order, :user => u2, :gift_card_payment_id => "12345")
+    Factory(:investment, :user => u2, :project => p, :amount => 125)
+   
+    # set up data for the second friend
+    o = Factory(:order, :user => u3)
+    Factory(:gift, :user => u3, :order => o, :project => p, :amount => 50)
+    Factory(:order, :user => u3, :gift_card_payment_id => "12345")
+    Factory(:investment, :user => u3, :project => p, :amount => 100)
+ 
+    u1.friends_gifts_given_count.should == 2
+    u1.friends_gifts_given_amount.should == 250.0
+    u1.friends_gifts_received.should == 2
+    u1.friends_projects_funded.should == 2
+    u1.friends_projects_amount_funded.should == 225
+    u1.friends_projects_lives_affected.should == 40
+  end
 
   def create_user(options = {})
     user = Factory.build(:user, { :login => 'login@example.com', :first_name => 'FirstName', :last_name => 'LastName', :display_name => 'DisplayName', :address => '4320 15 st', :city => 'Calgary', :province => 'Alberta', :country => 'Canada', :postal_code => 'T2T4B2', :remember_token => 'test', :remember_token_expires_at => 1.week.from_now, :activation_code => 'code', :activated_at => 1.year.ago, :last_logged_in_at => 1.month.ago }.merge(options))
