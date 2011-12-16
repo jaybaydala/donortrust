@@ -15,6 +15,7 @@
   <%= f.semantic_errors :email, :email_confirmation, :to_email, :to_email_confirmation, :amount, :send_at %>
   
   <% f.inputs 'Your Information' do %>
+    <li><p>Giving a lot of gifts? Try our <%= link_to "bulk gifting form", new_dt_bulk_gift_path(:project_id => params[:project_id]) %>.</p></li>
     <%= f.input :name %>
     <%= f.input :email, :label => "Email", :as => :email %>
     <%= f.input :email_confirmation, :label => "Retype Email", :as => :email %>
