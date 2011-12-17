@@ -8,6 +8,6 @@
       <%= hidden_field_tag("search[#{field}]", value) %>
     <% end %>
   <% end %>
-  <%= text_field_tag("search[search_text]") %>
+  <%= text_field_tag("search[search_text]", @search_text) %>
   <%= submit_tag("Search") %>
 <% end %>
