@@ -14,7 +14,7 @@ private
 	def lookup_country_code_by_ip_address
 		Rails.logger.info "Looking up location for ip: #{ip_address}"
 		location = Geokit::Geocoders::MultiGeocoder.geocode(ip_address)
-		self.country_code = location.try(:country_code)
+		self.country_code = location.try(:country_code) || 'CA' # Defaults to Canada
 	end
 
 end

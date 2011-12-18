@@ -7,17 +7,31 @@ class DtApplicationController < ActionController::Base
   include DtAuthenticatedSystem
   include ExceptionNotifiable
   helper_method :ssl_available?
+  helper_method :country_code
 
   # http auth for staging
   before_filter :authenticate_via_http
   # "remember me" functionality
   before_filter :login_from_cookie, :ssl_filter
   before_filter :new_feedback
+  before_filter :country_code
   
   # Pick a unique cookie name to distinguish our session data from others'
   # session :session_key => '_donortrustfe_session_id'
   
   protected
+
+    def country_code
+      if( session[:country_code].nil? || request.remote_ip != session[:country_code_ip] )
+        session[:country_code] = Geolocation.lookup(request.remote_ip)
+        session[:country_code_ip] = request.remote_ip
+        Rails.logger.debug "Session country code lookup: #{session[:country_code]}"
+      else
+        Rails.logger.debug "Session country code still valid: #{session[:country_code]}"
+      end
+      session[:country_code]
+    end
+
     def authenticate_via_http
       if Rails.env.staging?
         authenticate_or_request_with_http_basic do |username, password|
