@@ -1,7 +1,7 @@
 <li class="term">
   <%- if facet == :search_text %>
     <%= link_to search_term, dt_projects_path(:search => search_query_without_text(facet, search_term)) %>
-  <%- elsif [:sector_ids, :partner_id, :country_id].include?(facet) -%>
+  <%- elsif [:sector_ids, :partner_id, :country_id, :project_status_id].include?(facet) -%>
     <%= link_to "#{search_term.name}", dt_projects_path(:search => search_query_without_term(facet, search_term.id)) %>
   <%- else -%>
     <%= link_to "#{number_to_currency(search_term.first, :precision => 0)} - #{number_to_currency(search_term.last, :precision => 0)}", dt_projects_path(:search => search_query_without_term(facet, search_term.join(','))) %>
