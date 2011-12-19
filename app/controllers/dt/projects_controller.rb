@@ -9,19 +9,23 @@ class Dt::ProjectsController < DtApplicationController
   helper_method :search_query_only_with_term
   helper_method :search_query_with_term
   helper_method :search_query_without_term
+  helper_method :search_query_without_text
   layout "projects"
-  
+
   @monkey_patch_flag = false
 
   def index
     if params[:search].blank?
       @projects = Project.current.paginate(:conditions => { :featured => true }, :page => params[:page], :per_page => 18)
       @projects = Project.current.paginate(:limit => 3, :order => 'RAND()', :page => params[:page], :per_page => 18) if @projects.size == 0
+      @search_text = ""
     else
-      @projects = Project.search :with => search_query_prepared, 
-        :page     => params[:page], 
-        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i), 
-        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym), 
+      @search_text = params[:search][:search_text].present? ? params[:search][:search_text] : ""
+      @projects = Project.search @search_text,
+        :with => search_query_prepared,
+        :page     => params[:page],
+        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
+        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym),
         :populate => true
     end
     respond_to do |format|
@@ -197,6 +201,7 @@ class Dt::ProjectsController < DtApplicationController
     def search_records
       if @search_records.nil?
         @search_records = {}
+        @search_records[:search_text] = [params[:search][:search_text]] if params[:search][:search_text].present?
         search_query.each do |facet, terms|
           facet = facet.to_sym
           case facet
@@ -222,6 +227,9 @@ class Dt::ProjectsController < DtApplicationController
         search_query[term] ||= []
         search_query[term].uniq!
       end
+      if search_query[:search_text].present?
+        search_query.delete(:search_text)
+      end
       search_query
     end
 
@@ -229,7 +237,10 @@ class Dt::ProjectsController < DtApplicationController
       search_query_prepared = search_query.delete_if{|f,t| t.blank? }
       if search_query_prepared[:total_cost].present?
         total_costs = search_query_prepared[:total_cost].map{|t| t.split(',') }.flatten.map(&:to_i)
-        search_query_prepared[:total_cost] = (total_costs.min..total_costs.max) 
+        search_query_prepared[:total_cost] = (total_costs.min..total_costs.max)
+      end
+      if search_query_prepared[:search_text].present?
+        search_query_prepared.delete(:search_text)
       end
       search_query_prepared
     end
@@ -238,11 +249,16 @@ class Dt::ProjectsController < DtApplicationController
       { facet.to_sym => [ term ] }
     end
 
-    def search_query_with_term(facet, term)
+    def search_query_with_term(facet, term, options = {})
+      search_options = {:with_text => false}
+      search_options.merge! options
       facet = facet.to_sym
       query = self.search_query
       query[facet] << term unless query[facet].include?(term.to_s)
       query.delete_if{|f,t| t.blank? }
+      if search_options[:with_text] && params[:search].present? && params[:search][:search_text].present?
+        query[:search_text] = params[:search][:search_text]
+      end
       query
     end
 
@@ -250,6 +266,13 @@ class Dt::ProjectsController < DtApplicationController
       query = self.search_query
       query[facet.to_sym].delete(term.to_s)
       query.delete_if{|f,t| t.blank? }
+      query
+    end
+
+    def search_query_without_text(facet, term)
+      query = self.search_query
+      query.delete(facet)
+      query.delete_if{|f, t| t.blank?}
       query
     end
 
