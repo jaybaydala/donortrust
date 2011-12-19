@@ -25,6 +25,7 @@ end
 
 every 1.month do
   runner 'Subscription.notify_impending_card_expirations'
+  runner 'Geolocation.expire_cache'
 end
 
 every 1.day, :at => '3:50am' do
