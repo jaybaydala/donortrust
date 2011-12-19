@@ -9,6 +9,10 @@ class Geolocation < ActiveRecord::Base
 		geo.try(:country_code)
 	end
 
+	def self.expire_cache
+		Geolocation.delete_all(["created_at >= :expiry", {:expiry => 30.days.ago}])
+	end
+
 private
 
 	def lookup_country_code_by_ip_address
