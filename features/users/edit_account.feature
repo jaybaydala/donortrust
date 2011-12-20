@@ -7,7 +7,7 @@ Feature: Edit Account
     Given I am an authenticated user
     And there is a poverty sector "Good Cause"
 
-  Scenario: Individual Name
+  Scenario: Individual Name (Default)
 	Given I go to my iend user page
 	And I follow "Edit Account"
 	And I fill in "First name" with "John"
@@ -16,3 +16,12 @@ Feature: Edit Account
 	Then I should be on my iend user page
 	And I should see "John"
 	And I should see "Doe"
+
+  Scenario: Group Name
+	Given I go to my iend user page
+	And I follow "Edit Account"
+	And I choose "Group" 
+	And I fill in "Group name" with "Huge Humongous Inc."
+	When I submit the user form
+	Then I should be on my iend user page
+	And I should see "Huge Humongous Inc."
