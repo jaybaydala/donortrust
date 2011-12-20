@@ -16,8 +16,12 @@
         "You must enter a display name that will be used to identify you on our website. You may also choose to give us your first and last name which will be used to personalize our communication with you."
       end
     %>
-    <%= f.input :first_name unless @user.under_thirteen? %>
-    <%= f.input :last_name unless @user.under_thirteen? %>
+
+<%- unless @user.under_thirteen? -%>
+    <%= f.input :group, :as => :radio, :label => "Individual or Group?", :collection => {"Individual" => false, "Group" => true} unless @user.under_thirteen? %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+<%- end -%>
     <%= f.input :display_name, :hint => display_name_note %>
     <%= f.input :country, :collection => country_select_options %>
     <%= f.input :image, :as => :file %>
