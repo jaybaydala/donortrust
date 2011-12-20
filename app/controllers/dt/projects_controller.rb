@@ -190,10 +190,8 @@ class Dt::ProjectsController < DtApplicationController
 
   def like
     @project = Project.find(params[:id])
-    # @project.like
-    # Do we need to store the social network (Google Plus or Facebook) as well? 
-    # render :json => @project
-    head :ok
+    params[:like] == "true" ? @project.like(params[:network], @current_user) : @project.unlike(params[:network], @current_user)
+    render :json => {:likes_count => @project.likes_count}
   end
 
   protected
