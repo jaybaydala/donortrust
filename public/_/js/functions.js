@@ -92,7 +92,29 @@ $(document).ready(function (){
 
   // FB Invite Friends
   $("#fb-invite_friends").click(function() { sendRequestViaMultiFriendSelector(); });
+
+  // Account Edit individual/group radio button events
+  account_name_display($('#user_group_input input[type=radio]:checked').attr('id'));
+  $('#user_group_input input[type=radio]').change(function(){
+    account_name_display($(this).attr('id'));
+  });
+
 });
+
+// Update Account Edit name fields depending on individual or group selection
+// radio_id is either user_group_true or user_group_false
+function account_name_display(radio_id){
+  if(radio_id == 'user_group_true'){
+    $('#user_last_name_input').hide();
+    $('#user_first_name_input label').html('Group name');
+    $('#user_last_name').val('');
+  }
+  else{
+    $('#user_last_name_input').show();
+    $('#user_first_name_input label').html('First name');
+  }
+  // alert(radio_id);
+}
 
 /* optional triggers
 $(window).load(function() {

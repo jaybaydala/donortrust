@@ -21,7 +21,7 @@ Feature: Edit Account
 	Given I go to my iend user page
 	And I follow "Edit Account"
 	And I choose "Group" 
-	And I fill in "Group name" with "Huge Humongous Inc."
+	And I fill in "First name" with "Huge Humongous Inc."
 	When I submit the user form
 	Then I should be on my iend user page
 	And I should see "Huge Humongous Inc."
