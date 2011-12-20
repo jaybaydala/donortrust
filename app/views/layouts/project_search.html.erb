@@ -34,11 +34,19 @@
   <div class="container prepend-top">
     <aside class="span-3" id="project-filters">
       <h2 class="plain border-bottom">Choose</h2>
+      <%= render :partial => "search_text" %>
+      <div class="project-filter">
+        ACTIVE/COMPLETED
+        <ul>
+          <li><%= link_to "Active (#{Project.search_count(:with => search_query_with_term_one_option(:project_status_id, 2))})", dt_projects_path(:search => search_query_with_term_one_option(:project_status_id, 2)) %></li>
+          <li><%= link_to "Completed (#{Project.search_count(:with => search_query_with_term_one_option(:project_status_id, 4))})", dt_projects_path(:search => search_query_with_term_one_option(:project_status_id, 4)) %></li>
+        </ul>
+      </div>
       <div class="project-filter">
         CAUSE/SECTOR
         <ul>
           <% Sector.with_active_projects.ordered_desc_by_projects.each do |sector| %>
-            <li><%= link_to "#{sector.name} (#{Project.search_count(:with => search_query_with_term(:sector_ids, sector.id))})", dt_projects_path(:search => search_query_with_term(:sector_ids, sector.id)) %></li>
+            <li><%= link_to "#{sector.name} (#{Project.search_count(@search_text, :with => search_query_with_term(:sector_ids, sector.id))})", dt_projects_path(:search => search_query_with_term(:sector_ids, sector.id, {:with_text => true})) %></li>
           <% end %>
         </ul>
       </div>
@@ -46,7 +54,7 @@
         LOCATION
         <ul class="limit-height">
           <% Place.discluding_canada.countries_with_active_projects.sort_by{|place| place.country_projects.count }.reverse.each do |country| %>
-            <li><%= link_to "#{country.name} (#{Project.search_count(:with => search_query_with_term(:country_id, country.id))})", dt_projects_path(:search => search_query_with_term(:country_id, country.id)) %></li>
+            <li><%= link_to "#{country.name} (#{Project.search_count(@search_text, :with => search_query_with_term(:country_id, country.id))})", dt_projects_path(:search => search_query_with_term(:country_id, country.id, {:with_text => true})) %></li>
           <% end %>
         </ul>
       </div>
@@ -54,7 +62,7 @@
         PARTNER
         <ul class="limit-height">
           <% Partner.with_active_projects.all(:order => "name").each do |partner| %>
-            <li><%= link_to "#{partner.name} (#{Project.search_count(:with => search_query_only_with_term(:partner_id, partner.id))})", dt_projects_path(:search => search_query_with_term(:partner_id, partner.id)) %></li>
+            <li><%= link_to "#{partner.name} (#{Project.search_count(@search_text, :with => search_query_only_with_term(:partner_id, partner.id))})", dt_projects_path(:search => search_query_with_term(:partner_id, partner.id, {:with_text => true})) %></li>
           <% end %>
         </ul>
       </div>
@@ -62,14 +70,14 @@
         TOTAL COST
         <ul>
           <% [[0, 5000], [5001, 10000], [10001, 15000], [15001, 20000], [20001, 50000], [50001, 100000], [100001, 500000]].each do |range| %>
-            <li><%= link_to "#{number_to_currency(range.first, :precision => 0)} - #{number_to_currency(range.last, :precision => 0)} (#{ Project.search_count(:with => search_query_with_term(:total_cost, range)) })", dt_projects_path(:search => search_query_with_term(:total_cost, range.join(','))) %></li>
+            <li><%= link_to "#{number_to_currency(range.first, :precision => 0)} - #{number_to_currency(range.last, :precision => 0)} (#{ Project.search_count(@search_text, :with => search_query_with_term(:total_cost, range)) })", dt_projects_path(:search => search_query_with_term(:total_cost, range.join(','), {:with_text => true})) %></li>
           <% end %>
         </ul>
       </div>
     </aside>
     <article class="span-12">
       <%= content_tag(:h1, yield(:title), :class => "clearfix") if show_title? && content_for?(:title) %>
-      
+
       <% if params[:search].present? %>
       <div id="project-search-summary" class="border-bottom clearfix">
         <% form_tag dt_projects_url, :method => :get, :id => "project_search_tools" do %>
