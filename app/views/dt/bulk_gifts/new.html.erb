@@ -11,20 +11,18 @@
   </div>
 <% end %>
 
-<% semantic_form_for [:dt, @gift], :html => { :id => "giftform" } do |f| %>
-  <%= f.semantic_errors :email, :email_confirmation, :to_email, :to_email_confirmation, :amount, :send_at %>
-  
+<% semantic_form_for [:dt, @gift], :url => dt_bulk_gifts_path, :html => { :id => "giftform" } do |f| %>
+  <%= f.semantic_errors :email, :email_confirmation, :to_emails, :amount, :send_at %>
+
   <% f.inputs 'Your Information' do %>
-    <li><p>Giving a lot of gifts? Try our <%= link_to "bulk gifting form", new_dt_bulk_gift_path(:project_id => params[:project_id]) %>.</p></li>
+    <li><p>Just giving one gift? Use our <%= link_to "individual gift form", new_dt_gift_path(:project_id => params[:project_id]) %>.</p></li>
     <%= f.input :name %>
     <%= f.input :email, :label => "Email", :as => :email %>
     <%= f.input :email_confirmation, :label => "Retype Email", :as => :email %>
   <% end %>
 
-  <% f.inputs "Recipient's Information" do %>
-    <%= f.input :to_name, :label => "Name" %>
-    <%= f.input :to_email, :label => "Email", :as => :email %>
-    <%= f.input :to_email_confirmation, :label => "Retype Email", :as => :email %>
+  <% f.inputs "Recipients' Information" do %>
+    <%= f.input :to_emails, :label => "Email Addresses", :hint => "Add each email on a separate line", :as => :text %>
   <% end %>
 
   <% f.inputs "Gift Details" do %>
@@ -44,7 +42,7 @@
         </div>
         <div class="span-7" id="e_card-selection">
           <p style="padding-bottom:8px;">
-            <img src="/images/nav/arrow-back.png" width="13" height="15" alt="" style="vertical-align:bottom;"> 
+            <img src="/images/nav/arrow-back.png" width="13" height="15" alt="" style="vertical-align:bottom;">
             This is the image selected to appear on your card.
           </p>
           <% @ecards.each do |ecard| %>
@@ -54,7 +52,7 @@
       </div>
     </li>
     <%# use this for the character counter - $("#gift_message + p.inline-hints span.count") %>
-    <%= f.input :message, :label => 'Type your personal message to the recipient.', :hint => raw('<span id="gift_message_count"></span>') %>
+    <%= f.input :message, :label => 'Type your personal message to the recipients.', :hint => raw('<span id="gift_message_count"></span>') %>
     <li>
       <div class="buttons">
         <%= link_to "preview", preview_dt_gifts_path, :class => "bigbutton", :id => "gift_preview", :target => "_blank" %>
@@ -63,29 +61,29 @@
   <% end %>
 
   <% f.inputs "Gift Delivery" do %>
-    <%= f.input :notify_giver, :label => "Let me know when this gift is used" %>
+    <%= f.input :notify_giver, :label => "Let me know when these gifts are used" %>
     <li class="radio">
       <fieldset>
         <ol style="padding-left:0;width:auto;">
-          <li><label for="gift_send_email_now"><%= f.radio_button :send_email, "now" %> Email my gift right away</label></li>
+          <li><label for="gift_send_email_now"><%= f.radio_button :send_email, "now" %> Email my gifts right away</label></li>
           <li>
             <label for="gift_send_email_true"><%= f.radio_button :send_email, true %> Schedule my gift delivery</label>
           </li>
           <li>
             <div class="indent">
-              <p class="inline-hint">Select a date &amp; time to send your gift ecard.</p>
-              <%= f.datetime_select :send_at, 
-                :order          => [:month, :day, :year, :hour, :minute], 
-                :start_year     => Time.now.year, 
-                :end_year       => Time.now.year+1, 
-                :discard_second => true, 
+              <p class="inline-hint">Select a date &amp; time to send your gift ecards.</p>
+              <%= f.datetime_select :send_at,
+                :order          => [:month, :day, :year, :hour, :minute],
+                :start_year     => Time.now.year,
+                :end_year       => Time.now.year+1,
+                :discard_second => true,
                 :minute_step    => 30,
                 :default        => 1.hour.from_now,
                 :include_blank  => true %><br>
               <%= select_tag :time_zone, time_zone_options_for_select(Time.zone.name, ActiveSupport::TimeZone.us_zones) %>
             </div>
           </li>
-          <li><label for="gift_send_email_false"><%= f.radio_button :send_email, false %> Don't email my gift <div class="indent">(I'll print and deliver the card myself)</div></label></li>
+          <li><label for="gift_send_email_false"><%= f.radio_button :send_email, false %> Don't email my gifts <div class="indent">(I'll print and deliver them myself)</div></label></li>
         </ol>
       </fieldset>
     </li>

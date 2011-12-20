@@ -7,6 +7,14 @@
 <h1>Getting Started</h1>
 <p class="border-bottom">The following is a quick guide to get you started so you can make the most of your experience.</p>
 
+<section class="iend clearfix border-bottom" style="margin-top:16px;">
+  <div class="span-5 center">
+    <%= image_tag 'iend/icon-friends.png', :alt => '' %>
+  </div>
+  <div class="span-9 serif last">
+    <%= render "invite_friends" %>
+  </div>
+</section>
 
 <section class="iend clearfix border-bottom" style="margin-top:16px;">
   <div class="span-5 center">
@@ -14,7 +22,7 @@
   </div>
   <div class="span-9 serif last">
     <h2>Complete your profile</h2>
-    <div class="medium"><%= content_snippet_for(:complete_your_profile) %></div>
+    <div class="medium"><%= unformatted_content_snippet_for(:complete_your_profile) %></div>
   </div>
 </section>
 
@@ -24,17 +32,6 @@
   </div>
   <div class="span-9 serif last">
     <h2>Select a Cause or Project</h2>
-    <div class="medium"><%= content_snippet_for(:select_a_cause) %></div>
+    <div class="medium"><%= unformatted_content_snippet_for(:select_a_cause) %></div>
   </div>
 </section>
-
-<section class="iend clearfix border-bottom" style="margin-top:16px;">
-  <div class="span-5 center">
-    <%= image_tag 'iend/icon-select_cause.png', :alt => '' %>
-  </div>
-  <div class="span-9 serif last">
-    <%= render "invite_friends" %>
-  </div>
-</section>
-
-

@@ -68,6 +68,7 @@ class Project < ActiveRecord::Base
     indexes partner(:name), :as => :partner_name
     indexes country(:name), :as => :country_name
     indexes sectors(:name), :as => :sector_name
+    indexes project_status(:name), :as => :project_status
 
     # attributes
     has :id, :as => :project_id
@@ -82,6 +83,8 @@ class Project < ActiveRecord::Base
     has partner(:id),   :as => :partner_id
     has partner(:name), :as => :partner_name
     has partner(:name), :as => :partner_name_sort
+    has project_status(:id), :as => :project_status_id
+    has project_status(:name), :as => :project_status_name
     has "CAST(total_cost AS UNSIGNED)", :type => :integer, :as => :total_cost
     
     # global conditions
