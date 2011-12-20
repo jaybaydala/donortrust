@@ -130,8 +130,8 @@ footer a:active { text-decoration:underline; }
 #projects .project-quick-give a,
 #projects .project-organization a { color:#06C; }
 #projects .project-quick-give a { color:#FFF; }
-.project-like { margin:0 12px 12px 12px; }
-.project-like a { color:#999; text-decoration:none; }
+.project-like { float: right; margin:0 12px 12px 0px; }
+.project-like a { color:#999; text-decoration:none; font-size: 14px; cursor: pointer; }
 .project-like img { vertical-align:bottom; }
 #projects .project-progress-bar { border:1px solid #CCC; height:8px; margin:0 0 4px 0; position:relative; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 #projects .project-progress-fg { background:#C00; height:8px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:4px; -webkit-border-bottom-left-radius:4px; -moz-border-radius-topleft:4px; -moz-border-radius-bottomleft:4px; border-top-left-radius:4px; border-bottom-left-radius:4px; }
