@@ -17,9 +17,13 @@ module Likeable
     likes.count
   end
 
-  # handle facebook and google plus unlikes 
-  def unlike(network)
-    like = likes.find(:last, :conditions => {:network => network})
+  def unlike(network, user)
+    if user
+      like = likes.find(:last, :conditions => {:network => network, :user_id => user.id})
+    else
+      # anonymous likes
+      like = likes.find(:last, :conditions => {:network => network})
+    end
     like.destroy if like
   end
 
