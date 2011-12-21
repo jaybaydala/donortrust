@@ -51,7 +51,7 @@
 
 <% if @gift.preview %><div style="text-align:center;"><a href="javascript:window.close();">Close Window</a></div><% end %>
 
-<% if @gift.message? %><p><%=h @gift.message %></p><% end %>
+<% if @gift.message? %><p><%=h(@gift.message).gsub("\n", "<br>\n") %></p><% end %>
 <p>From: <%=h @gift.name? ? @gift.name : @gift.email %></p>
 <hr />
 
