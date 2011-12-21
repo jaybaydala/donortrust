@@ -51,9 +51,18 @@
 				<label for="project_short_description" class="title">
 					Short description
 					<small>Short description which will be displayed in search results. <strong>Up to <span id="remLen">255</span> characters left</strong> </small>
-				</label>				
+				</label>
 				<%= f.text_area :short_description, :rows => 4, :cols => 72, :limit => 255, :onkeydown => 'textCounter(this, "remLen", 255)', :onkeyup => 'textCounter(this, "remLen", 255)' %>
         <br>
+			</li>
+			<li>
+				<label class="title">Viewable In:</label>
+				<div class="group">
+					<span>
+						<label for="project_ca">Canada<%= f.check_box :ca %></label>
+						<label for="project_us">United States<%= f.check_box :us %></label>
+					</span>
+				</div>
 			</li>
 		</ul>
 
