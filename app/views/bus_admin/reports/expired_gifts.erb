@@ -30,7 +30,7 @@ FasterCSV.generate do |csv|
     data << gift.send_at
     data << gift.sent_at
     data << gift.user_id
-    data << (gift.user_id? && gift.user ? gift.user.name : "")
+    data << (gift.user_id? && gift.user ? gift.user.full_name : "")
     data << gift.order_id
     data << gift.notify_giver
     data << number_to_currency(gift.balance)

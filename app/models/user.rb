@@ -268,7 +268,7 @@ class User < ActiveRecord::Base
   end
   
   def full_email_address
-    "\"#{name}\" <#{email}>"
+    "\"#{full_name}\" <#{email}>"
   end
 
   # Activates the user in the database.
