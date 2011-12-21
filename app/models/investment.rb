@@ -61,7 +61,7 @@ class Investment < ActiveRecord::Base
 
   def name
     if self.user.present?
-      self.user.name
+      self.user.full_name
     elsif self.order.present?
       self.order.name
     end

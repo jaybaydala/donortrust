@@ -56,7 +56,7 @@ class Dt::Groups::MembershipsController < DtApplicationController
     respond_to do |format|
       if @destroyed
         flash[:notice] = 'You have left the group' if current_user.id == @membership.user.id
-        flash[:notice] = "You have removed #{@membership.user.name} from the group" if @destroyed && current_user.id != @membership.user.id
+        flash[:notice] = "You have removed #{@membership.user.full_name} from the group" if @destroyed && current_user.id != @membership.user.id
       end
       format.html { redirect_to dt_group_memberships_path(@group) }
     end
@@ -68,9 +68,9 @@ class Dt::Groups::MembershipsController < DtApplicationController
     @promoted = @membership.update_attributes(:membership_type => Membership.admin) unless @membership.founder?
     respond_to do |format|
       if @promoted
-        flash[:notice] = "#{@membership.user.name} was successfully promoted to Admin."
+        flash[:notice] = "#{@membership.user.full_name} was successfully promoted to Admin."
       else
-        flash[:notice] = "#{@membership.user.name} could not be promoted to Admin."
+        flash[:notice] = "#{@membership.user.full_name} could not be promoted to Admin."
       end
       format.html { redirect_to dt_memberships_path(@group) }
     end    
@@ -83,12 +83,12 @@ class Dt::Groups::MembershipsController < DtApplicationController
     respond_to do |format|
       if @demoted
         format.html {
-          flash[:notice] = "#{@membership.user.name} was successfully demoted to regular membership."
+          flash[:notice] = "#{@membership.user.full_name} was successfully demoted to regular membership."
           redirect_to dt_memberships_path(@group) 
         }
       else
         format.html {
-          flash[:notice] = "#{@membership.user.name} could not be demoted to regular membership."
+          flash[:notice] = "#{@membership.user.full_name} could not be demoted to regular membership."
           redirect_to dt_memberships_path(@group) 
         }
       end

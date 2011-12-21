@@ -173,7 +173,7 @@ class Dt::ParticipantsController < DtApplicationController
           current_user.update_attributes(:last_logged_in_at => Time.now)
           session[:tmp_user] = nil
           cookies[:login_id] = self.current_user.id.to_s
-          cookies[:login_name] = self.current_user.name
+          cookies[:login_name] = self.current_user.full_name
           
           # Update the profile's instead of the participant's short name
           unless @participant.short_name.blank?

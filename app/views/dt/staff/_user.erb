@@ -17,7 +17,7 @@ staff_user = user[:user]
       <div class="user_picture_normal"><%= image_tag("/images/dt/icons/users/normal/tbd.png") %></div>
     <%- else -%>
       <div class="user_details">
-        <div class="user_name"><%= staff_user.name %></div>
+        <div class="user_name"><%= staff_user.full_name %></div>
         <div class="user_title"><%= staff_user.title %></div>
         <div class="user_bio"><%= RedCloth.new(sanitize(staff_user.bio)).to_html if staff_user.bio %></div>
         <%- if staff_user.twitter -%>
