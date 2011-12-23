@@ -4,13 +4,12 @@
       $(".like_project").live("click", function(){
         var elem = $(this);
         var id = elem.attr("id");
-        var like_url = "projects/" + id + "/like";
+        var like_url = "<%= root_url %>" + "dt/projects/" + id + "/like";
         $.post(
             like_url, 
             { like: 'true', network: 'local'},         
             function(data){
               elem.find(".likes_count").html(data['likes_count']);
-              elem.effect('highlight', {}, 5000);
             }
         );
       });
