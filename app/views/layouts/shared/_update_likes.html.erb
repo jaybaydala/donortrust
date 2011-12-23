@@ -21,7 +21,8 @@
 
       // Post the like data to project's like url
       var post_like_data = function(url, network, state){
-          $.post('http://127.0.0.1:3000/dt/projects/65/like', {network: network, like: state},
+        var like_url = "<%= root_url %>" + "dt/projects/" + "<%= @project.id %>" + "/like";
+        $.post( like_url, {network: network, like: state},
               function(data){
                 // data = project.to_json
                 // update total counter
