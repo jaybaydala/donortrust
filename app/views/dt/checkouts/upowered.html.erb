@@ -9,6 +9,11 @@
 <% html_title("Checkout") %>
 <%= checkout_nav %>
 
+<p>
+  If you wish to support UEnd directly on a monthly basis, you can do so by signing up for U:Powered. If you wouldn't like to do that, simply select "no thanks" and carry on.
+</p>
+
+
 <div class="span-8 append-1">
   <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => ( @order.new_record? ? :post : :put )}) do |f| %>
     <%= f.semantic_errors :order %>

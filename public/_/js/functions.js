@@ -40,7 +40,7 @@ $(document).ready(function (){
     height: 550,
     width: 620,
     href: function() {
-      return $(this).attr("href") + '?' + $(this).closest("form").serialize();
+      return $(this).attr("href") + '?' + $(this).closest("form :input[id!='gift_to_emails']").serialize();
     }
   });
 
