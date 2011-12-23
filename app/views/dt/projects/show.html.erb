@@ -9,7 +9,7 @@
 <%= render :partial => 'project_details' %>
 
 <div class="project-description">
-  <%#= render 'project_images' %>
+  <%= render 'project_images' %>
   
   <div class="project-description">
     <%= @project.description %>
@@ -37,8 +37,6 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <p id="FB_like"><fb:like href="http://jigarpatel.in" send="false" notify="true" layout="box_count" show_faces="false"></fb:like></p>
-  <p id="GooglePlus"><g:plusone href="http://example.com" size="small" count="true" callback="update_google_plus"></p>
   <dl class="sidebar_user_search">
     <dt>Who else?</dt>
       <dd><%= link_to "Find users who have funded this project", iend_users_path(:project => @project) %></dd>
@@ -46,3 +44,20 @@
   </dl>
 <% end %>
 
+<% content_for :like_buttons do %>
+  <div style="float:right">
+    <table style="margin: 0px;">
+      <tr>
+        <td>
+          Share this project: 
+        </td>
+        <td>
+          <g:plusone href="<%= dt_project_url(@project)%>" size="medium" count="true" callback="update_google_plus">
+        </td>
+        <td>
+          <fb:like href="<%= dt_project_url(@project)%>" send="false" notify="true" layout="button_count" show_faces="false"></fb:like>
+        </td>
+      </tr>
+    </table>
+  </div>
+<% end %>
