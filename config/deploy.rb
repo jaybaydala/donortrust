@@ -7,8 +7,6 @@ require "rvm/capistrano" # Load RVM's capistrano plugin.
 # bundler setup
 set :bundle_without, [:development, :test, :cucumber]
 require "bundler/capistrano"
-# thinking_sphinx setup
-require 'thinking_sphinx/deploy/capistrano'
 
 set :application, "donortrust"
 
@@ -34,15 +32,57 @@ set :group, "users"
 
 after "deploy:update_code" do
   deploy.link_configs
-  thinking_sphinx.symlink_sphinx_indexes
+  thinking_sphinx.shared_sphinx_folder
+  before = Time.now
   thinking_sphinx.restart
+  puts '====================================='
+  puts Time.now - before
+  puts '====================================='
 end
 after "deploy:symlink", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
 after "deploy:restart", "deploy:cleanup"
 
 namespace :thinking_sphinx do
-  task :symlink_sphinx_indexes, :roles => :app do
+  desc "Generate the Sphinx configuration file"
+  task :configure do
+    rake "thinking_sphinx:configure"
+  end
+
+  desc "Index data"
+  task :index do
+    rake "thinking_sphinx:index"
+  end
+
+  desc "Stop and then start the Sphinx daemon - overwrite the provided task for faster deploy"
+  task :restart do
+    rake ["thinking_sphinx:stop", "thinking_sphinx:configure", "thinking_sphinx:start"]
+  end
+
+  desc "Stop, re-index and then start the Sphinx daemon"
+  task :rebuild do
+    rake ["thinking_sphinx:stop", "thinking_sphinx:configure", "thinking_sphinx:index", "thinking_sphinx:start"]
+  end
+
+  desc "Start the Sphinx daemon"
+  task :start do
+    rake ["thinking_sphinx:configure", "thinking_sphinx:stop"]
+  end
+
+  desc "Stop the Sphinx daemon"
+  task :stop do
+    rake ["thinking_sphinx:configure", "thinking_sphinx:stop"]
+  end
+
+  desc "Add the shared folder for sphinx files"
+  task :shared_sphinx_folder, :roles => :app do
     run "rm -rf #{latest_release}/db/sphinx && ln -nfs #{shared_path}/sphinx #{latest_release}/db/sphinx"
+  end
+
+  # rewrite this to do multiple rake tasks in a single call
+  def rake(*tasks)
+    rails_env = fetch(:rails_env, "production")
+    rake = fetch(:rake, "rake")
+    run "if [ -d #{release_path} ]; then cd #{release_path}; else cd #{current_path}; fi; #{rake} --trace RAILS_ENV=#{rails_env} #{tasks.join(' ')}"
   end
 end
 
