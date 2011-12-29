@@ -17,4 +17,4 @@ production:
 staging:
   port: 9313
   query_log_file: 
-  stop_timeout: 20
+  stop_timeout: 40
