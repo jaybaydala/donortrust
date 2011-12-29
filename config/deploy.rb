@@ -55,12 +55,12 @@ namespace :thinking_sphinx do
 
   desc "Stop and then start the Sphinx daemon - overwrite the provided task for faster deploy"
   task :restart do
-    rake ["thinking_sphinx:stop", "thinking_sphinx:configure", "thinking_sphinx:start"]
+    rake ["thinking_sphinx:configure", "thinking_sphinx:stop", "thinking_sphinx:start"]
   end
 
   desc "Stop, re-index and then start the Sphinx daemon"
   task :rebuild do
-    rake ["thinking_sphinx:stop", "thinking_sphinx:configure", "thinking_sphinx:index", "thinking_sphinx:start"]
+    rake ["thinking_sphinx:configure", "thinking_sphinx:stop", "thinking_sphinx:index", "thinking_sphinx:start"]
   end
 
   desc "Start the Sphinx daemon"

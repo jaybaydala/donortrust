@@ -1,20 +1,15 @@
 development:
   port: 9312
   query_log_file: 
-  stop_timeout: 8
 test:
   port: 9313
   query_log_file: 
-  stop_timeout: 8
 cucumber:
   port: 9313
   query_log_file: 
-  stop_timeout: 8
 production:
   port: 9312
   query_log_file: 
-  stop_timeout: 8
 staging:
   port: 9313
   query_log_file: 
-  stop_timeout: 20
