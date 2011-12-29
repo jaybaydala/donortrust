@@ -139,7 +139,12 @@ footer a:active { text-decoration:underline; }
 #projects .project-progress-bar { border:1px solid #CCC; height:8px; margin:0 0 4px 0; position:relative; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 #projects .project-progress-fg { background:#C00; height:8px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:4px; -webkit-border-bottom-left-radius:4px; -moz-border-radius-topleft:4px; -moz-border-radius-bottomleft:4px; border-top-left-radius:4px; border-bottom-left-radius:4px; }
 .project-module-bottom { background:#f8f8f8; border-top:1px solid #e0e0e0; bottom:0; color:#666; font-size:10px; height:42px; padding:10px 12px; position:absolute; width:175px;  -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-left-radius:5px; border-bottom-right-radius:5px }
-.project-module .detail { float:left; width:58px; }
+.project-module .detail { float:left; width:40px; }
+.project-module .detail.funded { width:42px; }
+.project-module .detail.total_cost { width:48px; }
+.project-module .detail.gift { width:30px; }
+.project-module .detail.investment { width:40px; }
+
 #project-header { background:#390; position:relative; }
 #project-header a { color:#9CF; text-decoration:none; }
 #project-header .back-to-projects { position:absolute; right:20px; top:0; }
