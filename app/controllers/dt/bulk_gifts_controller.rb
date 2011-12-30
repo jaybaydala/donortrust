@@ -74,6 +74,10 @@ class Dt::BulkGiftsController < DtApplicationController
         load_ecards
         render :action => "new"
       end
+    else
+      load_ecards
+      @gift.errors.add_to_base("Please enter some email addresses to send gift cards to.")
+      render :action => "new"
     end
   end
 
