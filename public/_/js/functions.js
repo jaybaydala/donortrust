@@ -19,21 +19,29 @@ $(document).ready(function (){
     $("#gift_e_card_id").attr("value", $(this).attr("data_id"));
     $("#share_e_card_id").attr("value", $(this).attr("data_id"));
   });
-  $("#gift_preview").click(function(event) {
-    event.preventDefault();
-    var form = $(this).closest("form");
-    if ($("#dialog").length == 0) {
-      $('body').append($('<div id="dialog">').append('<iframe>').hide());
+  // $("#gift_preview").click(function(event) {
+  //   event.preventDefault();
+  //   var form = $(this).closest("form");
+  //   if ($("#dialog").length == 0) {
+  //     $('body').append($('<div id="dialog">').append('<iframe>').hide());
+  //   }
+  //   var href = $(this).attr("href") + '?' + $(form).serialize();
+  //   $('#dialog iframe').attr('src', href);
+  //   $("#dialog").dialog({ 
+  //     width:600, 
+  //     height:450, 
+  //     dialogClass: 'remove_header_class',
+  //     open: function() { $(".remove_header_class .ui-widget-header").removeClass("ui-widget-header"); },
+  //     modal: true
+  //   });
+  // });
+  $("#gift_preview").colorbox({
+    iframe: true,
+    height: 550,
+    width: 620,
+    href: function() {
+      return $(this).attr("href") + '?' + $(this).closest("form :input[id!='gift_to_emails']").serialize();
     }
-    var href = $(this).attr("href") + '?' + $(form).serialize();
-    $('#dialog iframe').attr('src', href);
-    $("#dialog").dialog({ 
-      width:600, 
-      height:450, 
-      dialogClass: 'remove_header_class',
-      open: function() { $(".remove_header_class .ui-widget-header").removeClass("ui-widget-header"); },
-      modal: true
-    });
   });
 
   // login link
@@ -75,7 +83,7 @@ $(document).ready(function (){
   }
 
   // newsletter signup
-  $('a.newsletter_signup_link').colorbox();
+  $('a.newsletter_signup_link, a.colorbox').colorbox();
 
   // simple autogrow
   if ($.fn.autoGrow) {

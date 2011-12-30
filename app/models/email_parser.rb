@@ -6,14 +6,14 @@ class EmailParser
     @remove_dups = remove_dups
     @emails = []
     @errors = []
-    
+
     if file_or_data.is_a? String
       @data = file_or_data
     elsif file_or_data.respond_to?("read")
       @data = file_or_data.read
     end
   end
-  
+
   def parse_upload
     FasterCSV.parse(@data, { :headers => true, :return_headers => false }) do |row|
       begin
@@ -27,14 +27,14 @@ class EmailParser
           @emails << email
         end
       end
-    end  
+    end
     @emails
   end
-  
+
   def parse_list
     @data.split(',').each do |email|
       begin
-        email = TMail::Address.parse(email)      
+        email = TMail::Address.parse(email)
         if valid?(email.address)
           if @remove_dups
             @emails << email unless @emails.detect{|e| e.address == email.address }
@@ -47,8 +47,30 @@ class EmailParser
       rescue TMail::SyntaxError
         @errors << email.strip
       end
-    end  
+    end
     @emails
+  end
+
+  def parse_lines
+    addresses = []
+    @data.split("\n").each do |email|
+      email.strip!
+      begin
+        email = TMail::Address.parse(email)
+        if valid?(email.address)
+          if @remove_dups && !addresses.include?(email.address)
+            addresses << email.address
+            @emails << email
+          else
+            @emails << email
+          end
+        else
+          @errors << email.address.to_s
+        end
+      rescue TMail::SyntaxError
+        @errors << email.strip
+      end
+    end
   end
 
   def self.parse_email(email)
@@ -58,7 +80,7 @@ class EmailParser
       false
     end
   end
-  
+
   private
   def valid?(address)
     unless address.to_s.match(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i)

@@ -51,8 +51,8 @@ class User < ActiveRecord::Base
   end
   has_administrables :model => "Project"
   has_administrables :model => "Partner"
-  has_attached_file :picture, 
-                    :styles => { :tiny => "24x24#", :thumb => "48x48#", :normal=>"72x72#" }, 
+  has_attached_file :picture,
+                    :styles => { :tiny => "24x24#", :thumb => "48x48#", :normal=>"72x72#", :large => "250x250#" },
                     :default_style => :normal,
                     :url => "/images/uploaded_pictures/:attachment/:id/:style/:filename",
                     :default_url => "/images/dt/icons/users/:style/missing.png"
