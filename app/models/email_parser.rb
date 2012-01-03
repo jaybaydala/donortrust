@@ -8,9 +8,9 @@ class EmailParser
     @errors = []
 
     if file_or_data.is_a? String
-      @data = file_or_data
+      @data = file_or_data.strip
     elsif file_or_data.respond_to?("read")
-      @data = file_or_data.read
+      @data = file_or_data.read.strip
     end
   end
 
