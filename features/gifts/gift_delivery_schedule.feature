@@ -18,6 +18,8 @@ Scenario: Gift delivery date now
 	And I press "gift_submit"
 	Then I should be on my cart page
 	And I should see "To: Jeff Carter"
+	And the gift should be scheduled for delivery by email
+	And the gift should be scheduled for delivery today
    
 Scenario: Gift delivery date in the future
 	Given I choose "Schedule my gift delivery"
@@ -25,6 +27,8 @@ Scenario: Gift delivery date in the future
 	And I press "gift_submit"
 	Then I should be on my cart page
 	And I should see "To: Jeff Carter"
+	And the gift should be scheduled for delivery by email
+	And the gift should be scheduled for delivery in the future
    
 Scenario: Gift delivery date in the past
 	Given I choose "Schedule my gift delivery"
@@ -37,3 +41,4 @@ Scenario: Gift delivery without email
 	And I press "gift_submit"
 	Then I should be on my cart page
 	And I should see "To: Jeff Carter"
+	And the gift should not be scheduled for delivery by email
