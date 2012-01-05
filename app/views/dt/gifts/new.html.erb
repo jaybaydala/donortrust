@@ -67,9 +67,9 @@
     <li class="radio">
       <fieldset>
         <ol style="padding-left:0;width:auto;">
-          <li><label for="gift_send_email_now"><%= f.radio_button :send_email, nil %> Email my gift right away</label></li>
+          <li><label for="gift_send_email_now"><%= f.radio_button :send_email, 'now' %> Email my gift right away</label></li>
           <li>
-            <label for="gift_send_email_true"><%= f.radio_button :send_email, true %> Schedule my gift delivery</label>
+            <label for="gift_send_email_true"><%= f.radio_button :send_email, 'yes' %> Schedule my gift delivery</label>
           </li>
           <li>
             <div class="indent">
@@ -85,7 +85,7 @@
               <%= select_tag :time_zone, time_zone_options_for_select(Time.zone.name, ActiveSupport::TimeZone.us_zones) %>
             </div>
           </li>
-          <li><label for="gift_send_email_false"><%= f.radio_button :send_email, false %> Don't email my gift <div class="indent">(I'll print and deliver the card myself)</div></label></li>
+          <li><label for="gift_send_email_false"><%= f.radio_button :send_email, 'no' %> Don't email my gift <div class="indent">(I'll print and deliver the card myself)</div></label></li>
         </ol>
       </fieldset>
     </li>
