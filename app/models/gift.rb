@@ -38,12 +38,10 @@ class Gift < ActiveRecord::Base
   end
   
   def send_email=(val)
-    if val == "now"
-      @send_email_now = true
+    if val == nil
       write_attribute(:send_email, true)
-      self[:send_at] = Time.now + 5.minutes # hit the next send
+      write_attribute(:send_at, Time.now + 5.minutes) # hit the next send
     else
-      @send_email_now = false
       super(val)
     end
   end
@@ -148,7 +146,7 @@ class Gift < ActiveRecord::Base
   end
   
   def validate_on_create
-    errors.add("send_at", "must be in the future") if send_at? && send_at <= Time.now
+    errors.add("send_at", "must be in the future") if send_email? && send_at? && send_at <= Time.now
     super
   end
   
