@@ -10,10 +10,8 @@ class Subscription < ActiveRecord::Base
   # belongs_to :project
   has_many :line_items, :class_name => "SubscriptionLineItem"
   has_many :orders
-  before_create :create_customer
-  before_update :update_customer
-  before_destroy :delete_customer
-  
+  has_many :tax_receipts
+
   validates_presence_of :donor_type, :first_name, :last_name, :address, :city, :province, :postal_code, :country, :email
   validates_format_of :email, :message => "isn't a valid email address", :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validate do |s|
@@ -24,13 +22,78 @@ class Subscription < ActiveRecord::Base
     end
   end
 
+  before_create :create_customer
+  before_update :update_customer
+  before_destroy :delete_customer
+  
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
+  named_scope :tax_receiptable, { :conditions => { :tax_receipt_requested => true } }
 
   attr_accessor :full_card_number
+
+  class << self
+    def notify_impending_card_expirations
+      Subscription.all(:conditions => ['expiry_month = ? AND expiry_year = ?', Date.today.month, Date.today.year]).each do |subscription|
+        DonortrustMailer.deliver_impending_subscription_card_expiration_notice(subscription)
+      end
+    end
+
+    def create_from_order(order)
+      subscription = self.new
+      # billing info
+      subscription.order = order
+      subscription.user = order.user
+      subscription.donor_type = order.donor_type
+      subscription.title = order.title
+      subscription.first_name = order.first_name
+      subscription.last_name = order.last_name
+      subscription.company = order.company
+      subscription.address = order.address
+      subscription.address2 = order.address2
+      subscription.city = order.city
+      subscription.country = order.country
+      subscription.province = order.province
+      subscription.postal_code = order.postal_code
+      subscription.email = order.email
+      # tax receipt
+      subscription.tax_receipt_requested = order.tax_receipt_requested
+      # credit card info
+      subscription.card_number = order.card_number
+      subscription.cvv = order.cvv
+      subscription.expiry_month = order.expiry_month
+      subscription.expiry_year = order.expiry_year
+      # total
+      subscription.amount = order.subscription_item.amount
+      # subscription details
+      subscription.reoccurring_status = false # we will do the reoccurring manually - see config/schedules.rb
+      subscription.begin_date = Date.today
+      subscription.end_date = Date.today + 10.years
+      subscription.schedule_type = "MONTHLY"
+      subscription.schedule_date = Date.today.day
+      # save!
+      subscription.save!
+      # add cart subcription line_item to the line_items
+      subscription_line_item = order.cart.subscription
+      subscription.line_items.create(:item_type => subscription_line_item.item_type, :item_attributes => subscription_line_item.item_attributes)
+      subscription
+    end
+  end
+
+  def billing_address
+    {
+    :first_name   => self.first_name,
+    :last_name    => self.last_name,
+    :address      => self.address,
+    :city         => self.city,
+    :state        => self.province,
+    :zip          => self.postal_code,
+    :country      => self.country
+    }
+  end
+
   def card_number=(number)
     @full_card_number = number
-    write_attribute(:card_number, number) # clears it if it's nil
-    write_attribute(:card_number, number.to_s.rjust(4, " ")[-4, 4].strip) if number # loads it back up if it's not
+    write_attribute(:card_number, (number.present? ? number.to_s.rjust(4, " ")[-4, 4].strip : nil))
   end
   
   def card_number
@@ -38,50 +101,43 @@ class Subscription < ActiveRecord::Base
     read_attribute(:card_number)
   end
 
-  def self.notify_impending_card_expirations
-    Subscription.all(:conditions => ['expiry_month = ? AND expiry_year = ?', Date.today.month, Date.today.year]).each do |subscription|
-      DonortrustMailer.deliver_impending_subscription_card_expiration_notice(subscription)
+  def complete_payment(response, order)
+    if response.success?
+      # order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
+      self.line_items.each do |line_item|
+        item = line_item.item
+        item.order_id = order.id
+        item.save!
+      end
+      order.update_attributes(:complete => true)
+      DonortrustMailer.deliver_subscription_thanks(self)
+    else
+      DonortrustMailer.deliver_subscription_failure(self)
+      raise ActiveMerchant::Billing::Error.new(response.inspect)
     end
   end
 
-  def self.create_from_order(order)
-    subscription = self.new
-    # billing info
-    subscription.order = order
-    subscription.user = order.user
-    subscription.donor_type = order.donor_type
-    subscription.title = order.title
-    subscription.first_name = order.first_name
-    subscription.last_name = order.last_name
-    subscription.company = order.company
-    subscription.address = order.address
-    subscription.address2 = order.address2
-    subscription.city = order.city
-    subscription.country = order.country
-    subscription.province = order.province
-    subscription.postal_code = order.postal_code
-    subscription.email = order.email
-    # tax receipt
-    subscription.tax_receipt_requested = order.tax_receipt_requested
-    # credit card info
-    subscription.card_number = order.card_number
-    subscription.cvv = order.cvv
-    subscription.expiry_month = order.expiry_month
-    subscription.expiry_year = order.expiry_year
-    # total
-    subscription.amount = order.subscription_item.amount
-    # subscription details
-    subscription.reoccurring_status = false # we will do the reoccurring manually - see config/schedules.rb
-    subscription.begin_date = Date.today
-    subscription.end_date = Date.today + 10.years
-    subscription.schedule_type = "MONTHLY"
-    subscription.schedule_date = Date.today.day
-    # save!
-    subscription.save!
-    # add cart subcription line_item to the line_items
-    subscription_line_item = order.cart.subscription
-    subscription.line_items.create(:item_type => subscription_line_item.item_type, :item_attributes => subscription_line_item.item_attributes)
-    subscription
+  def create_yearly_tax_receipt(year = Date.today.year-1, tax_receipt = nil)
+    return unless self.tax_receipt_requested?
+    yearly_total = yearly_tax_receiptable_total(year)
+    return unless yearly_total > 0
+    tax_receipt ||= TaxReceipt.new
+    tax_receipt.tap do |t|
+      t.first_name   = self.first_name
+      t.last_name    = self.last_name
+      t.email        = self.email
+      t.address      = self.address
+      t.city         = self.city
+      t.province     = self.province
+      t.postal_code  = self.postal_code
+      t.country      = self.country
+      t.user_id      = self.user_id
+      t.amount       = yearly_total
+      t.received_on  = Date.civil(year, 12, 31)
+      t.subscription = self
+    end
+    tax_receipt.save
+    tax_receipt.new_record? ? nil : tax_receipt
   end
 
   def credit_card(use_iats=true)
@@ -100,16 +156,23 @@ class Subscription < ActiveRecord::Base
     end
     @credit_card
   end
-  def billing_address
-    {
-    :first_name   => self.first_name,
-    :last_name    => self.last_name,
-    :address      => self.address,
-    :city         => self.city,
-    :state        => self.province,
-    :zip          => self.postal_code,
-    :country      => self.country
-    }
+
+  def end_subscription
+    Subscription.transaction do
+      begin
+        column = self.connection.quote_column_name('end_date')
+        value = self.connection.quote(Date.today.to_s(:db))
+        self.class.update_all("#{column} = #{value}", { :id => self.id })
+        delete_customer
+      rescue ActiveMerchant::Billing::Error => exception
+        return false
+      end
+      true
+    end
+  end
+
+  def orders_for_year(year)
+    self.orders.complete.for_year(year).all
   end
 
   def prepare_order
@@ -142,54 +205,18 @@ class Subscription < ActiveRecord::Base
     logger.debug("purchase_options: #{purchase_options.inspect}")
     response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
     order.update_attributes({:authorization_result => response.authorization}) if response.success?
-    complete_payment(response.success?, order)
+    complete_payment(response, order)
   end
 
-  def complete_payment(successful, order)
-    if successful
-      # order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
-      self.line_items.each do |line_item|
-        item = line_item.item
-        item.order_id = order.id
-        item.save!
-      end
-      order.update_attributes(:complete => true)
-      DonortrustMailer.deliver_subscription_thanks(self)
-    else
-      DonortrustMailer.deliver_subscription_failure(self)
-      raise ActiveMerchant::Billing::Error.new(response.inspect)
+  def yearly_total(year)
+    orders_for_year(year).inject(0) do |sum, order|
+      sum += order.total
     end
   end
 
-  def end_subscription
-    Subscription.transaction do
-      begin
-        column = self.connection.quote_column_name('end_date')
-        value = self.connection.quote(Date.today.to_s(:db))
-        self.class.update_all("#{column} = #{value}", { :id => self.id })
-        delete_customer
-      rescue ActiveMerchant::Billing::Error => exception
-        return false
-      end
-      true
-    end
-  end
-
-  def create_yearly_tax_receipt(year = Date.today.year-1)
-    total = self.orders.all(:conditions => ['created_at LIKE ?', "#{year}%"]).inject(0) do |sum, order|
-      sum += order.tax_receipt_needed? ? order.total : 0
-    end
-    TaxReceipt.create! do |t|
-      t.first_name   = self.first_name
-      t.last_name    = self.last_name
-      t.email        = self.email
-      t.address      = self.address
-      t.city         = self.city
-      t.province     = self.province
-      t.postal_code  = self.postal_code
-      t.country      = self.country
-      t.user_id      = self.user_id
-      t.total        = total
+  def yearly_tax_receiptable_total(year)
+    orders_for_year(year).inject(0) do |sum, order|
+      sum += order.tax_receipt_requested? ? order.total : 0
     end
   end
 
