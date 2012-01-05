@@ -9,6 +9,7 @@ Given /^I have added a \$(\d+) gift to my cart$/ do |amount|
     And I fill in "gift_to_email_confirmation" with "#{to_email}"
     And I fill in "gift_amount" with "#{amount}"
     And I fill in "gift_message" with "#{Faker::Lorem.sentence}"
+    And I choose "Email my gift right away"
     And I press "Add to Cart"
   }
 end
