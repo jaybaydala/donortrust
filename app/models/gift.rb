@@ -43,8 +43,8 @@ class Gift < ActiveRecord::Base
   end
 
   def send_email?
-    return true unless send_email == 'no'
-    false
+    return false if send_email == 'no'
+    true
   end
 
   def adjust_send_at_for_timezone(tz)
@@ -143,10 +143,6 @@ class Gift < ActiveRecord::Base
     errors.add("to_email", "must be a valid email") unless EmailParser.parse_email(to_email) if attribute_present?("to_email")
     errors.add("email", "must be a valid email") unless EmailParser.parse_email(email) if attribute_present?("email")
     errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project_id? && project && amount > project.current_need
-    super
-  end
-  
-  def validate_on_create
     errors.add("send_at", "must be in the future") if send_email? && send_at? && send_at <= Time.now
     super
   end

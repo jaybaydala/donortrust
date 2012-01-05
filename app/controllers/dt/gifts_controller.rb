@@ -113,6 +113,7 @@ class Dt::GiftsController < DtApplicationController
   def edit
     if @cart.items.find(params[:id]).item.kind_of?(Gift)
       @gift = @cart.items.find(params[:id]).item
+      @gift.send_at = 1.hours.from_now if @gift.send_email == 'now' # hacky
       @project = @gift.project if @gift.project_id?
       load_ecards
     end
@@ -126,26 +127,19 @@ class Dt::GiftsController < DtApplicationController
   def update
     if @cart.items.find(params[:id]).item.kind_of?(Gift)
       @gift = @cart.items.find(params[:id]).item
-      begin
-        @gift.attributes = params[:gift]
-        @valid = @gift.valid?
-      rescue ActiveRecord::MultiparameterAssignmentErrors
-        fix_date_params!
-        @gift.attributes = params[:gift]
-        @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
-        @valid = false
-      end
+      @gift.attributes = params[:gift]
       @gift.user_ip_addr = request.remote_ip
     end
     
     respond_to do |format|
       if !@gift
         format.html { redirect_to dt_cart_path }
-      elsif @valid
+      elsif @gift.valid?
         @cart.update_item(params[:id], @gift)
         flash[:notice] = "Your Gift has been updated."
         format.html { redirect_to dt_cart_path }
       else
+        RAILS_DEFAULT_LOGGER.debug('INVALID GIFT! ' + @gift.errors.first.to_s)
         @project = @gift.project if @gift.project_id?
         load_ecards
         format.html { render :action => "edit" }
