@@ -35,3 +35,23 @@ end
 Given /^I select an invalid past delivery date and time$/ do
   select_datetime('gift_send_at', 3.days.ago)
 end
+
+Given /^I select an invalid incomplete delivery date and time$/ do
+  select_month('gift_send_at', 3.days.from_now)
+end
+
+Then /^the gift should not be scheduled for delivery by email$/ do
+  assert !Cart.last.items.last.item.send_email
+end
+
+Then /^the gift should be scheduled for delivery by email$/ do
+  assert Cart.last.items.last.item.send_email
+end
+
+Then /^the gift should be scheduled for delivery today$/ do
+  assert_equal Cart.last.items.last.item.send_at.to_date, 0.days.ago.to_date
+end
+
+Then /^the gift should be scheduled for delivery in the future$/ do
+  assert Cart.last.items.last.item.send_at >= 0.days.ago
+end
