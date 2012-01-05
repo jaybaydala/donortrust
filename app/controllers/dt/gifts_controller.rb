@@ -35,7 +35,6 @@ class Dt::GiftsController < DtApplicationController
   def new
     load_ecards
     @gift = Gift.new(:e_card => @ecards.first)
-    @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
     @gift.name = current_user.full_name if !@gift.name? && logged_in?
     @gift.notify_giver = true
@@ -115,9 +114,6 @@ class Dt::GiftsController < DtApplicationController
     if @cart.items.find(params[:id]).item.kind_of?(Gift)
       @gift = @cart.items.find(params[:id]).item
       @project = @gift.project if @gift.project_id?
-      if @gift.send_email_now
-        @gift.send_email = nil # so we can preselect "now" for delivery
-      end
       load_ecards
     end
     respond_to do |format|

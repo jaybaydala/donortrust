@@ -42,11 +42,11 @@ Given /^I select an invalid incomplete delivery date and time$/ do
 end
 
 Then /^the gift should not be scheduled for delivery by email$/ do
-  assert !Cart.last.items.last.item.send_email
+  assert !Cart.last.items.last.item.send_email?
 end
 
 Then /^the gift should be scheduled for delivery by email$/ do
-  assert Cart.last.items.last.item.send_email
+  assert Cart.last.items.last.item.send_email?
 end
 
 Then /^the gift should be scheduled for delivery today$/ do
