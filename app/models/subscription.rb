@@ -103,11 +103,10 @@ class Subscription < ActiveRecord::Base
 
   def complete_payment(response, order)
     if response.success?
-      # order.create_tax_receipt_from_order if order.country.to_s.downcase == "canada"
       self.line_items.each do |line_item|
         item = line_item.item
         item.order_id = order.id
-        item.save!
+        item.save
       end
       order.update_attributes(:complete => true)
       DonortrustMailer.deliver_subscription_thanks(self)
