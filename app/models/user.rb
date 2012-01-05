@@ -24,8 +24,8 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :administrations
   has_many :administrations
   has_many :orders
-  has_many :subscriptions
-  has_many :preferred_sectors
+  has_many :subscriptions, :dependent => :destroy
+  has_many :preferred_sectors, :dependent => :destroy
   has_many :sectors, :through => :preferred_sectors
   has_many :teams, :through => :participants
   has_many :participants
