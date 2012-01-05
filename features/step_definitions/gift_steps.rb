@@ -27,3 +27,11 @@ end
 Then /^I should have a \$(\d+) gift card balance$/ do |amount|
   Then "I should see \"Gift Card Balance: #{number_to_currency(amount)}\""
 end
+
+Given /^I select a valid future delivery date and time$/ do
+  select_datetime('gift_send_at', 10.days.from_now)
+end
+
+Given /^I select an invalid past delivery date and time$/ do
+  select_datetime('gift_send_at', 3.days.ago)
+end
