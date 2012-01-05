@@ -49,7 +49,7 @@ Then /^the gift should be scheduled for delivery by email$/ do
 end
 
 Then /^the gift should be scheduled for delivery today$/ do
-  assert_equal Cart.last.items.last.item.send_at.to_date, 0.days.ago.to_date
+  assert_equal 0.days.ago.to_date, Cart.last.items.last.item.send_at.to_date
 end
 
 Then /^the gift should be scheduled for delivery in the future$/ do

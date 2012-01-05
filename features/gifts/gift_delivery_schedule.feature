@@ -20,7 +20,16 @@ Scenario: Gift delivery date now
 	And I should see "To: Jeff Carter"
 	And the gift should be scheduled for delivery by email
 	And the gift should be scheduled for delivery today
-   
+
+Scenario: Gift delivery date now with far future scheduled date
+	Given I choose "Email my gift right away"
+	And I select a valid future delivery date and time
+	And I press "gift_submit"
+	Then I should be on my cart page
+	And I should see "To: Jeff Carter"
+	And the gift should be scheduled for delivery by email
+	And the gift should be scheduled for delivery today
+
 Scenario: Gift delivery date in the future
 	Given I choose "Schedule my gift delivery"
 	And I select a valid future delivery date and time

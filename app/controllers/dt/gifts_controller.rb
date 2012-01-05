@@ -38,6 +38,7 @@ class Dt::GiftsController < DtApplicationController
     @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
     @gift.name = current_user.full_name if !@gift.name? && logged_in?
+    @gift.notify_giver = true
     
     if params[:project_id] && @project = Project.find(params[:project_id]) 
       if @project.fundable?
@@ -92,18 +93,8 @@ class Dt::GiftsController < DtApplicationController
         end
       end
     else
-      begin
-        @valid = @gift.valid?
-      rescue ActiveRecord::MultiparameterAssignmentErrors
-        fix_date_params!
-        @gift = Gift.new( params[:gift] )
-        @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
-        @gift.user_ip_addr = request.remote_ip
-        @valid = false
-      end
-
       respond_to do |format|
-        if @valid
+        if @gift.valid?
           @cart.add_item(@gift)
           format.html { 
             flash[:notice] = "Your Gift has been added to your cart."
