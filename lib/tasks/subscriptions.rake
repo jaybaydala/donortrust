@@ -9,15 +9,15 @@ namespace :subscriptions do
     puts "[#{Time.now.utc.to_s}] #{subscriptions.size} subscriptions found to process.#{' Processing...' if subscriptions.size > 0}"
     good_subscriptions = subscriptions.select do |subscription|
       begin
-        Subscription.transaction do
-          subscription.process_payment
-        end
+        subscription.process_payment
         true
       rescue ActiveMerchant::Billing::Error => exception
         send_exception(subscription, exception)
         false
       rescue Exception => exception
         # need to report an error!!!!!!!!!!!!!!!!!!!
+        send_bad_exception(subscription, exception)
+        false
       end
     end
     send_notification(good_subscriptions) # unless good_subscriptions.blank?
@@ -63,6 +63,12 @@ namespace :subscriptions do
   
   def send_exception(subscription, exception)
     subject = "[UEnd] Subscription Processing Error"
+    body = "#{exception.message}\n#{exception.backtrace}\n\n#{subscription.attributes.to_yaml}"
+    send_message(subject, body)
+  end
+
+  def send_bad_exception(subscription, exception)
+    subject = "[UEnd] BAD Subscription Processing Error"
     body = "#{exception.message}\n#{exception.backtrace}\n\n#{subscription.attributes.to_yaml}"
     send_message(subject, body)
   end
