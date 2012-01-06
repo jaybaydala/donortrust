@@ -93,11 +93,11 @@ describe Gift do
       @gift.send_email = "now"
       @gift.send_email.should be_true
     end
-    it "should set send_at to Time.now + 5.minutes " do
+    it "should set send_at to Time.now + 20.minutes " do
       now = Time.now
       Time.stub!(:now).and_return(now)
       @gift.send_email = "now"
-      @gift.send_at.should == now + 5.minutes
+      @gift.send_at.should == now + 20.minutes
     end
   end
   
