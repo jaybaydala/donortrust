@@ -113,7 +113,6 @@ class Dt::GiftsController < DtApplicationController
   def edit
     if @cart.items.find(params[:id]).item.kind_of?(Gift)
       @gift = @cart.items.find(params[:id]).item
-      @gift.send_at = 1.hours.from_now if @gift.send_email == 'now' # hacky
       @project = @gift.project if @gift.project_id?
       load_ecards
     end
