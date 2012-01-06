@@ -18,7 +18,7 @@ describe Dt::GiftsController do
   
   let(:unallocated_project) { mock_model(Project).as_null_object }
   let(:project) { mock_model(Project, :name => "foo", :fundable? => true).as_null_object }
-  let(:gift) { mock_model(Gift, :project => project, :valid => true).as_null_object }
+  let(:gift) { mock_model(Gift, :project => project, :valid => true, :errors => stub("errors", :count => 0, :first => nil)).as_null_object }
   let(:cart) { mock_model(Cart, :subscription? => false).as_null_object }
   let(:cart_line_item) { mock_model(CartLineItem, :item => gift) }
   let(:user) { mock_model(User).as_null_object }
