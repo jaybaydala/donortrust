@@ -1,6 +1,6 @@
 class UpdateGiftsSendEmailToStringFromBoolean < ActiveRecord::Migration
   def self.up
-    change_column :gifts, :send_email, :string, :default => "now"
+    change_column :gifts, :send_email, :string, :default => "yes"
   end
 
   def self.down

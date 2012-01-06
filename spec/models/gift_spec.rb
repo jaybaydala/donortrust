@@ -97,6 +97,7 @@ describe Gift do
       now = Time.now
       Time.stub!(:now).and_return(now)
       @gift.send_email = "now"
+      @gift.send_at = 2.days.from_now
       @gift.send_at.should == now + 20.minutes
     end
   end
