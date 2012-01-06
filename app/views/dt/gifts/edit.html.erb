@@ -12,7 +12,7 @@
 <% end %>
 
 <% semantic_form_for [:dt, @gift], :url => dt_gift_path(:id => params[:id]), :html => { :id => "giftform", :method => :put } do |f| %>
-  <%= f.semantic_errors :gift %>
+  <%= f.semantic_errors :email, :email_confirmation, :to_email, :to_email_confirmation, :amount, :send_at %>
   <% f.inputs 'Your Information' do %>
     <%= f.input :name %>
     <%= f.input :email, :label => "Email", :as => :email %>
@@ -72,6 +72,7 @@
           <li>
             <div class="indent">
               <p class="inline-hint">Select a date &amp; time to send your gift ecard.</p>
+			    <%= f.semantic_errors :send_at %>
               <%= f.datetime_select :send_at, 
                 :order          => [:month, :day, :year, :hour, :minute], 
                 :start_year     => Time.now.year, 

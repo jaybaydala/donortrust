@@ -195,7 +195,7 @@ class Gift < ActiveRecord::Base
 
   def send_at_in_future
     if send_email? && send_at? && send_at <= Time.now
-      errors.add_to_base("Scheduled gift delivery date must be in the future")
+      errors.add("send_at", "must be in the future")
       return false
     end
   end
