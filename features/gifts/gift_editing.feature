@@ -44,6 +44,12 @@ Scenario: Gift delivery date in the future
 	And the gift should be scheduled for delivery by email
 	And the gift should be scheduled for delivery in the future
    
+Scenario: Gift delivery date in the past
+	Given I choose "Schedule my gift delivery"
+	And I select an invalid past delivery date and time
+	And I press "gift_submit"
+	Then I should see "Scheduled gift delivery date must be in the future"
+   
 Scenario: Gift delivery without email
 	Given I choose "Don't email my gift"
 	And I press "gift_submit"
