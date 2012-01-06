@@ -21,6 +21,7 @@ class Gift < ActiveRecord::Base
   validates_uniqueness_of :pickup_code, :allow_nil => true
   # validates_uniqueness_of :to_email, :scope => :order_id
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id? }
+  validate :send_at_in_future, :on => :create
 
   after_create :user_transaction_create, :tax_receipt_create
 
@@ -37,9 +38,12 @@ class Gift < ActiveRecord::Base
     gift
   end
   
-  def send_email=(val)
-    write_attribute(:send_at, Time.now + 20.minutes) if val == "now" # hit the next send
-    super(val)
+  def send_at=(val)
+    if send_email == "now" # hit the next send
+      write_attribute(:send_at, Time.now + 20.minutes)
+    else
+      super(val)
+    end
   end
 
   def send_email?
@@ -146,11 +150,6 @@ class Gift < ActiveRecord::Base
     super
   end
 
-  def validate_on_create
-    errors.add("send_at", "must be in the future") if send_email? && send_at? && send_at <= Time.now
-    super
-  end
-  
   def before_save
     self.credit_card = credit_card.to_s[-4, 4] if credit_card != nil
   end
@@ -193,6 +192,14 @@ class Gift < ActiveRecord::Base
   end
 
   private
+
+  def send_at_in_future
+    if send_email? && send_at? && send_at <= Time.now
+      errors.add("send_at", "must be in the future")
+      return false
+    end
+  end
+
   def tax_receipt_create
     if credit_card? && country? && country.downcase == 'canada'
       @tax_receipt = TaxReceipt.new
@@ -209,4 +216,5 @@ class Gift < ActiveRecord::Base
       @tax_receipt.save
     end
   end
+
 end
