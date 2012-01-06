@@ -38,7 +38,7 @@ class Gift < ActiveRecord::Base
   end
   
   def send_email=(val)
-    write_attribute(:send_at, Time.now + 5.minutes) if val == "now" # hit the next send
+    write_attribute(:send_at, Time.now + 20.minutes) if val == "now" # hit the next send
     super(val)
   end
 
