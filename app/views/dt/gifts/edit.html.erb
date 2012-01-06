@@ -77,7 +77,7 @@
                 :start_year     => Time.now.year, 
                 :end_year       => Time.now.year+1, 
                 :discard_second => true, 
-                :minute_step    => 30,
+                :minute_step    => 1,
                 :default        => 1.hour.from_now,
                 :include_blank  => false %><br>
               <%= select_tag :time_zone, time_zone_options_for_select(Time.zone.name, ActiveSupport::TimeZone.us_zones) %>
