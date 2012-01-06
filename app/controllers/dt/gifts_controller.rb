@@ -138,8 +138,6 @@ class Dt::GiftsController < DtApplicationController
         flash[:notice] = "Your Gift has been updated."
         format.html { redirect_to dt_cart_path }
       else
-        RAILS_DEFAULT_LOGGER.debug("INVALID GIFT! send_email: #{@gift.send_email} (#{@gift.send_email?})")
-        RAILS_DEFAULT_LOGGER.debug("INVALID GIFT! #{@gift.errors.first.join(': ')} (#{@gift.send_at})")
         @project = @gift.project if @gift.project_id?
         load_ecards
         format.html { render :action => "edit" }
