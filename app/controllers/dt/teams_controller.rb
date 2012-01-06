@@ -281,11 +281,14 @@ class Dt::TeamsController < DtApplicationController
     if @campaign == nil
       @campaign = Team.find(params[:id]).campaign unless params[:id] == nil
     end
+    raise ActiveRecord::RecordNotFound unless @campaign
     @campaign
   end
 
   def find_team
     @team = Team.find(params[:id]) unless params[:id].blank?
     @team = Team.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
+    raise ActiveRecord::RecordNotFound unless @team
+    @team
   end
 end
