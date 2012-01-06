@@ -1,7 +1,5 @@
 module Cucumber
   module Rails
-    module Capybara
-      # This module defines methods for selecting dates and times
       module SelectDatesAndTimes
 
         def select_date(field_prefix, time)
@@ -26,7 +24,6 @@ module Cucumber
 
       end
     end
-  end
 end
 
-World(::Cucumber::Rails::Capybara::SelectDatesAndTimes)
+World(::Cucumber::Rails::SelectDatesAndTimes)
