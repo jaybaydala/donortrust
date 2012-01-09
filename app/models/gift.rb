@@ -76,6 +76,10 @@ class Gift < ActiveRecord::Base
     DonortrustMailer.deliver_gift_resendPDF(self)
   end
 
+  def send_gift_resend_sender
+    DonortrustMailer.deliver_gift_resend_sender(self)
+  end
+
   def send_gift_reminder
     DonortrustMailer.deliver_gift_expiry_notifier(self) if notify_giver?
     DonortrustMailer.deliver_gift_expiry_reminder(self)

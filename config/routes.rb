@@ -361,6 +361,7 @@ ActionController::Routing::Routes.draw do |map|
   map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'
   map.resend 'bus_admin/resend', :controller => 'bus_admin/gifts', :action => 'resend'
   map.resend_gift 'bus_admin/resend_gift', :controller => 'bus_admin/gifts', :action => 'resend_gift'
+  map.resend_sender 'bus_admin/resend_sender', :controller => 'bus_admin/gifts', :action => 'resend_sender'
 
   # bus_admin assorted
   map.add_measure 'bus_admin/key_measures/add_measure', :controller => 'bus_admin/key_measures', :action => 'add_measure'
