@@ -431,12 +431,20 @@ class User < ActiveRecord::Base
     self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
   end
 
-  def friends_gifts_given_count() friends(:include => :gifts).collect{ |f| f.gifts.count }.sum end
-  def friends_gifts_given_amount() friends(:include => :gifts).collect{ |f| f.gifts.sum(:amount) }.sum end
-  def friends_gifts_received() friends.collect{ |f| f.orders.count(:conditions => "gift_card_payment_id IS NOT NULL") }.sum end
-  def friends_projects_funded() friends.collect{ |f| f.projects_funded.size }.sum end # projects_funded isn't a relation, might be tricky to do efficiently
-  def friends_projects_amount_funded() friends.collect{ |f| f.investments.sum(:amount) }.sum end
-  def friends_projects_lives_affected() friends.collect{ |f| f.projects_funded.inject(0){|sum,p| sum += p.lives_affected.to_i } }.sum end
+  def friends_gifts_given_count() Gift.count("*", :conditions => [ "user_id IN (0, ?)", friend_ids ]) end
+  def friends_order_sum() Order.find(:first, :select => "sum(total) as total_sum", :conditions => [ "user_id IN (0, ?)", friend_ids ]).total_sum end
+  def friends_projects_lives_affected() 
+    project_ids = []
+    project_ids = project_ids + Gift.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids]).collect(&:project_id)
+    project_ids = project_ids + Investment.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids]).collect(&:project_id)
+    # include all friends who made at least one order as having their own lives affected
+    friends_giving = (Gift.find(:all, :select => "user_id, count(*) as cnt", :group => "user_id", 
+                               :conditions => [ "user_id IN (?)", friend_ids ], :having => "cnt > 0") +
+                      Investment.find(:all, :select => "user_id, count(*) as cnt", :group => "user_id", 
+                                :conditions => [ "user_id IN (?)", friend_ids ], :having => "cnt > 0")).collect(&:user_id).uniq.length
+    r = Project.sum(:lives_affected, :conditions => [ "id IN (?)" , project_ids ]) + friends_giving
+    r.to_i
+  end
 
   protected
     def apply_omniauth_for_facebook(omniauth)
