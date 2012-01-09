@@ -101,18 +101,17 @@ class Subscription < ActiveRecord::Base
     read_attribute(:card_number)
   end
 
-  def complete_payment(response, order)
-    if response.success?
+  def complete_payment(success, order)
+    if success
       self.line_items.each do |line_item|
         item = line_item.item
         item.order_id = order.id
         item.save
       end
-      order.update_attributes(:complete => true)
+      order.update_attribute(:complete, true)
       DonortrustMailer.deliver_subscription_thanks(self)
     else
       DonortrustMailer.deliver_subscription_failure(self)
-      raise ActiveMerchant::Billing::Error.new(response.inspect)
     end
   end
 
@@ -204,7 +203,9 @@ class Subscription < ActiveRecord::Base
     logger.debug("purchase_options: #{purchase_options.inspect}")
     response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
     order.update_attributes({:authorization_result => response.authorization}) if response.success?
-    complete_payment(response, order)
+    complete_payment(response.success?, order)
+    raise ActiveMerchant::Billing::Error.new(response.inspect) unless response.success?
+    order
   end
 
   def yearly_total(year)

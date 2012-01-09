@@ -8,8 +8,7 @@ Given /^(?:all of )?my subscriptions? ha(?:ve|s)? run successfully$/ do
   current_date = @subscription.begin_date
   while current_date < Date.today
     Timecop.travel(current_date) do
-      order = @subscription.prepare_order
-      @subscription.complete_payment(true, order)
+      order = @subscription.process_payment
     end
     current_date += 1.month
   end
@@ -17,14 +16,15 @@ end
 
 Given /^(?:all of )?my subscriptions? ha(?:ve|s)? failed$/ do
   @subscription ||= Subscription.last
+  # this forces the subscription to fail with a value of $2 (see IATS test notes in iats_reoccurring.rb)
+  @subscription.update_attribute(:amount, 2)
   current_date = @subscription.begin_date
   while current_date < Date.today
     Timecop.travel(current_date) do
-      order = @subscription.prepare_order
       begin
-        @subscription.complete_payment(false, order)
-      rescue Exception
-      end  
+        order = @subscription.process_payment
+      rescue ActiveMerchant::Billing::Error
+      end
     end
     current_date += 1.month
   end
@@ -42,8 +42,8 @@ When /^the system generates my UPowered tax receipt$/ do
   @tax_receipt = @subscription.create_yearly_tax_receipt
 end
 
-Then /^the UPowered tax receipt should total \$(\d+)$/ do |arg1|
-  @tax_receipt.total.should == 60
+Then /^the UPowered tax receipt should total \$(\d+)$/ do |amount|
+  @tax_receipt.total.should == BigDecimal.new(amount)
 end
 
 Then /^the subscriber should receive an email$/ do
