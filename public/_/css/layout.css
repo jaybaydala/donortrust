@@ -224,7 +224,47 @@ section.iend.spaced { padding:36px 0; }
 .profile-summarybox .summary { background:url(/images/give/sidebar_summary-bg.png) repeat-x #E4E8EB; border:1px solid #CCC; margin-bottom:16px; padding:12px;}
 .borderradius .profile-summarybox .summary { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; -moz-border-radius-bottomleft: 6px; -moz-border-radius-bottomright: 6px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
 
-.profile-actions { margin-bottom:1.5em; padding-bottom:1em; }
+#impact-stats .span-2, #impact-stats .span-3 { margin-right: 0px; }
+#impact-stats .span-2, #impact-stats .span-9 { height: 52px; }
+#impact-stats .span-9 { width: 450px; }
+.profile-stats { 
+  -webkit-border-top-right-radius: 6px; -moz-border-radius-topright: 6px; 
+  border-top-right-radius: 6px; -webkit-border-bottom-right-radius: 6px; 
+  -moz-border-radius-bottomright: 6px; border-bottom-right-radius: 6px;
+  background:url(/images/iend/impact-bg-green.png) repeat-x #390; color:#FFF; 
+  font-size: 11px;
+  text-align: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.profile-stats-impact { background:url(/images/iend/impact-bg-black.png) repeat-x #390; color: #FFF; font-size: 11px; padding: 12px; }
+#impact-stats .left { 
+  -webkit-border-top-left-radius: 6px; -moz-border-radius-topleft: 6px; border-top-left-radius: 6px; 
+  -webkit-border-bottom-left-radius: 6px; -moz-border-radius-bottomleft: 6px; border-bottom-left-radius: 6px;
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 24px; 
+  font-weight: bold;
+  text-transform: uppercase; 
+  text-align: center; 
+  padding: 12px;
+}
+#impact-text { padding-left: 4px; padding-top: 10px; padding-left: 10px; }
+#impact-stats { margin-bottom: 15px; }
+.stats-value { font-size: 30px; line-height: 28px; font-family: Georgia,Times,"Times New Roman",serif; padding-top: 4px; }
+.stats-text { font-size: 12px; font-family: 12px/14px Arial, Helvetica, sans-serif; font-weight: bold; margin-top: 5px; }
+.impact-tab { 
+  position:relative; left: 1px; top: -1px; 
+  background-color: #999;
+  margin: 1px; 
+  padding: 4px;
+  padding-left: 12px;
+  -webkit-border-bottom-left-radius: 12px; -moz-border-radius-bottomleft: 12px; border-bottom-left-radius: 12px;
+  -webkit-border-top-left-radius: 12px; -moz-border-radius-topleft: 12px; border-top-left-radius: 12px;
+  cursor: pointer;
+}
+.span-2.profile-stats-impact { padding-right: 0px; }
+.profile-stats { text-transform: uppercase; }
+#stats-tabs { padding-top: 6px; padding-bottom: 18px; }
 
 /* IEND PROFILE SEARCH
 ----------*/
