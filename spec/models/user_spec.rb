@@ -271,21 +271,18 @@ describe User do
     # set up data for the first friend
     o = Factory(:order, :user => u2)
     Factory(:gift, :user => u2, :order => o, :project => p, :amount => 200)
-    Factory(:order, :user => u2, :gift_card_payment_id => "12345")
+    Factory(:order, :user => u2, :gift_card_payment_id => "12345", :total => 100)
     Factory(:investment, :user => u2, :project => p, :amount => 125)
    
     # set up data for the second friend
     o = Factory(:order, :user => u3)
     Factory(:gift, :user => u3, :order => o, :project => p, :amount => 50)
-    Factory(:order, :user => u3, :gift_card_payment_id => "12345")
+    Factory(:order, :user => u3, :gift_card_payment_id => "12345", :total => 125)
     Factory(:investment, :user => u3, :project => p, :amount => 100)
  
     u1.friends_gifts_given_count.should == 2
-    u1.friends_gifts_given_amount.should == 250.0
-    u1.friends_gifts_received.should == 2
-    u1.friends_projects_funded.should == 2
-    u1.friends_projects_amount_funded.should == 225
-    u1.friends_projects_lives_affected.should == 40
+    u1.friends_order_sum.to_f == 225.0
+    u1.friends_projects_lives_affected.should == 22
   end
 
   def create_user(options = {})
