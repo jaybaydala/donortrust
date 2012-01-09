@@ -81,10 +81,13 @@ describe Gift do
       @gift.valid?
       @gift.errors.on(:send_at).should_not be_nil
     end
-    it "should allow future or past dates on update" do
+    it "should allow future dates on update" do
       @gift = Factory(:gift)
-      @gift.update_attributes(:send_at => Time.now - 1).should be_true
-      @gift.update_attributes(:send_at => Time.now + 10).should be_true
+      @gift.update_attributes(:send_at => Time.now + 1).should be_true
+    end
+    it "should not allow past dates on update" do
+      @gift = Factory(:gift)
+      @gift.update_attributes(:send_at => Time.now - 1).should be_false
     end
   end
 
