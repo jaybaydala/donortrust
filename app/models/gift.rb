@@ -4,6 +4,7 @@ class Gift < ActiveRecord::Base
 
   before_create :make_pickup_code
   before_create :set_balance
+  before_validation :send_now_if_requested
 
   belongs_to :user
   belongs_to :project
@@ -21,7 +22,7 @@ class Gift < ActiveRecord::Base
   validates_uniqueness_of :pickup_code, :allow_nil => true
   # validates_uniqueness_of :to_email, :scope => :order_id
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id? }
-  validate :send_at_in_future, :on => :create
+  validate :send_at_in_future
 
   after_create :user_transaction_create, :tax_receipt_create
 
@@ -36,14 +37,6 @@ class Gift < ActiveRecord::Base
     gift = find_by_id_and_pickup_code(id, pickup_code, :conditions => { :picked_up_at => nil }) unless id.nil?
     gift = find_by_pickup_code(pickup_code, :conditions => { :picked_up_at => nil }) if id.nil?
     gift
-  end
-  
-  def send_at=(val)
-    if send_email == "now" # hit the next send
-      write_attribute(:send_at, Time.now + 20.minutes)
-    else
-      super(val)
-    end
   end
 
   def send_email?
@@ -198,6 +191,10 @@ class Gift < ActiveRecord::Base
       errors.add("send_at", "must be in the future")
       return false
     end
+  end
+
+  def send_now_if_requested
+    write_attribute(:send_at, Time.now + 20.minutes) if self.send_email == "now"
   end
 
   def tax_receipt_create

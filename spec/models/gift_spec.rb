@@ -89,18 +89,26 @@ describe Gift do
       @gift = Factory(:gift)
       @gift.update_attributes(:send_at => Time.now - 1).should be_false
     end
+    it "should update send_at to Time.now + 20 minutes on update even if send_at is invalid" do
+      now = Time.now
+      Time.stub!(:now).and_return(now)
+      @gift = Factory(:gift)
+      @gift.update_attributes(:send_at => Time.now - 1.day, :send_email => 'now').should be_true
+      @gift.send_at.should == now + 20.minutes
+    end
   end
 
-  describe "send_email" do
-    it "should be set to true if 'now'" do
+  describe "send_email set to 'now'" do
+    it "should set send_email? to true" do
       @gift.send_email = "now"
-      @gift.send_email.should be_true
+      @gift.send_email?.should be_true
     end
-    it "should set send_at to Time.now + 20.minutes " do
+    it "should set send_at to Time.now + 20.minutes" do
       now = Time.now
       Time.stub!(:now).and_return(now)
       @gift.send_email = "now"
       @gift.send_at = 2.days.from_now
+      @gift.save
       @gift.send_at.should == now + 20.minutes
     end
   end
