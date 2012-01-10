@@ -16,7 +16,7 @@ class Investment < ActiveRecord::Base
   validates_presence_of :project_id
 
   after_create :user_transaction_create
-  after_create :check_project_funded
+  after_create :update_project
   
   def self.dollars_raised(conditions = {})
     self.find(:all, :conditions => conditions).inject(0){|raised, investment| raised += investment.amount }
@@ -68,13 +68,11 @@ class Investment < ActiveRecord::Base
     end
   end
 
-  def check_project_funded
-    project = self.project
-    if project.current_need == 0
-      DonortrustMailer.deliver_project_fully_funded(project)
-    end
-  end
   protected
+
+  def update_project
+    self.project.touch
+  end
 
   def validate
     super
