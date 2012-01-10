@@ -263,6 +263,7 @@ Factory.define :user do |u|
   u.password_confirmation 'Secret123'
   u.under_thirteen false
   u.terms_of_use '1'
+  u.image { u.paperclip_fixture("user", "image", "jpg") }
   u.display_name { Faker::Name.name }
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }
 end
