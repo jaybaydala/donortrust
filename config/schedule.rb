@@ -45,5 +45,5 @@ end
 
 # every January 4 @ 6:20am
 every '20 6 4 1 *' do
-  runner "Subscription.all.each{|s| s.create_yearly_tax_receipt(Date.today.year-1) }"
+  rake "subscriptions:yearly_upowered_receipts"
 end
