@@ -316,7 +316,7 @@ class Dt::CheckoutsController < DtApplicationController
             session[:gift_card_balance] = nil
           else
             session[:gift_card_balance] = @gift_card.balance
-            flash[:notice] = "Please note: Your gift card balance will expire on #{@gift_card.expiry_date.strftime("%b %e, %Y")}. If you need more time, please <a href=\"#{new_iend_user_deposit_path(current_user, :deposit => {:amount => @gift_card.balance})}\">Deposit the balance</a> into your account." if !@gift_card.expiry_date.nil?
+            flash[:notice] = "Please note: Your gift card balance will expire on #{@gift_card.expiry_date.strftime("%b %e, %Y")}. After that time, UEnd will choose a project for any remaining funds." if !@gift_card.expiry_date.nil?
           end
         end
       end
