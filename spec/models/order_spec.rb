@@ -50,7 +50,9 @@ describe Order do
   context "adding and removing cart items" do
     let(:investment) { Factory.build(:investment, :amount => 10) }
     before do
-      cart.add_optional_donation = false
+      # load the cart, change the value and reload it. This is due to an BelongsToAssociation weirdness
+      Cart.find(order.cart_id).update_attribute(:add_optional_donation, false)
+      cart.reload
     end
 
     it "should increase the total when a cart item is added" do
