@@ -5,6 +5,7 @@ class TaxReceipt < ActiveRecord::Base
   belongs_to :gift
   belongs_to :deposit
   belongs_to :order
+  belongs_to :subscription
 
   before_create :make_view_code
 
@@ -18,9 +19,8 @@ class TaxReceipt < ActiveRecord::Base
   validates_presence_of :province
   validates_presence_of :postal_code
   validates_presence_of :country
-  validates_format_of   :country, :with => /^Canada$/i, :if => Proc.new { |gift| gift.country?}
-  # validates_presence_of :user
-  # validates_presence_of :investment
+  validates_format_of   :country, :with => /^Canada$/i, :if => Proc.new{|r| r.country? }
+  validates_numericality_of :amount, :greater_than => 0, :unless => Proc.new{|r| r.amount.nil? }
 
   def id_display
     return id.to_s.rjust(10,'0') if id
@@ -38,6 +38,8 @@ class TaxReceipt < ActiveRecord::Base
         @total = gift.amount
       elsif deposit
         @total = deposit.amount
+      else
+        @total = amount
       end
     end
     @total
