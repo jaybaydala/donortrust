@@ -35,6 +35,9 @@ describe Cart do
     specify { order.total.should == 0 }
     context "and an item is added to the cart" do
       before do
+        # load the cart, change the value and reload it. This is due to an BelongsToAssociation weirdness
+        Cart.find(order.cart_id).update_attribute(:add_optional_donation, false)
+        subject.reload
         item = subject.add_item(investment)
         order.reload
       end

@@ -6,8 +6,6 @@ class Dt::ParticipantsController < DtApplicationController
   before_filter :find_team, :only => [:new, :create]
   before_filter :login_required, :except => [:show, :index, :new, :create, :validate_short_name_of]
   before_filter :is_authorized?, :only => [:update, :manage, :admin]
-  include UploadSyncHelper
-  after_filter :sync_uploads, :only => [:create, :update, :destroy]
   helper "dt/places"
   helper "dt/forms"
   helper_method :current_step
@@ -23,8 +21,8 @@ class Dt::ParticipantsController < DtApplicationController
     # Inserting logic here to find first by the profile short name before trying the older participant short name
     if @participant.nil? && !params[:short_name].nil? and !params[:short_campaign_name].nil?
       @campaign = Campaign.find_by_short_name(params[:short_campaign_name])
-      
       @profile = Profile.find_by_short_name(params[:short_name])
+      raise ActiveRecord::RecordNotFound unless @participant && @campaign && @profile
       @participant = @profile.user.find_participant_in_campaign(@campaign) if @campaign
     end
     
@@ -464,6 +462,8 @@ class Dt::ParticipantsController < DtApplicationController
   private
   def find_team
     @team = Team.find(params[:team_id])
+    raise ActiveRecord::RecordNotFound unless @team
+    @team
   end
 
   def is_authorized?
