@@ -1,0 +1,48 @@
+<%- content_for :html_title do -%>Monthly Giving<%- end -%>
+<%- content_for :page_title do -%>Monthly Giving for <%= current_user.name %><%- end -%>
+
+<%= render 'iend/shared/header' %>
+<%= render :partial => 'iend/shared/account_nav' %>
+
+<%- @subscription.update_vault = true -%>
+<% semantic_form_for [:iend, @subscription] do |f| %>
+  <%= f.semantic_errors :user %>
+
+  <% f.inputs "Billing and Receipt Information" do %>
+    <%= f.input :update_vault, :as => :hidden %>
+    <li>Please enter personal information associated with your credit card. If applicable, your name, address, and email will also be used to create an electronic tax receipt.</li>
+    <%= f.input :donor_type, :as => :radio, :collection => [['Personal', 'personal'], ['Corporate', 'corporate']] %>
+    <%= f.input :title, :as => :select, :collection => titles, :include_blank => true %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :company %>
+    <%= f.input :address %>
+    <%= f.input :address2 %>
+    <%= f.input :city %>
+    <%= f.input :province %>
+    <%= f.input :postal_code %>
+    <%= f.input :country, :as => :select, :collection => country_select_options %>
+    <%= f.input :email, :as => :email %>
+  <% end %>
+
+  <% f.inputs "Credit Card Information" do %>
+    <li>
+      <p>To change your monthly giving information, please re-enter your credit card (or enter a new one).</p>
+      <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
+    </li>
+    <%= f.input :card_number, :input_html => { :maxlength => 16 } %>
+    <%= f.input :cvv, :label => "Card Security Number (CVV)", :hint => 'This is final 3 digits on the back of your card.' %>
+    <li class="date" id="subscription_card_expiry_input">
+      <% f.inputs "Card Expiry" do %>
+        <%= f.input :expiry_month, :as => :select, :collection => expiry_months, :include_blank => true %>
+        <%= f.input :expiry_year, :as => :select, :collection => expiry_years, :include_blank => true %>
+      <% end %>
+    </li>
+    <%= f.input :cardholder_name %>
+  <% end %>
+
+  <% f.buttons do %>
+    <%= f.commit_button %>
+  <% end %>
+
+<% end %>
