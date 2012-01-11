@@ -16,9 +16,13 @@ class Subscription < ActiveRecord::Base
   validates_format_of :email, :message => "isn't a valid email address", :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validate do |s|
     s.errors.add(:end_date, "must be set into the future") unless s.end_date? && s.end_date > Date.today
-    unless s.credit_card.valid?
-      credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
-      s.errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
+    # only validate on create and when updating the vault
+    if s.new_record? || s.update_vault.present?
+      unless s.credit_card.valid?
+        credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
+        credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
+        s.errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
+      end
     end
   end
 
@@ -29,7 +33,7 @@ class Subscription < ActiveRecord::Base
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
   named_scope :tax_receiptable, { :conditions => { :tax_receipt_requested => true } }
 
-  attr_accessor :full_card_number
+  attr_accessor :full_card_number, :update_vault
 
   class << self
     def notify_impending_card_expirations
@@ -253,6 +257,7 @@ class Subscription < ActiveRecord::Base
     end
   
     def update_customer
+      return unless self.update_vault.present?
       logger.debug("Entering Subscription::update_customer")
       logger.debug("credit_card: #{credit_card.inspect}")
       logger.debug("credit_card valid: #{credit_card.valid?}")

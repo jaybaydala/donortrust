@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
     iend.resources :password_resets, :only => [:new, :create]
     iend.resource :profile, :controller => 'iend_profiles'
     iend.resource :session, :controller => 'sessions'
-    iend.resources :subscriptions
+    iend.resources :subscriptions, :member => { :edit_billing => :get }
     iend.resources :tax_receipts, :only => :index
     iend.resources :users, :member => { :edit_password => :get } do |user|
       user.resources :friends, :only => [:index]
