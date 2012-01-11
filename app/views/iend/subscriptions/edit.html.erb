@@ -8,8 +8,9 @@
   <%= f.semantic_errors :user %>
 
   <% f.inputs "Monthly Giving Information" do %>
-    <%= f.input :end_date, :start_year => @subscription.begin_date.year, :order => [:month, :day, :year] %>
     <%= f.input :amount %>
+    <%= f.input :schedule_date, :as => :select, :collection => (1..31), :hint => 'Choose which date of the month your subscription will run on' %>
+    <%= f.input :end_date, :start_year => @subscription.begin_date.year, :order => [:month, :day, :year], :hint => 'This is when your subscription will end' %>
   <% end %>
 
   <% f.inputs "Tax Receipt Information" do %>
