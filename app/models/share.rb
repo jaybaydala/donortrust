@@ -1,6 +1,7 @@
 class Share < ActiveRecord::Base
   belongs_to :project
   belongs_to :e_card
+  belongs_to :user
   validates_presence_of :to_email, :email
   validates_confirmation_of :to_email, :email, :on => :create
   validates_format_of   :to_email,    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "isn't a valid email address", :if => Proc.new { |gift| gift.to_email?}
