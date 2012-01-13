@@ -603,8 +603,8 @@ class Project < ActiveRecord::Base
     end
 
   private
-  def max_number_of_sectors
-    errors.add_to_base "A project can have a maximum of 3 sectors" if self.sectors.length > 3
-  end
+    def max_number_of_sectors
+      errors.add_to_base "A project can have a maximum of 3 sectors" if self.sectors.length > 3
+    end
 
 end
