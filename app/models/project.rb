@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
     })
   acts_as_paranoid_versioned
 
+  include Likeable
   has_one :pending_project
   belongs_to :project_status
   belongs_to :program
@@ -40,7 +41,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :causes
 
   has_and_belongs_to_many :campaigns
-  
+
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
 
   named_scope :total_cost_between, lambda {|min, max|

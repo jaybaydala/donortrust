@@ -193,6 +193,11 @@ class Dt::ProjectsController < DtApplicationController
     end
   end
 
+  def like
+    @project = Project.find(params[:id])
+    params[:like] == "true" ? @project.like(params[:network], @current_user) : @project.unlike(params[:network], @current_user)
+    render :json => {:likes_count => @project.likes_count}
+  end
 
   protected
     def search_facets
