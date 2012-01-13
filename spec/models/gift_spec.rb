@@ -85,9 +85,9 @@ describe Gift do
       @gift = Factory(:gift)
       @gift.update_attributes(:send_at => Time.now + 1).should be_true
     end
-    it "should not allow past dates on update" do
+    it "should allow past dates on update" do
       @gift = Factory(:gift)
-      @gift.update_attributes(:send_at => Time.now - 1).should be_false
+      @gift.update_attributes(:send_at => Time.now - 1).should be_true
     end
     it "should update send_at to Time.now + 20 minutes on update even if send_at is invalid" do
       now = Time.now
@@ -113,6 +113,47 @@ describe Gift do
     end
   end
   
+  describe "sendable scope" do
+    it "should return unsent gifts with send_email = 'now'" do
+      @gift.send_email = 'now'
+      @gift.save!
+      Gift.sendable.first.should == @gift
+    end
+    it "should return unsent gifts with send_email = 'yes'" do
+      @gift.send_email = 'yes'
+      @gift.save!
+      @gift.send_at = 5.days.ago
+      @gift.save!
+      Gift.sendable.first.should == @gift
+    end
+    it "should return unsent gifts with send_email = '1' (old true values)" do
+      @gift.send_email = '1'
+      @gift.save!
+      @gift.send_at = 5.days.ago
+      @gift.save!
+      Gift.sendable.first.should == @gift
+    end
+    it "should not return unsent gifts with send_email = 'no'" do
+      @gift.send_email = 'no'
+      @gift.save!
+      @gift.send_at = 5.days.ago
+      @gift.save!
+      Gift.sendable.first.should_not == @gift
+    end
+    it "should not return unsent gifts with send_email = '0' (old false values)" do
+      @gift.send_email = '0'
+      @gift.save!
+      @gift.send_at = 5.days.ago
+      @gift.save!
+      Gift.sendable.first.should_not == @gift
+    end
+    it "should not return sent gifts" do
+      @gift.sent_at = 1.days.ago
+      @gift.save!
+      Gift.sendable.first.should_not == @gift
+    end
+  end
+
   describe "find_unopened_gifts" do
     it "should only find gifts with a pickup_code and that hasn't been sent" do
       @picked_up = Factory(:gift)

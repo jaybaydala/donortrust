@@ -22,11 +22,15 @@ class Gift < ActiveRecord::Base
   validates_uniqueness_of :pickup_code, :allow_nil => true
   # validates_uniqueness_of :to_email, :scope => :order_id
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id? }
-  validate :send_at_in_future
+  validate_on_create :send_at_in_future
 
   after_create :user_transaction_create, :tax_receipt_create
 
   attr_accessor :preview, :to_emails
+
+  named_scope :sendable, lambda {
+    { :conditions => ['send_email != ? AND send_email != ? AND (send_at <= ? OR send_at IS NULL) AND sent_at IS NULL', 'no', '0', Time.now.utc.to_s(:db)] }
+  }
 
   def sum
     return credit_card ? 0 : super * -1
@@ -40,7 +44,7 @@ class Gift < ActiveRecord::Base
   end
 
   def send_email?
-    return false if send_email == 'no'
+    return false if send_email == 'no' || send_email == "0"
     true
   end
 
@@ -189,7 +193,7 @@ class Gift < ActiveRecord::Base
   def send_at_in_future
     if send_email? && send_at? && send_at <= Time.now
       errors.add("send_at", "must be in the future")
-      return false
+      false
     end
   end
 
