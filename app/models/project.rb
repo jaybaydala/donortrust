@@ -44,6 +44,8 @@ class Project < ActiveRecord::Base
 
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
 
+  after_save :check_funded
+
   named_scope :total_cost_between, lambda {|min, max|
     { :conditions => ["total_cost BETWEEN ? AND ?", min.to_i, max.to_i] }
   }
@@ -593,9 +595,16 @@ class Project < ActiveRecord::Base
                               :contact, :frequency_type, :partner, :program, :project_status]
   end
 
+  protected
+    def check_funded
+      if self.current_need == 0
+        DonortrustMailer.deliver_project_fully_funded(self)
+      end
+    end
+
   private
   def max_number_of_sectors
-    errors.add_to_base "A project can have a maximum of 3 sectors" if self.sectors.length > 3  
+    errors.add_to_base "A project can have a maximum of 3 sectors" if self.sectors.length > 3
   end
 
 end
