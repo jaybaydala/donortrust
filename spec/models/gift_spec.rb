@@ -147,6 +147,11 @@ describe Gift do
       @gift.save!
       Gift.sendable.first.should_not == @gift
     end
+    it "should not return unsent gifts with send_at in the future" do
+      @gift.send_at = 5.days.from_now
+      @gift.save!
+      Gift.sendable.first.should_not == @gift
+    end
     it "should not return sent gifts" do
       @gift.sent_at = 1.days.ago
       @gift.save!
