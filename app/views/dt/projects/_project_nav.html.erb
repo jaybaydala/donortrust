@@ -1,5 +1,5 @@
 <section id="project-nav" class="container border-bottom append-bottom">
-  <article class="span-10 append-1">
+  <article class="span-8 append-1">
     <nav class="subnav">
       <ol>
         <li id="project-nav-overview"<%= ' class="current"' if params[:action] == 'show' && params[:controller] == 'dt/projects' %>><%= link_to "Overview", dt_project_path(@project) %></li>
@@ -9,9 +9,16 @@
       </ol>
     </nav>
   </article>
-  <aside id="project-like" class="span-4 prepend-1">
+  <aside id="project-like" class="span-6 prepend-1">
     <div class="project-like">
-      <a id="<%= @project.id %>" class="like_project"><img src="/images/like.png" width="21" height="27" alt="Like"> Like This<span class="likes_count" style="display:none"><%= @project.likes_count %></span></a>
+      <div class="like google">
+        <g:plusone href="<%= dt_project_url(@project)%>" size="medium" count="true" callback="update_google_plus">
+      </div>
+      <div class="like facebook">
+        <fb:like href="<%= dt_project_url(@project)%>" send="false" notify="true" layout="button_count" show_faces="false"></fb:like>
+      </div>
+      <div class="like"><a id="<%= @project.id %>" class="like_project"><img src="/images/like.png" width="21" height="27" alt="Like"> Like This<span class="likes_count" style="display:none"><%= @project.likes_count %></span></a></div>
     </div>
+    
   </aside>
   </section>
