@@ -133,8 +133,15 @@ footer a:active { text-decoration:underline; }
 #projects .project-quick-give a,
 #projects .project-organization a { color:#06C; }
 #projects .project-quick-give a { color:#FFF; }
-.project-like { margin:0 12px 12px 12px; }
-.project-like a { color:#999; text-decoration:none; }
+.project-like { float: right; margin:0 12px 12px 0px; }
+.project-like .like { float:right; padding-left:10px; }
+.project-like .like.facebook,
+.project-like .like.google { padding-top:4px; }
+.project-like .like.facebook,
+.project-like .like.facebook iframe,
+.project-like .like.google,
+.project-like .like.google iframe { width:60px !important; }
+.project-like a { color:#999; text-decoration:none; font-size: 14px; cursor: pointer; }
 .project-like img { vertical-align:bottom; }
 #projects .project-progress-bar { border:1px solid #CCC; height:8px; margin:0 0 4px 0; position:relative; -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 #projects .project-progress-fg { background:#C00; height:8px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:4px; -webkit-border-bottom-left-radius:4px; -moz-border-radius-topleft:4px; -moz-border-radius-bottomleft:4px; border-top-left-radius:4px; border-bottom-left-radius:4px; }
@@ -149,7 +156,7 @@ footer a:active { text-decoration:underline; }
 #project-header a { color:#9CF; text-decoration:none; }
 #project-header .back-to-projects { position:absolute; right:20px; top:0; }
 #project-nav { padding:1.5em 0 8px 0; margin:0 20px; }
-#project-like { font-size:1.16em; }
+#project-like { font-size:1.16em; position:absolute; right:0; top:8px; }
 #project-like a { color:#FFF; text-decoration:none; }
 .project-progress { background:url(/images/projects/progress-bg.png) repeat-x transparent; height:13px; position:relative; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
 .project-progress-fg { background:url(/images/projects/progress-fg.png) repeat-x transparent; height:12px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:6px; -webkit-border-bottom-left-radius:6px; -moz-border-radius-topleft:6px; -moz-border-radius-bottomleft:6px; border-top-left-radius:6px; border-bottom-left-radius:6px; }
