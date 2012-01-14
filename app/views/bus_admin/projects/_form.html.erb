@@ -21,6 +21,22 @@
 		<p><strong>Important</strong>: Be aware of that all projects <strong>must</strong> be presented on a community or municipality basis. Furthermore, always break projects up into manageable pieces that are attainable for donors to understand and support. Large scale projects <strong>must</strong> always be broken up into smaller pieces.</p>
 	
 		<ul class="form">
+      <li>
+ 				<label for="poi_update" class="title">Send POI updates?
+				</label>
+        <%= text_area_tag :poi_update, %|
+Hi! Just wanted to let you know that we just updated the #{@project.name} project on the UEnd:Poverty site. Check it out here!
+
+If you'd rather not get updated about this project in the future, you can unsubscribe.
+
+Thanks for making this change happen in our world.
+
+~ The UEnd:Poverty Team|
+           , :rows => 10, :cols => 72 %>
+        <%= link_to_function "Send POI Update", 
+   </ul>
+
+		<ul class="form">
 			<li>
 				<label for="project_name" class="title">
 					<%= render :partial => 'dt/shared/form_required' %>Project name

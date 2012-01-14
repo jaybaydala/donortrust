@@ -310,6 +310,7 @@ ActionController::Routing::Routes.draw do |map|
     #
     # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
     #
+    ba.resources :project_pois, :active_scaffold => true
     ba.resources :project_statuses, :active_scaffold => true
     ba.resources :milestone_statuses, :active_scaffold => true
     ba.resources :frequency_types, :active_scaffold => true
