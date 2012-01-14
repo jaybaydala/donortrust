@@ -272,3 +272,29 @@ Factory.define :country, :class => Place do |p|
   p.name { "#{Faker::Address.country}" }
   p.place_type_id 2
 end
+
+Factory.define :share do |s|
+  s.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  s.email { Faker::Internet.email }
+  s.to_email { Faker::Internet.email }
+end
+
+Factory.define :group_type do |gt|
+  gt.name { Faker::Name.name }
+end
+
+Factory.define :group do |g|
+  g.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  g.association :group_type, :factory => :group_type
+  g.private { false }
+end
+
+Factory.define :membership do |m|
+  m.membership_type Membership.member
+end
+
+Factory.define :invitation do |s|
+  s.to_name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  s.to_email { Faker::Internet.email }
+  s.association :user, :factory => :user
+end
