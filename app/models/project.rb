@@ -35,6 +35,7 @@ class Project < ActiveRecord::Base
   has_many :key_measures
   has_many :my_wishlists
   has_many :users, :through => :my_wishlists
+  has_many :project_pois
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
