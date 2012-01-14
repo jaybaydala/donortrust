@@ -66,8 +66,7 @@ class DonortrustMailer < ActionMailer::Base
   def wishlist_mail(share, project_ids)
     content_type "text/html"
     recipients  share.to_name ? "\"#{share.to_name}\" <#{share.to_email}>" : "#{share.to_email}"
-    from        "\"#{share.user.full_name} via UEnd\" <info@uend.org>"
-    puts "HERE2"
+    from        "\"#{share.name} via UEnd\" <info@uend.org>"
     sent_on     Time.now
     subject     'Your friend wanted you to see their UEnd: Wishlist.'
     headers     "Reply-To" => share.name? ? "\"#{share.name}\" <#{share.email}>" : share.email
@@ -261,7 +260,7 @@ TXT
     @friendship = friendship
     @initiator  = friendship.user
     @friend     = friendship.friend
-    from        "info@uend.org"
+    from        "\"#{friendship.user.full_name}\ via UEnd\" info@uend.org"
     recipients  @friend.email
     @subject    = "Friendship request"
     sent_on     Time.now
@@ -273,7 +272,7 @@ TXT
     @friendship = friendship
     @initiator  = friendship.user
     @friend     = friendship.friend
-    from        "info@uend.org"
+    from        "\"#{friendship.user.full_name}\ via UEnd\" info@uend.org"
     recipients  @initiator.email
     @subject    = "Friendship request accepted"
     sent_on     Time.now
