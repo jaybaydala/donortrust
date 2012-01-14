@@ -279,6 +279,15 @@ TXT
     sent_on     Time.now
   end
 
+  def project_fully_funded(project)
+    @project    = project
+    from        "info@uend.org"
+    recipients  "info@uend.org"
+    @subject    = "UEnd Project Fully Funded"
+    @project_url = dt_project_url(:id => @project.id, :host => HTTP_HOST)
+    @admin_url   = bus_admin_project_url(:id =>@project.id, :host => HTTP_HOST)
+  end
+
   protected
     def user_setup_email(user)
       @subject    = "Welcome to DonorTrust!"
