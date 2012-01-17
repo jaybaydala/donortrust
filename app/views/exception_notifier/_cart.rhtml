@@ -1,4 +1,6 @@
 <% if @cart != nil then %>
+Cart ID: <%= @cart.id %>
+
 Gifts
 ===============================
 <%- @cart.gifts.each do |gift| -%>

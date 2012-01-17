@@ -14,7 +14,7 @@
 <p>
   Please enter your payment details below. 
   <% if account_payment? %>Since you have an account with Uend: you can pay from your account balance, which is currently <strong><%= logged_in? ? number_to_currency(current_user.balance) : number_to_currency(0) %></strong>.<% end %>
-  Deposits to your account must be paid on your credit card<%= " or gift card" if gift_card_balance? %>.
+  Gifts &amp; investments can be paid on your credit card<%= " or gift card" if gift_card_balance? %>. Subscriptions must be paid for on your credit card.
 </p>
 
 <% if gift_card_balance? %><p>Your Current Gift Card Balance: <%= number_to_currency(Gift.find(session[:gift_card_id]).balance) %></p><% end %>

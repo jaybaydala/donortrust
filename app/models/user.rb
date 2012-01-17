@@ -24,8 +24,8 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :administrations
   has_many :administrations
   has_many :orders
-  has_many :subscriptions
-  has_many :preferred_sectors
+  has_many :subscriptions, :dependent => :destroy
+  has_many :preferred_sectors, :dependent => :destroy
   has_many :sectors, :through => :preferred_sectors
   has_many :teams, :through => :participants
   has_many :participants
@@ -429,6 +429,21 @@ class User < ActiveRecord::Base
 
   def friendship_with(friend)
     self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
+  end
+
+  def friends_gifts_given_count() Gift.count("*", :conditions => [ "user_id IN (0, ?)", friend_ids ]) end
+  def friends_order_sum() Order.find(:first, :select => "sum(total) as total_sum", :conditions => [ "user_id IN (0, ?)", friend_ids ]).total_sum end
+  def friends_projects_lives_affected() 
+    project_ids = []
+    project_ids = project_ids + Gift.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids]).collect(&:project_id)
+    project_ids = project_ids + Investment.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids]).collect(&:project_id)
+    # include all friends who made at least one order as having their own lives affected
+    friends_giving = (Gift.find(:all, :select => "user_id, count(*) as cnt", :group => "user_id", 
+                               :conditions => [ "user_id IN (?)", friend_ids ], :having => "cnt > 0") +
+                      Investment.find(:all, :select => "user_id, count(*) as cnt", :group => "user_id", 
+                                :conditions => [ "user_id IN (?)", friend_ids ], :having => "cnt > 0")).collect(&:user_id).uniq.length
+    r = Project.sum(:lives_affected, :conditions => [ "id IN (?)" , project_ids ]) + friends_giving
+    r.to_i
   end
 
   protected

@@ -34,6 +34,12 @@ class TaxReceiptPDFProxy
     end
   end
 
+  def save_to_tmp
+    File.open(Rails.root.join('tmp', self.filename), "w") do |f|
+      f.write self.render
+    end
+  end
+
   def post_render
     if use_pdftk?
       # cleans up temp files needed for encryption
@@ -75,14 +81,17 @@ class TaxReceiptPDFProxy
     elsif receipt.order != nil
       _pdf.add_text(x, 625, number_to_currency(receipt.order.credit_card_payment), font_size)
       _pdf.add_text(x, 598, receipt.order.created_at.to_s(), font_size)
+    else
+      _pdf.add_text(x, 625, number_to_currency(receipt.amount), font_size)
+      _pdf.add_text(x, 598, receipt.received_on.to_s(), font_size)
     end   
     _pdf.add_text(x, 612, receipt.created_at.to_s(), font_size)
     
     x2 = 187
+    x3 = 367
     _pdf.add_text(x2, 565, receipt[:first_name] + ' ' + receipt[:last_name], font_size)
     _pdf.add_text(x2, 549, receipt.address, font_size)
     _pdf.add_text(x2, 533, receipt.city, font_size)
-    x3 = 367
     _pdf.add_text(x3, 533, receipt.province, font_size)
     _pdf.add_text(x2, 517, receipt.postal_code, font_size)
     _pdf.add_text(x3, 517, receipt.country, font_size)
@@ -128,7 +137,13 @@ class GiftPDFProxy
   def create_pdf
     create_gift_pdf
   end
-  
+
+  def save_to_tmp
+    File.open(Rails.root.join('tmp', self.filename), "w") do |f|
+      f.write self.render
+    end
+  end
+
   def post_render
   end
   
