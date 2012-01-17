@@ -18,7 +18,7 @@
       <% if @order.credit_card_payment? && @order.credit_card_payment > 0 %>
         <li>
           <p>You can safely enter your credit card number on our secure server, which encrypts all submitted information. We <strong>do not</strong> store any credit card information or details.</p>
-          <p><strong><%= number_to_currency(@order.credit_card_payment) %> will be charged to your credit card.</strong></p>
+          <p><strong><%= number_to_currency(@order.credit_card_payment) %>CAD will be charged to your credit card.</strong></p>
         </li>
         
         <%= f.input :cardholder_name %>
