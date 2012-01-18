@@ -92,6 +92,18 @@ $(document).ready(function (){
 
   // FB Invite Friends
   $("#fb-invite_friends").click(function() { sendRequestViaMultiFriendSelector(); });
+
+  /* When I set the background image using layout.css for impact-tab-me by default, then
+  * resetting the css background with css("background", "") didn't work. */
+  $("#impact-tab-me").css("background", "url('/images/iend/impact-tab_bg-green.png')"); 
+
+  $(".impact-tab").click(function() {
+    $(".impact-tab").css("background", "");
+    $(this).css("background", "url('/images/iend/impact-tab_bg-green.png')"); 
+    $(".profile-stats").hide();
+    stats_for = $(this).attr('id').split("-").pop(); // will be either 'me', 'friends', or 'uend'
+    $("#impact-stats-"+stats_for).show();
+  });
 });
 
 /* optional triggers

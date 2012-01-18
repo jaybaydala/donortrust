@@ -22,7 +22,7 @@
       <%- end -%>
       <li class="span-2 <%= "prepend-#{(10 - @checkout_steps.size*2)}" %> last" style="text-align:right;font-size:18px;">
         <%- if @cart.present? -%>
-          <strong>Cart Total: <%= number_to_currency(@cart.total) %></strong>
+          <strong>Cart Total: <%= number_to_currency(@cart.total) %>CAD</strong>
         <%- end -%>
       </li>
     </ul>
