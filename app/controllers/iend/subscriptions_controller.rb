@@ -13,6 +13,12 @@ class Iend::SubscriptionsController < DtApplicationController
     @subscription.cvv = nil
   end
   
+  def edit_billing
+    @subscription = current_user.subscriptions.find(params[:id])
+    @subscription.card_number = nil
+    @subscription.cvv = nil
+  end
+  
   def update
     @subscription = current_user.subscriptions.find(params[:id])
     @saved = @subscription.update_attributes(params[:subscription])
