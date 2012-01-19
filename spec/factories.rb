@@ -81,6 +81,7 @@ Factory.define :gift do |g|
   g.email_confirmation { email }
   g.to_email { to_email }
   g.to_email_confirmation { to_email }
+  g.send_email "yes"
   g.send_at { 1.day.from_now }
 end
 
@@ -271,4 +272,8 @@ end
 Factory.define :country, :class => Place do |p|
   p.name { "#{Faker::Address.country}" }
   p.place_type_id 2
+end
+
+Factory.define :geolocation do |g|
+  g.ip_address '69.60.70.50'
 end
