@@ -19,9 +19,9 @@
     <% if project.fundable? %>
     <div class="project-quick-give"><%= link_to "Quick Give", new_dt_investment_path(:project_id => project.id) %></div>
     <% end %>
-    <!-- <div class="project-like">
-          <a href="#"><img src="/images/nav/like-grey.png" width="21" height="27" alt=""> Like</a>
-        </div> -->
+    <div class="project-like">
+      <a id="<%= project.id %>" class="like_project"><img src="/images/nav/like-grey.png" width="21" height="23" alt=""> <span class="likes_count"><%= project.likes_count %></span></a>
+    </div>
   </div>
   <div class="project-module-bottom clearfix">
     <div class="project-progress-bar">

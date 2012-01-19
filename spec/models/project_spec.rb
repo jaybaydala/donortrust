@@ -100,7 +100,7 @@ describe Project do
   
   describe "find_public method" do
     before do
-      project.stub(:current_need).with(1)
+      project.stub(:current_need).and_return(1)
       @project_status_marketing = Factory(:project_status, :name => "In Marketing")
       @project_status_active = ProjectStatus.active || Factory(:project_status, :name => "Active")
       @project_status_completed = ProjectStatus.completed || Factory(:project_status, :name => "Completed")

@@ -2,9 +2,15 @@
   <article class="span-14"> 
     <nav class="subnav clearfix">
       <ol>
-        <li<%= ' class="current"' if current_nav?('users', 'show') && params[:public].blank? %>><%= link_to "Profile", iend_user_path(current_user) %></li>
+        <li>Me</li>
+        <li>My Friends</li>
+        <li>UEnd</li>
+        <li><%= @gifts_given_count %> Gifts</li>
+        <li><%= number_to_currency(@gifts_given_amount, :precision => 0) %> dollars</li>
+        <li><%= @people_affected %> people affected</li>
+        <li<%= ' class="current"' if current_nav?('users', 'show') && params[:public].blank? %>><%= link_to "Profile", iend_user_path(@user) %></li>
         <li<%= ' class="current"' if current_nav?('iend_profiles') %>><%= link_to "iEnd Profile (public)", edit_iend_profile_path %></li>
-        <li<%= ' class="current"' if current_nav?('users', 'edit') %>><%= link_to "Edit Account", edit_iend_user_path(current_user) %></li>
+        <li<%= ' class="current"' if current_nav?('users', 'edit') %>><%= link_to "Edit Account", edit_iend_user_path(@user) %></li>
       </ol>
     </nav>
   </article> 

@@ -31,6 +31,7 @@ class Subscription < ActiveRecord::Base
   before_destroy :delete_customer
   
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
+  named_scope :current_on, lambda {|date| { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', date.to_date, date.to_date] } }
   named_scope :tax_receiptable, { :conditions => { :tax_receipt_requested => true } }
 
   attr_accessor :full_card_number, :update_vault
