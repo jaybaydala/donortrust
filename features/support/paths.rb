@@ -45,6 +45,8 @@ module NavigationHelpers
       dt_campaign_path(Campaign.find_by_short_name($1))
     when /the users page/
       iend_users_path
+    when /the new gift page/
+      new_dt_gift_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
