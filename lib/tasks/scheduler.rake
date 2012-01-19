@@ -25,8 +25,7 @@ namespace :scheduler do
   desc "Send scheduled gifts"
   task :gift_mailer => :environment do
     puts "[#{Time.now.utc.to_s}] Checking for scheduled Gifts to Email"
-    send_at_time = Time.now.utc
-    gifts = Gift.find(:all, :conditions=>['send_email = ? AND (send_at <= ? OR send_at IS NULL) AND sent_at IS NULL', true, send_at_time.to_s(:db)])
+    gifts = Gift.sendable
     gifts.each {|gift| gift.send_gift_mail}
     num_sent = gifts.size
     puts "[#{Time.now.utc.to_s}] Scheduled Gift Emails Sent: #{num_sent} [#{gifts.map(&:id).join(', ')}]"

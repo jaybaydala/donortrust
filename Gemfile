@@ -39,6 +39,7 @@ gem 'whenever', '~>0.7.0', :require => false
 gem 'will_paginate', :require => 'will_paginate'
 gem 'xml-simple'
 gem 'youtube-g', :require => 'youtube_g'
+gem 'geokit'
 
 group :test, :cucumber do
   gem 'cucumber-rails', '>=0.3.2', :require => false
