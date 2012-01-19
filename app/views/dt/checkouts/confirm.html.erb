@@ -28,7 +28,7 @@
   <% if @order.credit_card_payment %>
     <h3 class="plain dark">Credit Card</h3>
     <p>
-      Amount: <%= number_to_currency @order.credit_card_payment %><br>
+      Amount: <%= number_to_currency @order.credit_card_payment %>CAD<br>
       Card Name: <%= @order.cardholder_name %><br>
       Card Number: <%= @order.card_number_concealed %><br>
       Expiration: <%= @order.card_expiry %>

@@ -1,4 +1,4 @@
 Then /^I debug$/ do
-  breakpoint
+  debugger
   0
 end
