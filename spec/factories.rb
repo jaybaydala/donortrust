@@ -175,7 +175,7 @@ end
 
 Factory.define :admin_project, :class => Project do |p|
   p.slug "admin"
-  p.name { "#{Faker::Lorem.words(6).join(" ")} Project"}
+  p.name "Admin Project"
   p.target_start_date 1.year.ago
   p.total_cost 10000000
   p.association :partner
@@ -186,7 +186,7 @@ end
 
 Factory.define :unallocated_project, :class => Project do |p|
   p.slug "unallocated"
-  p.name { "#{Faker::Lorem.words(6).join(" ")} Project"}
+  p.name "Unallocated Project"
   p.target_start_date 1.year.ago
   p.total_cost 10000000
   p.association :partner
