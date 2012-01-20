@@ -81,6 +81,7 @@ Factory.define :gift do |g|
   g.email_confirmation { email }
   g.to_email { to_email }
   g.to_email_confirmation { to_email }
+  g.send_email "yes"
   g.send_at { 1.day.from_now }
 end
 
