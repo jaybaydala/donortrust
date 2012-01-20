@@ -31,9 +31,12 @@ If you'd rather not get updated about this project in the future, you can unsubs
 
 Thanks for making this change happen in our world.
 
-~ The UEnd:Poverty Team|
-           , :rows => 10, :cols => 72 %>
-        <%= link_to_function "Send POI Update", 
+~ The UEnd:Poverty Team|, :rows => 10, :cols => 72 %>
+        <div class="buttonMinor">
+          <%= link_to_function "Send POI Update", "send_pois()" %>
+          <%= image_tag "spinner.gif", :id => "send_poi_spinner", :style => "display:none" %>
+          <span id="pois_updated"></div>
+        </div>
    </ul>
 
 		<ul class="form">
@@ -495,5 +498,14 @@ Thanks for making this change happen in our world.
       );
 		}
 	}
+
+  function send_pois() {
+    new Ajax.Request('/bus_admin/project/1/send_pois', {
+      method: 'post',
+      parameters: {message: $('poi_update').value}
+    });
+    $("send_poi_spinner").show();
+  }
+
 //]]>
 </script>

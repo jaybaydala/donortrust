@@ -271,6 +271,12 @@ class BusAdmin::ProjectsController < ApplicationController
     end
   end
 
+  # called for POST on bus_admin/projects/:id/send_pois
+  def send_pois
+    project = Project.find(params[:id])
+    @num_sent = project.send_pois(params[:message])
+  end
+
   #############################################################################
   # management of pending projects
   #############################################################################

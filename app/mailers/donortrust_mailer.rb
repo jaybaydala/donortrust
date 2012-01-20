@@ -286,6 +286,13 @@ TXT
     @admin_url   = bus_admin_project_url(:id =>@project.id, :host => HTTP_HOST)
   end
 
+  def project_poi(recipient, msg)
+    from         "info@uend.org"
+    recipients   recipient
+    @subject   = "UEnd Project Updated"
+    body         msg
+  end
+
   protected
     def user_setup_email(user)
       @subject    = "Welcome to DonorTrust!"
