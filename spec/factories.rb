@@ -277,3 +277,29 @@ end
 Factory.define :geolocation do |g|
   g.ip_address '69.60.70.50'
 end
+
+Factory.define :share do |s|
+  s.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  s.email { Faker::Internet.email }
+  s.to_email { Faker::Internet.email }
+end
+
+Factory.define :group_type do |gt|
+  gt.name { Faker::Name.name }
+end
+
+Factory.define :group do |g|
+  g.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  g.association :group_type, :factory => :group_type
+  g.private { false }
+end
+
+Factory.define :membership do |m|
+  m.membership_type Membership.member
+end
+
+Factory.define :invitation do |s|
+  s.to_name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  s.to_email { Faker::Internet.email }
+  s.association :user, :factory => :user
+end
