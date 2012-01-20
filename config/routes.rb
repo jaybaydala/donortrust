@@ -357,6 +357,7 @@ ActionController::Routing::Routes.draw do |map|
   map.update_location 'bus_admin/_update_location', :controller => 'bus_admin/projects', :action => 'update_location'
   map.update_partner 'bus_admin/_update_partner', :controller => 'bus_admin/projects', :action => 'update_partner'
   map.update_sectors 'bus_admin/_update_sectors', :controller => 'bus_admin/projects', :action => 'update_sectors'
+  map.send_project_pois '/bus_admin/project/:id/send_pois', :controller => 'bus_admin/projects', :action => 'send_pois'
 
   # bus_admin gifts
   map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'

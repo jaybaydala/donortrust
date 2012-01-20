@@ -596,6 +596,12 @@ class Project < ActiveRecord::Base
                               :contact, :frequency_type, :partner, :program, :project_status]
   end
 
+  def send_pois(message)
+    project_pois.each do |poi|
+      DonortrustMailer.deliver_project_poi("\"#{poi.name}\" <#{poi.email}>", message)
+    end.length
+  end
+
   protected
     def check_funded
       if self.current_need == 0
