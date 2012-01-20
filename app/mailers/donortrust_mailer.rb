@@ -168,6 +168,16 @@ class DonortrustMailer < ActionMailer::Base
     end
   end
 
+  def gift_resend_sender(gift)
+    content_type "text/html"
+    recipients  "\"#{gift.first_name} #{gift.last_name}\" <#{gift.email}>"
+    from        "info@uend.org"
+    sent_on     Time.now
+    subject 'Resent: You have been gifted!'
+    body_data = {:gift => gift, :host => HTTP_HOST, :url => url_for(:host => HTTP_HOST, :controller => "dt/gifts", :action => "open")}
+    body render_message('gift_resend_sender.html.erb', body_data)
+  end
+
   def gift_expiry_notifier(gift)
     recipients  gift.name? ? "\"#{gift.name}\" <#{gift.email}>" : "#{gift.email}"
     from "info@uend.org"
