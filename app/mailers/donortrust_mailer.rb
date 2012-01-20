@@ -1,6 +1,7 @@
 require 'pdf_proxy'
 
 class DonortrustMailer < ActionMailer::Base
+  #unloadable
   include PDFProxy
   if !const_defined?('HTTP_HOST')
     HTTP_HOST = if Rails.env.staging?
@@ -65,7 +66,7 @@ class DonortrustMailer < ActionMailer::Base
   def wishlist_mail(share, project_ids)
     content_type "text/html"
     recipients  share.to_name ? "\"#{share.to_name}\" <#{share.to_email}>" : "#{share.to_email}"
-    from        "info@uend.org"
+    from        "\"#{share.name} via UEnd\" <info@uend.org>"
     sent_on     Time.now
     subject     'Your friend wanted you to see their UEnd: Wishlist.'
     headers     "Reply-To" => share.name? ? "\"#{share.name}\" <#{share.email}>" : share.email
@@ -79,7 +80,7 @@ class DonortrustMailer < ActionMailer::Base
   def invitation_mail(invitation)
     content_type "text/html"
     recipients  invitation.to_name ? "\"#{invitation.to_name}\" <#{invitation.to_email}>" : "#{invitation.to_email}"
-    from        invitation.user.email
+    from        "\"#{invitation.user.full_name} via UEnd\" <#{invitation.user.email}>"
     sent_on     Time.now
     subject     "You have been invited to join the \"#{invitation.group.name}\" group at Uend"
     url = dt_group_url(:host => HTTP_HOST, :id => invitation.group_id)
@@ -91,7 +92,7 @@ class DonortrustMailer < ActionMailer::Base
   def share_mail(share)
     content_type "text/html"
     recipients  share.to_name ? "\"#{share.to_name}\" <#{share.to_email}>" : "#{share.to_email}"
-    from        "info@uend.org"
+    from        "\"#{share.user.full_name} via UEnd\" <info@uend.org>"
     sent_on     Time.now
     subject     'Your friend thought you would like this.'
     headers     "Reply-To" => share.name? ? "\"#{share.name}\" <#{share.email}>" : share.email
@@ -113,7 +114,7 @@ class DonortrustMailer < ActionMailer::Base
   def gift_confirm(gift)
     content_type "text/html"
     recipients  "\"#{gift.first_name} #{gift.last_name}\" <#{gift.email}>"
-    from        "info@uend.org"
+    from        "\"#{gift.name} via UEnd\" <info@uend.org>"
     sent_on     Time.now
     subject "Your gift has been created and is ready for opening"
     amount = number_to_currency(gift.amount)
@@ -128,7 +129,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def gift_notify(gift)
     recipients  "\"#{gift.first_name} #{gift.last_name}\" <#{gift.email}>"
-    from        "info@uend.org"
+    from        "\"#{gift.name} via UEnd\" <info@uend.org>"
     sent_on     Time.now
     subject "Your UEnd: gift has been opened"
     content_type "text/html"
@@ -156,7 +157,7 @@ class DonortrustMailer < ActionMailer::Base
  def gift_resendPDF(gift)
     content_type "text/html"
     recipients  "\"#{gift.first_name} #{gift.last_name}\" <#{gift.email}>"
-    from        "info@uend.org"
+    from        "\"#{gift.name} via UEnd\" <info@uend.org>"
     sent_on     Time.now
     subject "Resolved Problem viewing Gift Card"
     body "<p>We have resolved a problem with the ability to view the PDF gift cards that were attached to your gift confirmation.  Please find attached the gift card for your gift to #{ gift.to_name }  </p><p>All the best to you this holiday season,<br />The UEnd: Team</p>"
@@ -180,7 +181,7 @@ class DonortrustMailer < ActionMailer::Base
 
   def gift_expiry_notifier(gift)
     recipients  gift.name? ? "\"#{gift.name}\" <#{gift.email}>" : "#{gift.email}"
-    from "info@uend.org"
+    from        "\"#{gift.name} via UEnd\" <info@uend.org>"
     sent_on Time.now
     subject 'You gave a UEnd: gift that hasn\'t been opened!'
     headers "Reply-To" => gift.to_name? ? "\"#{gift.to_name}\" <#{gift.to_email}>" : gift.to_email
@@ -269,7 +270,7 @@ TXT
     @friendship = friendship
     @initiator  = friendship.user
     @friend     = friendship.friend
-    from        "info@uend.org"
+    from        "\"#{friendship.user.full_name} via UEnd\" <info@uend.org>"
     recipients  @friend.email
     @subject    = "Friendship request"
     sent_on     Time.now
@@ -281,7 +282,7 @@ TXT
     @friendship = friendship
     @initiator  = friendship.user
     @friend     = friendship.friend
-    from        "info@uend.org"
+    from        "\"#{friendship.user.full_name} via UEnd\" <info@uend.org>"
     recipients  @initiator.email
     @subject    = "Friendship request accepted"
     sent_on     Time.now
@@ -310,7 +311,7 @@ TXT
       # from        (gift.name? ? "#{gift.name} " : "") << "<info@uend.org>"
       # from        "\"UEnd: Team on behalf of " << (gift.name? ? "#{gift.name} " : "") << "\" <#{gift.email}>"
       # from        "#{gift.email}"
-      from        "info@uend.org"
+      from        gift.name ? "\"#{gift.name} via UEnd\" <info@uend.org>" : "info@uend.org"
       sent_on     Time.now
     end
 end
