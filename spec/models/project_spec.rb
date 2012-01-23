@@ -28,6 +28,7 @@ describe Project do
     it { should have_many(:key_measures) }
     it { should have_many(:my_wishlists) }
     it { should have_many(:users) }
+    it { should have_many(:project_pois) }
     it { should have_and_belong_to_many(:groups) }
     it { should have_and_belong_to_many(:sectors) }
     it { should have_and_belong_to_many(:causes) }
@@ -175,6 +176,19 @@ describe Project do
     end
     it "should return all the associated public_groups" do
       project.public_groups.size.should == 2
+    end
+  end
+
+  describe "project_pois" do
+    before do
+      @user_1 = Factory(:user)
+      @user_2 = Factory(:user)
+      @project_poi_1 = Factory(:project_poi, :project => project, :user => @user_1)
+      @project_poi_2 = Factory(:project_poi, :project => project, :user => @user_2)
+    end
+
+    it "should send out project poi emails" do
+      project.send_pois("message").should == 2
     end
   end
 end
