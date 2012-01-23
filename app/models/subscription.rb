@@ -164,7 +164,7 @@ class Subscription < ActiveRecord::Base
     Subscription.transaction do
       begin
         column = self.connection.quote_column_name('end_date')
-        value = self.connection.quote(Date.today.to_s(:db))
+        value = self.connection.quote((Date.today - 1.day).to_s(:db))
         self.class.update_all("#{column} = #{value}", { :id => self.id })
         delete_customer
       rescue ActiveMerchant::Billing::Error => exception
