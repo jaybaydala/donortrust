@@ -297,6 +297,14 @@ TXT
     @admin_url   = bus_admin_project_url(:id =>@project.id, :host => HTTP_HOST)
   end
 
+  def new_user_notification(user)
+    @user       = user
+    @subject    = "User signup notification"
+    recipients  "jay.baydala@uend.org"
+    from        "info@uend.org"
+    sent_on     Time.now
+  end
+
   protected
     def user_setup_email(user)
       @subject    = "Welcome to DonorTrust!"
