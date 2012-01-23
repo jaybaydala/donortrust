@@ -203,7 +203,7 @@ class BusAdmin::ProjectsController < ApplicationController
         # changes by cf admins are reflected immediately on the website
         if current_user.cf_admin? and @project.save
           flash[:notice] = 'Project was successfully updated and changes will appear publicly immediately.'
-          redirect_to edit_bus_admin_project_path(@project)
+          redirect_to edit_bus_admin_project_path(@project, :show_poi_form => true)
         else
 
           #create a new PendingProject to hold the requested changes
