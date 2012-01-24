@@ -47,6 +47,11 @@ namespace :thinking_sphinx do
 end
 
 namespace :deploy do
+  task :live_upload, :roles => :app do
+    upload
+    restart
+  end
+
   task :start, :roles => :app do
     #noop
   end
