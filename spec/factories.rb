@@ -89,6 +89,10 @@ Factory.define :iend_profile do |i|
   i.association :user, :factory => :user
 end
 
+Factory.define :profile do |i|
+  i.association :user, :factory => :user
+end
+
 Factory.define :investment do |i|
   i.amount 100
   i.association :project#, :factory => :project
@@ -270,7 +274,7 @@ Factory.define :user do |u|
 end
 
 Factory.define :country, :class => Place do |p|
-  p.name { "#{Faker::Address.country}" }
+  p.name { "France" }
   p.place_type_id 2
 end
 
@@ -302,4 +306,20 @@ Factory.define :invitation do |s|
   s.to_name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
   s.to_email { Faker::Internet.email }
   s.association :user, :factory => :user
+end
+
+Factory.define :upowered_email_subscribe do |u|
+  u.email { Faker::Internet.email }
+  u.code "12345"
+end
+
+Factory.define :tax_receipt do |t|
+  t.first_name  { Faker::Name.first_name }
+  t.last_name   { Faker::Name.last_name }
+  t.address     { Faker::Address.street_address }
+  t.city        { Faker::Address.city }
+  t.postal_code '12909'
+  t.province    'Ottawa'
+  t.country     'Canada'
+  t.email       { Faker::Internet.email }
 end
