@@ -260,14 +260,14 @@ section.iend.spaced { padding:36px 0; }
 .stats-value { font-size: 30px; line-height: 28px; font-family: Georgia,Times,"Times New Roman",serif; padding-top: 4px; }
 .stats-text { font-size: 12px; font-family: 12px/14px Arial, Helvetica, sans-serif; font-weight: bold; margin-top: 5px; }
 .impact-tab { 
-  position:relative; left: 1px; top: -1px; 
   background-color: #999;
+  cursor: pointer;
   margin: 1px; 
   padding: 4px;
   padding-left: 12px;
+  position:relative; left: 1px; top: -1px; 
   -webkit-border-bottom-left-radius: 12px; -moz-border-radius-bottomleft: 12px; border-bottom-left-radius: 12px;
   -webkit-border-top-left-radius: 12px; -moz-border-radius-topleft: 12px; border-top-left-radius: 12px;
-  cursor: pointer;
 }
 .span-2.profile-stats-impact { padding-right: 0px; }
 .profile-stats { text-transform: uppercase; }
