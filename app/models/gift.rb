@@ -22,7 +22,8 @@ class Gift < ActiveRecord::Base
   # validates_uniqueness_of :to_email, :scope => :order_id
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id? }
 
-  after_create :user_transaction_create, :tax_receipt_create
+  after_create :user_transaction_create, :tax_receipt_create, :create_project_pois
+
 
   attr_accessor :preview, :send_email_now, :to_emails
 
@@ -209,5 +210,16 @@ class Gift < ActiveRecord::Base
       @tax_receipt.country = self.country
       @tax_receipt.save
     end
+  end
+
+  def create_project_pois
+    return unless project
+    poi = project.project_pois.find_or_create_by_email(email)
+    poi.attributes = { :email => email, :name => name, :gift_giver => true }
+    poi.user ||= user # grab user if given
+    poi.save!
+    poi = project.project_pois.find_or_create_by_email(to_email)
+    poi.attributes = { :email => to_email, :name => to_name, :gift_receiver => true }
+    poi.save!
   end
 end
