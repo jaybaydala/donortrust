@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>::: Uend Email :::</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <style type="text/css">
+  <!--
+  html, body {
+    margin:10px;
+  }
+  body {
+    background: #FFF;
+    font: 12px/16px Arial, Helvetica, sans-serif;
+    color: #333;
+    text-align: left; /* this is asking IE to centre the container ;) */
+  }
+  
+  /*
+  Gift Options
+  ============*/
+  .gift-options ul {
+    list-style:none;
+    margin-left:1em;
+    padding-left:0;
+  }
+  .gift-options ul li {
+    margin:0.25em 0;
+    padding:0;
+  }
+  .gift-options ul li a {
+    text-decoration:none;
+    display:block;
+    color:#FFF;
+    padding:0 0 0 3px;
+  }
+  .gift-options ul li a:link, .gift-options ul li a:visited {
+    background: #A4ADB4;
+    border: 1px solid #727477;
+  }
+  .gift-options ul li a:hover, .gift-options ul li a:active {
+    background: #FF7519;
+    border: 1px solid #917563;
+  }
+  -->
+  </style>
+</head>
+<body>
+<div style="text-align:left;width:496px;margin:auto;">
+
+<% if @gift.message? %><p><%=h(@gift.message).gsub("\n", "<br>\n") %></p><% end %>
+<p>From: <%=h @gift.name? ? @gift.name : @gift.email %></p>
+<hr />
+
+<% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
+
+<% if @gift.project %>
+  <p>
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty.
+  </p>
+  
+  <p>
+    <%= @gift.name || @gift.email %> has sent you a Project Gift for <%= number_to_currency( @gift.amount ) %> which will be directed to this project:<br />
+    <%= link_to @gift.project.name, dt_project_url(@gift.project, :host => @host) %>
+  </p>
+
+  <p>
+    Just click on the link below to open your gift - and a whole new world. <br />
+    <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
+  </p>
+<% else %>
+
+  <p>
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty and you get to choose how.
+  </p>
+  
+  <p>
+    <%= @gift.name || @gift.email %> has sent you a Gift Card for <%= number_to_currency( @gift.amount ) %>! You can use this card to support projects that are helping communities come out of poverty.
+  </p>
+  <p>Now that you've opened your gift, you have some options. You can:</p>
+  <div class="gift-options">
+    <ul>
+      <li><%= link_to "Find a project to donate to", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :find => 1) %></li>
+      <% if Project.unallocated_project %><li><%= link_to "Let Uend: figure it out", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :unallocated_gift => 1) %></li><% end %>
+      <% if Project.admin_project %><li><%= link_to "Donate it to Uend:'s Operational budget", open_dt_gifts_url(:code => @gift.pickup_code, :host => @host, :admin_gift => 1) %></li><% end %>
+    </ul>
+  </div>
+
+  <p>
+    If you're not sure yet, click on the link below to just open your gift - and a whole new world. <br />
+    <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
+  </p>
+<% end %>
+<p>
+  If that does not work for you, copy and paste the following link into your web browser and enter your pickup code:<br />
+  <%= link_to open_dt_gifts_url(:host => @host), open_dt_gifts_url(:host => @host) %>
+</p>
+
+<p>Pickup Code: <%=h @gift.pickup_code %></p>
+
+<p>Thanks,<br />
+<strong>The Uend: Team</strong></p>
+
+<% if @gift.preview %><div style="text-align:center;"><a href="javascript:window.close();">Close Window</a></div><% end %>
+
+</div>
+</body>
+</html>

@@ -4,7 +4,7 @@ class Iend::SubscriptionsController < DtApplicationController
   before_filter :login_required
 
   def index
-    @subscriptions = current_user.subscriptions.paginate(:page => params[:page], :order => "updated_at DESC")
+    @subscriptions = current_user.subscriptions.current.all(:order => "updated_at DESC")
   end
 
   def edit

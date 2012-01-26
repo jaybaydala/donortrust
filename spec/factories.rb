@@ -81,6 +81,7 @@ Factory.define :gift do |g|
   g.email_confirmation { email }
   g.to_email { to_email }
   g.to_email_confirmation { to_email }
+  g.send_email "yes"
   g.send_at { 1.day.from_now }
 end
 
@@ -276,4 +277,34 @@ end
 Factory.define :project_poi do |pp|
   pp.name { Faker::Name.name }
   pp.email { Faker::Internet.email }
+end
+
+Factory.define :geolocation do |g|
+  g.ip_address '69.60.70.50'
+end
+
+Factory.define :share do |s|
+  s.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  s.email { Faker::Internet.email }
+  s.to_email { Faker::Internet.email }
+end
+
+Factory.define :group_type do |gt|
+  gt.name { Faker::Name.name }
+end
+
+Factory.define :group do |g|
+  g.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  g.association :group_type, :factory => :group_type
+  g.private { false }
+end
+
+Factory.define :membership do |m|
+  m.membership_type Membership.member
+end
+
+Factory.define :invitation do |s|
+  s.to_name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  s.to_email { Faker::Internet.email }
+  s.association :user, :factory => :user
 end
