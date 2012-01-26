@@ -1,6 +1,6 @@
-Feature: Hide Project Based on Geolocation
-  I want to hide projects with ca? == false from Canadian visitors
-  and hide projects with us? == false from U.S. visitors
+Feature: Show or Hide Projects Based on Geolocation
+  I want to show projects with ca? == true to Canadian visitors
+  and show projects with us? == true to U.S. visitors
 
   Background:
 	Given the following projects
