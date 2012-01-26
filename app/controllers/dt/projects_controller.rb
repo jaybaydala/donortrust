@@ -17,8 +17,8 @@ class Dt::ProjectsController < DtApplicationController
 
   def index
     if params[:search].blank?
-      @projects = Project.current.paginate(:conditions => { :featured => true }, :page => params[:page], :per_page => 18)
-      @projects = Project.current.paginate(:limit => 3, :order => 'RAND()', :page => params[:page], :per_page => 18) if @projects.size == 0
+      @projects = Project.for_country(country_code).current.paginate(:conditions => { :featured => true }, :page => params[:page], :per_page => 18)
+      @projects = Project.for_country(country_code).current.paginate(:limit => 3, :order => 'RAND()', :page => params[:page], :per_page => 18) if @projects.size == 0
       @search_text = ""
     else
       @search_text = params[:search][:search_text].present? ? params[:search][:search_text] : ""

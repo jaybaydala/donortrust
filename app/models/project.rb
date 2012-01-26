@@ -201,6 +201,13 @@ class Project < ActiveRecord::Base
 =end
 
   class << self
+    def for_country(code)
+      scope = scoped({})
+      scope = scope.conditions "us = true" if code == "US"
+      scope = scope.conditions "ca = true" if code == "CA"
+      scope
+    end
+
     def rehydrate_from_xml(xml)
       Project.new(Hash.from_xml(xml)['project'])
     end
