@@ -89,6 +89,7 @@ GEM
       actionpack (>= 2.3.7)
       activesupport (>= 2.3.7)
       i18n (~> 0.4)
+    geokit (1.6.0)
     gherkin (2.2.9)
       json (~> 1.4.6)
       term-ansicolor (~> 1.0.5)
@@ -286,6 +287,7 @@ DEPENDENCIES
   feed-normalizer
   flickraw
   formtastic (< 2)
+  geokit
   guard-rspec
   hpricot
   launchy
