@@ -185,6 +185,50 @@ describe Gift do
       end
     end
   end
+
+  describe "directed gifts" do
+    before do
+      @project = Factory(:project)
+    end
+
+    it "should create POIs" do
+      lambda do
+        Gift.create! :amount => 1, :to_email => "destination@email.com", :to_name => "Receiver Name",
+          :email => "sender@email.com", :name => "Sender Name", :project => @project
+      end.should change(ProjectPoi, :count).by(2)
+    end
+
+    it "should reuse gifts by email" do
+      @gift = Factory(:gift, :project => @project)
+      lambda do
+        # make a gift with identical sender and receiver, and set a user as well
+        Gift.create! :amount => 1, :to_email => @gift.to_email, :to_name => @gift.to_name,
+          :email => @gift.email, :name => @gift.name, :project => @project
+      end.should change(ProjectPoi, :count).by(0)
+    end
+
+    it "should capture user" do
+      @gift = Factory(:gift, :project => @project)
+      # make a gift with identical sender and receiver, and set a user as well
+      @user = Factory(:user)
+      Gift.create! :amount => 1, :to_email => @gift.to_email, :to_name => @gift.to_name,
+        :email => @gift.email, :name => @gift.name, :project => @project, :user => @user
+      ProjectPoi.find_by_email(@gift.email).user.should == @user
+    end
+  end
+
+  describe "non-directed gifts" do
+    before do
+      @project = Factory(:project)
+    end
+
+    it "should not create POIs" do
+      lambda do
+        Gift.create! :amount => 1, :to_email => "destination@email.com", :to_name => "Receiver Name",
+          :email => "sender@email.com", :name => "Sender Name"
+      end.should change(ProjectPoi, :count).by(0)
+    end
+  end
 end
 
 #context "Gift Notification" do
