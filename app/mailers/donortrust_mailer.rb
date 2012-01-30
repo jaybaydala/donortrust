@@ -297,11 +297,14 @@ TXT
     @admin_url   = bus_admin_project_url(:id =>@project.id, :host => HTTP_HOST)
   end
 
-  def project_poi(recipient, msg)
+  def project_poi(project_poi, msg)
+    content_type "text/html"
     from         "info@uend.org"
-    recipients   recipient
-    @subject   = "UEnd Project Updated"
-    body         msg
+    recipients   "\"#{project_poi.name}\" <#{project_poi.email}>"
+    @subject     = "UEnd Project Updated"
+    unsub_url    = unsubscribe_dt_project_pois_url(:id => project_poi.project.id, :host => HTTP_HOST)
+    unsub_footer = "To immediately unsubscribe from all future updates about this project, follow this link: #{unsub_url}"
+    body         msg + unsub_footer
   end
 
   protected

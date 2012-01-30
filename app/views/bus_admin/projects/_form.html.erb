@@ -26,13 +26,13 @@
           <label for="poi_update" class="title">Send POI updates?
           </label>
           <%= text_area_tag :poi_update, %|
-  Hi! Just wanted to let you know that we just updated the #{@project.name} project on the UEnd:Poverty site. Check it out here!
+  <p>Hi! Just wanted to let you know that we just updated the #{@project.name} project on the UEnd:Poverty site. Check it out here!</p>
 
-  If you'd rather not get updated about this project in the future, you can unsubscribe.
+  <p>If you'd rather not get updated about this project in the future, you can unsubscribe.</p>
 
-  Thanks for making this change happen in our world.
+  <p>Thanks for making this change happen in our world.</p>
 
-  ~ The UEnd:Poverty Team|, :rows => 10, :cols => 72 %>
+  <p>~ The UEnd:Poverty Team</p>|, :rows => 10, :cols => 72 %>
           <div class="buttonMinor">
             <%= link_to_function "Send POI Update", "send_pois()" %>
             <%= image_tag "spinner.gif", :id => "send_poi_spinner", :style => "display:none" %>
