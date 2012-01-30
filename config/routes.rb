@@ -150,6 +150,9 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :profiles, :only => 'show', :member => { :increase_gifts => :get,
                                                           :decrease_gifts => :get,
                                                           :request_gift => :get }
+
+    # Sectors
+    dt.resources :sectors, :only => 'show'
   end
 
   map.resources :news_comments

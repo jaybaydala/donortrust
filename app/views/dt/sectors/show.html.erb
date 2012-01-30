@@ -1,0 +1,31 @@
+<%- content_for :og_image do -%>/images/logo.png<%- end -%>
+<%- content_for :og_description do -%><%= @project.short_description %><%- end -%>
+<% html_title(@project.name) %>
+
+<%= render 'sector_header' %>
+
+<h1 class="project-title"><%= @sector.name %></h1>
+
+<%= render :partial => 'sector_details' %>
+
+<div class="project-description">
+  
+  <div class="project-description">
+    <%= @sector.description %>
+  </div>
+</div>
+
+
+<% content_for :sector_sidebar do %>
+  <div><%= link_to image_tag('/images/give/uforward.png', :alt => ''), "", :title => "U:forward - pay it forward as a gift." %></div>
+  <div><%= link_to image_tag('/images/give/udirect.png', :alt => ''), "", :title => "U:direct - Give directly to this project." %></div>
+
+<% end %>
+
+<% content_for :sidebar do %>
+  <dl class="sidebar_user_search">
+    <dt>Who else?</dt>
+      <dd><%= link_to "Find users who have funded this projects in this sector", "" %></dd>
+  </dl>
+<% end %>
+
