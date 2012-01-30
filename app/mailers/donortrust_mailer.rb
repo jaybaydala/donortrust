@@ -302,7 +302,7 @@ TXT
     from         "info@uend.org"
     recipients   "\"#{project_poi.name}\" <#{project_poi.email}>"
     @subject     = "UEnd Project Updated"
-    unsub_url    = unsubscribe_dt_project_pois_url(:id => project_poi.project.id, :host => HTTP_HOST)
+    unsub_url    = unsubscribe_dt_project_poi_url(:id => project_poi.token, :host => HTTP_HOST)
     unsub_footer = "<p>To immediately unsubscribe from all future updates about this project, follow this link: #{unsub_url}</p>"
     body         msg + unsub_footer
   end
