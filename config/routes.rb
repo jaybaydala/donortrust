@@ -36,7 +36,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resource :upowered, :controller => "upowered"
     dt.resources :upowered_shares, :only => [ :create ]
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
-    dt.resource :project_pois, :member => { :unsubscribe => :get }
+    dt.resources :project_pois, :member => { :unsubscribe => :get }
     dt.resource :christmasfuture, :controller => 'christmasfuture'
     dt.resource :support_badges, :controller => 'support_badges'
     dt.resource :cart, :controller => 'cart' do |cart|
