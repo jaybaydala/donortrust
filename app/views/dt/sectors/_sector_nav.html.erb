@@ -1,0 +1,24 @@
+<section id="project-nav" class="container border-bottom append-bottom">
+  <article class="span-8 append-1">
+    <nav class="subnav">
+      <ol>
+        <li id="project-nav-overview"<%= ' class="current"' if params[:action] == 'show' && params[:controller] == 'dt/projects' %>><%= link_to "Overview", dt_project_path(@project) %></li>
+        <% if @project && @project.community_id? && @project.community %><li id="project-nav-community"<%= ' class="current"' if params[:action] == 'community' && params[:controller] == 'dt/projects' %>><%= link_to "Community", community_dt_project_path(@project) %></li><% end %>
+        <% if @project && @project.nation_id? && @project.nation %><li id="project-nav-nation"<%= ' class="current"' if params[:action] == 'nation' && params[:controller] == 'dt/projects' %>><%= link_to "Nation",  nation_dt_project_path(@project) %></li><% end %>
+        <li id="project-nav-organization" class="last <%= ' current' if params[:action] == 'organization' && params[:controller] == 'dt/projects' %>"><%= link_to "Organization", organization_dt_project_path(@project) %></li>
+      </ol>
+    </nav>
+  </article>
+  <aside id="project-like" class="span-6 prepend-1">
+    <div class="project-like">
+      <div class="like google">
+        <g:plusone href="<%= dt_project_url(@project)%>" size="medium" count="true" callback="update_google_plus">
+      </div>
+      <div class="like facebook">
+        <fb:like href="<%= dt_project_url(@project)%>" send="false" notify="true" layout="button_count" show_faces="false"></fb:like>
+      </div>
+      <div class="like"><a id="<%= @project.id %>" class="like_project"><img src="/images/like.png" width="21" height="27" alt="Like"> Like This<span class="likes_count" style="display:none"><%= @project.likes_count %></span></a></div>
+    </div>
+    
+  </aside>
+  </section>

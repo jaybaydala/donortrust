@@ -1,0 +1,24 @@
+<div id="project-footer" class="span-14 prepend-1 last">
+  <div class="border-bottom" style="margin-bottom:1em;">
+
+    <%= yield :like_buttons %>
+
+    <div class="back-to-projects"><%= link_to image_tag("/images/projects/btn-back_to_projects-grey.png", :alt => "", :style => "display:block;"), dt_projects_path, :title => "Back to Projects" %></div>
+    <div style="clear: both;"></div>
+  </div>
+  <% if @project.partner.projects.current.count > 1 %>
+    <div>
+      OTHER PROJECTS BY:
+      <strong><%= link_to @project.partner.name, organization_dt_project_path(@project) %></strong>
+    </div>
+    <div class="smaller">
+      <ul>
+        <% @project.partner.projects.current.each do |project| %>
+          <% content_tag_for :li, project do %>
+            <%= link_to project.name, dt_project_path(project) %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
