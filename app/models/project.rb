@@ -598,7 +598,7 @@ class Project < ActiveRecord::Base
 
   def send_pois(message)
     project_pois.each do |poi|
-      DonortrustMailer.deliver_project_poi("\"#{poi.name}\" <#{poi.email}>", message)
+      DonortrustMailer.deliver_project_poi(poi, message)
     end.length
   end
 
