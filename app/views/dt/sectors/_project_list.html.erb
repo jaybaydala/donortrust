@@ -1,9 +1,9 @@
 <h3>Projects in this sector</h3>
 
 <div class="clearfix">
+  <ul class="no_style">
   <% @projects.each_with_index do |project, i| %>
-    <div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
-      <%= render :partial => 'dt/projects/project', :locals => { :project => project } %>
-    </div>
+    <li><%= link_to project.name, dt_project_path(project) %></li> 
   <% end %>
+  </ul>
 </div>
