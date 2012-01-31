@@ -1,14 +1,14 @@
 <%= render :partial => 'layouts/shared/head' %>
 <body class="dark">
 <%= render :partial => "layouts/shared/facebook_api" %>
-
+<%= render :partial => "layouts/shared/google_plus_api" %>
 <div class="wrapper">
 <%= render :partial => 'layouts/shared/header' %>
 
   <div id="maincontentarea" class="content append-large-bottom">
     <section id="top_content" class="container">
       <%= render :partial => 'layouts/shared/flashes' %>
-      <%= render 'project_nav' %>
+      <%= render :partial => 'dt/projects/project_nav' %>
       <%= yield :top_content %>
     </section>
     <section class="container prepend-top">
@@ -37,3 +37,6 @@
 <%= render :partial => 'layouts/shared/footer' %>
 </div>
 <%= render :partial => 'layouts/shared/tail' %>
+
+<%= render :partial => 'layouts/shared/update_likes' %>
+<%= render :partial => 'layouts/shared/like_project' %>

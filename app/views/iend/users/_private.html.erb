@@ -7,7 +7,10 @@
 </h1>
 <p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
 
-<%= iend_user_nav if @user == current_user %>
+<%- if @user == current_user -%>
+  <%= iend_user_nav %>
+  <%= render :partial => 'iend/users/impact_stats' %>
+<%- end -%>
 
 <div class="clearfix">
   <%= render "iend/shared/private_sidebar" %>

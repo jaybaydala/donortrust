@@ -35,9 +35,10 @@ class Dt::GiftsController < DtApplicationController
   def new
     load_ecards
     @gift = Gift.new(:e_card => @ecards.first)
-    @gift.send_email = nil # so we can preselect "now" for delivery
     @gift.email = current_user.email if !@gift.email? && logged_in?
     @gift.name = current_user.full_name if !@gift.name? && logged_in?
+    @gift.notify_giver = true
+    @gift.send_email = "now"
     
     if params[:project_id] && @project = Project.find(params[:project_id]) 
       if @project.fundable?
@@ -92,18 +93,8 @@ class Dt::GiftsController < DtApplicationController
         end
       end
     else
-      begin
-        @valid = @gift.valid?
-      rescue ActiveRecord::MultiparameterAssignmentErrors
-        fix_date_params!
-        @gift = Gift.new( params[:gift] )
-        @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
-        @gift.user_ip_addr = request.remote_ip
-        @valid = false
-      end
-
       respond_to do |format|
-        if @valid
+        if @gift.valid?
           @cart.add_item(@gift)
           format.html { 
             flash[:notice] = "Your Gift has been added to your cart."
@@ -124,9 +115,6 @@ class Dt::GiftsController < DtApplicationController
     if @cart.items.find(params[:id]).item.kind_of?(Gift)
       @gift = @cart.items.find(params[:id]).item
       @project = @gift.project if @gift.project_id?
-      if @gift.send_email_now
-        @gift.send_email = nil # so we can preselect "now" for delivery
-      end
       load_ecards
     end
     respond_to do |format|
@@ -139,22 +127,14 @@ class Dt::GiftsController < DtApplicationController
   def update
     if @cart.items.find(params[:id]).item.kind_of?(Gift)
       @gift = @cart.items.find(params[:id]).item
-      begin
-        @gift.attributes = params[:gift]
-        @valid = @gift.valid?
-      rescue ActiveRecord::MultiparameterAssignmentErrors
-        fix_date_params!
-        @gift.attributes = params[:gift]
-        @gift.errors.add_to_base("Please choose a valid delivery date for your gift")
-        @valid = false
-      end
+      @gift.attributes = params[:gift]
       @gift.user_ip_addr = request.remote_ip
     end
     
     respond_to do |format|
       if !@gift
         format.html { redirect_to dt_cart_path }
-      elsif @valid
+      elsif @gift.valid?
         @cart.update_item(params[:id], @gift)
         flash[:notice] = "Your Gift has been updated."
         format.html { redirect_to dt_cart_path }

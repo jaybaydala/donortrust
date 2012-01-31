@@ -5,17 +5,13 @@
 
 
 <%- if @subscriptions.length > 0 -%>
-  <%= will_paginate @subscriptions, :param_name => 'page' %>
   <div id="transaction-list">
     <table style="width:100%;">
     <tr><th>Description</th><th>Begin Date</th><th>End Date</th><th>Amount</th><th>&nbsp;</th></tr>
     <%= render @subscriptions %>
     </table>
   </div>
-  <%= will_paginate @subscriptions, :param_name => 'page' %>
 <%- else -%>
-  <div class="highlight">
-    <p>We don't have any tax receipts yet.</p>
-    <p>You can <%= link_to "give", dt_give_path %> to get started.</p>
-  </div>
+  <p>We don't have any monthly subscriptions registered for you.</p>
+  <p><%= link_to "Visit U:Powered", dt_upowered_path %> to get started.</p>
 <%- end -%>

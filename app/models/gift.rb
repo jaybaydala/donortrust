@@ -4,6 +4,7 @@ class Gift < ActiveRecord::Base
 
   before_create :make_pickup_code
   before_create :set_balance
+  before_validation :send_now_if_requested
 
   belongs_to :user
   belongs_to :project
@@ -21,10 +22,18 @@ class Gift < ActiveRecord::Base
   validates_uniqueness_of :pickup_code, :allow_nil => true
   # validates_uniqueness_of :to_email, :scope => :order_id
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id? }
+  validate_on_create :send_at_in_future
 
   after_create :user_transaction_create, :tax_receipt_create
 
-  attr_accessor :preview, :send_email_now, :to_emails
+  attr_accessor :preview, :to_emails
+
+  named_scope :sendable, lambda {
+    { :conditions => ['send_email != ? AND send_email != ? AND (send_at <= ? OR send_at IS NULL) AND sent_at IS NULL', 'no', '0', Time.now.utc.to_s(:db)] }
+  }
+  named_scope :unopened, lambda {
+    { :conditions => 'pickup_code IS NOT NULL and picked_up_at IS NULL' }
+  }
 
   def sum
     return credit_card ? 0 : super * -1
@@ -36,18 +45,12 @@ class Gift < ActiveRecord::Base
     gift = find_by_pickup_code(pickup_code, :conditions => { :picked_up_at => nil }) if id.nil?
     gift
   end
-  
-  def send_email=(val)
-    if val == "now"
-      @send_email_now = true
-      write_attribute(:send_email, true)
-      self[:send_at] = Time.now + 5.minutes # hit the next send
-    else
-      @send_email_now = false
-      super(val)
-    end
+
+  def send_email?
+    return false if send_email == 'no' || send_email == "0"
+    true
   end
-  
+
   def adjust_send_at_for_timezone(tz)
     
   end
@@ -74,6 +77,10 @@ class Gift < ActiveRecord::Base
 
   def send_gift_resend
     DonortrustMailer.deliver_gift_resendPDF(self)
+  end
+
+  def send_gift_resend_sender
+    DonortrustMailer.deliver_gift_resend_sender(self)
   end
 
   def send_gift_reminder
@@ -146,12 +153,7 @@ class Gift < ActiveRecord::Base
     errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project_id? && project && amount > project.current_need
     super
   end
-  
-  def validate_on_create
-    errors.add("send_at", "must be in the future") if send_at? && send_at <= Time.now
-    super
-  end
-  
+
   def before_save
     self.credit_card = credit_card.to_s[-4, 4] if credit_card != nil
   end
@@ -194,6 +196,18 @@ class Gift < ActiveRecord::Base
   end
 
   private
+
+  def send_at_in_future
+    if send_email? && send_at? && send_at <= Time.now
+      errors.add("send_at", "must be in the future")
+      false
+    end
+  end
+
+  def send_now_if_requested
+    write_attribute(:send_at, Time.now + 20.minutes) if self.send_email == "now"
+  end
+
   def tax_receipt_create
     if credit_card? && country? && country.downcase == 'canada'
       @tax_receipt = TaxReceipt.new
@@ -210,4 +224,5 @@ class Gift < ActiveRecord::Base
       @tax_receipt.save
     end
   end
+
 end

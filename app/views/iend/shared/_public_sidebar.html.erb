@@ -5,14 +5,14 @@
     Pay it forward as a gift.
   </div>
   <div class="summary">
-    <% if @iend_profile.gifts_given? %>
-      <div style="margin-bottom:4px;">Gifts given: <%= @user.gifts.count %></div>
+    <% if @gifts_given_count %>
+      <div style="margin-bottom:4px;">Gifts given: <%= @gifts_given_count %></div>
     <% end %>
-    <% if @iend_profile.gifts_given_amount? %>
-      <div style="margin-bottom:4px;">Given as gifts: <%= number_to_currency(@user.gifts.sum(:amount), :precision => 0) %></div>
+    <% if @gifts_given_amount %>
+      <div style="margin-bottom:4px;">Given as gifts: <%= number_to_currency(@gifts_given_amount, :precision => 0) %></div>
     <% end %>
-    <% if @iend_profile.gifts_received? %>
-      <div style="margin-bottom:4px;">Gifts received: <%= @user.orders.count(:conditions => "gift_card_payment_id IS NOT NULL")  %></div>
+    <% if @gifts_received %>
+      <div style="margin-bottom:4px;">Gifts received: <%= @gifts_received %></div>
     <% end %>
     <div style="margin-bottom:4px;"><%= link_to "Give a gift", new_dt_gift_path %></div>
   </div>
