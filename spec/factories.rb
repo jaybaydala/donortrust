@@ -303,3 +303,8 @@ Factory.define :invitation do |s|
   s.to_email { Faker::Internet.email }
   s.association :user, :factory => :user
 end
+
+Factory.define :sector do |s|
+  s.name { Faker::Name.name }
+  s.description { Faker::Lorem.sentence }
+end
