@@ -431,9 +431,13 @@ class User < ActiveRecord::Base
     self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
   end
 
-  def friends_gifts_given_count() Gift.count("*", :conditions => [ "user_id IN (0, ?)", friend_ids ]) end
-  def friends_order_sum() Order.find(:first, :select => "sum(total) as total_sum", :conditions => [ "user_id IN (0, ?)", friend_ids ]).total_sum end
-  def friends_projects_lives_affected() 
+  def friends_gifts_given_count
+    Gift.count("*", :conditions => [ "user_id IN (0, ?)", friend_ids ])
+  end
+  def friends_order_sum
+    BigDecimal.new(Order.find(:first, :select => "sum(total) as total_sum", :conditions => [ "user_id IN (0, ?)", friend_ids ]).total_sum)
+  end
+  def friends_projects_lives_affected
     project_ids = []
     project_ids = project_ids + Gift.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids]).collect(&:project_id)
     project_ids = project_ids + Investment.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids]).collect(&:project_id)
