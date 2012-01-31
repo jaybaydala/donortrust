@@ -1,5 +1,5 @@
 <%- content_for :og_image do -%>/images/logo.png<%- end -%>
-<%- content_for :og_description do -%><%= @project.short_description %><%- end -%>
+<%- content_for :og_description do -%><%= @sector.name %><%- end -%>
 <% html_title(@sector.name) %>
 
 <%= render 'sector_header' %>
