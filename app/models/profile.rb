@@ -35,6 +35,13 @@ class Profile < ActiveRecord::Base
     return [non_uend_gifts, "non-UEnd gifts"]
   end
   
+  def friends_people_impacted
+    result = user.friends.inject(0) { |i, f| 
+      i + f.profile.people_impacted.first
+    }
+    return [result, "people impacted"]
+  end
+
   def people_impacted
     # This is calulated by taking the proportion contributed to each project
     # by this user against the overall project need to determine the number
