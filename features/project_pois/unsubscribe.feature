@@ -7,6 +7,5 @@ Feature: ProjectPoi Unsubscribe
   Scenario: Unsubscribe works
     Given I have a project poi with token 12345
     And I go to the unsubscribe project poi by token 12345 page
-    Then show me the page
     Then I should see "You have been unsubscribed"
     And the project poi with token 12345 should be unsubscribed
