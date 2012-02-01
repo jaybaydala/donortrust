@@ -52,7 +52,7 @@ describe Dt::InvestmentsController do
       response.should be_redirect
     end
     it "should load params[:project_id] into the project" do
-      investment.should_receive(:project_id=).with(project.to_param)
+      investment.should_receive(:project=).with(project)
       investment.should_receive(:project).any_number_of_times.and_return(project)
       new_request
     end
