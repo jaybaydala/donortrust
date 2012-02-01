@@ -435,7 +435,7 @@ class User < ActiveRecord::Base
     Gift.count("*", :conditions => [ "user_id IN (0, ?)", friend_ids ])
   end
   def friends_order_sum
-    BigDecimal.new(Order.find(:first, :select => "sum(total) as total_sum", :conditions => [ "user_id IN (0, ?)", friend_ids ]).total_sum)
+    Order.find(:first, :select => "sum(total) as total_sum", :conditions => [ "user_id IN (0, ?)", friend_ids ]).total_sum
   end
   def friends_projects_lives_affected
     project_ids = []
