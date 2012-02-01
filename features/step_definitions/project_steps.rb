@@ -22,6 +22,10 @@ Given /^the project statuses are setup$/ do
   completed = ProjectStatus.completed.try(:id) || Factory(:project_status_completed).id
 end
 
+Then /^I should not be able to visit the projects page for "([^"]*)"$/ do |project|
+  assert_raise(ActiveRecord::RecordNotFound) { visit dt_project_path(Project.find_by_name(project)) }
+end
+
 Given /^the project indexes are processed$/ do
   ThinkingSphinx::Test.index 'project_core', 'project_delta'
   sleep(0.25)

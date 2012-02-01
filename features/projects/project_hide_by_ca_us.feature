@@ -12,6 +12,10 @@ Feature: Show or Hide Projects Based on Geolocation
 	And the project "Large Project" is not visible in the U.S.
 	And the project indexes are processed
 
+  Scenario: Project Show, Visitor from Canada
+  	Given I am visiting from Canada
+	Then I should not be able to visit the projects page for "Small Project"
+
   Scenario: Project List, Visitor from Canada
   	Given I am visiting from Canada
 	When I go to the projects page
@@ -26,6 +30,10 @@ Feature: Show or Hide Projects Based on Geolocation
 	And I follow "Active"
 	And I should not see "Small Project"
 	And I should see "Large Project"
+
+  Scenario: Project Show, Visitor from the U.S.
+  	Given I am visiting from the U.S.
+	Then I should not be able to visit the projects page for "Large Project"
 
   Scenario: Project List, Visitor from U.S.
   	Given I am visiting from the U.S.
