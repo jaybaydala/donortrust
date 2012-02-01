@@ -41,7 +41,7 @@
   <div class="projecthighlight">
     <h5>PROJECTS IN THIS COMMUNITY</h5>
     <ul class="arrow">
-      <%= render :partial => 'project_list_item', :collection => @project.community.projects %>
+      <%= render :partial => 'project_list_item', :collection => @project.community.projects.for_country(country_code) %>
     </ul>
   </div>
 

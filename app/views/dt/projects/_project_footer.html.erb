@@ -13,7 +13,7 @@
     </div>
     <div class="smaller">
       <ul>
-        <% @project.partner.projects.current.each do |project| %>
+        <% @project.partner.projects.for_country(country_code).current.each do |project| %>
           <% content_tag_for :li, project do %>
             <%= link_to project.name, dt_project_path(project) %>
           <% end %>

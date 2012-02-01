@@ -29,7 +29,7 @@ module Dt::ProjectsHelper
     if @community_projects.nil?
       @community_projects = []
       unless @project.community.nil? || @project.community.projects.nil?
-        projects = Project.find_public(:all, :select => 'projects.name, projects.id', :conditions => ['projects.place_id = ? AND projects.id != ?', project.community_id, project.id])
+        projects = Project.for_country(country_code).find_public(:all, :select => 'projects.name, projects.id', :conditions => ['projects.place_id = ? AND projects.id != ?', project.community_id, project.id])
         @community_projects = projects.collect do |project|
           [project.name, project.id]
         end

@@ -61,7 +61,7 @@ class Dt::ProjectsController < DtApplicationController
 
   def community
     begin
-      @project = Project.find_public(params[:id])
+      @project = Project.for_country(country_code).find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
     end
     return render_404 unless @project
@@ -79,7 +79,7 @@ class Dt::ProjectsController < DtApplicationController
 
   def nation
     begin
-      @project = Project.find_public(params[:id])
+      @project = Project.for_country(country_code).find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
     end
     return render_404 unless @project
@@ -94,7 +94,7 @@ class Dt::ProjectsController < DtApplicationController
 
   def organization
     begin
-      @project = Project.find_public(params[:id])
+      @project = Project.for_country(country_code).find_public(params[:id])
     rescue ActiveRecord::RecordNotFound
     end
     return render_404 unless @project
