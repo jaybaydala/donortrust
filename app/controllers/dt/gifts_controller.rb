@@ -40,7 +40,7 @@ class Dt::GiftsController < DtApplicationController
     @gift.notify_giver = true
     @gift.send_email = "now"
     
-    if params[:project_id] && @project = Project.find(params[:project_id]) 
+    if params[:project_id] && @project = Project.for_country(country_code).find(params[:project_id])
       if @project.fundable?
         @gift.project = @project
       else

@@ -10,7 +10,7 @@ class Dt::InvestmentsController < DtApplicationController
 
   def new
     @investment = Investment.new( params[:investment] )
-    @investment.project_id = params[:project_id] if params[:project_id]
+    @investment.project = Project.for_country(country_code).find(params[:project_id]) if params[:project_id].present?
     # load the unallocated_project if no other project is loaded
     @investment.project = Project.unallocated_project unless @investment.project.present?
     @project = @investment.project
