@@ -1,4 +1,4 @@
-class Iend::FriendsController < ApplicationController
+class Iend::FriendsController < DtApplicationController
   
   before_filter :login_required
 
