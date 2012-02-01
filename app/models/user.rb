@@ -400,7 +400,19 @@ class User < ActiveRecord::Base
   end
 
   def all_friends
-    friends + inverse_friends
+    @all_friends ||= friends + inverse_friends
+  end
+
+  def all_friends_ids
+    @all_friends_ids ||= friend_ids + inverse_friend_ids
+  end
+
+  def all_friends_ids_and_self
+    unless @all_friends_ids_and_self
+      @all_friends_ids_and_self = friend_ids + inverse_friend_ids 
+      @all_friends_ids_and_self << self.id
+    end
+    @all_friends_ids_and_self
   end
 
   def friends_with?(user)
@@ -412,20 +424,20 @@ class User < ActiveRecord::Base
   end
 
   def collective_gifts_given_count
-    Gift.count(:id, :conditions => [ "user_id IN (0, ?)", friend_ids << self.id ])
+    Gift.count(:id, :conditions => [ "user_id IN (0, ?)", all_friends_ids_and_self ])
   end
   def collective_order_sum
-    Order.sum(:total, :conditions => [ "user_id IN (?)", friend_ids << self.id ])
+    Order.sum(:total, :conditions => [ "user_id IN (?)", all_friends_ids_and_self ])
   end
   def collective_projects_lives_affected
     project_ids = []
-    project_ids = project_ids + Gift.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids << self.id]).collect(&:project_id)
-    project_ids = project_ids + Investment.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids << self.id]).collect(&:project_id)
+    project_ids = project_ids + Gift.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", all_friends_ids_and_self]).collect(&:project_id)
+    project_ids = project_ids + Investment.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", all_friends_ids_and_self]).collect(&:project_id)
     # include all friends who made at least one order as having their own lives affected
     friends_giving = (Gift.find(:all, :select => "user_id, count(*) as cnt", :group => "user_id", 
-                               :conditions => [ "user_id IN (?)", friend_ids << self.id ], :having => "cnt > 0") +
+                               :conditions => [ "user_id IN (?)", all_friends_ids_and_self ], :having => "cnt > 0") +
                       Investment.find(:all, :select => "user_id, count(*) as cnt", :group => "user_id", 
-                                :conditions => [ "user_id IN (?)", friend_ids << self.id ], :having => "cnt > 0")).collect(&:user_id).uniq.length
+                                :conditions => [ "user_id IN (?)", all_friends_ids_and_self ], :having => "cnt > 0")).collect(&:user_id).uniq.length
     r = Project.sum(:lives_affected, :conditions => [ "id IN (?)" , project_ids ]) + friends_giving
     r.to_i
   end

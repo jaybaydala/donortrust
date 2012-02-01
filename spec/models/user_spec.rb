@@ -275,6 +275,10 @@ describe User do
     specify { user_1.all_friends.size.should == 2 }
     specify { friend_1.all_friends.size.should == 1 }
     specify { friend_2.all_friends.size.should == 1 }
+    specify { user.all_friend_ids.should == [friend_1.id, friend_2.id] }
+    specify { friend_1.all_friend_ids.should == [user_1.id] }
+    specify { friend_2.all_friend_ids.should == [user_1.id] }
+    specify { user.all_friend_ids_and_self.should == [friend_1.id, friend_2.id, user_1.id] }
   end
 
   context "impact calculations" do
