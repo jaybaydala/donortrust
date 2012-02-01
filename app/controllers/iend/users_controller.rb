@@ -31,9 +31,9 @@ class Iend::UsersController < DtApplicationController
     @given_amount = @user.orders.sum(:total)
     @people_affected = @user.profile.people_impacted.first
 
-    @friends_gifts_given_count = @user.collective_gifts_given_count
-    @friends_given_amount = @user.collective_order_sum
-    @friends_people_affected = @user.collective_projects_lives_affected
+    @collective_gifts_given_count = @user.collective_gifts_given_count
+    @collective_given_amount = @user.collective_order_sum
+    @collective_people_affected = @user.collective_projects_lives_affected
 
     @uend_gifts_given_count = Gift.count + Investment.count
     @uend_given_amount = Order.complete.sum(:total)
