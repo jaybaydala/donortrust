@@ -298,6 +298,7 @@ TXT
   end
 
   def project_poi(project_poi, msg)
+    raise RuntimeError, "this project_poi is unsubscribed (#{project_poi.inspect})!" if project_poi.unsubscribed
     content_type "text/html"
     from         "info@uend.org"
     recipients   "\"#{project_poi.name}\" <#{project_poi.email}>"

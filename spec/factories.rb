@@ -167,6 +167,7 @@ Factory.define :project do |p|
   p.association :program
   p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
   p.slug nil
+  p.association :country, :factory => :place
 end
 
 Factory.define :project_flickr_image do |p|
