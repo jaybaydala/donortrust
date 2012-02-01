@@ -24,6 +24,7 @@ class Dt::ProjectsController < DtApplicationController
       @search_text = params[:search][:search_text].present? ? params[:search][:search_text] : ""
       @projects = Project.search @search_text,
         :with => search_query_prepared,
+        :without  => search_without,
         :page     => params[:page],
         :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
         :order    => (params[:order].blank? ? :created_at : params[:order].to_sym),
@@ -35,7 +36,7 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   def show
-    @project = Project.find_public(params[:id])
+    @project = Project.for_country(country_code).find_public(params[:id])
     @page_title = @project.name
     @rss_feed = last_rss_entry(@project.rss_url) if @project && @project.rss_url
     @budget_items = @project.budget_items
@@ -254,6 +255,13 @@ class Dt::ProjectsController < DtApplicationController
         search_query_prepared.delete(:search_text)
       end
       search_query_prepared
+    end
+
+    def search_without
+      without = {}
+      without.merge!({ :ca => false }) if country_code == 'CA' # hide projects with ca = false from Canadian visitors
+      without.merge!({ :us => false }) if country_code == 'US' # hide projects with us = false from U.S. visitors
+      without
     end
 
     def search_query_only_with_term(facet, term)
