@@ -260,37 +260,37 @@ describe User do
   end
 
   context "friendships" do
-    let(:user_1) { Factory(:user) }
+    let(:user) { Factory(:user) }
     let(:friend_1) { Factory(:user) }
     let(:friend_2) { Factory(:user) }
     let(:project) { Factory(:project, :lives_affected => 20) }
-    subject { user_1 }
+    subject { user }
 
     before do
       # set up friendships
-      Factory(:friendship, :user => user_1, :friend => friend_1, :status => true)
-      Factory(:friendship, :user => user_1, :friend => friend_2, :status => true)
+      Factory(:friendship, :user => user, :friend => friend_1, :status => true)
+      Factory(:friendship, :user => user, :friend => friend_2, :status => true)
     end
 
-    specify { user_1.all_friends.size.should == 2 }
+    specify { user.all_friends.size.should == 2 }
     specify { friend_1.all_friends.size.should == 1 }
     specify { friend_2.all_friends.size.should == 1 }
-    specify { user.all_friend_ids.should == [friend_1.id, friend_2.id] }
-    specify { friend_1.all_friend_ids.should == [user_1.id] }
-    specify { friend_2.all_friend_ids.should == [user_1.id] }
-    specify { user.all_friend_ids_and_self.should == [friend_1.id, friend_2.id, user_1.id] }
+    specify { user.all_friend_ids.sort.should == [friend_1.id, friend_2.id] }
+    specify { friend_1.all_friend_ids.should == [user.id] }
+    specify { friend_2.all_friend_ids.should == [user.id] }
+    specify { user.all_friend_ids_and_self.sort.should == [user.id, friend_1.id, friend_2.id] }
   end
 
   context "impact calculations" do
-    let(:user_1) { Factory(:user) }
+    let(:user) { Factory(:user) }
     let(:friend_1) { Factory(:user) }
     let(:friend_2) { Factory(:user) }
     let(:project) { Factory(:project, :lives_affected => 20) }
 
     before do
       # set up friendships
-      Factory(:friendship, :user => user_1, :friend => friend_1, :status => true)
-      Factory(:friendship, :user => user_1, :friend => friend_2, :status => true)
+      Factory(:friendship, :user => user, :friend => friend_1, :status => true)
+      Factory(:friendship, :user => user, :friend => friend_2, :status => true)
       # set up data for the friend_1
       o = Factory(:order, :user => friend_1)
       Factory(:gift, :user => friend_1, :order => o, :project => project, :amount => 200)
@@ -303,9 +303,9 @@ describe User do
       Factory(:investment, :user => friend_2, :project => project, :amount => 100)
     end
     
-    specify { user_1.collective_gifts_given_count.should == 2 }
-    specify { user_1.collective_order_sum.should == 425 }
-    specify { user_1.collective_projects_lives_affected.should == 22 }
+    specify { user.collective_gifts_given_count.should == 2 }
+    specify { user.collective_order_sum.should == 425 }
+    specify { user.collective_projects_lives_affected.should == 22 }
   end
 
   def create_user(options = {})
