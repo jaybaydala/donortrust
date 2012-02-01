@@ -26,6 +26,14 @@ Then /^I should not be able to visit the projects page for "([^"]*)"$/ do |proje
   assert_raise(ActiveRecord::RecordNotFound) { visit dt_project_path(Project.find_by_name(project)) }
 end
 
+Then /^I shouldn't be able to add the project "([^"]*)" as a gift$/ do |project|
+  assert_raise(ActiveRecord::RecordNotFound) { visit new_dt_gift_path(:project_id => Project.find_by_name(project).id) }
+end
+
+Then /^I shouldn't be able to add the project "([^"]*)" as an investment$/ do |project|
+  assert_raise(ActiveRecord::RecordNotFound) { visit new_dt_investment_path(:project_id => Project.find_by_name(project).id) }
+end
+
 Given /^the project indexes are processed$/ do
   ThinkingSphinx::Test.index 'project_core', 'project_delta'
   sleep(0.25)

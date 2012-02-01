@@ -49,3 +49,11 @@ Feature: Show or Hide Projects Based on Geolocation
 	And I follow "Active"
 	And I should see "Small Project"
 	And I should not see "Large Project"
+
+  Scenario: Prevent hidden projects from being added as Gift
+  	Given I am visiting from the U.S.
+	Then I shouldn't be able to add the project "Large Project" as a gift
+
+  Scenario: Prevent hidden projects from being added as Investments
+  	Given I am visiting from Canada
+	Then I shouldn't be able to add the project "Small Project" as an investment
