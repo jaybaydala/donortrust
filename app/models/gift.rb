@@ -31,6 +31,9 @@ class Gift < ActiveRecord::Base
   named_scope :sendable, lambda {
     { :conditions => ['send_email != ? AND send_email != ? AND (send_at <= ? OR send_at IS NULL) AND sent_at IS NULL', 'no', '0', Time.now.utc.to_s(:db)] }
   }
+  named_scope :unopened, lambda {
+    { :conditions => 'pickup_code IS NOT NULL and picked_up_at IS NULL' }
+  }
 
   def sum
     return credit_card ? 0 : super * -1
