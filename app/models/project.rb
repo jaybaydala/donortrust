@@ -37,6 +37,7 @@ class Project < ActiveRecord::Base
   has_many :my_wishlists
   has_many :users, :through => :my_wishlists
   has_many :project_pois
+  has_many :subscribed_project_pois, :conditions => { :unsubscribed => false }, :class_name => "ProjectPoi"
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
@@ -597,7 +598,7 @@ class Project < ActiveRecord::Base
   end
 
   def send_pois(message)
-    project_pois.each do |poi|
+    subscribed_project_pois.each do |poi|
       DonortrustMailer.deliver_project_poi(poi, message)
     end.length
   end

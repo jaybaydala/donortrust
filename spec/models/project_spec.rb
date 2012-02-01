@@ -190,5 +190,10 @@ describe Project do
     it "should send out project poi emails" do
       project.send_pois("message").should == 2
     end
+    
+    it "should not sent out project poi emails to unsubscribed project_pois" do
+      @project_poi_3 = Factory(:project_poi, :project => project, :user => @user_2, :unsubscribed => true)
+      project.send_pois("message").should == 2
+    end
   end
 end
