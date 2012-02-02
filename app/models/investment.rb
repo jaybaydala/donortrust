@@ -12,9 +12,12 @@ class Investment < ActiveRecord::Base
 
   validates_presence_of :amount
   validates_numericality_of :amount
-  validates_numericality_of :project_id, :only_integer => true
-  validates_presence_of :project_id
+  validates_numericality_of :project_id, :only_integer => true, :if => Proc.new {|i| i.sector_id.nil? }
 
+  validates_presence_of :project_id, :if => Proc.new {|i| i.sector_id.nil? }
+  validates_presence_of :sector_id, :if => Proc.new {|i| i.project_id.nil? }
+
+  before_create :set_project_id
   after_create :user_transaction_create
   after_create :update_project
   
@@ -69,6 +72,14 @@ class Investment < ActiveRecord::Base
   end
 
   protected
+
+  def set_project_id
+    if self.sector_id && self.project_id.nil?
+      sector = Sector.find(self.sector_id)
+      project_ids = sector.projects.map(&:id)
+      self.project_id = project_ids[rand(project_ids.length)]
+    end
+  end
 
   def update_project
     self.project.touch

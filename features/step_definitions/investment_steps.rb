@@ -5,3 +5,11 @@ Given /^I have added a \$(\d+) investment to my cart$/ do |amount|
     And I press "Add to Cart"
   }
 end
+
+Then /^the investment should have selected sector id$/ do
+  assert_equal @sector.id, Cart.last.items.last.item.sector_id
+end
+
+Then /^the investment should not have any assigned project$/ do
+  assert_equal nil, Cart.last.items.last.item.project_id
+end
