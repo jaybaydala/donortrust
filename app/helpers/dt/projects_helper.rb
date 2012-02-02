@@ -1,4 +1,10 @@
 module Dt::ProjectsHelper
+
+  def facet_selection_box(facet, id)
+    return "☒" if params[:search].present? && params[:search][facet.to_sym].present? && params[:search][facet.to_sym].include?(id.to_s)
+    "☐"
+  end
+
   def project_nav
     render :file => 'dt/projects/project_nav'
   end
