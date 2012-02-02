@@ -38,15 +38,15 @@
       <div class="project-filter">
         ACTIVE/COMPLETED
         <ul>
-          <li><%= link_to "☐ Active (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:project_status_id, ProjectStatus.active.id))})", dt_projects_path(:search => search_query_with_term(:project_status_id, ProjectStatus.active.id, {:with_text => true})) %></li>
-          <li><%= link_to "☐ Completed (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:project_status_id, ProjectStatus.completed.id))})", dt_projects_path(:search => search_query_with_term(:project_status_id, ProjectStatus.completed.id, {:with_text => true})) %></li>
+          <li><%= link_to "#{facet_selection_box(:project_status_id, ProjectStatus.active.id)} Active (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:project_status_id, ProjectStatus.active.id))})", dt_projects_path(:search => search_query_with_term(:project_status_id, ProjectStatus.active.id, {:with_text => true})) %></li>
+          <li><%= link_to "#{facet_selection_box(:project_status_id, ProjectStatus.completed.id)} Completed (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:project_status_id, ProjectStatus.completed.id))})", dt_projects_path(:search => search_query_with_term(:project_status_id, ProjectStatus.completed.id, {:with_text => true})) %></li>
         </ul>
       </div>
       <div class="project-filter">
         CAUSE/SECTOR
         <ul>
           <% Sector.with_active_projects.ordered_desc_by_projects.each do |sector| %>
-            <li><%= link_to "☐ #{sector.name} (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:sector_ids, sector.id))})", dt_projects_path(:search => search_query_with_term(:sector_ids, sector.id, {:with_text => true})) %></li>
+            <li><%= link_to "#{facet_selection_box(:sector_ids, sector.id)} #{sector.name} (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:sector_ids, sector.id))})", dt_projects_path(:search => search_query_with_term(:sector_ids, sector.id, {:with_text => true})) %></li>
           <% end %>
         </ul>
       </div>
@@ -54,7 +54,7 @@
         LOCATION
         <ul class="limit-height">
           <% Place.discluding_canada.countries_with_active_projects.sort_by{|place| place.country_projects.count }.reverse.each do |country| %>
-            <li><%= link_to "☐ #{country.name} (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:country_id, country.id))})", dt_projects_path(:search => search_query_with_term(:country_id, country.id, {:with_text => true})) %></li>
+            <li><%= link_to "#{facet_selection_box(:country_id, country.id)} #{country.name} (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:country_id, country.id))})", dt_projects_path(:search => search_query_with_term(:country_id, country.id, {:with_text => true})) %></li>
           <% end %>
         </ul>
       </div>
@@ -62,7 +62,7 @@
         PARTNER
         <ul class="limit-height">
           <% Partner.with_active_projects.all(:order => "name").each do |partner| %>
-            <li><%= link_to "☐ #{partner.name} (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:partner_id, partner.id))})", dt_projects_path(:search => search_query_with_term(:partner_id, partner.id, {:with_text => true})) %></li>
+            <li><%= link_to "#{facet_selection_box(:partner_id, partner.id)} #{partner.name} (#{Project.search_count(@search_text, :with => search_query_with_term_one_option(:partner_id, partner.id))})", dt_projects_path(:search => search_query_with_term(:partner_id, partner.id, {:with_text => true})) %></li>
           <% end %>
         </ul>
       </div>
@@ -89,7 +89,7 @@
             <% end %>
           <% end %>
         <% end %>
-        <%#= "#{@projects.total_entries} found" %> 
+        <%= "#{@projects.total_entries} found" %>
         <%= will_paginate %>
       </div>
       <% end %>
