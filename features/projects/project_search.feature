@@ -16,64 +16,67 @@ Feature: Projects search
 
   Scenario: Project filters
     Given I am on the projects page
-    Then I should see "Active (4)"
-    And I should see "Health (3)"
-    And I should see "Education (2)"
-    And I should see "Turbekistan (3)"
-    And I should see "Cape Breton (1)"
-    And I should see "Tag Solutions (3)"
-    And I should see "ACME Hardware (1)"
+    Then I should see "☐ Active (4)"
+    And I should see "☐ Health (3)"
+    And I should see "☐ Education (2)"
+    And I should see "☐ Turbekistan (3)"
+    And I should see "☐ Cape Breton (1)"
+    And I should see "☐ Tag Solutions (3)"
+    And I should see "☐ ACME Hardware (1)"
     # And I should see "$0 - $5,000 (1)" within ".project-filter"
     # And I should see "$5,001 - $10,000 (2)" within ".project-filter"
     # And I should see "$10,001 - $15,000 (1)" within ".project-filter"
 
   Scenario: Status results count
     Given I am on the projects page
-    And I follow "Active (4)"
+    And I follow "☐ Active (4)"
     Then I should see 4 projects listed
+    And I should see "☒ Active"
     And I should see "Small Project"
 
-  Scenario: Sector results count
+  Scenario: Sector results count, multiple facets
     Given I am on the projects page
-    And I follow "Health (3)"
+    And I follow "☐ Health (3)"
     Then I should see 2 projects listed
     And I should see "Medium Project 2"
     And I should not see "Medium Project 1"
-    And I should see "Health (3)"
-    And I should see "Education (2)"
-    When I follow "Education (2)"
+    And I should see "☒ Health"
+    And I should see "☐ Education (2)"
+    And I should see "☐ Turbekistan (2)"
+    And I should see "☐ Cape Breton (1)"
+    When I follow "☐ Education (2)"
     Then I should see 4 projects listed
-    And I should see "Health (3)"
-    And I should see "Education (2)"
-    When I follow "Turbekistan (3)"
-    And I should see "Health (2)"
-    And I should see "Education (2)"
+    And I should see "☒ Health"
+    And I should see "☒ Education"
+    And I should see "☐ Turbekistan (3)"
+    And I should see "☐ Cape Breton (1)"
+    When I follow "☐ Turbekistan (3)"
     Then I should see 3 projects listed
-    And I should see "Turbekistan (3)"
-    And I should see "Cape Breton (1)"
-    And I should see "Health (2)"
-    And I should see "Education (2)"
+    And I should see "☒ Health"
+    And I should see "☒ Education"
+    And I should see "☒ Turbekistan"
+    And I should see "☐ Cape Breton (1)"
 
   Scenario: Location results count
     Given I am on the projects page
-    And I follow "Turbekistan (3)"
+    And I follow "☐ Turbekistan (3)"
     Then I should see 3 projects listed
     And I should see "Small Project"
     And I should not see "Large Project"
-    And I should see "Turbekistan (3)"
-    And I should see "Cape Breton (1)"
-    And I should see "Health (2)"
-    And I should see "Education (2)"
+    And I should see "Turbekistan"
+    And I should see "☐ Cape Breton (1)"
+    And I should see "☐ Health (2)"
+    And I should see "☐ Education (2)"
 
   Scenario: Partner results count
     Given I am on the projects page
-    And I follow "Tag Solutions (3)"
+    And I follow "☐ Tag Solutions (3)"
     Then I should see 3 projects listed
     And I should see "Small Project"
-    And I should see "Tag Solutions (3)"
-    And I should see "ACME Hardware (1)"
-    And I should see "Health (2)"
-    And I should see "Education (2)"
+    And I should see "Tag Solutions"
+    And I should see "☐ ACME Hardware (1)"
+    And I should see "☐ Health (2)"
+    And I should see "☐ Education (2)"
 
   # Scenario: Cost results count
   #   Given I am on the projects page

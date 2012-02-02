@@ -1,7 +1,19 @@
 module Dt::ProjectsHelper
 
+  def facet_search_link(facet, link)
+    link_text = []
+    link_text << facet_selection_box(facet.to_s, link.id)
+    link_text << link.name
+    link_text << "(#{Project.search_count(@search_text, :with => search_query_with_term_one_option(facet.to_s, link.id))})" unless facet_active?(facet, link.id)
+    link_to(link_text.join(' '), dt_projects_path(:search => search_query_with_term(facet.to_s, link.id, {:with_text => true})))
+  end
+
+  def facet_active?(facet, id)
+    params[:search].present? && params[:search][facet.to_sym].present? && params[:search][facet.to_sym].include?(id.to_s)
+  end
+
   def facet_selection_box(facet, id)
-    return "☒" if params[:search].present? && params[:search][facet.to_sym].present? && params[:search][facet.to_sym].include?(id.to_s)
+    return "☒" if facet_active?(facet, id)
     "☐"
   end
 
