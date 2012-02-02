@@ -1,4 +1,4 @@
-class Dt::FacebookPostsController < ApplicationController
+class Dt::FacebookPostsController < DtApplicationController
   def create
     @facebook = Facebook.new(current_user)
     begin
