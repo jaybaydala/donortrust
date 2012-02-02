@@ -38,8 +38,8 @@
       <div class="project-filter">
         ACTIVE/COMPLETED
         <ul>
-          <li><%= link_to "Active (#{Project.search_count(:with => search_query_with_term_one_option(:project_status_id, 2))})", dt_projects_path(:search => search_query_with_term_one_option(:project_status_id, 2)) %></li>
-          <li><%= link_to "Completed (#{Project.search_count(:with => search_query_with_term_one_option(:project_status_id, 4))})", dt_projects_path(:search => search_query_with_term_one_option(:project_status_id, 4)) %></li>
+          <li><%= link_to "Active (#{Project.search_count(:with => search_query_with_term_one_option(:project_status_id, ProjectStatus.active.id))})", dt_projects_path(:search => search_query_with_term_one_option(:project_status_id, ProjectStatus.active.id)) %></li>
+          <li><%= link_to "Completed (#{Project.search_count(:with => search_query_with_term_one_option(:project_status_id, ProjectStatus.completed.id))})", dt_projects_path(:search => search_query_with_term_one_option(:project_status_id, ProjectStatus.completed.id)) %></li>
         </ul>
       </div>
       <div class="project-filter">
