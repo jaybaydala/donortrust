@@ -39,7 +39,20 @@ Feature: Projects search
     Then I should see 2 projects listed
     And I should see "Medium Project 2"
     And I should not see "Medium Project 1"
-    And I should see "Education (4)"
+    And I should see "Health (3)"
+    And I should see "Education (2)"
+    When I follow "Education (2)"
+    Then I should see 4 projects listed
+    And I should see "Health (3)"
+    And I should see "Education (2)"
+    When I follow "Turbekistan (3)"
+    And I should see "Health (2)"
+    And I should see "Education (2)"
+    Then I should see 3 projects listed
+    And I should see "Turbekistan (3)"
+    And I should see "Cape Breton (1)"
+    And I should see "Health (2)"
+    And I should see "Education (2)"
 
   Scenario: Location results count
     Given I am on the projects page
@@ -48,7 +61,7 @@ Feature: Projects search
     And I should see "Small Project"
     And I should not see "Large Project"
     And I should see "Turbekistan (3)"
-    And I should see "Cape Breton (4)"
+    And I should see "Cape Breton (1)"
     And I should see "Health (2)"
     And I should see "Education (2)"
 
