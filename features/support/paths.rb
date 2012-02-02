@@ -47,6 +47,8 @@ module NavigationHelpers
       iend_users_path
     when /the new gift page/
       new_dt_gift_path
+    when /the projects page/
+      dt_projects_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
