@@ -39,8 +39,10 @@ class Dt::GiftsController < DtApplicationController
     @gift.name = current_user.full_name if !@gift.name? && logged_in?
     @gift.notify_giver = true
     @gift.send_email = "now"
-    
-    if params[:project_id] && @project = Project.find(params[:project_id]) 
+   
+    if params[:sector_id] && @sector = Sector.find(params[:sector_id])
+      @gift.sector_id = @sector_id
+    elsif params[:project_id] && @project = Project.find(params[:project_id]) 
       if @project.fundable?
         @gift.project = @project
       else

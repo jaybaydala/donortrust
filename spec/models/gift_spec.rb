@@ -4,11 +4,28 @@ describe Gift do
   before do
     @gift = Factory(:gift)
   end
-  
+
+  describe "Sector Gift" do
+    before do
+      @sector = Factory(:sector)
+      @project = Factory(:project)
+      @project.sectors << @sector
+      @project.save!
+    end
+
+    it "should select a random project from a sector and set project_id if sector id is given" do
+      gift = Factory.build(:gift)
+      gift.project_id = nil
+      gift.sector_id = @sector.id
+      gift.save
+      gift.project_id.should == @project.id
+    end
+  end
+
   it "should create a gift" do
     lambda{ Factory(:gift) }.should change(Gift, :count).by(1)
   end
-  
+
   describe "validations" do
     it "should belong_to user" do
       @gift.should belong_to(:user)
@@ -54,7 +71,7 @@ describe Gift do
       @gift.amount.to_s.should == "100.25"
     end
   end
-  
+
   describe "balance" do
     it "should be the same as the amount" do
       @gift.balance.should == @gift.amount
@@ -112,7 +129,7 @@ describe Gift do
       @gift.send_at.should == now + 20.minutes
     end
   end
-  
+
   describe "sendable scope" do
     it "should return unsent gifts with send_email = 'now'" do
       @gift.send_email = 'now'
@@ -192,7 +209,7 @@ describe Gift do
       @gift.picked_up_at.should == time
     end
   end
-  
+
   describe "with a project" do
     before do
       @project = Factory(:project)
@@ -210,7 +227,7 @@ describe Gift do
       @gift.errors.on(:amount).should be_nil
     end
   end
-  
+
   describe "gift notifications" do
     before do
       ActionMailer::Base.delivery_method = :test
@@ -220,7 +237,7 @@ describe Gift do
       Time.stub!(:now).and_return(time)
       @gift.update_attributes(:send_at => time)
     end
-    
+
     describe "pickup" do
       it "should not notify the giver if notify_giver? is false" do
         @gift.notify_giver = false

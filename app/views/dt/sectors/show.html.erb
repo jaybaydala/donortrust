@@ -17,8 +17,8 @@
 
 
 <% content_for :sector_sidebar do %>
-  <div><%= link_to image_tag('/images/give/uforward.png', :alt => ''), "", :title => "U:forward - pay it forward as a gift." %></div>
-  <div><%= link_to image_tag('/images/give/udirect.png', :alt => ''), "", :title => "U:direct - Give directly to this project." %></div>
+  <div><%= link_to image_tag('/images/give/uforward.png', :alt => ''), new_dt_gift_path(:sector_id => @sector.id), :title => "U:forward - pay it forward as a gift." %></div>
+  <div><%= link_to image_tag('/images/give/udirect.png', :alt => ''), new_dt_investment_path(:sector_id => @sector.id), :title => "U:direct - Give directly to this sector." %></div>
 
 <% end %>
 

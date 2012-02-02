@@ -16,10 +16,17 @@
   <% f.inputs "Your Investment" do %>
     <%
       options = []
-      options << [unallocated_project.name, unallocated_project.id] if unallocated_project
-      options << [raw("to a project I've chosen - #{link_to @project.name, [:dt, @project]}"), @project.id] if @project && (!unallocated_project || @project.id != unallocated_project.id)
-      hint = unallocated_project && @project.id == unallocated_project.id ? raw("If this is not what you want, you can #{link_to 'find a different project', [:dt, :projects]}.") : nil
+      if @sector
+        options << [raw("to the sector I've chosen - #{link_to @sector.name, [:dt, @sector]}"), ""]
+      else
+        options << [unallocated_project.name, unallocated_project.id] if unallocated_project
+        options << [raw("to a project I've chosen - #{link_to @project.name, [:dt, @project]}"), @project.id] if @project && (!unallocated_project || @project.id != unallocated_project.id)
+        hint = unallocated_project && @project.id == unallocated_project.id ? raw("If this is not what you want, you can #{link_to 'find a different project', [:dt, :projects]}.") : nil
+      end
     %>
+    <% if @sector %>
+      <%= f.hidden_field :sector_id, :value =>  @sector.id %>
+    <% end %>
     <%= f.input :project_id, :label => "How would you like to direct your investment?", :as => :radio, :collection => options, :hint => hint %>
     <%= f.input :amount, :label => "Investment Amount", :hint => "Example: $100" %>
     <%= f.input :promotion_id, :as => :hidden %>
