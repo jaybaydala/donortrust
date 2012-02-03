@@ -135,7 +135,7 @@ class Gift < ActiveRecord::Base
   def set_project_id
     if self.sector_id && self.project_id.nil?
       sector = Sector.find(self.sector_id)
-      project_ids = sector.projects.map(&:id)
+      project_ids = sector.projects.collect{|p| p.id if p.current_need > self.amount}
       self.project_id = project_ids[rand(project_ids.length)]
     end
   end
