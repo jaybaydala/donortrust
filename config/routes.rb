@@ -152,7 +152,7 @@ ActionController::Routing::Routes.draw do |map|
                                                           :request_gift => :get }
 
     # Sectors
-    dt.resources :sectors, :only => 'show'
+    dt.resources :sectors, :only => 'show', :member => { :like => :post }
   end
 
   map.resources :news_comments
