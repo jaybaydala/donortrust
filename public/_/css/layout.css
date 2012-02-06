@@ -120,8 +120,8 @@ footer a:active { text-decoration:underline; }
 .dark .project-module .project-module-top a:active { color:#FFF; text-decoration:none; }
 /** sector box start **/
 .sector-module .project-module-top { background: #336702; }
-.sector-image { width: 34%; float: left; padding-top: 50px; }
-.sector-lives-affected { width: 66%; float: left; text-align: left; }
+.sector-image { width: 36%; float: left; padding-top: 35px; }
+.sector-lives-affected { width: 64%; float: left; text-align: left; }
 .sector-lives-affected .project-livesaffected-num { padding-bottom: 6px; }
 /** sector box end **/
 .project-livesaffected-num { font-size:30px; line-height:28px; padding:30px 0 18px 0; }
