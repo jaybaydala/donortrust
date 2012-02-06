@@ -8,6 +8,7 @@
   <div id="maincontentarea" class="content append-large-bottom">
     <section id="top_content" class="container">
       <%= render :partial => 'layouts/shared/flashes' %>
+      <%= render :partial => 'dt/sectors/sector_nav' %>
       <%= yield :top_content %>
     </section>
     <section class="container prepend-top">
@@ -42,5 +43,5 @@
 </div>
 <%= render :partial => 'layouts/shared/tail' %>
 
-<#%= render :partial => 'layouts/shared/update_likes' %>
+<%= render :partial => 'layouts/shared/update_likes', :locals => {:resource => "sectors", :obj => @sector} %>
 <%= render :partial => 'layouts/shared/like_project' %>

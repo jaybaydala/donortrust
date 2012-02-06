@@ -22,7 +22,7 @@
   <div class="project-actions clearfix">
     <div class="project-quick-give"><%= link_to "Quick Give", new_dt_investment_path(:sector_id => sector.id) %></div>
     <div class="project-like">
-      <a id="<%#= project.id %>" class="like_project"><img src="/images/nav/like-grey.png" width="21" height="23" alt=""> <span class="likes_count"><%#= project.likes_count %></span></a>
+      <a id="<%= sector.id %>" class="like_sector"><img src="/images/nav/like-grey.png" width="21" height="23" alt=""> <span class="likes_count"><%= sector.likes_count %></span></a>
     </div>
   </div>
   <div class="project-module-bottom clearfix">

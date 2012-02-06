@@ -38,5 +38,5 @@
 </div>
 <%= render :partial => 'layouts/shared/tail' %>
 
-<%= render :partial => 'layouts/shared/update_likes' %>
+<%= render :partial => 'layouts/shared/update_likes', :locals => {:resource => "projects", :obj => @project} %>
 <%= render :partial => 'layouts/shared/like_project' %>
