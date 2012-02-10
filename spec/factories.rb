@@ -167,6 +167,7 @@ Factory.define :project do |p|
   p.association :program
   p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
   p.slug nil
+  p.association :country, :factory => :place
 end
 
 Factory.define :project_flickr_image do |p|
@@ -272,6 +273,11 @@ end
 Factory.define :country, :class => Place do |p|
   p.name { "#{Faker::Address.country}" }
   p.place_type_id 2
+end
+
+Factory.define :project_poi do |pp|
+  pp.name { Faker::Name.name }
+  pp.email { Faker::Internet.email }
 end
 
 Factory.define :geolocation do |g|
