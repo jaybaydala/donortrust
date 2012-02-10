@@ -21,7 +21,6 @@ class Dt::OldParticipantsController < DtApplicationController
     # Inserting logic here to find first by the profile short name before trying the older participant short name
     if @participant.nil? && !params[:short_name].nil? and !params[:short_campaign_name].nil?
       @campaign = OldCampaign.find_by_short_name(params[:short_campaign_name])
-
       @profile = OldProfile.find_by_short_name(params[:short_name])
       @participant = @profile.user.find_participant_in_campaign(@campaign) if @campaign
       raise ActiveRecord::RecordNotFound unless @participant && @campaign && @profile

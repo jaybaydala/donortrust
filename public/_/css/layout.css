@@ -319,6 +319,7 @@ article.campaign a:hover { color:#4AF; }
 .campaign-top { background:#b3241b; color:#FFF; font-family:Georgia,Times,"Times New Roman",serif; height:100px; text-align:center; width:199px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; border-top-left-radius:5px; border-top-right-radius:5px; }
 .campaign .campaign-top h2 { padding: 0.5em 1em 0 1em; font-size:1.8em; line-height:1.0em;}
 .campaign .campaign-top h3 { font-style:italic; color:#fff;}
+.campaign .campaign-info { padding-top:8px; }
 .campaign .campaign-info p { padding:0.25em 1em;}
 .campaign .campaign-top a:link,
 .campaign .campaign-top a:visited,
