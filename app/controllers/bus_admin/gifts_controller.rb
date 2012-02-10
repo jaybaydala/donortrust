@@ -7,8 +7,8 @@ class BusAdmin::GiftsController < ApplicationController
   #access_control :DEFAULT => 'cf_admin'
 
   active_scaffold :gift do |config|
-    config.list.columns = [:name,:email,:to_name,:to_email, :message, :pickup_code]
-    config.show.columns = [:name, :email, :to_name, :to_email, :amount, :balance, :send_email, :send_at, :sent_at, :pickup_code, :picked_up_at]
+    config.list.columns = [:name,:email,:to_name,:to_email, :message, :pickup_code, :created_at]
+    config.show.columns = [:name, :email, :to_name, :to_email, :amount, :balance, :send_email, :send_at, :sent_at, :pickup_code, :picked_up_at, :notify_giver, :message, :created_at]
     config.update.columns.exclude [ :deposit, :user_transaction, :amount, :name, :email, :to_name, :first_name, :last_name, :address, :city, :province, :postal_code, :country, :credit_card, :card_expiry, :project, :authorization_result, :pickup_code, :picked_up_at, :send_at, :sent_at, :user,  :updated_at, :e_card, :user_ip_addr]
 
    config.action_links.add 'list', :label => 'Resend to Both', :parameters =>{:controller=>'gifts', :action => 'resend'},:page => true, :type=> :record
