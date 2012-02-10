@@ -1,0 +1,3 @@
+page << %|$("send_poi_spinner").hide();|
+page[:pois_updated].replace_html("<I>Sent #{@num_sent} POI emails out</I>")
+logger.info "num_sent: #{@num_sent}"
