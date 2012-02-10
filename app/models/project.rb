@@ -74,7 +74,7 @@ class Project < ActiveRecord::Base
 
     # attributes
     has :id, :as => :project_id
-    has :name
+    has :name, :as => :project_name
     has created_at
     has updated_at
     has sectors(:id),   :as => :sector_ids
