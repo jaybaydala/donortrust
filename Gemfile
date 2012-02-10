@@ -18,6 +18,7 @@ gem 'fastercsv'
 gem 'feed-normalizer'
 gem 'formtastic', '< 2'
 gem 'flickraw'
+gem "friendly_id", "~> 3.0.6"
 gem 'hpricot'
 gem 'mail', :require => false
 gem 'nokogiri'
@@ -44,7 +45,6 @@ gem 'geokit'
 group :test, :cucumber do
   gem 'cucumber-rails', '>=0.3.2', :require => false
   gem 'rspec-rails', '< 2.0', :require => 'spec/rails'
-  
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
   gem 'database_cleaner', '>=0.5.2', :require => false
   gem 'email_spec', '< 1.0', :require => false

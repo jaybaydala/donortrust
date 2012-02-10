@@ -1,4 +1,4 @@
-class Dt::TeamsController < DtApplicationController
+class Dt::OldOldTeamsController < DtApplicationController
 
   before_filter :find_campaign, :except => [:validate_short_name_of]
   before_filter :find_team, :only => [:show, :create, :edit, :update, :destroy, :join, :leave, :activate], :except => [:validate_short_name_of, :index]
@@ -10,17 +10,17 @@ class Dt::TeamsController < DtApplicationController
   # GET /dt_teams
   # GET /dt_teams.xml
   def index
-    @teams = Team.paginate_by_campaign_id_and_pending_and_generic params[:campaign_id], false, false, :page => params[:page], :per_page => 20
+    @teams = OldTeam.paginate_by_campaign_id_and_pending_and_generic params[:campaign_id], false, false, :page => params[:page], :per_page => 20
   end
 
   # GET /dt_teams/1
   # GET /dt_teams/1.xml
   def show
-    participant = Participant.find(:first, :conditions => {:team_id => @team.id, :user_id => current_user.id})
+    participant = OldParticipant.find(:first, :conditions => {:team_id => @team.id, :user_id => current_user.id})
     @can_leave_team = logged_in? && participant && participant.can_leave_team?
     @can_join_team = !logged_in? || current_user.can_join_team?(@team)
 
-    @participants = Participant.paginate_by_team_id_and_pending_and_active @team.id, false, true, :page => params[:participant_page], :per_page => 10
+    @participants = OldParticipant.paginate_by_team_id_and_pending_and_active @team.id, false, true, :page => params[:participant_page], :per_page => 10
     if(params[:participant_page] != nil)
       render :partial => 'participants'
     end
@@ -33,8 +33,8 @@ class Dt::TeamsController < DtApplicationController
       flash[:notice] = "Because this campaign has a registration fee, you must first join the campaign before you can create a team"
       redirect_to dt_campaign_path(@campaign) and return
     end
-    
-    @team = Team.new
+
+    @team = OldTeam.new
     if @campaign.has_participant(current_user) && !@campaign.default_team.has_user?(current_user)
       flash[:notice] = "You are already in another team in this campaign, you can not create a team."
       redirect_to dt_campaign_path(@campaign) and return
@@ -57,7 +57,7 @@ class Dt::TeamsController < DtApplicationController
   # POST /dt_teams
   # POST /dt_teams.xml
   def create
-    @team = Team.new(params[:team])
+    @team = OldTeam.new(params[:team])
     @team.campaign = @campaign
     @team.leader = current_user
     @team.pending = @campaign.require_team_authorization?
@@ -65,7 +65,7 @@ class Dt::TeamsController < DtApplicationController
     @team.goal ||= 0
 
     if @team.save
-      @participant = Participant.new
+      @participant = OldParticipant.new
       @participant.team = @team
       @participant.user = current_user
       @participant.active = true
@@ -133,15 +133,15 @@ class Dt::TeamsController < DtApplicationController
   end
 
   def manage
-    @team = Team.find(params[:id])
-    @applicants = Participant.find(:all, :conditions => { :pending => true, :team_id => @team.id })
-    @participants = Participant.find(:all, :conditions => { :pending => false, :team_id => @team.id })
+    @team = OldTeam.find(params[:id])
+    @applicants = OldParticipant.find(:all, :conditions => { :pending => true, :team_id => @team.id })
+    @participants = OldParticipant.find(:all, :conditions => { :pending => false, :team_id => @team.id })
     [@applicants, @participants, @team]
   end
 
   def admin
-    @teams = Team.find(:all) unless params[:campaign_id] != nil
-    @teams = Team.find_by_campaign_id(params[:campaign_id]) unless params[:campaign_id] == nil
+    @teams = OldTeam.find(:all) unless params[:campaign_id] != nil
+    @teams = OldTeam.find_by_campaign_id(params[:campaign_id]) unless params[:campaign_id] == nil
   end
 
   def join!
@@ -154,7 +154,7 @@ class Dt::TeamsController < DtApplicationController
         if @team.users.include?(current_user)
           flash[:notice] = "You are already a member of this team!"
         else
-          @team_member = TeamMember.new
+          @team_member = OldTeamMember.new
           @team_member.user = current_user
           @team_member.team = @team
           if @team_member.save
@@ -170,7 +170,7 @@ class Dt::TeamsController < DtApplicationController
     end
     redirect_to dt_team_path(@team)
   end
-  
+
   def leave
     unless @team.campaign.valid?
       flash[:notice] = "this campaign has ended"
@@ -183,7 +183,7 @@ class Dt::TeamsController < DtApplicationController
     end
 
     if (@team.users.include?(current_user))
-      
+
       # Restrict participants from leaving the default team (thus, the campaign)
       if (@team == @team.campaign.default_team)
         flash[:notice] = "You can not leave the campaign"
@@ -193,13 +193,13 @@ class Dt::TeamsController < DtApplicationController
       # Deactivate the participant in their current team
       participant = @team.participant_for_user(current_user)
       participant.update_attribute :active, false
-      
+
       # Put the participant in the default team
       if (default_participant = @team.campaign.default_team.participants.find_by_user_id(participant.user_id))
         default_participant.update_attribute :active, true
       else
         @team.campaign.default_team.participants.create :user_id => participant.user_id,
-                                                        :short_name => participant.short_name,  
+                                                        :short_name => participant.short_name,
                                                         :about_participant => participant.about_participant,
                                                         :active => true,
                                                         :pending => @team.campaign.default_team.require_authorization
@@ -214,7 +214,7 @@ class Dt::TeamsController < DtApplicationController
   end
 
   def approve
-    @team = Team.find(params[:id]) unless params[:id] == nil
+    @team = OldTeam.find(params[:id]) unless params[:id] == nil
     if @team.approve!
       flash[:notice] = "#{@team.name} approve!"
       redirect_to manage_dt_campaign_path(@campaign)
@@ -246,7 +246,7 @@ class Dt::TeamsController < DtApplicationController
         @errors.push('The short name must be 3 characters or longer.')
       end
 
-      if(Team.find_by_short_name_and_campaign_id(@short_name,params[:campaign_id]) != nil)
+      if(OldTeam.find_by_short_name_and_campaign_id(@short_name,params[:campaign_id]) != nil)
         @errors.push('That short name has already been used, short names must be unique to each campaign.')
       end
     else
@@ -254,7 +254,7 @@ class Dt::TeamsController < DtApplicationController
     end
     [@errors, @short_name]
   end
-  
+
 
   protected
   def access_denied
@@ -275,19 +275,19 @@ class Dt::TeamsController < DtApplicationController
 
   private
   def find_campaign
-    @campaign = Campaign.find(params[:campaign_id]) unless params[:campaign_id].blank?
-    @campaign = Campaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name].blank?
+    @campaign = OldCampaign.find(params[:campaign_id]) unless params[:campaign_id].blank?
+    @campaign = OldCampaign.find_by_short_name(params[:short_campaign_name]) unless params[:short_campaign_name].blank?
 
     if @campaign == nil
-      @campaign = Team.find(params[:id]).campaign unless params[:id] == nil
+      @campaign = OldTeam.find(params[:id]).campaign unless params[:id] == nil
     end
     raise ActiveRecord::RecordNotFound unless @campaign
     @campaign
   end
 
   def find_team
-    @team = Team.find(params[:id]) unless params[:id].blank?
-    @team = Team.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
+    @team = OldTeam.find(params[:id]) unless params[:id].blank?
+    @team = OldTeam.find_by_short_name(params[:short_name]) unless params[:short_name].blank?
     raise ActiveRecord::RecordNotFound unless @team
     @team
   end

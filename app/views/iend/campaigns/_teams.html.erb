@@ -1,0 +1,15 @@
+<div class="team-member-list">
+	<% if @campaign.teams.size > 0 %>
+	<h3>Teams</h3>
+	<ul>
+		<% @campaign.teams.each do |t| %>
+		<li><%= link_to t.name, iend_campaign_team_path(@campaign, t) %> (<%= pluralize t.team_memberships.size, "Member" %> have raised <%= number_to_currency t.total_donations %>)
+		<% end %>
+	</ul>
+	<% else %>
+	<p>No Teams have been created yet</p>
+	<% end %>
+	<% if @campaign.user_can_add_team?(@user) %>
+		<%= link_to "Add a new team", new_iend_campaign_team_path(@campaign) %>
+	<% end %>
+</div>
