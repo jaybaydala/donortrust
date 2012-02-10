@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
     iend.resources :password_resets, :only => [:new, :create]
     iend.resource :profile, :controller => 'iend_profiles'
     iend.resource :session, :controller => 'sessions'
-    iend.resources :subscriptions
+    iend.resources :subscriptions, :member => { :edit_billing => :get }
     iend.resources :tax_receipts, :only => :index
     iend.resources :users, :member => { :edit_password => :get } do |user|
       user.resources :friends, :only => [:index]
@@ -35,12 +35,14 @@ ActionController::Routing::Routes.draw do |map|
       account.resources :tax_receipts, :controller => 'tax_receipts'
       account.resources :account_memberships, :controller => 'account_memberships'
     end
+    dt.resources :bulk_gifts, :only => [:new, :create]
     dt.resources :deposits, :controller => 'deposits'
     dt.resources :facebook_posts
 
     dt.resource :upowered, :controller => "upowered"
     dt.resources :upowered_shares, :only => [ :create ]
     dt.resources :upowered_email_subscribes, :member => { :unsubscribe => :get }
+    dt.resources :project_pois, :member => { :unsubscribe => :get }
     dt.resource :christmasfuture, :controller => 'christmasfuture'
     dt.resource :support_badges, :controller => 'support_badges'
     dt.resource :cart, :controller => 'cart' do |cart|
@@ -60,7 +62,8 @@ ActionController::Routing::Routes.draw do |map|
                                          :cause => :get,
                                          :facebook_login => :get,
                                          :timeline => :get,
-                                         :give => :get},
+                                         :give => :get,
+                                         :like => :post},
                             :collection => {  :search => :get,
                                               :advancedsearch => :get,
                                               :add_countries => :get,
@@ -315,6 +318,7 @@ ActionController::Routing::Routes.draw do |map|
     #
     # Gather normal 'lookup' resources together.  Standard RESTful resources, no nesting
     #
+    ba.resources :project_pois, :active_scaffold => true
     ba.resources :project_statuses, :active_scaffold => true
     ba.resources :milestone_statuses, :active_scaffold => true
     ba.resources :frequency_types, :active_scaffold => true
@@ -360,11 +364,13 @@ ActionController::Routing::Routes.draw do |map|
   map.update_location 'bus_admin/_update_location', :controller => 'bus_admin/projects', :action => 'update_location'
   map.update_partner 'bus_admin/_update_partner', :controller => 'bus_admin/projects', :action => 'update_partner'
   map.update_sectors 'bus_admin/_update_sectors', :controller => 'bus_admin/projects', :action => 'update_sectors'
+  map.send_project_pois '/bus_admin/project/:id/send_pois', :controller => 'bus_admin/projects', :action => 'send_pois'
 
   # bus_admin gifts
   map.csv_import 'bus_admin/group_gifts/csv_import', :controller => 'bus_admin/group_gifts', :action => 'csv_import'
   map.resend 'bus_admin/resend', :controller => 'bus_admin/gifts', :action => 'resend'
   map.resend_gift 'bus_admin/resend_gift', :controller => 'bus_admin/gifts', :action => 'resend_gift'
+  map.resend_sender 'bus_admin/resend_sender', :controller => 'bus_admin/gifts', :action => 'resend_sender'
 
   # bus_admin assorted
   map.add_measure 'bus_admin/key_measures/add_measure', :controller => 'bus_admin/key_measures', :action => 'add_measure'

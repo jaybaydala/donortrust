@@ -89,6 +89,7 @@ Factory.define :gift do |g|
   g.email_confirmation { email }
   g.to_email { to_email }
   g.to_email_confirmation { to_email }
+  g.send_email "yes"
   g.send_at { 1.day.from_now }
 end
 
@@ -180,6 +181,7 @@ Factory.define :project do |p|
   p.association :program
   p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
   p.slug nil
+  p.association :country, :factory => :place
 end
 
 Factory.define :project_flickr_image do |p|
@@ -189,7 +191,7 @@ end
 
 Factory.define :admin_project, :class => Project do |p|
   p.slug "admin"
-  p.name { "#{Faker::Lorem.words(6).join(" ")} Project"}
+  p.name "Admin Project"
   p.target_start_date 1.year.ago
   p.total_cost 10000000
   p.association :partner
@@ -200,7 +202,7 @@ end
 
 Factory.define :unallocated_project, :class => Project do |p|
   p.slug "unallocated"
-  p.name { "#{Faker::Lorem.words(6).join(" ")} Project"}
+  p.name "Unallocated Project"
   p.target_start_date 1.year.ago
   p.total_cost 10000000
   p.association :partner
@@ -290,6 +292,7 @@ Factory.define :user do |u|
   u.password_confirmation 'Secret123'
   u.under_thirteen false
   u.terms_of_use '1'
+  u.image { u.paperclip_fixture("user", "image", "jpg") }
   u.display_name { Faker::Name.name }
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }
 end
@@ -297,4 +300,39 @@ end
 Factory.define :country, :class => Place do |p|
   p.name { "#{Faker::Address.country}" }
   p.place_type_id 2
+end
+
+Factory.define :project_poi do |pp|
+  pp.name { Faker::Name.name }
+  pp.email { Faker::Internet.email }
+end
+
+Factory.define :geolocation do |g|
+  g.ip_address '69.60.70.50'
+end
+
+Factory.define :share do |s|
+  s.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  s.email { Faker::Internet.email }
+  s.to_email { Faker::Internet.email }
+end
+
+Factory.define :group_type do |gt|
+  gt.name { Faker::Name.name }
+end
+
+Factory.define :group do |g|
+  g.name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  g.association :group_type, :factory => :group_type
+  g.private { false }
+end
+
+Factory.define :membership do |m|
+  m.membership_type Membership.member
+end
+
+Factory.define :invitation do |s|
+  s.to_name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
+  s.to_email { Faker::Internet.email }
+  s.association :user, :factory => :user
 end

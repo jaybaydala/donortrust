@@ -16,23 +16,28 @@
     <div class="project-organization"><%= link_to truncate("by #{project.partner.name}", :length => 28), organization_dt_project_path(project) %></div>
   </div>
   <div class="project-actions clearfix">
+    <% if project.fundable? %>
     <div class="project-quick-give"><%= link_to "Quick Give", new_dt_investment_path(:project_id => project.id) %></div>
-    <!-- <div class="project-like">
-          <a href="#"><img src="/images/nav/like-grey.png" width="21" height="27" alt=""> Like</a>
-        </div> -->
+    <% end %>
+    <div class="project-like">
+      <a id="<%= project.id %>" class="like_project"><img src="/images/nav/like-grey.png" width="21" height="23" alt=""> <span class="likes_count"><%= project.likes_count %></span></a>
+    </div>
   </div>
   <div class="project-module-bottom clearfix">
     <div class="project-progress-bar">
       <div class="project-progress-fg" style="width:<%= project.get_percent_raised %>%"></div>
     </div>
-    <div class="detail">
+    <div class="detail funded">
       <%= project.get_percent_raised.to_i %>%<br> Funded
     </div>
-    <div class="detail">
+    <div class="detail total_cost">
       <%= number_to_currency(project.total_cost, :precision => 0) %><br> Cost
     </div>
-    <div class="detail">
+    <div class="detail gift">
       <%= number_with_delimiter(Gift.count(:conditions => ["project_id=?", project.id])) %><br> Gifts
+    </div>
+    <div class="detail investment">
+      <%= number_with_delimiter(Investment.count(:conditions => ["project_id=?", project.id])) %><br> Investments
     </div>
   </div>
 </article>

@@ -58,6 +58,7 @@ class Order < ActiveRecord::Base
   attr_accessor :upowered_step, :payment_options_step, :billing_step, :account_signup_step, :credit_card_step, :receipt_step, :upowered
 
   named_scope :complete, :conditions => { :complete => true }
+  named_scope :for_year, lambda {|year| { :conditions => ["created_at LIKE ?", "#{year}-%"] }}
 
   def validate_credit_card
     if credit_card_payment?

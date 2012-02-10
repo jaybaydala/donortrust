@@ -33,18 +33,18 @@ gem 'rmagick', '2.12.2'
 gem 'ruby-recaptcha'
 gem 'simple-rss'
 gem 'searchlogic'#, '2.4.14'
-gem 'thinking-sphinx', :require => 'thinking_sphinx'
+gem 'thinking-sphinx', '1.4.10', :require => 'thinking_sphinx'
 gem 'transaction-simple', :require => 'transaction/simple'
 gem 'validation_reflection', '< 1'
 gem 'whenever', '~>0.7.0', :require => false
 gem 'will_paginate', :require => 'will_paginate'
 gem 'xml-simple'
 gem 'youtube-g', :require => 'youtube_g'
+gem 'geokit'
 
 group :test, :cucumber do
   gem 'cucumber-rails', '>=0.3.2', :require => false
-  gem 'rspec-rails', '< 2.0'
-
+  gem 'rspec-rails', '< 2.0', :require => 'spec/rails'
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
   gem 'database_cleaner', '>=0.5.2', :require => false
   gem 'email_spec', '< 1.0', :require => false
@@ -60,4 +60,8 @@ group :test, :cucumber do
   gem 'shoulda'
   gem 'timecop'
   gem 'watchr'
+  gem 'mocha'
+  gem 'redgreen'
 end
+
+gem 'mysql2', '< 0.3'

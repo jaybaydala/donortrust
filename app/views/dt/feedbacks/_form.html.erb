@@ -1,5 +1,5 @@
 <% if @feedback %>
-<% semantic_form_for @feedback, :html => { :class => "light" }, :url => dt_feedbacks_path(:format => 'json') do |f| %>
+<% semantic_form_for @feedback, :html => { :class => "light" }, :url => dt_feedbacks_url(:format => 'json', :protocol => 'http://') do |f| %>
   <%= f.semantic_errors :gift %>
   <% f.inputs "Feedback" do %>
     <%= f.input :name %>

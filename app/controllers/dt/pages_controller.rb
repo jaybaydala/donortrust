@@ -1,4 +1,4 @@
-class Dt::PagesController < ApplicationController
+class Dt::PagesController < DtApplicationController
   def show
     @page = Page.find_by_permalink(params[:id])
     find_page_by_path if params[:path].present?

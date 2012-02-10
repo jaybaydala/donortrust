@@ -81,26 +81,84 @@ describe Gift do
       @gift.valid?
       @gift.errors.on(:send_at).should_not be_nil
     end
-    it "should allow future or past dates on update" do
+    it "should allow future dates on update" do
+      @gift = Factory(:gift)
+      @gift.update_attributes(:send_at => Time.now + 1).should be_true
+    end
+    it "should allow past dates on update" do
       @gift = Factory(:gift)
       @gift.update_attributes(:send_at => Time.now - 1).should be_true
-      @gift.update_attributes(:send_at => Time.now + 10).should be_true
+    end
+    it "should update send_at to Time.now + 20 minutes on update even if send_at is invalid" do
+      now = Time.now
+      Time.stub!(:now).and_return(now)
+      @gift = Factory(:gift)
+      @gift.update_attributes(:send_at => Time.now - 1.day, :send_email => 'now').should be_true
+      @gift.send_at.should == now + 20.minutes
     end
   end
 
-  describe "send_email" do
-    it "should be set to true if \"now\"" do
+  describe "send_email set to 'now'" do
+    it "should set send_email? to true" do
       @gift.send_email = "now"
-      @gift.send_email.should be_true
+      @gift.send_email?.should be_true
     end
-    it "should set send_at to Time.now + 5.minutes " do
+    it "should set send_at to Time.now + 20.minutes" do
       now = Time.now
       Time.stub!(:now).and_return(now)
       @gift.send_email = "now"
-      @gift.send_at.should == now + 5.minutes
+      @gift.send_at = 2.days.from_now
+      @gift.save
+      @gift.send_at.should == now + 20.minutes
     end
   end
   
+  describe "sendable scope" do
+    it "should return unsent gifts with send_email = 'now'" do
+      @gift.send_email = 'now'
+      @gift.save!
+      Gift.sendable.first.should == @gift
+    end
+    it "should return unsent gifts with send_email = 'yes'" do
+      @gift.send_email = 'yes'
+      @gift.save!
+      @gift.send_at = 5.days.ago
+      @gift.save!
+      Gift.sendable.first.should == @gift
+    end
+    it "should return unsent gifts with send_email = '1' (old true values)" do
+      @gift.send_email = '1'
+      @gift.save!
+      @gift.send_at = 5.days.ago
+      @gift.save!
+      Gift.sendable.first.should == @gift
+    end
+    it "should not return unsent gifts with send_email = 'no'" do
+      @gift.send_email = 'no'
+      @gift.save!
+      @gift.send_at = 5.days.ago
+      @gift.save!
+      Gift.sendable.first.should_not == @gift
+    end
+    it "should not return unsent gifts with send_email = '0' (old false values)" do
+      @gift.send_email = '0'
+      @gift.save!
+      @gift.send_at = 5.days.ago
+      @gift.save!
+      Gift.sendable.first.should_not == @gift
+    end
+    it "should not return unsent gifts with send_at in the future" do
+      @gift.send_at = 5.days.from_now
+      @gift.save!
+      Gift.sendable.first.should_not == @gift
+    end
+    it "should not return sent gifts" do
+      @gift.sent_at = 1.days.ago
+      @gift.save!
+      Gift.sendable.first.should_not == @gift
+    end
+  end
+
   describe "find_unopened_gifts" do
     it "should only find gifts with a pickup_code and that hasn't been sent" do
       @picked_up = Factory(:gift)
@@ -183,6 +241,50 @@ describe Gift do
         mail.to.include?(@gift.email).should be_true
         mail.subject.should == "Your UEnd: gift has been opened"
       end
+    end
+  end
+
+  describe "directed gifts" do
+    before do
+      @project = Factory(:project)
+    end
+
+    it "should create POIs" do
+      lambda do
+        Gift.create! :amount => 1, :to_email => "destination@email.com", :to_name => "Receiver Name",
+          :email => "sender@email.com", :name => "Sender Name", :project => @project
+      end.should change(ProjectPoi, :count).by(2)
+    end
+
+    it "should reuse gifts by email" do
+      @gift = Factory(:gift, :project => @project)
+      lambda do
+        # make a gift with identical sender and receiver, and set a user as well
+        Gift.create! :amount => 1, :to_email => @gift.to_email, :to_name => @gift.to_name,
+          :email => @gift.email, :name => @gift.name, :project => @project
+      end.should change(ProjectPoi, :count).by(0)
+    end
+
+    it "should capture user" do
+      @gift = Factory(:gift, :project => @project)
+      # make a gift with identical sender and receiver, and set a user as well
+      @user = Factory(:user)
+      Gift.create! :amount => 1, :to_email => @gift.to_email, :to_name => @gift.to_name,
+        :email => @gift.email, :name => @gift.name, :project => @project, :user => @user
+      ProjectPoi.find_by_email(@gift.email).user.should == @user
+    end
+  end
+
+  describe "non-directed gifts" do
+    before do
+      @project = Factory(:project)
+    end
+
+    it "should not create POIs" do
+      lambda do
+        Gift.create! :amount => 1, :to_email => "destination@email.com", :to_name => "Receiver Name",
+          :email => "sender@email.com", :name => "Sender Name"
+      end.should change(ProjectPoi, :count).by(0)
     end
   end
 end

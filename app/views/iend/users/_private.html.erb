@@ -1,9 +1,16 @@
 <% html_title("#{@user.first_name} #{@user.last_name}") %>
 
-<h1><%= "#{image_tag(@user.image.url, :alt => '') if @user.image?} #{@user.first_name} #{@user.last_name}" %></h1>
+<h1>
+    <a href="<%= @user.image.url(:large) %>" class="colorbox" title="<%= @iend_profile.formatted_name %>">
+      <%= image_tag(@user.image.url, :alt => '') %></a>
+  <%= "#{@user.first_name} #{@user.last_name}" %>
+</h1>
 <p><strong>Location: <%= [@user.city, @user.province, @user.country].compact.join(', ') %></strong></p>
 
-<%= iend_user_nav if @user == current_user %>
+<%- if @user == current_user -%>
+  <%= iend_user_nav %>
+  <%= render :partial => 'iend/users/impact_stats' %>
+<%- end -%>
 
 <div class="clearfix">
   <%= render "iend/shared/private_sidebar" %>

@@ -259,6 +259,54 @@ describe User do
     end
   end
 
+  context "friendships" do
+    let(:user) { Factory(:user) }
+    let(:friend_1) { Factory(:user) }
+    let(:friend_2) { Factory(:user) }
+    let(:project) { Factory(:project, :lives_affected => 20) }
+    subject { user }
+
+    before do
+      # set up friendships
+      Factory(:friendship, :user => user, :friend => friend_1, :status => true)
+      Factory(:friendship, :user => user, :friend => friend_2, :status => true)
+    end
+
+    specify { user.all_friends.size.should == 2 }
+    specify { friend_1.all_friends.size.should == 1 }
+    specify { friend_2.all_friends.size.should == 1 }
+    specify { user.all_friend_ids.sort.should == [friend_1.id, friend_2.id] }
+    specify { friend_1.all_friend_ids.should == [user.id] }
+    specify { friend_2.all_friend_ids.should == [user.id] }
+    specify { user.all_friend_ids_and_self.sort.should == [user.id, friend_1.id, friend_2.id] }
+  end
+
+  context "impact calculations" do
+    let(:user) { Factory(:user) }
+    let(:friend_1) { Factory(:user) }
+    let(:friend_2) { Factory(:user) }
+    let(:project) { Factory(:project, :lives_affected => 20) }
+
+    before do
+      # set up friendships
+      Factory(:friendship, :user => user, :friend => friend_1, :status => true)
+      Factory(:friendship, :user => user, :friend => friend_2, :status => true)
+      # set up data for the friend_1
+      o = Factory(:order, :user => friend_1)
+      Factory(:gift, :user => friend_1, :order => o, :project => project, :amount => 200)
+      Factory(:order, :user => friend_1, :gift_card_payment_id => "12345", :total => 100)
+      Factory(:investment, :user => friend_1, :project => project, :amount => 125)
+      # set up data for the friend_2
+      o = Factory(:order, :user => friend_2)
+      Factory(:gift, :user => friend_2, :order => o, :project => project, :amount => 50)
+      Factory(:order, :user => friend_2, :gift_card_payment_id => "12345", :total => 125)
+      Factory(:investment, :user => friend_2, :project => project, :amount => 100)
+    end
+    
+    specify { user.collective_gifts_given_count.should == 2 }
+    specify { user.collective_order_sum.should == 425 }
+    specify { user.collective_projects_lives_affected.should == 22 }
+  end
 
   def create_user(options = {})
     user = Factory.build(:user, { :login => 'login@example.com', :first_name => 'FirstName', :last_name => 'LastName', :display_name => 'DisplayName', :address => '4320 15 st', :city => 'Calgary', :province => 'Alberta', :country => 'Canada', :postal_code => 'T2T4B2', :remember_token => 'test', :remember_token_expires_at => 1.week.from_now, :activation_code => 'code', :activated_at => 1.year.ago, :last_logged_in_at => 1.month.ago }.merge(options))

@@ -9,6 +9,7 @@ class Project < ActiveRecord::Base
     })
   acts_as_paranoid_versioned
 
+  include Likeable
   has_one :pending_project
   belongs_to :project_status
   belongs_to :program
@@ -35,13 +36,17 @@ class Project < ActiveRecord::Base
   has_many :key_measures
   has_many :my_wishlists
   has_many :users, :through => :my_wishlists
+  has_many :project_pois
+  has_many :subscribed_project_pois, :conditions => { :unsubscribed => false }, :class_name => "ProjectPoi"
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
 
   has_and_belongs_to_many :campaigns
-  
+
   acts_as_textiled :description, :intended_outcome, :meas_eval_plan, :project_in_community
+
+  after_save :check_funded
 
   named_scope :total_cost_between, lambda {|min, max|
     { :conditions => ["total_cost BETWEEN ? AND ?", min.to_i, max.to_i] }
@@ -64,13 +69,14 @@ class Project < ActiveRecord::Base
     indexes description
     indexes note
     
-    indexes partner(:name), :as => :partner_name
-    indexes country(:name), :as => :country_name
-    indexes sectors(:name), :as => :sector_name
+    indexes partner(:name), :as => :partner
+    indexes country(:name), :as => :country
+    indexes sectors(:name), :as => :sector
+    indexes project_status(:name), :as => :project_status
 
     # attributes
     has :id, :as => :project_id
-    has :name
+    has :name, :as => :project_name
     has created_at
     has updated_at
     has sectors(:id),   :as => :sector_ids
@@ -81,10 +87,12 @@ class Project < ActiveRecord::Base
     has partner(:id),   :as => :partner_id
     has partner(:name), :as => :partner_name
     has partner(:name), :as => :partner_name_sort
+    has project_status(:id), :as => :project_status_id
+    has project_status(:name), :as => :project_status_name
     has "CAST(total_cost AS UNSIGNED)", :type => :integer, :as => :total_cost
     
     # global conditions
-    where "`projects`.project_status_id IN (2,4) AND `projects`.deleted_at IS NULL AND `partners`.partner_status_id IN (1,3)"
+    where "`projects`.project_status_id IN (SELECT id FROM project_statuses WHERE name LIKE 'Active' OR name LIKE 'Completed') AND `projects`.deleted_at IS NULL AND `partners`.partner_status_id IN (SELECT `partner_statuses`.id FROM `partner_statuses` WHERE name LIKE 'Active' OR name LIKE 'Archived')"
   end
 
   # ultrasphinx indexer configuration
@@ -589,9 +597,22 @@ class Project < ActiveRecord::Base
                               :contact, :frequency_type, :partner, :program, :project_status]
   end
 
-  private
-  def max_number_of_sectors
-    errors.add_to_base "A project can have a maximum of 3 sectors" if self.sectors.length > 3  
+  def send_pois(message)
+    subscribed_project_pois.each do |poi|
+      DonortrustMailer.deliver_project_poi(poi, message)
+    end.length
   end
+
+  protected
+    def check_funded
+      if self.current_need == 0
+        DonortrustMailer.deliver_project_fully_funded(self)
+      end
+    end
+
+  private
+    def max_number_of_sectors
+      errors.add_to_base "A project can have a maximum of 3 sectors" if self.sectors.length > 3
+    end
 
 end
