@@ -28,3 +28,4 @@ public/images/bus_admin/uploads/place
 donortrust.tmproj
 .rbenv-version
 vendor/bundle
+script/missing_subscriptions.rb
