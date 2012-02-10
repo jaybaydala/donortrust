@@ -49,6 +49,8 @@ module NavigationHelpers
       new_dt_gift_path
     when /the projects page/
       dt_projects_path
+    when /the unsubscribe project poi by token (\d+) page/
+      unsubscribe_dt_project_poi_path($1)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

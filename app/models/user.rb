@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   has_many :sectors, :through => :preferred_sectors
   has_many :teams, :through => :participants
   has_many :participants
+  has_many :project_pois
   has_one :profile
   has_one :iend_profile
   

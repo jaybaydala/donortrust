@@ -124,4 +124,25 @@ describe DonortrustMailer do
       end
     end
   end
+
+  describe "project poi" do
+    before do
+      @project = Factory(:project)
+      @project_poi = Factory(:project_poi, :project => @project)
+    end
+
+    it "should be sent out" do
+      @email = DonortrustMailer.create_project_poi(@project_poi, "msg")
+      @email.to_addrs.first.name.should == @project_poi.name
+      @email.to_addrs.first.address.should == @project_poi.email
+      @email.body.should =~ /#{@project_poi.token}/
+    end
+
+    it "should throw an error if the project_poi is unsubscribed" do
+      @project_poi.update_attributes(:unsubscribed => true)
+      lambda {
+        @email = DonortrustMailer.create_project_poi(@project_poi, "msg")
+      }.should raise_error(RuntimeError)
+    end
+  end
 end
