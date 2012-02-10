@@ -67,9 +67,9 @@ class Project < ActiveRecord::Base
     indexes description
     indexes note
     
-    indexes partner(:name), :as => :partner_name
-    indexes country(:name), :as => :country_name
-    indexes sectors(:name), :as => :sector_name
+    indexes partner(:name), :as => :partner
+    indexes country(:name), :as => :country
+    indexes sectors(:name), :as => :sector
     indexes project_status(:name), :as => :project_status
 
     # attributes
@@ -90,7 +90,7 @@ class Project < ActiveRecord::Base
     has "CAST(total_cost AS UNSIGNED)", :type => :integer, :as => :total_cost
     
     # global conditions
-    where "`projects`.project_status_id IN (2,4) AND `projects`.deleted_at IS NULL AND `partners`.partner_status_id IN (1,3)"
+    where "`projects`.project_status_id IN (SELECT id FROM project_statuses WHERE name LIKE 'Active' OR name LIKE 'Completed') AND `projects`.deleted_at IS NULL AND `partners`.partner_status_id IN (SELECT `partner_statuses`.id FROM `partner_statuses` WHERE name LIKE 'Active' OR name LIKE 'Archived')"
   end
 
   # ultrasphinx indexer configuration

@@ -150,6 +150,7 @@ class Dt::ProjectsController < DtApplicationController
     # project_id_to_session: stores the project id in the (surprise) session,
     # require_facebook_login is a rfacebook thing that bounces the user to facebook, gets a session id, and stores it in the rails session, makes the fbsession object available to controllers
   end
+
   def finish_facebook_login
     project_id = session[:project_id]
     session[:project_id] = nil
@@ -218,7 +219,7 @@ class Dt::ProjectsController < DtApplicationController
           when :country_id
             records = Place.find(terms)
           when :total_cost
-            records = terms.map{|term| term.split(',') }
+            records = [terms] unless terms.blank?
           when :project_status_id
             records = ProjectStatus.find(terms)
           end
@@ -233,23 +234,20 @@ class Dt::ProjectsController < DtApplicationController
       search_facets.each do |term|
         term = term.to_sym
         search_query[term] ||= []
-        search_query[term].uniq!
+        search_query[term].uniq! unless term == :total_cost
+      end
+      if search_query[:total_cost].present?
+        total_costs = search_query[:total_cost].split('..')
+        search_query[:total_cost] = (total_costs.first..total_costs.last)
       end
       if search_query[:search_text].present?
         search_query.delete(:search_text)
-      end
-      if !search_query[:project_status_id].present?
-        search_query[:project_status_id] = [ProjectStatus.active.id]
       end
       search_query
     end
 
     def search_query_prepared
       search_query_prepared = search_query.delete_if{|f,t| t.blank? }
-      if search_query_prepared[:total_cost].present?
-        total_costs = search_query_prepared[:total_cost].map{|t| t.split(',') }.flatten.map(&:to_i)
-        search_query_prepared[:total_cost] = (total_costs.min..total_costs.max)
-      end
       if search_query_prepared[:search_text].present?
         search_query_prepared.delete(:search_text)
       end
@@ -263,7 +261,11 @@ class Dt::ProjectsController < DtApplicationController
     def search_query_with_term_one_option(facet, term)
       facet        = facet.to_sym
       query        = self.search_query
-      query[facet] = [term]
+      if facet == :total_cost
+        query[facet] = term
+      else
+        query[facet] = [term]
+      end
       query.delete_if{ |f,t| t.blank? }
       query
     end
@@ -283,7 +285,11 @@ class Dt::ProjectsController < DtApplicationController
 
     def search_query_without_term(facet, term)
       query = self.search_query
-      query[facet.to_sym].delete(term.to_s)
+      if facet == :total_cost
+        query[:total_cost] = nil
+      else
+        query[facet.to_sym].delete(term.to_s)
+      end
       query.delete_if{|f,t| t.blank? }
       query
     end
