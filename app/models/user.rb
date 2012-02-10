@@ -352,7 +352,6 @@ class User < ActiveRecord::Base
   end
   alias :has_role? :role?
 
-<<<<<<< HEAD
   # class method to avoid nil object check
   def self.is_user_cf_admin?(user)
     return Role.find_by_title('cf_admin').users.include?(user)
@@ -374,25 +373,13 @@ class User < ActiveRecord::Base
   #     "ON c.id = t.campaign_id AND t.id = p.team_id "+
   #     "WHERE p.user_id = ? ORDER BY c.event_date DESC", self.id])
   # end
-=======
-  def campaigns
-    @campaigns = Campaign.find_by_sql([
-      "SELECT c.* from campaigns c INNER JOIN teams t INNER JOIN participants p " +
-      "ON c.id = t.campaign_id AND t.id = p.team_id "+
-      "WHERE p.user_id = ? ORDER BY c.event_date DESC", self.id])
-  end
->>>>>>> develop
 
   def participation
     @participation = Participant.find_by_sql(["SELECT p.* from participants p WHERE p.user_id = ?", self.id])
   end
 
   def find_participant_in_campaign(campaign)
-<<<<<<< HEAD
     Participant.find(:first, :conditions => {:user_id => self.id, :campaign_id => campaign.id })
-=======
-    Participant.find(:first, :conditions => {:user_id => self.id, :team_id => campaign.teams.collect(&:id), :active => true})
->>>>>>> develop
   end
 
   def find_team_in_campaign(campaign)
