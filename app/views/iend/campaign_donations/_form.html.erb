@@ -1,0 +1,11 @@
+<% semantic_form_for([:iend, @campaign, @campaign_donation]) do |f| %>
+  <%= f.semantic_errors :campaign_donation %>
+  <% f.inputs "Donation Information" do %>
+    <%= f.input :campaign_id, :as => :hidden %>
+    <%= f.input :amount %>
+    <%= f.input :participant, :collection => @team_members, :label => "Donate To:", :include_blank => false %>
+  <% end %>
+  <% f.buttons do %>
+    <%= f.commit_button "add to cart" %>
+  <% end %>
+<% end %>

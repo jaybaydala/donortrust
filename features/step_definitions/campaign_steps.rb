@@ -15,3 +15,14 @@ end
 Then /^I should be a participant in the campaign$/ do
   @user.campaigns.reload.should include(@campaign)
 end
+
+Then /^I should see the campaign name$/ do
+  @campaign ||= Campaign.last
+  steps %Q{
+    Then I should see "#{@campaign.name}"
+  }
+end
+
+When /^I choose the first participant from "([^"]*)"$/ do |arg1|
+  #first one is chosen by default... just here for readability
+end

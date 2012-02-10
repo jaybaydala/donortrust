@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.namespace(:iend) do |iend|
     iend.resources :authentications
     iend.resources :campaigns do |campaign|
+      campaign.resources :campaign_donations, :only => [:create, :new]
       campaign.resources :participants, :only => [:create, :destroy]
       campaign.resources :teams
       campaign.resources :team_memberships, :only => [:create, :destroy]

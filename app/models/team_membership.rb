@@ -7,6 +7,10 @@ class TeamMembership < ActiveRecord::Base
   validate :one_team_for_member_per_campaign
   validate :participant_in_campaign
 
+  def participant
+    Participant.find(:first, :conditions => { :user_id => self.user_id, :campaign_id => team.campaign_id })
+  end
+
   protected
     def one_team_for_member_per_campaign
       teams = self.team.campaign.teams.reload

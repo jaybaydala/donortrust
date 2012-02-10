@@ -1,0 +1,28 @@
+<% content_for :html_title do %>iEnd:Poverty - Donate to <%= @campaign.name %><% end %>
+
+<% content_for :header do %>
+  <div class="feature">
+    <h1>End Global Poverty</h1>
+    <p>The world is changing. Gift Different</p>
+  </div>
+<% end %>
+
+<% content_for :top_content do %>
+  <div class="clearfix">
+    <div>
+    <% content_tag :h1 do %>
+      Donate to <%= @campaign.name %>
+      <% if @campaign_donation.participant.present? %>
+        through <%= @campaign_donation.participant.user.name %>
+        <% if @campaign_donation.participant.user.find_team_in_campaign(@campaign) %>
+          on Team: "<%= @campaign_donation.participant.user.find_team_in_campaign(@campaign).name %>"
+        <% end %>
+      <% end %>
+    <% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="clearfix">
+  <%= render "form" %>
+</div>

@@ -40,6 +40,7 @@ Factory.define :campaign do |c|
   c.user { |u| u.association(:user) }
   c.url { Factory.next(:campaign_short_name) }
   c.description { Faker::Lorem.paragraph }
+  c.goal 1000
 end
 
 Factory.define :campaign_type do |a|

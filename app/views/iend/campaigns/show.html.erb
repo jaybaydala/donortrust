@@ -10,7 +10,8 @@
 
 <% content_for :top_content do %>
   <div class="clearfix">
-    <div class="prepend-top">
+    <div>
+      <%= link_to "Donate to this campaign", new_iend_campaign_campaign_donation_path(@campaign) %>
       <% if @campaign.user == current_user %>
         <h6><%= link_to 'Edit', edit_iend_campaign_path(@campaign) %> | <%= link_to 'Remove', iend_campaign_path(@campaign), :method => :delete, :confirm => "Are you sure you want to remove this campaign?" %></h6>
       <% end %>
@@ -21,6 +22,7 @@
 <div class="clearfix dark-box">
   <div class="span-10">
     <h1>Goal: <%= number_to_currency @campaign.goal %></h1>
+    <h1>Amount Raised: <%= number_to_currency @campaign.amount_raised %></h1>
     <p>
       <% @campaign.sectors.each do |sector| %>
         <%= image_tag("/images/icons/#{sector.image_name(16)}", :alt => "#{sector.name}", :width => 16, :height => 16, :style => "vertical-align:bottom;") %><%= sector.name %>
@@ -28,7 +30,7 @@
     </p>
     <%= simple_format @campaign.description %>
   </div>
-  <div class="span-4 last">
+  <div class="span-10">
     <%= render :partial => "teams" %>
     <%= render :partial => "participants" %>
   </div>

@@ -9,20 +9,18 @@
 
 <% content_for :top_content do %>
   <div class="clearfix">
-    <div class="prepend-top prepend-2">
+    <div>
       <h1>Team "<%=h @team.name %>" for <%=h @team.campaign.name %></h1>
     </div>
   </div>
 <% end %>
 
 <div class="clearfix">
-  <div class="span-11 dark-box">
+  <div class="span-12 dark-box">
     <h3>Goal: <%=h number_to_currency @team.goal %></h3>
+    <h3>Total Raised: <%=h number_to_currency @team.total_donations %></h3>
     <p>Back to <%= link_to @team.campaign.name, iend_campaign_path(@team.campaign) %></p>
     <p><%= simple_format @team.description %></p>
   </div>
-</div>
-
-<% content_for :sidebar do %>
   <%= render :partial => 'team_members' %>
-<% end %>
+</div>
