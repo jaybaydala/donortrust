@@ -13,8 +13,8 @@ class CreateProjectPois < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :project_id
-    add_index :user_id
+    add_index :project_pois, :project_id
+    add_index :project_pois, :user_id
   end
 
   def self.down
