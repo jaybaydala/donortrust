@@ -13,14 +13,25 @@ describe DonortrustMailer do
   subject { @user }
 
   context 'New signup notification to admin' do
-    before { @mail = DonortrustMailer.create_new_user_notification(@user) }
+    before do 
+      @subscription = Factory(:subscription)
+      @mail = DonortrustMailer.create_new_subscription_notification(@subscription)
+    end
 
     it 'should send a notification to admin' do
       @mail.should deliver_to("jay.baydala@uend.org")
     end
 
-    it 'should send have user details in email' do
-      @mail.should have_body_text(/#{@user.login}/)
+    it 'should send have user name in body' do
+      @mail.should have_body_text(/#{@subscription.first_name} #{@subscription.last_name}/)
+    end
+
+    it 'should send have user email in body' do
+      @mail.should have_body_text(/#{@subscription.email}/)
+    end
+
+    it 'should send have user email in body' do
+      @mail.should have_body_text(/#{@subscription.email}/)
     end
   end
 

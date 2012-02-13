@@ -297,9 +297,9 @@ TXT
     @admin_url   = bus_admin_project_url(:id =>@project.id, :host => HTTP_HOST)
   end
 
-  def new_user_notification(user)
-    @user       = user
-    @subject    = "User signup notification"
+  def new_subscription_notification(subscription)
+    @subscription = subscription
+    @subject    = "New U:Powered Subscription"
     recipients  "jay.baydala@uend.org"
     from        "info@uend.org"
     sent_on     Time.now
