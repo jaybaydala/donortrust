@@ -24,12 +24,16 @@ class Gift < ActiveRecord::Base
   validates_numericality_of :project_id, :only_integer => true, :if => Proc.new { |gift| gift.project_id? }
   validate_on_create :send_at_in_future
 
-  after_create :user_transaction_create, :tax_receipt_create
+  after_create :user_transaction_create, :tax_receipt_create, :create_project_pois
+
 
   attr_accessor :preview, :to_emails
 
   named_scope :sendable, lambda {
     { :conditions => ['send_email != ? AND send_email != ? AND (send_at <= ? OR send_at IS NULL) AND sent_at IS NULL', 'no', '0', Time.now.utc.to_s(:db)] }
+  }
+  named_scope :unopened, lambda {
+    { :conditions => 'pickup_code IS NOT NULL and picked_up_at IS NULL' }
   }
 
   def sum
@@ -222,4 +226,14 @@ class Gift < ActiveRecord::Base
     end
   end
 
+  def create_project_pois
+    return unless project
+    poi = project.project_pois.find_or_create_by_email(email)
+    poi.attributes = { :email => email, :name => name, :gift_giver => true }
+    poi.user ||= user # grab user if given
+    poi.save!
+    poi = project.project_pois.find_or_create_by_email(to_email)
+    poi.attributes = { :email => to_email, :name => to_name, :gift_receiver => true }
+    poi.save!
+  end
 end

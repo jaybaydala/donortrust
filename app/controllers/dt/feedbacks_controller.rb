@@ -1,4 +1,4 @@
-class Dt::FeedbacksController < ApplicationController
+class Dt::FeedbacksController < DtApplicationController
   # POST /feedbacks
   # POST /feedbacks.xml
   def create
