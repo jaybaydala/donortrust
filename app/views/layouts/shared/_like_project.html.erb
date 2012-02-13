@@ -9,7 +9,7 @@
             like_url, 
             { like: 'true', network: 'local'},         
             function(data){
-              elem.find(".likes_count").html(data['likes_count']);
+              $("span.likes_count").html(data['likes_count']);
             }
         );
       });
