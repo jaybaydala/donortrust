@@ -134,6 +134,7 @@ footer a:active { text-decoration:underline; }
 #projects .project-organization a { color:#06C; }
 #projects .project-quick-give a { color:#FFF; }
 .project-like { float: right; margin:0 12px 12px 0px; }
+.project-like-button { float: right; margin:2px -9px 0px 0px; }
 .project-like .like { float:right; padding-left:10px; }
 .project-like .like.facebook,
 .project-like .like.google { padding-top:4px; }
