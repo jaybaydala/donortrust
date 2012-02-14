@@ -114,3 +114,8 @@ Feature: Projects search
     Then I should see "Medium Project 1"
     Then I should not see "Medium Project 2"
     Then I should not see "Large Project"
+
+  Scenario: Backwards compatability for total_cost comma separation
+    Given I search with a deprecated total_cost param of "5001%2C10000"
+    Then I should see 2 projects listed
+    And I should see "$5,001 - $10,000" within ".term"
