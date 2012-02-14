@@ -25,3 +25,7 @@ end
 Then /^I should see (\d+) projects listed$/ do |count|
   page.has_css?(".project-module", :count => count)
 end
+
+Given /^I search with a deprecated total_cost param of "([^"]*)"$/ do |param|
+  visit "/dt/projects?search%5Btotal_cost%5D=#{param}"
+end
