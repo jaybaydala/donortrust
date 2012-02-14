@@ -276,10 +276,10 @@ end
 
 Factory.define :tax_receipt do |t|
   t.email { Factory.next(:email) }
-  t.first_name { "#{Faker::Name.first_name}" }
+  t.first_name { Faker::Name.first_name }
   t.last_name { Faker::Name.last_name }
   t.address { Faker::Address.street_address }
-  t.city 'Mabou'
+  t.city { Faker::Address.city }
   t.province 'Nova Scotia'
   t.postal_code 'B0E 2W0'
   t.country 'Canada'
@@ -332,15 +332,4 @@ end
 Factory.define :upowered_email_subscribe do |u|
   u.email { Faker::Internet.email }
   u.code "12345"
-end
-
-Factory.define :tax_receipt do |t|
-  t.first_name  { Faker::Name.first_name }
-  t.last_name   { Faker::Name.last_name }
-  t.address     { Faker::Address.street_address }
-  t.city        { Faker::Address.city }
-  t.postal_code '12909'
-  t.province    'Ottawa'
-  t.country     'Canada'
-  t.email       { Faker::Internet.email }
 end
