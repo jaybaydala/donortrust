@@ -270,6 +270,21 @@ Factory.define :user do |u|
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }
 end
 
+Factory.define :tax_receipt do |t|
+  t.email { Factory.next(:email) }
+  t.first_name { "#{Faker::Name.first_name}" }
+  t.last_name { Faker::Name.last_name }
+  t.address { Faker::Address.street_address }
+  t.city 'Mabou'
+  t.province 'Nova Scotia'
+  t.postal_code 'B0E 2W0'
+  t.country 'Canada'
+  t.association :user, :factory => :user
+  t.association :gift, :factory => :gift
+  t.association :deposit, :factory => :deposit
+  t.association :order, :factory => :order
+end
+
 Factory.define :country, :class => Place do |p|
   p.name { "#{Faker::Address.country}" }
   p.place_type_id 2

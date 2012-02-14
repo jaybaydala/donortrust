@@ -14,7 +14,7 @@ FasterCSV.generate do |csv|
     data = []
     data << order.updated_at.strftime("%b %d, %Y")
     data << number_to_currency(order.total)
-    data << (order.user_id? && order.user ? order.user.name : "")
+    data << (order.user_id? && order.user ? order.user.full_name : "")
     data << (order.user_id? && order.user ? order.user.id : "")
     data << number_to_currency(order.gift_card_payment)
     data << order.gift_card_payment_id

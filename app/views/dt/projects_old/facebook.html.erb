@@ -8,7 +8,7 @@
     
     <p class="blueblock"><%= link_to image_tag("/images/dt/icons/fbIcon.gif", :alt => '') + "&nbsp; Go to Facebook Group", @facebook_group_link, :rel => 'blank' %></p>
     <p><%=h @fb_group.name %></p>
-    <p>Facebook user: <%= @fb_user.name %></p>
+    <p>Facebook user: <%= @fb_user.full_name %></p>
     <% if @fb_user_in_group %>
       <p>You are a member of this group</p>
     <% else -%>

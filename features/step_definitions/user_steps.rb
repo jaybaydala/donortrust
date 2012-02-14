@@ -59,3 +59,7 @@ Then /^my contact information should be updated to match the checkout data$/ do
   @user.postal_code.should eql "T2Y 3N2"
   @user.country.should eql "Canada"
 end
+
+When /^I submit the user form$/ do
+  locate(:css, '#user_submit').click
+end
