@@ -297,6 +297,14 @@ TXT
     @admin_url   = bus_admin_project_url(:id =>@project.id, :host => HTTP_HOST)
   end
 
+  def new_subscription_notification(subscription)
+    @subscription = subscription
+    @subject    = "New U:Powered Subscription"
+    recipients  "jay.baydala@uend.org"
+    from        "info@uend.org"
+    sent_on     Time.now
+  end
+  
   def project_poi(project_poi, msg)
     raise RuntimeError, "this project_poi is unsubscribed (#{project_poi.inspect})!" if project_poi.unsubscribed
     content_type "text/html"
