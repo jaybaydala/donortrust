@@ -160,29 +160,17 @@ class User < ActiveRecord::Base
   end
 
   def name
-    if self.display_name.blank?
-      name = self.first_name.to_s
-      if self.last_name?
-        name << " #{self.last_name[0,1]}"
-      end
-      name
-    else
-      self.display_name.to_s
-    end
+    ActiveSupport::Deprecation.warn("User#name has been deprecated. Use User#full_name instead.")
+    full_name
   end
 
   def fullname_login
-    "#{self.first_name} #{self.last_name}          (#{self.login})"
+    "#{self.full_name}          (#{self.login})"
   end
 
   def full_name
-    if under_thirteen? || self.first_name.blank?
-      self.display_name
-    elsif self.last_name.blank?
-      self.first_name
-    else
-      "#{self.first_name} #{self.last_name}"
-    end
+    return display_name if under_thirteen? || first_name.blank?
+    [first_name, last_name].reject(&:empty?).compact.join(' ')
   end
 
   def self.find_by_full_name(full_name)
@@ -281,7 +269,7 @@ class User < ActiveRecord::Base
   end
   
   def full_email_address
-    "\"#{name}\" <#{email}>"
+    "\"#{full_name}\" <#{email}>"
   end
 
   # Activates the user in the database.

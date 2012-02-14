@@ -33,7 +33,7 @@
 
 <p>Hello <%=h @invitation.to_name? ? @invitation.to_name : @invitation.to_email %>,</p>
 
-<p>Your friend, <a href="mailto:<%= @invitation.user.email %>"><%=h @invitation.user.name ? @invitation.user.name : @invitation.user.email %></a> has invited you to join the &quot;<%= link_to @invitation.group.name, @url %>&quot; group at Uend:. Click the link below to check it out.</p>
+<p>Your friend, <a href="mailto:<%= @invitation.user.email %>"><%=h @invitation.user.full_name ? @invitation.user.full_name : @invitation.user.email %></a> has invited you to join the &quot;<%= link_to @invitation.group.name, @url %>&quot; group at Uend:. Click the link below to check it out.</p>
  
 <% if @invitation.message? %>
 <p>Their message to you:</p>

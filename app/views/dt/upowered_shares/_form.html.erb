@@ -1,5 +1,5 @@
 <%- 
-from_name = @order ? "#{@order.first_name} #{@order.last_name}" : ( logged_in? ? current_user.name : nil)
+from_name = @order ? "#{@order.first_name} #{@order.last_name}" : ( logged_in? ? current_user.full_name : nil)
 from_email = @order ? @order.email : ( logged_in? ? current_user.login : nil)
 @upowered_share ||= UpoweredShare.new(:from_name => from_name, :from_email => from_email, :upowered_url => dt_upowered_url)
 return_to ||= nil
