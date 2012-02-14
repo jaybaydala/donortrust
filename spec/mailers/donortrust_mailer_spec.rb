@@ -115,7 +115,7 @@ describe DonortrustMailer do
     end
 
     it "should have user name, login and balance the body" do
-      @mail.should have_body_text(/#{@user.name} \(#{@user.login}\) had a balance of #{Regexp.escape(number_to_currency @user.balance)}/)
+      @mail.should have_body_text(/#{@user.full_name} \(#{@user.login}\) had a balance of #{Regexp.escape(number_to_currency @user.balance)}/)
     end
 
   end
