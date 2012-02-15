@@ -1,4 +1,4 @@
-class Dt::SectorsController < ApplicationController
+class Dt::SectorsController < DtApplicationController
   
   layout "sectors"
   
