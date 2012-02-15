@@ -45,7 +45,7 @@ class Order < ActiveRecord::Base
       end
     end
     if order.credit_card_step
-      #order.validate_credit_card
+      order.validate_credit_card
     end
   end
 
