@@ -20,6 +20,7 @@
 <% if gift_card_balance? %><p>Your Current Gift Card Balance: <%= number_to_currency(Gift.find(session[:gift_card_id]).balance) %></p><% end %>
 
 <% semantic_form_for @order, :url => dt_checkout_path, :html => {:id => "paymentform", :name => "paymentform", :method => ( @order.new_record? ? :post : :put )} do |f| %>
+  <%= f.semantic_errors %>
   <%= hidden_field_tag "step", "payment_options" %>
   <% f.inputs do %>
     <%= f.input :payment_options_step, :as => :hidden, :input_html => { :value => 1 } %>

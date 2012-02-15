@@ -7,7 +7,7 @@
         </a>
       </div>
       <a href="<%= iend_user_path(profile.id) %>">
-        <div class="profile-name"><%= user.name %></div>
+        <div class="profile-name"><%= user.full_name %></div>
         <div class="profile-location"><%= [user.city, user.province].compact.delete_if{ |x| x.empty? }.join(', ') %></div>
       </a>
     </div>

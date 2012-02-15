@@ -10,7 +10,7 @@ class DtApplicationController < ActionController::Base
   helper_method :country_code
 
   # http auth for staging
-  # before_filter :authenticate_via_http
+  before_filter :authenticate_via_http
   # "remember me" functionality
   before_filter :login_from_cookie, :ssl_filter
   before_filter :new_feedback

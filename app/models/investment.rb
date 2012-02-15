@@ -20,6 +20,7 @@ class Investment < ActiveRecord::Base
   before_create :set_project_id
   after_create :user_transaction_create
   after_create :update_project
+  after_create :create_project_poi
   
   def self.dollars_raised(conditions = {})
     self.find(:all, :conditions => conditions).inject(0){|raised, investment| raised += investment.amount }
@@ -65,7 +66,7 @@ class Investment < ActiveRecord::Base
 
   def name
     if self.user.present?
-      self.user.name
+      self.user.full_name
     elsif self.order.present?
       self.order.name
     end
@@ -91,4 +92,10 @@ class Investment < ActiveRecord::Base
     errors.add("amount", "cannot be more than the project's current need - #{number_to_currency(project.current_need)}") if amount && project && amount > project.current_need
   end
 
+  def create_project_poi
+    return unless project && user
+    poi = project.project_pois.find_or_create_by_email(user.email)
+    poi.attributes = { :user => user, :investor => true, :email => user.email, :name => user.full_name }
+    poi.save!
+  end
 end

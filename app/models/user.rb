@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   has_many :sectors, :through => :preferred_sectors
   has_many :teams, :through => :participants
   has_many :participants
+  has_many :project_pois
   has_one :profile
   has_one :iend_profile
   
@@ -159,29 +160,17 @@ class User < ActiveRecord::Base
   end
 
   def name
-    if self.display_name.blank?
-      name = self.first_name.to_s
-      if self.last_name?
-        name << " #{self.last_name[0,1]}"
-      end
-      name
-    else
-      self.display_name.to_s
-    end
+    ActiveSupport::Deprecation.warn("User#name has been deprecated. Use User#full_name instead.")
+    full_name
   end
 
   def fullname_login
-    "#{self.first_name} #{self.last_name}          (#{self.login})"
+    "#{self.full_name}          (#{self.login})"
   end
 
   def full_name
-    if under_thirteen? || self.first_name.blank?
-      self.display_name
-    elsif self.last_name.blank?
-      self.first_name
-    else
-      "#{self.first_name} #{self.last_name}"
-    end
+    return display_name if under_thirteen? || first_name.blank?
+    [first_name, last_name].reject(&:empty?).compact.join(' ')
   end
 
   def self.find_by_full_name(full_name)
@@ -280,7 +269,7 @@ class User < ActiveRecord::Base
   end
   
   def full_email_address
-    "\"#{name}\" <#{email}>"
+    "\"#{full_name}\" <#{email}>"
   end
 
   # Activates the user in the database.
@@ -336,6 +325,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  # class method to avoid nil object check
+  def self.is_user_cf_admin?(user)
+    return Role.find_by_title('cf_admin').users.include?(user)
+  end
+
   def is_cf_admin?
     return self.roles.include?(Role.find_by_title('cf_admin'))
   end
@@ -344,21 +338,6 @@ class User < ActiveRecord::Base
     !!self.roles.find_by_title(role.to_s)
   end
   alias :has_role? :role?
-
-  # class method to avoid nil object check
-  def self.is_user_cf_admin?(user)
-    return Role.find_by_title('cf_admin').users.include?(user)
-  end
-
-  # DEPRECATED
-  #def is_bus_admin?
-  #  self.user_roles.each do |role|
-  #    if role.role_type == "busAdmin"
-  #      return true
-  #    end
-  #  end
-  #  return false
-  #end
 
   def campaigns
     @campaigns = Campaign.find_by_sql([
@@ -372,20 +351,14 @@ class User < ActiveRecord::Base
   end
   
   def find_participant_in_campaign(campaign)
-    Participant.find(:first, 
-                     :conditions => {:user_id => self.id, 
-                                     :team_id => campaign.teams.collect(&:id), 
-                                     :active => true})
+    Participant.find(:first, :conditions => {:user_id => self.id, :team_id => campaign.teams.collect(&:id), :active => true})
   end
   
   def can_join_team?(team_to_join)
     # Avoid rejoining current team
     return false if team_to_join.has_user?(self)
     # Cannot join this team if they are active in another team in this campaign
-    active_team_participant = Participant.find(:first, 
-                                               :conditions => {:user_id => self.id, 
-                                                               :team_id => team_to_join.campaign.teams.collect(&:id), 
-                                                               :active => true})
+    active_team_participant = Participant.find(:first, :conditions => {:user_id => self.id, :team_id => team_to_join.campaign.teams.collect(&:id), :active => true})
     return false if active_team_participant and active_team_participant.team != team_to_join.campaign.default_team
     # Campaign creators cannot move teams
     return false if team_to_join.campaign.owned?(self)
@@ -400,20 +373,12 @@ class User < ActiveRecord::Base
     default_team = campaign.default_team
     
     # Deactivate user from active teams in this campaign
-    active_participants = Participant.find(:all, 
-                                           :conditions => {:user_id => self.id, 
-                                                           :team_id => campaign.teams.collect(&:id), 
-                                                           :active => true})
+    active_participants = Participant.find(:all, :conditions => {:user_id => self.id, :team_id => campaign.teams.collect(&:id), :active => true})
     active_participants.each {|p| p.update_attribute(:active, false)}
     
     # Find or create the default participant in this campaign
-    default_participant = Participant.find(:first, :conditions => {:user_id => self.id,
-                                                                   :team_id => default_team.id})
-    default_participant ||= Participant.new :user_id => self.id,
-                                            :team_id => default_team.id,
-                                            :pending => false,
-                                            :short_name => active_participants.first.short_name,
-                                            :about_participant => active_participants.first.about_participant
+    default_participant = Participant.find(:first, :conditions => {:user_id => self.id, :team_id => default_team.id})
+    default_participant ||= Participant.new :user_id => self.id, :team_id => default_team.id, :pending => false, :short_name => active_participants.first.short_name, :about_participant => active_participants.first.about_participant
     default_participant.active = true
     default_participant.save
   end
@@ -421,6 +386,22 @@ class User < ActiveRecord::Base
   def profile
     @profile ||= Profile.find_or_create_by_user_id(self.id)
     return @profile
+  end
+
+  def all_friends
+    @all_friends ||= friends + inverse_friends
+  end
+
+  def all_friend_ids
+    @all_friend_ids ||= friend_ids + inverse_friend_ids
+  end
+
+  def all_friend_ids_and_self
+    unless @all_friend_ids_and_self
+      @all_friend_ids_and_self = friend_ids + inverse_friend_ids 
+      @all_friend_ids_and_self << self.id
+    end
+    @all_friend_ids_and_self
   end
 
   def friends_with?(user)
@@ -431,17 +412,21 @@ class User < ActiveRecord::Base
     self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
   end
 
-  def friends_gifts_given_count() Gift.count("*", :conditions => [ "user_id IN (0, ?)", friend_ids ]) end
-  def friends_order_sum() Order.find(:first, :select => "sum(total) as total_sum", :conditions => [ "user_id IN (0, ?)", friend_ids ]).total_sum end
-  def friends_projects_lives_affected() 
+  def collective_gifts_given_count
+    Gift.count(:id, :conditions => [ "user_id IN (0, ?)", all_friend_ids_and_self ])
+  end
+  def collective_order_sum
+    Order.sum(:total, :conditions => [ "user_id IN (?)", all_friend_ids_and_self ])
+  end
+  def collective_projects_lives_affected
     project_ids = []
-    project_ids = project_ids + Gift.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids]).collect(&:project_id)
-    project_ids = project_ids + Investment.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", friend_ids]).collect(&:project_id)
+    project_ids = project_ids + Gift.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", all_friend_ids_and_self]).collect(&:project_id)
+    project_ids = project_ids + Investment.find(:all, :select => "DISTINCT(project_id)", :conditions => ["user_id IN (?) AND project_id IS NOT NULL", all_friend_ids_and_self]).collect(&:project_id)
     # include all friends who made at least one order as having their own lives affected
     friends_giving = (Gift.find(:all, :select => "user_id, count(*) as cnt", :group => "user_id", 
-                               :conditions => [ "user_id IN (?)", friend_ids ], :having => "cnt > 0") +
+                               :conditions => [ "user_id IN (?)", all_friend_ids_and_self ], :having => "cnt > 0") +
                       Investment.find(:all, :select => "user_id, count(*) as cnt", :group => "user_id", 
-                                :conditions => [ "user_id IN (?)", friend_ids ], :having => "cnt > 0")).collect(&:user_id).uniq.length
+                                :conditions => [ "user_id IN (?)", all_friend_ids_and_self ], :having => "cnt > 0")).collect(&:user_id).uniq.length
     r = Project.sum(:lives_affected, :conditions => [ "id IN (?)" , project_ids ]) + friends_giving
     r.to_i
   end

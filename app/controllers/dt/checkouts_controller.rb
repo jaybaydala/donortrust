@@ -5,7 +5,7 @@ class Dt::CheckoutsController < DtApplicationController
   before_filter :initialize_existing_order, :only => [:edit, :update]
   before_filter :directed_gift, :only => :update
   before_filter :cart_empty?, :except => :show
-  before_filter :set_checkout_steps#, :except => :show
+  before_filter :set_checkout_steps
   helper_method :current_step
   helper_method :next_step
   helper_method :account_payment?

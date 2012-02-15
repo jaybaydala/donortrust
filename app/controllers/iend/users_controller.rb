@@ -28,15 +28,15 @@ class Iend::UsersController < DtApplicationController
     @iend_profile = @user.iend_profile
 
     @gifts_given_count = @user.gifts.count 
-    @gifts_given_amount = @user.gifts.sum(:amount)
+    @given_amount = @user.orders.sum(:total)
     @people_affected = @user.profile.people_impacted.first
 
-    @friends_gifts_given_count = @user.friends_gifts_given_count
-    @friends_gifts_given_amount = @user.friends_order_sum
-    @friends_people_affected = @user.friends_projects_lives_affected
+    @collective_gifts_given_count = @user.collective_gifts_given_count
+    @collective_given_amount = @user.collective_order_sum
+    @collective_people_affected = @user.collective_projects_lives_affected
 
     @uend_gifts_given_count = Gift.count + Investment.count
-    @uend_gifts_given_amount = Order.complete.sum(:total)
+    @uend_given_amount = Order.complete.sum(:total)
     @uend_people_affected = Project.current.all(:conditions => "lives_affected IS NOT NULL", :select => 'DISTINCT(place_id), lives_affected', :order => "lives_affected DESC").sum(&:lives_affected) + Order.count
 
     raise ActiveRecord::RecordNotFound if !@iend_profile && @user != current_user
