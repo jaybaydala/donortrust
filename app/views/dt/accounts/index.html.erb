@@ -1,5 +1,5 @@
 <%- content_for :html_title do -%>Accounts<%- end -%>
-<%- content_for :page_title do -%>Welcome<% if logged_in? %> <%= @current_user.name %><% end %>! The future is here.<%- end -%>
+<%- content_for :page_title do -%>Welcome<% if logged_in? %> <%= @current_user.full_name %><% end %>! The future is here.<%- end -%>
 <%- content_for :nav do -%><%= iend_user_nav %><%- end -%>
 <%- content_for :top_content do -%><%= render :partial => 'dt/accounts/inactive' if logged_in? && !current_user.activated? %><%- end -%>
 

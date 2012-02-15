@@ -259,30 +259,53 @@ describe User do
     end
   end
 
-  it "should have friends" do
-    # make u1 have u2 and u3 as friends, and set up project gifts and funded amounts
-    u1 = Factory(:user)
-    u2 = Factory(:user)
-    u3 = Factory(:user)
-    p = Factory(:project, :lives_affected => 20)
-    friend_u1_u2 = Factory(:friendship, :user => u1, :friend => u2, :status => true)
-    friend_u1_u3 = Factory(:friendship, :user => u1, :friend => u3, :status => true)
+  context "friendships" do
+    let(:user) { Factory(:user) }
+    let(:friend_1) { Factory(:user) }
+    let(:friend_2) { Factory(:user) }
+    let(:project) { Factory(:project, :lives_affected => 20) }
+    subject { user }
 
-    # set up data for the first friend
-    o = Factory(:order, :user => u2)
-    Factory(:gift, :user => u2, :order => o, :project => p, :amount => 200)
-    Factory(:order, :user => u2, :gift_card_payment_id => "12345", :total => 100)
-    Factory(:investment, :user => u2, :project => p, :amount => 125)
-   
-    # set up data for the second friend
-    o = Factory(:order, :user => u3)
-    Factory(:gift, :user => u3, :order => o, :project => p, :amount => 50)
-    Factory(:order, :user => u3, :gift_card_payment_id => "12345", :total => 125)
-    Factory(:investment, :user => u3, :project => p, :amount => 100)
- 
-    u1.friends_gifts_given_count.should == 2
-    u1.friends_order_sum.to_f == 225.0
-    u1.friends_projects_lives_affected.should == 22
+    before do
+      # set up friendships
+      Factory(:friendship, :user => user, :friend => friend_1, :status => true)
+      Factory(:friendship, :user => user, :friend => friend_2, :status => true)
+    end
+
+    specify { user.all_friends.size.should == 2 }
+    specify { friend_1.all_friends.size.should == 1 }
+    specify { friend_2.all_friends.size.should == 1 }
+    specify { user.all_friend_ids.sort.should == [friend_1.id, friend_2.id] }
+    specify { friend_1.all_friend_ids.should == [user.id] }
+    specify { friend_2.all_friend_ids.should == [user.id] }
+    specify { user.all_friend_ids_and_self.sort.should == [user.id, friend_1.id, friend_2.id] }
+  end
+
+  context "impact calculations" do
+    let(:user) { Factory(:user) }
+    let(:friend_1) { Factory(:user) }
+    let(:friend_2) { Factory(:user) }
+    let(:project) { Factory(:project, :lives_affected => 20) }
+
+    before do
+      # set up friendships
+      Factory(:friendship, :user => user, :friend => friend_1, :status => true)
+      Factory(:friendship, :user => user, :friend => friend_2, :status => true)
+      # set up data for the friend_1
+      o = Factory(:order, :user => friend_1)
+      Factory(:gift, :user => friend_1, :order => o, :project => project, :amount => 200)
+      Factory(:order, :user => friend_1, :gift_card_payment_id => "12345", :total => 100)
+      Factory(:investment, :user => friend_1, :project => project, :amount => 125)
+      # set up data for the friend_2
+      o = Factory(:order, :user => friend_2)
+      Factory(:gift, :user => friend_2, :order => o, :project => project, :amount => 50)
+      Factory(:order, :user => friend_2, :gift_card_payment_id => "12345", :total => 125)
+      Factory(:investment, :user => friend_2, :project => project, :amount => 100)
+    end
+    
+    specify { user.collective_gifts_given_count.should == 2 }
+    specify { user.collective_order_sum.should == 425 }
+    specify { user.collective_projects_lives_affected.should == 22 }
   end
 
   def create_user(options = {})

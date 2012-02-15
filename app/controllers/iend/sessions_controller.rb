@@ -54,7 +54,7 @@ class Iend::SessionsController < DtApplicationController
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
         end
         cookies[:login_id] = self.current_user.id.to_s
-        cookies[:login_name] = self.current_user.name
+        cookies[:login_name] = self.current_user.full_name
         if current_user.change_password?
           flash[:notice] = "Please change your password to something you'll remember"
           format.html { redirect_to edit_iend_user_path(current_user) }

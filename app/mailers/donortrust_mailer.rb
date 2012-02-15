@@ -297,6 +297,25 @@ TXT
     @admin_url   = bus_admin_project_url(:id =>@project.id, :host => HTTP_HOST)
   end
 
+  def new_subscription_notification(subscription)
+    @subscription = subscription
+    @subject    = "New U:Powered Subscription"
+    recipients  "jay.baydala@uend.org"
+    from        "info@uend.org"
+    sent_on     Time.now
+  end
+  
+  def project_poi(project_poi, msg)
+    raise RuntimeError, "this project_poi is unsubscribed (#{project_poi.inspect})!" if project_poi.unsubscribed
+    content_type "text/html"
+    from         "info@uend.org"
+    recipients   "\"#{project_poi.name}\" <#{project_poi.email}>"
+    @subject     = "UEnd Project Updated"
+    unsub_url    = unsubscribe_dt_project_poi_url(:id => project_poi.token, :host => HTTP_HOST)
+    unsub_footer = "<p>To immediately unsubscribe from all future updates about this project, follow this link: #{unsub_url}</p>"
+    body         msg + unsub_footer
+  end
+
   protected
     def user_setup_email(user)
       @subject    = "Welcome to DonorTrust!"

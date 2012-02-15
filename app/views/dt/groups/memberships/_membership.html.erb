@@ -1,5 +1,5 @@
 <li id="membership-<%= membership.id %>" class="clearfix">
-	<div class="name"><%= membership.user.name %></div>
+	<div class="name"><%= membership.user.full_name %></div>
 	<div class="date"><%= membership.created_at? ? membership.created_at.to_date.to_formatted_s(:dt_default) : '&nbsp;' %></div>
 	<div class="mtype">
 <%= "Founder" if membership.membership_type == Membership.founder -%>
@@ -8,13 +8,13 @@
 </div>
 <% if @membership && @membership.admin? && @membership.id != membership.id -%>
   <% unless membership.founder? %>
-  <%= link_to "Remove", dt_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :id => "membership-remove-link-#{membership.id}", :confirm => "You are attempting to remove #{membership.user.name} from a group. Are you sure you want to remove #{membership.user.name}?" %> | 
+  <%= link_to "Remove", dt_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :id => "membership-remove-link-#{membership.id}", :confirm => "You are attempting to remove #{membership.user.full_name} from a group. Are you sure you want to remove #{membership.user.full_name}?" %> | 
   <% end %>
   
   <% if membership.member? && !membership.admin? %>
-  <%= link_to "Make Admin", dt_promote_membership_path(:group_id => @group.id, :id => membership.id), :method => :put, :id => "membership-make-admin-link-#{membership.id}", :confirm => "Are you sure you want to make #{membership.user.name} an admin? This will let them have the same control that you do over your group." %>
+  <%= link_to "Make Admin", dt_promote_membership_path(:group_id => @group.id, :id => membership.id), :method => :put, :id => "membership-make-admin-link-#{membership.id}", :confirm => "Are you sure you want to make #{membership.user.full_name} an admin? This will let them have the same control that you do over your group." %>
   <% elsif !membership.founder? %>
-  <%= link_to "Remove Admin", dt_demote_membership_path(:group_id => @group.id, :id => membership.id), :method => :put, :id => "membership-remove-admin-link-#{membership.id}", :confirm => "You are attempting to remove #{membership.user.name} as an administrator from a group. Are you sure you want to remove #{membership.user.name} as an administrator?" %>
+  <%= link_to "Remove Admin", dt_demote_membership_path(:group_id => @group.id, :id => membership.id), :method => :put, :id => "membership-remove-admin-link-#{membership.id}", :confirm => "You are attempting to remove #{membership.user.full_name} as an administrator from a group. Are you sure you want to remove #{membership.user.full_name} as an administrator?" %>
   <% end %>
 <% end %>
 </li>
