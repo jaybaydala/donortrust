@@ -331,7 +331,7 @@ article.campaign a:hover { color:#4AF; }
 .dark-box { }
 form.campaign textarea,
 form.team textarea { color:#333; }
-#team_submit, #campaign_submit { color: black; padding: 0.4em; border-radius: 0.6em;}
+/*#team_submit, #campaign_submit { color: black; padding: 0.4em; border-radius: 0.6em;}*/
 
 /* GIFTS
 ----------*/
