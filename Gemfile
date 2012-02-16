@@ -43,7 +43,7 @@ gem 'geokit'
 
 group :test, :cucumber do
   gem 'cucumber-rails', '>=0.3.2', :require => false
-  gem 'rspec-rails', '< 2.0'
+  gem 'rspec-rails', '< 2.0', :require => 'spec/rails'
   
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
   gem 'database_cleaner', '>=0.5.2', :require => false
@@ -60,4 +60,8 @@ group :test, :cucumber do
   gem 'shoulda'
   gem 'timecop'
   gem 'watchr'
+  gem 'mocha'
+  gem 'redgreen'
 end
+
+gem 'mysql2', '< 0.3'

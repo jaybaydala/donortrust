@@ -50,7 +50,7 @@
 		
 		<% if logged_in? %>
 		<div id="pledger_details" class="group" style="display: <%= @pledge.notification == "anonymous" ? "none" : "block" %>">
-			<%= f.label :pledger, "Name #{form_required}" -%><%= f.text_field :pledger, :value => current_user.name %><br />
+			<%= f.label :pledger, "Name #{form_required}" -%><%= f.text_field :pledger, :value => current_user.full_name %><br />
 			<%= f.label :pledger_email, "E-mail #{form_required}" -%><%= f.text_field :pledger_email, :value =>  current_user.email %>
 		</div>
 		<% end %>

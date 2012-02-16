@@ -2,7 +2,7 @@
 <h2>My Profile</h2>
   <p><strong><%= current_user.full_name %></strong> 
   <% unless current_user.under_thirteen? %>
-  (<%= current_user.name %>)<% end %></p>
+  (<%= current_user.full_name %>)<% end %></p>
 
   <h5>My Portfolio</h5>
   <div class="quickfacts">

@@ -209,7 +209,7 @@ context "DonortrustMailer account_expiry_mailer Tests" do
     @expected.date    = Time.now
   
     email = DonortrustMailer.create_account_expiry_reminder(@user).encoded
-    email.should =~ @user.name
+    email.should =~ @user.full_name
     email.should =~ "You have not logged into your Uend: account since #{@user.last_logged_in_at.to_formatted_s(:long)}"
     email.should =~ "balance of #{number_to_currency(@user.balance)}"
   end

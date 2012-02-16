@@ -36,6 +36,8 @@ class Project < ActiveRecord::Base
   has_many :key_measures
   has_many :my_wishlists
   has_many :users, :through => :my_wishlists
+  has_many :project_pois
+  has_many :subscribed_project_pois, :conditions => { :unsubscribed => false }, :class_name => "ProjectPoi"
   has_and_belongs_to_many :groups
   has_and_belongs_to_many :sectors
   has_and_belongs_to_many :causes
@@ -67,14 +69,14 @@ class Project < ActiveRecord::Base
     indexes description
     indexes note
     
-    indexes partner(:name), :as => :partner_name
-    indexes country(:name), :as => :country_name
-    indexes sectors(:name), :as => :sector_name
+    indexes partner(:name), :as => :partner
+    indexes country(:name), :as => :country
+    indexes sectors(:name), :as => :sector
     indexes project_status(:name), :as => :project_status
 
     # attributes
     has :id, :as => :project_id
-    has :name
+    has :name, :as => :project_name
     has created_at
     has updated_at
     has sectors(:id),   :as => :sector_ids
@@ -602,6 +604,12 @@ class Project < ActiveRecord::Base
                               :collaborating_agencies, :ranks, :investments, :key_measures,
                               :my_wishlists, :users, :groups, :sectors, :causes, :place,
                               :contact, :frequency_type, :partner, :program, :project_status]
+  end
+
+  def send_pois(message)
+    subscribed_project_pois.each do |poi|
+      DonortrustMailer.deliver_project_poi(poi, message)
+    end.length
   end
 
   protected
