@@ -502,7 +502,7 @@
 	}
 
   function send_pois() {
-    new Ajax.Request('/bus_admin/project/1/send_pois', {
+    new Ajax.Request('/bus_admin/project/<%= @project.id %>/send_pois', {
       method: 'post',
       parameters: {message: $('poi_update').value}
     });
