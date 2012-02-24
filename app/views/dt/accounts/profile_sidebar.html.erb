@@ -18,7 +18,7 @@
     <%= image_tag(current_user.image.url(:tiny), :alt => "", :style => "vertical-align:middle;") if current_user.image? %>
     <strong><%= link_to h(current_user.full_name), iend_user_path(current_user) %></strong> 
     <% unless current_user.under_thirteen? %>
-    (<%= current_user.name %>)<% end %>
+    (<%= current_user.full_name %>)<% end %>
   </p>
 
   <h5>My Portfolio</h5>

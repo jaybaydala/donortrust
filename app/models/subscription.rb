@@ -29,6 +29,7 @@ class Subscription < ActiveRecord::Base
   before_create :create_customer
   before_update :update_customer
   before_destroy :delete_customer
+  after_create  :deliver_new_subscription_notification
   
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
   named_scope :current_on, lambda {|date| { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', date.to_date, date.to_date] } }
@@ -312,5 +313,9 @@ class Subscription < ActiveRecord::Base
         )
       end
       @gateway
+    end
+
+    def deliver_new_subscription_notification
+      DonortrustMailer.deliver_new_subscription_notification(self)
     end
 end

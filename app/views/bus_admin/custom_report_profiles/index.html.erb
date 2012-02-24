@@ -33,7 +33,7 @@
   <% @users_created.each do |user| %>
     <tr>
       <td><%= user.id %></td>
-      <td><%= user.name %></td>
+      <td><%= user.full_name %></td>
       <td><%= user.email %></td>
       <td><%= user.profile.present? ? "Yes" : "No" %></td>
     </tr>

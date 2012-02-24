@@ -7,7 +7,7 @@
           <%= render 'iend/authentications/authentications' %>
           <ul>
             <%- if logged_in? -%>
-              <li>Welcome, <%= h(current_user.name) %> | </li>
+              <li>Welcome, <%= h(current_user.full_name) %> | </li>
               <li><%= link_to "iEnd Profile", iend_user_path(current_user) %> | </li>
               <li><%= link_to "Cart", dt_cart_path %> | </li>
               <li><%= link_to 'Logout', logout_url(:protocol => ssl_protocol) %></li>
