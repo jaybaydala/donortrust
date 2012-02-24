@@ -56,3 +56,4 @@ Then /^I should have (\d+) UPowered subscription for \$(\d+)$/ do |count, amount
   @user.subscriptions.size.should eql(count.to_i)
   @user.subscriptions.first.amount.should eql(BigDecimal.new(amount))
 end
+

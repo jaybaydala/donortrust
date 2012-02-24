@@ -89,6 +89,10 @@ Factory.define :iend_profile do |i|
   i.association :user, :factory => :user
 end
 
+Factory.define :profile do |i|
+  i.association :user, :factory => :user
+end
+
 Factory.define :investment do |i|
   i.amount 100
   i.association :project#, :factory => :project
@@ -167,6 +171,7 @@ Factory.define :project do |p|
   p.association :program
   p.project_status { ProjectStatus.active || ProjectStatus.create(:name => "Active", :description => "Active Project") }
   p.slug nil
+  p.association :country, :factory => :place
 end
 
 Factory.define :project_flickr_image do |p|
@@ -269,9 +274,29 @@ Factory.define :user do |u|
   u.country 'Canada' #{ ["Canada", "United States of America"].rand }
 end
 
+Factory.define :tax_receipt do |t|
+  t.email { Factory.next(:email) }
+  t.first_name { Faker::Name.first_name }
+  t.last_name { Faker::Name.last_name }
+  t.address { Faker::Address.street_address }
+  t.city { Faker::Address.city }
+  t.province 'Nova Scotia'
+  t.postal_code 'B0E 2W0'
+  t.country 'Canada'
+  t.association :user, :factory => :user
+  t.association :gift, :factory => :gift
+  t.association :deposit, :factory => :deposit
+  t.association :order, :factory => :order
+end
+
 Factory.define :country, :class => Place do |p|
-  p.name { "#{Faker::Address.country}" }
+  p.name { "France" }
   p.place_type_id 2
+end
+
+Factory.define :project_poi do |pp|
+  pp.name { Faker::Name.name }
+  pp.email { Faker::Internet.email }
 end
 
 Factory.define :geolocation do |g|
@@ -302,4 +327,9 @@ Factory.define :invitation do |s|
   s.to_name { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
   s.to_email { Faker::Internet.email }
   s.association :user, :factory => :user
+end
+
+Factory.define :upowered_email_subscribe do |u|
+  u.email { Faker::Internet.email }
+  u.code "12345"
 end

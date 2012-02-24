@@ -20,6 +20,27 @@
 	
 		<p><strong>Important</strong>: Be aware of that all projects <strong>must</strong> be presented on a community or municipality basis. Furthermore, always break projects up into manageable pieces that are attainable for donors to understand and support. Large scale projects <strong>must</strong> always be broken up into smaller pieces.</p>
 	
+    <% if params[:show_poi_form] == 'true' %>
+      <ul class="form">
+        <li>
+          <label for="poi_update" class="title">Send POI updates?
+          </label>
+          <%= text_area_tag :poi_update, %|
+  <p>Hi! Just wanted to let you know that we just updated the #{@project.name} project on the UEnd:Poverty site. Check it out here!</p>
+
+  <p>If you'd rather not get updated about this project in the future, you can unsubscribe.</p>
+
+  <p>Thanks for making this change happen in our world.</p>
+
+  <p>~ The UEnd:Poverty Team</p>|, :rows => 10, :cols => 72 %>
+          <div class="buttonMinor">
+            <%= link_to_function "Send POI Update", "send_pois()" %>
+            <%= image_tag "spinner.gif", :id => "send_poi_spinner", :style => "display:none" %>
+            <span id="pois_updated"></span>
+          </div>
+     </ul>
+   <% end %>
+
 		<ul class="form">
 			<li>
 				<label for="project_name" class="title">
@@ -479,5 +500,14 @@
       );
 		}
 	}
+
+  function send_pois() {
+    new Ajax.Request('/bus_admin/project/<%= @project.id %>/send_pois', {
+      method: 'post',
+      parameters: {message: $('poi_update').value}
+    });
+    $("send_poi_spinner").show();
+  }
+
 //]]>
 </script>
