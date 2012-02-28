@@ -32,7 +32,15 @@ class Subscription < ActiveRecord::Base
   after_create  :deliver_new_subscription_notification
   
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
-  named_scope :current_on, lambda {|date| { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', date.to_date, date.to_date] } }
+  named_scope :current_on, lambda {|date| 
+    date = date.to_date
+    { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', date, date] }
+  }
+  named_scope :for_date, lambda {|date|
+    day_of_month = date.day
+    day_of_month = (day_of_month..31) if day_of_month < 31 && day_of_month == Time.days_in_month(date.month)
+    { :conditions => ["begin_date < ? && (end_date IS NULL OR end_date >= ?) AND schedule_date IN (?)", date, date, day_of_month] }
+  }
   named_scope :tax_receiptable, { :conditions => { :tax_receipt_requested => true } }
 
   attr_accessor :full_card_number, :update_vault
