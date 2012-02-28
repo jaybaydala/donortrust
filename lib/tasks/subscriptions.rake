@@ -3,9 +3,7 @@ namespace :subscriptions do
   task :process_daily => :environment do
     date = ENV['FORDATE'] ? Date.parse(ENV['FORDATE']) : Date.today
     puts "[#{Time.now.utc.to_s}] Processing daily subscriptions for #{date.to_s(:db)}"
-    day_of_month = date.day
-    day_of_month = (day_of_month..31) if day_of_month < 31 && day_of_month == Time.days_in_month(date.month)
-    subscriptions = Subscription.all(:conditions => ["begin_date < ? && (end_date IS NULL OR end_date >= ?) AND schedule_date IN (?)", date, date, day_of_month])
+    subscriptions = Subscription.for_date(date)
     puts "[#{Time.now.utc.to_s}] #{subscriptions.size} subscriptions found to process.#{' Processing...' if subscriptions.size > 0}"
     good_subscriptions = subscriptions.select do |subscription|
       begin
@@ -38,11 +36,12 @@ namespace :subscriptions do
         tax_receipt = subscription.create_yearly_tax_receipt(year, tax_receipt)
         # manually send the tax_receipt since it only auto-delivers on create
         DonortrustMailer.deliver_tax_receipt(tax_receipt) unless tax_receipt.nil?
+        tax_receipt
       else
         tax_receipt = subscription.create_yearly_tax_receipt(year)
       end
     end
-    puts "[#{Time.now.utc.to_s}] #{tax_receipts.compact.size} out of #{Subscription.count} u:powered tax receipts sent, #{previously_delivered} were previously sent"
+    puts "[#{Time.now.utc.to_s}] #{tax_receipts.compact.size} out of #{Subscription.count} possible u:powered tax receipts sent, #{previously_delivered} were previously sent and were adjusted and resent"
   end
 
   task :test_exception_email => :environment do
