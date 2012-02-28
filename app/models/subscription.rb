@@ -32,10 +32,20 @@ class Subscription < ActiveRecord::Base
   after_create  :deliver_new_subscription_notification
   
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
-  named_scope :current_on, lambda {|date| { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', date.to_date, date.to_date] } }
+  named_scope :current_on, lambda {|date| 
+    date = date.to_date
+    { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', date, date] }
+  }
+  named_scope :for_date, lambda {|date|
+    day_of_month = date.day
+    day_of_month = (day_of_month..31) if day_of_month < 31 && day_of_month == Time.days_in_month(date.month)
+    { :conditions => ["begin_date < ? && (end_date IS NULL OR end_date >= ?) AND schedule_date IN (?)", date, date, day_of_month] }
+  }
   named_scope :tax_receiptable, { :conditions => { :tax_receipt_requested => true } }
 
   attr_accessor :full_card_number, :update_vault
+
+  attr_reader :response
 
   class << self
     def notify_impending_card_expirations
@@ -179,8 +189,8 @@ class Subscription < ActiveRecord::Base
     self.orders.complete.for_year(year).all
   end
 
-  def prepare_order
-    order = Order.new
+  def prepare_order(order=nil)
+    order ||= Order.new
     order.user = self.user
     order.donor_type = self.donor_type
     order.title = self.title
@@ -207,10 +217,11 @@ class Subscription < ActiveRecord::Base
     order = prepare_order
     purchase_options = { :invoice_id => order.id }
     logger.debug("purchase_options: #{purchase_options.inspect}")
-    response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
-    order.update_attributes({:authorization_result => response.authorization}) if response.success?
-    complete_payment(response.success?, order)
-    raise ActiveMerchant::Billing::Error.new(response.inspect) unless response.success?
+    @response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
+    order.update_attributes({:authorization_result => @response.authorization}) if @response.success?
+    complete_payment(@response.success?, order)
+    SupportMailer.deliver_subscription_result(self, @response, order)
+    raise ActiveMerchant::Billing::Error.new(@response.inspect) unless @response.success?
     order
   end
 
@@ -246,11 +257,11 @@ class Subscription < ActiveRecord::Base
                               :invoice_id => self.id
                             }
         logger.debug("purchase_options: #{purchase_options.inspect}")
-        response = gateway.create_customer(amount*100, credit_card, purchase_options)
-        if response.success?
-          self.customer_code = response.authorization
+        @response = gateway.create_customer(amount*100, credit_card, purchase_options)
+        if @response.success?
+          self.customer_code = @response.authorization
         else
-          raise ActiveMerchant::Billing::Error.new(response.message)
+          raise ActiveMerchant::Billing::Error.new(@response.message)
         end
         true
       else
@@ -279,9 +290,9 @@ class Subscription < ActiveRecord::Base
 
       if credit_card.valid?
         logger.debug("attributes: #{self.attributes.inspect}")
-        response = gateway.update_customer(amount*100, self.customer_code, credit_card, purchase_options)
-        if !response.success?
-          raise ActiveMerchant::Billing::Error.new(response.message)
+        @response = gateway.update_customer(amount*100, self.customer_code, credit_card, purchase_options)
+        if !@response.success?
+          raise ActiveMerchant::Billing::Error.new(@response.message)
         end
         true
       else
@@ -290,9 +301,9 @@ class Subscription < ActiveRecord::Base
     end
 
     def delete_customer
-      response = gateway.delete_customer(self.customer_code)
-      if !response.success?
-        raise ActiveMerchant::Billing::Error.new(response.message)
+      @response = gateway.delete_customer(self.customer_code)
+      if !@response.success?
+        raise ActiveMerchant::Billing::Error.new(@response.message)
       end
       true
     end
