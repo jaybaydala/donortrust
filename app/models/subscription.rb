@@ -179,8 +179,8 @@ class Subscription < ActiveRecord::Base
     self.orders.complete.for_year(year).all
   end
 
-  def prepare_order
-    order = Order.new
+  def prepare_order(order=nil)
+    order ||= Order.new
     order.user = self.user
     order.donor_type = self.donor_type
     order.title = self.title
