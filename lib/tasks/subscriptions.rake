@@ -28,6 +28,7 @@ namespace :subscriptions do
     year = ENV['FORYEAR'] ? ENV['FORYEAR'] : Date.today.year-1
     previously_delivered = 0
     tax_receipts = Subscription.all.map do |subscription|
+      next unless subscription.user
       # this is because of a tax receipting mishap the first time around
       if year == 2011 && TaxReceipt.count(:conditions => ["user_id=? AND (created_at LIKE ? OR created_at LIKE ?)", subscription.user_id, "#{year+1}-01-04%", "#{year+1}-02-28%"]) > 0
         previously_delivered = previously_delivered + 1

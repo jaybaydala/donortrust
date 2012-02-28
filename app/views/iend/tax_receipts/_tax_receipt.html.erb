@@ -6,6 +6,8 @@
       <%= render :partial => 'iend/orders/deposit', :collection => tax_receipt.order.deposits %>
       <%= render :partial => 'iend/orders/pledge', :collection => tax_receipt.order.pledges %>
       <%= render :partial => 'iend/orders/registration_fee', :locals => { :registration_fee => tax_receipt.order.registration_fee } if tax_receipt.order.registration_fee.present? %>
+    <% elsif tax_receipt.subscription %>
+      <%= render :partial => 'iend/orders/subscription', :locals => { :subscription => tax_receipt.subscription } %>
     <% elsif tax_receipt.gift %>
       <%= render :partial => 'iend/orders/gift', :locals => { :gift => tax_receipt.gift } %>
     <% elsif tax_receipt.deposit %>
@@ -15,7 +17,9 @@
   <td><%= link_to "Download", tax_receipt_path(tax_receipt.id, tax_receipt.view_code, :format => :pdf) %></td>
   <td class="datetime"><%= tax_receipt.updated_at.strftime('%b %d, %Y %H:%M') %></td>
   <td class="currency">
-    <% if tax_receipt.order %>
+    <% if tax_receipt.amount? %>
+      <%= number_to_currency(tax_receipt.amount) %>
+    <% elsif tax_receipt.order %>
       <%= number_to_currency(tax_receipt.order.total) %>
     <% elsif tax_receipt.gift %>
       <%= number_to_currency(tax_receipt.gift.amount) %>
