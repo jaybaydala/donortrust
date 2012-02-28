@@ -45,6 +45,8 @@ class Subscription < ActiveRecord::Base
 
   attr_accessor :full_card_number, :update_vault
 
+  attr_reader :response
+
   class << self
     def notify_impending_card_expirations
       Subscription.all(:conditions => ['expiry_month = ? AND expiry_year = ?', Date.today.month, Date.today.year]).each do |subscription|
@@ -215,10 +217,11 @@ class Subscription < ActiveRecord::Base
     order = prepare_order
     purchase_options = { :invoice_id => order.id }
     logger.debug("purchase_options: #{purchase_options.inspect}")
-    response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
-    order.update_attributes({:authorization_result => response.authorization}) if response.success?
-    complete_payment(response.success?, order)
-    raise ActiveMerchant::Billing::Error.new(response.inspect) unless response.success?
+    @response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
+    order.update_attributes({:authorization_result => @response.authorization}) if @response.success?
+    complete_payment(@response.success?, order)
+    SupportMailer.deliver_subscription_result(self, @response, order)
+    raise ActiveMerchant::Billing::Error.new(@response.inspect) unless @response.success?
     order
   end
 
@@ -254,11 +257,11 @@ class Subscription < ActiveRecord::Base
                               :invoice_id => self.id
                             }
         logger.debug("purchase_options: #{purchase_options.inspect}")
-        response = gateway.create_customer(amount*100, credit_card, purchase_options)
-        if response.success?
-          self.customer_code = response.authorization
+        @response = gateway.create_customer(amount*100, credit_card, purchase_options)
+        if @response.success?
+          self.customer_code = @response.authorization
         else
-          raise ActiveMerchant::Billing::Error.new(response.message)
+          raise ActiveMerchant::Billing::Error.new(@response.message)
         end
         true
       else
@@ -287,9 +290,9 @@ class Subscription < ActiveRecord::Base
 
       if credit_card.valid?
         logger.debug("attributes: #{self.attributes.inspect}")
-        response = gateway.update_customer(amount*100, self.customer_code, credit_card, purchase_options)
-        if !response.success?
-          raise ActiveMerchant::Billing::Error.new(response.message)
+        @response = gateway.update_customer(amount*100, self.customer_code, credit_card, purchase_options)
+        if !@response.success?
+          raise ActiveMerchant::Billing::Error.new(@response.message)
         end
         true
       else
@@ -298,9 +301,9 @@ class Subscription < ActiveRecord::Base
     end
 
     def delete_customer
-      response = gateway.delete_customer(self.customer_code)
-      if !response.success?
-        raise ActiveMerchant::Billing::Error.new(response.message)
+      @response = gateway.delete_customer(self.customer_code)
+      if !@response.success?
+        raise ActiveMerchant::Billing::Error.new(@response.message)
       end
       true
     end
