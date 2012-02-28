@@ -37,6 +37,8 @@ module ActiveMerchant #:nodoc:
       
       self.default_currency = "CAD"
 
+      attr_reader :response_body
+
       # self.ssl_strict = false
       
       def canadian_currency?
@@ -190,7 +192,8 @@ module ActiveMerchant #:nodoc:
           headers = {}
           headers = { 'Authorization' => encoded_credentials } unless action == "process"
           RAILS_DEFAULT_LOGGER.debug("headers: #{headers.inspect}")
-   	      response = parse(ssl_post(url(action), post_data(action, parameters), headers), action)
+          @response_body = ssl_post(url(action), post_data(action, parameters), headers)
+          response = parse(@response_body, action)
           RAILS_DEFAULT_LOGGER.debug("response: #{response.inspect}")
           Response.new(
             success?(response), 

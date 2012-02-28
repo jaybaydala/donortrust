@@ -32,6 +32,8 @@ module ActiveMerchant #:nodoc:
       URL = 'https://www.iatspayments.com/'
       
       self.default_currency = "CAD"
+
+      attr_reader :response_body
       
       def canadian_currency?
         @currency == "CAD"
@@ -142,7 +144,8 @@ module ActiveMerchant #:nodoc:
       end     
       
       def commit(action, money, parameters)
-        response = parse(ssl_post(url(action), post_data(action, parameters)))
+        @response_body = ssl_post(url(action), post_data(action, parameters))
+        response = parse(@response_body)
         Response.new(
           success?(response), 
           response[:message], 
