@@ -238,6 +238,9 @@ class Dt::ProjectsController < DtApplicationController
         search_query[term].uniq! unless term == :total_cost
       end
       if search_query[:total_cost].present?
+        if search_query[:total_cost].class == Array
+          search_query[:total_cost] = search_query[:total_cost].join(search_query[:total_cost].first.match(',') ? ',' : '..')
+        end
         split_token = (search_query[:total_cost].match(',')) ? ',' : '..' # handle old comma separated total cost range links
         total_costs = search_query[:total_cost].split(split_token)
         search_query[:total_cost] = (total_costs.first..total_costs.last)
