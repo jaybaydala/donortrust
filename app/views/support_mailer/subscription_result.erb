@@ -1,0 +1,13 @@
+SUBSCRIPTION
+============
+<%= @subscription.reload.inspect %>
+
+RESPONSE
+============
+<%= @response.inspect %>
+
+<%- if @order.present? -%>
+ORDER
+============
+<%= @order.reload.inspect %>
+<%- end -%>
