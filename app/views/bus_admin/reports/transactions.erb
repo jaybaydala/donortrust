@@ -11,9 +11,9 @@ FasterCSV.generate do |csv|
   csv << ["Order ID", "Completed at", "Amount", "User Name", "User ID", "Gift Card Payment", "Gift Card Payment ID", 
           "Pledge Account Payment", "Pledge Account Payment ID", "Account Balance Payment", "Offline Fund Payment", "Credit Card Payment", 
           "CC Auth Result", "Notes", "Deposit(s)", "Gift(s)", "Gift Card ID", "Pledge(s)", "Pledge Campaign Name", "Pledge Campaign ID", 
-          "Investment", "Investment Project Name", "Investment Project ID", "Investment Partner"]
+          "Investment", "Investment Project Name", "Investment Project ID", "Investment Partner", "Tip"]
   @orders.each do |order|
-    rows = [order.investments.count, order.deposits.count, order.gifts.count, order.pledges.count].max
+    rows = [order.investments.count, order.deposits.count, order.gifts.count, order.pledges.count, order.tips.count].max
     (0..rows-1).each do |row_index|
       if row_index == 0
         data = []
@@ -34,11 +34,13 @@ FasterCSV.generate do |csv|
       else
         data = [order.id, "", "", "", "", "", "", "", "", "", "", "", "", ""]
       end
+      # deposits
       if order.deposits[row_index].nil?
         data << ""
       else
         data << number_to_currency(order.deposits[row_index].amount)
       end
+      # gifts
       if order.gifts[row_index].nil?
         data << "" # Gift Card Amount
         data << "" # Gift Card ID
@@ -46,6 +48,7 @@ FasterCSV.generate do |csv|
         data << number_to_currency(order.gifts[row_index].amount)
         data << order.gifts[row_index].id
       end
+      # pledges
       if order.pledges[row_index].nil?
         data << "" # pledge amount
         data << "" # pledge campaign
@@ -64,6 +67,7 @@ FasterCSV.generate do |csv|
           data << ""
         end
       end
+      # investments
       if order.investments[row_index].nil?
         data << "" # Investment amount
         data << "" # Investment project name
@@ -75,6 +79,13 @@ FasterCSV.generate do |csv|
         data << investment.project.name
         data << investment.project.id
         data << investment.project.partner.name
+      end
+      # tips
+      if order.tips[row_index].nil?
+        data << "" # Tip amount
+      else
+        tip = order.tips[row_index]
+        data << number_to_currency(tip.amount)
       end
       csv << data
 		end
