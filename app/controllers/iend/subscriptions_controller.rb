@@ -48,4 +48,11 @@ class Iend::SubscriptionsController < DtApplicationController
       }
     end
   end
+
+  protected
+    def ssl_required?
+      return true if action_name == "edit_billing"
+      false
+    end
+    
 end
