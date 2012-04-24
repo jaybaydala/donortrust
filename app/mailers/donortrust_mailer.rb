@@ -232,7 +232,7 @@ class DonortrustMailer < ActionMailer::Base
     subject 'UPowered: Impending credit card expiry'
     sent_on Time.now
     body[:subscription] = subscription
-    body[:edit_upowered_url] = edit_iend_subscription_url(subscription, :host => HTTP_HOST)
+    body[:edit_upowered_url] = edit_billing_iend_subscription_url(subscription, :host => HTTP_HOST)
   end
 
   def tax_receipt(receipt)
