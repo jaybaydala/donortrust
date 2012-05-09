@@ -1,0 +1,9 @@
+<h3>Projects in this sector</h3>
+
+<div class="clearfix">
+  <ul class="no_style">
+  <% @projects.each_with_index do |project, i| %>
+    <li><%= link_to project.name, dt_project_path(project) %></li> 
+  <% end %>
+  </ul>
+</div>
