@@ -57,7 +57,7 @@
 
 <% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
 
-<% if gift.sector_id %>
+<% if @gift.sector_id %>
   <p>
     <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty.
   </p>
