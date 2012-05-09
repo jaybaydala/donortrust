@@ -4,6 +4,7 @@ class Gift < ActiveRecord::Base
 
   before_create :make_pickup_code
   before_create :set_balance
+  before_create :set_project_id
   before_validation :send_now_if_requested
 
   belongs_to :user
@@ -134,6 +135,15 @@ class Gift < ActiveRecord::Base
   end
   
   protected
+
+  def set_project_id
+    if self.sector_id && self.project_id.nil?
+      sector = Sector.find(self.sector_id)
+      project_ids = sector.projects.collect{|p| p.id if p.current_need > self.amount}
+      self.project_id = project_ids[rand(project_ids.length)]
+    end
+  end
+
   def set_balance
     self.balance = amount if project_id.nil?
   end

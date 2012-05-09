@@ -6,7 +6,7 @@
         CAUSE/SECTOR:
         <% @project.sectors.each do |sector| %>
           <%= image_tag("/images/icons/#{sector.image_name(16)}", :alt => '', :width => 16, :height => 16, :style => "vertical-align:bottom;") %>
-          <%= link_to(sector.name, dt_projects_path(:search => { :sector_ids => [sector.id] }) ) %>
+          <%= link_to(sector.name, dt_sector_path(sector) ) %>
         <% end %>
       </div>
     </div>

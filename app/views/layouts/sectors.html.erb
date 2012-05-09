@@ -8,7 +8,7 @@
   <div id="maincontentarea" class="content append-large-bottom">
     <section id="top_content" class="container">
       <%= render :partial => 'layouts/shared/flashes' %>
-      <%= render :partial => 'dt/projects/project_nav' %>
+      <%= render :partial => 'dt/sectors/sector_nav' %>
       <%= yield :top_content %>
     </section>
     <section class="container prepend-top">
@@ -19,10 +19,9 @@
         </article>
 
         <aside class="span-4 prepend-1 last">
-          <%= yield :project_sidebar %>
+          <%= yield :sector_sidebar %>
         </aside>
 
-        <%= render 'project_footer' %>
       </div>
 
       <aside class="span-3 last">
@@ -31,6 +30,12 @@
           <%= yield :sidebar %>
         </div>
       </aside>
+
+      <div class="span-15 clearfix">
+        <article class="prepend-1 span-12 prepend-top clear">
+          <%= render 'project_list' %>
+        </article>
+      </div>
       
     </section>
   </div>
@@ -38,5 +43,5 @@
 </div>
 <%= render :partial => 'layouts/shared/tail' %>
 
-<%= render :partial => 'layouts/shared/update_likes', :locals => {:resource => "projects", :obj => @project} %>
+<%= render :partial => 'layouts/shared/update_likes', :locals => {:resource => "sectors", :obj => @sector} %>
 <%= render :partial => 'layouts/shared/like_project' %>
