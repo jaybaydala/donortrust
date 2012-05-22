@@ -34,6 +34,8 @@ Given /^I search with a deprecated total_cost param of "([^"]*)"$/ do |param|
   visit "/dt/projects?search%5Btotal_cost%5D=#{param}"
 end
 
-Then /^the project "([^"]*)" should be listed last$/ do |project_name|
-  pending # express the regexp above with the code you wish you had
+Then /^the project list should have "([^"]*)" before "([^"]*)"$/ do |before, after|
+  project_before = Project.find_by_name(before)
+  project_after = Project.find_by_name(after)
+  page.body.should =~ /#{project_before.name}.*#{project_after.name}/m
 end
