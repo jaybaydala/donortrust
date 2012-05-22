@@ -12,7 +12,7 @@ Feature: Projects search
     | Medium Project 1    | active    | Education         | Turbekistan  | Tag Solutions  | 6000        |
     | Medium Project 2    | active    | Health            | Turbekistan  | Tag Solutions  | 6000        |
     | Large Project       | active    | Health            | Cape Breton  | ACME Hardware  | 12000       |
-    | AAA Project         | completed | Health            | Greece       | Other Thingnn  | 2500       |
+    | Old Project         | completed | Health            | Greece       | Other Thingnn  | 2500       |
     And the project indexes are processed
 
   Scenario: Project filters
@@ -28,7 +28,13 @@ Feature: Projects search
     And I should see "☐ $0 - $5,000 (2)" within ".project-filter"
     And I should see "☐ $5,001 - $10,000 (2)" within ".project-filter"
     And I should see "☐ $10,001 - $15,000 (1)" within ".project-filter"
-    And the project "AAA Project" should be listed last
+
+  Scenario: Project sort order (active before completed)
+    Given I am on the projects page
+    Then the project list should have "Small Project" before "Old Project"
+    And the project list should have "Medium Project 1" before "Old Project"
+    And the project list should have "Medium Project 2" before "Old Project"
+    And the project list should have "Large Project" before "Old Project"
 
   Scenario: Status results count
     Given I am on the projects page
@@ -36,12 +42,15 @@ Feature: Projects search
     Then I should see 4 projects listed
     And I should see "☒ Active"
     And I should see "Small Project"
-    And I should not see "AAA Project"
+    And I should not see "Old Project"
 
   Scenario: Sector results count, multiple facets
     Given I am on the projects page
     And I follow "☐ Health (4)"
     Then I should see 4 projects listed
+    And the project list should have "Small Project" before "Old Project"
+    And the project list should have "Medium Project 2" before "Old Project"
+    And the project list should have "Large Project" before "Old Project"
     And I should see "Medium Project 2"
     And I should not see "Medium Project 1"
     And I should see "☒ Health"
@@ -100,6 +109,12 @@ Feature: Projects search
     And I should see "☒ $5,001 - $10,000 (2)"
     And I should see "☐ Health (1)"
     And I should see "☐ Education (1)"
+
+  Scenario: Cost results sort
+    Given I am on the projects page
+    And I follow "☐ $0 - $5,000 (2)"
+    Then I should see 2 projects listed
+    And the project list should have "Small Project" before "Old Project"
 
   Scenario: Keyword search on sector name
     Given I am on the projects page
