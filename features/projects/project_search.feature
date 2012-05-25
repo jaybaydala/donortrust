@@ -46,7 +46,11 @@ Feature: Projects search
 
   Scenario: Sector results count, multiple facets
     Given I am on the projects page
-    And I follow "☐ Health (4)"
+    When I follow "☐ Health (4)"
+    And I should see "☒ Health"
+    And I should see "☒ Active"
+    Then I should see 3 projects listed
+    When I follow "Active" within ".term"
     Then I should see 4 projects listed
     And the project list should have "Small Project" before "Old Project"
     And the project list should have "Medium Project 2" before "Old Project"
