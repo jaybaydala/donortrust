@@ -3,10 +3,10 @@ html { font-size:100.01%; }
 body { font-family: Helmet, Freesans, sans-serif; font-size:87.5%; }
 body, select, input, textarea { color: #333; }
 body.dark, 
-.dark select, 
 .dark input, 
 .dark textarea { color:#FFF; }
 body .light, 
+.dark select, 
 .light select, 
 .light input, 
 .light textarea { color:#333; }
