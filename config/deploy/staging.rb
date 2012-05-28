@@ -1,5 +1,5 @@
 set :rails_env, "staging"
-set :branch, "develop"
+set :branch, "release/1.8.0"
 # set :deploy_via, :checkout
 set :rvm_ruby_string, "ree@#{application}_#{rails_env}"
 set :deploy_to, "/var/www/apps/#{application}_#{rails_env}"
