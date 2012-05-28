@@ -7,7 +7,7 @@ module Dt::ProjectsHelper
     link_text << "(#{Project.search_count(@search_text, :with => search_query_with_term_one_option(facet.to_s, link.id))})" unless facet_active?(facet, link.id)
     link_path = dt_projects_path(:search => search_query_with_term(facet.to_s, link.id, {:with_text => true}))
     if params[:search].nil? && facet != :project_status_id
-      link_path += "&search%5Bproject_status_id%5D%5B%5D=#{ProjectStatus.active.id}&test=xxxx"
+      link_path += "&search%5Bproject_status_id%5D%5B%5D=#{ProjectStatus.active.id}"
     end
     link_to(link_text.join(' '), link_path)
   end
