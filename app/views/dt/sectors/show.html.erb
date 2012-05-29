@@ -5,7 +5,7 @@
 <%= render 'sector_header' %>
 
 <h1 class="project-title">
-  <%= image_tag "icons/sector-#{@sector.name.downcase}.png", :style => "vertical-align:middle;" %>
+  <%= image_tag "icons/sector-#{@sector.name.parameterize}.png", :style => "vertical-align:middle;" %>
   <%= @sector.name %>
 </h1>
 
