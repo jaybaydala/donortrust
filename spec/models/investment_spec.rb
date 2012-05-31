@@ -32,6 +32,7 @@ describe Investment do
     it { should belong_to(:order) }
     it { should belong_to(:promotion) }
     it { should belong_to(:campaign) }
+    it { should belong_to(:sector) }
     it { should have_one(:user_transaction) }
   end
 
