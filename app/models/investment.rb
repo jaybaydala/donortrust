@@ -8,6 +8,7 @@ class Investment < ActiveRecord::Base
   belongs_to :order
   belongs_to :promotion
   belongs_to :campaign
+  belongs_to :sector
   has_one :user_transaction, :as => :tx
 
   validates_presence_of :amount
@@ -75,7 +76,7 @@ class Investment < ActiveRecord::Base
   protected
 
   def set_project_id
-    if self.sector_id && self.project_id.nil?
+    if self.sector_id? && self.project_id.blank?
       sector = Sector.find(self.sector_id)
       project_ids = sector.projects.map(&:id)
       self.project_id = project_ids[rand(project_ids.length)]

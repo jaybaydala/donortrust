@@ -5,6 +5,7 @@ class Sector < ActiveRecord::Base
   has_and_belongs_to_many :projects
 
   has_many :causes
+  has_many :investments
   has_many :quick_fact_sectors
   has_many :preferred_sectors
   has_many :users, :through => :preferred_sectors
