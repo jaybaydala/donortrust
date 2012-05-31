@@ -1,3 +1,12 @@
 <div class="investment line_item">
-  <%= item.project ? link_to(item.project.name, dt_project_path(item.project_id)) : "Investment" %>
+  <% if item.project %>
+    <%= link_to(item.project.name, [:dt, item.project]) %>
+    <% if item.sector %>
+      <div>(<%= item.sector.name %> Sector)</div>
+    <% end %>
+  <% elsif item.sector %>
+    <%= link_to(item.sector.name, [:dt, item.sector]) %>
+  <% else %>
+    Investment
+  <% end %>
 </div>
