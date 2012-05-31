@@ -1,11 +1,13 @@
 <div class="investment line_item">
   <% if item.project %>
-    <%= link_to(item.project.name, [:dt, item.project]) %>
     <% if item.sector %>
-      <div>(<%= item.sector.name %> Sector)</div>
+      Your Specific Project Investment: <%= link_to item.project.name, [:dt, item.project] %>,
+      from your donation to the <%= link_to item.sector.name, [:dt, item.sector] %> cause
+    <% else %>
+      <%= link_to(item.project.name, [:dt, item.project]) %>
     <% end %>
   <% elsif item.sector %>
-    <%= link_to(item.sector.name, [:dt, item.sector]) %>
+    Investment in the <%= link_to item.sector.name, [:dt, item.sector] %> cause
   <% else %>
     Investment
   <% end %>
