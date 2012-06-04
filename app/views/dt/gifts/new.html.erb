@@ -30,9 +30,16 @@
   <% f.inputs "Gift Details" do %>
     <%
       options = []
-      options << ["Let the recipient choose how they want to direct the gift", ""]
-      options << [raw("to a project I've chosen - #{link_to @project.name, [:dt, @project]}"), @project.id] if @project
+      if @sector
+        options << [raw("to a sector I've chosen - #{link_to @sector.name, [:dt, @sector]}"), ""]
+      else
+        options << ["Let the recipient choose how they want to direct the gift", ""]
+        options << [raw("to a project I've chosen - #{link_to @project.name, [:dt, @project]}"), @project.id] if @project
+      end
     %>
+    <% if @sector %>
+      <%= f.hidden_field :sector_id, :value =>  @sector.id %>
+    <% end %>
     <%= f.input :project_id, :label => "How would you like to direct your gift?", :as => :radio, :collection => options %>
     <%= f.input :amount, :label => 'Gift Amount', :hint => "Example: $100" %>
     <li>
