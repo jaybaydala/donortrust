@@ -17,8 +17,8 @@ class Dt::ProjectsController < DtApplicationController
 
   def index
     if params[:search].blank?
-      @projects = Project.current.paginate(:conditions => { :featured => true }, :page => params[:page], :per_page => 18)
-      @projects = Project.current.paginate(:limit => 3, :order => 'RAND()', :page => params[:page], :per_page => 18) if @projects.size == 0
+      @projects = Project.current.paginate(:conditions => { :featured => true }, :order => 'project_status_id ASC', :page => params[:page], :per_page => 18)
+      @projects = Project.current.paginate(:limit => 3, :order => 'project_status_id ASC, RAND()', :page => params[:page], :per_page => 18) if @projects.size == 0
       @search_text = ""
     else
       @search_text = params[:search][:search_text].present? ? params[:search][:search_text] : ""
@@ -26,9 +26,10 @@ class Dt::ProjectsController < DtApplicationController
         :with => search_query_prepared,
         :page     => params[:page],
         :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
-        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym),
+        :order    => (params[:order].blank? ? :project_status_id : params[:order].to_sym),
         :populate => true
     end
+    # NOTE: we're assuming the project_status_id for 'active' is lower than 'completed' for each order above
     respond_to do |format|
       format.html { render :action => "index", :layout => "project_search"}
     end

@@ -3,7 +3,6 @@ html { font-size:100.01%; }
 body { font-family: Helmet, Freesans, sans-serif; font-size:87.5%; }
 body, select, input, textarea { color: #333; }
 body.dark, 
-.dark select, 
 .dark input, 
 .dark textarea { color:#FFF; }
 body .light, 
@@ -85,6 +84,7 @@ big { font-size:1.3em }
 .content ul, .content ol {margin:0 1.5em 1.5em 0;padding-left:1.5em;}
 .content ul {list-style-type:disc;}
 .content ol {list-style-type:decimal;}
+ul.no_style { list-style: none; }
 
 
 /*.standard { font-size:14px;}*/

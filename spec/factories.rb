@@ -329,6 +329,11 @@ Factory.define :invitation do |s|
   s.association :user, :factory => :user
 end
 
+Factory.define :sector do |s|
+  s.name { Faker::Name.name }
+  s.description { Faker::Lorem.sentence }
+end
+  
 Factory.define :upowered_email_subscribe do |u|
   u.email { Faker::Internet.email }
   u.code "12345"

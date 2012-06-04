@@ -1,9 +1,11 @@
 class Sector < ActiveRecord::Base
+  include Likeable
   acts_as_paranoid
 
   has_and_belongs_to_many :projects
 
   has_many :causes
+  has_many :investments
   has_many :quick_fact_sectors
   has_many :preferred_sectors
   has_many :users, :through => :preferred_sectors
@@ -36,5 +38,33 @@ class Sector < ActiveRecord::Base
 
   def projects
     return Project.find_public(:all, :joins => [:sectors], :conditions => ["sectors.id=#{self.id}"])
+  end
+
+  def lives_affected
+    sum = 0
+    Project.find_public(:all, :joins => [:sectors], :conditions => ["sectors.id=#{self.id}"]).each {|project| sum = sum + project.lives_affected if project.lives_affected?}
+    sum
+  end
+
+  def lives_affected?
+    self.lives_affected > 0
+  end
+
+  def total_cost
+    sum = 0
+    Project.find_public(:all, :joins => [:sectors], :conditions => ["sectors.id=#{self.id}"]).each {|project| sum = sum + project.total_cost}
+    sum
+  end
+
+  def total_money_raised
+    sum = 0
+    Project.find_public(:all, :joins => [:sectors], :conditions => ["sectors.id=#{self.id}"]).each {|project| sum = sum + project.dollars_raised}
+    sum
+  end
+
+  def get_percent_raised
+    percentage = total_money_raised * 100 / total_cost
+    percentage = 100 if percentage > 100
+    percentage
   end
 end
