@@ -56,3 +56,12 @@ end
 Then /^the gift should be scheduled for delivery in the future$/ do
   assert Cart.last.items.last.item.send_at >= 0.days.ago
 end
+
+Then /^the gift should have selected sector id$/ do
+  assert_equal @sector.id, Cart.last.items.last.item.sector_id
+end
+
+Then /^the gift should not have any assigned project$/ do
+  assert_equal nil, Cart.last.items.last.item.project_id
+end
+

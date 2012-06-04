@@ -409,7 +409,7 @@ class User < ActiveRecord::Base
   end
 
   def friendship_with(friend)
-    self.friendships.find_by_friend_id(friend) || self.friendships.find_by_user_id(friend)
+    self.friendships.find_by_friend_id(friend.id) || self.inverse_friendships.find_by_user_id(friend.id)
   end
 
   def collective_gifts_given_count

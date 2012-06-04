@@ -1,11 +1,23 @@
 <% title(params[:search].blank? ? 'Featured Projects' : nil ) %>
 
 <div class="clearfix">
-<% @projects.each_with_index do |project, i| %>
-<div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
-  <%= render :partial => 'project', :locals => { :project => project } %>
-</div>
-<% end %>
+  <!-- j = sector count -->
+  <% j = 0 %>
+  
+  <% if params[:search] %>
+    <% j = search_records[:sector_ids].size %>
+    <% search_records[:sector_ids].each_with_index do |sector, i| %>
+      <div class="span-4 append-bottom<%= ' last' if (i+1)%3 == 0 %>">
+        <%= render :partial => 'sector', :locals => { :sector => sector } %>
+      </div>
+    <% end %>
+  <% end %>
+  
+  <% @projects.each_with_index do |project, i| %>
+    <div class="span-4 append-bottom<%= ' last' if (i+j+1)%3 == 0 %>">
+      <%= render :partial => 'project', :locals => { :project => project } %>
+    </div>
+  <% end %>
 </div>
 
 <%= will_paginate %>

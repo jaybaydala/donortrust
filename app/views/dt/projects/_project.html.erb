@@ -1,4 +1,4 @@
-<article id="project-1" class="project-module">
+<article id="project-<%= project.id %>" class="project-module">
   <div class="project-module-top">
     <a href="<%= dt_project_path(project) %>">
     <% if project.lives_affected? %>
@@ -19,8 +19,8 @@
     <% if project.fundable? %>
     <div class="project-quick-give"><%= link_to "Quick Give", new_dt_investment_path(:project_id => project.id) %></div>
     <% end %>
-    <div class="project-like">
-      <a id="<%= project.id %>" class="like_project"><img src="/images/nav/like-grey.png" width="21" height="23" alt=""> <span class="likes_count"><%= project.likes_count %></span></a>
+    <div class="project-like-button">
+      <fb:like href="<%= dt_project_url(project)%>" send="false" notify="true" layout="button_count" show_faces="false"></fb:like>
     </div>
   </div>
   <div class="project-module-bottom clearfix">
