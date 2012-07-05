@@ -8,7 +8,7 @@ footer.content,
 #top { background-color:#333; padding: 20px 0 18px 0; position:relative; }
 #top .content { background:transparent; }
 #logo { margin:0 0 0 75px; padding:0; }
-#logo, #logo a { display:block; height:33px; width:244px; }
+#logo, #logo a { display:block; height:33px; width:207px; }
 #logo a { background:url(/images/logo.png) no-repeat transparent; text-indent:-9999px; }
 #account { color:#FFF; position:absolute; right:20px; top:12px; }
 #account a { color:#FFF; text-decoration:none; }
