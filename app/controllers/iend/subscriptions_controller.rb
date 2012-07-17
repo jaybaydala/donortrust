@@ -28,7 +28,7 @@ class Iend::SubscriptionsController < DtApplicationController
           flash[:notice] = "Your subscription has been updated"
           redirect_to iend_subscriptions_path
         else
-          render :action => "edit"
+          render :action => params[:show_action] == "edit_billing" ? "edit_billing" : "edit"
         end
       }
     end
