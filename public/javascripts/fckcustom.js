@@ -39,7 +39,7 @@ FCKConfig.ToolbarSets["uEnd"] = [
 	'/',
 	['OrderedList','UnorderedList','-','Outdent','Indent','-'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['Link','Unlink'],
+	['Link','Unlink', 'Image'],
 	['TextColor','BGColor'] // No comma for the last row.
 ] ;
 
