@@ -24,7 +24,8 @@ $(document).ready(function () {
     css3Safe: $.browser.safari ? true : false, // this trick prevents old safari browser versions from not scrolling properly
     float: 'right',
     onClick: function () {
-      $.colorbox({ inline: true, href: '#feedback_form', opacity: 0.5, width: '510px', height: '540px'});
+      $('#feedback_form').show();
+      $.colorbox({ inline: true, href: '#feedback_form', opacity: 0.5, width: '510px', height: '650px'});
     }
   });
 

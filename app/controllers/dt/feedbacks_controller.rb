@@ -6,7 +6,7 @@ class Dt::FeedbacksController < DtApplicationController
     @feedback.user = current_user if logged_in?
 
     respond_to do |format|
-      if @feedback.save
+      if verify_recaptcha(:model => @feedback, :message => "There was a ReCaptcha error. Please retry entering the words below") && @feedback.save
         format.json { render :json => { :success => true } }
       else
         # render_to_string(:partial => 'dt/feedbacks/_form') gave an error:

@@ -1,8 +1,7 @@
-require "recaptcha"
 module DtApplicationHelper
-  include ReCaptcha::ViewHelper
+
   def recaptcha_available?
-    !RCC_PUB.nil? && !RCC_PRIV.nil?
+    Recaptcha.configuration.public_key.present? && Recaptcha.configuration.private_key.present?
   end
 
   def current_nav?(controllers, actions=nil)
