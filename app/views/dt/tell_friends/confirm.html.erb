@@ -27,10 +27,7 @@
     </fieldset>
 
     <%- if recaptcha_available? -%>
-    <fieldset id="recaptcha">
-      <legend>Please fill in the following to send your emails.</legend>
-      <%= get_captcha %>
-    </fieldset>
+      <%= recaptcha_tags :display => { :theme => 'white' } %>
     <%- end -%>
 
     <%= submit_tag 'Send E-card', :class => 'buttonsubmit' %>
