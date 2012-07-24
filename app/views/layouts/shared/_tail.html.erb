@@ -16,10 +16,8 @@
   })();
 </script>
 
-<div style="display:none">
-  <div id="feedback_form"><%= render :partial => 'dt/feedbacks/form' %></div>
-</div>
 <%= link_to_function "", "", :id => "feedback-badge" %>
+<div id="feedback_form" style="display:none;"><%= render :partial => 'dt/feedbacks/form' %></div>
 
 </body>
 </html>
