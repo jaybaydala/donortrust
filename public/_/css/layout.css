@@ -8,7 +8,7 @@ footer.content,
 #top { background-color:#333; padding: 20px 0 18px 0; position:relative; }
 #top .content { background:transparent; }
 #logo { margin:0 0 0 75px; padding:0; }
-#logo, #logo a { display:block; height:33px; width:244px; }
+#logo, #logo a { display:block; height:33px; width:207px; }
 #logo a { background:url(/images/logo.png) no-repeat transparent; text-indent:-9999px; }
 #account { color:#FFF; position:absolute; right:20px; top:12px; }
 #account a { color:#FFF; text-decoration:none; }
@@ -75,7 +75,8 @@ footer a:active { text-decoration:underline; }
 #home #statistics { border-bottom:3px solid #390; border-top:2px solid #390; padding-bottom:24px; }
 #home .statistic { background:url(/images/home/statistic_border.png) top right no-repeat; font:42px/28px Georgia,Times,"Times New Roman",serif; padding-top:24px; padding-bottom:0px; padding-right:7px; margin-right:8px; text-align:center; }
 #home .statistic.last { background:none; padding-right:0; margin-right:0; }
-#signups { padding:42px 0; }
+#signups .col { padding:42px 0; }
+#open-gift { background:#DF3E1D; color:#FFF; }
 #unique { margin-top:36px; font-size:16px; }
 #unique h3 { margin-bottom:4px; }
 #unique .row { margin:24px 0; }

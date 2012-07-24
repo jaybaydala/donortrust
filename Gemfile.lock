@@ -204,6 +204,7 @@ GEM
       activesupport (= 2.3.11)
       rake (>= 0.8.3)
     rake (0.8.7)
+    recaptcha (0.3.4)
     redgreen (1.2.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -221,7 +222,6 @@ GEM
     ruby-openid (2.1.8)
     ruby-openid-apps-discovery (1.2.0)
       ruby-openid (>= 2.1.7)
-    ruby-recaptcha (1.0.2)
     rubyforge (2.0.4)
       json_pure (>= 1.1.7)
     rubyntlm (0.1.1)
@@ -305,11 +305,11 @@ DEPENDENCIES
   rack
   rack-rewrite
   rails (= 2.3.11)
+  recaptcha
   redgreen
   rmagick (= 2.12.2)
   rspec-rails (< 2.0)
   ruby-debug
-  ruby-recaptcha
   searchlogic
   shoulda
   simple-rss

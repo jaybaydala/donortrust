@@ -29,7 +29,7 @@ gem 'pony', :require => false
 gem 'rack-rewrite', :require => 'rack/rewrite'
 gem 'RedCloth', :require => 'redcloth'
 gem 'rmagick', '2.12.2'
-gem 'ruby-recaptcha'
+gem 'recaptcha', :require => "recaptcha/rails"
 gem 'simple-rss'
 gem 'searchlogic'#, '2.4.14'
 gem 'thinking-sphinx', '1.4.10', :require => 'thinking_sphinx'
