@@ -8,6 +8,10 @@
     <%= f.input :message, :as => :text, :input_html => { :rows => 4, :cols => 42 } %>
   <% end %>
 
+  <%- if recaptcha_available? -%>
+    <%= recaptcha_tags :ajax => true, :display => { :theme => 'white' } %>
+  <%- end -%>
+
   <% f.buttons do %>
     <%= f.commit_button "Submit Feedback" %>
     <%= image_tag 'spinner.gif', :id => 'spinner', :style => 'display:none' %>
