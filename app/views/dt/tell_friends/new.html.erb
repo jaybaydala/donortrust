@@ -56,7 +56,7 @@
 
     <% f.inputs do %>
       <li>
-        <%= get_captcha %>
+        <%= recaptcha_tags :display => { :theme => 'white' } %>
       </li>
     <% end %>
 

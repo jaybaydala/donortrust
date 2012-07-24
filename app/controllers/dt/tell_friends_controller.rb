@@ -1,5 +1,4 @@
 class Dt::TellFriendsController < DtApplicationController
-  include ReCaptcha::AppHelper
   before_filter :login_required, :only => :show
   
   def initialize
@@ -67,7 +66,7 @@ class Dt::TellFriendsController < DtApplicationController
     @noemails = true if @shares.empty?
 
     respond_to do |format|
-      if validate_recap(params, @share.errors)
+      if verify_recaptcha(:model => @share, :message => "There was a ReCaptcha error. Please retry entering the words below")
         if @unsaved.empty? && !@noemails
           flash.now[:notice] = "Your invitations have been sent"
           format.html
