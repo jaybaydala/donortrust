@@ -329,6 +329,7 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :programs, :active_scaffold => true
     ba.resources :milestones, :active_scaffold => true
     ba.resources :tasks, :active_scaffold => true
+    ba.resources :tax_receipts, :active_scaffold => true
     ba.resources :measures
     ba.resources :accounts, :active_scaffold => true
     ba.resources :groups, :active_scaffold => true
