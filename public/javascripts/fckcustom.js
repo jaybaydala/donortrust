@@ -39,12 +39,24 @@ FCKConfig.ToolbarSets["uEnd"] = [
 	'/',
 	['OrderedList','UnorderedList','-','Outdent','Indent','-'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['Link','Unlink', 'Image'],
+	['Link','Unlink'],
 	['TextColor','BGColor'] // No comma for the last row.
 ] ;
 
 FCKConfig.ToolbarSets["uEndBasic"] = [
 	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink']
+] ;
+
+FCKConfig.ToolbarSets["uEndAdmin"] = [
+	['Cut','Copy','Paste','PasteText'],
+	['Undo','Redo','-','Find'],
+	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
+	'/',
+	['OrderedList','UnorderedList','-','Outdent','Indent','-'],
+	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
+	['Link','Unlink', 'Image'],
+	['TextColor','BGColor'],
+	['Source'] // No comma for the last row.
 ] ;
 
 FCKConfig.LinkBrowser = false ;
