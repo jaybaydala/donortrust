@@ -368,6 +368,10 @@ class Order < ActiveRecord::Base
         order.first_name = from_user.first_name
         order.last_name = from_user.last_name
         order.email = from_user.login
+        order.address = '4007 - 11th St SE'
+        order.city = 'Calgary'
+        order.province = 'AB'
+        order.postal_code = 'T2G 3H1'
         order.account_balance_payment = from_user.balance
         order.transfer = true
         order.deposits.build(:amount => from_user.balance, :user => to_user)
