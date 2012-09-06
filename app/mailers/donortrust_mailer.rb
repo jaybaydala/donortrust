@@ -24,7 +24,7 @@ class DonortrustMailer < ActionMailer::Base
     subject "Your donation has been processed."
     body :user => user, :host => HTTP_HOST, :url => login_url(:host => HTTP_HOST)
   end
-  
+
   def user_signup_notification(user)
     user_setup_email(user)
     subject  "The future is here."
@@ -36,7 +36,7 @@ class DonortrustMailer < ActionMailer::Base
     subject  "#{@subject} UEnd: Account Email Confirmation"
     body :user => user, :host => HTTP_HOST, :url => url_for( :host => HTTP_HOST, :controller => 'dt/accounts', :action => 'activate', :id => user.activation_code )
   end
-  
+
   def user_activation(user)
     user_setup_email(user)
     subject  "#{@subject} Your account has been activated!"
@@ -62,7 +62,7 @@ class DonortrustMailer < ActionMailer::Base
     subject  "Expired UEnd: account"
     body :user => user, :host => HTTP_HOST, :url => dt_projects_url(:host => HTTP_HOST)
   end
-  
+
   def wishlist_mail(share, project_ids)
     content_type "text/html"
     recipients  share.to_name ? "\"#{share.to_name}\" <#{share.to_email}>" : "#{share.to_email}"
@@ -76,7 +76,7 @@ class DonortrustMailer < ActionMailer::Base
     content_type "text/html"
     body render_message('wishlist_mail.text.html.rhtml', body_data)
   end
-  
+
   def invitation_mail(invitation)
     content_type "text/html"
     recipients  invitation.to_name ? "\"#{invitation.to_name}\" <#{invitation.to_email}>" : "#{invitation.to_email}"
@@ -92,7 +92,7 @@ class DonortrustMailer < ActionMailer::Base
   def share_mail(share)
     content_type "text/html"
     recipients  share.to_name ? "\"#{share.to_name}\" <#{share.to_email}>" : "#{share.to_email}"
-    from        "\"#{share.user.full_name} via UEnd\" <info@uend.org>"
+    from        "\"#{share.name} via UEnd\" <info@uend.org>"
     sent_on     Time.now
     subject     'Your friend thought you would like this.'
     headers     "Reply-To" => share.name? ? "\"#{share.name}\" <#{share.email}>" : share.email
@@ -136,7 +136,7 @@ class DonortrustMailer < ActionMailer::Base
     amount = number_to_currency(gift.amount)
     body "<p>The gift you gave to #{gift.to_name} &lt;#{gift.to_email}&gt; has been opened! With your generous gift of #{amount}, we're one gift closer to changing the world...for good. </p><p>All the best to you this holiday season,<br />The UEnd: Team</p>"
   end
-  
+
   def gift_request(requestee_profile, requester)
     recipients  "\"#{requestee_profile.user.first_name} #{requestee_profile.user.last_name}\" <#{requestee_profile.user.email}>"
     from        "\"#{requester.first_name} #{requester.last_name}\" <#{requester.email}>"
@@ -198,7 +198,7 @@ class DonortrustMailer < ActionMailer::Base
     content_type "text/html"
     body render_message('gift_remind.text.html.rhtml', body_data)
   end
-  
+
   def upowered_email_subscription(email_subscription)
     from "upowered@uend.org"
     recipients email_subscription.email
@@ -242,7 +242,7 @@ class DonortrustMailer < ActionMailer::Base
     sent_on     Time.now
     subject "UEnd: Tax Receipt"
     body = <<-TXT
-Thank you for making an investment on the UEnd: website. 
+Thank you for making an investment on the UEnd: website.
 The Canadian charitable tax receipt for your investment is attached to this email.
 Warmest regards,
 The UEnd: team
@@ -265,7 +265,7 @@ TXT
   def in_mock_ajax?
     return false
   end
- 
+
   def friendship_request_email(friendship)
     @friendship = friendship
     @initiator  = friendship.user
@@ -277,7 +277,7 @@ TXT
     @accept_url = accept_iend_friendship_url(:id => @friendship.id, :host => HTTP_HOST)
     @decline_url = decline_iend_friendship_url(:id => @friendship.id, :host => HTTP_HOST)
   end
- 
+
   def friendship_acceptance_email(friendship)
     @friendship = friendship
     @initiator  = friendship.user
@@ -304,7 +304,7 @@ TXT
     from        "info@uend.org"
     sent_on     Time.now
   end
-  
+
   def project_poi(project_poi, msg)
     raise RuntimeError, "this project_poi is unsubscribed (#{project_poi.inspect})!" if project_poi.unsubscribed
     content_type "text/html"
