@@ -21,7 +21,7 @@ class Subscription < ActiveRecord::Base
       unless s.credit_card.valid?
         credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
         credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
-        s.errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
+        s.errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}")
       end
     end
   end
@@ -30,9 +30,9 @@ class Subscription < ActiveRecord::Base
   before_update :update_customer
   before_destroy :delete_customer
   after_create  :deliver_new_subscription_notification
-  
+
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
-  named_scope :current_on, lambda {|date| 
+  named_scope :current_on, lambda {|date|
     date = date.to_date
     { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', date, date] }
   }
@@ -49,7 +49,7 @@ class Subscription < ActiveRecord::Base
 
   class << self
     def notify_impending_card_expirations
-      Subscription.all(:conditions => ['expiry_month = ? AND expiry_year = ?', Date.today.month, Date.today.year]).each do |subscription|
+      Subscription.current.all(:conditions => ['expiry_month = ? AND expiry_year = ?', Date.today.month, Date.today.year]).each do |subscription|
         DonortrustMailer.deliver_impending_subscription_card_expiration_notice(subscription)
       end
     end
@@ -93,6 +93,13 @@ class Subscription < ActiveRecord::Base
       subscription.line_items.create(:item_type => subscription_line_item.item_type, :item_attributes => subscription_line_item.item_attributes)
       subscription
     end
+
+    def to_csv
+      FasterCSV.generate do |csv|
+        csv << column_names
+        all.each {|subscription| csv << subscription.attributes.values_at(*column_names) }
+      end
+    end
   end
 
   def billing_address
@@ -111,7 +118,7 @@ class Subscription < ActiveRecord::Base
     @full_card_number = number
     write_attribute(:card_number, (number.present? ? number.to_s.rjust(4, " ")[-4, 4].strip : nil))
   end
-  
+
   def card_number
     return @full_card_number if @full_card_number
     read_attribute(:card_number)
@@ -253,7 +260,7 @@ class Subscription < ActiveRecord::Base
                               :end_date => self.end_date,
                               :schedule_type => self.schedule_type,
                               :schedule_date => self.schedule_date,
-                              :billing_address => billing_address, 
+                              :billing_address => billing_address,
                               :invoice_id => self.id
                             }
         logger.debug("purchase_options: #{purchase_options.inspect}")
@@ -268,7 +275,7 @@ class Subscription < ActiveRecord::Base
         raise ActiveMerchant::Billing::Error.new("There was an error with the credit card.")
       end
     end
-  
+
     def update_customer
       return unless self.update_vault.present?
       logger.debug("Entering Subscription::update_customer")
@@ -282,7 +289,7 @@ class Subscription < ActiveRecord::Base
                             :end_date => self.end_date,
                             :schedule_type => self.schedule_type,
                             :schedule_date => self.schedule_date,
-                            :billing_address => billing_address, 
+                            :billing_address => billing_address,
                             :customer_code => self.customer_code,
                             :invoice_id => self.id
                           }
@@ -307,7 +314,7 @@ class Subscription < ActiveRecord::Base
       end
       true
     end
-    
+
     def gateway
       unless @gateway
         if File.exists?("#{RAILS_ROOT}/config/iats.yml")
@@ -317,9 +324,9 @@ class Subscription < ActiveRecord::Base
         else
           gateway_login = gateway_password = nil
         end
-    
+
         @gateway = ActiveMerchant::Billing::IatsReoccuringGateway.new(
-          :login    => gateway_login,	
+          :login    => gateway_login,
           :password => gateway_password
         )
       end
