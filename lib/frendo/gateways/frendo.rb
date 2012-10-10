@@ -9,7 +9,7 @@ module ActiveMerchant #:nodoc:
 
       self.supported_countries = ['US','CA']
       self.default_currency = 'CAD'
-      self.supported_cardtypes = [:visa, :master, :american_express, :discover]
+      self.supported_cardtypes = [:visa, :master]
       self.homepage_url = 'http://www.frendo.com/'
       self.display_name = 'Frendo'
 
