@@ -1,6 +1,6 @@
 require 'bigdecimal'
 require 'active_merchant'
-require 'iats/gateways/iats'
+require 'frendo/gateways/frendo'
 ActiveMerchant::Billing::Base.mode = RAILS_ENV == "production" ? :production : :test
 class Order < ActiveRecord::Base
   belongs_to :cart
@@ -54,7 +54,7 @@ class Order < ActiveRecord::Base
   before_save :autoset_credit_card_payment
   after_save :update_user_information
 
-  attr_accessor :upowered_step, :payment_options_step, :billing_step, :account_signup_step, :credit_card_step, :receipt_step, :upowered
+  attr_accessor :upowered_step, :payment_options_step, :billing_step, :account_signup_step, :credit_card_step, :receipt_step, :upowered, :remote_ip
 
   named_scope :complete, :conditions => { :complete => true }
   named_scope :for_year, lambda {|year| { :conditions => ["created_at LIKE ?", "#{year}-%"] }}
@@ -256,23 +256,27 @@ class Order < ActiveRecord::Base
   def run_transaction
     logger.debug("Entering run_transaction")
     if valid_transaction? && credit_card.valid?
-      if File.exists?("#{RAILS_ROOT}/config/iats.yml")
-        config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
+      if File.exists?("#{RAILS_ROOT}/config/frendo.yml")
+        config = YAML.load(IO.read("#{RAILS_ROOT}/config/frendo.yml"))
         gateway_login    = config["username"]
         gateway_password = config["password"]
       else
         gateway_login, gateway_password = nil
       end
-      
-      gateway = ActiveMerchant::Billing::Base.gateway('iats').new(
+
+      gateway = ActiveMerchant::Billing::Base.gateway('frendo').new(
         :login    => gateway_login,	
         :password => gateway_password
       )
       
       # purchase the amount
-      purchase_options = {:billing_address => billing_address, :invoice_id => self.order_number}
+      purchase_options = {
+        :address => billing_address,
+        :customer => { :first_name => self.first_name, :last_name => self.last_name, :email => self.email, :ip => self.remote_ip }
+      }
       logger.debug("Transacting purchase for #{self.credit_card_payment.to_s}")
       response = gateway.purchase(self.credit_card_payment*100, credit_card, purchase_options)
+      logger.debug("GATEWAY PURCHASE RESPONSE: #{response.message}")
       if response.success?
         self.update_attributes({:authorization_result => response.authorization})
         create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
@@ -289,11 +293,11 @@ class Order < ActiveRecord::Base
     {
     :first_name   => self.first_name,
     :last_name    => self.last_name,
-    :address      => self.address,
+    :address1     => self.address,
     :city         => self.city,
     :state        => self.province,
     :zip          => self.postal_code,
-    :country      => self.country
+    :country      => (self.country == "Canada") ? 'CN' : 'US'
     }
   end
 
@@ -301,19 +305,15 @@ class Order < ActiveRecord::Base
     (includes_subscription? || tax_receipt_requested?) && (!payment_options_step && !upowered_step)
   end
 
-  def credit_card(use_iats=true)
+  def credit_card
     unless @credit_card
-      # if we're using IATS gateway, set the currency to CAD
-      # this requires cardholder_name and "un-requires" first name, last name
-      if use_iats
-        ActiveMerchant::Billing::CreditCard.canadian_currency = true
-      end
       # Create a new credit card object
       @credit_card = ActiveMerchant::Billing::CreditCard.new(
         :number          => @full_card_number || self.card_number,
         :month           => self.expiry_month,
         :year            => self.expiry_year,
-        :cardholder_name => self.cardholder_name,
+        :first_name      => self.cardholder_name.split(' ').first,
+        :last_name       => self.cardholder_name.split(' ')[1..-1],
         :verification_value  => self.cvv
       )
     end

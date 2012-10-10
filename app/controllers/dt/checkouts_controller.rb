@@ -226,6 +226,7 @@ class Dt::CheckoutsController < DtApplicationController
     def do_transaction
       if @valid
         Order.transaction do
+          @order.remote_ip = request.remote_ip
           # process the credit card - should handle an exception here
           # if no exception, we're all good.
           # if there is, we should render the payment template and show the errors...
