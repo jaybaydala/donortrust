@@ -3,9 +3,7 @@ require 'json'
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class FrendoGateway < Gateway
-      class << self
-        attr_accessor :test_url, :live_url
-      end
+
       TEST_URL = 'https://test10.frendo.com/FrendoAPI/api/v1/'
       LIVE_URL = 'https://www.frendo.com/FrendoAPI/api/v1/'
 
