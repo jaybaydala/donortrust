@@ -257,7 +257,7 @@ class Subscription < ActiveRecord::Base
                           :address => billing_address,
                           :customer => { :first_name =>  self.first_name, :last_name => self.last_name, :email => self.email, :ip => '0.0.0.0' }
                         }
-        logger.debug("store_options: #{purchase_options.inspect}")
+        logger.debug("store_options: #{store_options.inspect}")
         @response = gateway.store(credit_card, store_options)
         if @response.success?
           self.customer_code = @response.authorization
