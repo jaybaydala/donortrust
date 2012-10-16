@@ -219,7 +219,9 @@ class Subscription < ActiveRecord::Base
 
   def process_payment
     order = prepare_order
-    purchase_options = { :invoice_id => order.id }
+    purchase_options = {
+                      :customer => { :first_name =>  self.first_name, :last_name => self.last_name, :email => self.email, :ip => '0.0.0.0' }
+                    }
     logger.debug("purchase_options: #{purchase_options.inspect}")
     @response = gateway.purchase(self.amount*100, self.customer_code, purchase_options)
     order.update_attributes({:authorization_result => @response.authorization}) if @response.success?
@@ -253,7 +255,7 @@ class Subscription < ActiveRecord::Base
         logger.debug("attributes: #{self.attributes.inspect}")
         store_options = {
                           :address => billing_address,
-                          :customer => { :first_name =>  self.first_name, :last_name => self.last_name, :email => self.email }
+                          :customer => { :first_name =>  self.first_name, :last_name => self.last_name, :email => self.email, :ip => '0.0.0.0' }
                         }
         logger.debug("store_options: #{purchase_options.inspect}")
         @response = gateway.store(credit_card, store_options)
@@ -277,7 +279,7 @@ class Subscription < ActiveRecord::Base
 
       update_options = {
                           :billing_address => billing_address,
-                          :customer => { :account_number => self.customer_code }
+                          :customer => { :account_number => self.customer_code, :ip => '0.0.0.0' }
                         }
       logger.debug("update_options: #{update_options.inspect}")
 
@@ -296,7 +298,7 @@ class Subscription < ActiveRecord::Base
     def delete_customer
       logger.debug("Entering Subscription::delete_customer")
       unstore_options = {
-                            :customer => { :account_number => self.customer_code }
+                            :customer => { :account_number => self.customer_code, :ip => '0.0.0.0' }
                         }
       logger.debug("unstore_options: #{unstore_options.inspect}")
       @response = gateway.unstore(unstore_options)
