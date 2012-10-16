@@ -1,7 +1,6 @@
 require 'bigdecimal'
 require 'active_merchant'
-require 'iats/gateways/iats'
-require 'iats/gateways/iats_reoccuring'
+require 'frendo/gateways/frendo'
 ActiveMerchant::Billing::Base.mode = Rails.env == "production" ? :production : :test
 
 class Subscription < ActiveRecord::Base
@@ -106,11 +105,11 @@ class Subscription < ActiveRecord::Base
     {
     :first_name   => self.first_name,
     :last_name    => self.last_name,
-    :address      => self.address,
+    :address1     => self.address,
     :city         => self.city,
     :state        => self.province,
     :zip          => self.postal_code,
-    :country      => self.country
+    :country      => (self.country == "Canada") ? 'CN' : 'US'
     }
   end
 
@@ -161,9 +160,8 @@ class Subscription < ActiveRecord::Base
     tax_receipt.new_record? ? nil : tax_receipt
   end
 
-  def credit_card(use_iats=true)
+  def credit_card
     unless @credit_card
-      ActiveMerchant::Billing::CreditCard.canadian_currency = true if use_iats
       # Create a new credit card object
       @credit_card = ActiveMerchant::Billing::CreditCard.new(
         :number          => self.card_number,
@@ -171,7 +169,6 @@ class Subscription < ActiveRecord::Base
         :year            => self.expiry_year,
         :first_name      => self.first_name,
         :last_name       => self.last_name,
-        :cardholder_name => "#{self.first_name} #{self.last_name}",
         :verification_value  => self.cvv
       )
     end
@@ -224,7 +221,7 @@ class Subscription < ActiveRecord::Base
     order = prepare_order
     purchase_options = { :invoice_id => order.id }
     logger.debug("purchase_options: #{purchase_options.inspect}")
-    @response = gateway.purchase_with_customer_code(self.amount*100, self.customer_code, purchase_options)
+    @response = gateway.purchase(self.amount*100, self.customer_code, purchase_options)
     order.update_attributes({:authorization_result => @response.authorization}) if @response.success?
     complete_payment(@response.success?, order)
     SupportMailer.deliver_subscription_result(self, @response, order)
@@ -252,19 +249,14 @@ class Subscription < ActiveRecord::Base
       logger.debug("credit_card valid: #{credit_card.valid?}")
       logger.debug("credit_card errors: #{credit_card.errors.inspect}")
       if credit_card.valid?
-        # purchase the amount
+        # store the card
         logger.debug("attributes: #{self.attributes.inspect}")
-        purchase_options = {
-                              :reoccurring_status => self.reoccurring_status,
-                              :begin_date => self.begin_date,
-                              :end_date => self.end_date,
-                              :schedule_type => self.schedule_type,
-                              :schedule_date => self.schedule_date,
-                              :billing_address => billing_address,
-                              :invoice_id => self.id
-                            }
-        logger.debug("purchase_options: #{purchase_options.inspect}")
-        @response = gateway.create_customer(amount*100, credit_card, purchase_options)
+        store_options = {
+                          :address => billing_address,
+                          :customer => { :first_name =>  self.first_name, :last_name => self.last_name, :email => self.email }
+                        }
+        logger.debug("store_options: #{purchase_options.inspect}")
+        @response = gateway.store(credit_card, store_options)
         if @response.success?
           self.customer_code = @response.authorization
         else
@@ -283,21 +275,15 @@ class Subscription < ActiveRecord::Base
       logger.debug("credit_card valid: #{credit_card.valid?}")
       logger.debug("credit_card errors: #{credit_card.errors.inspect}")
 
-      purchase_options = {
-                            :reoccurring_status => self.reoccurring_status,
-                            :begin_date => self.begin_date,
-                            :end_date => self.end_date,
-                            :schedule_type => self.schedule_type,
-                            :schedule_date => self.schedule_date,
-                            :billing_address => billing_address,
-                            :customer_code => self.customer_code,
-                            :invoice_id => self.id
-                          }
-      logger.debug("purchase_options: #{purchase_options.inspect}")
+      update_options = {
+                          :billing_address => billing_address,
+                          :customer => { :account_number => self.customer_code }
+                        }
+      logger.debug("update_options: #{update_options.inspect}")
 
       if credit_card.valid?
         logger.debug("attributes: #{self.attributes.inspect}")
-        @response = gateway.update_customer(amount*100, self.customer_code, credit_card, purchase_options)
+        @response = gateway.update(credit_card, update_options)
         if !@response.success?
           raise ActiveMerchant::Billing::Error.new(@response.message)
         end
@@ -308,7 +294,12 @@ class Subscription < ActiveRecord::Base
     end
 
     def delete_customer
-      @response = gateway.delete_customer(self.customer_code)
+      logger.debug("Entering Subscription::delete_customer")
+      unstore_options = {
+                            :customer => { :account_number => self.customer_code }
+                        }
+      logger.debug("unstore_options: #{unstore_options.inspect}")
+      @response = gateway.unstore(unstore_options)
       if !@response.success?
         raise ActiveMerchant::Billing::Error.new(@response.message)
       end
@@ -317,15 +308,15 @@ class Subscription < ActiveRecord::Base
 
     def gateway
       unless @gateway
-        if File.exists?("#{RAILS_ROOT}/config/iats.yml")
-          config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
+        if File.exists?("#{RAILS_ROOT}/config/frendo.yml")
+          config = YAML.load(IO.read("#{RAILS_ROOT}/config/frendo.yml"))
           gateway_login    = config["username"]
           gateway_password = config["password"]
         else
           gateway_login = gateway_password = nil
         end
 
-        @gateway = ActiveMerchant::Billing::IatsReoccuringGateway.new(
+        @gateway = ActiveMerchant::Billing::FrendoGateway.new(
           :login    => gateway_login,
           :password => gateway_password
         )

@@ -131,7 +131,6 @@ module ActiveMerchant #:nodoc:
       end
 
       def commit(action, parameters)
-        puts parameters.inspect
         response = JSON.parse(ssl_post(test? ? TEST_URL+action : LIVE_URL+action, parameters.to_json))
 
         Response.new(success?(response),
@@ -142,7 +141,9 @@ module ActiveMerchant #:nodoc:
       end
 
       def authorization_from(response)
-        response['Data']['ConfirmationNumber'] if response['Data'] && response['Data']['ConfirmationNumber']
+        return response['Data']['CustomerCode'] if response['Data'] && response['Data']['CustomerCode']
+        return response['Data']['ConfirmationNumber'] if response['Data'] && response['Data']['ConfirmationNumber']
+        nil
       end
 
       def message_from(response)
@@ -155,10 +156,10 @@ module ActiveMerchant #:nodoc:
       end
 
       def brand(creditcard)
-        case creditcard.brand
-        when 'visa'
+        case creditcard.number.to_s[0].chr
+        when '4'
           'VI'
-        when 'master'
+        when '5'
           'MC'
         else
           'VI'
