@@ -3,7 +3,6 @@ require 'json'
 module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class FrendoGateway < Gateway
-
       TEST_URL = 'https://test10.frendo.com/FrendoAPI/api/v1/'
       LIVE_URL = 'https://www.frendo.com/FrendoAPI/api/v1/'
 
@@ -18,23 +17,77 @@ module ActiveMerchant #:nodoc:
         super
       end
 
-      def purchase(money, creditcard, options = {})
+      def purchase(amount, creditcard_or_account_number, options)
+        if creditcard_or_account_number.is_a?(String)
+          purchase_with_account_number(amount, creditcard_or_account_number, options)
+        else
+          purchase_with_credit_card(amount, creditcard_or_account_number, options)
+        end
+      end
+
+      def store(creditcard, options = {})
         post = {}
-        add_charity_type(post)
+        add_authentication(post)
         add_address(post, options)
         add_credit_card(post, creditcard)
+        add_customer(post, options)
+
+        commit('creditcard.add', post)
+      end
+
+      def unstore(options)
+        post = {}
+        add_authentication(post)
+        add_customer(post, options)
+
+        commit('creditcard.remove', post)
+      end
+
+      def update(creditcard, options)
+        post = {}
+        add_authentication(post)
+        add_address(post, options)
+        add_credit_card(post, creditcard)
+        add_customer(post, options)
+
+        commit('creditcard.update', post)
+      end
+
+      private
+
+      def purchase_with_credit_card(money, creditcard, options = {})
+        post = {}
+        add_authentication(post)
+        add_charity_type(post)
+        add_address(post, options)
         add_invoice(post, money)
         add_customer(post, options)
+        add_credit_card(post, creditcard)
 
         commit('order.create', post)
       end
 
-      private
+      def purchase_with_account_number(money, account_number, options = {})
+        post = {}
+        add_authentication(post)
+        add_charity_type(post)
+        add_invoice(post, money)
+        options[:customer][:account_number] = account_number
+        add_customer(post, options)
+
+        commit('order.createUend', post)
+      end
 
       def add_charity_type(post)
         post['Charity'] = {}
         post['Charity']['Type'] = "Charity"
         post['Charity']['Id']   = "2"
+      end
+
+      def add_authentication(post)
+        post['Authentication'] = {}
+        post['Authentication']['Username'] = @options[:login]
+        post['Authentication']['Password'] = @options[:password]
       end
 
       def add_address(post, options)
@@ -78,6 +131,7 @@ module ActiveMerchant #:nodoc:
       end
 
       def commit(action, parameters)
+        puts parameters.inspect
         response = JSON.parse(ssl_post(test? ? TEST_URL+action : LIVE_URL+action, parameters.to_json))
 
         Response.new(success?(response),
@@ -93,7 +147,7 @@ module ActiveMerchant #:nodoc:
 
       def message_from(response)
         return response['Errors'][0]['Message'] if success?(response)
-        response['Errors'][0]['Message'].split('-').last.strip.chomp
+        response['Errors'][0]['Message'].split('-').last.try(:strip).try(:chomp)
       end
 
       def success?(response)
@@ -101,8 +155,14 @@ module ActiveMerchant #:nodoc:
       end
 
       def brand(creditcard)
-        # TODO: Uend current ActiveMerchant version doesn't support creditcard#brand
-        return 'VI' #if creditcard.brand == 'visa'
+        case creditcard.brand
+        when 'visa'
+          'VI'
+        when 'master'
+          'MC'
+        else
+          'VI'
+        end
       end
 
     end
