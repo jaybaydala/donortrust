@@ -20,8 +20,8 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.namespace(:dt) do |dt|
-    dt.resources :accounts, 
-      :controller => 'accounts', 
+    dt.resources :accounts,
+      :controller => 'accounts',
       :collection => { :activate => :get, :resend => :get, :reset => :get, :reset_password => :put },
       :member => { :transactions => :get } do |account|
       account.resources :deposits, :controller => 'deposits'
@@ -81,7 +81,7 @@ ActionController::Routing::Routes.draw do |map|
     dt.resources :wishlists, :controller=> 'wishlists'
     dt.resources :tell_friends, :controller=> 'tell_friends', :collection => { :preview => :get }
     dt.resources :mdgs, :controller=> 'mdgs'
-    
+
     dt.resource :staff, :controller => 'staff'
     dt.resources :wall_posts
 
@@ -105,7 +105,7 @@ ActionController::Routing::Routes.draw do |map|
                                               :add_place_limit_to => :post,
                                               :remove_place_limit_from => :post,
                                               :add_cause_limit_to => :post,
-                                              :remove_cause_limit_from => :post,  
+                                              :remove_cause_limit_from => :post,
                                               :add_partner_limit_to => :post,
                                               :remove_partner_limit_from => :post,
                                               :join => :get,
@@ -146,7 +146,7 @@ ActionController::Routing::Routes.draw do |map|
     #Done with everything pretaining to campaigns
 
     dt.resource :give, :controller => 'give'
-    
+
     # User campaign profiles
     dt.resources :profiles, :only => 'show', :member => { :increase_gifts => :get,
                                                           :decrease_gifts => :get,
@@ -169,7 +169,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/dt', :controller => 'dt/home'
   map.connect 'dt/campaigns/:id/close', :controller => 'dt/campaigns', :action => 'close'
   map.connect 'dt/participants/:id/activate', :controller => 'dt/participants', :action => 'activate'
-  
+
 
   # inactive_record resources
   map.inactive_records 'bus_admin/milestone_statuses/inactive_records', :controller => 'bus_admin/milestone_statuses', :action => 'inactive_records'
@@ -238,14 +238,15 @@ ActionController::Routing::Routes.draw do |map|
     ba.resources :authorized_actions, :active_scaffold => true
     ba.resources :authorized_controllers, :active_scaffold => true
     # bus_admin project resources and routes
-    ba.resources :projects, 
+    ba.resources :projects,
                   :controller => 'projects',
                   :active_scaffold => true,
                   :collection => { :pending_projects => :get}
 
     ba.resource :upowered, :controller => "upowered", :member => { :report => :post, :send_email => :post }
     ba.resources :application_settings, :active_scaffold => true
-    ba.resources :subscriptions
+    ba.resources :orders, :active_scaffold => true
+    ba.resources :subscriptions, :active_scaffold => true, :collection => { :download_csv => :get }, :member => { :run_subscription => :post }
     ba.resources :statistic_widgets, :active_scaffold => true
     ba.resources :pages, :active_scaffold => true
     ba.resources :custom_reports, :only => [ :index ]
@@ -278,7 +279,7 @@ ActionController::Routing::Routes.draw do |map|
       :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :videos => :post, :preview => :post, :search_by_tag => :post, :search_by_user => :post, :search_by_category_and_tag => :post, :list_by_featured => :post, :list_by_popular => :post, :show_video => :post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
     ba.resources :place_flickr_images, :active_scaffold => true,
       :collection => { :add => :post, :remove => :post, :search => :post, :places => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :list => :get }
-    ba.resources :project_flickr_images, :active_scaffold => true, :member => {:delete => :delete}, 
+    ba.resources :project_flickr_images, :active_scaffold => true, :member => {:delete => :delete},
       :collection => { :add => :post, :remove => :post, :search => :post, :projects => :post, :show_flickr => :post, :show_db_flickr => :post, :photos=>:post, :show_search => :get, :update_table => :post, :row => :get, :list => :get }
     ba.resources :welcome, :controller => "welcome"
     ba.resources :home, :controller => "home"
