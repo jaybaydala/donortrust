@@ -1,7 +1,7 @@
 function bind_new_feedback_submit() {
   $('#new_feedback').bind('submit', function() {
     $('#spinner').show();
-    $.post($(this).attr('action'), 
+    $.post($(this).attr('action'),
       $('#new_feedback').serialize(),
       function(data) {
         $('#spinner').hide();
@@ -22,7 +22,7 @@ function bind_new_feedback_submit() {
 $(document).ready(function () {
   $('#feedback-badge').feedbackBadge({
     css3Safe: $.browser.safari ? true : false, // this trick prevents old safari browser versions from not scrolling properly
-    float: 'right',
+    float: 'left',
     onClick: function () {
       $('#feedback_form').show();
       $.colorbox({ inline: true, href: '#feedback_form', opacity: 0.5, width: '510px', height: '650px'});

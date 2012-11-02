@@ -26,6 +26,7 @@
 /**
 * Enable this to display the badge on the right
 */
+/*
 #feedback-badge{
 	display:none;
 	background: url('/images/feedback_badge_right.png') no-repeat;
@@ -34,6 +35,7 @@
 	margin-right:-16px;
 	right: 0px;
 }
+*/
 
 #feedback-badge-right:hover {
 	margin-right:-14px;
