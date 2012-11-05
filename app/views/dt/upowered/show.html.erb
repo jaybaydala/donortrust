@@ -6,7 +6,7 @@
 
 <div id="upowered-video">
   <iframe width="480" height="270" id="upowered-youtube" src="http://www.youtube.com/embed/n6REfFiB_kE" frameborder="0" allowfullscreen></iframe>
-  <div><%= image_tag "upowered/r_you_in-banner.png", :alt => "For the price of a cup of coffee, you become a member of the U:Powered movement. 5000 people, $5 per month. R You In? Help fuel the machine ending poverty." %></div>
+  <div><%= link_to image_tag("upowered/r_you_in-banner.png", :alt => "For the price of a cup of coffee, you become a member of the U:Powered movement. 5000 people, $5 per month. R You In? Help fuel the machine ending poverty."), new_dt_upowered_path %></div>
 </div>
 
 <div class="clearfix prepend-top append-bottom smaller">
@@ -23,7 +23,8 @@
     <div><small>(employees hired/employees needed)</small></div>
   </div>
     <div class="span-5 last">
-      <%= image_tag "upowered/upowered_benefits.png", :alt => "More Decision Power. The Inside Track. Proof you are changing the world." %>
+      <%= link_to image_tag("upowered/button-sign_me_up.png", :alt => "Sign me up!"), new_dt_upowered_path %>
+      <%= link_to image_tag("upowered/upowered_benefits.png", :alt => "More Decision Power. The Inside Track. Proof you are changing the world."), new_dt_upowered_path %>
     </div>
 </div>
 

@@ -1,5 +1,5 @@
 module Donortrust
   unless defined?(Donortrust::VERSION)
-    VERSION = '1.8.7-frendo'
+    VERSION = '1.8.8-frendo'
   end
 end
