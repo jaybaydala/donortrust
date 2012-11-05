@@ -226,6 +226,8 @@ GEM
       json_pure (>= 1.1.7)
     rubyntlm (0.1.1)
     rubyzip (0.9.4)
+    rvm-capistrano (1.2.7)
+      capistrano (>= 2.0.0)
     searchlogic (2.5.6)
       activerecord (~> 2.3.11)
       activerecord (~> 2.3.11)
@@ -310,6 +312,7 @@ DEPENDENCIES
   rmagick (= 2.12.2)
   rspec-rails (< 2.0)
   ruby-debug
+  rvm-capistrano
   searchlogic
   shoulda
   simple-rss
