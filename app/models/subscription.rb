@@ -19,9 +19,11 @@ class Subscription < ActiveRecord::Base
     # only validate on create and when updating the vault
     if s.new_record? || s.update_vault.present?
       unless s.credit_card.valid?
-        credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
-        credit_card_messages = s.credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
-        s.errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}")
+        s.errors.add_to_base("Your credit card information does not appear to be valid! Please correct the following errors and try again.")
+        s.errors.add(:cardholder_name, s.credit_card.errors[:cardholder_name].first) if s.credit_card.errors.has_key? :cardholder_name
+        s.errors.add(:card_number, s.credit_card.errors[:number].first) if s.credit_card.errors.has_key? :number
+        s.errors.add(:cvv, s.credit_card.errors[:verification_value].first) if s.credit_card.errors.has_key? :verification_value
+        s.errors.add(:expiry_month, "is not a valid expiry date") if s.credit_card.errors.has_key?(:month) || s.credit_card.errors.has_key?(:year)
       end
     end
   end

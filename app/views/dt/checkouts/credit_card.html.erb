@@ -21,14 +21,15 @@
           <p><strong><%= number_to_currency(@order.credit_card_payment) %>CAD will be charged to your credit card.</strong></p>
         </li>
         
-        <%= f.input :cardholder_name %>
-        <%= f.input :card_number, :label => "Credit card number", :hint => "No spaces, please<br>#{image_tag('icons/credit_card_logos.gif', :size => "188x32", :alt => "Visa, Mastercard, American Express, Discover")}".html_safe, :input_html => { :maxlength => 16 } %>
-        <%= f.input :cvv, :label => "Card security number (CVV)", :hint => "This is final 3 digits on the back of your card.", :input_html => { :maxlength => 5, :size => "5", :style => "width:auto;" } %>
+        <%= f.input :cardholder_name, :required => true %>
+        <%= f.input :card_number, :label => "Credit card number", :hint => "No spaces, please<br>#{image_tag('icons/credit_card_logos.gif', :size => "188x32", :alt => "Visa, Mastercard, American Express, Discover")}".html_safe, :input_html => { :maxlength => 16 }, :required => true %>
+        <%= f.input :cvv, :label => "Card security number (CVV)", :hint => "This is final 3 digits on the back of your card.", :input_html => { :maxlength => 5, :size => "5", :style => "width:auto;" }, :required => true %>
         <li class="select optional" id="order_expiry_month_input">
-          <%= f.label :expiry_month, "Card expiry"  %>
+          <%= f.label :expiry_month, "Card expiry", :required => true  %>
           <%= f.select :expiry_month, expiry_months, { :include_blank => true }, { :style => "width:auto;" } %>
           <%= f.label :expiry_year, "/", :style => "display:inline;"  %>
           <%= f.select :expiry_year, expiry_years, { :include_blank => true }, { :style => "width:auto;" } %>
+          <%= f.errors_on(:expiry_month) %>
         </li>
       <% else %>
         <li><p>Since you are not paying by credit card, please simply press the &ldquo;Finish&rdquo; button to complete your order</p></li>

@@ -364,7 +364,7 @@ describe Order do
     context "invalid credit card" do
       before do
         @credit_card = mock("CreditCard", :valid? => false)
-        @errors = mock("Errors", :full_messages => ["error1", "error2"])
+        @errors = mock("Errors", :null_object => true)
         order.stub!(:minimum_credit_card_payment).and_return(1)
         order.card_number = "4111111111111111"
         order.cvv = "035"
@@ -379,6 +379,7 @@ describe Order do
         @credit_card.should_receive(:valid?).and_return(false)
         @credit_card.should_receive(:errors).and_return(@errors)
         order.errors.should_receive(:add_to_base).at_least(:once)
+        order.errors.should_receive(:add).at_least(:once)
         order.account_balance = 100
         order.validate_credit_card
       end
