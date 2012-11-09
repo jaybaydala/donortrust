@@ -62,10 +62,17 @@ class Order < ActiveRecord::Base
   def validate_credit_card
     if credit_card_payment?
       unless credit_card.valid?
-        credit_card_messages = credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
-        errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
+        errors.add_to_base("Your credit card information does not appear to be valid. Please correct the following errors and try again.")
+        map_credit_card_errors(credit_card)
       end
     end
+  end
+
+  def map_credit_card_errors(credit_card)
+    errors.add(:cardholder_name, credit_card.errors[:cardholder_name].first) if credit_card.errors.has_key? :cardholder_name
+    errors.add(:card_number, credit_card.errors[:number].first) if credit_card.errors.has_key? :number
+    errors.add(:cvv, credit_card.errors[:verification_value].first) if credit_card.errors.has_key? :verification_value
+    errors.add(:expiry_month, "is not a valid expiry date") if credit_card.errors.has_key?(:month) || credit_card.errors.has_key?(:year)
   end
 
   def validate_payment

@@ -72,6 +72,13 @@ $(document).ready(function (){
     submit.before(button).hide();
   });
 
+  // credit card submission form finish button processing message
+  $('div#confirm').before('<div class="processing_payment">Please wait while we process your payment...</div>');
+  $('form.credit_card_submit').live('submit', function(){
+    $('.processing_payment').show();
+    $('div#confirm').hide();
+  });
+
   // center the #sectionnav
   $("#sectionnav").each(function() {
     $(this).css('left', $(this).parent().width()/2-$(this).width()/2 );
