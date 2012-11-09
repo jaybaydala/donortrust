@@ -84,6 +84,7 @@ class Dt::CheckoutsController < DtApplicationController
       @billing_error = true
       @valid = false
       flash[:error] = "<strong>There was an error processing your credit card:</strong><br />#{err.message}"
+      logger.debug("ActiveMerchant::Billing::Error -> #{err.inspect}")
     end
     @saved = @order.save if @valid
     @cart.items.reload # just in case we remove/add any items in the @order.save call
