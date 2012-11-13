@@ -12,6 +12,8 @@ module ActiveMerchant #:nodoc:
       self.homepage_url = 'http://www.frendo.com/'
       self.display_name = 'Frendo'
 
+      attr_reader :response_body
+
       def initialize(options = {})
         @options = options
         super
@@ -131,13 +133,13 @@ module ActiveMerchant #:nodoc:
       end
 
       def commit(action, parameters)
-        response = JSON.parse(ssl_post(test? ? TEST_URL+action : LIVE_URL+action, parameters.to_json))
+        @response_body = JSON.parse(ssl_post(test? ? TEST_URL+action : LIVE_URL+action, parameters.to_json))
 
-        Response.new(success?(response),
-                     message_from(response),
-                     response,
+        Response.new(success?(@response_body),
+                     message_from(@response_body),
+                     @response_body,
                      :test => test?,
-                     :authorization => authorization_from(response))
+                     :authorization => authorization_from(@response_body))
       end
 
       def authorization_from(response)
