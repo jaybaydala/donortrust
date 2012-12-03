@@ -3,6 +3,10 @@ gem 'rails', '2.3.11'
 gem 'rack'
 gem 'mysql'
 
+gem 'capistrano'
+gem 'capistrano-ext'
+gem 'rvm-capistrano'
+
 gem 'activemerchant', :require => 'active_merchant'
 gem 'awesome_nested_set'
 gem 'aws-s3', :require => 'aws/s3'

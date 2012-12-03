@@ -10,7 +10,7 @@ class BusAdmin::UsersController < ApplicationController
     config.columns = [ :first_name, :last_name, :login, :country, :roles, :staff, :title, :twitter, :facebook, :bio]
     config.columns[:roles].form_ui = :select
     config.list.columns = [:first_name, :last_name, :login, :roles, :staff]
-    config.update.columns = [:first_name, :last_name, :login, :display_name, :address,  :city, :province, :country, :postal_code, :administrations, :staff, :title, :twitter, :facebook, :bio]
+    config.update.columns = [:first_name, :last_name, :login, :display_name, :address, :city, :province, :country, :postal_code, :administrations, :staff, :title, :twitter, :facebook, :bio, :password, :password_confirmation]
     config.columns[:administrations].label = "Roles"
     config.action_links.add(:sudo, { :label => "Become", :method => :put, :crud_type => :update, :type => :record, :inline => false })
   end
