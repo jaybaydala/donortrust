@@ -2,8 +2,8 @@
 require 'config/environment'
 require 'capistrano/ext/multistage'
 # RVM setup
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano" # Load RVM's capistrano plugin.
+set :rvm_type, :system
 # bundler setup
 set :bundle_without, [:development, :test, :cucumber]
 require "bundler/capistrano"
@@ -58,10 +58,10 @@ namespace :deploy do
   task :stop, :roles => :app do
     #noop
   end
-  task :restart do  
+  task :restart do
     run "touch #{current_path}/tmp/restart.txt"
   end
-  
+
   # donortrust hooks
   task :configure_stuff do
     link_configs
@@ -79,7 +79,7 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/initializers/mongrel.rb #{latest_release}/config/initializers/mongrel.rb"
     run "ln -nfs #{shared_path}/config/initializers/recaptcha_vars.rb #{latest_release}/config/initializers/recaptcha_vars.rb"
   end
-  
+
   desc "Update the crontab file"
   task :update_crontab, :roles => :schedule do
     run "cd #{latest_release} && bundle exec whenever --set environment=#{rails_env} --update-crontab #{application}"
