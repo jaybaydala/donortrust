@@ -1,7 +1,7 @@
 require 'bigdecimal'
 require 'active_merchant'
 require 'frendo/gateways/frendo'
-ActiveMerchant::Billing::Base.mode = Rails.env == "production" ? :production : :test
+ActiveMerchant::Billing::Base.mode = Rails.env.production? ? :production : :test
 
 class Subscription < ActiveRecord::Base
   belongs_to :order
@@ -31,6 +31,7 @@ class Subscription < ActiveRecord::Base
   before_update :update_customer
   before_destroy :delete_customer
   after_create  :deliver_new_subscription_notification
+  before_update :create_customer, :if => Proc.new { |s| s.frendo? && s.frendo_changed? }
 
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
   named_scope :current_on, lambda {|date|
@@ -247,8 +248,9 @@ class Subscription < ActiveRecord::Base
 
   private
     def create_customer
-      return true unless self.customer_code.nil?
       logger.debug("Entering Subscription::create_customer")
+      logger.debug("customer_code: #{customer_code.inspect}")
+      return true unless self.customer_code.nil?
       logger.debug("credit_card: #{credit_card.inspect}")
       logger.debug("credit_card valid: #{credit_card.valid?}")
       logger.debug("credit_card errors: #{credit_card.errors.inspect}")

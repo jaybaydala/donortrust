@@ -54,13 +54,38 @@ namespace :subscriptions do
     puts "test notification email sent"
   end
 
+  desc "Upgrade the subscriptions to the Frendo API"
+  task :upgrade_to_frendo => :environment do
+    FasterCSV.read(Rails.root.join('data', 'subscriptions-20121204.csv'), :headers => true).each do |row|
+      # csv = FasterCSV.read(Rails.root.join('data', 'subscriptions-20121204.csv'), :headers => true)
+      # row = csv[67]
+      credit_card_info = row[4].split('-').last
+      card_number = credit_card_info[0..-6]
+      expiry_month = credit_card_info[-5, 2].to_i
+      expiry_year = credit_card_info[-2, 2].to_i + 2000
+      subscription = Subscription.find_by_id_and_frendo(row[0], false)
+      if subscription
+        # hold on to the iats customer code, just in case :)
+        subscription.update_attribute(:iats_customer_code, subscription.customer_code) unless subscription.iats_customer_code?
+        # sign up for frendo
+        subscription.update_attributes({
+          :customer_code => nil,
+          :card_number => card_number,
+          :expiry_month => expiry_month,
+          :expiry_year => expiry_year,
+          :frendo => true
+        })
+      end
+    end
+  end
+
   def send_notification(subscriptions)
     subject = "[UEnd] #{subscriptions.size} Subscriptions were processed"
     body = ""
     body += subscriptions.map{|s| s.attributes.to_yaml }.join("\n")
     send_message(subject, body)
   end
-  
+
   def send_exception(subscription, exception)
     subject = "[UEnd] Subscription Processing Error"
     body = "#{exception.message}\n#{exception.backtrace}\n\n#{subscription.attributes.to_yaml}"
@@ -88,11 +113,11 @@ namespace :subscriptions do
     smtp_options[:domain]   = smtp_config[:domain] if smtp_config[:domain]
     smtp_options[:tls] = true unless Rails.env == "production"
     # RAILS_DEFAULT_LOGGER.debug("SMTP options: #{smtp_options.inspect}")
-    Pony.mail(:subject => subject, 
-      :body => body, 
-      :to   => ["info@uend.org", "tim@tag.ca", "jay.baydala@uend.org"], 
-      :from => "subscriptions@uend.org", 
-      :via  => :smtp, 
+    Pony.mail(:subject => subject,
+      :body => body,
+      :to   => ["info@uend.org", "tim@tag.ca", "jay.baydala@uend.org"],
+      :from => "subscriptions@uend.org",
+      :via  => :smtp,
       :smtp => smtp_options
     )
   end
