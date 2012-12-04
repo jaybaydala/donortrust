@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper :dt_application
   helper :dashboard
   helper "dt/search"
+  helper_method :country_code
 
   #before_filter :set_user
   before_filter :login_from_cookie, :ssl_filter
@@ -44,10 +45,10 @@ class ApplicationController < ActionController::Base
     return false
   end
   end
-  
+
   def approval?(requested_action, permitted_action, requested_controller, permitted_controller, requested_controller_id)
-    approved = 
-      direct_approve(requested_action, permitted_action, requested_controller, permitted_controller) || 
+    approved =
+      direct_approve(requested_action, permitted_action, requested_controller, permitted_controller) ||
       indirect_approve(requested_action, permitted_action, requested_controller, permitted_controller, requested_controller_id)
     approved
   end
@@ -90,6 +91,17 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def country_code
+    if( session[:country_code].nil? || request.remote_ip != session[:country_code_ip] )
+      session[:country_code] = Geolocation.lookup(request.remote_ip)
+      session[:country_code_ip] = request.remote_ip
+      Rails.logger.debug "Session country code lookup: #{session[:country_code]}"
+    else
+      Rails.logger.debug "Session country code still valid: #{session[:country_code]}"
+    end
+    session[:country_code]
+  end
 
   def permission_denied
     flash[:notice] = "You don't have privileges to access this action"
