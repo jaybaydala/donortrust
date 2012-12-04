@@ -1,8 +1,8 @@
 <%-
 @csv = FasterCSV.generate do |csv|
   # name, email, city) - when they started/stopped - current total that they've given
-  csv << ["First Name", "Last Name", "Email", "City", "Province", "Started", "Stopped", "Amount", "Current Total"]
-  fields = %w(first_name last_name email city province begin_date end_date)
+  csv << ["ID", "First Name", "Last Name", "Email", "City", "Province", "Started", "Stopped", "Amount", "Current Total"]
+  fields = %w(id first_name last_name email city province begin_date end_date)
   @subscriptions.each do |subscription|
     data = fields.map{|f| subscription[f.to_sym]}
     # add subcription amount to data array
