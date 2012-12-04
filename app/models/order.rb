@@ -1,7 +1,8 @@
 require 'bigdecimal'
 require 'active_merchant'
 require 'frendo/gateways/frendo'
-ActiveMerchant::Billing::Base.mode = RAILS_ENV == "production" ? :production : :test
+ActiveMerchant::Billing::Base.mode = Rails.env.production? ? :production : :test
+
 class Order < ActiveRecord::Base
   belongs_to :cart
   belongs_to :subscription
@@ -217,11 +218,11 @@ class Order < ActiveRecord::Base
   def total
     BigDecimal.new(read_attribute(:total).to_s) unless read_attribute(:total).nil?
   end
-  
+
   def card_expiry
     "#{expiry_month.to_s.rjust(2, "0")}/#{expiry_year}"
   end
-  
+
   attr_accessor :account_balance, :gift_card_balance, :pledge_account_balance
   def account_balance=(val)
     @account_balance = BigDecimal.new(val.to_s)
@@ -235,8 +236,8 @@ class Order < ActiveRecord::Base
 
   def minimum_credit_payment
     cart_items = self.cart.items
-    if (account_balance && account_balance > 0) || 
-        (user_id? && user && user.balance > 0) || 
+    if (account_balance && account_balance > 0) ||
+        (user_id? && user && user.balance > 0) ||
         (user_id? && user.pledge_accounts && user.pledge_accounts.inject(0){|sum,pa| sum+=pa.balance} > 0)
       @minimum_credit_payment = cart_items.inject(0) {|sum, ci| sum + (ci.item.class == Deposit ? ci.item.amount : 0) }
     else
@@ -272,10 +273,10 @@ class Order < ActiveRecord::Base
       end
 
       gateway = ActiveMerchant::Billing::Base.gateway('frendo').new(
-        :login    => gateway_login,	
+        :login    => gateway_login,
         :password => gateway_password
       )
-      
+
       # purchase the amount
       purchase_options = {
         :address => billing_address,
@@ -343,7 +344,7 @@ class Order < ActiveRecord::Base
       end
     end
   end
-  
+
   def self.create_order_with_investment_from_project_gift(gift)
     return unless gift.project_id? && gift.project
     first_name, last_name = gift.to_name.to_s.split(/ /, 2)
@@ -426,7 +427,7 @@ class Order < ActiveRecord::Base
   def tax_receipt_needed?
     self.tax_receipt_requested? && self.credit_card_payment?
   end
-  
+
   def generate_order_number
     self.order_number = Order.generate_order_number
   end
@@ -438,7 +439,7 @@ class Order < ActiveRecord::Base
     end
     return random
   end
-  
+
   def total_payments
     total = BigDecimal.new("0")
     total += credit_card_payment if credit_card_payment?
@@ -463,7 +464,7 @@ class Order < ActiveRecord::Base
       total += gift_card_payment if gift_card_payment?
       total
     end
-  
+
   private
     def strip_dollar_sign(val)
       val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)
