@@ -133,13 +133,15 @@ module ActiveMerchant #:nodoc:
       end
 
       def commit(action, parameters)
-        @response_body = JSON.parse(ssl_post(test? ? TEST_URL+action : LIVE_URL+action, parameters.to_json))
-
-        Response.new(success?(@response_body),
-                     message_from(@response_body),
-                     @response_body,
-                     :test => test?,
-                     :authorization => authorization_from(@response_body))
+        @response_body = ssl_post(test? ? TEST_URL+action : LIVE_URL+action, parameters.to_json)
+        response = JSON.parse(@response_body)
+        Response.new(
+          success?(response),
+          message_from(response),
+          response,
+          :test => test?,
+          :authorization => authorization_from(response)
+        )
       end
 
       def authorization_from(response)
