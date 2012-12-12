@@ -101,7 +101,7 @@ class Iend::SessionsController < DtApplicationController
     flash[:notice] = "You have been logged out."
     redirect_back_or_default(:controller => '/dt/home', :action => 'index')
   end
-  
+
   protected
   def ssl_required?
     true

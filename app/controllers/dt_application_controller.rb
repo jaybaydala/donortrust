@@ -15,10 +15,10 @@ class DtApplicationController < ActionController::Base
   before_filter :login_from_cookie, :ssl_filter
   before_filter :new_feedback
   before_filter :country_code
-  
+
   # Pick a unique cookie name to distinguish our session data from others'
   # session :session_key => '_donortrustfe_session_id'
-  
+
   protected
 
     def country_code
@@ -42,21 +42,21 @@ class DtApplicationController < ActionController::Base
 
     def ssl_filter
       if ssl_available?
-        if !request.ssl? && ssl_required? 
+        if !request.ssl? && ssl_required?
           flash.keep
           redirect_to url_for(params.merge({:protocol => 'https://'})) and return false
         end
-        if request.ssl? && !ssl_required? 
+        if request.ssl? && !ssl_required?
           flash.keep
           redirect_to url_for(params.merge({:protocol => 'http://'})) and return false
         end
       end
     end
-  
+
     def ssl_available?
       return Rails.env.production?
     end
-  
+
     #MP - Dec 14, 2007
     #Added to support the us tax receipt functionality
     #allows us to set a value indicating that the user has requested
@@ -69,10 +69,10 @@ class DtApplicationController < ActionController::Base
         session[:requires_us_tax_receipt] = nil unless session[:requires_us_tax_receipt].nil?
       end
     end
-  
+
     #MP - Dec 14, 2007
     #Added to support the us tax receipt functionality
-    #If the user has indicated that they want a US tax 
+    #If the user has indicated that they want a US tax
     #receipt, the session variable will be true,
     #otherwise it should be nil.
     def requires_us_tax_receipt?
