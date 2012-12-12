@@ -59,10 +59,13 @@ namespace :subscriptions do
     FasterCSV.read(Rails.root.join('data', 'subscriptions-201212.csv'), :headers => true).each do |row|
       # csv = FasterCSV.read(Rails.root.join('data', 'subscriptions-201212.csv'), :headers => true)
       # row = csv[67]
-      credit_card_info = row[4].split('-').last
+      # credit_card_info = row[4].split('-').last
+      # card_number = row[0..-6]
+      # expiry_month = credit_card_info[-5, 2].to_i
+      # expiry_year = credit_card_info[-2, 2].to_i + 2000
       card_number = row[6]
-      expiry_month = credit_card_info[-5, 2].to_i
-      expiry_year = credit_card_info[-2, 2].to_i + 2000
+      expiry_month = row[7]
+      expiry_year = row[8]
       subscription = Subscription.find_by_id_and_frendo(row[0], false)
       if subscription
         # hold on to the iats customer code, just in case :)
