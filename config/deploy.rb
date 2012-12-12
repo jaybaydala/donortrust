@@ -39,6 +39,7 @@ after "deploy:update_code" do
 end
 after "deploy:symlink", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
 after "deploy:restart", "deploy:cleanup"
+after "deploy:rollback", "thinking_sphinx:restart"
 
 namespace :thinking_sphinx do
   task :symlink_sphinx_indexes, :roles => :app do
