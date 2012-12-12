@@ -4,7 +4,7 @@ module ActiveMerchant #:nodoc:
   module Billing #:nodoc:
     class FrendoGateway < Gateway
       TEST_URL = 'https://test10.frendo.com/FrendoAPI/api/v1/'
-      LIVE_URL = 'https://www.frendo.com/FrendoAPI/api/v1/'
+      LIVE_URL = 'https://www.frendo.com/api/v1/'
 
       self.supported_countries = ['US','CA']
       self.default_currency = 'CAD'
