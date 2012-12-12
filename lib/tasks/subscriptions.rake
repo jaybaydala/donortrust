@@ -56,11 +56,11 @@ namespace :subscriptions do
 
   desc "Upgrade the subscriptions to the Frendo API"
   task :upgrade_to_frendo => :environment do
-    FasterCSV.read(Rails.root.join('data', 'subscriptions-20121204.csv'), :headers => true).each do |row|
-      # csv = FasterCSV.read(Rails.root.join('data', 'subscriptions-20121204.csv'), :headers => true)
+    FasterCSV.read(Rails.root.join('data', 'subscriptions-201212.csv'), :headers => true).each do |row|
+      # csv = FasterCSV.read(Rails.root.join('data', 'subscriptions-201212.csv'), :headers => true)
       # row = csv[67]
       credit_card_info = row[4].split('-').last
-      card_number = credit_card_info[0..-6]
+      card_number = row[6]
       expiry_month = credit_card_info[-5, 2].to_i
       expiry_year = credit_card_info[-2, 2].to_i + 2000
       subscription = Subscription.find_by_id_and_frendo(row[0], false)
