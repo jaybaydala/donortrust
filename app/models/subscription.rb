@@ -16,7 +16,7 @@ class Subscription < ActiveRecord::Base
   validate do |s|
     s.errors.add(:end_date, "must be set into the future") unless s.end_date? && s.end_date > Date.today
     # only validate on create and when updating the vault
-    if s.new_record? || s.update_vault.present?
+    if s.new_record? || s.update_vault.present? || (s.frendo? && s.frendo_changed?)
       unless s.credit_card.valid?
         s.errors.add_to_base("Your credit card information does not appear to be valid! Please correct the following errors and try again.")
         s.errors.add(:cardholder_name, s.credit_card.errors[:cardholder_name].first) if s.credit_card.errors.has_key? :cardholder_name
@@ -275,8 +275,9 @@ class Subscription < ActiveRecord::Base
     end
 
     def update_customer
-      return unless self.update_vault.present?
       logger.debug("Entering Subscription::update_customer")
+      logger.debug("update_vault: #{self.update_vault.inspect}")
+      return unless self.update_vault.present?
       logger.debug("credit_card: #{credit_card.inspect}")
       logger.debug("credit_card valid: #{credit_card.valid?}")
       logger.debug("credit_card errors: #{credit_card.errors.inspect}")
