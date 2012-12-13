@@ -33,6 +33,8 @@ class Subscription < ActiveRecord::Base
   after_create  :deliver_new_subscription_notification
   before_update :create_customer, :if => Proc.new { |s| s.frendo? && s.frendo_changed? }
 
+  # named_scope :expired_credit_card, lambda { { :conditions => ['expiry_year < ? OR (expiry_year <= ? AND expiry_month < ?)', Date.today.year, Date.today.year, Date.today.month] } }
+  # named_scope :unexpired_credit_card, lambda { { :conditions => ['expiry_year >= ? OR (expiry_year >= ? AND expiry_month >= ?)', Date.today.year, Date.today.year, Date.today.month] } }
   named_scope :current, lambda { { :conditions => ['begin_date <= ? && (end_date IS NULL OR end_date >= ?)', Date.today, Date.today] } }
   named_scope :current_on, lambda {|date|
     date = date.to_date
