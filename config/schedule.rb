@@ -6,7 +6,7 @@
 # set :cron_log, "#{RAILS_ROOT}/log/cron.log"
 set :output, 'log/cron.log'
 
-# We're using some weird times in here just to keep from collisions. 
+# We're using some weird times in here just to keep from collisions.
 # The server can probably handle multiple of these at a time, but it doesn't hurt to spread it out either
 
 every 15.minutes do
@@ -40,9 +40,9 @@ every 1.day, :at => '7:18am' do
   rake "scheduler:gift_reminder"
 end
 
-every 1.day, :at => '12:00am' do
-  rake "subscriptions:process_daily"
-end
+# every 1.day, :at => '12:00am' do
+#   rake "subscriptions:process_daily"
+# end
 
 # every January 4 @ 6:20am
 every '20 6 4 1 *' do
