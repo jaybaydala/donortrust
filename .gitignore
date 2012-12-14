@@ -2,6 +2,8 @@
 log/*.log
 log/*.pid
 db/sphinx
+data
+data/*
 rerun.txt
 config/aws.yml
 config/flickr.yml
