@@ -1,0 +1,42 @@
+<article id="project-1" class="project-module sector-module">
+  <div class="project-module-top">
+    <a href="<%= dt_sector_path(sector) %>">
+      <div class="sector-image">
+        <%= image_tag "icons/sector-#{sector.name.parameterize}.png" %>
+      </div>
+      <div class="sector-lives-affected">
+      <% if sector.lives_affected? %>
+        <div class="project-livesaffected-num"><%= number_with_delimiter(sector.lives_affected) %></div>
+        <div class="project-livesaffected">lives affected in this cause</div>
+      <% else %>
+        <div class="project-livesaffected-num"><%= number_to_currency(sector.total_cost, :precision => 0) %></div>
+        <div class="project-livesaffected">total cost</div>
+        <% end %>
+      </div>
+    </a>
+  </div>
+  <div class="project-info">
+    <div class="project-place"><%= link_to sector.name, dt_sector_path(sector) %></div>
+    <div class="project-name"><%= link_to truncate(sector.description, :length => 48), dt_sector_path(sector) %></div>
+  </div>
+  <div class="project-actions clearfix">
+    <div class="project-quick-give"><%= link_to "Quick Give", new_dt_investment_path(:sector_id => sector.id) %></div>
+    <div class="project-like">
+      <a id="<%= sector.id %>" class="like_sector"><img src="/images/nav/like-grey.png" width="21" height="23" alt=""> <span class="likes_count"><%= sector.likes_count %></span></a>
+    </div>
+  </div>
+  <div class="project-module-bottom clearfix">
+    <div class="project-progress-bar">
+      <div class="project-progress-fg" style="width:<%= sector.get_percent_raised %>%"></div>
+    </div>
+    <div class="detail projects">
+      <%= sector.projects.count %> <br/> Projects
+    </div>
+    <div class="detail sector_funded">
+      <%= sector.get_percent_raised.to_i %>%<br> Funded
+    </div>
+    <div class="detail lives_affected">
+      <%= number_with_delimiter(sector.lives_affected) %><br> Lives affected
+    </div>
+  </div>
+</article>

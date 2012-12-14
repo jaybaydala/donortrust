@@ -1,0 +1,47 @@
+<%= render :partial => 'layouts/shared/head' %>
+<body class="dark">
+<%= render :partial => "layouts/shared/facebook_api" %>
+<%= render :partial => "layouts/shared/google_plus_api" %>
+<div class="wrapper">
+<%= render :partial => 'layouts/shared/header' %>
+
+  <div id="maincontentarea" class="content append-large-bottom">
+    <section id="top_content" class="container">
+      <%= render :partial => 'layouts/shared/flashes' %>
+      <%= render :partial => 'dt/sectors/sector_nav' %>
+      <%= yield :top_content %>
+    </section>
+    <section class="container prepend-top">
+      <div class="span-15 clearfix">
+        <article class="prepend-1 span-9 prepend-top clear">
+          <div id="fb-root"></div>
+          <%= yield %>
+        </article>
+
+        <aside class="span-4 prepend-1 last">
+          <%= yield :sector_sidebar %>
+        </aside>
+
+      </div>
+
+      <aside class="span-3 last">
+        <div id="rail">
+          <%= render :partial => 'layouts/shared/newsletter' %>
+          <%= yield :sidebar %>
+        </div>
+      </aside>
+
+      <div class="span-15 clearfix">
+        <article class="prepend-1 span-12 prepend-top clear">
+          <%= render 'project_list' %>
+        </article>
+      </div>
+      
+    </section>
+  </div>
+<%= render :partial => 'layouts/shared/footer' %>
+</div>
+<%= render :partial => 'layouts/shared/tail' %>
+
+<%= render :partial => 'layouts/shared/update_likes', :locals => {:resource => "sectors", :obj => @sector} %>
+<%= render :partial => 'layouts/shared/like_project' %>

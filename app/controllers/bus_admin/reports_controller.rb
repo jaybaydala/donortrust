@@ -93,7 +93,7 @@ class BusAdmin::ReportsController < ApplicationController
     when report_type == "order_report"
       @orders = Order.all(
         :conditions => ["complete=? AND created_at BETWEEN ? AND ?", true, @start_date.beginning_of_day, @end_date.end_of_day],
-        :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges]
+        :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges, :tips]
       )
       send_csv_data(render_to_string(:action => "orders", :layout => false), "order_report")
     when report_type == "allocations_order_report"
@@ -111,7 +111,7 @@ class BusAdmin::ReportsController < ApplicationController
     when report_type == "transaction_report"
       @orders = Order.all(
         :conditions => ["complete=? AND created_at BETWEEN ? AND ?", true, @start_date.beginning_of_day, @end_date.end_of_day],
-        :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges]
+        :include => [:user, :deposits, :gifts, {:investments => {:project => :partner}}, :pledges, :tips]
       )
       # render :action => "transactions", :layout => false
       send_csv_data(render_to_string(:action => "transactions", :layout => false), "transaction_report")

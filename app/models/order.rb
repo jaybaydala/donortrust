@@ -1,7 +1,8 @@
 require 'bigdecimal'
 require 'active_merchant'
-require 'iats/gateways/iats'
-ActiveMerchant::Billing::Base.mode = RAILS_ENV == "production" ? :production : :test
+require 'frendo/gateways/frendo'
+ActiveMerchant::Billing::Base.mode = Rails.env.production? ? :production : :test
+
 class Order < ActiveRecord::Base
   belongs_to :cart
   belongs_to :subscription
@@ -54,7 +55,7 @@ class Order < ActiveRecord::Base
   before_save :autoset_credit_card_payment
   after_save :update_user_information
 
-  attr_accessor :upowered_step, :payment_options_step, :billing_step, :account_signup_step, :credit_card_step, :receipt_step, :upowered
+  attr_accessor :upowered_step, :payment_options_step, :billing_step, :account_signup_step, :credit_card_step, :receipt_step, :upowered, :remote_ip
 
   named_scope :complete, :conditions => { :complete => true }
   named_scope :for_year, lambda {|year| { :conditions => ["created_at LIKE ?", "#{year}-%"] }}
@@ -62,10 +63,17 @@ class Order < ActiveRecord::Base
   def validate_credit_card
     if credit_card_payment?
       unless credit_card.valid?
-        credit_card_messages = credit_card.errors.full_messages.collect{|msg| " - #{msg}"}
-        errors.add_to_base("Your credit card information does not appear to be valid. Please correct it and try again:#{credit_card_messages.join}") 
+        errors.add_to_base("Your credit card information does not appear to be valid. Please correct the following errors and try again.")
+        map_credit_card_errors(credit_card)
       end
     end
+  end
+
+  def map_credit_card_errors(credit_card)
+    errors.add(:cardholder_name, credit_card.errors[:cardholder_name].first) if credit_card.errors.has_key? :cardholder_name
+    errors.add(:card_number, credit_card.errors[:number].first) if credit_card.errors.has_key? :number
+    errors.add(:cvv, credit_card.errors[:verification_value].first) if credit_card.errors.has_key? :verification_value
+    errors.add(:expiry_month, "is not a valid expiry date") if credit_card.errors.has_key?(:month) || credit_card.errors.has_key?(:year)
   end
 
   def validate_payment
@@ -210,11 +218,11 @@ class Order < ActiveRecord::Base
   def total
     BigDecimal.new(read_attribute(:total).to_s) unless read_attribute(:total).nil?
   end
-  
+
   def card_expiry
     "#{expiry_month.to_s.rjust(2, "0")}/#{expiry_year}"
   end
-  
+
   attr_accessor :account_balance, :gift_card_balance, :pledge_account_balance
   def account_balance=(val)
     @account_balance = BigDecimal.new(val.to_s)
@@ -228,8 +236,8 @@ class Order < ActiveRecord::Base
 
   def minimum_credit_payment
     cart_items = self.cart.items
-    if (account_balance && account_balance > 0) || 
-        (user_id? && user && user.balance > 0) || 
+    if (account_balance && account_balance > 0) ||
+        (user_id? && user && user.balance > 0) ||
         (user_id? && user.pledge_accounts && user.pledge_accounts.inject(0){|sum,pa| sum+=pa.balance} > 0)
       @minimum_credit_payment = cart_items.inject(0) {|sum, ci| sum + (ci.item.class == Deposit ? ci.item.amount : 0) }
     else
@@ -256,23 +264,27 @@ class Order < ActiveRecord::Base
   def run_transaction
     logger.debug("Entering run_transaction")
     if valid_transaction? && credit_card.valid?
-      if File.exists?("#{RAILS_ROOT}/config/iats.yml")
-        config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
+      if File.exists?("#{RAILS_ROOT}/config/frendo.yml")
+        config = YAML.load(IO.read("#{RAILS_ROOT}/config/frendo.yml"))
         gateway_login    = config["username"]
         gateway_password = config["password"]
       else
         gateway_login, gateway_password = nil
       end
-      
-      gateway = ActiveMerchant::Billing::Base.gateway('iats').new(
-        :login    => gateway_login,	
+
+      gateway = ActiveMerchant::Billing::Base.gateway('frendo').new(
+        :login    => gateway_login,
         :password => gateway_password
       )
-      
+
       # purchase the amount
-      purchase_options = {:billing_address => billing_address, :invoice_id => self.order_number}
+      purchase_options = {
+        :address => billing_address,
+        :customer => { :first_name => self.first_name, :last_name => self.last_name, :email => self.email, :ip => self.remote_ip }
+      }
       logger.debug("Transacting purchase for #{self.credit_card_payment.to_s}")
       response = gateway.purchase(self.credit_card_payment*100, credit_card, purchase_options)
+      logger.debug("GATEWAY PURCHASE RESPONSE: #{response.message}")
       if response.success?
         self.update_attributes({:authorization_result => response.authorization})
         create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
@@ -289,11 +301,11 @@ class Order < ActiveRecord::Base
     {
     :first_name   => self.first_name,
     :last_name    => self.last_name,
-    :address      => self.address,
+    :address1     => self.address,
     :city         => self.city,
     :state        => self.province,
     :zip          => self.postal_code,
-    :country      => self.country
+    :country      => (self.country == "Canada") ? 'CN' : 'US'
     }
   end
 
@@ -301,19 +313,15 @@ class Order < ActiveRecord::Base
     (includes_subscription? || tax_receipt_requested?) && (!payment_options_step && !upowered_step)
   end
 
-  def credit_card(use_iats=true)
+  def credit_card
     unless @credit_card
-      # if we're using IATS gateway, set the currency to CAD
-      # this requires cardholder_name and "un-requires" first name, last name
-      if use_iats
-        ActiveMerchant::Billing::CreditCard.canadian_currency = true
-      end
       # Create a new credit card object
       @credit_card = ActiveMerchant::Billing::CreditCard.new(
         :number          => @full_card_number || self.card_number,
         :month           => self.expiry_month,
         :year            => self.expiry_year,
-        :cardholder_name => self.cardholder_name,
+        :first_name      => self.cardholder_name.split(' ').first,
+        :last_name       => self.cardholder_name.split(' ')[1..-1],
         :verification_value  => self.cvv
       )
     end
@@ -336,7 +344,7 @@ class Order < ActiveRecord::Base
       end
     end
   end
-  
+
   def self.create_order_with_investment_from_project_gift(gift)
     return unless gift.project_id? && gift.project
     first_name, last_name = gift.to_name.to_s.split(/ /, 2)
@@ -368,6 +376,10 @@ class Order < ActiveRecord::Base
         order.first_name = from_user.first_name
         order.last_name = from_user.last_name
         order.email = from_user.login
+        order.address = '4007 - 11th St SE'
+        order.city = 'Calgary'
+        order.province = 'AB'
+        order.postal_code = 'T2G 3H1'
         order.account_balance_payment = from_user.balance
         order.transfer = true
         order.deposits.build(:amount => from_user.balance, :user => to_user)
@@ -415,7 +427,7 @@ class Order < ActiveRecord::Base
   def tax_receipt_needed?
     self.tax_receipt_requested? && self.credit_card_payment?
   end
-  
+
   def generate_order_number
     self.order_number = Order.generate_order_number
   end
@@ -427,7 +439,7 @@ class Order < ActiveRecord::Base
     end
     return random
   end
-  
+
   def total_payments
     total = BigDecimal.new("0")
     total += credit_card_payment if credit_card_payment?
@@ -452,7 +464,7 @@ class Order < ActiveRecord::Base
       total += gift_card_payment if gift_card_payment?
       total
     end
-  
+
   private
     def strip_dollar_sign(val)
       val = val.to_s.sub(/^\$/, '') if val.to_s.match(/^\$/)

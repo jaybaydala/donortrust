@@ -10,10 +10,14 @@ class Dt::InvestmentsController < DtApplicationController
 
   def new
     @investment = Investment.new( params[:investment] )
-    @investment.project = Project.for_country(country_code).find(params[:project_id]) if params[:project_id].present?
-    # load the unallocated_project if no other project is loaded
-    @investment.project = Project.unallocated_project unless @investment.project.present?
-    @project = @investment.project
+    if params[:sector_id] && @sector = Sector.find(params[:sector_id])
+      @investment.sector_id = @sector.id
+    else
+      @investment.project = Project.for_country(country_code).find(params[:project_id]) if params[:project_id].present?
+      # load the unallocated_project if no other project is loaded
+      @investment.project = Project.unallocated_project unless @investment.project.present?
+      @project = @investment.project
+    end
     # Is this investment being made as a result of a promotion?
     if params[:promotion_id]
       promotion = Promotion.find(params[:promotion_id])
@@ -27,7 +31,7 @@ class Dt::InvestmentsController < DtApplicationController
         if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:unallocated_gift].present?
           # remove the auto-tip for directed gifts
           @cart.update_attributes(:add_optional_donation => false)
-          render :action => 'confirm_unallocated_gift' and return 
+          render :action => 'confirm_unallocated_gift' and return
         end
         if session[:gift_card_balance] && session[:gift_card_balance] > 0 && params[:directed_gift].present?
           # remove the auto-tip for directed gifts

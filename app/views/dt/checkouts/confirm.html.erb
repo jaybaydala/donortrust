@@ -70,7 +70,7 @@
   </tr>
   </table>
 
-  <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put}) do |f| %>
+  <% semantic_form_for(@order, :url => dt_checkout_path, :html => {:id => "billingform", :method => :put, :class => 'credit_card_submit'}) do |f| %>
     <%= f.semantic_errors :order %>
     <%= hidden_field_tag "step", "confirm" %>
     <% f.buttons do %>

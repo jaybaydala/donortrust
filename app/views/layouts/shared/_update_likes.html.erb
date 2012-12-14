@@ -21,11 +21,11 @@
 
       // Post the like data to project's like url
       var post_like_data = function(url, network, state){
-        var like_url = "<%= root_url %>" + "dt/projects/" + "<%= @project.id %>" + "/like";
+        var like_url = "<%= root_url %>" + "dt/<%= resource%>/" + "<%= obj.id %>" + "/like";
         $.post( like_url, {network: network, like: state},
               function(data){
-                // data = project.to_json
-                // update total counter
+                var likes_count = data["likes_count"]
+                $("span.likes_count").html(likes_count);
               }
           );
       };

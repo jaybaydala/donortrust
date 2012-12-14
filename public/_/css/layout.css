@@ -8,7 +8,7 @@ footer.content,
 #top { background-color:#333; padding: 20px 0 18px 0; position:relative; }
 #top .content { background:transparent; }
 #logo { margin:0 0 0 75px; padding:0; }
-#logo, #logo a { display:block; height:33px; width:244px; }
+#logo, #logo a { display:block; height:33px; width:207px; }
 #logo a { background:url(/images/logo.png) no-repeat transparent; text-indent:-9999px; }
 #account { color:#FFF; position:absolute; right:20px; top:12px; }
 #account a { color:#FFF; text-decoration:none; }
@@ -75,7 +75,8 @@ footer a:active { text-decoration:underline; }
 #home #statistics { border-bottom:3px solid #390; border-top:2px solid #390; padding-bottom:24px; }
 #home .statistic { background:url(/images/home/statistic_border.png) top right no-repeat; font:42px/28px Georgia,Times,"Times New Roman",serif; padding-top:24px; padding-bottom:0px; padding-right:7px; margin-right:8px; text-align:center; }
 #home .statistic.last { background:none; padding-right:0; margin-right:0; }
-#signups { padding:42px 0; }
+#signups .col { padding:42px 0; }
+#open-gift { background:#DF3E1D; color:#FFF; }
 #unique { margin-top:36px; font-size:16px; }
 #unique h3 { margin-bottom:4px; }
 #unique .row { margin:24px 0; }
@@ -118,6 +119,12 @@ footer a:active { text-decoration:underline; }
 .dark .project-module .project-module-top a:visited,
 .dark .project-module .project-module-top a:hover,
 .dark .project-module .project-module-top a:active { color:#FFF; text-decoration:none; }
+/** sector box start **/
+.sector-module .project-module-top { background: #336702; }
+.sector-image { width: 36%; float: left; padding-top: 35px; }
+.sector-lives-affected { width: 64%; float: left; text-align: left; }
+.sector-lives-affected .project-livesaffected-num { padding-bottom: 6px; }
+/** sector box end **/
 .project-livesaffected-num { font-size:30px; line-height:28px; padding:30px 0 18px 0; }
 .project-livesaffected { font-size:14px; font-style:italic; }
 #projects .project-info { height:62px; overflow:hidden; }
@@ -134,6 +141,7 @@ footer a:active { text-decoration:underline; }
 #projects .project-organization a { color:#06C; }
 #projects .project-quick-give a { color:#FFF; }
 .project-like { float: right; margin:0 12px 12px 0px; }
+.project-like-button { float: right; margin:2px -9px 0px 0px; }
 .project-like .like { float:right; padding-left:10px; }
 .project-like .like.facebook,
 .project-like .like.google { padding-top:4px; }
@@ -147,6 +155,9 @@ footer a:active { text-decoration:underline; }
 #projects .project-progress-fg { background:#C00; height:8px; position:absolute; top:0; left:0; -webkit-border-top-left-radius:4px; -webkit-border-bottom-left-radius:4px; -moz-border-radius-topleft:4px; -moz-border-radius-bottomleft:4px; border-top-left-radius:4px; border-bottom-left-radius:4px; }
 .project-module-bottom { background:#f8f8f8; border-top:1px solid #e0e0e0; bottom:0; color:#666; font-size:10px; height:42px; padding:10px 12px; position:absolute; width:175px;  -webkit-border-bottom-left-radius:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-left-radius:5px; border-bottom-right-radius:5px }
 .project-module .detail { float:left; width:40px; }
+.project-module .detail.projects { width:55px; }
+.project-module .detail.sector_funded { width:50px; }
+.project-module .detail.lives_affected { width:65px; }
 .project-module .detail.funded { width:42px; }
 .project-module .detail.total_cost { width:48px; }
 .project-module .detail.gift { width:30px; }
@@ -359,6 +370,8 @@ section.iend.spaced { padding:36px 0; }
 #receipt { font-size:18px; }
 .sharing { background:#EEE; margin-bottom:1em; padding:1em; }
 .borderradius .sharing { -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
+
+.processing_payment { float: left; display: none; background: #eee url(/images/spinner.gif) no-repeat 10px 50%; padding: 10px 10px 10px 32px; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px; }
 
 /* SHADOWS
 ----------*/

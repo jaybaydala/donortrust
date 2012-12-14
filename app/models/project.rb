@@ -59,9 +59,9 @@ class Project < ActiveRecord::Base
         ProjectStatus.public_ids, 
         Partner.find(:all, :select => "id", :conditions => ["partner_status_id=?", PartnerStatus.active.id]).map(&:id)
       ]
-      
     }
   }
+  named_scope :active, lambda { { :conditions => { :project_status_id => ProjectStatus.active } } }
 
   define_index do
     # fields

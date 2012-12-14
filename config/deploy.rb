@@ -2,8 +2,8 @@
 require 'config/environment'
 require 'capistrano/ext/multistage'
 # RVM setup
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano" # Load RVM's capistrano plugin.
+set :rvm_type, :system
 # bundler setup
 set :bundle_without, [:development, :test, :cucumber]
 require "bundler/capistrano"
@@ -39,6 +39,7 @@ after "deploy:update_code" do
 end
 after "deploy:symlink", "deploy:update_crontab" # this happens after the symlink and, therefore, after bundler
 after "deploy:restart", "deploy:cleanup"
+after "deploy:rollback", "thinking_sphinx:restart"
 
 namespace :thinking_sphinx do
   task :symlink_sphinx_indexes, :roles => :app do
@@ -58,10 +59,10 @@ namespace :deploy do
   task :stop, :roles => :app do
     #noop
   end
-  task :restart do  
+  task :restart do
     run "touch #{current_path}/tmp/restart.txt"
   end
-  
+
   # donortrust hooks
   task :configure_stuff do
     link_configs
@@ -71,7 +72,7 @@ namespace :deploy do
   task :link_configs do
     # config
     run "ln -nfs #{shared_path}/config/flickr.yml #{latest_release}/config/flickr.yml"
-    run "ln -nfs #{shared_path}/config/iats.yml #{latest_release}/config/iats.yml"
+    run "ln -nfs #{shared_path}/config/frendo.yml #{latest_release}/config/frendo.yml"
     run "ln -nfs #{shared_path}/config/aws.yml #{latest_release}/config/aws.yml"
     run "rm -f #{release_path}/config/database.yml && ln -s #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
     run "ln -nfs #{shared_path}/config/omniauth.yml #{latest_release}/config/omniauth.yml"
@@ -79,7 +80,7 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/initializers/mongrel.rb #{latest_release}/config/initializers/mongrel.rb"
     run "ln -nfs #{shared_path}/config/initializers/recaptcha_vars.rb #{latest_release}/config/initializers/recaptcha_vars.rb"
   end
-  
+
   desc "Update the crontab file"
   task :update_crontab, :roles => :schedule do
     run "cd #{latest_release} && bundle exec whenever --set environment=#{rails_env} --update-crontab #{application}"

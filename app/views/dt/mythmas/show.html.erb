@@ -1,0 +1,44 @@
+<%- content_for :og_image do -%><%- end -%>
+<%- content_for :og_description do -%><%- end -%>
+<%- content_for :html_title do -%>Christmas/Mythmas<%- end -%>
+
+<div id="upowered-video" style="background-color:rgb(52, 102, 0)">
+  <iframe width="480" height="270" id="upowered-youtube" src="http://www.youtube.com/embed/Vro5N_otBc0?rel=0" frameborder="0" allowfullscreen></iframe>
+  <div><%= link_to image_tag("mythmas/mythmasPgBanner.png", :alt => "Missing the true spirit of the season? Find it again. Help to end poverty with a uEnd gift now."), new_dt_gift_path %></div>
+</div>
+
+<div class="project-description">
+  <div class="project-description">
+    <%= unformatted_content_snippet_for(:mythmas) %>
+  </div>
+</div>
+
+
+<%- content_for :project_sidebar do -%>
+  <div id="upowered-im_in_box">
+    <div id="upowered-im_in">
+      <%= link_to image_tag('mythmas/mythmasGive-button.png', :alt => "Bring back the spirit - Give Now!"), new_dt_gift_path %>
+    </div>
+
+    <div id="upowered-social_kit">
+      <%= unformatted_content_snippet_for(:mythmas_sidebar) %>
+    </div>
+  </div>
+
+  <div id="upowered-spread_the_word">
+    <a href="http://twitter.com/share" class="twitter-share-button" data-text="Missing the true spirit of the season? Find it again. Help to end poverty with a uEnd gift now." data-count="horizontal" data-via="uend_org">Tweet</a>
+    <g:plusone size="medium"></g:plusone>
+    <div class="fb-like" data-href="http://www.uend.org/dt/mythmas" data-send="true" data-layout="button_count" data-width="180" data-show-faces="true" data-colorscheme="dark"></div>
+    <% content_for :javascript do %>
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script type="text/javascript">
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
+    </script>
+    <% end %>
+  </div>
+
+<%- end -%>

@@ -16,7 +16,7 @@ end
 
 Given /^(?:all of )?my subscriptions? ha(?:ve|s)? failed$/ do
   @subscription ||= Subscription.last
-  # this forces the subscription to fail with a value of $2 (see IATS test notes in iats_reoccurring.rb)
+  # this forces the subscription to fail with a value of $2
   @subscription.update_attribute(:amount, 2)
   current_date = @subscription.begin_date
   while current_date < Date.today

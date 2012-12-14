@@ -12,15 +12,22 @@ class Iend::SubscriptionsController < DtApplicationController
     @subscription.card_number = nil
     @subscription.cvv = nil
   end
-  
+
   def edit_billing
     @subscription = current_user.subscriptions.find(params[:id])
     @subscription.card_number = nil
     @subscription.cvv = nil
   end
-  
+
   def update
     @subscription = current_user.subscriptions.find(params[:id])
+    unless @subscription.frendo?
+      logger.debug("Upgrading from IATS to Frendo")
+      # this auto-sets an upgrade to happen in case they are updating from an IATS customer number
+      @subscription.frendo = true
+      @subscription.customer_code = nil
+      params[:subscription][:update_vault] = false
+    end
     @saved = @subscription.update_attributes(params[:subscription])
     respond_to do |format|
       format.html {
@@ -28,12 +35,12 @@ class Iend::SubscriptionsController < DtApplicationController
           flash[:notice] = "Your subscription has been updated"
           redirect_to iend_subscriptions_path
         else
-          render :action => "edit"
+          render :action => params[:show_action] == "edit_billing" ? "edit_billing" : "edit"
         end
       }
     end
   end
-  
+
   def destroy
     @subscription = current_user.subscriptions.find(params[:id])
     @ended = @subscription.end_subscription
@@ -48,4 +55,10 @@ class Iend::SubscriptionsController < DtApplicationController
       }
     end
   end
+
+  protected
+    def ssl_required?
+      true
+    end
+
 end

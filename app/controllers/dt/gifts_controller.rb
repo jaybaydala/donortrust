@@ -7,9 +7,9 @@ class Dt::GiftsController < DtApplicationController
   before_filter :add_user_to_params, :only => [ :create, :update ]
   before_filter :find_cart
   include OrderHelper
-  
+
   CANADA = 'canada'
-  
+
   def index
     respond_to do |format|
       format.html { redirect_to :action => 'new' }
@@ -18,7 +18,7 @@ class Dt::GiftsController < DtApplicationController
 
   def show
     @gift = Gift.find(:first, :conditions => ["id=? AND pickup_code=?", params[:id], params[:code]]) if params[:code]
-    respond_to do |format|  
+    respond_to do |format|
       if !@gift
         flash[:notice] = "That gift does not exist or has already been opened"
         redirect_to :action => 'new' and return
@@ -31,7 +31,7 @@ class Dt::GiftsController < DtApplicationController
       }
     end
   end
-  
+
   def new
     load_ecards
     @gift = Gift.new(:e_card => @ecards.first)
@@ -39,8 +39,9 @@ class Dt::GiftsController < DtApplicationController
     @gift.name = current_user.full_name if !@gift.name? && logged_in?
     @gift.notify_giver = true
     @gift.send_email = "now"
-    
-    if params[:project_id] && @project = Project.for_country(country_code).find(params[:project_id])
+    if params[:sector_id] && @sector = Sector.find(params[:sector_id])
+      @gift.sector_id = @sector_id
+    elsif params[:project_id] && @project = Project.for_country(country_code).find(params[:project_id])
       if @project.fundable?
         @gift.project = @project
       else
@@ -48,7 +49,7 @@ class Dt::GiftsController < DtApplicationController
       end
     end
 
-    # Is this gift being given as a result of a promotion?    
+    # Is this gift being given as a result of a promotion?
     if params[:promotion_id] && Promotion.exists?(params[:promotion_id])
       @gift.promotion_id = params[:promotion_id]
     end
@@ -58,7 +59,7 @@ class Dt::GiftsController < DtApplicationController
       format.js
     end
   end
-  
+
   def create
     @gift = Gift.new( params[:gift] )
     @gift.user_ip_addr = request.remote_ip
@@ -77,7 +78,7 @@ class Dt::GiftsController < DtApplicationController
           @gifts << gift
         end
       end
-      
+
       respond_to do |format|
         if @errors.empty? && email_parser.errors.empty?
           find_cart
@@ -96,7 +97,7 @@ class Dt::GiftsController < DtApplicationController
       respond_to do |format|
         if @gift.valid?
           @cart.add_item(@gift)
-          format.html { 
+          format.html {
             flash[:notice] = "Your Gift has been added to your cart."
             redirect_to dt_cart_path
           }
@@ -107,10 +108,10 @@ class Dt::GiftsController < DtApplicationController
           format.html { render :action => "new" }
           format.js
         end
-      end  
+      end
     end
   end
-  
+
   def edit
     if @cart.items.find(params[:id]).item.kind_of?(Gift)
       @gift = @cart.items.find(params[:id]).item
@@ -123,14 +124,14 @@ class Dt::GiftsController < DtApplicationController
       }
     end
   end
-  
+
   def update
     if @cart.items.find(params[:id]).item.kind_of?(Gift)
       @gift = @cart.items.find(params[:id]).item
       @gift.attributes = params[:gift]
       @gift.user_ip_addr = request.remote_ip
     end
-    
+
     respond_to do |format|
       if !@gift
         format.html { redirect_to dt_cart_path }
@@ -145,7 +146,7 @@ class Dt::GiftsController < DtApplicationController
       end
     end
   end
-  
+
   def open
     @gift = Gift.validate_pickup(params[:code]) if params[:code]
     respond_to do |format|
@@ -219,7 +220,7 @@ class Dt::GiftsController < DtApplicationController
   end
 
   protected
-    def load_ecards 
+    def load_ecards
       @ecards = ECard.find(:all, :order => :id)
       @ecards.unshift(@ecards.delete_at(2)) unless @ecards.empty? # changing the default image
     end

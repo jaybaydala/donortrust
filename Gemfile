@@ -5,6 +5,7 @@ gem 'mysql'
 
 gem 'capistrano'
 gem 'capistrano-ext'
+gem 'rvm-capistrano'
 
 gem 'activemerchant', :require => 'active_merchant'
 gem 'awesome_nested_set'
@@ -29,7 +30,7 @@ gem 'pony', :require => false
 gem 'rack-rewrite', :require => 'rack/rewrite'
 gem 'RedCloth', :require => 'redcloth'
 gem 'rmagick', '2.12.2'
-gem 'ruby-recaptcha'
+gem 'recaptcha', :require => "recaptcha/rails"
 gem 'simple-rss'
 gem 'searchlogic'#, '2.4.14'
 gem 'thinking-sphinx', '1.4.10', :require => 'thinking_sphinx'
@@ -41,10 +42,16 @@ gem 'xml-simple'
 gem 'youtube-g', :require => 'youtube_g'
 gem 'geokit'
 
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-ext'
+  gem 'rvm-capistrano'
+end
+
 group :test, :cucumber do
   gem 'cucumber-rails', '>=0.3.2', :require => false
   gem 'rspec-rails', '< 2.0', :require => 'spec/rails'
-  
+
   gem 'capybara', '< 0.4', :require => false # capybara 0.4 and cucumber-rails 0.3.2 have a bug (monkey-patching FTL)
   gem 'database_cleaner', '>=0.5.2', :require => false
   gem 'email_spec', '< 1.0', :require => false

@@ -9,7 +9,7 @@ FasterCSV.generate do |csv|
   
   # name, email, city) - when they started/stopped - current total that they've given
   csv << ["Completed at", "Amount", "User Name", "User ID", "Gift Card Payment", "Gift Card Payment ID", "Pledge Account Payment", "Pledge Account Payment ID", "Account Balance Payment", 
-    "Credit Card Payment", "CC Auth Result", "Investment(s)", "Deposit(s)", "Gift(s)", "Pledge(s)"]
+    "Credit Card Payment", "CC Auth Result", "Investment(s)", "Deposit(s)", "Gift(s)", "Tip(s)", "Pledge(s)"]
   @orders.each do |order|
     data = []
     data << order.updated_at.strftime("%b %d, %Y")
@@ -26,6 +26,7 @@ FasterCSV.generate do |csv|
     data << order.investments.map{|i| "#{number_to_currency(i.amount)} #{i.project.name} (#{i.project.partner.name})" }.join("\r\r\n")
     data << order.deposits.map{|d| number_to_currency(d.amount) }.join("\r\n")
     data << order.gifts.map{|g| number_to_currency(g.amount) }.join("\r\n")
+    data << order.tips.map{|t| number_to_currency(t.amount) }.join("\r\n")
     data << order.pledges.map do |p| 
       campaign = p.campaign
       campaign ||= p.team.campaign if p.team

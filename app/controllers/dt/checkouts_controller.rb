@@ -24,7 +24,7 @@ class Dt::CheckoutsController < DtApplicationController
           @saved = @order.save if @valid
           if @saved
             session[:order_id] = @order.id
-            redirect_to edit_dt_checkout_path(:step => "billing") and return 
+            redirect_to edit_dt_checkout_path(:step => "billing") and return
           end
         end
         @current_nav_step = current_step
@@ -84,6 +84,7 @@ class Dt::CheckoutsController < DtApplicationController
       @billing_error = true
       @valid = false
       flash[:error] = "<strong>There was an error processing your credit card:</strong><br />#{err.message}"
+      logger.debug("ActiveMerchant::Billing::Error -> #{err.inspect}")
     end
     @saved = @order.save if @valid
     @cart.items.reload # just in case we remove/add any items in the @order.save call
@@ -144,18 +145,18 @@ class Dt::CheckoutsController < DtApplicationController
     def account_payment?
       logged_in? and current_user.balance.to_f > 0
     end
-  
+
     def gift_card_balance?
       session[:gift_card_balance] && session[:gift_card_balance].to_f > 0
     end
-  
+
     def summed_account_balances
       balance = 0
       balance += current_user.balance if account_payment?
       balance += session[:gift_card_balance] if gift_card_balance?
       balance
     end
-  
+
     attr_accessor :current_step
     def current_step
       @current_step = @checkout_steps.last if 'show' == self.action_name
@@ -165,11 +166,11 @@ class Dt::CheckoutsController < DtApplicationController
       end
       @current_step
     end
-  
+
     def next_step
       @checkout_steps[current_step ? @checkout_steps.index(current_step)+1 : 0]
     end
-  
+
     def validate_order
       user_balance = logged_in? ? current_user.balance : nil
       case current_step
@@ -226,6 +227,7 @@ class Dt::CheckoutsController < DtApplicationController
     def do_transaction
       if @valid
         Order.transaction do
+          @order.remote_ip = request.remote_ip
           # process the credit card - should handle an exception here
           # if no exception, we're all good.
           # if there is, we should render the payment template and show the errors...
@@ -321,7 +323,7 @@ class Dt::CheckoutsController < DtApplicationController
         end
       end
     end
-  
+
     def cart_empty?
       @cart = find_cart
       if @cart.empty?
@@ -331,7 +333,7 @@ class Dt::CheckoutsController < DtApplicationController
       end
       true
     end
-  
+
     def directed_gift
       @directed_gift = false
       return true unless self.directed_gift?

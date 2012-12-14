@@ -57,7 +57,21 @@
 
 <% if @gift.e_card_id? && @gift.e_card %><%= image_tag "http://#{@host}#{url_for_file_column(@gift.e_card, "large")}", :alt => "" %><% end %>
 
-<% if @gift.project %>
+<% if @gift.sector_id %>
+  <p>
+    <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty.
+  </p>
+  
+  <p>
+    <%= @gift.name || @gift.email %> has sent you a Sector Gift for <%= number_to_currency( @gift.amount ) %> which will be directed to this sector:<br />
+    <%= link_to @gift.sector.name, dt_sector_url(@gift.sector, :host => @host) %>
+  </p>
+
+  <p>
+    Just click on the link below to open your gift - and a whole new world. <br />
+    <%= link_to open_dt_gifts_url(:code => @gift.pickup_code, :host => @host), open_dt_gifts_url(:code => @gift.pickup_code, :host => @host) %>
+  </p>
+<% elsif @gift.project %>
   <p>
     <a href="mailto:<%= @gift.email %>"><%=h @gift.name? ? @gift.name : @gift.email %></a> chose to give you a new kind of gift through the Uend: website. A gift that helps eradicate extreme poverty.
   </p>

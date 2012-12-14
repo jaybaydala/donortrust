@@ -7,7 +7,7 @@
     <%= f.input :active %>
     <li class="text required" id="page_content_input">
       <%= f.label :content, raw('Content<abbr title="required">*</abbr>') %>
-      <%= fckeditor_textarea( "page", "content", :toolbarSet => 'uEnd', :height => 500) %> 
+      <%= fckeditor_textarea( "page", "content", :toolbarSet => 'uEndAdmin', :height => 500) %> 
     </li>
     <%#= f.input :content, :input_html => { :rows => 40, :cols => 100 } %>
   <% end %>

@@ -27,9 +27,9 @@ $(document).ready(function (){
   //   }
   //   var href = $(this).attr("href") + '?' + $(form).serialize();
   //   $('#dialog iframe').attr('src', href);
-  //   $("#dialog").dialog({ 
-  //     width:600, 
-  //     height:450, 
+  //   $("#dialog").dialog({
+  //     width:600,
+  //     height:450,
   //     dialogClass: 'remove_header_class',
   //     open: function() { $(".remove_header_class .ui-widget-header").removeClass("ui-widget-header"); },
   //     modal: true
@@ -40,7 +40,7 @@ $(document).ready(function (){
     height: 550,
     width: 620,
     href: function() {
-      return $(this).attr("href") + '?' + $(this).closest("form :input[id!='gift_to_emails']").serialize();
+      return $(this).attr("href") + '?' + $(":input[id!='gift_to_emails']", $("#gift_preview").closest("form")).serialize();
     }
   });
 
@@ -72,6 +72,13 @@ $(document).ready(function (){
     submit.before(button).hide();
   });
 
+  // credit card submission form finish button processing message
+  $('div#confirm').before('<div class="processing_payment">Please wait while we process your payment...</div>');
+  $('form.credit_card_submit').live('submit', function(){
+    $('.processing_payment').show();
+    $('div#confirm').hide();
+  });
+
   // center the #sectionnav
   $("#sectionnav").each(function() {
     $(this).css('left', $(this).parent().width()/2-$(this).width()/2 );
@@ -95,11 +102,11 @@ $(document).ready(function (){
 
   /* When I set the background image using layout.css for impact-tab-me by default, then
   * resetting the css background with css("background", "") didn't work. */
-  $("#impact-tab-me").css("background", "url('/images/iend/impact-tab_bg-green.png')"); 
+  $("#impact-tab-me").css("background", "url('/images/iend/impact-tab_bg-green.png')");
 
   $(".impact-tab").click(function() {
     $(".impact-tab").css("background", "");
-    $(this).css("background", "url('/images/iend/impact-tab_bg-green.png')"); 
+    $(this).css("background", "url('/images/iend/impact-tab_bg-green.png')");
     $(".profile-stats").hide();
     stats_for = $(this).attr('id').split("-").pop(); // will be either 'me', 'friends', or 'uend'
     $("#impact-stats-"+stats_for).show();

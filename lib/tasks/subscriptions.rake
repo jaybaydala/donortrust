@@ -3,9 +3,7 @@ namespace :subscriptions do
   task :process_daily => :environment do
     date = ENV['FORDATE'] ? Date.parse(ENV['FORDATE']) : Date.today
     puts "[#{Time.now.utc.to_s}] Processing daily subscriptions for #{date.to_s(:db)}"
-    day_of_month = date.day
-    day_of_month = (day_of_month..31) if day_of_month < 31 && day_of_month == Time.days_in_month(date.month)
-    subscriptions = Subscription.all(:conditions => ["begin_date < ? && (end_date IS NULL OR end_date >= ?) AND schedule_date IN (?)", date, date, day_of_month])
+    subscriptions = Subscription.for_date(date)
     puts "[#{Time.now.utc.to_s}] #{subscriptions.size} subscriptions found to process.#{' Processing...' if subscriptions.size > 0}"
     good_subscriptions = subscriptions.select do |subscription|
       begin
@@ -30,19 +28,21 @@ namespace :subscriptions do
     year = ENV['FORYEAR'] ? ENV['FORYEAR'] : Date.today.year-1
     previously_delivered = 0
     tax_receipts = Subscription.all.map do |subscription|
+      next unless subscription.user
       # this is because of a tax receipting mishap the first time around
-      if year == 2011 && TaxReceipt.count(:conditions => ["user_id=? AND created_at LIKE ?", subscription.user_id, "#{year+1}-01-04%"]) > 0
+      if year == 2011 && TaxReceipt.count(:conditions => ["user_id=? AND (created_at LIKE ? OR created_at LIKE ?)", subscription.user_id, "#{year+1}-01-04%", "#{year+1}-02-28%"]) > 0
         previously_delivered = previously_delivered + 1
         tax_receipt = subscription.user.tax_receipts.first(:conditions => ["created_at LIKE ?", "#{year+1}-01-04%"])
         # pass in the existing tax_receipt for updating
         tax_receipt = subscription.create_yearly_tax_receipt(year, tax_receipt)
         # manually send the tax_receipt since it only auto-delivers on create
         DonortrustMailer.deliver_tax_receipt(tax_receipt) unless tax_receipt.nil?
+        tax_receipt
       else
         tax_receipt = subscription.create_yearly_tax_receipt(year)
       end
     end
-    puts "[#{Time.now.utc.to_s}] #{tax_receipts.compact.size} out of #{Subscription.count} u:powered tax receipts sent, #{previously_delivered} were previously sent"
+    puts "[#{Time.now.utc.to_s}] #{tax_receipts.compact.size} out of #{Subscription.count} possible u:powered tax receipts sent, #{previously_delivered} were previously sent and were adjusted and resent"
   end
 
   task :test_exception_email => :environment do
@@ -54,13 +54,46 @@ namespace :subscriptions do
     puts "test notification email sent"
   end
 
+  desc "Upgrade the subscriptions to the Frendo API"
+  task :upgrade_to_frendo => :environment do
+    FasterCSV.read(Rails.root.join('data', 'subscriptions-201212.csv'), :headers => false).each do |row|
+      # csv = FasterCSV.read(Rails.root.join('data', 'subscriptions-201212.csv'), :headers => true)
+      # row = csv[67]
+      # credit_card_info = row[4].split('-').last
+      # card_number = row[0..-6]
+      # expiry_month = credit_card_info[-5, 2].to_i
+      # expiry_year = credit_card_info[-2, 2].to_i + 2000
+      card_number = row[6]
+      expiry_month = row[7]
+      expiry_year = row[8]
+      subscription = Subscription.current.find_by_id_and_frendo(row[0], false)
+      if subscription
+        # hold on to the iats customer code, just in case :)
+        subscription.update_attribute(:iats_customer_code, subscription.customer_code) unless subscription.iats_customer_code?
+        # sign up for frendo
+        updated = subscription.update_attributes({
+          :customer_code => nil,
+          :card_number => card_number,
+          :expiry_month => expiry_month,
+          :expiry_year => expiry_year,
+          :frendo => true
+        })
+        puts "#{updated.inspect} #{subscription.id} #{subscription.first_name} #{subscription.last_name}"
+        unless updated
+          puts subscription.errors.full_messages.inspect if subscription.errors.full_messages.present?
+          puts subscription.credit_card.errors.full_messages.inspect if subscription.credit_card.errors.full_messages.present?
+        end
+      end
+    end
+  end
+
   def send_notification(subscriptions)
     subject = "[UEnd] #{subscriptions.size} Subscriptions were processed"
     body = ""
     body += subscriptions.map{|s| s.attributes.to_yaml }.join("\n")
     send_message(subject, body)
   end
-  
+
   def send_exception(subscription, exception)
     subject = "[UEnd] Subscription Processing Error"
     body = "#{exception.message}\n#{exception.backtrace}\n\n#{subscription.attributes.to_yaml}"
@@ -88,11 +121,11 @@ namespace :subscriptions do
     smtp_options[:domain]   = smtp_config[:domain] if smtp_config[:domain]
     smtp_options[:tls] = true unless Rails.env == "production"
     # RAILS_DEFAULT_LOGGER.debug("SMTP options: #{smtp_options.inspect}")
-    Pony.mail(:subject => subject, 
-      :body => body, 
-      :to   => ["info@uend.org", "tim@tag.ca", "jay.baydala@uend.org"], 
-      :from => "subscriptions@uend.org", 
-      :via  => :smtp, 
+    Pony.mail(:subject => subject,
+      :body => body,
+      :to   => ["info@uend.org", "tim@tag.ca", "jay.baydala@uend.org"],
+      :from => "subscriptions@uend.org",
+      :via  => :smtp,
       :smtp => smtp_options
     )
   end

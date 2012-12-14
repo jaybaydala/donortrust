@@ -47,6 +47,8 @@ module NavigationHelpers
       iend_users_path
     when /the new gift page/
       new_dt_gift_path
+    when /sector show page/
+      dt_sector_path(@sector)
     when /the projects page/
       dt_projects_path
     when /the unsubscribe project poi by token (\d+) page/

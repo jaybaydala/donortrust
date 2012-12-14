@@ -1,8 +1,7 @@
-require "recaptcha"
 module DtApplicationHelper
-  include ReCaptcha::ViewHelper
+
   def recaptcha_available?
-    !RCC_PUB.nil? && !RCC_PRIV.nil?
+    Recaptcha.configuration.public_key.present? && Recaptcha.configuration.private_key.present?
   end
 
   def current_nav?(controllers, actions=nil)
@@ -15,16 +14,16 @@ module DtApplicationHelper
   end
 
   def content_snippet_for(slug)
-    content_snippet = ContentSnippet.find_by_slug(slug.to_s)
+    content_snippet = ContentSnippet.find_by_slug_and_active(slug.to_s, true)
     if content_snippet.present?
-      content_tag(:p, ContentSnippet.find_by_slug(slug.to_s).body_formatted)
+      content_tag(:p, ContentSnippet.find_by_slug_and_active(slug.to_s, true).body_formatted)
     end
   end
 
   def unformatted_content_snippet_for(slug)
-    content_snippet = ContentSnippet.find_by_slug(slug.to_s)
+    content_snippet = ContentSnippet.find_by_slug_and_active(slug.to_s, true)
     if content_snippet.present?
-      ContentSnippet.find_by_slug(slug.to_s).body
+      ContentSnippet.find_by_slug_and_active(slug.to_s, true).body
     end
   end
 
@@ -39,7 +38,7 @@ module DtApplicationHelper
       link_text
     end
   end
-  
+
   def show_title?
     true
   end
@@ -51,7 +50,7 @@ module DtApplicationHelper
   def html_title(str)
     content_for(:html_title) { str.to_s }
   end
-  
+
   def content_for?(name)
     ivar = "@content_for_#{name}"
     instance_variable_get(ivar).present?
@@ -60,7 +59,7 @@ module DtApplicationHelper
   def ssl_protocol
     Rails.env.production? ? 'https://' : 'http://'
   end
-  
+
   def dt_head
     render :file => 'dt/shared/head'
   end
@@ -383,7 +382,7 @@ module DtApplicationHelper
     # Return summarized strings
     return summary
   end
-  
+
   def action_button(text, link, options = {})
     link_to text, link, options.merge(:class => 'action_button')
   end

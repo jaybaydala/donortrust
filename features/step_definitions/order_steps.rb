@@ -26,7 +26,7 @@ Given /^I have completed the checkout process, maintaining my upowered, signing 
     And I fill in "Password confirmation" with "secret123"
     And I check "Terms of use"
     And I press "next"
-    And I fill in "Credit card number" with "1"
+    And I fill in "Credit card number" with "4111111111111111"
     And I fill in "Card security number (CVV)" with "989"
     And I select "01" from "order_expiry_month"
     And I select "2018" from "order_expiry_year"
@@ -59,7 +59,7 @@ Given /^I have completed the checkout process, signing up along the way$/ do
     And I fill in "Password confirmation" with "secret123"
     And I check "Terms of use"
     And I press "next"
-    And I fill in "Credit card number" with "1"
+    And I fill in "Credit card number" with "4111111111111111"
     And I fill in "Card security number (CVV)" with "989"
     And I select "01" from "order_expiry_month"
     And I select "2018" from "order_expiry_year"
@@ -95,7 +95,7 @@ Given /^I have completed the checkout process$/ do
     And "I press \"next\""
   end
   steps %Q{
-    And I fill in "Credit card number" with "1"
+    And I fill in "Credit card number" with "4111111111111111"
     And I fill in "Card security number (CVV)" with "989"
     And I select "01" from "order_expiry_month"
     And I select "2018" from "order_expiry_year"
