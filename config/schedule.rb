@@ -40,9 +40,9 @@ every 1.day, :at => '7:18am' do
   rake "scheduler:gift_reminder"
 end
 
-# every 1.day, :at => '12:00am' do
-#   rake "subscriptions:process_daily"
-# end
+every 1.day, :at => '4:00am' do
+  rake "subscriptions:process_daily"
+end
 
 # every January 4 @ 6:20am
 every '20 6 4 1 *' do
