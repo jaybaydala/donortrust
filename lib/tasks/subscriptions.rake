@@ -56,32 +56,38 @@ namespace :subscriptions do
 
   desc "Upgrade the subscriptions to the Frendo API"
   task :upgrade_to_frendo => :environment do
-    FasterCSV.read(Rails.root.join('data', 'subscriptions-201212.csv'), :headers => false).each do |row|
-      # csv = FasterCSV.read(Rails.root.join('data', 'subscriptions-201212.csv'), :headers => true)
-      # row = csv[67]
-      # credit_card_info = row[4].split('-').last
-      # card_number = row[0..-6]
-      # expiry_month = credit_card_info[-5, 2].to_i
-      # expiry_year = credit_card_info[-2, 2].to_i + 2000
-      card_number = row[6]
-      expiry_month = row[7]
-      expiry_year = row[8]
-      subscription = Subscription.current.find_by_id_and_frendo(row[0], false)
+    puts ENV['FILE']
+    FasterCSV.read(ENV['FILE'], :headers => false).each do |row|
+      subscription_id, first_name, last_name, email, cc_type, card_number, expiry_month, expiry_year = row
+      subscription = Subscription.current.find_by_id(subscription_id)
       if subscription
-        # hold on to the iats customer code, just in case :)
-        subscription.update_attribute(:iats_customer_code, subscription.customer_code) unless subscription.iats_customer_code?
-        # sign up for frendo
-        updated = subscription.update_attributes({
-          :customer_code => nil,
-          :card_number => card_number,
-          :expiry_month => expiry_month,
-          :expiry_year => expiry_year,
-          :frendo => true
-        })
-        puts "#{updated.inspect} #{subscription.id} #{subscription.first_name} #{subscription.last_name}"
-        unless updated
-          puts subscription.errors.full_messages.inspect if subscription.errors.full_messages.present?
-          puts subscription.credit_card.errors.full_messages.inspect if subscription.credit_card.errors.full_messages.present?
+        if subscription.frendo?
+          updated = subscription.update_attributes({
+            :card_number => card_number,
+            :expiry_month => expiry_month,
+            :expiry_year => expiry_year,
+          })
+          puts "#{updated.inspect} #{subscription.id} #{subscription.first_name} #{subscription.last_name} - CREDIT CARD updated"
+          unless updated
+            puts subscription.errors.full_messages.inspect if subscription.errors.full_messages.present?
+            puts subscription.credit_card.inspect
+          end
+        else
+          # hold on to the iats customer code, just in case :)
+          subscription.update_attribute(:iats_customer_code, subscription.customer_code) unless subscription.iats_customer_code?
+          # sign up for frendo
+          updated = subscription.update_attributes({
+            :customer_code => nil,
+            :card_number => card_number,
+            :expiry_month => expiry_month,
+            :expiry_year => expiry_year,
+            :frendo => true
+          })
+          puts "#{updated.inspect} #{subscription.id} #{subscription.first_name} #{subscription.last_name}"
+          unless updated
+            puts subscription.errors.full_messages.inspect if subscription.errors.full_messages.present?
+            puts subscription.credit_card.inspect
+          end
         end
       end
     end
