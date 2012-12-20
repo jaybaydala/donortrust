@@ -78,14 +78,9 @@ namespace :deploy do
 
   task :link_configs do
     # config
-    run "ln -nfs #{shared_path}/config/flickr.yml #{latest_release}/config/flickr.yml"
-    run "ln -nfs #{shared_path}/config/frendo.yml #{latest_release}/config/frendo.yml"
-    run "ln -nfs #{shared_path}/config/aws.yml #{latest_release}/config/aws.yml"
-    run "rm -f #{release_path}/config/database.yml && ln -s #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
-    run "ln -nfs #{shared_path}/config/omniauth.yml #{latest_release}/config/omniauth.yml"
+    run "for file in #{shared_path}/config/*.yml; do ln -nfs $file #{release_path}/config/$(basename $file); done"
     # initializers
-    run "ln -nfs #{shared_path}/config/initializers/mongrel.rb #{latest_release}/config/initializers/mongrel.rb"
-    run "ln -nfs #{shared_path}/config/initializers/recaptcha_vars.rb #{latest_release}/config/initializers/recaptcha_vars.rb"
+    run "for file in #{shared_path}/config/initializers/*.rb; do ln -nfs $file #{release_path}/config/initializers/$(basename $file); done"
   end
 
   desc "Update the crontab file"
