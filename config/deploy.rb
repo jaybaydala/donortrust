@@ -16,7 +16,14 @@ set :stages, %w( staging production )
 set :default_stage, "staging"
 
 set :repository, "git@github.com:jaybaydala/donortrust.git"
-set :branch, "master"
+# set :branch, "master"
+set :branch do
+  default_tag = `git tag`.split("\n").last
+
+  tag = Capistrano::CLI.ui.ask "Tag to deploy (make sure to push the tag first): [#{default_tag}] "
+  tag = default_tag if tag.empty?
+  tag
+end
 
 set :keep_releases, 5
 
