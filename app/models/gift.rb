@@ -54,25 +54,25 @@ class Gift < ActiveRecord::Base
   end
 
   def adjust_send_at_for_timezone(tz)
-    
+
   end
-  
+
   def pickup
     DonortrustMailer.deliver_gift_notify(self) if notify_giver?
     @picked_up = true if update_attributes(:picked_up_at => Time.now.utc, :pickup_code => nil)
   end
-  
+
   def picked_up?
     @picked_up || !picked_up_at.nil?
   end
-  
+
   def send_gift_mail
     if update_attribute(:sent_at, Time.now.utc)
       DonortrustMailer.deliver_gift_mail(self)
       @sent = true
     end
   end
-  
+
   def send_gift_confirm
     DonortrustMailer.deliver_gift_confirm(self)
   end
@@ -89,7 +89,7 @@ class Gift < ActiveRecord::Base
     DonortrustMailer.deliver_gift_expiry_notifier(self) if notify_giver?
     DonortrustMailer.deliver_gift_expiry_reminder(self)
   end
-  
+
   def expiry_date
     if !@expiry_date && sent_at
       @expiry_date = sent_at + 30.days
@@ -98,15 +98,15 @@ class Gift < ActiveRecord::Base
     end
     @expiry_date
   end
-  
+
   def expiry_in_days
     ((expiry_date - Time.now) / (3600*24)).floor if expiry_date
   end
-  
+
   def self.find_unopened_gifts
     find(:all, :conditions => 'sent_at IS NOT NULL AND picked_up_at IS NULL')
   end
-  
+
   # set the reader methods for the columns dealing with currency
   # we're using BigDecimal explicity for mathematical accuracy - it's better for currency
   def amount
@@ -115,8 +115,8 @@ class Gift < ActiveRecord::Base
   def balance
     BigDecimal.new(read_attribute(:balance).to_s) unless read_attribute(:balance).nil?
   end
-  
-  
+
+
   def message_summary(length = 30) # default to 30 characters
     return unless self.message?
     if message.length <= length
@@ -129,11 +129,11 @@ class Gift < ActiveRecord::Base
     end
     @message_summary
   end
-  
+
   def pdf
     GiftPDFProxy.new(self)
   end
-  
+
   protected
 
   def set_project_id
@@ -156,7 +156,7 @@ class Gift < ActiveRecord::Base
     self.balance = nil if project_id?
     super
   end
-  
+
   def validate
     errors.add("project_id", "is not a valid project") if project_id? && !project
     errors.add("to_email", "must be a valid email") unless EmailParser.parse_email(to_email) if attribute_present?("to_email")
@@ -178,7 +178,7 @@ class Gift < ActiveRecord::Base
     # if we get here, it's being used, so try again
     make_pickup_code
   end
-  
+
   def self.generate_pickup_code
     hash = ""
     srand()
@@ -197,7 +197,7 @@ class Gift < ActiveRecord::Base
     end
     raised
   end
-  
+
    def self.dollars_redeemed
     raised = 0
     self.find(:all, :conditions => ["pickup_code is null"] ).each do |gift|
