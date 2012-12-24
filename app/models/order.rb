@@ -282,7 +282,7 @@ class Order < ActiveRecord::Base
       purchase_options = {:billing_address => billing_address, :invoice_id => self.order_number}
       logger.debug("Transacting purchase for #{self.credit_card_payment.to_s}")
       response = gateway.purchase(self.credit_card_payment*100, credit_card, purchase_options)
-      logger.debug("GATEWAY PURCHASE RESPONSE: #{response.message}"
+      logger.debug("GATEWAY PURCHASE RESPONSE: #{response.message}")
       if response.success?
         self.update_attributes({:authorization_result => response.authorization})
         create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
