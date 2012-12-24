@@ -230,7 +230,7 @@ class Subscription < ActiveRecord::Base
                       :customer => { :first_name =>  self.first_name, :last_name => self.last_name, :email => self.email, :ip => '0.0.0.0' }
                     }
     logger.debug("purchase_options: #{purchase_options.inspect}")
-    @response = gateway.purchase(self.amount*100, self.customer_code, purchase_options)
+    @response = gateway.purchase(self.amount*100, self.iats_customer_code, purchase_options)
     order.update_attributes({:authorization_result => @response.authorization}) if @response.success?
     complete_payment(@response.success?, order)
     SupportMailer.deliver_subscription_result(self, @response, order)
@@ -253,8 +253,8 @@ class Subscription < ActiveRecord::Base
   private
     def create_customer
       logger.debug("Entering Subscription::create_customer")
-      logger.debug("customer_code: #{customer_code.inspect}")
-      return true unless self.customer_code.nil?
+      logger.debug("iats_customer_code: #{iats_customer_code.inspect}")
+      return true unless self.iats_customer_code.nil?
       logger.debug("credit_card: #{credit_card.inspect}")
       logger.debug("credit_card valid: #{credit_card.valid?}")
       logger.debug("credit_card errors: #{credit_card.errors.inspect}")
@@ -268,7 +268,7 @@ class Subscription < ActiveRecord::Base
         logger.debug("store_options: #{store_options.inspect}")
         @response = gateway.store(credit_card, store_options)
         if @response.success?
-          self.customer_code = @response.authorization
+          self.iats_customer_code = @response.authorization
         else
           raise ActiveMerchant::Billing::Error.new(@response.message)
         end
@@ -288,7 +288,7 @@ class Subscription < ActiveRecord::Base
 
       update_options = {
                           :billing_address => billing_address,
-                          :customer => { :account_number => self.customer_code, :ip => '0.0.0.0' }
+                          :customer => { :account_number => self.iats_customer_code, :ip => '0.0.0.0' }
                         }
       logger.debug("update_options: #{update_options.inspect}")
 
@@ -307,7 +307,7 @@ class Subscription < ActiveRecord::Base
     def delete_customer
       logger.debug("Entering Subscription::delete_customer")
       unstore_options = {
-                            :customer => { :account_number => self.customer_code, :ip => '0.0.0.0' }
+                            :customer => { :account_number => self.iats_customer_code, :ip => '0.0.0.0' }
                         }
       logger.debug("unstore_options: #{unstore_options.inspect}")
       @response = gateway.unstore(unstore_options)
