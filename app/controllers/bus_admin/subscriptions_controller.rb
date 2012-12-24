@@ -4,7 +4,7 @@ class BusAdmin::SubscriptionsController < ApplicationController
   layout 'admin'
 
   active_scaffold do |config|
-    config.list.columns = [:id, :first_name, :last_name, :email, :customer_code, :amount, :begin_date, :end_date]
+    config.list.columns = [:id, :first_name, :last_name, :email, :customer_code, :iats_customer_code, :amount, :begin_date, :end_date]
     config.action_links.add(:run_subscription, { :label => "Run NOW", :method => :post, :type => :record, :inline => false })
     config.action_links.add(:download_csv, { :label => "Download CSV", :method => :get, :type => :table, :inline => false })
   end
