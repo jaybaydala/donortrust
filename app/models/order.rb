@@ -1,6 +1,7 @@
 require 'bigdecimal'
 require 'active_merchant'
-require 'frendo/gateways/frendo'
+# require 'frendo/gateways/frendo'
+require 'iats/gateways/iats'
 ActiveMerchant::Billing::Base.mode = Rails.env.production? ? :production : :test
 
 class Order < ActiveRecord::Base
@@ -264,27 +265,24 @@ class Order < ActiveRecord::Base
   def run_transaction
     logger.debug("Entering run_transaction")
     if valid_transaction? && credit_card.valid?
-      if File.exists?("#{RAILS_ROOT}/config/frendo.yml")
-        config = YAML.load(IO.read("#{RAILS_ROOT}/config/frendo.yml"))
+      if File.exists?("#{RAILS_ROOT}/config/iats.yml")
+        config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
         gateway_login    = config["username"]
         gateway_password = config["password"]
       else
         gateway_login, gateway_password = nil
       end
 
-      gateway = ActiveMerchant::Billing::Base.gateway('frendo').new(
+      gateway = ActiveMerchant::Billing::Base.gateway('iats').new(
         :login    => gateway_login,
         :password => gateway_password
       )
 
       # purchase the amount
-      purchase_options = {
-        :address => billing_address,
-        :customer => { :first_name => self.first_name, :last_name => self.last_name, :email => self.email, :ip => self.remote_ip }
-      }
+      purchase_options = {:billing_address => billing_address, :invoice_id => self.order_number}
       logger.debug("Transacting purchase for #{self.credit_card_payment.to_s}")
       response = gateway.purchase(self.credit_card_payment*100, credit_card, purchase_options)
-      logger.debug("GATEWAY PURCHASE RESPONSE: #{response.message}")
+      logger.debug("GATEWAY PURCHASE RESPONSE: #{response.message}"
       if response.success?
         self.update_attributes({:authorization_result => response.authorization})
         create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
@@ -296,6 +294,42 @@ class Order < ActiveRecord::Base
       raise ActiveMerchant::Billing::Error.new("There was an error with the credit card.")
     end
   end
+
+  # def run_transaction
+  #   logger.debug("Entering run_transaction")
+  #   if valid_transaction? && credit_card.valid?
+  #     if File.exists?("#{RAILS_ROOT}/config/frendo.yml")
+  #       config = YAML.load(IO.read("#{RAILS_ROOT}/config/frendo.yml"))
+  #       gateway_login    = config["username"]
+  #       gateway_password = config["password"]
+  #     else
+  #       gateway_login, gateway_password = nil
+  #     end
+
+  #     gateway = ActiveMerchant::Billing::Base.gateway('frendo').new(
+  #       :login    => gateway_login,
+  #       :password => gateway_password
+  #     )
+
+  #     # purchase the amount
+  #     purchase_options = {
+  #       :address => billing_address,
+  #       :customer => { :first_name => self.first_name, :last_name => self.last_name, :email => self.email, :ip => self.remote_ip }
+  #     }
+  #     logger.debug("Transacting purchase for #{self.credit_card_payment.to_s}")
+  #     response = gateway.purchase(self.credit_card_payment*100, credit_card, purchase_options)
+  #     logger.debug("GATEWAY PURCHASE RESPONSE: #{response.message}")
+  #     if response.success?
+  #       self.update_attributes({:authorization_result => response.authorization})
+  #       create_tax_receipt_from_order if self.country.to_s.downcase == "canada"
+  #     else
+  #       raise ActiveMerchant::Billing::Error.new(response.message)
+  #     end
+  #     true
+  #   else
+  #     raise ActiveMerchant::Billing::Error.new("There was an error with the credit card.")
+  #   end
+  # end
 
   def billing_address
     {

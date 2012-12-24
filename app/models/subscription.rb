@@ -1,6 +1,8 @@
 require 'bigdecimal'
 require 'active_merchant'
-require 'frendo/gateways/frendo'
+# require 'frendo/gateways/frendo'
+require 'iats/gateways/iats'
+require 'iats/gateways/iats_reoccuring'
 ActiveMerchant::Billing::Base.mode = Rails.env.production? ? :production : :test
 
 class Subscription < ActiveRecord::Base
@@ -317,21 +319,39 @@ class Subscription < ActiveRecord::Base
 
     def gateway
       unless @gateway
-        if File.exists?("#{RAILS_ROOT}/config/frendo.yml")
-          config = YAML.load(IO.read("#{RAILS_ROOT}/config/frendo.yml"))
+        if File.exists?("#{RAILS_ROOT}/config/iats.yml")
+          config = YAML.load(IO.read("#{RAILS_ROOT}/config/iats.yml"))
           gateway_login    = config["username"]
           gateway_password = config["password"]
         else
           gateway_login = gateway_password = nil
         end
 
-        @gateway = ActiveMerchant::Billing::FrendoGateway.new(
+        @gateway = ActiveMerchant::Billing::IatsReoccuringGateway.new(
           :login    => gateway_login,
           :password => gateway_password
         )
       end
       @gateway
     end
+
+    # def gateway
+    #   unless @gateway
+    #     if File.exists?("#{RAILS_ROOT}/config/frendo.yml")
+    #       config = YAML.load(IO.read("#{RAILS_ROOT}/config/frendo.yml"))
+    #       gateway_login    = config["username"]
+    #       gateway_password = config["password"]
+    #     else
+    #       gateway_login = gateway_password = nil
+    #     end
+
+    #     @gateway = ActiveMerchant::Billing::FrendoGateway.new(
+    #       :login    => gateway_login,
+    #       :password => gateway_password
+    #     )
+    #   end
+    #   @gateway
+    # end
 
     def deliver_new_subscription_notification
       DonortrustMailer.deliver_new_subscription_notification(self)
