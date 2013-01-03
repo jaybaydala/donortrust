@@ -202,6 +202,17 @@ class Dt::ProjectsController < DtApplicationController
   end
 
   protected
+    def numerical_search_terms
+      [ :sector_ids, :partner_id, :country_id, :project_status_id ]
+    end
+
+    def numericize_search_values(values)
+      # this checks to ensure that
+      # 1. the values are all numerical and then
+      # 2. maps the values as numbers
+      values.select{|v| v == v.to_i.to_s }.map(&:to_i)
+    end
+
     def search_facets
       %w(sector_ids country_id partner_id total_cost project_status_id)
     end
@@ -235,6 +246,7 @@ class Dt::ProjectsController < DtApplicationController
       search_facets.each do |term|
         term = term.to_sym
         search_query[term] ||= []
+        search_query[term] = numericize_search_values(search_query[term]) if numerical_search_terms.include?(term)
         search_query[term].uniq! unless term == :total_cost
       end
       if search_query[:total_cost].present?
