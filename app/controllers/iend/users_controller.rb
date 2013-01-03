@@ -27,7 +27,7 @@ class Iend::UsersController < DtApplicationController
     @user ||= User.find(params[:id])
     @iend_profile = @user.iend_profile
 
-    @gifts_given_count = @user.gifts.count 
+    @gifts_given_count = @user.gifts.count
     @given_amount = @user.orders.sum(:total)
     @people_affected = @user.profile.people_impacted.first
 
@@ -128,7 +128,7 @@ class Iend::UsersController < DtApplicationController
     end
 
     def sector_params_array
-      params[:sectors].try(:split, /\s|\+|,/).to_a
+      params[:sectors].try(:split, /\s|\+|,/).to_a.select{|v| v == v.to_i.to_s }.map(&:to_i)
     end
 
     def sector_add(sector_id)
