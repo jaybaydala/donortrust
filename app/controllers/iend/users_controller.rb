@@ -10,12 +10,15 @@ class Iend::UsersController < DtApplicationController
     if params[:name].blank? && params[:sectors].blank? && params[:project].blank? && params[:country].blank?
       @profiles = IendProfile.paginate(:page => params[:page], :per_page => 18)
     else
-      @profiles = IendProfile.search params[:name],
-        :with_all => search_prepare_with_all,
-        :without  => search_prepare_without,
-        :page     => params[:page],
-        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
-        :order    => (params[:order].blank? ? :created_at : params[:order].to_sym)
+      Search.with_retries do # this should help with the "index not preread" errors
+        @profiles = IendProfile.search(params[:name], {
+          :with_all => search_prepare_with_all,
+          :without  => search_prepare_without,
+          :page     => params[:page],
+          :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
+          :order    => (params[:order].blank? ? :created_at : params[:order].to_sym)
+        })
+      end
     end
     respond_to do |format|
       format.html { render :action => "index", :layout => "iend_users_search"}
