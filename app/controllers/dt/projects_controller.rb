@@ -22,12 +22,15 @@ class Dt::ProjectsController < DtApplicationController
       @search_text = ""
     else
       @search_text = params[:search][:search_text].present? ? params[:search][:search_text] : ""
-      @projects = Project.search @search_text,
-        :with => search_query_prepared,
-        :page     => params[:page],
-        :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
-        :order    => (params[:order].blank? ? :project_status_id : params[:order].to_sym),
-        :populate => true
+      Search.with_retries do # this should help with the "index not preread" errors
+        @projects = Project.search(@search_text, {
+          :with => search_query_prepared,
+          :page     => params[:page],
+          :per_page => (params[:per_page].blank? ? 18 : params[:per_page].to_i),
+          :order    => (params[:order].blank? ? :project_status_id : params[:order].to_sym),
+          :populate => true
+        })
+      end
     end
     # NOTE: we're assuming the project_status_id for 'active' is lower than 'completed' for each order above
     respond_to do |format|
