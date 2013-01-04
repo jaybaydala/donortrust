@@ -4,7 +4,7 @@ module Dt::ProjectsHelper
     link_text = []
     link_text << facet_selection_box(facet.to_s, link.id)
     link_text << link.name
-    link_text << "(#{Project.search_count(@search_text, :with => search_query_with_term_one_option(facet.to_s, link.id))})" unless facet_active?(facet, link.id)
+    link_text << "(#{facet_count(facet, link.id)})" unless facet_active?(facet, link.id)
     link_path = dt_projects_path(:search => search_query_with_term(facet.to_s, link.id, {:with_text => true}))
     if params[:search].nil? && facet != :project_status_id
       link_path += "&search%5Bproject_status_id%5D%5B%5D=#{ProjectStatus.active.id}"
@@ -19,6 +19,12 @@ module Dt::ProjectsHelper
   def facet_selection_box(facet, id)
     return "☒" if facet_active?(facet, id)
     "☐"
+  end
+
+  def facet_count(facet, value)
+    Search.with_retries do # this should help with the "index not preread" errors
+      Project.search_count(@search_text, :with => search_query_with_term_one_option(facet.to_s, value))
+    end
   end
 
   def project_nav
@@ -71,7 +77,7 @@ module Dt::ProjectsHelper
   #   @countries.each do |c|
   #     output << (link_to "#{c.name} (#{(c.count)})", search_dt_projects_path+"?location_selected=1&country_id=#{c.id}") if c.count.to_i>0
   #   end
-  # 
+  #
   #   if limit && limit < @countries.size
   #     output = output.first(limit).join("<br />")
   #     output << "<br /><span class='more-button'>...[More]</span>"
@@ -91,7 +97,7 @@ module Dt::ProjectsHelper
   #   @partners.each do |p|
   #     output << link_to("#{truncate(p.name, :length => 20)} (#{(p.count)})", search_dt_projects_path+"?partner_selected=1&partner_id=#{p.id}") if p.count.to_i>0
   #   end
-  # 
+  #
   #   if limit && limit < @partners.size
   #     output = output.first(limit).join("<br />")
   #     output << "<br /><span class='more-button'>...[More]</span>"
