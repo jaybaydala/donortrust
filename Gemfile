@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 gem 'rails', '2.3.15'
 gem 'rack'
+gem 'rake', '0.8.7'
 gem 'mysql'
 
 gem 'capistrano'
