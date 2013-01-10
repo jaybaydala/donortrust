@@ -203,7 +203,7 @@ GEM
       activeresource (= 2.3.15)
       activesupport (= 2.3.15)
       rake (>= 0.8.3)
-    rake (10.0.3)
+    rake (0.8.7)
     recaptcha (0.3.4)
     redgreen (1.2.2)
     rest-client (1.6.7)
@@ -307,6 +307,7 @@ DEPENDENCIES
   rack
   rack-rewrite
   rails (= 2.3.15)
+  rake (= 0.8.7)
   recaptcha
   redgreen
   rmagick (= 2.12.2)
