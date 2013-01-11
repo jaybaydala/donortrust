@@ -1,12 +1,8 @@
 source 'http://rubygems.org'
 gem 'rails', '2.3.15'
 gem 'rack'
-gem 'rake', '0.8.7'
+gem 'rake'
 gem 'mysql'
-
-gem 'capistrano'
-gem 'capistrano-ext'
-gem 'rvm-capistrano'
 
 gem 'activemerchant', :require => 'active_merchant'
 gem 'awesome_nested_set'
@@ -46,7 +42,7 @@ gem 'geokit'
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
-  gem 'rvm-capistrano'
+  # gem 'rvm-capistrano'
 end
 
 group :test, :cucumber do
@@ -63,7 +59,7 @@ group :test, :cucumber do
   gem 'guard-rspec'
   gem 'launchy'
   gem 'pickle'
-  gem 'ruby-debug'
+  gem 'ruby-debug', '0.10.0' # 0.10.1 introduces a interaction/bug with capistrano 2.x
   gem 'spork', '~> 0.8'
   gem 'shoulda'
   gem 'timecop'
