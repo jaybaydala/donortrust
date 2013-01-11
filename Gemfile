@@ -1,12 +1,8 @@
 source 'http://rubygems.org'
 gem 'rails', '2.3.15'
 gem 'rack'
-gem 'rake', '0.9.2'
+gem 'rake'
 gem 'mysql'
-
-gem 'capistrano'
-gem 'capistrano-ext'
-gem 'rvm-capistrano'
 
 gem 'activemerchant', :require => 'active_merchant'
 gem 'awesome_nested_set'
@@ -46,7 +42,7 @@ gem 'geokit'
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
-  gem 'rvm-capistrano'
+  # gem 'rvm-capistrano'
 end
 
 group :test, :cucumber do

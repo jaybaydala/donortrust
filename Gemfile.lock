@@ -201,7 +201,7 @@ GEM
       activeresource (= 2.3.15)
       activesupport (= 2.3.15)
       rake (>= 0.8.3)
-    rake (0.9.2)
+    rake (10.0.3)
     recaptcha (0.3.4)
     redgreen (1.2.2)
     rest-client (1.6.7)
@@ -222,8 +222,6 @@ GEM
       json_pure (>= 1.1.7)
     rubyntlm (0.1.1)
     rubyzip (0.9.4)
-    rvm-capistrano (1.2.7)
-      capistrano (>= 2.0.0)
     searchlogic (2.5.6)
       activerecord (~> 2.3.11)
       activerecord (~> 2.3.11)
@@ -303,13 +301,12 @@ DEPENDENCIES
   rack
   rack-rewrite
   rails (= 2.3.15)
-  rake (= 0.9.2)
+  rake
   recaptcha
   redgreen
   rmagick (= 2.12.2)
   rspec-rails (< 2.0)
   ruby-debug (= 0.10.0)
-  rvm-capistrano
   searchlogic
   shoulda
   simple-rss
