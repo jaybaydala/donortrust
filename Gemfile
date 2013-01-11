@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 gem 'rails', '2.3.15'
 gem 'rack'
+gem 'rake', '0.9.2'
 gem 'mysql'
 
 gem 'capistrano'
@@ -62,7 +63,7 @@ group :test, :cucumber do
   gem 'guard-rspec'
   gem 'launchy'
   gem 'pickle'
-  gem 'ruby-debug'
+  gem 'ruby-debug', '0.10.0' # 0.10.1 introduces a interaction/bug with capistrano 2.x
   gem 'spork', '~> 0.8'
   gem 'shoulda'
   gem 'timecop'
