@@ -2,8 +2,8 @@
 require 'config/environment'
 require 'capistrano/ext/multistage'
 # RVM setup
-require "rvm/capistrano" # Load RVM's capistrano plugin.
-set :rvm_type, :system
+# require "rvm/capistrano" # Load RVM's capistrano plugin.
+# set :rvm_type, :system
 # bundler setup
 set :bundle_without, [:development, :test, :cucumber]
 require "bundler/capistrano"
