@@ -56,7 +56,7 @@ class DonortrustMailer < ActionMailer::Base
   end
 
   def account_expiry_processed(user)
-    recipients  "info@uend.org,tim@tag.ca"
+    recipients  "info@uend.org"
     from        "info@uend.org"
     sent_on     Time.now
     subject  "Expired UEnd: account"
