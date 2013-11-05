@@ -10,6 +10,7 @@ config/flickr.yml
 config/database.yml
 config/omniauth.yml
 config/initializers/*_local.rb
+config/initializers/*_dev.rb
 config/development.sphinx.conf
 config/test.sphinx.conf
 config/cucumber.sphinx.conf
@@ -22,12 +23,9 @@ db/schema.rb
 *~
 *.orig
 tmp*
-.rvmrc
 .bundle
 capybara*.html
 public/system/*
 public/images/bus_admin/uploads/place
 donortrust.tmproj
-.rbenv-version
-vendor/bundle
 script/missing_subscriptions.rb
