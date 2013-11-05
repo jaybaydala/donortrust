@@ -1,6 +1,7 @@
 require 'order_helper'
 class Dt::CartController < DtApplicationController
   include OrderHelper
+  before_filter :no_donations
   before_filter :find_cart
   def show
     @cart_items = @cart.items.all(:conditions => ['donation != ?', true]).paginate(:page => params[:cart_page], :per_page => 10)
@@ -29,4 +30,11 @@ class Dt::CartController < DtApplicationController
     end
     redirect_to dt_cart_path
   end
+
+  private
+    def no_donations
+      flash[:notice] = "We are very sorry, but we are no longer taking donations."
+      redirect_to root_path
+      false
+    end
 end

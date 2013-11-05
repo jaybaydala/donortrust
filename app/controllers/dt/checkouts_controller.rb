@@ -2,6 +2,7 @@ require 'order_helper'
 class Dt::CheckoutsController < DtApplicationController
   helper "dt/places"
   include OrderHelper
+  before_filter :no_donations
   before_filter :initialize_existing_order, :only => [:edit, :update]
   before_filter :directed_gift, :only => :update
   before_filter :cart_empty?, :except => :show
@@ -397,6 +398,13 @@ class Dt::CheckoutsController < DtApplicationController
         @checkout_steps << 'confirm'
         @checkout_steps << 'receipt'
         @checkout_steps
+      end
+
+    private
+      def no_donations
+        flash[:notice] = "We are very sorry, but we are no longer taking donations."
+        redirect_to root_path
+        false
       end
 
 end
