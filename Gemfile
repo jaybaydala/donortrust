@@ -26,7 +26,7 @@ gem 'pdf-writer', :require => 'pdf/writer'
 gem 'pony', :require => false
 gem 'rack-rewrite', :require => 'rack/rewrite'
 gem 'RedCloth', :require => 'redcloth'
-gem 'rmagick', '2.12.2'
+gem 'rmagick', '~> 2.13.2'
 gem 'recaptcha', :require => "recaptcha/rails"
 gem 'simple-rss'
 gem 'searchlogic'#, '2.4.14'
